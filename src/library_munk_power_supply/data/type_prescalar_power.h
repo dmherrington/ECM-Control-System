@@ -3,6 +3,7 @@
 
 #include <string>
 #include <stdexcept>
+#include <vector>
 
 namespace Data
 {
@@ -44,6 +45,17 @@ inline SegmentPower SegmentPowerFromString(const std::string &str) {
     if(str == "10,000")
         return SegmentPower::TEN_THOUSAND;
     throw std::runtime_error("Unknown segment power seen");
+}
+
+inline std::vector<std::string> getListOfSegmentPower()
+{
+    std::vector<std::string> str;
+    str.push_back(Data::SegmentPowerToString(SegmentPower::ONE));
+    str.push_back(Data::SegmentPowerToString(SegmentPower::TEN));
+    str.push_back(Data::SegmentPowerToString(SegmentPower::ONE_HUNDRED));
+    str.push_back(Data::SegmentPowerToString(SegmentPower::ONE_THOUSAND));
+    str.push_back(Data::SegmentPowerToString(SegmentPower::TEN_THOUSAND));
+    return str;
 }
 
 inline uint32_t SegmentPowerToBitArray(const SegmentPower &type, const uint32_t &bitArray) {

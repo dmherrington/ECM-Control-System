@@ -3,7 +3,7 @@
 
 #include <string>
 #include <stdexcept>
-#include <bitset>
+#include <vector>
 
 namespace Data
 {
@@ -30,6 +30,14 @@ inline ReadWriteType ReadWriteTypeFromString(const std::string &str) {
     if(str == "Write")
         return ReadWriteType::WRITE;
     throw std::runtime_error("Unknown read or write type seen");
+}
+
+inline std::vector<std::string> getListOfReadWriteType()
+{
+    std::vector<std::string> str;
+    str.push_back(Data::ReadWriteTypeToString(ReadWriteType::READ));
+    str.push_back(Data::ReadWriteTypeToString(ReadWriteType::WRITE));
+    return str;
 }
 
 } //end of namespace Data

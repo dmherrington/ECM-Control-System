@@ -3,6 +3,7 @@
 
 #include <string>
 #include <stdexcept>
+#include <vector>
 
 namespace DataParameter
 {
@@ -19,7 +20,7 @@ inline std::string ParameterTypeToString(const ParameterType &type) {
     case ParameterType::PATTERNWRITECOMMAND:
         return "Pattern Write";
     default:
-        throw std::runtime_error("Unknown register type seen");
+        throw std::runtime_error("Unknown parameter type seen");
     }
 }
 
@@ -32,7 +33,8 @@ inline ParameterType ParameterTypeFromString(const std::string &str) {
 }
 
 
-inline int ParameterTypeToInt(const ParameterType &type) {
+inline int ParameterTypeToInt(const ParameterType &type)
+{
     switch (type) {
     case ParameterType::SEGMENTTIMES:
         return 4170;
@@ -42,12 +44,21 @@ inline int ParameterTypeToInt(const ParameterType &type) {
         throw std::runtime_error("Unknown register type seen");
     }
 }
-inline ParameterType ParameterTypeFromInt(const int &str) {
-    if(str == 4170)
+
+inline std::vector<std::string> getListOfParameterTypes()
+{
+    std::vector<std::string> str;
+    str.push_back(DataParameter::ParameterTypeToString(ParameterType::SEGMENTTIMES));
+    str.push_back(DataParameter::ParameterTypeToString(ParameterType::PATTERNWRITECOMMAND));
+    return str;
+}
+
+inline ParameterType ParameterTypeFromInt(const int &param)
+{
+    if((param >= 4170) || (param <= 4185))
         return ParameterType::SEGMENTTIMES;
-    if(str == 4191)
+    else if(param == 4191)
         return ParameterType::PATTERNWRITECOMMAND;
-    throw std::runtime_error("Unknown register type int seen");
 }
 
 } //end of namespace DataParameter

@@ -10,8 +10,6 @@
 #include <limits.h>
 #include "library_munk_power_supply/data_registers/segment_times.h"
 
-typedef unsigned int WORD;
-
 namespace Ui {
 class MainWindow;
 }
@@ -23,11 +21,9 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    WORD CRC16(const int &cnt);
 
 private:
     Ui::MainWindow *ui;
-    char Buffer[128];
 };
 
 #endif // MAINWINDOW_H

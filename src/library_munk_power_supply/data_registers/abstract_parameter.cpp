@@ -7,4 +7,9 @@ AbstractParameter::AbstractParameter()
 
 }
 
+AbstractParameter::AbstractParameter(const int &code)
+{
+    this->parameterCode = code;
+}
+
 } //end of namespace DataParameter

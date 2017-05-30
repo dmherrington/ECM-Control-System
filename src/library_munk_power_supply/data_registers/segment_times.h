@@ -16,21 +16,19 @@ namespace DataParameter
 class SegmentTimes : public AbstractParameter
 {
 public:
-    SegmentTimes();
+    SegmentTimes(const int &startingSegment);
     SegmentTimes(const SegmentTimes &obj);
 
 public:
-    virtual DataParameter::ParameterType getParamterType() const;
+    virtual DataParameter::ParameterType getParameterType() const;
 
     virtual QByteArray getByteArray() const;
-
-    virtual QByteArray getCompletedMessage() const;
 
     virtual std::string getDescription() const;
 
 public:
-    void setBeginningRegister(const uint8_t &begRegister);
-    void setEndingRegister(const uint8_t &endRegister);
+    void setStartingRegister(const uint8_t &startSegment);
+    void setNumberofSequentialRegisters(const uint8_t &seqSegment);
     void setSegmentLevel(const Data::SegmentLevel &level);
     void setSegmentMode(const Data::SegmentMode &mode);
     void setSegmentPower(const Data::SegmentPower &power);
@@ -41,8 +39,8 @@ public:
     void operator = (const SegmentTimes &rhs)
     {
         AbstractParameter::operator =(rhs);
-        this->beginningRegister = rhs.beginningRegister;
-        this->endingRegister = rhs.endingRegister;
+        this->startingSegment = rhs.startingSegment;
+        this->numSeqSegments = rhs.numSeqSegments;
         this->segmentLevel = rhs.segmentLevel;
         this->segmentMode = rhs.segmentMode;
         this->segmentPower = rhs.segmentPower;
@@ -54,10 +52,7 @@ public:
         {
             return false;
         }
-        if(this->beginningRegister != rhs.beginningRegister){
-            return false;
-        }
-        if(this->endingRegister != rhs.endingRegister){
+        if(this->numSeqSegments != rhs.numSeqSegments){
             return false;
         }
         if(this->segmentLevel != rhs.segmentLevel){
@@ -83,8 +78,8 @@ private:
     uint32_t constructBitArray() const;
 
 private:
-    uint8_t beginningRegister;
-    uint8_t endingRegister;
+    uint8_t startingSegment;
+    uint8_t numSeqSegments;
     Data::SegmentLevel segmentLevel;
     Data::SegmentMode segmentMode;
     Data::SegmentPower segmentPower;
