@@ -9,8 +9,8 @@ namespace Data
 {
 
 enum class ReadWriteType{
-    READ = 0,
-    WRITE = 1
+    READ = 03,
+    WRITE = 16
 };
 
 inline std::string ReadWriteTypeToString(const ReadWriteType &type) {

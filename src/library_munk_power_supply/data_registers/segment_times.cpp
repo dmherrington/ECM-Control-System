@@ -2,13 +2,22 @@
 
 namespace DataParameter{
 
+SegmentTimes::SegmentTimes():
+    AbstractParameter(4170),
+    numSeqSegments(2),segmentLevel(Data::SegmentLevel::LEVEL1),
+    segmentMode(Data::SegmentMode::FORWARD),segmentPower(Data::SegmentPower::TEN),
+    timeValue(20)
+{
+
+}
+
 SegmentTimes::SegmentTimes(const int &startingSegment):
     AbstractParameter(4170 + startingSegment - 1),
-    numSeqSegments(0),segmentLevel(Data::SegmentLevel::LEVEL1),
-    segmentMode(Data::SegmentMode::DEAD),segmentPower(Data::SegmentPower::ONE),
-    timeValue(0)
+    numSeqSegments(2),segmentLevel(Data::SegmentLevel::LEVEL1),
+    segmentMode(Data::SegmentMode::FORWARD),segmentPower(Data::SegmentPower::TEN),
+    timeValue(20)
 {
-    QByteArray ba = getByteArray();
+
 }
 
 SegmentTimes::SegmentTimes(const SegmentTimes &obj):

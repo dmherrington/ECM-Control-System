@@ -6,54 +6,55 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    int decimal = 4191;
-    QByteArray B2;
-    char test;
-    test = static_cast<char>(01);
-    B2.append(test);
-    Buffer[0] = test;
+//    int decimal = 4191;
+//    QByteArray B2;
+//    char test;
+//    test = static_cast<char>(01);
+//    B2.append(test);
+//    Buffer[0] = test;
 
-    test = static_cast<char>(03);
-    B2.append(test);
-    Buffer[1] = test;
+//    test = static_cast<char>(03);
+//    B2.append(test);
+//    Buffer[1] = test;
 
-//    char HIGH = (char)((decimal & 0xFF00) >> 8);
-//    char LOW = (char)(decimal & 0x00FF);
-//    B2.append(HIGH);
-//    B2.append(LOW);
-//    Buffer[2] = HIGH;
-//    Buffer[3] = LOW;
+////    char HIGH = (char)((decimal & 0xFF00) >> 8);
+////    char LOW = (char)(decimal & 0x00FF);
+////    B2.append(HIGH);
+////    B2.append(LOW);
+////    Buffer[2] = HIGH;
+////    Buffer[3] = LOW;
 
-    test = static_cast<char>(00); //00
-    B2.append(test);
-    Buffer[2] = test;
+//    test = static_cast<char>(00); //00
+//    B2.append(test);
+//    Buffer[2] = test;
 
-    test = static_cast<char>(10);
-    B2.append(test);
-    Buffer[3] = test;
+//    test = static_cast<char>(10);
+//    B2.append(test);
+//    Buffer[3] = test;
 
-    test = static_cast<char>(0);
-    B2.append(test);
-    Buffer[4] = test;
+//    test = static_cast<char>(0);
+//    B2.append(test);
+//    Buffer[4] = test;
 
-    test = static_cast<char>(1);
-    B2.append(test);
-    Buffer[5] = test;
+//    test = static_cast<char>(1);
+//    B2.append(test);
+//    Buffer[5] = test;
 
-    test = static_cast<char>(0);
-    B2.append(test);
-    Buffer[8] = test;
+//    test = static_cast<char>(0);
+//    B2.append(test);
+//    Buffer[8] = test;
 
-    test = static_cast<char>(16);
-    B2.append(test);
-    Buffer[9] = test;
+//    test = static_cast<char>(16);
+//    B2.append(test);
+//    Buffer[9] = test;
 
-    test = static_cast<char>(178);
-    B2.append(test);
-    Buffer[10] = test;
+//    test = static_cast<char>(178);
+//    B2.append(test);
+//    Buffer[10] = test;
 
-    CRC16(6);
-    DataParameter::SegmentTimes newTimes;
+//    CRC16(6);
+    DataParameter::SegmentTimes newTimes(1);
+    newTimes.getFullMessage();
 }
 
 MainWindow::~MainWindow()

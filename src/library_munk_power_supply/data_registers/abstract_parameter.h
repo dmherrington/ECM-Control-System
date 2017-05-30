@@ -30,12 +30,18 @@ public:
 
     virtual std::string getDescription() const  = 0;
 
+
+public:
+    QByteArray getFullMessage();
+
 public:
     void operator = (const AbstractParameter &rhs)
     {
         this->parameterCode = rhs.parameterCode;
         this->slaveAddress = rhs.slaveAddress;
         this->readOrwrite = rhs.readOrwrite;
+        this->highChecksum = rhs.highChecksum;
+        this->lowChecksum = rhs.lowChecksum;
     }
 
     bool operator == (const AbstractParameter &rhs)
@@ -49,12 +55,21 @@ public:
         if(this->readOrwrite != rhs.readOrwrite){
             return false;
         }
+        if(this->highChecksum != rhs.highChecksum){
+            return false;
+        }
+        if(this->lowChecksum != rhs.lowChecksum){
+            return false;
+        }
         return true;
     }
 
     bool operator != (const AbstractParameter &rhs) {
         return !(*this == rhs);
     }
+
+private:
+    unsigned int CRC16(const QByteArray &array);
 
 protected:
     int parameterCode; //this value is indirectly set

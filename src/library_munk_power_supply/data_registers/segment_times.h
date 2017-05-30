@@ -16,6 +16,7 @@ namespace DataParameter
 class SegmentTimes : public AbstractParameter
 {
 public:
+    SegmentTimes();
     SegmentTimes(const int &startingSegment);
     SegmentTimes(const SegmentTimes &obj);
 

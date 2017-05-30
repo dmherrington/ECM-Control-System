@@ -10,9 +10,6 @@ public:
     MunkPowerSupply();
 
 private:
-    unsigned int CRC16(const int &cnt);
-
-    char Buffer[128];
 
 };
 
