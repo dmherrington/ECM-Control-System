@@ -10,14 +10,14 @@ namespace Data
 {
 
 enum class SegmentLevel{
-    LEVEL1,
-    LEVEL2,
-    LEVEL3,
-    LEVEL4,
-    LEVEL5,
-    LEVEL6,
-    LEVEL7,
-    LEVEL8
+    LEVEL1 = 0,
+    LEVEL2 = 1,
+    LEVEL3 = 2,
+    LEVEL4 = 3,
+    LEVEL5 = 4,
+    LEVEL6 = 5,
+    LEVEL7 = 6,
+    LEVEL8 = 7
 };
 
 inline std::string SegmentLevelToString(const SegmentLevel &type) {
@@ -63,58 +63,10 @@ inline SegmentLevel SegmentLevelFromString(const std::string &str) {
     throw std::runtime_error("Unknown segment level seen");
 }
 
-inline std::bitset<4> SegmentLevelBitArray(const SegmentLevel &type) {
-    std::bitset<4>ba("0000");
-
-    switch (type) {
-    case SegmentLevel::LEVEL1:
-    {
-        break;
-    }
-    case SegmentLevel::LEVEL2:
-    {
-        ba.set(3);
-        break;
-    }
-    case SegmentLevel::LEVEL3:
-    {
-        ba.set(2);
-        break;
-    }
-    case SegmentLevel::LEVEL4:
-    {
-        ba.set(2);
-        ba.set(3);
-        break;
-    }
-    case SegmentLevel::LEVEL5:
-    {
-        ba.set(1);
-        break;
-    }
-    case SegmentLevel::LEVEL6:
-    {
-        ba.set(1);
-        ba.set(3);
-        break;
-    }
-    case SegmentLevel::LEVEL7:
-    {
-        ba.set(1);
-        ba.set(2);
-        break;
-    }
-    case SegmentLevel::LEVEL8:
-    {
-        ba.set(1);
-        ba.set(2);
-        ba.set(3);
-        break;
-    }
-    default:
-        throw std::runtime_error("Unknown segment level seen");
-    }
-
+inline uint32_t SegmentLevelToBitArray(const SegmentLevel &type, const uint32_t &bitArray) {
+    uint32_t ba = 0;
+    uint32_t mask = 15<<12;
+    ba = (bitArray & (~mask)) | ((int)type<<12);
     return ba;
 }
 

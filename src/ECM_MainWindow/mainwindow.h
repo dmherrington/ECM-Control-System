@@ -7,6 +7,8 @@
 #include <iostream>
 #include <QMainWindow>
 #include <vector>
+#include <limits.h>
+#include "library_munk_power_supply/data_registers/segment_times.h"
 
 typedef unsigned int WORD;
 

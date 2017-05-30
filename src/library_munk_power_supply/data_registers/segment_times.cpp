@@ -3,10 +3,11 @@
 namespace DataParameter{
 
 SegmentTimes::SegmentTimes():
-    beginningRegister(0),endingRegister(0),segmentLevel(Data::SegmentLevel::LEVEL1),
-    segmentMode(Data::SegmentMode::FORWARD),segmentPower(Data::SegmentPower::ONE),
-    timeValue(0)
+    beginningRegister(0),endingRegister(0),segmentLevel(Data::SegmentLevel::LEVEL2),
+    segmentMode(Data::SegmentMode::DEAD),segmentPower(Data::SegmentPower::ONE),
+    timeValue(77)
 {
+    uint32_t newArray = constructBitArray();
 
 }
 
@@ -39,12 +40,12 @@ ParameterType SegmentTimes::getParamterType() const
 }
 
 
-void SegmentTimes::setBeginningRegister(const int &begRegister)
+void SegmentTimes::setBeginningRegister(const uint8_t &begRegister)
 {
     this->beginningRegister = begRegister;
 }
 
-void SegmentTimes::setEndingRegister(const int &endRegister)
+void SegmentTimes::setEndingRegister(const uint8_t &endRegister)
 {
     this->endingRegister = endRegister;
 }
@@ -64,7 +65,7 @@ void SegmentTimes::setSegmentPower(const Data::SegmentPower &power)
     this->segmentPower = power;
 }
 
-void SegmentTimes::setTimeValue(const int &time)
+void SegmentTimes::setTimeValue(const uint8_t &time)
 {
     if(time > 127)
     {
@@ -75,15 +76,15 @@ void SegmentTimes::setTimeValue(const int &time)
     }
 }
 
-QBitArray SegmentTimes::constructBitArray()
+uint32_t SegmentTimes::constructBitArray()
 {
-    std::bitset<4> bitSegmentLevel = Data::SegmentLevelBitArray(this->segmentLevel);
-    std::bitset<2> bitSegmentMode = Data::SegmentModeBitArray(this->segmentMode);
-    std::bitset<3> bitSegmentPower = Data::SegmentPowerBitArray(this->segmentPower);
+   uint32_t ba = 0;
+   ba = Data::SegmentLevelToBitArray(this->segmentLevel,ba);
+   ba = Data::SegmentModeToBitArray(this->segmentMode,ba);
+   ba = Data::SegmentPowerToBitArray(this->segmentPower,ba);
 
-    //Ken fix this
-    QBitArray ba;
-    return ba;
+   uint32_t timeMask = 127<<0;
+   ba = (ba & (~timeMask)) | (this->timeValue<<0);
 }
 
 } //end of namespace DataRegister

@@ -9,14 +9,14 @@ namespace Data
 {
 
 enum class SegmentPower{
-    ONE,
-    TEN,
-    ONE_HUNDRED,
-    ONE_THOUSAND,
-    TEN_THOUSAND
+    ONE = 0,
+    TEN = 1,
+    ONE_HUNDRED = 2,
+    ONE_THOUSAND = 3,
+    TEN_THOUSAND = 4
 };
 
-inline std::string SegmentModeToString(const SegmentPower &type) {
+inline std::string SegmentPowerToString(const SegmentPower &type) {
     switch (type) {
     case SegmentPower::ONE:
         return "1";
@@ -47,42 +47,12 @@ inline SegmentPower SegmentPowerFromString(const std::string &str) {
     throw std::runtime_error("Unknown segment power seen");
 }
 
-inline std::bitset<3> SegmentPowerBitArray(const SegmentPower &type) {
-    std::bitset<3>ba("000");
-
-    switch (type) {
-    case SegmentPower::ONE:
-    {
-        break;
-    }
-    case SegmentPower::TEN:
-    {
-        ba.set(2);
-        break;
-    }
-    case SegmentPower::ONE_HUNDRED:
-    {
-        ba.set(1);
-        break;
-    }
-    case SegmentPower::ONE_THOUSAND:
-    {
-        ba.set(1);
-        ba.set(2);
-        break;
-    }
-    case SegmentPower::TEN_THOUSAND:
-    {
-        ba.set(0);
-        break;
-    }
-    default:
-        throw std::runtime_error("Unknown segment level seen");
-    }
-
+inline uint32_t SegmentPowerToBitArray(const SegmentPower &type, const uint32_t &bitArray) {
+    uint32_t ba = 0;
+    uint32_t mask = 7<<7;
+    ba = (bitArray & (~mask)) | ((int)type<<7);
     return ba;
 }
-
 
 } //end of namespace Data
 #endif // TYPE_PRESCALAR_POWER_H

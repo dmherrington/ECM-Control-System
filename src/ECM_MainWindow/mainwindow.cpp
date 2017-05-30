@@ -82,3 +82,4 @@ WORD MainWindow::CRC16(const int &cnt)
 
     return Temp;
 }
+

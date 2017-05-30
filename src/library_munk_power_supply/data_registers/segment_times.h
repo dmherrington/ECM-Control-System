@@ -29,12 +29,12 @@ public:
     virtual std::string getDescription() const;
 
 public:
-    void setBeginningRegister(const int &begRegister);
-    void setEndingRegister(const int &endRegister);
+    void setBeginningRegister(const uint8_t &begRegister);
+    void setEndingRegister(const uint8_t &endRegister);
     void setSegmentLevel(const Data::SegmentLevel &level);
     void setSegmentMode(const Data::SegmentMode &mode);
     void setSegmentPower(const Data::SegmentPower &power);
-    void setTimeValue(const int &time);
+    void setTimeValue(const uint8_t &time);
 
 
 public:
@@ -80,15 +80,15 @@ public:
     }
 
 private:
-    QBitArray constructBitArray();
+    uint32_t constructBitArray();
 
 private:
-    int beginningRegister;
-    int endingRegister;
+    uint8_t beginningRegister;
+    uint8_t endingRegister;
     Data::SegmentLevel segmentLevel;
     Data::SegmentMode segmentMode;
     Data::SegmentPower segmentPower;
-    int timeValue; //this time is denoted in us
+    uint8_t timeValue; //this time is denoted in us
 };
 
 } //end of namespace MunkPowerSupply

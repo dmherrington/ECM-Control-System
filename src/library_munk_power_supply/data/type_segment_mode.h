@@ -9,10 +9,10 @@ namespace Data
 {
 
 enum class SegmentMode{
-    DEAD,
-    FORWARD,
-    REVERSE,
-    ILLEGAL
+    DEAD = 0,
+    FORWARD = 1,
+    REVERSE = 2,
+    ILLEGAL = 3
 };
 
 inline std::string SegmentModeToString(const SegmentMode &type) {
@@ -42,36 +42,13 @@ inline SegmentMode SegmentModeFromString(const std::string &str) {
     throw std::runtime_error("Unknown segment mode seen");
 }
 
-inline std::bitset<2> SegmentModeBitArray(const SegmentMode &type) {
-    std::bitset<2>ba("00");
 
-    switch (type) {
-    case SegmentMode::DEAD:
-    {
-        break;
-    }
-    case SegmentMode::FORWARD:
-    {
-        ba.set(1);
-        break;
-    }
-    case SegmentMode::REVERSE:
-    {
-        ba.set(0);
-        break;
-    }
-    case SegmentMode::ILLEGAL:
-    {
-        ba.set();
-        break;
-    }
-    default:
-        throw std::runtime_error("Unknown segment mode seen");
-    }
-
+inline uint32_t SegmentModeToBitArray(const SegmentMode &type, const uint32_t &bitArray) {
+    uint32_t ba = 0;
+    uint32_t mask = 3<<10;
+    ba = (bitArray & (~mask)) | ((int)type<<10);
     return ba;
 }
-
 
 } //end of namespace Data
 
