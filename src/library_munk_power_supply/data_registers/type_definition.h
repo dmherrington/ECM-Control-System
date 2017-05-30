@@ -13,7 +13,7 @@ enum class RegisterType{
 };
 
 inline std::string RegisterTypeToString(const RegisterType &type) {
-    switch (state) {
+    switch (type) {
     case RegisterType::SEGMENTTIMES:
         return "Segment Times";
     case RegisterType::PATTERNWRITECOMMAND:

@@ -29,8 +29,7 @@ HEADERS += munk_power_supply.h\
     data_registers/type_definition.h \
     data/type_segment_level.h \
     data/type_segment_mode.h \
-    data/type_prescalar_power.h \
-    data/type_time_value.h
+    data/type_prescalar_power.h
 
 # Unix lib Install
 unix:!symbian {
