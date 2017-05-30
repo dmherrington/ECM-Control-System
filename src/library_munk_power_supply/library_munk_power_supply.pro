@@ -33,7 +33,8 @@ HEADERS += munk_power_supply.h\
     data/type_segment_mode.h \
     data/type_prescalar_power.h \
     data_registers/segment_times.h \
-    data_registers/abstract_parameter.h
+    data_registers/abstract_parameter.h \
+    data/type_read_write.h
 
 # Unix lib Install
 unix:!symbian {

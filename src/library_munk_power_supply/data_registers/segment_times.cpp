@@ -3,11 +3,10 @@
 namespace DataParameter{
 
 SegmentTimes::SegmentTimes():
-    beginningRegister(0),endingRegister(0),segmentLevel(Data::SegmentLevel::LEVEL2),
+    beginningRegister(0),endingRegister(0),segmentLevel(Data::SegmentLevel::LEVEL1),
     segmentMode(Data::SegmentMode::DEAD),segmentPower(Data::SegmentPower::ONE),
-    timeValue(77)
+    timeValue(0)
 {
-    uint32_t newArray = constructBitArray();
 
 }
 
@@ -19,6 +18,7 @@ SegmentTimes::SegmentTimes(const SegmentTimes &obj)
 QByteArray SegmentTimes::getByteArray() const
 {
     QByteArray data;
+    uint32_t newArray = constructBitArray();
     return data;
 }
 
@@ -76,7 +76,7 @@ void SegmentTimes::setTimeValue(const uint8_t &time)
     }
 }
 
-uint32_t SegmentTimes::constructBitArray()
+uint32_t SegmentTimes::constructBitArray() const
 {
    uint32_t ba = 0;
    ba = Data::SegmentLevelToBitArray(this->segmentLevel,ba);

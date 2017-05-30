@@ -3,7 +3,6 @@
 
 #include <string>
 #include <stdexcept>
-#include <bitset>
 
 namespace Data
 {

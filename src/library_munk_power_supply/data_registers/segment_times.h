@@ -80,7 +80,7 @@ public:
     }
 
 private:
-    uint32_t constructBitArray();
+    uint32_t constructBitArray() const;
 
 private:
     uint8_t beginningRegister;
