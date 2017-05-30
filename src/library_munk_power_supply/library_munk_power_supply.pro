@@ -70,3 +70,7 @@ headers_data_registers.files   += \
 INSTALLS       += headers_data_registers
 
 INCLUDEPATH += $$PWD/../
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
+else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon

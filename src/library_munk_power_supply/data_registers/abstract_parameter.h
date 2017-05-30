@@ -6,6 +6,7 @@
 #include <string>
 
 #include "type_definition.h"
+#include "common/common.h"
 
 namespace DataParameter{
 
@@ -26,11 +27,12 @@ public:
 public:
     void operator = (const AbstractParameter &rhs)
     {
-
+        UNUSED(rhs);
     }
 
-    bool operator == (const AbstractParameter &rhs) {
-
+    bool operator == (const AbstractParameter &rhs)
+    {
+        UNUSED(rhs);
         return true;
     }
 

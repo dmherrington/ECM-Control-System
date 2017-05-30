@@ -3,6 +3,9 @@
 
 #include "common_global.h"
 
+#define UNUSED(x) (void)(x)
+
+
 class COMMONSHARED_EXPORT Common
 {
 

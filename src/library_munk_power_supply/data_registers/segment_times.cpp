@@ -75,4 +75,15 @@ void SegmentTimes::setTimeValue(const int &time)
     }
 }
 
+QBitArray SegmentTimes::constructBitArray()
+{
+    std::bitset<4> bitSegmentLevel = Data::SegmentLevelBitArray(this->segmentLevel);
+    std::bitset<2> bitSegmentMode = Data::SegmentModeBitArray(this->segmentMode);
+    std::bitset<3> bitSegmentPower = Data::SegmentPowerBitArray(this->segmentPower);
+
+    //Ken fix this
+    QBitArray ba;
+    return ba;
+}
+
 } //end of namespace DataRegister

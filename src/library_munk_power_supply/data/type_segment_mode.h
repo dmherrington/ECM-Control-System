@@ -42,7 +42,7 @@ inline SegmentMode SegmentModeFromString(const std::string &str) {
     throw std::runtime_error("Unknown segment mode seen");
 }
 
-inline std::bitset SegmentModeBitArray(const SegmentLevel &str) {
+inline std::bitset<2> SegmentModeBitArray(const SegmentMode &type) {
     std::bitset<2>ba("00");
 
     switch (type) {

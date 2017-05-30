@@ -63,7 +63,7 @@ inline SegmentLevel SegmentLevelFromString(const std::string &str) {
     throw std::runtime_error("Unknown segment level seen");
 }
 
-inline std::bitset SegmentLevelBitArray(const SegmentLevel &str) {
+inline std::bitset<4> SegmentLevelBitArray(const SegmentLevel &type) {
     std::bitset<4>ba("0000");
 
     switch (type) {

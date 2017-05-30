@@ -1,6 +1,9 @@
 #ifndef SEGMENT_TIMES_H
 #define SEGMENT_TIMES_H
 
+#include <string>
+#include <bitset>
+
 #include "abstract_parameter.h"
 
 #include <data/type_prescalar_power.h>
@@ -77,12 +80,15 @@ public:
     }
 
 private:
+    QBitArray constructBitArray();
+
+private:
     int beginningRegister;
     int endingRegister;
     Data::SegmentLevel segmentLevel;
     Data::SegmentMode segmentMode;
     Data::SegmentPower segmentPower;
-    int timeValue;
+    int timeValue; //this time is denoted in us
 };
 
 } //end of namespace MunkPowerSupply
