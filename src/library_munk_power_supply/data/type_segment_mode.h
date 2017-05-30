@@ -3,6 +3,7 @@
 
 #include <string>
 #include <stdexcept>
+#include <bitset>
 
 namespace Data
 {
@@ -39,6 +40,36 @@ inline SegmentMode SegmentModeFromString(const std::string &str) {
     if(str == "ILLEGAL")
         return SegmentMode::ILLEGAL;
     throw std::runtime_error("Unknown segment mode seen");
+}
+
+inline std::bitset SegmentModeBitArray(const SegmentLevel &str) {
+    std::bitset<2>ba("00");
+
+    switch (type) {
+    case SegmentMode::DEAD:
+    {
+        break;
+    }
+    case SegmentMode::FORWARD:
+    {
+        ba.set(1);
+        break;
+    }
+    case SegmentMode::REVERSE:
+    {
+        ba.set(0);
+        break;
+    }
+    case SegmentMode::ILLEGAL:
+    {
+        ba.set();
+        break;
+    }
+    default:
+        throw std::runtime_error("Unknown segment mode seen");
+    }
+
+    return ba;
 }
 
 

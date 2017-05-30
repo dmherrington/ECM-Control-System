@@ -3,6 +3,7 @@
 
 #include <string>
 #include <stdexcept>
+#include <bitset>
 
 namespace Data
 {
@@ -44,6 +45,42 @@ inline SegmentPower SegmentPowerFromString(const std::string &str) {
     if(str == "10,000")
         return SegmentPower::TEN_THOUSAND;
     throw std::runtime_error("Unknown segment power seen");
+}
+
+inline std::bitset SegmentLevelBitArray(const SegmentPower &type) {
+    std::bitset<3>ba("000");
+
+    switch (type) {
+    case SegmentPower::ONE:
+    {
+        break;
+    }
+    case SegmentPower::TEN:
+    {
+        ba.set(2);
+        break;
+    }
+    case SegmentPower::ONE_HUNDRED:
+    {
+        ba.set(1);
+        break;
+    }
+    case SegmentPower::ONE_THOUSAND:
+    {
+        ba.set(1);
+        ba.set(2);
+        break;
+    }
+    case SegmentPower::TEN_THOUSAND:
+    {
+        ba.set(0);
+        break;
+    }
+    default:
+        throw std::runtime_error("Unknown segment level seen");
+    }
+
+    return ba;
 }
 
 

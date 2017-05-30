@@ -63,27 +63,59 @@ inline SegmentLevel SegmentLevelFromString(const std::string &str) {
     throw std::runtime_error("Unknown segment level seen");
 }
 
-inline int SegmentLevelBitArray(const SegmentLevel &str) {
+inline std::bitset SegmentLevelBitArray(const SegmentLevel &str) {
+    std::bitset<4>ba("0000");
+
     switch (type) {
     case SegmentLevel::LEVEL1:
-        return 0;
+    {
+        break;
+    }
     case SegmentLevel::LEVEL2:
-        return 1;
+    {
+        ba.set(3);
+        break;
+    }
     case SegmentLevel::LEVEL3:
-        return 2;
+    {
+        ba.set(2);
+        break;
+    }
     case SegmentLevel::LEVEL4:
-        return 3;
+    {
+        ba.set(2);
+        ba.set(3);
+        break;
+    }
     case SegmentLevel::LEVEL5:
-        return 4;
+    {
+        ba.set(1);
+        break;
+    }
     case SegmentLevel::LEVEL6:
-        return 5;
+    {
+        ba.set(1);
+        ba.set(3);
+        break;
+    }
     case SegmentLevel::LEVEL7:
-        return 6;
+    {
+        ba.set(1);
+        ba.set(2);
+        break;
+    }
     case SegmentLevel::LEVEL8:
-        return 7;
+    {
+        ba.set(1);
+        ba.set(2);
+        ba.set(3);
+        break;
+    }
     default:
         throw std::runtime_error("Unknown segment level seen");
     }
+
+    return ba;
 }
 
 } //end of namespace Data
