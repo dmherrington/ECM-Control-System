@@ -4,52 +4,52 @@
 #include <string>
 #include <stdexcept>
 
-namespace Data
+namespace DataParameter
 {
 
-enum class RegisterType{
+enum class ParameterType{
     SEGMENTTIMES,
     PATTERNWRITECOMMAND
 };
 
-inline std::string RegisterTypeToString(const RegisterType &type) {
+inline std::string ParameterTypeToString(const ParameterType &type) {
     switch (type) {
-    case RegisterType::SEGMENTTIMES:
+    case ParameterType::SEGMENTTIMES:
         return "Segment Times";
-    case RegisterType::PATTERNWRITECOMMAND:
+    case ParameterType::PATTERNWRITECOMMAND:
         return "Pattern Write";
     default:
         throw std::runtime_error("Unknown register type seen");
     }
 }
 
-inline RegisterType RegisterTypeFromString(const std::string &str) {
+inline ParameterType ParameterTypeFromString(const std::string &str) {
     if(str == "Segment Times")
-        return RegisterType::SEGMENTTIMES;
+        return ParameterType::SEGMENTTIMES;
     if(str == "Pattern Write")
-        return RegisterType::PATTERNWRITECOMMAND;
+        return ParameterType::PATTERNWRITECOMMAND;
     throw std::runtime_error("Unknown register type seen");
 }
 
 
-inline int RegisterTypeToInt(const RegisterType &type) {
-    switch (state) {
-    case RegisterType::SEGMENTTIMES:
+inline int ParameterTypeToInt(const ParameterType &type) {
+    switch (type) {
+    case ParameterType::SEGMENTTIMES:
         return 4170;
-    case RegisterType::PATTERNWRITECOMMAND:
+    case ParameterType::PATTERNWRITECOMMAND:
         return 4191;
     default:
         throw std::runtime_error("Unknown register type seen");
     }
 }
-inline RegisterType RegisterTypeFromInt(const int &str) {
+inline ParameterType ParameterTypeFromInt(const int &str) {
     if(str == 4170)
-        return RegisterType::SEGMENTTIMES;
+        return ParameterType::SEGMENTTIMES;
     if(str == 4191)
-        return RegisterType::PATTERNWRITECOMMAND;
+        return ParameterType::PATTERNWRITECOMMAND;
     throw std::runtime_error("Unknown register type int seen");
 }
 
-} //end of namespace Data
+} //end of namespace DataParameter
 
 #endif // TYPE_DEFINITION_H

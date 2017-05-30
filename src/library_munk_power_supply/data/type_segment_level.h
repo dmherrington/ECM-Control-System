@@ -3,6 +3,8 @@
 
 #include <string>
 #include <stdexcept>
+#include <QBitArray>
+#include <bitset>
 
 namespace Data
 {
@@ -59,6 +61,29 @@ inline SegmentLevel SegmentLevelFromString(const std::string &str) {
     if(str == "Level 8")
         return SegmentLevel::LEVEL8;
     throw std::runtime_error("Unknown segment level seen");
+}
+
+inline int SegmentLevelBitArray(const SegmentLevel &str) {
+    switch (type) {
+    case SegmentLevel::LEVEL1:
+        return 0;
+    case SegmentLevel::LEVEL2:
+        return 1;
+    case SegmentLevel::LEVEL3:
+        return 2;
+    case SegmentLevel::LEVEL4:
+        return 3;
+    case SegmentLevel::LEVEL5:
+        return 4;
+    case SegmentLevel::LEVEL6:
+        return 5;
+    case SegmentLevel::LEVEL7:
+        return 6;
+    case SegmentLevel::LEVEL8:
+        return 7;
+    default:
+        throw std::runtime_error("Unknown segment level seen");
+    }
 }
 
 } //end of namespace Data

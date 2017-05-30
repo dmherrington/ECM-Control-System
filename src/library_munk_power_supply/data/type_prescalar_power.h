@@ -7,38 +7,43 @@
 namespace Data
 {
 
-enum class SegmentMode{
-    DEAD,
-    FORWARD,
-    REVERSE,
-    ILLEGAL
+enum class SegmentPower{
+    ONE,
+    TEN,
+    ONE_HUNDRED,
+    ONE_THOUSAND,
+    TEN_THOUSAND
 };
 
-inline std::string SegmentModeToString(const SegmentMode &type) {
+inline std::string SegmentModeToString(const SegmentPower &type) {
     switch (type) {
-    case SegmentMode::DEAD:
-        return "DEAD";
-    case SegmentMode::FORWARD:
-        return "FORWARD";
-    case SegmentMode::REVERSE:
-        return "REVERSE";
-    case SegmentMode::ILLEGAL:
-        return "ILLEGAL";
+    case SegmentPower::ONE:
+        return "1";
+    case SegmentPower::TEN:
+        return "10";
+    case SegmentPower::ONE_HUNDRED:
+        return "100";
+    case SegmentPower::ONE_THOUSAND:
+        return "1,000";
+    case SegmentPower::TEN_THOUSAND:
+        return "10,000";
     default:
-        throw std::runtime_error("Unknown segment mode seen");
+        throw std::runtime_error("Unknown segment power seen");
     }
 }
 
-inline SegmentMode SegmentModeFromString(const std::string &str) {
-    if(str == "DEAD")
-        return SegmentMode::DEAD;
-    if(str == "FORWARD")
-        return SegmentMode::FORWARD;
-    if(str == "REVERSE")
-        return SegmentMode::REVERSE;
-    if(str == "ILLEGAL")
-        return SegmentMode::ILLEGAL;
-    throw std::runtime_error("Unknown segment mode seen");
+inline SegmentPower SegmentPowerFromString(const std::string &str) {
+    if(str == "1")
+        return SegmentPower::ONE;
+    if(str == "10")
+        return SegmentPower::TEN;
+    if(str == "100")
+        return SegmentPower::ONE_HUNDRED;
+    if(str == "1,000")
+        return SegmentPower::ONE_THOUSAND;
+    if(str == "10,000")
+        return SegmentPower::TEN_THOUSAND;
+    throw std::runtime_error("Unknown segment power seen");
 }
 
 

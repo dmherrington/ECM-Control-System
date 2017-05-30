@@ -22,14 +22,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES += munk_power_supply.cpp
+SOURCES += munk_power_supply.cpp \
+    data_registers/segment_times.cpp \
+    data_registers/abstract_parameter.cpp
 
 HEADERS += munk_power_supply.h\
         library_munk_power_supply_global.h \
     data_registers/type_definition.h \
     data/type_segment_level.h \
     data/type_segment_mode.h \
-    data/type_prescalar_power.h
+    data/type_prescalar_power.h \
+    data_registers/segment_times.h \
+    data_registers/abstract_parameter.h
 
 # Unix lib Install
 unix:!symbian {
