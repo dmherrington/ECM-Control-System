@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     ECM_MainWindow \
-    common
+    common \
+    library_munk_power_supply

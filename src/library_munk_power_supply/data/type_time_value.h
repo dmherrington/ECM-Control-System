@@ -1,0 +1,4 @@
+#ifndef TYPE_TIME_VALUE_H
+#define TYPE_TIME_VALUE_H
+
+#endif // TYPE_TIME_VALUE_H

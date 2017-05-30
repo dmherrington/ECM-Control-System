@@ -1,0 +1,4 @@
+#ifndef TYPE_SEGMENT_MODE_H
+#define TYPE_SEGMENT_MODE_H
+
+#endif // TYPE_SEGMENT_MODE_H
