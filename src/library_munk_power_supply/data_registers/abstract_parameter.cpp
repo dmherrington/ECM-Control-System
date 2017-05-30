@@ -2,14 +2,16 @@
 
 namespace DataParameter {
 
-AbstractParameter::AbstractParameter()
+AbstractParameter::AbstractParameter():
+    parameterCode(0),slaveAddress(0),readOrwrite(Data::ReadWriteType::WRITE),highChecksum(0),lowChecksum(0)
 {
 
 }
 
-AbstractParameter::AbstractParameter(const int &code)
+AbstractParameter::AbstractParameter(const int &code):
+    parameterCode(code),slaveAddress(0),readOrwrite(Data::ReadWriteType::WRITE),highChecksum(0),lowChecksum(0)
 {
-    this->parameterCode = code;
+
 }
 
 } //end of namespace DataParameter

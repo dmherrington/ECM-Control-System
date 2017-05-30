@@ -60,6 +60,8 @@ protected:
     int parameterCode; //this value is indirectly set
     int slaveAddress;
     Data::ReadWriteType readOrwrite;
+    uint8_t highChecksum;
+    uint8_t lowChecksum;
 };
 
 } //end of namespace DataParameter
