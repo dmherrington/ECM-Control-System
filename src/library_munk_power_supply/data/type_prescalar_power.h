@@ -47,7 +47,7 @@ inline SegmentPower SegmentPowerFromString(const std::string &str) {
     throw std::runtime_error("Unknown segment power seen");
 }
 
-inline std::bitset SegmentLevelBitArray(const SegmentPower &type) {
+inline std::bitset SegmentPowerBitArray(const SegmentPower &type) {
     std::bitset<3>ba("000");
 
     switch (type) {
