@@ -3,15 +3,22 @@
 namespace DataParameter{
 
 SegmentTimes::SegmentTimes():
-    AbstractParameter(4170), numSeqSegments(2)
+    AbstractParameter(4170), numSeqSegments(1)
 {
-
+    initializeData();
 }
 
 SegmentTimes::SegmentTimes(const int &startingSegment):
-    AbstractParameter(4170 + startingSegment - 1), numSeqSegments(2)
+    AbstractParameter(4170 + startingSegment - 1), numSeqSegments(1)
 {
+    initializeData();
+}
 
+SegmentTimes::SegmentTimes(const int &startingSegment, const int &numSegments):
+    AbstractParameter(4170 + startingSegment - 1)
+{
+    //should enforce this to have starting segment of 1
+    setNumberofSequentialRegisters(numSegments);
 }
 
 SegmentTimes::SegmentTimes(const SegmentTimes &obj):
@@ -39,8 +46,7 @@ QByteArray SegmentTimes::getByteArray() const
 
     data.append((uint8_t)numSeqSegments * 2);
 
-
-    for (std::list<SegmentTimeData>::const_iterator it = registerData.begin(); it != registerData.end(); ++it){
+    for (std::vector<SegmentTimeData>::const_iterator it = registerData.begin(); it != registerData.end(); ++it){
         uint32_t newArray = it->getConstructedBitArray();
         uint8_t HIGHBType = (uint8_t)((newArray & 0xFF00) >> 8);
         uint8_t LOWBType = (uint8_t)(newArray & 0x00FF);
@@ -48,7 +54,6 @@ QByteArray SegmentTimes::getByteArray() const
         data.append(HIGHBType);
         data.append(LOWBType);
     }
-
 
     return data;
 }
@@ -68,6 +73,10 @@ void SegmentTimes::setStartingRegister(const uint8_t &startSegment)
 {
     this->startingSegment = startSegment;
     this->parameterCode = 4170 + startSegment - 1;
+
+    //this is a dirty hack but it works for now
+    int originalRegisterLength = this->numSeqSegments;
+    setNumberofSequentialRegisters(originalRegisterLength);
 }
 
 void SegmentTimes::setNumberofSequentialRegisters(const uint8_t &seqSegment)
@@ -79,8 +88,22 @@ void SegmentTimes::setNumberofSequentialRegisters(const uint8_t &seqSegment)
     }
     this->numSeqSegments = seqSegment;
 
-    //resize the register data
-    this->registerData.resize(this->numSeqSegments);
+    initializeData();
 }
+
+void SegmentTimes::updateRegisterData(const int &registerIndex, const SegmentTimeData &data)
+{
+    this->registerData.at(registerIndex).updateData(data);
+}
+
+void SegmentTimes::initializeData()
+{
+    this->registerData.clear();
+
+    for (int i = 0; i<numSeqSegments; i++)
+    {
+        SegmentTimeData data;
+        this->registerData.push_back(data);
+    }}
 
 } //end of namespace DataRegister

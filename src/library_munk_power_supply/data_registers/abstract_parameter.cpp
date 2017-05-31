@@ -14,24 +14,36 @@ AbstractParameter::AbstractParameter(const int &code):
 
 }
 
+void AbstractParameter::setSlaveAddress(const uint8_t &address)
+{
+    this->slaveAddress = address;
+}
+
+void AbstractParameter::setReadorWrite(const Data::ReadWriteType &type)
+{
+    this->readOrwrite = type;
+}
+
 QByteArray AbstractParameter::getFullMessage()
 {
     QByteArray data = getByteArray();
     unsigned int checkSum = CRC16(data);
     highChecksum = (uint8_t)((checkSum & 0xFF00) >> 8);
     lowChecksum = (uint8_t)(checkSum & 0x00FF);
-    data.append(highChecksum);
     data.append(lowChecksum);
+    data.append(highChecksum);
     return data;
 }
+
 
 unsigned int AbstractParameter::CRC16(const QByteArray &array)
 {
     char j;
-    unsigned int Temp = 0xFFFF;
-
-    for (int i=0;i<array.size();i++){
-        Temp ^= (unsigned int)array.at(i);
+    WORD Temp = 0xFFFF;
+    int size = array.size();
+    for (int i=0;i<size;i++){
+        unsigned char charTemp = (unsigned char)array.at(i);
+        Temp ^= (WORD)charTemp;
         for (j=8;j!=0;j--){
 
             if ((Temp & 0x0001) != 0) {      // If the LSB is set

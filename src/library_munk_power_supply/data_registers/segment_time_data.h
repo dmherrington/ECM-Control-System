@@ -19,6 +19,8 @@ public:
     void setSegmentMode(const Data::SegmentMode &mode);
     void setSegmentPower(const Data::SegmentPower &power);
     void setTimeValue(const uint8_t &time);
+    void resetData();
+    void updateData(const SegmentTimeData &data);
 
 public:
     uint32_t getConstructedBitArray() const;

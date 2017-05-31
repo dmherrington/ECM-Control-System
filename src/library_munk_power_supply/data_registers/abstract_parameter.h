@@ -12,6 +12,8 @@
 
 namespace DataParameter{
 
+typedef unsigned int WORD;
+
 class AbstractParameter
 {
 public:
@@ -30,8 +32,9 @@ public:
 
     virtual std::string getDescription() const  = 0;
 
-
 public:
+    void setSlaveAddress(const uint8_t &address);
+    void setReadorWrite(const Data::ReadWriteType &type);
     QByteArray getFullMessage();
 
 public:

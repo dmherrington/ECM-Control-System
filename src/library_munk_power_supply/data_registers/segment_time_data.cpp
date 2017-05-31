@@ -2,10 +2,12 @@
 
 namespace DataParameter {
 
-SegmentTimeData::SegmentTimeData()
+SegmentTimeData::SegmentTimeData():
+    segmentLevel(Data::SegmentLevel::LEVEL1),segmentMode(Data::SegmentMode::HIZ),segmentPower(Data::SegmentPower::ONE),timeValue(0)
 {
 
 }
+
 SegmentTimeData::SegmentTimeData(const Data::SegmentLevel &level, const Data::SegmentMode &mode, const Data::SegmentPower &power, const uint8_t &time)
 {
     setSegmentLevel(level);
@@ -17,6 +19,18 @@ SegmentTimeData::SegmentTimeData(const Data::SegmentLevel &level, const Data::Se
 
 void SegmentTimeData::setSegmentLevel(const Data::SegmentLevel &level)
 {
+    /*
+     *This basically forces us to check that if we are in one of these operational modes
+     * to not allow the caller of the library to change this as the information could be
+     * wrong. However, this should also signify a call to update the data on the GUI
+     * in the event that they become out of sync.
+     */
+    if((this->segmentMode == Data::SegmentMode::HIZ) || (this->segmentMode == Data::SegmentMode::DEAD))
+    {
+        //we should ignore this command
+        return;
+    }
+
     this->segmentLevel = level;
 }
 
@@ -26,25 +40,13 @@ void SegmentTimeData::setSegmentMode(const Data::SegmentMode &mode)
 
     //Document this
     if(this->segmentMode == Data::SegmentMode::HIZ)
-        setSegmentLevel(Data::SegmentLevel::LEVEL1);
+        this->segmentLevel = Data::SegmentLevel::LEVEL1;
     else if(this->segmentMode == Data::SegmentMode::DEAD)
-        setSegmentLevel(Data::SegmentLevel::LEVEL2);
+        this->segmentLevel = Data::SegmentLevel::LEVEL2;
 }
 
 void SegmentTimeData::setSegmentPower(const Data::SegmentPower &power)
 {
-/*
- *This basically forces us to check that if we are in one of these operational modes
- * to not allow the caller of the library to change this as the information could be
- * wrong. However, this should also signify a call to update the data on the GUI
- * in the event that they become out of sync.
- */
-    if((this->segmentMode == Data::SegmentMode::HIZ) || (this->segmentMode == Data::SegmentMode::DEAD))
-    {
-        //we should ignore this command
-        return;
-    }
-
     this->segmentPower = power;
 }
 
@@ -70,6 +72,19 @@ uint32_t SegmentTimeData::getConstructedBitArray() const
    ba = (ba & (~timeMask)) | (this->timeValue<<0);
 
    return ba;
+}
+
+void SegmentTimeData::resetData()
+{
+    setSegmentLevel(Data::SegmentLevel::LEVEL1);
+    setSegmentMode(Data::SegmentMode::DEAD);
+    setSegmentPower(Data::SegmentPower::ONE);
+    setTimeValue(0);
+}
+
+void SegmentTimeData::updateData(const SegmentTimeData &data)
+{
+    this->operator =(data);
 }
 
 } //end of namespace DataParameter

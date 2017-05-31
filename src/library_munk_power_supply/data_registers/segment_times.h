@@ -2,8 +2,7 @@
 #define SEGMENT_TIMES_H
 
 #include <string>
-#include <bitset>
-#include <list>
+#include <vector>
 
 #include "abstract_parameter.h"
 #include "segment_time_data.h"
@@ -20,6 +19,7 @@ class SegmentTimes : public AbstractParameter
 public:
     SegmentTimes();
     SegmentTimes(const int &startingSegment);
+    SegmentTimes(const int &startingSegment, const int &numSegments);
     SegmentTimes(const SegmentTimes &obj);
 
 public:
@@ -32,6 +32,9 @@ public:
 public:
     void setStartingRegister(const uint8_t &startSegment);
     void setNumberofSequentialRegisters(const uint8_t &seqSegment);
+    void appendRegisterData(const SegmentTimeData &data);
+    void updateRegisterData(const int &registerIndex, const SegmentTimeData &data);
+    void initializeData();
 
 public:
     void operator = (const SegmentTimes &rhs)
@@ -66,7 +69,7 @@ public:
 private:
     uint8_t startingSegment;
     uint8_t numSeqSegments;
-    std::list<DataParameter::SegmentTimeData> registerData;
+    std::vector<DataParameter::SegmentTimeData> registerData;
 };
 
 } //end of namespace MunkPowerSupply
