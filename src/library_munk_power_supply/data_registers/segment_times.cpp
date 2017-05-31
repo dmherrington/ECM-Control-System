@@ -3,19 +3,13 @@
 namespace DataParameter{
 
 SegmentTimes::SegmentTimes():
-    AbstractParameter(4170),
-    numSeqSegments(2),segmentLevel(Data::SegmentLevel::LEVEL1),
-    segmentMode(Data::SegmentMode::FORWARD),segmentPower(Data::SegmentPower::TEN),
-    timeValue(20)
+    AbstractParameter(4170), numSeqSegments(2)
 {
 
 }
 
 SegmentTimes::SegmentTimes(const int &startingSegment):
-    AbstractParameter(4170 + startingSegment - 1),
-    numSeqSegments(2),segmentLevel(Data::SegmentLevel::LEVEL1),
-    segmentMode(Data::SegmentMode::FORWARD),segmentPower(Data::SegmentPower::TEN),
-    timeValue(20)
+    AbstractParameter(4170 + startingSegment - 1), numSeqSegments(2)
 {
 
 }
@@ -43,14 +37,18 @@ QByteArray SegmentTimes::getByteArray() const
     data.append(HIGHSeqType);
     data.append(LOWSeqType);
 
-    data.append((uint8_t)4);
+    data.append((uint8_t)numSeqSegments * 2);
 
-    uint32_t newArray = constructBitArray();
-    uint8_t HIGHBType = (uint8_t)((newArray & 0xFF00) >> 8);
-    uint8_t LOWBType = (uint8_t)(newArray & 0x00FF);
 
-    data.append(HIGHBType);
-    data.append(LOWBType);
+    for (std::list<SegmentTimeData>::const_iterator it = registerData.begin(); it != registerData.end(); ++it){
+        uint32_t newArray = it->getConstructedBitArray();
+        uint8_t HIGHBType = (uint8_t)((newArray & 0xFF00) >> 8);
+        uint8_t LOWBType = (uint8_t)(newArray & 0x00FF);
+
+        data.append(HIGHBType);
+        data.append(LOWBType);
+    }
+
 
     return data;
 }
@@ -80,63 +78,9 @@ void SegmentTimes::setNumberofSequentialRegisters(const uint8_t &seqSegment)
         return;
     }
     this->numSeqSegments = seqSegment;
-}
 
-void SegmentTimes::setSegmentLevel(const Data::SegmentLevel &level)
-{
-    this->segmentLevel = level;
-}
-
-void SegmentTimes::setSegmentMode(const Data::SegmentMode &mode)
-{
-    this->segmentMode = mode;
-
-    //Document this
-    if(this->segmentMode == Data::SegmentMode::HIZ)
-        setSegmentLevel(Data::SegmentLevel::LEVEL1);
-    else if(this->segmentMode == Data::SegmentMode::DEAD)
-        setSegmentLevel(Data::SegmentLevel::LEVEL2);
-}
-
-void SegmentTimes::setSegmentPower(const Data::SegmentPower &power)
-{
-/*
- *This basically forces us to check that if we are in one of these operational modes
- * to not allow the caller of the library to change this as the information could be
- * wrong. However, this should also signify a call to update the data on the GUI
- * in the event that they become out of sync.
- */
-    if((this->segmentMode == Data::SegmentMode::HIZ) || (this->segmentMode == Data::SegmentMode::DEAD))
-    {
-        //we should ignore this command
-        return;
-    }
-
-    this->segmentPower = power;
-}
-
-void SegmentTimes::setTimeValue(const uint8_t &time)
-{
-    if(time > 127)
-    {
-        //we should throw an error as this is not allowed
-        this->timeValue = 127;
-    }else{
-        this->timeValue = time;
-    }
-}
-
-uint32_t SegmentTimes::constructBitArray() const
-{
-   uint32_t ba = 0;
-   ba = Data::SegmentLevelToBitArray(this->segmentLevel,ba);
-   ba = Data::SegmentModeToBitArray(this->segmentMode,ba);
-   ba = Data::SegmentPowerToBitArray(this->segmentPower,ba);
-
-   uint32_t timeMask = 127<<0;
-   ba = (ba & (~timeMask)) | (this->timeValue<<0);
-
-   return ba;
+    //resize the register data
+    this->registerData.resize(this->numSeqSegments);
 }
 
 } //end of namespace DataRegister

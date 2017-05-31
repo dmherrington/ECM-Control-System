@@ -24,17 +24,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += munk_power_supply.cpp \
     data_registers/segment_times.cpp \
-    data_registers/abstract_parameter.cpp
+    data_registers/abstract_parameter.cpp \
+    data_registers/segment_time_data.cpp
 
 HEADERS += munk_power_supply.h\
         library_munk_power_supply_global.h \
-    data_registers/type_definition.h \
+    data/type_read_write.h \
     data/type_segment_level.h \
     data/type_segment_mode.h \
     data/type_prescalar_power.h \
+    data_registers/type_definition.h \
     data_registers/segment_times.h \
     data_registers/abstract_parameter.h \
-    data/type_read_write.h
+    data_registers/segment_time_data.h
 
 # Unix lib Install
 unix:!symbian {
@@ -58,16 +60,19 @@ INSTALLS       += headers
 #Header file copy
 headers_data.path    = $$(ECM_ROOT)/include/library_munk_power_supply/data
 headers_data.files   += \
-    data/type_segment_level.h \
-    data/type_segment_mode.h \
     data/type_prescalar_power.h \
-    data/type_time_value.h
+    data/type_read_write.h \
+    data/type_segment_level.h \
+    data/type_segment_mode.h
 INSTALLS       += headers_data
 
 #Header file copy
 headers_data_registers.path    = $$(ECM_ROOT)/include/library_munk_power_supply/data_registers
 headers_data_registers.files   += \
-    data_registers/type_definition.h
+    data_registers/type_definition.h \
+    data_registers/segment_times.h \
+    data_registers/abstract_parameter.h \
+    data_registers/segment_time_data.h
 INSTALLS       += headers_data_registers
 
 INCLUDEPATH += $$PWD/../

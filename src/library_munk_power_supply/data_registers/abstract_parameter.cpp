@@ -20,7 +20,9 @@ QByteArray AbstractParameter::getFullMessage()
     unsigned int checkSum = CRC16(data);
     highChecksum = (uint8_t)((checkSum & 0xFF00) >> 8);
     lowChecksum = (uint8_t)(checkSum & 0x00FF);
-
+    data.append(highChecksum);
+    data.append(lowChecksum);
+    return data;
 }
 
 unsigned int AbstractParameter::CRC16(const QByteArray &array)
