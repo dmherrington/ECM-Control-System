@@ -41,5 +41,13 @@ win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lc
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
 else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
 
+INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$PWD/../common
 DEPENDPATH += $$PWD/../common
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_munk_power_supply/release/ -llibrary_munk_power_supply
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_munk_power_supply/debug/ -llibrary_munk_power_supply
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_munk_power_supply/ -llibrary_munk_power_supply
+
+INCLUDEPATH += $$PWD/../library_munk_power_supply
+DEPENDPATH += $$PWD/../library_munk_power_supply
