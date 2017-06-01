@@ -1,6 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <iostream>
+#include <QDebug>
+
 #include <QMainWindow>
 
 namespace Ui {

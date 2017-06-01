@@ -1,6 +1,7 @@
 #ifndef MUNK_POWER_SUPPLY_H
 #define MUNK_POWER_SUPPLY_H
 #include <iostream>
+#include <QDebug>
 
 #include "library_munk_power_supply_global.h"
 

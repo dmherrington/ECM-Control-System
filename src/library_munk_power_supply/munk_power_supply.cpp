@@ -1,6 +1,5 @@
 #include "munk_power_supply.h"
 
-
 MunkPowerSupply::MunkPowerSupply()
 {
     DataParameter::SegmentTimes* segmentTime = new DataParameter::SegmentTimes(1,2);
@@ -21,6 +20,8 @@ MunkPowerSupply::MunkPowerSupply()
     segmentTime->updateRegisterData(0,segmentOneData);
     segmentTime->updateRegisterData(1,segmentTwoData);
     QByteArray ba = segmentTime->getFullMessage();
-    std::cout<<"I am done maybe"<<std::endl;
+
+    qDebug() << ba.toHex().toUpper();
+    std::cout<<"I am done maybe"<< std::endl;
 }
 
