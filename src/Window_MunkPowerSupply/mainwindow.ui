@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -64,15 +64,29 @@
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QSpinBox" name="spinBox_address"/>
+          <widget class="QSpinBox" name="spinBox_address">
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>1</number>
+           </property>
+          </widget>
          </item>
          <item row="4" column="1">
-          <widget class="QSpinBox" name="spinBox_nosegments"/>
+          <widget class="QSpinBox" name="spinBox_nosegments">
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>16</number>
+           </property>
+          </widget>
          </item>
          <item row="4" column="0">
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>Number of Segments</string>
+            <string>Segment</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>

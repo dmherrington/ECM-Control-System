@@ -31,6 +31,7 @@ void MainWindow::setupUiElements()
   rw = Data::getListOfReadWriteType();
   segscaler = Data::getListOfSegmentPower();
 
+
   for (int unsigned i=0;i<seglvls.size();i++)
   {
       ui->comboBox_lvl->addItem(QString::fromStdString(seglvls[i]));
@@ -54,15 +55,9 @@ void MainWindow::generateMessage()
     int address = ui->spinBox_address->value();
     int noseg = ui->spinBox_nosegments->value();
 
-    DataParameter::SegmentTimes* segmentTime = new DataParameter::SegmentTimes(1,noseg);
+    DataParameter::SegmentTimes* segmentTime = new DataParameter::SegmentTimes(noseg);
     segmentTime->setSlaveAddress(address);
     segmentTime->setReadorWrite(Data::ReadWriteTypeFromString(ui->comboBox_RW->currentText().toStdString()));
-
-//    DataParameter::SegmentTimeData segData;
-//    segData.setSegmentLevel(Data::SegmentLevelFromString(ui->comboBox_lvl->currentText().toStdString()));
-//    segData.setSegmentMode(Data::SegmentModeFromString(ui->comboBox_polarity->currentText().toStdString()));
-//    segData.setSegmentPower(Data::SegmentPowerFromString(ui->comboBox_scaler->currentText().toStdString()));
-//    segData.setTimeValue(ui->spinBox_time->value());
 
     Data::SegmentLevel lvl = Data::SegmentLevelFromString(ui->comboBox_lvl->currentText().toStdString());
     Data::SegmentMode mode = Data::SegmentModeFromString(ui->comboBox_polarity->currentText().toStdString());
@@ -74,7 +69,8 @@ void MainWindow::generateMessage()
     segmentTime->updateRegisterData(0,segData);
     QByteArray out = segmentTime->getFullMessage();
 
-    ui->textEdit_OutputMessage->setText(out.toHex().toUpper());
+    ui->textEdit_OutputMessage->append(out.toHex().toUpper());
+//    ui->textEdit_OutputMessage->append("\n");
 }
 
 void MainWindow::on_pushButton_generatemsg_clicked()
