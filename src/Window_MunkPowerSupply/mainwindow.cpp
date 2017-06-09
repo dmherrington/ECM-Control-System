@@ -4,7 +4,7 @@
 #include "library_munk_power_supply/data/type_segment_mode.h"
 #include "library_munk_power_supply/data/type_read_write.h"
 #include "library_munk_power_supply/data/type_prescalar_power.h"
-#include "library_munk_power_supply/data_registers/segment_times.h"
+#include "library_munk_power_supply/data_registers/segment_time_general.h"
 
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent),ui(new Ui::MainWindow)
 {
@@ -55,7 +55,7 @@ void MainWindow::generateMessage()
     int address = ui->spinBox_address->value();
     int noseg = ui->spinBox_nosegments->value();
 
-    DataParameter::SegmentTimes* segmentTime = new DataParameter::SegmentTimes(noseg);
+    DataParameter::SegmentTimeGeneral* segmentTime = new DataParameter::SegmentTimeGeneral(noseg);
     segmentTime->setSlaveAddress(address);
     segmentTime->setReadorWrite(Data::ReadWriteTypeFromString(ui->comboBox_RW->currentText().toStdString()));
 

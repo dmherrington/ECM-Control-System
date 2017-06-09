@@ -10,7 +10,7 @@
 #include <limits.h>
 #include "library_munk_power_supply/munk_power_supply.h"
 
-#include "library_munk_power_supply/data_registers/segment_times.h"
+#include "library_munk_power_supply/data_registers/segment_time_general.h"
 
 namespace Ui {
 class MainWindow;

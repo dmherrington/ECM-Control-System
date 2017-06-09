@@ -2,7 +2,7 @@
 
 MunkPowerSupply::MunkPowerSupply()
 {
-    DataParameter::SegmentTimes* segmentTime = new DataParameter::SegmentTimes(1,2);
+    DataParameter::SegmentTimeGeneral* segmentTime = new DataParameter::SegmentTimeGeneral(1,2);
     segmentTime->setSlaveAddress(1);
 
     DataParameter::SegmentTimeData segmentOneData;

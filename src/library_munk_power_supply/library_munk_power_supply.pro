@@ -23,9 +23,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += munk_power_supply.cpp \
-    data_registers/segment_times.cpp \
     data_registers/abstract_parameter.cpp \
-    data_registers/segment_time_data.cpp
+    data_registers/segment_time_data.cpp \
+    data_registers/segment_time_general.cpp \
+    data_registers/segment_time_detailed.cpp
 
 HEADERS += munk_power_supply.h\
         library_munk_power_supply_global.h \
@@ -34,9 +35,13 @@ HEADERS += munk_power_supply.h\
     data/type_segment_mode.h \
     data/type_prescalar_power.h \
     data_registers/type_definition.h \
-    data_registers/segment_times.h \
     data_registers/abstract_parameter.h \
-    data_registers/segment_time_data.h
+    data_registers/segment_time_data.h \
+    data_registers/segment_time_general.h \
+    data_registers/segment_time_detailed.h \
+    data/type_segment_parameter.h \
+    data/type_current_set.h \
+    data/type_voltage_set.h
 
 # Unix lib Install
 unix:!symbian {
@@ -69,10 +74,11 @@ INSTALLS       += headers_data
 #Header file copy
 headers_data_registers.path    = $$(ECM_ROOT)/include/library_munk_power_supply/data_registers
 headers_data_registers.files   += \
-    data_registers/type_definition.h \
-    data_registers/segment_times.h \
     data_registers/abstract_parameter.h \
-    data_registers/segment_time_data.h
+    data_registers/segment_time_data.h \
+    data_registers/segment_time_detailed.h \
+    data_registers/segment_time_general.h \
+    data_registers/type_definition.h
 INSTALLS       += headers_data_registers
 
 INCLUDEPATH += $$PWD/../
