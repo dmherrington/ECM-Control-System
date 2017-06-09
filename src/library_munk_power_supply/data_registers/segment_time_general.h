@@ -14,13 +14,13 @@
 namespace DataParameter
 {
 
-class SegmentTimes : public AbstractParameter
+class SegmentTimeGeneral : public AbstractParameter
 {
 public:
-    SegmentTimes();
-    SegmentTimes(const int &startingSegment);
-    SegmentTimes(const int &startingSegment, const int &numSegments);
-    SegmentTimes(const SegmentTimes &obj);
+    SegmentTimeGeneral();
+    SegmentTimeGeneral(const int &startingSegment);
+    SegmentTimeGeneral(const int &startingSegment, const int &numSegments);
+    SegmentTimeGeneral(const SegmentTimeGeneral &obj);
 
 public:
     virtual DataParameter::ParameterType getParameterType() const;
@@ -37,7 +37,7 @@ public:
     void initializeData();
 
 public:
-    void operator = (const SegmentTimes &rhs)
+    void operator = (const SegmentTimeGeneral &rhs)
     {
         AbstractParameter::operator =(rhs);
         this->startingSegment = rhs.startingSegment;
@@ -45,7 +45,7 @@ public:
         this->registerData = rhs.registerData;
     }
 
-    bool operator == (const SegmentTimes &rhs) {
+    bool operator == (const SegmentTimeGeneral &rhs) {
         if(!AbstractParameter::operator ==(rhs))
         {
             return false;
@@ -62,7 +62,7 @@ public:
         return true;
     }
 
-    bool operator != (const SegmentTimes &rhs) {
+    bool operator != (const SegmentTimeGeneral &rhs) {
         return !(*this == rhs);
     }
 

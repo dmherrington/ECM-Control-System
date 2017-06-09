@@ -19,6 +19,67 @@ enum class VoltageSetFWDType{
     VoltageFWD8 = 6780,
 };
 
+
+inline std::string VoltageSetFWDTypeToString(const VoltageSetFWDType &type) {
+    switch (type) {
+    case VoltageSetFWDType::VoltageFWD1:
+        return "Voltage FWD 1";
+    case VoltageSetFWDType::VoltageFWD2:
+        return "Voltage FWD 2";
+    case VoltageSetFWDType::VoltageFWD3:
+        return "Voltage FWD 3";
+    case VoltageSetFWDType::VoltageFWD4:
+        return "Voltage FWD 4";
+    case VoltageSetFWDType::VoltageFWD5:
+        return "Voltage FWD 5";
+    case VoltageSetFWDType::VoltageFWD6:
+        return "Voltage FWD 6";
+    case VoltageSetFWDType::VoltageFWD7:
+        return "Voltage FWD 7";
+    case VoltageSetFWDType::VoltageFWD8:
+        return "Voltage FWD 8";
+    default:
+        throw std::runtime_error("Unknown voltage set fwd type seen");
+    }
+}
+
+inline VoltageSetFWDType VoltageSetFWDTypeFromString(const std::string &str) {
+    if(str == "Voltage FWD 1")
+        return VoltageSetFWDType::VoltageFWD1;
+    if(str == "Voltage FWD 2")
+        return VoltageSetFWDType::VoltageFWD2;
+    if(str == "Voltage FWD 3")
+        return VoltageSetFWDType::VoltageFWD3;
+    if(str == "Voltage FWD 4")
+        return VoltageSetFWDType::VoltageFWD4;
+    if(str == "Voltage FWD 5")
+        return VoltageSetFWDType::VoltageFWD5;
+    if(str == "Voltage FWD 6")
+        return VoltageSetFWDType::VoltageFWD6;
+    if(str == "Voltage FWD 7")
+        return VoltageSetFWDType::VoltageFWD7;
+    if(str == "Voltage FWD 8")
+        return VoltageSetFWDType::VoltageFWD8;
+    throw std::runtime_error("Unknown voltage set fwd type seen");
+}
+
+inline std::vector<VoltageSetFWDType> getListOfVoltageSetFWDTypes()
+{
+    std::vector<VoltageSetFWDType> str;
+    str.push_back(VoltageSetFWDType::VoltageFWD1);
+    str.push_back(VoltageSetFWDType::VoltageFWD2);
+    str.push_back(VoltageSetFWDType::VoltageFWD3);
+    str.push_back(VoltageSetFWDType::VoltageFWD4);
+    str.push_back(VoltageSetFWDType::VoltageFWD5);
+    str.push_back(VoltageSetFWDType::VoltageFWD6);
+    str.push_back(VoltageSetFWDType::VoltageFWD7);
+    str.push_back(VoltageSetFWDType::VoltageFWD8);
+    return str;
+}
+
+
+//_________________________________________________________________________
+
 enum class VoltageSetREVType{
     VoltageREV1 = 6520,
     VoltageREV2 = 6560,
@@ -53,7 +114,6 @@ inline std::string VoltageSetREVTypeToString(const VoltageSetREVType &type) {
     }
 }
 
-
 inline VoltageSetREVType VoltageSetREVTypeFromString(const std::string &str) {
     if(str == "Voltage REV 1")
         return VoltageSetREVType::VoltageREV1;
@@ -74,17 +134,17 @@ inline VoltageSetREVType VoltageSetREVTypeFromString(const std::string &str) {
     throw std::runtime_error("Unknown voltage set rev type seen");
 }
 
-inline std::vector<std::string> getListOfVoltageSetREVTypes()
-{
-    std::vector<std::string> str;
-    return str;
-}
-
 inline std::vector<VoltageSetREVType> getListOfVoltageSetREVTypes()
 {
     std::vector<VoltageSetREVType> str;
-    str.push_back();
-    str.push_back();
+    str.push_back(VoltageSetREVType::VoltageREV1);
+    str.push_back(VoltageSetREVType::VoltageREV2);
+    str.push_back(VoltageSetREVType::VoltageREV3);
+    str.push_back(VoltageSetREVType::VoltageREV4);
+    str.push_back(VoltageSetREVType::VoltageREV5);
+    str.push_back(VoltageSetREVType::VoltageREV6);
+    str.push_back(VoltageSetREVType::VoltageREV7);
+    str.push_back(VoltageSetREVType::VoltageREV8);
     return str;
 }
 
