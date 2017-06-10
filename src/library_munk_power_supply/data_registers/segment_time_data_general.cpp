@@ -1,14 +1,14 @@
-#include "segment_time_data.h"
+#include "segment_time_data_general.h"
 
 namespace DataParameter {
 
-SegmentTimeData::SegmentTimeData():
+SegmentTimeDataGeneral::SegmentTimeDataGeneral():
     segmentLevel(Data::SegmentLevel::LEVEL1),segmentMode(Data::SegmentMode::HIZ),segmentPower(Data::SegmentPower::ONE),timeValue(0)
 {
 
 }
 
-SegmentTimeData::SegmentTimeData(const Data::SegmentLevel &level, const Data::SegmentMode &mode, const Data::SegmentPower &power, const uint8_t &time)
+SegmentTimeDataGeneral::SegmentTimeDataGeneral(const Data::SegmentLevel &level, const Data::SegmentMode &mode, const Data::SegmentPower &power, const uint8_t &time)
 {
     setSegmentLevel(level);
     setSegmentMode(mode);
@@ -17,7 +17,7 @@ SegmentTimeData::SegmentTimeData(const Data::SegmentLevel &level, const Data::Se
 }
 
 
-void SegmentTimeData::setSegmentLevel(const Data::SegmentLevel &level)
+void SegmentTimeDataGeneral::setSegmentLevel(const Data::SegmentLevel &level)
 {
     /*
      *This basically forces us to check that if we are in one of these operational modes
@@ -34,7 +34,7 @@ void SegmentTimeData::setSegmentLevel(const Data::SegmentLevel &level)
     this->segmentLevel = level;
 }
 
-void SegmentTimeData::setSegmentMode(const Data::SegmentMode &mode)
+void SegmentTimeDataGeneral::setSegmentMode(const Data::SegmentMode &mode)
 {
     this->segmentMode = mode;
 
@@ -45,12 +45,12 @@ void SegmentTimeData::setSegmentMode(const Data::SegmentMode &mode)
         this->segmentLevel = Data::SegmentLevel::LEVEL2;
 }
 
-void SegmentTimeData::setSegmentPower(const Data::SegmentPower &power)
+void SegmentTimeDataGeneral::setSegmentPower(const Data::SegmentPower &power)
 {
     this->segmentPower = power;
 }
 
-void SegmentTimeData::setTimeValue(const uint8_t &time)
+void SegmentTimeDataGeneral::setTimeValue(const uint8_t &time)
 {
     if(time > 127)
     {
@@ -61,7 +61,7 @@ void SegmentTimeData::setTimeValue(const uint8_t &time)
     }
 }
 
-uint32_t SegmentTimeData::getConstructedBitArray() const
+uint32_t SegmentTimeDataGeneral::getConstructedBitArray() const
 {
    uint32_t ba = 0;
    ba = Data::SegmentLevelToBitArray(this->segmentLevel,ba);
@@ -74,7 +74,7 @@ uint32_t SegmentTimeData::getConstructedBitArray() const
    return ba;
 }
 
-void SegmentTimeData::resetData()
+void SegmentTimeDataGeneral::resetData()
 {
     setSegmentLevel(Data::SegmentLevel::LEVEL1);
     setSegmentMode(Data::SegmentMode::DEAD);
@@ -82,7 +82,7 @@ void SegmentTimeData::resetData()
     setTimeValue(0);
 }
 
-void SegmentTimeData::updateData(const SegmentTimeData &data)
+void SegmentTimeDataGeneral::updateData(const SegmentTimeDataGeneral &data)
 {
     this->operator =(data);
 }

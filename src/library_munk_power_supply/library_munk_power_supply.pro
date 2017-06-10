@@ -24,9 +24,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += munk_power_supply.cpp \
     data_registers/abstract_parameter.cpp \
-    data_registers/segment_time_data.cpp \
     data_registers/segment_time_general.cpp \
-    data_registers/segment_time_detailed.cpp
+    data_registers/segment_time_detailed.cpp \
+    data_registers/segment_time_data_general.cpp \
+    data_registers/segment_time_data_detailed.cpp
 
 HEADERS += munk_power_supply.h\
         library_munk_power_supply_global.h \
@@ -36,12 +37,13 @@ HEADERS += munk_power_supply.h\
     data/type_prescalar_power.h \
     data_registers/type_definition.h \
     data_registers/abstract_parameter.h \
-    data_registers/segment_time_data.h \
     data_registers/segment_time_general.h \
     data_registers/segment_time_detailed.h \
     data/type_segment_parameter.h \
     data/type_current_set.h \
-    data/type_voltage_set.h
+    data/type_voltage_set.h \
+    data_registers/segment_time_data_general.h \
+    data_registers/segment_time_data_detailed.h
 
 # Unix lib Install
 unix:!symbian {

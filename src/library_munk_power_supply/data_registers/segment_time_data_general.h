@@ -1,5 +1,5 @@
-#ifndef SEGMENT_TIME_DATA_H
-#define SEGMENT_TIME_DATA_H
+#ifndef SEGMENT_TIME_DATA_GENERAL_H
+#define SEGMENT_TIME_DATA_GENERAL_H
 
 #include <data/type_prescalar_power.h>
 #include <data/type_segment_level.h>
@@ -8,11 +8,11 @@
 namespace DataParameter
 {
 
-class SegmentTimeData
+class SegmentTimeDataGeneral
 {
 public:
-    SegmentTimeData();
-    SegmentTimeData(const Data::SegmentLevel &level, const Data::SegmentMode &mode, const Data::SegmentPower &power, const uint8_t &time);
+    SegmentTimeDataGeneral();
+    SegmentTimeDataGeneral(const Data::SegmentLevel &level, const Data::SegmentMode &mode, const Data::SegmentPower &power, const uint8_t &time);
 
 public:
     void setSegmentLevel(const Data::SegmentLevel &level);
@@ -20,13 +20,13 @@ public:
     void setSegmentPower(const Data::SegmentPower &power);
     void setTimeValue(const uint8_t &time);
     void resetData();
-    void updateData(const SegmentTimeData &data);
+    void updateData(const SegmentTimeDataGeneral &data);
 
 public:
     uint32_t getConstructedBitArray() const;
 
 public:
-    void operator = (const SegmentTimeData &rhs)
+    void operator = (const SegmentTimeDataGeneral &rhs)
     {
         this->segmentLevel = rhs.segmentLevel;
         this->segmentMode = rhs.segmentMode;
@@ -34,7 +34,7 @@ public:
         this->timeValue = rhs.timeValue;
     }
 
-    bool operator == (const SegmentTimeData &rhs) const {
+    bool operator == (const SegmentTimeDataGeneral &rhs) const {
 
         if(this->segmentLevel != rhs.segmentLevel){
             return false;
@@ -51,7 +51,7 @@ public:
         return true;
     }
 
-    bool operator != (const SegmentTimeData &rhs) const {
+    bool operator != (const SegmentTimeDataGeneral &rhs) const {
         return !(*this == rhs);
     }
 

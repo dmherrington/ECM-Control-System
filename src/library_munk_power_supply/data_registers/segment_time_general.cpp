@@ -1,33 +1,33 @@
-#include "segment_times.h"
+#include "segment_time_general.h"
 
 namespace DataParameter{
 
-SegmentTimes::SegmentTimes():
+SegmentTimeGeneral::SegmentTimeGeneral():
     AbstractParameter(4170), numSeqSegments(1)
 {
     initializeData();
 }
 
-SegmentTimes::SegmentTimes(const int &startingSegment):
+SegmentTimeGeneral::SegmentTimeGeneral(const int &startingSegment):
     AbstractParameter(4170 + startingSegment - 1), numSeqSegments(1)
 {
     initializeData();
 }
 
-SegmentTimes::SegmentTimes(const int &startingSegment, const int &numSegments):
+SegmentTimeGeneral::SegmentTimeGeneral(const int &startingSegment, const int &numSegments):
     AbstractParameter(4170 + startingSegment - 1)
 {
     //should enforce this to have starting segment of 1
     setNumberofSequentialRegisters(numSegments);
 }
 
-SegmentTimes::SegmentTimes(const SegmentTimes &obj):
+SegmentTimeGeneral::SegmentTimeGeneral(const SegmentTimeGeneral &obj):
     AbstractParameter()
 {
     this->operator =(obj);
 }
 
-QByteArray SegmentTimes::getByteArray() const
+QByteArray SegmentTimeGeneral::getByteArray() const
 {
     QByteArray data;
 
@@ -46,7 +46,7 @@ QByteArray SegmentTimes::getByteArray() const
 
     data.append((uint8_t)numSeqSegments * 2);
 
-    for (std::vector<SegmentTimeData>::const_iterator it = registerData.begin(); it != registerData.end(); ++it){
+    for (std::vector<SegmentTimeDataGeneral>::const_iterator it = registerData.begin(); it != registerData.end(); ++it){
         uint32_t newArray = it->getConstructedBitArray();
         uint8_t HIGHBType = (uint8_t)((newArray & 0xFF00) >> 8);
         uint8_t LOWBType = (uint8_t)(newArray & 0x00FF);
@@ -58,18 +58,18 @@ QByteArray SegmentTimes::getByteArray() const
     return data;
 }
 
-std::string SegmentTimes::getDescription() const
+std::string SegmentTimeGeneral::getDescription() const
 {
     std::string str = "";
     return str;
 }
 
-ParameterType SegmentTimes::getParameterType() const
+ParameterType SegmentTimeGeneral::getParameterType() const
 {
     return ParameterType::PATTERNWRITECOMMAND;
 }
 
-void SegmentTimes::setStartingRegister(const uint8_t &startSegment)
+void SegmentTimeGeneral::setStartingRegister(const uint8_t &startSegment)
 {
     this->startingSegment = startSegment;
     this->parameterCode = 4170 + startSegment - 1;
@@ -79,7 +79,7 @@ void SegmentTimes::setStartingRegister(const uint8_t &startSegment)
     setNumberofSequentialRegisters(originalRegisterLength);
 }
 
-void SegmentTimes::setNumberofSequentialRegisters(const uint8_t &seqSegment)
+void SegmentTimeGeneral::setNumberofSequentialRegisters(const uint8_t &seqSegment)
 {
     int maxSegments = 4185 - this->parameterCode;
     if(seqSegment > maxSegments){
@@ -91,18 +91,18 @@ void SegmentTimes::setNumberofSequentialRegisters(const uint8_t &seqSegment)
     initializeData();
 }
 
-void SegmentTimes::updateRegisterData(const int &registerIndex, const SegmentTimeData &data)
+void SegmentTimeGeneral::updateRegisterData(const int &registerIndex, const SegmentTimeDataGeneral &data)
 {
     this->registerData.at(registerIndex).updateData(data);
 }
 
-void SegmentTimes::initializeData()
+void SegmentTimeGeneral::initializeData()
 {
     this->registerData.clear();
 
     for (int i = 0; i<numSeqSegments; i++)
     {
-        SegmentTimeData data;
+        SegmentTimeDataGeneral data;
         this->registerData.push_back(data);
     }}
 

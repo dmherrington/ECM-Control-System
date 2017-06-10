@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "abstract_parameter.h"
-#include "segment_time_data.h"
+#include "segment_time_data_general.h"
 
 #include <data/type_prescalar_power.h>
 #include <data/type_segment_level.h>
@@ -32,8 +32,8 @@ public:
 public:
     void setStartingRegister(const uint8_t &startSegment);
     void setNumberofSequentialRegisters(const uint8_t &seqSegment);
-    void appendRegisterData(const SegmentTimeData &data);
-    void updateRegisterData(const int &registerIndex, const SegmentTimeData &data);
+    void appendRegisterData(const SegmentTimeGeneral &data);
+    void updateRegisterData(const int &registerIndex, const SegmentTimeDataGeneral &data);
     void initializeData();
 
 public:
@@ -69,7 +69,7 @@ public:
 private:
     uint8_t startingSegment;
     uint8_t numSeqSegments;
-    std::vector<DataParameter::SegmentTimeData> registerData;
+    std::vector<DataParameter::SegmentTimeDataGeneral> registerData;
 };
 
 } //end of namespace MunkPowerSupply
