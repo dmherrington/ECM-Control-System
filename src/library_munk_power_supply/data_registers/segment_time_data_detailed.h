@@ -26,10 +26,10 @@ public:
     void updateData(const SegmentTimeDataDetailed &data);
 
 public:
-    Data::RegisterDataObject getRegisterDataObject();
-    Data::SegmentMode getSegmentMode();
-    Data::SegmentPower getSegmentPower();
-    uint8_t getTimeValue();
+    Data::RegisterDataObject getRegisterDataObject() const;
+    Data::SegmentMode getSegmentMode() const;
+    Data::SegmentPower getSegmentPower() const;
+    uint8_t getTimeValue() const;
 
 public:
     void operator = (const SegmentTimeDataDetailed &rhs)

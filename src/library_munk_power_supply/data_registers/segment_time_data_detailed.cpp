@@ -3,7 +3,7 @@
 namespace DataParameter {
 
 SegmentTimeDataDetailed::SegmentTimeDataDetailed():
-    segmentVoltage(0),segmentCurrent(0),segmentMode(Data::SegmentMode::DEAD),segmentPower(Data::SegmentPower::ONE),timeValue(0)
+    dataObject(0,0),segmentMode(Data::SegmentMode::DEAD),segmentPower(Data::SegmentPower::ONE),timeValue(0)
 {
 
 }
@@ -63,22 +63,22 @@ void SegmentTimeDataDetailed::updateData(const SegmentTimeDataDetailed &data)
 }
 
 
-Data::RegisterDataObject SegmentTimeDataDetailed::getRegisterDataObject()
+Data::RegisterDataObject SegmentTimeDataDetailed::getRegisterDataObject() const
 {
     return this->dataObject;
 }
 
-Data::SegmentMode SegmentTimeDataDetailed::getSegmentMode()
+Data::SegmentMode SegmentTimeDataDetailed::getSegmentMode() const
 {
     return this->segmentMode;
 }
 
-Data::SegmentPower SegmentTimeDataDetailed::getSegmentPower()
+Data::SegmentPower SegmentTimeDataDetailed::getSegmentPower() const
 {
     return this->segmentPower;
 }
 
-uint8_t SegmentTimeDataDetailed::getTimeValue()
+uint8_t SegmentTimeDataDetailed::getTimeValue() const
 {
     return this->timeValue;
 }

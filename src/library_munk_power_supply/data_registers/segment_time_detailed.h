@@ -30,7 +30,7 @@ public:
     void setNumberofSequentialRegisters(const uint8_t &seqSegment);
     void appendRegisterData(const SegmentTimeDataDetailed &data);
     void updateRegisterData(const int &registerIndex, const SegmentTimeDataDetailed &data);
-    std::vector<DataParameter::SegmentTimeDataDetailed> getRegisterData();
+    std::vector<DataParameter::SegmentTimeDataDetailed> getRegisterData() const;
     void initializeData();
 
 public:

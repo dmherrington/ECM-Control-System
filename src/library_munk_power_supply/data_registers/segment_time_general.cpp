@@ -65,7 +65,6 @@ ParameterType SegmentTimeGeneral::getParameterType() const
 
 void SegmentTimeGeneral::setStartingRegister(const uint8_t &startSegment)
 {
-    this->startingSegment = startSegment;
     this->parameterCode = 4170 + startSegment - 1;
 
     //this is a dirty hack but it works for now

@@ -8,14 +8,8 @@ SegmentTimeDetailed::SegmentTimeDetailed():
     initializeData();
 }
 
-SegmentTimeDetailed::SegmentTimeDetailed(const int &startingSegment):
-    AbstractParameter(4170 + startingSegment - 1), numSeqSegments(1)
-{
-    initializeData();
-}
-
-SegmentTimeDetailed::SegmentTimeDetailed(const int &startingSegment, const int &numSegments):
-    AbstractParameter(4170 + startingSegment - 1)
+SegmentTimeDetailed::SegmentTimeDetailed(const int &numSegments):
+    AbstractParameter(4170)
 {
     //should enforce this to have starting segment of 1
     setNumberofSequentialRegisters(numSegments);
@@ -38,9 +32,14 @@ ParameterType SegmentTimeDetailed::getParameterType() const
     return ParameterType::PATTERNWRITECOMMAND;
 }
 
+QByteArray SegmentTimeDetailed::getByteArray() const
+{
+    QByteArray dummy;
+    return dummy;
+}
+
 void SegmentTimeDetailed::setStartingRegister(const uint8_t &startSegment)
 {
-    this->startingSegment = startSegment;
     this->parameterCode = 4170 + startSegment - 1;
 
     //this is a dirty hack but it works for now
@@ -65,7 +64,7 @@ void SegmentTimeDetailed::updateRegisterData(const int &registerIndex, const Seg
     this->detailedRegisterData.at(registerIndex).updateData(data);
 }
 
-std::vector<DataParameter::SegmentTimeDataDetailed> SegmentTimeDetailed::getRegisterData()
+std::vector<DataParameter::SegmentTimeDataDetailed> SegmentTimeDetailed::getRegisterData() const
 {
     return this->detailedRegisterData;
 }

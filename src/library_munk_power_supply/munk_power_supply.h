@@ -14,6 +14,8 @@ class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply
 public:
     MunkPowerSupply();
 
+    void generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData);
+
 
 private:
 

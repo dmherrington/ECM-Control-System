@@ -2,7 +2,7 @@
 
 MunkPowerSupply::MunkPowerSupply()
 {
-    DataParameter::SegmentTimeGeneral* segmentTime = new DataParameter::SegmentTimeGeneral(1,2);
+    DataParameter::SegmentTimeGeneral* segmentTime = new DataParameter::SegmentTimeGeneral(2);
     segmentTime->setSlaveAddress(1);
 
     DataParameter::SegmentTimeDataGeneral segmentOneData;
@@ -25,7 +25,7 @@ MunkPowerSupply::MunkPowerSupply()
     std::cout<<"I am done maybe"<< std::endl;
 }
 
-MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData)
+void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData)
 {
     std::map<Data::RegisterDataObject,Data::SegmentLevel> fwdMap;
     std::map<Data::RegisterDataObject,Data::SegmentLevel> revMap;
@@ -39,14 +39,14 @@ MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed &deta
 
     for(int i = 0; i < detailedData.size(); i++)
     {
-        DataParameter::SegmentTimeDataDetailed parameter = detailedData.at(i).segmentMode.getSegmentMode();
+        DataParameter::SegmentTimeDataDetailed parameter = detailedData.at(i);
         Data::SegmentMode mode = parameter.getSegmentMode();
 
         if(mode == Data::SegmentMode::FORWARD)
         {
             Data::SegmentLevel newLevel = Data::SegmentLevelFromString(fwdLevelVector.at(fwdLevelCounter));
             std::pair<std::map<Data::RegisterDataObject,Data::SegmentLevel>::iterator,bool> ret;
-            ret = fwdMap.insert(parameter.getRegisterDataObject(),newLevel);
+            ret = fwdMap.insert(std::pair<Data::RegisterDataObject,Data::SegmentLevel>(parameter.getRegisterDataObject(),newLevel));
 
             if (ret.second==false) {
               std::cout << "The element had already existed in the forward queue."<<std::endl;
@@ -59,7 +59,7 @@ MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed &deta
         {
             Data::SegmentLevel newLevel = Data::SegmentLevelFromString(revLevelVector.at(revLevelCounter));
             std::pair<std::map<Data::RegisterDataObject,Data::SegmentLevel>::iterator,bool> ret;
-            ret = revMap.insert(parameter.getRegisterDataObject(),newLevel);
+            ret = revMap.insert(std::pair<Data::RegisterDataObject,Data::SegmentLevel>(parameter.getRegisterDataObject(),newLevel));
 
             if (ret.second==false) {
               std::cout << "The element had already existed in the reverse queue."<<std::endl;
@@ -81,7 +81,7 @@ MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed &deta
 
     for(int j = 0; j < detailedData.size(); j++)
     {
-        DataParameter::SegmentTimeDataDetailed parameter = detailedData.at(i).segmentMode.getSegmentMode();
+        DataParameter::SegmentTimeDataDetailed parameter = detailedData.at(j);
 
         DataParameter::SegmentTimeGeneral generalSegment;
         DataParameter::SegmentTimeDataGeneral generalData;
@@ -101,7 +101,7 @@ MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed &deta
         generalData.setTimeValue(parameter.getTimeValue());
 
         //now we append the data to the segment object
-        generalSegment.appendRegisterData(generalSegment);
+        //generalSegment.appendRegisterData(generalSegment);
     }
 }
 
