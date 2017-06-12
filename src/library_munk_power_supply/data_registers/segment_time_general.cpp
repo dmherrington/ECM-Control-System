@@ -8,14 +8,8 @@ SegmentTimeGeneral::SegmentTimeGeneral():
     initializeData();
 }
 
-SegmentTimeGeneral::SegmentTimeGeneral(const int &startingSegment):
-    AbstractParameter(4170 + startingSegment - 1), numSeqSegments(1)
-{
-    initializeData();
-}
-
-SegmentTimeGeneral::SegmentTimeGeneral(const int &startingSegment, const int &numSegments):
-    AbstractParameter(4170 + startingSegment - 1)
+SegmentTimeGeneral::SegmentTimeGeneral(const int &numSegments):
+    AbstractParameter(4170)
 {
     //should enforce this to have starting segment of 1
     setNumberofSequentialRegisters(numSegments);

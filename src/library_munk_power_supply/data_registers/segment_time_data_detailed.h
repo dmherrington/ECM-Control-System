@@ -5,6 +5,7 @@
 #include <data/type_prescalar_power.h>
 #include <data/type_segment_level.h>
 #include <data/type_segment_mode.h>
+#include <data/register_data_object.h>
 
 namespace DataParameter
 {
@@ -25,10 +26,15 @@ public:
     void updateData(const SegmentTimeDataDetailed &data);
 
 public:
+    Data::RegisterDataObject getRegisterDataObject();
+    Data::SegmentMode getSegmentMode();
+    Data::SegmentPower getSegmentPower();
+    uint8_t getTimeValue();
+
+public:
     void operator = (const SegmentTimeDataDetailed &rhs)
     {
-        this->segmentVoltage = rhs.segmentVoltage;
-        this->segmentCurrent = rhs.segmentCurrent;
+        this->dataObject = rhs.dataObject;
         this->segmentMode = rhs.segmentMode;
         this->segmentPower = rhs.segmentPower;
         this->timeValue = rhs.timeValue;
@@ -36,10 +42,7 @@ public:
 
     bool operator == (const SegmentTimeDataDetailed &rhs) const {
 
-        if(this->segmentVoltage != rhs.segmentVoltage){
-            return false;
-        }
-        if(this->segmentCurrent != rhs.segmentCurrent){
+        if(this->dataObject != rhs.dataObject){
             return false;
         }
         if(this->segmentMode != rhs.segmentMode){
@@ -59,8 +62,7 @@ public:
     }
 
 private:
-    int segmentVoltage;
-    int segmentCurrent;
+    Data::RegisterDataObject dataObject;
     Data::SegmentMode segmentMode;
     Data::SegmentPower segmentPower;
     uint8_t timeValue; //this time is denoted in us

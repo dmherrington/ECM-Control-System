@@ -27,7 +27,10 @@ SOURCES += munk_power_supply.cpp \
     data_registers/segment_time_general.cpp \
     data_registers/segment_time_detailed.cpp \
     data_registers/segment_time_data_general.cpp \
-    data_registers/segment_time_data_detailed.cpp
+    data_registers/segment_time_data_detailed.cpp \
+    data/register_data_object.cpp \
+    data_registers/segment_voltage_setpoint.cpp \
+    data_registers/segment_current_setpoint.cpp
 
 HEADERS += munk_power_supply.h\
         library_munk_power_supply_global.h \
@@ -43,7 +46,10 @@ HEADERS += munk_power_supply.h\
     data/type_current_set.h \
     data/type_voltage_set.h \
     data_registers/segment_time_data_general.h \
-    data_registers/segment_time_data_detailed.h
+    data_registers/segment_time_data_detailed.h \
+    data/register_data_object.h \
+    data_registers/segment_voltage_setpoint.h \
+    data_registers/segment_current_setpoint.h
 
 # Unix lib Install
 unix:!symbian {

@@ -19,12 +19,12 @@ SegmentTimeDataDetailed::SegmentTimeDataDetailed(const int &voltage, const int &
 
 void SegmentTimeDataDetailed::setSegmentVoltage(const int &voltage)
 {
-    this->segmentVoltage = voltage;
+    this->dataObject.voltage = voltage;
 }
 
 void SegmentTimeDataDetailed::setSegmentCurrent(const int &current)
 {
-    this->segmentCurrent = current;
+    this->dataObject.current = current;
 }
 
 void SegmentTimeDataDetailed::setSegmentMode(const Data::SegmentMode &mode)
@@ -62,4 +62,24 @@ void SegmentTimeDataDetailed::updateData(const SegmentTimeDataDetailed &data)
     this->operator =(data);
 }
 
+
+Data::RegisterDataObject SegmentTimeDataDetailed::getRegisterDataObject()
+{
+    return this->dataObject;
+}
+
+Data::SegmentMode SegmentTimeDataDetailed::getSegmentMode()
+{
+    return this->segmentMode;
+}
+
+Data::SegmentPower SegmentTimeDataDetailed::getSegmentPower()
+{
+    return this->segmentPower;
+}
+
+uint8_t SegmentTimeDataDetailed::getTimeValue()
+{
+    return this->timeValue;
+}
 } //end of namespace DataParameter

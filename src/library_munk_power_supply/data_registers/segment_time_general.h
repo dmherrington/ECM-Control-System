@@ -18,8 +18,7 @@ class SegmentTimeGeneral : public AbstractParameter
 {
 public:
     SegmentTimeGeneral();
-    SegmentTimeGeneral(const int &startingSegment);
-    SegmentTimeGeneral(const int &startingSegment, const int &numSegments);
+    SegmentTimeGeneral(const int &numSegments);
     SegmentTimeGeneral(const SegmentTimeGeneral &obj);
 
 public:
@@ -40,7 +39,6 @@ public:
     void operator = (const SegmentTimeGeneral &rhs)
     {
         AbstractParameter::operator =(rhs);
-        this->startingSegment = rhs.startingSegment;
         this->numSeqSegments = rhs.numSeqSegments;
         this->registerData = rhs.registerData;
     }
@@ -48,9 +46,6 @@ public:
     bool operator == (const SegmentTimeGeneral &rhs) {
         if(!AbstractParameter::operator ==(rhs))
         {
-            return false;
-        }
-        if(this->startingSegment != rhs.startingSegment){
             return false;
         }
         if(this->numSeqSegments != rhs.numSeqSegments){
@@ -67,7 +62,6 @@ public:
     }
 
 private:
-    uint8_t startingSegment;
     uint8_t numSeqSegments;
     std::vector<DataParameter::SegmentTimeDataGeneral> registerData;
 };
