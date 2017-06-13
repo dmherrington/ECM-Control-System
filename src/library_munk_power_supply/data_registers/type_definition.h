@@ -10,7 +10,9 @@ namespace DataParameter
 
 enum class ParameterType{
     SEGMENTTIMES,
-    PATTERNWRITECOMMAND
+    PATTERNWRITECOMMAND,
+    CURRENTSETPOINT,
+    VOLTAGESETPOINT
 };
 
 inline std::string ParameterTypeToString(const ParameterType &type) {

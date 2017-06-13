@@ -15,6 +15,16 @@ class SegmentCurrentSetpoint : public AbstractParameter
 {
 public:
     SegmentCurrentSetpoint();
+
+public:
+    virtual DataParameter::ParameterType getParameterType() const;
+
+    virtual QByteArray getByteArray() const;
+
+    virtual std::string getDescription() const;
+
+private:
+    int current;
 };
 
 } //end of namespace DataParameter
