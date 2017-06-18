@@ -16,7 +16,7 @@ enum class VoltageSetFWDType{
     VoltageFWD5 = 6660,
     VoltageFWD6 = 6700,
     VoltageFWD7 = 6740,
-    VoltageFWD8 = 6780,
+    VoltageFWD8 = 6780
 };
 
 
@@ -77,6 +77,11 @@ inline std::vector<VoltageSetFWDType> getListOfVoltageSetFWDTypes()
     return str;
 }
 
+inline Data::VoltageSetFWDType getFWDVoltageIndex(const int &index)
+{
+    std::vector<VoltageSetFWDType> objects = getListOfVoltageSetFWDTypes();
+    return objects.at(index);
+}
 
 //_________________________________________________________________________
 
@@ -146,6 +151,12 @@ inline std::vector<VoltageSetREVType> getListOfVoltageSetREVTypes()
     str.push_back(VoltageSetREVType::VoltageREV7);
     str.push_back(VoltageSetREVType::VoltageREV8);
     return str;
+}
+
+inline Data::VoltageSetREVType getREVVoltageIndex(const int &index)
+{
+    std::vector<VoltageSetREVType> objects = getListOfVoltageSetREVTypes();
+    return objects.at(index);
 }
 
 } //end of namespace Data

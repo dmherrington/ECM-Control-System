@@ -5,24 +5,45 @@ MunkPowerSupply::MunkPowerSupply()
     DataParameter::SegmentTimeGeneral* segmentTime = new DataParameter::SegmentTimeGeneral(2);
     segmentTime->setSlaveAddress(1);
 
-    DataParameter::SegmentTimeDataGeneral segmentOneData;
-    segmentOneData.setSegmentLevel(Data::SegmentLevel::LEVEL1);
-    segmentOneData.setSegmentMode(Data::SegmentMode::FORWARD);
-    segmentOneData.setSegmentPower(Data::SegmentPower::TEN);
-    segmentOneData.setTimeValue(20);
+    DataParameter::SegmentTimeDetailed detailedData;
 
-    DataParameter::SegmentTimeDataGeneral segmentTwoData;
-    segmentTwoData.setSegmentLevel(Data::SegmentLevel::LEVEL1); //this should reflect and change to level 2 because you are dead
-    segmentTwoData.setSegmentMode(Data::SegmentMode::DEAD);
-    segmentTwoData.setSegmentPower(Data::SegmentPower::TEN);
-    segmentTwoData.setTimeValue(50);
+    DataParameter::SegmentTimeDataDetailed detailedOne(10,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+    detailedData.appendRegisterData(detailedOne);
+    DataParameter::SegmentTimeDataDetailed detailedTwo(20,10,Data::SegmentMode::REVERSE,Data::SegmentPower::ONE_HUNDRED,100);
+    detailedData.appendRegisterData(detailedTwo);
+    DataParameter::SegmentTimeDataDetailed detailedThree(30,10,Data::SegmentMode::REVERSE,Data::SegmentPower::ONE_HUNDRED,100);
+    detailedData.appendRegisterData(detailedThree);
+    DataParameter::SegmentTimeDataDetailed detailedFour(40,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+    detailedData.appendRegisterData(detailedFour);
+    DataParameter::SegmentTimeDataDetailed detailedFive(50,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+    detailedData.appendRegisterData(detailedFive);
+    DataParameter::SegmentTimeDataDetailed detailedSix(60,10,Data::SegmentMode::REVERSE,Data::SegmentPower::ONE_HUNDRED,100);
+    detailedData.appendRegisterData(detailedSix);
+    DataParameter::SegmentTimeDataDetailed detailedSeven(70,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+    detailedData.appendRegisterData(detailedSeven);
+    DataParameter::SegmentTimeDataDetailed detailedEight(80,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+    detailedData.appendRegisterData(detailedEight);
 
-    segmentTime->updateRegisterData(0,segmentOneData);
-    segmentTime->updateRegisterData(1,segmentTwoData);
-    QByteArray ba = segmentTime->getFullMessage();
+    generateMessages(detailedData);
 
-    qDebug() << ba.toHex().toUpper();
-    std::cout<<"I am done maybe"<< std::endl;
+}
+
+std::vector<DataParameter::SegmentVoltageSetpoint> MunkPowerSupply::generateVSetpointMessages(const std::map<Data::RegisterDataObject, Data::SegmentLevel> &map, const Data::SegmentMode &mode)
+{
+    for (std::map<Data::RegisterDataObject, Data::SegmentLevel>::const_iterator it=map.begin(); it!=map.end(); ++it)
+    {
+        DataParameter::SegmentVoltageSetpoint voltageSetpoint(it->second,mode);
+        voltageSetpoint.updateVoltageSetpoint(it->first.voltage);
+    }
+}
+
+std::vector<DataParameter::SegmentCurrentSetpoint> MunkPowerSupply::generateISetpointMessages(const std::map<Data::RegisterDataObject, Data::SegmentLevel> &map, const Data::SegmentMode &mode)
+{
+    for (std::map<Data::RegisterDataObject, Data::SegmentLevel>::const_iterator it=map.begin(); it!=map.end(); ++it)
+    {
+        DataParameter::SegmentCurrentSetpoint currentSetpoint(it->second,mode);
+        currentSetpoint.updateCurrentSetpoint(it->first.current);
+    }
 }
 
 void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData)
@@ -65,16 +86,19 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
               std::cout << "The element had already existed in the reverse queue."<<std::endl;
             }else
             {
-
+                revLevelCounter++;
             }
         }else{
             //Ken: Figure out what to do this in case
         }
-
-
-        //now that we have figured out what levels we need and their appropriate voltage and currents
-        //and generate the general data parameter messages
     }
+
+    //next we have to generate the appropriate setpoint messages
+    std::vector<DataParameter::SegmentVoltageSetpoint> voltageMSGSFWD = generateVSetpointMessages(fwdMap, Data::SegmentMode::FORWARD);
+    std::vector<DataParameter::SegmentVoltageSetpoint> voltageMSGSREV = generateVSetpointMessages(revMap, Data::SegmentMode::REVERSE);
+
+    std::vector<DataParameter::SegmentCurrentSetpoint> currentMSGSFWD = generateISetpointMessages(fwdMap, Data::SegmentMode::FORWARD);
+    std::vector<DataParameter::SegmentCurrentSetpoint> currentMSGSREV = generateISetpointMessages(revMap, Data::SegmentMode::REVERSE);
 
     //if the size of either map is greater than eight than the request is invalid for the parameters requested
     //otherwise, let us continue processing them
@@ -101,7 +125,7 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
         generalData.setTimeValue(parameter.getTimeValue());
 
         //now we append the data to the segment object
-        //generalSegment.appendRegisterData(generalSegment);
+        generalSegment.appendRegisterData(generalData);
     }
 }
 

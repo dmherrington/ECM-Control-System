@@ -50,7 +50,8 @@ HEADERS += munk_power_supply.h\
     data/register_data_object.h \
     data_registers/segment_voltage_setpoint.h \
     data_registers/segment_current_setpoint.h \
-    data/type_current_voltage_prescale.h
+    data/type_current_voltage_prescale.h \
+    data/type_current_factor.h
 
 # Unix lib Install
 unix:!symbian {

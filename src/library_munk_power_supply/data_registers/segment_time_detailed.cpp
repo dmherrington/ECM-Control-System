@@ -3,7 +3,7 @@
 namespace DataParameter{
 
 SegmentTimeDetailed::SegmentTimeDetailed():
-    AbstractParameter(4170), numSeqSegments(1)
+    AbstractParameter(4170), numSeqSegments(0)
 {
     initializeData();
 }
@@ -57,6 +57,11 @@ void SegmentTimeDetailed::setNumberofSequentialRegisters(const uint8_t &seqSegme
     this->numSeqSegments = seqSegment;
 
     initializeData();
+}
+
+void SegmentTimeDetailed::appendRegisterData(const SegmentTimeDataDetailed &data)
+{
+    this->detailedRegisterData.push_back(data);
 }
 
 void SegmentTimeDetailed::updateRegisterData(const int &registerIndex, const SegmentTimeDataDetailed &data)

@@ -31,7 +31,7 @@ public:
 public:
     void setStartingRegister(const uint8_t &startSegment);
     void setNumberofSequentialRegisters(const uint8_t &seqSegment);
-    void appendRegisterData(const SegmentTimeGeneral &data);
+    void appendRegisterData(const SegmentTimeDataGeneral &data);
     void updateRegisterData(const int &registerIndex, const SegmentTimeDataGeneral &data);
     void initializeData();
 

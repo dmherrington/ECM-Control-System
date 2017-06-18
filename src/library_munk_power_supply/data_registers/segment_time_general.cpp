@@ -25,14 +25,6 @@ QByteArray SegmentTimeGeneral::getByteArray() const
 {
     QByteArray data;
 
-    uint8_t HIGHPType = (uint8_t)((parameterCode & 0xFF00) >> 8);
-    uint8_t LOWPType = (uint8_t)(parameterCode & 0x00FF);
-
-    data.append(slaveAddress);
-    data.append((uint8_t)readOrwrite);
-    data.append(HIGHPType);
-    data.append(LOWPType);
-
     uint8_t HIGHSeqType = (uint8_t)((numSeqSegments & 0xFF00) >> 8);
     uint8_t LOWSeqType = (uint8_t)(numSeqSegments & 0x00FF);
     data.append(HIGHSeqType);
@@ -97,6 +89,12 @@ void SegmentTimeGeneral::initializeData()
     {
         SegmentTimeDataGeneral data;
         this->registerData.push_back(data);
-    }}
+    }
+}
+
+void SegmentTimeGeneral::appendRegisterData(const SegmentTimeDataGeneral &data)
+{
+    this->registerData.push_back(data);
+}
 
 } //end of namespace DataRegister

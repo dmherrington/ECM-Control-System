@@ -23,11 +23,6 @@ public:
 public:
     virtual DataParameter::ParameterType getParameterType() const = 0;
 
-    virtual int getParameterCode() const
-    {
-        return this->parameterCode;
-    }
-
     virtual QByteArray getByteArray() const = 0;
 
     virtual std::string getDescription() const  = 0;
@@ -37,6 +32,8 @@ public:
     void setReadorWrite(const Data::ReadWriteType &type);
     QByteArray getFullMessage();
 
+private:
+    QByteArray getPrefixByteArray();
 public:
     void operator = (const AbstractParameter &rhs)
     {

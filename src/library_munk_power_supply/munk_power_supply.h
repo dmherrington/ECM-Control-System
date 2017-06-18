@@ -7,6 +7,10 @@
 
 #include "data_registers/segment_time_general.h"
 #include "data_registers/segment_time_detailed.h"
+#include "data_registers/segment_voltage_setpoint.h"
+#include "data_registers/segment_current_setpoint.h"
+
+#include "data/type_current_voltage_prescale.h"
 
 class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply
 {
@@ -16,6 +20,9 @@ public:
 
     void generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData);
 
+private:
+    std::vector<DataParameter::SegmentVoltageSetpoint> generateVSetpointMessages(const std::map<Data::RegisterDataObject,Data::SegmentLevel> &map, const Data::SegmentMode &mode);
+    std::vector<DataParameter::SegmentCurrentSetpoint> generateISetpointMessages(const std::map<Data::RegisterDataObject,Data::SegmentLevel> &map, const Data::SegmentMode &mode);
 
 private:
 

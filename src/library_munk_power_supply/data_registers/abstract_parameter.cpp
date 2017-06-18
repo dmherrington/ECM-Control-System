@@ -24,9 +24,24 @@ void AbstractParameter::setReadorWrite(const Data::ReadWriteType &type)
     this->readOrwrite = type;
 }
 
+QByteArray AbstractParameter::getPrefixByteArray()
+{
+    QByteArray ba;
+
+    ba.append(slaveAddress);
+    ba.append((uint8_t)readOrwrite);
+
+    uint8_t HIGHPType = (uint8_t)((parameterCode & 0xFF00) >> 8);
+    uint8_t LOWPType = (uint8_t)(parameterCode & 0x00FF);
+    ba.append(HIGHPType);
+    ba.append(LOWPType);
+}
+
 QByteArray AbstractParameter::getFullMessage()
 {
+    QByteArray prefix = getPrefixByteArray();
     QByteArray data = getByteArray();
+
     unsigned int checkSum = CRC16(data);
     highChecksum = (uint8_t)((checkSum & 0xFF00) >> 8);
     lowChecksum = (uint8_t)(checkSum & 0x00FF);

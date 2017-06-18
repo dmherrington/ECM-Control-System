@@ -60,8 +60,8 @@ inline std::vector<std::string> getListOfSegmentVIPower()
 
 inline uint32_t SegmenVIPowerToBitArray(const SegmentVIPower &type, const uint32_t &bitArray) {
     uint32_t ba = 0;
-    uint32_t mask = 7<<7;
-    ba = (bitArray & (~mask)) | ((int)type<<7);
+    uint32_t mask = 7<<12;
+    ba = (bitArray & (~mask)) | ((int)type<<12);
     return ba;
 }
 
