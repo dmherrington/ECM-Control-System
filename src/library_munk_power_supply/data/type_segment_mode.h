@@ -8,14 +8,22 @@
 namespace Data
 {
 
+//!
+//! \brief The SegmentMode enum
+//!
 enum class SegmentMode{
-    DEAD = 0,
-    FORWARD = 1,
-    REVERSE = 2,
-    ILLEGAL = 3,
-    HIZ = 4 //this is technically not correct as the mode is 0, however, we need a seperate definition. This will be type checked below.
+    DEAD = 0, /**< */
+    FORWARD = 1, /**< */
+    REVERSE = 2, /**< */
+    ILLEGAL = 3, /**< */
+    HIZ = 4 /**< */ //this is technically not correct as the mode is 0, however, we need a seperate definition. This will be type checked below.
 };
 
+//!
+//! \brief SegmentModeToString
+//! \param type
+//! \return
+//!
 inline std::string SegmentModeToString(const SegmentMode &type) {
     switch (type) {
     case SegmentMode::HIZ:
@@ -33,6 +41,11 @@ inline std::string SegmentModeToString(const SegmentMode &type) {
     }
 }
 
+//!
+//! \brief SegmentModeFromString
+//! \param str
+//! \return
+//!
 inline SegmentMode SegmentModeFromString(const std::string &str) {
     if(str == "HIZ")
         return SegmentMode::HIZ;
@@ -47,7 +60,12 @@ inline SegmentMode SegmentModeFromString(const std::string &str) {
     throw std::runtime_error("Unknown segment mode seen");
 }
 
-
+//!
+//! \brief SegmentModeToBitArray
+//! \param type
+//! \param bitArray
+//! \return
+//!
 inline uint32_t SegmentModeToBitArray(const SegmentMode &type, const uint32_t &bitArray) {
     uint32_t ba = 0;
     uint32_t mask = 3<<10;
@@ -60,6 +78,10 @@ inline uint32_t SegmentModeToBitArray(const SegmentMode &type, const uint32_t &b
     return ba;
 }
 
+//!
+//! \brief getListOfSegmentMode
+//! \return
+//!
 inline std::vector<std::string> getListOfSegmentMode()
 {
     std::vector<std::string> str;

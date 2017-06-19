@@ -98,7 +98,7 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
     std::vector<DataParameter::SegmentVoltageSetpoint> voltageSetpointREV;
     std::vector<DataParameter::SegmentCurrentSetpoint> currentSetpointREV;
 
-    generateSetpointMessages(fwdMap, Data::SegmentMode::REVERSE, voltageSetpointFWD, currentSetpointFWD);
+    generateSetpointMessages(fwdMap, Data::SegmentMode::FORWARD, voltageSetpointFWD, currentSetpointFWD);
     generateSetpointMessages(revMap, Data::SegmentMode::REVERSE, voltageSetpointREV, currentSetpointREV);
 
     //if the size of either map is greater than eight than the request is invalid for the parameters requested

@@ -8,18 +8,25 @@
 namespace Data
 {
 
+//!
+//! \brief The VoltageSetFWDType enum
+//!
 enum class VoltageSetFWDType{
-    VoltageFWD1 = 6500,
-    VoltageFWD2 = 6540,
-    VoltageFWD3 = 6580,
-    VoltageFWD4 = 6620,
-    VoltageFWD5 = 6660,
-    VoltageFWD6 = 6700,
-    VoltageFWD7 = 6740,
-    VoltageFWD8 = 6780
+    VoltageFWD1 = 6500, /**<testing */
+    VoltageFWD2 = 6540, /**< */
+    VoltageFWD3 = 6580, /**< */
+    VoltageFWD4 = 6620, /**< */
+    VoltageFWD5 = 6660, /**< */
+    VoltageFWD6 = 6700, /**< */
+    VoltageFWD7 = 6740, /**< */
+    VoltageFWD8 = 6780 /**< */
 };
 
-
+//!
+//! \brief VoltageSetFWDTypeToString
+//! \param type
+//! \return
+//!
 inline std::string VoltageSetFWDTypeToString(const VoltageSetFWDType &type) {
     switch (type) {
     case VoltageSetFWDType::VoltageFWD1:
@@ -43,6 +50,11 @@ inline std::string VoltageSetFWDTypeToString(const VoltageSetFWDType &type) {
     }
 }
 
+//!
+//! \brief VoltageSetFWDTypeFromString
+//! \param str
+//! \return
+//!
 inline VoltageSetFWDType VoltageSetFWDTypeFromString(const std::string &str) {
     if(str == "Voltage FWD 1")
         return VoltageSetFWDType::VoltageFWD1;
@@ -63,6 +75,10 @@ inline VoltageSetFWDType VoltageSetFWDTypeFromString(const std::string &str) {
     throw std::runtime_error("Unknown voltage set fwd type seen");
 }
 
+//!
+//! \brief getListOfVoltageSetFWDTypes
+//! \return
+//!
 inline std::vector<VoltageSetFWDType> getListOfVoltageSetFWDTypes()
 {
     std::vector<VoltageSetFWDType> str;
@@ -77,6 +93,11 @@ inline std::vector<VoltageSetFWDType> getListOfVoltageSetFWDTypes()
     return str;
 }
 
+//!
+//! \brief getFWDVoltageIndex
+//! \param index
+//! \return
+//!
 inline Data::VoltageSetFWDType getFWDVoltageIndex(const int &index)
 {
     std::vector<VoltageSetFWDType> objects = getListOfVoltageSetFWDTypes();
@@ -85,6 +106,9 @@ inline Data::VoltageSetFWDType getFWDVoltageIndex(const int &index)
 
 //_________________________________________________________________________
 
+//!
+//! \brief The VoltageSetREVType enum
+//!
 enum class VoltageSetREVType{
     VoltageREV1 = 6520,
     VoltageREV2 = 6560,
@@ -96,6 +120,11 @@ enum class VoltageSetREVType{
     VoltageREV8 = 6800,
 };
 
+//!
+//! \brief VoltageSetREVTypeToString
+//! \param type
+//! \return
+//!
 inline std::string VoltageSetREVTypeToString(const VoltageSetREVType &type) {
     switch (type) {
     case VoltageSetREVType::VoltageREV1:
@@ -119,6 +148,11 @@ inline std::string VoltageSetREVTypeToString(const VoltageSetREVType &type) {
     }
 }
 
+//!
+//! \brief VoltageSetREVTypeFromString
+//! \param str
+//! \return
+//!
 inline VoltageSetREVType VoltageSetREVTypeFromString(const std::string &str) {
     if(str == "Voltage REV 1")
         return VoltageSetREVType::VoltageREV1;
@@ -139,6 +173,10 @@ inline VoltageSetREVType VoltageSetREVTypeFromString(const std::string &str) {
     throw std::runtime_error("Unknown voltage set rev type seen");
 }
 
+//!
+//! \brief getListOfVoltageSetREVTypes
+//! \return
+//!
 inline std::vector<VoltageSetREVType> getListOfVoltageSetREVTypes()
 {
     std::vector<VoltageSetREVType> str;
@@ -153,6 +191,11 @@ inline std::vector<VoltageSetREVType> getListOfVoltageSetREVTypes()
     return str;
 }
 
+//!
+//! \brief getREVVoltageIndex
+//! \param index
+//! \return
+//!
 inline Data::VoltageSetREVType getREVVoltageIndex(const int &index)
 {
     std::vector<VoltageSetREVType> objects = getListOfVoltageSetREVTypes();

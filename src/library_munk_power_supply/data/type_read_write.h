@@ -8,11 +8,19 @@
 namespace Data
 {
 
+//!
+//! \brief The ReadWriteType enum
+//!
 enum class ReadWriteType{
-    READ = 03,
-    WRITE = 16
+    READ = 03, /**< */
+    WRITE = 16 /**< */
 };
 
+//!
+//! \brief ReadWriteTypeToString
+//! \param type
+//! \return
+//!
 inline std::string ReadWriteTypeToString(const ReadWriteType &type) {
     switch (type) {
     case ReadWriteType::READ:
@@ -24,6 +32,11 @@ inline std::string ReadWriteTypeToString(const ReadWriteType &type) {
     }
 }
 
+//!
+//! \brief ReadWriteTypeFromString
+//! \param str
+//! \return
+//!
 inline ReadWriteType ReadWriteTypeFromString(const std::string &str) {
     if(str == "Read")
         return ReadWriteType::READ;
@@ -32,6 +45,10 @@ inline ReadWriteType ReadWriteTypeFromString(const std::string &str) {
     throw std::runtime_error("Unknown read or write type seen");
 }
 
+//!
+//! \brief getListOfReadWriteType
+//! \return
+//!
 inline std::vector<std::string> getListOfReadWriteType()
 {
     std::vector<std::string> str;

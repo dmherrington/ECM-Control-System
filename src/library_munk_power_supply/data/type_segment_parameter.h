@@ -8,25 +8,33 @@
 namespace Data
 {
 
+//!
+//! \brief The SegmentParameter enum
+//!
 enum class SegmentParameter{
-    SEGMENT1 = 4170,
-    SEGMENT2 = 4171,
-    SEGMENT3 = 4172,
-    SEGMENT4 = 4173,
-    SEGMENT5 = 4174,
-    SEGMENT6 = 4175,
-    SEGMENT7 = 4176,
-    SEGMENT8 = 4178,
-    SEGMENT9 = 4179,
-    SEGMENT10 = 4180,
-    SEGMENT11 = 4181,
-    SEGMENT12 = 4182,
-    SEGMENT13 = 4183,
-    SEGMENT14 = 4184,
-    SEGMENT15 = 4185,
-    SEGMENT16 = 4186,
+    SEGMENT1 = 4170, /**< */
+    SEGMENT2 = 4171, /**< */
+    SEGMENT3 = 4172, /**< */
+    SEGMENT4 = 4173, /**< */
+    SEGMENT5 = 4174, /**< */
+    SEGMENT6 = 4175, /**< */
+    SEGMENT7 = 4176, /**< */
+    SEGMENT8 = 4178, /**< */
+    SEGMENT9 = 4179, /**< */
+    SEGMENT10 = 4180, /**< */
+    SEGMENT11 = 4181, /**< */
+    SEGMENT12 = 4182, /**< */
+    SEGMENT13 = 4183, /**< */
+    SEGMENT14 = 4184, /**< */
+    SEGMENT15 = 4185, /**< */
+    SEGMENT16 = 4186, /**< */
 };
 
+//!
+//! \brief ReadWriteTypeToString
+//! \param type
+//! \return
+//!
 inline std::string ReadWriteTypeToString(const ReadWriteType &type) {
     switch (type) {
     case ReadWriteType::READ:
@@ -38,6 +46,11 @@ inline std::string ReadWriteTypeToString(const ReadWriteType &type) {
     }
 }
 
+//!
+//! \brief ReadWriteTypeFromString
+//! \param str
+//! \return
+//!
 inline ReadWriteType ReadWriteTypeFromString(const std::string &str) {
     if(str == "Read")
         return ReadWriteType::READ;
@@ -46,6 +59,10 @@ inline ReadWriteType ReadWriteTypeFromString(const std::string &str) {
     throw std::runtime_error("Unknown read or write type seen");
 }
 
+//!
+//! \brief getListOfReadWriteType
+//! \return
+//!
 inline std::vector<std::string> getListOfReadWriteType()
 {
     std::vector<std::string> str;

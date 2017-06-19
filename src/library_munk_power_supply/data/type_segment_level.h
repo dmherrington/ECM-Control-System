@@ -8,17 +8,25 @@
 namespace Data
 {
 
+//!
+//! \brief The SegmentLevel enum
+//!
 enum class SegmentLevel{
-    LEVEL1 = 0,
-    LEVEL2 = 1,
-    LEVEL3 = 2,
-    LEVEL4 = 3,
-    LEVEL5 = 4,
-    LEVEL6 = 5,
-    LEVEL7 = 6,
-    LEVEL8 = 7
+    LEVEL1 = 0, /**< */
+    LEVEL2 = 1, /**< */
+    LEVEL3 = 2, /**< */
+    LEVEL4 = 3, /**< */
+    LEVEL5 = 4, /**< */
+    LEVEL6 = 5, /**< */
+    LEVEL7 = 6, /**< */
+    LEVEL8 = 7 /**< */
 };
 
+//!
+//! \brief SegmentLevelToString
+//! \param type
+//! \return
+//!
 inline std::string SegmentLevelToString(const SegmentLevel &type) {
     switch (type) {
     case SegmentLevel::LEVEL1:
@@ -42,6 +50,11 @@ inline std::string SegmentLevelToString(const SegmentLevel &type) {
     }
 }
 
+//!
+//! \brief SegmentLevelFromString
+//! \param str
+//! \return
+//!
 inline SegmentLevel SegmentLevelFromString(const std::string &str) {
     if(str == "Level 1")
         return SegmentLevel::LEVEL1;
@@ -62,6 +75,10 @@ inline SegmentLevel SegmentLevelFromString(const std::string &str) {
     throw std::runtime_error("Unknown segment level seen");
 }
 
+//!
+//! \brief getListOfSegmentLevel
+//! \return
+//!
 inline std::vector<std::string> getListOfSegmentLevel()
 {
     std::vector<std::string> str;
@@ -76,6 +93,12 @@ inline std::vector<std::string> getListOfSegmentLevel()
     return str;
 }
 
+//!
+//! \brief SegmentLevelToBitArray
+//! \param type
+//! \param bitArray
+//! \return
+//!
 inline uint32_t SegmentLevelToBitArray(const SegmentLevel &type, const uint32_t &bitArray) {
     uint32_t ba = 0;
     uint32_t mask = 15<<12;

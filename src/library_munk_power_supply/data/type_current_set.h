@@ -12,18 +12,25 @@
 namespace Data
 {
 
+//!
+//! \brief The CurrentSetFWDType enum
+//!
 enum class CurrentSetFWDType{
-    CurrentFWD1 = 6000,
-    CurrentFWD2 = 6040,
-    CurrentFWD3 = 6080,
-    CurrentFWD4 = 6120,
-    CurrentFWD5 = 6160,
-    CurrentFWD6 = 6200,
-    CurrentFWD7 = 6240,
-    CurrentFWD8 = 6280,
+    CurrentFWD1 = 6000, /**< */
+    CurrentFWD2 = 6040, /**< */
+    CurrentFWD3 = 6080, /**< */
+    CurrentFWD4 = 6120, /**< */
+    CurrentFWD5 = 6160, /**< */
+    CurrentFWD6 = 6200, /**< */
+    CurrentFWD7 = 6240, /**< */
+    CurrentFWD8 = 6280, /**< */
 };
 
-
+//!
+//! \brief CurrentSetFWDTypeToString
+//! \param type
+//! \return
+//!
 inline std::string CurrentSetFWDTypeToString(const CurrentSetFWDType &type) {
     switch (type) {
     case CurrentSetFWDType::CurrentFWD1:
@@ -47,6 +54,11 @@ inline std::string CurrentSetFWDTypeToString(const CurrentSetFWDType &type) {
     }
 }
 
+//!
+//! \brief CurrentSetFWDTypeFromString
+//! \param str
+//! \return
+//!
 inline CurrentSetFWDType CurrentSetFWDTypeFromString(const std::string &str) {
     if(str == "Current FWD 1")
         return CurrentSetFWDType::CurrentFWD1;
@@ -67,6 +79,10 @@ inline CurrentSetFWDType CurrentSetFWDTypeFromString(const std::string &str) {
     throw std::runtime_error("Unknown voltage set fwd type seen");
 }
 
+//!
+//! \brief getListOfCurrentSetFWDTypes
+//! \return
+//!
 inline std::vector<CurrentSetFWDType> getListOfCurrentSetFWDTypes()
 {
     std::vector<CurrentSetFWDType> str;
@@ -81,6 +97,11 @@ inline std::vector<CurrentSetFWDType> getListOfCurrentSetFWDTypes()
     return str;
 }
 
+//!
+//! \brief getREVCurrentIndex
+//! \param index
+//! \return
+//!
 inline Data::CurrentSetFWDType getREVCurrentIndex(const int &index)
 {
     std::vector<CurrentSetFWDType> objects = getListOfCurrentSetFWDTypes();
@@ -89,6 +110,9 @@ inline Data::CurrentSetFWDType getREVCurrentIndex(const int &index)
 
 //_________________________________________________________________________
 
+//!
+//! \brief The CurrentSetREVType enum
+//!
 enum class CurrentSetREVType{
     CurrentREV1 = 6020,
     CurrentREV2 = 6060,
@@ -100,6 +124,11 @@ enum class CurrentSetREVType{
     CurrentREV8 = 6300,
 };
 
+//!
+//! \brief CurrentSetREVTypeToString
+//! \param type
+//! \return
+//!
 inline std::string CurrentSetREVTypeToString(const CurrentSetREVType &type) {
     switch (type) {
     case CurrentSetREVType::CurrentREV1:
@@ -123,6 +152,11 @@ inline std::string CurrentSetREVTypeToString(const CurrentSetREVType &type) {
     }
 }
 
+//!
+//! \brief CurrentSetREVTypeFromString
+//! \param str
+//! \return
+//!
 inline CurrentSetREVType CurrentSetREVTypeFromString(const std::string &str) {
     if(str == "Current REV 1")
         return CurrentSetREVType::CurrentREV1;
@@ -143,6 +177,10 @@ inline CurrentSetREVType CurrentSetREVTypeFromString(const std::string &str) {
     throw std::runtime_error("Unknown voltage set rev type seen");
 }
 
+//!
+//! \brief getListOfCurrentSetREVTypes
+//! \return
+//!
 inline std::vector<CurrentSetREVType> getListOfCurrentSetREVTypes()
 {
     std::vector<CurrentSetREVType> str;
@@ -157,6 +195,11 @@ inline std::vector<CurrentSetREVType> getListOfCurrentSetREVTypes()
     return str;
 }
 
+//!
+//! \brief getREVCurrentIndex
+//! \param index
+//! \return
+//!
 inline Data::CurrentSetREVType getREVCurrentIndex(const int &index)
 {
     std::vector<CurrentSetREVType> objects = getListOfCurrentSetREVTypes();

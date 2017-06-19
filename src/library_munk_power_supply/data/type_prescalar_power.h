@@ -8,14 +8,22 @@
 namespace Data
 {
 
+//!
+//! \brief The SegmentPower enum
+//!
 enum class SegmentPower{
-    ONE = 0,
-    TEN = 1,
-    ONE_HUNDRED = 2,
-    ONE_THOUSAND = 3,
-    TEN_THOUSAND = 4
+    ONE = 0, /**< */
+    TEN = 1, /**< */
+    ONE_HUNDRED = 2, /**< */
+    ONE_THOUSAND = 3, /**< */
+    TEN_THOUSAND = 4 /**< */
 };
 
+//!
+//! \brief SegmentPowerToString
+//! \param type
+//! \return
+//!
 inline std::string SegmentPowerToString(const SegmentPower &type) {
     switch (type) {
     case SegmentPower::ONE:
@@ -33,6 +41,11 @@ inline std::string SegmentPowerToString(const SegmentPower &type) {
     }
 }
 
+//!
+//! \brief SegmentPowerFromString
+//! \param str
+//! \return
+//!
 inline SegmentPower SegmentPowerFromString(const std::string &str) {
     if(str == "1")
         return SegmentPower::ONE;
@@ -47,6 +60,10 @@ inline SegmentPower SegmentPowerFromString(const std::string &str) {
     throw std::runtime_error("Unknown segment power seen");
 }
 
+//!
+//! \brief getListOfSegmentPower
+//! \return
+//!
 inline std::vector<std::string> getListOfSegmentPower()
 {
     std::vector<std::string> str;
@@ -58,6 +75,12 @@ inline std::vector<std::string> getListOfSegmentPower()
     return str;
 }
 
+//!
+//! \brief SegmentPowerToBitArray
+//! \param type
+//! \param bitArray
+//! \return
+//!
 inline uint32_t SegmentPowerToBitArray(const SegmentPower &type, const uint32_t &bitArray) {
     uint32_t ba = 0;
     uint32_t mask = 7<<7;
