@@ -21,11 +21,7 @@ public:
     void generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData);
 
 private:
-    std::vector<DataParameter::SegmentVoltageSetpoint> generateVSetpointMessages(const std::map<Data::RegisterDataObject,Data::SegmentLevel> &map, const Data::SegmentMode &mode);
-    std::vector<DataParameter::SegmentCurrentSetpoint> generateISetpointMessages(const std::map<Data::RegisterDataObject,Data::SegmentLevel> &map, const Data::SegmentMode &mode);
-
-private:
-
+    void generateSetpointMessages(const std::map<Data::RegisterDataObject,Data::SegmentLevel> &map, const Data::SegmentMode &mode, std::vector<DataParameter::SegmentVoltageSetpoint> &VMsgs, std::vector<DataParameter::SegmentCurrentSetpoint> &IMsgs);
 };
 
 #endif // MUNK_POWER_SUPPLY_H

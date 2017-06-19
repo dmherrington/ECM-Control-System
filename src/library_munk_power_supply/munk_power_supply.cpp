@@ -28,21 +28,19 @@ MunkPowerSupply::MunkPowerSupply()
 
 }
 
-std::vector<DataParameter::SegmentVoltageSetpoint> MunkPowerSupply::generateVSetpointMessages(const std::map<Data::RegisterDataObject, Data::SegmentLevel> &map, const Data::SegmentMode &mode)
+void MunkPowerSupply::generateSetpointMessages(const std::map<Data::RegisterDataObject, Data::SegmentLevel> &map, const Data::SegmentMode &mode, std::vector<DataParameter::SegmentVoltageSetpoint> &VMsgs, std::vector<DataParameter::SegmentCurrentSetpoint> &IMsgs)
 {
+    std::vector<DataParameter::SegmentVoltageSetpoint> rtnVector;
+
     for (std::map<Data::RegisterDataObject, Data::SegmentLevel>::const_iterator it=map.begin(); it!=map.end(); ++it)
     {
         DataParameter::SegmentVoltageSetpoint voltageSetpoint(it->second,mode);
         voltageSetpoint.updateVoltageSetpoint(it->first.voltage);
-    }
-}
+        VMsgs.push_back(voltageSetpoint);
 
-std::vector<DataParameter::SegmentCurrentSetpoint> MunkPowerSupply::generateISetpointMessages(const std::map<Data::RegisterDataObject, Data::SegmentLevel> &map, const Data::SegmentMode &mode)
-{
-    for (std::map<Data::RegisterDataObject, Data::SegmentLevel>::const_iterator it=map.begin(); it!=map.end(); ++it)
-    {
         DataParameter::SegmentCurrentSetpoint currentSetpoint(it->second,mode);
         currentSetpoint.updateCurrentSetpoint(it->first.current);
+        IMsgs.push_back(currentSetpoint);
     }
 }
 
@@ -94,11 +92,14 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
     }
 
     //next we have to generate the appropriate setpoint messages
-    std::vector<DataParameter::SegmentVoltageSetpoint> voltageMSGSFWD = generateVSetpointMessages(fwdMap, Data::SegmentMode::FORWARD);
-    std::vector<DataParameter::SegmentVoltageSetpoint> voltageMSGSREV = generateVSetpointMessages(revMap, Data::SegmentMode::REVERSE);
+    std::vector<DataParameter::SegmentVoltageSetpoint> voltageSetpointFWD;
+    std::vector<DataParameter::SegmentCurrentSetpoint> currentSetpointFWD;
 
-    std::vector<DataParameter::SegmentCurrentSetpoint> currentMSGSFWD = generateISetpointMessages(fwdMap, Data::SegmentMode::FORWARD);
-    std::vector<DataParameter::SegmentCurrentSetpoint> currentMSGSREV = generateISetpointMessages(revMap, Data::SegmentMode::REVERSE);
+    std::vector<DataParameter::SegmentVoltageSetpoint> voltageSetpointREV;
+    std::vector<DataParameter::SegmentCurrentSetpoint> currentSetpointREV;
+
+    generateSetpointMessages(fwdMap, Data::SegmentMode::REVERSE, voltageSetpointFWD, currentSetpointFWD);
+    generateSetpointMessages(revMap, Data::SegmentMode::REVERSE, voltageSetpointREV, currentSetpointREV);
 
     //if the size of either map is greater than eight than the request is invalid for the parameters requested
     //otherwise, let us continue processing them

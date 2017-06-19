@@ -5,6 +5,7 @@
 #include "library_munk_power_supply/data/type_read_write.h"
 #include "library_munk_power_supply/data/type_prescalar_power.h"
 #include "library_munk_power_supply/data_registers/segment_time_general.h"
+#include "data_registers/segment_time_detailed.h"
 
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent),ui(new Ui::MainWindow)
 {
@@ -54,22 +55,23 @@ void MainWindow::generateMessage()
 {
     int address = ui->spinBox_address->value();
     int noseg = ui->spinBox_nosegments->value();
+//This really does not apply anymore based on the structure
 
-    DataParameter::SegmentTimeGeneral* segmentTime = new DataParameter::SegmentTimeGeneral(noseg);
-    segmentTime->setSlaveAddress(address);
-    segmentTime->setReadorWrite(Data::ReadWriteTypeFromString(ui->comboBox_RW->currentText().toStdString()));
+//    DataParameter::SegmentTimeDetailed* segmentTime = new DataParameter::SegmentTimeDetailed(noseg);
+//    segmentTime->setSlaveAddress(address);
+//    segmentTime->setReadorWrite(Data::ReadWriteTypeFromString(ui->comboBox_RW->currentText().toStdString()));
 
-    Data::SegmentLevel lvl = Data::SegmentLevelFromString(ui->comboBox_lvl->currentText().toStdString());
-    Data::SegmentMode mode = Data::SegmentModeFromString(ui->comboBox_polarity->currentText().toStdString());
-    Data::SegmentPower scaler = Data::SegmentPowerFromString(ui->comboBox_scaler->currentText().toStdString());
-    int time = ui->spinBox_time->value();
+//    Data::SegmentLevel lvl = Data::SegmentLevelFromString(ui->comboBox_lvl->currentText().toStdString());
+//    Data::SegmentMode mode = Data::SegmentModeFromString(ui->comboBox_polarity->currentText().toStdString());
+//    Data::SegmentPower scaler = Data::SegmentPowerFromString(ui->comboBox_scaler->currentText().toStdString());
+//    int time = ui->spinBox_time->value();
 
-    DataParameter::SegmentTimeData segData(lvl,mode,scaler,time);
+//    DataParameter::SegmentTimeData segData(lvl,mode,scaler,time);
 
-    segmentTime->updateRegisterData(0,segData);
-    QByteArray out = segmentTime->getFullMessage();
+//    segmentTime->updateRegisterData(0,segData);
+//    QByteArray out = segmentTime->getFullMessage();
 
-    ui->textEdit_OutputMessage->append(out.toHex().toUpper());
+//    ui->textEdit_OutputMessage->append(out.toHex().toUpper());
 //    ui->textEdit_OutputMessage->append("\n");
 }
 
