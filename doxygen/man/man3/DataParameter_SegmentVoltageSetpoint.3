@@ -1,0 +1,233 @@
+.TH "DataParameter::SegmentVoltageSetpoint" 3 "Mon Jun 19 2017" "ECM Control System" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+DataParameter::SegmentVoltageSetpoint \- The \fBSegmentVoltageSetpoint\fP class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <segment_voltage_setpoint\&.h>\fP
+.PP
+Inherits \fBDataParameter::AbstractParameter\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSegmentVoltageSetpoint\fP (const \fBData::SegmentLevel\fP &levelValue, const \fBData::SegmentMode\fP &levelMode)"
+.br
+.RI "\fBSegmentVoltageSetpoint\fP\&. "
+.ti -1c
+.RI "virtual \fBDataParameter::ParameterType\fP \fBgetParameterType\fP () const"
+.br
+.RI "getParameterType "
+.ti -1c
+.RI "virtual std::string \fBgetDescription\fP () const"
+.br
+.RI "getDescription "
+.ti -1c
+.RI "virtual QByteArray \fBgetByteArray\fP () const"
+.br
+.RI "getByteArray "
+.ti -1c
+.RI "void \fBupdatePrescalePower\fP (const \fBData::SegmentVIPower\fP &value)"
+.br
+.RI "updatePrescalePower "
+.ti -1c
+.RI "void \fBupdateVoltageSetpoint\fP (const int &value)"
+.br
+.RI "updateVoltageSetpoint "
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "uint32_t \fBupdatePrescaleBitArray\fP (const uint32_t &bitArray) const"
+.br
+.RI "updatePrescaleBitArray "
+.ti -1c
+.RI "uint32_t \fBupdateSetPointBitArray\fP (const uint32_t &bitArray) const"
+.br
+.RI "updateSetPointBitArray "
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBData::SegmentLevel\fP \fBlevel\fP"
+.br
+.RI "level "
+.ti -1c
+.RI "\fBData::SegmentMode\fP \fBmode\fP"
+.br
+.RI "mode "
+.ti -1c
+.RI "\fBData::SegmentVIPower\fP \fBprescale\fP"
+.br
+.RI "prescale "
+.ti -1c
+.RI "int \fBvoltage\fP"
+.br
+.RI "voltage "
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+The \fBSegmentVoltageSetpoint\fP class\&. 
+.PP
+Definition at line 21 of file segment_voltage_setpoint\&.h\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "DataParameter::SegmentVoltageSetpoint::SegmentVoltageSetpoint (const \fBData::SegmentLevel\fP & levelValue, const \fBData::SegmentMode\fP & levelMode)"
+
+.PP
+\fBSegmentVoltageSetpoint\fP\&. \fBSegmentVoltageSetpoint::SegmentVoltageSetpoint\fP\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIlevelValue\fP 
+.br
+\fIlevelMode\fP 
+.RE
+.PP
+
+.PP
+Definition at line 11 of file segment_voltage_setpoint\&.cpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "QByteArray DataParameter::SegmentVoltageSetpoint::getByteArray () const\fC [virtual]\fP"
+
+.PP
+getByteArray 
+.PP
+\fBReturns:\fP
+.RS 4
+
+.RE
+.PP
+
+.PP
+Implements \fBDataParameter::AbstractParameter\fP\&.
+.PP
+Definition at line 50 of file segment_voltage_setpoint\&.cpp\&.
+.SS "std::string DataParameter::SegmentVoltageSetpoint::getDescription () const\fC [virtual]\fP"
+
+.PP
+getDescription 
+.PP
+\fBReturns:\fP
+.RS 4
+
+.RE
+.PP
+
+.PP
+Implements \fBDataParameter::AbstractParameter\fP\&.
+.PP
+Definition at line 44 of file segment_voltage_setpoint\&.cpp\&.
+.SS "\fBParameterType\fP DataParameter::SegmentVoltageSetpoint::getParameterType () const\fC [virtual]\fP"
+
+.PP
+getParameterType 
+.PP
+\fBReturns:\fP
+.RS 4
+
+.RE
+.PP
+
+.PP
+Implements \fBDataParameter::AbstractParameter\fP\&.
+.PP
+Definition at line 39 of file segment_voltage_setpoint\&.cpp\&.
+.SS "uint32_t DataParameter::SegmentVoltageSetpoint::updatePrescaleBitArray (const uint32_t & bitArray) const\fC [private]\fP"
+
+.PP
+updatePrescaleBitArray 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIbitArray\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+.RE
+.PP
+
+.PP
+Definition at line 82 of file segment_voltage_setpoint\&.cpp\&.
+.SS "void DataParameter::SegmentVoltageSetpoint::updatePrescalePower (const \fBData::SegmentVIPower\fP & value)"
+
+.PP
+updatePrescalePower 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvalue\fP 
+.RE
+.PP
+
+.PP
+Definition at line 60 of file segment_voltage_setpoint\&.cpp\&.
+.SS "uint32_t DataParameter::SegmentVoltageSetpoint::updateSetPointBitArray (const uint32_t & bitArray) const\fC [private]\fP"
+
+.PP
+updateSetPointBitArray 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIbitArray\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+.RE
+.PP
+
+.PP
+Definition at line 92 of file segment_voltage_setpoint\&.cpp\&.
+.SS "void DataParameter::SegmentVoltageSetpoint::updateVoltageSetpoint (const int & value)"
+
+.PP
+updateVoltageSetpoint 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvalue\fP 
+.RE
+.PP
+
+.PP
+Definition at line 65 of file segment_voltage_setpoint\&.cpp\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBData::SegmentLevel\fP DataParameter::SegmentVoltageSetpoint::level\fC [private]\fP"
+
+.PP
+level 
+.PP
+Definition at line 84 of file segment_voltage_setpoint\&.h\&.
+.SS "\fBData::SegmentMode\fP DataParameter::SegmentVoltageSetpoint::mode\fC [private]\fP"
+
+.PP
+mode 
+.PP
+Definition at line 89 of file segment_voltage_setpoint\&.h\&.
+.SS "\fBData::SegmentVIPower\fP DataParameter::SegmentVoltageSetpoint::prescale\fC [private]\fP"
+
+.PP
+prescale 
+.PP
+Definition at line 94 of file segment_voltage_setpoint\&.h\&.
+.SS "int DataParameter::SegmentVoltageSetpoint::voltage\fC [private]\fP"
+
+.PP
+voltage 
+.PP
+Definition at line 99 of file segment_voltage_setpoint\&.h\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for ECM Control System from the source code\&.

@@ -1,0 +1,281 @@
+.TH "DataParameter::SegmentCurrentSetpoint" 3 "Mon Jun 19 2017" "ECM Control System" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+DataParameter::SegmentCurrentSetpoint \- The \fBSegmentCurrentSetpoint\fP class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <segment_current_setpoint\&.h>\fP
+.PP
+Inherits \fBDataParameter::AbstractParameter\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSegmentCurrentSetpoint\fP (const \fBData::SegmentLevel\fP &levelValue, const \fBData::SegmentMode\fP &levelMode)"
+.br
+.RI "\fBSegmentCurrentSetpoint\fP\&. "
+.ti -1c
+.RI "virtual \fBDataParameter::ParameterType\fP \fBgetParameterType\fP () const"
+.br
+.RI "getParameterType "
+.ti -1c
+.RI "virtual QByteArray \fBgetByteArray\fP () const"
+.br
+.RI "getByteArray "
+.ti -1c
+.RI "virtual std::string \fBgetDescription\fP () const"
+.br
+.RI "getDescription "
+.ti -1c
+.RI "void \fBupdateCurrentFactor\fP (const \fBData::CurrentFactorType\fP &value)"
+.br
+.RI "updateCurrentFactor "
+.ti -1c
+.RI "void \fBupdatePrescalePower\fP (const \fBData::SegmentVIPower\fP &value)"
+.br
+.RI "updatePrescalePower "
+.ti -1c
+.RI "void \fBupdateCurrentSetpoint\fP (const int &value)"
+.br
+.RI "updateCurrentSetpoint "
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "uint32_t \fBupdateAmpsBitArray\fP (const uint32_t &bitArray) const"
+.br
+.RI "updateAmpsBitArray "
+.ti -1c
+.RI "uint32_t \fBupdatePrescaleBitArray\fP (const uint32_t &bitArray) const"
+.br
+.RI "updatePrescaleBitArray "
+.ti -1c
+.RI "uint32_t \fBupdateSetPointBitArray\fP (const uint32_t &bitArray) const"
+.br
+.RI "updateSetPointBitArray "
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBData::SegmentLevel\fP \fBlevel\fP"
+.br
+.RI "level "
+.ti -1c
+.RI "\fBData::SegmentMode\fP \fBmode\fP"
+.br
+.RI "mode "
+.ti -1c
+.RI "\fBData::CurrentFactorType\fP \fBcurrentFactor\fP"
+.br
+.RI "currentFactor "
+.ti -1c
+.RI "\fBData::SegmentVIPower\fP \fBprescale\fP"
+.br
+.RI "prescale "
+.ti -1c
+.RI "int \fBcurrent\fP"
+.br
+.RI "current "
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+The \fBSegmentCurrentSetpoint\fP class\&. 
+.PP
+Definition at line 23 of file segment_current_setpoint\&.h\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "DataParameter::SegmentCurrentSetpoint::SegmentCurrentSetpoint (const \fBData::SegmentLevel\fP & levelValue, const \fBData::SegmentMode\fP & levelMode)"
+
+.PP
+\fBSegmentCurrentSetpoint\fP\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIlevelValue\fP 
+.br
+\fIlevelMode\fP 
+.RE
+.PP
+
+.PP
+Definition at line 6 of file segment_current_setpoint\&.cpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "QByteArray DataParameter::SegmentCurrentSetpoint::getByteArray () const\fC [virtual]\fP"
+
+.PP
+getByteArray 
+.PP
+\fBReturns:\fP
+.RS 4
+
+.RE
+.PP
+
+.PP
+Implements \fBDataParameter::AbstractParameter\fP\&.
+.PP
+Definition at line 46 of file segment_current_setpoint\&.cpp\&.
+.SS "std::string DataParameter::SegmentCurrentSetpoint::getDescription () const\fC [virtual]\fP"
+
+.PP
+getDescription 
+.PP
+\fBReturns:\fP
+.RS 4
+
+.RE
+.PP
+
+.PP
+Implements \fBDataParameter::AbstractParameter\fP\&.
+.PP
+Definition at line 40 of file segment_current_setpoint\&.cpp\&.
+.SS "\fBParameterType\fP DataParameter::SegmentCurrentSetpoint::getParameterType () const\fC [virtual]\fP"
+
+.PP
+getParameterType 
+.PP
+\fBReturns:\fP
+.RS 4
+
+.RE
+.PP
+
+.PP
+Implements \fBDataParameter::AbstractParameter\fP\&.
+.PP
+Definition at line 35 of file segment_current_setpoint\&.cpp\&.
+.SS "uint32_t DataParameter::SegmentCurrentSetpoint::updateAmpsBitArray (const uint32_t & bitArray) const\fC [private]\fP"
+
+.PP
+updateAmpsBitArray 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIbitArray\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+.RE
+.PP
+
+.PP
+Definition at line 84 of file segment_current_setpoint\&.cpp\&.
+.SS "void DataParameter::SegmentCurrentSetpoint::updateCurrentFactor (const \fBData::CurrentFactorType\fP & value)"
+
+.PP
+updateCurrentFactor 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvalue\fP 
+.RE
+.PP
+
+.PP
+Definition at line 57 of file segment_current_setpoint\&.cpp\&.
+.SS "void DataParameter::SegmentCurrentSetpoint::updateCurrentSetpoint (const int & value)"
+
+.PP
+updateCurrentSetpoint 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvalue\fP 
+.RE
+.PP
+
+.PP
+Definition at line 67 of file segment_current_setpoint\&.cpp\&.
+.SS "uint32_t DataParameter::SegmentCurrentSetpoint::updatePrescaleBitArray (const uint32_t & bitArray) const\fC [private]\fP"
+
+.PP
+updatePrescaleBitArray 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIbitArray\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+.RE
+.PP
+
+.PP
+Definition at line 94 of file segment_current_setpoint\&.cpp\&.
+.SS "void DataParameter::SegmentCurrentSetpoint::updatePrescalePower (const \fBData::SegmentVIPower\fP & value)"
+
+.PP
+updatePrescalePower 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvalue\fP 
+.RE
+.PP
+
+.PP
+Definition at line 62 of file segment_current_setpoint\&.cpp\&.
+.SS "uint32_t DataParameter::SegmentCurrentSetpoint::updateSetPointBitArray (const uint32_t & bitArray) const\fC [private]\fP"
+
+.PP
+updateSetPointBitArray 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIbitArray\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+.RE
+.PP
+
+.PP
+Definition at line 104 of file segment_current_setpoint\&.cpp\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "int DataParameter::SegmentCurrentSetpoint::current\fC [private]\fP"
+
+.PP
+current 
+.PP
+Definition at line 117 of file segment_current_setpoint\&.h\&.
+.SS "\fBData::CurrentFactorType\fP DataParameter::SegmentCurrentSetpoint::currentFactor\fC [private]\fP"
+
+.PP
+currentFactor 
+.PP
+Definition at line 107 of file segment_current_setpoint\&.h\&.
+.SS "\fBData::SegmentLevel\fP DataParameter::SegmentCurrentSetpoint::level\fC [private]\fP"
+
+.PP
+level 
+.PP
+Definition at line 97 of file segment_current_setpoint\&.h\&.
+.SS "\fBData::SegmentMode\fP DataParameter::SegmentCurrentSetpoint::mode\fC [private]\fP"
+
+.PP
+mode 
+.PP
+Definition at line 102 of file segment_current_setpoint\&.h\&.
+.SS "\fBData::SegmentVIPower\fP DataParameter::SegmentCurrentSetpoint::prescale\fC [private]\fP"
+
+.PP
+prescale 
+.PP
+Definition at line 112 of file segment_current_setpoint\&.h\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for ECM Control System from the source code\&.
