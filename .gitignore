@@ -21,4 +21,4 @@ node_modules
 /bin/*
 *.gypi
 /include/*
-/html/*
+"doxygen/html/"
