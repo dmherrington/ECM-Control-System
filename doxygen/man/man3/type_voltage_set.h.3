@@ -1,0 +1,73 @@
+.TH "library_munk_power_supply/data/type_voltage_set.h" 3 "Mon Jun 19 2017" "ECM Control System" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+library_munk_power_supply/data/type_voltage_set.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <string>\fP
+.br
+\fC#include <stdexcept>\fP
+.br
+\fC#include <vector>\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBData\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBData::VoltageSetFWDType\fP { \fBData::VoltageSetFWDType::VoltageFWD1\fP = 6500, \fBData::VoltageSetFWDType::VoltageFWD2\fP = 6540, \fBData::VoltageSetFWDType::VoltageFWD3\fP = 6580, \fBData::VoltageSetFWDType::VoltageFWD4\fP = 6620, \fBData::VoltageSetFWDType::VoltageFWD5\fP = 6660, \fBData::VoltageSetFWDType::VoltageFWD6\fP = 6700, \fBData::VoltageSetFWDType::VoltageFWD7\fP = 6740, \fBData::VoltageSetFWDType::VoltageFWD8\fP = 6780 }
+.RI "The VoltageSetFWDType enum\&. ""
+.br
+.ti -1c
+.RI "enum \fBData::VoltageSetREVType\fP { \fBData::VoltageSetREVType::VoltageREV1\fP = 6520, \fBData::VoltageSetREVType::VoltageREV2\fP = 6560, \fBData::VoltageSetREVType::VoltageREV3\fP = 6600, \fBData::VoltageSetREVType::VoltageREV4\fP = 6640, \fBData::VoltageSetREVType::VoltageREV5\fP = 6680, \fBData::VoltageSetREVType::VoltageREV6\fP = 6720, \fBData::VoltageSetREVType::VoltageREV7\fP = 6760, \fBData::VoltageSetREVType::VoltageREV8\fP = 6800 }
+.RI "The VoltageSetREVType enum\&. ""
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBData::VoltageSetFWDTypeToString\fP (const VoltageSetFWDType &type)"
+.br
+.RI "VoltageSetFWDTypeToString\&. "
+.ti -1c
+.RI "VoltageSetFWDType \fBData::VoltageSetFWDTypeFromString\fP (const std::string &str)"
+.br
+.RI "VoltageSetFWDTypeFromString\&. "
+.ti -1c
+.RI "std::vector< VoltageSetFWDType > \fBData::getListOfVoltageSetFWDTypes\fP ()"
+.br
+.RI "getListOfVoltageSetFWDTypes "
+.ti -1c
+.RI "\fBData::VoltageSetFWDType\fP \fBData::getFWDVoltageIndex\fP (const int &index)"
+.br
+.RI "getFWDVoltageIndex "
+.ti -1c
+.RI "std::string \fBData::VoltageSetREVTypeToString\fP (const VoltageSetREVType &type)"
+.br
+.RI "VoltageSetREVTypeToString\&. "
+.ti -1c
+.RI "VoltageSetREVType \fBData::VoltageSetREVTypeFromString\fP (const std::string &str)"
+.br
+.RI "VoltageSetREVTypeFromString\&. "
+.ti -1c
+.RI "std::vector< VoltageSetREVType > \fBData::getListOfVoltageSetREVTypes\fP ()"
+.br
+.RI "getListOfVoltageSetREVTypes "
+.ti -1c
+.RI "\fBData::VoltageSetREVType\fP \fBData::getREVVoltageIndex\fP (const int &index)"
+.br
+.RI "getREVVoltageIndex "
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for ECM Control System from the source code\&.

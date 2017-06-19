@@ -1,0 +1,51 @@
+.TH "library_munk_power_supply/data_registers/type_definition.h" 3 "Mon Jun 19 2017" "ECM Control System" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+library_munk_power_supply/data_registers/type_definition.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <string>\fP
+.br
+\fC#include <stdexcept>\fP
+.br
+\fC#include <vector>\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBDataParameter\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBDataParameter::ParameterType\fP { \fBDataParameter::ParameterType::SEGMENTTIMES\fP, \fBDataParameter::ParameterType::PATTERNWRITECOMMAND\fP, \fBDataParameter::ParameterType::CURRENTSETPOINT\fP, \fBDataParameter::ParameterType::VOLTAGESETPOINT\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBDataParameter::ParameterTypeToString\fP (const ParameterType &type)"
+.br
+.ti -1c
+.RI "ParameterType \fBDataParameter::ParameterTypeFromString\fP (const std::string &str)"
+.br
+.ti -1c
+.RI "int \fBDataParameter::ParameterTypeToInt\fP (const ParameterType &type)"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBDataParameter::getListOfParameterTypes\fP ()"
+.br
+.ti -1c
+.RI "ParameterType \fBDataParameter::ParameterTypeFromInt\fP (const int &param)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for ECM Control System from the source code\&.

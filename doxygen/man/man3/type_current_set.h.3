@@ -1,0 +1,69 @@
+.TH "library_munk_power_supply/data/type_current_set.h" 3 "Mon Jun 19 2017" "ECM Control System" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+library_munk_power_supply/data/type_current_set.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <string>\fP
+.br
+\fC#include <stdexcept>\fP
+.br
+\fC#include <vector>\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBData\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBData::CurrentSetFWDType\fP { \fBData::CurrentSetFWDType::CurrentFWD1\fP = 6000, \fBData::CurrentSetFWDType::CurrentFWD2\fP = 6040, \fBData::CurrentSetFWDType::CurrentFWD3\fP = 6080, \fBData::CurrentSetFWDType::CurrentFWD4\fP = 6120, \fBData::CurrentSetFWDType::CurrentFWD5\fP = 6160, \fBData::CurrentSetFWDType::CurrentFWD6\fP = 6200, \fBData::CurrentSetFWDType::CurrentFWD7\fP = 6240, \fBData::CurrentSetFWDType::CurrentFWD8\fP = 6280 }
+.RI "The CurrentSetFWDType enum\&. ""
+.br
+.ti -1c
+.RI "enum \fBData::CurrentSetREVType\fP { \fBData::CurrentSetREVType::CurrentREV1\fP = 6020, \fBData::CurrentSetREVType::CurrentREV2\fP = 6060, \fBData::CurrentSetREVType::CurrentREV3\fP = 6100, \fBData::CurrentSetREVType::CurrentREV4\fP = 6140, \fBData::CurrentSetREVType::CurrentREV5\fP = 6180, \fBData::CurrentSetREVType::CurrentREV6\fP = 6220, \fBData::CurrentSetREVType::CurrentREV7\fP = 6260, \fBData::CurrentSetREVType::CurrentREV8\fP = 6300 }
+.RI "The CurrentSetREVType enum\&. ""
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBData::CurrentSetFWDTypeToString\fP (const CurrentSetFWDType &type)"
+.br
+.RI "CurrentSetFWDTypeToString\&. "
+.ti -1c
+.RI "CurrentSetFWDType \fBData::CurrentSetFWDTypeFromString\fP (const std::string &str)"
+.br
+.RI "CurrentSetFWDTypeFromString\&. "
+.ti -1c
+.RI "std::vector< CurrentSetFWDType > \fBData::getListOfCurrentSetFWDTypes\fP ()"
+.br
+.RI "getListOfCurrentSetFWDTypes "
+.ti -1c
+.RI "\fBData::CurrentSetFWDType\fP \fBData::getREVCurrentIndex\fP (const int &index)"
+.br
+.RI "getREVCurrentIndex "
+.ti -1c
+.RI "std::string \fBData::CurrentSetREVTypeToString\fP (const CurrentSetREVType &type)"
+.br
+.RI "CurrentSetREVTypeToString\&. "
+.ti -1c
+.RI "CurrentSetREVType \fBData::CurrentSetREVTypeFromString\fP (const std::string &str)"
+.br
+.RI "CurrentSetREVTypeFromString\&. "
+.ti -1c
+.RI "std::vector< CurrentSetREVType > \fBData::getListOfCurrentSetREVTypes\fP ()"
+.br
+.RI "getListOfCurrentSetREVTypes "
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for ECM Control System from the source code\&.

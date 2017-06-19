@@ -1,0 +1,314 @@
+.TH "DataParameter::SegmentTimeDetailed" 3 "Mon Jun 19 2017" "ECM Control System" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+DataParameter::SegmentTimeDetailed \- The \fBSegmentTimeDetailed\fP class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <segment_time_detailed\&.h>\fP
+.PP
+Inherits \fBDataParameter::AbstractParameter\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSegmentTimeDetailed\fP ()"
+.br
+.RI "\fBSegmentTimeDetailed\fP\&. "
+.ti -1c
+.RI "\fBSegmentTimeDetailed\fP (const int &numSegments)"
+.br
+.RI "\fBSegmentTimeDetailed\fP\&. "
+.ti -1c
+.RI "\fBSegmentTimeDetailed\fP (const \fBSegmentTimeDetailed\fP &obj)"
+.br
+.RI "\fBSegmentTimeDetailed\fP\&. "
+.ti -1c
+.RI "virtual \fBDataParameter::ParameterType\fP \fBgetParameterType\fP () const"
+.br
+.RI "getParameterType "
+.ti -1c
+.RI "virtual QByteArray \fBgetByteArray\fP () const"
+.br
+.RI "getByteArray "
+.ti -1c
+.RI "virtual std::string \fBgetDescription\fP () const"
+.br
+.RI "getDescription "
+.ti -1c
+.RI "void \fBsetStartingRegister\fP (const uint8_t &startSegment)"
+.br
+.RI "setStartingRegister "
+.ti -1c
+.RI "void \fBsetNumberofSequentialRegisters\fP (const uint8_t &seqSegment)"
+.br
+.RI "setNumberofSequentialRegisters "
+.ti -1c
+.RI "void \fBappendRegisterData\fP (const \fBSegmentTimeDataDetailed\fP &data)"
+.br
+.RI "appendRegisterData "
+.ti -1c
+.RI "void \fBupdateRegisterData\fP (const int &registerIndex, const \fBSegmentTimeDataDetailed\fP &data)"
+.br
+.RI "updateRegisterData "
+.ti -1c
+.RI "std::vector< \fBDataParameter::SegmentTimeDataDetailed\fP > \fBgetRegisterData\fP () const"
+.br
+.RI "getRegisterData "
+.ti -1c
+.RI "void \fBinitializeData\fP ()"
+.br
+.RI "initializeData "
+.ti -1c
+.RI "void \fBoperator=\fP (const \fBSegmentTimeDetailed\fP &rhs)"
+.br
+.RI "operator = "
+.ti -1c
+.RI "bool \fBoperator==\fP (const \fBSegmentTimeDetailed\fP &rhs)"
+.br
+.RI "operator == "
+.ti -1c
+.RI "bool \fBoperator!=\fP (const \fBSegmentTimeDetailed\fP &rhs)"
+.br
+.RI "operator != "
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "uint8_t \fBnumSeqSegments\fP"
+.br
+.RI "numSeqSegments "
+.ti -1c
+.RI "std::vector< \fBDataParameter::SegmentTimeDataDetailed\fP > \fBdetailedRegisterData\fP"
+.br
+.RI "detailedRegisterData "
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+The \fBSegmentTimeDetailed\fP class\&. 
+.PP
+Definition at line 16 of file segment_time_detailed\&.h\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "DataParameter::SegmentTimeDetailed::SegmentTimeDetailed ()"
+
+.PP
+\fBSegmentTimeDetailed\fP\&. 
+.PP
+Definition at line 5 of file segment_time_detailed\&.cpp\&.
+.SS "DataParameter::SegmentTimeDetailed::SegmentTimeDetailed (const int & numSegments)"
+
+.PP
+\fBSegmentTimeDetailed\fP\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fInumSegments\fP 
+.RE
+.PP
+
+.PP
+Definition at line 11 of file segment_time_detailed\&.cpp\&.
+.SS "DataParameter::SegmentTimeDetailed::SegmentTimeDetailed (const \fBSegmentTimeDetailed\fP & obj)"
+
+.PP
+\fBSegmentTimeDetailed\fP\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP 
+.RE
+.PP
+
+.PP
+Definition at line 18 of file segment_time_detailed\&.cpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void DataParameter::SegmentTimeDetailed::appendRegisterData (const \fBSegmentTimeDataDetailed\fP & data)"
+
+.PP
+appendRegisterData 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdata\fP 
+.RE
+.PP
+
+.PP
+Definition at line 62 of file segment_time_detailed\&.cpp\&.
+.SS "QByteArray DataParameter::SegmentTimeDetailed::getByteArray () const\fC [virtual]\fP"
+
+.PP
+getByteArray 
+.PP
+\fBReturns:\fP
+.RS 4
+
+.RE
+.PP
+
+.PP
+Implements \fBDataParameter::AbstractParameter\fP\&.
+.PP
+Definition at line 35 of file segment_time_detailed\&.cpp\&.
+.SS "std::string DataParameter::SegmentTimeDetailed::getDescription () const\fC [virtual]\fP"
+
+.PP
+getDescription 
+.PP
+\fBReturns:\fP
+.RS 4
+
+.RE
+.PP
+
+.PP
+Implements \fBDataParameter::AbstractParameter\fP\&.
+.PP
+Definition at line 24 of file segment_time_detailed\&.cpp\&.
+.SS "\fBParameterType\fP DataParameter::SegmentTimeDetailed::getParameterType () const\fC [virtual]\fP"
+
+.PP
+getParameterType 
+.PP
+\fBReturns:\fP
+.RS 4
+
+.RE
+.PP
+
+.PP
+Implements \fBDataParameter::AbstractParameter\fP\&.
+.PP
+Definition at line 30 of file segment_time_detailed\&.cpp\&.
+.SS "std::vector< \fBDataParameter::SegmentTimeDataDetailed\fP > DataParameter::SegmentTimeDetailed::getRegisterData () const"
+
+.PP
+getRegisterData 
+.PP
+\fBReturns:\fP
+.RS 4
+
+.RE
+.PP
+
+.PP
+Definition at line 72 of file segment_time_detailed\&.cpp\&.
+.SS "void DataParameter::SegmentTimeDetailed::initializeData ()"
+
+.PP
+initializeData 
+.PP
+Definition at line 77 of file segment_time_detailed\&.cpp\&.
+.SS "bool DataParameter::SegmentTimeDetailed::operator!= (const \fBSegmentTimeDetailed\fP & rhs)\fC [inline]\fP"
+
+.PP
+operator != 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIrhs\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+.RE
+.PP
+
+.PP
+Definition at line 130 of file segment_time_detailed\&.h\&.
+.SS "void DataParameter::SegmentTimeDetailed::operator= (const \fBSegmentTimeDetailed\fP & rhs)\fC [inline]\fP"
+
+.PP
+operator = 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIrhs\fP 
+.RE
+.PP
+
+.PP
+Definition at line 99 of file segment_time_detailed\&.h\&.
+.SS "bool DataParameter::SegmentTimeDetailed::operator== (const \fBSegmentTimeDetailed\fP & rhs)\fC [inline]\fP"
+
+.PP
+operator == 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIrhs\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+.RE
+.PP
+
+.PP
+Definition at line 111 of file segment_time_detailed\&.h\&.
+.SS "void DataParameter::SegmentTimeDetailed::setNumberofSequentialRegisters (const uint8_t & seqSegment)"
+
+.PP
+setNumberofSequentialRegisters 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIseqSegment\fP 
+.RE
+.PP
+
+.PP
+Definition at line 50 of file segment_time_detailed\&.cpp\&.
+.SS "void DataParameter::SegmentTimeDetailed::setStartingRegister (const uint8_t & startSegment)"
+
+.PP
+setStartingRegister 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstartSegment\fP 
+.RE
+.PP
+
+.PP
+Definition at line 41 of file segment_time_detailed\&.cpp\&.
+.SS "void DataParameter::SegmentTimeDetailed::updateRegisterData (const int & registerIndex, const \fBSegmentTimeDataDetailed\fP & data)"
+
+.PP
+updateRegisterData 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIregisterIndex\fP 
+.br
+\fIdata\fP 
+.RE
+.PP
+
+.PP
+Definition at line 67 of file segment_time_detailed\&.cpp\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "std::vector<\fBDataParameter::SegmentTimeDataDetailed\fP> DataParameter::SegmentTimeDetailed::detailedRegisterData\fC [private]\fP"
+
+.PP
+detailedRegisterData 
+.PP
+Definition at line 143 of file segment_time_detailed\&.h\&.
+.SS "uint8_t DataParameter::SegmentTimeDetailed::numSeqSegments\fC [private]\fP"
+
+.PP
+numSeqSegments 
+.PP
+Definition at line 138 of file segment_time_detailed\&.h\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for ECM Control System from the source code\&.
