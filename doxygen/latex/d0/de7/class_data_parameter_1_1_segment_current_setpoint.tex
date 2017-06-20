@@ -1,0 +1,356 @@
+\section{Data\+Parameter\+:\+:Segment\+Current\+Setpoint Class Reference}
+\label{class_data_parameter_1_1_segment_current_setpoint}\index{Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}}
+
+
+The \doxyref{Segment\+Current\+Setpoint}{p.}{d0/de7/class_data_parameter_1_1_segment_current_setpoint} class.  
+
+
+
+
+{\ttfamily \#include $<$segment\+\_\+current\+\_\+setpoint.\+h$>$}
+
+Inheritance diagram for Data\+Parameter\+:\+:Segment\+Current\+Setpoint\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{d0/de7/class_data_parameter_1_1_segment_current_setpoint}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Segment\+Current\+Setpoint} (const \textbf{ Data\+::\+Segment\+Level} \&level\+Value, const \textbf{ Data\+::\+Segment\+Mode} \&level\+Mode)
+\begin{DoxyCompactList}\small\item\em \doxyref{Segment\+Current\+Setpoint}{p.}{d0/de7/class_data_parameter_1_1_segment_current_setpoint}. \end{DoxyCompactList}\item 
+virtual \textbf{ Data\+Parameter\+::\+Parameter\+Type} \textbf{ get\+Parameter\+Type} () const
+\begin{DoxyCompactList}\small\item\em get\+Parameter\+Type \end{DoxyCompactList}\item 
+virtual Q\+Byte\+Array \textbf{ get\+Byte\+Array} () const
+\begin{DoxyCompactList}\small\item\em get\+Byte\+Array \end{DoxyCompactList}\item 
+virtual std\+::string \textbf{ get\+Description} () const
+\begin{DoxyCompactList}\small\item\em get\+Description \end{DoxyCompactList}\item 
+void \textbf{ update\+Current\+Factor} (const \textbf{ Data\+::\+Current\+Factor\+Type} \&value)
+\begin{DoxyCompactList}\small\item\em update\+Current\+Factor \end{DoxyCompactList}\item 
+void \textbf{ update\+Prescale\+Power} (const \textbf{ Data\+::\+Segment\+V\+I\+Power} \&value)
+\begin{DoxyCompactList}\small\item\em update\+Prescale\+Power \end{DoxyCompactList}\item 
+void \textbf{ update\+Current\+Setpoint} (const int \&value)
+\begin{DoxyCompactList}\small\item\em update\+Current\+Setpoint \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \textbf{ update\+Amps\+Bit\+Array} (const uint32\+\_\+t \&bit\+Array) const
+\begin{DoxyCompactList}\small\item\em update\+Amps\+Bit\+Array \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ update\+Prescale\+Bit\+Array} (const uint32\+\_\+t \&bit\+Array) const
+\begin{DoxyCompactList}\small\item\em update\+Prescale\+Bit\+Array \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ update\+Set\+Point\+Bit\+Array} (const uint32\+\_\+t \&bit\+Array) const
+\begin{DoxyCompactList}\small\item\em update\+Set\+Point\+Bit\+Array \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Data\+::\+Segment\+Level} \textbf{ level}
+\begin{DoxyCompactList}\small\item\em level \end{DoxyCompactList}\item 
+\textbf{ Data\+::\+Segment\+Mode} \textbf{ mode}
+\begin{DoxyCompactList}\small\item\em mode \end{DoxyCompactList}\item 
+\textbf{ Data\+::\+Current\+Factor\+Type} \textbf{ current\+Factor}
+\begin{DoxyCompactList}\small\item\em current\+Factor \end{DoxyCompactList}\item 
+\textbf{ Data\+::\+Segment\+V\+I\+Power} \textbf{ prescale}
+\begin{DoxyCompactList}\small\item\em prescale \end{DoxyCompactList}\item 
+int \textbf{ current}
+\begin{DoxyCompactList}\small\item\em current \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+The \doxyref{Segment\+Current\+Setpoint}{p.}{d0/de7/class_data_parameter_1_1_segment_current_setpoint} class. 
+
+Definition at line 22 of file segment\+\_\+current\+\_\+setpoint.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\label{class_data_parameter_1_1_segment_current_setpoint_accd683727753a632eacd3bb42a1f735e}} 
+\index{Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}!Segment\+Current\+Setpoint@{Segment\+Current\+Setpoint}}
+\index{Segment\+Current\+Setpoint@{Segment\+Current\+Setpoint}!Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}}
+\subsubsection{Segment\+Current\+Setpoint()}
+{\footnotesize\ttfamily Data\+Parameter\+::\+Segment\+Current\+Setpoint\+::\+Segment\+Current\+Setpoint (\begin{DoxyParamCaption}\item[{const \textbf{ Data\+::\+Segment\+Level} \&}]{level\+Value,  }\item[{const \textbf{ Data\+::\+Segment\+Mode} \&}]{level\+Mode }\end{DoxyParamCaption})}
+
+
+
+\doxyref{Segment\+Current\+Setpoint}{p.}{d0/de7/class_data_parameter_1_1_segment_current_setpoint}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em level\+Value} & \\
+\hline
+{\em level\+Mode} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 6 of file segment\+\_\+current\+\_\+setpoint.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\label{class_data_parameter_1_1_segment_current_setpoint_a960510acca9f82347ee21701e9aabd26}} 
+\index{Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}!get\+Byte\+Array@{get\+Byte\+Array}}
+\index{get\+Byte\+Array@{get\+Byte\+Array}!Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}}
+\subsubsection{get\+Byte\+Array()}
+{\footnotesize\ttfamily Q\+Byte\+Array Data\+Parameter\+::\+Segment\+Current\+Setpoint\+::get\+Byte\+Array (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+get\+Byte\+Array 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Implements \textbf{ Data\+Parameter\+::\+Abstract\+Parameter} \doxyref{}{p.}{da/dfc/class_data_parameter_1_1_abstract_parameter_aa170d4993cbcf85110dac80813050284}.
+
+
+
+Definition at line 46 of file segment\+\_\+current\+\_\+setpoint.\+cpp.
+
+\mbox{\label{class_data_parameter_1_1_segment_current_setpoint_a03ce6d68d5c9d3fd6792f2f55d1f875c}} 
+\index{Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}!get\+Description@{get\+Description}}
+\index{get\+Description@{get\+Description}!Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}}
+\subsubsection{get\+Description()}
+{\footnotesize\ttfamily std\+::string Data\+Parameter\+::\+Segment\+Current\+Setpoint\+::get\+Description (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+get\+Description 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Implements \textbf{ Data\+Parameter\+::\+Abstract\+Parameter} \doxyref{}{p.}{da/dfc/class_data_parameter_1_1_abstract_parameter_a48ad1857ea1ad5fb9ca9aceeabf82ba9}.
+
+
+
+Definition at line 40 of file segment\+\_\+current\+\_\+setpoint.\+cpp.
+
+\mbox{\label{class_data_parameter_1_1_segment_current_setpoint_ae4775df0c99e1b5fd21afbb612d8c02e}} 
+\index{Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}!get\+Parameter\+Type@{get\+Parameter\+Type}}
+\index{get\+Parameter\+Type@{get\+Parameter\+Type}!Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}}
+\subsubsection{get\+Parameter\+Type()}
+{\footnotesize\ttfamily \textbf{ Parameter\+Type} Data\+Parameter\+::\+Segment\+Current\+Setpoint\+::get\+Parameter\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+get\+Parameter\+Type 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Implements \textbf{ Data\+Parameter\+::\+Abstract\+Parameter} \doxyref{}{p.}{da/dfc/class_data_parameter_1_1_abstract_parameter_a5566a8d4357cc077dddd856569fe9bbb}.
+
+
+
+Definition at line 35 of file segment\+\_\+current\+\_\+setpoint.\+cpp.
+
+\mbox{\label{class_data_parameter_1_1_segment_current_setpoint_a1e05e3475a1473a86b1ae32b8ecb1979}} 
+\index{Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}!update\+Amps\+Bit\+Array@{update\+Amps\+Bit\+Array}}
+\index{update\+Amps\+Bit\+Array@{update\+Amps\+Bit\+Array}!Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}}
+\subsubsection{update\+Amps\+Bit\+Array()}
+{\footnotesize\ttfamily uint32\+\_\+t Data\+Parameter\+::\+Segment\+Current\+Setpoint\+::update\+Amps\+Bit\+Array (\begin{DoxyParamCaption}\item[{const uint32\+\_\+t \&}]{bit\+Array }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+update\+Amps\+Bit\+Array 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bit\+Array} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line 84 of file segment\+\_\+current\+\_\+setpoint.\+cpp.
+
+\mbox{\label{class_data_parameter_1_1_segment_current_setpoint_a87f3dc129117151cd80862f903a61182}} 
+\index{Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}!update\+Current\+Factor@{update\+Current\+Factor}}
+\index{update\+Current\+Factor@{update\+Current\+Factor}!Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}}
+\subsubsection{update\+Current\+Factor()}
+{\footnotesize\ttfamily void Data\+Parameter\+::\+Segment\+Current\+Setpoint\+::update\+Current\+Factor (\begin{DoxyParamCaption}\item[{const \textbf{ Data\+::\+Current\+Factor\+Type} \&}]{value }\end{DoxyParamCaption})}
+
+
+
+update\+Current\+Factor 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 57 of file segment\+\_\+current\+\_\+setpoint.\+cpp.
+
+\mbox{\label{class_data_parameter_1_1_segment_current_setpoint_a542298e27fe960fc5eeb98cb3d519686}} 
+\index{Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}!update\+Current\+Setpoint@{update\+Current\+Setpoint}}
+\index{update\+Current\+Setpoint@{update\+Current\+Setpoint}!Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}}
+\subsubsection{update\+Current\+Setpoint()}
+{\footnotesize\ttfamily void Data\+Parameter\+::\+Segment\+Current\+Setpoint\+::update\+Current\+Setpoint (\begin{DoxyParamCaption}\item[{const int \&}]{value }\end{DoxyParamCaption})}
+
+
+
+update\+Current\+Setpoint 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 67 of file segment\+\_\+current\+\_\+setpoint.\+cpp.
+
+\mbox{\label{class_data_parameter_1_1_segment_current_setpoint_ab51310c5e47224a1209d22872c212f15}} 
+\index{Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}!update\+Prescale\+Bit\+Array@{update\+Prescale\+Bit\+Array}}
+\index{update\+Prescale\+Bit\+Array@{update\+Prescale\+Bit\+Array}!Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}}
+\subsubsection{update\+Prescale\+Bit\+Array()}
+{\footnotesize\ttfamily uint32\+\_\+t Data\+Parameter\+::\+Segment\+Current\+Setpoint\+::update\+Prescale\+Bit\+Array (\begin{DoxyParamCaption}\item[{const uint32\+\_\+t \&}]{bit\+Array }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+update\+Prescale\+Bit\+Array 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bit\+Array} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line 94 of file segment\+\_\+current\+\_\+setpoint.\+cpp.
+
+\mbox{\label{class_data_parameter_1_1_segment_current_setpoint_aef9677a3298c3d56892ccaf510cb7dbf}} 
+\index{Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}!update\+Prescale\+Power@{update\+Prescale\+Power}}
+\index{update\+Prescale\+Power@{update\+Prescale\+Power}!Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}}
+\subsubsection{update\+Prescale\+Power()}
+{\footnotesize\ttfamily void Data\+Parameter\+::\+Segment\+Current\+Setpoint\+::update\+Prescale\+Power (\begin{DoxyParamCaption}\item[{const \textbf{ Data\+::\+Segment\+V\+I\+Power} \&}]{value }\end{DoxyParamCaption})}
+
+
+
+update\+Prescale\+Power 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 62 of file segment\+\_\+current\+\_\+setpoint.\+cpp.
+
+\mbox{\label{class_data_parameter_1_1_segment_current_setpoint_a5781080dffd938d046ffa287d1153a2b}} 
+\index{Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}!update\+Set\+Point\+Bit\+Array@{update\+Set\+Point\+Bit\+Array}}
+\index{update\+Set\+Point\+Bit\+Array@{update\+Set\+Point\+Bit\+Array}!Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}}
+\subsubsection{update\+Set\+Point\+Bit\+Array()}
+{\footnotesize\ttfamily uint32\+\_\+t Data\+Parameter\+::\+Segment\+Current\+Setpoint\+::update\+Set\+Point\+Bit\+Array (\begin{DoxyParamCaption}\item[{const uint32\+\_\+t \&}]{bit\+Array }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+update\+Set\+Point\+Bit\+Array 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bit\+Array} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line 104 of file segment\+\_\+current\+\_\+setpoint.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\label{class_data_parameter_1_1_segment_current_setpoint_a0d6963358773bfd748694ee564e2b007}} 
+\index{Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}!current@{current}}
+\index{current@{current}!Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}}
+\subsubsection{current}
+{\footnotesize\ttfamily int Data\+Parameter\+::\+Segment\+Current\+Setpoint\+::current\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+current 
+
+
+
+Definition at line 116 of file segment\+\_\+current\+\_\+setpoint.\+h.
+
+\mbox{\label{class_data_parameter_1_1_segment_current_setpoint_a0b2f831467b05a6331cbeb7f2294355e}} 
+\index{Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}!current\+Factor@{current\+Factor}}
+\index{current\+Factor@{current\+Factor}!Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}}
+\subsubsection{current\+Factor}
+{\footnotesize\ttfamily \textbf{ Data\+::\+Current\+Factor\+Type} Data\+Parameter\+::\+Segment\+Current\+Setpoint\+::current\+Factor\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+current\+Factor 
+
+
+
+Definition at line 106 of file segment\+\_\+current\+\_\+setpoint.\+h.
+
+\mbox{\label{class_data_parameter_1_1_segment_current_setpoint_a5b8916d8c32e2e9b9f79b21788ba7219}} 
+\index{Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}!level@{level}}
+\index{level@{level}!Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}}
+\subsubsection{level}
+{\footnotesize\ttfamily \textbf{ Data\+::\+Segment\+Level} Data\+Parameter\+::\+Segment\+Current\+Setpoint\+::level\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+level 
+
+
+
+Definition at line 96 of file segment\+\_\+current\+\_\+setpoint.\+h.
+
+\mbox{\label{class_data_parameter_1_1_segment_current_setpoint_a11fa94ec69645e30c94005536dc232d1}} 
+\index{Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}!mode@{mode}}
+\index{mode@{mode}!Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}}
+\subsubsection{mode}
+{\footnotesize\ttfamily \textbf{ Data\+::\+Segment\+Mode} Data\+Parameter\+::\+Segment\+Current\+Setpoint\+::mode\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+mode 
+
+
+
+Definition at line 101 of file segment\+\_\+current\+\_\+setpoint.\+h.
+
+\mbox{\label{class_data_parameter_1_1_segment_current_setpoint_a0d159f49c5e3fa76874e06a881b97289}} 
+\index{Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}!prescale@{prescale}}
+\index{prescale@{prescale}!Data\+Parameter\+::\+Segment\+Current\+Setpoint@{Data\+Parameter\+::\+Segment\+Current\+Setpoint}}
+\subsubsection{prescale}
+{\footnotesize\ttfamily \textbf{ Data\+::\+Segment\+V\+I\+Power} Data\+Parameter\+::\+Segment\+Current\+Setpoint\+::prescale\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+prescale 
+
+
+
+Definition at line 111 of file segment\+\_\+current\+\_\+setpoint.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/library\+\_\+munk\+\_\+power\+\_\+supply/data\+\_\+registers/\textbf{ segment\+\_\+current\+\_\+setpoint.\+h}\item 
+src/library\+\_\+munk\+\_\+power\+\_\+supply/data\+\_\+registers/\textbf{ segment\+\_\+current\+\_\+setpoint.\+cpp}\end{DoxyCompactItemize}

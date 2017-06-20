@@ -1,15 +1,8 @@
 var searchData=
 [
-  ['level',['level',['../d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a5b8916d8c32e2e9b9f79b21788ba7219',1,'DataParameter::SegmentCurrentSetpoint::level()'],['../d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#a8082cfb574dc3959bedfcce8e6d2dd63',1,'DataParameter::SegmentVoltageSetpoint::level()']]],
-  ['level1',['LEVEL1',['../de/d75/namespace_data.html#adf7ef79e407599a0e59dd1462e868645ae987463bf0418539b306409f86997a21',1,'Data']]],
-  ['level2',['LEVEL2',['../de/d75/namespace_data.html#adf7ef79e407599a0e59dd1462e868645aa31e8d4009e094c0f20bda3944e71966',1,'Data']]],
-  ['level3',['LEVEL3',['../de/d75/namespace_data.html#adf7ef79e407599a0e59dd1462e868645ac28cb8d5acec5dae4fc3905ce468e738',1,'Data']]],
-  ['level4',['LEVEL4',['../de/d75/namespace_data.html#adf7ef79e407599a0e59dd1462e868645a9577012a8be25ad7659b0a0c4690bc0e',1,'Data']]],
-  ['level5',['LEVEL5',['../de/d75/namespace_data.html#adf7ef79e407599a0e59dd1462e868645a3c3bdaf15e5c1e52c5873e01503216c9',1,'Data']]],
-  ['level6',['LEVEL6',['../de/d75/namespace_data.html#adf7ef79e407599a0e59dd1462e868645ae1e85891daf77e8d66a9311e5ce13d54',1,'Data']]],
-  ['level7',['LEVEL7',['../de/d75/namespace_data.html#adf7ef79e407599a0e59dd1462e868645aaeb146aacbec450b6516455a02239a2d',1,'Data']]],
-  ['level8',['LEVEL8',['../de/d75/namespace_data.html#adf7ef79e407599a0e59dd1462e868645a543741c218dd27c74d79634b37ffaad2',1,'Data']]],
-  ['library_5fmunk_5fpower_5fsupply_5fglobal_2eh',['library_munk_power_supply_global.h',['../d3/d16/library__munk__power__supply__global_8h.html',1,'']]],
-  ['library_5fmunk_5fpower_5fsupplyshared_5fexport',['LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT',['../d3/d16/library__munk__power__supply__global_8h.html#aaf13632e627515480688d67322d0ff0b',1,'library_munk_power_supply_global.h']]],
-  ['lowchecksum',['lowChecksum',['../da/dfc/class_data_parameter_1_1_abstract_parameter.html#a1c8874ec3aa2c359c8b2e4368112701d',1,'DataParameter::AbstractParameter']]]
+  ['illegal',['ILLEGAL',['../de/d75/namespace_data.html#a790bd94607dc3b0bcbaa980d481e1a1ca19b6dd9cf8414bce98a4f0b86c3258ec',1,'Data']]],
+  ['illegal_5fdata_5faddress',['ILLEGAL_DATA_ADDRESS',['../de/d75/namespace_data.html#ad10776cfbb423e455b52087b1e14a166ab6b1e2ac3a081715e6553d6ff90c3c21',1,'Data']]],
+  ['illegal_5fdata_5fvalue',['ILLEGAL_DATA_VALUE',['../de/d75/namespace_data.html#ad10776cfbb423e455b52087b1e14a166a0f060e236bf02e1b3a44427ead1b59fd',1,'Data']]],
+  ['illegal_5ffunction',['ILLEGAL_FUNCTION',['../de/d75/namespace_data.html#ad10776cfbb423e455b52087b1e14a166adef96d4e9db1fe8f24066c18a96972a7',1,'Data']]],
+  ['initializedata',['initializeData',['../de/d8e/class_data_parameter_1_1_segment_time_detailed.html#a2cf89498541f6ee0b27db9e1a3b5374b',1,'DataParameter::SegmentTimeDetailed::initializeData()'],['../df/dd9/class_data_parameter_1_1_segment_time_general.html#ac0ed78dea9054e315e7943b4cb176b90',1,'DataParameter::SegmentTimeGeneral::initializeData()']]]
 ];

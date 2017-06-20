@@ -1,0 +1,33 @@
+\section{src/library\+\_\+munk\+\_\+power\+\_\+supply/data/type\+\_\+prescalar\+\_\+power.h File Reference}
+\label{type__prescalar__power_8h}\index{src/library\+\_\+munk\+\_\+power\+\_\+supply/data/type\+\_\+prescalar\+\_\+power.\+h@{src/library\+\_\+munk\+\_\+power\+\_\+supply/data/type\+\_\+prescalar\+\_\+power.\+h}}
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$stdexcept$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \textbf{ Data}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \textbf{ Data\+::\+Segment\+Power} \{ \newline
+\textbf{ Data\+::\+Segment\+Power\+::\+O\+NE} = 0, 
+\textbf{ Data\+::\+Segment\+Power\+::\+T\+EN} = 1, 
+\textbf{ Data\+::\+Segment\+Power\+::\+O\+N\+E\+\_\+\+H\+U\+N\+D\+R\+ED} = 2, 
+\textbf{ Data\+::\+Segment\+Power\+::\+O\+N\+E\+\_\+\+T\+H\+O\+U\+S\+A\+ND} = 3, 
+\newline
+\textbf{ Data\+::\+Segment\+Power\+::\+T\+E\+N\+\_\+\+T\+H\+O\+U\+S\+A\+ND} = 4
+ \}\begin{DoxyCompactList}\small\item\em The Segment\+Power enum. \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \textbf{ Data\+::\+Segment\+Power\+To\+String} (const Segment\+Power \&type)
+\begin{DoxyCompactList}\small\item\em Segment\+Power\+To\+String. \end{DoxyCompactList}\item 
+Segment\+Power \textbf{ Data\+::\+Segment\+Power\+From\+String} (const std\+::string \&str)
+\begin{DoxyCompactList}\small\item\em Segment\+Power\+From\+String. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::string $>$ \textbf{ Data\+::get\+List\+Of\+Segment\+Power} ()
+\begin{DoxyCompactList}\small\item\em get\+List\+Of\+Segment\+Power \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ Data\+::\+Segment\+Power\+To\+Bit\+Array} (const Segment\+Power \&type, const uint32\+\_\+t \&bit\+Array)
+\begin{DoxyCompactList}\small\item\em Segment\+Power\+To\+Bit\+Array. \end{DoxyCompactList}\end{DoxyCompactItemize}

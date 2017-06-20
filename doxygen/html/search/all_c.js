@@ -1,15 +1,14 @@
 var searchData=
 [
-  ['read',['READ',['../de/d75/namespace_data.html#aed8e2775ba172d1c016f9efad462684aa3466fab4975481651940ed328aa990e4',1,'Data']]],
-  ['readorwrite',['readOrwrite',['../da/dfc/class_data_parameter_1_1_abstract_parameter.html#a5f73b273bcde383d3fed19690e2e1c53',1,'DataParameter::AbstractParameter']]],
-  ['readwritetype',['ReadWriteType',['../de/d75/namespace_data.html#aed8e2775ba172d1c016f9efad462684a',1,'Data']]],
-  ['readwritetypefromstring',['ReadWriteTypeFromString',['../de/d75/namespace_data.html#ab880906db2d95322ecf2c22c418555bb',1,'Data']]],
-  ['readwritetypetostring',['ReadWriteTypeToString',['../de/d75/namespace_data.html#ae42e4aea5c18c202f1069db6d6acf62a',1,'Data']]],
-  ['register_5fdata_5fobject_2ecpp',['register_data_object.cpp',['../d7/dfc/register__data__object_8cpp.html',1,'']]],
-  ['register_5fdata_5fobject_2eh',['register_data_object.h',['../d5/d43/register__data__object_8h.html',1,'']]],
-  ['registerdata',['registerData',['../df/dd9/class_data_parameter_1_1_segment_time_general.html#a4382dc111482e11774470981813f8d2e',1,'DataParameter::SegmentTimeGeneral']]],
-  ['registerdataobject',['RegisterDataObject',['../df/d53/class_data_1_1_register_data_object.html',1,'Data::RegisterDataObject'],['../df/d53/class_data_1_1_register_data_object.html#ab7774d694983f85ee9e1626a35c9b391',1,'Data::RegisterDataObject::RegisterDataObject()'],['../df/d53/class_data_1_1_register_data_object.html#a37f0946ad82917850cf33db16ce4b9b6',1,'Data::RegisterDataObject::RegisterDataObject(const int &amp;voltage, const int &amp;current)'],['../df/d53/class_data_1_1_register_data_object.html#a4e3aaa00dedd1eba9d4d4921e7e154d2',1,'Data::RegisterDataObject::RegisterDataObject(const RegisterDataObject &amp;obj)']]],
-  ['resetdata',['resetData',['../d8/dfb/class_data_parameter_1_1_segment_time_data_detailed.html#a14f2c32fd145c6d24ff10b9cd9549595',1,'DataParameter::SegmentTimeDataDetailed::resetData()'],['../d5/dbc/class_data_parameter_1_1_segment_time_data_general.html#a78b3aab1b9abd37481e5df8e959a86bb',1,'DataParameter::SegmentTimeDataGeneral::resetData()']]],
-  ['retranslateui',['retranslateUi',['../df/dd7/class_ui___main_window.html#a097dd160c3534a204904cb374412c618',1,'Ui_MainWindow']]],
-  ['reverse',['REVERSE',['../de/d75/namespace_data.html#a790bd94607dc3b0bcbaa980d481e1a1ca642e0b6684e6165e142c074f1cd8d55c',1,'Data']]]
+  ['parameter_5fmemory_5fwrite_2ecpp',['parameter_memory_write.cpp',['../de/db7/parameter__memory__write_8cpp.html',1,'']]],
+  ['parameter_5fmemory_5fwrite_2eh',['parameter_memory_write.h',['../d7/d1c/parameter__memory__write_8h.html',1,'']]],
+  ['parametercode',['parameterCode',['../da/dfc/class_data_parameter_1_1_abstract_parameter.html#aa1e08311a9936590082ac915c7780bb9',1,'DataParameter::AbstractParameter']]],
+  ['parametermemorywrite',['ParameterMemoryWrite',['../d7/d4a/class_data_parameter_1_1_parameter_memory_write.html',1,'DataParameter::ParameterMemoryWrite'],['../d7/d4a/class_data_parameter_1_1_parameter_memory_write.html#a0950f8743a8e5cb2caaa6749133f36e5',1,'DataParameter::ParameterMemoryWrite::ParameterMemoryWrite()']]],
+  ['parametertype',['ParameterType',['../dc/dd5/namespace_data_parameter.html#a464bd470dc17918b20f97c1a40e64199',1,'DataParameter']]],
+  ['parametertypefromint',['ParameterTypeFromInt',['../dc/dd5/namespace_data_parameter.html#aa16979d66f78573e0b8b4c38bf859a7b',1,'DataParameter']]],
+  ['parametertypefromstring',['ParameterTypeFromString',['../dc/dd5/namespace_data_parameter.html#aa480b8a247c3c74eee42434808563f46',1,'DataParameter']]],
+  ['parametertypetoint',['ParameterTypeToInt',['../dc/dd5/namespace_data_parameter.html#adb0d6404a9cbb9f2b65f49959c4ce311',1,'DataParameter']]],
+  ['parametertypetostring',['ParameterTypeToString',['../dc/dd5/namespace_data_parameter.html#a7ed06d4e5784e9ce0c99f56cca898e83',1,'DataParameter']]],
+  ['patternwritecommand',['PATTERNWRITECOMMAND',['../dc/dd5/namespace_data_parameter.html#a464bd470dc17918b20f97c1a40e64199a3f679da5e270d2f596b042fee9ebac63',1,'DataParameter']]],
+  ['prescale',['prescale',['../d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a0d159f49c5e3fa76874e06a881b97289',1,'DataParameter::SegmentCurrentSetpoint::prescale()'],['../d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#a24cbc6343b200251b608f7edd1d45136',1,'DataParameter::SegmentVoltageSetpoint::prescale()']]]
 ];

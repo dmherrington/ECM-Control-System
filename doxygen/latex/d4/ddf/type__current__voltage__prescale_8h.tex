@@ -1,0 +1,33 @@
+\section{src/library\+\_\+munk\+\_\+power\+\_\+supply/data/type\+\_\+current\+\_\+voltage\+\_\+prescale.h File Reference}
+\label{type__current__voltage__prescale_8h}\index{src/library\+\_\+munk\+\_\+power\+\_\+supply/data/type\+\_\+current\+\_\+voltage\+\_\+prescale.\+h@{src/library\+\_\+munk\+\_\+power\+\_\+supply/data/type\+\_\+current\+\_\+voltage\+\_\+prescale.\+h}}
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$stdexcept$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \textbf{ Data}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \textbf{ Data\+::\+Segment\+V\+I\+Power} \{ \newline
+\textbf{ Data\+::\+Segment\+V\+I\+Power\+::\+O\+NE} = 0, 
+\textbf{ Data\+::\+Segment\+V\+I\+Power\+::\+O\+N\+E\+\_\+\+H\+U\+N\+D\+R\+E\+D\+TH} = 1, 
+\textbf{ Data\+::\+Segment\+V\+I\+Power\+::\+O\+N\+E\+\_\+\+T\+E\+N\+TH} = 2, 
+\textbf{ Data\+::\+Segment\+V\+I\+Power\+::\+T\+EN} = 3, 
+\newline
+\textbf{ Data\+::\+Segment\+V\+I\+Power\+::\+O\+N\+E\+\_\+\+H\+U\+N\+D\+R\+ED} = 5
+ \}\begin{DoxyCompactList}\small\item\em The Segment\+V\+I\+Power enum. \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \textbf{ Data\+::\+Segment\+V\+I\+Power\+To\+String} (const Segment\+V\+I\+Power \&type)
+\begin{DoxyCompactList}\small\item\em Segment\+V\+I\+Power\+To\+String. \end{DoxyCompactList}\item 
+Segment\+V\+I\+Power \textbf{ Data\+::\+Segment\+V\+I\+Power\+From\+String} (const std\+::string \&str)
+\begin{DoxyCompactList}\small\item\em Segment\+V\+I\+Power\+From\+String. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::string $>$ \textbf{ Data\+::get\+List\+Of\+Segment\+V\+I\+Power} ()
+\begin{DoxyCompactList}\small\item\em get\+List\+Of\+Segment\+V\+I\+Power \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ Data\+::\+Segmen\+V\+I\+Power\+To\+Bit\+Array} (const Segment\+V\+I\+Power \&type, const uint32\+\_\+t \&bit\+Array)
+\begin{DoxyCompactList}\small\item\em Segmen\+V\+I\+Power\+To\+Bit\+Array. \end{DoxyCompactList}\end{DoxyCompactItemize}

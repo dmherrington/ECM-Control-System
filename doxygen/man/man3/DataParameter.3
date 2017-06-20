@@ -1,4 +1,4 @@
-.TH "DataParameter" 3 "Mon Jun 19 2017" "ECM Control System" \" -*- nroff -*-
+.TH "DataParameter" 3 "Tue Jun 20 2017" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -13,6 +13,10 @@ DataParameter
 .RI "class \fBAbstractParameter\fP"
 .br
 .RI "The \fBAbstractParameter\fP class\&. "
+.ti -1c
+.RI "class \fBParameterMemoryWrite\fP"
+.br
+.RI "The \fBParameterMemoryWrite\fP class\&. "
 .ti -1c
 .RI "class \fBSegmentCurrentSetpoint\fP"
 .br
@@ -49,7 +53,7 @@ DataParameter
 
 .in +1c
 .ti -1c
-.RI "enum \fBParameterType\fP { \fBParameterType::SEGMENTTIMES\fP, \fBParameterType::PATTERNWRITECOMMAND\fP, \fBParameterType::CURRENTSETPOINT\fP, \fBParameterType::VOLTAGESETPOINT\fP }"
+.RI "enum \fBParameterType\fP { \fBParameterType::SEGMENTTIMES\fP, \fBParameterType::PATTERNWRITECOMMAND\fP, \fBParameterType::CURRENTSETPOINT\fP, \fBParameterType::MEMORYWRITE\fP, \fBParameterType::VOLTAGESETPOINT\fP }"
 .br
 .in -1c
 .SS "Functions"
@@ -91,6 +95,8 @@ Definition at line 15 of file abstract_parameter\&.h\&.
 .TP
 \fB\fICURRENTSETPOINT \fP\fP
 .TP
+\fB\fIMEMORYWRITE \fP\fP
+.TP
 \fB\fIVOLTAGESETPOINT \fP\fP
 .PP
 Definition at line 11 of file type_definition\&.h\&.
@@ -99,23 +105,23 @@ Definition at line 11 of file type_definition\&.h\&.
 .SS "std::vector<std::string> DataParameter::getListOfParameterTypes ()\fC [inline]\fP"
 
 .PP
-Definition at line 50 of file type_definition\&.h\&.
+Definition at line 51 of file type_definition\&.h\&.
 .SS "\fBParameterType\fP DataParameter::ParameterTypeFromInt (const int & param)\fC [inline]\fP"
 
 .PP
-Definition at line 58 of file type_definition\&.h\&.
+Definition at line 59 of file type_definition\&.h\&.
 .SS "\fBParameterType\fP DataParameter::ParameterTypeFromString (const std::string & str)\fC [inline]\fP"
 
 .PP
-Definition at line 29 of file type_definition\&.h\&.
+Definition at line 30 of file type_definition\&.h\&.
 .SS "int DataParameter::ParameterTypeToInt (const \fBParameterType\fP & type)\fC [inline]\fP"
 
 .PP
-Definition at line 38 of file type_definition\&.h\&.
+Definition at line 39 of file type_definition\&.h\&.
 .SS "std::string DataParameter::ParameterTypeToString (const \fBParameterType\fP & type)\fC [inline]\fP"
 
 .PP
-Definition at line 18 of file type_definition\&.h\&.
+Definition at line 19 of file type_definition\&.h\&.
 .SH "Author"
 .PP 
-Generated automatically by Doxygen for ECM Control System from the source code\&.
+Generated automatically by Doxygen for My Project from the source code\&.

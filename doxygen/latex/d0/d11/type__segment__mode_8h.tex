@@ -1,0 +1,33 @@
+\section{src/library\+\_\+munk\+\_\+power\+\_\+supply/data/type\+\_\+segment\+\_\+mode.h File Reference}
+\label{type__segment__mode_8h}\index{src/library\+\_\+munk\+\_\+power\+\_\+supply/data/type\+\_\+segment\+\_\+mode.\+h@{src/library\+\_\+munk\+\_\+power\+\_\+supply/data/type\+\_\+segment\+\_\+mode.\+h}}
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$stdexcept$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \textbf{ Data}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \textbf{ Data\+::\+Segment\+Mode} \{ \newline
+\textbf{ Data\+::\+Segment\+Mode\+::\+D\+E\+AD} = 0, 
+\textbf{ Data\+::\+Segment\+Mode\+::\+F\+O\+R\+W\+A\+RD} = 1, 
+\textbf{ Data\+::\+Segment\+Mode\+::\+R\+E\+V\+E\+R\+SE} = 2, 
+\textbf{ Data\+::\+Segment\+Mode\+::\+I\+L\+L\+E\+G\+AL} = 3, 
+\newline
+\textbf{ Data\+::\+Segment\+Mode\+::\+H\+IZ} = 4
+ \}\begin{DoxyCompactList}\small\item\em The Segment\+Mode enum. \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \textbf{ Data\+::\+Segment\+Mode\+To\+String} (const Segment\+Mode \&type)
+\begin{DoxyCompactList}\small\item\em Segment\+Mode\+To\+String. \end{DoxyCompactList}\item 
+Segment\+Mode \textbf{ Data\+::\+Segment\+Mode\+From\+String} (const std\+::string \&str)
+\begin{DoxyCompactList}\small\item\em Segment\+Mode\+From\+String. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ Data\+::\+Segment\+Mode\+To\+Bit\+Array} (const Segment\+Mode \&type, const uint32\+\_\+t \&bit\+Array)
+\begin{DoxyCompactList}\small\item\em Segment\+Mode\+To\+Bit\+Array. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::string $>$ \textbf{ Data\+::get\+List\+Of\+Segment\+Mode} ()
+\begin{DoxyCompactList}\small\item\em get\+List\+Of\+Segment\+Mode \end{DoxyCompactList}\end{DoxyCompactItemize}

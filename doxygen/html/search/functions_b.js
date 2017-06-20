@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['_7emainwindow',['~MainWindow',['../d9/dc6/class_main_window.html#ae98d00a93bc118200eeef9f9bba1dba7',1,'MainWindow::~MainWindow()'],['../d9/dc6/class_main_window.html#ae98d00a93bc118200eeef9f9bba1dba7',1,'MainWindow::~MainWindow()']]]
+  ['typeresponseexceptionfromstring',['TypeResponseExceptionFromString',['../de/d75/namespace_data.html#aa0bc3c1657b0113f34f5870f4c86839d',1,'Data']]],
+  ['typeresponseexceptiontostring',['TypeResponseExceptionToString',['../de/d75/namespace_data.html#a23a5427f6130a0edf9ef386f22cd22ab',1,'Data']]]
 ];

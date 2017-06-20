@@ -1,16 +1,20 @@
 var searchData=
 [
-  ['ui',['Ui',['../dc/df0/namespace_ui.html',1,'Ui'],['../d9/dc6/class_main_window.html#a43606649aeaf9e561328935fca0cd1bf',1,'MainWindow::ui()']]],
-  ['ui_5fmainwindow',['Ui_MainWindow',['../df/dd7/class_ui___main_window.html',1,'']]],
-  ['ui_5fmainwindow_2eh',['ui_mainwindow.h',['../d4/d8d/ui__mainwindow_8h.html',1,'']]],
-  ['unused',['UNUSED',['../dc/d54/common_8h.html#a86d500a34c624c2cae56bc25a31b12f3',1,'common.h']]],
-  ['updateampsbitarray',['updateAmpsBitArray',['../d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a1e05e3475a1473a86b1ae32b8ecb1979',1,'DataParameter::SegmentCurrentSetpoint']]],
-  ['updatecurrentfactor',['updateCurrentFactor',['../d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a87f3dc129117151cd80862f903a61182',1,'DataParameter::SegmentCurrentSetpoint']]],
-  ['updatecurrentsetpoint',['updateCurrentSetpoint',['../d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a542298e27fe960fc5eeb98cb3d519686',1,'DataParameter::SegmentCurrentSetpoint']]],
-  ['updatedata',['updateData',['../d8/dfb/class_data_parameter_1_1_segment_time_data_detailed.html#afc5f514417f6cccc475a728efb27b7d3',1,'DataParameter::SegmentTimeDataDetailed::updateData()'],['../d5/dbc/class_data_parameter_1_1_segment_time_data_general.html#a6287e3cf3943988680f636086f945459',1,'DataParameter::SegmentTimeDataGeneral::updateData()']]],
-  ['updateprescalebitarray',['updatePrescaleBitArray',['../d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#ab51310c5e47224a1209d22872c212f15',1,'DataParameter::SegmentCurrentSetpoint::updatePrescaleBitArray()'],['../d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#a9fd1c813a1f0cf4fa36bf4c0018b0b3f',1,'DataParameter::SegmentVoltageSetpoint::updatePrescaleBitArray()']]],
-  ['updateprescalepower',['updatePrescalePower',['../d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#aef9677a3298c3d56892ccaf510cb7dbf',1,'DataParameter::SegmentCurrentSetpoint::updatePrescalePower()'],['../d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#ae2dfa3d0086eafa9496508cc32577302',1,'DataParameter::SegmentVoltageSetpoint::updatePrescalePower()']]],
-  ['updateregisterdata',['updateRegisterData',['../de/d8e/class_data_parameter_1_1_segment_time_detailed.html#ad146332f303300e2e299e34a8fb3e010',1,'DataParameter::SegmentTimeDetailed::updateRegisterData()'],['../df/dd9/class_data_parameter_1_1_segment_time_general.html#a1e55b632d5b65d6518a138f93ffc009a',1,'DataParameter::SegmentTimeGeneral::updateRegisterData()']]],
-  ['updatesetpointbitarray',['updateSetPointBitArray',['../d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a5781080dffd938d046ffa287d1153a2b',1,'DataParameter::SegmentCurrentSetpoint::updateSetPointBitArray()'],['../d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#aa1aea2b0296423784180c33bca5b8645',1,'DataParameter::SegmentVoltageSetpoint::updateSetPointBitArray()']]],
-  ['updatevoltagesetpoint',['updateVoltageSetpoint',['../d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#ad20a85ce851ef59e016ff5c0b2f63aee',1,'DataParameter::SegmentVoltageSetpoint']]]
+  ['ten',['TEN',['../de/d75/namespace_data.html#a57968c70a98bf90625faa304ae9de8d2a25e822c5a6128d9e957062a9ec28a29d',1,'Data::TEN()'],['../de/d75/namespace_data.html#aaeb60e096b6887b88f60072dee83bca1a25e822c5a6128d9e957062a9ec28a29d',1,'Data::TEN()']]],
+  ['ten_5fthousand',['TEN_THOUSAND',['../de/d75/namespace_data.html#aaeb60e096b6887b88f60072dee83bca1a9d972894d583cd93da30478a59001db6',1,'Data']]],
+  ['timevalue',['timeValue',['../d8/dfb/class_data_parameter_1_1_segment_time_data_detailed.html#aac252c69aa1798376f63b6e21f539031',1,'DataParameter::SegmentTimeDataDetailed::timeValue()'],['../d5/dbc/class_data_parameter_1_1_segment_time_data_general.html#a68cd8005705dfa7d542bb03e6140557b',1,'DataParameter::SegmentTimeDataGeneral::timeValue()']]],
+  ['type_5fcurrent_5ffactor_2eh',['type_current_factor.h',['../d3/dcd/type__current__factor_8h.html',1,'']]],
+  ['type_5fcurrent_5fset_2eh',['type_current_set.h',['../d9/d03/type__current__set_8h.html',1,'']]],
+  ['type_5fcurrent_5fvoltage_5fprescale_2eh',['type_current_voltage_prescale.h',['../d4/ddf/type__current__voltage__prescale_8h.html',1,'']]],
+  ['type_5fdefinition_2eh',['type_definition.h',['../d3/dc3/type__definition_8h.html',1,'']]],
+  ['type_5fprescalar_5fpower_2eh',['type_prescalar_power.h',['../d0/d07/type__prescalar__power_8h.html',1,'']]],
+  ['type_5fread_5fwrite_2eh',['type_read_write.h',['../da/dce/type__read__write_8h.html',1,'']]],
+  ['type_5fresponse_5fexception_2eh',['type_response_exception.h',['../d3/d7b/type__response__exception_8h.html',1,'']]],
+  ['type_5fsegment_5flevel_2eh',['type_segment_level.h',['../d7/df5/type__segment__level_8h.html',1,'']]],
+  ['type_5fsegment_5fmode_2eh',['type_segment_mode.h',['../d0/d11/type__segment__mode_8h.html',1,'']]],
+  ['type_5fsegment_5fparameter_2eh',['type_segment_parameter.h',['../d9/d88/type__segment__parameter_8h.html',1,'']]],
+  ['type_5fvoltage_5fset_2eh',['type_voltage_set.h',['../d6/dff/type__voltage__set_8h.html',1,'']]],
+  ['typeresponseexception',['TypeResponseException',['../de/d75/namespace_data.html#ad10776cfbb423e455b52087b1e14a166',1,'Data']]],
+  ['typeresponseexceptionfromstring',['TypeResponseExceptionFromString',['../de/d75/namespace_data.html#aa0bc3c1657b0113f34f5870f4c86839d',1,'Data']]],
+  ['typeresponseexceptiontostring',['TypeResponseExceptionToString',['../de/d75/namespace_data.html#a23a5427f6130a0edf9ef386f22cd22ab',1,'Data']]]
 ];

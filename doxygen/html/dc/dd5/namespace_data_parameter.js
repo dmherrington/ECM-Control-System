@@ -1,6 +1,7 @@
 var namespace_data_parameter =
 [
     [ "AbstractParameter", "da/dfc/class_data_parameter_1_1_abstract_parameter.html", "da/dfc/class_data_parameter_1_1_abstract_parameter" ],
+    [ "ParameterMemoryWrite", "d7/d4a/class_data_parameter_1_1_parameter_memory_write.html", "d7/d4a/class_data_parameter_1_1_parameter_memory_write" ],
     [ "SegmentCurrentSetpoint", "d0/de7/class_data_parameter_1_1_segment_current_setpoint.html", "d0/de7/class_data_parameter_1_1_segment_current_setpoint" ],
     [ "SegmentTimeDataDetailed", "d8/dfb/class_data_parameter_1_1_segment_time_data_detailed.html", "d8/dfb/class_data_parameter_1_1_segment_time_data_detailed" ],
     [ "SegmentTimeDataGeneral", "d5/dbc/class_data_parameter_1_1_segment_time_data_general.html", "d5/dbc/class_data_parameter_1_1_segment_time_data_general" ],

@@ -1,14 +1,15 @@
 var searchData=
 [
-  ['main',['main',['../d0/dd0/_e_c_m___main_window_2main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;main.cpp'],['../d7/d41/_window___munk_power_supply_2main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;main.cpp']]],
-  ['main_2ecpp',['main.cpp',['../d0/dd0/_e_c_m___main_window_2main_8cpp.html',1,'(Global Namespace)'],['../d7/d41/_window___munk_power_supply_2main_8cpp.html',1,'(Global Namespace)']]],
-  ['maintoolbar',['mainToolBar',['../df/dd7/class_ui___main_window.html#a5172877001c8c7b4e0f6de50421867d1',1,'Ui_MainWindow']]],
-  ['mainwindow',['MainWindow',['../d9/dc6/class_main_window.html',1,'MainWindow'],['../d4/d4a/class_ui_1_1_main_window.html',1,'Ui::MainWindow'],['../d9/dc6/class_main_window.html#a8b244be8b7b7db1b08de2a2acb9409db',1,'MainWindow::MainWindow(QWidget *parent=0)'],['../d9/dc6/class_main_window.html#a8b244be8b7b7db1b08de2a2acb9409db',1,'MainWindow::MainWindow(QWidget *parent=0)']]],
-  ['mainwindow_2ecpp',['mainwindow.cpp',['../d6/d56/_e_c_m___main_window_2mainwindow_8cpp.html',1,'(Global Namespace)'],['../dc/d0e/_window___munk_power_supply_2mainwindow_8cpp.html',1,'(Global Namespace)']]],
-  ['mainwindow_2eh',['mainwindow.h',['../d4/dc3/_e_c_m___main_window_2mainwindow_8h.html',1,'(Global Namespace)'],['../dc/dd1/_window___munk_power_supply_2mainwindow_8h.html',1,'(Global Namespace)']]],
-  ['menubar',['menuBar',['../df/dd7/class_ui___main_window.html#a2be1c24ec9adfca18e1dcc951931457f',1,'Ui_MainWindow']]],
-  ['mode',['mode',['../d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a11fa94ec69645e30c94005536dc232d1',1,'DataParameter::SegmentCurrentSetpoint::mode()'],['../d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#a0a14845c3e651c63aa4a22dc3ca5d863',1,'DataParameter::SegmentVoltageSetpoint::mode()']]],
-  ['munk_5fpower_5fsupply_2ecpp',['munk_power_supply.cpp',['../dd/d9c/munk__power__supply_8cpp.html',1,'']]],
-  ['munk_5fpower_5fsupply_2eh',['munk_power_supply.h',['../d0/da0/munk__power__supply_8h.html',1,'']]],
-  ['munkpowersupply',['MunkPowerSupply',['../d2/d23/class_munk_power_supply.html',1,'MunkPowerSupply'],['../d2/d23/class_munk_power_supply.html#a4dbb8e589a1a7d7ecdd9c1e20be5c0b8',1,'MunkPowerSupply::MunkPowerSupply()']]]
+  ['level',['level',['../d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a5b8916d8c32e2e9b9f79b21788ba7219',1,'DataParameter::SegmentCurrentSetpoint::level()'],['../d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#a8082cfb574dc3959bedfcce8e6d2dd63',1,'DataParameter::SegmentVoltageSetpoint::level()']]],
+  ['level1',['LEVEL1',['../de/d75/namespace_data.html#adf7ef79e407599a0e59dd1462e868645ae987463bf0418539b306409f86997a21',1,'Data']]],
+  ['level2',['LEVEL2',['../de/d75/namespace_data.html#adf7ef79e407599a0e59dd1462e868645aa31e8d4009e094c0f20bda3944e71966',1,'Data']]],
+  ['level3',['LEVEL3',['../de/d75/namespace_data.html#adf7ef79e407599a0e59dd1462e868645ac28cb8d5acec5dae4fc3905ce468e738',1,'Data']]],
+  ['level4',['LEVEL4',['../de/d75/namespace_data.html#adf7ef79e407599a0e59dd1462e868645a9577012a8be25ad7659b0a0c4690bc0e',1,'Data']]],
+  ['level5',['LEVEL5',['../de/d75/namespace_data.html#adf7ef79e407599a0e59dd1462e868645a3c3bdaf15e5c1e52c5873e01503216c9',1,'Data']]],
+  ['level6',['LEVEL6',['../de/d75/namespace_data.html#adf7ef79e407599a0e59dd1462e868645ae1e85891daf77e8d66a9311e5ce13d54',1,'Data']]],
+  ['level7',['LEVEL7',['../de/d75/namespace_data.html#adf7ef79e407599a0e59dd1462e868645aaeb146aacbec450b6516455a02239a2d',1,'Data']]],
+  ['level8',['LEVEL8',['../de/d75/namespace_data.html#adf7ef79e407599a0e59dd1462e868645a543741c218dd27c74d79634b37ffaad2',1,'Data']]],
+  ['library_5fmunk_5fpower_5fsupply_5fglobal_2eh',['library_munk_power_supply_global.h',['../d3/d16/library__munk__power__supply__global_8h.html',1,'']]],
+  ['library_5fmunk_5fpower_5fsupplyshared_5fexport',['LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT',['../d3/d16/library__munk__power__supply__global_8h.html#aaf13632e627515480688d67322d0ff0b',1,'library_munk_power_supply_global.h']]],
+  ['lowchecksum',['lowChecksum',['../da/dfc/class_data_parameter_1_1_abstract_parameter.html#a1c8874ec3aa2c359c8b2e4368112701d',1,'DataParameter::AbstractParameter']]]
 ];

@@ -1,0 +1,35 @@
+\section{src/library\+\_\+munk\+\_\+power\+\_\+supply/data\+\_\+registers/type\+\_\+definition.h File Reference}
+\label{type__definition_8h}\index{src/library\+\_\+munk\+\_\+power\+\_\+supply/data\+\_\+registers/type\+\_\+definition.\+h@{src/library\+\_\+munk\+\_\+power\+\_\+supply/data\+\_\+registers/type\+\_\+definition.\+h}}
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$stdexcept$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \textbf{ Data\+Parameter}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \textbf{ Data\+Parameter\+::\+Parameter\+Type} \{ \newline
+\textbf{ Data\+Parameter\+::\+Parameter\+Type\+::\+S\+E\+G\+M\+E\+N\+T\+T\+I\+M\+ES}, 
+\textbf{ Data\+Parameter\+::\+Parameter\+Type\+::\+P\+A\+T\+T\+E\+R\+N\+W\+R\+I\+T\+E\+C\+O\+M\+M\+A\+ND}, 
+\textbf{ Data\+Parameter\+::\+Parameter\+Type\+::\+C\+U\+R\+R\+E\+N\+T\+S\+E\+T\+P\+O\+I\+NT}, 
+\textbf{ Data\+Parameter\+::\+Parameter\+Type\+::\+M\+E\+M\+O\+R\+Y\+W\+R\+I\+TE}, 
+\newline
+\textbf{ Data\+Parameter\+::\+Parameter\+Type\+::\+V\+O\+L\+T\+A\+G\+E\+S\+E\+T\+P\+O\+I\+NT}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \textbf{ Data\+Parameter\+::\+Parameter\+Type\+To\+String} (const Parameter\+Type \&type)
+\item 
+Parameter\+Type \textbf{ Data\+Parameter\+::\+Parameter\+Type\+From\+String} (const std\+::string \&str)
+\item 
+int \textbf{ Data\+Parameter\+::\+Parameter\+Type\+To\+Int} (const Parameter\+Type \&type)
+\item 
+std\+::vector$<$ std\+::string $>$ \textbf{ Data\+Parameter\+::get\+List\+Of\+Parameter\+Types} ()
+\item 
+Parameter\+Type \textbf{ Data\+Parameter\+::\+Parameter\+Type\+From\+Int} (const int \&param)
+\end{DoxyCompactItemize}

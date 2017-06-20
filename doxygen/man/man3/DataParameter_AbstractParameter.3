@@ -1,4 +1,4 @@
-.TH "DataParameter::AbstractParameter" 3 "Mon Jun 19 2017" "ECM Control System" \" -*- nroff -*-
+.TH "DataParameter::AbstractParameter" 3 "Tue Jun 20 2017" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -10,7 +10,7 @@ DataParameter::AbstractParameter \- The \fBAbstractParameter\fP class\&.
 .PP
 \fC#include <abstract_parameter\&.h>\fP
 .PP
-Inherited by \fBDataParameter::SegmentCurrentSetpoint\fP, \fBDataParameter::SegmentTimeDetailed\fP, \fBDataParameter::SegmentTimeGeneral\fP, and \fBDataParameter::SegmentVoltageSetpoint\fP\&.
+Inherited by \fBDataParameter::ParameterMemoryWrite\fP, \fBDataParameter::SegmentCurrentSetpoint\fP, \fBDataParameter::SegmentTimeDetailed\fP, \fBDataParameter::SegmentTimeGeneral\fP, and \fBDataParameter::SegmentVoltageSetpoint\fP\&.
 .SS "Public Member Functions"
 
 .in +1c
@@ -152,7 +152,7 @@ getByteArray
 .PP
 
 .PP
-Implemented in \fBDataParameter::SegmentTimeGeneral\fP, \fBDataParameter::SegmentVoltageSetpoint\fP, \fBDataParameter::SegmentTimeDetailed\fP, and \fBDataParameter::SegmentCurrentSetpoint\fP\&.
+Implemented in \fBDataParameter::SegmentTimeGeneral\fP, \fBDataParameter::SegmentVoltageSetpoint\fP, \fBDataParameter::SegmentTimeDetailed\fP, \fBDataParameter::SegmentCurrentSetpoint\fP, and \fBDataParameter::ParameterMemoryWrite\fP\&.
 .SS "virtual std::string DataParameter::AbstractParameter::getDescription () const\fC [pure virtual]\fP"
 
 .PP
@@ -165,7 +165,7 @@ getDescription
 .PP
 
 .PP
-Implemented in \fBDataParameter::SegmentTimeGeneral\fP, \fBDataParameter::SegmentTimeDetailed\fP, \fBDataParameter::SegmentCurrentSetpoint\fP, and \fBDataParameter::SegmentVoltageSetpoint\fP\&.
+Implemented in \fBDataParameter::SegmentTimeGeneral\fP, \fBDataParameter::SegmentTimeDetailed\fP, \fBDataParameter::SegmentCurrentSetpoint\fP, \fBDataParameter::SegmentVoltageSetpoint\fP, and \fBDataParameter::ParameterMemoryWrite\fP\&.
 .SS "QByteArray DataParameter::AbstractParameter::getFullMessage ()"
 
 .PP
@@ -191,7 +191,7 @@ getParameterType
 .PP
 
 .PP
-Implemented in \fBDataParameter::SegmentTimeGeneral\fP, \fBDataParameter::SegmentTimeDetailed\fP, \fBDataParameter::SegmentCurrentSetpoint\fP, and \fBDataParameter::SegmentVoltageSetpoint\fP\&.
+Implemented in \fBDataParameter::SegmentTimeGeneral\fP, \fBDataParameter::SegmentTimeDetailed\fP, \fBDataParameter::SegmentCurrentSetpoint\fP, \fBDataParameter::SegmentVoltageSetpoint\fP, and \fBDataParameter::ParameterMemoryWrite\fP\&.
 .SS "QByteArray DataParameter::AbstractParameter::getPrefixByteArray ()\fC [private]\fP"
 
 .PP
@@ -313,4 +313,4 @@ Definition at line 144 of file abstract_parameter\&.h\&.
 
 .SH "Author"
 .PP 
-Generated automatically by Doxygen for ECM Control System from the source code\&.
+Generated automatically by Doxygen for My Project from the source code\&.

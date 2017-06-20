@@ -1,4 +1,4 @@
-.TH "Data" 3 "Mon Jun 19 2017" "ECM Control System" \" -*- nroff -*-
+.TH "Data" 3 "Tue Jun 20 2017" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -17,6 +17,18 @@ Data
 .SS "Enumerations"
 
 .in +1c
+.ti -1c
+.RI "enum \fBFaultCodesRegister1\fP { \fBFaultCodesRegister1::ERR_FR1_DCLINK_OFF\fP = 1, \fBFaultCodesRegister1::ERR_FR1_DSP_PWM1_GENERATOR\fP = 2, \fBFaultCodesRegister1::ERR_FR1_DSP_PWM2_GENERATOR\fP = 4, \fBFaultCodesRegister1::ERR_FR1_DSP_ERROR\fP = 8, \fBFaultCodesRegister1::ERR_FR1_DSP_PIC_DEAD\fP = 16, \fBFaultCodesRegister1::ERR_FR1_DSP_TICKCOUNT_ERROR\fP = 32, \fBFaultCodesRegister1::ERR_FR1_INTERNAL_ERROR\fP = 64, \fBFaultCodesRegister1::ERR_FR1_EXTCOMM2\fP = 128, \fBFaultCodesRegister1::ERR_FR1_CHARGING\fP = 256, \fBFaultCodesRegister1::ERR_FR1_TEMP_POWERBOARD\fP = 512, \fBFaultCodesRegister1::ERR_FR1_EXTCOMM1\fP = 1024, \fBFaultCodesRegister1::ERR_FR1_SYNCHRO\fP = 2048, \fBFaultCodesRegister1::ERR_FR1_TEMP_MAINSCONTROLLER\fP = 4096, \fBFaultCodesRegister1::ERR_FR1_ZEROBATCH\fP = 8192, \fBFaultCodesRegister1::ERR_FR1_GENERAL_OVERCURRENT\fP = 16384, \fBFaultCodesRegister1::ERR_FR1_GENERAL_OVERVOLTAGE\fP = 32768 }
+.RI "The CurrentFactorType enum\&. ""
+.br
+.ti -1c
+.RI "enum \fBFaultCodesRegister3\fP { \fBFaultCodesRegister3::ERR_FR3_EXTERNAL_TRIP1\fP = 1, \fBFaultCodesRegister3::ERR_FR3_EXTERNAL_TRIP2\fP = 2, \fBFaultCodesRegister3::ERR_FR3_PLD_PWM_GENERATOR1\fP = 4, \fBFaultCodesRegister3::ERR_FR3_PLD_PWM_GENERATOR2\fP = 8, \fBFaultCodesRegister3::ERR_FR3_LOST_FIELDBUS\fP = 16, \fBFaultCodesRegister3::ERR_FR3_DYNAMIC_OVERCURRENT\fP = 32, \fBFaultCodesRegister3::ERR_FR3_RESERVED_7\fP = 64, \fBFaultCodesRegister3::ERR_FR3_RESERVED_8\fP = 128, \fBFaultCodesRegister3::ERR_FR3_RESERVED_9\fP = 256, \fBFaultCodesRegister3::ERR_FR3_RESERVED_10\fP = 512, \fBFaultCodesRegister3::ERR_FR3_RESERVED_11\fP = 1024, \fBFaultCodesRegister3::ERR_FR3_RESERVED_12\fP = 2048, \fBFaultCodesRegister3::ERR_FR3_RESERVED_13\fP = 4096, \fBFaultCodesRegister3::ERR_FR3_RESERVED_14\fP = 8192, \fBFaultCodesRegister3::ERR_FR3_RESERVED_15\fP = 16384, \fBFaultCodesRegister3::ERR_FR3_RESERVED_16\fP = 32768 }
+.RI "The CurrentFactorType enum\&. ""
+.br
+.ti -1c
+.RI "enum \fBFaultCodesRegister2\fP { \fBFaultCodesRegister2::ERR_FR2_AMPHOURCHECKSUM\fP = 1, \fBFaultCodesRegister2::ERR_FR2_INT_EEPROM\fP = 2, \fBFaultCodesRegister2::ERR_FR2_EXT_EEPROM\fP = 4, \fBFaultCodesRegister2::ERR_FR2_EEPROM_FORMAT\fP = 8, \fBFaultCodesRegister2::ERR_FR2_BATCH_READ\fP = 16, \fBFaultCodesRegister2::ERR_FR2_BATCH_WRITE\fP = 32, \fBFaultCodesRegister2::ERR_FR2_PATTERN_READ\fP = 64, \fBFaultCodesRegister2::ERR_FR2_PATTERN_WRITE\fP = 128, \fBFaultCodesRegister2::ERR_FR2_IDCLINK_IXT_TRIP1\fP = 256, \fBFaultCodesRegister2::ERR_FR2_CONTROLSUPPLY\fP = 512, \fBFaultCodesRegister2::ERR_FR2_DCLINK1\fP = 1024, \fBFaultCodesRegister2::ERR_FR2_PLD_1_5_SUPPLY\fP = 2048, \fBFaultCodesRegister2::ERR_FR2_IDCLINK_IXT_TRIP2\fP = 4096, \fBFaultCodesRegister2::ERR_FR2_DCLINK2\fP = 8192, \fBFaultCodesRegister2::ERR_FR2_RESERVED\fP = 16384, \fBFaultCodesRegister2::ERR_FR2_SET_CURRENT_EXCEEDED\fP = 32768 }
+.RI "The CurrentFactorType enum\&. ""
+.br
 .ti -1c
 .RI "enum \fBCurrentFactorType\fP { \fBCurrentFactorType::AMPS\fP = 0, \fBCurrentFactorType::A_DM2\fP = 1 }
 .RI "The CurrentFactorType enum\&. ""
@@ -40,6 +52,10 @@ Data
 .ti -1c
 .RI "enum \fBReadWriteType\fP { \fBReadWriteType::READ\fP = 03, \fBReadWriteType::WRITE\fP = 16 }
 .RI "The ReadWriteType enum\&. ""
+.br
+.ti -1c
+.RI "enum \fBTypeResponseException\fP { \fBTypeResponseException::ILLEGAL_FUNCTION\fP = 0, \fBTypeResponseException::ILLEGAL_DATA_ADDRESS\fP = 1, \fBTypeResponseException::ILLEGAL_DATA_VALUE\fP = 2 }
+.RI "The TypeResponseException enum\&. ""
 .br
 .ti -1c
 .RI "enum \fBSegmentLevel\fP { \fBSegmentLevel::LEVEL1\fP = 0, \fBSegmentLevel::LEVEL2\fP = 1, \fBSegmentLevel::LEVEL3\fP = 2, \fBSegmentLevel::LEVEL4\fP = 3, \fBSegmentLevel::LEVEL5\fP = 4, \fBSegmentLevel::LEVEL6\fP = 5, \fBSegmentLevel::LEVEL7\fP = 6, \fBSegmentLevel::LEVEL8\fP = 7 }
@@ -149,6 +165,18 @@ Data
 .RI "std::vector< std::string > \fBgetListOfReadWriteType\fP ()"
 .br
 .RI "getListOfReadWriteType "
+.ti -1c
+.RI "std::string \fBTypeResponseExceptionToString\fP (const \fBTypeResponseException\fP &type)"
+.br
+.RI "TypeResponseExceptionToString\&. "
+.ti -1c
+.RI "\fBTypeResponseException\fP \fBTypeResponseExceptionFromString\fP (const std::string &str)"
+.br
+.RI "TypeResponseExceptionFromString\&. "
+.ti -1c
+.RI "std::vector< std::string > \fBgetListOfTypeResponseException\fP ()"
+.br
+.RI "getListOfTypeResponseException "
 .ti -1c
 .RI "std::string \fBSegmentLevelToString\fP (const \fBSegmentLevel\fP &type)"
 .br
@@ -279,6 +307,150 @@ The CurrentSetREVType enum\&.
 \fB\fICurrentREV8 \fP\fP
 .PP
 Definition at line 116 of file type_current_set\&.h\&.
+.SS "enum \fBData::FaultCodesRegister1\fP\fC [strong]\fP"
+
+.PP
+The CurrentFactorType enum\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIERR_FR1_DCLINK_OFF \fP\fP
+.TP
+\fB\fIERR_FR1_DSP_PWM1_GENERATOR \fP\fP
+.TP
+\fB\fIERR_FR1_DSP_PWM2_GENERATOR \fP\fP
+.TP
+\fB\fIERR_FR1_DSP_ERROR \fP\fP
+.TP
+\fB\fIERR_FR1_DSP_PIC_DEAD \fP\fP
+.TP
+\fB\fIERR_FR1_DSP_TICKCOUNT_ERROR \fP\fP
+.TP
+\fB\fIERR_FR1_INTERNAL_ERROR \fP\fP
+.TP
+\fB\fIERR_FR1_EXTCOMM2 \fP\fP
+.TP
+\fB\fIERR_FR1_CHARGING \fP\fP
+.TP
+\fB\fIERR_FR1_TEMP_POWERBOARD \fP\fP
+.TP
+\fB\fIERR_FR1_EXTCOMM1 \fP\fP
+.TP
+\fB\fIERR_FR1_SYNCHRO \fP\fP
+.TP
+\fB\fIERR_FR1_TEMP_MAINSCONTROLLER \fP\fP
+.TP
+\fB\fIERR_FR1_ZEROBATCH \fP\fP
+.TP
+\fB\fIERR_FR1_GENERAL_OVERCURRENT \fP\fP
+.TP
+\fB\fIERR_FR1_GENERAL_OVERVOLTAGE \fP\fP
+.PP
+Definition at line 15 of file fault_codes_register_one\&.h\&.
+.SS "enum \fBData::FaultCodesRegister2\fP\fC [strong]\fP"
+
+.PP
+The CurrentFactorType enum\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIERR_FR2_AMPHOURCHECKSUM \fP\fP
+AmpHour variables are corrupt 
+.TP
+\fB\fIERR_FR2_INT_EEPROM \fP\fP
+Internal eeprom data invalid 
+.TP
+\fB\fIERR_FR2_EXT_EEPROM \fP\fP
+External eeprom data invalid 
+.TP
+\fB\fIERR_FR2_EEPROM_FORMAT \fP\fP
+Eeprom has been formatted (Format operation=0010) 
+.TP
+\fB\fIERR_FR2_BATCH_READ \fP\fP
+Crc check invaldid when reading batch from eeprom or BatchReadCommand (prm 4210) > 16 
+.TP
+\fB\fIERR_FR2_BATCH_WRITE \fP\fP
+Pattern No (prm 4200) zero when writing the batch to memory/eeporm or BatchWriteCommand (prm 4211) > 16\&. 
+.TP
+\fB\fIERR_FR2_PATTERN_READ \fP\fP
+Crc check invalid when reading pattern from eeprom or PatReadCommand (prm 4190) > 16 
+.TP
+\fB\fIERR_FR2_PATTERN_WRITE \fP\fP
+Pattern set invalid when writing to memory/eeprom or BatchWriteCommand (prm 4191) > 16 
+.TP
+\fB\fIERR_FR2_IDCLINK_IXT_TRIP1 \fP\fP
+Tripped on primary DClink current Ixt 
+.TP
+\fB\fIERR_FR2_CONTROLSUPPLY \fP\fP
+Control voltage timed out on threshold of CtrlVoltageThreshold parameter (9200) 
+.TP
+\fB\fIERR_FR2_DCLINK1 \fP\fP
+Primary Dclink voltage too low 
+.TP
+\fB\fIERR_FR2_PLD_1_5_SUPPLY \fP\fP
+DSP measured that the 1\&.5V supply of the PWM generators (PLD's) are too low 
+.TP
+\fB\fIERR_FR2_IDCLINK_IXT_TRIP2 \fP\fP
+Tripped on secundary DClink current Ixt 
+.TP
+\fB\fIERR_FR2_DCLINK2 \fP\fP
+Secundary Dclink voltage too low 
+.TP
+\fB\fIERR_FR2_RESERVED \fP\fP
+.TP
+\fB\fIERR_FR2_SET_CURRENT_EXCEEDED \fP\fP
+Current set point value is too high 
+.PP
+Definition at line 14 of file fault_codes_register_two\&.h\&.
+.SS "enum \fBData::FaultCodesRegister3\fP\fC [strong]\fP"
+
+.PP
+The CurrentFactorType enum\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIERR_FR3_EXTERNAL_TRIP1 \fP\fP
+External Trip #1 
+.TP
+\fB\fIERR_FR3_EXTERNAL_TRIP2 \fP\fP
+External Trip #2 
+.TP
+\fB\fIERR_FR3_PLD_PWM_GENERATOR1 \fP\fP
+IO controller did not find PWM generator #1, Fatal Error not resettable 
+.TP
+\fB\fIERR_FR3_PLD_PWM_GENERATOR2 \fP\fP
+IO controller did not find PWM generator #2, Fatal Error not resettable 
+.TP
+\fB\fIERR_FR3_LOST_FIELDBUS \fP\fP
+Lost communication with field bus 
+.TP
+\fB\fIERR_FR3_DYNAMIC_OVERCURRENT \fP\fP
+A dynamic overcurrent occurred see prm 4600\&.\&.4603 
+.TP
+\fB\fIERR_FR3_RESERVED_7 \fP\fP
+.TP
+\fB\fIERR_FR3_RESERVED_8 \fP\fP
+.TP
+\fB\fIERR_FR3_RESERVED_9 \fP\fP
+.TP
+\fB\fIERR_FR3_RESERVED_10 \fP\fP
+.TP
+\fB\fIERR_FR3_RESERVED_11 \fP\fP
+.TP
+\fB\fIERR_FR3_RESERVED_12 \fP\fP
+.TP
+\fB\fIERR_FR3_RESERVED_13 \fP\fP
+.TP
+\fB\fIERR_FR3_RESERVED_14 \fP\fP
+.TP
+\fB\fIERR_FR3_RESERVED_15 \fP\fP
+.TP
+\fB\fIERR_FR3_RESERVED_16 \fP\fP
+.PP
+Definition at line 14 of file fault_codes_register_three\&.h\&.
 .SS "enum \fBData::ReadWriteType\fP\fC [strong]\fP"
 
 .PP
@@ -415,6 +587,24 @@ The SegmentVIPower enum\&.
 \fB\fIONE_HUNDRED \fP\fP
 .PP
 Definition at line 14 of file type_current_voltage_prescale\&.h\&.
+.SS "enum \fBData::TypeResponseException\fP\fC [strong]\fP"
+
+.PP
+The TypeResponseException enum\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIILLEGAL_FUNCTION \fP\fP
+The function code received in the query is not an allowable action for the slave\&. 
+.TP
+\fB\fIILLEGAL_DATA_ADDRESS \fP\fP
+The data address received in the query is not an allowable address for the slave\&. 
+.TP
+\fB\fIILLEGAL_DATA_VALUE \fP\fP
+A value contained in the query data field is not an allowable value for the slave\&. 
+.PP
+Definition at line 14 of file type_response_exception\&.h\&.
 .SS "enum \fBData::VoltageSetFWDType\fP\fC [strong]\fP"
 
 .PP
@@ -691,6 +881,19 @@ getListOfSegmentVIPower
 
 .PP
 Definition at line 67 of file type_current_voltage_prescale\&.h\&.
+.SS "std::vector<std::string> Data::getListOfTypeResponseException ()\fC [inline]\fP"
+
+.PP
+getListOfTypeResponseException 
+.PP
+\fBReturns:\fP
+.RS 4
+
+.RE
+.PP
+
+.PP
+Definition at line 57 of file type_response_exception\&.h\&.
 .SS "std::vector<\fBVoltageSetFWDType\fP> Data::getListOfVoltageSetFWDTypes ()\fC [inline]\fP"
 
 .PP
@@ -997,6 +1200,40 @@ SegmenVIPowerToBitArray\&.
 
 .PP
 Definition at line 84 of file type_current_voltage_prescale\&.h\&.
+.SS "\fBTypeResponseException\fP Data::TypeResponseExceptionFromString (const std::string & str)\fC [inline]\fP"
+
+.PP
+TypeResponseExceptionFromString\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstr\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+.RE
+.PP
+
+.PP
+Definition at line 43 of file type_response_exception\&.h\&.
+.SS "std::string Data::TypeResponseExceptionToString (const \fBTypeResponseException\fP & type)\fC [inline]\fP"
+
+.PP
+TypeResponseExceptionToString\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fItype\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+.RE
+.PP
+
+.PP
+Definition at line 25 of file type_response_exception\&.h\&.
 .SS "\fBVoltageSetFWDType\fP Data::VoltageSetFWDTypeFromString (const std::string & str)\fC [inline]\fP"
 
 .PP
@@ -1067,4 +1304,4 @@ VoltageSetREVTypeToString\&.
 Definition at line 128 of file type_voltage_set\&.h\&.
 .SH "Author"
 .PP 
-Generated automatically by Doxygen for ECM Control System from the source code\&.
+Generated automatically by Doxygen for My Project from the source code\&.

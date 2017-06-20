@@ -1,0 +1,56 @@
+\section{src/library\+\_\+munk\+\_\+power\+\_\+supply/data/type\+\_\+voltage\+\_\+set.h File Reference}
+\label{type__voltage__set_8h}\index{src/library\+\_\+munk\+\_\+power\+\_\+supply/data/type\+\_\+voltage\+\_\+set.\+h@{src/library\+\_\+munk\+\_\+power\+\_\+supply/data/type\+\_\+voltage\+\_\+set.\+h}}
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$stdexcept$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \textbf{ Data}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \textbf{ Data\+::\+Voltage\+Set\+F\+W\+D\+Type} \{ \newline
+\textbf{ Data\+::\+Voltage\+Set\+F\+W\+D\+Type\+::\+Voltage\+F\+W\+D1} = 6500, 
+\textbf{ Data\+::\+Voltage\+Set\+F\+W\+D\+Type\+::\+Voltage\+F\+W\+D2} = 6540, 
+\textbf{ Data\+::\+Voltage\+Set\+F\+W\+D\+Type\+::\+Voltage\+F\+W\+D3} = 6580, 
+\textbf{ Data\+::\+Voltage\+Set\+F\+W\+D\+Type\+::\+Voltage\+F\+W\+D4} = 6620, 
+\newline
+\textbf{ Data\+::\+Voltage\+Set\+F\+W\+D\+Type\+::\+Voltage\+F\+W\+D5} = 6660, 
+\textbf{ Data\+::\+Voltage\+Set\+F\+W\+D\+Type\+::\+Voltage\+F\+W\+D6} = 6700, 
+\textbf{ Data\+::\+Voltage\+Set\+F\+W\+D\+Type\+::\+Voltage\+F\+W\+D7} = 6740, 
+\textbf{ Data\+::\+Voltage\+Set\+F\+W\+D\+Type\+::\+Voltage\+F\+W\+D8} = 6780
+ \}\begin{DoxyCompactList}\small\item\em The Voltage\+Set\+F\+W\+D\+Type enum. \end{DoxyCompactList}
+\item 
+enum \textbf{ Data\+::\+Voltage\+Set\+R\+E\+V\+Type} \{ \newline
+\textbf{ Data\+::\+Voltage\+Set\+R\+E\+V\+Type\+::\+Voltage\+R\+E\+V1} = 6520, 
+\textbf{ Data\+::\+Voltage\+Set\+R\+E\+V\+Type\+::\+Voltage\+R\+E\+V2} = 6560, 
+\textbf{ Data\+::\+Voltage\+Set\+R\+E\+V\+Type\+::\+Voltage\+R\+E\+V3} = 6600, 
+\textbf{ Data\+::\+Voltage\+Set\+R\+E\+V\+Type\+::\+Voltage\+R\+E\+V4} = 6640, 
+\newline
+\textbf{ Data\+::\+Voltage\+Set\+R\+E\+V\+Type\+::\+Voltage\+R\+E\+V5} = 6680, 
+\textbf{ Data\+::\+Voltage\+Set\+R\+E\+V\+Type\+::\+Voltage\+R\+E\+V6} = 6720, 
+\textbf{ Data\+::\+Voltage\+Set\+R\+E\+V\+Type\+::\+Voltage\+R\+E\+V7} = 6760, 
+\textbf{ Data\+::\+Voltage\+Set\+R\+E\+V\+Type\+::\+Voltage\+R\+E\+V8} = 6800
+ \}\begin{DoxyCompactList}\small\item\em The Voltage\+Set\+R\+E\+V\+Type enum. \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \textbf{ Data\+::\+Voltage\+Set\+F\+W\+D\+Type\+To\+String} (const Voltage\+Set\+F\+W\+D\+Type \&type)
+\begin{DoxyCompactList}\small\item\em Voltage\+Set\+F\+W\+D\+Type\+To\+String. \end{DoxyCompactList}\item 
+Voltage\+Set\+F\+W\+D\+Type \textbf{ Data\+::\+Voltage\+Set\+F\+W\+D\+Type\+From\+String} (const std\+::string \&str)
+\begin{DoxyCompactList}\small\item\em Voltage\+Set\+F\+W\+D\+Type\+From\+String. \end{DoxyCompactList}\item 
+std\+::vector$<$ Voltage\+Set\+F\+W\+D\+Type $>$ \textbf{ Data\+::get\+List\+Of\+Voltage\+Set\+F\+W\+D\+Types} ()
+\begin{DoxyCompactList}\small\item\em get\+List\+Of\+Voltage\+Set\+F\+W\+D\+Types \end{DoxyCompactList}\item 
+\textbf{ Data\+::\+Voltage\+Set\+F\+W\+D\+Type} \textbf{ Data\+::get\+F\+W\+D\+Voltage\+Index} (const int \&index)
+\begin{DoxyCompactList}\small\item\em get\+F\+W\+D\+Voltage\+Index \end{DoxyCompactList}\item 
+std\+::string \textbf{ Data\+::\+Voltage\+Set\+R\+E\+V\+Type\+To\+String} (const Voltage\+Set\+R\+E\+V\+Type \&type)
+\begin{DoxyCompactList}\small\item\em Voltage\+Set\+R\+E\+V\+Type\+To\+String. \end{DoxyCompactList}\item 
+Voltage\+Set\+R\+E\+V\+Type \textbf{ Data\+::\+Voltage\+Set\+R\+E\+V\+Type\+From\+String} (const std\+::string \&str)
+\begin{DoxyCompactList}\small\item\em Voltage\+Set\+R\+E\+V\+Type\+From\+String. \end{DoxyCompactList}\item 
+std\+::vector$<$ Voltage\+Set\+R\+E\+V\+Type $>$ \textbf{ Data\+::get\+List\+Of\+Voltage\+Set\+R\+E\+V\+Types} ()
+\begin{DoxyCompactList}\small\item\em get\+List\+Of\+Voltage\+Set\+R\+E\+V\+Types \end{DoxyCompactList}\item 
+\textbf{ Data\+::\+Voltage\+Set\+R\+E\+V\+Type} \textbf{ Data\+::get\+R\+E\+V\+Voltage\+Index} (const int \&index)
+\begin{DoxyCompactList}\small\item\em get\+R\+E\+V\+Voltage\+Index \end{DoxyCompactList}\end{DoxyCompactItemize}

@@ -1,6 +1,6 @@
 var NAVTREE =
 [
-  [ "ECM Control System", "index.html", [
+  [ "My Project", "index.html", [
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -34,7 +34,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d9/d88/type__segment__parameter_8h.html#a53abe7fbd52df615624d770ecceb0a42a9daa6c037ea17031dfad8e8d13d681f5"
+"d7/df5/type__segment__level_8h.html#adf7ef79e407599a0e59dd1462e868645aaeb146aacbec450b6516455a02239a2d",
+"globals.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

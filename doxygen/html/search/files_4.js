@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['register_5fdata_5fobject_2ecpp',['register_data_object.cpp',['../d7/dfc/register__data__object_8cpp.html',1,'']]],
-  ['register_5fdata_5fobject_2eh',['register_data_object.h',['../d5/d43/register__data__object_8h.html',1,'']]]
+  ['library_5fmunk_5fpower_5fsupply_5fglobal_2eh',['library_munk_power_supply_global.h',['../d3/d16/library__munk__power__supply__global_8h.html',1,'']]]
 ];
