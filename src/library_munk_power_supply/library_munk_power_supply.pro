@@ -31,10 +31,12 @@ SOURCES += munk_power_supply.cpp \
     data/register_data_object.cpp \
     data_registers/segment_voltage_setpoint.cpp \
     data_registers/segment_current_setpoint.cpp \
-    data_registers/fault_register_one.cpp \
-    data_registers/fault_register_two.cpp \
-    data_registers/fault_register_three.cpp \
-    data_registers/parameter_memory_write.cpp
+    data_registers/parameter_memory_write.cpp \
+    data_response/fault_register_one.cpp \
+    data_response/fault_register_three.cpp \
+    data_response/fault_register_two.cpp \
+    data_response/valid_response.cpp \
+    data_response/exception_response.cpp
 
 HEADERS += munk_power_supply.h\
         library_munk_power_supply_global.h \
@@ -56,13 +58,16 @@ HEADERS += munk_power_supply.h\
     data_registers/segment_current_setpoint.h \
     data/type_current_voltage_prescale.h \
     data/type_current_factor.h \
-    data_registers/fault_register_one.h \
-    data_registers/fault_register_two.h \
-    data_registers/fault_register_three.h \
     data/fault_codes_register_one.h \
     data/fault_codes_register_two.h \
     data/fault_codes_register_three.h \
-    data_registers/parameter_memory_write.h
+    data_registers/parameter_memory_write.h \
+    data_response/fault_register_one.h \
+    data_response/fault_register_three.h \
+    data_response/fault_register_two.h \
+    data_response/valid_response.h \
+    data_response/exception_response.h \
+    data/type_response_exception.h
 
 # Unix lib Install
 unix:!symbian {
