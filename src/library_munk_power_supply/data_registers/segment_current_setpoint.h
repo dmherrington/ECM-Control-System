@@ -1,7 +1,6 @@
 #ifndef SEGMENT_CURRENT_SETPOINT_H
 #define SEGMENT_CURRENT_SETPOINT_H
 
-
 #include <string>
 #include <vector>
 #include <iostream>
