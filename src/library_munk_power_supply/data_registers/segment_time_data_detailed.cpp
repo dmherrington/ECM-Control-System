@@ -10,6 +10,7 @@ SegmentTimeDataDetailed::SegmentTimeDataDetailed():
 
 SegmentTimeDataDetailed::SegmentTimeDataDetailed(const int &voltage, const int &current, const Data::SegmentMode &mode, const Data::SegmentPower &power, const uint8_t &time)
 {
+    setSupplyOutput(Data::TypeSupplyOutput::OUTPUT1);
     setSegmentVoltage(voltage);
     setSegmentCurrent(current);
     setSegmentMode(mode);

@@ -37,7 +37,8 @@ QByteArray SegmentVoltageSetpoint::getByteArray() const
 
 void SegmentVoltageSetpoint::appendData(const SegmentVoltageData &voltageSetpoint)
 {
-    this->data.at(voltageSetpoint.getSegmentLevel()) = voltageSetpoint;
+    this->data.insert(std::pair<Data::SegmentLevel,SegmentVoltageData>(voltageSetpoint.getSegmentLevel(),voltageSetpoint));
+    //this->data.at(voltageSetpoint.getSegmentLevel()) = voltageSetpoint;
 }
 
 } //end of namepsace DataParameter

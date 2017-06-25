@@ -32,7 +32,8 @@ QByteArray SegmentCurrentSetpoint::getByteArray() const
 
 void SegmentCurrentSetpoint::appendData(const SegmentCurrentData &currentSetpoint)
 {
-    this->data.at(currentSetpoint.getSegmentLevel()) = currentSetpoint;
+    this->data.insert(std::pair<Data::SegmentLevel,SegmentCurrentData>(currentSetpoint.getSegmentLevel(),currentSetpoint));
+    //this->data.at(currentSetpoint.getSegmentLevel()) = currentSetpoint;
 }
 
 } //end of namespace DataParameter
