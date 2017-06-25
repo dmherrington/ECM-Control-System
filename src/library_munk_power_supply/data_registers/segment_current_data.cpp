@@ -12,24 +12,6 @@ SegmentCurrentData::SegmentCurrentData(const Data::SegmentLevel &levelValue, con
     this->currentFactor = Data::CurrentFactorType::AMPS;
     this->current = 0.0;
     this->prescale = Data::SegmentVIPower::ONE;
-
-    //now we have to determine the correct parameter ID and update the object held by the AbstractParameter class
-    switch (levelMode) {
-    case Data::SegmentMode::FORWARD:
-    {
-        Data::VoltageSetFWDType paramType = Data::getFWDVoltageIndex((int)levelValue);
-        this->parameterCode = (int)paramType;
-        break;
-    }
-    case Data::SegmentMode::REVERSE:
-    {
-        Data::VoltageSetREVType paramType = Data::getREVVoltageIndex((int)levelValue);
-        this->parameterCode = (int)paramType;
-        break;
-    }
-    default:
-        break;
-    }
 }
 
 
@@ -70,27 +52,27 @@ void SegmentCurrentData::updateCurrentSetpoint(const int &value)
     }
 }
 
-Data::SegmentLevel SegmentCurrentData::getSegmentLevel()
+Data::SegmentLevel SegmentCurrentData::getSegmentLevel() const
 {
     return this->level;
 }
 
-Data::SegmentMode SegmentCurrentData::getSegmentMode()
+Data::SegmentMode SegmentCurrentData::getSegmentMode() const
 {
     return this->mode;
 }
 
-Data::CurrentFactorType SegmentCurrentData::getCurrentFactor()
+Data::CurrentFactorType SegmentCurrentData::getCurrentFactor() const
 {
     return this->currentFactor;
 }
 
-Data::SegmentVIPower SegmentCurrentData::getCurrentPrescale()
+Data::SegmentVIPower SegmentCurrentData::getCurrentPrescale() const
 {
     return this->prescale;
 }
 
-int SegmentCurrentData::getCurrent()
+int SegmentCurrentData::getCurrent() const
 {
     return this->current;
 }

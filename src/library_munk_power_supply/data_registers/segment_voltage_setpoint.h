@@ -27,7 +27,7 @@ public:
     //! \param levelValue
     //! \param levelMode
     //!
-    SegmentVoltageSetpoint(const Data::SegmentLevel &levelValue, const Data::SegmentMode &levelMode);
+    SegmentVoltageSetpoint(const Data::TypeSupplyOutput &outputNum, const Data::SegmentMode &levelMode);
 
 public:
     //!
@@ -47,6 +47,14 @@ public:
     //! \return
     //!
     virtual QByteArray getByteArray() const;
+
+public:
+
+    //!
+    //! \brief appendData
+    //! \param voltageSetpoint
+    //!
+    void appendData(const SegmentVoltageData &voltageSetpoint);
 
 private:
     //!

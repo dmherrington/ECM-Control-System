@@ -49,6 +49,10 @@ public:
     //!
     virtual std::string getDescription() const;
 
+
+public:
+    void appendData(const SegmentCurrentData &currentSetpoint);
+
 private:
     //!
     //! \brief supplyOutput

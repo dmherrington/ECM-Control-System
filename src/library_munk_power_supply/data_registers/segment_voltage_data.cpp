@@ -50,22 +50,22 @@ void SegmentVoltageData::updateVoltageSetpoint(const int &value)
     }
 }
 
-Data::SegmentLevel SegmentVoltageData::getSegmentLevel()
+Data::SegmentLevel SegmentVoltageData::getSegmentLevel() const
 {
     return this->level;
 }
 
-Data::SegmentMode SegmentVoltageData::getSegmentMode()
+Data::SegmentMode SegmentVoltageData::getSegmentMode() const
 {
     return this->mode;
 }
 
-Data::SegmentVIPower SegmentVoltageData::getCurrentPrescale()
+Data::SegmentVIPower SegmentVoltageData::getVoltagePrescale() const
 {
     return this->prescale;
 }
 
-int SegmentVoltageData::getVoltage()
+int SegmentVoltageData::getVoltage() const
 {
     return this->voltage;
 }

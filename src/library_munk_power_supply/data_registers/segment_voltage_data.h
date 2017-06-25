@@ -56,25 +56,25 @@ public:
     //! \brief getSegmentLevel
     //! \return
     //!
-    Data::SegmentLevel getSegmentLevel();
+    Data::SegmentLevel getSegmentLevel() const;
 
     //!
     //! \brief getSegmentMode
     //! \return
     //!
-    Data::SegmentMode getSegmentMode();
+    Data::SegmentMode getSegmentMode() const;
 
     //!
     //! \brief getCurrentPrescale
     //! \return
     //!
-    Data::SegmentVIPower getCurrentPrescale();
+    Data::SegmentVIPower getVoltagePrescale() const;
 
     //!
     //! \brief getVoltage
     //! \return
     //!
-    int getVoltage();
+    int getVoltage() const;
 
 private:
     //!

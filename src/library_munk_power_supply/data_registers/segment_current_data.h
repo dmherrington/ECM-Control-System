@@ -61,31 +61,31 @@ public:
     //! \brief getSegmentLevel
     //! \return
     //!
-    Data::SegmentLevel getSegmentLevel();
+    Data::SegmentLevel getSegmentLevel() const;
 
     //!
     //! \brief getSegmentMode
     //! \return
     //!
-    Data::SegmentMode getSegmentMode();
+    Data::SegmentMode getSegmentMode() const;
 
     //!
     //! \brief getCurrentFactor
     //! \return
     //!
-    Data::CurrentFactorType getCurrentFactor();
+    Data::CurrentFactorType getCurrentFactor() const;
 
     //!
     //! \brief getCurrentPrescale
     //! \return
     //!
-    Data::SegmentVIPower getCurrentPrescale();
+    Data::SegmentVIPower getCurrentPrescale() const;
 
     //!
     //! \brief getCurrent
     //! \return
     //!
-    int getCurrent();
+    int getCurrent() const;
 
 private:
     //!

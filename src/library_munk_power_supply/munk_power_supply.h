@@ -8,7 +8,10 @@
 #include "library_munk_power_supply_global.h"
 
 #include "data_registers/segment_time_general.h"
+
+#include "data_registers/segment_time_data_detailed.h"
 #include "data_registers/segment_time_detailed.h"
+
 #include "data_registers/segment_voltage_setpoint.h"
 #include "data_registers/segment_current_setpoint.h"
 
@@ -43,23 +46,6 @@ signals:
     void transmissionProgress();
     void munkSupplyError();
     void serialPortError();
-
-private:
-    //!
-    //! \brief generateCurrentSetpointMessage
-    //! \param map
-    //! \param mode
-    //! \param IMsgs
-    //!
-    void generateCurrentSetpointMessage(const std::map<Data::RegisterDataObject,Data::SegmentLevel> &map, const Data::SegmentMode &mode, std::vector<DataParameter::SegmentCurrentSetpoint> &IMsgs);
-
-    //!
-    //! \brief generateVoltageSetpointMessage
-    //! \param map
-    //! \param mode
-    //! \param VMsgs
-    //!
-    void generateVoltageSetpointMessage(const std::map<Data::RegisterDataObject,Data::SegmentLevel> &map, const Data::SegmentMode &mode, std::map<Data::SegmentLevel, DataParameter::SegmentVoltageSetpoint> &Levels);
 
 };
 
