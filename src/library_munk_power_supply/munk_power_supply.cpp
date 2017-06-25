@@ -6,11 +6,11 @@ MunkPowerSupply::MunkPowerSupply()
 
     DataParameter::SegmentTimeDataDetailed detailedOne(10,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
     detailedData.appendRegisterData(detailedOne);
-    DataParameter::SegmentTimeDataDetailed detailedTwo(20,10,Data::SegmentMode::REVERSE,Data::SegmentPower::ONE_HUNDRED,100);
+    DataParameter::SegmentTimeDataDetailed detailedTwo(10,10,Data::SegmentMode::REVERSE,Data::SegmentPower::ONE_HUNDRED,100);
     detailedData.appendRegisterData(detailedTwo);
-    DataParameter::SegmentTimeDataDetailed detailedThree(30,10,Data::SegmentMode::REVERSE,Data::SegmentPower::ONE_HUNDRED,100);
+    DataParameter::SegmentTimeDataDetailed detailedThree(10,10,Data::SegmentMode::REVERSE,Data::SegmentPower::ONE_HUNDRED,100);
     detailedData.appendRegisterData(detailedThree);
-    DataParameter::SegmentTimeDataDetailed detailedFour(40,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+    DataParameter::SegmentTimeDataDetailed detailedFour(10,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
     detailedData.appendRegisterData(detailedFour);
     DataParameter::SegmentTimeDataDetailed detailedFive(50,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
     detailedData.appendRegisterData(detailedFive);
@@ -67,9 +67,10 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
             else{
                 if(fwdLevelCounter >= 8)
                     return;
-
                 //assign a new level to this combination
                 Data::SegmentLevel newLevel = Data::SegmentLevelFromString(fwdLevelVector.at(fwdLevelCounter));
+                fwdMap.insert(std::pair<Data::RegisterDataObject,Data::SegmentLevel>(detail.getRegisterDataObject(),newLevel));
+
                 DataParameter::SegmentVoltageData vData(newLevel,mode);
                 vData.updateVoltageSetpoint(detail.getRegisterDataObject().voltage);
                 fwdVSetpoint.appendData(vData);
@@ -96,6 +97,8 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
 
                 //assign a new level to this combination
                 Data::SegmentLevel newLevel = Data::SegmentLevelFromString(revLevelVector.at(revLevelCounter));
+                revMap.insert(std::pair<Data::RegisterDataObject,Data::SegmentLevel>(detail.getRegisterDataObject(),newLevel));
+
                 DataParameter::SegmentVoltageData vData(newLevel,mode);
                 vData.updateVoltageSetpoint(detail.getRegisterDataObject().voltage);
                 revVSetpoint.appendData(vData);
@@ -112,6 +115,8 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
             //Ken: Figure out what to do this in case
         }
     }
+
+    std::cout<<"It is complete"<<std::endl;
 
     //if the size of either map is greater than eight than the request is invalid for the parameters requested
     //otherwise, let us continue processing them
