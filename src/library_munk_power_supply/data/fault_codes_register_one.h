@@ -1,7 +1,6 @@
 #ifndef FAULT_CODES_REGISTER_ONE_H
 #define FAULT_CODES_REGISTER_ONE_H
 
-
 #include <string>
 #include <stdexcept>
 #include <vector>

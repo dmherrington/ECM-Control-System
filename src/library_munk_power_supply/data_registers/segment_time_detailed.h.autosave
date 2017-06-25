@@ -13,7 +13,7 @@ namespace DataParameter
 //!
 //! \brief The SegmentTimeDetailed class
 //!
-class SegmentTimeDetailed : public AbstractParameter
+class SegmentTimeDetailed
 {
 public:
     //!
@@ -23,35 +23,9 @@ public:
 
     //!
     //! \brief SegmentTimeDetailed
-    //! \param numSegments
-    //!
-    SegmentTimeDetailed(const int &numSegments);
-
-    //!
-    //! \brief SegmentTimeDetailed
     //! \param obj
     //!
     SegmentTimeDetailed(const SegmentTimeDetailed &obj);
-
-public:
-
-    //!
-    //! \brief getParameterType
-    //! \return
-    //!
-    virtual DataParameter::ParameterType getParameterType() const;
-
-    //!
-    //! \brief getByteArray
-    //! \return
-    //!
-    virtual QByteArray getByteArray() const;
-
-    //!
-    //! \brief getDescription
-    //! \return
-    //!
-    virtual std::string getDescription() const;
 
 public:
 
@@ -87,7 +61,6 @@ public:
     //!
     void operator = (const SegmentTimeDetailed &rhs)
     {
-        AbstractParameter::operator =(rhs);
         this->detailedRegisterData = rhs.detailedRegisterData;
     }
 
@@ -97,10 +70,6 @@ public:
     //! \return
     //!
     bool operator == (const SegmentTimeDetailed &rhs) {
-        if(!AbstractParameter::operator ==(rhs))
-        {
-            return false;
-        }
         if(this->detailedRegisterData != rhs.detailedRegisterData){
             return false;
         }

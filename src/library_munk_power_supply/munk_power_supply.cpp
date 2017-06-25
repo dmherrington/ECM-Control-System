@@ -28,7 +28,22 @@ MunkPowerSupply::MunkPowerSupply()
 
 }
 
-void MunkPowerSupply::generateSetpointMessages(const std::map<Data::RegisterDataObject, Data::SegmentLevel> &map, const Data::SegmentMode &mode, std::vector<DataParameter::SegmentVoltageSetpoint> &VMsgs, std::vector<DataParameter::SegmentCurrentSetpoint> &IMsgs)
+void MunkPowerSupply::generateCurrentSetpointMessage(const std::map<Data::RegisterDataObject, Data::SegmentLevel> &map, const Data::SegmentMode &mode, std::vector<DataParameter::SegmentCurrentSetpoint> &IMsgs)
+{
+
+}
+
+void MunkPowerSupply::generateVoltageSetpointMessage(const std::map<Data::RegisterDataObject, Data::SegmentLevel> &map, const Data::SegmentMode &mode, std::map<Data::SegmentLevel, DataParameter::SegmentVoltageSetpoint> &Levels)
+{
+    for  (std::map<Data::RegisterDataObject, Data::SegmentLevel>::const_iterator it=map.begin(); it!=map.end(); ++it)
+    {
+        DataParameter::SegmentVoltageSetpoint voltageSetpoint(it->second,mode);
+        voltageSetpoint.updateVoltageSetpoint(it->first.voltage);
+        VMsgs.push_back(voltageSetpoint);
+    }
+}
+
+void MunkPowerSupply::generateCurrentSetpointMessage(const std::map<Data::RegisterDataObject, Data::SegmentLevel> &map, const Data::SegmentMode &mode, std::vector<DataParameter::SegmentVoltageSetpoint> &VMsgs, std::vector<DataParameter::SegmentCurrentSetpoint> &IMsgs)
 {
     std::vector<DataParameter::SegmentVoltageSetpoint> rtnVector;
 
@@ -46,15 +61,28 @@ void MunkPowerSupply::generateSetpointMessages(const std::map<Data::RegisterData
 
 void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData)
 {
-    std::map<Data::RegisterDataObject,Data::SegmentLevel> fwdMap;
-    std::map<Data::RegisterDataObject,Data::SegmentLevel> revMap;
+    std::vector<DataParameter::SegmentTimeDataDetailed> detailedData = detailedSegmentData.getRegisterData();
+
+    //allow us to loop through all of the possible data segments
+    for(int i = 0; i < detailedSegmentData.getRegisterData().size(), i++)
+    {
+
+    }
+    structSetpoints fwdMap;
+    structSetpoints revMap;
+
+    DataParameter::SegmentCurrentSetpoint fwdIData(detailedSegmentData.get)
+    DataParameter::SegmentCurrentSetpoint revIData;
+
+    DataParameter::SegmentVoltageSetpoint fwdVData;
+    DataParameter::SegmentVoltageSetpoint revVData;
+
 
     std::vector<std::string> fwdLevelVector = Data::getListOfSegmentLevel();
     int fwdLevelCounter = 0;
     std::vector<std::string> revLevelVector = Data::getListOfSegmentLevel();
     int revLevelCounter = 0;
 
-    std::vector<DataParameter::SegmentTimeDataDetailed> detailedData = detailedSegmentData.getRegisterData();
 
     for(int i = 0; i < detailedData.size(); i++)
     {
@@ -65,7 +93,10 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
         {
             Data::SegmentLevel newLevel = Data::SegmentLevelFromString(fwdLevelVector.at(fwdLevelCounter));
             std::pair<std::map<Data::RegisterDataObject,Data::SegmentLevel>::iterator,bool> ret;
-            ret = fwdMap.insert(std::pair<Data::RegisterDataObject,Data::SegmentLevel>(parameter.getRegisterDataObject(),newLevel));
+            DataParameter::SegmentVoltageSetpoint voltageSet(newLevel,mode);
+            voltageSet.
+            voltageSet.updateVoltageSetpoint();
+            ret = fwdMap.insert(std::pair<Data::SegmentLevel,structSetpoints>(parameter.getRegisterDataObject(),newLevel));
 
             if (ret.second==false) {
               std::cout << "The element had already existed in the forward queue."<<std::endl;
@@ -97,6 +128,7 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
 
     std::vector<DataParameter::SegmentVoltageSetpoint> voltageSetpointREV;
     std::vector<DataParameter::SegmentCurrentSetpoint> currentSetpointREV;
+
 
     generateSetpointMessages(fwdMap, Data::SegmentMode::FORWARD, voltageSetpointFWD, currentSetpointFWD);
     generateSetpointMessages(revMap, Data::SegmentMode::REVERSE, voltageSetpointREV, currentSetpointREV);

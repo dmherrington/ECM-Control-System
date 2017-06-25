@@ -1,0 +1,118 @@
+#ifndef SEGMENT_VOLTAGE_DATA_H
+#define SEGMENT_VOLTAGE_DATA_H
+
+#include <QByteArray>
+
+#include <string>
+#include <vector>
+#include <iostream>
+
+#include "data/type_segment_level.h"
+#include "data/type_segment_mode.h"
+
+#include "data/type_current_voltage_prescale.h"
+#include "data/type_voltage_set.h"
+
+
+namespace DataParameter
+{
+//!
+//! \brief The SegmentVoltageData class
+//!
+class SegmentVoltageData
+{
+
+public:
+
+    //!
+    //! \brief SegmentVoltageData
+    //! \param levelValue
+    //! \param levelMode
+    //!
+    SegmentVoltageData(const Data::SegmentLevel &levelValue, const Data::SegmentMode &levelMode);
+
+public:
+    //!
+    //! \brief getDataArray
+    //! \return
+    //!
+    QByteArray getDataArray() const;
+
+public:
+    //!
+    //! \brief updatePrescalePower
+    //! \param value
+    //!
+    void updatePrescalePower(const Data::SegmentVIPower &value);
+
+    //!
+    //! \brief updateVoltageSetpoint
+    //! \param value
+    //!
+    void updateVoltageSetpoint(const int &value);
+
+public:
+    //!
+    //! \brief getSegmentLevel
+    //! \return
+    //!
+    Data::SegmentLevel getSegmentLevel();
+
+    //!
+    //! \brief getSegmentMode
+    //! \return
+    //!
+    Data::SegmentMode getSegmentMode();
+
+    //!
+    //! \brief getCurrentPrescale
+    //! \return
+    //!
+    Data::SegmentVIPower getCurrentPrescale();
+
+    //!
+    //! \brief getVoltage
+    //! \return
+    //!
+    int getVoltage();
+
+private:
+    //!
+    //! \brief updatePrescaleBitArray
+    //! \param bitArray
+    //! \return
+    //!
+    uint32_t updatePrescaleBitArray(const uint32_t &bitArray) const;
+
+    //!
+    //! \brief updateSetPointBitArray
+    //! \param bitArray
+    //! \return
+    //!
+    uint32_t updateSetPointBitArray(const uint32_t &bitArray) const;
+
+private:
+    //!
+    //! \brief level
+    //!
+    Data::SegmentLevel level;
+
+    //!
+    //! \brief mode
+    //!
+    Data::SegmentMode mode;
+
+    //!
+    //! \brief prescale
+    //!
+    Data::SegmentVIPower prescale;
+
+    //!
+    //! \brief voltage
+    //!
+    int voltage;
+};
+
+} //end of namespace DataParameter
+
+#endif // SEGMENT_VOLTAGE_SETPOINT_H

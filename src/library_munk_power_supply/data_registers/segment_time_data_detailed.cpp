@@ -3,7 +3,7 @@
 namespace DataParameter {
 
 SegmentTimeDataDetailed::SegmentTimeDataDetailed():
-    dataObject(0,0),segmentMode(Data::SegmentMode::DEAD),segmentPower(Data::SegmentPower::ONE),timeValue(0)
+    supplyOutput(Data::TypeSupplyOutput::OUTPUT1),dataObject(0,0),segmentMode(Data::SegmentMode::DEAD),segmentPower(Data::SegmentPower::ONE),timeValue(0)
 {
 
 }
@@ -15,6 +15,11 @@ SegmentTimeDataDetailed::SegmentTimeDataDetailed(const int &voltage, const int &
     setSegmentMode(mode);
     setSegmentPower(power);
     setTimeValue(time);
+}
+
+void SegmentTimeDataDetailed::setSupplyOutput(const Data::TypeSupplyOutput &outputNumber)
+{
+    this->supplyOutput = outputNumber;
 }
 
 void SegmentTimeDataDetailed::setSegmentVoltage(const int &voltage)
@@ -62,6 +67,10 @@ void SegmentTimeDataDetailed::updateData(const SegmentTimeDataDetailed &data)
     this->operator =(data);
 }
 
+Data::TypeSupplyOutput SegmentTimeDataDetailed::getSupplyOutputNumber() const
+{
+    return this->supplyOutput;
+}
 
 Data::RegisterDataObject SegmentTimeDataDetailed::getRegisterDataObject() const
 {

@@ -36,7 +36,9 @@ SOURCES += munk_power_supply.cpp \
     data_response/fault_register_three.cpp \
     data_response/fault_register_two.cpp \
     data_response/valid_response.cpp \
-    data_response/exception_response.cpp
+    data_response/exception_response.cpp \
+    data_registers/segment_current_data.cpp \
+    data_registers/segment_voltage_data.cpp
 
 HEADERS += munk_power_supply.h\
         library_munk_power_supply_global.h \
@@ -67,7 +69,10 @@ HEADERS += munk_power_supply.h\
     data_response/fault_register_two.h \
     data_response/valid_response.h \
     data_response/exception_response.h \
-    data/type_response_exception.h
+    data/type_response_exception.h \
+    data/type_supply_output.h \
+    data_registers/segment_current_data.h \
+    data_registers/segment_voltage_data.h
 
 # Unix lib Install
 unix:!symbian {

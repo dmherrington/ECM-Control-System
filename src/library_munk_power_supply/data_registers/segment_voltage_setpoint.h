@@ -4,14 +4,14 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <map>
 
 #include "abstract_parameter.h"
+
+#include "data/type_supply_output.h"
 #include "data/type_segment_level.h"
-#include "data/type_segment_mode.h"
 
-#include "data/type_current_voltage_prescale.h"
-#include "data/type_voltage_set.h"
-
+#include "data_registers/segment_voltage_data.h"
 
 namespace DataParameter
 {
@@ -48,40 +48,11 @@ public:
     //!
     virtual QByteArray getByteArray() const;
 
-public:
-    //!
-    //! \brief updatePrescalePower
-    //! \param value
-    //!
-    void updatePrescalePower(const Data::SegmentVIPower &value);
-
-    //!
-    //! \brief updateVoltageSetpoint
-    //! \param value
-    //!
-    void updateVoltageSetpoint(const int &value);
-
-
 private:
     //!
-    //! \brief updatePrescaleBitArray
-    //! \param bitArray
-    //! \return
+    //! \brief supplyOutput
     //!
-    uint32_t updatePrescaleBitArray(const uint32_t &bitArray) const;
-
-    //!
-    //! \brief updateSetPointBitArray
-    //! \param bitArray
-    //! \return
-    //!
-    uint32_t updateSetPointBitArray(const uint32_t &bitArray) const;
-
-private:
-    //!
-    //! \brief level
-    //!
-    Data::SegmentLevel level;
+    Data::TypeSupplyOutput supplyOutput;
 
     //!
     //! \brief mode
@@ -89,14 +60,9 @@ private:
     Data::SegmentMode mode;
 
     //!
-    //! \brief prescale
+    //! \brief data
     //!
-    Data::SegmentVIPower prescale;
-
-    //!
-    //! \brief voltage
-    //!
-    int voltage;
+    std::map<Data::SegmentLevel, SegmentVoltageData> data;
 };
 
 } //end of namespace DataParameter

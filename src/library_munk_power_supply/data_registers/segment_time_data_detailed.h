@@ -5,6 +5,7 @@
 #include <data/type_segment_level.h>
 #include <data/type_segment_mode.h>
 #include <data/register_data_object.h>
+#include <data/type_supply_output.h>
 
 namespace DataParameter
 {
@@ -33,6 +34,12 @@ public:
     SegmentTimeDataDetailed(const int &voltage, const int &current, const Data::SegmentMode &mode, const Data::SegmentPower &power, const uint8_t &time);
 
 public:
+    //!
+    //! \brief setSupplyOutput
+    //! \param outputNumber
+    //!
+    void setSupplyOutput(const Data::TypeSupplyOutput &outputNumber);
+
     //!
     //! \brief setSegmentVoltage
     //! \param voltage
@@ -76,6 +83,12 @@ public:
 
 public:
     //!
+    //! \brief getSupplyOutputNumber
+    //! \return
+    //!
+    Data::TypeSupplyOutput getSupplyOutputNumber() const;
+
+    //!
     //! \brief getRegisterDataObject
     //! \return
     //!
@@ -106,6 +119,7 @@ public:
     //!
     void operator = (const SegmentTimeDataDetailed &rhs)
     {
+        this->supplyOutput = rhs.supplyOutput;
         this->dataObject = rhs.dataObject;
         this->segmentMode = rhs.segmentMode;
         this->segmentPower = rhs.segmentPower;
@@ -119,6 +133,9 @@ public:
     //!
     bool operator == (const SegmentTimeDataDetailed &rhs) const {
 
+        if(this->supplyOutput != rhs.supplyOutput){
+            return false;
+        }
         if(this->dataObject != rhs.dataObject){
             return false;
         }
@@ -145,6 +162,12 @@ public:
 
     //Private member variables of the class
 private:
+
+    //!
+    //! \brief supplyOutput
+    //!
+    Data::TypeSupplyOutput supplyOutput;
+
     //!
     //! \brief dataObject
     //!

@@ -4,14 +4,15 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <map>
 
 #include "abstract_parameter.h"
-#include "data/type_segment_level.h"
-#include "data/type_segment_mode.h"
-#include "data/type_current_factor.h"
 
-#include "data/type_current_voltage_prescale.h"
-#include "data/type_voltage_set.h"
+#include "data/type_supply_output.h"
+#include "data/type_segment_level.h"
+#include "data/type_current_set.h"
+
+#include "data_registers/segment_current_data.h"
 
 namespace DataParameter
 {
@@ -27,7 +28,7 @@ public:
     //! \param levelValue
     //! \param levelMode
     //!
-    SegmentCurrentSetpoint(const Data::SegmentLevel &levelValue, const Data::SegmentMode &levelMode);
+    SegmentCurrentSetpoint(const Data::TypeSupplyOutput &outputNum, const Data::SegmentMode &levelMode);
 
 public:
     //!
@@ -48,52 +49,11 @@ public:
     //!
     virtual std::string getDescription() const;
 
-public:
-    //!
-    //! \brief updateCurrentFactor
-    //! \param value
-    //!
-    void updateCurrentFactor(const Data::CurrentFactorType &value);
-
-    //!
-    //! \brief updatePrescalePower
-    //! \param value
-    //!
-    void updatePrescalePower(const Data::SegmentVIPower &value);
-
-    //!
-    //! \brief updateCurrentSetpoint
-    //! \param value
-    //!
-    void updateCurrentSetpoint(const int &value);
-
 private:
     //!
-    //! \brief updateAmpsBitArray
-    //! \param bitArray
-    //! \return
+    //! \brief supplyOutput
     //!
-    uint32_t updateAmpsBitArray(const uint32_t &bitArray) const;
-
-    //!
-    //! \brief updatePrescaleBitArray
-    //! \param bitArray
-    //! \return
-    //!
-    uint32_t updatePrescaleBitArray(const uint32_t &bitArray) const;
-
-    //!
-    //! \brief updateSetPointBitArray
-    //! \param bitArray
-    //! \return
-    //!
-    uint32_t updateSetPointBitArray(const uint32_t &bitArray) const;
-
-private:
-    //!
-    //! \brief level
-    //!
-    Data::SegmentLevel level;
+    Data::TypeSupplyOutput supplyOutput;
 
     //!
     //! \brief mode
@@ -101,19 +61,9 @@ private:
     Data::SegmentMode mode;
 
     //!
-    //! \brief currentFactor
+    //! \brief data
     //!
-    Data::CurrentFactorType currentFactor;
-
-    //!
-    //! \brief prescale
-    //!
-    Data::SegmentVIPower prescale;
-
-    //!
-    //! \brief current
-    //!
-    int current;
+    std::map<Data::SegmentLevel, SegmentCurrentData> data;
 };
 
 } //end of namespace DataParameter
