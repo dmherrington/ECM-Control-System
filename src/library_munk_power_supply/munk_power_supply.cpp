@@ -117,7 +117,7 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
     }
 
     std::cout<<"It is complete"<<std::endl;
-
+    //At this point we would transmit these to the serial port
     //if the size of either map is greater than eight than the request is invalid for the parameters requested
     //otherwise, let us continue processing them
 }

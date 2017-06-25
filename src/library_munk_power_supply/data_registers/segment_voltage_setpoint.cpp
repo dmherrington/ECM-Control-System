@@ -8,11 +8,24 @@ namespace DataParameter
 //! \param levelValue
 //! \param levelMode
 //!
-SegmentVoltageSetpoint::SegmentVoltageSetpoint(const Data::TypeSupplyOutput &outputNum, const Data::SegmentMode &levelMode)
+SegmentVoltageSetpoint::SegmentVoltageSetpoint(const Data::TypeSupplyOutput &outputNum, const Data::SegmentMode &levelMode):
+    AbstractParameter()
 {
     //let us update the stored values with those that created the object
     this->supplyOutput = outputNum;
     this->mode = levelMode;
+
+    if(levelMode == Data::SegmentMode::FORWARD)
+    {
+        this->parameterCode = (int)Data::getFWDVoltageIndex((int)outputNum);
+    }
+    else if(levelMode == Data::SegmentMode::REVERSE)
+    {
+        this->parameterCode = (int)Data::getREVVoltageIndex((int)outputNum);
+    }
+    else{
+
+    }
 }
 
 ParameterType SegmentVoltageSetpoint::getParameterType() const
@@ -28,11 +41,26 @@ std::string SegmentVoltageSetpoint::getDescription() const
 
 QByteArray SegmentVoltageSetpoint::getByteArray() const
 {
-    QByteArray byteArray;
-    uint32_t ba = 0;
 
-    byteArray.append(ba);
-    return byteArray;
+    QByteArray ba;
+
+    uint8_t HIGHSeqType = (uint8_t)((this->data.size() & 0xFF00) >> 8);
+    uint8_t LOWSeqType = (uint8_t)(this->data.size() & 0x00FF);
+    ba.append(HIGHSeqType);
+    ba.append(LOWSeqType);
+
+    data.append((uint8_t)data.size() * 2);
+    for (std::map<Data::SegmentLevel, SegmentVoltageData>::iterator it=this->data.begin(); it!=this->data.end(); ++it)
+    {
+
+        uint8_t HIGHBType = (uint8_t)((newArray & 0xFF00) >> 8);
+        uint8_t LOWBType = (uint8_t)(newArray & 0x00FF);
+
+        data.append(HIGHBType);
+        data.append(LOWBType);
+    }
+
+    return data;
 }
 
 void SegmentVoltageSetpoint::appendData(const SegmentVoltageData &voltageSetpoint)
