@@ -6,6 +6,7 @@ var dir_c2d2a64bc8544dac5bf3c30476a39f26 =
     [ "library_munk_power_supply_global.h", "d3/d16/library__munk__power__supply__global_8h.html", "d3/d16/library__munk__power__supply__global_8h" ],
     [ "munk_power_supply.cpp", "dd/d9c/munk__power__supply_8cpp.html", null ],
     [ "munk_power_supply.h", "d0/da0/munk__power__supply_8h.html", [
-      [ "MunkPowerSupply", "d2/d23/class_munk_power_supply.html", "d2/d23/class_munk_power_supply" ]
+      [ "MunkPowerSupply", "d2/d23/class_munk_power_supply.html", "d2/d23/class_munk_power_supply" ],
+      [ "structSetpoints", "d1/d7f/struct_munk_power_supply_1_1struct_setpoints.html", "d1/d7f/struct_munk_power_supply_1_1struct_setpoints" ]
     ] ]
 ];

@@ -6,6 +6,10 @@ var dir_1ccd192a075a6ae83b25629d5b31f2dd =
     [ "parameter_memory_write.h", "d7/d1c/parameter__memory__write_8h.html", [
       [ "ParameterMemoryWrite", "d7/d4a/class_data_parameter_1_1_parameter_memory_write.html", "d7/d4a/class_data_parameter_1_1_parameter_memory_write" ]
     ] ],
+    [ "segment_current_data.cpp", "dc/d2b/segment__current__data_8cpp.html", null ],
+    [ "segment_current_data.h", "d2/d22/segment__current__data_8h.html", [
+      [ "SegmentCurrentData", "d1/d51/class_data_parameter_1_1_segment_current_data.html", "d1/d51/class_data_parameter_1_1_segment_current_data" ]
+    ] ],
     [ "segment_current_setpoint.cpp", "dd/de8/segment__current__setpoint_8cpp.html", null ],
     [ "segment_current_setpoint.h", "da/daf/segment__current__setpoint_8h.html", [
       [ "SegmentCurrentSetpoint", "d0/de7/class_data_parameter_1_1_segment_current_setpoint.html", "d0/de7/class_data_parameter_1_1_segment_current_setpoint" ]
@@ -25,6 +29,10 @@ var dir_1ccd192a075a6ae83b25629d5b31f2dd =
     [ "segment_time_general.cpp", "d4/d53/segment__time__general_8cpp.html", null ],
     [ "segment_time_general.h", "d2/db3/segment__time__general_8h.html", [
       [ "SegmentTimeGeneral", "df/dd9/class_data_parameter_1_1_segment_time_general.html", "df/dd9/class_data_parameter_1_1_segment_time_general" ]
+    ] ],
+    [ "segment_voltage_data.cpp", "d2/dc5/segment__voltage__data_8cpp.html", null ],
+    [ "segment_voltage_data.h", "d7/d64/segment__voltage__data_8h.html", [
+      [ "SegmentVoltageData", "da/daf/class_data_parameter_1_1_segment_voltage_data.html", "da/daf/class_data_parameter_1_1_segment_voltage_data" ]
     ] ],
     [ "segment_voltage_setpoint.cpp", "d8/d97/segment__voltage__setpoint_8cpp.html", null ],
     [ "segment_voltage_setpoint.h", "d1/d38/segment__voltage__setpoint_8h.html", [

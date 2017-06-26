@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['level',['level',['../d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a5b8916d8c32e2e9b9f79b21788ba7219',1,'DataParameter::SegmentCurrentSetpoint::level()'],['../d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#a8082cfb574dc3959bedfcce8e6d2dd63',1,'DataParameter::SegmentVoltageSetpoint::level()']]],
+  ['level',['level',['../d1/d51/class_data_parameter_1_1_segment_current_data.html#ad87520e7a4d6082c54ef013371e0faeb',1,'DataParameter::SegmentCurrentData::level()'],['../da/daf/class_data_parameter_1_1_segment_voltage_data.html#a56e57fff78b7649f38b09d007b116a1c',1,'DataParameter::SegmentVoltageData::level()']]],
   ['level1',['LEVEL1',['../de/d75/namespace_data.html#adf7ef79e407599a0e59dd1462e868645ae987463bf0418539b306409f86997a21',1,'Data']]],
   ['level2',['LEVEL2',['../de/d75/namespace_data.html#adf7ef79e407599a0e59dd1462e868645aa31e8d4009e094c0f20bda3944e71966',1,'Data']]],
   ['level3',['LEVEL3',['../de/d75/namespace_data.html#adf7ef79e407599a0e59dd1462e868645ac28cb8d5acec5dae4fc3905ce468e738',1,'Data']]],

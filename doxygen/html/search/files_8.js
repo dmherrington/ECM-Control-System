@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['segment_5fcurrent_5fdata_2ecpp',['segment_current_data.cpp',['../dc/d2b/segment__current__data_8cpp.html',1,'']]],
+  ['segment_5fcurrent_5fdata_2eh',['segment_current_data.h',['../d2/d22/segment__current__data_8h.html',1,'']]],
   ['segment_5fcurrent_5fsetpoint_2ecpp',['segment_current_setpoint.cpp',['../dd/de8/segment__current__setpoint_8cpp.html',1,'']]],
   ['segment_5fcurrent_5fsetpoint_2eh',['segment_current_setpoint.h',['../da/daf/segment__current__setpoint_8h.html',1,'']]],
   ['segment_5ftime_5fdata_5fdetailed_2ecpp',['segment_time_data_detailed.cpp',['../dd/dac/segment__time__data__detailed_8cpp.html',1,'']]],
@@ -10,6 +12,8 @@ var searchData=
   ['segment_5ftime_5fdetailed_2eh',['segment_time_detailed.h',['../dc/d48/segment__time__detailed_8h.html',1,'']]],
   ['segment_5ftime_5fgeneral_2ecpp',['segment_time_general.cpp',['../d4/d53/segment__time__general_8cpp.html',1,'']]],
   ['segment_5ftime_5fgeneral_2eh',['segment_time_general.h',['../d2/db3/segment__time__general_8h.html',1,'']]],
+  ['segment_5fvoltage_5fdata_2ecpp',['segment_voltage_data.cpp',['../d2/dc5/segment__voltage__data_8cpp.html',1,'']]],
+  ['segment_5fvoltage_5fdata_2eh',['segment_voltage_data.h',['../d7/d64/segment__voltage__data_8h.html',1,'']]],
   ['segment_5fvoltage_5fsetpoint_2ecpp',['segment_voltage_setpoint.cpp',['../d8/d97/segment__voltage__setpoint_8cpp.html',1,'']]],
   ['segment_5fvoltage_5fsetpoint_2eh',['segment_voltage_setpoint.h',['../d1/d38/segment__voltage__setpoint_8h.html',1,'']]]
 ];

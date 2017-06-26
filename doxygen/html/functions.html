@@ -85,6 +85,10 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>AbstractParameter()
 : <a class="el" href="da/dfc/class_data_parameter_1_1_abstract_parameter.html#aabd1ba2f8bf8f174458d5c30b138858b">DataParameter::AbstractParameter</a>
 </li>
+<li>appendData()
+: <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#ab6e121185a879a749b12d64f3ac5de05">DataParameter::SegmentCurrentSetpoint</a>
+, <a class="el" href="d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#ad94e5dd43d01c1f9b836e79842b5be91">DataParameter::SegmentVoltageSetpoint</a>
+</li>
 <li>appendRegisterData()
 : <a class="el" href="de/d8e/class_data_parameter_1_1_segment_time_detailed.html#a9d3d73d136941f9f2564fa2505e48ffb">DataParameter::SegmentTimeDetailed</a>
 , <a class="el" href="df/dd9/class_data_parameter_1_1_segment_time_general.html#aa66ce345e7830cc559c717d43c60b1b9">DataParameter::SegmentTimeGeneral</a>
@@ -104,15 +108,19 @@ $(document).ready(function(){initNavTree('functions.html','');});
 </li>
 <li>current
 : <a class="el" href="df/d53/class_data_1_1_register_data_object.html#a6dddad550b98fdf7cd1fcfcfff20ffce">Data::RegisterDataObject</a>
-, <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a0d6963358773bfd748694ee564e2b007">DataParameter::SegmentCurrentSetpoint</a>
+, <a class="el" href="d1/d51/class_data_parameter_1_1_segment_current_data.html#a73e8286f4f82cdc12a3bfe9c20381a84">DataParameter::SegmentCurrentData</a>
 </li>
 <li>currentFactor
-: <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a0b2f831467b05a6331cbeb7f2294355e">DataParameter::SegmentCurrentSetpoint</a>
+: <a class="el" href="d1/d51/class_data_parameter_1_1_segment_current_data.html#a37296f6ce8177a657887744883e351be">DataParameter::SegmentCurrentData</a>
 </li>
 </ul>
 
 
 <h3><a id="index_d"></a>- d -</h3><ul>
+<li>data
+: <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#aa93dd58eb97cbf0f3fa7e4bb7b1f07be">DataParameter::SegmentCurrentSetpoint</a>
+, <a class="el" href="d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#a223aadddbd595c821f211e50883cd803">DataParameter::SegmentVoltageSetpoint</a>
+</li>
 <li>dataObject
 : <a class="el" href="d8/dfb/class_data_parameter_1_1_segment_time_data_detailed.html#ad1fb27ad23a981c1a445d8f39e2ade60">DataParameter::SegmentTimeDataDetailed</a>
 </li>
@@ -149,25 +157,33 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>generateMessages()
 : <a class="el" href="d2/d23/class_munk_power_supply.html#a93fa50a726abc272287a88f4bec1cc64">MunkPowerSupply</a>
 </li>
-<li>generateSetpointMessages()
-: <a class="el" href="d2/d23/class_munk_power_supply.html#ae24804f05e23d9c3549fe1e2fe149429">MunkPowerSupply</a>
-</li>
 <li>getByteArray()
 : <a class="el" href="da/dfc/class_data_parameter_1_1_abstract_parameter.html#aa170d4993cbcf85110dac80813050284">DataParameter::AbstractParameter</a>
 , <a class="el" href="d7/d4a/class_data_parameter_1_1_parameter_memory_write.html#a73a307fad1a09ec2d30e79689c7bf4c5">DataParameter::ParameterMemoryWrite</a>
 , <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a960510acca9f82347ee21701e9aabd26">DataParameter::SegmentCurrentSetpoint</a>
-, <a class="el" href="de/d8e/class_data_parameter_1_1_segment_time_detailed.html#a2f55e06ca21950d3624b5d510abbec7d">DataParameter::SegmentTimeDetailed</a>
 , <a class="el" href="df/dd9/class_data_parameter_1_1_segment_time_general.html#a3a1ac47912c0dafd79e1ababdc856462">DataParameter::SegmentTimeGeneral</a>
 , <a class="el" href="d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#ad235d797a7a6f02096ad8dd432ee57f7">DataParameter::SegmentVoltageSetpoint</a>
 </li>
 <li>getConstructedBitArray()
 : <a class="el" href="d5/dbc/class_data_parameter_1_1_segment_time_data_general.html#a70fc74f96b1f5796bee0fd4b5d085aca">DataParameter::SegmentTimeDataGeneral</a>
 </li>
+<li>getCurrent()
+: <a class="el" href="d1/d51/class_data_parameter_1_1_segment_current_data.html#a5eed572e391f4ce334638907379be7ed">DataParameter::SegmentCurrentData</a>
+</li>
+<li>getCurrentFactor()
+: <a class="el" href="d1/d51/class_data_parameter_1_1_segment_current_data.html#ab5dcf63ba85fd11285097af128198c30">DataParameter::SegmentCurrentData</a>
+</li>
+<li>getCurrentPrescale()
+: <a class="el" href="d1/d51/class_data_parameter_1_1_segment_current_data.html#af9fdcbcd2349e5db31abc3263708b344">DataParameter::SegmentCurrentData</a>
+</li>
+<li>getDataArray()
+: <a class="el" href="d1/d51/class_data_parameter_1_1_segment_current_data.html#a80315da9fc030fb082667c319ef83c9c">DataParameter::SegmentCurrentData</a>
+, <a class="el" href="da/daf/class_data_parameter_1_1_segment_voltage_data.html#ad792efb51de546894945900caa984ba9">DataParameter::SegmentVoltageData</a>
+</li>
 <li>getDescription()
 : <a class="el" href="da/dfc/class_data_parameter_1_1_abstract_parameter.html#a48ad1857ea1ad5fb9ca9aceeabf82ba9">DataParameter::AbstractParameter</a>
 , <a class="el" href="d7/d4a/class_data_parameter_1_1_parameter_memory_write.html#a428e813f7c1e2b8d155ffb15a69a405e">DataParameter::ParameterMemoryWrite</a>
 , <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a03ce6d68d5c9d3fd6792f2f55d1f875c">DataParameter::SegmentCurrentSetpoint</a>
-, <a class="el" href="de/d8e/class_data_parameter_1_1_segment_time_detailed.html#a20e9b38ddc4452e2f63246aaa1c02f86">DataParameter::SegmentTimeDetailed</a>
 , <a class="el" href="df/dd9/class_data_parameter_1_1_segment_time_general.html#a27d5b594669fdff0d6638c8d3c7d6707">DataParameter::SegmentTimeGeneral</a>
 , <a class="el" href="d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#acabde393bbee6dd5abe4c3d682fc2ee5">DataParameter::SegmentVoltageSetpoint</a>
 </li>
@@ -178,7 +194,6 @@ $(document).ready(function(){initNavTree('functions.html','');});
 : <a class="el" href="da/dfc/class_data_parameter_1_1_abstract_parameter.html#a5566a8d4357cc077dddd856569fe9bbb">DataParameter::AbstractParameter</a>
 , <a class="el" href="d7/d4a/class_data_parameter_1_1_parameter_memory_write.html#ae7903da3c10697fac4fb5517bf53e98d">DataParameter::ParameterMemoryWrite</a>
 , <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#ae4775df0c99e1b5fd21afbb612d8c02e">DataParameter::SegmentCurrentSetpoint</a>
-, <a class="el" href="de/d8e/class_data_parameter_1_1_segment_time_detailed.html#ab50e5ee5b8328d6d5b436beb6ae5a262">DataParameter::SegmentTimeDetailed</a>
 , <a class="el" href="df/dd9/class_data_parameter_1_1_segment_time_general.html#aff90789e3919a83f017c6d34c7721447">DataParameter::SegmentTimeGeneral</a>
 , <a class="el" href="d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#aa94a5c65dade8f499b3781d8401f2ddd">DataParameter::SegmentVoltageSetpoint</a>
 </li>
@@ -191,14 +206,32 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>getRegisterDataObject()
 : <a class="el" href="d8/dfb/class_data_parameter_1_1_segment_time_data_detailed.html#afce4471ec22a55f1068128240476f526">DataParameter::SegmentTimeDataDetailed</a>
 </li>
+<li>getSegmentLevel()
+: <a class="el" href="d1/d51/class_data_parameter_1_1_segment_current_data.html#af8240c87ddffd9b166ec5eb124bface6">DataParameter::SegmentCurrentData</a>
+, <a class="el" href="da/daf/class_data_parameter_1_1_segment_voltage_data.html#a2eaa4ef204427f82d6657ffbd6bac9b6">DataParameter::SegmentVoltageData</a>
+</li>
 <li>getSegmentMode()
-: <a class="el" href="d8/dfb/class_data_parameter_1_1_segment_time_data_detailed.html#a7e96479dde2a32218dad8145a0319b1c">DataParameter::SegmentTimeDataDetailed</a>
+: <a class="el" href="d1/d51/class_data_parameter_1_1_segment_current_data.html#a66e53b92f17119f085dc3b0502e06b30">DataParameter::SegmentCurrentData</a>
+, <a class="el" href="d8/dfb/class_data_parameter_1_1_segment_time_data_detailed.html#a7e96479dde2a32218dad8145a0319b1c">DataParameter::SegmentTimeDataDetailed</a>
+, <a class="el" href="da/daf/class_data_parameter_1_1_segment_voltage_data.html#a2616837a9884c9caf0bc9435a9cb50d5">DataParameter::SegmentVoltageData</a>
 </li>
 <li>getSegmentPower()
 : <a class="el" href="d8/dfb/class_data_parameter_1_1_segment_time_data_detailed.html#a4a76e5716ef61f6f65840306e19f5ad9">DataParameter::SegmentTimeDataDetailed</a>
 </li>
+<li>getSlaveAddress()
+: <a class="el" href="de/d8e/class_data_parameter_1_1_segment_time_detailed.html#aba23ef1777029b9e02e55e87d2d59c3b">DataParameter::SegmentTimeDetailed</a>
+</li>
+<li>getSupplyOutputNumber()
+: <a class="el" href="d8/dfb/class_data_parameter_1_1_segment_time_data_detailed.html#a3364b1cfd214e8b5e8784e824892a30f">DataParameter::SegmentTimeDataDetailed</a>
+</li>
 <li>getTimeValue()
 : <a class="el" href="d8/dfb/class_data_parameter_1_1_segment_time_data_detailed.html#a1e43fc460f6ed97389bd094b03df7f9f">DataParameter::SegmentTimeDataDetailed</a>
+</li>
+<li>getVoltage()
+: <a class="el" href="da/daf/class_data_parameter_1_1_segment_voltage_data.html#a0e02997c6710e117553c8179bebf48c7">DataParameter::SegmentVoltageData</a>
+</li>
+<li>getVoltagePrescale()
+: <a class="el" href="da/daf/class_data_parameter_1_1_segment_voltage_data.html#a4e96951dabf51592395143acd76b799f">DataParameter::SegmentVoltageData</a>
 </li>
 </ul>
 
@@ -215,13 +248,16 @@ $(document).ready(function(){initNavTree('functions.html','');});
 : <a class="el" href="de/d8e/class_data_parameter_1_1_segment_time_detailed.html#a2cf89498541f6ee0b27db9e1a3b5374b">DataParameter::SegmentTimeDetailed</a>
 , <a class="el" href="df/dd9/class_data_parameter_1_1_segment_time_general.html#ac0ed78dea9054e315e7943b4cb176b90">DataParameter::SegmentTimeGeneral</a>
 </li>
+<li>iSet
+: <a class="el" href="d1/d7f/struct_munk_power_supply_1_1struct_setpoints.html#a04b94b6abc4635e02319c6c4e80b41af">MunkPowerSupply::structSetpoints</a>
+</li>
 </ul>
 
 
 <h3><a id="index_l"></a>- l -</h3><ul>
 <li>level
-: <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a5b8916d8c32e2e9b9f79b21788ba7219">DataParameter::SegmentCurrentSetpoint</a>
-, <a class="el" href="d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#a8082cfb574dc3959bedfcce8e6d2dd63">DataParameter::SegmentVoltageSetpoint</a>
+: <a class="el" href="d1/d51/class_data_parameter_1_1_segment_current_data.html#ad87520e7a4d6082c54ef013371e0faeb">DataParameter::SegmentCurrentData</a>
+, <a class="el" href="da/daf/class_data_parameter_1_1_segment_voltage_data.html#a56e57fff78b7649f38b09d007b116a1c">DataParameter::SegmentVoltageData</a>
 </li>
 <li>lowChecksum
 : <a class="el" href="da/dfc/class_data_parameter_1_1_abstract_parameter.html#a1c8874ec3aa2c359c8b2e4368112701d">DataParameter::AbstractParameter</a>
@@ -239,20 +275,20 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>menuBar
 : <a class="el" href="df/dd7/class_ui___main_window.html#a2be1c24ec9adfca18e1dcc951931457f">Ui_MainWindow</a>
 </li>
+<li>messageGenerationProgress()
+: <a class="el" href="d2/d23/class_munk_power_supply.html#a132119b69eaeed7b05b73e5450576448">MunkPowerSupply</a>
+</li>
 <li>mode
-: <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a11fa94ec69645e30c94005536dc232d1">DataParameter::SegmentCurrentSetpoint</a>
+: <a class="el" href="d1/d51/class_data_parameter_1_1_segment_current_data.html#ac3cc6f050c6e9fafc977931622998321">DataParameter::SegmentCurrentData</a>
+, <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a11fa94ec69645e30c94005536dc232d1">DataParameter::SegmentCurrentSetpoint</a>
+, <a class="el" href="da/daf/class_data_parameter_1_1_segment_voltage_data.html#a98e270df2718c7becb3fe8cb5d804524">DataParameter::SegmentVoltageData</a>
 , <a class="el" href="d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#a0a14845c3e651c63aa4a22dc3ca5d863">DataParameter::SegmentVoltageSetpoint</a>
 </li>
 <li>MunkPowerSupply()
 : <a class="el" href="d2/d23/class_munk_power_supply.html#a4dbb8e589a1a7d7ecdd9c1e20be5c0b8">MunkPowerSupply</a>
 </li>
-</ul>
-
-
-<h3><a id="index_n"></a>- n -</h3><ul>
-<li>numSeqSegments
-: <a class="el" href="de/d8e/class_data_parameter_1_1_segment_time_detailed.html#adef30075c60f1b391bce88cb77aef8dd">DataParameter::SegmentTimeDetailed</a>
-, <a class="el" href="df/dd9/class_data_parameter_1_1_segment_time_general.html#a06500620747b91782b201950a8ddb841">DataParameter::SegmentTimeGeneral</a>
+<li>munkSupplyError()
+: <a class="el" href="d2/d23/class_munk_power_supply.html#aad71a1301770d6a792a937a7a76f3a65">MunkPowerSupply</a>
 </li>
 </ul>
 
@@ -299,8 +335,8 @@ $(document).ready(function(){initNavTree('functions.html','');});
 : <a class="el" href="d7/d4a/class_data_parameter_1_1_parameter_memory_write.html#a0950f8743a8e5cb2caaa6749133f36e5">DataParameter::ParameterMemoryWrite</a>
 </li>
 <li>prescale
-: <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a0d159f49c5e3fa76874e06a881b97289">DataParameter::SegmentCurrentSetpoint</a>
-, <a class="el" href="d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#a24cbc6343b200251b608f7edd1d45136">DataParameter::SegmentVoltageSetpoint</a>
+: <a class="el" href="d1/d51/class_data_parameter_1_1_segment_current_data.html#a5343b8ec2ef47c950db07689f31a753b">DataParameter::SegmentCurrentData</a>
+, <a class="el" href="da/daf/class_data_parameter_1_1_segment_voltage_data.html#a5080cc392cd4367c878a8359da2d0006">DataParameter::SegmentVoltageData</a>
 </li>
 </ul>
 
@@ -313,7 +349,7 @@ $(document).ready(function(){initNavTree('functions.html','');});
 : <a class="el" href="df/dd9/class_data_parameter_1_1_segment_time_general.html#a4382dc111482e11774470981813f8d2e">DataParameter::SegmentTimeGeneral</a>
 </li>
 <li>RegisterDataObject()
-: <a class="el" href="df/d53/class_data_1_1_register_data_object.html#a37f0946ad82917850cf33db16ce4b9b6">Data::RegisterDataObject</a>
+: <a class="el" href="df/d53/class_data_1_1_register_data_object.html#ab7774d694983f85ee9e1626a35c9b391">Data::RegisterDataObject</a>
 </li>
 <li>resetData()
 : <a class="el" href="d8/dfb/class_data_parameter_1_1_segment_time_data_detailed.html#a14f2c32fd145c6d24ff10b9cd9549595">DataParameter::SegmentTimeDataDetailed</a>
@@ -326,8 +362,11 @@ $(document).ready(function(){initNavTree('functions.html','');});
 
 
 <h3><a id="index_s"></a>- s -</h3><ul>
+<li>SegmentCurrentData()
+: <a class="el" href="d1/d51/class_data_parameter_1_1_segment_current_data.html#af061f2eb54e34dbcea7ecbb1d26e7068">DataParameter::SegmentCurrentData</a>
+</li>
 <li>SegmentCurrentSetpoint()
-: <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#accd683727753a632eacd3bb42a1f735e">DataParameter::SegmentCurrentSetpoint</a>
+: <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a60e76ceace067745d90180de1c63d920">DataParameter::SegmentCurrentSetpoint</a>
 </li>
 <li>segmentLevel
 : <a class="el" href="d5/dbc/class_data_parameter_1_1_segment_time_data_general.html#aeba7668ae0944910cbeae7eb1b644816">DataParameter::SegmentTimeDataGeneral</a>
@@ -341,7 +380,7 @@ $(document).ready(function(){initNavTree('functions.html','');});
 , <a class="el" href="d5/dbc/class_data_parameter_1_1_segment_time_data_general.html#a43f19f66e769e5542dbd8cc447355178">DataParameter::SegmentTimeDataGeneral</a>
 </li>
 <li>SegmentTimeDataDetailed()
-: <a class="el" href="d8/dfb/class_data_parameter_1_1_segment_time_data_detailed.html#a947e0ee44ce7c998be21768988aabfc6">DataParameter::SegmentTimeDataDetailed</a>
+: <a class="el" href="d8/dfb/class_data_parameter_1_1_segment_time_data_detailed.html#a32a6bf991cc7457bbb18f4b9e1aaae9e">DataParameter::SegmentTimeDataDetailed</a>
 </li>
 <li>SegmentTimeDataGeneral()
 : <a class="el" href="d5/dbc/class_data_parameter_1_1_segment_time_data_general.html#a104092e36a0af8e336836840908377dd">DataParameter::SegmentTimeDataGeneral</a>
@@ -350,14 +389,16 @@ $(document).ready(function(){initNavTree('functions.html','');});
 : <a class="el" href="de/d8e/class_data_parameter_1_1_segment_time_detailed.html#a703b27f7ad99cd965018c245d5345f9a">DataParameter::SegmentTimeDetailed</a>
 </li>
 <li>SegmentTimeGeneral()
-: <a class="el" href="df/dd9/class_data_parameter_1_1_segment_time_general.html#aa962052613165d54fef7be454f130689">DataParameter::SegmentTimeGeneral</a>
+: <a class="el" href="df/dd9/class_data_parameter_1_1_segment_time_general.html#a02685ab49eb734ffb78c030d607bfa2e">DataParameter::SegmentTimeGeneral</a>
+</li>
+<li>SegmentVoltageData()
+: <a class="el" href="da/daf/class_data_parameter_1_1_segment_voltage_data.html#af311167f753d9e885badd19a533e900c">DataParameter::SegmentVoltageData</a>
 </li>
 <li>SegmentVoltageSetpoint()
-: <a class="el" href="d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#a9eb705f603ae3b784bc2ad46d766fa21">DataParameter::SegmentVoltageSetpoint</a>
+: <a class="el" href="d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#afef1dd2f3b6a146f76de329fcf7667fd">DataParameter::SegmentVoltageSetpoint</a>
 </li>
-<li>setNumberofSequentialRegisters()
-: <a class="el" href="de/d8e/class_data_parameter_1_1_segment_time_detailed.html#af1c750fb52e3f1e6e84dd43d61fb7c95">DataParameter::SegmentTimeDetailed</a>
-, <a class="el" href="df/dd9/class_data_parameter_1_1_segment_time_general.html#abba70712d662d2fd9be1a3704e274365">DataParameter::SegmentTimeGeneral</a>
+<li>serialPortError()
+: <a class="el" href="d2/d23/class_munk_power_supply.html#abb0909d4d56fa9edc883182ea8067a7c">MunkPowerSupply</a>
 </li>
 <li>setReadorWrite()
 : <a class="el" href="da/dfc/class_data_parameter_1_1_abstract_parameter.html#a2b6e3c1e1b32da3a92f9ca5218bd8704">DataParameter::AbstractParameter</a>
@@ -381,10 +422,10 @@ $(document).ready(function(){initNavTree('functions.html','');});
 </li>
 <li>setSlaveAddress()
 : <a class="el" href="da/dfc/class_data_parameter_1_1_abstract_parameter.html#a3ff19d5948c23dbdb11605250dbd9a71">DataParameter::AbstractParameter</a>
+, <a class="el" href="de/d8e/class_data_parameter_1_1_segment_time_detailed.html#a61e371767be8d2af8e0b72345e05f369">DataParameter::SegmentTimeDetailed</a>
 </li>
-<li>setStartingRegister()
-: <a class="el" href="de/d8e/class_data_parameter_1_1_segment_time_detailed.html#a1d5c5fd4ee8fbc436543266378765736">DataParameter::SegmentTimeDetailed</a>
-, <a class="el" href="df/dd9/class_data_parameter_1_1_segment_time_general.html#ab8ded1441f7019b74e9dcd3992237e6f">DataParameter::SegmentTimeGeneral</a>
+<li>setSupplyOutput()
+: <a class="el" href="d8/dfb/class_data_parameter_1_1_segment_time_data_detailed.html#add57633964741ade2b2a3efe35e642d3">DataParameter::SegmentTimeDataDetailed</a>
 </li>
 <li>setTimeValue()
 : <a class="el" href="d8/dfb/class_data_parameter_1_1_segment_time_data_detailed.html#ac36f20ca9585272409df94fa847dce82">DataParameter::SegmentTimeDataDetailed</a>
@@ -396,11 +437,26 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>setupUiElements()
 : <a class="el" href="d9/dc6/class_main_window.html#ac30b6e05110f500244ecd15456a652b0">MainWindow</a>
 </li>
+<li>signal_NewCurrentSetpoint()
+: <a class="el" href="d2/d23/class_munk_power_supply.html#a30f39206a0dfa445ba8f6b23bdee6277">MunkPowerSupply</a>
+</li>
+<li>signal_NewTimeSetpoint()
+: <a class="el" href="d2/d23/class_munk_power_supply.html#ace5b643fb90c68059309999ab3730467">MunkPowerSupply</a>
+</li>
+<li>signal_NewVoltageSetpoint()
+: <a class="el" href="d2/d23/class_munk_power_supply.html#a697a22766242462feb7e6906337e9b1c">MunkPowerSupply</a>
+</li>
 <li>slaveAddress
 : <a class="el" href="da/dfc/class_data_parameter_1_1_abstract_parameter.html#ae8d47faafbbce3bf4a693af58d1db7b3">DataParameter::AbstractParameter</a>
+, <a class="el" href="de/d8e/class_data_parameter_1_1_segment_time_detailed.html#a77a47cdf8ec82ea43c98610abc6267c9">DataParameter::SegmentTimeDetailed</a>
 </li>
 <li>statusBar
 : <a class="el" href="df/dd7/class_ui___main_window.html#a50fa481337604bcc8bf68de18ab16ecd">Ui_MainWindow</a>
+</li>
+<li>supplyOutput
+: <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#af02892bf55f2d94abab6b6c8df2c9769">DataParameter::SegmentCurrentSetpoint</a>
+, <a class="el" href="d8/dfb/class_data_parameter_1_1_segment_time_data_detailed.html#a475796ebd636a42bb75439c4b16c5b22">DataParameter::SegmentTimeDataDetailed</a>
+, <a class="el" href="d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#ad6ddee1553e5d20e435b96266788448f">DataParameter::SegmentVoltageSetpoint</a>
 </li>
 </ul>
 
@@ -410,6 +466,9 @@ $(document).ready(function(){initNavTree('functions.html','');});
 : <a class="el" href="d8/dfb/class_data_parameter_1_1_segment_time_data_detailed.html#aac252c69aa1798376f63b6e21f539031">DataParameter::SegmentTimeDataDetailed</a>
 , <a class="el" href="d5/dbc/class_data_parameter_1_1_segment_time_data_general.html#a68cd8005705dfa7d542bb03e6140557b">DataParameter::SegmentTimeDataGeneral</a>
 </li>
+<li>transmissionProgress()
+: <a class="el" href="d2/d23/class_munk_power_supply.html#ab05dd250c99bc49953f92393efd1aed4">MunkPowerSupply</a>
+</li>
 </ul>
 
 
@@ -418,36 +477,36 @@ $(document).ready(function(){initNavTree('functions.html','');});
 : <a class="el" href="d9/dc6/class_main_window.html#a43606649aeaf9e561328935fca0cd1bf">MainWindow</a>
 </li>
 <li>updateAmpsBitArray()
-: <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a1e05e3475a1473a86b1ae32b8ecb1979">DataParameter::SegmentCurrentSetpoint</a>
+: <a class="el" href="d1/d51/class_data_parameter_1_1_segment_current_data.html#a4226dbfec45b69e2f769e0f22ee3d703">DataParameter::SegmentCurrentData</a>
 </li>
 <li>updateCurrentFactor()
-: <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a87f3dc129117151cd80862f903a61182">DataParameter::SegmentCurrentSetpoint</a>
+: <a class="el" href="d1/d51/class_data_parameter_1_1_segment_current_data.html#ab037c90f0de55afdbbaafcc0fd2248d8">DataParameter::SegmentCurrentData</a>
 </li>
 <li>updateCurrentSetpoint()
-: <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a542298e27fe960fc5eeb98cb3d519686">DataParameter::SegmentCurrentSetpoint</a>
+: <a class="el" href="d1/d51/class_data_parameter_1_1_segment_current_data.html#abec398dc9ecf527c19762c869082fbfa">DataParameter::SegmentCurrentData</a>
 </li>
 <li>updateData()
 : <a class="el" href="d8/dfb/class_data_parameter_1_1_segment_time_data_detailed.html#afc5f514417f6cccc475a728efb27b7d3">DataParameter::SegmentTimeDataDetailed</a>
 , <a class="el" href="d5/dbc/class_data_parameter_1_1_segment_time_data_general.html#a6287e3cf3943988680f636086f945459">DataParameter::SegmentTimeDataGeneral</a>
 </li>
 <li>updatePrescaleBitArray()
-: <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#ab51310c5e47224a1209d22872c212f15">DataParameter::SegmentCurrentSetpoint</a>
-, <a class="el" href="d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#a9fd1c813a1f0cf4fa36bf4c0018b0b3f">DataParameter::SegmentVoltageSetpoint</a>
+: <a class="el" href="d1/d51/class_data_parameter_1_1_segment_current_data.html#a7b8e65f4fb72df708de5f6e1e8d908ce">DataParameter::SegmentCurrentData</a>
+, <a class="el" href="da/daf/class_data_parameter_1_1_segment_voltage_data.html#ad047274d1c9a2b9f50e97555b36312dc">DataParameter::SegmentVoltageData</a>
 </li>
 <li>updatePrescalePower()
-: <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#aef9677a3298c3d56892ccaf510cb7dbf">DataParameter::SegmentCurrentSetpoint</a>
-, <a class="el" href="d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#ae2dfa3d0086eafa9496508cc32577302">DataParameter::SegmentVoltageSetpoint</a>
+: <a class="el" href="d1/d51/class_data_parameter_1_1_segment_current_data.html#afc905a29fd1fdb5256257af62b6330fa">DataParameter::SegmentCurrentData</a>
+, <a class="el" href="da/daf/class_data_parameter_1_1_segment_voltage_data.html#a6ca65ac74467e68c67358f1bbb78d0c2">DataParameter::SegmentVoltageData</a>
 </li>
 <li>updateRegisterData()
 : <a class="el" href="de/d8e/class_data_parameter_1_1_segment_time_detailed.html#ad146332f303300e2e299e34a8fb3e010">DataParameter::SegmentTimeDetailed</a>
 , <a class="el" href="df/dd9/class_data_parameter_1_1_segment_time_general.html#a1e55b632d5b65d6518a138f93ffc009a">DataParameter::SegmentTimeGeneral</a>
 </li>
 <li>updateSetPointBitArray()
-: <a class="el" href="d0/de7/class_data_parameter_1_1_segment_current_setpoint.html#a5781080dffd938d046ffa287d1153a2b">DataParameter::SegmentCurrentSetpoint</a>
-, <a class="el" href="d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#aa1aea2b0296423784180c33bca5b8645">DataParameter::SegmentVoltageSetpoint</a>
+: <a class="el" href="d1/d51/class_data_parameter_1_1_segment_current_data.html#af36828e32d44aad81cc0f4a7eb7e7d5f">DataParameter::SegmentCurrentData</a>
+, <a class="el" href="da/daf/class_data_parameter_1_1_segment_voltage_data.html#a9601438e820520cba52470660a5f1f91">DataParameter::SegmentVoltageData</a>
 </li>
 <li>updateVoltageSetpoint()
-: <a class="el" href="d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#ad20a85ce851ef59e016ff5c0b2f63aee">DataParameter::SegmentVoltageSetpoint</a>
+: <a class="el" href="da/daf/class_data_parameter_1_1_segment_voltage_data.html#ade011f5f8d062f05abba3b36b054e060">DataParameter::SegmentVoltageData</a>
 </li>
 </ul>
 
@@ -458,7 +517,10 @@ $(document).ready(function(){initNavTree('functions.html','');});
 </li>
 <li>voltage
 : <a class="el" href="df/d53/class_data_1_1_register_data_object.html#a67abdf7e33ab899281ac4bdbcc33c263">Data::RegisterDataObject</a>
-, <a class="el" href="d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#a34ff944292110924f295349c3f14a414">DataParameter::SegmentVoltageSetpoint</a>
+, <a class="el" href="da/daf/class_data_parameter_1_1_segment_voltage_data.html#a2a574a9ee4668f93cf335fed7ec426b6">DataParameter::SegmentVoltageData</a>
+</li>
+<li>vSet
+: <a class="el" href="d1/d7f/struct_munk_power_supply_1_1struct_setpoints.html#aec3e34b313cf679bdfbd7f55462722d9">MunkPowerSupply::structSetpoints</a>
 </li>
 </ul>
 
