@@ -5,7 +5,7 @@ namespace DataParameter{
 
 ParameterMemoryWrite::ParameterMemoryWrite()
 {
-
+    this->parameterCode = DataParameter::ParameterTypeToInt(ParameterType::MEMORYWRITE);
 }
 
 ParameterType ParameterMemoryWrite::getParameterType() const
@@ -21,10 +21,19 @@ std::string ParameterMemoryWrite::getDescription() const
 
 QByteArray ParameterMemoryWrite::getByteArray() const
 {
-    QByteArray byteArray;
-    uint32_t ba = 0;
-    byteArray.append(ba);
-    return byteArray;
+    QByteArray ba;
+    int messageLength = 1;
+    uint8_t HIGHSeqType = (uint8_t)((messageLength & 0xFF00) >> 8);
+    uint8_t LOWSeqType = (uint8_t)(messageLength & 0x00FF);
+    ba.append(HIGHSeqType);
+    ba.append(LOWSeqType);
+
+    ba.append((uint8_t)2);
+
+    QByteArray empty = QByteArrayLiteral("\x00\x00");
+    ba.append(empty);
+
+    return ba;
 }
 
 } //end of namespace ParameterMemoryWrite
