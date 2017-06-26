@@ -35,6 +35,8 @@ QByteArray AbstractParameter::getPrefixByteArray()
     uint8_t LOWPType = (uint8_t)(parameterCode & 0x00FF);
     ba.append(HIGHPType);
     ba.append(LOWPType);
+
+    return ba;
 }
 
 QByteArray AbstractParameter::getFullMessage()
@@ -42,12 +44,16 @@ QByteArray AbstractParameter::getFullMessage()
     QByteArray prefix = getPrefixByteArray();
     QByteArray data = getByteArray();
 
-    unsigned int checkSum = CRC16(data);
+    QByteArray dataSum;
+    dataSum.append(prefix);
+    dataSum.append(data);
+
+    unsigned int checkSum = CRC16(dataSum);
     highChecksum = (uint8_t)((checkSum & 0xFF00) >> 8);
     lowChecksum = (uint8_t)(checkSum & 0x00FF);
-    data.append(lowChecksum);
-    data.append(highChecksum);
-    return data;
+    dataSum.append(lowChecksum);
+    dataSum.append(highChecksum);
+    return dataSum;
 }
 
 

@@ -10,9 +10,10 @@
 #include "data/type_segment_level.h"
 #include "data/type_segment_mode.h"
 
+#include "data/type_fault_codes_general.h"
+
 #include "data/type_current_voltage_prescale.h"
 #include "data/type_voltage_set.h"
-
 
 namespace DataParameter
 {
@@ -49,7 +50,7 @@ public:
     //! \brief updateVoltageSetpoint
     //! \param value
     //!
-    void updateVoltageSetpoint(const int &value);
+    Data::DataFaultCodes updateVoltageSetpoint(const int &value);
 
 public:
     //!

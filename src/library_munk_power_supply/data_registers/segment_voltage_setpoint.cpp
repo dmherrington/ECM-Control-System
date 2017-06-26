@@ -41,7 +41,6 @@ std::string SegmentVoltageSetpoint::getDescription() const
 
 QByteArray SegmentVoltageSetpoint::getByteArray() const
 {
-
     QByteArray ba;
 
     uint8_t HIGHSeqType = (uint8_t)((this->data.size() & 0xFF00) >> 8);
@@ -49,18 +48,15 @@ QByteArray SegmentVoltageSetpoint::getByteArray() const
     ba.append(HIGHSeqType);
     ba.append(LOWSeqType);
 
-    data.append((uint8_t)data.size() * 2);
-    for (std::map<Data::SegmentLevel, SegmentVoltageData>::iterator it=this->data.begin(); it!=this->data.end(); ++it)
+    ba.append((uint8_t)data.size() * 2);
+    for (std::map<Data::SegmentLevel, SegmentVoltageData>::const_iterator it=this->data.begin(); it!=this->data.end(); ++it)
     {
-
-        uint8_t HIGHBType = (uint8_t)((newArray & 0xFF00) >> 8);
-        uint8_t LOWBType = (uint8_t)(newArray & 0x00FF);
-
-        data.append(HIGHBType);
-        data.append(LOWBType);
+        SegmentVoltageData tmpVoltage = it->second;
+        QByteArray tmpArray = tmpVoltage.getDataArray();
+        ba.append(tmpArray);
     }
 
-    return data;
+    return ba;
 }
 
 void SegmentVoltageSetpoint::appendData(const SegmentVoltageData &voltageSetpoint)

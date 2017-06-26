@@ -25,7 +25,13 @@ QByteArray SegmentVoltageData::getDataArray() const
     uint32_t ba = 0;
     ba = updatePrescaleBitArray(ba);
     ba = updateSetPointBitArray(ba);
-    byteArray.append(ba);
+
+    uint8_t HIGHBType = (uint8_t)((ba & 0xFF00) >> 8);
+    uint8_t LOWBType = (uint8_t)(ba & 0x00FF);
+
+    byteArray.append(HIGHBType);
+    byteArray.append(LOWBType);
+
     return byteArray;
 }
 
@@ -34,19 +40,22 @@ void SegmentVoltageData::updatePrescalePower(const Data::SegmentVIPower &value)
     this->prescale = value;
 }
 
-void SegmentVoltageData::updateVoltageSetpoint(const int &value)
+Data::DataFaultCodes SegmentVoltageData::updateVoltageSetpoint(const int &value)
 {
     if(value > 4095)
     {
         this->voltage = 4095;
+        return Data::DataFaultCodes::DATA_VALUE_GREATER_THAN_MAX;
     }
     else if(value < 0)
     {
         this->voltage = 0;
+        return Data::DataFaultCodes::DATA_VALUE_LESS_THAN_MIN;
     }
     else
     {
         this->voltage = value;
+        return Data::DataFaultCodes::DATA_UPDATE_SUCCESSFUL;
     }
 }
 

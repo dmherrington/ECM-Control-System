@@ -72,7 +72,8 @@ HEADERS += munk_power_supply.h\
     data/type_response_exception.h \
     data/type_supply_output.h \
     data_registers/segment_current_data.h \
-    data_registers/segment_voltage_data.h
+    data_registers/segment_voltage_data.h \
+    data/type_fault_codes_general.h
 
 # Unix lib Install
 unix:!symbian {

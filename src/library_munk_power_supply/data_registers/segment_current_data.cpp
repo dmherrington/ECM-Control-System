@@ -22,8 +22,15 @@ QByteArray SegmentCurrentData::getDataArray() const
     ba = updateAmpsBitArray(ba);
     ba = updatePrescaleBitArray(ba);
     ba = updateSetPointBitArray(ba);
-    byteArray.append(ba);
+
+    uint8_t HIGHBType = (uint8_t)((ba & 0xFF00) >> 8);
+    uint8_t LOWBType = (uint8_t)(ba & 0x00FF);
+
+    byteArray.append(HIGHBType);
+    byteArray.append(LOWBType);
+
     return byteArray;
+
 }
 
 void SegmentCurrentData::updateCurrentFactor(const Data::CurrentFactorType &value)
@@ -36,19 +43,22 @@ void SegmentCurrentData::updatePrescalePower(const Data::SegmentVIPower &value)
     this->prescale = value;
 }
 
-void SegmentCurrentData::updateCurrentSetpoint(const int &value)
+Data::DataFaultCodes SegmentCurrentData::updateCurrentSetpoint(const int &value)
 {
     if(value > 4095)
     {
         this->current = 4095;
+        return Data::DataFaultCodes::DATA_VALUE_GREATER_THAN_MAX;
     }
     else if(value < 0)
     {
         this->current = 0;
+        return Data::DataFaultCodes::DATA_VALUE_LESS_THAN_MIN;
     }
     else
     {
         this->current = value;
+        return Data::DataFaultCodes::DATA_UPDATE_SUCCESSFUL;
     }
 }
 

@@ -4,22 +4,16 @@ MunkPowerSupply::MunkPowerSupply()
 {
     DataParameter::SegmentTimeDetailed detailedData(1);
 
-    DataParameter::SegmentTimeDataDetailed detailedOne(10,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+    DataParameter::SegmentTimeDataDetailed detailedOne(10,50,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
     detailedData.appendRegisterData(detailedOne);
-    DataParameter::SegmentTimeDataDetailed detailedTwo(10,10,Data::SegmentMode::REVERSE,Data::SegmentPower::ONE_HUNDRED,100);
-    detailedData.appendRegisterData(detailedTwo);
-    DataParameter::SegmentTimeDataDetailed detailedThree(10,10,Data::SegmentMode::REVERSE,Data::SegmentPower::ONE_HUNDRED,100);
-    detailedData.appendRegisterData(detailedThree);
-    DataParameter::SegmentTimeDataDetailed detailedFour(10,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+    DataParameter::SegmentTimeDataDetailed detailedFour(10,102,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
     detailedData.appendRegisterData(detailedFour);
-    DataParameter::SegmentTimeDataDetailed detailedFive(50,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+    DataParameter::SegmentTimeDataDetailed detailedFive(50,133,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
     detailedData.appendRegisterData(detailedFive);
-    DataParameter::SegmentTimeDataDetailed detailedSix(60,10,Data::SegmentMode::REVERSE,Data::SegmentPower::ONE_HUNDRED,100);
-    detailedData.appendRegisterData(detailedSix);
-    DataParameter::SegmentTimeDataDetailed detailedSeven(70,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+    DataParameter::SegmentTimeDataDetailed detailedSeven(70,151,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
     detailedData.appendRegisterData(detailedSeven);
-    DataParameter::SegmentTimeDataDetailed detailedEight(80,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
-    detailedData.appendRegisterData(detailedEight);
+//    DataParameter::SegmentTimeDataDetailed detailedEight(80,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+//    detailedData.appendRegisterData(detailedEight);
 
     generateMessages(detailedData);
 
@@ -39,11 +33,14 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
 
     //this restricts it to only assume 1 output supply for now
     DataParameter::SegmentCurrentSetpoint fwdISetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::FORWARD);
+    fwdISetpoint.setSlaveAddress(detailedSegmentData.getSlaveAddress());
     DataParameter::SegmentCurrentSetpoint revISetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::REVERSE);
+    revISetpoint.setSlaveAddress(detailedSegmentData.getSlaveAddress());
 
     DataParameter::SegmentVoltageSetpoint fwdVSetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::FORWARD);
+    fwdVSetpoint.setSlaveAddress(detailedSegmentData.getSlaveAddress());
     DataParameter::SegmentVoltageSetpoint revVSetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::REVERSE);
-
+    revVSetpoint.setSlaveAddress(detailedSegmentData.getSlaveAddress());
 
     std::vector<std::string> fwdLevelVector = Data::getListOfSegmentLevel();
     int fwdLevelCounter = 0;
@@ -65,8 +62,11 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
                 std::cout<<"The voltage " <<detail.getRegisterDataObject().voltage <<" and current "<<detail.getRegisterDataObject().current<<" had already existed."<<std::endl;
             }
             else{
-                if(fwdLevelCounter >= 8)
+                if(revLevelCounter >= 8)
+                {
+                    emit messageGenerationProgress(Data::DataFaultCodes::DATA_FAULT_TOO_MANY_VI_COMBOS);
                     return;
+                }
                 //assign a new level to this combination
                 Data::SegmentLevel newLevel = Data::SegmentLevelFromString(fwdLevelVector.at(fwdLevelCounter));
                 fwdMap.insert(std::pair<Data::RegisterDataObject,Data::SegmentLevel>(detail.getRegisterDataObject(),newLevel));
@@ -93,7 +93,10 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
             else
             {
                 if(revLevelCounter >= 8)
+                {
+                    emit messageGenerationProgress(Data::DataFaultCodes::DATA_FAULT_TOO_MANY_VI_COMBOS);
                     return;
+                }
 
                 //assign a new level to this combination
                 Data::SegmentLevel newLevel = Data::SegmentLevelFromString(revLevelVector.at(revLevelCounter));
@@ -115,7 +118,6 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
             //Ken: Figure out what to do this in case
         }
     }
-
     std::cout<<"It is complete"<<std::endl;
     //At this point we would transmit these to the serial port
     //if the size of either map is greater than eight than the request is invalid for the parameters requested

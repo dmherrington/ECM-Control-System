@@ -14,6 +14,8 @@
 #include "data/type_current_voltage_prescale.h"
 #include "data/type_voltage_set.h"
 
+#include "data/type_fault_codes_general.h"
+
 namespace DataParameter
 {
 
@@ -54,7 +56,7 @@ public:
     //! \brief updateCurrentSetpoint
     //! \param value
     //!
-    void updateCurrentSetpoint(const int &value);
+    Data::DataFaultCodes updateCurrentSetpoint(const int &value);
 
 public:
     //!

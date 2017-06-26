@@ -8,6 +8,17 @@ SegmentCurrentSetpoint::SegmentCurrentSetpoint(const Data::TypeSupplyOutput &out
     this->supplyOutput = outputNum;
     this->mode = levelMode;
 
+    if(levelMode == Data::SegmentMode::FORWARD)
+    {
+        this->parameterCode = (int)Data::getFWDCurrentIndex((int)outputNum);
+    }
+    else if(levelMode == Data::SegmentMode::REVERSE)
+    {
+        this->parameterCode = (int)Data::getREVCurrentIndex((int)outputNum);
+    }
+    else{
+
+    }
 }
 
 ParameterType SegmentCurrentSetpoint::getParameterType() const
@@ -23,11 +34,22 @@ std::string SegmentCurrentSetpoint::getDescription() const
 
 QByteArray SegmentCurrentSetpoint::getByteArray() const
 {
-    QByteArray byteArray;
-    uint32_t ba = 0;
+    QByteArray ba;
 
-    byteArray.append(ba);
-    return byteArray;
+    uint8_t HIGHSeqType = (uint8_t)((this->data.size() & 0xFF00) >> 8);
+    uint8_t LOWSeqType = (uint8_t)(this->data.size() & 0x00FF);
+    ba.append(HIGHSeqType);
+    ba.append(LOWSeqType);
+
+    ba.append((uint8_t)data.size() * 2);
+    for (std::map<Data::SegmentLevel, SegmentCurrentData>::const_iterator it=this->data.begin(); it!=this->data.end(); ++it)
+    {
+        SegmentCurrentData tmpCurrent = it->second;
+        QByteArray tmpArray = tmpCurrent.getDataArray();
+        ba.append(tmpArray);
+    }
+
+    return ba;
 }
 
 void SegmentCurrentSetpoint::appendData(const SegmentCurrentData &currentSetpoint)
