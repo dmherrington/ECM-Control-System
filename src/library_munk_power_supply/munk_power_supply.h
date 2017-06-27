@@ -4,6 +4,7 @@
 #include <iostream>
 #include <QDebug>
 #include <QObject>
+#include <QtSerialPort/QSerialPort>
 
 #include "library_munk_power_supply_global.h"
 
@@ -20,6 +21,8 @@
 #include "data/type_current_voltage_prescale.h"
 
 #include "data/type_fault_codes_general.h"
+
+#include "serial_port_helper.h"
 
 class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply : public QObject
 {
@@ -42,6 +45,16 @@ public:
     //! \param detailedSegmentData
     //!
     void generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData);
+
+    //!
+    //! \brief openSerialPort
+    //! \param name
+    //! \param rate
+    //! \param bits
+    //! \param parity
+    //! \param stop
+    //!
+    void openSerialPort(const QString &name, const QSerialPort::BaudRate &rate, const QSerialPort::DataBits &bits, const QSerialPort::Parity &parity, const QSerialPort::StopBits &stop);
 
 signals:
 
@@ -68,6 +81,17 @@ signals:
     void munkSupplyError();
     void serialPortError();
 
+private:
+    //!
+    //! \brief closeSerialPort
+    //!
+    void closeSerialPort();
+
+private:
+    //!
+    //! \brief serialPort
+    //!
+    SerialPortHelper* portHelper;
 };
 
 #endif // MUNK_POWER_SUPPLY_H

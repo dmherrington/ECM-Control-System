@@ -2,6 +2,8 @@
 
 MunkPowerSupply::MunkPowerSupply()
 {
+    portHelper = new SerialPortHelper(this);
+
     DataParameter::SegmentTimeDetailed detailedData(1);
 
     DataParameter::SegmentTimeDataDetailed detailedOne(10,50,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
@@ -16,7 +18,6 @@ MunkPowerSupply::MunkPowerSupply()
 //    detailedData.appendRegisterData(detailedEight);
 
     generateMessages(detailedData);
-
 }
 
 
@@ -48,7 +49,7 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
     int revLevelCounter = 0;
 
     //allow us to loop through all of the possible data segments
-    for(int i = 0; i < detailedData.size(); i++)
+    for(unsigned int i = 0; i < detailedData.size(); i++)
     {
         DataParameter::SegmentTimeDataDetailed detail = detailedData.at(i);
         //determine the mode of the segment
@@ -124,3 +125,16 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
     //otherwise, let us continue processing them
 }
 
+void MunkPowerSupply::openSerialPort(const QString &name, const QSerialPort::BaudRate &rate, const QSerialPort::DataBits &bits, const QSerialPort::Parity &parity, const QSerialPort::StopBits &stop)
+{
+    UNUSED(name);
+    UNUSED(rate);
+    UNUSED(bits);
+    UNUSED(parity);
+    UNUSED(stop);
+}
+
+void MunkPowerSupply::closeSerialPort()
+{
+
+}

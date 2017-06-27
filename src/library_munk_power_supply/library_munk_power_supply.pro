@@ -5,6 +5,8 @@
 #-------------------------------------------------
 
 QT       -= gui
+QT = core
+QT += serialport
 
 TARGET = library_munk_power_supply
 TEMPLATE = lib
@@ -38,7 +40,8 @@ SOURCES += munk_power_supply.cpp \
     data_response/valid_response.cpp \
     data_response/exception_response.cpp \
     data_registers/segment_current_data.cpp \
-    data_registers/segment_voltage_data.cpp
+    data_registers/segment_voltage_data.cpp \
+    serial_port_helper.cpp
 
 HEADERS += munk_power_supply.h\
         library_munk_power_supply_global.h \
@@ -73,7 +76,8 @@ HEADERS += munk_power_supply.h\
     data/type_supply_output.h \
     data_registers/segment_current_data.h \
     data_registers/segment_voltage_data.h \
-    data/type_fault_codes_general.h
+    data/type_fault_codes_general.h \
+    serial_port_helper.h
 
 # Unix lib Install
 unix:!symbian {
