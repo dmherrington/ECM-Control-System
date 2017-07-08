@@ -1,9 +1,17 @@
 #include "serial_port_helper.h"
 
 SerialPortHelper::SerialPortHelper(QObject *parent) :
-    QObject(parent), m_serialPort(NULL)
+    QObject(parent)
 {
+    m_serialPort = new QSerialPort();
+    m_timer.setSingleShot(true); // this implies this timer only fires once
+    connect(m_serialPort, &QSerialPort::bytesWritten, this, &SerialPortHelper::handleBytesWritten);
+    connect(m_serialPort, static_cast<void (QSerialPort::*)(QSerialPort::SerialPortError)>(&QSerialPort::error),
+            this, &SerialPortHelper::handleError);
+    connect(&m_timer, &QTimer::timeout, this, &SerialPortHelper::handleTimeout);
 
+    //this connection alerts this class when data is available for reading
+    connect(m_serialPort,&QIODevice::readyRead, this, &SerialPortHelper::readBytes);
 }
 
 SerialPortHelper::SerialPortHelper(QSerialPort *serialPort, QObject *parent) :
@@ -40,14 +48,32 @@ void SerialPortHelper::handleError(QSerialPort::SerialPortError error)
     UNUSED(error);
 }
 
-void SerialPortHelper::configureSerialPort(const QString &name, const QSerialPort::BaudRate &rate, const QSerialPort::DataBits &bits, const QSerialPort::Parity &parity, const QSerialPort::StopBits &stop)
+void SerialPortHelper::configureSerialPort(const QString &name)
 {
     if(m_serialPort->isOpen())
         this->closeSerialPort();
+
+    m_serialPort->setPortName(name);
+    m_serialPort->setBaudRate(QSerialPort::Baud9600);
+    m_serialPort->setParity(QSerialPort::NoParity);
+    m_serialPort->setDataBits(QSerialPort::Data8);
+    m_serialPort->setFlowControl(QSerialPort::NoFlowControl);
+    m_serialPort->setStopBits(QSerialPort::OneStop);
+
+}
+
+void SerialPortHelper::configureSerialPort(const QString &name, const QSerialPort::BaudRate &rate,
+                                           const QSerialPort::Parity &parity, const QSerialPort::DataBits &data,
+                                           const QSerialPort::FlowControl &flow, const QSerialPort::StopBits &stop)
+{
+    if(m_serialPort->isOpen())
+        this->closeSerialPort();
+
     m_serialPort->setPortName(name);
     m_serialPort->setBaudRate(rate);
-    m_serialPort->setDataBits(bits);
     m_serialPort->setParity(parity);
+    m_serialPort->setDataBits(data);
+    m_serialPort->setFlowControl(flow);
     m_serialPort->setStopBits(stop);
 }
 
@@ -77,6 +103,8 @@ void SerialPortHelper::openSerialPort()
         m_serialPort->close();
         delete m_serialPort;
         m_serialPort = NULL;
+    }else{
+        std::cout<<"The serial port was successfully opened."<<std::endl;
     }
 }
 
@@ -122,6 +150,7 @@ void SerialPortHelper::readBytes()
         QByteArray buffer;
         buffer.resize(byteCount);
         m_serialPort->read(buffer.data(), buffer.size());
+        std::cout<<"I have seen some data"<<std::endl;
         emit bytesReceived(buffer);
     }
 }

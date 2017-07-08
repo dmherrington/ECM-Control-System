@@ -48,13 +48,24 @@ public:
 
     //!
     //! \brief openSerialPort
+    //!
+    void openSerialPort();
+
+    //!
+    //! \brief openSerialPort
+    //! \param name
+    //!
+    void configureSerialPort(const QString &name);
+
+    //!
+    //! \brief openSerialPort
     //! \param name
     //! \param rate
     //! \param bits
     //! \param parity
     //! \param stop
     //!
-    void openSerialPort(const QString &name, const QSerialPort::BaudRate &rate, const QSerialPort::DataBits &bits, const QSerialPort::Parity &parity, const QSerialPort::StopBits &stop);
+    void configureSerialPort(const QString &name, const QSerialPort::BaudRate &rate, const QSerialPort::DataBits &bits, const QSerialPort::Parity &parity, const QSerialPort::StopBits &stop);
 
 signals:
 

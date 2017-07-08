@@ -23,7 +23,11 @@ public:
 
     ~SerialPortHelper();
 
-    void configureSerialPort(const QString &name, const QSerialPort::BaudRate &rate, const QSerialPort::DataBits &bits, const QSerialPort::Parity &parity, const QSerialPort::StopBits &stop);
+    void configureSerialPort(const QString &name);
+
+    void configureSerialPort(const QString &name, const QSerialPort::BaudRate &rate,
+                                               const QSerialPort::Parity &parity, const QSerialPort::DataBits &data,
+                                               const QSerialPort::FlowControl &flow, const QSerialPort::StopBits &stop);
 
     void writeBytes(const QByteArray &writeData);
 

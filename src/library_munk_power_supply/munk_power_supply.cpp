@@ -3,7 +3,6 @@
 MunkPowerSupply::MunkPowerSupply()
 {
     portHelper = new SerialPortHelper(this);
-
     DataParameter::SegmentTimeDetailed detailedData(1);
 
     DataParameter::SegmentTimeDataDetailed detailedOne(10,50,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
@@ -125,7 +124,17 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
     //otherwise, let us continue processing them
 }
 
-void MunkPowerSupply::openSerialPort(const QString &name, const QSerialPort::BaudRate &rate, const QSerialPort::DataBits &bits, const QSerialPort::Parity &parity, const QSerialPort::StopBits &stop)
+void MunkPowerSupply::openSerialPort()
+{
+    portHelper->openSerialPort();
+}
+
+void MunkPowerSupply::configureSerialPort(const QString &name)
+{
+  portHelper->configureSerialPort(name);
+}
+
+void MunkPowerSupply::configureSerialPort(const QString &name, const QSerialPort::BaudRate &rate, const QSerialPort::DataBits &bits, const QSerialPort::Parity &parity, const QSerialPort::StopBits &stop)
 {
     UNUSED(name);
     UNUSED(rate);
