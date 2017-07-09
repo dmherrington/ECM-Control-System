@@ -30,6 +30,11 @@ public:
     //!
     SegmentCurrentSetpoint(const Data::TypeSupplyOutput &outputNum, const Data::SegmentMode &levelMode);
 
+    //!
+    //! \brief SegmentCurrentSetpoint
+    //! \param copyObj
+    //!
+    SegmentCurrentSetpoint(const SegmentCurrentSetpoint &obj);
 public:
     //!
     //! \brief getParameterType
@@ -52,6 +57,50 @@ public:
 
 public:
     void appendData(const SegmentCurrentData &currentSetpoint);
+
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    void operator = (const SegmentCurrentSetpoint &rhs)
+    {
+        AbstractParameter::operator =(rhs);
+        this->supplyOutput = rhs.supplyOutput;
+        this->mode = rhs.mode;
+        this->data = rhs.data;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const SegmentCurrentSetpoint &rhs)
+    {
+        if(!AbstractParameter::operator ==(rhs)){
+            return false;
+        }
+        if(this->supplyOutput != rhs.supplyOutput){
+            return false;
+        }
+        if(this->mode != rhs.mode){
+            return false;
+        }
+//        if(this->data != rhs.data){
+//            return false;
+//        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const SegmentCurrentSetpoint &rhs) {
+        return !(*this == rhs);
+    }
 
 private:
     //!

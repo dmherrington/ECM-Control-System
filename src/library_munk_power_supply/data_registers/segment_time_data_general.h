@@ -1,6 +1,8 @@
 #ifndef SEGMENT_TIME_DATA_GENERAL_H
 #define SEGMENT_TIME_DATA_GENERAL_H
 
+#include <math.h>
+
 #include <data/type_prescalar_power.h>
 #include <data/type_segment_level.h>
 #include <data/type_segment_mode.h>
@@ -26,7 +28,7 @@ public:
     //! \param power
     //! \param time
     //!
-    SegmentTimeDataGeneral(const Data::SegmentLevel &level, const Data::SegmentMode &mode, const Data::SegmentPower &power, const uint8_t &time);
+    SegmentTimeDataGeneral(const Data::SegmentLevel &level, const Data::SegmentMode &mode, const uint32_t &time);
 
 public:
     //!
@@ -51,7 +53,7 @@ public:
     //! \brief setTimeValue
     //! \param time
     //!
-    void setTimeValue(const uint8_t &time);
+    void setTimeValue(const uint32_t &time);
 
     //!
     //! \brief resetData
@@ -134,7 +136,7 @@ private:
     //!
     //! \brief timeValue
     //!
-    uint8_t timeValue; //this time is denoted in us
+    uint32_t timeValue; //this time is denoted in us
 
 };
 

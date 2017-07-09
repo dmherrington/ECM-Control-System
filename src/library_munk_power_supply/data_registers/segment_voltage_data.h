@@ -77,6 +77,50 @@ public:
     //!
     int getVoltage() const;
 
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    void operator = (const SegmentVoltageData &rhs)
+    {
+        this->level = rhs.level;
+        this->mode = rhs.mode;
+        this->prescale = rhs.prescale;
+        this->voltage = rhs.voltage;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const SegmentVoltageData &rhs)
+    {
+        if(this->level != rhs.level){
+            return false;
+        }
+        if(this->mode != rhs.mode){
+            return false;
+        }
+        if(this->prescale != rhs.prescale){
+            return false;
+        }
+        if(this->voltage != rhs.voltage){
+            return false;
+        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const SegmentVoltageData &rhs) {
+        return !(*this == rhs);
+    }
+
 private:
     //!
     //! \brief updatePrescaleBitArray

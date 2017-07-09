@@ -138,7 +138,7 @@ void SerialPortHelper::writeBytes(const QByteArray &writeData)
     }
     else
     {
-        //the port is not yet open
+        //the port is not yet open or is not defined
     }
 }
 

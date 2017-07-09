@@ -29,6 +29,12 @@ public:
     //!
     SegmentVoltageSetpoint(const Data::TypeSupplyOutput &outputNum, const Data::SegmentMode &levelMode);
 
+    //!
+    //! \brief SegmentVoltageSetpoint
+    //! \param obj
+    //!
+    SegmentVoltageSetpoint(const SegmentVoltageSetpoint &obj);
+
 public:
     //!
     //! \brief getParameterType
@@ -55,6 +61,50 @@ public:
     //! \param voltageSetpoint
     //!
     void appendData(const SegmentVoltageData &voltageSetpoint);
+
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    void operator = (const SegmentVoltageSetpoint &rhs)
+    {
+        AbstractParameter::operator =(rhs);
+        this->supplyOutput = rhs.supplyOutput;
+        this->mode = rhs.mode;
+        this->data = rhs.data;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const SegmentVoltageSetpoint &rhs)
+    {
+        if(!AbstractParameter::operator ==(rhs)){
+            return false;
+        }
+        if(this->supplyOutput != rhs.supplyOutput){
+            return false;
+        }
+        if(this->mode != rhs.mode){
+            return false;
+        }
+//        if(this->data != rhs.data){
+//            return false;
+//        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const SegmentVoltageSetpoint &rhs) {
+        return !(*this == rhs);
+    }
 
 private:
     //!

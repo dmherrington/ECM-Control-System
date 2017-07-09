@@ -88,5 +88,29 @@ inline uint32_t SegmentPowerToBitArray(const SegmentPower &type, const uint32_t 
     return ba;
 }
 
+//!
+//! \brief ValueToEquivalentSegmentPower
+//! \param value
+//! \return
+//!
+inline SegmentPower ValueToEquivalentSegmentPower(const int &value)
+{
+    switch (value) {
+    case 0:
+    case 1:
+        return SegmentPower::ONE;
+    case 10:
+        return SegmentPower::TEN;
+    case 100:
+        return SegmentPower::ONE_HUNDRED;
+    case 1000:
+        return SegmentPower::ONE_THOUSAND;
+    case 10000:
+        return SegmentPower::TEN_THOUSAND;
+    default:
+        throw std::runtime_error("Unknown segment power seen");
+    }
+}
+
 } //end of namespace Data
 #endif // TYPE_PRESCALAR_POWER_H

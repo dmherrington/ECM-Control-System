@@ -40,11 +40,13 @@ public:
     //!
     MunkPowerSupply();
 
+    void transmitMessage(const QByteArray &data);
+
     //!
-    //! \brief generateMessages
+    //! \brief generateAndTransmitMessage
     //! \param detailedSegmentData
     //!
-    void generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData);
+    void generateAndTransmitMessage(const DataParameter::SegmentTimeDetailed &detailedSegmentData);
 
     //!
     //! \brief openSerialPort
@@ -73,19 +75,19 @@ signals:
     //! \brief signal_NewCurrentSetpoint
     //! \param currentSetpoint
     //!
-    void signal_NewCurrentSetpoint(const DataParameter::SegmentCurrentSetpoint &currentSetpoint);
+    void signal_NewCurrentSetpoint(const DataParameter::SegmentCurrentSetpoint &currentSetpointREV, const DataParameter::SegmentCurrentSetpoint &currentSetpointFWD);
 
     //!
     //! \brief signal_NewVoltageSetpoint
     //! \param voltageSetpoint
     //!
-    void signal_NewVoltageSetpoint(const DataParameter::SegmentVoltageSetpoint &voltageSetpoint);
+    void signal_NewVoltageSetpoint(const DataParameter::SegmentVoltageSetpoint &voltageSetpointREV, const DataParameter::SegmentVoltageSetpoint &voltageSetpointFWD);
 
     //!
     //! \brief signal_NewTimeSetpoint
     //! \param segmentTime
     //!
-    void signal_NewTimeSetpoint(const DataParameter::SegmentTimeDataGeneral &segmentTime);
+    void signal_NewTimeSetpoint(const DataParameter::SegmentTimeGeneral &segmentTime);
 
     void messageGenerationProgress(const Data::DataFaultCodes &code);
     void transmissionProgress();
@@ -93,16 +95,27 @@ signals:
     void serialPortError();
 
 private:
+
+    //!
+    //! \brief generateMessages
+    //! \param detailedSegmentData
+    //!
+    void generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData);
+
     //!
     //! \brief closeSerialPort
     //!
     void closeSerialPort();
+
+private slots:
+    void receivedMSG(const QByteArray &data);
 
 private:
     //!
     //! \brief serialPort
     //!
     SerialPortHelper* portHelper;
+
 };
 
 #endif // MUNK_POWER_SUPPLY_H

@@ -21,6 +21,12 @@ SegmentCurrentSetpoint::SegmentCurrentSetpoint(const Data::TypeSupplyOutput &out
     }
 }
 
+SegmentCurrentSetpoint::SegmentCurrentSetpoint(const SegmentCurrentSetpoint &obj):
+    AbstractParameter()
+{
+    this->operator =(obj);
+}
+
 ParameterType SegmentCurrentSetpoint::getParameterType() const
 {
     return ParameterType::CURRENTSETPOINT;
@@ -36,19 +42,21 @@ QByteArray SegmentCurrentSetpoint::getByteArray() const
 {
     QByteArray ba;
 
-    uint8_t HIGHSeqType = (uint8_t)((this->data.size() & 0xFF00) >> 8);
-    uint8_t LOWSeqType = (uint8_t)(this->data.size() & 0x00FF);
-    ba.append(HIGHSeqType);
-    ba.append(LOWSeqType);
-
-    ba.append((uint8_t)data.size() * 2);
-    for (std::map<Data::SegmentLevel, SegmentCurrentData>::const_iterator it=this->data.begin(); it!=this->data.end(); ++it)
+    if(data.size() > 0)
     {
-        SegmentCurrentData tmpCurrent = it->second;
-        QByteArray tmpArray = tmpCurrent.getDataArray();
-        ba.append(tmpArray);
-    }
+        uint8_t HIGHSeqType = (uint8_t)((this->data.size() & 0xFF00) >> 8);
+        uint8_t LOWSeqType = (uint8_t)(this->data.size() & 0x00FF);
+        ba.append(HIGHSeqType);
+        ba.append(LOWSeqType);
 
+        ba.append((uint8_t)data.size() * 2);
+        for (std::map<Data::SegmentLevel, SegmentCurrentData>::const_iterator it=this->data.begin(); it!=this->data.end(); ++it)
+        {
+            SegmentCurrentData tmpCurrent = it->second;
+            QByteArray tmpArray = tmpCurrent.getDataArray();
+            ba.append(tmpArray);
+        }
+    }
     return ba;
 }
 

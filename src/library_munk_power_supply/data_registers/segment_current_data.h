@@ -89,6 +89,54 @@ public:
     //!
     int getCurrent() const;
 
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    void operator = (const SegmentCurrentData &rhs)
+    {
+        this->level = rhs.level;
+        this->mode = rhs.mode;
+        this->prescale = rhs.prescale;
+        this->current = rhs.current;
+        this->currentFactor = rhs.currentFactor;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const SegmentCurrentData &rhs)
+    {
+        if(this->level != rhs.level){
+            return false;
+        }
+        if(this->mode != rhs.mode){
+            return false;
+        }
+        if(this->prescale != rhs.prescale){
+            return false;
+        }
+        if(this->current != rhs.current){
+            return false;
+        }
+        if(this->currentFactor != rhs.currentFactor){
+            return false;
+        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const SegmentCurrentData &rhs) {
+        return !(*this == rhs);
+    }
+
 private:
     //!
     //! \brief updateAmpsBitArray

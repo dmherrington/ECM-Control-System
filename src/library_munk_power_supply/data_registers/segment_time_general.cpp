@@ -6,6 +6,7 @@ SegmentTimeGeneral::SegmentTimeGeneral():
     AbstractParameter()
 {
     initializeData();
+    parameterCode = 4170;
 }
 
 
@@ -19,7 +20,7 @@ QByteArray SegmentTimeGeneral::getByteArray() const
 {
     QByteArray data;
 
-    int numberOfSegments = data.size();
+    int numberOfSegments = registerData.size();
 
     uint8_t HIGHSeqType = (uint8_t)((numberOfSegments & 0xFF00) >> 8);
     uint8_t LOWSeqType = (uint8_t)(numberOfSegments & 0x00FF);

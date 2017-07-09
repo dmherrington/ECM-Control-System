@@ -28,6 +28,13 @@ SegmentVoltageSetpoint::SegmentVoltageSetpoint(const Data::TypeSupplyOutput &out
     }
 }
 
+SegmentVoltageSetpoint::SegmentVoltageSetpoint(const SegmentVoltageSetpoint &obj):
+    AbstractParameter()
+{
+    this->operator =(obj);
+}
+
+
 ParameterType SegmentVoltageSetpoint::getParameterType() const
 {
     return ParameterType::VOLTAGESETPOINT;
@@ -43,17 +50,20 @@ QByteArray SegmentVoltageSetpoint::getByteArray() const
 {
     QByteArray ba;
 
-    uint8_t HIGHSeqType = (uint8_t)((this->data.size() & 0xFF00) >> 8);
-    uint8_t LOWSeqType = (uint8_t)(this->data.size() & 0x00FF);
-    ba.append(HIGHSeqType);
-    ba.append(LOWSeqType);
-
-    ba.append((uint8_t)data.size() * 2);
-    for (std::map<Data::SegmentLevel, SegmentVoltageData>::const_iterator it=this->data.begin(); it!=this->data.end(); ++it)
+    if(data.size() > 0)
     {
-        SegmentVoltageData tmpVoltage = it->second;
-        QByteArray tmpArray = tmpVoltage.getDataArray();
-        ba.append(tmpArray);
+        uint8_t HIGHSeqType = (uint8_t)((this->data.size() & 0xFF00) >> 8);
+        uint8_t LOWSeqType = (uint8_t)(this->data.size() & 0x00FF);
+        ba.append(HIGHSeqType);
+        ba.append(LOWSeqType);
+
+        ba.append((uint8_t)data.size() * 2);
+        for (std::map<Data::SegmentLevel, SegmentVoltageData>::const_iterator it=this->data.begin(); it!=this->data.end(); ++it)
+        {
+            SegmentVoltageData tmpVoltage = it->second;
+            QByteArray tmpArray = tmpVoltage.getDataArray();
+            ba.append(tmpArray);
+        }
     }
 
     return ba;

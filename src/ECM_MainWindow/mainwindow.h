@@ -31,10 +31,34 @@ private slots:
 
     void on_pushButton_ConfigureSerialPort_released();
 
+    void on_pushButton_GenerateValid_released();
+
+    void on_pushButton_GenerateInvalid_released();
+
+    void onNewCurrentData(const DataParameter::SegmentCurrentSetpoint &currentSetpointREV, const DataParameter::SegmentCurrentSetpoint &currentSetpointFWD);
+    void onNewVoltageData(const DataParameter::SegmentVoltageSetpoint &voltageSetpointREV, const DataParameter::SegmentVoltageSetpoint &voltageSetpointFWD);
+    void onNewGeneralData(const DataParameter::SegmentTimeGeneral &segmentTime);
+    void on_pushButton_SendRevI_released();
+
+    void on_pushButton_SendFI_released();
+
+    void on_pushButton_SendRV_released();
+
+    void on_pushButton_SendFV_released();
+
+    void on_pushButton_SendData_released();
+
 private:
     Ui::MainWindow *ui;
 
     MunkPowerSupply *m_PowerSupply;
+
+    DataParameter::SegmentCurrentSetpoint *iFWD;
+    DataParameter::SegmentCurrentSetpoint *iREV;
+    DataParameter::SegmentVoltageSetpoint *vFWD;
+    DataParameter::SegmentVoltageSetpoint *vREV;
+    DataParameter::SegmentTimeGeneral *genData;
+
 };
 
 #endif // MAINWINDOW_H

@@ -3,34 +3,44 @@
 MunkPowerSupply::MunkPowerSupply()
 {
     portHelper = new SerialPortHelper(this);
-    DataParameter::SegmentTimeDetailed detailedData(1);
+    connect(portHelper,SIGNAL(bytesReceived(QByteArray)),this,SLOT(receivedMSG(QByteArray)));
 
-    DataParameter::SegmentTimeDataDetailed detailedOne(10,50,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
-    detailedData.appendRegisterData(detailedOne);
-    DataParameter::SegmentTimeDataDetailed detailedFour(10,102,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
-    detailedData.appendRegisterData(detailedFour);
-    DataParameter::SegmentTimeDataDetailed detailedFive(50,133,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
-    detailedData.appendRegisterData(detailedFive);
-    DataParameter::SegmentTimeDataDetailed detailedSeven(70,151,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
-    detailedData.appendRegisterData(detailedSeven);
+//    DataParameter::SegmentTimeDetailed detailedData(1);
+//    DataParameter::SegmentTimeDataDetailed detailedOne(10,50,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+//    detailedData.appendRegisterData(detailedOne);
+//    DataParameter::SegmentTimeDataDetailed detailedFour(10,102,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+//    detailedData.appendRegisterData(detailedFour);
+//    DataParameter::SegmentTimeDataDetailed detailedFive(50,133,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+//    detailedData.appendRegisterData(detailedFive);
+//    DataParameter::SegmentTimeDataDetailed detailedSeven(70,151,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+//    detailedData.appendRegisterData(detailedSeven);
 //    DataParameter::SegmentTimeDataDetailed detailedEight(80,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
 //    detailedData.appendRegisterData(detailedEight);
 
-    generateMessages(detailedData);
+//    generateMessages(detailedData);
 }
 
+void MunkPowerSupply::transmitMessage(const QByteArray &data)
+{
+    portHelper->writeBytes(data);
+}
+
+void MunkPowerSupply::generateAndTransmitMessage(const DataParameter::SegmentTimeDetailed &detailedSegmentData)
+{
+    generateMessages(detailedSegmentData);
+}
 
 void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData)
 {
     //SegmentTime Parameter holding data
     DataParameter::SegmentTimeGeneral generalSegment;
+    generalSegment.setSlaveAddress(detailedSegmentData.getSlaveAddress());
 
     //maps holding containers to determine what is unique
     std::map<Data::RegisterDataObject,Data::SegmentLevel> fwdMap;
     std::map<Data::RegisterDataObject,Data::SegmentLevel> revMap;
 
     std::vector<DataParameter::SegmentTimeDataDetailed> detailedData = detailedSegmentData.getRegisterData();
-
     //this restricts it to only assume 1 output supply for now
     DataParameter::SegmentCurrentSetpoint fwdISetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::FORWARD);
     fwdISetpoint.setSlaveAddress(detailedSegmentData.getSlaveAddress());
@@ -62,7 +72,7 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
                 std::cout<<"The voltage " <<detail.getRegisterDataObject().voltage <<" and current "<<detail.getRegisterDataObject().current<<" had already existed."<<std::endl;
             }
             else{
-                if(revLevelCounter >= 8)
+                if(fwdLevelCounter >= 8)
                 {
                     emit messageGenerationProgress(Data::DataFaultCodes::DATA_FAULT_TOO_MANY_VI_COMBOS);
                     return;
@@ -80,7 +90,7 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
                 fwdLevelCounter++;
             }
             Data::SegmentLevel level = fwdMap.at(detail.getRegisterDataObject());
-            DataParameter::SegmentTimeDataGeneral generalData(level,mode,detail.getSegmentPower(),detail.getTimeValue());
+            DataParameter::SegmentTimeDataGeneral generalData(level,mode,detail.getTimeValue());
             generalSegment.appendRegisterData(generalData);
         }
         else if(mode == Data::SegmentMode::REVERSE)
@@ -111,17 +121,33 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
                 revLevelCounter++;
             }
             Data::SegmentLevel level = revMap.at(detail.getRegisterDataObject());
-            DataParameter::SegmentTimeDataGeneral generalData(level,mode,detail.getSegmentPower(),detail.getTimeValue());
+            DataParameter::SegmentTimeDataGeneral generalData(level,mode,detail.getTimeValue());
+            generalSegment.appendRegisterData(generalData);
+        }
+        else if(mode == Data::SegmentMode::DEAD)
+        {
+            DataParameter::SegmentTimeDataGeneral generalData;
+            generalData.setSegmentMode(Data::SegmentMode::DEAD);
+            generalData.setTimeValue(detail.getTimeValue());
+            generalSegment.appendRegisterData(generalData);
+        }
+        else if(mode == Data::SegmentMode::HIZ)
+        {
+            DataParameter::SegmentTimeDataGeneral generalData;
+            generalData.setSegmentMode(Data::SegmentMode::HIZ);
+            generalData.setTimeValue(detail.getTimeValue());
             generalSegment.appendRegisterData(generalData);
         }
         else{
             //Ken: Figure out what to do this in case
         }
     }
-    std::cout<<"It is complete"<<std::endl;
-    //At this point we would transmit these to the serial port
-    //if the size of either map is greater than eight than the request is invalid for the parameters requested
-    //otherwise, let us continue processing them
+
+    emit(signal_NewCurrentSetpoint(revISetpoint,fwdISetpoint));
+    emit(signal_NewVoltageSetpoint(revVSetpoint,fwdVSetpoint));
+    emit(signal_NewTimeSetpoint(generalSegment));
+
+    //returnMSG = {fwdISetpoint,revISetpoint,fwdVSetpoint,revVSetpoint,generalSegment};
 }
 
 void MunkPowerSupply::openSerialPort()
@@ -146,4 +172,9 @@ void MunkPowerSupply::configureSerialPort(const QString &name, const QSerialPort
 void MunkPowerSupply::closeSerialPort()
 {
 
+}
+
+void MunkPowerSupply::receivedMSG(const QByteArray &data)
+{
+    std::cout<<"I saw the receiving msg"<<std::endl;
 }

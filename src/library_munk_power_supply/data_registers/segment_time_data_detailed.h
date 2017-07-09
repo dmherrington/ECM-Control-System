@@ -1,6 +1,8 @@
 #ifndef SEGMENT_TIME_DATA_DETAILED_H
 #define SEGMENT_TIME_DATA_DETAILED_H
 
+#include <math.h>
+
 #include <data/type_prescalar_power.h>
 #include <data/type_segment_level.h>
 #include <data/type_segment_mode.h>
@@ -31,7 +33,7 @@ public:
     //! \param power
     //! \param time
     //!
-    SegmentTimeDataDetailed(const int &voltage, const int &current, const Data::SegmentMode &mode, const Data::SegmentPower &power, const uint8_t &time);
+    SegmentTimeDataDetailed(const int &voltage, const int &current, const Data::SegmentMode &mode, const uint32_t &time);
 
 public:
     //!
@@ -59,16 +61,10 @@ public:
     void setSegmentMode(const Data::SegmentMode &mode);
 
     //!
-    //! \brief setSegmentPower
-    //! \param power
-    //!
-    void setSegmentPower(const Data::SegmentPower &power);
-
-    //!
     //! \brief setTimeValue
     //! \param time
     //!
-    void setTimeValue(const uint8_t &time);
+    void setTimeValue(const uint32_t &time); //even though this is in uS we can only process to precision of 100uS
 
     //!
     //! \brief resetData
@@ -101,16 +97,10 @@ public:
     Data::SegmentMode getSegmentMode() const;
 
     //!
-    //! \brief getSegmentPower
-    //! \return
-    //!
-    Data::SegmentPower getSegmentPower() const;
-
-    //!
     //! \brief getTimeValue
     //! \return
     //!
-    uint8_t getTimeValue() const;
+    uint32_t getTimeValue() const;
 
 public:
     //!
@@ -186,7 +176,7 @@ private:
     //!
     //! \brief timeValue
     //!
-    uint8_t timeValue; //this time is denoted in us
+    uint32_t timeValue; //this time is denoted in us
 
 };
 

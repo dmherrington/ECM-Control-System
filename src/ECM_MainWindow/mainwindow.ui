@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>595</width>
+    <height>349</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,7 +37,7 @@
      <string>Connect</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_SendValid">
+   <widget class="QPushButton" name="pushButton_GenerateValid">
     <property name="geometry">
      <rect>
       <x>100</x>
@@ -47,10 +47,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>Send Valid</string>
+     <string>Gen Valid</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_SendValid_2">
+   <widget class="QPushButton" name="pushButton_GenerateInvalid">
     <property name="geometry">
      <rect>
       <x>190</x>
@@ -60,7 +60,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Send Invalid</string>
+     <string>Gen Invalid</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_ConfigureSerialPort">
@@ -75,6 +75,68 @@
     <property name="text">
      <string>Configure</string>
     </property>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>140</y>
+      <width>216</width>
+      <height>144</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QPushButton" name="pushButton_SendRevI">
+       <property name="text">
+        <string>Send RI</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="dataRI"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="pushButton_SendFI">
+       <property name="text">
+        <string>Send FI</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" rowspan="2">
+      <widget class="QLineEdit" name="dataFI"/>
+     </item>
+     <item row="2" column="0" rowspan="2">
+      <widget class="QPushButton" name="pushButton_SendRV">
+       <property name="text">
+        <string>Send RV</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="dataRV"/>
+     </item>
+     <item row="4" column="0">
+      <widget class="QPushButton" name="pushButton_SendFV">
+       <property name="text">
+        <string>Send FV</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="dataFV"/>
+     </item>
+     <item row="5" column="0">
+      <widget class="QPushButton" name="pushButton_SendData">
+       <property name="text">
+        <string>Send Data</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLineEdit" name="dataFull"/>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -91,7 +153,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
+     <width>595</width>
      <height>21</height>
     </rect>
    </property>
