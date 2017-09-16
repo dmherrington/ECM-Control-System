@@ -27,12 +27,6 @@ public:
 
     //!
     //! \brief SegmentTimeGeneral
-    //! \param numSegments
-    //!
-    SegmentTimeGeneral(const int &numSegments);
-
-    //!
-    //! \brief SegmentTimeGeneral
     //! \param obj
     //!
     SegmentTimeGeneral(const SegmentTimeGeneral &obj);
@@ -59,18 +53,6 @@ public:
 
 public:
     //!
-    //! \brief setStartingRegister
-    //! \param startSegment
-    //!
-    void setStartingRegister(const uint8_t &startSegment);
-
-    //!
-    //! \brief setNumberofSequentialRegisters
-    //! \param seqSegment
-    //!
-    void setNumberofSequentialRegisters(const uint8_t &seqSegment);
-
-    //!
     //! \brief appendRegisterData
     //! \param data
     //!
@@ -96,7 +78,6 @@ public:
     void operator = (const SegmentTimeGeneral &rhs)
     {
         AbstractParameter::operator =(rhs);
-        this->numSeqSegments = rhs.numSeqSegments;
         this->registerData = rhs.registerData;
     }
 
@@ -108,9 +89,6 @@ public:
     bool operator == (const SegmentTimeGeneral &rhs) {
         if(!AbstractParameter::operator ==(rhs))
         {
-            return false;
-        }
-        if(this->numSeqSegments != rhs.numSeqSegments){
             return false;
         }
         if(this->registerData != rhs.registerData){
@@ -129,11 +107,6 @@ public:
     }
 
 private:
-    //!
-    //! \brief numSeqSegments
-    //!
-    uint8_t numSeqSegments;
-
     //!
     //! \brief registerData
     //!

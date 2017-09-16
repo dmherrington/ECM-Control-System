@@ -8,11 +8,10 @@ SegmentTimeDataGeneral::SegmentTimeDataGeneral():
 
 }
 
-SegmentTimeDataGeneral::SegmentTimeDataGeneral(const Data::SegmentLevel &level, const Data::SegmentMode &mode, const Data::SegmentPower &power, const uint8_t &time)
+SegmentTimeDataGeneral::SegmentTimeDataGeneral(const Data::SegmentLevel &level, const Data::SegmentMode &mode, const uint32_t &time)
 {
-    setSegmentLevel(level);
     setSegmentMode(mode);
-    setSegmentPower(power);
+    setSegmentLevel(level);
     setTimeValue(time);
 }
 
@@ -50,15 +49,28 @@ void SegmentTimeDataGeneral::setSegmentPower(const Data::SegmentPower &power)
     this->segmentPower = power;
 }
 
-void SegmentTimeDataGeneral::setTimeValue(const uint8_t &time)
+void SegmentTimeDataGeneral::setTimeValue(const uint32_t &time)
 {
-    if(time > 127)
+    if(time <= 127)
     {
-        //we should throw an error as this is not allowed
-        this->timeValue = 127;
-    }else{
+        this->setSegmentPower(Data::SegmentPower::ONE);
         this->timeValue = time;
+
     }
+    else{
+        int result = pow(10,(int)log10(time));
+        this->setSegmentPower(Data::ValueToEquivalentSegmentPower(result));
+        uint32_t resultingTime = time / result;
+
+        if(resultingTime > 127)
+        {
+            //we should throw an error as this is not allowed
+            this->timeValue = 127;
+        }else{
+            this->timeValue = resultingTime;
+        }
+    }
+
 }
 
 uint32_t SegmentTimeDataGeneral::getConstructedBitArray() const

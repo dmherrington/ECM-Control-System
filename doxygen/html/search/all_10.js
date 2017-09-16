@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['voltage',['voltage',['../df/d53/class_data_1_1_register_data_object.html#a67abdf7e33ab899281ac4bdbcc33c263',1,'Data::RegisterDataObject::voltage()'],['../d0/dd0/class_data_parameter_1_1_segment_voltage_setpoint.html#a34ff944292110924f295349c3f14a414',1,'DataParameter::SegmentVoltageSetpoint::voltage()']]],
+  ['valid_5fresponse_2ecpp',['valid_response.cpp',['../d4/da0/valid__response_8cpp.html',1,'']]],
+  ['valid_5fresponse_2eh',['valid_response.h',['../d9/d08/valid__response_8h.html',1,'']]],
+  ['validresponse',['ValidResponse',['../d7/dce/class_valid_response.html',1,'ValidResponse'],['../d7/dce/class_valid_response.html#add95811cd0e150f056ee0945d7c9ccc1',1,'ValidResponse::ValidResponse()']]],
+  ['voltage',['voltage',['../df/d53/class_data_1_1_register_data_object.html#a67abdf7e33ab899281ac4bdbcc33c263',1,'Data::RegisterDataObject::voltage()'],['../da/daf/class_data_parameter_1_1_segment_voltage_data.html#a2a574a9ee4668f93cf335fed7ec426b6',1,'DataParameter::SegmentVoltageData::voltage()']]],
   ['voltagefwd1',['VoltageFWD1',['../de/d75/namespace_data.html#a3bd1e9a8ed40fc614ac47df4a0e07093a4ca2aaa794953c4c372c6051f147172e',1,'Data']]],
   ['voltagefwd2',['VoltageFWD2',['../de/d75/namespace_data.html#a3bd1e9a8ed40fc614ac47df4a0e07093a05365ad0637e9f68d8aaf25c141502ed',1,'Data']]],
   ['voltagefwd3',['VoltageFWD3',['../de/d75/namespace_data.html#a3bd1e9a8ed40fc614ac47df4a0e07093aa1b6d09a91a003de7bf29ade4247b170',1,'Data']]],
@@ -23,5 +26,6 @@ var searchData=
   ['voltagesetpoint',['VOLTAGESETPOINT',['../dc/dd5/namespace_data_parameter.html#a464bd470dc17918b20f97c1a40e64199a22158b5fce2b59097ff2be1f997c9878',1,'DataParameter']]],
   ['voltagesetrevtype',['VoltageSetREVType',['../de/d75/namespace_data.html#a7c7d6a29ef651f1155d6d7838222cb1a',1,'Data']]],
   ['voltagesetrevtypefromstring',['VoltageSetREVTypeFromString',['../de/d75/namespace_data.html#aa4b920bfb1bbe3fafa5d5a1c4b95c38a',1,'Data']]],
-  ['voltagesetrevtypetostring',['VoltageSetREVTypeToString',['../de/d75/namespace_data.html#aa56de8a4c4364a857d83b8dd84d3a5e0',1,'Data']]]
+  ['voltagesetrevtypetostring',['VoltageSetREVTypeToString',['../de/d75/namespace_data.html#aa56de8a4c4364a857d83b8dd84d3a5e0',1,'Data']]],
+  ['vset',['vSet',['../d1/d7f/struct_munk_power_supply_1_1struct_setpoints.html#aec3e34b313cf679bdfbd7f55462722d9',1,'MunkPowerSupply::structSetpoints']]]
 ];

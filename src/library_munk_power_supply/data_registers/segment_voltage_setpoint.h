@@ -4,14 +4,14 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <map>
 
 #include "abstract_parameter.h"
+
+#include "data/type_supply_output.h"
 #include "data/type_segment_level.h"
-#include "data/type_segment_mode.h"
 
-#include "data/type_current_voltage_prescale.h"
-#include "data/type_voltage_set.h"
-
+#include "data_registers/segment_voltage_data.h"
 
 namespace DataParameter
 {
@@ -27,7 +27,13 @@ public:
     //! \param levelValue
     //! \param levelMode
     //!
-    SegmentVoltageSetpoint(const Data::SegmentLevel &levelValue, const Data::SegmentMode &levelMode);
+    SegmentVoltageSetpoint(const Data::TypeSupplyOutput &outputNum, const Data::SegmentMode &levelMode);
+
+    //!
+    //! \brief SegmentVoltageSetpoint
+    //! \param obj
+    //!
+    SegmentVoltageSetpoint(const SegmentVoltageSetpoint &obj);
 
 public:
     //!
@@ -49,39 +55,62 @@ public:
     virtual QByteArray getByteArray() const;
 
 public:
-    //!
-    //! \brief updatePrescalePower
-    //! \param value
-    //!
-    void updatePrescalePower(const Data::SegmentVIPower &value);
 
     //!
-    //! \brief updateVoltageSetpoint
-    //! \param value
+    //! \brief appendData
+    //! \param voltageSetpoint
     //!
-    void updateVoltageSetpoint(const int &value);
+    void appendData(const SegmentVoltageData &voltageSetpoint);
 
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    void operator = (const SegmentVoltageSetpoint &rhs)
+    {
+        AbstractParameter::operator =(rhs);
+        this->supplyOutput = rhs.supplyOutput;
+        this->mode = rhs.mode;
+        this->data = rhs.data;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const SegmentVoltageSetpoint &rhs)
+    {
+        if(!AbstractParameter::operator ==(rhs)){
+            return false;
+        }
+        if(this->supplyOutput != rhs.supplyOutput){
+            return false;
+        }
+        if(this->mode != rhs.mode){
+            return false;
+        }
+//        if(this->data != rhs.data){
+//            return false;
+//        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const SegmentVoltageSetpoint &rhs) {
+        return !(*this == rhs);
+    }
 
 private:
     //!
-    //! \brief updatePrescaleBitArray
-    //! \param bitArray
-    //! \return
+    //! \brief supplyOutput
     //!
-    uint32_t updatePrescaleBitArray(const uint32_t &bitArray) const;
-
-    //!
-    //! \brief updateSetPointBitArray
-    //! \param bitArray
-    //! \return
-    //!
-    uint32_t updateSetPointBitArray(const uint32_t &bitArray) const;
-
-private:
-    //!
-    //! \brief level
-    //!
-    Data::SegmentLevel level;
+    Data::TypeSupplyOutput supplyOutput;
 
     //!
     //! \brief mode
@@ -89,14 +118,9 @@ private:
     Data::SegmentMode mode;
 
     //!
-    //! \brief prescale
+    //! \brief data
     //!
-    Data::SegmentVIPower prescale;
-
-    //!
-    //! \brief voltage
-    //!
-    int voltage;
+    std::map<Data::SegmentLevel, SegmentVoltageData> data;
 };
 
 } //end of namespace DataParameter

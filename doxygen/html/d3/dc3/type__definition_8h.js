@@ -4,6 +4,7 @@ var type__definition_8h =
       [ "SEGMENTTIMES", "d3/dc3/type__definition_8h.html#a464bd470dc17918b20f97c1a40e64199a78d0985448ab9ffc93e26138d36b46fb", null ],
       [ "PATTERNWRITECOMMAND", "d3/dc3/type__definition_8h.html#a464bd470dc17918b20f97c1a40e64199a3f679da5e270d2f596b042fee9ebac63", null ],
       [ "CURRENTSETPOINT", "d3/dc3/type__definition_8h.html#a464bd470dc17918b20f97c1a40e64199a7aa3869f2a430b8df10e39fd91ff061f", null ],
+      [ "MEMORYWRITE", "d3/dc3/type__definition_8h.html#a464bd470dc17918b20f97c1a40e64199aaccf61fd597e582f3f443dbaa12202e7", null ],
       [ "VOLTAGESETPOINT", "d3/dc3/type__definition_8h.html#a464bd470dc17918b20f97c1a40e64199a22158b5fce2b59097ff2be1f997c9878", null ]
     ] ],
     [ "getListOfParameterTypes", "d3/dc3/type__definition_8h.html#afc010161419020bdb0e76161c07a2c5a", null ],

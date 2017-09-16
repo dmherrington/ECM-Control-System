@@ -2,131 +2,179 @@
 
 MunkPowerSupply::MunkPowerSupply()
 {
-    DataParameter::SegmentTimeGeneral* segmentTime = new DataParameter::SegmentTimeGeneral(2);
-    segmentTime->setSlaveAddress(1);
+    portHelper = new SerialPortHelper(this);
+    connect(portHelper,SIGNAL(bytesReceived(QByteArray)),this,SLOT(receivedMSG(QByteArray)));
 
-    DataParameter::SegmentTimeDetailed detailedData;
+//    DataParameter::SegmentTimeDetailed detailedData(1);
+//    DataParameter::SegmentTimeDataDetailed detailedOne(10,50,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+//    detailedData.appendRegisterData(detailedOne);
+//    DataParameter::SegmentTimeDataDetailed detailedFour(10,102,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+//    detailedData.appendRegisterData(detailedFour);
+//    DataParameter::SegmentTimeDataDetailed detailedFive(50,133,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+//    detailedData.appendRegisterData(detailedFive);
+//    DataParameter::SegmentTimeDataDetailed detailedSeven(70,151,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+//    detailedData.appendRegisterData(detailedSeven);
+//    DataParameter::SegmentTimeDataDetailed detailedEight(80,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
+//    detailedData.appendRegisterData(detailedEight);
 
-    DataParameter::SegmentTimeDataDetailed detailedOne(10,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
-    detailedData.appendRegisterData(detailedOne);
-    DataParameter::SegmentTimeDataDetailed detailedTwo(20,10,Data::SegmentMode::REVERSE,Data::SegmentPower::ONE_HUNDRED,100);
-    detailedData.appendRegisterData(detailedTwo);
-    DataParameter::SegmentTimeDataDetailed detailedThree(30,10,Data::SegmentMode::REVERSE,Data::SegmentPower::ONE_HUNDRED,100);
-    detailedData.appendRegisterData(detailedThree);
-    DataParameter::SegmentTimeDataDetailed detailedFour(40,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
-    detailedData.appendRegisterData(detailedFour);
-    DataParameter::SegmentTimeDataDetailed detailedFive(50,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
-    detailedData.appendRegisterData(detailedFive);
-    DataParameter::SegmentTimeDataDetailed detailedSix(60,10,Data::SegmentMode::REVERSE,Data::SegmentPower::ONE_HUNDRED,100);
-    detailedData.appendRegisterData(detailedSix);
-    DataParameter::SegmentTimeDataDetailed detailedSeven(70,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
-    detailedData.appendRegisterData(detailedSeven);
-    DataParameter::SegmentTimeDataDetailed detailedEight(80,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
-    detailedData.appendRegisterData(detailedEight);
-
-    generateMessages(detailedData);
-
+//    generateMessages(detailedData);
 }
 
-void MunkPowerSupply::generateSetpointMessages(const std::map<Data::RegisterDataObject, Data::SegmentLevel> &map, const Data::SegmentMode &mode, std::vector<DataParameter::SegmentVoltageSetpoint> &VMsgs, std::vector<DataParameter::SegmentCurrentSetpoint> &IMsgs)
+void MunkPowerSupply::transmitMessage(const QByteArray &data)
 {
-    std::vector<DataParameter::SegmentVoltageSetpoint> rtnVector;
+    portHelper->writeBytes(data);
+}
 
-    for (std::map<Data::RegisterDataObject, Data::SegmentLevel>::const_iterator it=map.begin(); it!=map.end(); ++it)
-    {
-        DataParameter::SegmentVoltageSetpoint voltageSetpoint(it->second,mode);
-        voltageSetpoint.updateVoltageSetpoint(it->first.voltage);
-        VMsgs.push_back(voltageSetpoint);
-
-        DataParameter::SegmentCurrentSetpoint currentSetpoint(it->second,mode);
-        currentSetpoint.updateCurrentSetpoint(it->first.current);
-        IMsgs.push_back(currentSetpoint);
-    }
+void MunkPowerSupply::generateAndTransmitMessage(const DataParameter::SegmentTimeDetailed &detailedSegmentData)
+{
+    generateMessages(detailedSegmentData);
 }
 
 void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData)
 {
+    //SegmentTime Parameter holding data
+    DataParameter::SegmentTimeGeneral generalSegment;
+    generalSegment.setSlaveAddress(detailedSegmentData.getSlaveAddress());
+
+    //maps holding containers to determine what is unique
     std::map<Data::RegisterDataObject,Data::SegmentLevel> fwdMap;
     std::map<Data::RegisterDataObject,Data::SegmentLevel> revMap;
+
+    std::vector<DataParameter::SegmentTimeDataDetailed> detailedData = detailedSegmentData.getRegisterData();
+    //this restricts it to only assume 1 output supply for now
+    DataParameter::SegmentCurrentSetpoint fwdISetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::FORWARD);
+    fwdISetpoint.setSlaveAddress(detailedSegmentData.getSlaveAddress());
+    DataParameter::SegmentCurrentSetpoint revISetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::REVERSE);
+    revISetpoint.setSlaveAddress(detailedSegmentData.getSlaveAddress());
+
+    DataParameter::SegmentVoltageSetpoint fwdVSetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::FORWARD);
+    fwdVSetpoint.setSlaveAddress(detailedSegmentData.getSlaveAddress());
+    DataParameter::SegmentVoltageSetpoint revVSetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::REVERSE);
+    revVSetpoint.setSlaveAddress(detailedSegmentData.getSlaveAddress());
 
     std::vector<std::string> fwdLevelVector = Data::getListOfSegmentLevel();
     int fwdLevelCounter = 0;
     std::vector<std::string> revLevelVector = Data::getListOfSegmentLevel();
     int revLevelCounter = 0;
 
-    std::vector<DataParameter::SegmentTimeDataDetailed> detailedData = detailedSegmentData.getRegisterData();
-
-    for(int i = 0; i < detailedData.size(); i++)
+    //allow us to loop through all of the possible data segments
+    for(unsigned int i = 0; i < detailedData.size(); i++)
     {
-        DataParameter::SegmentTimeDataDetailed parameter = detailedData.at(i);
-        Data::SegmentMode mode = parameter.getSegmentMode();
+        DataParameter::SegmentTimeDataDetailed detail = detailedData.at(i);
+        //determine the mode of the segment
+        Data::SegmentMode mode = detail.getSegmentMode();
 
         if(mode == Data::SegmentMode::FORWARD)
         {
-            Data::SegmentLevel newLevel = Data::SegmentLevelFromString(fwdLevelVector.at(fwdLevelCounter));
-            std::pair<std::map<Data::RegisterDataObject,Data::SegmentLevel>::iterator,bool> ret;
-            ret = fwdMap.insert(std::pair<Data::RegisterDataObject,Data::SegmentLevel>(parameter.getRegisterDataObject(),newLevel));
-
-            if (ret.second==false) {
-              std::cout << "The element had already existed in the forward queue."<<std::endl;
+            if(fwdMap.count(detail.getRegisterDataObject()) > 0)
+            {
+                //the element had already existed in the forward queue and therefore we do nothing
+                std::cout<<"The voltage " <<detail.getRegisterDataObject().voltage <<" and current "<<detail.getRegisterDataObject().current<<" had already existed."<<std::endl;
             }
             else{
+                if(fwdLevelCounter >= 8)
+                {
+                    emit messageGenerationProgress(Data::DataFaultCodes::DATA_FAULT_TOO_MANY_VI_COMBOS);
+                    return;
+                }
                 //assign a new level to this combination
+                Data::SegmentLevel newLevel = Data::SegmentLevelFromString(fwdLevelVector.at(fwdLevelCounter));
+                fwdMap.insert(std::pair<Data::RegisterDataObject,Data::SegmentLevel>(detail.getRegisterDataObject(),newLevel));
+
+                DataParameter::SegmentVoltageData vData(newLevel,mode);
+                vData.updateVoltageSetpoint(detail.getRegisterDataObject().voltage);
+                fwdVSetpoint.appendData(vData);
+                DataParameter::SegmentCurrentData iData(newLevel,mode);
+                iData.updateCurrentSetpoint(detail.getRegisterDataObject().current);
+                fwdISetpoint.appendData(iData);
                 fwdLevelCounter++;
             }
-        }else if(mode == Data::SegmentMode::REVERSE)
+            Data::SegmentLevel level = fwdMap.at(detail.getRegisterDataObject());
+            DataParameter::SegmentTimeDataGeneral generalData(level,mode,detail.getTimeValue());
+            generalSegment.appendRegisterData(generalData);
+        }
+        else if(mode == Data::SegmentMode::REVERSE)
         {
-            Data::SegmentLevel newLevel = Data::SegmentLevelFromString(revLevelVector.at(revLevelCounter));
-            std::pair<std::map<Data::RegisterDataObject,Data::SegmentLevel>::iterator,bool> ret;
-            ret = revMap.insert(std::pair<Data::RegisterDataObject,Data::SegmentLevel>(parameter.getRegisterDataObject(),newLevel));
-
-            if (ret.second==false) {
-              std::cout << "The element had already existed in the reverse queue."<<std::endl;
-            }else
+            if(revMap.count(detail.getRegisterDataObject()) > 0)
             {
+                //the element had already existed in the forward queue and therefore we do nothing
+                std::cout<<"The voltage " <<detail.getRegisterDataObject().voltage <<" and current "<<detail.getRegisterDataObject().current<<" had already existed."<<std::endl;
+            }
+            else
+            {
+                if(revLevelCounter >= 8)
+                {
+                    emit messageGenerationProgress(Data::DataFaultCodes::DATA_FAULT_TOO_MANY_VI_COMBOS);
+                    return;
+                }
+
+                //assign a new level to this combination
+                Data::SegmentLevel newLevel = Data::SegmentLevelFromString(revLevelVector.at(revLevelCounter));
+                revMap.insert(std::pair<Data::RegisterDataObject,Data::SegmentLevel>(detail.getRegisterDataObject(),newLevel));
+
+                DataParameter::SegmentVoltageData vData(newLevel,mode);
+                vData.updateVoltageSetpoint(detail.getRegisterDataObject().voltage);
+                revVSetpoint.appendData(vData);
+                DataParameter::SegmentCurrentData iData(newLevel,mode);
+                iData.updateCurrentSetpoint(detail.getRegisterDataObject().current);
+                revISetpoint.appendData(iData);
                 revLevelCounter++;
             }
-        }else{
+            Data::SegmentLevel level = revMap.at(detail.getRegisterDataObject());
+            DataParameter::SegmentTimeDataGeneral generalData(level,mode,detail.getTimeValue());
+            generalSegment.appendRegisterData(generalData);
+        }
+        else if(mode == Data::SegmentMode::DEAD)
+        {
+            DataParameter::SegmentTimeDataGeneral generalData;
+            generalData.setSegmentMode(Data::SegmentMode::DEAD);
+            generalData.setTimeValue(detail.getTimeValue());
+            generalSegment.appendRegisterData(generalData);
+        }
+        else if(mode == Data::SegmentMode::HIZ)
+        {
+            DataParameter::SegmentTimeDataGeneral generalData;
+            generalData.setSegmentMode(Data::SegmentMode::HIZ);
+            generalData.setTimeValue(detail.getTimeValue());
+            generalSegment.appendRegisterData(generalData);
+        }
+        else{
             //Ken: Figure out what to do this in case
         }
     }
 
-    //next we have to generate the appropriate setpoint messages
-    std::vector<DataParameter::SegmentVoltageSetpoint> voltageSetpointFWD;
-    std::vector<DataParameter::SegmentCurrentSetpoint> currentSetpointFWD;
+    emit(signal_NewCurrentSetpoint(revISetpoint,fwdISetpoint));
+    emit(signal_NewVoltageSetpoint(revVSetpoint,fwdVSetpoint));
+    emit(signal_NewTimeSetpoint(generalSegment));
 
-    std::vector<DataParameter::SegmentVoltageSetpoint> voltageSetpointREV;
-    std::vector<DataParameter::SegmentCurrentSetpoint> currentSetpointREV;
-
-    generateSetpointMessages(fwdMap, Data::SegmentMode::FORWARD, voltageSetpointFWD, currentSetpointFWD);
-    generateSetpointMessages(revMap, Data::SegmentMode::REVERSE, voltageSetpointREV, currentSetpointREV);
-
-    //if the size of either map is greater than eight than the request is invalid for the parameters requested
-    //otherwise, let us continue processing them
-
-    for(int j = 0; j < detailedData.size(); j++)
-    {
-        DataParameter::SegmentTimeDataDetailed parameter = detailedData.at(j);
-
-        DataParameter::SegmentTimeGeneral generalSegment;
-        DataParameter::SegmentTimeDataGeneral generalData;
-        generalData.setSegmentMode(parameter.getSegmentMode());
-
-        if(parameter.getSegmentMode() == Data::SegmentMode::FORWARD)
-        {
-            Data::RegisterDataObject tmpObj(parameter.getRegisterDataObject());
-            generalData.setSegmentLevel(fwdMap.at(tmpObj));
-        }
-        else if(parameter.getSegmentMode() == Data::SegmentMode::REVERSE)
-        {
-            Data::RegisterDataObject tmpObj(parameter.getRegisterDataObject());
-            generalData.setSegmentLevel(revMap.at(tmpObj));
-        }
-        generalData.setSegmentPower(parameter.getSegmentPower());
-        generalData.setTimeValue(parameter.getTimeValue());
-
-        //now we append the data to the segment object
-        generalSegment.appendRegisterData(generalData);
-    }
+    //returnMSG = {fwdISetpoint,revISetpoint,fwdVSetpoint,revVSetpoint,generalSegment};
 }
 
+void MunkPowerSupply::openSerialPort()
+{
+    portHelper->openSerialPort();
+}
+
+void MunkPowerSupply::configureSerialPort(const QString &name)
+{
+  portHelper->configureSerialPort(name);
+}
+
+void MunkPowerSupply::configureSerialPort(const QString &name, const QSerialPort::BaudRate &rate, const QSerialPort::DataBits &bits, const QSerialPort::Parity &parity, const QSerialPort::StopBits &stop)
+{
+    UNUSED(name);
+    UNUSED(rate);
+    UNUSED(bits);
+    UNUSED(parity);
+    UNUSED(stop);
+}
+
+void MunkPowerSupply::closeSerialPort()
+{
+
+}
+
+void MunkPowerSupply::receivedMSG(const QByteArray &data)
+{
+    std::cout<<"I saw the receiving msg"<<std::endl;
+}

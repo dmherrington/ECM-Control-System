@@ -8,33 +8,32 @@ namespace DataParameter
 //! \param levelValue
 //! \param levelMode
 //!
-SegmentVoltageSetpoint::SegmentVoltageSetpoint(const Data::SegmentLevel &levelValue, const Data::SegmentMode &levelMode)
+SegmentVoltageSetpoint::SegmentVoltageSetpoint(const Data::TypeSupplyOutput &outputNum, const Data::SegmentMode &levelMode):
+    AbstractParameter()
 {
     //let us update the stored values with those that created the object
-    this->level = levelValue;
+    this->supplyOutput = outputNum;
     this->mode = levelMode;
-    //let us initialize some default values
-    this->voltage = 0.0;
-    this->prescale = Data::SegmentVIPower::ONE;
 
-    //now we have to determine the correct parameter ID and update the object held by the AbstractParameter class
-    switch (levelMode) {
-    case Data::SegmentMode::FORWARD:
+    if(levelMode == Data::SegmentMode::FORWARD)
     {
-        Data::VoltageSetFWDType paramType = Data::getFWDVoltageIndex((int)levelValue);
-        this->parameterCode = (int)paramType;
-        break;
+        this->parameterCode = (int)Data::getFWDVoltageIndex((int)outputNum);
     }
-    case Data::SegmentMode::REVERSE:
+    else if(levelMode == Data::SegmentMode::REVERSE)
     {
-        Data::VoltageSetREVType paramType = Data::getREVVoltageIndex((int)levelValue);
-        this->parameterCode = (int)paramType;
-        break;
+        this->parameterCode = (int)Data::getREVVoltageIndex((int)outputNum);
     }
-    default:
-        break;
+    else{
+
     }
 }
+
+SegmentVoltageSetpoint::SegmentVoltageSetpoint(const SegmentVoltageSetpoint &obj):
+    AbstractParameter()
+{
+    this->operator =(obj);
+}
+
 
 ParameterType SegmentVoltageSetpoint::getParameterType() const
 {
@@ -49,52 +48,31 @@ std::string SegmentVoltageSetpoint::getDescription() const
 
 QByteArray SegmentVoltageSetpoint::getByteArray() const
 {
-    QByteArray byteArray;
-    uint32_t ba = 0;
-    ba = updatePrescaleBitArray(ba);
-    ba = updateSetPointBitArray(ba);
-    byteArray.append(ba);
-    return byteArray;
-}
+    QByteArray ba;
 
-void SegmentVoltageSetpoint::updatePrescalePower(const Data::SegmentVIPower &value)
-{
-    this->prescale = value;
-}
-
-void SegmentVoltageSetpoint::updateVoltageSetpoint(const int &value)
-{
-    if(value > 4095)
+    if(data.size() > 0)
     {
-        this->voltage = 4095;
-    }
-    else if(value < 0)
-    {
-        this->voltage = 0;
-    }
-    else
-    {
-        this->voltage = value;
-    }
-}
+        uint8_t HIGHSeqType = (uint8_t)((this->data.size() & 0xFF00) >> 8);
+        uint8_t LOWSeqType = (uint8_t)(this->data.size() & 0x00FF);
+        ba.append(HIGHSeqType);
+        ba.append(LOWSeqType);
 
+        ba.append((uint8_t)data.size() * 2);
+        for (std::map<Data::SegmentLevel, SegmentVoltageData>::const_iterator it=this->data.begin(); it!=this->data.end(); ++it)
+        {
+            SegmentVoltageData tmpVoltage = it->second;
+            QByteArray tmpArray = tmpVoltage.getDataArray();
+            ba.append(tmpArray);
+        }
+    }
 
-uint32_t SegmentVoltageSetpoint::updatePrescaleBitArray(const uint32_t &bitArray) const
-{
-    uint32_t ba = 0;
-    uint32_t mask = 7<<12;
-    int tmpType = (int)prescale;
-
-    ba = (bitArray & (~mask)) | (tmpType<<12);
     return ba;
 }
 
-uint32_t SegmentVoltageSetpoint::updateSetPointBitArray(const uint32_t &bitArray) const
+void SegmentVoltageSetpoint::appendData(const SegmentVoltageData &voltageSetpoint)
 {
-    uint32_t ba = 0;
-    uint32_t mask = 4095<<0;
-    ba = (bitArray & (~mask)) | (this->voltage<<0);
-    return ba;
+    this->data.insert(std::pair<Data::SegmentLevel,SegmentVoltageData>(voltageSetpoint.getSegmentLevel(),voltageSetpoint));
+    //this->data.at(voltageSetpoint.getSegmentLevel()) = voltageSetpoint;
 }
 
 } //end of namepsace DataParameter

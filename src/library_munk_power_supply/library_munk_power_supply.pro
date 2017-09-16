@@ -5,6 +5,8 @@
 #-------------------------------------------------
 
 QT       -= gui
+QT = core
+QT += serialport
 
 TARGET = library_munk_power_supply
 TEMPLATE = lib
@@ -30,7 +32,16 @@ SOURCES += munk_power_supply.cpp \
     data_registers/segment_time_data_detailed.cpp \
     data/register_data_object.cpp \
     data_registers/segment_voltage_setpoint.cpp \
-    data_registers/segment_current_setpoint.cpp
+    data_registers/segment_current_setpoint.cpp \
+    data_registers/parameter_memory_write.cpp \
+    data_response/fault_register_one.cpp \
+    data_response/fault_register_three.cpp \
+    data_response/fault_register_two.cpp \
+    data_response/valid_response.cpp \
+    data_response/exception_response.cpp \
+    data_registers/segment_current_data.cpp \
+    data_registers/segment_voltage_data.cpp \
+    serial_port_helper.cpp
 
 HEADERS += munk_power_supply.h\
         library_munk_power_supply_global.h \
@@ -51,7 +62,22 @@ HEADERS += munk_power_supply.h\
     data_registers/segment_voltage_setpoint.h \
     data_registers/segment_current_setpoint.h \
     data/type_current_voltage_prescale.h \
-    data/type_current_factor.h
+    data/type_current_factor.h \
+    data/fault_codes_register_one.h \
+    data/fault_codes_register_two.h \
+    data/fault_codes_register_three.h \
+    data_registers/parameter_memory_write.h \
+    data_response/fault_register_one.h \
+    data_response/fault_register_three.h \
+    data_response/fault_register_two.h \
+    data_response/valid_response.h \
+    data_response/exception_response.h \
+    data/type_response_exception.h \
+    data/type_supply_output.h \
+    data_registers/segment_current_data.h \
+    data_registers/segment_voltage_data.h \
+    data/type_fault_codes_general.h \
+    serial_port_helper.h
 
 # Unix lib Install
 unix:!symbian {

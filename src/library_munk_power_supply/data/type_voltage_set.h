@@ -12,14 +12,14 @@ namespace Data
 //! \brief The VoltageSetFWDType enum
 //!
 enum class VoltageSetFWDType{
-    VoltageFWD1 = 6500, /**<testing */
-    VoltageFWD2 = 6540, /**< */
-    VoltageFWD3 = 6580, /**< */
-    VoltageFWD4 = 6620, /**< */
-    VoltageFWD5 = 6660, /**< */
-    VoltageFWD6 = 6700, /**< */
-    VoltageFWD7 = 6740, /**< */
-    VoltageFWD8 = 6780 /**< */
+    VoltageFWD1 = 6500, /**<Voltage forward setting of output 1, level 1 to 8 - R/W */
+    VoltageFWD2 = 6540, /**<Voltage forward setting of output 2, level 1 to 8 - R/W */
+    VoltageFWD3 = 6580, /**<Voltage forward setting of output 3, level 1 to 8 - R/W */
+    VoltageFWD4 = 6620, /**<Voltage forward setting of output 4, level 1 to 8 - R/W */
+    VoltageFWD5 = 6660, /**<Voltage forward setting of output 5, level 1 to 8 - R/W */
+    VoltageFWD6 = 6700, /**<Voltage forward setting of output 6, level 1 to 8 - R/W */
+    VoltageFWD7 = 6740, /**<Voltage forward setting of output 7, level 1 to 8 - R/W */
+    VoltageFWD8 = 6780  /**<Voltage forward setting of output 8, level 1 to 8 - R/W */
 };
 
 //!

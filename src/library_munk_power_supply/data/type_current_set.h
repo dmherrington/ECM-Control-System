@@ -16,14 +16,14 @@ namespace Data
 //! \brief The CurrentSetFWDType enum
 //!
 enum class CurrentSetFWDType{
-    CurrentFWD1 = 6000, /**< */
-    CurrentFWD2 = 6040, /**< */
-    CurrentFWD3 = 6080, /**< */
-    CurrentFWD4 = 6120, /**< */
-    CurrentFWD5 = 6160, /**< */
-    CurrentFWD6 = 6200, /**< */
-    CurrentFWD7 = 6240, /**< */
-    CurrentFWD8 = 6280, /**< */
+    CurrentFWD1 = 6000, /**<Current forward setting of output 1, level 1 to 8 - R/W */
+    CurrentFWD2 = 6040, /**<Current forward setting of output 2, level 1 to 8 - R/W */
+    CurrentFWD3 = 6080, /**<Current forward setting of output 3, level 1 to 8 - R/W */
+    CurrentFWD4 = 6120, /**<Current forward setting of output 4, level 1 to 8 - R/W */
+    CurrentFWD5 = 6160, /**<Current forward setting of output 5, level 1 to 8 - R/W */
+    CurrentFWD6 = 6200, /**<Current forward setting of output 6, level 1 to 8 - R/W */
+    CurrentFWD7 = 6240, /**<Current forward setting of output 7, level 1 to 8 - R/W */
+    CurrentFWD8 = 6280, /**<Current forward setting of output 8, level 1 to 8 - R/W */
 };
 
 //!
@@ -102,7 +102,7 @@ inline std::vector<CurrentSetFWDType> getListOfCurrentSetFWDTypes()
 //! \param index
 //! \return
 //!
-inline Data::CurrentSetFWDType getREVCurrentIndex(const int &index)
+inline Data::CurrentSetFWDType getFWDCurrentIndex(const int &index)
 {
     std::vector<CurrentSetFWDType> objects = getListOfCurrentSetFWDTypes();
     return objects.at(index);

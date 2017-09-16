@@ -24,6 +24,7 @@ var type__current__set_8h =
     [ "CurrentSetFWDTypeToString", "d9/d03/type__current__set_8h.html#a350b6c039192bf4660c9147a7d648ef9", null ],
     [ "CurrentSetREVTypeFromString", "d9/d03/type__current__set_8h.html#acc797a9b2b62f63514e90d1ab8d8226f", null ],
     [ "CurrentSetREVTypeToString", "d9/d03/type__current__set_8h.html#a9a396e1a8f9eac27ea39f8b44c2bb88e", null ],
+    [ "getFWDCurrentIndex", "d9/d03/type__current__set_8h.html#accdad341d254fd9e24036d7fa82b150f", null ],
     [ "getListOfCurrentSetFWDTypes", "d9/d03/type__current__set_8h.html#a35b2ddd4194cbf863ad6176d6c534ee3", null ],
     [ "getListOfCurrentSetREVTypes", "d9/d03/type__current__set_8h.html#ade24e67ad2bea63b21a3a95dcc4a9e23", null ],
     [ "getREVCurrentIndex", "d9/d03/type__current__set_8h.html#af89d26a8115b089957050785e648156f", null ]

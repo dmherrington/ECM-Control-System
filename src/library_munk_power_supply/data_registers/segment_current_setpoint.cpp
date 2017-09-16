@@ -3,33 +3,28 @@
 namespace DataParameter
 {
 
-SegmentCurrentSetpoint::SegmentCurrentSetpoint(const Data::SegmentLevel &levelValue, const Data::SegmentMode &levelMode)
+SegmentCurrentSetpoint::SegmentCurrentSetpoint(const Data::TypeSupplyOutput &outputNum, const Data::SegmentMode &levelMode)
 {
-    //let us update the stored values with those that created the object
-    this->level = levelValue;
+    this->supplyOutput = outputNum;
     this->mode = levelMode;
-    //let us initialize some default values
-    this->currentFactor = Data::CurrentFactorType::AMPS;
-    this->current = 0.0;
-    this->prescale = Data::SegmentVIPower::ONE;
 
-    //now we have to determine the correct parameter ID and update the object held by the AbstractParameter class
-    switch (levelMode) {
-    case Data::SegmentMode::FORWARD:
+    if(levelMode == Data::SegmentMode::FORWARD)
     {
-        Data::VoltageSetFWDType paramType = Data::getFWDVoltageIndex((int)levelValue);
-        this->parameterCode = (int)paramType;
-        break;
+        this->parameterCode = (int)Data::getFWDCurrentIndex((int)outputNum);
     }
-    case Data::SegmentMode::REVERSE:
+    else if(levelMode == Data::SegmentMode::REVERSE)
     {
-        Data::VoltageSetREVType paramType = Data::getREVVoltageIndex((int)levelValue);
-        this->parameterCode = (int)paramType;
-        break;
+        this->parameterCode = (int)Data::getREVCurrentIndex((int)outputNum);
     }
-    default:
-        break;
+    else{
+
     }
+}
+
+SegmentCurrentSetpoint::SegmentCurrentSetpoint(const SegmentCurrentSetpoint &obj):
+    AbstractParameter()
+{
+    this->operator =(obj);
 }
 
 ParameterType SegmentCurrentSetpoint::getParameterType() const
@@ -45,67 +40,30 @@ std::string SegmentCurrentSetpoint::getDescription() const
 
 QByteArray SegmentCurrentSetpoint::getByteArray() const
 {
-    QByteArray byteArray;
-    uint32_t ba = 0;
-    ba = updateAmpsBitArray(ba);
-    ba = updatePrescaleBitArray(ba);
-    ba = updateSetPointBitArray(ba);
-    byteArray.append(ba);
-    return byteArray;
-}
+    QByteArray ba;
 
-void SegmentCurrentSetpoint::updateCurrentFactor(const Data::CurrentFactorType &value)
-{
-    this->currentFactor = value;
-}
-
-void SegmentCurrentSetpoint::updatePrescalePower(const Data::SegmentVIPower &value)
-{
-    this->prescale = value;
-}
-
-void SegmentCurrentSetpoint::updateCurrentSetpoint(const int &value)
-{
-    if(value > 4095)
+    if(data.size() > 0)
     {
-        this->current = 4095;
-    }
-    else if(value < 0)
-    {
-        this->current = 0;
-    }
-    else
-    {
-        this->current = value;
-    }
-}
+        uint8_t HIGHSeqType = (uint8_t)((this->data.size() & 0xFF00) >> 8);
+        uint8_t LOWSeqType = (uint8_t)(this->data.size() & 0x00FF);
+        ba.append(HIGHSeqType);
+        ba.append(LOWSeqType);
 
-
-uint32_t SegmentCurrentSetpoint::updateAmpsBitArray(const uint32_t &bitArray) const
-{
-    uint32_t ba = 0;
-    uint32_t mask = 1<<15;
-    int tmpType = (int)currentFactor;
-
-    ba = (bitArray & (~mask)) | (tmpType<<15);
+        ba.append((uint8_t)data.size() * 2);
+        for (std::map<Data::SegmentLevel, SegmentCurrentData>::const_iterator it=this->data.begin(); it!=this->data.end(); ++it)
+        {
+            SegmentCurrentData tmpCurrent = it->second;
+            QByteArray tmpArray = tmpCurrent.getDataArray();
+            ba.append(tmpArray);
+        }
+    }
     return ba;
 }
 
-uint32_t SegmentCurrentSetpoint::updatePrescaleBitArray(const uint32_t &bitArray) const
+void SegmentCurrentSetpoint::appendData(const SegmentCurrentData &currentSetpoint)
 {
-    uint32_t ba = 0;
-    uint32_t mask = 7<<12;
-    int tmpType = (int)prescale;
-
-    ba = (bitArray & (~mask)) | (tmpType<<12);
-    return ba;
+    this->data.insert(std::pair<Data::SegmentLevel,SegmentCurrentData>(currentSetpoint.getSegmentLevel(),currentSetpoint));
+    //this->data.at(currentSetpoint.getSegmentLevel()) = currentSetpoint;
 }
 
-uint32_t SegmentCurrentSetpoint::updateSetPointBitArray(const uint32_t &bitArray) const
-{
-    uint32_t ba = 0;
-    uint32_t mask = 4095<<0;
-    ba = (bitArray & (~mask)) | (this->current<<0);
-    return ba;
-}
 } //end of namespace DataParameter

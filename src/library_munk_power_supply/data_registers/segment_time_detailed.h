@@ -13,7 +13,7 @@ namespace DataParameter
 //!
 //! \brief The SegmentTimeDetailed class
 //!
-class SegmentTimeDetailed : public AbstractParameter
+class SegmentTimeDetailed
 {
 public:
     //!
@@ -23,9 +23,9 @@ public:
 
     //!
     //! \brief SegmentTimeDetailed
-    //! \param numSegments
+    //! \param address
     //!
-    SegmentTimeDetailed(const int &numSegments);
+    SegmentTimeDetailed(const int &address);
 
     //!
     //! \brief SegmentTimeDetailed
@@ -35,36 +35,9 @@ public:
 
 public:
 
-    //!
-    //! \brief getParameterType
-    //! \return
-    //!
-    virtual DataParameter::ParameterType getParameterType() const;
+    void setSlaveAddress(const int &address);
 
-    //!
-    //! \brief getByteArray
-    //! \return
-    //!
-    virtual QByteArray getByteArray() const;
-
-    //!
-    //! \brief getDescription
-    //! \return
-    //!
-    virtual std::string getDescription() const;
-
-public:
-    //!
-    //! \brief setStartingRegister
-    //! \param startSegment
-    //!
-    void setStartingRegister(const uint8_t &startSegment);
-
-    //!
-    //! \brief setNumberofSequentialRegisters
-    //! \param seqSegment
-    //!
-    void setNumberofSequentialRegisters(const uint8_t &seqSegment);
+    int getSlaveAddress() const;
 
     //!
     //! \brief appendRegisterData
@@ -98,8 +71,7 @@ public:
     //!
     void operator = (const SegmentTimeDetailed &rhs)
     {
-        AbstractParameter::operator =(rhs);
-        this->numSeqSegments = rhs.numSeqSegments;
+        this->slaveAddress = rhs.slaveAddress;
         this->detailedRegisterData = rhs.detailedRegisterData;
     }
 
@@ -109,11 +81,7 @@ public:
     //! \return
     //!
     bool operator == (const SegmentTimeDetailed &rhs) {
-        if(!AbstractParameter::operator ==(rhs))
-        {
-            return false;
-        }
-        if(this->numSeqSegments != rhs.numSeqSegments){
+        if(this->slaveAddress != rhs.slaveAddress){
             return false;
         }
         if(this->detailedRegisterData != rhs.detailedRegisterData){
@@ -132,10 +100,11 @@ public:
     }
 
 private:
+
     //!
-    //! \brief numSeqSegments
+    //! \brief slaveAddress
     //!
-    uint8_t numSeqSegments;
+    int slaveAddress;
 
     //!
     //! \brief detailedRegisterData
