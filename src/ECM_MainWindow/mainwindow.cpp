@@ -8,6 +8,16 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    Widget_SegmentTimeData* newData = new Widget_SegmentTimeData();
+    ui->timeDataLayout->addWidget(newData);
+        Widget_SegmentTimeData* newData2 = new Widget_SegmentTimeData();
+    ui->timeDataLayout->addWidget(newData2);
+        Widget_SegmentTimeData* newData3 = new Widget_SegmentTimeData();
+    ui->timeDataLayout->addWidget(newData3);
+
+    ui->timeDataLayout->setSizeConstraint(QLayout::SetMinimumSize);
+    ui->timeDataLayout->setAlignment(Qt::AlignLeft);
+
     const auto infos = QSerialPortInfo::availablePorts();
 
     Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()) {
@@ -29,7 +39,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_ConnectSerialPort_released()
 {
-    m_PowerSupply->openSerialPort();
+    Widget_SegmentTimeData* newData3 = new Widget_SegmentTimeData();
+    ui->timeDataLayout->addWidget(newData3);
+    //m_PowerSupply->openSerialPort();
 }
 
 void MainWindow::on_pushButton_ConfigureSerialPort_released()
