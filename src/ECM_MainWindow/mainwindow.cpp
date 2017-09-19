@@ -7,18 +7,11 @@ MainWindow::MainWindow(QWidget *parent) :
     iFWD(NULL),iREV(NULL),vFWD(NULL),vREV(NULL),genData(NULL)
 {
     ui->setupUi(this);
-
-    Widget_SegmentTimeData* newData = new Widget_SegmentTimeData();
-    ui->timeDataLayout->addWidget(newData);
-    QObject::connect(newData, &Widget_SegmentTimeData::valueChanged_Voltage, this, &MainWindow::onChanged_voltageValue);
-
-        Widget_SegmentTimeData* newData2 = new Widget_SegmentTimeData();
-    ui->timeDataLayout->addWidget(newData2);
-        Widget_SegmentTimeData* newData3 = new Widget_SegmentTimeData();
-    ui->timeDataLayout->addWidget(newData3);
-
+    //mainLayout.setSizeConstraint(QLayout::SetFixedSize);
     ui->timeDataLayout->setSizeConstraint(QLayout::SetMinimumSize);
     ui->timeDataLayout->setAlignment(Qt::AlignLeft);
+
+    //QObject::connect(newData, &Widget_SegmentTimeData::valueChanged_Voltage, this, &MainWindow::onChanged_voltageValue);
 
     const auto infos = QSerialPortInfo::availablePorts();
 

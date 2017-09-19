@@ -1,8 +1,8 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    ECM_MainWindow \
     common \
+    graphing \
     library_munk_power_supply \
-    Window_MunkPowerSupply \
-    graphing
+    ECM_MainWindow \
+    Window_MunkPowerSupply
