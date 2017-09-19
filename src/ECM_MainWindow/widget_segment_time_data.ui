@@ -10,11 +10,11 @@
     <x>0</x>
     <y>0</y>
     <width>55</width>
-    <height>100</height>
+    <height>113</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Ignored">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -34,13 +34,13 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>55</width>
-     <height>100</height>
+     <width>169</width>
+     <height>102</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -48,21 +48,34 @@
      <enum>QLayout::SetMinimumSize</enum>
     </property>
     <item row="0" column="0">
-     <widget class="QDoubleSpinBox" name="doubleSpinBox_3"/>
+     <widget class="QDoubleSpinBox" name="doubleSpinBox_voltage"/>
     </item>
     <item row="1" column="0">
-     <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+     <widget class="QDoubleSpinBox" name="doubleSpinBox_current"/>
     </item>
     <item row="2" column="0">
-     <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
+     <widget class="QDoubleSpinBox" name="doubleSpinBox_duration"/>
     </item>
     <item row="3" column="0">
      <widget class="QComboBox" name="comboBox">
-      <item>
-       <property name="text">
-        <string>Value</string>
-       </property>
-      </item>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>10</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
+      </property>
+      <property name="minimumContentsLength">
+       <number>10</number>
+      </property>
      </widget>
     </item>
    </layout>

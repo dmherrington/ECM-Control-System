@@ -223,7 +223,14 @@
        </spacer>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="timeDataLayout"/>
+       <layout class="QHBoxLayout" name="timeDataLayout">
+        <property name="spacing">
+         <number>5</number>
+        </property>
+        <property name="sizeConstraint">
+         <enum>QLayout::SetMinimumSize</enum>
+        </property>
+       </layout>
       </item>
      </layout>
     </item>

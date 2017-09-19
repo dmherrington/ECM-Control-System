@@ -24,11 +24,11 @@ QT_BEGIN_NAMESPACE
 class Ui_Widget_SegmentTimeData
 {
 public:
-    QWidget *widget;
+    QWidget *layoutWidget;
     QGridLayout *gridLayout;
-    QDoubleSpinBox *doubleSpinBox_3;
-    QDoubleSpinBox *doubleSpinBox;
-    QDoubleSpinBox *doubleSpinBox_2;
+    QDoubleSpinBox *doubleSpinBox_voltage;
+    QDoubleSpinBox *doubleSpinBox_current;
+    QDoubleSpinBox *doubleSpinBox_duration;
     QComboBox *comboBox;
 
     void setupUi(QWidget *Widget_SegmentTimeData)
@@ -36,38 +36,46 @@ public:
         if (Widget_SegmentTimeData->objectName().isEmpty())
             Widget_SegmentTimeData->setObjectName(QStringLiteral("Widget_SegmentTimeData"));
         Widget_SegmentTimeData->setEnabled(true);
-        Widget_SegmentTimeData->resize(55, 100);
-        QSizePolicy sizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+        Widget_SegmentTimeData->resize(55, 113);
+        QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Ignored);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Widget_SegmentTimeData->sizePolicy().hasHeightForWidth());
         Widget_SegmentTimeData->setSizePolicy(sizePolicy);
         Widget_SegmentTimeData->setMinimumSize(QSize(55, 100));
         Widget_SegmentTimeData->setMaximumSize(QSize(267, 16777215));
-        widget = new QWidget(Widget_SegmentTimeData);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(0, 0, 55, 100));
-        gridLayout = new QGridLayout(widget);
+        layoutWidget = new QWidget(Widget_SegmentTimeData);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        layoutWidget->setGeometry(QRect(0, 0, 169, 102));
+        gridLayout = new QGridLayout(layoutWidget);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         gridLayout->setSizeConstraint(QLayout::SetMinimumSize);
         gridLayout->setContentsMargins(0, 0, 0, 0);
-        doubleSpinBox_3 = new QDoubleSpinBox(widget);
-        doubleSpinBox_3->setObjectName(QStringLiteral("doubleSpinBox_3"));
+        doubleSpinBox_voltage = new QDoubleSpinBox(layoutWidget);
+        doubleSpinBox_voltage->setObjectName(QStringLiteral("doubleSpinBox_voltage"));
 
-        gridLayout->addWidget(doubleSpinBox_3, 0, 0, 1, 1);
+        gridLayout->addWidget(doubleSpinBox_voltage, 0, 0, 1, 1);
 
-        doubleSpinBox = new QDoubleSpinBox(widget);
-        doubleSpinBox->setObjectName(QStringLiteral("doubleSpinBox"));
+        doubleSpinBox_current = new QDoubleSpinBox(layoutWidget);
+        doubleSpinBox_current->setObjectName(QStringLiteral("doubleSpinBox_current"));
 
-        gridLayout->addWidget(doubleSpinBox, 1, 0, 1, 1);
+        gridLayout->addWidget(doubleSpinBox_current, 1, 0, 1, 1);
 
-        doubleSpinBox_2 = new QDoubleSpinBox(widget);
-        doubleSpinBox_2->setObjectName(QStringLiteral("doubleSpinBox_2"));
+        doubleSpinBox_duration = new QDoubleSpinBox(layoutWidget);
+        doubleSpinBox_duration->setObjectName(QStringLiteral("doubleSpinBox_duration"));
 
-        gridLayout->addWidget(doubleSpinBox_2, 2, 0, 1, 1);
+        gridLayout->addWidget(doubleSpinBox_duration, 2, 0, 1, 1);
 
-        comboBox = new QComboBox(widget);
+        comboBox = new QComboBox(layoutWidget);
         comboBox->setObjectName(QStringLiteral("comboBox"));
+        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(comboBox->sizePolicy().hasHeightForWidth());
+        comboBox->setSizePolicy(sizePolicy1);
+        comboBox->setMinimumSize(QSize(10, 0));
+        comboBox->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+        comboBox->setMinimumContentsLength(10);
 
         gridLayout->addWidget(comboBox, 3, 0, 1, 1);
 
@@ -80,10 +88,6 @@ public:
     void retranslateUi(QWidget *Widget_SegmentTimeData)
     {
         Widget_SegmentTimeData->setWindowTitle(QApplication::translate("Widget_SegmentTimeData", "Form", Q_NULLPTR));
-        comboBox->clear();
-        comboBox->insertItems(0, QStringList()
-         << QApplication::translate("Widget_SegmentTimeData", "Value", Q_NULLPTR)
-        );
     } // retranslateUi
 
 };

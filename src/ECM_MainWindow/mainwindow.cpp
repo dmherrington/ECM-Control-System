@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     Widget_SegmentTimeData* newData = new Widget_SegmentTimeData();
     ui->timeDataLayout->addWidget(newData);
+    QObject::connect(newData, &Widget_SegmentTimeData::valueChanged_Voltage, this, &MainWindow::onChanged_voltageValue);
+
         Widget_SegmentTimeData* newData2 = new Widget_SegmentTimeData();
     ui->timeDataLayout->addWidget(newData2);
         Widget_SegmentTimeData* newData3 = new Widget_SegmentTimeData();
@@ -171,3 +173,9 @@ void MainWindow::on_pushButton_SendData_released()
         m_PowerSupply->transmitMessage(genData->getFullMessage());
     }
 }
+
+void MainWindow::onChanged_voltageValue(const double &value)
+{
+    std::cout<<"New voltage value received of: "<<value<<std::endl;
+}
+

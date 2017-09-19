@@ -50,6 +50,9 @@ private slots:
 
     void on_pushButton_SendData_released();
 
+private slots:
+    void onChanged_voltageValue(const double &value);
+
 private:
     Ui::MainWindow *ui;
 

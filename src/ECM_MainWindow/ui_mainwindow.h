@@ -212,8 +212,9 @@ public:
         verticalLayout->addItem(verticalSpacer_2);
 
         timeDataLayout = new QHBoxLayout();
-        timeDataLayout->setSpacing(6);
+        timeDataLayout->setSpacing(5);
         timeDataLayout->setObjectName(QStringLiteral("timeDataLayout"));
+        timeDataLayout->setSizeConstraint(QLayout::SetMinimumSize);
 
         verticalLayout->addLayout(timeDataLayout);
 
