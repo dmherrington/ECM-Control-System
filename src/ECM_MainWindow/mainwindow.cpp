@@ -8,8 +8,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     //mainLayout.setSizeConstraint(QLayout::SetFixedSize);
-    ui->timeDataLayout->setSizeConstraint(QLayout::SetMinimumSize);
-    ui->timeDataLayout->setAlignment(Qt::AlignLeft);
 
     //QObject::connect(newData, &Widget_SegmentTimeData::valueChanged_Voltage, this, &MainWindow::onChanged_voltageValue);
 
@@ -35,7 +33,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_ConnectSerialPort_released()
 {
     Widget_SegmentTimeData* newData3 = new Widget_SegmentTimeData();
-    ui->timeDataLayout->addWidget(newData3);
+    ui->horizontalLayout->addWidget(newData3);
     //m_PowerSupply->openSerialPort();
 }
 

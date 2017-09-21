@@ -5,4 +5,4 @@ SUBDIRS += \
     graphing \
     library_munk_power_supply \
     ECM_MainWindow \
-    Window_MunkPowerSupply
+    window_munk_power_supply
