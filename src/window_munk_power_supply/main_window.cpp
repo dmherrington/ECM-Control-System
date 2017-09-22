@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
     currentGraph->rescaleAxes(true);
     // Note: we could have also just called customPlot->rescaleAxes(); instead
     // Allow user to drag axis ranges with mouse, zoom with mouse wheel and select graphs by clicking:
-    //ui->graphWidget->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+    ui->graphWidget->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
 
 }
 
@@ -66,16 +66,25 @@ void MainWindow::cbiSegmentDataInterface_UpdatedData(const DataParameter::Segmen
             timeVector.push_back(0);
         }
 
-        voltageVector.push_back(newData->getData()->getSegmentVoltage());
-        currentVector.push_back(newData->getData()->getSegmentCurrent());
-        timeVector.push_back(newData->getData()->getTimeValue() + timeVector.back());
+        int delta = (newData->getData()->getTimeValue() - timeVector.back()) * 10.0;
+        for(unsigned int i = 0; i < delta; i++)
+        {
+            std::cout<<"Adding data at:"<<newData->getData()->getTimeValue() + timeVector.back()<<std::endl;
+            voltageVector.push_back(newData->getData()->getSegmentVoltage());
+            currentVector.push_back(newData->getData()->getSegmentCurrent());
+            timeVector.push_back(newData->getData()->getTimeValue() + timeVector.back());
+        }
+
         counter++;
     }
     currentGraph->setData(timeVector,currentVector);
     voltageGraph->setData(timeVector,voltageVector);
 
     ui->graphWidget->replot();
-    ui->graphWidget->rescaleAxes();
+
+    voltageGraph->rescaleAxes();
+    // same thing for graph 1, but only enlarge ranges (in case graph 1 is smaller than graph 0):
+    currentGraph->rescaleAxes(true);
 }
 
 void MainWindow::on_pushButton_released()
