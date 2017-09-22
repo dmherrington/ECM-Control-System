@@ -25,7 +25,7 @@ public:
     //! \param voltage
     //! \param current
     //!
-    RegisterDataObject(const int &voltage, const int &current);
+    RegisterDataObject(const double &voltage, const double &current);
 
     //!
     //! \brief RegisterDataObject
@@ -65,12 +65,12 @@ public:
     //!
     //! \brief voltage
     //!
-    int voltage;
+    double voltage;
 
     //!
     //! \brief current
     //!
-    int current;
+    double current;
 };
 
 } //end of namespace Data

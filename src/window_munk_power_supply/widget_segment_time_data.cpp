@@ -3,7 +3,8 @@
 
 WidgetSegmentTimeData::WidgetSegmentTimeData(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::WidgetSegmentTimeData)
+    ui(new Ui::WidgetSegmentTimeData),
+    m_CB(NULL)
 {
     ui->setupUi(this);
 
@@ -28,19 +29,23 @@ WidgetSegmentTimeData::~WidgetSegmentTimeData()
 void WidgetSegmentTimeData::on_comboBox_Mode_currentIndexChanged(const QString &arg1)
 {
     data->setSegmentMode(Data::SegmentModeFromString(arg1.toStdString()));
+    emitCallback();
 }
 
-void WidgetSegmentTimeData::on_doubleSpinBox_Voltage_valueChanged(double arg1)
+void WidgetSegmentTimeData::on_doubleSpinBox_Voltage_valueChanged(const double arg1)
 {
-
+    data->setSegmentVoltage(arg1);
+    emitCallback();
 }
 
-void WidgetSegmentTimeData::on_doubleSpinBox_Current_valueChanged(double arg1)
+void WidgetSegmentTimeData::on_doubleSpinBox_Current_valueChanged(const double arg1)
 {
-
+    data->setSegmentCurrent(arg1);
+    emitCallback();
 }
 
-void WidgetSegmentTimeData::on_doubleSpinBox_Time_valueChanged(double arg1)
+void WidgetSegmentTimeData::on_doubleSpinBox_Time_valueChanged(const double arg1)
 {
-
+    data->setTimeValue(arg1);
+    emitCallback();
 }

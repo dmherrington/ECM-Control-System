@@ -1,8 +1,6 @@
 #include "main_window.h"
 #include "ui_main_window.h"
 
-#include "widget_segment_time_data.h"
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -12,8 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->horizontalLayout->setSizeConstraint(QLayout::SetMinimumSize);
     ui->horizontalLayout->setAlignment(Qt::AlignLeft);
 
-    QCPGraph* voltageGraph = ui->graphWidget->addGraph(ui->graphWidget->xAxis, ui->graphWidget->yAxis);
-    QCPGraph* currentGraph = ui->graphWidget->addGraph(ui->graphWidget->xAxis, ui->graphWidget->yAxis2);
+    voltageGraph = ui->graphWidget->addGraph(ui->graphWidget->xAxis, ui->graphWidget->yAxis);
+    currentGraph = ui->graphWidget->addGraph(ui->graphWidget->xAxis, ui->graphWidget->yAxis2);
 
     voltageGraph->setPen(QPen(Qt::blue)); // line color blue for first graph
     voltageGraph->setBrush(QBrush(QColor(0, 0, 255, 20))); // first graph will be filled with translucent blue
@@ -22,9 +20,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QVector<double> x(251), y0(251), y1(251);
     for (int i=0; i<251; ++i)
     {
-      x[i] = i;
-      y0[i] = qExp(-i/150.0)*qCos(i/10.0); // exponentially decaying cosine
-      y1[i] = qExp(-i/150.0);              // exponential envelope
+        x[i] = i;
+        y0[i] = qExp(-i/150.0)*qCos(i/10.0); // exponentially decaying cosine
+        y1[i] = qExp(-i/150.0);              // exponential envelope
     }
     // configure right and top axis to show ticks but no labels:
     // (see QCPAxisRect::setupFullAxesBox for a quicker method to do this)
@@ -50,8 +48,41 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::cbiSegmentDataInterface_UpdatedData(const DataParameter::SegmentTimeDataDetailed *obj)
+{
+    std::list<WidgetSegmentTimeData*>::iterator iterator;
+    unsigned int counter = 0;
+
+    QVector<double> voltageVector;
+    QVector<double> currentVector;
+    QVector<double> timeVector;
+    for (iterator = m_dataList.begin(); iterator != m_dataList.end(); ++iterator) {
+        WidgetSegmentTimeData* newData = *iterator;
+
+        if(counter == 0)
+        {
+            voltageVector.push_back(newData->getData()->getSegmentVoltage());
+            currentVector.push_back(newData->getData()->getSegmentCurrent());
+            timeVector.push_back(0);
+        }
+
+        voltageVector.push_back(newData->getData()->getSegmentVoltage());
+        currentVector.push_back(newData->getData()->getSegmentCurrent());
+        timeVector.push_back(newData->getData()->getTimeValue() + timeVector.back());
+        counter++;
+    }
+    currentGraph->setData(timeVector,currentVector);
+    voltageGraph->setData(timeVector,voltageVector);
+
+    ui->graphWidget->replot();
+    ui->graphWidget->rescaleAxes();
+}
+
 void MainWindow::on_pushButton_released()
 {
-    WidgetSegmentTimeData* newData3 = new WidgetSegmentTimeData();
-    ui->horizontalLayout->addWidget(newData3);
+    WidgetSegmentTimeData* newData = new WidgetSegmentTimeData();
+    m_dataList.push_back(newData);
+
+    ui->horizontalLayout->addWidget(newData);
+    newData->connectCallback(this);
 }

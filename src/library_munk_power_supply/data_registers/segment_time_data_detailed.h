@@ -36,6 +36,7 @@ public:
     SegmentTimeDataDetailed(const int &voltage, const int &current, const Data::SegmentMode &mode, const uint32_t &time);
 
 public:
+
     //!
     //! \brief setSupplyOutput
     //! \param outputNumber
@@ -46,13 +47,13 @@ public:
     //! \brief setSegmentVoltage
     //! \param voltage
     //!
-    void setSegmentVoltage(const int &voltage);
+    void setSegmentVoltage(const double &voltage);
 
     //!
     //! \brief setSegmentCurrent
     //! \param current
     //!
-    void setSegmentCurrent(const int &current);
+    void setSegmentCurrent(const double &current);
 
     //!
     //! \brief setSegmentMode
@@ -89,6 +90,19 @@ public:
     //! \return
     //!
     Data::RegisterDataObject getRegisterDataObject() const;
+
+
+    //!
+    //! \brief getSegmentVoltage
+    //! \return
+    //!
+    double getSegmentVoltage() const;
+
+    //!
+    //! \brief getSegmentCurrent
+    //! \return
+    //!
+    double getSegmentCurrent() const;
 
     //!
     //! \brief getSegmentMode
@@ -152,7 +166,6 @@ public:
 
     //Private member variables of the class
 private:
-
     //!
     //! \brief supplyOutput
     //!
@@ -179,6 +192,7 @@ private:
     uint32_t timeValue; //this time is denoted in us
 
 };
+
 
 } //end of namespace DataParameter
 

@@ -22,12 +22,12 @@ void SegmentTimeDataDetailed::setSupplyOutput(const Data::TypeSupplyOutput &outp
     this->supplyOutput = outputNumber;
 }
 
-void SegmentTimeDataDetailed::setSegmentVoltage(const int &voltage)
+void SegmentTimeDataDetailed::setSegmentVoltage(const double &voltage)
 {
     this->dataObject.voltage = voltage;
 }
 
-void SegmentTimeDataDetailed::setSegmentCurrent(const int &current)
+void SegmentTimeDataDetailed::setSegmentCurrent(const double &current)
 {
     this->dataObject.current = current;
 }
@@ -70,6 +70,16 @@ Data::TypeSupplyOutput SegmentTimeDataDetailed::getSupplyOutputNumber() const
 Data::RegisterDataObject SegmentTimeDataDetailed::getRegisterDataObject() const
 {
     return this->dataObject;
+}
+
+double SegmentTimeDataDetailed::getSegmentVoltage() const
+{
+    return this->dataObject.voltage;
+}
+
+double SegmentTimeDataDetailed::getSegmentCurrent() const
+{
+    return this->dataObject.current;
 }
 
 Data::SegmentMode SegmentTimeDataDetailed::getSegmentMode() const
