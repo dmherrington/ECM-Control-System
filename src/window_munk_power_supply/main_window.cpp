@@ -50,41 +50,52 @@ MainWindow::~MainWindow()
 
 void MainWindow::cbiSegmentDataInterface_UpdatedData(const DataParameter::SegmentTimeDataDetailed *obj)
 {
+
     std::list<WidgetSegmentTimeData*>::iterator iterator;
-    unsigned int counter = 0;
 
     QVector<double> voltageVector;
     QVector<double> currentVector;
     QVector<double> timeVector;
+
+    double maxI = 0.0, maxV = 0.0;
+
+
     for (iterator = m_dataList.begin(); iterator != m_dataList.end(); ++iterator) {
         WidgetSegmentTimeData* newData = *iterator;
 
-        if(counter == 0)
+        if(timeVector.size() == 0)
         {
             voltageVector.push_back(newData->getData()->getSegmentVoltage());
             currentVector.push_back(newData->getData()->getSegmentCurrent());
             timeVector.push_back(0);
         }
 
-        int delta = (newData->getData()->getTimeValue() - timeVector.back()) * 10.0;
-        for(unsigned int i = 0; i < delta; i++)
+        unsigned int beginning = timeVector.back() * 10.0;
+        unsigned int ending = (timeVector.back() + newData->getData()->getTimeValue()) * 10.0;
+        double current = newData->getData()->getSegmentCurrent();
+        double voltage = newData->getData()->getSegmentVoltage();
+
+
+        if(current > maxI)
+            maxI = current;
+
+        if(voltage > maxV)
+            maxV = voltage;
+
+        for(unsigned int i = beginning; i <= ending; i++)
         {
-            std::cout<<"Adding data at:"<<newData->getData()->getTimeValue() + timeVector.back()<<std::endl;
             voltageVector.push_back(newData->getData()->getSegmentVoltage());
             currentVector.push_back(newData->getData()->getSegmentCurrent());
-            timeVector.push_back(newData->getData()->getTimeValue() + timeVector.back());
+            timeVector.push_back(i/10.0);
         }
-
-        counter++;
     }
     currentGraph->setData(timeVector,currentVector);
     voltageGraph->setData(timeVector,voltageVector);
 
-    ui->graphWidget->replot();
-
-    voltageGraph->rescaleAxes();
-    // same thing for graph 1, but only enlarge ranges (in case graph 1 is smaller than graph 0):
+    ui->graphWidget->yAxis->setRange(0, maxV + 1.0);
     currentGraph->rescaleAxes(true);
+
+    ui->graphWidget->replot();
 }
 
 void MainWindow::on_pushButton_released()
