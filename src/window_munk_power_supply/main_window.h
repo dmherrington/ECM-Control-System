@@ -25,9 +25,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-
-    QCPGraph* voltageGraph;
-    QCPGraph* currentGraph;
 };
 
 #endif // MAIN_WINDOW_H

@@ -21,6 +21,10 @@ public:
     //! \brief Destructor
     //!
     ~PlotHandler();
+
+private:
+    QCPGraph* voltageGraph;
+    QCPGraph* currentGraph;
 };
 
 } //end of namespace graphing
