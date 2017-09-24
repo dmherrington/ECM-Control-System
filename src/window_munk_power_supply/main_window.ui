@@ -15,18 +15,18 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0">
-     <widget class="graphing::PlotHandler" name="graphWidget" native="true"/>
-    </item>
-    <item row="2" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout"/>
-    </item>
     <item row="0" column="0">
      <widget class="QPushButton" name="pushButton">
       <property name="text">
        <string>PushButton</string>
       </property>
      </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="graphing::PlotHandler" name="graphWidget" native="true"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="WidgetSegmentTimeDisplay" name="segmentWidget" native="true"/>
     </item>
    </layout>
   </widget>
@@ -56,6 +56,12 @@
    <class>graphing::PlotHandler</class>
    <extends>QWidget</extends>
    <header>plot_handler.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WidgetSegmentTimeDisplay</class>
+   <extends>QWidget</extends>
+   <header>widget_segment_time_display.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

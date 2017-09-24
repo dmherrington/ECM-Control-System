@@ -7,9 +7,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->horizontalLayout->setSizeConstraint(QLayout::SetMinimumSize);
-    ui->horizontalLayout->setAlignment(Qt::AlignLeft);
-
     voltageGraph = ui->graphWidget->addGraph(ui->graphWidget->xAxis, ui->graphWidget->yAxis);
     currentGraph = ui->graphWidget->addGraph(ui->graphWidget->xAxis, ui->graphWidget->yAxis2);
 
@@ -48,61 +45,54 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::cbiSegmentDataInterface_UpdatedData(const DataParameter::SegmentTimeDataDetailed *obj)
-{
 
-    std::list<WidgetSegmentTimeData*>::iterator iterator;
+//    std::list<WidgetSegmentTimeData*>::iterator iterator;
 
-    QVector<double> voltageVector;
-    QVector<double> currentVector;
-    QVector<double> timeVector;
+//    QVector<double> voltageVector;
+//    QVector<double> currentVector;
+//    QVector<double> timeVector;
 
-    double maxI = 0.0, maxV = 0.0;
+//    double maxI = 0.0, maxV = 0.0;
 
 
-    for (iterator = m_dataList.begin(); iterator != m_dataList.end(); ++iterator) {
-        WidgetSegmentTimeData* newData = *iterator;
+//    for (iterator = m_dataList.begin(); iterator != m_dataList.end(); ++iterator) {
+//        WidgetSegmentTimeData* newData = *iterator;
 
-        if(timeVector.size() == 0)
-        {
-            voltageVector.push_back(newData->getData()->getSegmentVoltage());
-            currentVector.push_back(newData->getData()->getSegmentCurrent());
-            timeVector.push_back(0);
-        }
+//        if(timeVector.size() == 0)
+//        {
+//            voltageVector.push_back(newData->getData()->getSegmentVoltage());
+//            currentVector.push_back(newData->getData()->getSegmentCurrent());
+//            timeVector.push_back(0);
+//        }
 
-        unsigned int beginning = timeVector.back() * 10.0;
-        unsigned int ending = (timeVector.back() + newData->getData()->getTimeValue()) * 10.0;
-        double current = newData->getData()->getSegmentCurrent();
-        double voltage = newData->getData()->getSegmentVoltage();
+//        unsigned int beginning = timeVector.back() * 10.0;
+//        unsigned int ending = (timeVector.back() + newData->getData()->getTimeValue()) * 10.0;
+//        double current = newData->getData()->getSegmentCurrent();
+//        double voltage = newData->getData()->getSegmentVoltage();
 
 
-        if(current > maxI)
-            maxI = current;
+//        if(current > maxI)
+//            maxI = current;
 
-        if(voltage > maxV)
-            maxV = voltage;
+//        if(voltage > maxV)
+//            maxV = voltage;
 
-        for(unsigned int i = beginning; i <= ending; i++)
-        {
-            voltageVector.push_back(newData->getData()->getSegmentVoltage());
-            currentVector.push_back(newData->getData()->getSegmentCurrent());
-            timeVector.push_back(i/10.0);
-        }
-    }
-    currentGraph->setData(timeVector,currentVector);
-    voltageGraph->setData(timeVector,voltageVector);
+//        for(unsigned int i = beginning; i <= ending; i++)
+//        {
+//            voltageVector.push_back(newData->getData()->getSegmentVoltage());
+//            currentVector.push_back(newData->getData()->getSegmentCurrent());
+//            timeVector.push_back(i/10.0);
+//        }
+//    }
+//    currentGraph->setData(timeVector,currentVector);
+//    voltageGraph->setData(timeVector,voltageVector);
 
-    ui->graphWidget->yAxis->setRange(0, maxV + 1.0);
-    currentGraph->rescaleAxes(true);
+//    ui->graphWidget->yAxis->setRange(0, maxV + 1.0);
+//    currentGraph->rescaleAxes(true);
 
-    ui->graphWidget->replot();
-}
+//    ui->graphWidget->replot();
 
 void MainWindow::on_pushButton_released()
 {
-    WidgetSegmentTimeData* newData = new WidgetSegmentTimeData();
-    m_dataList.push_back(newData);
-
-    ui->horizontalLayout->addWidget(newData);
-    newData->connectCallback(this);
+    ui->segmentWidget->addNewSegment();
 }

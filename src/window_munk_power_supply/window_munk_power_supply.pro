@@ -37,16 +37,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        main.cpp \
-        main_window.cpp \
-    widget_segment_time_data.cpp
+    main.cpp \
+    main_window.cpp \
+    widget_segment_time_data.cpp \
+    widget_segment_time_display.cpp
 
 HEADERS += \
-        main_window.h \
-    widget_segment_time_data.h
+    main_window.h \
+    widget_segment_time_data.h \
+    widget_segment_time_display.h
 
 FORMS += \
-        main_window.ui \
+    main_window.ui \
+    widget_segment_time_display.ui \
     widgetsegmenttimedata.ui
 
 # Copy Files
@@ -76,3 +79,6 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../graphing/ -lgraphing
 
 INCLUDEPATH += $$PWD/../graphing
 DEPENDPATH += $$PWD/../graphing
+
+SUBDIRS += \
+    window_munk_power_supply.pro
