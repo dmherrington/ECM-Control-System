@@ -19,6 +19,7 @@ class WidgetSegmentTimeData : public QWidget
 {
     Q_OBJECT
 
+
 public:
     explicit WidgetSegmentTimeData(QWidget *parent = 0);
     ~WidgetSegmentTimeData();
@@ -32,6 +33,9 @@ public:
     {
         return this->data;
     }
+
+protected:
+        QSize sizeHint() const { return QSize(120, 143); }
 
 signals:
     void updatedSegmentData(const DataParameter::SegmentTimeDataDetailed &newData);

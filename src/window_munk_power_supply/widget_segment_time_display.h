@@ -22,6 +22,9 @@ public:
 
     void cbiSegmentDataInterface_UpdatedData(const DataParameter::SegmentTimeDataDetailed* obj) override;
 
+protected:
+        QSize sizeHint() const { return QSize(120 * m_dataList.size(), 143); }
+
 private:
     Ui::WidgetSegmentTimeDisplay *ui;
 

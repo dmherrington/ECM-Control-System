@@ -23,6 +23,8 @@ void WidgetSegmentTimeDisplay::addNewSegment()
     m_dataList.push_back(newData);
     ui->horizontalLayout->addWidget(newData);
     newData->connectCallback(this);
+
+    this->resize(sizeHint());
 }
 
 void WidgetSegmentTimeDisplay::cbiSegmentDataInterface_UpdatedData(const DataParameter::SegmentTimeDataDetailed *obj)
