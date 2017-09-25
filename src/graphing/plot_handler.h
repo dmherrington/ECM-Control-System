@@ -1,6 +1,8 @@
 #ifndef PLOT_HANDLER_H
 #define PLOT_HANDLER_H
 
+#include <vector>
+
 #include "graphing_global.h"
 
 #include "time_plot.h"
@@ -21,6 +23,8 @@ public:
     //! \brief Destructor
     //!
     ~PlotHandler();
+
+    void updateData(const QVector<double> &timeVector, const QVector<double> &voltageVector, const QVector<double> &currentVector);
 
 private:
     QCPGraph* voltageGraph;

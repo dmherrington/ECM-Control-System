@@ -17,6 +17,15 @@ SegmentTimeDataDetailed::SegmentTimeDataDetailed(const int &voltage, const int &
     setTimeValue(time);
 }
 
+SegmentTimeDataDetailed::SegmentTimeDataDetailed(const SegmentTimeDataDetailed &copy)
+{
+    this->setSegmentCurrent(copy.getSegmentCurrent());
+    this->setSegmentMode(copy.getSegmentMode());
+    this->setSegmentVoltage(copy.getSegmentVoltage());
+    this->setSupplyOutput(copy.getSupplyOutputNumber());
+    this->setTimeValue(copy.getTimeValue());
+}
+
 void SegmentTimeDataDetailed::setSupplyOutput(const Data::TypeSupplyOutput &outputNumber)
 {
     this->supplyOutput = outputNumber;

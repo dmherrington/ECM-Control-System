@@ -54,6 +54,11 @@ public:
     void openSerialPort();
 
     //!
+    //! \brief closeSerialPort
+    //!
+    void closeSerialPort();
+
+    //!
     //! \brief openSerialPort
     //! \param name
     //!
@@ -101,11 +106,6 @@ private:
     //! \param detailedSegmentData
     //!
     void generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData);
-
-    //!
-    //! \brief closeSerialPort
-    //!
-    void closeSerialPort();
 
 private slots:
     void receivedMSG(const QByteArray &data);

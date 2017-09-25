@@ -51,4 +51,24 @@ PlotHandler::~PlotHandler()
 
 }
 
+void PlotHandler::updateData(const QVector<double> &timeVector, const QVector<double> &voltageVector, const QVector<double> &currentVector)
+{
+
+    double maxV = 0.0;
+    for(unsigned int i = 0; i < voltageVector.size(); i++)
+    {
+        if(voltageVector[i] > maxV)
+            maxV = voltageVector[i];
+    }
+
+    currentGraph->setData(timeVector,currentVector);
+    voltageGraph->setData(timeVector,voltageVector);
+
+    this->xAxis->setRange(0,timeVector.back());
+    this->yAxis->setRange(0, maxV + 1.0);
+    currentGraph->rescaleAxes(true);
+
+    this->replot();
+}
+
 } //end of namespace graphing

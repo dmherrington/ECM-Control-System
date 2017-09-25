@@ -171,7 +171,7 @@ void MunkPowerSupply::configureSerialPort(const QString &name, const QSerialPort
 
 void MunkPowerSupply::closeSerialPort()
 {
-
+    portHelper->closeSerialPort();
 }
 
 void MunkPowerSupply::receivedMSG(const QByteArray &data)

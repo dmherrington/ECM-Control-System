@@ -2,13 +2,17 @@
 #define WIDGET_SEGMENT_TIME_DATA_H
 
 #include <QWidget>
+#include <QJsonDocument>
+#include <QJsonValue>
+#include <QJsonArray>
+#include <QJsonObject>
 
 #include "library_munk_power_supply/data_registers/segment_time_data_detailed.h"
 
 class WidgetTimeDataInterface
 {
 public:
-    virtual void cbiSegmentDataInterface_UpdatedData(const DataParameter::SegmentTimeDataDetailed* obj) = 0;
+    virtual void cbiSegmentDataInterface_UpdatedData() = 0;
 };
 
 namespace Ui {
@@ -29,16 +33,27 @@ public:
         m_CB = cb;
     }
 
+    void updateDisplayData() const;
+
     DataParameter::SegmentTimeDataDetailed* getData() const
     {
         return this->data;
     }
 
+
+public:
+    void read(const QJsonObject &json)
+    {
+        data->read(json);
+    }
+
+    void write(QJsonObject &json) const
+    {
+        data->write(json);
+    }
+
 protected:
         QSize sizeHint() const { return QSize(120, 143); }
-
-signals:
-    void updatedSegmentData(const DataParameter::SegmentTimeDataDetailed &newData);
 
 private slots:
     void on_comboBox_Mode_currentIndexChanged(const QString &arg1);
@@ -54,7 +69,7 @@ private:
     {
         if(m_CB)
         {
-            m_CB->cbiSegmentDataInterface_UpdatedData(data);
+            m_CB->cbiSegmentDataInterface_UpdatedData();
         }
     }
 
