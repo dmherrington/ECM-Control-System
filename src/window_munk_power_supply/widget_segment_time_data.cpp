@@ -48,7 +48,27 @@ void WidgetSegmentTimeData::updateDisplayData() const
 
 void WidgetSegmentTimeData::on_comboBox_Mode_currentIndexChanged(const QString &arg1)
 {
-    data->setSegmentMode(Data::SegmentModeFromString(arg1.toStdString()));
+    Data::SegmentMode selectedMode = Data::SegmentModeFromString(arg1.toStdString());
+    data->setSegmentMode(selectedMode);
+
+    if((selectedMode == Data::SegmentMode::HIZ) || (selectedMode == Data::SegmentMode::DEAD))
+    {
+        ui->doubleSpinBox_Current->setValue(0.0);
+        ui->doubleSpinBox_Current->setEnabled(false);
+        ui->doubleSpinBox_Voltage->setValue(0.0);
+        ui->doubleSpinBox_Voltage->setEnabled(false);
+    }
+    else{
+        if(!ui->doubleSpinBox_Current->isEnabled())
+        {
+            ui->doubleSpinBox_Current->setEnabled(true);
+        }
+        if(!ui->doubleSpinBox_Voltage->isEnabled())
+        {
+            ui->doubleSpinBox_Voltage->setEnabled(true);
+        }
+    }
+
     emitCallback();
 }
 
