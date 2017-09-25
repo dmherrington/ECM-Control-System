@@ -9,10 +9,14 @@
 
 #include "library_munk_power_supply/data_registers/segment_time_data_detailed.h"
 
+class WidgetSegmentTimeData; //this enables a forward declaration
+
 class WidgetTimeDataInterface
 {
 public:
     virtual void cbiSegmentDataInterface_UpdatedData() = 0;
+
+    virtual void cbiSegmentDataInterface_RemoveData(WidgetSegmentTimeData* obj) = 0;
 };
 
 namespace Ui {
@@ -40,6 +44,7 @@ public:
         return this->data;
     }
 
+    void updateSegmentName(const int &segmentNumber);
 
 public:
     void read(const QJsonObject &json)
@@ -52,8 +57,7 @@ public:
         data->write(json);
     }
 
-protected:
-        QSize sizeHint() const { return QSize(120, 143); }
+    QSize sizeHint() const { return QSize(126, 206); }
 
 private slots:
     void on_comboBox_Mode_currentIndexChanged(const QString &arg1);
@@ -64,10 +68,12 @@ private slots:
 
     void on_doubleSpinBox_Time_valueChanged(const double arg1);
 
+    void on_pushButton_released();
+
 private:
     void emitCallback()
     {
-        if(m_CB)
+        if(m_CB && !blockCallback)
         {
             m_CB->cbiSegmentDataInterface_UpdatedData();
         }
@@ -79,6 +85,9 @@ private:
     Ui::WidgetSegmentTimeData* ui;
 
     DataParameter::SegmentTimeDataDetailed* data;
+
+private:
+    mutable bool blockCallback;
 };
 
 #endif // WIDGET_SEGMENT_TIME_DATA_H

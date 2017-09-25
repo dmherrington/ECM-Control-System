@@ -7,12 +7,8 @@ WidgetSegmentTimeDisplay::WidgetSegmentTimeDisplay(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QSize currentSize = this->size();
-
     ui->horizontalLayout->setSizeConstraint(QLayout::SetMinimumSize);
     ui->horizontalLayout->setAlignment(Qt::AlignLeft);
-
-    this->resize(currentSize.width(), 0);
 }
 
 WidgetSegmentTimeDisplay::~WidgetSegmentTimeDisplay()
@@ -24,9 +20,14 @@ WidgetSegmentTimeData* WidgetSegmentTimeDisplay::addNewSegment()
 {
     WidgetSegmentTimeData* newData = new WidgetSegmentTimeData();
     m_dataList.push_back(newData);
+    newData->updateSegmentName(m_dataList.size());
     ui->horizontalLayout->addWidget(newData);
     newData->connectCallback(this);
-    this->resize(sizeHint());
+
+    QSize currentSize = this->size();
+    QSize size = newData->sizeHint();
+    this->setMinimumHeight(size.height());
+    this->resize(currentSize.width(), size.height());
     return newData;
 }
 
@@ -40,6 +41,24 @@ void WidgetSegmentTimeDisplay::cbiSegmentDataInterface_UpdatedData()
         dataList.push_back(DataParameter::SegmentTimeDataDetailed(*newData->getData()));
     }
     updatedData(dataList);
+}
+
+void WidgetSegmentTimeDisplay::cbiSegmentDataInterface_RemoveData(WidgetSegmentTimeData* obj)
+{
+    m_dataList.remove(obj);
+    ui->horizontalLayout->removeWidget(obj);
+    delete obj;
+    obj = NULL;
+
+    int counter = 1;
+    std::list<WidgetSegmentTimeData*>::iterator iterator;
+    for (iterator = m_dataList.begin(); iterator != m_dataList.end(); ++iterator) {
+        WidgetSegmentTimeData* data = *iterator;
+        data->updateSegmentName(counter);
+        counter++;
+    }
+
+    cbiSegmentDataInterface_UpdatedData();
 }
 
 void WidgetSegmentTimeDisplay::read(const QJsonObject &json)
@@ -66,4 +85,14 @@ void WidgetSegmentTimeDisplay::write(QJsonObject &json) const
         segmentDataArray.append(segmentObject);
     }
     json["segmentData"] = segmentDataArray;
+}
+
+void WidgetSegmentTimeDisplay::removeWidgets()
+{
+    std::list<WidgetSegmentTimeData*>::const_iterator iterator;
+    for (iterator = m_dataList.begin(); iterator != m_dataList.end(); ++iterator) {
+        ui->horizontalLayout->removeWidget(*iterator);
+        delete *iterator;
+    }
+    m_dataList.clear();
 }

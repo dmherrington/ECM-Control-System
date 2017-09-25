@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>309</height>
+    <height>320</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -21,6 +21,11 @@
     <width>600</width>
     <height>0</height>
    </size>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>10</pointsize>
+   </font>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -152,6 +157,9 @@
             <property name="text">
              <string>ADD</string>
             </property>
+            <property name="flat">
+             <bool>false</bool>
+            </property>
            </widget>
           </item>
           <item row="2" column="1">
@@ -216,7 +224,7 @@
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>20</width>
+          <width>10</width>
           <height>100</height>
          </size>
         </property>
@@ -224,6 +232,9 @@
       </item>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="spacing">
+         <number>5</number>
+        </property>
         <property name="sizeConstraint">
          <enum>QLayout::SetDefaultConstraint</enum>
         </property>
@@ -237,7 +248,7 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>200</width>
+            <width>300</width>
             <height>150</height>
            </size>
           </property>
@@ -254,7 +265,7 @@
           <property name="sizeHint" stdset="0">
            <size>
             <width>100</width>
-            <height>5</height>
+            <height>1</height>
            </size>
           </property>
          </spacer>
@@ -262,7 +273,7 @@
         <item>
          <widget class="WidgetSegmentTimeDisplay" name="segmentWidget" native="true">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+           <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>

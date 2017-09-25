@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>130</width>
-    <height>175</height>
+    <width>126</width>
+    <height>206</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -20,10 +20,37 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>2</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>2</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <property name="spacing">
+    <number>0</number>
+   </property>
    <item row="0" column="0">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="label_SegmentName">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="font">
         <font>
          <pointsize>11</pointsize>
@@ -42,7 +69,7 @@
         <number>3</number>
        </property>
        <property name="text">
-        <string>Segment</string>
+        <string>Segment # 8</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -51,9 +78,15 @@
      </item>
      <item>
       <widget class="QComboBox" name="comboBox_Mode">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
-         <width>60</width>
+         <width>120</width>
          <height>0</height>
         </size>
        </property>
@@ -63,7 +96,7 @@
       <widget class="Line" name="line">
        <property name="minimumSize">
         <size>
-         <width>60</width>
+         <width>120</width>
          <height>0</height>
         </size>
        </property>
@@ -79,7 +112,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>60</width>
+         <width>120</width>
          <height>0</height>
         </size>
        </property>
@@ -97,7 +130,7 @@
       <widget class="Line" name="line_2">
        <property name="minimumSize">
         <size>
-         <width>60</width>
+         <width>120</width>
          <height>0</height>
         </size>
        </property>
@@ -110,7 +143,7 @@
       <widget class="QDoubleSpinBox" name="doubleSpinBox_Current">
        <property name="minimumSize">
         <size>
-         <width>60</width>
+         <width>120</width>
          <height>0</height>
         </size>
        </property>
@@ -128,7 +161,7 @@
       <widget class="Line" name="line_3">
        <property name="minimumSize">
         <size>
-         <width>60</width>
+         <width>120</width>
          <height>0</height>
         </size>
        </property>
@@ -144,7 +177,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>60</width>
+         <width>120</width>
          <height>0</height>
         </size>
        </property>
@@ -158,6 +191,37 @@
        </property>
        <property name="decimals">
         <number>1</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_4">
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>REMOVE</string>
        </property>
       </widget>
      </item>

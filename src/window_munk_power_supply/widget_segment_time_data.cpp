@@ -4,7 +4,7 @@
 WidgetSegmentTimeData::WidgetSegmentTimeData(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WidgetSegmentTimeData),
-    m_CB(NULL)
+    m_CB(NULL), blockCallback(false)
 {
     ui->setupUi(this);
 
@@ -27,23 +27,21 @@ WidgetSegmentTimeData::~WidgetSegmentTimeData()
 
 void WidgetSegmentTimeData::updateDisplayData() const
 {
+    blockCallback = true;
+
     int modeIndex = ui->comboBox_Mode->findText(QString::fromStdString(Data::SegmentModeToString(data->getSegmentMode())));
-    ui->comboBox_Mode->blockSignals(true);
     ui->comboBox_Mode->setCurrentIndex(modeIndex);
-    ui->comboBox_Mode->blockSignals(false);
-
-    ui->doubleSpinBox_Current->blockSignals(true);
     ui->doubleSpinBox_Current->setValue(data->getSegmentCurrent());
-    ui->doubleSpinBox_Current->blockSignals(false);
-
-    ui->doubleSpinBox_Time->blockSignals(true);
     ui->doubleSpinBox_Time->setValue(data->getTimeValue() / 1000.0);
-    ui->doubleSpinBox_Time->blockSignals(false);
-
-    ui->doubleSpinBox_Voltage->blockSignals(true);
     ui->doubleSpinBox_Voltage->setValue(data->getSegmentVoltage());
-    ui->doubleSpinBox_Voltage->blockSignals(false);
 
+    blockCallback = false;
+}
+
+void WidgetSegmentTimeData::updateSegmentName(const int &segmentNumber)
+{
+    std::string segmentText = "Segment #" + std::to_string(segmentNumber);
+    ui->label_SegmentName->setText(QString::fromStdString(segmentText));
 }
 
 void WidgetSegmentTimeData::on_comboBox_Mode_currentIndexChanged(const QString &arg1)
@@ -88,4 +86,12 @@ void WidgetSegmentTimeData::on_doubleSpinBox_Time_valueChanged(const double arg1
 {
     data->setTimeValue(arg1 * 1000.0);
     emitCallback();
+}
+
+void WidgetSegmentTimeData::on_pushButton_released()
+{
+    if(m_CB)
+    {
+        m_CB->cbiSegmentDataInterface_RemoveData(this);
+    }
 }

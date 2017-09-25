@@ -28,6 +28,8 @@ public:
 
     void cbiSegmentDataInterface_UpdatedData() override;
 
+    void cbiSegmentDataInterface_RemoveData(WidgetSegmentTimeData *obj) override;
+
 public:
     void read(const QJsonObject &json);
 
@@ -37,7 +39,18 @@ signals:
     void updatedData(const std::list<DataParameter::SegmentTimeDataDetailed> &newData);
 
 protected:
-        QSize sizeHint() const { return QSize(120 * m_dataList.size(), 143); }
+        WidgetSegmentTimeData tempObject;
+        QSize tempSize = tempObject.sizeHint();
+
+        QSize sizeHint() const {
+            int height = 0;
+            if(m_dataList.size() > 0)
+                height = tempSize.height();
+            return QSize((tempSize.width() + 4) * m_dataList.size(), height);
+        }
+
+private:
+        void removeWidgets();
 private:
     Ui::WidgetSegmentTimeDisplay *ui;
 

@@ -134,17 +134,6 @@ void MainWindow::widgetSegmentDisplay_dataUpdate(const std::list<DataParameter::
 void MainWindow::on_pushButton_released()
 {
     ui->segmentWidget->addNewSegment();
-    QSize currentSize = this->size();
-    QSize recSize = this->sizeHint();
-
-    int desWidth;
-    if(recSize.width() < currentSize.width())
-        desWidth = currentSize.width();
-    else
-        desWidth = recSize.width();
-
-    this->resize(desWidth, currentSize.height());
-    this->setMinimumSize(desWidth, recSize.height());
 }
 
 void MainWindow::on_pushButton_transmit_released()
