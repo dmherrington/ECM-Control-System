@@ -5,13 +5,14 @@ namespace graphing {
 PlotHandler::PlotHandler(QWidget *parent) :
     TimePlot(parent)
 {
-    this->legend->setVisible(true);
     this->xAxis->setLabel("Time (ms)");
     this->yAxis->setLabel("Voltage (volts)");
     this->yAxis2->setLabel("Current (amps)");
 
     voltageGraph = this->addGraph(this->xAxis, this->yAxis);
+    voltageGraph->setName("VOLTAGE");
     currentGraph = this->addGraph(this->xAxis, this->yAxis2);
+    currentGraph->setName("CURRENT");
 
     voltageGraph->setPen(QPen(Qt::blue)); // line color blue for first graph
     voltageGraph->setBrush(QBrush(QColor(0, 0, 255, 20))); // first graph will be filled with translucent blue
@@ -39,7 +40,7 @@ PlotHandler::PlotHandler(QWidget *parent) :
     currentGraph->rescaleAxes(true);
     // Note: we could have also just called customPlot->rescaleAxes(); instead
     // Allow user to drag axis ranges with mouse, zoom with mouse wheel and select graphs by clicking:
-    this->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+    //this->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
 
 }
 

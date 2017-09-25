@@ -7,9 +7,12 @@ WidgetSegmentTimeDisplay::WidgetSegmentTimeDisplay(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QSize currentSize = this->size();
+
     ui->horizontalLayout->setSizeConstraint(QLayout::SetMinimumSize);
     ui->horizontalLayout->setAlignment(Qt::AlignLeft);
 
+    this->resize(currentSize.width(), 0);
 }
 
 WidgetSegmentTimeDisplay::~WidgetSegmentTimeDisplay()

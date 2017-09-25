@@ -18,6 +18,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::onSaveAs);
     connect(ui->actionExit, &QAction::triggered, this, &MainWindow::onExit);
 
+
+    connect(ui->actionGraph_Legend, &QAction::triggered, this, &MainWindow::onGraphLegend);
+
+
     connect(ui->segmentWidget,SIGNAL(updatedData(std::list<DataParameter::SegmentTimeDataDetailed>)),
             this,SLOT(widgetSegmentDisplay_dataUpdate(std::list<DataParameter::SegmentTimeDataDetailed>)));
 
@@ -88,6 +92,13 @@ void MainWindow::onExit()
     QApplication::quit();
 }
 
+void MainWindow::onGraphLegend()
+{
+    bool isShowing = ui->graphWidget->legend->visible();
+    ui->graphWidget->legend->setVisible(!isShowing);
+    ui->graphWidget->replot();
+}
+
 void MainWindow::widgetSegmentDisplay_dataUpdate(const std::list<DataParameter::SegmentTimeDataDetailed> &newData)
 {
     std::list<DataParameter::SegmentTimeDataDetailed>::const_iterator iterator;
@@ -107,7 +118,7 @@ void MainWindow::widgetSegmentDisplay_dataUpdate(const std::list<DataParameter::
         }
 
         unsigned int beginning = timeVector.back() * 10.0;
-        unsigned int ending = (timeVector.back() + subData.getTimeValue()) * 10.0;
+        unsigned int ending = (timeVector.back() + (subData.getTimeValue()/1000.0)) * 10.0;
 
         for(unsigned int i = beginning; i <= ending; i++)
         {

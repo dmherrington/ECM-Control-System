@@ -34,6 +34,8 @@ private slots:
     void onSaveAs();
     void onExit();
 
+    void onGraphLegend();
+
     void on_pushButton_transmit_released();
 
 private:
