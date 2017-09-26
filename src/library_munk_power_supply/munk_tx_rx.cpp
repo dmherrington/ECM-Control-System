@@ -38,16 +38,25 @@ void MunkTXRX::run()
 
         this->RunPendingTasks();
 
+        if(rxByteArray.size() > 0)
+        {
+            //let us try parsing the data in here
+            //first look for the slave address
+            //next look for the read or write paramter
+            //next look for either an exception code or parameter
+            //if exception code
+        }
+
         //The current state we can find out how much time has passed.
         //If one of the lambda expressions has fired the clock shoud
         //be reset right at the end, thus making this value small and
         //improbable the next function will fire
-        double timeElapsed = mTimer.elapsedMilliseconds();
+//        double timeElapsed = mTimer.elapsedMilliseconds();
 
-        if(timeElapsed > responseTimeout)
-        {
-            currentRetry++;
-        }
+//        if(timeElapsed > responseTimeout)
+//        {
+//            currentRetry++;
+//        }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(20));
     }

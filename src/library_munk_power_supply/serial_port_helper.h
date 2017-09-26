@@ -13,6 +13,8 @@
 
 #include "common/common.h"
 
+#include "munk_tx_rx.h"
+
 class SerialPortHelper : public QObject
 {
     Q_OBJECT
@@ -28,6 +30,8 @@ public:
     void configureSerialPort(const QString &name, const QSerialPort::BaudRate &rate,
                                                const QSerialPort::Parity &parity, const QSerialPort::DataBits &data,
                                                const QSerialPort::FlowControl &flow, const QSerialPort::StopBits &stop);
+
+    void writeByteVector(const std::vector<QByteArray> &write);
 
     void writeBytes(const QByteArray &writeData);
 
@@ -52,6 +56,9 @@ private:
     QByteArray m_writeData;
     QByteArray m_readData;
     QTimer m_timer;
+    MunkTXRX m_parseHelper;
+
+    std::vector<QByteArray> transmitVector;
 };
 
 #endif // SERIAL_PORT_HELPER_H

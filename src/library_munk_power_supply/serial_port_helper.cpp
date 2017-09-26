@@ -5,6 +5,7 @@ SerialPortHelper::SerialPortHelper(QObject *parent) :
 {
     m_serialPort = new QSerialPort();
     m_timer.setSingleShot(true); // this implies this timer only fires once
+
     connect(m_serialPort, &QSerialPort::bytesWritten, this, &SerialPortHelper::handleBytesWritten);
     connect(m_serialPort, static_cast<void (QSerialPort::*)(QSerialPort::SerialPortError)>(&QSerialPort::error),
             this, &SerialPortHelper::handleError);
@@ -104,6 +105,7 @@ void SerialPortHelper::openSerialPort()
         delete m_serialPort;
         m_serialPort = NULL;
     }else{
+        m_parseHelper.start();
         std::cout<<"The serial port was successfully opened."<<std::endl;
     }
 }
@@ -116,7 +118,14 @@ void SerialPortHelper::closeSerialPort()
             m_serialPort->close();
         delete m_serialPort;
         m_serialPort = NULL;
+
+        m_parseHelper.stop();
     }
+}
+
+void SerialPortHelper::writeByteVector(const std::vector<QByteArray> &write)
+{
+    transmitVector = write;
 }
 
 void SerialPortHelper::writeBytes(const QByteArray &writeData)
@@ -150,6 +159,8 @@ void SerialPortHelper::readBytes()
         QByteArray buffer;
         buffer.resize(byteCount);
         m_serialPort->read(buffer.data(), buffer.size());
+        m_parseHelper.receivedBytes(buffer);
+
         std::cout<<"I have seen some data"<<std::endl;
         emit bytesReceived(buffer);
     }
