@@ -71,7 +71,6 @@ void WidgetSegmentTimeDisplay::read(const QJsonObject &json)
         WidgetSegmentTimeData* newData = this->addNewSegment();
         newData->read(segmentObject);
         newData->updateDisplayData();
-        m_dataList.push_back(newData);
     }
     cbiSegmentDataInterface_UpdatedData();
 }
@@ -85,6 +84,18 @@ void WidgetSegmentTimeDisplay::write(QJsonObject &json) const
         segmentDataArray.append(segmentObject);
     }
     json["segmentData"] = segmentDataArray;
+}
+
+DataParameter::SegmentTimeDetailed WidgetSegmentTimeDisplay::getRawData() const
+{
+    DataParameter::SegmentTimeDetailed detailedData(1);
+
+    std::list<WidgetSegmentTimeData*>::const_iterator iterator;
+    for (iterator = m_dataList.begin(); iterator != m_dataList.end(); ++iterator) {
+        WidgetSegmentTimeData* data = *iterator;
+        detailedData.appendRegisterData(*data->getData());
+    }
+    return detailedData;
 }
 
 void WidgetSegmentTimeDisplay::removeWidgets()

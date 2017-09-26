@@ -11,6 +11,7 @@
 
 #include "widget_segment_time_data.h"
 
+#include "library_munk_power_supply/data_registers/segment_time_detailed.h"
 
 namespace Ui {
 class WidgetSegmentTimeDisplay;
@@ -34,6 +35,8 @@ public:
     void read(const QJsonObject &json);
 
     void write(QJsonObject &json) const;
+
+    DataParameter::SegmentTimeDetailed getRawData() const;
 
 signals:
     void updatedData(const std::list<DataParameter::SegmentTimeDataDetailed> &newData);

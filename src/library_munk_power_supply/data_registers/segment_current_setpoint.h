@@ -58,6 +58,8 @@ public:
 public:
     void appendData(const SegmentCurrentData &currentSetpoint);
 
+    void initializeData();
+
 public:
     //!
     //! \brief operator =

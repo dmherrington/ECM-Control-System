@@ -1,23 +1,15 @@
 #include "munk_power_supply.h"
 
-MunkPowerSupply::MunkPowerSupply()
+MunkPowerSupply::MunkPowerSupply():
+    m_fwdISetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::FORWARD),
+    m_revISetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::REVERSE),
+    m_fwdVSetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::FORWARD),
+    m_revVSetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::REVERSE)
 {
     portHelper = new SerialPortHelper(this);
     connect(portHelper,SIGNAL(bytesReceived(QByteArray)),this,SLOT(receivedMSG(QByteArray)));
 
-//    DataParameter::SegmentTimeDetailed detailedData(1);
-//    DataParameter::SegmentTimeDataDetailed detailedOne(10,50,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
-//    detailedData.appendRegisterData(detailedOne);
-//    DataParameter::SegmentTimeDataDetailed detailedFour(10,102,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
-//    detailedData.appendRegisterData(detailedFour);
-//    DataParameter::SegmentTimeDataDetailed detailedFive(50,133,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
-//    detailedData.appendRegisterData(detailedFive);
-//    DataParameter::SegmentTimeDataDetailed detailedSeven(70,151,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
-//    detailedData.appendRegisterData(detailedSeven);
-//    DataParameter::SegmentTimeDataDetailed detailedEight(80,10,Data::SegmentMode::FORWARD,Data::SegmentPower::ONE_HUNDRED,100);
-//    detailedData.appendRegisterData(detailedEight);
-
-//    generateMessages(detailedData);
+    m_segmentTimeGeneral = DataParameter::SegmentTimeGeneral();
 }
 
 void MunkPowerSupply::transmitMessage(const QByteArray &data)
@@ -28,29 +20,33 @@ void MunkPowerSupply::transmitMessage(const QByteArray &data)
 void MunkPowerSupply::generateAndTransmitMessage(const DataParameter::SegmentTimeDetailed &detailedSegmentData)
 {
     generateMessages(detailedSegmentData);
+
+    QByteArray fwdIArray = m_fwdISetpoint.getFullMessage();
+    QByteArray revIArray = m_revISetpoint.getFullMessage();
+    QByteArray fwdVArray = m_fwdVSetpoint.getFullMessage();
+    QByteArray revVArray = m_revVSetpoint.getFullMessage();
+    QByteArray dataArray = m_segmentTimeGeneral.getFullMessage();
 }
 
 void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData)
 {
     //SegmentTime Parameter holding data
-    DataParameter::SegmentTimeGeneral generalSegment;
-    generalSegment.setSlaveAddress(detailedSegmentData.getSlaveAddress());
+    m_segmentTimeGeneral.setSlaveAddress(detailedSegmentData.getSlaveAddress());
+    m_segmentTimeGeneral.initializeData();
+    m_fwdISetpoint.setSlaveAddress(detailedSegmentData.getSlaveAddress());
+    m_fwdISetpoint.initializeData();
+    m_revISetpoint.setSlaveAddress(detailedSegmentData.getSlaveAddress());
+    m_revISetpoint.initializeData();
+    m_fwdVSetpoint.setSlaveAddress(detailedSegmentData.getSlaveAddress());
+    m_fwdVSetpoint.initializeData();
+    m_revVSetpoint.setSlaveAddress(detailedSegmentData.getSlaveAddress());
+    m_revVSetpoint.initializeData();
 
     //maps holding containers to determine what is unique
     std::map<Data::RegisterDataObject,Data::SegmentLevel> fwdMap;
     std::map<Data::RegisterDataObject,Data::SegmentLevel> revMap;
 
     std::vector<DataParameter::SegmentTimeDataDetailed> detailedData = detailedSegmentData.getRegisterData();
-    //this restricts it to only assume 1 output supply for now
-    DataParameter::SegmentCurrentSetpoint fwdISetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::FORWARD);
-    fwdISetpoint.setSlaveAddress(detailedSegmentData.getSlaveAddress());
-    DataParameter::SegmentCurrentSetpoint revISetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::REVERSE);
-    revISetpoint.setSlaveAddress(detailedSegmentData.getSlaveAddress());
-
-    DataParameter::SegmentVoltageSetpoint fwdVSetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::FORWARD);
-    fwdVSetpoint.setSlaveAddress(detailedSegmentData.getSlaveAddress());
-    DataParameter::SegmentVoltageSetpoint revVSetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::REVERSE);
-    revVSetpoint.setSlaveAddress(detailedSegmentData.getSlaveAddress());
 
     std::vector<std::string> fwdLevelVector = Data::getListOfSegmentLevel();
     int fwdLevelCounter = 0;
@@ -83,15 +79,15 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
 
                 DataParameter::SegmentVoltageData vData(newLevel,mode);
                 vData.updateVoltageSetpoint(detail.getRegisterDataObject().voltage);
-                fwdVSetpoint.appendData(vData);
+                m_fwdVSetpoint.appendData(vData);
                 DataParameter::SegmentCurrentData iData(newLevel,mode);
                 iData.updateCurrentSetpoint(detail.getRegisterDataObject().current);
-                fwdISetpoint.appendData(iData);
+                m_fwdISetpoint.appendData(iData);
                 fwdLevelCounter++;
             }
             Data::SegmentLevel level = fwdMap.at(detail.getRegisterDataObject());
             DataParameter::SegmentTimeDataGeneral generalData(level,mode,detail.getTimeValue());
-            generalSegment.appendRegisterData(generalData);
+            m_segmentTimeGeneral.appendRegisterData(generalData);
         }
         else if(mode == Data::SegmentMode::REVERSE)
         {
@@ -114,40 +110,38 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
 
                 DataParameter::SegmentVoltageData vData(newLevel,mode);
                 vData.updateVoltageSetpoint(detail.getRegisterDataObject().voltage);
-                revVSetpoint.appendData(vData);
+                m_revVSetpoint.appendData(vData);
                 DataParameter::SegmentCurrentData iData(newLevel,mode);
                 iData.updateCurrentSetpoint(detail.getRegisterDataObject().current);
-                revISetpoint.appendData(iData);
+                m_revISetpoint.appendData(iData);
                 revLevelCounter++;
             }
             Data::SegmentLevel level = revMap.at(detail.getRegisterDataObject());
             DataParameter::SegmentTimeDataGeneral generalData(level,mode,detail.getTimeValue());
-            generalSegment.appendRegisterData(generalData);
+            m_segmentTimeGeneral.appendRegisterData(generalData);
         }
         else if(mode == Data::SegmentMode::DEAD)
         {
             DataParameter::SegmentTimeDataGeneral generalData;
             generalData.setSegmentMode(Data::SegmentMode::DEAD);
             generalData.setTimeValue(detail.getTimeValue());
-            generalSegment.appendRegisterData(generalData);
+            m_segmentTimeGeneral.appendRegisterData(generalData);
         }
         else if(mode == Data::SegmentMode::HIZ)
         {
             DataParameter::SegmentTimeDataGeneral generalData;
             generalData.setSegmentMode(Data::SegmentMode::HIZ);
             generalData.setTimeValue(detail.getTimeValue());
-            generalSegment.appendRegisterData(generalData);
+            m_segmentTimeGeneral.appendRegisterData(generalData);
         }
         else{
             //Ken: Figure out what to do this in case
         }
     }
 
-    emit(signal_NewCurrentSetpoint(revISetpoint,fwdISetpoint));
-    emit(signal_NewVoltageSetpoint(revVSetpoint,fwdVSetpoint));
-    emit(signal_NewTimeSetpoint(generalSegment));
-
-    //returnMSG = {fwdISetpoint,revISetpoint,fwdVSetpoint,revVSetpoint,generalSegment};
+//    emit(signal_NewCurrentSetpoint(m_revISetpoint,m_fwdISetpoint));
+//    emit(signal_NewVoltageSetpoint(m_revVSetpoint,m_fwdVSetpoint));
+//    emit(signal_NewTimeSetpoint(m_segmentTimeGeneral));
 }
 
 void MunkPowerSupply::openSerialPort()

@@ -111,6 +111,14 @@ private slots:
     void receivedMSG(const QByteArray &data);
 
 private:
+        DataParameter::SegmentTimeGeneral m_segmentTimeGeneral;
+
+        DataParameter::SegmentCurrentSetpoint m_fwdISetpoint;
+        DataParameter::SegmentCurrentSetpoint m_revISetpoint;
+
+        DataParameter::SegmentVoltageSetpoint m_fwdVSetpoint;
+        DataParameter::SegmentVoltageSetpoint m_revVSetpoint;
+private:
     //!
     //! \brief serialPort
     //!

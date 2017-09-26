@@ -1,25 +1,18 @@
 {
     "segmentData": [
         {
-            "current": 4,
-            "segmentMode": "DEAD",
+            "current": 2,
+            "segmentMode": "FORWARD",
             "supplyOutput": "OUTPUT1",
-            "time": 4000,
+            "time": 200,
             "voltage": 4
         },
         {
-            "current": 3,
-            "segmentMode": "FORWARD",
+            "current": 0,
+            "segmentMode": "DEAD",
             "supplyOutput": "OUTPUT1",
-            "time": 3000,
-            "voltage": 3
-        },
-        {
-            "current": 2,
-            "segmentMode": "REVERSE",
-            "supplyOutput": "OUTPUT1",
-            "time": 2000,
-            "voltage": 2
+            "time": 500,
+            "voltage": 0
         }
     ]
 }

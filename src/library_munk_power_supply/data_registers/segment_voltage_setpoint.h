@@ -62,6 +62,8 @@ public:
     //!
     void appendData(const SegmentVoltageData &voltageSetpoint);
 
+    void initializeData();
+
 public:
     //!
     //! \brief operator =

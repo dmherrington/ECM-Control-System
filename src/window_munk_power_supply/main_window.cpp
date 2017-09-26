@@ -138,5 +138,6 @@ void MainWindow::on_pushButton_released()
 
 void MainWindow::on_pushButton_transmit_released()
 {
-
+    DataParameter::SegmentTimeDetailed dataSegment = ui->segmentWidget->getRawData();
+    m_PowerSupply->generateAndTransmitMessage(dataSegment);
 }

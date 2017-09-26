@@ -22,6 +22,12 @@ WidgetSegmentTimeData::WidgetSegmentTimeData(QWidget *parent) :
 
 WidgetSegmentTimeData::~WidgetSegmentTimeData()
 {
+    if(data)
+    {
+        delete data;
+        data = NULL;
+    }
+
     delete ui;
 }
 
