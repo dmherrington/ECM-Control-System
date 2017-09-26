@@ -25,7 +25,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += common.cpp
 
 HEADERS += common.h\
-        common_global.h
+        common_global.h \
+    threadmanager.h \
+    timer.h
 
 #Header file copy
 headers.path    = $$(ECM_ROOT)/include/common
