@@ -25,6 +25,29 @@ void MunkTXRX::clearPreviousTransmit()
     prevTxArray.clear();
 }
 
+bool MunkTXRX::searchForStartingIndex(const QByteArray &array, int &index)
+{
+    unsigned int size = rxByteArray.size();
+
+    if(size > 4)
+    {
+        //let us try parsing the data in here
+        //first look for the slave address
+        for(unsigned int i = 0; i < size; i++)
+        {
+            if(rxByteArray.at(i) == 01)
+            {
+                index = i;
+                return true;
+            }
+        }
+        //next look for the read or write paramter
+        //next look for either an exception code or parameter
+        //if exception code
+    }
+    return false;
+}
+
 void MunkTXRX::run()
 {
     while(true)
@@ -38,14 +61,17 @@ void MunkTXRX::run()
 
         this->RunPendingTasks();
 
-        if(rxByteArray.size() > 0)
+        QByteArray potentialArray;
+        int startingIndex = 0;
+        bool found = searchForStartingIndex(rxByteArray, startingIndex);
+        if(found)
         {
-            //let us try parsing the data in here
-            //first look for the slave address
-            //next look for the read or write paramter
-            //next look for either an exception code or parameter
-            //if exception code
+            rxByteArray.remove(0,startingIndex);
         }
+
+        if(rxByteArray.size() < 5)
+            continue; //this should jump the remaining stuff
+
 
         //The current state we can find out how much time has passed.
         //If one of the lambda expressions has fired the clock shoud

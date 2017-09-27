@@ -37,6 +37,7 @@ public:
 
 private:
     void clearPreviousTransmit();
+    bool searchForStartingIndex(const QByteArray &array, int &index);
 
 private:
     MunkTXRX_Interface* m_CB;
