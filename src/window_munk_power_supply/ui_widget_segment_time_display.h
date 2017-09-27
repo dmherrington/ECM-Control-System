@@ -40,7 +40,7 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(WidgetSegmentTimeDisplay->sizePolicy().hasHeightForWidth());
         WidgetSegmentTimeDisplay->setSizePolicy(sizePolicy);
-        WidgetSegmentTimeDisplay->setMinimumSize(QSize(160, 0));
+        WidgetSegmentTimeDisplay->setMinimumSize(QSize(0, 0));
         gridLayout = new QGridLayout(WidgetSegmentTimeDisplay);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         gridLayout->setVerticalSpacing(0);
@@ -49,7 +49,7 @@ public:
         scrollArea->setObjectName(QStringLiteral("scrollArea"));
         sizePolicy.setHeightForWidth(scrollArea->sizePolicy().hasHeightForWidth());
         scrollArea->setSizePolicy(sizePolicy);
-        scrollArea->setMinimumSize(QSize(0, 180));
+        scrollArea->setMinimumSize(QSize(0, 0));
         scrollArea->setFrameShape(QFrame::StyledPanel);
         scrollArea->setLineWidth(2);
         scrollArea->setMidLineWidth(2);
@@ -60,7 +60,7 @@ public:
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
         scrollAreaWidgetContents->setGeometry(QRect(0, 0, 154, 204));
-        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Minimum);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(scrollAreaWidgetContents->sizePolicy().hasHeightForWidth());

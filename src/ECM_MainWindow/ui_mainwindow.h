@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.7.1
+** Created by: Qt User Interface Compiler version 5.9.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -22,6 +22,7 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QSplitter>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
@@ -34,6 +35,7 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
+    QGridLayout *gridLayout_3;
     QHBoxLayout *horizontalLayout;
     QVBoxLayout *verticalLayout_2;
     QGridLayout *gridLayout_2;
@@ -56,9 +58,9 @@ public:
     QLineEdit *dataFull;
     QSpacerItem *verticalSpacer;
     QSpacerItem *horizontalSpacer_2;
-    QVBoxLayout *verticalLayout;
+    QSplitter *splitter;
     graphing::PlotHandler *timeDataGraph;
-    QSpacerItem *verticalSpacer_2;
+    QWidget *layoutWidget;
     QHBoxLayout *timeDataLayout;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -68,13 +70,22 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(446, 345);
+        MainWindow->resize(503, 332);
+        QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
+        MainWindow->setSizePolicy(sizePolicy);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        horizontalLayout = new QHBoxLayout(centralWidget);
+        gridLayout_3 = new QGridLayout(centralWidget);
+        gridLayout_3->setSpacing(6);
+        gridLayout_3->setContentsMargins(11, 11, 11, 11);
+        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
+        horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
-        horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setSizeConstraint(QLayout::SetFixedSize);
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
@@ -123,11 +134,11 @@ public:
 
         dataRI = new QLineEdit(centralWidget);
         dataRI->setObjectName(QStringLiteral("dataRI"));
-        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(dataRI->sizePolicy().hasHeightForWidth());
-        dataRI->setSizePolicy(sizePolicy);
+        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(dataRI->sizePolicy().hasHeightForWidth());
+        dataRI->setSizePolicy(sizePolicy1);
 
         gridLayout->addWidget(dataRI, 0, 1, 1, 1);
 
@@ -138,8 +149,8 @@ public:
 
         dataFI = new QLineEdit(centralWidget);
         dataFI->setObjectName(QStringLiteral("dataFI"));
-        sizePolicy.setHeightForWidth(dataFI->sizePolicy().hasHeightForWidth());
-        dataFI->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(dataFI->sizePolicy().hasHeightForWidth());
+        dataFI->setSizePolicy(sizePolicy1);
 
         gridLayout->addWidget(dataFI, 1, 1, 2, 1);
 
@@ -150,8 +161,8 @@ public:
 
         dataRV = new QLineEdit(centralWidget);
         dataRV->setObjectName(QStringLiteral("dataRV"));
-        sizePolicy.setHeightForWidth(dataRV->sizePolicy().hasHeightForWidth());
-        dataRV->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(dataRV->sizePolicy().hasHeightForWidth());
+        dataRV->setSizePolicy(sizePolicy1);
 
         gridLayout->addWidget(dataRV, 3, 1, 1, 1);
 
@@ -162,8 +173,8 @@ public:
 
         dataFV = new QLineEdit(centralWidget);
         dataFV->setObjectName(QStringLiteral("dataFV"));
-        sizePolicy.setHeightForWidth(dataFV->sizePolicy().hasHeightForWidth());
-        dataFV->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(dataFV->sizePolicy().hasHeightForWidth());
+        dataFV->setSizePolicy(sizePolicy1);
 
         gridLayout->addWidget(dataFV, 4, 1, 1, 1);
 
@@ -174,8 +185,8 @@ public:
 
         dataFull = new QLineEdit(centralWidget);
         dataFull->setObjectName(QStringLiteral("dataFull"));
-        sizePolicy.setHeightForWidth(dataFull->sizePolicy().hasHeightForWidth());
-        dataFull->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(dataFull->sizePolicy().hasHeightForWidth());
+        dataFull->setSizePolicy(sizePolicy1);
 
         gridLayout->addWidget(dataFull, 5, 1, 1, 1);
 
@@ -189,37 +200,36 @@ public:
 
         horizontalLayout->addLayout(verticalLayout_2);
 
-        horizontalSpacer_2 = new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+        horizontalSpacer_2 = new QSpacerItem(17, 17, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer_2);
 
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setSpacing(6);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        timeDataGraph = new graphing::PlotHandler(centralWidget);
+        splitter = new QSplitter(centralWidget);
+        splitter->setObjectName(QStringLiteral("splitter"));
+        splitter->setOrientation(Qt::Vertical);
+        timeDataGraph = new graphing::PlotHandler(splitter);
         timeDataGraph->setObjectName(QStringLiteral("timeDataGraph"));
-        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Preferred);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(timeDataGraph->sizePolicy().hasHeightForWidth());
-        timeDataGraph->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy2(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(timeDataGraph->sizePolicy().hasHeightForWidth());
+        timeDataGraph->setSizePolicy(sizePolicy2);
         timeDataGraph->setMinimumSize(QSize(10, 10));
-
-        verticalLayout->addWidget(timeDataGraph);
-
-        verticalSpacer_2 = new QSpacerItem(20, 10, QSizePolicy::Minimum, QSizePolicy::Fixed);
-
-        verticalLayout->addItem(verticalSpacer_2);
-
-        timeDataLayout = new QHBoxLayout();
+        splitter->addWidget(timeDataGraph);
+        layoutWidget = new QWidget(splitter);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        timeDataLayout = new QHBoxLayout(layoutWidget);
         timeDataLayout->setSpacing(5);
+        timeDataLayout->setContentsMargins(11, 11, 11, 11);
         timeDataLayout->setObjectName(QStringLiteral("timeDataLayout"));
         timeDataLayout->setSizeConstraint(QLayout::SetMinimumSize);
+        timeDataLayout->setContentsMargins(0, 0, 0, 0);
+        splitter->addWidget(layoutWidget);
 
-        verticalLayout->addLayout(timeDataLayout);
+        horizontalLayout->addWidget(splitter);
 
 
-        horizontalLayout->addLayout(verticalLayout);
+        gridLayout_3->addLayout(horizontalLayout, 0, 0, 1, 1);
 
         MainWindow->setCentralWidget(centralWidget);
         mainToolBar = new QToolBar(MainWindow);
@@ -230,7 +240,7 @@ public:
         MainWindow->setStatusBar(statusBar);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 446, 21));
+        menuBar->setGeometry(QRect(0, 0, 503, 21));
         MainWindow->setMenuBar(menuBar);
 
         retranslateUi(MainWindow);

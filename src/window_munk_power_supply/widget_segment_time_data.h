@@ -57,7 +57,7 @@ public:
         data->write(json);
     }
 
-    QSize sizeHint() const { return QSize(170, 186); }
+    QSize sizeHint() const { return QSize(185, 216); }
 
 private slots:
     void on_comboBox_Mode_currentIndexChanged(const QString &arg1);
