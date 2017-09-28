@@ -7,9 +7,17 @@ MunkPowerSupply::MunkPowerSupply():
     m_revVSetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::REVERSE)
 {
     portHelper = new SerialPortHelper(this);
+    portHelper->connectCallback(this);
+
     connect(portHelper,SIGNAL(bytesReceived(QByteArray)),this,SLOT(receivedMSG(QByteArray)));
 
     m_segmentTimeGeneral = DataParameter::SegmentTimeGeneral();
+}
+
+MunkPowerSupply::~MunkPowerSupply()
+{
+    delete portHelper;
+    portHelper = nullptr;
 }
 
 void MunkPowerSupply::transmitMessage(const QByteArray &data)
@@ -166,6 +174,11 @@ void MunkPowerSupply::configureSerialPort(const QString &name, const QSerialPort
 void MunkPowerSupply::closeSerialPort()
 {
     portHelper->closeSerialPort();
+}
+
+void MunkPowerSupply::cbiSerialPortHelper_serialPortStatus(const bool &open_close, const std::string &errorString)
+{
+    emit signal_SerialPortStatus(open_close, errorString);
 }
 
 void MunkPowerSupply::receivedMSG(const QByteArray &data)

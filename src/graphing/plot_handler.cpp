@@ -55,6 +55,12 @@ PlotHandler::~PlotHandler()
 void PlotHandler::updateData(const QVector<double> &timeVector, const QVector<double> &voltageVector, const QVector<double> &currentVector)
 {
 
+    this->clearGraphs();
+    voltageGraph = this->addGraph(this->xAxis, this->yAxis);
+    voltageGraph->setName("VOLTAGE");
+    currentGraph = this->addGraph(this->xAxis, this->yAxis2);
+    currentGraph->setName("CURRENT");
+    currentGraph->setPen(QPen(Qt::red));
     if(timeVector.size() > 0)
     {
         double maxV = 0.0;

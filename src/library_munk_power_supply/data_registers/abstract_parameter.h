@@ -45,6 +45,12 @@ public:
     virtual QByteArray getByteArray() const = 0;
 
     //!
+    //! \brief getExpectedResponse
+    //! \return
+    //!
+    virtual QByteArray getExpectedResponse() const = 0;
+
+    //!
     //! \brief getDescription
     //! \return
     //!
@@ -68,6 +74,13 @@ public:
     //! \return
     //!
     QByteArray getFullMessage();
+
+    //!
+    //! \brief getFullExpectedResonse
+    //! \return
+    //!
+    QByteArray getFullExpectedResonse();
+
 
 private:
     //!

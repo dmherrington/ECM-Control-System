@@ -69,6 +69,17 @@ QByteArray SegmentVoltageSetpoint::getByteArray() const
     return ba;
 }
 
+QByteArray SegmentVoltageSetpoint::getExpectedResponse() const
+{
+    QByteArray ba;
+    uint8_t HIGHSeqType = (uint8_t)((this->data.size() & 0xFF00) >> 8);
+    uint8_t LOWSeqType = (uint8_t)(this->data.size() & 0x00FF);
+    ba.append(HIGHSeqType);
+    ba.append(LOWSeqType);
+
+    return ba;
+}
+
 void SegmentVoltageSetpoint::appendData(const SegmentVoltageData &voltageSetpoint)
 {
     this->data.insert(std::pair<Data::SegmentLevel,SegmentVoltageData>(voltageSetpoint.getSegmentLevel(),voltageSetpoint));

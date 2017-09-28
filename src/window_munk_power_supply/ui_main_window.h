@@ -43,14 +43,14 @@ public:
     QHBoxLayout *horizontalLayout;
     QVBoxLayout *verticalLayout;
     QGridLayout *gridLayout;
-    QComboBox *comboBox_comPort;
     QSpacerItem *horizontalSpacer_2;
-    QPushButton *pushButton_connect;
-    QSpacerItem *verticalSpacer_2;
+    QComboBox *comboBox_comPort;
+    QPushButton *pushButton;
     QSpacerItem *verticalSpacer_3;
     QSpacerItem *verticalSpacer_4;
-    QPushButton *pushButton;
     QSpacerItem *horizontalSpacer;
+    QPushButton *pushButton_connect;
+    QSpacerItem *verticalSpacer_2;
     QPushButton *pushButton_transmit;
     QSpacerItem *verticalSpacer_5;
     QSpacerItem *horizontalSpacer_3;
@@ -104,6 +104,10 @@ public:
         gridLayout->setSpacing(6);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         gridLayout->setSizeConstraint(QLayout::SetFixedSize);
+        horizontalSpacer_2 = new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer_2, 0, 1, 1, 1);
+
         comboBox_comPort = new QComboBox(centralWidget);
         comboBox_comPort->setObjectName(QStringLiteral("comboBox_comPort"));
         QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -111,25 +115,18 @@ public:
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(comboBox_comPort->sizePolicy().hasHeightForWidth());
         comboBox_comPort->setSizePolicy(sizePolicy1);
-        comboBox_comPort->setMinimumSize(QSize(70, 0));
+        comboBox_comPort->setMinimumSize(QSize(80, 0));
 
         gridLayout->addWidget(comboBox_comPort, 0, 0, 1, 1);
 
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+        pushButton = new QPushButton(centralWidget);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        sizePolicy1.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
+        pushButton->setSizePolicy(sizePolicy1);
+        pushButton->setMinimumSize(QSize(80, 0));
+        pushButton->setFlat(false);
 
-        gridLayout->addItem(horizontalSpacer_2, 0, 1, 1, 1);
-
-        pushButton_connect = new QPushButton(centralWidget);
-        pushButton_connect->setObjectName(QStringLiteral("pushButton_connect"));
-        sizePolicy1.setHeightForWidth(pushButton_connect->sizePolicy().hasHeightForWidth());
-        pushButton_connect->setSizePolicy(sizePolicy1);
-        pushButton_connect->setMinimumSize(QSize(70, 0));
-
-        gridLayout->addWidget(pushButton_connect, 0, 2, 1, 1);
-
-        verticalSpacer_2 = new QSpacerItem(20, 10, QSizePolicy::Minimum, QSizePolicy::Fixed);
-
-        gridLayout->addItem(verticalSpacer_2, 1, 0, 1, 1);
+        gridLayout->addWidget(pushButton, 2, 0, 1, 1);
 
         verticalSpacer_3 = new QSpacerItem(20, 10, QSizePolicy::Minimum, QSizePolicy::Fixed);
 
@@ -139,24 +136,27 @@ public:
 
         gridLayout->addItem(verticalSpacer_4, 1, 2, 1, 1);
 
-        pushButton = new QPushButton(centralWidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        sizePolicy1.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
-        pushButton->setSizePolicy(sizePolicy1);
-        pushButton->setMinimumSize(QSize(70, 0));
-        pushButton->setFlat(false);
-
-        gridLayout->addWidget(pushButton, 2, 0, 1, 1);
-
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+        horizontalSpacer = new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
         gridLayout->addItem(horizontalSpacer, 2, 1, 1, 1);
+
+        pushButton_connect = new QPushButton(centralWidget);
+        pushButton_connect->setObjectName(QStringLiteral("pushButton_connect"));
+        sizePolicy1.setHeightForWidth(pushButton_connect->sizePolicy().hasHeightForWidth());
+        pushButton_connect->setSizePolicy(sizePolicy1);
+        pushButton_connect->setMinimumSize(QSize(100, 0));
+
+        gridLayout->addWidget(pushButton_connect, 0, 2, 1, 1);
+
+        verticalSpacer_2 = new QSpacerItem(20, 10, QSizePolicy::Minimum, QSizePolicy::Fixed);
+
+        gridLayout->addItem(verticalSpacer_2, 1, 0, 1, 1);
 
         pushButton_transmit = new QPushButton(centralWidget);
         pushButton_transmit->setObjectName(QStringLiteral("pushButton_transmit"));
         sizePolicy1.setHeightForWidth(pushButton_transmit->sizePolicy().hasHeightForWidth());
         pushButton_transmit->setSizePolicy(sizePolicy1);
-        pushButton_transmit->setMinimumSize(QSize(70, 0));
+        pushButton_transmit->setMinimumSize(QSize(100, 0));
 
         gridLayout->addWidget(pushButton_transmit, 2, 2, 1, 1);
 
@@ -170,7 +170,7 @@ public:
 
         horizontalLayout->addLayout(verticalLayout);
 
-        horizontalSpacer_3 = new QSpacerItem(10, 100, QSizePolicy::Fixed, QSizePolicy::Minimum);
+        horizontalSpacer_3 = new QSpacerItem(13, 100, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer_3);
 
@@ -216,7 +216,7 @@ public:
         MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 600, 21));
+        menuBar->setGeometry(QRect(0, 0, 650, 21));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menuBar);
@@ -249,8 +249,8 @@ public:
         actionSave_As->setText(QApplication::translate("MainWindow", "Save As", Q_NULLPTR));
         actionExit->setText(QApplication::translate("MainWindow", "Exit", Q_NULLPTR));
         actionGraph_Legend->setText(QApplication::translate("MainWindow", "Graph Legend", Q_NULLPTR));
-        pushButton_connect->setText(QApplication::translate("MainWindow", "CONNECT", Q_NULLPTR));
         pushButton->setText(QApplication::translate("MainWindow", "ADD", Q_NULLPTR));
+        pushButton_connect->setText(QApplication::translate("MainWindow", "CONNECT", Q_NULLPTR));
         pushButton_transmit->setText(QApplication::translate("MainWindow", "TRANSMIT", Q_NULLPTR));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", Q_NULLPTR));
         menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", Q_NULLPTR));

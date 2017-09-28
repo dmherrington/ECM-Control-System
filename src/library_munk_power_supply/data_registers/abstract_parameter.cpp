@@ -61,6 +61,28 @@ QByteArray AbstractParameter::getFullMessage()
     return dataSum;
 }
 
+QByteArray AbstractParameter::getFullExpectedResonse()
+{
+    QByteArray dataSum;
+
+    QByteArray prefix = getPrefixByteArray();
+    QByteArray data = getExpectedResponse();
+
+    if(data.size() > 0)
+    {
+        dataSum.append(prefix);
+        dataSum.append(data);
+
+        unsigned int checkSum = CRC16(dataSum);
+        highChecksum = (uint8_t)((checkSum & 0xFF00) >> 8);
+        lowChecksum = (uint8_t)(checkSum & 0x00FF);
+        dataSum.append(lowChecksum);
+        dataSum.append(highChecksum);
+    }
+
+    return dataSum;
+}
+
 
 unsigned int AbstractParameter::CRC16(const QByteArray &array)
 {

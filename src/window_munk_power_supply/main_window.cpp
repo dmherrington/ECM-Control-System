@@ -25,7 +25,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->segmentWidget,SIGNAL(updatedData(std::list<DataParameter::SegmentTimeDataDetailed>)),
             this,SLOT(widgetSegmentDisplay_dataUpdate(std::list<DataParameter::SegmentTimeDataDetailed>)));
 
+
+
     m_PowerSupply = new MunkPowerSupply();
+    connect(m_PowerSupply, SIGNAL(signal_SerialPortStatus(bool,std::string)), this, SLOT(slot_SerialPortStatus(bool,std::string)));
 
     char* ECMPath = getenv("ECM_ROOT");
     std::string rootPath(ECMPath);
@@ -103,41 +106,67 @@ void MainWindow::widgetSegmentDisplay_dataUpdate(const std::list<DataParameter::
 {
     std::list<DataParameter::SegmentTimeDataDetailed>::const_iterator iterator;
 
-    QVector<double> voltageVector;
-    QVector<double> currentVector;
-    QVector<double> timeVector;
+    std::vector<double> voltageVector;
+    std::vector<double> currentVector;
+    std::vector<double> timeVector;
+
+    unsigned int beginningValue = 0;
+    unsigned int endingValue = 0;
 
     for (iterator = newData.begin(); iterator != newData.end(); ++iterator) {
         DataParameter::SegmentTimeDataDetailed subData = *iterator;
 
-        if(timeVector.size() == 0)
+        beginningValue = endingValue;
+        endingValue += (((double)subData.getTimeValue())/1000.0)*10.0;
+        double voltageValue = subData.getSegmentVoltage();
+        double currentValue = subData.getSegmentCurrent();
+        for(unsigned int i = beginningValue; i <= endingValue; i++)
         {
-            voltageVector.push_back(subData.getSegmentVoltage());
-            currentVector.push_back(subData.getSegmentCurrent());
-            timeVector.push_back(0);
-        }
-
-        unsigned int beginning = timeVector.back() * 10.0;
-        unsigned int ending = (timeVector.back() + (subData.getTimeValue()/1000.0)) * 10.0;
-
-        for(unsigned int i = beginning; i <= ending; i++)
-        {
-            voltageVector.push_back(subData.getSegmentVoltage());
-            currentVector.push_back(subData.getSegmentCurrent());
+            voltageVector.push_back(voltageValue);
+            currentVector.push_back(currentValue);
             timeVector.push_back(i/10.0);
         }
+
     }
 
-    ui->graphWidget->updateData(timeVector,voltageVector,currentVector);
+    ui->graphWidget->updateData(QVector<double>::fromStdVector(timeVector), QVector<double>::fromStdVector(voltageVector), QVector<double>::fromStdVector(currentVector));
 }
 
 void MainWindow::on_pushButton_released()
 {
     ui->segmentWidget->addNewSegment();
+    ui->segmentWidget->cbiSegmentDataInterface_UpdatedData();
 }
 
 void MainWindow::on_pushButton_transmit_released()
 {
     DataParameter::SegmentTimeDetailed dataSegment = ui->segmentWidget->getRawData();
     m_PowerSupply->generateAndTransmitMessage(dataSegment);
+}
+
+void MainWindow::slot_SerialPortStatus(const bool &open_close, const std::string &errorString)
+{
+    if(open_close)
+    {
+        QMessageBox *dialog = new QMessageBox();
+        dialog->setIcon(QMessageBox::Information);
+        dialog->setText("The serial port was open succesfully.");
+        dialog->exec();
+        ui->pushButton_connect->setText("DISCONNECT");
+    }
+    else
+    {
+        QMessageBox *dialog = new QMessageBox();
+        dialog->setIcon(QMessageBox::Information);
+        std::string newString = "The serial port was not opened succesfully.\n " + errorString;
+        dialog->setText(QString::fromStdString(newString));
+    }
+}
+
+
+void MainWindow::on_pushButton_connect_released()
+{
+    QString comPortName = ui->comboBox_comPort->currentText();
+    m_PowerSupply->configureSerialPort(comPortName);
+    m_PowerSupply->openSerialPort();
 }

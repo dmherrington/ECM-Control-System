@@ -15,6 +15,12 @@
 
 #include "munk_tx_rx.h"
 
+class SerialPortHelper_Interface
+{
+public:
+    virtual void cbiSerialPortHelper_serialPortStatus(const bool &open_close, const std::string &errorString) = 0;
+};
+
 class SerialPortHelper : public QObject
 {
     Q_OBJECT
@@ -51,12 +57,19 @@ private slots:
     void handleTimeout();
     void handleError(QSerialPort::SerialPortError error);
 
+public:
+    void connectCallback(SerialPortHelper_Interface *cb)
+    {
+        m_CB = cb;
+    }
+private:
+    SerialPortHelper_Interface *m_CB;
+
 private:
     QSerialPort *m_serialPort;
     QByteArray m_writeData;
     QByteArray m_readData;
     QTimer m_timer;
-    MunkTXRX m_parseHelper;
 
     std::vector<QByteArray> transmitVector;
 };

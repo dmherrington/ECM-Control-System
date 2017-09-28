@@ -60,6 +60,17 @@ QByteArray SegmentCurrentSetpoint::getByteArray() const
     return ba;
 }
 
+QByteArray SegmentCurrentSetpoint::getExpectedResponse() const
+{
+    QByteArray ba;
+    uint8_t HIGHSeqType = (uint8_t)((this->data.size() & 0xFF00) >> 8);
+    uint8_t LOWSeqType = (uint8_t)(this->data.size() & 0x00FF);
+    ba.append(HIGHSeqType);
+    ba.append(LOWSeqType);
+
+    return ba;
+}
+
 void SegmentCurrentSetpoint::appendData(const SegmentCurrentData &currentSetpoint)
 {
     this->data.insert(std::pair<Data::SegmentLevel,SegmentCurrentData>(currentSetpoint.getSegmentLevel(),currentSetpoint));

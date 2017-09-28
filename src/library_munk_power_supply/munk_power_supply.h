@@ -24,7 +24,7 @@
 
 #include "serial_port_helper.h"
 
-class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply : public QObject
+class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply : public QObject, public SerialPortHelper_Interface
 {
     Q_OBJECT
 private:
@@ -39,6 +39,8 @@ public:
     //! \brief MunkPowerSupply
     //!
     MunkPowerSupply();
+
+    ~MunkPowerSupply();
 
     void transmitMessage(const QByteArray &data);
 
@@ -74,7 +76,22 @@ public:
     //!
     void configureSerialPort(const QString &name, const QSerialPort::BaudRate &rate, const QSerialPort::DataBits &bits, const QSerialPort::Parity &parity, const QSerialPort::StopBits &stop);
 
+public:
+    //!
+    //! \brief cbiSerialPortHelper_serialPortStatus
+    //! \param open_close
+    //! \param errorString
+    //!
+    void cbiSerialPortHelper_serialPortStatus(const bool &open_close, const std::string &errorString) override;
+
 signals:
+
+    //!
+    //! \brief signal_SerialPortStatus
+    //! \param open_close
+    //! \param errorString
+    //!
+    void signal_SerialPortStatus(const bool &open_close, const std::string &errorString);
 
     //!
     //! \brief signal_NewCurrentSetpoint

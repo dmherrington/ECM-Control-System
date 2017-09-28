@@ -50,13 +50,13 @@ public:
     {
         if (WidgetSegmentTimeData->objectName().isEmpty())
             WidgetSegmentTimeData->setObjectName(QStringLiteral("WidgetSegmentTimeData"));
-        WidgetSegmentTimeData->resize(175, 216);
+        WidgetSegmentTimeData->resize(185, 216);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(WidgetSegmentTimeData->sizePolicy().hasHeightForWidth());
         WidgetSegmentTimeData->setSizePolicy(sizePolicy);
-        WidgetSegmentTimeData->setMaximumSize(QSize(175, 216));
+        WidgetSegmentTimeData->setMaximumSize(QSize(185, 216));
         gridLayout_2 = new QGridLayout(WidgetSegmentTimeData);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         frame = new QFrame(WidgetSegmentTimeData);
@@ -73,8 +73,8 @@ public:
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(label_SegmentName->sizePolicy().hasHeightForWidth());
         label_SegmentName->setSizePolicy(sizePolicy1);
-        label_SegmentName->setMinimumSize(QSize(100, 0));
-        label_SegmentName->setMaximumSize(QSize(131, 16777215));
+        label_SegmentName->setMinimumSize(QSize(110, 0));
+        label_SegmentName->setMaximumSize(QSize(141, 16777215));
         QFont font;
         font.setPointSize(11);
         font.setBold(true);
@@ -106,7 +106,7 @@ public:
         comboBox_Mode->setObjectName(QStringLiteral("comboBox_Mode"));
         sizePolicy.setHeightForWidth(comboBox_Mode->sizePolicy().hasHeightForWidth());
         comboBox_Mode->setSizePolicy(sizePolicy);
-        comboBox_Mode->setMinimumSize(QSize(80, 0));
+        comboBox_Mode->setMinimumSize(QSize(90, 0));
         comboBox_Mode->setMaximumSize(QSize(80, 16777215));
 
         formLayout->setWidget(0, QFormLayout::FieldRole, comboBox_Mode);
@@ -130,7 +130,7 @@ public:
         doubleSpinBox_Voltage->setEnabled(true);
         sizePolicy.setHeightForWidth(doubleSpinBox_Voltage->sizePolicy().hasHeightForWidth());
         doubleSpinBox_Voltage->setSizePolicy(sizePolicy);
-        doubleSpinBox_Voltage->setMinimumSize(QSize(80, 0));
+        doubleSpinBox_Voltage->setMinimumSize(QSize(90, 0));
         doubleSpinBox_Voltage->setMaximumSize(QSize(80, 16777215));
         QFont font1;
         font1.setPointSize(10);
@@ -158,11 +158,12 @@ public:
         doubleSpinBox_Current->setObjectName(QStringLiteral("doubleSpinBox_Current"));
         sizePolicy.setHeightForWidth(doubleSpinBox_Current->sizePolicy().hasHeightForWidth());
         doubleSpinBox_Current->setSizePolicy(sizePolicy);
-        doubleSpinBox_Current->setMinimumSize(QSize(80, 0));
+        doubleSpinBox_Current->setMinimumSize(QSize(90, 0));
         doubleSpinBox_Current->setMaximumSize(QSize(80, 16777215));
         doubleSpinBox_Current->setFont(font1);
         doubleSpinBox_Current->setAlignment(Qt::AlignCenter);
         doubleSpinBox_Current->setDecimals(1);
+        doubleSpinBox_Current->setMaximum(2000);
 
         formLayout_3->setWidget(0, QFormLayout::FieldRole, doubleSpinBox_Current);
 
@@ -186,11 +187,14 @@ public:
         doubleSpinBox_Time->setEnabled(true);
         sizePolicy.setHeightForWidth(doubleSpinBox_Time->sizePolicy().hasHeightForWidth());
         doubleSpinBox_Time->setSizePolicy(sizePolicy);
-        doubleSpinBox_Time->setMinimumSize(QSize(80, 0));
+        doubleSpinBox_Time->setMinimumSize(QSize(90, 0));
         doubleSpinBox_Time->setMaximumSize(QSize(80, 16777215));
         doubleSpinBox_Time->setFont(font1);
         doubleSpinBox_Time->setAlignment(Qt::AlignCenter);
         doubleSpinBox_Time->setDecimals(1);
+        doubleSpinBox_Time->setMinimum(0.1);
+        doubleSpinBox_Time->setMaximum(1270);
+        doubleSpinBox_Time->setSingleStep(0.1);
 
         formLayout_4->setWidget(0, QFormLayout::FieldRole, doubleSpinBox_Time);
 
@@ -199,8 +203,8 @@ public:
 
         pushButton = new QPushButton(frame);
         pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setMinimumSize(QSize(100, 0));
-        pushButton->setMaximumSize(QSize(131, 16777215));
+        pushButton->setMinimumSize(QSize(110, 0));
+        pushButton->setMaximumSize(QSize(141, 16777215));
         pushButton->setFont(font1);
 
         gridLayout->addWidget(pushButton, 5, 0, 1, 1);

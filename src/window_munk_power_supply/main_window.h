@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QAction>
 #include <QtSerialPort>
+#include <QDialog>
 
 #include <iostream>
 
@@ -37,6 +38,10 @@ private slots:
     void onGraphLegend();
 
     void on_pushButton_transmit_released();
+
+    void slot_SerialPortStatus(const bool &open_close, const std::string &errorString);
+
+    void on_pushButton_connect_released();
 
 private:
     Ui::MainWindow *ui;

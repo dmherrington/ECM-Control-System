@@ -3,7 +3,7 @@
 namespace DataParameter {
 
 SegmentTimeDataDetailed::SegmentTimeDataDetailed():
-    supplyOutput(Data::TypeSupplyOutput::OUTPUT1),dataObject(0,0),segmentMode(Data::SegmentMode::DEAD),timeValue(0)
+    supplyOutput(Data::TypeSupplyOutput::OUTPUT1),dataObject(0,0),segmentMode(Data::SegmentMode::DEAD),timeValue(100)
 {
 
 }
