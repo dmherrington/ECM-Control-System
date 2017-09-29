@@ -6,7 +6,7 @@ MunkPowerSupply::MunkPowerSupply():
     m_fwdVSetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::FORWARD),
     m_revVSetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::REVERSE)
 {
-    portHelper = new SerialPortHelper(this);
+    portHelper = new SerialPortManager(this);
     portHelper->connectCallback(this);
 
     connect(portHelper,SIGNAL(bytesReceived(QByteArray)),this,SLOT(receivedMSG(QByteArray)));
@@ -20,20 +20,39 @@ MunkPowerSupply::~MunkPowerSupply()
     portHelper = nullptr;
 }
 
-void MunkPowerSupply::transmitMessage(const QByteArray &data)
-{
-    portHelper->writeBytes(data);
-}
-
 void MunkPowerSupply::generateAndTransmitMessage(const DataParameter::SegmentTimeDetailed &detailedSegmentData)
 {
     generateMessages(detailedSegmentData);
 
-    QByteArray fwdIArray = m_fwdISetpoint.getFullMessage();
-    QByteArray revIArray = m_revISetpoint.getFullMessage();
+    std::vector<DataParameter::AbstractParameter*> transmitVector;
+
     QByteArray fwdVArray = m_fwdVSetpoint.getFullMessage();
+    if(fwdVArray.size() > 0)
+        transmitVector.push_back(new DataParameter::SegmentVoltageSetpoint(m_fwdVSetpoint));
+
+    QByteArray fwdIArray = m_fwdISetpoint.getFullMessage();
+    if(fwdIArray.size() > 0)
+        transmitVector.push_back(new DataParameter::SegmentCurrentSetpoint(m_fwdISetpoint));
+
     QByteArray revVArray = m_revVSetpoint.getFullMessage();
+    if(revVArray.size() > 0)
+        transmitVector.push_back(new DataParameter::SegmentVoltageSetpoint(m_revVSetpoint));
+
+    QByteArray revIArray = m_revISetpoint.getFullMessage();
+    if(revIArray.size() > 0)
+        transmitVector.push_back(new DataParameter::SegmentCurrentSetpoint(m_revISetpoint));
+
     QByteArray dataArray = m_segmentTimeGeneral.getFullMessage();
+    if(fwdIArray.size() > 0)
+        transmitVector.push_back(new DataParameter::SegmentTimeGeneral(m_segmentTimeGeneral));
+
+    if(transmitVector.size() > 0)
+    {
+        DataParameter::ParameterMemoryWrite* writeEEPROM = new DataParameter::ParameterMemoryWrite();
+        transmitVector.push_back(writeEEPROM);
+
+        portHelper->writeParameters(transmitVector);
+    }
 }
 
 void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData)
@@ -183,5 +202,5 @@ void MunkPowerSupply::cbiSerialPortHelper_serialPortStatus(const bool &open_clos
 
 void MunkPowerSupply::receivedMSG(const QByteArray &data)
 {
-    std::cout<<"I saw the receiving msg"<<std::endl;
+    buffer += data;
 }

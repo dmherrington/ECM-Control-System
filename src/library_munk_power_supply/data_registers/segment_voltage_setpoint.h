@@ -33,7 +33,7 @@ public:
     //! \brief SegmentVoltageSetpoint
     //! \param obj
     //!
-    SegmentVoltageSetpoint(const SegmentVoltageSetpoint &obj);
+    SegmentVoltageSetpoint(const SegmentVoltageSetpoint &copy);
 
 public:
     //!

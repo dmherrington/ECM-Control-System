@@ -40,21 +40,24 @@ void SegmentVoltageData::updatePrescalePower(const Data::SegmentVIPower &value)
     this->prescale = value;
 }
 
-Data::DataFaultCodes SegmentVoltageData::updateVoltageSetpoint(const int &value)
+Data::DataFaultCodes SegmentVoltageData::updateVoltageSetpoint(const double &value)
 {
-    if(value > 4095)
+    int newValue = value * 100;
+    this->updatePrescalePower(Data::SegmentVIPower::ONE);
+
+    if(newValue > 4095)
     {
         this->voltage = 4095;
         return Data::DataFaultCodes::DATA_VALUE_GREATER_THAN_MAX;
     }
-    else if(value < 0)
+    else if(newValue < 0)
     {
         this->voltage = 0;
         return Data::DataFaultCodes::DATA_VALUE_LESS_THAN_MIN;
     }
     else
     {
-        this->voltage = value;
+        this->voltage = newValue;
         return Data::DataFaultCodes::DATA_UPDATE_SUCCESSFUL;
     }
 }

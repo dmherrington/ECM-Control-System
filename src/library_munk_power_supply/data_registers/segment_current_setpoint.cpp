@@ -21,10 +21,12 @@ SegmentCurrentSetpoint::SegmentCurrentSetpoint(const Data::TypeSupplyOutput &out
     }
 }
 
-SegmentCurrentSetpoint::SegmentCurrentSetpoint(const SegmentCurrentSetpoint &obj):
-    AbstractParameter()
+SegmentCurrentSetpoint::SegmentCurrentSetpoint(const SegmentCurrentSetpoint &copy):
+    AbstractParameter(copy)
 {
-    this->operator =(obj);
+    this->supplyOutput = copy.supplyOutput;
+    this->mode = copy.mode;
+    this->data = copy.data;
 }
 
 ParameterType SegmentCurrentSetpoint::getParameterType() const

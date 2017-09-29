@@ -34,7 +34,7 @@ public:
     //! \brief SegmentCurrentSetpoint
     //! \param copyObj
     //!
-    SegmentCurrentSetpoint(const SegmentCurrentSetpoint &obj);
+    SegmentCurrentSetpoint(const SegmentCurrentSetpoint &copy);
 public:
     //!
     //! \brief getParameterType

@@ -8,6 +8,7 @@
 
 #include "library_munk_power_supply_global.h"
 
+#include "data_registers/abstract_parameter.h"
 #include "data_registers/segment_time_general.h"
 
 #include "data_registers/segment_time_data_detailed.h"
@@ -15,6 +16,7 @@
 
 #include "data_registers/segment_voltage_setpoint.h"
 #include "data_registers/segment_current_setpoint.h"
+#include "data_registers/parameter_memory_write.h"
 
 #include "data/type_supply_output.h"
 
@@ -22,9 +24,11 @@
 
 #include "data/type_fault_codes_general.h"
 
-#include "serial_port_helper.h"
+#include "serial_port_manager.h"
 
-class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply : public QObject, public SerialPortHelper_Interface
+#include <QDebug>
+
+class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply : public QObject, public SerialPortManager_Interface
 {
     Q_OBJECT
 private:
@@ -41,8 +45,6 @@ public:
     MunkPowerSupply();
 
     ~MunkPowerSupply();
-
-    void transmitMessage(const QByteArray &data);
 
     //!
     //! \brief generateAndTransmitMessage
@@ -139,7 +141,9 @@ private:
     //!
     //! \brief serialPort
     //!
-    SerialPortHelper* portHelper;
+    SerialPortManager* portHelper;
+
+    QByteArray buffer;
 
 };
 

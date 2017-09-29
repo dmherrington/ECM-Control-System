@@ -3,12 +3,12 @@
 namespace DataParameter {
 
 SegmentTimeDataDetailed::SegmentTimeDataDetailed():
-    supplyOutput(Data::TypeSupplyOutput::OUTPUT1),dataObject(0,0),segmentMode(Data::SegmentMode::DEAD),timeValue(100)
+    supplyOutput(Data::TypeSupplyOutput::OUTPUT1),dataObject(0.0,0.0),segmentMode(Data::SegmentMode::DEAD),timeValue(100)
 {
 
 }
 
-SegmentTimeDataDetailed::SegmentTimeDataDetailed(const int &voltage, const int &current, const Data::SegmentMode &mode, const uint32_t &time)
+SegmentTimeDataDetailed::SegmentTimeDataDetailed(const double &voltage, const double &current, const Data::SegmentMode &mode, const uint32_t &time)
 {
     setSupplyOutput(Data::TypeSupplyOutput::OUTPUT1);
     setSegmentVoltage(voltage);

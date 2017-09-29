@@ -35,7 +35,7 @@ public:
     //! \param power
     //! \param time
     //!
-    SegmentTimeDataDetailed(const int &voltage, const int &current, const Data::SegmentMode &mode, const uint32_t &time);
+    SegmentTimeDataDetailed(const double &voltage, const double &current, const Data::SegmentMode &mode, const uint32_t &time);
 
 
     SegmentTimeDataDetailed(const SegmentTimeDataDetailed &copy);

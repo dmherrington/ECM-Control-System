@@ -28,10 +28,12 @@ SegmentVoltageSetpoint::SegmentVoltageSetpoint(const Data::TypeSupplyOutput &out
     }
 }
 
-SegmentVoltageSetpoint::SegmentVoltageSetpoint(const SegmentVoltageSetpoint &obj):
-    AbstractParameter()
+SegmentVoltageSetpoint::SegmentVoltageSetpoint(const SegmentVoltageSetpoint &copy):
+    AbstractParameter(copy)
 {
-    this->operator =(obj);
+    this->supplyOutput = copy.supplyOutput;
+    this->mode = copy.mode;
+    this->data = copy.data;
 }
 
 

@@ -38,6 +38,12 @@ public:
     //! \return
     //!
     virtual std::string getDescription() const;
+
+    //!
+    //! \brief getExpectedResponse
+    //! \return
+    //!
+    QByteArray getExpectedResponse() const override;
 };
 
 }

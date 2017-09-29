@@ -41,9 +41,9 @@ SOURCES += munk_power_supply.cpp \
     data_response/exception_response.cpp \
     data_registers/segment_current_data.cpp \
     data_registers/segment_voltage_data.cpp \
-    serial_port_helper.cpp \
-    munk_tx_rx.cpp \
-    parse_munk_response.cpp
+    parse_munk_response.cpp \
+    serial_port_manager.cpp \
+    serial_port_helper.cpp
 
 HEADERS += \
     library_munk_power_supply_global.h \
@@ -80,9 +80,9 @@ HEADERS += \
     data_registers/segment_current_data.h \
     data_registers/segment_voltage_data.h \
     data/type_fault_codes_general.h \
-    serial_port_helper.h \
-    munk_tx_rx.h \
-    parse_munk_response.h
+    parse_munk_response.h \
+    serial_port_manager.h \
+    serial_port_helper.h
 
 # Unix lib Install
 unix:!symbian {
@@ -101,8 +101,8 @@ headers.path    = $$(ECM_ROOT)/include/library_munk_power_supply
 headers.files   += \
     library_munk_power_supply_global.h \
     munk_power_supply.h\
+    serial_port_manager.h \
     serial_port_helper.h \
-    munk_tx_rx.h \
     parse_munk_response.h
 INSTALLS       += headers
 

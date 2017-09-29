@@ -136,7 +136,8 @@ public:
         font1.setPointSize(10);
         doubleSpinBox_Voltage->setFont(font1);
         doubleSpinBox_Voltage->setAlignment(Qt::AlignCenter);
-        doubleSpinBox_Voltage->setDecimals(1);
+        doubleSpinBox_Voltage->setDecimals(2);
+        doubleSpinBox_Voltage->setMaximum(40);
 
         formLayout_2->setWidget(0, QFormLayout::FieldRole, doubleSpinBox_Voltage);
 
@@ -162,7 +163,7 @@ public:
         doubleSpinBox_Current->setMaximumSize(QSize(80, 16777215));
         doubleSpinBox_Current->setFont(font1);
         doubleSpinBox_Current->setAlignment(Qt::AlignCenter);
-        doubleSpinBox_Current->setDecimals(1);
+        doubleSpinBox_Current->setDecimals(2);
         doubleSpinBox_Current->setMaximum(2000);
 
         formLayout_3->setWidget(0, QFormLayout::FieldRole, doubleSpinBox_Current);
