@@ -40,7 +40,7 @@ public:
     void openSerialPort();
 
 signals:
-    bytesReceived(const QByteArray &data);
+    void bytesReceived(const QByteArray &data);
 
 private slots:
     void handleBytesWritten(qint64 bytes);
