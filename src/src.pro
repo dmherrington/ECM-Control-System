@@ -4,9 +4,5 @@ SUBDIRS += \
     common \
     graphing \
     library_munk_power_supply \
-<<<<<<< HEAD
-    Window_MunkPowerSupply \
+    window_munk_power_supply \
     Window_GalilMotionController
-=======
-    window_munk_power_supply
->>>>>>> master
