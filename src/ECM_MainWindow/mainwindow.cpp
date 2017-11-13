@@ -7,6 +7,9 @@ MainWindow::MainWindow(QWidget *parent) :
     iFWD(NULL),iREV(NULL),vFWD(NULL),vREV(NULL),genData(NULL)
 {
     ui->setupUi(this);
+    //mainLayout.setSizeConstraint(QLayout::SetFixedSize);
+
+    //QObject::connect(newData, &Widget_SegmentTimeData::valueChanged_Voltage, this, &MainWindow::onChanged_voltageValue);
 
     const auto infos = QSerialPortInfo::availablePorts();
 
@@ -29,7 +32,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_ConnectSerialPort_released()
 {
-    m_PowerSupply->openSerialPort();
+    Widget_SegmentTimeData* newData3 = new Widget_SegmentTimeData();
+    ui->horizontalLayout->addWidget(newData3);
+    //m_PowerSupply->openSerialPort();
 }
 
 void MainWindow::on_pushButton_ConfigureSerialPort_released()
@@ -159,3 +164,9 @@ void MainWindow::on_pushButton_SendData_released()
         m_PowerSupply->transmitMessage(genData->getFullMessage());
     }
 }
+
+void MainWindow::onChanged_voltageValue(const double &value)
+{
+    std::cout<<"New voltage value received of: "<<value<<std::endl;
+}
+

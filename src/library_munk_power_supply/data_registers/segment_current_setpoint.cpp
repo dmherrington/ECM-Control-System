@@ -21,10 +21,12 @@ SegmentCurrentSetpoint::SegmentCurrentSetpoint(const Data::TypeSupplyOutput &out
     }
 }
 
-SegmentCurrentSetpoint::SegmentCurrentSetpoint(const SegmentCurrentSetpoint &obj):
-    AbstractParameter()
+SegmentCurrentSetpoint::SegmentCurrentSetpoint(const SegmentCurrentSetpoint &copy):
+    AbstractParameter(copy)
 {
-    this->operator =(obj);
+    this->supplyOutput = copy.supplyOutput;
+    this->mode = copy.mode;
+    this->data = copy.data;
 }
 
 ParameterType SegmentCurrentSetpoint::getParameterType() const
@@ -60,10 +62,25 @@ QByteArray SegmentCurrentSetpoint::getByteArray() const
     return ba;
 }
 
+QByteArray SegmentCurrentSetpoint::getExpectedResponse() const
+{
+    QByteArray ba;
+    uint8_t HIGHSeqType = (uint8_t)((this->data.size() & 0xFF00) >> 8);
+    uint8_t LOWSeqType = (uint8_t)(this->data.size() & 0x00FF);
+    ba.append(HIGHSeqType);
+    ba.append(LOWSeqType);
+
+    return ba;
+}
+
 void SegmentCurrentSetpoint::appendData(const SegmentCurrentData &currentSetpoint)
 {
     this->data.insert(std::pair<Data::SegmentLevel,SegmentCurrentData>(currentSetpoint.getSegmentLevel(),currentSetpoint));
-    //this->data.at(currentSetpoint.getSegmentLevel()) = currentSetpoint;
+}
+
+void SegmentCurrentSetpoint::initializeData()
+{
+    this->data.clear();
 }
 
 } //end of namespace DataParameter

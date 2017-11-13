@@ -50,7 +50,7 @@ public:
     //! \brief updateVoltageSetpoint
     //! \param value
     //!
-    Data::DataFaultCodes updateVoltageSetpoint(const int &value);
+    Data::DataFaultCodes updateVoltageSetpoint(const double &value);
 
 public:
     //!

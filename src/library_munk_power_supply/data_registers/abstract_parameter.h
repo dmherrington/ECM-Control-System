@@ -31,6 +31,13 @@ public:
     //!
     AbstractParameter(const int &code);
 
+    //!
+    //! \brief AbstractParameter
+    //! \param copy
+    //!
+    AbstractParameter(const AbstractParameter &copy);
+
+    virtual ~AbstractParameter() = default;
 public:
     //!
     //! \brief getParameterType
@@ -43,6 +50,12 @@ public:
     //! \return
     //!
     virtual QByteArray getByteArray() const = 0;
+
+    //!
+    //! \brief getExpectedResponse
+    //! \return
+    //!
+    virtual QByteArray getExpectedResponse() const = 0;
 
     //!
     //! \brief getDescription
@@ -67,14 +80,21 @@ public:
     //! \brief getFullMessage
     //! \return
     //!
-    QByteArray getFullMessage();
+    QByteArray getFullMessage() const;
+
+    //!
+    //! \brief getFullExpectedResonse
+    //! \return
+    //!
+    QByteArray getFullExpectedResonse() const;
+
 
 private:
     //!
     //! \brief getPrefixByteArray
     //! \return
     //!
-    QByteArray getPrefixByteArray();
+    QByteArray getPrefixByteArray() const;
 
 public:
     //!
@@ -130,7 +150,7 @@ private:
     //! \param array
     //! \return
     //!
-    unsigned int CRC16(const QByteArray &array);
+    unsigned int CRC16(const QByteArray &array) const;
 
 protected:
     //!
@@ -151,12 +171,12 @@ protected:
     //!
     //! \brief highChecksum
     //!
-    uint8_t highChecksum;
+    mutable uint8_t highChecksum;
 
     //!
     //! \brief lowChecksum
     //!
-    uint8_t lowChecksum;
+    mutable uint8_t lowChecksum;
 };
 
 } //end of namespace DataParameter

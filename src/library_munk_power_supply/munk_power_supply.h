@@ -8,6 +8,7 @@
 
 #include "library_munk_power_supply_global.h"
 
+#include "data_registers/abstract_parameter.h"
 #include "data_registers/segment_time_general.h"
 
 #include "data_registers/segment_time_data_detailed.h"
@@ -15,6 +16,7 @@
 
 #include "data_registers/segment_voltage_setpoint.h"
 #include "data_registers/segment_current_setpoint.h"
+#include "data_registers/parameter_memory_write.h"
 
 #include "data/type_supply_output.h"
 
@@ -22,9 +24,11 @@
 
 #include "data/type_fault_codes_general.h"
 
-#include "serial_port_helper.h"
+#include "serial_port_manager.h"
 
-class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply : public QObject
+#include <QDebug>
+
+class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply : public QObject, public SerialPortManager_Interface
 {
     Q_OBJECT
 private:
@@ -40,7 +44,7 @@ public:
     //!
     MunkPowerSupply();
 
-    void transmitMessage(const QByteArray &data);
+    ~MunkPowerSupply();
 
     //!
     //! \brief generateAndTransmitMessage
@@ -52,6 +56,11 @@ public:
     //! \brief openSerialPort
     //!
     void openSerialPort();
+
+    //!
+    //! \brief closeSerialPort
+    //!
+    void closeSerialPort();
 
     //!
     //! \brief openSerialPort
@@ -69,7 +78,22 @@ public:
     //!
     void configureSerialPort(const QString &name, const QSerialPort::BaudRate &rate, const QSerialPort::DataBits &bits, const QSerialPort::Parity &parity, const QSerialPort::StopBits &stop);
 
+public:
+    //!
+    //! \brief cbiSerialPortHelper_serialPortStatus
+    //! \param open_close
+    //! \param errorString
+    //!
+    void cbiSerialPortHelper_serialPortStatus(const bool &open_close, const std::string &errorString) override;
+
 signals:
+
+    //!
+    //! \brief signal_SerialPortStatus
+    //! \param open_close
+    //! \param errorString
+    //!
+    void signal_SerialPortStatus(const bool &open_close, const std::string &errorString);
 
     //!
     //! \brief signal_NewCurrentSetpoint
@@ -102,19 +126,24 @@ private:
     //!
     void generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData);
 
-    //!
-    //! \brief closeSerialPort
-    //!
-    void closeSerialPort();
-
 private slots:
     void receivedMSG(const QByteArray &data);
 
 private:
+        DataParameter::SegmentTimeGeneral m_segmentTimeGeneral;
+
+        DataParameter::SegmentCurrentSetpoint m_fwdISetpoint;
+        DataParameter::SegmentCurrentSetpoint m_revISetpoint;
+
+        DataParameter::SegmentVoltageSetpoint m_fwdVSetpoint;
+        DataParameter::SegmentVoltageSetpoint m_revVSetpoint;
+private:
     //!
     //! \brief serialPort
     //!
-    SerialPortHelper* portHelper;
+    SerialPortManager* portHelper;
+
+    QByteArray buffer;
 
 };
 

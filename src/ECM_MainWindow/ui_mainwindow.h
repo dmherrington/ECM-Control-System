@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.7.1
+** Created by: Qt User Interface Compiler version 5.9.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -15,14 +15,19 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QSplitter>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "plot_handler.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -30,12 +35,16 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
+    QGridLayout *gridLayout_3;
+    QHBoxLayout *horizontalLayout;
+    QVBoxLayout *verticalLayout_2;
+    QGridLayout *gridLayout_2;
     QComboBox *comboBox;
-    QPushButton *pushButton_ConnectSerialPort;
-    QPushButton *pushButton_GenerateValid;
+    QSpacerItem *horizontalSpacer;
     QPushButton *pushButton_GenerateInvalid;
     QPushButton *pushButton_ConfigureSerialPort;
-    QWidget *layoutWidget;
+    QPushButton *pushButton_ConnectSerialPort;
+    QPushButton *pushButton_GenerateValid;
     QGridLayout *gridLayout;
     QPushButton *pushButton_SendRevI;
     QLineEdit *dataRI;
@@ -47,6 +56,12 @@ public:
     QLineEdit *dataFV;
     QPushButton *pushButton_SendData;
     QLineEdit *dataFull;
+    QSpacerItem *verticalSpacer;
+    QSpacerItem *horizontalSpacer_2;
+    QSplitter *splitter;
+    graphing::PlotHandler *timeDataGraph;
+    QWidget *layoutWidget;
+    QHBoxLayout *timeDataLayout;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
     QMenuBar *menuBar;
@@ -55,81 +70,166 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(595, 349);
+        MainWindow->resize(503, 332);
+        QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
+        MainWindow->setSizePolicy(sizePolicy);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
+        gridLayout_3 = new QGridLayout(centralWidget);
+        gridLayout_3->setSpacing(6);
+        gridLayout_3->setContentsMargins(11, 11, 11, 11);
+        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setSizeConstraint(QLayout::SetFixedSize);
+        verticalLayout_2 = new QVBoxLayout();
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        gridLayout_2 = new QGridLayout();
+        gridLayout_2->setSpacing(6);
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         comboBox = new QComboBox(centralWidget);
         comboBox->setObjectName(QStringLiteral("comboBox"));
-        comboBox->setGeometry(QRect(10, 10, 121, 22));
-        pushButton_ConnectSerialPort = new QPushButton(centralWidget);
-        pushButton_ConnectSerialPort->setObjectName(QStringLiteral("pushButton_ConnectSerialPort"));
-        pushButton_ConnectSerialPort->setGeometry(QRect(10, 80, 75, 23));
-        pushButton_GenerateValid = new QPushButton(centralWidget);
-        pushButton_GenerateValid->setObjectName(QStringLiteral("pushButton_GenerateValid"));
-        pushButton_GenerateValid->setGeometry(QRect(100, 60, 75, 23));
+
+        gridLayout_2->addWidget(comboBox, 0, 0, 1, 1);
+
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Minimum, QSizePolicy::Minimum);
+
+        gridLayout_2->addItem(horizontalSpacer, 0, 1, 1, 1);
+
         pushButton_GenerateInvalid = new QPushButton(centralWidget);
         pushButton_GenerateInvalid->setObjectName(QStringLiteral("pushButton_GenerateInvalid"));
-        pushButton_GenerateInvalid->setGeometry(QRect(190, 60, 75, 23));
+
+        gridLayout_2->addWidget(pushButton_GenerateInvalid, 0, 2, 1, 1);
+
         pushButton_ConfigureSerialPort = new QPushButton(centralWidget);
         pushButton_ConfigureSerialPort->setObjectName(QStringLiteral("pushButton_ConfigureSerialPort"));
-        pushButton_ConfigureSerialPort->setGeometry(QRect(10, 50, 75, 23));
-        layoutWidget = new QWidget(centralWidget);
-        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
-        layoutWidget->setGeometry(QRect(10, 140, 216, 144));
-        gridLayout = new QGridLayout(layoutWidget);
+
+        gridLayout_2->addWidget(pushButton_ConfigureSerialPort, 1, 0, 1, 1);
+
+        pushButton_ConnectSerialPort = new QPushButton(centralWidget);
+        pushButton_ConnectSerialPort->setObjectName(QStringLiteral("pushButton_ConnectSerialPort"));
+
+        gridLayout_2->addWidget(pushButton_ConnectSerialPort, 1, 1, 1, 1);
+
+        pushButton_GenerateValid = new QPushButton(centralWidget);
+        pushButton_GenerateValid->setObjectName(QStringLiteral("pushButton_GenerateValid"));
+
+        gridLayout_2->addWidget(pushButton_GenerateValid, 1, 2, 1, 1);
+
+
+        verticalLayout_2->addLayout(gridLayout_2);
+
+        gridLayout = new QGridLayout();
         gridLayout->setSpacing(6);
-        gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        gridLayout->setContentsMargins(0, 0, 0, 0);
-        pushButton_SendRevI = new QPushButton(layoutWidget);
+        pushButton_SendRevI = new QPushButton(centralWidget);
         pushButton_SendRevI->setObjectName(QStringLiteral("pushButton_SendRevI"));
 
         gridLayout->addWidget(pushButton_SendRevI, 0, 0, 1, 1);
 
-        dataRI = new QLineEdit(layoutWidget);
+        dataRI = new QLineEdit(centralWidget);
         dataRI->setObjectName(QStringLiteral("dataRI"));
+        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(dataRI->sizePolicy().hasHeightForWidth());
+        dataRI->setSizePolicy(sizePolicy1);
 
         gridLayout->addWidget(dataRI, 0, 1, 1, 1);
 
-        pushButton_SendFI = new QPushButton(layoutWidget);
+        pushButton_SendFI = new QPushButton(centralWidget);
         pushButton_SendFI->setObjectName(QStringLiteral("pushButton_SendFI"));
 
         gridLayout->addWidget(pushButton_SendFI, 1, 0, 1, 1);
 
-        dataFI = new QLineEdit(layoutWidget);
+        dataFI = new QLineEdit(centralWidget);
         dataFI->setObjectName(QStringLiteral("dataFI"));
+        sizePolicy1.setHeightForWidth(dataFI->sizePolicy().hasHeightForWidth());
+        dataFI->setSizePolicy(sizePolicy1);
 
         gridLayout->addWidget(dataFI, 1, 1, 2, 1);
 
-        pushButton_SendRV = new QPushButton(layoutWidget);
+        pushButton_SendRV = new QPushButton(centralWidget);
         pushButton_SendRV->setObjectName(QStringLiteral("pushButton_SendRV"));
 
         gridLayout->addWidget(pushButton_SendRV, 2, 0, 2, 1);
 
-        dataRV = new QLineEdit(layoutWidget);
+        dataRV = new QLineEdit(centralWidget);
         dataRV->setObjectName(QStringLiteral("dataRV"));
+        sizePolicy1.setHeightForWidth(dataRV->sizePolicy().hasHeightForWidth());
+        dataRV->setSizePolicy(sizePolicy1);
 
         gridLayout->addWidget(dataRV, 3, 1, 1, 1);
 
-        pushButton_SendFV = new QPushButton(layoutWidget);
+        pushButton_SendFV = new QPushButton(centralWidget);
         pushButton_SendFV->setObjectName(QStringLiteral("pushButton_SendFV"));
 
         gridLayout->addWidget(pushButton_SendFV, 4, 0, 1, 1);
 
-        dataFV = new QLineEdit(layoutWidget);
+        dataFV = new QLineEdit(centralWidget);
         dataFV->setObjectName(QStringLiteral("dataFV"));
+        sizePolicy1.setHeightForWidth(dataFV->sizePolicy().hasHeightForWidth());
+        dataFV->setSizePolicy(sizePolicy1);
 
         gridLayout->addWidget(dataFV, 4, 1, 1, 1);
 
-        pushButton_SendData = new QPushButton(layoutWidget);
+        pushButton_SendData = new QPushButton(centralWidget);
         pushButton_SendData->setObjectName(QStringLiteral("pushButton_SendData"));
 
         gridLayout->addWidget(pushButton_SendData, 5, 0, 1, 1);
 
-        dataFull = new QLineEdit(layoutWidget);
+        dataFull = new QLineEdit(centralWidget);
         dataFull->setObjectName(QStringLiteral("dataFull"));
+        sizePolicy1.setHeightForWidth(dataFull->sizePolicy().hasHeightForWidth());
+        dataFull->setSizePolicy(sizePolicy1);
 
         gridLayout->addWidget(dataFull, 5, 1, 1, 1);
+
+
+        verticalLayout_2->addLayout(gridLayout);
+
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_2->addItem(verticalSpacer);
+
+
+        horizontalLayout->addLayout(verticalLayout_2);
+
+        horizontalSpacer_2 = new QSpacerItem(17, 17, QSizePolicy::Fixed, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_2);
+
+        splitter = new QSplitter(centralWidget);
+        splitter->setObjectName(QStringLiteral("splitter"));
+        splitter->setOrientation(Qt::Vertical);
+        timeDataGraph = new graphing::PlotHandler(splitter);
+        timeDataGraph->setObjectName(QStringLiteral("timeDataGraph"));
+        QSizePolicy sizePolicy2(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(timeDataGraph->sizePolicy().hasHeightForWidth());
+        timeDataGraph->setSizePolicy(sizePolicy2);
+        timeDataGraph->setMinimumSize(QSize(10, 10));
+        splitter->addWidget(timeDataGraph);
+        layoutWidget = new QWidget(splitter);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        timeDataLayout = new QHBoxLayout(layoutWidget);
+        timeDataLayout->setSpacing(5);
+        timeDataLayout->setContentsMargins(11, 11, 11, 11);
+        timeDataLayout->setObjectName(QStringLiteral("timeDataLayout"));
+        timeDataLayout->setSizeConstraint(QLayout::SetMinimumSize);
+        timeDataLayout->setContentsMargins(0, 0, 0, 0);
+        splitter->addWidget(layoutWidget);
+
+        horizontalLayout->addWidget(splitter);
+
+
+        gridLayout_3->addLayout(horizontalLayout, 0, 0, 1, 1);
 
         MainWindow->setCentralWidget(centralWidget);
         mainToolBar = new QToolBar(MainWindow);
@@ -140,7 +240,7 @@ public:
         MainWindow->setStatusBar(statusBar);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 595, 21));
+        menuBar->setGeometry(QRect(0, 0, 503, 21));
         MainWindow->setMenuBar(menuBar);
 
         retranslateUi(MainWindow);
@@ -151,10 +251,10 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
-        pushButton_ConnectSerialPort->setText(QApplication::translate("MainWindow", "Connect", Q_NULLPTR));
-        pushButton_GenerateValid->setText(QApplication::translate("MainWindow", "Gen Valid", Q_NULLPTR));
         pushButton_GenerateInvalid->setText(QApplication::translate("MainWindow", "Gen Invalid", Q_NULLPTR));
         pushButton_ConfigureSerialPort->setText(QApplication::translate("MainWindow", "Configure", Q_NULLPTR));
+        pushButton_ConnectSerialPort->setText(QApplication::translate("MainWindow", "Connect", Q_NULLPTR));
+        pushButton_GenerateValid->setText(QApplication::translate("MainWindow", "Gen Valid", Q_NULLPTR));
         pushButton_SendRevI->setText(QApplication::translate("MainWindow", "Send RI", Q_NULLPTR));
         pushButton_SendFI->setText(QApplication::translate("MainWindow", "Send FI", Q_NULLPTR));
         pushButton_SendRV->setText(QApplication::translate("MainWindow", "Send RV", Q_NULLPTR));

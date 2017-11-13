@@ -1,6 +1,8 @@
 #ifndef SEGMENT_TIME_DATA_DETAILED_H
 #define SEGMENT_TIME_DATA_DETAILED_H
 
+#include <QJsonObject>
+
 #include <math.h>
 
 #include <data/type_prescalar_power.h>
@@ -33,9 +35,13 @@ public:
     //! \param power
     //! \param time
     //!
-    SegmentTimeDataDetailed(const int &voltage, const int &current, const Data::SegmentMode &mode, const uint32_t &time);
+    SegmentTimeDataDetailed(const double &voltage, const double &current, const Data::SegmentMode &mode, const uint32_t &time);
+
+
+    SegmentTimeDataDetailed(const SegmentTimeDataDetailed &copy);
 
 public:
+
     //!
     //! \brief setSupplyOutput
     //! \param outputNumber
@@ -46,13 +52,13 @@ public:
     //! \brief setSegmentVoltage
     //! \param voltage
     //!
-    void setSegmentVoltage(const int &voltage);
+    void setSegmentVoltage(const double &voltage);
 
     //!
     //! \brief setSegmentCurrent
     //! \param current
     //!
-    void setSegmentCurrent(const int &current);
+    void setSegmentCurrent(const double &current);
 
     //!
     //! \brief setSegmentMode
@@ -90,6 +96,19 @@ public:
     //!
     Data::RegisterDataObject getRegisterDataObject() const;
 
+
+    //!
+    //! \brief getSegmentVoltage
+    //! \return
+    //!
+    double getSegmentVoltage() const;
+
+    //!
+    //! \brief getSegmentCurrent
+    //! \return
+    //!
+    double getSegmentCurrent() const;
+
     //!
     //! \brief getSegmentMode
     //! \return
@@ -103,6 +122,25 @@ public:
     uint32_t getTimeValue() const;
 
 public:
+    void read(const QJsonObject &json)
+    {
+        setSupplyOutput(Data::TypeSupplyOutputString(json["supplyOutput"].toString().toStdString()));
+        setSegmentMode(Data::SegmentModeFromString(json["segmentMode"].toString().toStdString()));
+        setSegmentVoltage(json["voltage"].toDouble());
+        setSegmentCurrent(json["current"].toDouble());
+        setTimeValue(json["time"].toDouble());
+    }
+
+    void write(QJsonObject &json) const
+    {
+        json["supplyOutput"] = QString::fromStdString(Data::TypeSupplyOutputToString(supplyOutput));
+        json["segmentMode"] = QString::fromStdString(Data::SegmentModeToString(segmentMode));
+        json["voltage"] = dataObject.voltage;
+        json["current"] = dataObject.current;
+        json["time"] = (int)timeValue;
+    }
+
+public:
     //!
     //! \brief operator =
     //! \param rhs
@@ -112,7 +150,6 @@ public:
         this->supplyOutput = rhs.supplyOutput;
         this->dataObject = rhs.dataObject;
         this->segmentMode = rhs.segmentMode;
-        this->segmentPower = rhs.segmentPower;
         this->timeValue = rhs.timeValue;
     }
 
@@ -132,9 +169,6 @@ public:
         if(this->segmentMode != rhs.segmentMode){
             return false;
         }
-        if(this->segmentPower != rhs.segmentPower){
-            return false;
-        }
         if(this->timeValue != rhs.timeValue){
             return false;
         }
@@ -152,7 +186,6 @@ public:
 
     //Private member variables of the class
 private:
-
     //!
     //! \brief supplyOutput
     //!
@@ -169,16 +202,12 @@ private:
     Data::SegmentMode segmentMode;
 
     //!
-    //! \brief segmentPower
-    //!
-    Data::SegmentPower segmentPower;
-
-    //!
     //! \brief timeValue
     //!
     uint32_t timeValue; //this time is denoted in us
 
 };
+
 
 } //end of namespace DataParameter
 

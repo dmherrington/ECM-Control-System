@@ -38,11 +38,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    widget_segment_time_data.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    ui_widget_segment_time_data.h \
+    widget_segment_time_data.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    widget_segment_time_data.ui
 
 
 # Copy Files
@@ -67,3 +71,10 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../library_munk_power_supply/ -llibrary_mun
 
 INCLUDEPATH += $$PWD/../library_munk_power_supply
 DEPENDPATH += $$PWD/../library_munk_power_supply
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../graphing/release/ -lgraphing
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../graphing/debug/ -lgraphing
+else:unix:!macx: LIBS += -L$$OUT_PWD/../graphing/ -lgraphing
+
+INCLUDEPATH += $$PWD/../graphing
+DEPENDPATH += $$PWD/../graphing

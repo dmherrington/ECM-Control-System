@@ -1,0 +1,2 @@
+flip com port state based on get function in munk library
+fix const and mutable params in abstract paramters

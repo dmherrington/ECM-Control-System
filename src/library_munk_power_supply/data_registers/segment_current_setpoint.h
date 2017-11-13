@@ -34,7 +34,7 @@ public:
     //! \brief SegmentCurrentSetpoint
     //! \param copyObj
     //!
-    SegmentCurrentSetpoint(const SegmentCurrentSetpoint &obj);
+    SegmentCurrentSetpoint(const SegmentCurrentSetpoint &copy);
 public:
     //!
     //! \brief getParameterType
@@ -49,6 +49,12 @@ public:
     virtual QByteArray getByteArray() const;
 
     //!
+    //! \brief getExpectedResponse
+    //! \return
+    //!
+    QByteArray getExpectedResponse() const override;
+
+    //!
     //! \brief getDescription
     //! \return
     //!
@@ -57,6 +63,8 @@ public:
 
 public:
     void appendData(const SegmentCurrentData &currentSetpoint);
+
+    void initializeData();
 
 public:
     //!

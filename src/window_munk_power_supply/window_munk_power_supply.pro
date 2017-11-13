@@ -1,18 +1,31 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2017-05-30T08:11:59
+# Project created by QtCreator 2017-09-20T21:35:44
 #
 #-------------------------------------------------
 
 QT       += core gui
+QT       += serialport
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
-TARGET = Window_MunkPowerSupply
+greaterThan(QT_MAJOR_VERSION, 4) {
+    QT += designer
+}
+
+lessThan(QT_MAJOR_VERSION, 5) {
+    CONFIG += designer
+}
+
+unix:QMAKE_CXXFLAGS += -std=gnu++0x
+
+CONFIG += plugin
+
+TARGET = window_munk_power_supply
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
-# any feature of Qt which as been marked as deprecated (the exact warnings
+# any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
@@ -23,25 +36,33 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp
+SOURCES += \
+    main.cpp \
+    main_window.cpp \
+    widget_segment_time_data.cpp \
+    widget_segment_time_display.cpp
 
-HEADERS  += mainwindow.h
+HEADERS += \
+    main_window.h \
+    widget_segment_time_data.h \
+    widget_segment_time_display.h
 
-FORMS    += mainwindow.ui
+FORMS += \
+    main_window.ui \
+    widget_segment_time_display.ui \
+    widgetsegmenttimedata.ui
 
 # Copy Files
 target.path = $$(ECM_ROOT)/bin
 INSTALLS += target
 
-
 #include Dependicies
+INCLUDEPATH += $$PWD/../
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
 else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
 
-INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$PWD/../common
 DEPENDPATH += $$PWD/../common
 
@@ -51,3 +72,13 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../library_munk_power_supply/ -llibrary_mun
 
 INCLUDEPATH += $$PWD/../library_munk_power_supply
 DEPENDPATH += $$PWD/../library_munk_power_supply
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../graphing/release/ -lgraphing
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../graphing/debug/ -lgraphing
+else:unix:!macx: LIBS += -L$$OUT_PWD/../graphing/ -lgraphing
+
+INCLUDEPATH += $$PWD/../graphing
+DEPENDPATH += $$PWD/../graphing
+
+SUBDIRS += \
+    window_munk_power_supply.pro

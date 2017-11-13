@@ -12,11 +12,14 @@ namespace Data
 //! \brief The SegmentVIPower enum
 //!
 enum class SegmentVIPower{
-    ONE = 0, /**< */
+    ONE = 0, /** This value could also be represented as a 3 so be aware of this */
     ONE_HUNDREDTH = 1, /**< */
     ONE_TENTH = 2, /**< */
-    TEN = 3, /**< */
-    ONE_HUNDRED = 5 /**< */
+    TEN = 4, /**< */
+    ONE_HUNDRED = 5, /**< */
+    ONE_THOUSAND = 6, /**< */
+    TEN_THOUSAND = 7 /**< */
+
 };
 
 //!
@@ -87,6 +90,30 @@ inline uint32_t SegmenVIPowerToBitArray(const SegmentVIPower &type, const uint32
     ba = (bitArray & (~mask)) | ((int)type<<12);
     return ba;
 }
+
+//!
+//! \brief ValueToEquivalentSegmentPower
+//! \param value
+//! \return
+//!
+//inline SegmentVIPower ValueToEquivalentSegmentVIPower(const int &value)
+//{
+//    switch (value) {
+//    case 0:
+//    case 1:
+//        return SegmentVIPower::ONE;
+//    case 10:
+//        return SegmentVIPower::TEN;
+//    case 100:
+//        return SegmentVIPower::ONE_HUNDRED;
+//    case 1000:
+//        return SegmentVIPower::ONE_THOUSAND;
+//    case 10000:
+//        return SegmentVIPower::TEN_THOUSAND;
+//    default:
+//        throw std::runtime_error("Unknown segment power seen");
+//    }
+//}
 
 } //end of namespace Data
 

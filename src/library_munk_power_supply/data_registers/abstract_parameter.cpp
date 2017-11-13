@@ -14,6 +14,15 @@ AbstractParameter::AbstractParameter(const int &code):
 
 }
 
+AbstractParameter::AbstractParameter(const AbstractParameter &copy)
+{
+    this->parameterCode = copy.parameterCode;
+    this->slaveAddress = copy.slaveAddress;
+    this->readOrwrite = copy.readOrwrite;
+    this->highChecksum = copy.highChecksum;
+    this->lowChecksum = copy.lowChecksum;
+}
+
 void AbstractParameter::setSlaveAddress(const uint8_t &address)
 {
     this->slaveAddress = address;
@@ -24,7 +33,7 @@ void AbstractParameter::setReadorWrite(const Data::ReadWriteType &type)
     this->readOrwrite = type;
 }
 
-QByteArray AbstractParameter::getPrefixByteArray()
+QByteArray AbstractParameter::getPrefixByteArray() const
 {
     QByteArray ba;
 
@@ -39,7 +48,7 @@ QByteArray AbstractParameter::getPrefixByteArray()
     return ba;
 }
 
-QByteArray AbstractParameter::getFullMessage()
+QByteArray AbstractParameter::getFullMessage() const
 {
     QByteArray dataSum;
 
@@ -61,8 +70,30 @@ QByteArray AbstractParameter::getFullMessage()
     return dataSum;
 }
 
+QByteArray AbstractParameter::getFullExpectedResonse() const
+{
+    QByteArray dataSum;
 
-unsigned int AbstractParameter::CRC16(const QByteArray &array)
+    QByteArray prefix = getPrefixByteArray();
+    QByteArray data = getExpectedResponse();
+
+    if(data.size() > 0)
+    {
+        dataSum.append(prefix);
+        dataSum.append(data);
+
+        unsigned int checkSum = CRC16(dataSum);
+        highChecksum = (uint8_t)((checkSum & 0xFF00) >> 8);
+        lowChecksum = (uint8_t)(checkSum & 0x00FF);
+        dataSum.append(lowChecksum);
+        dataSum.append(highChecksum);
+    }
+
+    return dataSum;
+}
+
+
+unsigned int AbstractParameter::CRC16(const QByteArray &array) const
 {
     char j;
     WORD Temp = 0xFFFF;
