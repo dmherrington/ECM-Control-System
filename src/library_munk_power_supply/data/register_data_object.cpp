@@ -8,7 +8,7 @@ RegisterDataObject::RegisterDataObject():
 
 }
 
-RegisterDataObject::RegisterDataObject(const int &newVoltage, const int &newCurrent):
+RegisterDataObject::RegisterDataObject(const double &newVoltage, const double &newCurrent):
     voltage(newVoltage),current(newCurrent)
 {
 

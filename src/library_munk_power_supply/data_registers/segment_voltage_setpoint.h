@@ -33,7 +33,7 @@ public:
     //! \brief SegmentVoltageSetpoint
     //! \param obj
     //!
-    SegmentVoltageSetpoint(const SegmentVoltageSetpoint &obj);
+    SegmentVoltageSetpoint(const SegmentVoltageSetpoint &copy);
 
 public:
     //!
@@ -54,6 +54,11 @@ public:
     //!
     virtual QByteArray getByteArray() const;
 
+    //!
+    //! \brief getExpectedResponse
+    //! \return
+    //!
+    QByteArray getExpectedResponse() const override;
 public:
 
     //!
@@ -61,6 +66,8 @@ public:
     //! \param voltageSetpoint
     //!
     void appendData(const SegmentVoltageData &voltageSetpoint);
+
+    void initializeData();
 
 public:
     //!

@@ -28,10 +28,12 @@ SegmentVoltageSetpoint::SegmentVoltageSetpoint(const Data::TypeSupplyOutput &out
     }
 }
 
-SegmentVoltageSetpoint::SegmentVoltageSetpoint(const SegmentVoltageSetpoint &obj):
-    AbstractParameter()
+SegmentVoltageSetpoint::SegmentVoltageSetpoint(const SegmentVoltageSetpoint &copy):
+    AbstractParameter(copy)
 {
-    this->operator =(obj);
+    this->supplyOutput = copy.supplyOutput;
+    this->mode = copy.mode;
+    this->data = copy.data;
 }
 
 
@@ -69,10 +71,26 @@ QByteArray SegmentVoltageSetpoint::getByteArray() const
     return ba;
 }
 
+QByteArray SegmentVoltageSetpoint::getExpectedResponse() const
+{
+    QByteArray ba;
+    uint8_t HIGHSeqType = (uint8_t)((this->data.size() & 0xFF00) >> 8);
+    uint8_t LOWSeqType = (uint8_t)(this->data.size() & 0x00FF);
+    ba.append(HIGHSeqType);
+    ba.append(LOWSeqType);
+
+    return ba;
+}
+
 void SegmentVoltageSetpoint::appendData(const SegmentVoltageData &voltageSetpoint)
 {
     this->data.insert(std::pair<Data::SegmentLevel,SegmentVoltageData>(voltageSetpoint.getSegmentLevel(),voltageSetpoint));
-    //this->data.at(voltageSetpoint.getSegmentLevel()) = voltageSetpoint;
 }
+
+void SegmentVoltageSetpoint::initializeData()
+{
+    this->data.clear();
+}
+
 
 } //end of namepsace DataParameter

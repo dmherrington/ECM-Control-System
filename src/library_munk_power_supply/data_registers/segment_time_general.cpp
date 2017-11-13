@@ -41,6 +41,20 @@ QByteArray SegmentTimeGeneral::getByteArray() const
     return data;
 }
 
+QByteArray SegmentTimeGeneral::getExpectedResponse() const
+{
+    QByteArray ba;
+    int numberOfSegments = registerData.size();
+
+    uint8_t HIGHSeqType = (uint8_t)((numberOfSegments & 0xFF00) >> 8);
+    uint8_t LOWSeqType = (uint8_t)(numberOfSegments & 0x00FF);
+    ba.append(HIGHSeqType);
+    ba.append(LOWSeqType);
+
+    return ba;
+}
+
+
 std::string SegmentTimeGeneral::getDescription() const
 {
     std::string str = "";

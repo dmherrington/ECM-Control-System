@@ -3,12 +3,12 @@
 namespace DataParameter {
 
 SegmentTimeDataDetailed::SegmentTimeDataDetailed():
-    supplyOutput(Data::TypeSupplyOutput::OUTPUT1),dataObject(0,0),segmentMode(Data::SegmentMode::DEAD),timeValue(0)
+    supplyOutput(Data::TypeSupplyOutput::OUTPUT1),dataObject(0.0,0.0),segmentMode(Data::SegmentMode::DEAD),timeValue(100)
 {
 
 }
 
-SegmentTimeDataDetailed::SegmentTimeDataDetailed(const int &voltage, const int &current, const Data::SegmentMode &mode, const uint32_t &time)
+SegmentTimeDataDetailed::SegmentTimeDataDetailed(const double &voltage, const double &current, const Data::SegmentMode &mode, const uint32_t &time)
 {
     setSupplyOutput(Data::TypeSupplyOutput::OUTPUT1);
     setSegmentVoltage(voltage);
@@ -17,17 +17,26 @@ SegmentTimeDataDetailed::SegmentTimeDataDetailed(const int &voltage, const int &
     setTimeValue(time);
 }
 
+SegmentTimeDataDetailed::SegmentTimeDataDetailed(const SegmentTimeDataDetailed &copy)
+{
+    this->setSegmentCurrent(copy.getSegmentCurrent());
+    this->setSegmentMode(copy.getSegmentMode());
+    this->setSegmentVoltage(copy.getSegmentVoltage());
+    this->setSupplyOutput(copy.getSupplyOutputNumber());
+    this->setTimeValue(copy.getTimeValue());
+}
+
 void SegmentTimeDataDetailed::setSupplyOutput(const Data::TypeSupplyOutput &outputNumber)
 {
     this->supplyOutput = outputNumber;
 }
 
-void SegmentTimeDataDetailed::setSegmentVoltage(const int &voltage)
+void SegmentTimeDataDetailed::setSegmentVoltage(const double &voltage)
 {
     this->dataObject.voltage = voltage;
 }
 
-void SegmentTimeDataDetailed::setSegmentCurrent(const int &current)
+void SegmentTimeDataDetailed::setSegmentCurrent(const double &current)
 {
     this->dataObject.current = current;
 }
@@ -70,6 +79,16 @@ Data::TypeSupplyOutput SegmentTimeDataDetailed::getSupplyOutputNumber() const
 Data::RegisterDataObject SegmentTimeDataDetailed::getRegisterDataObject() const
 {
     return this->dataObject;
+}
+
+double SegmentTimeDataDetailed::getSegmentVoltage() const
+{
+    return this->dataObject.voltage;
+}
+
+double SegmentTimeDataDetailed::getSegmentCurrent() const
+{
+    return this->dataObject.current;
 }
 
 Data::SegmentMode SegmentTimeDataDetailed::getSegmentMode() const

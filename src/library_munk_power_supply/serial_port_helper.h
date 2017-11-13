@@ -1,57 +1,68 @@
-#ifndef SERIAL_PORT_HELPER_H
-#define SERIAL_PORT_HELPER_H
+#ifndef MUNK_TX_RX_H
+#define MUNK_TX_RX_H
 
-#include <QtSerialPort/QSerialPort>
-
-#include <QThread>
-#include <QTextStream>
-#include <QTimer>
+#include <QDebug>
 #include <QByteArray>
-#include <QObject>
+#include <list>
+#include <functional>
 
-#include <iostream>
+#include "data_registers/abstract_parameter.h"
 
-#include "common/common.h"
+#include "common/threadmanager.h"
+#include "common/timer.h"
 
-class SerialPortHelper : public QObject
+class SerialPortHelper : public QObject, public Thread
 {
     Q_OBJECT
+
 public:
-    explicit SerialPortHelper(QObject *parent = nullptr);
+    SerialPortHelper();
 
-    explicit SerialPortHelper(QSerialPort *serialPort, QObject *parent = NULL);
+    ~SerialPortHelper() {
+        std::cout << "Destructor on the serial port helper" << std::endl;
+        mToExit = true;
+    }
 
-    ~SerialPortHelper();
+    void run();
 
-    void configureSerialPort(const QString &name);
+    void transmitParameters(const std::vector<DataParameter::AbstractParameter*> &byteVector);
 
-    void configureSerialPort(const QString &name, const QSerialPort::BaudRate &rate,
-                                               const QSerialPort::Parity &parity, const QSerialPort::DataBits &data,
-                                               const QSerialPort::FlowControl &flow, const QSerialPort::StopBits &stop);
-
-    void writeBytes(const QByteArray &writeData);
-
-    void readBytes();
-
-    void changeSerialParameters();
-
-    void closeSerialPort();
-
-    void openSerialPort();
+    void receivedBytes(const QByteArray &array);
 
 signals:
-    bytesReceived(const QByteArray &data);
-
-private slots:
-    void handleBytesWritten(qint64 bytes);
-    void handleTimeout();
-    void handleError(QSerialPort::SerialPortError error);
+    void transmitByteArray(const QByteArray &array);
 
 private:
-    QSerialPort *m_serialPort;
-    QByteArray m_writeData;
-    QByteArray m_readData;
-    QTimer m_timer;
+    bool searchForStartingIndex(const QByteArray &array, int &index);
+
+private:
+    Timer mTimer;
+    int currentRetry;
+    int maxRetries;
+    int responseTimeout;
+
+private:
+    std::vector<DataParameter::AbstractParameter*> transArray;
+    DataParameter::AbstractParameter* prevParameter;
+
+    QByteArray rxByteArray;
+
+protected:
+    std::list<std::function<void()>> m_LambdasToRun;
+
+    void clearPendingTasks()
+    {
+        m_LambdasToRun.clear();
+    }
+
+    void RunPendingTasks() {
+        while(m_LambdasToRun.size() > 0) {
+            auto lambda = m_LambdasToRun.front();
+            m_LambdasToRun.pop_front();
+            lambda();
+        }
+    }
 };
 
-#endif // SERIAL_PORT_HELPER_H
+
+#endif // MUNK_TX_RX_H

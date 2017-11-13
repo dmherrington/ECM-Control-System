@@ -45,6 +45,13 @@ public:
     //!
     virtual QByteArray getByteArray() const;
 
+
+    //!
+    //! \brief getExpectedResponse
+    //! \return
+    //!
+    QByteArray getExpectedResponse() const override;
+
     //!
     //! \brief getDescription
     //! \return

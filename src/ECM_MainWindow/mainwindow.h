@@ -10,9 +10,11 @@
 #include <QMainWindow>
 #include <vector>
 #include <limits.h>
-#include "library_munk_power_supply/munk_power_supply.h"
 
+#include "widget_segment_time_data.h"
+#include "library_munk_power_supply/munk_power_supply.h"
 #include "library_munk_power_supply/data_registers/segment_time_general.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -47,6 +49,9 @@ private slots:
     void on_pushButton_SendFV_released();
 
     void on_pushButton_SendData_released();
+
+private slots:
+    void onChanged_voltageValue(const double &value);
 
 private:
     Ui::MainWindow *ui;
