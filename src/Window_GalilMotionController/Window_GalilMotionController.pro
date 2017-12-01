@@ -47,3 +47,10 @@ else:unix:!macx: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
 
 INCLUDEPATH += $$PWD/../../tools/galil/lib/dynamic/x86
 DEPENDPATH += $$PWD/../../tools/galil/lib/dynamic/x86
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../graphing/release/ -lgraphing
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../graphing/debug/ -lgraphing
+else:unix:!macx: LIBS += -L$$OUT_PWD/../graphing/ -lgraphing
+
+INCLUDEPATH += $$PWD/../graphing
+DEPENDPATH += $$PWD/../graphing
