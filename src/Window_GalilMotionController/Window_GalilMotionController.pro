@@ -54,3 +54,10 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../library_galilMotionController/ -llibrary
 
 INCLUDEPATH += $$PWD/../library_galilMotionController
 DEPENDPATH += $$PWD/../library_galilMotionController
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../graphing/release/ -lgraphing
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../graphing/debug/ -lgraphing
+else:unix:!macx: LIBS += -L$$OUT_PWD/../graphing/ -lgraphing
+
+INCLUDEPATH += $$PWD/../graphing
+DEPENDPATH += $$PWD/../graphing

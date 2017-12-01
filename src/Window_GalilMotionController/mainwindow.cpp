@@ -8,6 +8,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     m_Galil = new galilMotionController();
+    GOpen()
+
 }
 
 MainWindow::~MainWindow()
