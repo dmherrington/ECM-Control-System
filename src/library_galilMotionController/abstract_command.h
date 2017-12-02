@@ -5,6 +5,21 @@
 
 #include "command_types.h"
 
+/**
+\* @file  abstract_command.h
+\*
+\* @author Kenneth Kroeger
+\*
+\* @date
+\*
+\* @section PROJECT
+\*   This is a part of the Voxel Innovation's ECM Control System. The containing libraray is to control the Galil Motion Controller.
+\*
+\* @section DESCRIPTION
+\*
+\*
+\*/
+
 class AbstractCommand
 {
 public:

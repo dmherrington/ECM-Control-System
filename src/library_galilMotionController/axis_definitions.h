@@ -4,6 +4,21 @@
 #include <string>
 #include <stdexcept>
 
+/**
+\* @file  axis_definitions.h
+\*
+\* @author Kenneth Kroeger
+\*
+\* @date
+\*
+\* @section PROJECT
+\*   This is a part of the Voxel Innovation's ECM Control System. The containing libraray is to control the Galil Motion Controller.
+\*
+\* @section DESCRIPTION
+\*
+\*
+\*/
+
 enum class MotorAxis
 {
     ALL = 0,

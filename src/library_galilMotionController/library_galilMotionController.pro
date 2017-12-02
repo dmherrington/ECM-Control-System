@@ -28,7 +28,8 @@ SOURCES += \
     command_relative_move.cpp \
     command_absolute_move.cpp \
     command_motor_enable.cpp \
-    command_motor_disable.cpp
+    command_motor_disable.cpp \
+    galil_state_machine.cpp
 
 HEADERS += \
         galil_motion_controller.h \
@@ -42,7 +43,8 @@ HEADERS += \
     command_types.h \
     command_motor_enable.h \
     command_motor_disable.h \
-    axis_definitions.h
+    axis_definitions.h \
+    galil_state_machine.h
 
 # Unix lib Install
 unix:!symbian {
@@ -60,3 +62,9 @@ INSTALLS += lib
 headers.path    = $$(ECM_ROOT)/include/library_galilMotionController
 headers.files   += $$HEADERS
 INSTALLS       += headers
+
+INCLUDEPATH += $$PWD/../
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
+else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon

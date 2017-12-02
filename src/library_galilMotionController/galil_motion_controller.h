@@ -12,7 +12,7 @@
 
 
 /**
-\* @file  command_motor_enable.h
+\* @file  galil_motion_controller.h
 \*
 \* @author Kenneth Kroeger
 \*
@@ -48,7 +48,7 @@ public:
 
     void uploadProgram(const std::string &programText);
 
-    void downloadProgram();
+    void downloadProgram(std::string &programText);
 
 signals:
     void newProgramReceived(const std::string &programText);

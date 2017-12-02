@@ -5,6 +5,21 @@
 #include <vector>
 #include <stdexcept>
 
+/**
+\* @file  command_types.h
+\*
+\* @author Kenneth Kroeger
+\*
+\* @date
+\*
+\* @section PROJECT
+\*   This is a part of the Voxel Innovation's ECM Control System. The containing libraray is to control the Galil Motion Controller.
+\*
+\* @section DESCRIPTION
+\*
+\*
+\*/
+
 enum class CommandType{
     MOTOR_OFF = 0,
     MOTOR_ON = 1,

@@ -4,11 +4,10 @@
 galilMotionController::galilMotionController():
     mConnection(nullptr)
 {
-    GReturn rtnCode = GOpen("",&mConnection);
+    //GReturn rtnCode = GOpen("",&mConnection);
     //GCon g, GCStringIn command, GBufOut buffer, GSize buffer_len, GSize* bytes_returned)
     std::string command = "_TPA";
 
-      GCommand(mConnection, command.c_str(),
 //    Data::EnvironmentTime currentTime;
 //    Data::EnvironmentTime::CurrentTime(Data::Devices::SYSTEMCLOCK, currentTime);
 

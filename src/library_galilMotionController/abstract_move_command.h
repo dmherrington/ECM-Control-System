@@ -8,10 +8,21 @@
 
 #include "type_direction.h"
 
-//!
-//! \brief The AbstractMoveCommand class
-//!
-//!
+/**
+\* @file  abstract_move_command.h
+\*
+\* @author Kenneth Kroeger
+\*
+\* @date
+\*
+\* @section PROJECT
+\*   This is a part of the Voxel Innovation's ECM Control System. The containing libraray is to control the Galil Motion Controller.
+\*
+\* @section DESCRIPTION
+\*
+\*
+\*/
+
 class AbstractMoveCommand : public AbstractCommand
 {
 

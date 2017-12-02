@@ -4,6 +4,21 @@
 #include <string>
 #include <stdexcept>
 
+/**
+\* @file  type_direction.h
+\*
+\* @author Kenneth Kroeger
+\*
+\* @date
+\*
+\* @section PROJECT
+\*   This is a part of the Voxel Innovation's ECM Control System. The containing libraray is to control the Galil Motion Controller.
+\*
+\* @section DESCRIPTION
+\*
+\*
+\*/
+
 enum class Direction{
     DIRECTION_UP = 0, /**< */
     DIRECION_DOWN= 1 /**< */

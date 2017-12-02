@@ -6,6 +6,21 @@
 #include "abstract_command.h"
 #include "axis_definitions.h"
 
+/**
+\* @file  command_motor_disable.h
+\*
+\* @author Kenneth Kroeger
+\*
+\* @date
+\*
+\* @section PROJECT
+\*   This is a part of the Voxel Innovation's ECM Control System. The containing libraray is to control the Galil Motion Controller.
+\*
+\* @section DESCRIPTION
+\*
+\*
+\*/
+
 class CommandMotorDisable : public AbstractCommand
 {
 public:

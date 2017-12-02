@@ -6,10 +6,20 @@
 
 #include "abstract_move_command.h"
 
-//!
-//! \brief The CommandJog class
-//!
-//!
+/**
+\* @file  command_jog.h
+\*
+\* @author Kenneth Kroeger
+\*
+\* @date
+\*
+\* @section PROJECT
+\*   This is a part of the Voxel Innovation's ECM Control System. The containing libraray is to control the Galil Motion Controller.
+\*
+\* @section DESCRIPTION
+\*
+\*
+\*/
 
 class CommandJog : public AbstractMoveCommand
 {

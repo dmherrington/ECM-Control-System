@@ -1,5 +1,9 @@
 #include "command_absolute_move.h"
 
+/**
+\* @file  command_absolute_move.h
+\*/
+
 CommandAbsoluteMove::CommandAbsoluteMove():
     AbstractMoveCommand(CommandType::ABSOLUTE_MOVE, MotorAxis::ALL)
 {
