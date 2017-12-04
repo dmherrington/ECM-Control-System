@@ -83,6 +83,15 @@ private slots:
     //!
     void on_pushButton_DecreaseRelativeMove_clicked();
 
+    void on_actionSave_Current_Parameters_triggered();
+
+    void on_actionSave_As_Current_Parameters_triggered();
+
+    void on_actionLoad_Parameters_triggered();
+
+private:
+    QString loadFileDialog(const std::string &filePath, const std::string &suffix);
+
 private:
     Ui::MainWindow *ui;
 

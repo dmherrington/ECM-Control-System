@@ -106,15 +106,25 @@ headers_commands.files   += \
 INSTALLS       += headers_commands
 
 INCLUDEPATH += $$PWD/../
-INCLUDEPATH += $$PWD/../../tools/galil/include/
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
-else:unix:!macx: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
+unix {
+        INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
+        LIBS += -L$$(ECM_ROOT)/tools/galil/dll/x86 -gclib
+        LIBS += -L$$(ECM_ROOT)/tools/galil/dll/x86 -gclibo
+}
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo
-else:unix:!macx: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
+win32 {
+        INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
+        CONFIG(debug, debug|release) {
+            LIBS += -L$$(ECM_ROOT)/tools/galil/dll/x86 -gclib
+            LIBS += -L$$(ECM_ROOT)/tools/galil/dll/x86 -gclibo
+        }
+        else {
+            LIBS += -L$$(ECM_ROOT)/tools/galil/dll/x86 -gclib
+            LIBS += -L$$(ECM_ROOT)/tools/galil/dll/x86 -gclibo
+        }
+}
+
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon

@@ -43,6 +43,12 @@ public:
     QAction *actionSave_Program;
     QAction *actionSave_As_Program;
     QAction *actionLoad_Program;
+    QAction *actionSave_Current_Parameters;
+    QAction *actionSave_As_Current_Parameters;
+    QAction *actionLoad_Parameters;
+    QAction *actionOpen_Connection;
+    QAction *actionClose_Connection;
+    QAction *actionExit;
     QWidget *centralWidget;
     QGridLayout *gridLayout_7;
     QTextEdit *programText;
@@ -113,6 +119,7 @@ public:
     QSpacerItem *horizontalSpacer_2;
     QMenuBar *menuBar;
     QMenu *menuGalil;
+    QMenu *menuSettings;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -132,6 +139,18 @@ public:
         actionSave_As_Program->setObjectName(QStringLiteral("actionSave_As_Program"));
         actionLoad_Program = new QAction(MainWindow);
         actionLoad_Program->setObjectName(QStringLiteral("actionLoad_Program"));
+        actionSave_Current_Parameters = new QAction(MainWindow);
+        actionSave_Current_Parameters->setObjectName(QStringLiteral("actionSave_Current_Parameters"));
+        actionSave_As_Current_Parameters = new QAction(MainWindow);
+        actionSave_As_Current_Parameters->setObjectName(QStringLiteral("actionSave_As_Current_Parameters"));
+        actionLoad_Parameters = new QAction(MainWindow);
+        actionLoad_Parameters->setObjectName(QStringLiteral("actionLoad_Parameters"));
+        actionOpen_Connection = new QAction(MainWindow);
+        actionOpen_Connection->setObjectName(QStringLiteral("actionOpen_Connection"));
+        actionClose_Connection = new QAction(MainWindow);
+        actionClose_Connection->setObjectName(QStringLiteral("actionClose_Connection"));
+        actionExit = new QAction(MainWindow);
+        actionExit->setObjectName(QStringLiteral("actionExit"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout_7 = new QGridLayout(centralWidget);
@@ -157,6 +176,7 @@ public:
         sizePolicy2.setVerticalStretch(0);
         sizePolicy2.setHeightForWidth(graphingWidget->sizePolicy().hasHeightForWidth());
         graphingWidget->setSizePolicy(sizePolicy2);
+        graphingWidget->setMinimumSize(QSize(0, 250));
 
         gridLayout_7->addWidget(graphingWidget, 0, 1, 1, 2);
 
@@ -649,6 +669,8 @@ public:
         menuBar->setGeometry(QRect(0, 0, 1102, 21));
         menuGalil = new QMenu(menuBar);
         menuGalil->setObjectName(QStringLiteral("menuGalil"));
+        menuSettings = new QMenu(menuBar);
+        menuSettings->setObjectName(QStringLiteral("menuSettings"));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -658,9 +680,18 @@ public:
         MainWindow->setStatusBar(statusBar);
 
         menuBar->addAction(menuGalil->menuAction());
+        menuBar->addAction(menuSettings->menuAction());
         menuGalil->addAction(actionSave_Program);
         menuGalil->addAction(actionSave_As_Program);
         menuGalil->addAction(actionLoad_Program);
+        menuGalil->addSeparator();
+        menuGalil->addAction(actionOpen_Connection);
+        menuGalil->addAction(actionClose_Connection);
+        menuGalil->addSeparator();
+        menuGalil->addAction(actionExit);
+        menuSettings->addAction(actionSave_Current_Parameters);
+        menuSettings->addAction(actionSave_As_Current_Parameters);
+        menuSettings->addAction(actionLoad_Parameters);
 
         retranslateUi(MainWindow);
 
@@ -676,6 +707,12 @@ public:
         actionSave_Program->setText(QApplication::translate("MainWindow", "Save Program", Q_NULLPTR));
         actionSave_As_Program->setText(QApplication::translate("MainWindow", "Save_As Program", Q_NULLPTR));
         actionLoad_Program->setText(QApplication::translate("MainWindow", "Load Program", Q_NULLPTR));
+        actionSave_Current_Parameters->setText(QApplication::translate("MainWindow", "Save Current Parameters", Q_NULLPTR));
+        actionSave_As_Current_Parameters->setText(QApplication::translate("MainWindow", "Save_As Current Parameters", Q_NULLPTR));
+        actionLoad_Parameters->setText(QApplication::translate("MainWindow", "Load Parameters", Q_NULLPTR));
+        actionOpen_Connection->setText(QApplication::translate("MainWindow", "Open Connection", Q_NULLPTR));
+        actionClose_Connection->setText(QApplication::translate("MainWindow", "Close Connection", Q_NULLPTR));
+        actionExit->setText(QApplication::translate("MainWindow", "Exit", Q_NULLPTR));
         label_ManualControl_2->setText(QApplication::translate("MainWindow", "Profile Optons", Q_NULLPTR));
         pushButton_RunProfile->setText(QApplication::translate("MainWindow", "Run Profile", Q_NULLPTR));
         pushButton_SetInitialGap->setText(QApplication::translate("MainWindow", "Set Initial Gap", Q_NULLPTR));
@@ -701,7 +738,8 @@ public:
         radioButton_D1->setText(QApplication::translate("MainWindow", "D1", Q_NULLPTR));
         radioButton_D2->setText(QApplication::translate("MainWindow", "D2", Q_NULLPTR));
         radioButton_D3->setText(QApplication::translate("MainWindow", "D3", Q_NULLPTR));
-        menuGalil->setTitle(QApplication::translate("MainWindow", "Galil", Q_NULLPTR));
+        menuGalil->setTitle(QApplication::translate("MainWindow", "File", Q_NULLPTR));
+        menuSettings->setTitle(QApplication::translate("MainWindow", "Parameters", Q_NULLPTR));
     } // retranslateUi
 
 };

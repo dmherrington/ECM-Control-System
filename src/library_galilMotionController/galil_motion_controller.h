@@ -7,10 +7,10 @@
 #include <QTextStream>
 #include <string>
 
-//#include "gclib.h"
+#include "gclib.h"
 
 #include "library_galilmotioncontroller_global.h"
-//#include "galil_parse_greturn.h"
+#include "galil_parse_greturn.h"
 #include "settings/galil_settings.h"
 
 /**
@@ -46,8 +46,8 @@ public:
 
     void getSettingsPath(std::string &settingsPath) const;
     bool saveSettings();
-    bool saveSettingsAs(const std::string &filePath, const std::string &text);
-    bool loadSettings();
+    bool saveSettingsAs(const std::string &filePath);
+    bool loadSettings(const std::string &filePath);
 
     void getProgramPath(std::string &filePath) const;
     bool saveProgram(const std::string &text);
@@ -57,8 +57,6 @@ public:
     void uploadProgram(const std::string &programText);
 
     void downloadProgram(std::string &programText);
-
-    void loadSettings(const QDir &directory);
 
 signals:
     void commsStatus(const bool &opened);
@@ -71,7 +69,7 @@ private:
     QString settingsPath;
     QString programPath;
 private:
-    //GCon mConnection;
+    GCon mConnection;
     GalilSettings m_Settings;
 };
 

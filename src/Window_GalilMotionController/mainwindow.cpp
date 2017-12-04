@@ -17,7 +17,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionSave_Program_triggered()
 {
-    m_Galil->loadSettings();
+
 }
 
 //void MainWindow::onSave()
@@ -62,20 +62,9 @@ void MainWindow::on_actionSave_As_Program_triggered()
 
 void MainWindow::on_actionLoad_Program_triggered()
 {
-    QFileDialog fileDialog(this, "Choose file to open");
-    char* ECMPath = getenv("ECM_ROOT");
-    if(ECMPath)
-    {
-        std::string rootPath(ECMPath);
-        QDir galilProgramDirectory(QString::fromStdString(rootPath + "/GalilPrograms/"));
-        fileDialog.setDirectory(galilProgramDirectory);
-    }
-    fileDialog.setFileMode(QFileDialog::AnyFile);
-    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
-    fileDialog.setNameFilter("Open Files (*.txt)");
-    fileDialog.setDefaultSuffix("txt");
-    fileDialog.exec();
-    QString filePath = fileDialog.selectedFiles().first();
+    std::string programPath = "";
+    m_Galil->getProgramPath(programPath);
+    QString filePath = loadFileDialog(programPath,"txt");
 
     if(!filePath.isEmpty()&& !filePath.isNull()){
         std::string programText = "";
@@ -145,3 +134,38 @@ void MainWindow::on_pushButton_DecreaseRelativeMove_clicked()
 {
 
 }
+
+void MainWindow::on_actionSave_Current_Parameters_triggered()
+{
+    m_Galil->saveSettings();
+}
+
+void MainWindow::on_actionSave_As_Current_Parameters_triggered()
+{
+
+}
+
+void MainWindow::on_actionLoad_Parameters_triggered()
+{
+    std::string settingsPath = "";
+    m_Galil->getSettingsPath(settingsPath);
+    QString fullFile = loadFileDialog(settingsPath,"json");
+    m_Galil->loadSettings(fullFile.toStdString());
+}
+
+QString MainWindow::loadFileDialog(const std::string &filePath, const std::string &suffix)
+{
+    QFileDialog fileDialog(this, "Choose file to open");
+    QDir galilProgramDirectory(QString::fromStdString(filePath));
+    fileDialog.setDirectory(galilProgramDirectory);
+    fileDialog.setFileMode(QFileDialog::AnyFile);
+    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
+    QString nameFilter = "Open Files (*.";
+    nameFilter += QString::fromStdString(suffix) + ")";
+    fileDialog.setNameFilter(nameFilter);
+    fileDialog.setDefaultSuffix(QString::fromStdString(suffix));
+    fileDialog.exec();
+    QString fullFilePath = fileDialog.selectedFiles().first();
+    return fullFilePath;
+}
+

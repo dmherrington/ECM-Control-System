@@ -13,7 +13,9 @@ galilMotionController::galilMotionController()
 
         settingsDirectory.mkpath(QString::fromStdString(rootPath + "/Galil/settings"));
         programsDirectory.mkpath(QString::fromStdString(rootPath + "/Galil/programs"));
+
         settingsPath = settingsDirectory.absolutePath() + "/generalSettings.json";
+        programPath = programsDirectory.absolutePath() + "/";
     }
 }
 
@@ -22,8 +24,14 @@ bool galilMotionController::saveSettings()
     m_Settings.saveSettings(settingsPath);
 }
 
-bool galilMotionController::loadSettings()
+bool galilMotionController::saveSettingsAs(const std::string &filePath)
 {
+    settingsPath = QString::fromStdString(filePath);
+}
+
+bool galilMotionController::loadSettings(const std::string &filePath)
+{
+    settingsPath = QString::fromStdString(filePath);
     m_Settings.loadSettings(settingsPath);
 }
 
@@ -121,7 +129,3 @@ void galilMotionController::downloadProgram(std::string &programText)
 //    programText = std::string(onboardProgram);
 }
 
-void galilMotionController::loadSettings(const QDir &directory)
-{
-
-}
