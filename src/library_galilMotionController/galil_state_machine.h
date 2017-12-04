@@ -4,6 +4,7 @@
 #include <iostream>
 #include <QDate>
 
+#include "common/environment_time.h"
 #include "common/threadmanager.h"
 #include "common/timer.h"
 
@@ -11,17 +12,16 @@
 class GalilSM_Interface
 {
 public:
-    //virtual void cbiGuidedController_TransmitMissionItem(const mavlink_mission_item_t &item) = 0;
-
+    virtual void cbiGalilSM_newPosition(const Data::EnvironmentTime &time, const double &pos) = 0;
 };
 
 class GalilSM : public Thread
 {
 public:
-    GalilSM(const int &targetSystem, const int &targetComp);
+    GalilSM(const int &msTimeout = 20);
 
     ~GalilSM() {
-        std::cout << "Destructor on the mavlink guided controller" << std::endl;
+        std::cout << "Destructor on the galil timeout state machine" << std::endl;
         mToExit = true;
     }
 
@@ -31,6 +31,10 @@ public:
     {
         m_CB = cb;
     }
+
+private:
+    Timer m_Timeout;
+    int timeout;
 
 private:
     GalilSM_Interface *m_CB;

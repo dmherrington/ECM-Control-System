@@ -17,8 +17,22 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionSave_Program_triggered()
 {
-
+    m_Galil->loadSettings();
 }
+
+//void MainWindow::onSave()
+//{
+//    QFile saveFile(m_FilePath);
+
+//    if (!saveFile.open(QIODevice::WriteOnly)) {
+//        qWarning("Couldn't open save file.");
+//    }
+
+//    QJsonObject saveObject;
+//    ui->segmentWidget->write(saveObject);
+//    QJsonDocument saveDoc(saveObject);
+//    saveFile.write(saveDoc.toJson());
+//}
 
 void MainWindow::on_actionSave_As_Program_triggered()
 {

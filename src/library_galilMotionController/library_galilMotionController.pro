@@ -24,27 +24,42 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         galil_motion_controller.cpp \
-    command_jog.cpp \
-    command_relative_move.cpp \
-    command_absolute_move.cpp \
-    command_motor_enable.cpp \
-    command_motor_disable.cpp \
-    galil_state_machine.cpp
+        galil_state_machine.cpp \
+        commands/command_absolute_move.cpp \
+        commands/command_jog.cpp \
+        commands/command_motor_disable.cpp \
+        commands/command_motor_enable.cpp \
+        commands/command_relative_move.cpp \
+        commands/command_tell_position.cpp \
+        commands/command_stop.cpp \
+        galil_parse_greturn.cpp \
+    settings/galil_settings.cpp \
+    settings/settings_manual_profile.cpp \
+    settings/settings_vibration_profile.cpp \
+    settings/settings_linear_profile.cpp
 
 HEADERS += \
         galil_motion_controller.h \
         library_galilmotioncontroller_global.h \ 
-    command_jog.h \
-    abstract_command.h \
-    command_relative_move.h \
-    abstract_move_command.h \
-    command_absolute_move.h \
-    type_direction.h \
-    command_types.h \
-    command_motor_enable.h \
-    command_motor_disable.h \
-    axis_definitions.h \
-    galil_state_machine.h
+        type_direction.h \
+        axis_definitions.h \
+        galil_state_machine.h \
+        commands/abstract_command.h \
+        commands/abstract_move_command.h \
+        commands/command_absolute_move.h \
+        commands/command_jog.h \
+        commands/command_motor_disable.h \
+        commands/command_motor_enable.h \
+        commands/command_relative_move.h \
+        commands/command_types.h \
+        commands/command_tell_position.h \
+        commands/command_stop.h \
+        galil_state_definition.h \
+        galil_parse_greturn.h \
+        settings/galil_settings.h \
+        settings/settings_manual_profile.h \
+        settings/settings_vibration_profile.h \
+        settings/settings_linear_profile.h
 
 # Unix lib Install
 unix:!symbian {
@@ -59,9 +74,36 @@ else:win32:CONFIG(debug, debug|release):    lib.files   += debug/library_galilMo
 INSTALLS += lib
 
 #Header file copy
-headers.path    = $$(ECM_ROOT)/include/library_galilMotionController
-headers.files   += $$HEADERS
-INSTALLS       += headers
+headers_base.path    = $$(ECM_ROOT)/include/library_galilMotionController/base
+headers_base.files   += \
+        galil_motion_controller.h \
+        library_galilmotioncontroller_global.h \
+        type_direction.h \
+        axis_definitions.h \
+        galil_state_machine.h \
+INSTALLS       += headers_base
+
+#Header file copy
+headers_settings.path    = $$(ECM_ROOT)/include/library_galilMotionController/settings
+headers_settings.files   += \
+        settings/galil_settings.h \
+        settings/settings_manual_profile.h \
+        settings/settings_vibration_profile.h \
+        settings/settings_linear_profile.h
+INSTALLS       += headers_settings
+
+#Header file copy
+headers_commands.path    = $$(ECM_ROOT)/include/library_galilMotionController/commands
+headers_commands.files   += \
+        commands/abstract_command.h \
+        commands/abstract_move_command.h \
+        commands/command_absolute_move.h \
+        commands/command_jog.h \
+        commands/command_motor_disable.h \
+        commands/command_motor_enable.h \
+        commands/command_relative_move.h \
+        commands/command_types.h
+INSTALLS       += headers_commands
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$PWD/../../tools/galil/include/

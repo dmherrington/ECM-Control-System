@@ -1,58 +1,74 @@
 #include "galil_motion_controller.h"
 
 
-galilMotionController::galilMotionController():
-    mConnection(nullptr)
+galilMotionController::galilMotionController()
 {
-    //GReturn rtnCode = GOpen("",&mConnection);
-    //GCon g, GCStringIn command, GBufOut buffer, GSize buffer_len, GSize* bytes_returned)
-    std::string command = "_TPA";
+//    GReturn rtnCode = GOpen("169.254.78.101",&mConnection);
 
-//    Data::EnvironmentTime currentTime;
-//    Data::EnvironmentTime::CurrentTime(Data::Devices::SYSTEMCLOCK, currentTime);
+    char* ECMPath = getenv("ECM_ROOT");
+    if(ECMPath){
+        std::string rootPath(ECMPath);
+        QDir settingsDirectory(QString::fromStdString(rootPath + "/Galil/settings"));
+        QDir programsDirectory(QString::fromStdString(rootPath + "/Galil/programs"));
 
-//    char* MACEPath = getenv("ECM_ROOT");
-//    std::string loggingPath = "";
-//    if(MACEPath){
-//        std::string rootPath(MACEPath);
-//        //rootPath += "/logs/";
-//        QDir loggingDirectory(QString::fromStdString(rootPath + "/logs/"));
+        settingsDirectory.mkpath(QString::fromStdString(rootPath + "/Galil/settings"));
+        programsDirectory.mkpath(QString::fromStdString(rootPath + "/Galil/programs"));
+        settingsPath = settingsDirectory.absolutePath() + "/generalSettings.json";
+    }
+}
 
-//        std::string newPath = currentTime.dateString() + "_Test_";
-//        int testIndex = 0;
-//        std::string finalPath = newPath + std::to_string(testIndex);
+bool galilMotionController::saveSettings()
+{
+    m_Settings.saveSettings(settingsPath);
+}
 
-//        loggingDirectory.mkpath(QString::fromStdString(rootPath + "/logs/"));
-//        while(!loggingDirectory.mkdir(QString::fromStdString(finalPath)))
-//        {
-//            testIndex++;
-//            finalPath = newPath + std::to_string(testIndex);
-//        }
-//        loggingPath = loggingDirectory.absolutePath().toStdString() + "/" + finalPath;
+bool galilMotionController::loadSettings()
+{
+    m_Settings.loadSettings(settingsPath);
+}
 
-//        std::cout << "The current MACE_ROOT path is: " << rootPath << std::endl;
-//        filename = rootPath + kPathSeparator + "MaceSetup.xml";
-//    }else{
-//        filename = "MaceSetup2.xml";
-//    }
+void galilMotionController::openConnection(const std::string &address)
+{
+//    GReturn rtnCode = GOpen(address.c_str(),&mConnection);
+//    if(rtnCode == G_NO_ERROR) //this means the port was opened successfully
+//        emit commsStatus(true);
 
+//    //in this case we do not emit a change as we don't necessarily know the previous state
+
+//    std::string errorString = ParseGReturn::getGReturnString(rtnCode);
+//    emit currentErrorCode(errorString);
+}
+
+void galilMotionController::closeConnection()
+{
+//    GReturn rtnCode = GClose(&mConnection);
+//    if(rtnCode == G_NO_ERROR) //this means the port was closed successfully
+//        emit commsStatus(false);
+
+//    //in this case we do not emit a change as we don't necessarily know the previous state
+
+//    std::string errorString = ParseGReturn::getGReturnString(rtnCode);
+//    emit currentErrorCode(errorString);
+}
+
+void galilMotionController::getProgramPath(std::string &filePath) const
+{
+    QFile file(programPath);
+    QFileInfo fileInfo(file);
+    filePath = fileInfo.absolutePath().toStdString();
+}
+
+void galilMotionController::getSettingsPath(std::string &filePath) const
+{
+    QFile file(settingsPath);
+    QFileInfo fileInfo(file);
+    filePath = fileInfo.absolutePath().toStdString();
 }
 
 bool galilMotionController::saveProgram(const std::string &text)
 {
-//    QFile file(QString::fromStdString(filePath));
-//    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-//    {
-//        QTextStream outStream(&file);
-//        outStream << QString::fromStdString(text);
-//        file.close();
-//    }
-}
+    QFile file(programPath);
 
-
-bool galilMotionController::saveProgramAs(const std::string &filePath, const std::string &text)
-{
-    QFile file(QString::fromStdString(filePath));
     if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         return false;
@@ -63,9 +79,22 @@ bool galilMotionController::saveProgramAs(const std::string &filePath, const std
     return true;
 }
 
+
+bool galilMotionController::saveProgramAs(const std::string &filePath, const std::string &text)
+{
+    //this sets the current program file path
+    programPath = QString::fromStdString(filePath);
+    bool saved = this->saveProgram(text);
+    return saved;
+}
+
 bool galilMotionController::loadProgram(const std::string &filePath, std::string &programText)
 {
-    QFile file(QString::fromStdString(filePath));
+    //this sets the current program file path
+    programPath = QString::fromStdString(filePath);
+
+    QFile file(programPath);
+
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         return false;
@@ -78,10 +107,21 @@ bool galilMotionController::loadProgram(const std::string &filePath, std::string
 
 void galilMotionController::uploadProgram(const std::string &programText)
 {
-
+    //GReturn rtnCode = GProgramDownload(&mConnection,programText.c_str(),nullptr);
 }
 
 void galilMotionController::downloadProgram(std::string &programText)
+{
+    //first we need to stop motion
+    //
+//    GBufOut onboardProgram;
+//    GSize programSize = 0;
+
+//    GReturn rtnCode = GProgramUpload(&mConnection,onboardProgram,programSize);
+//    programText = std::string(onboardProgram);
+}
+
+void galilMotionController::loadSettings(const QDir &directory)
 {
 
 }
