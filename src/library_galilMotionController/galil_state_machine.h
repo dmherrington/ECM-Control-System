@@ -20,10 +20,6 @@ class GalilSM : public Thread
 public:
     GalilSM(const int &targetSystem, const int &targetComp);
 
-    void updateWaypointTarget(const CommandItem::SpatialWaypoint &target);
-
-    void receivedMissionACK(const mavlink_mission_ack_t &missionACK);
-
     ~GalilSM() {
         std::cout << "Destructor on the mavlink guided controller" << std::endl;
         mToExit = true;

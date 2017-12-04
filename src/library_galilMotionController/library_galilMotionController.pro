@@ -64,6 +64,15 @@ headers.files   += $$HEADERS
 INSTALLS       += headers
 
 INCLUDEPATH += $$PWD/../
+INCLUDEPATH += $$PWD/../../tools/galil/include/
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
+else:unix:!macx: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo
+else:unix:!macx: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon

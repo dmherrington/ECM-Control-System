@@ -43,16 +43,25 @@ public:
     QAction *actionSave_As_Program;
     QAction *actionLoad_Program;
     QWidget *centralWidget;
-    QGridLayout *gridLayout_5;
     QTextEdit *programText;
     graphing::PlotHandler *graphingWidget;
     QFrame *frame_ProfileOptions;
     QGridLayout *gridLayout_3;
     QSplitter *splitter_2;
     QLabel *label_ManualControl_2;
+    QPushButton *pushButton_RunProfile;
+    QPushButton *pushButton_SetInitialGap;
+    QSpinBox *spinBox_Jog_6;
     QTabWidget *tabWidget;
     QWidget *tab;
     QGridLayout *gridLayout_2;
+    QFormLayout *formLayout_7;
+    QLabel *label_5;
+    QSpinBox *spinBox_CutDepth_2;
+    QLabel *label_6;
+    QSpinBox *spinBox_RetractDistance_2;
+    QWidget *tab_2;
+    QGridLayout *gridLayout_6;
     QFormLayout *formLayout_6;
     QLabel *label_3;
     QSpinBox *spinBox_CutDepth;
@@ -62,10 +71,6 @@ public:
     QSpinBox *spinBox_RetractFrequency;
     QLabel *label_4;
     QSpinBox *spinBox_CutSpeed;
-    QWidget *tab_2;
-    QPushButton *pushButton_RunProfile;
-    QPushButton *pushButton_SetInitialGap;
-    QSpinBox *spinBox_Jog_6;
     QFrame *frame_MaunalControl;
     QGridLayout *gridLayout_4;
     QSplitter *splitter;
@@ -89,7 +94,6 @@ public:
     QSpacerItem *horizontalSpacer_8;
     QPushButton *pushButton_SetHome;
     QPushButton *pushButton_SetHome_2;
-    QSpacerItem *horizontalSpacer;
     QMenuBar *menuBar;
     QMenu *menuGalil;
     QToolBar *mainToolBar;
@@ -113,28 +117,21 @@ public:
         actionLoad_Program->setObjectName(QStringLiteral("actionLoad_Program"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        gridLayout_5 = new QGridLayout(centralWidget);
-        gridLayout_5->setSpacing(6);
-        gridLayout_5->setContentsMargins(11, 11, 11, 11);
-        gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
         programText = new QTextEdit(centralWidget);
         programText->setObjectName(QStringLiteral("programText"));
+        programText->setGeometry(QRect(9, 9, 480, 192));
         QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Expanding);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(programText->sizePolicy().hasHeightForWidth());
         programText->setSizePolicy(sizePolicy1);
         programText->setMinimumSize(QSize(480, 0));
-
-        gridLayout_5->addWidget(programText, 0, 0, 1, 1);
-
         graphingWidget = new graphing::PlotHandler(centralWidget);
         graphingWidget->setObjectName(QStringLiteral("graphingWidget"));
-
-        gridLayout_5->addWidget(graphingWidget, 0, 1, 1, 2);
-
+        graphingWidget->setGeometry(QRect(495, 9, 512, 228));
         frame_ProfileOptions = new QFrame(centralWidget);
         frame_ProfileOptions->setObjectName(QStringLiteral("frame_ProfileOptions"));
+        frame_ProfileOptions->setGeometry(QRect(9, 243, 480, 250));
         QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Preferred);
         sizePolicy2.setHorizontalStretch(0);
         sizePolicy2.setVerticalStretch(0);
@@ -168,106 +165,16 @@ public:
 
         gridLayout_3->addWidget(splitter_2, 0, 0, 1, 2);
 
-        tabWidget = new QTabWidget(frame_ProfileOptions);
-        tabWidget->setObjectName(QStringLiteral("tabWidget"));
-        tab = new QWidget();
-        tab->setObjectName(QStringLiteral("tab"));
-        gridLayout_2 = new QGridLayout(tab);
-        gridLayout_2->setSpacing(6);
-        gridLayout_2->setContentsMargins(11, 11, 11, 11);
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        formLayout_6 = new QFormLayout();
-        formLayout_6->setSpacing(6);
-        formLayout_6->setObjectName(QStringLiteral("formLayout_6"));
-        formLayout_6->setSizeConstraint(QLayout::SetFixedSize);
-        label_3 = new QLabel(tab);
-        label_3->setObjectName(QStringLiteral("label_3"));
-        label_3->setMinimumSize(QSize(120, 0));
-        QFont font1;
-        font1.setPointSize(12);
-        label_3->setFont(font1);
-
-        formLayout_6->setWidget(0, QFormLayout::LabelRole, label_3);
-
-        spinBox_CutDepth = new QSpinBox(tab);
-        spinBox_CutDepth->setObjectName(QStringLiteral("spinBox_CutDepth"));
+        pushButton_RunProfile = new QPushButton(frame_ProfileOptions);
+        pushButton_RunProfile->setObjectName(QStringLiteral("pushButton_RunProfile"));
         QSizePolicy sizePolicy4(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy4.setHorizontalStretch(0);
         sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(spinBox_CutDepth->sizePolicy().hasHeightForWidth());
-        spinBox_CutDepth->setSizePolicy(sizePolicy4);
-        spinBox_CutDepth->setMinimumSize(QSize(110, 30));
-        spinBox_CutDepth->setFont(font1);
-        spinBox_CutDepth->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-
-        formLayout_6->setWidget(0, QFormLayout::FieldRole, spinBox_CutDepth);
-
-        label = new QLabel(tab);
-        label->setObjectName(QStringLiteral("label"));
-        label->setMinimumSize(QSize(120, 0));
-        label->setFont(font1);
-
-        formLayout_6->setWidget(1, QFormLayout::LabelRole, label);
-
-        spinBox_RetractDistance = new QSpinBox(tab);
-        spinBox_RetractDistance->setObjectName(QStringLiteral("spinBox_RetractDistance"));
-        sizePolicy4.setHeightForWidth(spinBox_RetractDistance->sizePolicy().hasHeightForWidth());
-        spinBox_RetractDistance->setSizePolicy(sizePolicy4);
-        spinBox_RetractDistance->setMinimumSize(QSize(110, 30));
-        spinBox_RetractDistance->setFont(font1);
-        spinBox_RetractDistance->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-
-        formLayout_6->setWidget(1, QFormLayout::FieldRole, spinBox_RetractDistance);
-
-        label_2 = new QLabel(tab);
-        label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setMinimumSize(QSize(120, 0));
-        label_2->setFont(font1);
-
-        formLayout_6->setWidget(2, QFormLayout::LabelRole, label_2);
-
-        spinBox_RetractFrequency = new QSpinBox(tab);
-        spinBox_RetractFrequency->setObjectName(QStringLiteral("spinBox_RetractFrequency"));
-        sizePolicy4.setHeightForWidth(spinBox_RetractFrequency->sizePolicy().hasHeightForWidth());
-        spinBox_RetractFrequency->setSizePolicy(sizePolicy4);
-        spinBox_RetractFrequency->setMinimumSize(QSize(110, 30));
-        spinBox_RetractFrequency->setFont(font1);
-        spinBox_RetractFrequency->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-
-        formLayout_6->setWidget(2, QFormLayout::FieldRole, spinBox_RetractFrequency);
-
-        label_4 = new QLabel(tab);
-        label_4->setObjectName(QStringLiteral("label_4"));
-        label_4->setMinimumSize(QSize(120, 0));
-        label_4->setFont(font1);
-
-        formLayout_6->setWidget(3, QFormLayout::LabelRole, label_4);
-
-        spinBox_CutSpeed = new QSpinBox(tab);
-        spinBox_CutSpeed->setObjectName(QStringLiteral("spinBox_CutSpeed"));
-        sizePolicy4.setHeightForWidth(spinBox_CutSpeed->sizePolicy().hasHeightForWidth());
-        spinBox_CutSpeed->setSizePolicy(sizePolicy4);
-        spinBox_CutSpeed->setMinimumSize(QSize(110, 30));
-        spinBox_CutSpeed->setFont(font1);
-        spinBox_CutSpeed->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-
-        formLayout_6->setWidget(3, QFormLayout::FieldRole, spinBox_CutSpeed);
-
-
-        gridLayout_2->addLayout(formLayout_6, 0, 0, 1, 1);
-
-        tabWidget->addTab(tab, QString());
-        tab_2 = new QWidget();
-        tab_2->setObjectName(QStringLiteral("tab_2"));
-        tabWidget->addTab(tab_2, QString());
-
-        gridLayout_3->addWidget(tabWidget, 1, 0, 3, 1);
-
-        pushButton_RunProfile = new QPushButton(frame_ProfileOptions);
-        pushButton_RunProfile->setObjectName(QStringLiteral("pushButton_RunProfile"));
         sizePolicy4.setHeightForWidth(pushButton_RunProfile->sizePolicy().hasHeightForWidth());
         pushButton_RunProfile->setSizePolicy(sizePolicy4);
         pushButton_RunProfile->setMinimumSize(QSize(180, 30));
+        QFont font1;
+        font1.setPointSize(12);
         pushButton_RunProfile->setFont(font1);
 
         gridLayout_3->addWidget(pushButton_RunProfile, 1, 1, 1, 1);
@@ -289,11 +196,149 @@ public:
 
         gridLayout_3->addWidget(spinBox_Jog_6, 3, 1, 1, 1);
 
+        tabWidget = new QTabWidget(frame_ProfileOptions);
+        tabWidget->setObjectName(QStringLiteral("tabWidget"));
+        tab = new QWidget();
+        tab->setObjectName(QStringLiteral("tab"));
+        gridLayout_2 = new QGridLayout(tab);
+        gridLayout_2->setSpacing(6);
+        gridLayout_2->setContentsMargins(11, 11, 11, 11);
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        formLayout_7 = new QFormLayout();
+        formLayout_7->setSpacing(6);
+        formLayout_7->setObjectName(QStringLiteral("formLayout_7"));
+        formLayout_7->setSizeConstraint(QLayout::SetFixedSize);
+        label_5 = new QLabel(tab);
+        label_5->setObjectName(QStringLiteral("label_5"));
+        label_5->setMinimumSize(QSize(120, 0));
+        label_5->setFont(font1);
 
-        gridLayout_5->addWidget(frame_ProfileOptions, 1, 0, 1, 1);
+        formLayout_7->setWidget(0, QFormLayout::LabelRole, label_5);
 
+        spinBox_CutDepth_2 = new QSpinBox(tab);
+        spinBox_CutDepth_2->setObjectName(QStringLiteral("spinBox_CutDepth_2"));
+        sizePolicy4.setHeightForWidth(spinBox_CutDepth_2->sizePolicy().hasHeightForWidth());
+        spinBox_CutDepth_2->setSizePolicy(sizePolicy4);
+        spinBox_CutDepth_2->setMinimumSize(QSize(110, 30));
+        spinBox_CutDepth_2->setFont(font1);
+        spinBox_CutDepth_2->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+
+        formLayout_7->setWidget(0, QFormLayout::FieldRole, spinBox_CutDepth_2);
+
+        label_6 = new QLabel(tab);
+        label_6->setObjectName(QStringLiteral("label_6"));
+        label_6->setMinimumSize(QSize(120, 0));
+        label_6->setFont(font1);
+
+        formLayout_7->setWidget(1, QFormLayout::LabelRole, label_6);
+
+        spinBox_RetractDistance_2 = new QSpinBox(tab);
+        spinBox_RetractDistance_2->setObjectName(QStringLiteral("spinBox_RetractDistance_2"));
+        sizePolicy4.setHeightForWidth(spinBox_RetractDistance_2->sizePolicy().hasHeightForWidth());
+        spinBox_RetractDistance_2->setSizePolicy(sizePolicy4);
+        spinBox_RetractDistance_2->setMinimumSize(QSize(110, 30));
+        spinBox_RetractDistance_2->setFont(font1);
+        spinBox_RetractDistance_2->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+
+        formLayout_7->setWidget(1, QFormLayout::FieldRole, spinBox_RetractDistance_2);
+
+
+        gridLayout_2->addLayout(formLayout_7, 0, 0, 1, 1);
+
+        tabWidget->addTab(tab, QString());
+        tab_2 = new QWidget();
+        tab_2->setObjectName(QStringLiteral("tab_2"));
+        gridLayout_6 = new QGridLayout(tab_2);
+        gridLayout_6->setSpacing(6);
+        gridLayout_6->setContentsMargins(11, 11, 11, 11);
+        gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
+        formLayout_6 = new QFormLayout();
+        formLayout_6->setSpacing(6);
+        formLayout_6->setObjectName(QStringLiteral("formLayout_6"));
+        formLayout_6->setSizeConstraint(QLayout::SetFixedSize);
+        label_3 = new QLabel(tab_2);
+        label_3->setObjectName(QStringLiteral("label_3"));
+        label_3->setMinimumSize(QSize(120, 0));
+        label_3->setFont(font1);
+
+        formLayout_6->setWidget(0, QFormLayout::LabelRole, label_3);
+
+        spinBox_CutDepth = new QSpinBox(tab_2);
+        spinBox_CutDepth->setObjectName(QStringLiteral("spinBox_CutDepth"));
+        sizePolicy4.setHeightForWidth(spinBox_CutDepth->sizePolicy().hasHeightForWidth());
+        spinBox_CutDepth->setSizePolicy(sizePolicy4);
+        spinBox_CutDepth->setMinimumSize(QSize(80, 30));
+        spinBox_CutDepth->setFont(font1);
+        spinBox_CutDepth->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+
+        formLayout_6->setWidget(0, QFormLayout::FieldRole, spinBox_CutDepth);
+
+        label = new QLabel(tab_2);
+        label->setObjectName(QStringLiteral("label"));
+        label->setMinimumSize(QSize(120, 0));
+        label->setFont(font1);
+
+        formLayout_6->setWidget(1, QFormLayout::LabelRole, label);
+
+        spinBox_RetractDistance = new QSpinBox(tab_2);
+        spinBox_RetractDistance->setObjectName(QStringLiteral("spinBox_RetractDistance"));
+        sizePolicy4.setHeightForWidth(spinBox_RetractDistance->sizePolicy().hasHeightForWidth());
+        spinBox_RetractDistance->setSizePolicy(sizePolicy4);
+        spinBox_RetractDistance->setMinimumSize(QSize(80, 30));
+        spinBox_RetractDistance->setFont(font1);
+        spinBox_RetractDistance->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+
+        formLayout_6->setWidget(1, QFormLayout::FieldRole, spinBox_RetractDistance);
+
+        label_2 = new QLabel(tab_2);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setMinimumSize(QSize(120, 0));
+        label_2->setFont(font1);
+
+        formLayout_6->setWidget(2, QFormLayout::LabelRole, label_2);
+
+        spinBox_RetractFrequency = new QSpinBox(tab_2);
+        spinBox_RetractFrequency->setObjectName(QStringLiteral("spinBox_RetractFrequency"));
+        sizePolicy4.setHeightForWidth(spinBox_RetractFrequency->sizePolicy().hasHeightForWidth());
+        spinBox_RetractFrequency->setSizePolicy(sizePolicy4);
+        spinBox_RetractFrequency->setMinimumSize(QSize(80, 30));
+        spinBox_RetractFrequency->setFont(font1);
+        spinBox_RetractFrequency->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+
+        formLayout_6->setWidget(2, QFormLayout::FieldRole, spinBox_RetractFrequency);
+
+        label_4 = new QLabel(tab_2);
+        label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setMinimumSize(QSize(120, 0));
+        label_4->setFont(font1);
+
+        formLayout_6->setWidget(3, QFormLayout::LabelRole, label_4);
+
+        spinBox_CutSpeed = new QSpinBox(tab_2);
+        spinBox_CutSpeed->setObjectName(QStringLiteral("spinBox_CutSpeed"));
+        sizePolicy4.setHeightForWidth(spinBox_CutSpeed->sizePolicy().hasHeightForWidth());
+        spinBox_CutSpeed->setSizePolicy(sizePolicy4);
+        spinBox_CutSpeed->setMinimumSize(QSize(80, 30));
+        spinBox_CutSpeed->setFont(font1);
+        spinBox_CutSpeed->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+
+        formLayout_6->setWidget(3, QFormLayout::FieldRole, spinBox_CutSpeed);
+
+
+        gridLayout_6->addLayout(formLayout_6, 0, 0, 1, 1);
+
+        tabWidget->addTab(tab_2, QString());
+
+        gridLayout_3->addWidget(tabWidget, 1, 0, 3, 1);
+
+        tabWidget->raise();
+        splitter_2->raise();
+        pushButton_RunProfile->raise();
+        pushButton_SetInitialGap->raise();
+        spinBox_Jog_6->raise();
         frame_MaunalControl = new QFrame(centralWidget);
         frame_MaunalControl->setObjectName(QStringLiteral("frame_MaunalControl"));
+        frame_MaunalControl->setGeometry(QRect(495, 243, 350, 250));
         sizePolicy4.setHeightForWidth(frame_MaunalControl->sizePolicy().hasHeightForWidth());
         frame_MaunalControl->setSizePolicy(sizePolicy4);
         frame_MaunalControl->setMinimumSize(QSize(350, 250));
@@ -458,17 +503,10 @@ public:
 
         gridLayout_4->addWidget(pushButton_SetHome_2, 2, 1, 1, 1);
 
-
-        gridLayout_5->addWidget(frame_MaunalControl, 1, 1, 1, 1);
-
-        horizontalSpacer = new QSpacerItem(0, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        gridLayout_5->addItem(horizontalSpacer, 1, 2, 1, 1);
-
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1016, 22));
+        menuBar->setGeometry(QRect(0, 0, 1016, 21));
         menuGalil = new QMenu(menuBar);
         menuGalil->setObjectName(QStringLiteral("menuGalil"));
         MainWindow->setMenuBar(menuBar);
@@ -486,7 +524,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -499,14 +537,16 @@ public:
         actionSave_As_Program->setText(QApplication::translate("MainWindow", "Save_As Program", Q_NULLPTR));
         actionLoad_Program->setText(QApplication::translate("MainWindow", "Load Program", Q_NULLPTR));
         label_ManualControl_2->setText(QApplication::translate("MainWindow", "Profile Optons", Q_NULLPTR));
-        label_3->setText(QApplication::translate("MainWindow", "Cut Depth", Q_NULLPTR));
-        label->setText(QApplication::translate("MainWindow", "Retract Distance", Q_NULLPTR));
-        label_2->setText(QApplication::translate("MainWindow", "Retract Frequency", Q_NULLPTR));
-        label_4->setText(QApplication::translate("MainWindow", "Cut Speed", Q_NULLPTR));
-        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "Tab 1", Q_NULLPTR));
-        tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "Tab 2", Q_NULLPTR));
         pushButton_RunProfile->setText(QApplication::translate("MainWindow", "Run Profile", Q_NULLPTR));
         pushButton_SetInitialGap->setText(QApplication::translate("MainWindow", "Set Initial Gap", Q_NULLPTR));
+        label_5->setText(QApplication::translate("MainWindow", "Depth of Cut (um)", Q_NULLPTR));
+        label_6->setText(QApplication::translate("MainWindow", "Cut Speed (um/s)", Q_NULLPTR));
+        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "Tab 1", Q_NULLPTR));
+        label_3->setText(QApplication::translate("MainWindow", "Retract Distance (um)", Q_NULLPTR));
+        label->setText(QApplication::translate("MainWindow", "Retract Frequency (ms)", Q_NULLPTR));
+        label_2->setText(QApplication::translate("MainWindow", "Pause (ms)", Q_NULLPTR));
+        label_4->setText(QApplication::translate("MainWindow", "Step Size (um)", Q_NULLPTR));
+        tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "Tab 2", Q_NULLPTR));
         label_ManualControl->setText(QApplication::translate("MainWindow", "Manual Control", Q_NULLPTR));
         label_ManualControl_3->setText(QApplication::translate("MainWindow", "Jog Control (cnt/sec)", Q_NULLPTR));
         label_ManualControl_4->setText(QApplication::translate("MainWindow", "Step Control (cnt)", Q_NULLPTR));
