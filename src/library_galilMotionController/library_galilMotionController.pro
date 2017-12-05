@@ -36,7 +36,8 @@ SOURCES += \
     settings/galil_settings.cpp \
     settings/settings_manual_profile.cpp \
     settings/settings_vibration_profile.cpp \
-    settings/settings_linear_profile.cpp
+    settings/settings_linear_profile.cpp \
+    commands/command_set_bit.cpp
 
 HEADERS += \
         galil_motion_controller.h \
@@ -59,7 +60,9 @@ HEADERS += \
         settings/galil_settings.h \
         settings/settings_manual_profile.h \
         settings/settings_vibration_profile.h \
-        settings/settings_linear_profile.h
+        settings/settings_linear_profile.h \
+    commands/command_components.h \
+    commands/command_set_bit.h
 
 # Unix lib Install
 unix:!symbian {
@@ -106,26 +109,15 @@ headers_commands.files   += \
 INSTALLS       += headers_commands
 
 INCLUDEPATH += $$PWD/../
-
-unix {
-        INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
-        LIBS += -L$$(ECM_ROOT)/tools/galil/dll/x86 -gclib
-        LIBS += -L$$(ECM_ROOT)/tools/galil/dll/x86 -gclibo
-}
-
-win32 {
-        INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
-        CONFIG(debug, debug|release) {
-            LIBS += -L$$(ECM_ROOT)/tools/galil/dll/x86 -gclib
-            LIBS += -L$$(ECM_ROOT)/tools/galil/dll/x86 -gclibo
-        }
-        else {
-            LIBS += -L$$(ECM_ROOT)/tools/galil/dll/x86 -gclib
-            LIBS += -L$$(ECM_ROOT)/tools/galil/dll/x86 -gclibo
-        }
-}
-
+INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
 else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
+
+unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
+unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo
+
+INCLUDEPATH += $$PWD/../../tools/galil/lib/dynamic/x86
+DEPENDPATH += $$PWD/../../tools/galil/lib/dynamic/x86
+

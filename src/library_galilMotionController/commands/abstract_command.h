@@ -23,6 +23,11 @@
 class AbstractCommand
 {
 public:
+    AbstractCommand(const CommandType &type)
+    {
+        this->commandType = type;
+    }
+
     virtual ~AbstractCommand() = default;
 
 public:

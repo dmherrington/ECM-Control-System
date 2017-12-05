@@ -25,6 +25,9 @@ public:
         mToExit = true;
     }
 
+    void beginPolling();
+    void pausePolling();
+
     void run();
 
     void connectCallback(GalilSM_Interface *cb)

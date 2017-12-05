@@ -1,9 +1,9 @@
 #include "command_tell_position.h"
 
 CommandTellPosition::CommandTellPosition(const MotorAxis &axis):
-    tellAxis(axis)
+    AbstractCommand(CommandType::TELL_POSITION), tellAxis(axis)
 {
-    commandType = CommandType::TELL_POSITION;
+
 }
 
 //!

@@ -1,7 +1,7 @@
 #include "command_stop.h"
 
 CommandStop::CommandStop(const MotorAxis &axis):
-    stopAxis(axis)
+    AbstractCommand(CommandType::STOP), stopAxis(axis)
 {
 
 }

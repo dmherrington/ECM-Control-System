@@ -10,6 +10,8 @@
 #include "gclib.h"
 
 #include "library_galilmotioncontroller_global.h"
+#include "commands/command_components.h"
+
 #include "galil_parse_greturn.h"
 #include "settings/galil_settings.h"
 

@@ -27,9 +27,9 @@ class AbstractMoveCommand : public AbstractCommand
 {
 
 public:
-    AbstractMoveCommand(const CommandType &type, const MotorAxis &axis)
+    AbstractMoveCommand(const CommandType &type, const MotorAxis &axis):
+        AbstractCommand(type)
     {
-        this->moveType = type;
         this->moveAxis = axis;
         moveDirection[MotorAxis::X] = Direction::DIRECTION_UP;
         moveDirection[MotorAxis::Y] = Direction::DIRECTION_UP;
@@ -38,9 +38,9 @@ public:
 
     virtual ~AbstractMoveCommand() = default;
 
-    AbstractMoveCommand(const AbstractMoveCommand &copy)
+    AbstractMoveCommand(const AbstractMoveCommand &copy):
+        AbstractCommand(copy.getMoveType())
     {
-        this->moveType = copy.getMoveType();
         this->moveAxis = copy.getMoveAxis();
         this->moveDirection = copy.getMoveDirection();
     }

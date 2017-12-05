@@ -5,6 +5,11 @@ CommandJog::CommandJog():
 {
 
 }
+CommandJog::CommandJog(const MotorAxis &axis, const double &speed):
+    AbstractMoveCommand(CommandType::JOG_MOVE, axis)
+{
+    this->setJogSpeed(axis,speed);
+}
 
 CommandJog::CommandJog(const MotorAxis &axis, const double &resolution, const double &speed):
     AbstractMoveCommand(CommandType::JOG_MOVE, axis)
@@ -16,6 +21,8 @@ CommandJog::CommandJog(const MotorAxis &axis, const double &resolution, const do
 CommandJog::CommandJog(const double &resolution, const double &speed):
     AbstractMoveCommand(CommandType::JOG_MOVE, MotorAxis::ALL)
 {
+    this->setJogResolution(resolution);
+    this->setJogSpeed(this->getMoveAxis(),speed);
 
 }
 
@@ -66,7 +73,8 @@ std::string CommandJog::getCommandString() const
     else
     {
         str.append(CommandToString(this->getCommandType()));
-        str.append("m=");
+        str.append(AxisToString(moveAxis));
+        str.append("=");
         str.append(std::to_string(jogSpeed.at(moveAxis)));
     }
 

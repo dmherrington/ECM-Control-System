@@ -27,6 +27,7 @@ bool galilMotionController::saveSettings()
 bool galilMotionController::saveSettingsAs(const std::string &filePath)
 {
     settingsPath = QString::fromStdString(filePath);
+    m_Settings.saveSettings(settingsPath);
 }
 
 bool galilMotionController::loadSettings(const std::string &filePath)
@@ -37,11 +38,11 @@ bool galilMotionController::loadSettings(const std::string &filePath)
 
 void galilMotionController::openConnection(const std::string &address)
 {
-//    GReturn rtnCode = GOpen(address.c_str(),&mConnection);
-//    if(rtnCode == G_NO_ERROR) //this means the port was opened successfully
-//        emit commsStatus(true);
+    GReturn rtnCode = GOpen(address.c_str(),&mConnection);
+    if(rtnCode == G_NO_ERROR) //this means the port was opened successfully
+        emit commsStatus(true);
 
-//    //in this case we do not emit a change as we don't necessarily know the previous state
+    //in this case we do not emit a change as we don't necessarily know the previous state
 
 //    std::string errorString = ParseGReturn::getGReturnString(rtnCode);
 //    emit currentErrorCode(errorString);
@@ -49,11 +50,11 @@ void galilMotionController::openConnection(const std::string &address)
 
 void galilMotionController::closeConnection()
 {
-//    GReturn rtnCode = GClose(&mConnection);
-//    if(rtnCode == G_NO_ERROR) //this means the port was closed successfully
-//        emit commsStatus(false);
+    GReturn rtnCode = GClose(&mConnection);
+    if(rtnCode == G_NO_ERROR) //this means the port was closed successfully
+        emit commsStatus(false);
 
-//    //in this case we do not emit a change as we don't necessarily know the previous state
+    //in this case we do not emit a change as we don't necessarily know the previous state
 
 //    std::string errorString = ParseGReturn::getGReturnString(rtnCode);
 //    emit currentErrorCode(errorString);
@@ -115,17 +116,29 @@ bool galilMotionController::loadProgram(const std::string &filePath, std::string
 
 void galilMotionController::uploadProgram(const std::string &programText)
 {
-    //GReturn rtnCode = GProgramDownload(&mConnection,programText.c_str(),nullptr);
+    //1) Stop the motion of the machine
+
+    //2) Turn off the power supply
+
+    //3) Read the program
+
+    GReturn rtnCode = GProgramDownload(&mConnection,programText.c_str(),nullptr);
 }
 
 void galilMotionController::downloadProgram(std::string &programText)
 {
-    //first we need to stop motion
-    //
-//    GBufOut onboardProgram;
-//    GSize programSize = 0;
+    //1) Stop the motion of the machine
+    CommandStop stopMachine;
+    //2) Turn off the power supply
 
-//    GReturn rtnCode = GProgramUpload(&mConnection,onboardProgram,programSize);
-//    programText = std::string(onboardProgram);
+    //3)
+
+    //4) Read the program
+
+    GBufOut onboardProgram;
+    GSize programSize = 0;
+
+    GReturn rtnCode = GProgramUpload(&mConnection,onboardProgram,programSize);
+    programText = std::string(onboardProgram);
 }
 

@@ -1,8 +1,9 @@
 #include "command_motor_disable.h"
 
-CommandMotorDisable::CommandMotorDisable()
+CommandMotorDisable::CommandMotorDisable():
+    AbstractCommand(CommandType::MOTOR_OFF)
 {
-    this->commandType = CommandType::MOTOR_OFF;
+
 }
 
 void CommandMotorDisable::setDisableAxis(const MotorAxis &axis)

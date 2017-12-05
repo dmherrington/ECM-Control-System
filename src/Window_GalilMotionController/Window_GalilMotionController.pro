@@ -35,7 +35,7 @@ FORMS += \
 
 #include Dependicies
 INCLUDEPATH += $$PWD/../
-INCLUDEPATH += $$PWD/../../tools/galil/include/
+INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/release/ -llibrary_galilMotionController
@@ -52,20 +52,11 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../graphing/ -lgraphing
 INCLUDEPATH += $$PWD/../graphing
 DEPENDPATH += $$PWD/../graphing
 
-unix {
-        INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
-        LIBS += -L$$(ECM_ROOT)/tools/galil/dll/x86 -gclib
-        LIBS += -L$$(ECM_ROOT)/tools/galil/dll/x86 -gclibo
-}
+unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
+unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo
 
-win32 {
-        INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
-        CONFIG(debug, debug|release) {
-            LIBS += -L$$(ECM_ROOT)/tools/galil/dll/x86 -gclib
-            LIBS += -L$$(ECM_ROOT)/tools/galil/dll/x86 -gclibo
-        }
-        else {
-            LIBS += -L$$(ECM_ROOT)/tools/galil/dll/x86 -gclib
-            LIBS += -L$$(ECM_ROOT)/tools/galil/dll/x86 -gclibo
-        }
-}
+INCLUDEPATH += $$PWD/../../tools/galil/lib/dynamic/x86
+DEPENDPATH += $$PWD/../../tools/galil/lib/dynamic/x86
+
+win32: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
+else:unix: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo

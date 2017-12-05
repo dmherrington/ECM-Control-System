@@ -1,8 +1,9 @@
 #include "command_motor_enable.h"
 
-CommandMotorEnable::CommandMotorEnable()
+CommandMotorEnable::CommandMotorEnable():
+    AbstractCommand(CommandType::MOTOR_ON)
 {
-    this->commandType = CommandType::MOTOR_ON;
+
 }
 
 void CommandMotorEnable::setEnableAxis(const MotorAxis &axis)

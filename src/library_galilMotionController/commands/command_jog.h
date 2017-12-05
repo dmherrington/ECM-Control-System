@@ -26,6 +26,8 @@ class CommandJog : public AbstractMoveCommand
 public:
     CommandJog();
 
+    CommandJog(const MotorAxis &axis, const double &speed);
+
     CommandJog(const double &resolution, const double &speed);
 
     CommandJog(const MotorAxis &axis, const double &resolution, const double &speed);

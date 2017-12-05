@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-//2015 german reisling
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -84,6 +84,8 @@ void MainWindow::on_actionLoad_Program_triggered()
 //!
 void MainWindow::on_pushButton_IncreaseJog_pressed()
 {
+    int jogRate = ui->spinBox_Jog->value();
+    CommandJog beginJog(MotorAxis::Z,jogRate);
 
 }
 
@@ -93,7 +95,7 @@ void MainWindow::on_pushButton_IncreaseJog_pressed()
 //!
 void MainWindow::on_pushButton_IncreaseJog_released()
 {
-
+    CommandStop stopJog;
 }
 
 //!
@@ -134,6 +136,9 @@ void MainWindow::on_pushButton_DecreaseRelativeMove_clicked()
 {
 
 }
+/////////////////////////////////////////////////////////////////////////
+/// USER HAS INTERACTED WITH PARAMETERS MENU BAR
+/////////////////////////////////////////////////////////////////////////
 
 void MainWindow::on_actionSave_Current_Parameters_triggered()
 {
@@ -142,7 +147,12 @@ void MainWindow::on_actionSave_Current_Parameters_triggered()
 
 void MainWindow::on_actionSave_As_Current_Parameters_triggered()
 {
-
+    std::string settingsPath = "";
+    m_Galil->getSettingsPath(settingsPath);
+    QString fullFile = saveAsFileDialog(settingsPath,"json");
+    if(!fullFile.isEmpty()&& !fullFile.isNull()){
+        m_Galil->saveSettingsAs(fullFile.toStdString());
+    }
 }
 
 void MainWindow::on_actionLoad_Parameters_triggered()
@@ -150,7 +160,25 @@ void MainWindow::on_actionLoad_Parameters_triggered()
     std::string settingsPath = "";
     m_Galil->getSettingsPath(settingsPath);
     QString fullFile = loadFileDialog(settingsPath,"json");
-    m_Galil->loadSettings(fullFile.toStdString());
+    if(!fullFile.isEmpty()&& !fullFile.isNull()){
+        m_Galil->loadSettings(fullFile.toStdString());
+    }
+}
+
+QString MainWindow::saveAsFileDialog(const std::string &filePath, const std::string &suffix)
+{
+    QFileDialog fileDialog(this, "Save program as:");
+    QDir galilProgramDirectory(QString::fromStdString(filePath));
+    fileDialog.setDirectory(galilProgramDirectory);
+    fileDialog.setFileMode(QFileDialog::AnyFile);
+    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+    QString nameFilter = "Open Files (*.";
+    nameFilter += QString::fromStdString(suffix) + ")";
+    fileDialog.setNameFilter(nameFilter);
+    fileDialog.setDefaultSuffix(QString::fromStdString(suffix));
+    fileDialog.exec();
+    QString fullFilePath = fileDialog.selectedFiles().first();
+    return fullFilePath;
 }
 
 QString MainWindow::loadFileDialog(const std::string &filePath, const std::string &suffix)
