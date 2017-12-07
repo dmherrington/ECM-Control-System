@@ -101,6 +101,10 @@ private slots:
 
     void on_pushButton_DownloadProgram_clicked();
 
+    void on_actionOpen_Connection_triggered();
+
+    void on_actionClose_Connection_triggered();
+
 private:
     QString loadFileDialog(const std::string &filePath, const std::string &suffix);
     QString saveAsFileDialog(const std::string &filePath, const std::string &suffix);

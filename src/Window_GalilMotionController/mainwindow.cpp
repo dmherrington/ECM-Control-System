@@ -219,3 +219,13 @@ void MainWindow::on_pushButton_DownloadProgram_clicked()
     std::string programText ="";
     m_Galil->downloadProgram(programText);
 }
+
+void MainWindow::on_actionOpen_Connection_triggered()
+{
+    m_Galil->openConnection("169.254.78.101 -d");
+}
+
+void MainWindow::on_actionClose_Connection_triggered()
+{
+    m_Galil->closeConnection();
+}
