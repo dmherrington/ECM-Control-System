@@ -35,7 +35,7 @@ std::string CommandStop::getCommandString() const
     else
     {
         str.append(CommandToString(this->getCommandType()));
-        str.append("");
+        str.append(" ");
         str.append(AxisToString(stopAxis));
     }
     return str;

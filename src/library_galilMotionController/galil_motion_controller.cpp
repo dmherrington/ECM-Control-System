@@ -99,6 +99,11 @@ void galilMotionController::executeCommand(const AbstractCommand *command)
     std::cout<<"Command Executed: "<<CommandToString(command->getCommandType());
     std::cout<<ParseGReturn::getGReturnString(rtn);
     std::cout<<"Returned: "<<std::string(returnOut)<<std::endl;
+    if((command->getCommandType() == CommandType::JOG_MOVE) || (command->getCommandType() == CommandType::RELATIVE_MOVE))
+    {
+        //we need to begin the command in these cases
+        GCommand(mConnection,"BG A",returnOut,sizeof(returnOut),&read_bytes);
+    }
 }
 
 void galilMotionController::executeStringCommand(const std::string &stringCommand)
