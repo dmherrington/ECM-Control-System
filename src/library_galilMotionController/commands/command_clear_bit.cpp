@@ -1,22 +1,22 @@
-#include "command_set_bit.h"
+#include "command_clear_bit.h"
 
-CommandSetBit::CommandSetBit():
-    AbstractCommand(CommandType::SET_BIT)
+CommandClearBit::CommandClearBit():
+    AbstractCommand(CommandType::CLEAR_BIT)
 {
 
 }
 
-void CommandSetBit::appendAddress(const unsigned int &address)
+void CommandClearBit::appendAddress(const unsigned int &address)
 {
     this->digitalAddr.push_back(address);
 }
 
-std::vector<unsigned int> CommandSetBit::getDigitalAddress() const
+std::vector<unsigned int> CommandClearBit::getDigitalAddress() const
 {
     return this->digitalAddr;
 }
 
-std::string CommandSetBit::getCommandString() const
+std::string CommandClearBit::getCommandString() const
 {
     std::string str;
     str.append(CommandToString(this->getCommandType()));
@@ -30,4 +30,3 @@ std::string CommandSetBit::getCommandString() const
     }
     return str;
 }
-

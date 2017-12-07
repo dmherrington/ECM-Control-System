@@ -1,18 +1,18 @@
-#include "galil_state_machine.h"
+#include "galil_poll_status.h"
 
-GalilSM::GalilSM(const int &msTimeout):
+GalilPollState::GalilPollState(const int &msTimeout):
     m_CB(nullptr), timeout(msTimeout)
 {
 
 }
 
-void GalilSM::beginPolling()
+void GalilPollState::beginPolling()
 {
     m_Timeout.start();
     this->start();
 }
 
-void GalilSM::pausePolling()
+void GalilPollState::pausePolling()
 {
     m_LambdasToRun.push_back([this]{
         m_Timeout.stop();
@@ -21,7 +21,7 @@ void GalilSM::pausePolling()
     });
 }
 
-void GalilSM::run()
+void GalilPollState::run()
 {
     while(true)
     {

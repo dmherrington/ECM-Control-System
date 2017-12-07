@@ -56,8 +56,12 @@ std::string CommandRelativeMove::getCommandString() const
     else
     {
         str.append(CommandToString(this->getCommandType()));
-        str.append("m=");
-        str.append(std::to_string(relativeMove.at(moveAxis)));
+        str.append(" ");
+        str.append(AxisToString(moveAxis));
+        str.append("=");
+        if(moveDirection.at(moveAxis) == Direction::DIRECTION_UP)
+            str.append("-");
+        str.append(std::to_string(relativeMove.at(moveAxis) * 10));
     }
 
     return str;

@@ -15,12 +15,12 @@ public:
     virtual void cbiGalilSM_newPosition(const Data::EnvironmentTime &time, const double &pos) = 0;
 };
 
-class GalilSM : public Thread
+class GalilPollState : public Thread
 {
 public:
-    GalilSM(const int &msTimeout = 20);
+    GalilPollState(const int &msTimeout = 20);
 
-    ~GalilSM() {
+    ~GalilPollState() {
         std::cout << "Destructor on the galil timeout state machine" << std::endl;
         mToExit = true;
     }

@@ -89,6 +89,18 @@ private slots:
 
     void on_actionLoad_Parameters_triggered();
 
+    void on_pushButton_MotorEnable_clicked();
+
+    void on_pushButton_CMDSend_clicked();
+
+    void on_pushButton_MotorDisable_clicked();
+
+    void on_pushButton_RunProfile_clicked();
+
+    void on_pushButton_UploadProgram_clicked();
+
+    void on_pushButton_DownloadProgram_clicked();
+
 private:
     QString loadFileDialog(const std::string &filePath, const std::string &suffix);
     QString saveAsFileDialog(const std::string &filePath, const std::string &suffix);

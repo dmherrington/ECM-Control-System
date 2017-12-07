@@ -50,7 +50,7 @@ void galilMotionController::openConnection(const std::string &address)
 
 void galilMotionController::closeConnection()
 {
-    GReturn rtnCode = GClose(&mConnection);
+    GReturn rtnCode = GClose(mConnection);
     if(rtnCode == G_NO_ERROR) //this means the port was closed successfully
         emit commsStatus(false);
 
@@ -88,6 +88,29 @@ bool galilMotionController::saveProgram(const std::string &text)
     return true;
 }
 
+void galilMotionController::executeCommand(const AbstractCommand *command)
+{
+    std::string commandString = command->getCommandString();
+    std::cout<<"The command string seen here is: "<<commandString<<std::endl;
+    GBufOut returnOut;
+    GSize read_bytes = 0; //bytes read in GCommand
+    //We should be checking that the connection is defined
+    GReturn rtn = GCommand(mConnection,commandString.c_str(),returnOut,sizeof(returnOut),&read_bytes);
+    std::cout<<"Command Executed: "<<CommandToString(command->getCommandType());
+    std::cout<<ParseGReturn::getGReturnString(rtn);
+    std::cout<<"Returned: "<<std::string(returnOut)<<std::endl;
+}
+
+void galilMotionController::executeStringCommand(const std::string &stringCommand)
+{
+    std::cout<<"The command string seen here is: "<<stringCommand<<std::endl;
+    GBufOut returnOut;
+    GSize read_bytes = 0; //bytes read in GCommand
+    GReturn rtn = GCommand(mConnection,stringCommand.c_str(),returnOut,sizeof(returnOut),&read_bytes);
+    std::cout<<"Command Executed."<<std::endl;
+    std::cout<<ParseGReturn::getGReturnString(rtn);
+    std::cout<<"Returned: "<<std::string(returnOut)<<std::endl;
+}
 
 bool galilMotionController::saveProgramAs(const std::string &filePath, const std::string &text)
 {
@@ -116,24 +139,33 @@ bool galilMotionController::loadProgram(const std::string &filePath, std::string
 
 void galilMotionController::uploadProgram(const std::string &programText)
 {
+    GBufOut returnOut;
+    GSize read_bytes = 0; //bytes read in GCommand
+
     //1) Stop the motion of the machine
-
+    CommandStop stop;
+    GReturn rtn = GCommand(mConnection,stop.getCommandString().c_str(),returnOut,sizeof(returnOut),&read_bytes);
     //2) Turn off the power supply
-
-    //3) Read the program
-
+    CommandSetBit setBit;
+    setBit.appendAddress(2);
+    rtn = GCommand(mConnection,setBit.getCommandString().c_str(),returnOut,sizeof(returnOut),&read_bytes);
+    //3) Write the program
     GReturn rtnCode = GProgramDownload(&mConnection,programText.c_str(),nullptr);
 }
 
 void galilMotionController::downloadProgram(std::string &programText)
 {
+    GBufOut returnOut;
+    GSize read_bytes = 0; //bytes read in GCommand
+
     //1) Stop the motion of the machine
-    CommandStop stopMachine;
+    CommandStop stop;
+    GReturn rtn = GCommand(mConnection,stop.getCommandString().c_str(),returnOut,sizeof(returnOut),&read_bytes);
     //2) Turn off the power supply
-
-    //3)
-
-    //4) Read the program
+    CommandSetBit setBit;
+    setBit.appendAddress(2);
+    rtn = GCommand(mConnection,setBit.getCommandString().c_str(),returnOut,sizeof(returnOut),&read_bytes);
+    //3) Read the program
 
     GBufOut onboardProgram;
     GSize programSize = 0;

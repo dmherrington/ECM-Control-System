@@ -24,7 +24,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         galil_motion_controller.cpp \
-        galil_state_machine.cpp \
         commands/command_absolute_move.cpp \
         commands/command_jog.cpp \
         commands/command_motor_disable.cpp \
@@ -37,14 +36,16 @@ SOURCES += \
     settings/settings_manual_profile.cpp \
     settings/settings_vibration_profile.cpp \
     settings/settings_linear_profile.cpp \
-    commands/command_set_bit.cpp
+    commands/command_set_bit.cpp \
+    galil_poll_status.cpp \
+    commands/command_clear_bit.cpp \
+    commands/command_execute_program.cpp
 
 HEADERS += \
         galil_motion_controller.h \
         library_galilmotioncontroller_global.h \ 
         type_direction.h \
         axis_definitions.h \
-        galil_state_machine.h \
         commands/abstract_command.h \
         commands/abstract_move_command.h \
         commands/command_absolute_move.h \
@@ -62,7 +63,10 @@ HEADERS += \
         settings/settings_vibration_profile.h \
         settings/settings_linear_profile.h \
     commands/command_components.h \
-    commands/command_set_bit.h
+    commands/command_set_bit.h \
+    galil_poll_status.h \
+    commands/command_clear_bit.h \
+    commands/command_execute_program.h
 
 # Unix lib Install
 unix:!symbian {

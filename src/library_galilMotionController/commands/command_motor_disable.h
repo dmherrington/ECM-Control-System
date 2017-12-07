@@ -50,7 +50,7 @@ public:
     virtual std::string getCommandString() const override;
 
 private:
-    MotorAxis disableAxis; /**< Value of the axis to be disabled */
+    MotorAxis disableAxis = MotorAxis::Z; /**< Value of the axis to be disabled */
 };
 
 //! \remark

@@ -5,9 +5,13 @@
 #include <QDir>
 #include <QString>
 #include <QTextStream>
+#include <iostream>
+
 #include <string>
 
 #include "gclib.h"
+#include "gclibo.h"
+
 
 #include "library_galilmotioncontroller_global.h"
 #include "commands/command_components.h"
@@ -59,6 +63,10 @@ public:
     void uploadProgram(const std::string &programText);
 
     void downloadProgram(std::string &programText);
+
+    void executeCommand(const AbstractCommand* command);
+
+    void executeStringCommand(const std::string &stringCommand);
 
 signals:
     void commsStatus(const bool &opened);

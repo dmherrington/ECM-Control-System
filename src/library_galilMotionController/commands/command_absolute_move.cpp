@@ -60,8 +60,9 @@ std::string CommandAbsoluteMove::getCommandString() const
     else
     {
         str.append(CommandToString(this->getCommandType()));
-        str.append("m=");
-        str.append(std::to_string(absoluteMove.at(moveAxis)));
+        str.append(AxisToString(moveAxis));
+        str.append("=");
+        str.append(std::to_string(absoluteMove.at(moveAxis) * 10));
     }
 
     return str;

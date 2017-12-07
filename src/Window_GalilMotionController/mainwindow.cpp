@@ -17,47 +17,17 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionSave_Program_triggered()
 {
-
+    m_Galil->saveProgram(ui->programText->toPlainText().toStdString());
 }
-
-//void MainWindow::onSave()
-//{
-//    QFile saveFile(m_FilePath);
-
-//    if (!saveFile.open(QIODevice::WriteOnly)) {
-//        qWarning("Couldn't open save file.");
-//    }
-
-//    QJsonObject saveObject;
-//    ui->segmentWidget->write(saveObject);
-//    QJsonDocument saveDoc(saveObject);
-//    saveFile.write(saveDoc.toJson());
-//}
 
 void MainWindow::on_actionSave_As_Program_triggered()
 {
-    QFileDialog fileDialog(this, "Save program as:");
-
-    char* ECMPath = getenv("ECM_ROOT");
-    if(ECMPath)
-    {
-        std::string rootPath(ECMPath);
-        QDir galilProgramDirectory(QString::fromStdString(rootPath + "/GalilPrograms/"));
-        galilProgramDirectory.mkpath(QString::fromStdString(rootPath + "/GalilPrograms/"));
-        fileDialog.setDirectory(galilProgramDirectory);
+    std::string programPath = "";
+    m_Galil->getProgramPath(programPath);
+    QString fullFile = saveAsFileDialog(programPath,"txt");
+    if(!fullFile.isEmpty()&& !fullFile.isNull()){
+        m_Galil->saveProgramAs(fullFile.toStdString(),ui->programText->toPlainText().toStdString());
     }
-    fileDialog.setFileMode(QFileDialog::AnyFile);
-    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
-    fileDialog.setNameFilter("Open Files (*.txt)");
-    fileDialog.setDefaultSuffix("txt");
-    fileDialog.exec();
-    QString filePath = fileDialog.selectedFiles().first();
-
-    if(!filePath.isEmpty()&& !filePath.isNull()){
-        QString programString = ui->programText->toPlainText();
-        bool saved = m_Galil->saveProgramAs(filePath.toStdString(),programString.toStdString());
-    }
-
 }
 
 void MainWindow::on_actionLoad_Program_triggered()
@@ -84,9 +54,10 @@ void MainWindow::on_actionLoad_Program_triggered()
 //!
 void MainWindow::on_pushButton_IncreaseJog_pressed()
 {
-    int jogRate = ui->spinBox_Jog->value();
-    CommandJog beginJog(MotorAxis::Z,jogRate);
-
+    int jogRate = abs(ui->spinBox_Jog->value()) * (-1);
+    CommandJog* beginJog = new CommandJog(MotorAxis::Z,jogRate);
+    m_Galil->executeCommand(beginJog);
+    delete beginJog;
 }
 
 //!
@@ -95,7 +66,9 @@ void MainWindow::on_pushButton_IncreaseJog_pressed()
 //!
 void MainWindow::on_pushButton_IncreaseJog_released()
 {
-    CommandStop stopJog;
+    CommandStop* stop = new CommandStop(MotorAxis::Z);
+    m_Galil->executeCommand(stop);
+    delete stop;
 }
 
 //!
@@ -104,7 +77,10 @@ void MainWindow::on_pushButton_IncreaseJog_released()
 //!
 void MainWindow::on_pushButton_DecreaseJog_pressed()
 {
-
+    int jogRate = abs(ui->spinBox_Jog->value());
+    CommandJog* beginJog = new CommandJog(MotorAxis::Z,jogRate);
+    m_Galil->executeCommand(beginJog);
+    delete beginJog;
 }
 
 //!
@@ -113,7 +89,9 @@ void MainWindow::on_pushButton_DecreaseJog_pressed()
 //!
 void MainWindow::on_pushButton_DecreaseJog_released()
 {
-
+    CommandStop* stop = new CommandStop(MotorAxis::Z);
+    m_Galil->executeCommand(stop);
+    delete stop;
 }
 
 
@@ -124,7 +102,10 @@ void MainWindow::on_pushButton_DecreaseJog_released()
 //!
 void MainWindow::on_pushButton_IncreaseRelativeMove_clicked()
 {
-
+    int relativeDistance = abs(ui->spinBox_RelativeMove->value()) * (-1);
+    CommandRelativeMove* move = new CommandRelativeMove(MotorAxis::Z, relativeDistance);
+    m_Galil->executeCommand(move);
+    delete move;
 }
 
 //!
@@ -134,7 +115,10 @@ void MainWindow::on_pushButton_IncreaseRelativeMove_clicked()
 //!
 void MainWindow::on_pushButton_DecreaseRelativeMove_clicked()
 {
-
+    int relativeDistance = abs(ui->spinBox_RelativeMove->value());
+    CommandRelativeMove* move = new CommandRelativeMove(MotorAxis::Z, relativeDistance);
+    m_Galil->executeCommand(move);
+    delete move;
 }
 /////////////////////////////////////////////////////////////////////////
 /// USER HAS INTERACTED WITH PARAMETERS MENU BAR
@@ -197,3 +181,41 @@ QString MainWindow::loadFileDialog(const std::string &filePath, const std::strin
     return fullFilePath;
 }
 
+
+void MainWindow::on_pushButton_CMDSend_clicked()
+{
+    QString programString = ui->textEdit_CMD->toPlainText();
+    m_Galil->executeStringCommand(programString.toStdString());
+}
+
+void MainWindow::on_pushButton_MotorEnable_clicked()
+{
+    CommandMotorEnable* command = new CommandMotorEnable();
+    m_Galil->executeCommand(command);
+    delete command;
+}
+
+void MainWindow::on_pushButton_MotorDisable_clicked()
+{
+    CommandMotorDisable* command = new CommandMotorDisable();
+    m_Galil->executeCommand(command);
+    delete command;
+}
+
+void MainWindow::on_pushButton_RunProfile_clicked()
+{
+    CommandExecuteProgram* start = new CommandExecuteProgram();
+    m_Galil->executeCommand(start);
+    delete start;
+}
+
+void MainWindow::on_pushButton_UploadProgram_clicked()
+{
+    m_Galil->uploadProgram(ui->programText->toPlainText().toStdString());
+}
+
+void MainWindow::on_pushButton_DownloadProgram_clicked()
+{
+    std::string programText ="";
+    m_Galil->downloadProgram(programText);
+}
