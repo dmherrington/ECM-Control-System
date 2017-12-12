@@ -137,7 +137,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1087, 655);
+        MainWindow->resize(1087, 663);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -201,6 +201,7 @@ public:
         sizePolicy3.setHeightForWidth(frame_ProfileOptions->sizePolicy().hasHeightForWidth());
         frame_ProfileOptions->setSizePolicy(sizePolicy3);
         frame_ProfileOptions->setMinimumSize(QSize(480, 250));
+        frame_ProfileOptions->setMaximumSize(QSize(480, 16777215));
         frame_ProfileOptions->setFrameShape(QFrame::Box);
         frame_ProfileOptions->setFrameShadow(QFrame::Plain);
         frame_ProfileOptions->setLineWidth(2);
@@ -539,7 +540,7 @@ public:
         spinBox_Jog->setFont(font1);
         spinBox_Jog->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         spinBox_Jog->setMinimum(1);
-        spinBox_Jog->setMaximum(1000);
+        spinBox_Jog->setMaximum(10000);
         spinBox_Jog->setSingleStep(10);
         spinBox_Jog->setValue(100);
 
@@ -757,7 +758,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1087, 21));
+        menuBar->setGeometry(QRect(0, 0, 1087, 22));
         menuGalil = new QMenu(menuBar);
         menuGalil->setObjectName(QStringLiteral("menuGalil"));
         menuSettings = new QMenu(menuBar);
@@ -810,7 +811,7 @@ public:
         label_6->setText(QApplication::translate("MainWindow", "Cut Speed (um/s)", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "Linear ALL", Q_NULLPTR));
         label_3->setText(QApplication::translate("MainWindow", "Retract Distance (um)", Q_NULLPTR));
-        label->setText(QApplication::translate("MainWindow", "Retract Frequency (ms)", Q_NULLPTR));
+        label->setText(QApplication::translate("MainWindow", "Retract Period (ms)", Q_NULLPTR));
         label_2->setText(QApplication::translate("MainWindow", "Pause (ms)", Q_NULLPTR));
         label_4->setText(QApplication::translate("MainWindow", "Step Size (um)", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "Vibration Profile", Q_NULLPTR));
@@ -836,8 +837,8 @@ public:
         textEdit_CMD->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", Q_NULLPTR));
+"</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-size:8.25pt;\"><br /></p></body></html>", Q_NULLPTR));
         pushButton_CMDSend->setText(QApplication::translate("MainWindow", "SEND", Q_NULLPTR));
         menuGalil->setTitle(QApplication::translate("MainWindow", "File", Q_NULLPTR));
         menuSettings->setTitle(QApplication::translate("MainWindow", "Parameters", Q_NULLPTR));

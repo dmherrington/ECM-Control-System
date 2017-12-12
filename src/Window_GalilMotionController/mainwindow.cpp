@@ -191,6 +191,7 @@ void MainWindow::on_pushButton_CMDSend_clicked()
 void MainWindow::on_pushButton_MotorEnable_clicked()
 {
     CommandMotorEnable* command = new CommandMotorEnable();
+    command->setEnableAxis(MotorAxis::Z);
     m_Galil->executeCommand(command);
     delete command;
 }
@@ -198,6 +199,7 @@ void MainWindow::on_pushButton_MotorEnable_clicked()
 void MainWindow::on_pushButton_MotorDisable_clicked()
 {
     CommandMotorDisable* command = new CommandMotorDisable();
+    command->setDisableAxis(MotorAxis::Z);
     m_Galil->executeCommand(command);
     delete command;
 }
@@ -218,6 +220,7 @@ void MainWindow::on_pushButton_DownloadProgram_clicked()
 {
     std::string programText ="";
     m_Galil->downloadProgram(programText);
+    ui->programText->setText(QString::fromStdString(programText));
 }
 
 void MainWindow::on_actionOpen_Connection_triggered()
