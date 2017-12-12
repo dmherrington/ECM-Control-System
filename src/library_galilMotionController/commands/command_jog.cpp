@@ -73,12 +73,11 @@ std::string CommandJog::getCommandString() const
     else
     {
         str.append(CommandToString(this->getCommandType()));
-        str.append(" ");
         str.append(AxisToString(moveAxis));
         str.append("=");
         if(moveDirection.at(moveAxis) == Direction::DIRECTION_UP)
             str.append("-");
-        str.append(std::to_string((int)jogSpeed.at(moveAxis)));
+        str.append(std::to_string((int)jogSpeed.at(moveAxis)*10));
     }
 
     return str;

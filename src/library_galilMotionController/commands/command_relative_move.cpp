@@ -29,6 +29,7 @@ void CommandRelativeMove::setRelativeDistance(const MotorAxis &axis, const int &
     }
     else
     {
+        moveAxis = axis;
         relativeMove[axis] = fabs(distance);
     }
 
@@ -56,7 +57,7 @@ std::string CommandRelativeMove::getCommandString() const
     else
     {
         str.append(CommandToString(this->getCommandType()));
-        str.append(" ");
+        str.append("");
         str.append(AxisToString(moveAxis));
         str.append("=");
         if(moveDirection.at(moveAxis) == Direction::DIRECTION_UP)
