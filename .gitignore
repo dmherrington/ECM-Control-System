@@ -26,3 +26,4 @@ example/example
 *.gypi
 /include/*
 "doxygen/html/"
+/src/window_GMC_variable_editor/debug/*
