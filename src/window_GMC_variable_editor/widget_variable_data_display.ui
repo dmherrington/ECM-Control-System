@@ -121,6 +121,10 @@
        <property name="text">
         <string>Add Variable</string>
        </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>images/add_complex.png</normaloff>images/add_complex.png</iconset>
+       </property>
       </widget>
      </item>
     </layout>

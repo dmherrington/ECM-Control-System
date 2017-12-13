@@ -24,13 +24,15 @@ public:
 public:
     std::string getProfileName() const;
     void setProfileName(const std::string &name);
+    void setDataChanged(const bool &changed);
+    bool hasDataChanged();
 
 public:
-    void read(const QJsonObject &json);
+    void read(const QJsonArray &jsonArray);
     void write(QJsonObject &json) const;
 
 public:
-    void addNewVariable();
+    WidgetVariableData* addNewVariable();
 
 signals:
     void signal_updatedProfileName(std::string &name);
@@ -42,12 +44,14 @@ private slots:
 
     void on_pushButton_addVariable_clicked();
 
+    void on_dataChanged();
+
 private:
     Ui::WidgetVariableDataDisplay *ui;
 
 private:
     std::string profileName = "Default";
-
+    bool _hasDataChanged = false;
     std::vector<WidgetVariableData*> vectorData;
 
 };

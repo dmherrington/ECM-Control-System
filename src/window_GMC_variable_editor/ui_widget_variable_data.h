@@ -114,6 +114,9 @@ public:
 
         pushButton_removeVariable = new QPushButton(WidgetVariableData);
         pushButton_removeVariable->setObjectName(QStringLiteral("pushButton_removeVariable"));
+        QIcon icon;
+        icon.addFile(QStringLiteral("images/cancel.png"), QSize(), QIcon::Normal, QIcon::Off);
+        pushButton_removeVariable->setIcon(icon);
 
         gridLayout->addWidget(pushButton_removeVariable, 0, 3, 1, 1);
 

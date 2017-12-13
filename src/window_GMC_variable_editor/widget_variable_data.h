@@ -18,20 +18,25 @@ public:
     ~WidgetVariableData();
 
 public:
-    void read(const QJsonObject &json);
+    void read(const QJsonObject &jsonObject);
     void write(QJsonArray &jsonArray) const;
 
 public:
+    std::string getDisplayName() const;
+    std::string getVariableName() const;
     double getDefaultValue() const;
     double getMaxValue() const;
     double getMinValue() const;
 
+    void setDisplayName(const std::string &name);
+    void setVariableName(const std::string &name);
     void setDefaultValue(const double &value);
     void setMaxValue(const double &value);
     void setMinValue(const double &value);
 
 signals:
     void signalRemoveWidget(WidgetVariableData* var);
+    void signalDataChanged();
 
 private slots:
     void on_pushButton_removeVariable_clicked();

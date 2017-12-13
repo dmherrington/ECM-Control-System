@@ -12,6 +12,14 @@ WidgetVariableData::~WidgetVariableData()
     delete ui;
 }
 
+std::string WidgetVariableData::getDisplayName() const
+{
+    return this->displayName;
+}
+std::string WidgetVariableData::getVariableName() const
+{
+    return this->variableName;
+}
 double WidgetVariableData::getDefaultValue() const
 {
     return this->def;
@@ -25,15 +33,25 @@ double WidgetVariableData::getMinValue() const
     return this->min;
 }
 
+void WidgetVariableData::setDisplayName(const std::string &name)
+{
+    this->displayName = name;
+    ui->lineEdit_displayName->setText(QString::fromStdString(name));
+}
+void WidgetVariableData::setVariableName(const std::string &name)
+{
+    this->variableName = name;
+    ui->lineEdit_varName->setText(QString::fromStdString(name));
+}
 void WidgetVariableData::setDefaultValue(const double &value)
 {
     this->def = value;
-    ui->doubleSpinBox_default->setValue(this->min);
+    ui->doubleSpinBox_default->setValue(this->def);
 }
 void WidgetVariableData::setMaxValue(const double &value)
 {
     this->max = value;
-    ui->doubleSpinBox_max->setValue(this->min);
+    ui->doubleSpinBox_max->setValue(this->max);
 }
 void WidgetVariableData::setMinValue(const double &value)
 {
@@ -49,34 +67,42 @@ void WidgetVariableData::on_pushButton_removeVariable_clicked()
 void WidgetVariableData::on_lineEdit_displayName_editingFinished()
 {
     this->displayName = ui->lineEdit_displayName->text().toStdString();
+    emit signalDataChanged();
 }
 
 void WidgetVariableData::on_lineEdit_varName_editingFinished()
 {
     this->variableName = ui->lineEdit_varName->text().toStdString();
+    emit signalDataChanged();
 }
 
 void WidgetVariableData::on_doubleSpinBox_max_editingFinished()
 {
     this->max = ui->doubleSpinBox_max->value();
+    emit signalDataChanged();
 }
 
 void WidgetVariableData::on_doubleSpinBox_min_editingFinished()
 {
     this->min = ui->doubleSpinBox_min->value();
+    emit signalDataChanged();
 }
 
 void WidgetVariableData::on_doubleSpinBox_default_editingFinished()
 {
     this->def = ui->doubleSpinBox_default->value();
+    emit signalDataChanged();
 }
 
-void WidgetVariableData::read(const QJsonObject &json)
+void WidgetVariableData::read(const QJsonObject &jsonObject)
 {
-    //    QJsonArray segmentDataArray = json["linearProfile"].toArray();
-    //    QJsonObject arrayObject = segmentDataArray[0].toObject();
-    //    this->setDepthofCut(arrayObject["depthOfCut"].toInt());
-    //    this->setCutSpeed(arrayObject["cutSpeed"].toInt());
+    this->blockSignals(true);
+    this->setDisplayName(jsonObject["DisplayName"].toString().toStdString());
+    this->setVariableName(jsonObject["VariableName"].toString().toStdString());
+    this->setMaxValue(jsonObject["MaxValue"].toDouble());
+    this->setMinValue(jsonObject["MinValue"].toDouble());
+    this->setDefaultValue(jsonObject["DefaultValue"].toDouble());
+    this->blockSignals(false);
 }
 void WidgetVariableData::write(QJsonArray &jsonArray) const
 {

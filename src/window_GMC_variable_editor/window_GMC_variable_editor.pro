@@ -38,3 +38,6 @@ FORMS += \
         mainwindow.ui \
     widget_variable_data.ui \
     widget_variable_data_display.ui
+
+RESOURCES += \
+    imageicons.qrc

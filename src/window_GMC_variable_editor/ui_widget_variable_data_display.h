@@ -99,6 +99,9 @@ public:
         pushButton_addVariable->setSizePolicy(sizePolicy1);
         pushButton_addVariable->setMaximumSize(QSize(121, 25));
         pushButton_addVariable->setFont(font);
+        QIcon icon;
+        icon.addFile(QStringLiteral("images/add_complex.png"), QSize(), QIcon::Normal, QIcon::Off);
+        pushButton_addVariable->setIcon(icon);
 
         horizontalLayout_2->addWidget(pushButton_addVariable);
 

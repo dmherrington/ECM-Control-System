@@ -102,14 +102,15 @@ void MainWindow::slot_updatedProfileName(std::string &name)
 
 void MainWindow::on_actionSave_triggered()
 {
-    this->saveSettings();
+    this->saveSettings(this->settingsPath);
 }
 
 void MainWindow::on_actionSave_As_triggered()
 {
     QString fullFile = saveAsFileDialog(this->getSettingsPath().toStdString(),"json");
     if(!fullFile.isEmpty()&& !fullFile.isNull()){
-        //m_Galil->saveSettingsAs(fullFile.toStdString());
+        this->settingsPath = fullFile;
+        this->saveSettings(this->settingsPath);
     }
 }
 
@@ -117,13 +118,25 @@ void MainWindow::on_actionLoad_triggered()
 {
     QString fullFile = loadFileDialog(this->getSettingsPath().toStdString(),"json");
     if(!fullFile.isEmpty()&& !fullFile.isNull()){
-        //m_Galil->loadSettings(fullFile.toStdString());
+        this->loadSettings(fullFile);
     }
 }
 
 void MainWindow::on_actionExit_triggered()
 {
+    std::map<std::string,WidgetVariableDataDisplay*>::iterator it;
+    for(it = mapData.begin(); it != mapData.end(); ++it)
+    {
+        WidgetVariableDataDisplay* data = it->second;
+        if(data->hasDataChanged())
+        {
+            //This would imply that we have unsaved changes
+            std::cout<<"We have unsaved changes"<<std::endl;
+            break;
+        }
+    }
 
+    qApp->quit();
 }
 
 
@@ -166,13 +179,13 @@ QString MainWindow::getSettingsPath()
     return fileInfo.absolutePath();
 }
 
-void MainWindow::saveSettings()
+void MainWindow::saveSettings(const QString &path)
 {
-//    QFile saveFile(this->settingsPath);
+    QFile saveFile(path);
 
-//    if (!saveFile.open(QIODevice::WriteOnly)) {
-//        qWarning("Couldn't open save file.");
-//    }
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        qWarning("Couldn't open save file.");
+    }
 
     QJsonObject saveObject;
     std::map<std::string,WidgetVariableDataDisplay*>::iterator it;
@@ -182,9 +195,48 @@ void MainWindow::saveSettings()
         data->write(saveObject);
     }
 
-//    QJsonDocument saveDoc(saveObject);
+    QJsonDocument saveDoc(saveObject);
 
-//    saveFile.write(saveDoc.toJson());
+    qint64 rtnValue = saveFile.write(saveDoc.toJson());
+    if(rtnValue != -1)
+    {
+        for(it = mapData.begin(); it != mapData.end(); ++it)
+        {
+            WidgetVariableDataDisplay* data = it->second;
+            data->setDataChanged(false);
+        }
+    }
+}
+
+void MainWindow::loadSettings(const QString &path)
+{
+    QFile settingsFile(path);
+
+    if (!settingsFile.open(QIODevice::ReadOnly)) {
+        qWarning("Couldn't open file.");
+    }
+
+    QByteArray loadData = settingsFile.readAll();
+    QJsonDocument loadDoc = QJsonDocument::fromJson(loadData);
+    QJsonObject jsonObj = loadDoc.object();
+    foreach(const QString& key, jsonObj.keys()) {
+        QJsonArray jsonArray = jsonObj[key].toArray();
+
+        WidgetVariableDataDisplay* newWidget = new WidgetVariableDataDisplay();
+        newWidget->setProfileName(key.toStdString());
+        newWidget->read(jsonArray);
+        mapData[newWidget->getProfileName()] = newWidget;
+        connect(newWidget,SIGNAL(signal_updatedProfileName(std::string&)),
+                this,SLOT(slot_updatedProfileName(std::string&)));
+
+        ui->toolBox->addItem(newWidget,QString::fromStdString(newWidget->getProfileName()));
+
+    }
+}
+
+void MainWindow::on_actionAppClosing()
+{
+
 }
 
 

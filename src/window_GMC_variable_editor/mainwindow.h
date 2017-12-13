@@ -5,6 +5,8 @@
 #include <QMainWindow>
 #include <QMessageBox>
 
+#include <QJsonDocument>
+
 #include <cstddef>
 
 #include "widget_variable_data_display.h"
@@ -27,8 +29,11 @@ private:
     QString saveAsFileDialog(const std::string &filePath, const std::string &suffix);
     QString loadFileDialog(const std::string &filePath, const std::string &suffix);
     QString getSettingsPath();
-    void saveSettings();
+    void saveSettings(const QString &path);
+    void loadSettings(const QString &path);
 
+public slots:
+    void on_actionAppClosing();
 
 private slots:
 

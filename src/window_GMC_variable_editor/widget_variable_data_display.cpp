@@ -26,9 +26,10 @@ std::string WidgetVariableDataDisplay::getProfileName() const
 void WidgetVariableDataDisplay::setProfileName(const std::string &name)
 {
     this->profileName = name;
+    ui->lineEdit_profileName->setText(QString::fromStdString(this->profileName));
 }
 
-void WidgetVariableDataDisplay::addNewVariable()
+WidgetVariableData* WidgetVariableDataDisplay::addNewVariable()
 {
     WidgetVariableData* newData = new WidgetVariableData();
     vectorData.push_back(newData);
@@ -37,9 +38,13 @@ void WidgetVariableDataDisplay::addNewVariable()
     connect(newData,SIGNAL(signalRemoveWidget(WidgetVariableData*)),
             this,SLOT(removeVariableWidget(WidgetVariableData*)));
 
-    QSize currentSize = this->size();
+    connect(newData,SIGNAL(signalDataChanged()),
+            this,SLOT(on_dataChanged()));
+
     QSize size = newData->sizeHint();
     this->setFixedWidth(size.width() + 40);
+
+    return newData;
 }
 
 void WidgetVariableDataDisplay::removeVariableWidget(WidgetVariableData *obj)
@@ -62,8 +67,13 @@ void WidgetVariableDataDisplay::removeVariableWidget(WidgetVariableData *obj)
 
 void WidgetVariableDataDisplay::on_lineEdit_profileName_editingFinished()
 {
-    this->profileName = ui->lineEdit_profileName->text().toStdString();
-    emit signal_updatedProfileName(this->profileName);
+    std::string currentString = ui->lineEdit_profileName->text().toStdString();
+    if(this->profileName != currentString)
+    {
+        this->profileName = currentString;
+        this->setDataChanged(true);
+        emit signal_updatedProfileName(this->profileName);
+    }
 }
 
 void WidgetVariableDataDisplay::on_pushButton_addVariable_clicked()
@@ -71,12 +81,16 @@ void WidgetVariableDataDisplay::on_pushButton_addVariable_clicked()
     this->addNewVariable();
 }
 
-void WidgetVariableDataDisplay::read(const QJsonObject &json)
+void WidgetVariableDataDisplay::read(const QJsonArray &jsonArray)
 {
-//    QJsonArray segmentDataArray = json["linearProfile"].toArray();
-//    QJsonObject arrayObject = segmentDataArray[0].toObject();
-//    this->setDepthofCut(arrayObject["depthOfCut"].toInt());
-//    this->setCutSpeed(arrayObject["cutSpeed"].toInt());
+    this->blockSignals(true);
+    for(int i = 0; i < jsonArray.size(); i++)
+    {
+        QJsonObject jsonObject = jsonArray[i].toObject();
+        WidgetVariableData* dataObj = this->addNewVariable();
+        dataObj->read(jsonObject);
+    }
+    this->blockSignals(false);
 }
 void WidgetVariableDataDisplay::write(QJsonObject &json) const
 {
@@ -84,7 +98,21 @@ void WidgetVariableDataDisplay::write(QJsonObject &json) const
     for(unsigned int i = 0; i < vectorData.size(); i++)
     {
         vectorData.at(i)->write(variableDataArray);
-
     }
     json[QString::fromStdString(this->profileName)] = variableDataArray;
+}
+
+void WidgetVariableDataDisplay::setDataChanged(const bool &changed)
+{
+    this->_hasDataChanged = changed;
+}
+
+bool WidgetVariableDataDisplay::hasDataChanged()
+{
+    return this->_hasDataChanged;
+}
+
+void WidgetVariableDataDisplay::on_dataChanged()
+{
+    this->_hasDataChanged = true;
 }
