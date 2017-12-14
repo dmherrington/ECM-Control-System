@@ -39,7 +39,16 @@ SOURCES += \
     commands/command_set_bit.cpp \
     galil_poll_status.cpp \
     commands/command_clear_bit.cpp \
-    commands/command_execute_program.cpp
+    commands/command_execute_program.cpp \
+    states/state_idle.cpp \
+    states/state_ready.cpp \
+    states/state_jogging.cpp \
+    states/state_manual_positioning.cpp \
+    states/state_home_positioning.cpp \
+    states/state_touchoff.cpp \
+    states/state_script_execution.cpp \
+    states/state_stop.cpp \
+    states/state_estop.cpp
 
 HEADERS += \
         galil_motion_controller.h \
@@ -66,7 +75,18 @@ HEADERS += \
     commands/command_set_bit.h \
     galil_poll_status.h \
     commands/command_clear_bit.h \
-    commands/command_execute_program.h
+    commands/command_execute_program.h \
+    states/abstract_command.h \
+    states/state_idle.h \
+    states/state_ready.h \
+    states/state_jogging.h \
+    states/state_manual_positioning.h \
+    states/state_home_positioning.h \
+    states/state_touchoff.h \
+    states/state_script_execution.h \
+    states/state_stop.h \
+    states/state_estop.h \
+    states/hsm.h
 
 # Unix lib Install
 unix:!symbian {

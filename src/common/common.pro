@@ -29,7 +29,8 @@ HEADERS += common.h\
         common_global.h \
     threadmanager.h \
     timer.h \
-    environment_time.h
+    environment_time.h \
+    class_forward.h
 
 #Header file copy
 headers.path    = $$(ECM_ROOT)/include/common
