@@ -6,6 +6,22 @@ CommandTellPosition::CommandTellPosition(const MotorAxis &axis):
 
 }
 
+CommandTellPosition::CommandTellPosition(const CommandTellPosition &copy):
+    AbstractCommand(copy)
+{
+
+}
+
+AbstractCommand* CommandTellPosition::getClone() const
+{
+    return (new CommandTellPosition(*this));
+}
+
+void CommandTellPosition::getClone(AbstractCommand** state) const
+{
+    *state = new CommandTellPosition(*this);
+}
+
 //!
 //! \brief setAxis
 //! \param axis

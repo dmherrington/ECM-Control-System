@@ -28,6 +28,25 @@ public:
 
     CommandAbsoluteMove(const MotorAxis &axis, const int &position);
 
+    CommandAbsoluteMove(const CommandAbsoluteMove &copy);
+
+    /**
+      */
+    virtual ~CommandAbsoluteMove() = default;
+
+public:
+    /**
+     * @brief getClone
+     * @return
+     */
+    AbstractCommand* getClone() const override;
+
+    /**
+     * @brief getClone
+     * @param state
+     */
+    void getClone(AbstractCommand** state) const override;
+
 public:
     void setAbsoluteDirection(const MotorAxis &axis, const Direction &direction);
     void setAbsolutePosition(const MotorAxis &axis, const int &position);

@@ -48,45 +48,49 @@ SOURCES += \
     states/state_touchoff.cpp \
     states/state_script_execution.cpp \
     states/state_stop.cpp \
-    states/state_estop.cpp
+    states/state_estop.cpp \
+    states/state_abstract_galil.cpp
 
 HEADERS += \
+        axis_definitions.h \
         galil_motion_controller.h \
+        galil_parse_greturn.h \
+        galil_poll_status.h \
+        galil_state_definition.h \
         library_galilmotioncontroller_global.h \ 
         type_direction.h \
-        axis_definitions.h \
         commands/abstract_command.h \
         commands/abstract_move_command.h \
         commands/command_absolute_move.h \
+        commands/command_clear_bit.h \
+        commands/command_components.h \
+        commands/command_execute_program.h \
         commands/command_jog.h \
         commands/command_motor_disable.h \
         commands/command_motor_enable.h \
         commands/command_relative_move.h \
-        commands/command_types.h \
-        commands/command_tell_position.h \
+        commands/command_set_bit.h \
         commands/command_stop.h \
-        galil_state_definition.h \
-        galil_parse_greturn.h \
+        commands/command_tell_position.h \
+        commands/command_types.h \
         settings/galil_settings.h \
         settings/settings_manual_profile.h \
         settings/settings_vibration_profile.h \
         settings/settings_linear_profile.h \
-    commands/command_components.h \
-    commands/command_set_bit.h \
-    galil_poll_status.h \
-    commands/command_clear_bit.h \
-    commands/command_execute_program.h \
-    states/abstract_command.h \
-    states/state_idle.h \
-    states/state_ready.h \
-    states/state_jogging.h \
-    states/state_manual_positioning.h \
-    states/state_home_positioning.h \
-    states/state_touchoff.h \
-    states/state_script_execution.h \
-    states/state_stop.h \
-    states/state_estop.h \
-    states/hsm.h
+        states/hsm.h \
+        states/state_abstract_galil.h \
+        states/state_estop.h \
+        states/state_home_positioning.h \
+        states/state_idle.h \
+        states/state_jogging.h \
+        states/state_manual_positioning.h \
+        states/state_ready.h \
+        states/state_script_execution.h \
+        states/state_stop.h \
+        states/state_touchoff.h \
+        states/state_types.h \
+    states/state_components.h
+
 
 # Unix lib Install
 unix:!symbian {
@@ -101,23 +105,16 @@ else:win32:CONFIG(debug, debug|release):    lib.files   += debug/library_galilMo
 INSTALLS += lib
 
 #Header file copy
-headers_base.path    = $$(ECM_ROOT)/include/library_galilMotionController/base
+headers_base.path    = $$(ECM_ROOT)/include/library_galilMotionController
 headers_base.files   += \
-        galil_motion_controller.h \
-        library_galilmotioncontroller_global.h \
-        type_direction.h \
         axis_definitions.h \
-        galil_state_machine.h \
+        galil_motion_controller.h \
+        galil_parse_greturn.h \
+        galil_poll_status.h \
+        galil_state_definition.h \
+        library_galilmotioncontroller_global.h \
+        type_direction.h
 INSTALLS       += headers_base
-
-#Header file copy
-headers_settings.path    = $$(ECM_ROOT)/include/library_galilMotionController/settings
-headers_settings.files   += \
-        settings/galil_settings.h \
-        settings/settings_manual_profile.h \
-        settings/settings_vibration_profile.h \
-        settings/settings_linear_profile.h
-INSTALLS       += headers_settings
 
 #Header file copy
 headers_commands.path    = $$(ECM_ROOT)/include/library_galilMotionController/commands
@@ -131,6 +128,32 @@ headers_commands.files   += \
         commands/command_relative_move.h \
         commands/command_types.h
 INSTALLS       += headers_commands
+
+#Header file copy
+headers_settings.path    = $$(ECM_ROOT)/include/library_galilMotionController/settings
+headers_settings.files   += \
+        settings/galil_settings.h \
+        settings/settings_manual_profile.h \
+        settings/settings_vibration_profile.h \
+        settings/settings_linear_profile.h
+INSTALLS       += headers_settings
+
+#Header file copy
+headers_states.path    = $$(ECM_ROOT)/include/library_galilMotionController/states
+headers_states.files   += \
+        states/hsm.h \
+        states/state_abstract_galil.h \
+        states/state_estop.h \
+        states/state_home_positioning.h \
+        states/state_idle.h \
+        states/state_jogging.h \
+        states/state_manual_positioning.h \
+        states/state_ready.h \
+        states/state_script_execution.h \
+        states/state_stop.h \
+        states/state_touchoff.h \
+        states/state_types.h
+INSTALLS       += headers_states
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/

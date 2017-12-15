@@ -14,6 +14,22 @@ CommandRelativeMove::CommandRelativeMove(const MotorAxis &axis, const int &dista
     this->setRelativeDistance(axis, distance);
 }
 
+CommandRelativeMove::CommandRelativeMove(const CommandRelativeMove &copy):
+    AbstractMoveCommand(copy)
+{
+
+}
+
+AbstractCommand* CommandRelativeMove::getClone() const
+{
+    return (new CommandRelativeMove(*this));
+}
+
+void CommandRelativeMove::getClone(AbstractCommand** state) const
+{
+    *state = new CommandRelativeMove(*this);
+}
+
 void CommandRelativeMove::setRelativeDirection(const MotorAxis &axis, const Direction &direction)
 {
     setMoveDirection(axis,direction);

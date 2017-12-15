@@ -6,6 +6,22 @@ CommandSetBit::CommandSetBit():
 
 }
 
+CommandSetBit::CommandSetBit(const CommandSetBit &copy):
+    AbstractCommand(copy)
+{
+
+}
+
+AbstractCommand* CommandSetBit::getClone() const
+{
+    return (new CommandSetBit(*this));
+}
+
+void CommandSetBit::getClone(AbstractCommand** state) const
+{
+    *state = new CommandSetBit(*this);
+}
+
 void CommandSetBit::appendAddress(const unsigned int &address)
 {
     this->digitalAddr.push_back(address);

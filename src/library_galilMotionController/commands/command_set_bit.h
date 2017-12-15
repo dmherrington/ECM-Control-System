@@ -10,6 +10,25 @@ class CommandSetBit : public AbstractCommand
 public:
     CommandSetBit();
 
+    CommandSetBit(const CommandSetBit &copy);
+
+    /**
+      */
+    virtual ~CommandSetBit() = default;
+
+public:
+    /**
+     * @brief getClone
+     * @return
+     */
+    AbstractCommand* getClone() const override;
+
+    /**
+     * @brief getClone
+     * @param state
+     */
+    void getClone(AbstractCommand** state) const override;
+
 public:
     void appendAddress(const unsigned int &address);
 

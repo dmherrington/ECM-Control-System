@@ -10,6 +10,25 @@ class CommandClearBit : public AbstractCommand
 public:
     CommandClearBit();
 
+    CommandClearBit(const CommandClearBit &copy);
+
+    /**
+      */
+    virtual ~CommandClearBit() = default;
+
+public:
+    /**
+     * @brief getClone
+     * @return
+     */
+    AbstractCommand* getClone() const override;
+
+    /**
+     * @brief getClone
+     * @param state
+     */
+    void getClone(AbstractCommand** state) const override;
+
 public:
     void appendAddress(const unsigned int &address);
 

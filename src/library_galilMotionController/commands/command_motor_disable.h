@@ -29,6 +29,26 @@ public:
     //!
     CommandMotorDisable();
 
+    CommandMotorDisable(const CommandMotorDisable &copy);
+
+    /**
+      */
+    virtual ~CommandMotorDisable() = default;
+
+public:
+
+    /**
+     * @brief getClone
+     * @return
+     */
+    AbstractCommand* getClone() const override;
+
+    /**
+     * @brief getClone
+     * @param state
+     */
+    void getClone(AbstractCommand** state) const override;
+
 public:
     //!
     //! \brief setDisableAxis

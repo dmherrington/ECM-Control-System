@@ -32,6 +32,25 @@ public:
 
     CommandJog(const MotorAxis &axis, const double &resolution, const double &speed);
 
+    CommandJog(const CommandJog &copy);
+
+    /**
+      */
+    virtual ~CommandJog() = default;
+
+public:
+    /**
+     * @brief getClone
+     * @return
+     */
+    AbstractCommand* getClone() const override;
+
+    /**
+     * @brief getClone
+     * @param state
+     */
+    void getClone(AbstractCommand** state) const override;
+
 public:
     void setJogDirection(const MotorAxis &axis, const Direction &direction);
     void setJogResolution(const double &resolution);

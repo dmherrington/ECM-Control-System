@@ -6,6 +6,22 @@ CommandStop::CommandStop(const MotorAxis &axis):
 
 }
 
+CommandStop::CommandStop(const CommandStop &copy):
+    AbstractCommand(copy)
+{
+
+}
+
+AbstractCommand* CommandStop::getClone() const
+{
+    return (new CommandStop(*this));
+}
+
+void CommandStop::getClone(AbstractCommand** state) const
+{
+    *state = new CommandStop(*this);
+}
+
 //!
 //! \brief setAxis
 //! \param axis

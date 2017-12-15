@@ -8,6 +8,25 @@ class CommandExecuteProgram : public AbstractCommand
 public:
     CommandExecuteProgram();
 
+    CommandExecuteProgram(const CommandExecuteProgram &copy);
+
+    /**
+      */
+    virtual ~CommandExecuteProgram() = default;
+
+public:
+    /**
+     * @brief getClone
+     * @return
+     */
+    AbstractCommand* getClone() const override;
+
+    /**
+     * @brief getClone
+     * @param state
+     */
+    void getClone(AbstractCommand** state) const override;
+
 public:
     //!
     //! \brief setScript

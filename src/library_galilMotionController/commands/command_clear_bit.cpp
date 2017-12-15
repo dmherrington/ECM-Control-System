@@ -5,6 +5,21 @@ CommandClearBit::CommandClearBit():
 {
 
 }
+CommandClearBit::CommandClearBit(const CommandClearBit &copy):
+    AbstractCommand(copy)
+{
+
+}
+
+AbstractCommand* CommandClearBit::getClone() const
+{
+    return (new CommandClearBit(*this));
+}
+
+void CommandClearBit::getClone(AbstractCommand** state) const
+{
+    *state = new CommandClearBit(*this);
+}
 
 void CommandClearBit::appendAddress(const unsigned int &address)
 {

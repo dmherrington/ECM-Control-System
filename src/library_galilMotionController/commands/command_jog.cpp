@@ -26,6 +26,22 @@ CommandJog::CommandJog(const double &resolution, const double &speed):
 
 }
 
+CommandJog::CommandJog(const CommandJog &copy):
+    AbstractMoveCommand(copy)
+{
+
+}
+
+AbstractCommand* CommandJog::getClone() const
+{
+    return (new CommandJog(*this));
+}
+
+void CommandJog::getClone(AbstractCommand** state) const
+{
+    *state = new CommandJog(*this);
+}
+
 void CommandJog::setJogDirection(const MotorAxis &axis, const Direction &direction)
 {
     setMoveDirection(axis,direction);

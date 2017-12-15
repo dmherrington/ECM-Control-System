@@ -6,6 +6,22 @@ CommandMotorEnable::CommandMotorEnable():
 
 }
 
+CommandMotorEnable::CommandMotorEnable(const CommandMotorEnable &copy):
+    AbstractCommand(copy)
+{
+
+}
+
+AbstractCommand* CommandMotorEnable::getClone() const
+{
+    return (new CommandMotorEnable(*this));
+}
+
+void CommandMotorEnable::getClone(AbstractCommand** state) const
+{
+    *state = new CommandMotorEnable(*this);
+}
+
 void CommandMotorEnable::setEnableAxis(const MotorAxis &axis)
 {
     this->enableAxis = axis;

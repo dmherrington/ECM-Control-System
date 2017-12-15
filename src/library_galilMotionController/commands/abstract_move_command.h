@@ -46,6 +46,27 @@ public:
     }
 
 public:
+    /**
+     *
+     */
+    template <class T>
+    const T *as() const
+    {
+        //ensure that we are attempting to cast it to a type of state
+        return static_cast<const T *>(this);
+    }
+
+    /**
+     *
+     */
+    template <class T>
+    T *as()
+    {
+        //ensure that we are attempting to cast it to a type of state
+        return static_cast<T *>(this);
+    }
+
+public:
     virtual CommandType getMoveType() const
     {
         return moveType;

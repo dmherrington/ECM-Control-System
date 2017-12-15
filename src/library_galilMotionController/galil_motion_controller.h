@@ -19,6 +19,8 @@
 #include "galil_parse_greturn.h"
 #include "settings/galil_settings.h"
 
+#include "states/state_components.h"
+
 /**
 \* @file  galil_motion_controller.h
 \*
@@ -81,6 +83,8 @@ private:
 private:
     GCon mConnection;
     GalilSettings m_Settings;
+
+    friend class ECM::Galil::AbstractStateGalil;
 };
 
 #endif // GALIL_MOTION_CONTROLLER_H

@@ -18,6 +18,23 @@ CommandAbsoluteMove::CommandAbsoluteMove(const MotorAxis &axis, const int &posit
     this->setAbsolutePosition(axis, position);
 }
 
+CommandAbsoluteMove::CommandAbsoluteMove(const CommandAbsoluteMove &copy):
+    AbstractMoveCommand(copy)
+{
+
+}
+
+
+AbstractCommand* CommandAbsoluteMove::getClone() const
+{
+    return (new CommandAbsoluteMove(*this));
+}
+
+void CommandAbsoluteMove::getClone(AbstractCommand** state) const
+{
+    *state = new CommandAbsoluteMove(*this);
+}
+
 void CommandAbsoluteMove::setAbsoluteDirection(const MotorAxis &axis, const Direction &direction)
 {
     setMoveDirection(axis,direction);

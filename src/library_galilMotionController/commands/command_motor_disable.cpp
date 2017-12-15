@@ -6,6 +6,22 @@ CommandMotorDisable::CommandMotorDisable():
 
 }
 
+CommandMotorDisable::CommandMotorDisable(const CommandMotorDisable &copy):
+    AbstractCommand(copy)
+{
+
+}
+
+AbstractCommand* CommandMotorDisable::getClone() const
+{
+    return (new CommandMotorDisable(*this));
+}
+
+void CommandMotorDisable::getClone(AbstractCommand** state) const
+{
+    *state = new CommandMotorDisable(*this);
+}
+
 void CommandMotorDisable::setDisableAxis(const MotorAxis &axis)
 {
     this->disableAxis = axis;

@@ -28,7 +28,40 @@ public:
         this->commandType = type;
     }
 
+
     virtual ~AbstractCommand() = default;
+
+    /**
+     *
+     */
+    template <class T>
+    const T *as() const
+    {
+        //ensure that we are attempting to cast it to a type of state
+        return static_cast<const T *>(this);
+    }
+
+    /**
+     *
+     */
+    template <class T>
+    T *as()
+    {
+        //ensure that we are attempting to cast it to a type of state
+        return static_cast<T *>(this);
+    }
+
+    /**
+     * @brief getClone
+     * @return
+     */
+    virtual AbstractCommand* getClone() const = 0;
+
+    /**
+     * @brief getClone
+     * @param state
+     */
+    virtual void getClone(AbstractCommand** state) const = 0;
 
 public:
     virtual CommandType getCommandType() const

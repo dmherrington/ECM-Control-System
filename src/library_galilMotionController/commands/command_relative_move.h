@@ -28,6 +28,25 @@ public:
 
     CommandRelativeMove(const MotorAxis &axis, const int &distance);
 
+    CommandRelativeMove(const CommandRelativeMove &copy);
+
+    /**
+      */
+    virtual ~CommandRelativeMove() = default;
+
+public:
+    /**
+     * @brief getClone
+     * @return
+     */
+    AbstractCommand* getClone() const override;
+
+    /**
+     * @brief getClone
+     * @param state
+     */
+    void getClone(AbstractCommand** state) const override;
+
 public:
     void setRelativeDirection(const MotorAxis &axis, const Direction &direction);
     void setRelativeDistance(const MotorAxis &axis, const int &distance);

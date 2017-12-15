@@ -6,6 +6,22 @@ CommandExecuteProgram::CommandExecuteProgram():
 
 }
 
+CommandExecuteProgram::CommandExecuteProgram(const CommandExecuteProgram &copy):
+    AbstractCommand(copy)
+{
+
+}
+
+AbstractCommand* CommandExecuteProgram::getClone() const
+{
+    return (new CommandExecuteProgram(*this));
+}
+
+void CommandExecuteProgram::getClone(AbstractCommand** state) const
+{
+    *state = new CommandExecuteProgram(*this);
+}
+
 void CommandExecuteProgram::setScript(const std::string &name)
 {
     this->scriptName = name;

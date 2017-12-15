@@ -11,6 +11,26 @@ class CommandTellPosition : public AbstractCommand
 public:
     CommandTellPosition(const MotorAxis &axis = MotorAxis::Z);
 
+    CommandTellPosition(const CommandTellPosition &copy);
+
+    /**
+      */
+    virtual ~CommandTellPosition() = default;
+
+public:
+
+    /**
+     * @brief getClone
+     * @return
+     */
+    AbstractCommand* getClone() const override;
+
+    /**
+     * @brief getClone
+     * @param state
+     */
+    void getClone(AbstractCommand** state) const override;
+
 public:
     //!
     //! \brief setAxis

@@ -11,6 +11,25 @@ class CommandStop : public AbstractCommand
 public:
     CommandStop(const MotorAxis &axis = MotorAxis::Z);
 
+    CommandStop(const CommandStop &copy);
+
+    /**
+      */
+    virtual ~CommandStop() = default;
+
+public:
+    /**
+     * @brief getClone
+     * @return
+     */
+    AbstractCommand* getClone() const override;
+
+    /**
+     * @brief getClone
+     * @param state
+     */
+    void getClone(AbstractCommand** state) const override;
+
 public:
     //!
     //! \brief setAxis
