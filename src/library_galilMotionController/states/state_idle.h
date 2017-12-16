@@ -25,6 +25,8 @@ namespace Galil {
 
 ECM_CLASS_FORWARD(State_Idle);
 
+class State_Ready;
+
 class State_Idle : public AbstractStateGalil
 {
 public:
@@ -36,6 +38,9 @@ public:
     AbstractStateGalil* getClone() const override;
 
     void getClone(AbstractStateGalil** state) const override;
+
+public:
+    hsm::Transition GetTransition() override;
 
 public:
     void handleCommand(const AbstractCommand* command) override;

@@ -19,6 +19,31 @@ void State_Idle::getClone(AbstractStateGalil** state) const
     *state = new State_Idle(*this);
 }
 
+hsm::Transition State_Idle::GetTransition()
+{
+    if(currentState != desiredState)
+    {
+        //this means we want to chage the state for some reason
+        switch (desiredState) {
+        case ECMState::STATE_READY:
+        {
+            return hsm::SiblingTransition<State_Ready>();
+            break;
+        }
+        case ECMState::STATE_ESTOP:
+        {
+
+        }
+        default:
+            std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
+            break;
+        }
+    }
+    else{
+        return hsm::NoTransition();
+    }
+}
+
 void State_Idle::OnEnter()
 {
 
@@ -101,6 +126,8 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         break;
     }
 }
+
+#include "state_ready.h"
 
 } //end of namespace Galil
 } //end of namespace ECM
