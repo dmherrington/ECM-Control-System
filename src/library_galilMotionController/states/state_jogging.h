@@ -8,6 +8,10 @@ namespace Galil {
 
 ECM_CLASS_FORWARD(State_Jogging);
 
+class State_Stop;
+class State_EStop;
+class State_Ready;
+
 class State_Jogging : public AbstractStateGalil
 {
 public:

@@ -79,5 +79,41 @@ void State_Jogging::handleCommand(const AbstractCommand* command)
     }
 }
 
+hsm::Transition State_Jogging::GetTransition()
+{
+    if(currentState != desiredState)
+    {
+        //this means we want to chage the state for some reason
+        //now initiate the state transition to the correct class
+        switch (desiredState) {
+        case ECMState::STATE_STOP:
+        {
+            return hsm::SiblingTransition<State_Stop>();
+            break;
+        }
+        case ECMState::STATE_ESTOP:
+        {
+            return hsm::SiblingTransition<State_EStop>();
+            break;
+        }
+        case ECMState::STATE_READY:
+        {
+            return hsm::SiblingTransition<State_Ready>();
+            break;
+        }
+        default:
+            std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
+            break;
+        }
+    }
+    else{
+        return hsm::NoTransition();
+    }
+}
+
+#include "states/state_stop.h"
+#include "states/state_estop.h"
+#include "states/state_ready.h"
+
 } //end of namespace Galil
 } //end of namespace ECM

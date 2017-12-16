@@ -24,6 +24,7 @@ hsm::Transition State_Idle::GetTransition()
     if(currentState != desiredState)
     {
         //this means we want to chage the state for some reason
+        //now initiate the state transition to the correct class
         switch (desiredState) {
         case ECMState::STATE_READY:
         {

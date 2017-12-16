@@ -79,5 +79,30 @@ void State_EStop::handleCommand(const AbstractCommand* command)
     }
 }
 
+hsm::Transition State_EStop::GetTransition()
+{
+    if(currentState != desiredState)
+    {
+        //this means we want to chage the state for some reason
+        switch (desiredState) {
+        case ECMState::STATE_READY:
+        {
+            return hsm::SiblingTransition<State_Ready>();
+            break;
+        }
+        case ECMState::STATE_ESTOP:
+        {
+
+        }
+        default:
+            std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
+            break;
+        }
+    }
+    else{
+        return hsm::NoTransition();
+    }
+}
+
 } //end of namespace Galil
 } //end of namespace ECM

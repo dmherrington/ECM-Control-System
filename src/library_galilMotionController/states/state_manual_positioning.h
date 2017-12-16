@@ -8,6 +8,10 @@ namespace Galil {
 
 ECM_CLASS_FORWARD(State_ManualPositioning);
 
+class State_Stop;
+class State_EStop;
+class State_Ready;
+
 class State_ManualPositioning : public AbstractStateGalil
 {
 public:
