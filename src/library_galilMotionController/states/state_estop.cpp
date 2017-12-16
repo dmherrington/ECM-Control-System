@@ -3,8 +3,8 @@
 namespace ECM{
 namespace Galil {
 
-State_EStop::State_EStop(const GalilSettings &settings):
-    AbstractStateGalil(settings)
+State_EStop::State_EStop():
+    AbstractStateGalil()
 {
 
 }
@@ -87,7 +87,7 @@ hsm::Transition State_EStop::GetTransition()
         switch (desiredState) {
         case ECMState::STATE_READY:
         {
-            return hsm::SiblingTransition<State_Ready>();
+            //return hsm::SiblingTransition<State_Ready>();
             break;
         }
         case ECMState::STATE_ESTOP:

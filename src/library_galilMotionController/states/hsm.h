@@ -909,6 +909,7 @@ public:
 	HSM_DEPRECATED("Use GetDebugLevel")
 	size_t GetDebugLevel() { return static_cast<size_t>(GetDebugTraceLevel()); }
 
+    State* getCurrentState();
 private:
 	friend struct State;
 
@@ -1195,6 +1196,11 @@ inline State* StateMachine::GetStateAtDepth(size_t depth, StateTypeId stateType)
 {
 	State* state = GetStateAtDepth(depth);
 	return (state && state->GetStateType() == stateType) ? state : 0;
+}
+
+inline State* StateMachine::getCurrentState()
+{
+   return this->GetStateAtDepth(0);
 }
 
 inline State* StateMachine::GetOuterState(StateTypeId stateType, size_t startDepth)

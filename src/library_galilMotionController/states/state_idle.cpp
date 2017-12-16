@@ -3,10 +3,11 @@
 namespace ECM{
 namespace Galil {
 
-State_Idle::State_Idle(const GalilSettings &settings):
-    AbstractStateGalil(settings)
+State_Idle::State_Idle():
+    AbstractStateGalil()
 {
-
+    this->currentState = ECMState::STATE_IDLE;
+    this->desiredState = ECMState::STATE_IDLE;
 }
 
 AbstractStateGalil* State_Idle::getClone() const
@@ -50,10 +51,22 @@ void State_Idle::OnEnter()
 
 }
 
-void State_Idle::OnEnter(const AbstractCommand* command){
+void State_Idle::OnEnter(AbstractCommand* command){
 
+    if(command != nullptr)
+    {
+
+    }
+    else{
+
+    }
 }
 
+void State_Idle::Update()
+{
+    this->desiredState = ECMState::STATE_READY;
+
+}
 void State_Idle::handleCommand(const AbstractCommand* command)
 {
     CommandType currentCommand = command->getCommandType();
@@ -63,7 +76,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to the Ready State
         desiredState = ECMState::STATE_READY;
-
+        this->currentCommand = command;
         break;
     }
     case CommandType::CLEAR_BIT:
@@ -97,6 +110,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to the Ready State
         desiredState = ECMState::STATE_READY;
+        this->currentCommand = command;
         break;
     }
     case CommandType::RELATIVE_MOVE:
@@ -128,7 +142,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
     }
 }
 
-#include "state_ready.h"
-
 } //end of namespace Galil
 } //end of namespace ECM
+
+#include "states/state_ready.h"

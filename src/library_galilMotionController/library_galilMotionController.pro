@@ -49,10 +49,13 @@ SOURCES += \
     states/state_script_execution.cpp \
     states/state_stop.cpp \
     states/state_estop.cpp \
-    states/state_abstract_galil.cpp
+    states/state_abstract_galil.cpp \
+    galil_interface.cpp \
+    status/galil_status.cpp
 
 HEADERS += \
         axis_definitions.h \
+        galil_interface.h \
         galil_motion_controller.h \
         galil_parse_greturn.h \
         galil_poll_status.h \
@@ -79,6 +82,7 @@ HEADERS += \
         settings/settings_linear_profile.h \
         states/hsm.h \
         states/state_abstract_galil.h \
+        states/state_components.h \
         states/state_estop.h \
         states/state_home_positioning.h \
         states/state_idle.h \
@@ -89,8 +93,7 @@ HEADERS += \
         states/state_stop.h \
         states/state_touchoff.h \
         states/state_types.h \
-    states/state_components.h
-
+        status/galil_status.h
 
 # Unix lib Install
 unix:!symbian {
@@ -108,6 +111,7 @@ INSTALLS += lib
 headers_base.path    = $$(ECM_ROOT)/include/library_galilMotionController
 headers_base.files   += \
         axis_definitions.h \
+        galil_interface.h \
         galil_motion_controller.h \
         galil_parse_greturn.h \
         galil_poll_status.h \
@@ -143,6 +147,7 @@ headers_states.path    = $$(ECM_ROOT)/include/library_galilMotionController/stat
 headers_states.files   += \
         states/hsm.h \
         states/state_abstract_galil.h \
+        states/state_components.h \
         states/state_estop.h \
         states/state_home_positioning.h \
         states/state_idle.h \
@@ -154,6 +159,12 @@ headers_states.files   += \
         states/state_touchoff.h \
         states/state_types.h
 INSTALLS       += headers_states
+
+#Header file copy
+headers_status.path    = $$(ECM_ROOT)/include/library_galilMotionController/status
+headers_status.files   += \
+        status/galil_status.h
+INSTALLS       += headers_status
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/

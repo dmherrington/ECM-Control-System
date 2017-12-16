@@ -25,5 +25,14 @@ ECMState AbstractStateGalil::getDesiredState() const
     return desiredState;
 }
 
+void AbstractStateGalil::clearCommand()
+{
+    if(this->currentCommand)
+    {
+        delete currentCommand;
+        currentCommand = nullptr;
+    }
+}
+
 } //end of namespace Galil
 } //end of namespace ECM

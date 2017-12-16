@@ -20,19 +20,16 @@
 \* save files, etc.
 \*/
 
+
 namespace ECM{
 namespace Galil {
-
-ECM_CLASS_FORWARD(State_Idle);
 
 class State_Ready;
 
 class State_Idle : public AbstractStateGalil
 {
 public:
-    State_Idle(const GalilSettings &settings);
-
-    //State_Idle(const State_Idle &copy);
+    State_Idle();
 
 public:
     AbstractStateGalil* getClone() const override;
@@ -45,9 +42,11 @@ public:
 public:
     void handleCommand(const AbstractCommand* command) override;
 
+    void Update() override;
+
     void OnEnter() override;
 
-    void OnEnter(const AbstractCommand* command);
+    void OnEnter(AbstractCommand *command);
 };
 
 } //end of namespace Galil

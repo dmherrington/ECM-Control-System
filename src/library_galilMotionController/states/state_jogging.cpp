@@ -3,8 +3,8 @@
 namespace ECM{
 namespace Galil {
 
-State_Jogging::State_Jogging(const GalilSettings &settings):
-    AbstractStateGalil(settings)
+State_Jogging::State_Jogging():
+    AbstractStateGalil()
 {
 
 }
@@ -88,17 +88,17 @@ hsm::Transition State_Jogging::GetTransition()
         switch (desiredState) {
         case ECMState::STATE_STOP:
         {
-            return hsm::SiblingTransition<State_Stop>();
+            //return hsm::SiblingTransition<State_Stop>();
             break;
         }
         case ECMState::STATE_ESTOP:
         {
-            return hsm::SiblingTransition<State_EStop>();
+            //return hsm::SiblingTransition<State_EStop>();
             break;
         }
         case ECMState::STATE_READY:
         {
-            return hsm::SiblingTransition<State_Ready>();
+            //return hsm::SiblingTransition<State_Ready>();
             break;
         }
         default:
@@ -113,7 +113,6 @@ hsm::Transition State_Jogging::GetTransition()
 
 #include "states/state_stop.h"
 #include "states/state_estop.h"
-#include "states/state_ready.h"
 
 } //end of namespace Galil
 } //end of namespace ECM

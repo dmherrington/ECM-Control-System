@@ -11,12 +11,15 @@ ECM_CLASS_FORWARD(State_HomePositioning);
 class State_HomePositioning : public AbstractStateGalil
 {
 public:
-    State_HomePositioning(const GalilSettings &settings);
+    State_HomePositioning();
 
 public:
     AbstractStateGalil* getClone() const override;
 
     void getClone(AbstractStateGalil** state) const override;
+
+public:
+    hsm::Transition GetTransition() override;
 
 public:
     void handleCommand(const AbstractCommand* command) override;

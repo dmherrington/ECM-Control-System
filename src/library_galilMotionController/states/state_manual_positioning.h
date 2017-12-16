@@ -15,12 +15,15 @@ class State_Ready;
 class State_ManualPositioning : public AbstractStateGalil
 {
 public:
-    State_ManualPositioning(const GalilSettings &settings);
+    State_ManualPositioning();
 
 public:
     AbstractStateGalil* getClone() const override;
 
     void getClone(AbstractStateGalil** state) const override;
+
+public:
+    hsm::Transition GetTransition() override;
 
 public:
     void handleCommand(const AbstractCommand* command) override;

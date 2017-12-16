@@ -15,11 +15,14 @@ class State_Ready;
 class State_Jogging : public AbstractStateGalil
 {
 public:
-    State_Jogging(const GalilSettings &settings);
+    State_Jogging();
 public:
     AbstractStateGalil* getClone() const override;
 
     void getClone(AbstractStateGalil** state) const override;
+
+public:
+    hsm::Transition GetTransition() override;
 
 public:
     void handleCommand(const AbstractCommand* command) override;

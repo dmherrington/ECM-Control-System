@@ -20,12 +20,15 @@ class State_HomePositioning;
 class State_ScriptExecution : public AbstractStateGalil
 {
 public:
-    State_ScriptExecution(const GalilSettings &settings);
+    State_ScriptExecution();
 
 public:
     AbstractStateGalil* getClone() const override;
 
     void getClone(AbstractStateGalil** state) const override;
+
+public:
+    hsm::Transition GetTransition() override;
 
 public:
     void handleCommand(const AbstractCommand* command) override;

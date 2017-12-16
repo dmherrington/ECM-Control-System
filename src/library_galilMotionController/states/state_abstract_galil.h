@@ -2,18 +2,21 @@
 #define STATE_ABSTRACT_GALIL_H
 
 #include <iostream>
+
 #include "common/class_forward.h"
 
-#include "settings/galil_settings.h"
-#include "commands/abstract_command.h"
+#include "library_galilMotionController/settings/galil_settings.h"
+#include "library_galilMotionController/commands/command_components.h"
 
-#include "states/state_types.h"
-#include "states/hsm.h"
+#include "library_galilMotionController/states/state_types.h"
+#include "library_galilMotionController/states/hsm.h"
+
+#include "library_galilMotionController/galil_interface.h"
 
 namespace ECM{
 namespace Galil {
 
-class AbstractStateGalil : public hsm::State
+class AbstractStateGalil : public hsm::StateWithOwner<GalilInterface>
 {
 public:
     AbstractStateGalil() = default;
@@ -66,8 +69,12 @@ public:
 
     virtual ECMState getDesiredState() const;
 
+private:
+    void clearCommand();
+
 protected:
     GalilSettings mSettings;
+    const AbstractCommand* currentCommand;
 
     ECMState currentState;
     ECMState desiredState;

@@ -13,12 +13,15 @@ class State_Idle;
 class State_Stop : public AbstractStateGalil
 {
 public:
-    State_Stop(const GalilSettings &settings);
+    State_Stop();
 
 public:
     AbstractStateGalil* getClone() const override;
 
     void getClone(AbstractStateGalil** state) const override;
+
+public:
+    hsm::Transition GetTransition() override;
 
 public:
     void handleCommand(const AbstractCommand* command) override;

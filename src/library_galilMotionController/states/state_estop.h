@@ -11,12 +11,15 @@ ECM_CLASS_FORWARD(State_EStop);
 class State_EStop : public AbstractStateGalil
 {
 public:
-    State_EStop(const GalilSettings &settings);
+    State_EStop();
 
 public:
     AbstractStateGalil* getClone() const override;
 
     void getClone(AbstractStateGalil** state) const override;
+
+public:
+    hsm::Transition GetTransition() override;
 
 public:
     void handleCommand(const AbstractCommand* command) override;

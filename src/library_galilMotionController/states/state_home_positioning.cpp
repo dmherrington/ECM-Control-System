@@ -3,8 +3,8 @@
 namespace ECM{
 namespace Galil {
 
-State_HomePositioning::State_HomePositioning(const GalilSettings &settings):
-    AbstractStateGalil(settings)
+State_HomePositioning::State_HomePositioning():
+    AbstractStateGalil()
 {
 
 }
@@ -88,7 +88,7 @@ hsm::Transition State_HomePositioning::GetTransition()
         switch (desiredState) {
         case ECMState::STATE_READY:
         {
-            return hsm::SiblingTransition<State_Ready>();
+            //return hsm::SiblingTransition<State_Ready>();
             break;
         }
         case ECMState::STATE_ESTOP:
