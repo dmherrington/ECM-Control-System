@@ -115,6 +115,11 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, the motor should already have been turned off and not moving.
         //If this is a user command it is them unaware of what has already occured.
         //If we are here because the motor hasn't turned off and is moving, something is wrong.
+        if(Owner().getAxisStatus(MotorAxis::Z)->isMotorRunning())
+        {
+            std::cout<<"Idle state saw a stop command and the motor was still running. This should NOT have occured."<<std::endl;
+            CommandMotorDisable cmd;
+        }
         break;
     }
     default:

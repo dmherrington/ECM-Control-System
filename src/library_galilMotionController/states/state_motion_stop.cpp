@@ -6,8 +6,8 @@ namespace Galil {
 State_MotionStop::State_MotionStop():
     AbstractStateGalil()
 {
-    this->currentState = ECMState::STATE_STOP;
-    this->desiredState = ECMState::STATE_STOP;
+    this->currentState = ECMState::STATE_MOTION_STOP;
+    this->desiredState = ECMState::STATE_MOTION_STOP;
 }
 
 AbstractStateGalil* State_MotionStop::getClone() const
@@ -89,12 +89,12 @@ hsm::Transition State_MotionStop::GetTransition()
         switch (desiredState) {
         case ECMState::STATE_READY:
         {
-            //return hsm::SiblingTransition<State_Ready>();
+            return hsm::SiblingTransition<State_Ready>();
             break;
         }
         case ECMState::STATE_ESTOP:
         {
-
+            return hsm::SiblingTransition<State_EStop>();
         }
         default:
             std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
@@ -128,4 +128,5 @@ void State_MotionStop::OnEnter(const AbstractCommand* command)
 } //end of namespace Galil
 } //end of namespace ECM
 
-#include "states/state_idle.h"
+#include "states/state_ready.h"
+#include "states/state_estop.h"

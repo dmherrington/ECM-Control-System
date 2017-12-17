@@ -29,11 +29,12 @@ hsm::Transition State_Jogging::GetTransition()
         switch (desiredState) {
         case ECMState::STATE_MOTION_STOP:
         {
-
+            return hsm::SiblingTransition<State_MotionStop>();
             break;
         }
         case ECMState::STATE_ESTOP:
         {
+            return hsm::SiblingTransition<State_EStop>();
             break;
         }
         default:
@@ -58,11 +59,12 @@ void State_Jogging::handleCommand(const AbstractCommand* command)
     }
     case CommandType::STOP:
     {
-        this->desiredState = ECMState::STATE_STOP;
+        this->desiredState = ECMState::STATE_MOTION_STOP;
     }
     default:
     {
-
+        //For some reason we got a command in here that wasn't the only two that are conceptually supported.
+        //We will therefore ignore it for the time being.
     }
     }
 }

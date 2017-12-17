@@ -80,6 +80,7 @@ void State_ManualPositioning::handleCommand(const AbstractCommand* command)
     }
 }
 
+
 hsm::Transition State_ManualPositioning::GetTransition()
 {
     if(currentState != desiredState)
@@ -87,19 +88,14 @@ hsm::Transition State_ManualPositioning::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_STOP:
+        case ECMState::STATE_MOTION_STOP:
         {
-            //return hsm::SiblingTransition<State_Stop>();
+            return hsm::SiblingTransition<State_MotionStop>();
             break;
         }
         case ECMState::STATE_ESTOP:
         {
-            //return hsm::SiblingTransition<State_EStop>();
-            break;
-        }
-        case ECMState::STATE_READY:
-        {
-            //return hsm::SiblingTransition<State_Ready>();
+            return hsm::SiblingTransition<State_EStop>();
             break;
         }
         default:

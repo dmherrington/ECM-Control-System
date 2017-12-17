@@ -43,6 +43,9 @@ void GalilPollState::run()
         {
             //this means we should request the state of all the standard IO/Errors/Pos of the galil unit
             std::cout<<"This should have executed a request for galil info"<<std::endl;
+            // 1: Request the position of the galil unit
+            // 2: Request the stop codes
+            // 3: Request the tell switches
             m_Timeout.reset();
         }
 

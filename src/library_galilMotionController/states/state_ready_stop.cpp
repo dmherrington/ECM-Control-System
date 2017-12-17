@@ -6,8 +6,8 @@ namespace Galil {
 State_ReadyStop::State_ReadyStop():
     AbstractStateGalil()
 {
-    this->currentState = ECMState::STATE_STOP;
-    this->desiredState = ECMState::STATE_STOP;
+    this->currentState = ECMState::STATE_READY_STOP;
+    this->desiredState = ECMState::STATE_READY_STOP;
 }
 
 AbstractStateGalil* State_ReadyStop::getClone() const
@@ -82,28 +82,28 @@ void State_ReadyStop::handleCommand(const AbstractCommand* command)
 
 hsm::Transition State_ReadyStop::GetTransition()
 {
+    hsm::Transition rtn = hsm::NoTransition();
     if(currentState != desiredState)
     {
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_READY:
+        case ECMState::STATE_IDLE:
         {
-            //return hsm::SiblingTransition<State_Ready>();
+            rtn = hsm::SiblingTransition<State_Idle>();
             break;
         }
         case ECMState::STATE_ESTOP:
         {
-
+            rtn = hsm::SiblingTransition<State_EStop>();
         }
         default:
             std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
             break;
         }
     }
-    else{
-        return hsm::NoTransition();
-    }
+
+    return rtn;
 }
 
 void State_ReadyStop::OnEnter()
@@ -129,3 +129,4 @@ void State_ReadyStop::OnEnter(const AbstractCommand* command)
 } //end of namespace ECM
 
 #include "states/state_idle.h"
+#include "states/state_estop.h"

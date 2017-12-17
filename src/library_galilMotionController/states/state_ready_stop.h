@@ -9,6 +9,7 @@ namespace Galil {
 ECM_CLASS_FORWARD(State_ReadyStop);
 
 class State_Idle;
+class State_EStop;
 
 class State_ReadyStop : public AbstractStateGalil
 {

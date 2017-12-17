@@ -28,9 +28,9 @@ hsm::Transition State_Ready::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_HOME_POSITIONING:
+        case ECMState::STATE_MANUAL_POSITIONING:
         {
-            return hsm::SiblingTransition<State_HomePositioning>(currentCommand);
+            return hsm::SiblingTransition<State_ManualPositioning>(currentCommand);
             break;
         }
         case ECMState::STATE_JOGGING:
@@ -38,19 +38,19 @@ hsm::Transition State_Ready::GetTransition()
             return hsm::SiblingTransition<State_Jogging>(currentCommand);
             break;
         }
-        case ECMState::STATE_MANUAL_POSITIONING:
+        case ECMState::STATE_HOME_POSITIONING:
         {
-            return hsm::SiblingTransition<State_ManualPositioning>(currentCommand);
-            break;
-        }
-        case ECMState::STATE_SCRIPT_EXECUTION:
-        {
-            return hsm::SiblingTransition<State_ScriptExecution>(currentCommand);
+            return hsm::SiblingTransition<State_HomePositioning>(currentCommand);
             break;
         }
         case ECMState::STATE_TOUCHOFF:
         {
             return hsm::SiblingTransition<State_Touchoff>(currentCommand);
+            break;
+        }
+        case ECMState::STATE_SCRIPT_EXECUTION:
+        {
+            return hsm::SiblingTransition<State_ScriptExecution>(currentCommand);
             break;
         }
         default:
@@ -75,16 +75,12 @@ void State_Ready::handleCommand(const AbstractCommand* command)
         this->currentCommand = command;
         break;
     }
-    case CommandType::CLEAR_BIT:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::EXECUTE_PROGRAM:
+    case CommandType::RELATIVE_MOVE:
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to the Ready State
-        desiredState = ECMState::STATE_READY;
+        desiredState = ECMState::STATE_MANUAL_POSITIONING;
+        this->currentCommand = command;
         break;
     }
     case CommandType::JOG_MOVE:
@@ -95,41 +91,33 @@ void State_Ready::handleCommand(const AbstractCommand* command)
         this->currentCommand = command;
         break;
     }
-    case CommandType::MOTOR_OFF:
+    case CommandType::EXECUTE_PROGRAM:
     {
-        //While this state is responsive to this command, the motor should already have been turned off.
-        //If this is a user command it is them unaware of what has already occured.
-        //If we are here because the motor hasn't turned off, something is wrong.
+        //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
+        //This command will transition the machine to the Ready State
+        desiredState = ECMState::STATE_SCRIPT_EXECUTION;
+        this->currentCommand = command;
+        break;
+    }
+    case CommandType::MOTOR_OFF:
+    case CommandType::STOP:
+    {
+        desiredState = ECMState::STATE_READY_STOP;
         break;
     }
     case CommandType::MOTOR_ON:
     {
-        //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
-        //This command will transition the machine to the Ready State
-        desiredState = ECMState::STATE_READY;
-        this->currentCommand = command;
+        //While this state is responsive to this command, the motor should already be completely armed when it has arrived to this state.
+        //First check to see if the motor is already armed, and if not, arm it
+        if(!Owner().getAxisStatus(MotorAxis::Z)->isMotorRunning())
+        {
+            //If the motor is not currently armed, issue the command to arm it
+            CommandMotorEnable cmd;
+        }
         break;
     }
-    case CommandType::RELATIVE_MOVE:
-    {
-        //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
-        //This command will transition the machine to the Ready State
-        desiredState = ECMState::STATE_MANUAL_POSITIONING;
-        this->currentCommand = command;
-        break;
-    }
+    case CommandType::CLEAR_BIT:
     case CommandType::SET_BIT:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::STOP:
-    {
-        //While this state is responsive to this command, the motor should already have been turned off and not moving.
-        //If this is a user command it is them unaware of what has already occured.
-        //If we are here because the motor hasn't turned off and is moving, something is wrong.
-        break;
-    }
     case CommandType::TELL_POSITION:
     {
         std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;

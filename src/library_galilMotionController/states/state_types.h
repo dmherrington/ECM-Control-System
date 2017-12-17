@@ -19,9 +19,8 @@ enum class ECMState{
     STATE_READY = 7, /**< */
     STATE_READY_STOP = 8, /**< */
     STATE_SCRIPT_EXECUTION = 9, /**< */
-    STATE_STOP = 10, /**< */
-    STATE_TOUCHOFF = 11, /**< */
-    STATE_UNKNOWN = 12 /**< */
+    STATE_TOUCHOFF = 10, /**< */
+    STATE_UNKNOWN = 11 /**< */
 };
 
 //!
@@ -45,7 +44,7 @@ inline std::string ECMStateToString(const ECMState &type) {
         return "Ready";
     case ECMState::STATE_SCRIPT_EXECUTION:
         return "Script Execution";
-    case ECMState::STATE_STOP:
+    case ECMState::STATE_MOTION_STOP:
         return "Stopping";
     case ECMState::STATE_TOUCHOFF:
         return "Touchoff";
