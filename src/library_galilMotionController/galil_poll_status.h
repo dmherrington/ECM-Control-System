@@ -9,10 +9,10 @@
 #include "common/timer.h"
 
 
-class GalilSM_Interface
+class GalilPolling_Interface
 {
 public:
-    virtual void cbiGalilSM_newPosition(const Data::EnvironmentTime &time, const double &pos) = 0;
+
 };
 
 class GalilPollState : public Thread
@@ -30,7 +30,7 @@ public:
 
     void run();
 
-    void connectCallback(GalilSM_Interface *cb)
+    void connectCallback(GalilPolling_Interface *cb)
     {
         m_CB = cb;
     }
@@ -40,7 +40,7 @@ private:
     int timeout;
 
 private:
-    GalilSM_Interface *m_CB;
+    GalilPolling_Interface *m_CB;
 
 protected:
     std::list<std::function<void()>> m_LambdasToRun;

@@ -6,7 +6,8 @@ namespace Galil {
 State_ManualPositioning::State_ManualPositioning():
     AbstractStateGalil()
 {
-
+    this->currentState = ECMState::STATE_MANUAL_POSITIONING;
+    this->desiredState = ECMState::STATE_MANUAL_POSITIONING;
 }
 
 AbstractStateGalil* State_ManualPositioning::getClone() const
@@ -111,8 +112,24 @@ hsm::Transition State_ManualPositioning::GetTransition()
     }
 }
 
-#include "states/state_stop.h"
-#include "states/state_estop.h"
+void State_ManualPositioning::OnEnter()
+{
+
+}
+
+void State_ManualPositioning::OnEnter(const AbstractCommand *command){
+
+    if(command != nullptr)
+    {
+
+    }
+    else{
+
+    }
+}
 
 } //end of namespace Galil
 } //end of namespace ECM
+
+#include "states/state_motion_stop.h"
+#include "states/state_estop.h"

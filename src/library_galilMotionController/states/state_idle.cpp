@@ -6,6 +6,7 @@ namespace Galil {
 State_Idle::State_Idle():
     AbstractStateGalil()
 {
+    std::cout<<"We are in the constructor of State_Idle"<<std::endl;
     this->currentState = ECMState::STATE_IDLE;
     this->desiredState = ECMState::STATE_IDLE;
 }
@@ -46,32 +47,16 @@ hsm::Transition State_Idle::GetTransition()
     }
 }
 
-void State_Idle::OnEnter()
-{
-
-}
-
-void State_Idle::OnEnter(AbstractCommand* command){
-
-    if(command != nullptr)
-    {
-
-    }
-    else{
-
-    }
-}
-
 void State_Idle::Update()
 {
-    this->desiredState = ECMState::STATE_READY;
 
 }
+
 void State_Idle::handleCommand(const AbstractCommand* command)
 {
     CommandType currentCommand = command->getCommandType();
     switch (currentCommand) {
-    case CommandType::ABSOLUTE_MOVE:
+    case CommandType::MOTOR_ON:
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to the Ready State
@@ -79,33 +64,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         this->currentCommand = command;
         break;
     }
-    case CommandType::CLEAR_BIT:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::EXECUTE_PROGRAM:
-    {
-        //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
-        //This command will transition the machine to the Ready State
-        desiredState = ECMState::STATE_READY;
-        break;
-    }
-    case CommandType::JOG_MOVE:
-    {
-        //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
-        //This command will transition the machine to the Ready State
-        desiredState = ECMState::STATE_READY;
-        break;
-    }
-    case CommandType::MOTOR_OFF:
-    {
-        //While this state is responsive to this command, the motor should already have been turned off.
-        //If this is a user command it is them unaware of what has already occured.
-        //If we are here because the motor hasn't turned off, something is wrong.
-        break;
-    }
-    case CommandType::MOTOR_ON:
+    case CommandType::ABSOLUTE_MOVE:
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to the Ready State
@@ -118,9 +77,35 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to the Ready State
         desiredState = ECMState::STATE_READY;
+        this->currentCommand = command;
         break;
     }
+    case CommandType::JOG_MOVE:
+    {
+        //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
+        //This command will transition the machine to the Ready State
+        desiredState = ECMState::STATE_READY;
+        this->currentCommand = command;
+        break;
+    }
+    case CommandType::EXECUTE_PROGRAM:
+    {
+        //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
+        //This command will transition the machine to the Ready State
+        desiredState = ECMState::STATE_READY;
+        this->currentCommand = command;
+        break;
+    }
+    case CommandType::MOTOR_OFF:
+    {
+        //While this state is responsive to this command, the motor should already have been turned off.
+        //If this is a user command it is them unaware of what has already occured.
+        //If we are here because the motor hasn't turned off, something is wrong.
+        break;
+    }
+    case CommandType::CLEAR_BIT:
     case CommandType::SET_BIT:
+    case CommandType::TELL_POSITION:
     {
         std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
@@ -132,13 +117,30 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         //If we are here because the motor hasn't turned off and is moving, something is wrong.
         break;
     }
-    case CommandType::TELL_POSITION:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
     default:
         break;
+    }
+}
+
+void State_Idle::OnEnter()
+{
+    //The first thing we should do when entering this state is to disable the motor
+    //Let us check to see if the motor is already disabled, if not, follow through with the command
+    CommandMotorDisable cmd;
+    cmd.setDisableAxis(MotorAxis::Z);
+    GalilStatus* status = Owner().getAxisStatus(MotorAxis::Z);
+    if(status->isMotorRunning())
+        Owner().transmitMessage(cmd.getCommandString());
+}
+
+void State_Idle::OnEnter(const AbstractCommand *command){
+
+    if(command != nullptr)
+    {
+
+    }
+    else{
+
     }
 }
 

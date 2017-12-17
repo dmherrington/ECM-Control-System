@@ -6,7 +6,8 @@ namespace Galil {
 State_Touchoff::State_Touchoff():
     AbstractStateGalil()
 {
-
+    this->currentState = ECMState::STATE_TOUCHOFF;
+    this->desiredState = ECMState::STATE_TOUCHOFF;
 }
 
 AbstractStateGalil* State_Touchoff::getClone() const
@@ -102,6 +103,27 @@ hsm::Transition State_Touchoff::GetTransition()
     }
     else{
         return hsm::NoTransition();
+    }
+}
+
+void State_Touchoff::OnEnter()
+{
+    //The first thing we should do when entering this state is to engage the motor
+    //Let us check to see if the motor is already armed, if not, follow through with the command
+    CommandMotorEnable cmd;
+
+}
+
+void State_Touchoff::OnEnter(const AbstractCommand* command)
+{
+    this->OnEnter();
+
+    if(command != nullptr)
+    {
+        //The command isnt null so we should handle it
+    }
+    else{
+        //There was no actual command, therefore, there is nothing else to do at this point
     }
 }
 

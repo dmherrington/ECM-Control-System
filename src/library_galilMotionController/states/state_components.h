@@ -9,7 +9,7 @@
 #include "library_galilMotionController/states/state_manual_positioning.h"
 #include "library_galilMotionController/states/state_ready.h"
 #include "library_galilMotionController/states/state_script_execution.h"
-#include "library_galilMotionController/states/state_stop.h"
+#include "library_galilMotionController/states/state_motion_stop.h"
 #include "library_galilMotionController/states/state_touchoff.h"
 #include "library_galilMotionController/states/state_types.h"
 

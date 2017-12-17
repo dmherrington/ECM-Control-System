@@ -1,21 +1,20 @@
-#ifndef STATE_JOGGING_H
-#define STATE_JOGGING_H
+#ifndef STATE_READY_STOP_H
+#define STATE_READY_STOP_H
 
 #include "states/state_abstract_galil.h"
 
 namespace ECM{
 namespace Galil {
 
-ECM_CLASS_FORWARD(State_Jogging);
+ECM_CLASS_FORWARD(State_ReadyStop);
 
-class State_MotionStop;
-class State_EStop;
-class State_Ready;
+class State_Idle;
 
-class State_Jogging : public AbstractStateGalil
+class State_ReadyStop : public AbstractStateGalil
 {
 public:
-    State_Jogging();
+    State_ReadyStop();
+
 public:
     AbstractStateGalil* getClone() const override;
 
@@ -35,4 +34,4 @@ public:
 } //end of namespace Galil
 } //end of namespace ECM
 
-#endif // STATE_JOGGING_H
+#endif // STATE_READY_STOP_H

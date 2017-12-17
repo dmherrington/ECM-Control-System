@@ -9,7 +9,7 @@ namespace Galil {
 ECM_CLASS_FORWARD(State_ScriptExecution);
 
 //Forward declare the class states available to transition to from this one
-class State_Stop;
+class State_MotionStop;
 class State_EStop;
 class State_Jogging;
 class State_ManualPositioning;
@@ -33,6 +33,9 @@ public:
 public:
     void handleCommand(const AbstractCommand* command) override;
 
+    void OnEnter() override;
+
+    void OnEnter(const AbstractCommand *command);
 };
 
 } //end of namespace Galil

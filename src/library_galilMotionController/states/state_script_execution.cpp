@@ -6,7 +6,8 @@ namespace Galil {
 State_ScriptExecution::State_ScriptExecution():
     AbstractStateGalil()
 {
-
+    this->currentState = ECMState::STATE_SCRIPT_EXECUTION;
+    this->desiredState = ECMState::STATE_SCRIPT_EXECUTION;
 }
 
 AbstractStateGalil* State_ScriptExecution::getClone() const
@@ -102,6 +103,27 @@ hsm::Transition State_ScriptExecution::GetTransition()
     }
     else{
         return hsm::NoTransition();
+    }
+}
+
+void State_ScriptExecution::OnEnter()
+{
+    //The first thing we should do when entering this state is to engage the motor
+    //Let us check to see if the motor is already armed, if not, follow through with the command
+    CommandMotorEnable cmd;
+
+}
+
+void State_ScriptExecution::OnEnter(const AbstractCommand* command)
+{
+    this->OnEnter();
+
+    if(command != nullptr)
+    {
+        //The command isnt null so we should handle it
+    }
+    else{
+        //There was no actual command, therefore, there is nothing else to do at this point
     }
 }
 

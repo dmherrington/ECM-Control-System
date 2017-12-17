@@ -47,11 +47,12 @@ SOURCES += \
     states/state_home_positioning.cpp \
     states/state_touchoff.cpp \
     states/state_script_execution.cpp \
-    states/state_stop.cpp \
     states/state_estop.cpp \
     states/state_abstract_galil.cpp \
     galil_interface.cpp \
-    status/galil_status.cpp
+    status/galil_status.cpp \
+    states/state_motion_stop.cpp \
+    states/state_ready_stop.cpp
 
 HEADERS += \
         axis_definitions.h \
@@ -88,9 +89,10 @@ HEADERS += \
         states/state_idle.h \
         states/state_jogging.h \
         states/state_manual_positioning.h \
+        states/state_motion_stop.h \
         states/state_ready.h \
+        states/state_ready_stop.h \
         states/state_script_execution.h \
-        states/state_stop.h \
         states/state_touchoff.h \
         states/state_types.h \
         status/galil_status.h
@@ -153,9 +155,10 @@ headers_states.files   += \
         states/state_idle.h \
         states/state_jogging.h \
         states/state_manual_positioning.h \
+        states/state_motion_stop.h \
         states/state_ready.h \
+        states/state_ready_stop.h \
         states/state_script_execution.h \
-        states/state_stop.h \
         states/state_touchoff.h \
         states/state_types.h
 INSTALLS       += headers_states

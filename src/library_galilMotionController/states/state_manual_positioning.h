@@ -8,7 +8,7 @@ namespace Galil {
 
 ECM_CLASS_FORWARD(State_ManualPositioning);
 
-class State_Stop;
+class State_MotionStop;
 class State_EStop;
 class State_Ready;
 
@@ -28,6 +28,9 @@ public:
 public:
     void handleCommand(const AbstractCommand* command) override;
 
+    void OnEnter() override;
+
+    void OnEnter(const AbstractCommand *command);
 };
 
 } //end of namespace Galil

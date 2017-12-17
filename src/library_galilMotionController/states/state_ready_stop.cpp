@@ -1,26 +1,26 @@
-#include "state_home_positioning.h"
+#include "state_ready_stop.h"
 
 namespace ECM{
 namespace Galil {
 
-State_HomePositioning::State_HomePositioning():
+State_ReadyStop::State_ReadyStop():
     AbstractStateGalil()
 {
-    this->currentState = ECMState::STATE_HOME_POSITIONING;
-    this->desiredState = ECMState::STATE_IDLE;
+    this->currentState = ECMState::STATE_STOP;
+    this->desiredState = ECMState::STATE_STOP;
 }
 
-AbstractStateGalil* State_HomePositioning::getClone() const
+AbstractStateGalil* State_ReadyStop::getClone() const
 {
-    return (new State_HomePositioning(*this));
+    return (new State_ReadyStop(*this));
 }
 
-void State_HomePositioning::getClone(AbstractStateGalil** state) const
+void State_ReadyStop::getClone(AbstractStateGalil** state) const
 {
-    *state = new State_HomePositioning(*this);
+    *state = new State_ReadyStop(*this);
 }
 
-void State_HomePositioning::handleCommand(const AbstractCommand* command)
+void State_ReadyStop::handleCommand(const AbstractCommand* command)
 {
     CommandType currentCommand = command->getCommandType();
 
@@ -80,7 +80,7 @@ void State_HomePositioning::handleCommand(const AbstractCommand* command)
     }
 }
 
-hsm::Transition State_HomePositioning::GetTransition()
+hsm::Transition State_ReadyStop::GetTransition()
 {
     if(currentState != desiredState)
     {
@@ -106,21 +106,26 @@ hsm::Transition State_HomePositioning::GetTransition()
     }
 }
 
-void State_HomePositioning::OnEnter()
+void State_ReadyStop::OnEnter()
 {
-
+    //The first thing we should do when entering this state is to engage the motor
+    //Let us check to see if the motor is already armed, if not, follow through with the command
 }
 
-void State_HomePositioning::OnEnter(const AbstractCommand *command){
+void State_ReadyStop::OnEnter(const AbstractCommand* command)
+{
+    this->OnEnter();
 
     if(command != nullptr)
     {
-
+        //The command isnt null so we should handle it
     }
     else{
-
+        //There was no actual command, therefore, there is nothing else to do at this point
     }
 }
 
 } //end of namespace Galil
 } //end of namespace ECM
+
+#include "states/state_idle.h"

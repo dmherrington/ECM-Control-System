@@ -6,7 +6,8 @@ namespace Galil {
 State_EStop::State_EStop():
     AbstractStateGalil()
 {
-
+    this->currentState = ECMState::STATE_ESTOP;
+    this->desiredState = ECMState::STATE_ESTOP;
 }
 
 AbstractStateGalil* State_EStop::getClone() const
@@ -101,6 +102,22 @@ hsm::Transition State_EStop::GetTransition()
     }
     else{
         return hsm::NoTransition();
+    }
+}
+
+void State_EStop::OnEnter()
+{
+
+}
+
+void State_EStop::OnEnter(const AbstractCommand *command){
+
+    if(command != nullptr)
+    {
+
+    }
+    else{
+
     }
 }
 

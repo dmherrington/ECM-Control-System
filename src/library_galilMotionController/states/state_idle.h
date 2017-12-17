@@ -46,7 +46,7 @@ public:
 
     void OnEnter() override;
 
-    void OnEnter(AbstractCommand *command);
+    void OnEnter(const AbstractCommand *command);
 };
 
 } //end of namespace Galil

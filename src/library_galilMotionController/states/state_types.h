@@ -15,11 +15,13 @@ enum class ECMState{
     STATE_IDLE = 3, /**< */
     STATE_JOGGING = 4, /**< */
     STATE_MANUAL_POSITIONING = 5, /**< */
-    STATE_READY = 6, /**< */
-    STATE_SCRIPT_EXECUTION = 7, /**< */
-    STATE_STOP = 8, /**< */
-    STATE_TOUCHOFF = 9, /**< */
-    STATE_UNKNOWN = 10 /**< */
+    STATE_MOTION_STOP = 6, /**< */
+    STATE_READY = 7, /**< */
+    STATE_READY_STOP = 8, /**< */
+    STATE_SCRIPT_EXECUTION = 9, /**< */
+    STATE_STOP = 10, /**< */
+    STATE_TOUCHOFF = 11, /**< */
+    STATE_UNKNOWN = 12 /**< */
 };
 
 //!

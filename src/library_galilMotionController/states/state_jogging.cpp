@@ -6,7 +6,8 @@ namespace Galil {
 State_Jogging::State_Jogging():
     AbstractStateGalil()
 {
-
+    this->currentState = ECMState::STATE_JOGGING;
+    this->desiredState = ECMState::STATE_JOGGING;
 }
 
 AbstractStateGalil* State_Jogging::getClone() const
@@ -19,66 +20,6 @@ void State_Jogging::getClone(AbstractStateGalil** state) const
     *state = new State_Jogging(*this);
 }
 
-void State_Jogging::handleCommand(const AbstractCommand* command)
-{
-    CommandType currentCommand = command->getCommandType();
-
-    switch (currentCommand) {
-    case CommandType::ABSOLUTE_MOVE:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::CLEAR_BIT:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::EXECUTE_PROGRAM:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::JOG_MOVE:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::MOTOR_OFF:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::MOTOR_ON:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::RELATIVE_MOVE:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::SET_BIT:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::STOP:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::TELL_POSITION:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    default:
-        break;
-    }
-}
-
 hsm::Transition State_Jogging::GetTransition()
 {
     if(currentState != desiredState)
@@ -86,19 +27,13 @@ hsm::Transition State_Jogging::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_STOP:
+        case ECMState::STATE_MOTION_STOP:
         {
-            //return hsm::SiblingTransition<State_Stop>();
+
             break;
         }
         case ECMState::STATE_ESTOP:
         {
-            //return hsm::SiblingTransition<State_EStop>();
-            break;
-        }
-        case ECMState::STATE_READY:
-        {
-            //return hsm::SiblingTransition<State_Ready>();
             break;
         }
         default:
@@ -111,8 +46,48 @@ hsm::Transition State_Jogging::GetTransition()
     }
 }
 
-#include "states/state_stop.h"
-#include "states/state_estop.h"
+void State_Jogging::handleCommand(const AbstractCommand* command)
+{
+    CommandType currentCommand = command->getCommandType();
+
+    switch (currentCommand) {
+    case CommandType::JOG_MOVE:
+    {
+        //This is the command that brought us into this state
+        break;
+    }
+    case CommandType::STOP:
+    {
+        this->desiredState = ECMState::STATE_STOP;
+    }
+    default:
+    {
+
+    }
+    }
+}
+
+void State_Jogging::OnEnter()
+{
+    //this shouldn't really happen as how are we supposed to know the jogging rate
+    //we therefore are going to do nothing other than change the state back to State_Ready
+    this->desiredState = ECMState::STATE_READY;
+}
+
+void State_Jogging::OnEnter(const AbstractCommand *command){
+
+    if(command != nullptr)
+    {
+        //There are no specific things to have performed in this state as we should only
+        //have arrived here from a ready state. We will go right to handling the command.
+    }
+    else{
+        this->OnEnter();
+    }
+}
 
 } //end of namespace Galil
 } //end of namespace ECM
+
+#include "states/state_motion_stop.h"
+#include "states/state_estop.h"
