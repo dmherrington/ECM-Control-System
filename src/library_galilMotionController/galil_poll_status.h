@@ -8,11 +8,14 @@
 #include "common/threadmanager.h"
 #include "common/timer.h"
 
+#include "requests/request_components.h"
 
 class GalilPolling_Interface
 {
 public:
-
+    virtual void cbi_GalilStatusUpdatePosition() = 0;
+    virtual void cbi_GalilStatusUpdateSwitches() = 0;
+    virtual void cbi_GalilStatusUpdateStopCodes() = 0;
 };
 
 class GalilPollState : public Thread

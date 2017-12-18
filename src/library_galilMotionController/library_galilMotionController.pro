@@ -58,7 +58,10 @@ SOURCES += \
     requests/abstract_request.cpp \
     requests/request_tell_switches.cpp \
     requests/request_list_variables.cpp \
-    requests/request_list_labels.cpp
+    requests/request_list_labels.cpp \
+    status/status_switch.cpp \
+    status/status_position.cpp \
+    status/status_stop_code.cpp
 
 HEADERS += \
         axis_definitions.h \
@@ -107,7 +110,10 @@ HEADERS += \
     requests/request_types.h \
     requests/request_tell_switches.h \
     requests/request_list_variables.h \
-    requests/request_list_labels.h
+    requests/request_list_labels.h \
+    status/status_switch.h \
+    status/status_position.h \
+    status/status_stop_code.h
 
 # Unix lib Install
 unix:!symbian {

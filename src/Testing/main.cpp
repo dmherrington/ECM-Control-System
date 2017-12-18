@@ -1,6 +1,10 @@
 #include <QCoreApplication>
 #include <iostream>
 
+#include <QString>
+#include <QStringList>
+#include <QRegExp>
+
 #include "library_galilMotionController/states/state_components.h"
 #include "library_galilMotionController/galil_interface.h"
 
@@ -10,15 +14,23 @@ using namespace hsm;
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
+    QString result = "#program=6";
+    QStringList list = result.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
+    for(int i =0; i < list.size(); i++)
+    {
+        QString value = list.at(i);
+        QStringList sublist = value.split("=");
+        std::cout<<"We are now here"<<std::endl;
+    }
+    std::cout<<"We are here"<<std::endl;
+//    GalilInterface* newInterface = new GalilInterface();
+//    StateMachine stateMachine;
+//    stateMachine.Initialize<ECM::Galil::State_Idle>(newInterface);
+//    stateMachine.ProcessStateTransitions();
+//    stateMachine.UpdateStates();
 
-    GalilInterface* newInterface = new GalilInterface();
-    StateMachine stateMachine;
-    stateMachine.Initialize<ECM::Galil::State_Idle>(newInterface);
-    stateMachine.ProcessStateTransitions();
-    stateMachine.UpdateStates();
-
-    stateMachine.ProcessStateTransitions();
-    stateMachine.UpdateStates();
+//    stateMachine.ProcessStateTransitions();
+//    stateMachine.UpdateStates();
 
 //       StateMachine stateMachine;
 //       stateMachine.Initialize<test::test2::State1>();

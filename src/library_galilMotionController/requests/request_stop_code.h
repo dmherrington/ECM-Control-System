@@ -51,7 +51,7 @@ public:
     std::string getRequestString() const override;
 
 private:
-    MotorAxis stopAxis; /**< Value of the axis to be stop requested */
+    MotorAxis codeAxis; /**< Value of the axis stop code is requested for*/
 
 };
 

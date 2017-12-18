@@ -24,7 +24,7 @@ private:
     bool axisMoving = false;
     bool latchSet = false;
 
-    std::map<MotorAxis,double> currentPosition;
+    std::map<MotorAxis,unsigned int> currentPosition;
     std::vector<std::string> currentLabels;
     std::vector<std::string> currentVariables;
 };

@@ -6,6 +6,7 @@
 #include "requests/request_list_variables.h"
 #include "requests/request_stop_code.h"
 #include "requests/request_tell_position.h"
+#include "requests/request_tell_switches.h"
 #include "requests/request_types.h"
 
 #endif // REQUEST_COMPONENTS_H

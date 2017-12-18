@@ -1,7 +1,5 @@
 #ifndef REQUEST_TELL_POSITION_H
 #define REQUEST_TELL_POSITION_H
-
-
 #include <string>
 
 #include "requests/abstract_request.h"
@@ -51,6 +49,8 @@ public:
     //! \return
     //!
     std::string getRequestString() const override;
+
+    void receivedResponse(const char* chrArray) override;
 
 private:
     MotorAxis tellAxis; /**< Value of the axis to be position requested */

@@ -1,7 +1,10 @@
 #ifndef ABSTRACT_REQUEST_H
 #define ABSTRACT_REQUEST_H
 
-#include <string>
+#include <QStringList>
+
+#include <stdio.h>
+#include <string.h>
 
 #include "requests/request_types.h"
 
@@ -23,7 +26,7 @@
 class AbstractRequest
 {
 public:
-    AbstractRequest(const RequestTypes &type);
+    AbstractRequest(const RequestTypes &type, const unsigned int &respSize = 10);
 
 
     virtual ~AbstractRequest() = default;
@@ -68,9 +71,20 @@ public:
 
     virtual std::string getRequestString() const = 0;
 
+public:
+    void setBufferSize(const unsigned int &size);
+
+    unsigned int getAllocatedBufferSize() const;
+
+    void getBuffer(char* chrArray) const;
+
+    virtual void increaseBufferSize(char* chrArray);
+
+    virtual void receivedResponse(const char* chrArray);
+
 protected:
     RequestTypes requestType;
-
+    unsigned int bufferSize;
 };
 
 #endif // ABSTRACT_REQUEST_H

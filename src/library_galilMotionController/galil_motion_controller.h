@@ -19,6 +19,9 @@
 #include "galil_parse_greturn.h"
 #include "settings/galil_settings.h"
 
+#include "galil_interface.h"
+
+
 /**
 \* @file  galil_motion_controller.h
 \*
@@ -78,6 +81,9 @@ signals:
 private:
     QString settingsPath;
     QString programPath;
+
+private:
+
 private:
     GCon mConnection;
     GalilSettings m_Settings;

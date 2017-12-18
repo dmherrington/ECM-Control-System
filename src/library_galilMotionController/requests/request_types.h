@@ -36,15 +36,15 @@ enum class RequestTypes{
 inline std::string RequestToString(const RequestTypes &type) {
     switch (type) {
     case RequestTypes::LIST_LABELS:
-        return "MO";
+        return "LL";
     case RequestTypes::LIST_VARIABLES:
-        return "SH";
+        return "LV";
     case RequestTypes::STOP_CODE:
-        return "JG";
+        return "SC";
     case RequestTypes::TELL_POSITION:
-        return "PR";
+        return "TP";
     case RequestTypes::TELL_SWITCHES:
-        return "PA";
+        return "TS";
     default:
         throw std::runtime_error("Unknown command type seen");
     }
@@ -56,18 +56,18 @@ inline std::string RequestToString(const RequestTypes &type) {
 //! \return
 //!
 inline RequestTypes RequestFromString(const std::string &str) {
-    if(str == "MO")
+    if(str == "LL")
         return RequestTypes::LIST_LABELS;
-    if(str == "SH")
+    if(str == "LV")
         return RequestTypes::LIST_VARIABLES;
-    if(str == "JG")
+    if(str == "SC")
         return RequestTypes::STOP_CODE;
-    if(str == "PR")
+    if(str == "TP")
         return RequestTypes::TELL_POSITION;
-    if(str == "PA")
+    if(str == "TS")
         return RequestTypes::TELL_SWITCHES;
 
-    throw std::runtime_error("Unknown command type seen");
+    throw std::runtime_error("Unknown request type seen");
 }
 
 //!
