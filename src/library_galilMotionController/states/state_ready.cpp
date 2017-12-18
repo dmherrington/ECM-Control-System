@@ -23,6 +23,8 @@ void State_Ready::getClone(AbstractStateGalil** state) const
 
 hsm::Transition State_Ready::GetTransition()
 {
+    hsm::Transition rtn = hsm::NoTransition();
+
     if(currentState != desiredState)
     {
         //this means we want to chage the state for some reason
@@ -30,27 +32,27 @@ hsm::Transition State_Ready::GetTransition()
         switch (desiredState) {
         case ECMState::STATE_MANUAL_POSITIONING:
         {
-            return hsm::SiblingTransition<State_ManualPositioning>(currentCommand);
+            rtn = hsm::SiblingTransition<State_ManualPositioning>(currentCommand);
             break;
         }
         case ECMState::STATE_JOGGING:
         {
-            return hsm::SiblingTransition<State_Jogging>(currentCommand);
+            rtn = hsm::SiblingTransition<State_Jogging>(currentCommand);
             break;
         }
         case ECMState::STATE_HOME_POSITIONING:
         {
-            return hsm::SiblingTransition<State_HomePositioning>(currentCommand);
+            rtn = hsm::SiblingTransition<State_HomePositioning>(currentCommand);
             break;
         }
         case ECMState::STATE_TOUCHOFF:
         {
-            return hsm::SiblingTransition<State_Touchoff>(currentCommand);
+            rtn = hsm::SiblingTransition<State_Touchoff>(currentCommand);
             break;
         }
         case ECMState::STATE_SCRIPT_EXECUTION:
         {
-            return hsm::SiblingTransition<State_ScriptExecution>(currentCommand);
+            rtn = hsm::SiblingTransition<State_ScriptExecution>(currentCommand);
             break;
         }
         default:
@@ -58,9 +60,8 @@ hsm::Transition State_Ready::GetTransition()
             break;
         }
     }
-    else{
-        return hsm::NoTransition();
-    }
+
+    return rtn;
 }
 
 void State_Ready::handleCommand(const AbstractCommand* command)
@@ -118,7 +119,6 @@ void State_Ready::handleCommand(const AbstractCommand* command)
     }
     case CommandType::CLEAR_BIT:
     case CommandType::SET_BIT:
-    case CommandType::TELL_POSITION:
     {
         std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;

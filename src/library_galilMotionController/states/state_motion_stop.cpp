@@ -34,6 +34,8 @@ void State_MotionStop::handleCommand(const AbstractCommand* command)
 
 hsm::Transition State_MotionStop::GetTransition()
 {
+    hsm::Transition rtn = hsm::NoTransition();
+
     if(currentState != desiredState)
     {
         //this means we want to chage the state for some reason
@@ -41,21 +43,20 @@ hsm::Transition State_MotionStop::GetTransition()
         switch (desiredState) {
         case ECMState::STATE_READY:
         {
-            return hsm::SiblingTransition<State_Ready>();
+            rtn = hsm::SiblingTransition<State_Ready>();
             break;
         }
         case ECMState::STATE_ESTOP:
         {
-            return hsm::SiblingTransition<State_EStop>();
+            rtn = hsm::SiblingTransition<State_EStop>();
         }
         default:
             std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
             break;
         }
     }
-    else{
-        return hsm::NoTransition();
-    }
+
+    return rtn;
 }
 
 void State_MotionStop::OnEnter()

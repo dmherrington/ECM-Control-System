@@ -23,6 +23,8 @@ void State_Idle::getClone(AbstractStateGalil** state) const
 
 hsm::Transition State_Idle::GetTransition()
 {
+    hsm::Transition rtn = hsm::NoTransition();
+
     if(currentState != desiredState)
     {
         //this means we want to chage the state for some reason
@@ -30,7 +32,7 @@ hsm::Transition State_Idle::GetTransition()
         switch (desiredState) {
         case ECMState::STATE_READY:
         {
-            return hsm::SiblingTransition<State_Ready>();
+            rtn = hsm::SiblingTransition<State_Ready>();
             break;
         }
         case ECMState::STATE_ESTOP:
@@ -42,9 +44,8 @@ hsm::Transition State_Idle::GetTransition()
             break;
         }
     }
-    else{
-        return hsm::NoTransition();
-    }
+
+    return rtn;
 }
 
 void State_Idle::Update()
@@ -105,7 +106,6 @@ void State_Idle::handleCommand(const AbstractCommand* command)
     }
     case CommandType::CLEAR_BIT:
     case CommandType::SET_BIT:
-    case CommandType::TELL_POSITION:
     {
         std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;

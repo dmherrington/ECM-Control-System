@@ -1,7 +1,6 @@
 #ifndef ABSTRACT_REQUEST_H
 #define ABSTRACT_REQUEST_H
 
-
 #include <string>
 
 #include "requests/request_types.h"
@@ -24,13 +23,10 @@
 class AbstractRequest
 {
 public:
-    AbstractRequest(const RequestTypes &type)
-    {
-        this->requestType = type;
-    }
+    AbstractRequest(const RequestTypes &type);
 
 
-    virtual ~AbstractCommand() = default;
+    virtual ~AbstractRequest() = default;
 
     /**
      *

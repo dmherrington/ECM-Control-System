@@ -12,7 +12,6 @@
 #include "commands/command_relative_move.h"
 #include "commands/command_set_bit.h"
 #include "commands/command_stop.h"
-#include "commands/command_tell_position.h"
 #include "commands/command_types.h"
 
 #endif // COMMAND_COMPONENTS_H

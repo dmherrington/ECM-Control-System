@@ -1,25 +1,25 @@
 #include "request_stop_code.h"
 
 RequestStopCode::RequestStopCode(const MotorAxis &axis):
-    AbstractCommand(CommandType::STOP_CODE), stopAxis(axis)
+    AbstractRequest(RequestTypes::STOP_CODE), stopAxis(axis)
 {
 
 }
 
 RequestStopCode::RequestStopCode(const RequestStopCode &copy):
-    AbstractCommand(copy)
+    AbstractRequest(copy)
 {
 
 }
 
-AbstractCommand* RequestStopCode::getClone() const
+AbstractRequest* RequestStopCode::getClone() const
 {
     return (new RequestStopCode(*this));
 }
 
-void RequestStopCode::getClone(AbstractCommand** state) const
+void RequestStopCode::getClone(AbstractRequest** state) const
 {
-    *state = new CommandStop(*this);
+    *state = new RequestStopCode(*this);
 }
 
 //!
@@ -40,19 +40,8 @@ MotorAxis RequestStopCode::getAxis() const
     return stopAxis;
 }
 
-std::string RequestStopCode::getCommandString() const
+std::string RequestStopCode::getRequestString() const
 {
     std::string str = "";
-    if(stopAxis == MotorAxis::ALL)
-    {
-        //for now we are going to throw an exception here as this should create a multi-message
-        //or the mask should reflect all layers which I dont know how galil would handle yet
-    }
-    else
-    {
-        str.append(CommandToString(this->getCommandType()));
-        str.append(" ");
-        str.append(AxisToString(stopAxis));
-    }
     return str;
 }

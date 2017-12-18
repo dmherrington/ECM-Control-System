@@ -1,11 +1,5 @@
 #include "request_tell_position.h"
 
-RequestTellPosition::RequestTellPosition()
-{
-
-}
-
-
 RequestTellPosition::RequestTellPosition(const MotorAxis &axis):
     AbstractRequest(RequestTypes::TELL_POSITION), tellAxis(axis)
 {
@@ -46,20 +40,20 @@ MotorAxis RequestTellPosition::getAxis() const
     return tellAxis;
 }
 
-std::string RequestTellPosition::getCommandString() const
+std::string RequestTellPosition::getRequestString() const
 {
     std::string str = "";
-    if(tellAxis == MotorAxis::ALL)
-    {
-        //for now we are going to throw an exception here as this should create a multi-message
-        //or the mask should reflect all layers which I dont know how galil would handle yet
-    }
-    else
-    {
-        str.append(RequestToString(this->getRequestType()));
-        str.append("");
-        str.append(AxisToString(tellAxis));
-    }
+//    if(tellAxis == MotorAxis::ALL)
+//    {
+//        //for now we are going to throw an exception here as this should create a multi-message
+//        //or the mask should reflect all layers which I dont know how galil would handle yet
+//    }
+//    else
+//    {
+//        str.append(RequestToString(this->getRequestType()));
+//        str.append("");
+//        str.append(AxisToString(tellAxis));
+//    }
     return str;
 }
 

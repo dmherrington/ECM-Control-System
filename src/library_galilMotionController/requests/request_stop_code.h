@@ -3,10 +3,10 @@
 
 #include <string>
 
-#include "commands/abstract_command.h"
+#include "requests/abstract_request.h"
 #include "axis_definitions.h"
 
-class RequestStopCode : public AbstractCommand
+class RequestStopCode : public AbstractRequest
 {
 public:
     RequestStopCode(const MotorAxis &axis = MotorAxis::Z);
@@ -22,13 +22,13 @@ public:
      * @brief getClone
      * @return
      */
-    AbstractCommand* getClone() const override;
+    AbstractRequest* getClone() const override;
 
     /**
      * @brief getClone
      * @param state
      */
-    void getClone(AbstractCommand** state) const override;
+    void getClone(AbstractRequest** state) const override;
 
 public:
     //!
@@ -48,7 +48,7 @@ public:
     //! \brief getCommandString
     //! \return
     //!
-    virtual std::string getCommandString() const override;
+    std::string getRequestString() const override;
 
 private:
     MotorAxis stopAxis; /**< Value of the axis to be stop requested */

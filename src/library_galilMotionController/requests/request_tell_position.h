@@ -16,7 +16,7 @@ public:
 
     /**
       */
-    virtual ~CommandTellPosition() = default;
+    virtual ~RequestTellPosition() = default;
 
 public:
 
@@ -50,7 +50,7 @@ public:
     //! \brief getCommandString
     //! \return
     //!
-    virtual std::string getCommandString() const override;
+    std::string getRequestString() const override;
 
 private:
     MotorAxis tellAxis; /**< Value of the axis to be position requested */

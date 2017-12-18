@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <stdexcept>
 
 /**
 \* @file  request_types.h
@@ -79,7 +80,5 @@ inline std::vector<std::string> getListOfCurrentRequestTypes()
 
     return str;
 }
-
-#endif // COMMAND_TYPES_H
 
 #endif // REQUEST_TYPES_H

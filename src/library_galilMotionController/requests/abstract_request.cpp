@@ -1,6 +1,6 @@
 #include "abstract_request.h"
 
-AbstractRequest::AbstractRequest()
+AbstractRequest::AbstractRequest(const RequestTypes &type)
 {
-
+    this->requestType = type;
 }

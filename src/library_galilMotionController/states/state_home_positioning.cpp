@@ -38,6 +38,8 @@ void State_HomePositioning::handleCommand(const AbstractCommand* command)
 
 hsm::Transition State_HomePositioning::GetTransition()
 {
+    hsm::Transition rtn = hsm::NoTransition();
+
     if(currentState != desiredState)
     {
         //this means we want to chage the state for some reason
@@ -45,21 +47,20 @@ hsm::Transition State_HomePositioning::GetTransition()
         switch (desiredState) {
         case ECMState::STATE_MOTION_STOP:
         {
-            return hsm::SiblingTransition<State_MotionStop>();
+            rtn = hsm::SiblingTransition<State_MotionStop>();
             break;
         }
         case ECMState::STATE_ESTOP:
         {
-            return hsm::SiblingTransition<State_EStop>();
+            rtn = hsm::SiblingTransition<State_EStop>();
         }
         default:
             std::cout<<"I dont know how we eneded up in this transition state from State_HomePositioning."<<std::endl;
             break;
         }
     }
-    else{
-        return hsm::NoTransition();
-    }
+
+    return rtn;
 }
 
 void State_HomePositioning::OnEnter()

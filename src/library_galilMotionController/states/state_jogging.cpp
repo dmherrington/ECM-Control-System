@@ -22,6 +22,8 @@ void State_Jogging::getClone(AbstractStateGalil** state) const
 
 hsm::Transition State_Jogging::GetTransition()
 {
+    hsm::Transition rtn = hsm::NoTransition();
+
     if(currentState != desiredState)
     {
         //this means we want to chage the state for some reason
@@ -29,12 +31,12 @@ hsm::Transition State_Jogging::GetTransition()
         switch (desiredState) {
         case ECMState::STATE_MOTION_STOP:
         {
-            return hsm::SiblingTransition<State_MotionStop>();
+            rtn = hsm::SiblingTransition<State_MotionStop>();
             break;
         }
         case ECMState::STATE_ESTOP:
         {
-            return hsm::SiblingTransition<State_EStop>();
+            rtn = hsm::SiblingTransition<State_EStop>();
             break;
         }
         default:
@@ -42,9 +44,8 @@ hsm::Transition State_Jogging::GetTransition()
             break;
         }
     }
-    else{
-        return hsm::NoTransition();
-    }
+
+    return rtn;
 }
 
 void State_Jogging::handleCommand(const AbstractCommand* command)

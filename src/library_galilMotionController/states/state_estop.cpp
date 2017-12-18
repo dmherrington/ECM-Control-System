@@ -70,11 +70,6 @@ void State_EStop::handleCommand(const AbstractCommand* command)
         std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
-    case CommandType::TELL_POSITION:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
     default:
         break;
     }
@@ -82,13 +77,15 @@ void State_EStop::handleCommand(const AbstractCommand* command)
 
 hsm::Transition State_EStop::GetTransition()
 {
+    hsm::Transition rtn = hsm::NoTransition();
+
     if(currentState != desiredState)
     {
         //this means we want to chage the state for some reason
         switch (desiredState) {
         case ECMState::STATE_IDLE:
         {
-            return hsm::SiblingTransition<State_Idle>();
+            rtn = hsm::SiblingTransition<State_Idle>();
             break;
         }
         default:
@@ -96,9 +93,7 @@ hsm::Transition State_EStop::GetTransition()
             break;
         }
     }
-    else{
-        return hsm::NoTransition();
-    }
+    return rtn;
 }
 
 void State_EStop::OnEnter()
