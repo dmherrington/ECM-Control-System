@@ -27,55 +27,26 @@ void State_ManualPositioning::handleCommand(const AbstractCommand* command)
     switch (currentCommand) {
     case CommandType::ABSOLUTE_MOVE:
     {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::CLEAR_BIT:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::EXECUTE_PROGRAM:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::JOG_MOVE:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::MOTOR_OFF:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::MOTOR_ON:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        CommandAbsoluteMove cmd;
         break;
     }
     case CommandType::RELATIVE_MOVE:
     {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        CommandRelativeMove cmd;
         break;
     }
-    case CommandType::SET_BIT:
+    case CommandType::JOG_MOVE:
     {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        CommandJog cmd;
         break;
     }
     case CommandType::STOP:
     {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::TELL_POSITION:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        CommandStop cmd;
         break;
     }
     default:
+        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
 }
@@ -110,17 +81,21 @@ hsm::Transition State_ManualPositioning::GetTransition()
 
 void State_ManualPositioning::OnEnter()
 {
-
+    //For some reason no command was passed to this case. This is an interesting case.
+    std::cout<<"The command is null even though we have been told to enter the manual positioning state."<<std::endl;
+    this->desiredState = ECMState::STATE_READY;
 }
 
-void State_ManualPositioning::OnEnter(const AbstractCommand *command){
-
+void State_ManualPositioning::OnEnter(const AbstractCommand *command)
+{
     if(command != nullptr)
     {
 
     }
     else{
-
+        //For some reason the command was null. This is an interesting case.
+        std::cout<<"The command is null even though we have been told to enter the manual positioning state."<<std::endl;
+        this->desiredState = ECMState::STATE_READY;
     }
 }
 

@@ -1,24 +1,23 @@
-#ifndef COMMAND_TELL_POSITION_H
-#define COMMAND_TELL_POSITION_H
+#ifndef REQUEST_STOP_CODE_H
+#define REQUEST_STOP_CODE_H
 
 #include <string>
 
 #include "commands/abstract_command.h"
 #include "axis_definitions.h"
 
-class CommandTellPosition : public AbstractCommand
+class RequestStopCode : public AbstractCommand
 {
 public:
-    CommandTellPosition(const MotorAxis &axis = MotorAxis::Z);
+    RequestStopCode(const MotorAxis &axis = MotorAxis::Z);
 
-    CommandTellPosition(const CommandTellPosition &copy);
+    RequestStopCode(const RequestStopCode &copy);
 
     /**
       */
-    virtual ~CommandTellPosition() = default;
+    virtual ~RequestStopCode() = default;
 
 public:
-
     /**
      * @brief getClone
      * @return
@@ -52,8 +51,8 @@ public:
     virtual std::string getCommandString() const override;
 
 private:
-    MotorAxis tellAxis; /**< Value of the axis to be position requested */
+    MotorAxis stopAxis; /**< Value of the axis to be stop requested */
 
 };
 
-#endif // COMMAND_TELL_POSITION_H
+#endif // REQUEST_STOP_CODE_H

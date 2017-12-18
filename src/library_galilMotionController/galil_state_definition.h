@@ -1,8 +1,0 @@
-#ifndef GALIL_STATE_DEFINITION_H
-#define GALIL_STATE_DEFINITION_H
-
-enum GalilCurrentState{
-    NEUTRAL,
-    EXECUTING_PROGRAM
-}
-#endif // GALIL_STATE_DEFINITION_H

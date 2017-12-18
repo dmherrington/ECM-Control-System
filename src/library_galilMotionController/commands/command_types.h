@@ -27,10 +27,9 @@ enum class CommandType{
     RELATIVE_MOVE = 3,
     ABSOLUTE_MOVE = 4,
     STOP = 5,
-    TELL_POSITION = 6,
-    SET_BIT = 7,
-    CLEAR_BIT = 8,
-    EXECUTE_PROGRAM = 9
+    SET_BIT = 6,
+    CLEAR_BIT = 7,
+    EXECUTE_PROGRAM = 8
 };
 
 //!
@@ -52,8 +51,6 @@ inline std::string CommandToString(const CommandType &type) {
         return "PA";
     case CommandType::STOP:
         return "ST";
-    case CommandType::TELL_POSITION:
-        return "_TP"; //Ken: I dont know if its better to do _TP or TP mm
     case CommandType::SET_BIT:
         return "SB";
     case CommandType::CLEAR_BIT:
@@ -83,8 +80,6 @@ inline CommandType CommandFromString(const std::string &str) {
         return CommandType::ABSOLUTE_MOVE;
     if(str == "ST")
         return CommandType::STOP;
-    if(str == "TP")
-        return CommandType::TELL_POSITION;
     if(str == "SB")
         return CommandType::SET_BIT;
     if(str == "CB")

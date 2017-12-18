@@ -8,6 +8,9 @@ namespace Galil {
 
 ECM_CLASS_FORWARD(State_HomePositioning);
 
+class State_MotionStop;
+class State_EStop;
+
 class State_HomePositioning : public AbstractStateGalil
 {
 public:

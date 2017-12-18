@@ -52,7 +52,13 @@ SOURCES += \
     galil_interface.cpp \
     status/galil_status.cpp \
     states/state_motion_stop.cpp \
-    states/state_ready_stop.cpp
+    states/state_ready_stop.cpp \
+    requests/request_stop_code.cpp \
+    requests/request_tell_position.cpp \
+    requests/abstract_request.cpp \
+    requests/request_tell_switches.cpp \
+    requests/request_list_variables.cpp \
+    requests/request_list_labels.cpp
 
 HEADERS += \
         axis_definitions.h \
@@ -60,7 +66,6 @@ HEADERS += \
         galil_motion_controller.h \
         galil_parse_greturn.h \
         galil_poll_status.h \
-        galil_state_definition.h \
         library_galilmotioncontroller_global.h \ 
         type_direction.h \
         commands/abstract_command.h \
@@ -75,7 +80,6 @@ HEADERS += \
         commands/command_relative_move.h \
         commands/command_set_bit.h \
         commands/command_stop.h \
-        commands/command_tell_position.h \
         commands/command_types.h \
         settings/galil_settings.h \
         settings/settings_manual_profile.h \
@@ -95,7 +99,15 @@ HEADERS += \
         states/state_script_execution.h \
         states/state_touchoff.h \
         states/state_types.h \
-        status/galil_status.h
+        status/galil_status.h \
+    requests/request_stop_code.h \
+    requests/request_tell_position.h \
+    requests/abstract_request.h \
+    requests/request_components.h \
+    requests/request_types.h \
+    requests/request_tell_switches.h \
+    requests/request_list_variables.h \
+    requests/request_list_labels.h
 
 # Unix lib Install
 unix:!symbian {
@@ -117,7 +129,6 @@ headers_base.files   += \
         galil_motion_controller.h \
         galil_parse_greturn.h \
         galil_poll_status.h \
-        galil_state_definition.h \
         library_galilmotioncontroller_global.h \
         type_direction.h
 INSTALLS       += headers_base
@@ -128,12 +139,30 @@ headers_commands.files   += \
         commands/abstract_command.h \
         commands/abstract_move_command.h \
         commands/command_absolute_move.h \
+        commands/command_clear_bit.h \
+        commands/command_components.h \
+        commands/command_execute_program.h \
         commands/command_jog.h \
         commands/command_motor_disable.h \
         commands/command_motor_enable.h \
         commands/command_relative_move.h \
+        commands/command_set_bit.h \
+        commands/command_stop.h \
         commands/command_types.h
 INSTALLS       += headers_commands
+
+#Header file copy
+headers_requests.path    = $$(ECM_ROOT)/include/library_galilMotionController/requests
+headers_requests.files   += \
+        requests/abstract_request.h \
+        requests/request_components.h \
+        requests/request_list_labels.h \
+        requests/request_list_variables.h \
+        requests/request_stop_code.h \
+        requests/request_tell_position.h \
+        requests/request_tell_switches.h \
+        requests/request_types.h
+INSTALLS       += headers_requests
 
 #Header file copy
 headers_settings.path    = $$(ECM_ROOT)/include/library_galilMotionController/settings

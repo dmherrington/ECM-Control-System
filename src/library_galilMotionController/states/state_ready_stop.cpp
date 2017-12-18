@@ -25,57 +25,8 @@ void State_ReadyStop::handleCommand(const AbstractCommand* command)
     CommandType currentCommand = command->getCommandType();
 
     switch (currentCommand) {
-    case CommandType::ABSOLUTE_MOVE:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::CLEAR_BIT:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::EXECUTE_PROGRAM:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::JOG_MOVE:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::MOTOR_OFF:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::MOTOR_ON:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::RELATIVE_MOVE:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::SET_BIT:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::STOP:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::TELL_POSITION:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
     default:
+        //We shouldn't have any commands in this state to handle
         break;
     }
 }
@@ -108,8 +59,13 @@ hsm::Transition State_ReadyStop::GetTransition()
 
 void State_ReadyStop::OnEnter()
 {
-    //The first thing we should do when entering this state is to engage the motor
+    //The first thing we should do when entering this state is to disengage the motor
     //Let us check to see if the motor is already armed, if not, follow through with the command
+    CommandMotorDisable cmdDisable;
+
+    //The next thing is to engage the airbrake
+    CommandSetBit commandSetBit;
+    commandSetBit.appendAddress(2);
 }
 
 void State_ReadyStop::OnEnter(const AbstractCommand* command)

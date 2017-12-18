@@ -8,6 +8,8 @@ namespace Galil {
 
 ECM_CLASS_FORWARD(State_EStop);
 
+class State_Idle;
+
 class State_EStop : public AbstractStateGalil
 {
 public:

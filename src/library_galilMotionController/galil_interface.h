@@ -7,6 +7,8 @@
 #include "axis_definitions.h"
 
 #include "commands/command_components.h"
+#include "requests/request_components.h"
+
 #include "status/galil_status.h"
 
 class GalilInterface
@@ -23,6 +25,8 @@ public:
     void transmitMessage(const std::string &msg);
 
     void transmitMessage(const AbstractCommand* cmd);
+
+    void transmitMessage(const AbstractRequest* req);
 
 private:
     std::map<MotorAxis, GalilStatus*> mStatus;

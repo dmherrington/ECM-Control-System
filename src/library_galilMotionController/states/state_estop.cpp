@@ -86,17 +86,13 @@ hsm::Transition State_EStop::GetTransition()
     {
         //this means we want to chage the state for some reason
         switch (desiredState) {
-        case ECMState::STATE_READY:
+        case ECMState::STATE_IDLE:
         {
-            //return hsm::SiblingTransition<State_Ready>();
+            return hsm::SiblingTransition<State_Idle>();
             break;
         }
-        case ECMState::STATE_ESTOP:
-        {
-
-        }
         default:
-            std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
+            std::cout<<"I dont know how we eneded up in this transition state from State_EStop."<<std::endl;
             break;
         }
     }
@@ -123,3 +119,5 @@ void State_EStop::OnEnter(const AbstractCommand *command){
 
 } //end of namespace Galil
 } //end of namespace ECM
+
+#include "states/state_idle.h"
