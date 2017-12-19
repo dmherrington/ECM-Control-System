@@ -6,7 +6,7 @@
 #include <QRegExp>
 
 #include "library_galilMotionController/states/state_components.h"
-#include "library_galilMotionController/galil_interface.h"
+#include "library_galilMotionController/galil_state_interface.h"
 
 
 using namespace hsm;

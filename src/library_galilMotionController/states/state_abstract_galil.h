@@ -11,7 +11,7 @@
 #include "library_galilMotionController/states/state_types.h"
 #include "library_galilMotionController/states/hsm.h"
 
-#include "library_galilMotionController/galil_interface.h"
+#include "library_galilMotionController/galil_state_interface.h"
 
 namespace ECM{
 namespace Galil {

@@ -12,14 +12,16 @@
 #include "gclib.h"
 #include "gclibo.h"
 
-
 #include "library_galilmotioncontroller_global.h"
 #include "commands/command_components.h"
+#include "requests/request_components.h"
+#include "states/state_components.h"
 
 #include "galil_parse_greturn.h"
 #include "settings/galil_settings.h"
 
-#include "galil_interface.h"
+#include "galil_poll_status.h"
+#include "galil_state_interface.h"
 
 
 /**
@@ -44,7 +46,7 @@ class GMC_SHARED_EXPORT galilMotionController : public QObject
 public:
     galilMotionController();
 
-    ~galilMotionController() = default;
+    ~galilMotionController();
 
 public:
     void openConnection(const std::string &address);
@@ -71,6 +73,8 @@ public:
 
     void executeStringCommand(const std::string &stringCommand);
 
+    void handleRequests(const AbstractRequest* request);
+
 signals:
     void commsStatus(const bool &opened);
 
@@ -78,15 +82,26 @@ signals:
 
     void currentErrorCode(const std::string &errorString);
 
+
 private:
     QString settingsPath;
     QString programPath;
 
 private:
+    GCon galil; /**< Member variable containing a pointer to the Galil interface */
+
+    GalilStateInterface* stateInterface; /**< Member variable containing the current state
+information, settings, and callback information for the states within the HSM.*/
+
+    hsm::StateMachine* stateMachine; /**< Member variable containing a pointer to the state
+ machine. This state machine evolves the state per event updates and user commands either via
+the GUI or information updates from the polled status of the galil. */
+
+    GalilPollState* galilPolling; /**< Member variable that contains a threaded object consistently
+ assessing and querying the state of the galil based on a timeout.*/
 
 private:
-    GCon mConnection;
-    GalilSettings m_Settings;
+    GalilSettings m_Settings; /**< Value of the axis to be disabled */
 };
 
 #endif // GALIL_MOTION_CONTROLLER_H

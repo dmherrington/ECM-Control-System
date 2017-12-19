@@ -10,12 +10,12 @@
 
 #include "requests/request_components.h"
 
-class GalilPolling_Interface
+class GalilStatusUpdate_Interface
 {
 public:
-    virtual void cbi_GalilStatusUpdatePosition() = 0;
-    virtual void cbi_GalilStatusUpdateSwitches() = 0;
-    virtual void cbi_GalilStatusUpdateStopCodes() = 0;
+    virtual void cbi_GalilStatusRequestPosition() = 0;
+    virtual void cbi_GalilStatusRequestSwitches() = 0;
+    virtual void cbi_GalilStatusRequestStopCodes() = 0;
 };
 
 class GalilPollState : public Thread
@@ -43,7 +43,7 @@ private:
     int timeout;
 
 private:
-    GalilPolling_Interface *m_CB;
+    GalilStatusUpdate_Interface *m_CB;
 
 protected:
     std::list<std::function<void()>> m_LambdasToRun;

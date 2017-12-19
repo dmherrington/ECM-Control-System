@@ -49,7 +49,6 @@ SOURCES += \
     states/state_script_execution.cpp \
     states/state_estop.cpp \
     states/state_abstract_galil.cpp \
-    galil_interface.cpp \
     status/galil_status.cpp \
     states/state_motion_stop.cpp \
     states/state_ready_stop.cpp \
@@ -61,11 +60,12 @@ SOURCES += \
     requests/request_list_labels.cpp \
     status/status_switch.cpp \
     status/status_position.cpp \
-    status/status_stop_code.cpp
+    status/status_stop_code.cpp \
+    galil_state_interface.cpp \
+    requests/handle_requests.cpp
 
 HEADERS += \
         axis_definitions.h \
-        galil_interface.h \
         galil_motion_controller.h \
         galil_parse_greturn.h \
         galil_poll_status.h \
@@ -113,7 +113,9 @@ HEADERS += \
     requests/request_list_labels.h \
     status/status_switch.h \
     status/status_position.h \
-    status/status_stop_code.h
+    status/status_stop_code.h \
+    galil_state_interface.h \
+    status/status_components.h
 
 # Unix lib Install
 unix:!symbian {
@@ -131,10 +133,10 @@ INSTALLS += lib
 headers_base.path    = $$(ECM_ROOT)/include/library_galilMotionController
 headers_base.files   += \
         axis_definitions.h \
-        galil_interface.h \
         galil_motion_controller.h \
         galil_parse_greturn.h \
         galil_poll_status.h \
+        galil_state_interface.h \
         library_galilmotioncontroller_global.h \
         type_direction.h
 INSTALLS       += headers_base

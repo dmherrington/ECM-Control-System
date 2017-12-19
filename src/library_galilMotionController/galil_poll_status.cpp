@@ -45,7 +45,7 @@ void GalilPollState::run()
             std::cout<<"This should have executed a request for galil info"<<std::endl;
             // 1: Request the position of the galil unit
             RequestTellPosition requestTP;
-
+            m_CB->cbi_GalilStatusRequestCommand(requestTP.getRequestString());
             // 2: Request the stop codes
             RequestStopCode requestSC;
 

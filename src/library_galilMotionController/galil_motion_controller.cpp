@@ -3,7 +3,10 @@
 
 galilMotionController::galilMotionController()
 {
-//    GReturn rtnCode = GOpen("169.254.78.101",&mConnection);
+
+    stateInterface = new GalilStateInterface();
+
+    //    GReturn rtnCode = GOpen("169.254.78.101",&mConnection);
 
     char* ECMPath = getenv("ECM_ROOT");
     if(ECMPath){
@@ -16,6 +19,22 @@ galilMotionController::galilMotionController()
 
         settingsPath = settingsDirectory.absolutePath() + "/generalSettings.json";
         programPath = programsDirectory.absolutePath() + "/";
+    }
+}
+
+galilMotionController::~galilMotionController()
+{
+    //clean up pointers
+    if(galilPolling)
+    {
+        galilPolling->stop();
+        delete galilPolling;
+        galilPolling = nullptr;
+    }
+    if(stateMachine)
+    {
+        delete stateMachine;
+        stateMachine = nullptr;
     }
 }
 
@@ -40,7 +59,11 @@ void galilMotionController::openConnection(const std::string &address)
 {
     GReturn rtnCode = GOpen(address.c_str(),&mConnection);
     if(rtnCode == G_NO_ERROR) //this means the port was opened successfully
-        emit commsStatus(true);
+    {
+        stateMachine = new hsm::StateMachine<ECM::Galil::State_Idle>(stateInterface);
+        galilPolling = new GalilPollState();
+        emit commsStatus(true);   
+    }
 
     //in this case we do not emit a change as we don't necessarily know the previous state
 
@@ -50,9 +73,28 @@ void galilMotionController::openConnection(const std::string &address)
 
 void galilMotionController::closeConnection()
 {
-    GReturn rtnCode = GClose(mConnection);
+    //First, we must stop all of the items trying to communicate with the galil
+    if(galilPolling)
+    {
+        galilPolling->pausePolling();
+    }
+    GReturn rtnCode = GClose(galil);
+
     if(rtnCode == G_NO_ERROR) //this means the port was closed successfully
+    {
+        if(galilPolling)
+        {
+            galilPolling->stop();
+            delete galilPolling;
+            galilPolling = nullptr;
+        }
+        if(stateMachine)
+        {
+            delete stateMachine;
+            stateMachine = nullptr;
+        }
         emit commsStatus(false);
+    }
 
     //in this case we do not emit a change as we don't necessarily know the previous state
 
