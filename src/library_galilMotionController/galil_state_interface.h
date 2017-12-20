@@ -21,7 +21,7 @@
 class GalilStateInterface
 {
 public:
-    GalilStateInterface();
+    GalilStateInterface(const std::vector<MotorAxis> &availableAxis);
 
     ~GalilStateInterface();
 
@@ -36,6 +36,9 @@ public:
     void transmitMessage(const AbstractRequest* req);
 
 public:
+    void updatePosition(const std::vector<Status_Position> &data);
+
+public:
     bool isConnected();
     bool isLatched();
 
@@ -44,6 +47,9 @@ public:
 private:
     bool connected = false;
     bool latched = false;
+
+    std::vector<std::string> currentLabels;
+    std::vector<std::string> currentVariables;
 
     std::map<MotorAxis, GalilStatus*> mStatus;
 };

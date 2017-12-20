@@ -5,28 +5,36 @@
 #include <map>
 #include <vector>
 
-#include <axis_definitions.h>
+#include "axis_definitions.h"
+
+#include "common/data_get_set_notifier.h"
+
+#include "status/status_position.h"
 
 class GalilStatus
 {
 public:
-    GalilStatus();
+    GalilStatus(const MotorAxis &axis);
 
+public:
+    void setPosition(const Status_Position &pos);
+
+    bool setMotorRunning(const bool &isRunning);
 public:
     bool isMotorRunning() const;
 
     bool isAxisinMotion() const;
 
-    bool isLatchSet() const;
+    Status_Position getPosition() const;
 
-private:
-    bool motorRunning = false;
-    bool axisMoving = false;
-    bool latchSet = false;
 
-    std::map<MotorAxis,unsigned int> currentPosition;
-    std::vector<std::string> currentLabels;
-    std::vector<std::string> currentVariables;
+public:
+    MotorAxis currentAxis;
+
+    DataGetSetNotifier<bool> motorRunning;
+    DataGetSetNotifier<bool> axisMoving;
+
+    DataGetSetNotifier<Status_Position> position;
 };
 
 #endif // GALIL_STATUS_H

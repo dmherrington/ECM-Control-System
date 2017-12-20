@@ -80,8 +80,6 @@ public:
 
     virtual void increaseBufferSize(char* chrArray);
 
-    virtual void receivedResponse(const char* chrArray);
-
 protected:
     RequestTypes requestType;
     unsigned int bufferSize;

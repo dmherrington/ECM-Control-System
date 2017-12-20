@@ -8,4 +8,5 @@ SUBDIRS += \
     Window_GalilMotionController \
     library_galilMotionController \
     window_GMC_variable_editor \
-    Testing
+    Testing \
+    QtWaitingSpinner

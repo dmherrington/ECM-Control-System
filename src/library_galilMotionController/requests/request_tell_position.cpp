@@ -57,11 +57,27 @@ std::string RequestTellPosition::getRequestString() const
     return str;
 }
 
-void RequestTellPosition::receivedResponse(const char *chrArray)
+std::vector<Status_Position> RequestTellPosition::parseResponse(const char* chrArray) const
 {
+    Data::EnvironmentTime currentTime; //grab the current time for all of these
+
+    //as the galil only currently reports a single axis here, we will make the parse easy for now
     QString result = QString::fromUtf8(chrArray);
     QStringList list = result.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
     result = list.at(0);
     result = result.trimmed();
+    std::vector<Status_Position> rtn;
+
+    if(tellAxis == MotorAxis::ALL)
+    {
+        //we will not currently support this
+    }
+    else{
+        Status_Position position(tellAxis, currentTime, result.toInt());
+        rtn.push_back(position);
+    }
+
+    return rtn;
 }
+
 

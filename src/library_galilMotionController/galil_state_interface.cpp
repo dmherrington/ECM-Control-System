@@ -1,11 +1,13 @@
 #include "galil_state_interface.h"
 
-GalilStateInterface::GalilStateInterface()
+GalilStateInterface::GalilStateInterface(const std::vector<MotorAxis> &availableAxis)
 {
-    std::vector<MotorAxis> axisVector =  GetAxisVector();
-    for(unsigned int i = 0; i < axisVector.size(); i++)
+    //we should perform some sort of check to ensure that the vector does not contain all
+    //if we see one all, just iterate through all available axis and clear original ones
+    //leading up to it
+    for(unsigned int i = 0; i < availableAxis.size(); i++)
     {
-        mStatus[axisVector[i]] = new GalilStatus();
+        mStatus[availableAxis[i]] = new GalilStatus(availableAxis[i]);
     }
 }
 
@@ -28,6 +30,16 @@ GalilStatus* GalilStateInterface::getAxisStatus(const MotorAxis &axis)
         return mStatus.at(axis);
     else
         return nullptr;
+}
+
+void GalilStateInterface::updatePosition(const std::vector<Status_Position> &data)
+{
+    for (unsigned int i = 0; i < data.size(); i++)
+    {
+        MotorAxis axis = data.at(i).getAxis();
+        if(mStatus.count(axis) > 0)
+            mStatus.at(axis)->setPosition(data.at(i));
+    }
 }
 
 void GalilStateInterface::transmitMessage(const AbstractRequest *req)

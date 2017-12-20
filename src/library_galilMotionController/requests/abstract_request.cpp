@@ -27,8 +27,3 @@ void AbstractRequest::increaseBufferSize(char* chrArray)
 {
     bufferSize+=bufferSize;
 }
-
-void AbstractRequest::receivedResponse(const char* chrArray)
-{
-    //by default the abstract class says that we do nothing with the response
-}

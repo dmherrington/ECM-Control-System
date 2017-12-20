@@ -16,7 +16,7 @@
 namespace ECM{
 namespace Galil {
 
-class AbstractStateGalil : public hsm::StateWithOwner<GalilInterface>
+class AbstractStateGalil : public hsm::StateWithOwner<GalilStateInterface>
 {
 public:
     AbstractStateGalil() = default;

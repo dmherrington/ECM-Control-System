@@ -42,18 +42,21 @@ void GalilPollState::run()
         if(timeElapsed > timeout)
         {
             //this means we should request the state of all the standard IO/Errors/Pos of the galil unit
+            //these functions will update the actual stored information of the galil unit in the state
+            //interface class contained at the callback location
             std::cout<<"This should have executed a request for galil info"<<std::endl;
             // 1: Request the position of the galil unit
-            RequestTellPosition requestTP;
-            m_CB->cbi_GalilStatusRequestCommand(requestTP.getRequestString());
-            // 2: Request the stop codes
-            RequestStopCode requestSC;
-
-            // 3: Request the tell switches
-            RequestTellSwitches requestTS;
-
-            //4: Update states and call update state transitions
-
+            if(m_CB)
+            {
+                RequestTellPosition requestTP;
+                m_CB->cbi_GalilStatusRequestCommand(&requestTP);
+                // 2: Request the stop codes
+                RequestStopCode requestSC;
+                m_CB->cbi_GalilStatusRequestCommand(&requestSC);
+                // 3: Request the tell switches
+                RequestTellSwitches requestTS;
+                m_CB->cbi_GalilStatusRequestCommand(&requestTS);
+            }
             m_Timeout.reset();
         }
 

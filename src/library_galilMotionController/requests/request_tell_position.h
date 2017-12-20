@@ -2,8 +2,11 @@
 #define REQUEST_TELL_POSITION_H
 #include <string>
 
-#include "requests/abstract_request.h"
 #include "axis_definitions.h"
+
+#include "requests/abstract_request.h"
+#include "status/status_position.h"
+
 
 class RequestTellPosition : public AbstractRequest
 {
@@ -50,7 +53,7 @@ public:
     //!
     std::string getRequestString() const override;
 
-    void receivedResponse(const char* chrArray) override;
+    std::vector<Status_Position> parseResponse(const char* chrArray) const;
 
 private:
     MotorAxis tellAxis; /**< Value of the axis to be position requested */

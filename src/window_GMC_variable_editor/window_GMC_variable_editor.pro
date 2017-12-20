@@ -41,3 +41,13 @@ FORMS += \
 
 RESOURCES += \
     imageicons.qrc
+
+INCLUDEPATH += $$PWD/../
+INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/release/ -llibrary_galilMotionController
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/debug/ -llibrary_galilMotionController
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_galilMotionController/ -llibrary_galilMotionController
+
+INCLUDEPATH += $$PWD/../library_galilMotionController
+DEPENDPATH += $$PWD/../library_galilMotionController

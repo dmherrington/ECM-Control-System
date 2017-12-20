@@ -33,6 +33,8 @@ public:
     //!
     std::string getRequestString() const override;
 
+
+
 private:
     std::map<std::string, int> mapLabels; /**< Value of the axis stop code is requested for*/
 

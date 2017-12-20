@@ -11,6 +11,8 @@
 
 #include "widget_variable_data_display.h"
 
+#include "QtWaitingSpinner/waitingspinnerwidget.h"
+
 #include <map>
 
 namespace Ui {

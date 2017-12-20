@@ -30,7 +30,8 @@ HEADERS += common.h\
     threadmanager.h \
     timer.h \
     environment_time.h \
-    class_forward.h
+    class_forward.h \
+    data_get_set_notifier.h
 
 #Header file copy
 headers.path    = $$(ECM_ROOT)/include/common

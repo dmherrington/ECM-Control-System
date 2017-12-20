@@ -50,7 +50,8 @@ hsm::Transition State_Idle::GetTransition()
 
 void State_Idle::Update()
 {
-
+    std::cout<<"I am in the update function of the idle state"<<std::endl;
+    this->desiredState = ECMState::STATE_READY;
 }
 
 void State_Idle::handleCommand(const AbstractCommand* command)

@@ -13,9 +13,7 @@
 class GalilStatusUpdate_Interface
 {
 public:
-    virtual void cbi_GalilStatusRequestPosition() = 0;
-    virtual void cbi_GalilStatusRequestSwitches() = 0;
-    virtual void cbi_GalilStatusRequestStopCodes() = 0;
+    virtual void cbi_GalilStatusRequestCommand(const AbstractRequest* request) = 0;
 };
 
 class GalilPollState : public Thread
@@ -33,7 +31,7 @@ public:
 
     void run();
 
-    void connectCallback(GalilPolling_Interface *cb)
+    void connectCallback(GalilStatusUpdate_Interface *cb)
     {
         m_CB = cb;
     }

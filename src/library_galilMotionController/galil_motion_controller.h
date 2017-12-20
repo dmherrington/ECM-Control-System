@@ -39,7 +39,7 @@
 \*
 \*/
 
-class GMC_SHARED_EXPORT galilMotionController : public QObject
+class GMC_SHARED_EXPORT galilMotionController : public QObject, public GalilStatusUpdate_Interface
 {
     Q_OBJECT
 
@@ -73,7 +73,8 @@ public:
 
     void executeStringCommand(const std::string &stringCommand);
 
-    void handleRequests(const AbstractRequest* request);
+public:
+    void cbi_GalilStatusRequestCommand(const AbstractRequest* request) override;
 
 signals:
     void commsStatus(const bool &opened);
@@ -98,7 +99,8 @@ information, settings, and callback information for the states within the HSM.*/
 the GUI or information updates from the polled status of the galil. */
 
     GalilPollState* galilPolling; /**< Member variable that contains a threaded object consistently
- assessing and querying the state of the galil based on a timeout.*/
+ assessing and querying the state of the galil based on a timeout. This state should be paused when
+uploading and/or downloading from the galil. */
 
 private:
     GalilSettings m_Settings; /**< Value of the axis to be disabled */

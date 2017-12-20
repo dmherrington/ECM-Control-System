@@ -133,11 +133,11 @@ void State_Ready::OnEnter()
     //The first thing we should do when entering this state is to engage the motor
     //Let us check to see if the motor is already armed, if not, follow through with the command
 
-    CommandMotorEnable cmd;
-    cmd.setEnableAxis(MotorAxis::Z);
-    GalilStatus* status = Owner().getAxisStatus(MotorAxis::Z);
-    if(!status->isMotorRunning())
-        Owner().transmitMessage(cmd.getCommandString());
+//    CommandMotorEnable cmd;
+//    cmd.setEnableAxis(MotorAxis::Z);
+//    GalilStatus* status = Owner().getAxisStatus(MotorAxis::Z);
+//    if(!status->isMotorRunning())
+//        Owner().transmitMessage(cmd.getCommandString());
 }
 
 void State_Ready::OnEnter(const AbstractCommand* command)
