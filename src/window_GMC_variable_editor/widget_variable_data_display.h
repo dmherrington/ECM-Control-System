@@ -34,6 +34,9 @@ public:
 public:
     WidgetVariableData* addNewVariable();
 
+    std::vector<std::string> getDisplayNames() const;
+    std::vector<std::string> getVariableNames() const;
+
 signals:
     void signal_updatedProfileName(std::string &name);
 

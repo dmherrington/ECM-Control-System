@@ -47,6 +47,26 @@ WidgetVariableData* WidgetVariableDataDisplay::addNewVariable()
     return newData;
 }
 
+std::vector<std::string> WidgetVariableDataDisplay::getDisplayNames() const
+{
+    std::vector<std::string> rtn;
+    for(unsigned int i = 0; i < vectorData.size(); i++)
+    {
+        rtn.push_back(vectorData.at(i)->getDisplayName());
+    }
+    return rtn;
+}
+
+std::vector<std::string> WidgetVariableDataDisplay::getVariableNames() const
+{
+    std::vector<std::string> rtn;
+    for(unsigned int i = 0; i < vectorData.size(); i++)
+    {
+        rtn.push_back(vectorData.at(i)->getVariableName());
+    }
+    return rtn;
+}
+
 void WidgetVariableDataDisplay::removeVariableWidget(WidgetVariableData *obj)
 {
     ui->verticalLayout->removeWidget(obj);
@@ -97,6 +117,8 @@ void WidgetVariableDataDisplay::write(QJsonObject &json) const
     QJsonArray variableDataArray;
     for(unsigned int i = 0; i < vectorData.size(); i++)
     {
+        if((vectorData.at(i)->getDisplayName() == "") || (vectorData.at(i)->getVariableName() == ""))
+            continue;
         vectorData.at(i)->write(variableDataArray);
     }
     json[QString::fromStdString(this->profileName)] = variableDataArray;

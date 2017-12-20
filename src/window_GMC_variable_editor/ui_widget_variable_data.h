@@ -53,7 +53,7 @@ public:
     {
         if (WidgetVariableData->objectName().isEmpty())
             WidgetVariableData->setObjectName(QStringLiteral("WidgetVariableData"));
-        WidgetVariableData->resize(580, 113);
+        WidgetVariableData->resize(600, 113);
         gridLayout = new QGridLayout(WidgetVariableData);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         formLayout = new QFormLayout();
@@ -205,6 +205,7 @@ public:
         label_3->setText(QApplication::translate("WidgetVariableData", "Default Value", Q_NULLPTR));
         pushButton_removeVariable->setText(QApplication::translate("WidgetVariableData", "Remove Variable", Q_NULLPTR));
         label_4->setText(QApplication::translate("WidgetVariableData", "Display Name", Q_NULLPTR));
+        lineEdit_displayName->setText(QString());
         lineEdit_displayName->setPlaceholderText(QString());
         label_5->setText(QApplication::translate("WidgetVariableData", "Variable Name", Q_NULLPTR));
     } // retranslateUi

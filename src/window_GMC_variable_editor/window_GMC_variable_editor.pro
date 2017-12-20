@@ -27,12 +27,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     widget_variable_data.cpp \
-    widget_variable_data_display.cpp
+    widget_variable_data_display.cpp \
+    variable_name_check.cpp
 
 HEADERS += \
         mainwindow.h \
     widget_variable_data.h \
-    widget_variable_data_display.h
+    widget_variable_data_display.h \
+    variable_name_check.h
 
 FORMS += \
         mainwindow.ui \

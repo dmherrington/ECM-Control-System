@@ -13,6 +13,8 @@
 
 #include "QtWaitingSpinner/waitingspinnerwidget.h"
 
+#include "variable_name_check.h"
+
 #include <map>
 
 namespace Ui {
