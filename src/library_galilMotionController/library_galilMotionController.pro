@@ -62,7 +62,9 @@ SOURCES += \
     status/status_position.cpp \
     status/status_stop_code.cpp \
     galil_state_interface.cpp \
-    requests/handle_requests.cpp
+    requests/handle_requests.cpp \
+    programs/program_interface.cpp \
+    requests/request_tell_inputs.cpp
 
 HEADERS += \
         axis_definitions.h \
@@ -115,7 +117,10 @@ HEADERS += \
     status/status_position.h \
     status/status_stop_code.h \
     galil_state_interface.h \
-    status/status_components.h
+    status/status_components.h \
+    programs/program_interface.h \
+    requests/request_tell_inputs.h
+
 
 # Unix lib Install
 unix:!symbian {
@@ -158,6 +163,15 @@ headers_commands.files   += \
         commands/command_stop.h \
         commands/command_types.h
 INSTALLS       += headers_commands
+
+#Header file copy
+headers_programs.path    = $$(ECM_ROOT)/include/library_galilMotionController/programs
+headers_programs.files   += \
+        settings/galil_settings.h \
+        settings/settings_manual_profile.h \
+        settings/settings_vibration_profile.h \
+        settings/settings_linear_profile.h
+INSTALLS       += headers_programs
 
 #Header file copy
 headers_requests.path    = $$(ECM_ROOT)/include/library_galilMotionController/requests

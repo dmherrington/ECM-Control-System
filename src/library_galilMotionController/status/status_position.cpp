@@ -23,6 +23,7 @@ Status_Position::Status_Position(const Status_Position &copy)
 void Status_Position::setPosition(const uint64_t &pos)
 {
     this->latestUpdate.CurrentTime(Data::Devices::SYSTEMCLOCK,this->latestUpdate);
+    this->position = pos;
 }
 
 void Status_Position::setTime(const Data::EnvironmentTime &time)

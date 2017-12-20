@@ -24,8 +24,9 @@ enum class RequestTypes{
     LIST_LABELS = 0,
     LIST_VARIABLES = 1,
     STOP_CODE = 2,
-    TELL_POSITION = 3,
-    TELL_SWITCHES = 4
+    TELL_INPUTS = 3,
+    TELL_POSITION = 4,
+    TELL_SWITCHES = 5
 };
 
 //!
@@ -41,6 +42,8 @@ inline std::string RequestToString(const RequestTypes &type) {
         return "LV";
     case RequestTypes::STOP_CODE:
         return "SC";
+    case RequestTypes::TELL_INPUTS:
+        return "TI";
     case RequestTypes::TELL_POSITION:
         return "TP";
     case RequestTypes::TELL_SWITCHES:
@@ -62,6 +65,8 @@ inline RequestTypes RequestFromString(const std::string &str) {
         return RequestTypes::LIST_VARIABLES;
     if(str == "SC")
         return RequestTypes::STOP_CODE;
+    if(str == "TI")
+        return RequestTypes::TELL_INPUTS;
     if(str == "TP")
         return RequestTypes::TELL_POSITION;
     if(str == "TS")
