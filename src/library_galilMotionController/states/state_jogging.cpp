@@ -40,7 +40,7 @@ hsm::Transition State_Jogging::GetTransition()
             break;
         }
         default:
-            std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
+            std::cout<<"I dont know how we eneded up in this desired transition state from state jogging."<<std::endl;
             break;
         }
     }
@@ -61,6 +61,7 @@ void State_Jogging::handleCommand(const AbstractCommand* command)
     case CommandType::STOP:
     {
         this->desiredState = ECMState::STATE_MOTION_STOP;
+        break;
     }
     default:
     {

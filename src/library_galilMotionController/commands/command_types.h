@@ -26,10 +26,11 @@ enum class CommandType{
     JOG_MOVE = 2,
     RELATIVE_MOVE = 3,
     ABSOLUTE_MOVE = 4,
-    STOP = 5,
-    SET_BIT = 6,
-    CLEAR_BIT = 7,
-    EXECUTE_PROGRAM = 8
+    ESTOP = 5,
+    STOP = 6,
+    SET_BIT = 7,
+    CLEAR_BIT = 8,
+    EXECUTE_PROGRAM = 9
 };
 
 //!

@@ -20,6 +20,27 @@ void State_EStop::getClone(AbstractStateGalil** state) const
     *state = new State_EStop(*this);
 }
 
+hsm::Transition State_EStop::GetTransition()
+{
+    hsm::Transition rtn = hsm::NoTransition();
+
+    if(currentState != desiredState)
+    {
+        //this means we want to chage the state for some reason
+        switch (desiredState) {
+        case ECMState::STATE_IDLE:
+        {
+            rtn = hsm::SiblingTransition<State_Idle>();
+            break;
+        }
+        default:
+            std::cout<<"I dont know how we eneded up in this transition state from State_EStop."<<std::endl;
+            break;
+        }
+    }
+    return rtn;
+}
+
 void State_EStop::handleCommand(const AbstractCommand* command)
 {
     CommandType currentCommand = command->getCommandType();
@@ -73,27 +94,6 @@ void State_EStop::handleCommand(const AbstractCommand* command)
     default:
         break;
     }
-}
-
-hsm::Transition State_EStop::GetTransition()
-{
-    hsm::Transition rtn = hsm::NoTransition();
-
-    if(currentState != desiredState)
-    {
-        //this means we want to chage the state for some reason
-        switch (desiredState) {
-        case ECMState::STATE_IDLE:
-        {
-            rtn = hsm::SiblingTransition<State_Idle>();
-            break;
-        }
-        default:
-            std::cout<<"I dont know how we eneded up in this transition state from State_EStop."<<std::endl;
-            break;
-        }
-    }
-    return rtn;
 }
 
 void State_EStop::OnEnter()

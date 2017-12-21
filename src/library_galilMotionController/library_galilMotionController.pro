@@ -64,7 +64,8 @@ SOURCES += \
     galil_state_interface.cpp \
     requests/handle_requests.cpp \
     programs/program_interface.cpp \
-    requests/request_tell_inputs.cpp
+    requests/request_tell_inputs.cpp \
+    commands/command_estop.cpp
 
 HEADERS += \
         axis_definitions.h \
@@ -78,6 +79,7 @@ HEADERS += \
         commands/command_absolute_move.h \
         commands/command_clear_bit.h \
         commands/command_components.h \
+        commands/command_estop.h \
         commands/command_execute_program.h \
         commands/command_jog.h \
         commands/command_motor_disable.h \
@@ -121,7 +123,6 @@ HEADERS += \
     programs/program_interface.h \
     requests/request_tell_inputs.h
 
-
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib
@@ -154,6 +155,7 @@ headers_commands.files   += \
         commands/command_absolute_move.h \
         commands/command_clear_bit.h \
         commands/command_components.h \
+        commands/command_estop.h \
         commands/command_execute_program.h \
         commands/command_jog.h \
         commands/command_motor_disable.h \

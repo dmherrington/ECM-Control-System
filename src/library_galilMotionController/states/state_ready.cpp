@@ -55,6 +55,12 @@ hsm::Transition State_Ready::GetTransition()
             rtn = hsm::SiblingTransition<State_ScriptExecution>(currentCommand);
             break;
         }
+        case ECMState::STATE_ESTOP:
+        {
+            rtn = hsm::SiblingTransition<State_EStop>(currentCommand);
+            break;
+        }
+
         default:
             std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
             break;

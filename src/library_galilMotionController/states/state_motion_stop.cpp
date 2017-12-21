@@ -20,18 +20,6 @@ void State_MotionStop::getClone(AbstractStateGalil** state) const
     *state = new State_MotionStop(*this);
 }
 
-void State_MotionStop::handleCommand(const AbstractCommand* command)
-{
-    CommandType currentCommand = command->getCommandType();
-
-    switch (currentCommand) {
-    default:
-        //During this state we really dont handle any commands
-        //This state should only allow transitions back to the ready state
-        break;
-    }
-}
-
 hsm::Transition State_MotionStop::GetTransition()
 {
     hsm::Transition rtn = hsm::NoTransition();
@@ -57,6 +45,18 @@ hsm::Transition State_MotionStop::GetTransition()
     }
 
     return rtn;
+}
+
+void State_MotionStop::handleCommand(const AbstractCommand* command)
+{
+    CommandType currentCommand = command->getCommandType();
+
+    switch (currentCommand) {
+    default:
+        //During this state we really dont handle any commands
+        //This state should only allow transitions back to the ready state
+        break;
+    }
 }
 
 void State_MotionStop::OnEnter()

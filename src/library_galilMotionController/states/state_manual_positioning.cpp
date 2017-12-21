@@ -20,6 +20,34 @@ void State_ManualPositioning::getClone(AbstractStateGalil** state) const
     *state = new State_ManualPositioning(*this);
 }
 
+hsm::Transition State_ManualPositioning::GetTransition()
+{
+    hsm::Transition rtn = hsm::NoTransition();
+
+    if(currentState != desiredState)
+    {
+        //this means we want to chage the state for some reason
+        //now initiate the state transition to the correct class
+        switch (desiredState) {
+        case ECMState::STATE_MOTION_STOP:
+        {
+            rtn = hsm::SiblingTransition<State_MotionStop>();
+            break;
+        }
+        case ECMState::STATE_ESTOP:
+        {
+            rtn = hsm::SiblingTransition<State_EStop>();
+            break;
+        }
+        default:
+            std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
+            break;
+        }
+    }
+
+    return rtn;
+}
+
 void State_ManualPositioning::handleCommand(const AbstractCommand* command)
 {
     CommandType currentCommand = command->getCommandType();
@@ -49,35 +77,6 @@ void State_ManualPositioning::handleCommand(const AbstractCommand* command)
         std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
-}
-
-
-hsm::Transition State_ManualPositioning::GetTransition()
-{
-    hsm::Transition rtn = hsm::NoTransition();
-
-    if(currentState != desiredState)
-    {
-        //this means we want to chage the state for some reason
-        //now initiate the state transition to the correct class
-        switch (desiredState) {
-        case ECMState::STATE_MOTION_STOP:
-        {
-            rtn = hsm::SiblingTransition<State_MotionStop>();
-            break;
-        }
-        case ECMState::STATE_ESTOP:
-        {
-            rtn = hsm::SiblingTransition<State_EStop>();
-            break;
-        }
-        default:
-            std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
-            break;
-        }
-    }
-
-    return rtn;
 }
 
 void State_ManualPositioning::OnEnter()

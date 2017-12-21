@@ -20,6 +20,33 @@ void State_ScriptExecution::getClone(AbstractStateGalil** state) const
     *state = new State_ScriptExecution(*this);
 }
 
+hsm::Transition State_ScriptExecution::GetTransition()
+{
+    hsm::Transition rtn = hsm::NoTransition();
+
+    if(currentState != desiredState)
+    {
+        //this means we want to chage the state for some reason
+        //now initiate the state transition to the correct class
+        switch (desiredState) {
+        case ECMState::STATE_READY:
+        {
+            //return hsm::SiblingTransition<State_Ready>();
+            break;
+        }
+        case ECMState::STATE_ESTOP:
+        {
+            rtn = hsm::SiblingTransition<State_EStop>();
+            break;
+        }
+        default:
+            std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
+            break;
+        }
+    }
+    return rtn;
+}
+
 void State_ScriptExecution::handleCommand(const AbstractCommand* command)
 {
     CommandType currentCommand = command->getCommandType();
@@ -73,32 +100,6 @@ void State_ScriptExecution::handleCommand(const AbstractCommand* command)
     default:
         break;
     }
-}
-
-hsm::Transition State_ScriptExecution::GetTransition()
-{
-    hsm::Transition rtn = hsm::NoTransition();
-
-    if(currentState != desiredState)
-    {
-        //this means we want to chage the state for some reason
-        //now initiate the state transition to the correct class
-        switch (desiredState) {
-        case ECMState::STATE_READY:
-        {
-            //return hsm::SiblingTransition<State_Ready>();
-            break;
-        }
-        case ECMState::STATE_ESTOP:
-        {
-
-        }
-        default:
-            std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
-            break;
-        }
-    }
-    return rtn;
 }
 
 void State_ScriptExecution::OnEnter()

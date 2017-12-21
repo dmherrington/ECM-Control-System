@@ -20,22 +20,6 @@ void State_HomePositioning::getClone(AbstractStateGalil** state) const
     *state = new State_HomePositioning(*this);
 }
 
-void State_HomePositioning::handleCommand(const AbstractCommand* command)
-{
-    CommandType currentCommand = command->getCommandType();
-
-    switch (currentCommand) {
-    case CommandType::STOP:
-    {
-        CommandStop cmd;
-        this->desiredState = ECMState::STATE_MOTION_STOP;
-        break;
-    }
-    default:
-        break;
-    }
-}
-
 hsm::Transition State_HomePositioning::GetTransition()
 {
     hsm::Transition rtn = hsm::NoTransition();
@@ -61,6 +45,22 @@ hsm::Transition State_HomePositioning::GetTransition()
     }
 
     return rtn;
+}
+
+void State_HomePositioning::handleCommand(const AbstractCommand* command)
+{
+    CommandType currentCommand = command->getCommandType();
+
+    switch (currentCommand) {
+    case CommandType::STOP:
+    {
+        CommandStop cmd;
+        this->desiredState = ECMState::STATE_MOTION_STOP;
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 void State_HomePositioning::OnEnter()
