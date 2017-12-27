@@ -34,5 +34,13 @@ void AbstractStateGalil::clearCommand()
     }
 }
 
+bool AbstractStateGalil::checkEStop() const
+{
+    //Check to see if the estop has been cleared
+    bool exists = false;
+    bool eStopState = Owner().getStatusInputs()->getResult(0,exists);
+    return eStopState;
+}
+
 } //end of namespace Galil
 } //end of namespace ECM

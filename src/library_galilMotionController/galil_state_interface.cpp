@@ -32,6 +32,11 @@ GalilStatus* GalilStateInterface::getAxisStatus(const MotorAxis &axis)
         return nullptr;
 }
 
+StatusInputs* GalilStateInterface::getStatusInputs() const
+{
+    return this->statusInputs;
+}
+
 void GalilStateInterface::updatePosition(const std::vector<Status_Position> &data)
 {
     for (unsigned int i = 0; i < data.size(); i++)

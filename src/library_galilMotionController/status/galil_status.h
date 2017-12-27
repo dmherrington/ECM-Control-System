@@ -20,6 +20,7 @@ public:
     void setPosition(const Status_Position &pos);
 
     bool setMotorRunning(const bool &isRunning);
+
 public:
     bool isMotorRunning() const;
 

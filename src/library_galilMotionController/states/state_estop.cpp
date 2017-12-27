@@ -47,45 +47,13 @@ void State_EStop::handleCommand(const AbstractCommand* command)
 
     switch (currentCommand) {
     case CommandType::ABSOLUTE_MOVE:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
     case CommandType::CLEAR_BIT:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
     case CommandType::EXECUTE_PROGRAM:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
     case CommandType::JOG_MOVE:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
     case CommandType::MOTOR_OFF:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
     case CommandType::MOTOR_ON:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
     case CommandType::RELATIVE_MOVE:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
     case CommandType::SET_BIT:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
     case CommandType::STOP:
     {
         std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
@@ -93,6 +61,18 @@ void State_EStop::handleCommand(const AbstractCommand* command)
     }
     default:
         break;
+    }
+}
+
+void State_EStop::Update()
+{
+    //Check the status of the estop state
+    bool eStopState = this->checkEStop();
+    if(eStopState == false)
+    {
+        //this means that the estop button has been cleared
+        //we should therefore transition to the idle state
+        desiredState = ECMState::STATE_IDLE;
     }
 }
 

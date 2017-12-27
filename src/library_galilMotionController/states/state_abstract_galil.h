@@ -73,6 +73,8 @@ private:
     void clearCommand();
 
 protected:
+    bool checkEStop() const;
+protected:
     GalilSettings mSettings;
     const AbstractCommand* currentCommand;
 

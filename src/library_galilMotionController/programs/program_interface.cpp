@@ -57,6 +57,16 @@ bool ProgramInterface::getVariableLine(const std::string &variable, int &line) c
     return true;
 }
 
+std::map<std::string, int> ProgramInterface::getLablMap() const
+{
+    return this->labels;
+}
+
+std::map<std::string, int> ProgramInterface::getVariableMap() const
+{
+    return this->variables;
+}
+
 std::string ProgramInterface::getProgram() const
 {
     return this->program;

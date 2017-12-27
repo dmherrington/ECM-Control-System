@@ -65,7 +65,8 @@ SOURCES += \
     requests/handle_requests.cpp \
     programs/program_interface.cpp \
     requests/request_tell_inputs.cpp \
-    commands/command_estop.cpp
+    commands/command_estop.cpp \
+    status/status_inputs.cpp
 
 HEADERS += \
         axis_definitions.h \
@@ -121,7 +122,8 @@ HEADERS += \
     galil_state_interface.h \
     status/status_components.h \
     programs/program_interface.h \
-    requests/request_tell_inputs.h
+    requests/request_tell_inputs.h \
+    status/status_inputs.h
 
 # Unix lib Install
 unix:!symbian {

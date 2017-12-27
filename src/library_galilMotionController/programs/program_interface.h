@@ -30,6 +30,10 @@ public:
 
     bool getVariableLine(const std::string &variable, int &line) const;
 
+    std::map<std::string, int> getLablMap() const;
+
+    std::map<std::string, int> getVariableMap() const;
+
     std::string getProgram() const;
 
 private:

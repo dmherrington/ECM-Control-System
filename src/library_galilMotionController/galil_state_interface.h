@@ -11,11 +11,7 @@
 
 #include "commands/command_components.h"
 #include "requests/request_components.h"
-#include "status/galil_status.h"
-
-//virtual void cbi_GalilStatusUpdatePosition() = 0;
-//virtual void cbi_GalilStatusUpdateSwitches() = 0;
-//virtual void cbi_GalilStatusUpdateStopCodes() = 0;
+#include "status/status_components.h"
 
 
 class GalilStateInterface
@@ -27,6 +23,7 @@ public:
 
 public:
     GalilStatus* getAxisStatus(const MotorAxis &axis);
+    StatusInputs* getStatusInputs() const;
 
 public:
     void transmitMessage(const std::string &msg);
@@ -42,11 +39,16 @@ public:
     bool isConnected();
     bool isLatched();
 
+public:
     void setConnected(const bool &val);
     void setLatched(const bool &val);
 private:
     bool connected = false;
     bool latched = false;
+
+    StatusInputs* statusInputs; /**< Member variable containing the current state
+inputs of the Galil Unit. Only specific inputs are relevant within the request. Relevant
+inputs are established through the settings file.*/
 
     std::vector<std::string> currentLabels;
     std::vector<std::string> currentVariables;

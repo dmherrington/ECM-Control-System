@@ -50,9 +50,14 @@ hsm::Transition State_Idle::GetTransition()
 
 void State_Idle::Update()
 {
-    std::cout<<"I am in the update function of the idle state"<<std::endl;
-    //First check that the state of the estop switch
-
+    //Check the status of the estop state
+    bool eStopState = this->checkEStop();
+    if(eStopState == false)
+    {
+        //this means that the estop button has been cleared
+        //we should therefore transition to the idle state
+        desiredState = ECMState::STATE_ESTOP;
+    }
 }
 
 void State_Idle::handleCommand(const AbstractCommand* command)
