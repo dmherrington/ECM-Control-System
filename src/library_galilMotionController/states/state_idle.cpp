@@ -145,7 +145,8 @@ void State_Idle::OnEnter()
         Owner().transmitMessage(cmd.getCommandString());
 }
 
-void State_Idle::OnEnter(const AbstractCommand *command){
+void State_Idle::OnEnter(const AbstractCommand *command)
+{
 
     if(command != nullptr)
     {

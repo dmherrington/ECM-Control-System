@@ -57,6 +57,18 @@ void State_ReadyStop::handleCommand(const AbstractCommand* command)
     }
 }
 
+void State_ReadyStop::Update()
+{
+    //Check the status of the estop state
+    bool eStopState = this->checkEStop();
+    if(eStopState == true)
+    {
+        //this means that the estop button has been cleared
+        //we should therefore transition to the idle state
+        desiredState = ECMState::STATE_ESTOP;
+    }
+}
+
 void State_ReadyStop::OnEnter()
 {
     //The first thing we should do when entering this state is to disengage the motor

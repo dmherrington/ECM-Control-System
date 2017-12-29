@@ -1,14 +1,6 @@
 #ifndef STATUS_INPUTS_H
 #define STATUS_INPUTS_H
 
-
-class StatusInputs
-{
-public:
-    StatusInputs();
-};
-
-
 #include <stdint.h>
 #include <string>
 #include <map>

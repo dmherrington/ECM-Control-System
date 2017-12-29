@@ -66,7 +66,9 @@ SOURCES += \
     programs/program_interface.cpp \
     requests/request_tell_inputs.cpp \
     commands/command_estop.cpp \
-    status/status_inputs.cpp
+    status/status_inputs.cpp \
+    settings/settings_pinout.cpp \
+    settings/settings_abstract_profile.cpp
 
 HEADERS += \
         axis_definitions.h \
@@ -123,7 +125,9 @@ HEADERS += \
     status/status_components.h \
     programs/program_interface.h \
     requests/request_tell_inputs.h \
-    status/status_inputs.h
+    status/status_inputs.h \
+    settings/settings_pinout.h \
+    settings/settings_abstract_profile.h
 
 # Unix lib Install
 unix:!symbian {

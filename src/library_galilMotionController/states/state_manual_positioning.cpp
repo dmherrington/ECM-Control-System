@@ -63,19 +63,34 @@ void State_ManualPositioning::handleCommand(const AbstractCommand* command)
         CommandRelativeMove cmd;
         break;
     }
-    case CommandType::JOG_MOVE:
-    {
-        CommandJog cmd;
-        break;
-    }
     case CommandType::STOP:
     {
-        CommandStop cmd;
+        //CommandStop* cmd = command->as<CommandStop>();
+        this->currentCommand = command;
+        this->desiredState = ECMState::STATE_MOTION_STOP;
         break;
     }
     default:
         std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
+    }
+}
+
+void State_ManualPositioning::Update()
+{
+    //Check the status of the estop state
+    bool eStopState = this->checkEStop();
+    if(eStopState == true)
+    {
+        //this means that the estop button has been cleared
+        //we should therefore transition to the idle state
+        desiredState = ECMState::STATE_ESTOP;
+        return;
+    }
+
+    if(!Owner().getAxisStatus(MotorAxis::Z)->isAxisinMotion())
+    {
+        //the motor is no longer moving so why should we be in this state
     }
 }
 
@@ -90,7 +105,8 @@ void State_ManualPositioning::OnEnter(const AbstractCommand *command)
 {
     if(command != nullptr)
     {
-
+        //This means there is a command for us to handle
+        this->handleCommand(command);
     }
     else{
         //For some reason the command was null. This is an interesting case.

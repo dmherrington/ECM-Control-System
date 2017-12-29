@@ -71,6 +71,18 @@ void State_Jogging::handleCommand(const AbstractCommand* command)
     }
 }
 
+void State_Jogging::Update()
+{
+    //Check the status of the estop state
+    bool eStopState = this->checkEStop();
+    if(eStopState == true)
+    {
+        //this means that the estop button has been cleared
+        //we should therefore transition to the idle state
+        desiredState = ECMState::STATE_ESTOP;
+    }
+}
+
 void State_Jogging::OnEnter()
 {
     //this shouldn't really happen as how are we supposed to know the jogging rate

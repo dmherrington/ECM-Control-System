@@ -63,6 +63,18 @@ void State_HomePositioning::handleCommand(const AbstractCommand* command)
     }
 }
 
+void State_HomePositioning::Update()
+{
+    //Check the status of the estop state
+    bool eStopState = this->checkEStop();
+    if(eStopState == true)
+    {
+        //this means that the estop button has been cleared
+        //we should therefore transition to the idle state
+        desiredState = ECMState::STATE_ESTOP;
+    }
+}
+
 void State_HomePositioning::OnEnter()
 {
 
