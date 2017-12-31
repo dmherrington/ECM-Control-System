@@ -12,6 +12,17 @@ SettingsProfileGain::SettingsProfileGain(const SettingsProfileGain &copy)
     this->derivative = copy.derivative;
 }
 
+void SettingsProfileGain::read(const QJsonObject &json)
+{
+
+}
+
+void SettingsProfileGain::write(QJsonObject &json) const
+{
+    json["PGain"] = proportional;
+    json["IGain"] = integral;
+    json["DGain"] = derivative;
+}
 
 double SettingsProfileGain::getGainValue(const GainType &type) const
 {

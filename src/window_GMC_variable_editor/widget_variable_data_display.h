@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "widget_variable_data.h"
+#include "library_galilMotionController/settings/settings_generic_profile.h"
 
 namespace Ui {
 class WidgetVariableDataDisplay;
@@ -49,11 +50,18 @@ private slots:
 
     void on_dataChanged();
 
+    void on_doubleSpinBox_PGain_editingFinished();
+
+    void on_doubleSpinBox_IGain_editingFinished();
+
+    void on_doubleSpinBox_DGain_editingFinished();
+
 private:
     Ui::WidgetVariableDataDisplay *ui;
 
 private:
-    std::string profileName = "Default";
+    SettingsGenericProfile* profile;
+
     bool _hasDataChanged = false;
     std::vector<WidgetVariableData*> vectorData;
 

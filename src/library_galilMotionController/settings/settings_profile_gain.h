@@ -1,6 +1,11 @@
 #ifndef SETTINGS_PROFILE_GAIN_H
 #define SETTINGS_PROFILE_GAIN_H
 
+#include <string>
+
+#include <QJsonArray>
+#include <QJsonObject>
+
 enum class GainType{
     PGain,
     IGain,
@@ -15,6 +20,10 @@ public:
     SettingsProfileGain(const SettingsProfileGain &copy);
 
     ~SettingsProfileGain() = default;
+
+public:
+    void read(const QJsonObject &json);
+    void write(QJsonObject &json) const;
 
 public:
     double getGainValue(const GainType &type) const;

@@ -187,13 +187,9 @@ void MainWindow::saveSettings(const QString &path)
         qWarning("Couldn't open save file.");
     }
 
-    std::map<std::string,WidgetVariableDataDisplay*>::iterator it;
-
-    std::map<std::string, std::string> checkVariableNames;
-    std::map<std::string, std::string> checkDisplayNames;
-
     VariableNameCheck checkNames;
 
+    std::map<std::string,WidgetVariableDataDisplay*>::iterator it;
     for(it = mapData.begin(); it != mapData.end(); ++it)
     {
         WidgetVariableDataDisplay* data = it->second;
@@ -207,17 +203,18 @@ void MainWindow::saveSettings(const QString &path)
     bool isConflict = checkNames.getConflicts(displayConflicts,variableConflicts);
 
     QJsonObject saveObject;
-    QJsonDocument saveDoc(saveObject);
+    for(it = mapData.begin(); it != mapData.end(); ++it)
+    {
+        WidgetVariableDataDisplay* data = it->second;
+        data->setDataChanged(false);
+        data->write(saveObject);
+    }
 
+    QJsonDocument saveDoc(saveObject);
     qint64 rtnValue = saveFile.write(saveDoc.toJson());
     if(rtnValue != -1)
     {
-        for(it = mapData.begin(); it != mapData.end(); ++it)
-        {
-            WidgetVariableDataDisplay* data = it->second;
-            data->setDataChanged(false);
-            data->write(saveObject);
-        }
+
     }
 }
 

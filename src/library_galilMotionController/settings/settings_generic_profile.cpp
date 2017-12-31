@@ -2,7 +2,7 @@
 
 SettingsGenericProfile::SettingsGenericProfile()
 {
-
+    profileGain = new SettingsProfileGain();
 }
 
 SettingsGenericProfile::~SettingsGenericProfile()
@@ -14,6 +14,16 @@ SettingsGenericProfile::~SettingsGenericProfile()
     profileGain = nullptr;
 
     //next iterate through the variable list and destroy variables
+}
+
+void SettingsGenericProfile::read(const QJsonObject &json)
+{
+
+}
+
+void SettingsGenericProfile::write(QJsonObject &json) const
+{
+    profileGain->write(json);
 }
 
 std::string SettingsGenericProfile::getProfileName() const

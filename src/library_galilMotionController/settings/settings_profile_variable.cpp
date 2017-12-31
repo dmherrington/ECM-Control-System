@@ -17,8 +17,8 @@ void SettingsProfileVariable::read(const QJsonObject &jsonObject)
 void SettingsProfileVariable::write(QJsonArray &jsonArray) const
 {
     QJsonObject variableDataObject;
-//    variableDataObject.insert("DisplayName",QJsonValue::fromVariant(QString::fromStdString(displayName)));
-//    variableDataObject.insert("VariableName",QJsonValue::fromVariant(QString::fromStdString(variableName)));
+    variableDataObject["DisplayName"] = QString::fromStdString(displayName);
+    variableDataObject["VariableName"] = QString::fromStdString(variableName);
     variableDataObject["MaxValue"] = max;
     variableDataObject["MinValue"] = min;
     variableDataObject["DefaultValue"] = def;

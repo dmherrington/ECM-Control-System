@@ -41,13 +41,13 @@ public:
     QHBoxLayout *horizontalLayout_2;
     QFormLayout *formLayout_3;
     QLabel *label_2;
-    QDoubleSpinBox *doubleSpinBox;
+    QDoubleSpinBox *doubleSpinBox_PGain;
     QFormLayout *formLayout_2;
     QLabel *label_3;
-    QDoubleSpinBox *doubleSpinBox_2;
+    QDoubleSpinBox *doubleSpinBox_IGain;
     QFormLayout *formLayout;
     QLabel *label_4;
-    QDoubleSpinBox *doubleSpinBox_3;
+    QDoubleSpinBox *doubleSpinBox_DGain;
     QScrollArea *scrollArea;
     QWidget *scrollAreaWidgetContents;
     QGridLayout *gridLayout;
@@ -135,15 +135,15 @@ public:
 
         formLayout_3->setWidget(0, QFormLayout::LabelRole, label_2);
 
-        doubleSpinBox = new QDoubleSpinBox(WidgetVariableDataDisplay);
-        doubleSpinBox->setObjectName(QStringLiteral("doubleSpinBox"));
-        sizePolicy1.setHeightForWidth(doubleSpinBox->sizePolicy().hasHeightForWidth());
-        doubleSpinBox->setSizePolicy(sizePolicy1);
-        doubleSpinBox->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox->setMaximum(1000);
-        doubleSpinBox->setValue(0);
+        doubleSpinBox_PGain = new QDoubleSpinBox(WidgetVariableDataDisplay);
+        doubleSpinBox_PGain->setObjectName(QStringLiteral("doubleSpinBox_PGain"));
+        sizePolicy1.setHeightForWidth(doubleSpinBox_PGain->sizePolicy().hasHeightForWidth());
+        doubleSpinBox_PGain->setSizePolicy(sizePolicy1);
+        doubleSpinBox_PGain->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        doubleSpinBox_PGain->setMaximum(1000);
+        doubleSpinBox_PGain->setValue(0);
 
-        formLayout_3->setWidget(0, QFormLayout::FieldRole, doubleSpinBox);
+        formLayout_3->setWidget(0, QFormLayout::FieldRole, doubleSpinBox_PGain);
 
 
         horizontalLayout_2->addLayout(formLayout_3);
@@ -161,15 +161,15 @@ public:
 
         formLayout_2->setWidget(0, QFormLayout::LabelRole, label_3);
 
-        doubleSpinBox_2 = new QDoubleSpinBox(WidgetVariableDataDisplay);
-        doubleSpinBox_2->setObjectName(QStringLiteral("doubleSpinBox_2"));
-        sizePolicy1.setHeightForWidth(doubleSpinBox_2->sizePolicy().hasHeightForWidth());
-        doubleSpinBox_2->setSizePolicy(sizePolicy1);
-        doubleSpinBox_2->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox_2->setMaximum(1000);
-        doubleSpinBox_2->setValue(0);
+        doubleSpinBox_IGain = new QDoubleSpinBox(WidgetVariableDataDisplay);
+        doubleSpinBox_IGain->setObjectName(QStringLiteral("doubleSpinBox_IGain"));
+        sizePolicy1.setHeightForWidth(doubleSpinBox_IGain->sizePolicy().hasHeightForWidth());
+        doubleSpinBox_IGain->setSizePolicy(sizePolicy1);
+        doubleSpinBox_IGain->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        doubleSpinBox_IGain->setMaximum(1000);
+        doubleSpinBox_IGain->setValue(0);
 
-        formLayout_2->setWidget(0, QFormLayout::FieldRole, doubleSpinBox_2);
+        formLayout_2->setWidget(0, QFormLayout::FieldRole, doubleSpinBox_IGain);
 
 
         horizontalLayout_2->addLayout(formLayout_2);
@@ -187,15 +187,15 @@ public:
 
         formLayout->setWidget(0, QFormLayout::LabelRole, label_4);
 
-        doubleSpinBox_3 = new QDoubleSpinBox(WidgetVariableDataDisplay);
-        doubleSpinBox_3->setObjectName(QStringLiteral("doubleSpinBox_3"));
-        sizePolicy1.setHeightForWidth(doubleSpinBox_3->sizePolicy().hasHeightForWidth());
-        doubleSpinBox_3->setSizePolicy(sizePolicy1);
-        doubleSpinBox_3->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox_3->setMaximum(1000);
-        doubleSpinBox_3->setValue(0);
+        doubleSpinBox_DGain = new QDoubleSpinBox(WidgetVariableDataDisplay);
+        doubleSpinBox_DGain->setObjectName(QStringLiteral("doubleSpinBox_DGain"));
+        sizePolicy1.setHeightForWidth(doubleSpinBox_DGain->sizePolicy().hasHeightForWidth());
+        doubleSpinBox_DGain->setSizePolicy(sizePolicy1);
+        doubleSpinBox_DGain->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        doubleSpinBox_DGain->setMaximum(1000);
+        doubleSpinBox_DGain->setValue(0);
 
-        formLayout->setWidget(0, QFormLayout::FieldRole, doubleSpinBox_3);
+        formLayout->setWidget(0, QFormLayout::FieldRole, doubleSpinBox_DGain);
 
 
         horizontalLayout_2->addLayout(formLayout);
@@ -216,7 +216,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 620, 197));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 620, 203));
         gridLayout = new QGridLayout(scrollAreaWidgetContents);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         verticalLayout = new QVBoxLayout();
