@@ -13,7 +13,7 @@ void VariableNameCheck::updateList(const std::string &profileName, const std::ve
     }
     else{
         int size = displayNames.size();
-        for(unsigned int i = 0; i < size; i++)
+        for(int i = 0; i < size; i++)
         {
             checkDisplayNames.insert(std::make_pair(displayNames.at(i),profileName));
             checkVariableNames.insert(std::make_pair(variableNames.at(i),profileName));

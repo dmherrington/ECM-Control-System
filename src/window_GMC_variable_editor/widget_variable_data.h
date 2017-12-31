@@ -22,7 +22,7 @@ public:
 public:
     void read(const QJsonObject &jsonObject);
     void write(QJsonArray &jsonArray) const;
-    void updateDisplayValues() const;
+    void updateDisplayValues();
 
 public:
     std::string getDisplayName() const;
@@ -58,12 +58,7 @@ private:
     Ui::WidgetVariableData *ui;
 
 private:
-    SettingsProfileVariable variable;
-//    std::string variableName;
-//    std::string displayName;
-//    double max = 0.0;
-//    double min = 0.0;
-//    double def = 0.0;
+    SettingsProfileVariable* variable;
 
 };
 

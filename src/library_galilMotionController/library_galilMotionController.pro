@@ -73,7 +73,8 @@ HEADERS += \
         galil_motion_controller.h \
         galil_parse_greturn.h \
         galil_poll_status.h \
-        library_galilmotioncontroller_global.h \ 
+        galil_state_interface.h \
+        library_galilmotioncontroller_global.h \
         type_direction.h \
         commands/abstract_command.h \
         commands/abstract_move_command.h \
@@ -89,7 +90,21 @@ HEADERS += \
         commands/command_set_bit.h \
         commands/command_stop.h \
         commands/command_types.h \
+        programs/program_interface.h \
+        requests/abstract_request.h \
+        requests/request_components.h \
+        requests/request_list_labels.h \
+        requests/request_list_variables.h \
+        requests/request_stop_code.h \
+        requests/request_tell_inputs.h \
+        requests/request_tell_position.h \
+        requests/request_tell_switches.h \
+        requests/request_types.h \
         settings/galil_settings.h \
+        settings/settings_pinout.h \
+        settings/settings_profile_variable.h \
+        settings/settings_profile_gain.h \
+        settings/settings_generic_profile.h \
         states/hsm.h \
         states/state_abstract_galil.h \
         states/state_components.h \
@@ -105,26 +120,12 @@ HEADERS += \
         states/state_touchoff.h \
         states/state_types.h \
         status/galil_status.h \
-    requests/request_stop_code.h \
-    requests/request_tell_position.h \
-    requests/abstract_request.h \
-    requests/request_components.h \
-    requests/request_types.h \
-    requests/request_tell_switches.h \
-    requests/request_list_variables.h \
-    requests/request_list_labels.h \
-    status/status_switch.h \
-    status/status_position.h \
-    status/status_stop_code.h \
-    galil_state_interface.h \
-    status/status_components.h \
-    programs/program_interface.h \
-    requests/request_tell_inputs.h \
-    status/status_inputs.h \
-    settings/settings_pinout.h \
-    settings/settings_profile_variable.h \
-    settings/settings_profile_gain.h \
-    settings/settings_generic_profile.h
+        status/status_components.h \
+        status/status_inputs.h \
+        status/status_position.h \
+        status/status_stop_code.h \
+        status/status_switch.h
+
 
 # Unix lib Install
 unix:!symbian {
@@ -172,10 +173,7 @@ INSTALLS       += headers_commands
 #Header file copy
 headers_programs.path    = $$(ECM_ROOT)/include/library_galilMotionController/programs
 headers_programs.files   += \
-        settings/galil_settings.h \
-        settings/settings_manual_profile.h \
-        settings/settings_vibration_profile.h \
-        settings/settings_linear_profile.h
+        programs/program_interface.h
 INSTALLS       += headers_programs
 
 #Header file copy
@@ -186,6 +184,7 @@ headers_requests.files   += \
         requests/request_list_labels.h \
         requests/request_list_variables.h \
         requests/request_stop_code.h \
+        requests/request_tell_inputs.h \
         requests/request_tell_position.h \
         requests/request_tell_switches.h \
         requests/request_types.h
@@ -195,9 +194,10 @@ INSTALLS       += headers_requests
 headers_settings.path    = $$(ECM_ROOT)/include/library_galilMotionController/settings
 headers_settings.files   += \
         settings/galil_settings.h \
-        settings/settings_manual_profile.h \
-        settings/settings_vibration_profile.h \
-        settings/settings_linear_profile.h
+        settings/settings_pinout.h \
+        settings/settings_profile_variable.h \
+        settings/settings_profile_gain.h \
+        settings/settings_generic_profile.h
 INSTALLS       += headers_settings
 
 #Header file copy
@@ -222,7 +222,12 @@ INSTALLS       += headers_states
 #Header file copy
 headers_status.path    = $$(ECM_ROOT)/include/library_galilMotionController/status
 headers_status.files   += \
-        status/galil_status.h
+        status/galil_status.h \
+        status/status_components.h \
+        status/status_inputs.h \
+        status/status_position.h \
+        status/status_stop_code.h \
+        status/status_switch.h
 INSTALLS       += headers_status
 
 INCLUDEPATH += $$PWD/../
@@ -237,4 +242,7 @@ unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo
 
 INCLUDEPATH += $$PWD/../../tools/galil/lib/dynamic/x86
 DEPENDPATH += $$PWD/../../tools/galil/lib/dynamic/x86
+
+win32: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
+else:unix: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
 
