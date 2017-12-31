@@ -216,6 +216,7 @@ void MainWindow::saveSettings(const QString &path)
         {
             WidgetVariableDataDisplay* data = it->second;
             data->setDataChanged(false);
+            data->write(saveObject);
         }
     }
 }

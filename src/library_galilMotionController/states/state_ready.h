@@ -11,6 +11,7 @@ class State_Jogging;
 class State_ManualPositioning;
 class State_ScriptExecution;
 class State_Touchoff;
+class State_EStop;
 
 class State_Ready : public AbstractStateGalil
 {

@@ -16,9 +16,9 @@ void GalilSettings::loadSettings(const QString &settingsFilePath)
     QByteArray loadData = settingsFile.readAll();
     QJsonDocument loadDoc = QJsonDocument::fromJson(loadData);
     QJsonObject jsonObj = loadDoc.object();
-    linearProfile.read(jsonObj);
-    manualProfile.read(jsonObj);
-    vibrationProfile.read(jsonObj);
+//    linearProfile.read(jsonObj);
+//    manualProfile.read(jsonObj);
+//    vibrationProfile.read(jsonObj);
 
 }
 
@@ -31,9 +31,9 @@ void GalilSettings::saveSettings(const QString &settingsFilePath)
     }
 
     QJsonObject saveObject;
-    linearProfile.write(saveObject);
-    manualProfile.write(saveObject);
-    vibrationProfile.write(saveObject);
+//    linearProfile.write(saveObject);
+//    manualProfile.write(saveObject);
+//    vibrationProfile.write(saveObject);
     QJsonDocument saveDoc(saveObject);
 
     saveFile.write(saveDoc.toJson());

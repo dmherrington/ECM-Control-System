@@ -6,6 +6,10 @@
 namespace ECM{
 namespace Galil {
 
+class State_Ready;
+class State_MotionStop;
+class State_EStop;
+
 ECM_CLASS_FORWARD(State_ScriptExecution);
 
 //Forward declare the class states available to transition to from this one

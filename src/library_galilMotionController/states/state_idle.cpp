@@ -37,7 +37,8 @@ hsm::Transition State_Idle::GetTransition()
         }
         case ECMState::STATE_ESTOP:
         {
-
+            rtn = hsm::SiblingTransition<State_EStop>();
+            break;
         }
         default:
             std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
@@ -161,3 +162,4 @@ void State_Idle::OnEnter(const AbstractCommand *command)
 } //end of namespace ECM
 
 #include "states/state_ready.h"
+#include "states/state_estop.h"

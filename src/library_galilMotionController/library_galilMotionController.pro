@@ -29,13 +29,9 @@ SOURCES += \
         commands/command_motor_disable.cpp \
         commands/command_motor_enable.cpp \
         commands/command_relative_move.cpp \
-        commands/command_tell_position.cpp \
         commands/command_stop.cpp \
         galil_parse_greturn.cpp \
     settings/galil_settings.cpp \
-    settings/settings_manual_profile.cpp \
-    settings/settings_vibration_profile.cpp \
-    settings/settings_linear_profile.cpp \
     commands/command_set_bit.cpp \
     galil_poll_status.cpp \
     commands/command_clear_bit.cpp \
@@ -68,7 +64,9 @@ SOURCES += \
     commands/command_estop.cpp \
     status/status_inputs.cpp \
     settings/settings_pinout.cpp \
-    settings/settings_abstract_profile.cpp
+    settings/settings_profile_variable.cpp \
+    settings/settings_profile_gain.cpp \
+    settings/settings_generic_profile.cpp
 
 HEADERS += \
         axis_definitions.h \
@@ -92,9 +90,6 @@ HEADERS += \
         commands/command_stop.h \
         commands/command_types.h \
         settings/galil_settings.h \
-        settings/settings_manual_profile.h \
-        settings/settings_vibration_profile.h \
-        settings/settings_linear_profile.h \
         states/hsm.h \
         states/state_abstract_galil.h \
         states/state_components.h \
@@ -127,7 +122,9 @@ HEADERS += \
     requests/request_tell_inputs.h \
     status/status_inputs.h \
     settings/settings_pinout.h \
-    settings/settings_abstract_profile.h
+    settings/settings_profile_variable.h \
+    settings/settings_profile_gain.h \
+    settings/settings_generic_profile.h
 
 # Unix lib Install
 unix:!symbian {

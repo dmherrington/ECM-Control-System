@@ -25,6 +25,7 @@ namespace ECM{
 namespace Galil {
 
 class State_Ready;
+class State_EStop;
 
 class State_Idle : public AbstractStateGalil
 {

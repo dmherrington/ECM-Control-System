@@ -1,19 +1,16 @@
 #include "status_inputs.h"
 
-StatusInputs::StatusInputs():
-    AbstractRequest(RequestTypes::TELL_INPUTS,16)
+StatusInputs::StatusInputs()
 {
 
 }
 
-StatusInputs::StatusInputs(const std::vector<int> &pins):
-    AbstractRequest(RequestTypes::TELL_INPUTS,16)
+StatusInputs::StatusInputs(const std::vector<int> &pins)
 {
     this->tellInputs = pins;
 }
 
-StatusInputs::StatusInputs(const StatusInputs &copy):
-    AbstractRequest(RequestTypes::TELL_INPUTS,16)
+StatusInputs::StatusInputs(const StatusInputs &copy)
 {
     this->tellInputs = copy.tellInputs;
     this->tellResults = copy.tellResults;

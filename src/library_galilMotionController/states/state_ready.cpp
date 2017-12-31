@@ -179,4 +179,5 @@ void State_Ready::OnEnter(const AbstractCommand* command)
 #include "states/state_manual_positioning.h"
 #include "states/state_script_execution.h"
 #include "states/state_touchoff.h"
+#include "states/state_estop.h"
 

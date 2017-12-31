@@ -14,7 +14,7 @@ CommandEStop::CommandEStop(const CommandEStop &copy):
 
 AbstractCommand* CommandEStop::getClone() const
 {
-    return (new CommandExecuteProgram(*this));
+    return (new CommandEStop(*this));
 }
 
 void CommandEStop::getClone(AbstractCommand** state) const

@@ -5,10 +5,6 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 
-#include "settings/settings_linear_profile.h"
-#include "settings/settings_manual_profile.h"
-#include "settings/settings_vibration_profile.h"
-
 class GalilSettings
 {
 public:
@@ -19,9 +15,6 @@ public:
     ~GalilSettings() = default;
 
 public:
-    SettingsLinearProfile linearProfile;
-    SettingsManualProfile manualProfile;
-    SettingsVibrationProfile vibrationProfile;
 
 };
 

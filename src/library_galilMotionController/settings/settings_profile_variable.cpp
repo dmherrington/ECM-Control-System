@@ -1,0 +1,76 @@
+#include "settings_profile_variable.h"
+
+SettingsProfileVariable::SettingsProfileVariable()
+{
+
+}
+
+void SettingsProfileVariable::read(const QJsonObject &jsonObject)
+{
+    this->setDisplayName(jsonObject["DisplayName"].toString().toStdString());
+    this->setVariableName(jsonObject["VariableName"].toString().toStdString());
+    this->setMaxValue(jsonObject["MaxValue"].toDouble());
+    this->setMinValue(jsonObject["MinValue"].toDouble());
+    this->setDefaultValue(jsonObject["DefaultValue"].toDouble());
+}
+
+void SettingsProfileVariable::write(QJsonArray &jsonArray) const
+{
+    QJsonObject variableDataObject;
+//    variableDataObject.insert("DisplayName",QJsonValue::fromVariant(QString::fromStdString(displayName)));
+//    variableDataObject.insert("VariableName",QJsonValue::fromVariant(QString::fromStdString(variableName)));
+    variableDataObject["MaxValue"] = max;
+    variableDataObject["MinValue"] = min;
+    variableDataObject["DefaultValue"] = def;
+    jsonArray.append(variableDataObject);
+}
+
+std::string SettingsProfileVariable::getDisplayName() const
+{
+    return this->displayName;
+}
+
+std::string SettingsProfileVariable::getVariableName() const
+{
+    return this->variableName;
+}
+
+double SettingsProfileVariable::getDefaultValue() const
+{
+    return this->def;
+}
+
+double SettingsProfileVariable::getMaxValue() const
+{
+    return this->max;
+}
+
+double SettingsProfileVariable::getMinValue() const
+{
+    return this->min;
+}
+
+void SettingsProfileVariable::setDisplayName(const std::string &name)
+{
+    this->displayName = name;
+}
+
+void SettingsProfileVariable::setVariableName(const std::string &name)
+{
+    this->variableName = name;
+}
+
+void SettingsProfileVariable::setDefaultValue(const double &value)
+{
+    this->def = value;
+}
+
+void SettingsProfileVariable::setMaxValue(const double &value)
+{
+    this->max = value;
+}
+
+void SettingsProfileVariable::setMinValue(const double &value)
+{
+    this->min = value;
+}

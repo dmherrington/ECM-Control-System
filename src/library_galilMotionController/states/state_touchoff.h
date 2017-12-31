@@ -6,6 +6,9 @@
 namespace ECM{
 namespace Galil {
 
+class State_Ready;
+class State_EStop;
+
 ECM_CLASS_FORWARD(State_Touchoff);
 
 class State_Touchoff : public AbstractStateGalil

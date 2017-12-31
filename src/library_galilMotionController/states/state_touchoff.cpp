@@ -31,7 +31,7 @@ hsm::Transition State_Touchoff::GetTransition()
         switch (desiredState) {
         case ECMState::STATE_READY:
         {
-            //return hsm::SiblingTransition<State_Ready>();
+            return hsm::SiblingTransition<State_Ready>();
             break;
         }
         case ECMState::STATE_ESTOP:
@@ -138,3 +138,6 @@ void State_Touchoff::OnEnter(const AbstractCommand* command)
 
 } //end of namespace Galil
 } //end of namespace ECM
+
+#include "states/state_ready.h"
+#include "states/state_estop.h"
