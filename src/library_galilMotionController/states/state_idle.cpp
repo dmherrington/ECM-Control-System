@@ -110,6 +110,11 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, the motor should already have been turned off.
         //If this is a user command it is them unaware of what has already occured.
         //If we are here because the motor hasn't turned off, something is wrong.
+        std::cout<<"I am in the idle state and for some reason I have been told to turn the motor off again."<<std::endl;
+        if(Owner().getAxisStatus(MotorAxis::Z)->isMotorRunning())
+        {
+            CommandMotorDisable cmd;
+        }
         break;
     }
     case CommandType::CLEAR_BIT:
@@ -126,11 +131,19 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         if(Owner().getAxisStatus(MotorAxis::Z)->isMotorRunning())
         {
             std::cout<<"Idle state saw a stop command and the motor was still running. This should NOT have occured."<<std::endl;
-            CommandMotorDisable cmd;
+            CommandStop cmd;
+            this->currentCommand = cmd;
         }
         break;
     }
+    case CommandType::ESTOP:
+    {
+        desiredState = ECMState::STATE_ESTOP;
+        CommandEStop cmd;
+        this->currentCommand = cmd;
+    }
     default:
+        std::cout<<"This type of command has not yet been supported from the idle state"<<std::endl;
         break;
     }
 }
@@ -138,6 +151,8 @@ void State_Idle::handleCommand(const AbstractCommand* command)
 void State_Idle::OnEnter()
 {
     //The first thing we should do when entering this state is to disable the motor
+    //To get to this state, it should be noted that we should have already transitioned through
+    //the stop state, or motion on the motor has already ceased
     //Let us check to see if the motor is already disabled, if not, follow through with the command
     CommandMotorDisable cmd;
     cmd.setDisableAxis(MotorAxis::Z);
@@ -148,10 +163,9 @@ void State_Idle::OnEnter()
 
 void State_Idle::OnEnter(const AbstractCommand *command)
 {
-
     if(command != nullptr)
     {
-
+        std::cout<<"For some reason we saw a command within the onEnter function."<<std::endl;
     }
     else{
 

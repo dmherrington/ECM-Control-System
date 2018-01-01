@@ -21,16 +21,64 @@ public:
     void write(QJsonArray &jsonArray) const;
 
 public:
+    //!
+    //! \brief getDisplayName
+    //! \return
+    //!
     std::string getDisplayName() const;
+
+    //!
+    //! \brief getVariableName
+    //! \return
+    //!
     std::string getVariableName() const;
+
+    //!
+    //! \brief getDefaultValue
+    //! \return
+    //!
     double getDefaultValue() const;
+
+    //!
+    //! \brief getMaxValue
+    //! \return
+    //!
     double getMaxValue() const;
+
+    //!
+    //! \brief getMinValue
+    //! \return
+    //!
     double getMinValue() const;
 
+    //!
+    //! \brief setDisplayName
+    //! \param name
+    //!
     void setDisplayName(const std::string &name);
+
+    //!
+    //! \brief setVariableName
+    //! \param name
+    //!
     void setVariableName(const std::string &name);
+
+    //!
+    //! \brief setDefaultValue
+    //! \param value
+    //!
     void setDefaultValue(const double &value);
+
+    //!
+    //! \brief setMaxValue
+    //! \param value
+    //!
     void setMaxValue(const double &value);
+
+    //!
+    //! \brief setMinValue
+    //! \param value
+    //!
     void setMinValue(const double &value);
 
 public:
