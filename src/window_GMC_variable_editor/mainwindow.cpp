@@ -206,7 +206,6 @@ void MainWindow::saveSettings(const QString &path)
     for(it = mapData.begin(); it != mapData.end(); ++it)
     {
         WidgetVariableDataDisplay* data = it->second;
-        data->setDataChanged(false);
         data->write(saveObject);
     }
 
@@ -228,13 +227,17 @@ void MainWindow::loadSettings(const QString &path)
 
     QByteArray loadData = settingsFile.readAll();
     QJsonDocument loadDoc = QJsonDocument::fromJson(loadData);
-    QJsonObject jsonObj = loadDoc.object();
-    foreach(const QString& key, jsonObj.keys()) {
-        QJsonArray jsonArray = jsonObj[key].toArray();
+    QJsonObject outerObj = loadDoc.object();
+    foreach(const QString& key, outerObj.keys()) {
+        //gather up the component into a complete profile item
+        QJsonObject profileObj  = outerObj[key].toObject();
+        //let us create a profile object from the data
+        SettingsGenericProfile profile;
+        profile.read(profileObj);
 
         WidgetVariableDataDisplay* newWidget = new WidgetVariableDataDisplay();
-        newWidget->setProfileName(key.toStdString());
-        newWidget->read(jsonArray);
+        newWidget->updateProfile(profile);
+
         mapData[newWidget->getProfileName()] = newWidget;
         connect(newWidget,SIGNAL(signal_updatedProfileName(std::string&)),
                 this,SLOT(slot_updatedProfileName(std::string&)));

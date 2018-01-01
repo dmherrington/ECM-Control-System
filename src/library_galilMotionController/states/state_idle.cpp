@@ -132,7 +132,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         {
             std::cout<<"Idle state saw a stop command and the motor was still running. This should NOT have occured."<<std::endl;
             CommandStop cmd;
-            this->currentCommand = cmd;
+            //this->currentCommand = cmd;
         }
         break;
     }
@@ -140,7 +140,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
     {
         desiredState = ECMState::STATE_ESTOP;
         CommandEStop cmd;
-        this->currentCommand = cmd;
+        //this->currentCommand = cmd;
     }
     default:
         std::cout<<"This type of command has not yet been supported from the idle state"<<std::endl;

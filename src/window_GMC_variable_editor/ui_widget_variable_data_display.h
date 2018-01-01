@@ -32,21 +32,25 @@ class Ui_WidgetVariableDataDisplay
 {
 public:
     QGridLayout *gridLayout_2;
-    QHBoxLayout *horizontalLayout_3;
+    QHBoxLayout *horizontalLayout_4;
     QHBoxLayout *horizontalLayout;
-    QLabel *label;
+    QLabel *label_ProfileName;
     QLineEdit *lineEdit_profileName;
     QSpacerItem *horizontalSpacer;
+    QHBoxLayout *horizontalLayout_3;
+    QLabel *label_ProfileLabel;
+    QLineEdit *lineEdit_profileLabel;
+    QSpacerItem *horizontalSpacer_2;
     QPushButton *pushButton_addVariable;
     QHBoxLayout *horizontalLayout_2;
     QFormLayout *formLayout_3;
     QLabel *label_2;
     QDoubleSpinBox *doubleSpinBox_PGain;
     QFormLayout *formLayout_2;
-    QLabel *label_3;
+    QLabel *label_IGain;
     QDoubleSpinBox *doubleSpinBox_IGain;
     QFormLayout *formLayout;
-    QLabel *label_4;
+    QLabel *label_DGain;
     QDoubleSpinBox *doubleSpinBox_DGain;
     QScrollArea *scrollArea;
     QWidget *scrollAreaWidgetContents;
@@ -63,28 +67,28 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(WidgetVariableDataDisplay->sizePolicy().hasHeightForWidth());
         WidgetVariableDataDisplay->setSizePolicy(sizePolicy);
-        WidgetVariableDataDisplay->setMinimumSize(QSize(620, 0));
+        WidgetVariableDataDisplay->setMinimumSize(QSize(640, 0));
         gridLayout_2 = new QGridLayout(WidgetVariableDataDisplay);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         horizontalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
-        label = new QLabel(WidgetVariableDataDisplay);
-        label->setObjectName(QStringLiteral("label"));
+        label_ProfileName = new QLabel(WidgetVariableDataDisplay);
+        label_ProfileName->setObjectName(QStringLiteral("label_ProfileName"));
         QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
-        label->setSizePolicy(sizePolicy1);
-        label->setMaximumSize(QSize(100, 25));
+        sizePolicy1.setHeightForWidth(label_ProfileName->sizePolicy().hasHeightForWidth());
+        label_ProfileName->setSizePolicy(sizePolicy1);
+        label_ProfileName->setMaximumSize(QSize(100, 25));
         QFont font;
         font.setPointSize(12);
-        label->setFont(font);
-        label->setAlignment(Qt::AlignCenter);
+        label_ProfileName->setFont(font);
+        label_ProfileName->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout->addWidget(label);
+        horizontalLayout->addWidget(label_ProfileName);
 
         lineEdit_profileName = new QLineEdit(WidgetVariableDataDisplay);
         lineEdit_profileName->setObjectName(QStringLiteral("lineEdit_profileName"));
@@ -99,11 +103,41 @@ public:
         horizontalLayout->addWidget(lineEdit_profileName);
 
 
-        horizontalLayout_3->addLayout(horizontalLayout);
+        horizontalLayout_4->addLayout(horizontalLayout);
 
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer = new QSpacerItem(10, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        horizontalLayout_3->addItem(horizontalSpacer);
+        horizontalLayout_4->addItem(horizontalSpacer);
+
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        horizontalLayout_3->setSizeConstraint(QLayout::SetDefaultConstraint);
+        label_ProfileLabel = new QLabel(WidgetVariableDataDisplay);
+        label_ProfileLabel->setObjectName(QStringLiteral("label_ProfileLabel"));
+        sizePolicy1.setHeightForWidth(label_ProfileLabel->sizePolicy().hasHeightForWidth());
+        label_ProfileLabel->setSizePolicy(sizePolicy1);
+        label_ProfileLabel->setMaximumSize(QSize(100, 25));
+        label_ProfileLabel->setFont(font);
+        label_ProfileLabel->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_3->addWidget(label_ProfileLabel);
+
+        lineEdit_profileLabel = new QLineEdit(WidgetVariableDataDisplay);
+        lineEdit_profileLabel->setObjectName(QStringLiteral("lineEdit_profileLabel"));
+        sizePolicy1.setHeightForWidth(lineEdit_profileLabel->sizePolicy().hasHeightForWidth());
+        lineEdit_profileLabel->setSizePolicy(sizePolicy1);
+        lineEdit_profileLabel->setMaximumSize(QSize(180, 25));
+        lineEdit_profileLabel->setFont(font1);
+        lineEdit_profileLabel->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_3->addWidget(lineEdit_profileLabel);
+
+
+        horizontalLayout_4->addLayout(horizontalLayout_3);
+
+        horizontalSpacer_2 = new QSpacerItem(10, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_4->addItem(horizontalSpacer_2);
 
         pushButton_addVariable = new QPushButton(WidgetVariableDataDisplay);
         pushButton_addVariable->setObjectName(QStringLiteral("pushButton_addVariable"));
@@ -115,10 +149,10 @@ public:
         icon.addFile(QStringLiteral("images/add_complex.png"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_addVariable->setIcon(icon);
 
-        horizontalLayout_3->addWidget(pushButton_addVariable);
+        horizontalLayout_4->addWidget(pushButton_addVariable);
 
 
-        gridLayout_2->addLayout(horizontalLayout_3, 0, 0, 1, 1);
+        gridLayout_2->addLayout(horizontalLayout_4, 0, 0, 1, 1);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
@@ -151,15 +185,15 @@ public:
         formLayout_2 = new QFormLayout();
         formLayout_2->setObjectName(QStringLiteral("formLayout_2"));
         formLayout_2->setFormAlignment(Qt::AlignHCenter|Qt::AlignTop);
-        label_3 = new QLabel(WidgetVariableDataDisplay);
-        label_3->setObjectName(QStringLiteral("label_3"));
-        sizePolicy1.setHeightForWidth(label_3->sizePolicy().hasHeightForWidth());
-        label_3->setSizePolicy(sizePolicy1);
-        label_3->setMaximumSize(QSize(60, 25));
-        label_3->setFont(font);
-        label_3->setAlignment(Qt::AlignCenter);
+        label_IGain = new QLabel(WidgetVariableDataDisplay);
+        label_IGain->setObjectName(QStringLiteral("label_IGain"));
+        sizePolicy1.setHeightForWidth(label_IGain->sizePolicy().hasHeightForWidth());
+        label_IGain->setSizePolicy(sizePolicy1);
+        label_IGain->setMaximumSize(QSize(60, 25));
+        label_IGain->setFont(font);
+        label_IGain->setAlignment(Qt::AlignCenter);
 
-        formLayout_2->setWidget(0, QFormLayout::LabelRole, label_3);
+        formLayout_2->setWidget(0, QFormLayout::LabelRole, label_IGain);
 
         doubleSpinBox_IGain = new QDoubleSpinBox(WidgetVariableDataDisplay);
         doubleSpinBox_IGain->setObjectName(QStringLiteral("doubleSpinBox_IGain"));
@@ -177,15 +211,15 @@ public:
         formLayout = new QFormLayout();
         formLayout->setObjectName(QStringLiteral("formLayout"));
         formLayout->setFormAlignment(Qt::AlignHCenter|Qt::AlignTop);
-        label_4 = new QLabel(WidgetVariableDataDisplay);
-        label_4->setObjectName(QStringLiteral("label_4"));
-        sizePolicy1.setHeightForWidth(label_4->sizePolicy().hasHeightForWidth());
-        label_4->setSizePolicy(sizePolicy1);
-        label_4->setMaximumSize(QSize(60, 25));
-        label_4->setFont(font);
-        label_4->setAlignment(Qt::AlignCenter);
+        label_DGain = new QLabel(WidgetVariableDataDisplay);
+        label_DGain->setObjectName(QStringLiteral("label_DGain"));
+        sizePolicy1.setHeightForWidth(label_DGain->sizePolicy().hasHeightForWidth());
+        label_DGain->setSizePolicy(sizePolicy1);
+        label_DGain->setMaximumSize(QSize(60, 25));
+        label_DGain->setFont(font);
+        label_DGain->setAlignment(Qt::AlignCenter);
 
-        formLayout->setWidget(0, QFormLayout::LabelRole, label_4);
+        formLayout->setWidget(0, QFormLayout::LabelRole, label_DGain);
 
         doubleSpinBox_DGain = new QDoubleSpinBox(WidgetVariableDataDisplay);
         doubleSpinBox_DGain->setObjectName(QStringLiteral("doubleSpinBox_DGain"));
@@ -238,11 +272,12 @@ public:
     void retranslateUi(QWidget *WidgetVariableDataDisplay)
     {
         WidgetVariableDataDisplay->setWindowTitle(QApplication::translate("WidgetVariableDataDisplay", "Form", nullptr));
-        label->setText(QApplication::translate("WidgetVariableDataDisplay", " Profile Name", nullptr));
+        label_ProfileName->setText(QApplication::translate("WidgetVariableDataDisplay", " Profile Name", nullptr));
+        label_ProfileLabel->setText(QApplication::translate("WidgetVariableDataDisplay", " Profile Label", nullptr));
         pushButton_addVariable->setText(QApplication::translate("WidgetVariableDataDisplay", "Add Variable", nullptr));
         label_2->setText(QApplication::translate("WidgetVariableDataDisplay", "PGain", nullptr));
-        label_3->setText(QApplication::translate("WidgetVariableDataDisplay", "IGain", nullptr));
-        label_4->setText(QApplication::translate("WidgetVariableDataDisplay", "DGain", nullptr));
+        label_IGain->setText(QApplication::translate("WidgetVariableDataDisplay", "IGain", nullptr));
+        label_DGain->setText(QApplication::translate("WidgetVariableDataDisplay", "DGain", nullptr));
     } // retranslateUi
 
 };

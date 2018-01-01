@@ -22,8 +22,12 @@ public:
 public:
     void read(const QJsonObject &jsonObject);
     void write(QJsonArray &jsonArray) const;
-    void updateDisplayValues();
+    void setVariableData(const SettingsProfileVariable &data);
+    SettingsProfileVariable getProfileVariable() const;
 
+public:
+
+    void updateDisplayValues();
 public:
     std::string getDisplayName() const;
     std::string getVariableName() const;

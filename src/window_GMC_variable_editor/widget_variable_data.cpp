@@ -119,3 +119,15 @@ void WidgetVariableData::write(QJsonArray &jsonArray) const
     variable->write(jsonArray);
 }
 
+void WidgetVariableData::setVariableData(const SettingsProfileVariable &data)
+{
+    *variable = data;
+    this->updateDisplayValues();
+}
+
+SettingsProfileVariable WidgetVariableData::getProfileVariable() const
+{
+    SettingsProfileVariable newVariable(*this->variable);
+    return newVariable;
+}
+

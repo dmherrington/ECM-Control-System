@@ -5,6 +5,15 @@ SettingsProfileVariable::SettingsProfileVariable()
 
 }
 
+SettingsProfileVariable::SettingsProfileVariable(const SettingsProfileVariable &copy)
+{
+    this->displayName = copy.displayName;
+    this->variableName = copy.variableName;
+    this->max = copy.max;
+    this->min = copy.min;
+    this->def = copy.def;
+}
+
 void SettingsProfileVariable::read(const QJsonObject &jsonObject)
 {
     this->setDisplayName(jsonObject["DisplayName"].toString().toStdString());

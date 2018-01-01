@@ -25,18 +25,25 @@ public:
 public:
     std::string getProfileName() const;
     void setProfileName(const std::string &name);
+
     void setDataChanged(const bool &changed);
     bool hasDataChanged();
+
+    SettingsGenericProfile getProfile() const;
 
 public:
     void read(const QJsonArray &jsonArray);
     void write(QJsonObject &json) const;
+    void updateProfile(const SettingsGenericProfile &data);
 
 public:
     WidgetVariableData* addNewVariable();
 
     std::vector<std::string> getDisplayNames() const;
     std::vector<std::string> getVariableNames() const;
+
+private:
+    void updateRendering();
 
 signals:
     void signal_updatedProfileName(std::string &name);
@@ -45,6 +52,8 @@ private slots:
     void removeVariableWidget(WidgetVariableData* obj);
 
     void on_lineEdit_profileName_editingFinished();
+
+    void on_lineEdit_profileLabel_editingFinished();
 
     void on_pushButton_addVariable_clicked();
 
@@ -55,6 +64,7 @@ private slots:
     void on_doubleSpinBox_IGain_editingFinished();
 
     void on_doubleSpinBox_DGain_editingFinished();
+
 
 private:
     Ui::WidgetVariableDataDisplay *ui;

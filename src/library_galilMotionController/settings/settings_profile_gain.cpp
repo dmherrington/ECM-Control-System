@@ -14,14 +14,21 @@ SettingsProfileGain::SettingsProfileGain(const SettingsProfileGain &copy)
 
 void SettingsProfileGain::read(const QJsonObject &json)
 {
-
+    //Parse the json object the same way that we had packed it up when saving
+    QJsonObject gainsObject  = json["Gains"].toObject();
+    this->setGainValue(GainType::PGain, gainsObject["PGain"].toDouble());
+    this->setGainValue(GainType::IGain, gainsObject["IGain"].toDouble());
+    this->setGainValue(GainType::DGain, gainsObject["DGain"].toDouble());
 }
 
 void SettingsProfileGain::write(QJsonObject &json) const
 {
-    json["PGain"] = proportional;
-    json["IGain"] = integral;
-    json["DGain"] = derivative;
+    QJsonObject gainsObject;
+    gainsObject["PGain"] = proportional;
+    gainsObject["IGain"] = integral;
+    gainsObject["DGain"] = derivative;
+
+    json["Gains"] = gainsObject;
 }
 
 double SettingsProfileGain::getGainValue(const GainType &type) const
@@ -41,6 +48,7 @@ double SettingsProfileGain::getGainValue(const GainType &type) const
     default:
         break;
     }
+    return gainValue;
 }
 
 void SettingsProfileGain::setGainValue(const GainType &type, const double value)

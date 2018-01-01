@@ -19,6 +19,14 @@ WidgetVariableDataDisplay::~WidgetVariableDataDisplay()
 {
     delete ui;
 }
+
+SettingsGenericProfile WidgetVariableDataDisplay::getProfile() const
+{
+    SettingsGenericProfile newProfile(*this->profile);
+    std::cout<<"Lets check this"<<std::endl;
+    return newProfile;
+}
+
 std::string WidgetVariableDataDisplay::getProfileName() const
 {
     return this->profile->getProfileName();
@@ -116,18 +124,49 @@ void WidgetVariableDataDisplay::read(const QJsonArray &jsonArray)
 
 void WidgetVariableDataDisplay::write(QJsonObject &json) const
 {
-    QJsonArray variableDataArray;
+    //Initialize a new object for the entire profile
+    //This will be the object that we add all the data to for this single instance
+    QJsonObject newObject;
+
+    //next update the profile object with all of the settings
+    std::map<std::string, SettingsProfileVariable> settingsData;
+
     for(unsigned int i = 0; i < vectorData.size(); i++)
     {
-        if((vectorData.at(i)->getDisplayName() == "") || (vectorData.at(i)->getVariableName() == ""))
-            continue;
-        vectorData.at(i)->write(variableDataArray);
+        std::string name = vectorData.at(i)->getDisplayName();
+        settingsData[name] = vectorData.at(i)->getProfileVariable();
     }
-    QJsonObject newObject;
-    newObject["values"] = variableDataArray;
+
+    this->profile->setVariableMap(settingsData);
     this->profile->write(newObject);
 
+    //Add the object to the json data structure with a key equivalent to the profile name
     json[QString::fromStdString(this->profile->getProfileName())] = newObject;
+}
+
+
+void WidgetVariableDataDisplay::updateProfile(const SettingsGenericProfile &data)
+{
+    profile->copyData(data);
+    this->updateRendering();
+    std::map<std::string,SettingsProfileVariable> mapVariables = profile->getVariableMap();
+    std::map<std::string,SettingsProfileVariable>::iterator mapIterator;
+    for(mapIterator = mapVariables.begin(); mapIterator != mapVariables.end(); ++mapIterator)
+    {
+        WidgetVariableData* dataWidget = this->addNewVariable();
+        dataWidget->setVariableData(mapIterator->second);
+    }
+}
+
+void WidgetVariableDataDisplay::updateRendering()
+{
+    this->blockSignals(true);
+    ui->lineEdit_profileName->setText(QString::fromStdString(this->profile->getProfileName()));
+    ui->lineEdit_profileLabel->setText(QString::fromStdString(this->profile->getProfileLabel()));
+    ui->doubleSpinBox_PGain->setValue(this->profile->profileGain->getGainValue(GainType::PGain));
+    ui->doubleSpinBox_IGain->setValue(this->profile->profileGain->getGainValue(GainType::IGain));
+    ui->doubleSpinBox_DGain->setValue(this->profile->profileGain->getGainValue(GainType::DGain));
+    this->blockSignals(false);
 }
 
 void WidgetVariableDataDisplay::setDataChanged(const bool &changed)
@@ -161,4 +200,9 @@ void WidgetVariableDataDisplay::on_doubleSpinBox_DGain_editingFinished()
 {
     double value = this->ui->doubleSpinBox_DGain->value();
     this->profile->profileGain->setGainValue(GainType::DGain,value);
+}
+
+void WidgetVariableDataDisplay::on_lineEdit_profileLabel_editingFinished()
+{
+    this->profile->setProfileLabel(this->ui->lineEdit_profileLabel->text().toStdString());
 }
