@@ -5,18 +5,21 @@
 #include <QStringList>
 #include <QRegExp>
 
-#include "library_galilMotionController/galil_motion_controller.h"
-#include "library_galilMotionController/states/state_components.h"
-#include "library_galilMotionController/galil_state_interface.h"
-#include "library_galilMotionController/galil_poll_status.h"
+//#include "library_galilMotionController/galil_motion_controller.h"
+//#include "library_galilMotionController/states/state_components.h"
+//#include "library_galilMotionController/galil_state_interface.h"
+//#include "library_galilMotionController/galil_poll_status.h"
 
-using namespace hsm;
+#include "comms_galil/comms_galil.h"
+
+//using namespace hsm;
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-
-    galilMotionController galil;
+    CommsGalil* comms = new CommsGalil();
+    std::cout<<"This is a test"<<std::endl;
+//    galilMotionController galil;
 
 
 
