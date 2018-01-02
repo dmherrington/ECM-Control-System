@@ -14,35 +14,19 @@ public:
     /// Link Events
     /////////////////////////////////////////////////////////
 
-
-    virtual void LinkCommunicationError(const std::string &linkName, const std::string &type, const std::string &msg) const
+    virtual void LinkConnected() const
     {
-        UNUSED(linkName);
-        UNUSED(type);
-        UNUSED(msg);
+
     }
 
-    virtual void LinkCommunicationUpdate(const std::string &linkName, const std::string &name, const std::string &msg) const
+    virtual void LinkDisconnected() const
     {
-        UNUSED(linkName);
-        UNUSED(name);
-        UNUSED(msg);
+
     }
 
-    virtual void LinkConnected(const std::string &linkName) const
+    virtual void StatusMessage(const std::string &msg)
     {
-        UNUSED(linkName);
-    }
 
-    virtual void LinkConnectionRemoved(const std::string &linkName) const
-    {
-        UNUSED(linkName);
-    }
-
-    virtual void StatusMessage(const std::string &linkName, const std::string &msg)
-    {
-        UNUSED(linkName);
-        UNUSED(msg);
     }
 
 };

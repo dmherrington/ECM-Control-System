@@ -64,13 +64,6 @@ public:
     virtual bool isConnected() const = 0;
 
 
-    //!
-    //! \brief Get the maximum connection speed for this interface.
-    //! \return The nominal data rate of the interface in bit per second, 0 if unknown
-    //!
-    virtual uint64_t getConnectionSpeed() const = 0;
-
-
     virtual bool Connect(void) = 0;
     virtual void Disconnect(void) = 0;
 

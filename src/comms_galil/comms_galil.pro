@@ -31,13 +31,13 @@ HEADERS += \
         comms_galil_global.h  
 
 #Header file copy
-headers.path    = $$(MACE_ROOT)/include/comms_galil
+headers.path    = $$(ECM_ROOT)/include/comms_galil
 headers.files   += $$HEADERS
 INSTALLS       += headers
 
 # Unix lib Install
 unix:!symbian {
-    target.path = $$(MACE_ROOT)/lib
+    target.path = $$(ECM_ROOT)/lib
     INSTALLS += target
 }
 

@@ -4,6 +4,8 @@
 #include <iostream>
 #include <map>
 
+#include "common/common.h"
+
 #include "comms_galil_setup/comms_events.h"
 #include "comms_galil_setup/comms_marshaler.h"
 
@@ -19,7 +21,7 @@ public:
 
     virtual void ConfigureComms(const std::string &params);
 
-    void StatusMessage(const std::string &linkName, const std::string &message) override;
+    void StatusMessage(const std::string &msg) override;
 
 protected:
     Comms::CommsMarshaler *m_LinkMarshaler;

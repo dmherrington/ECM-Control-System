@@ -13,8 +13,6 @@
 #include <QSerialPort>
 #include <QThread>
 
-#include "serial_configuration.h"
-
 #include "i_link.h"
 
 namespace Comms
@@ -58,7 +56,7 @@ public:
         else {
             postToThread([func](){
                 func();
-            }, m_port);
+            });
         }
     }
 
@@ -88,15 +86,7 @@ private:
 
 
 private:
-
-    QSerialPort* m_port;
-    quint64 m_bytesRead;
-    int     m_timeout;
     QThread *m_ListenThread;
-
-    std::mutex  m_dataMutex;       // Mutex for reading data from _port
-    std::mutex  m_writeMutex;      // Mutex for accessing the _transmitBuffer.
-
 
     volatile bool        m_stop;
     volatile bool        m_reqReset;

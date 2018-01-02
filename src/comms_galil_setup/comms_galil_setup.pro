@@ -23,23 +23,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        comms_galil_setup.cpp \
-    comms_galil_setup.cpp \
     comms_marshaler.cpp \
     galil_link.cpp \
     protocol_galil.cpp
 
 HEADERS += \
-        comms_galil_setup.h \
         comms_galil_setup_global.h \ 
     comms_events.h \
-    comms_galil_setup.h \
     comms_galil_setup_global.h \
     comms_marshaler.h \
     i_link.h \
     i_link_events.h \
     i_protocol.h \
-    i_protocol_events.h \
     link_configuration.h \
     protocol_configuration.h \
     i_protocol_galil_events.h \
@@ -47,13 +42,13 @@ HEADERS += \
     protocol_galil.h
 
 #Header file copy
-headers.path    = $$(MACE_ROOT)/include/comms_galil_setup
+headers.path    = $$(ECM_ROOT)/include/comms_galil_setup
 headers.files   += $$HEADERS
 INSTALLS       += headers
 
 # Unix lib Install
 unix:!symbian {
-    target.path = $$(MACE_ROOT)/lib
+    target.path = $$(ECM_ROOT)/lib
     INSTALLS += target
 }
 

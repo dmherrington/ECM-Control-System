@@ -4,6 +4,7 @@ CommsGalil::CommsGalil() :
     m_LinkMarshaler(new Comms::CommsMarshaler), m_LinkName("")
 {
     m_LinkMarshaler->AddSubscriber(this);
+    m_LinkMarshaler->SendGalilMessage<double>(3.5);
 }
 
 CommsGalil::~CommsGalil()
@@ -11,9 +12,8 @@ CommsGalil::~CommsGalil()
 
 }
 
-void CommsGalil::StatusMessage(const std::string &linkName, const std::string &message)
+void CommsGalil::StatusMessage(const std::string &message)
 {
-    UNUSED(linkName);
     UNUSED(message);
     std::cout<<"I am in the comms_mavlink library MavlinkMessage callback."<<std::endl;
 }
@@ -24,8 +24,8 @@ void CommsGalil::StatusMessage(const std::string &linkName, const std::string &m
 //!
 void CommsGalil::ConfigureComms(const std::string &params)
 {
-    m_LinkMarshaler->AddProtocol(*mavlinkConfig);
-    m_LinkName = "link_" + portName;
-    m_LinkMarshaler->AddLink(m_LinkName, config);
-    m_LinkMarshaler->ConnectToLink(m_LinkName);
+//    m_LinkMarshaler->AddProtocol(*mavlinkConfig);
+//    m_LinkName = "link_" + portName;
+//    m_LinkMarshaler->AddLink(m_LinkName, config);
+//    m_LinkMarshaler->ConnectToLink(m_LinkName);
 }
