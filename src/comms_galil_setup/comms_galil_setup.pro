@@ -35,8 +35,6 @@ HEADERS += \
     i_link.h \
     i_link_events.h \
     i_protocol.h \
-    link_configuration.h \
-    protocol_configuration.h \
     i_protocol_galil_events.h \
     galil_link.h \
     protocol_galil.h

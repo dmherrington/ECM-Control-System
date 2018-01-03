@@ -16,9 +16,6 @@ void GalilSettings::loadSettings(const QString &settingsFilePath)
     QByteArray loadData = settingsFile.readAll();
     QJsonDocument loadDoc = QJsonDocument::fromJson(loadData);
     QJsonObject jsonObj = loadDoc.object();
-//    linearProfile.read(jsonObj);
-//    manualProfile.read(jsonObj);
-//    vibrationProfile.read(jsonObj);
 
 }
 

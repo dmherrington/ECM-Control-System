@@ -73,16 +73,19 @@ void galilMotionController::openConnection(const std::string &address)
     GReturn rtnCode = GOpen(address.c_str(),&galil);
     if(rtnCode == G_NO_ERROR) //this means the port was opened successfully
     {
-        stateMachine = new hsm::StateMachine();
-        stateMachine->Initialize<ECM::Galil::State_Idle>(stateInterface);
+//        stateMachine = new hsm::StateMachine();
+//        stateMachine->Initialize<ECM::Galil::State_Idle>(stateInterface);
+
+        galilPolling = new GalilPollState();
+        galilPolling->connectCallback(this);
+        galilPolling->beginPolling();
+
         galilPolling = new GalilPollState();
         emit commsStatus(true);
     }
-
-    //in this case we do not emit a change as we don't necessarily know the previous state
-
-//    std::string errorString = ParseGReturn::getGReturnString(rtnCode);
-//    emit currentErrorCode(errorString);
+    else{
+        //there was an error opening the comm port so what should we do
+    }
 }
 
 void galilMotionController::closeConnection()

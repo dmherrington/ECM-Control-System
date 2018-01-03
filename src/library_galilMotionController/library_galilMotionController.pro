@@ -66,7 +66,10 @@ SOURCES += \
     settings/settings_pinout.cpp \
     settings/settings_profile_variable.cpp \
     settings/settings_profile_gain.cpp \
-    settings/settings_generic_profile.cpp
+    settings/settings_generic_profile.cpp \
+    communications/comms_marshaler.cpp \
+    communications/galil_link.cpp \
+    communications/protocol_galil.cpp
 
 HEADERS += \
         axis_definitions.h \
@@ -124,7 +127,16 @@ HEADERS += \
         status/status_inputs.h \
         status/status_position.h \
         status/status_stop_code.h \
-        status/status_switch.h
+        status/status_switch.h \
+        communications/comms_events.h \
+        communications/comms_marshaler.h \
+        communications/galil_link.h \
+        communications/i_link.h \
+        communications/i_link_events.h \
+        communications/i_protocol.h \
+        communications/i_protocol_events.h \
+        communications/i_protocol_galil_events.h \
+        communications/protocol_galil.h
 
 
 # Unix lib Install
@@ -150,6 +162,20 @@ headers_base.files   += \
         library_galilmotioncontroller_global.h \
         type_direction.h
 INSTALLS       += headers_base
+
+#Header file copy
+headers_communications.path    = $$(ECM_ROOT)/include/library_galilMotionController/communications
+headers_communications.files   += \
+        communications/comms_events.h \
+        communications/comms_marshaler.h \
+        communications/galil_link.h \
+        communications/i_link.h \
+        communications/i_link_events.h \
+        communications/i_protocol.h \
+        communications/i_protocol_events.h \
+        communications/i_protocol_galil_events.h \
+        communications/protocol_galil.h
+INSTALLS       += headers_communications
 
 #Header file copy
 headers_commands.path    = $$(ECM_ROOT)/include/library_galilMotionController/commands

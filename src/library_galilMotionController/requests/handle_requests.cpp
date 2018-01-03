@@ -27,7 +27,7 @@ void galilMotionController::cbi_GalilStatusRequestCommand(const AbstractRequest 
             position.push_back(newPosition);
             //next update the data within the interface
             stateInterface->updatePosition(position);
-            if(stateInterface->getAxisStatus(MotorAxis::Z)->setMotorRunning(true))
+            if(stateInterface->getAxisStatus(MotorAxis::Z)->isMotorRunning())
             {
                 stateMachine->UpdateStates();
                 stateMachine->ProcessStateTransitions();

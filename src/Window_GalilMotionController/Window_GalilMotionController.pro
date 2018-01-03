@@ -25,13 +25,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    widget_profile_display.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    widget_profile_display.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    widgetprofiledisplay.ui
 
 #include Dependicies
 INCLUDEPATH += $$PWD/../
