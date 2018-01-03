@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'galil_motion_controller.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.9.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.10.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'galil_motion_controller.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.9.1. It"
+#error "This file was generated using the moc from 5.10.0. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -87,24 +87,23 @@ void galilMotionController::qt_static_metacall(QObject *_o, QMetaObject::Call _c
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
-        void **func = reinterpret_cast<void **>(_a[1]);
         {
             typedef void (galilMotionController::*_t)(const bool & );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&galilMotionController::commsStatus)) {
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&galilMotionController::commsStatus)) {
                 *result = 0;
                 return;
             }
         }
         {
             typedef void (galilMotionController::*_t)(const std::string & );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&galilMotionController::newProgramReceived)) {
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&galilMotionController::newProgramReceived)) {
                 *result = 1;
                 return;
             }
         }
         {
             typedef void (galilMotionController::*_t)(const std::string & );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&galilMotionController::currentErrorCode)) {
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&galilMotionController::currentErrorCode)) {
                 *result = 2;
                 return;
             }
@@ -127,9 +126,9 @@ void *galilMotionController::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
     if (!strcmp(_clname, qt_meta_stringdata_galilMotionController.stringdata0))
-        return static_cast<void*>(const_cast< galilMotionController*>(this));
+        return static_cast<void*>(this);
     if (!strcmp(_clname, "GalilStatusUpdate_Interface"))
-        return static_cast< GalilStatusUpdate_Interface*>(const_cast< galilMotionController*>(this));
+        return static_cast< GalilStatusUpdate_Interface*>(this);
     return QObject::qt_metacast(_clname);
 }
 

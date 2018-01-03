@@ -72,12 +72,9 @@ private:
 
 
 private:
-
-
     void _readBytes(void);
 
 private:
-
     void PortEventLoop();
 
 
