@@ -8,6 +8,8 @@
 #include <QThread>
 
 #include "i_link_events.h"
+#include "requests/abstract_request.h"
+#include "commands/abstract_command.h"
 
 namespace Comms
 {
@@ -57,6 +59,9 @@ public:
 
     virtual void WriteBytes(const char *bytes, int length) const = 0;
 
+    virtual void WriteRequest(const AbstractRequest* request) const = 0;
+
+    virtual void WriteCommand(const AbstractCommand* command) const = 0;
     //!
     //! \brief Determine the connection status
     //! \return True if the connection is established, false otherwise

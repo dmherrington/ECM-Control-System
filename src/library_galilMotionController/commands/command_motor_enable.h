@@ -70,6 +70,42 @@ public:
     //!
     virtual std::string getCommandString() const override;
 
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    void operator = (const CommandMotorEnable &rhs)
+    {
+        AbstractCommand::operator =(rhs);
+        this->enableAxis = rhs.enableAxis;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const CommandMotorEnable &rhs)
+    {
+        if(!AbstractCommand::operator ==(rhs)){
+            return false;
+        }
+        if(this->enableAxis != rhs.enableAxis){
+            return false;
+        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const CommandMotorEnable &rhs) {
+        return !(*this == rhs);
+    }
+
 private:
     MotorAxis enableAxis; /**< Value of the axis to be disabled */
 

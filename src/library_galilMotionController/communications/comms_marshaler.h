@@ -12,6 +12,9 @@
 #include "i_link_events.h"
 #include "comms_events.h"
 
+#include "commands/command_components.h"
+#include "requests/request_components.h"
+
 namespace Comms
 {
 
@@ -25,22 +28,25 @@ public:
     //!
     //! \brief Connect to an already created link
     //! \param linkName Name of link to connect to
-    //! \return True if connection succesfull, false otherwise
+    //! \return True if connection successful, false otherwise
     //!
     bool ConnectToLink(const std::string &linkName);
 
+    template <typename T>
+    void sendGalilCommand(const T& command);
+
+    template <typename T>
+    void sendGalilRequest(const T& request);
 
     //!
     //! \brief Issue a message to a given link
     //!
-    //! The type used in the shall be an underlaying type which the protocol understands
+    //! The type used in the shall be an underlying type which the protocol understands
     //! \param link Link to send message on
     //! \param message Message to send
     //!
     template <typename T>
     void SendGalilMessage(const T& message);
-
-
 
 private:
 
@@ -50,7 +56,7 @@ private:
 
     void ConnectionOpened() const override;
 
-    void ConnectionRemoved() const override;
+    void ConnectionClosed() const override;
 
     //////////////////////////////////////////////////////////////
     /// IProtocolGalilEvents

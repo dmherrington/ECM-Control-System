@@ -11,6 +11,8 @@
 #include "i_protocol_galil_events.h"
 #include "i_protocol.h"
 
+#include "commands/command_components.h"
+#include "requests/request_components.h"
 
 namespace Comms
 {
@@ -23,6 +25,8 @@ public:
 
     void AddListner(const IProtocolGalilEvents* listener);
 
+    void SendProtocolCommand(const ILink* link, const CommandMotorEnable &command);
+    void SendProtocolRequest(const ILink* link, const RequestTellPosition &request);
 
     //!
     //! \brief Send message onto some link

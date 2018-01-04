@@ -71,6 +71,38 @@ public:
 
     virtual std::string getCommandString() const = 0;
 
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    void operator = (const AbstractCommand &rhs)
+    {
+        this->commandType = rhs.commandType;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const AbstractCommand &rhs)
+    {
+        if(this->commandType != rhs.commandType){
+            return false;
+        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const AbstractCommand &rhs) {
+        return !(*this == rhs);
+    }
+
 protected:
     CommandType commandType;
 

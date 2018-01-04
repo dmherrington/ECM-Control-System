@@ -33,20 +33,20 @@ else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -l
 else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
 
 
-#win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/release/ -llibrary_galilMotionController
-#else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/debug/ -llibrary_galilMotionController
-#else:unix:!macx: LIBS += -L$$OUT_PWD/../library_galilMotionController/ -llibrary_galilMotionController
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/release/ -llibrary_galilMotionController
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/debug/ -llibrary_galilMotionController
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_galilMotionController/ -llibrary_galilMotionController
 
-#INCLUDEPATH += $$PWD/../library_galilMotionController
-#DEPENDPATH += $$PWD/../library_galilMotionController
+INCLUDEPATH += $$PWD/../library_galilMotionController
+DEPENDPATH += $$PWD/../library_galilMotionController
 
 
-#unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
-#unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo
+unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
+unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo
 
-#INCLUDEPATH += $$PWD/../../tools/galil/lib/dynamic/x86
-#DEPENDPATH += $$PWD/../../tools/galil/lib/dynamic/x86
+INCLUDEPATH += $$PWD/../../tools/galil/lib/dynamic/x86
+DEPENDPATH += $$PWD/../../tools/galil/lib/dynamic/x86
 
-#win32: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
-#else:unix: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
+win32: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
+else:unix: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
 

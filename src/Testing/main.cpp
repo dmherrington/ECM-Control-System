@@ -5,6 +5,8 @@
 #include <QStringList>
 #include <QRegExp>
 
+#include "library_galilMotionController/communications/comms_marshaler.h"
+
 //#include "library_galilMotionController/galil_motion_controller.h"
 //#include "library_galilMotionController/states/state_components.h"
 //#include "library_galilMotionController/galil_state_interface.h"
@@ -17,7 +19,13 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    CommsGalil* comms = new CommsGalil();
+//    CommsGalil* comms = new CommsGalil();
+    CommandMotorEnable cmd;
+    cmd.setEnableAxis(MotorAxis::X);
+
+    Comms::CommsMarshaler* newMarshaller = new Comms::CommsMarshaler();
+    newMarshaller->sendGalilCommand<CommandMotorEnable>(cmd);
+
     std::cout<<"This is a test"<<std::endl;
 //    galilMotionController galil;
 

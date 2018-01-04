@@ -31,11 +31,33 @@ bool CommsMarshaler::ConnectToLink(const std::string &linkName)
     return link->Connect();
 }
 
+template <typename T>
+void CommsMarshaler::sendGalilCommand(const T &command)
+{
+    std::cout<<"Lets send a galil command"<<std::endl;
+
+    auto func = [this, command]() {
+            protocol->SendProtocolCommand(link.get(), command);
+    };
+
+    link->MarshalOnThread(func);
+}
+
+template <typename T>
+void CommsMarshaler::sendGalilRequest(const T &request)
+{
+    std::cout<<"Lets send a galil request"<<std::endl;
+
+    auto func = [this, request]() {
+            protocol->SendProtocolRequest(link.get(), request);
+    };
+
+    link->MarshalOnThread(func);
+}
 
 //////////////////////////////////////////////////////////////
 /// Query
 //////////////////////////////////////////////////////////////
-
 
 //!
 //! \brief Issue a message to a given link
@@ -67,18 +89,12 @@ void CommsMarshaler::SendGalilMessage(const T& message)
 
 void CommsMarshaler::ConnectionOpened() const
 {
-//    if(m_CreatedLinksPtrToName.find(link_ptr) == m_CreatedLinksPtrToName.cend())
-//        throw std::runtime_error("Provided link does not exists");
-
     Emit([&](const CommsEvents *ptr){ptr->LinkConnected();});
 }
 
-void CommsMarshaler::ConnectionRemoved() const
+void CommsMarshaler::ConnectionClosed() const
 {
-//    if(m_CreatedLinksPtrToName.find(link_ptr) == m_CreatedLinksPtrToName.cend())
-//        throw std::runtime_error("Provided link does not exists");
-
-    //Emit([&](const CommsEvents *ptr){ptr->LinkDisconnected();});
+    Emit([&](const CommsEvents *ptr){ptr->LinkDisconnected();});
 }
 
 //////////////////////////////////////////////////////////////
@@ -99,6 +115,9 @@ void CommsMarshaler::MessageReceived(const double &message) const
     });
 }
 
+
+template void CommsMarshaler::sendGalilCommand<CommandMotorEnable>(const CommandMotorEnable&);
+template void CommsMarshaler::sendGalilRequest<RequestTellPosition>(const RequestTellPosition&);
 
 template void CommsMarshaler::SendGalilMessage<double>(const double&);
 

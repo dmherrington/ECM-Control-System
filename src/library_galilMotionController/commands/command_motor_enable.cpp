@@ -9,7 +9,7 @@ CommandMotorEnable::CommandMotorEnable():
 CommandMotorEnable::CommandMotorEnable(const CommandMotorEnable &copy):
     AbstractCommand(copy)
 {
-
+    this->enableAxis = copy.enableAxis;
 }
 
 AbstractCommand* CommandMotorEnable::getClone() const

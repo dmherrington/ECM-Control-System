@@ -58,17 +58,27 @@ GalilLink::GalilLink()
 
 GalilLink::~GalilLink()
 {
-//    Disconnect();
-//    if(m_port) delete m_port;
-//    m_port = NULL;
+    Disconnect();
+
 }
 
 
 void GalilLink::RequestReset()
 {
-//    m_stopMutex.lock();
-//    m_reqReset = true;
-//    m_stopMutex.unlock();
+
+}
+
+void GalilLink::WriteCommand(const AbstractCommand *command) const
+{
+    std::cout<<"We are trying to write a command here: "<<CommandToString(command->getCommandType())<<std::endl;
+    std::string commandString = command->getCommandString();
+    GReturn rtn = GCmd(galil,commandString.c_str());
+}
+
+void GalilLink::WriteRequest(const AbstractRequest *request) const
+{
+    std::cout<<"We are trying to write a request here: "<<RequestToString(request->getRequestType())<<std::endl;
+
 }
 
 void GalilLink::WriteBytes(const char *bytes, int length) const
@@ -102,39 +112,43 @@ bool GalilLink::isConnected() const
 
 bool GalilLink::Connect(void)
 {
-//    Disconnect();
+    //We should attempt connecting to the Galil unit at the prescribed address
+    GReturn rtnCode = GOpen(galilAddress.c_str(),&galil);
 
-//    QSerialPort::SerialPortError    error;
-//    QString                         errorString;
+    switch (rtnCode) {
+    case G_NO_ERROR:
+        EmitEvent([](const ILinkEvents *ptr){ptr->ConnectionOpened();});
+        break;
+    case G_BAD_ADDRESS:
+        break;
+    case G_GCLIB_ERROR:
+        break;
+    case G_OPEN_ERROR:
+        break;
+    default:
+        break;
+    }
 
-//    // Initialize the connection
-//    if (!_hardwareConnect(error, errorString)) {
-//        if (_config.isAutoConnect()) {
-//            // Be careful with spitting out open error related to trying to open a busy port using autoconnect
-//            if (error == QSerialPort::PermissionError) {
-//                // Device already open, ignore and fail connect
-//                return false;
-//            }
-//        }
-
-//        _emitLinkError("Error connecting: Could not create port. " + errorString.toStdString());
-//        return false;
-//    }
-    return true;
 }
 
 void GalilLink::Disconnect(void)
 {
-//    if (m_port) {
-//        m_port->close();
-//        delete m_port;
-//        m_port = NULL;
-//    }
+    GReturn rtnCode = GClose(galil);
+
+    switch (rtnCode) {
+    case G_NO_ERROR:
+        EmitEvent([](const ILinkEvents *ptr){ptr->ConnectionClosed();});
+        break;
+    case G_GCLIB_ERROR:
+        break;
+    default:
+        break;
+    }
+
 }
 
-
-void GalilLink::_readBytes(void)
-{
+//void GalilLink::_readBytes(void)
+//{
 //    qint64 byteCount = m_port->bytesAvailable();
 //    if (byteCount) {
 //        QByteArray buffer;
@@ -145,19 +159,6 @@ void GalilLink::_readBytes(void)
 
 //        EmitEvent([this,&vec_buffer](const ILinkEvents *ptr){ptr->ReceiveData(this, vec_buffer);});
 //    }
-}
-
-void GalilLink::PortEventLoop()
-{
-//    if(m_port->bytesAvailable())
-//        this->_readBytes();
-
-
-
-//    if(m_port->errorString() != "")
-//    {
-//        //linkError(m_port->error());
-//    }
-}
+//}
 
 } //END MAVLINKComms

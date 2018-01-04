@@ -9,7 +9,7 @@ class ILinkEvents
 public:
     virtual void ConnectionOpened() const = 0;
 
-    virtual void ConnectionRemoved() const = 0;
+    virtual void ConnectionClosed() const = 0;
 };
 
 } //END Comms

@@ -9,12 +9,15 @@
 #include <QCoreApplication>
 #include <QThread>
 
+#include "gclib.h"
+#include "gclibo.h"
+
 #include "i_link.h"
+#include "requests/abstract_request.h"
+#include "commands/abstract_command.h"
 
 namespace Comms
 {
-
-
 
 class GalilLink : public ILink
 {
@@ -24,19 +27,26 @@ public:
 
     ~GalilLink();
 
-    virtual void RequestReset();
+public:
 
-    virtual void WriteBytes(const char *bytes, int length) const;
+    void RequestReset() override;
+
+    void WriteBytes(const char *bytes, int length) const override;
+
+    void WriteRequest(const AbstractRequest* request) const override;
+
+    void WriteCommand(const AbstractCommand* command) const override;
+
 
     //!
     //! \brief Determine the connection status
     //! \return True if the connection is established, false otherwise
     //!
-    virtual bool isConnected() const;
+    bool isConnected() const override;
 
-    virtual bool Connect(void);
+    bool Connect(void) override;
 
-    virtual void Disconnect(void);
+    void Disconnect(void) override;
 
     virtual void MarshalOnThread(std::function<void()> func){
         ///////////////////
@@ -72,18 +82,11 @@ private:
 
 
 private:
-    void _readBytes(void);
+    GCon galil; /**< Member variable containing a pointer to the Galil interface */
 
-private:
-    void PortEventLoop();
+    std::string galilAddress; /**< Member variable containing information about the address to the Galil unit. */
 
-
-private:
     QThread *m_ListenThread;
-
-    volatile bool        m_stop;
-    volatile bool        m_reqReset;
-    std::mutex           m_stopMutex;      // Mutex for accessing _stopp
 };
 
 } //END MAVLINKComms
