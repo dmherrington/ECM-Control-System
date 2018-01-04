@@ -59,9 +59,9 @@ public:
 
     virtual void WriteBytes(const char *bytes, int length) const = 0;
 
-    virtual void WriteRequest(const AbstractRequest* request) const = 0;
+    virtual void WriteRequest(AbstractRequest* request) const = 0;
 
-    virtual void WriteCommand(const AbstractCommand* command) const = 0;
+    virtual void WriteCommand(AbstractCommand* command) const = 0;
     //!
     //! \brief Determine the connection status
     //! \return True if the connection is established, false otherwise

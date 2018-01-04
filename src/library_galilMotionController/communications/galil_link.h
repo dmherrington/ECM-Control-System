@@ -33,9 +33,9 @@ public:
 
     void WriteBytes(const char *bytes, int length) const override;
 
-    void WriteRequest(const AbstractRequest* request) const override;
+    void WriteRequest(AbstractRequest* request) const override;
 
-    void WriteCommand(const AbstractCommand* command) const override;
+    void WriteCommand(AbstractCommand *command) const override;
 
 
     //!

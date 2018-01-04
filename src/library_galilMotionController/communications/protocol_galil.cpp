@@ -17,15 +17,17 @@ void GalilProtocol::AddListner(const IProtocolGalilEvents* listener)
     m_Listners.push_back(listener);
 }
 
-void GalilProtocol::SendProtocolCommand(const ILink *link, const CommandMotorEnable &command)
+void GalilProtocol::SendProtocolCommand(const ILink *link, CommandMotorEnable &command)
 {
     std::cout<<"I am trying to send a protocol command"<<std::endl;
     link->WriteCommand(&command);
 }
 
-void GalilProtocol::SendProtocolRequest(const ILink *link, const RequestTellPosition &request)
+void GalilProtocol::SendProtocolRequest(const ILink *link, RequestTellPosition &request)
 {
     std::cout<<"I am trying to send a protocol request"<<std::endl;
+    link->WriteRequest(&request);
+
 }
 
 //!

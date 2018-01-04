@@ -25,8 +25,8 @@ public:
 
     void AddListner(const IProtocolGalilEvents* listener);
 
-    void SendProtocolCommand(const ILink* link, const CommandMotorEnable &command);
-    void SendProtocolRequest(const ILink* link, const RequestTellPosition &request);
+    void SendProtocolCommand(const ILink* link, CommandMotorEnable &command);
+    void SendProtocolRequest(const ILink* link, RequestTellPosition &request);
 
     //!
     //! \brief Send message onto some link

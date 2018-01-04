@@ -134,7 +134,6 @@ HEADERS += \
         communications/i_link.h \
         communications/i_link_events.h \
         communications/i_protocol.h \
-        communications/i_protocol_events.h \
         communications/i_protocol_galil_events.h \
         communications/protocol_galil.h
 

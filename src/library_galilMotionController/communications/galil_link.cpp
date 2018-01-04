@@ -68,17 +68,46 @@ void GalilLink::RequestReset()
 
 }
 
-void GalilLink::WriteCommand(const AbstractCommand *command) const
+void GalilLink::WriteCommand(AbstractCommand *command) const
 {
     std::cout<<"We are trying to write a command here: "<<CommandToString(command->getCommandType())<<std::endl;
     std::string commandString = command->getCommandString();
     GReturn rtn = GCmd(galil,commandString.c_str());
 }
 
-void GalilLink::WriteRequest(const AbstractRequest *request) const
+void GalilLink::WriteRequest(AbstractRequest *request) const
 {
     std::cout<<"We are trying to write a request here: "<<RequestToString(request->getRequestType())<<std::endl;
 
+    char* buf; //buffer to be allocated for the response
+    GSize read_bytes = 0; //bytes read in GCommand
+
+    std::string stringRequest = request->getRequestString();
+
+    request->getBuffer(buf);
+    GReturn rtn = GCommand(galil,stringRequest.c_str(),buf,sizeof(buf),&read_bytes);
+
+    while (rtn != G_NO_ERROR)
+    {
+        switch (rtn) {
+        case G_BAD_LOST_DATA:
+        {
+            memset(buf, 0, sizeof(buf));
+            request->increaseBufferSize(buf);
+            rtn = GCommand(galil,stringRequest.c_str(),buf,sizeof(buf),&read_bytes);
+            break;
+        }
+        case G_BAD_RESPONSE_QUESTION_MARK:
+        {
+            memset(buf, 0, sizeof(buf));
+            std::string newCommand = "TC 1";
+            rtn = GCommand(galil,newCommand.c_str(),buf,sizeof(buf),&read_bytes);
+            break;
+        }
+        default:
+            break;
+        }
+    }
 }
 
 void GalilLink::WriteBytes(const char *bytes, int length) const
