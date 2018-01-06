@@ -36,7 +36,7 @@ void CommsMarshaler::sendGalilCommand(const T &command)
 {
     std::cout<<"Lets send a galil command"<<std::endl;
 
-    T newCommand(command);
+    T newCommand = command;
     auto func = [this, &newCommand]() {
             protocol->SendProtocolCommand(link.get(), newCommand);
     };
@@ -48,7 +48,7 @@ template <typename T>
 void CommsMarshaler::sendGalilRequest(const T &request)
 {
     std::cout<<"Lets send a galil request"<<std::endl;
-    T newRequest(request);
+    T newRequest = request;
     auto func = [this, &newRequest]() {
             protocol->SendProtocolRequest(link.get(), newRequest);
     };
@@ -114,6 +114,17 @@ void CommsMarshaler::MessageReceived(const double &message) const
     {
         ptr->StatusMessage("Testing");
     });
+}
+
+void CommsMarshaler::RequestReceived(const AbstractRequest *request) const
+{
+    switch (request->getRequestType()) {
+    case value:
+
+        break;
+    default:
+        break;
+    }
 }
 
 

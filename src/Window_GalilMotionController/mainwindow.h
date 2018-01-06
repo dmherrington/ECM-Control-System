@@ -105,6 +105,8 @@ private slots:
 
     void on_actionClose_Connection_triggered();
 
+    void on_action_LoadProfile_triggered();
+
 private:
     QString loadFileDialog(const std::string &filePath, const std::string &suffix);
     QString saveAsFileDialog(const std::string &filePath, const std::string &suffix);

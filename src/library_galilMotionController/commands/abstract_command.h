@@ -76,9 +76,10 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    void operator = (const AbstractCommand &rhs)
+    AbstractCommand& operator = (const AbstractCommand &rhs)
     {
         this->commandType = rhs.commandType;
+        return *this;
     }
 
     //!

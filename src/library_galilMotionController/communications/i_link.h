@@ -55,8 +55,6 @@ public:
         return m_LinkName;
     }
 
-    virtual void RequestReset() = 0;
-
     virtual void WriteBytes(const char *bytes, int length) const = 0;
 
     virtual void WriteRequest(AbstractRequest* request) const = 0;

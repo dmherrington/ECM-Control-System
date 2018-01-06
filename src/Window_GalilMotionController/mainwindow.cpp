@@ -232,3 +232,8 @@ void MainWindow::on_actionClose_Connection_triggered()
 {
     m_Galil->closeConnection();
 }
+
+void MainWindow::on_action_LoadProfile_triggered()
+{
+
+}

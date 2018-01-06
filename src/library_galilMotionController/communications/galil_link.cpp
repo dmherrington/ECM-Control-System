@@ -62,17 +62,75 @@ GalilLink::~GalilLink()
 
 }
 
-
-void GalilLink::RequestReset()
+void GalilLink::handleBadCommandResponse(const CommandType &type) const
 {
+    GReturn rtn = G_BAD_RESPONSE_QUESTION_MARK;
+    int attempts = 0;
+    char* error[100];
+    while ((rtn == G_NO_ERROR) && (attempts < 5)) {
+        std::string newCommand = "TC 1";
+        rtn = GCommand(galil,newCommand.c_str(),error,sizeof(error),&read_bytes);
+        attempts++;
+    }
 
+    if(rtn == G_NO_ERROR)
+    {
+        StatusGeneric status(type);
+        status.setReceivedBuffer(error);
+        EmitEvent([](const ILinkEvents *ptr){ptr->BadCommandResponse(status);});
+    }
+    else{
+        std::cout<"GalilLink handleBadStatusResponse has seen an unknown rtn type when requesting the error"<<std::endl;
+    }
+}
+
+void GalilLink::handleBadRequestResponse(const RequestTypes &type) const
+{
+    GReturn rtn = G_BAD_RESPONSE_QUESTION_MARK;
+    int attempts = 0;
+    char* error[100];
+    while ((rtn == G_NO_ERROR) && (attempts < 5)) {
+        std::string newCommand = "TC 1";
+        rtn = GCommand(galil,newCommand.c_str(),error,sizeof(error),&read_bytes);
+        attempts++;
+    }
+
+    if(rtn == G_NO_ERROR)
+    {
+        StatusGeneric status(type);
+        status.setReceivedBuffer(error);
+        EmitEvent([](const ILinkEvents *ptr){ptr->BadRequestResponse(status);});
+    }
+    else{
+        std::cout<"GalilLink handleBadStatusResponse has seen an unknown rtn type when requesting the error"<<std::endl;
+    }
 }
 
 void GalilLink::WriteCommand(AbstractCommand *command) const
 {
     std::cout<<"We are trying to write a command here: "<<CommandToString(command->getCommandType())<<std::endl;
-    std::string commandString = command->getCommandString();
-    GReturn rtn = GCmd(galil,commandString.c_str());
+
+    std::string stringCommand = command->getCommandString();
+    GReturn rtn = GCmd(galil,stringCommand.c_str());
+
+    switch (rtn) {
+    case G_NO_ERROR:
+    {
+
+        break;
+    }
+    case G_BAD_LOST_DATA:
+    {
+        break;
+    }
+    case G_BAD_RESPONSE_QUESTION_MARK:
+    {
+        handleBadCommandResponse(command->getCommandType());
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 void GalilLink::WriteRequest(AbstractRequest *request) const
@@ -87,26 +145,25 @@ void GalilLink::WriteRequest(AbstractRequest *request) const
     request->getBuffer(buf);
     GReturn rtn = GCommand(galil,stringRequest.c_str(),buf,sizeof(buf),&read_bytes);
 
-    while (rtn != G_NO_ERROR)
+    switch (rtn) {
+    case G_NO_ERROR:
     {
-        switch (rtn) {
-        case G_BAD_LOST_DATA:
-        {
-            memset(buf, 0, sizeof(buf));
-            request->increaseBufferSize(buf);
-            rtn = GCommand(galil,stringRequest.c_str(),buf,sizeof(buf),&read_bytes);
-            break;
-        }
-        case G_BAD_RESPONSE_QUESTION_MARK:
-        {
-            memset(buf, 0, sizeof(buf));
-            std::string newCommand = "TC 1";
-            rtn = GCommand(galil,newCommand.c_str(),buf,sizeof(buf),&read_bytes);
-            break;
-        }
-        default:
-            break;
-        }
+        StatusGeneric status(request->getRequestType());
+        status.setReceivedBuffer(buf);
+        EmitEvent([](const ILinkEvents *ptr){ptr->StatusReceived(status);});
+        break;
+    }
+    case G_BAD_LOST_DATA:
+    {
+        break;
+    }
+    case G_BAD_RESPONSE_QUESTION_MARK:
+    {
+        handleBadRequestResponse(request->getRequestType());
+        break;
+    }
+    default:
+        break;
     }
 }
 

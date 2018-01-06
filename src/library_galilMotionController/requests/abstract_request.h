@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "gclib.h"
+
 #include "requests/request_types.h"
 
 /**

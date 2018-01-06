@@ -29,14 +29,11 @@ public:
 
 public:
 
-    void RequestReset() override;
-
     void WriteBytes(const char *bytes, int length) const override;
 
     void WriteRequest(AbstractRequest* request) const override;
 
     void WriteCommand(AbstractCommand *command) const override;
-
 
     //!
     //! \brief Determine the connection status
@@ -65,6 +62,10 @@ public:
             });
         }
     }
+
+private:
+    void handleBadCommandResponse(const CommandType &type) const;
+    void handleBadRequestResponse(const RequestTypes &type) const;
 
 private:
 

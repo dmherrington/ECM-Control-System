@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "status/status_components.h"
+
 namespace Comms
 {
 
@@ -29,6 +31,7 @@ public:
 
     }
 
+    virtual void NewStatusPosition()
 };
 
 }

@@ -3,6 +3,7 @@
 Status_Position::Status_Position()
 {
     this->currentAxis = MotorAxis::Z;
+    this->latestUpdate.CurrentTime(Data::Devices::SYSTEMCLOCK,this->latestUpdate);
     this->position = 0;
 }
 
@@ -20,9 +21,22 @@ Status_Position::Status_Position(const Status_Position &copy)
     this->latestUpdate = copy.latestUpdate;
 }
 
+void Status_Position::parseGalilString(const std::string &str)
+{
+    QString result = QString::fromStdString(str);
+    QStringList list = result.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
+    result = list.at(0);
+    result = result.trimmed();
+    this->setPosition(result.toDouble());
+}
+
+void Status_Position::setAxis(const MotorAxis &axis)
+{
+    this->currentAxis = axis;
+}
+
 void Status_Position::setPosition(const uint64_t &pos)
 {
-    this->latestUpdate.CurrentTime(Data::Devices::SYSTEMCLOCK,this->latestUpdate);
     this->position = pos;
 }
 

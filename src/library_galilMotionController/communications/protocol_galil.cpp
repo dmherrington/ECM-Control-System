@@ -27,7 +27,13 @@ void GalilProtocol::SendProtocolRequest(const ILink *link, RequestTellPosition &
 {
     std::cout<<"I am trying to send a protocol request"<<std::endl;
     link->WriteRequest(&request);
-
+    if(request.getRequestReturn() == G_NO_ERROR)
+    {
+        //let us parse this for a status position
+        Status_Position status;
+        status.parseGalilString(request.getRequestString());
+        Emit([&](const IProtocolGalilEvents* ptr){ptr->NewPositionReceived(status);});
+    }
 }
 
 //!

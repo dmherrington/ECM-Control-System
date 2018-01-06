@@ -26,6 +26,13 @@ public:
     void AddListner(const IProtocolGalilEvents* listener);
 
     void SendProtocolCommand(const ILink* link, CommandMotorEnable &command);
+
+
+    void SendProtocolRequest(const ILink *link, RequestListLabels &request);
+    void SendProtocolRequest(const ILink *link, RequestListVariables &request);
+    void SendProtocolRequest(const ILink *link, RequestStopCode &request);
+    void SendProtocolRequest(const ILink *link, RequestTellInputs &request);
+    void SendProtocolRequest(const ILink *link, RequestTellSwitches &request);
     void SendProtocolRequest(const ILink* link, RequestTellPosition &request);
 
     //!

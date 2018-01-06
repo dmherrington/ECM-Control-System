@@ -15,6 +15,9 @@ public:
 
     Status_Position(const Status_Position &copy);
 
+    void parseGalilString(const std::string &str);
+
+    void setAxis(const MotorAxis &axis);
     void setPosition(const uint64_t &pos);
     void setTime(const Data::EnvironmentTime &time);
 

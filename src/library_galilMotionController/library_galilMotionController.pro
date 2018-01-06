@@ -69,7 +69,8 @@ SOURCES += \
     settings/settings_generic_profile.cpp \
     communications/comms_marshaler.cpp \
     communications/galil_link.cpp \
-    communications/protocol_galil.cpp
+    communications/protocol_galil.cpp \
+    status/status_generic.cpp
 
 HEADERS += \
         axis_definitions.h \
@@ -135,7 +136,8 @@ HEADERS += \
         communications/i_link_events.h \
         communications/i_protocol.h \
         communications/i_protocol_galil_events.h \
-        communications/protocol_galil.h
+        communications/protocol_galil.h \
+    status/status_generic.h
 
 
 # Unix lib Install

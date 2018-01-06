@@ -3,6 +3,10 @@
 
 #include <QWidget>
 
+#include <widget_profile_variable_display.h>
+
+#include "library_galilMotionController/settings/settings_generic_profile.h"
+
 namespace Ui {
 class WidgetProfileDisplay;
 }
@@ -15,8 +19,11 @@ public:
     explicit WidgetProfileDisplay(QWidget *parent = 0);
     ~WidgetProfileDisplay();
 
+    void loadProfile(const SettingsGenericProfile* profile);
+
 private:
     Ui::WidgetProfileDisplay *ui;
+    SettingsGenericProfile* settingsProfile;
 };
 
 #endif // WIDGET_PROFILE_DISPLAY_H

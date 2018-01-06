@@ -15,9 +15,9 @@ MainWindow::MainWindow(QWidget *parent) :
     char* ECMPath = getenv("ECM_ROOT");
     if(ECMPath){
         std::string rootPath(ECMPath);
-        QDir settingsDirectory(QString::fromStdString(rootPath + "/Galil/settings"));
-        settingsDirectory.mkpath(QString::fromStdString(rootPath + "/Galil/settings"));
-        settingsPath = settingsDirectory.absolutePath() + "/generalSettings.json";
+        QDir settingsDirectory(QString::fromStdString(rootPath + "/Galil/profiles"));
+        settingsDirectory.mkpath(QString::fromStdString(rootPath + "/Galil/profiles"));
+        settingsPath = settingsDirectory.absolutePath() + "/generalProfile.json";
     }
 
 }

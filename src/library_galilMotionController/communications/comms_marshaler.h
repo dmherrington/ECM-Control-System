@@ -69,6 +69,8 @@ private:
     //!
     void MessageReceived(const double &message) const override;
 
+    void RequestReceived(const AbstractRequest* request) const override;
+
 private:
     std::shared_ptr<ILink> link;
     std::shared_ptr<GalilProtocol> protocol;

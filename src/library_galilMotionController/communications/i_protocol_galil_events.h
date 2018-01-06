@@ -1,6 +1,8 @@
 #ifndef I_PROTOCOL_GALIL_EVENTS_H
 #define I_PROTOCOL_GALIL_EVENTS_H
 
+#include "requests/request_components.h"
+
 #include "status/status_components.h"
 
 namespace Comms
@@ -12,6 +14,7 @@ namespace Comms
 class IProtocolGalilEvents
 {
 public:
+    virtual void NewPositionReceived(const Status_Position &status) const = 0;
     //!
     //! \brief A Message has been received over Mavlink protocol
     //! \param linkName Link identifier which generated command
