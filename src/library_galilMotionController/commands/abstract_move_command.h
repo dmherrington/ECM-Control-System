@@ -107,6 +107,8 @@ public:
         return *this;
     }
 
+
+
 protected:
     CommandType moveType;
     MotorAxis moveAxis;

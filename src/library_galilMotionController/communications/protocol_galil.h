@@ -25,25 +25,41 @@ public:
 
     void AddListner(const IProtocolGalilEvents* listener);
 
+    //////////////////////////////////////////////////////////////
+    /// Methods issuing an explicit galil command
+    //////////////////////////////////////////////////////////////
+
+    void SendProtocolCommand(const ILink* link, CommandAbsoluteMove &command);
+    void SendProtocolCommand(const ILink* link, CommandClearBit &command);
+    void SendProtocolCommand(const ILink* link, CommandEStop &command);
+    void SendProtocolCommand(const ILink* link, CommandExecuteProgram &command);
+    void SendProtocolCommand(const ILink* link, CommandJog &command);
+    void SendProtocolCommand(const ILink* link, CommandMotorDisable &command);
     void SendProtocolCommand(const ILink* link, CommandMotorEnable &command);
+    void SendProtocolCommand(const ILink* link, CommandRelativeMove &command);
+    void SendProtocolCommand(const ILink* link, CommandSetBit &command);
+    void SendProtocolCommand(const ILink* link, CommandStop &command);
+private:
+    void handleCommandResponse(const ILink* link, const AbstractCommand* command, const GReturn &response);
+    void handleBadCommandResponse(const ILink* link, const CommandType &type) const;
 
-
+    //////////////////////////////////////////////////////////////
+    /// Methods issuing an explicit galil information request
+    //////////////////////////////////////////////////////////////
+public:
     void SendProtocolRequest(const ILink *link, RequestListLabels &request);
     void SendProtocolRequest(const ILink *link, RequestListVariables &request);
     void SendProtocolRequest(const ILink *link, RequestStopCode &request);
     void SendProtocolRequest(const ILink *link, RequestTellInputs &request);
     void SendProtocolRequest(const ILink *link, RequestTellSwitches &request);
     void SendProtocolRequest(const ILink* link, RequestTellPosition &request);
+private:
+    void handleRequestResponse(const ILink* link, const AbstractRequest *request, const GReturn &response);
+    void handleBadRequestResponse(const ILink* link, const RequestTypes &type) const;
 
-    //!
-    //! \brief Send message onto some link
-    //!
-    //! This code is largely a copy from MAVLinkProtocol::sendMessage in qgroundcontrol
-    //! \param link Link to put message onto
-    //! \param message Message to send
-    //!
-    void SendProtocolMessage(const ILink *link, const double &message);
+    //void SendProtocolMessage(const ILink *link, const double &message);
 
+public:
 
     //!
     //! \brief Read data incoming from some link

@@ -25,18 +25,31 @@ public:
     CommsMarshaler();
 
 
+    //////////////////////////////////////////////////////////////
+    /// Connect/Disconnect from Galil Methods
+    //////////////////////////////////////////////////////////////
+
     //!
     //! \brief Connect to an already created link
     //! \param linkName Name of link to connect to
     //! \return True if connection successful, false otherwise
     //!
     bool ConnectToLink(const std::string &linkName);
+    bool DisconnetLink();
+
+
+
+    //////////////////////////////////////////////////////////////
+    /// Methods issuing Galil commands, requests, programs
+    //////////////////////////////////////////////////////////////
 
     template <typename T>
     void sendGalilCommand(const T& command);
 
     template <typename T>
     void sendGalilRequest(const T& request);
+
+    void uploadProgram(const std::string &programString) const;
 
     //!
     //! \brief Issue a message to a given link
@@ -57,6 +70,8 @@ private:
     void ConnectionOpened() const override;
 
     void ConnectionClosed() const override;
+
+    void StatusReceived(const StatusGeneric &status) const override;
 
     //////////////////////////////////////////////////////////////
     /// IProtocolGalilEvents

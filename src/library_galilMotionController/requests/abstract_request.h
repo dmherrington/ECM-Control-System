@@ -78,7 +78,7 @@ public:
 
     unsigned int getAllocatedBufferSize() const;
 
-    void getBuffer(char* chrArray) const;
+    char *getBuffer() const;
 
     virtual void increaseBufferSize(char* chrArray);
 

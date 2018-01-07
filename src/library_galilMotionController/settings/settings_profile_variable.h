@@ -98,7 +98,7 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    SettingsProfileVariable* operator = (const SettingsProfileVariable &rhs)
+    SettingsProfileVariable& operator = (const SettingsProfileVariable &rhs)
     {
         this->variableName = rhs.variableName;
         this->displayName = rhs.displayName;
@@ -106,7 +106,7 @@ public:
         this->min = rhs.min;
         this->def = rhs.def;
         this->cur = rhs.cur;
-        return this*;
+        return *this;
     }
 
     //!

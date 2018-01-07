@@ -29,9 +29,11 @@ public:
 
 public:
 
-    void WriteRequest(AbstractRequest* request) const override;
+    GReturn WriteRequest(AbstractRequest* request) const override;
 
-    void WriteCommand(AbstractCommand *command) const override;
+    GReturn WriteCommand(AbstractCommand *command) const override;
+
+    GReturn WriteTellErrorCode(char* errorDescription) const override;
 
     //!
     //! \brief Determine the connection status
@@ -41,7 +43,7 @@ public:
 
     bool Connect(void) override;
 
-    void Disconnect(void) override;
+    bool Disconnect(void) override;
 
     virtual void MarshalOnThread(std::function<void()> func){
         ///////////////////
@@ -62,10 +64,6 @@ public:
     }
 
 private:
-    void handleBadCommandResponse(const CommandType &type) const;
-    void handleBadRequestResponse(const RequestTypes &type) const;
-
-private:
 
     template <typename F>
     static void postToThread(F && fun, QObject * obj = qApp) {
@@ -81,11 +79,11 @@ private:
 
 
 private:
+    QThread *m_ListenThread;
     GCon galil; /**< Member variable containing a pointer to the Galil interface */
-
     std::string galilAddress; /**< Member variable containing information about the address to the Galil unit. */
 
-    QThread *m_ListenThread;
+    bool connected;
 };
 
 } //END MAVLINKComms

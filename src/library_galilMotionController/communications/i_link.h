@@ -55,9 +55,12 @@ public:
         return m_LinkName;
     }
 
-    virtual void WriteRequest(AbstractRequest* request) const = 0;
+    virtual GReturn WriteRequest(AbstractRequest* request) const = 0;
 
-    virtual void WriteCommand(AbstractCommand* command) const = 0;
+    virtual GReturn WriteCommand(AbstractCommand* command) const = 0;
+
+    virtual GReturn WriteTellErrorCode(char* errorDescription) const = 0;
+
     //!
     //! \brief Determine the connection status
     //! \return True if the connection is established, false otherwise
@@ -66,7 +69,7 @@ public:
 
 
     virtual bool Connect(void) = 0;
-    virtual void Disconnect(void) = 0;
+    virtual bool Disconnect(void) = 0;
 
     virtual void MarshalOnThread(std::function<void()> func) = 0;
 

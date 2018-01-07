@@ -21,6 +21,10 @@ CommsMarshaler::CommsMarshaler()
 }
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+/// Connect/Disconnect from Galil Methods
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 //!
 //! \brief Connect to an already created link
 //! \param linkName Name of link to connect to
@@ -30,6 +34,15 @@ bool CommsMarshaler::ConnectToLink(const std::string &linkName)
 {
     return link->Connect();
 }
+
+bool CommsMarshaler::DisconnetLink()
+{
+    return link->Disconnect();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+/// Methods issuing Galil commands, requests, programs
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 template <typename T>
 void CommsMarshaler::sendGalilCommand(const T &command)
@@ -56,9 +69,14 @@ void CommsMarshaler::sendGalilRequest(const T &request)
     link->MarshalOnThread(func);
 }
 
-//////////////////////////////////////////////////////////////
+void CommsMarshaler::uploadProgram(const std::string &programString) const
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 /// Query
-//////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 //!
 //! \brief Issue a message to a given link
@@ -122,6 +140,7 @@ void CommsMarshaler::NewPositionReceived(const Status_Position &status) const
 }
 
 template void CommsMarshaler::sendGalilCommand<CommandMotorEnable>(const CommandMotorEnable&);
+
 template void CommsMarshaler::sendGalilRequest<RequestTellPosition>(const RequestTellPosition&);
 
 template void CommsMarshaler::SendGalilMessage<double>(const double&);

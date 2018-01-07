@@ -43,7 +43,7 @@
 \*
 \*/
 
-class GMC_SHARED_EXPORT galilMotionController : public QObject, public GalilStatusUpdate_Interface
+class GMC_SHARED_EXPORT galilMotionController : public QObject, public GalilStatusUpdate_Interface, public Comms::CommsEvents
 {
     Q_OBJECT
 
@@ -54,8 +54,11 @@ public:
 
 public:
     void openConnection(const std::string &address);
-
     void closeConnection();
+
+public:
+    void LinkConnected() const override;
+    void LinkDisconnected() const override;
 
 public:
 
@@ -89,8 +92,10 @@ signals:
 
 
 private:
-    QString settingsPath;
+    QString profilesPath;
     QString programPath;
+    QString settingsPath;
+
 
 private:
     GCon galil; /**< Member variable containing a pointer to the Galil interface */

@@ -6,51 +6,74 @@ galilMotionController::galilMotionController()
     std::vector<MotorAxis> availableAxis;
     availableAxis.push_back(MotorAxis::Z);
 
-    commsMarshaler = new commsMarshaler();
+    commsMarshaler = new Comms::CommsMarshaler();
 
     stateInterface = new GalilStateInterface(availableAxis);
     stateMachine = new hsm::StateMachine();
     stateMachine->Initialize<ECM::Galil::State_Idle>(stateInterface);
-
+    //if we begin issuing text commands we have to be careful how the state machine progresses
     stateMachine->UpdateStates();
     stateMachine->ProcessStateTransitions();
 
     galilPolling = new GalilPollState();
     galilPolling->connectCallback(this);
-    //galilPolling->beginPolling();
-
-    //if we begin issuing text commands we have to shut down the state machine
-
     //    GReturn rtnCode = GOpen("169.254.78.101",&mConnection);
 
     char* ECMPath = getenv("ECM_ROOT");
     if(ECMPath){
         std::string rootPath(ECMPath);
-        QDir settingsDirectory(QString::fromStdString(rootPath + "/Galil/settings"));
+        QDir profilesDirectory(QString::fromStdString(rootPath + "/Galil/profiles"));
         QDir programsDirectory(QString::fromStdString(rootPath + "/Galil/programs"));
+        QDir settingsDirectory(QString::fromStdString(rootPath + "/Galil/settings"));
 
-        settingsDirectory.mkpath(QString::fromStdString(rootPath + "/Galil/settings"));
+        profilesDirectory.mkpath(QString::fromStdString(rootPath + "/Galil/programs"));
         programsDirectory.mkpath(QString::fromStdString(rootPath + "/Galil/programs"));
+        settingsDirectory.mkpath(QString::fromStdString(rootPath + "/Galil/settings"));
 
-        settingsPath = settingsDirectory.absolutePath() + "/generalSettings.json";
+        profilesPath = profilesDirectory.absolutePath() + "/";
         programPath = programsDirectory.absolutePath() + "/";
+        settingsPath = settingsDirectory.absolutePath() + "/generalSettings.json";
     }
 }
 
 galilMotionController::~galilMotionController()
 {
-    //clean up pointers
+    if(commsMarshaler)
+    {
+        commsMarshaler->DisconnetLink();
+        delete commsMarshaler;
+        commsMarshaler = nullptr;
+    }
+
+    if(stateMachine)
+    {
+        delete stateMachine;
+        stateMachine = nullptr;
+    }
+
+    if(stateInterface)
+    {
+        delete stateMachine;
+        stateMachine = nullptr;
+    }
+
     if(galilPolling)
     {
         galilPolling->stop();
         delete galilPolling;
         galilPolling = nullptr;
     }
-    if(stateMachine)
-    {
-        delete stateMachine;
-        stateMachine = nullptr;
-    }
+
+}
+
+void galilMotionController::openConnection(const std::string &address)
+{
+    commsMarshaler->ConnectToLink(address);
+}
+
+void galilMotionController::closeConnection()
+{
+
 }
 
 bool galilMotionController::saveSettings()
@@ -70,57 +93,22 @@ bool galilMotionController::loadSettings(const std::string &filePath)
     m_Settings.loadSettings(settingsPath);
 }
 
-void galilMotionController::openConnection(const std::string &address)
+
+
+void galilMotionController::LinkConnected() const
 {
-    commsMarshaler->ConnectToLink(address);
-
-//    GReturn rtnCode = GOpen(address.c_str(),&galil);
-//    if(rtnCode == G_NO_ERROR) //this means the port was opened successfully
-//    {
-//        stateMachine = new hsm::StateMachine();
-//        stateMachine->Initialize<ECM::Galil::State_Idle>(stateInterface);
-
-//        galilPolling = new GalilPollState();
-//        galilPolling->connectCallback(this);
-//        galilPolling->beginPolling();
-
-//        galilPolling = new GalilPollState();
-//        emit commsStatus(true);
-//    }
-//    else{
-        //there was an error opening the comm port so what should we do
-//    }
+    galilPolling->beginPolling();
 }
 
-void galilMotionController::closeConnection()
+
+void galilMotionController::LinkDisconnected() const
 {
-    //First, we must stop all of the items trying to communicate with the galil
     if(galilPolling)
     {
         galilPolling->pausePolling();
+        galilPolling->stop();
+
     }
-    GReturn rtnCode = GClose(galil);
-
-    if(rtnCode == G_NO_ERROR) //this means the port was closed successfully
-    {
-        if(galilPolling)
-        {
-            galilPolling->stop();
-            delete galilPolling;
-            galilPolling = nullptr;
-        }
-        if(stateMachine)
-        {
-            delete stateMachine;
-            stateMachine = nullptr;
-        }
-        emit commsStatus(false);
-    }
-
-    //in this case we do not emit a change as we don't necessarily know the previous state
-
-//    std::string errorString = ParseGReturn::getGReturnString(rtnCode);
-//    emit currentErrorCode(errorString);
 }
 
 void galilMotionController::getProgramPath(std::string &filePath) const
@@ -153,7 +141,6 @@ bool galilMotionController::saveProgram(const std::string &text)
 
 void galilMotionController::executeCommand(const AbstractCommand *command)
 {
-    this->m_
     /*
     std::string commandString = command->getCommandString();
     std::cout<<"The command string seen here is: "<<commandString<<std::endl;
@@ -235,6 +222,7 @@ bool galilMotionController::loadProgram(const std::string &filePath, std::string
     file.close();
     return true;
 }
+
 
 void galilMotionController::uploadProgram(const std::string &programText)
 {
