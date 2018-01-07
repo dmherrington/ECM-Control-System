@@ -116,17 +116,10 @@ void CommsMarshaler::MessageReceived(const double &message) const
     });
 }
 
-void CommsMarshaler::RequestReceived(const AbstractRequest *request) const
+void CommsMarshaler::NewPositionReceived(const Status_Position &status) const
 {
-    switch (request->getRequestType()) {
-    case value:
 
-        break;
-    default:
-        break;
-    }
 }
-
 
 template void CommsMarshaler::sendGalilCommand<CommandMotorEnable>(const CommandMotorEnable&);
 template void CommsMarshaler::sendGalilRequest<RequestTellPosition>(const RequestTellPosition&);

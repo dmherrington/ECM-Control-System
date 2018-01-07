@@ -65,8 +65,9 @@ GalilLink::~GalilLink()
 void GalilLink::handleBadCommandResponse(const CommandType &type) const
 {
     GReturn rtn = G_BAD_RESPONSE_QUESTION_MARK;
+    GSize read_bytes = 0; //bytes read in GCommand
     int attempts = 0;
-    char* error[100];
+    char error[100];
     while ((rtn == G_NO_ERROR) && (attempts < 5)) {
         std::string newCommand = "TC 1";
         rtn = GCommand(galil,newCommand.c_str(),error,sizeof(error),&read_bytes);
@@ -75,9 +76,9 @@ void GalilLink::handleBadCommandResponse(const CommandType &type) const
 
     if(rtn == G_NO_ERROR)
     {
-        StatusGeneric status(type);
-        status.setReceivedBuffer(error);
-        EmitEvent([](const ILinkEvents *ptr){ptr->BadCommandResponse(status);});
+//        StatusGeneric status(type);
+//        status.setReceivedBuffer(error);
+//        EmitEvent([](const ILinkEvents *ptr){ptr->BadCommandResponse(status);});
     }
     else{
         std::cout<"GalilLink handleBadStatusResponse has seen an unknown rtn type when requesting the error"<<std::endl;
@@ -87,8 +88,9 @@ void GalilLink::handleBadCommandResponse(const CommandType &type) const
 void GalilLink::handleBadRequestResponse(const RequestTypes &type) const
 {
     GReturn rtn = G_BAD_RESPONSE_QUESTION_MARK;
+    GSize read_bytes = 0; //bytes read in GCommand
     int attempts = 0;
-    char* error[100];
+    char error[100];
     while ((rtn == G_NO_ERROR) && (attempts < 5)) {
         std::string newCommand = "TC 1";
         rtn = GCommand(galil,newCommand.c_str(),error,sizeof(error),&read_bytes);
@@ -99,7 +101,7 @@ void GalilLink::handleBadRequestResponse(const RequestTypes &type) const
     {
         StatusGeneric status(type);
         status.setReceivedBuffer(error);
-        EmitEvent([](const ILinkEvents *ptr){ptr->BadRequestResponse(status);});
+        EmitEvent([&status](const ILinkEvents *ptr){ptr->BadRequestResponse(status);});
     }
     else{
         std::cout<"GalilLink handleBadStatusResponse has seen an unknown rtn type when requesting the error"<<std::endl;
@@ -150,7 +152,7 @@ void GalilLink::WriteRequest(AbstractRequest *request) const
     {
         StatusGeneric status(request->getRequestType());
         status.setReceivedBuffer(buf);
-        EmitEvent([](const ILinkEvents *ptr){ptr->StatusReceived(status);});
+        EmitEvent([&status](const ILinkEvents *ptr){ptr->StatusReceived(status);});
         break;
     }
     case G_BAD_LOST_DATA:

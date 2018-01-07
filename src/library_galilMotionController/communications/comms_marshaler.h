@@ -69,7 +69,7 @@ private:
     //!
     void MessageReceived(const double &message) const override;
 
-    void RequestReceived(const AbstractRequest* request) const override;
+    void NewPositionReceived(const Status_Position &status) const override;
 
 private:
     std::shared_ptr<ILink> link;

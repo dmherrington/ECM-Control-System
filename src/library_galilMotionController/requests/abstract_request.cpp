@@ -2,7 +2,6 @@
 
 AbstractRequest::AbstractRequest(const RequestTypes &type, const unsigned int &respSize)
 {
-    this->receivedRequest = "";
     this->requestType = type;
     this->bufferSize = respSize;
 }

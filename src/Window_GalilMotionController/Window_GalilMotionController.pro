@@ -43,6 +43,9 @@ FORMS += \
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
 
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
+else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/release/ -llibrary_galilMotionController
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/debug/ -llibrary_galilMotionController
