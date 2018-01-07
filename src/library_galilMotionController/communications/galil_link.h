@@ -29,8 +29,6 @@ public:
 
 public:
 
-    void WriteBytes(const char *bytes, int length) const override;
-
     void WriteRequest(AbstractRequest* request) const override;
 
     void WriteCommand(AbstractCommand *command) const override;

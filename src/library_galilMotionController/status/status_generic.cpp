@@ -6,7 +6,7 @@ StatusGeneric::StatusGeneric(const RequestTypes &type):
     this->buffer = "";
 }
 
-void StatusGeneric::updateRequestType(const RequestTypes &type)
+void StatusGeneric::setRequestType(const RequestTypes &type)
 {
     this->requestType = type;
 }

@@ -34,6 +34,12 @@ public:
     std::string getVariableName() const;
 
     //!
+    //! \brief getCurrentValue
+    //! \return
+    //!
+    double getCurrentValue() const;
+
+    //!
     //! \brief getDefaultValue
     //! \return
     //!
@@ -64,6 +70,12 @@ public:
     void setVariableName(const std::string &name);
 
     //!
+    //! \brief setCurrentValue
+    //! \param value
+    //!
+    void setCurrentValue(const double &value);
+
+    //!
     //! \brief setDefaultValue
     //! \param value
     //!
@@ -86,13 +98,15 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    void operator = (const SettingsProfileVariable &rhs)
+    SettingsProfileVariable* operator = (const SettingsProfileVariable &rhs)
     {
         this->variableName = rhs.variableName;
         this->displayName = rhs.displayName;
         this->max = rhs.max;
         this->min = rhs.min;
         this->def = rhs.def;
+        this->cur = rhs.cur;
+        return this*;
     }
 
     //!
@@ -117,6 +131,9 @@ public:
         if(this->def != rhs.def){
             return false;
         }
+        if(this->cur != rhs.cur){
+            return false;
+        }
         return true;
     }
 
@@ -135,6 +152,7 @@ private:
     double max = 0.0;
     double min = 0.0;
     double def = 0.0;
+    double cur = 0.0;
 };
 
 #endif // SETTINGS_PROFILE_VARIABLE_H

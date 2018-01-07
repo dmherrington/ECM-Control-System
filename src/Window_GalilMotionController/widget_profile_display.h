@@ -19,7 +19,7 @@ public:
     explicit WidgetProfileDisplay(QWidget *parent = 0);
     ~WidgetProfileDisplay();
 
-    void loadProfile(const SettingsGenericProfile* profile);
+    void loadProfile(const SettingsGenericProfile &profile);
 
 private:
     Ui::WidgetProfileDisplay *ui;

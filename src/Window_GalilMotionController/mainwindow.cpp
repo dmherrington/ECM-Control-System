@@ -6,8 +6,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     m_Galil = new galilMotionController();
+
+    char* ECMPath = getenv("ECM_ROOT");
+    if(ECMPath){
+        std::string rootPath(ECMPath);
+        QDir settingsDirectory(QString::fromStdString(rootPath + "/Galil/profiles"));
+        settingsDirectory.mkpath(QString::fromStdString(rootPath + "/Galil/profiles"));
+        this->profilePath = settingsDirectory.absolutePath().toStdString() + "/generalProfile.json";
+    }
 }
 
 MainWindow::~MainWindow()
@@ -165,23 +172,6 @@ QString MainWindow::saveAsFileDialog(const std::string &filePath, const std::str
     return fullFilePath;
 }
 
-QString MainWindow::loadFileDialog(const std::string &filePath, const std::string &suffix)
-{
-    QFileDialog fileDialog(this, "Choose file to open");
-    QDir galilProgramDirectory(QString::fromStdString(filePath));
-    fileDialog.setDirectory(galilProgramDirectory);
-    fileDialog.setFileMode(QFileDialog::AnyFile);
-    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
-    QString nameFilter = "Open Files (*.";
-    nameFilter += QString::fromStdString(suffix) + ")";
-    fileDialog.setNameFilter(nameFilter);
-    fileDialog.setDefaultSuffix(QString::fromStdString(suffix));
-    fileDialog.exec();
-    QString fullFilePath = fileDialog.selectedFiles().first();
-    return fullFilePath;
-}
-
-
 void MainWindow::on_pushButton_CMDSend_clicked()
 {
     QString programString = ui->textEdit_CMD->toPlainText();
@@ -235,5 +225,55 @@ void MainWindow::on_actionClose_Connection_triggered()
 
 void MainWindow::on_action_LoadProfile_triggered()
 {
+    QString path = loadFileDialog(this->profilePath,"json");
+    if(!path.isEmpty()&& !path.isNull()){
+        QFile profileFile(path);
 
+        if (!profileFile.open(QIODevice::ReadOnly)) {
+            qWarning("Couldn't open file.");
+        }
+        else
+        {
+            QSize widgetSize;
+            this->clearProfileTabs();
+            QByteArray loadData = profileFile.readAll();
+            QJsonDocument loadDoc = QJsonDocument::fromJson(loadData);
+            QJsonObject outerObj = loadDoc.object();
+            foreach(const QString& key, outerObj.keys()) {
+
+                //gather up the component into a complete profile item
+                QJsonObject profileObj  = outerObj[key].toObject();
+                //let us create a profile object from the data
+                SettingsGenericProfile profile;
+                profile.read(profileObj);
+                WidgetProfileDisplay* newWidget = new WidgetProfileDisplay();
+                m_ProfileDisplay[profile.getProfileName()] = newWidget;
+                newWidget->loadProfile(profile);
+                this->ui->tabWidget->addTab(newWidget,QString::fromStdString(profile.getProfileName()));
+                widgetSize = newWidget->size();
+            }
+        }
+    }
+}
+
+void MainWindow::clearProfileTabs()
+{
+    this->ui->tabWidget->clear();
+}
+
+
+QString MainWindow::loadFileDialog(const std::string &filePath, const std::string &suffix)
+{
+    QFileDialog fileDialog(this, "Choose profile to open");
+    QDir galilProgramDirectory(QString::fromStdString(filePath));
+    fileDialog.setDirectory(galilProgramDirectory);
+    fileDialog.setFileMode(QFileDialog::AnyFile);
+    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
+    QString nameFilter = "Open Files (*.";
+    nameFilter += QString::fromStdString(suffix) + ")";
+    fileDialog.setNameFilter(nameFilter);
+    fileDialog.setDefaultSuffix(QString::fromStdString(suffix));
+    fileDialog.exec();
+    QString fullFilePath = fileDialog.selectedFiles().first();
+    return fullFilePath;
 }

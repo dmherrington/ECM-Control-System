@@ -44,6 +44,11 @@ std::string SettingsProfileVariable::getVariableName() const
     return this->variableName;
 }
 
+double SettingsProfileVariable::getCurrentValue() const
+{
+    return this->cur;
+}
+
 double SettingsProfileVariable::getDefaultValue() const
 {
     return this->def;
@@ -67,6 +72,11 @@ void SettingsProfileVariable::setDisplayName(const std::string &name)
 void SettingsProfileVariable::setVariableName(const std::string &name)
 {
     this->variableName = name;
+}
+
+void SettingsProfileVariable::setCurrentValue(const double &value)
+{
+    this->cur = value;
 }
 
 void SettingsProfileVariable::setDefaultValue(const double &value)

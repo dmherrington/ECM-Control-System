@@ -81,7 +81,7 @@ void GalilLink::handleBadCommandResponse(const CommandType &type) const
 //        EmitEvent([](const ILinkEvents *ptr){ptr->BadCommandResponse(status);});
     }
     else{
-        std::cout<"GalilLink handleBadStatusResponse has seen an unknown rtn type when requesting the error"<<std::endl;
+        //std::cout<"GalilLink handleBadStatusResponse has seen an unknown rtn type when requesting the error"<<std::endl;
     }
 }
 
@@ -104,7 +104,7 @@ void GalilLink::handleBadRequestResponse(const RequestTypes &type) const
         EmitEvent([&status](const ILinkEvents *ptr){ptr->BadRequestResponse(status);});
     }
     else{
-        std::cout<"GalilLink handleBadStatusResponse has seen an unknown rtn type when requesting the error"<<std::endl;
+        //std::cout<"GalilLink handleBadStatusResponse has seen an unknown rtn type when requesting the error"<<std::endl;
     }
 }
 
@@ -167,18 +167,6 @@ void GalilLink::WriteRequest(AbstractRequest *request) const
     default:
         break;
     }
-}
-
-void GalilLink::WriteBytes(const char *bytes, int length) const
-{
-//    QByteArray data(bytes, length);
-//    if(m_port && m_port->isOpen()) {
-//        //_logOutputDataRate(data.size(), QDateTime::currentMSecsSinceEpoch());
-//        m_port->write(data);
-//    } else {
-//        // Error occured
-//        _emitLinkError("Could not send data - link " + getPortName() + " is disconnected!");
-//    }
 }
 
 //!

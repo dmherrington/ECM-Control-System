@@ -5,6 +5,9 @@
 #include <QMainWindow>
 #include "gclib.h"
 
+#include "widget_profile_display.h"
+#include "widget_profile_variable_display.h"
+
 #include "library_galilMotionController/galil_motion_controller.h"
 
 namespace Ui {
@@ -111,11 +114,14 @@ private:
     QString loadFileDialog(const std::string &filePath, const std::string &suffix);
     QString saveAsFileDialog(const std::string &filePath, const std::string &suffix);
 
+    void clearProfileTabs();
 private:
     Ui::MainWindow *ui;
 
 private:
     galilMotionController* m_Galil;
+    std::string profilePath;
+    std::map<std::string,WidgetProfileDisplay*> m_ProfileDisplay;
 
 };
 

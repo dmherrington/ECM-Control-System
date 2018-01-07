@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>206</width>
-    <height>45</height>
+    <width>210</width>
+    <height>47</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -52,6 +52,9 @@
         <font>
          <pointsize>12</pointsize>
         </font>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
        <property name="decimals">
         <number>3</number>

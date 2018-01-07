@@ -16,10 +16,10 @@ WidgetProfileVariableDisplay::~WidgetProfileVariableDisplay()
 
 void WidgetProfileVariableDisplay::loadProfileVariable(const SettingsProfileVariable variable)
 {
-    this->ui->label_displayName->setText(QString::fromStdString(variable->getDisplayName()));
-    this->ui->doubleSpinBox_desiredValue->setMaximum(variable->getMaxValue());
-    this->ui->doubleSpinBox_desiredValue->setMinimum(variable->getMinValue());
-    this->ui->doubleSpinBox_desiredValue->setValue(variable->getDefaultValue());
+    this->ui->label_displayName->setText(QString::fromStdString(variable.getDisplayName()));
+    this->ui->doubleSpinBox_desiredValue->setMaximum(variable.getMaxValue());
+    this->ui->doubleSpinBox_desiredValue->setMinimum(variable.getMinValue());
+    this->ui->doubleSpinBox_desiredValue->setValue(variable.getDefaultValue());
 }
 
 void WidgetProfileVariableDisplay::on_doubleSpinBox_desiredValue_editingFinished()

@@ -6,6 +6,8 @@ galilMotionController::galilMotionController()
     std::vector<MotorAxis> availableAxis;
     availableAxis.push_back(MotorAxis::Z);
 
+    commsMarshaler = new commsMarshaler();
+
     stateInterface = new GalilStateInterface(availableAxis);
     stateMachine = new hsm::StateMachine();
     stateMachine->Initialize<ECM::Galil::State_Idle>(stateInterface);
@@ -15,7 +17,7 @@ galilMotionController::galilMotionController()
 
     galilPolling = new GalilPollState();
     galilPolling->connectCallback(this);
-    galilPolling->beginPolling();
+    //galilPolling->beginPolling();
 
     //if we begin issuing text commands we have to shut down the state machine
 
@@ -70,22 +72,24 @@ bool galilMotionController::loadSettings(const std::string &filePath)
 
 void galilMotionController::openConnection(const std::string &address)
 {
-    GReturn rtnCode = GOpen(address.c_str(),&galil);
-    if(rtnCode == G_NO_ERROR) //this means the port was opened successfully
-    {
+    commsMarshaler->ConnectToLink(address);
+
+//    GReturn rtnCode = GOpen(address.c_str(),&galil);
+//    if(rtnCode == G_NO_ERROR) //this means the port was opened successfully
+//    {
 //        stateMachine = new hsm::StateMachine();
 //        stateMachine->Initialize<ECM::Galil::State_Idle>(stateInterface);
 
-        galilPolling = new GalilPollState();
-        galilPolling->connectCallback(this);
-        galilPolling->beginPolling();
+//        galilPolling = new GalilPollState();
+//        galilPolling->connectCallback(this);
+//        galilPolling->beginPolling();
 
-        galilPolling = new GalilPollState();
-        emit commsStatus(true);
-    }
-    else{
+//        galilPolling = new GalilPollState();
+//        emit commsStatus(true);
+//    }
+//    else{
         //there was an error opening the comm port so what should we do
-    }
+//    }
 }
 
 void galilMotionController::closeConnection()
@@ -149,6 +153,8 @@ bool galilMotionController::saveProgram(const std::string &text)
 
 void galilMotionController::executeCommand(const AbstractCommand *command)
 {
+    this->m_
+    /*
     std::string commandString = command->getCommandString();
     std::cout<<"The command string seen here is: "<<commandString<<std::endl;
     GBufOut returnOut;
@@ -165,6 +171,7 @@ void galilMotionController::executeCommand(const AbstractCommand *command)
         //we need to begin the command in these cases
         //GCommand(mConnection,"BG A",returnOut,sizeof(returnOut),&read_bytes);
     }
+    */
 }
 
 void galilMotionController::executeStringCommand(const std::string &stringCommand)

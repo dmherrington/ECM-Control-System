@@ -17,8 +17,12 @@
 #include "requests/request_components.h"
 #include "states/state_components.h"
 
+#include "communications/comms_marshaler.h"
+
 #include "galil_parse_greturn.h"
+
 #include "settings/galil_settings.h"
+#include "settings/settings_generic_profile.h"
 
 #include "galil_poll_status.h"
 #include "galil_state_interface.h"
@@ -90,6 +94,10 @@ private:
 
 private:
     GCon galil; /**< Member variable containing a pointer to the Galil interface */
+
+    Comms::CommsMarshaler* commsMarshaler; /**< Member variable handling the communications with the
+actual Galil unit. This parent class will be subscribing to published events from the marshaller. This
+should drive the event driven structure required to exceite the state machine.*/
 
     GalilStateInterface* stateInterface; /**< Member variable containing the current state
 information, settings, and callback information for the states within the HSM.*/
