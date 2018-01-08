@@ -42,7 +42,6 @@ public:
     //////////////////////////////////////////////////////////////
     /// Methods issuing Galil commands, requests, programs
     //////////////////////////////////////////////////////////////
-
     template <typename T>
     void sendGalilCommand(const T& command);
 
@@ -72,6 +71,10 @@ private:
     void ConnectionClosed() const override;
 
     void StatusReceived(const StatusGeneric &status) const override;
+
+    void BadRequestResponse(const StatusGeneric &status) const override;
+
+    void BadCommandResponse(const StatusGeneric &status) const override;
 
     //////////////////////////////////////////////////////////////
     /// IProtocolGalilEvents

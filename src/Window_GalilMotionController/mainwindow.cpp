@@ -180,18 +180,16 @@ void MainWindow::on_pushButton_CMDSend_clicked()
 
 void MainWindow::on_pushButton_MotorEnable_clicked()
 {
-    CommandMotorEnable* command = new CommandMotorEnable();
-    command->setEnableAxis(MotorAxis::Z);
-    m_Galil->executeCommand(command);
-    delete command;
+    CommandMotorEnable command;
+    command.setEnableAxis(MotorAxis::Z);
+    m_Galil->executeCommand(&command);
 }
 
 void MainWindow::on_pushButton_MotorDisable_clicked()
 {
-    CommandMotorDisable* command = new CommandMotorDisable();
-    command->setDisableAxis(MotorAxis::Z);
-    m_Galil->executeCommand(command);
-    delete command;
+    CommandMotorDisable command;
+    command.setDisableAxis(MotorAxis::Z);
+    m_Galil->executeCommand(&command);
 }
 
 void MainWindow::on_pushButton_RunProfile_clicked()

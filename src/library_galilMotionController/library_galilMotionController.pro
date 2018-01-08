@@ -70,7 +70,8 @@ SOURCES += \
     communications/comms_marshaler.cpp \
     communications/galil_link.cpp \
     communications/protocol_galil.cpp \
-    status/status_generic.cpp
+    status/status_generic.cpp \
+    commands/command_upload_program.cpp
 
 HEADERS += \
         axis_definitions.h \
@@ -137,7 +138,8 @@ HEADERS += \
         communications/i_protocol.h \
         communications/i_protocol_galil_events.h \
         communications/protocol_galil.h \
-    status/status_generic.h
+    status/status_generic.h \
+    commands/command_upload_program.h
 
 
 # Unix lib Install

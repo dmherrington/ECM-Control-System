@@ -27,5 +27,5 @@ char* AbstractRequest::getBuffer() const
 void AbstractRequest::increaseBufferSize(char* chrArray)
 {
     bufferSize+=bufferSize;
-    this->getBuffer(chrArray);
+    chrArray = this->getBuffer();
 }

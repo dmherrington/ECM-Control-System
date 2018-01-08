@@ -29,6 +29,8 @@ public:
 
 public:
 
+    GReturn UploadProgram(const std::string &programText) const override;
+
     GReturn WriteRequest(AbstractRequest* request) const override;
 
     GReturn WriteCommand(AbstractCommand *command) const override;

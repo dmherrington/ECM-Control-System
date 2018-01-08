@@ -28,6 +28,11 @@ public:
     //////////////////////////////////////////////////////////////
     /// Methods issuing an explicit galil command
     //////////////////////////////////////////////////////////////
+    void UploadNewProgram(const ILink* link, const std::string &programString);
+
+    //////////////////////////////////////////////////////////////
+    /// Methods issuing an explicit galil command
+    //////////////////////////////////////////////////////////////
 
     void SendProtocolCommand(const ILink* link, CommandAbsoluteMove &command);
     void SendProtocolCommand(const ILink* link, CommandClearBit &command);

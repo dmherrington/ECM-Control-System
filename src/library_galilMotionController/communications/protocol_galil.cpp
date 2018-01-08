@@ -17,15 +17,15 @@ void GalilProtocol::AddListner(const IProtocolGalilEvents* listener)
     m_Listners.push_back(listener);
 }
 
+void GalilProtocol::UploadNewProgram(const ILink *link, const std::string &programString)
+{
+    std::cout<<"I am trying to upload a new program"<<std::endl;
+    GReturn rtn = link->UploadProgram(programString);
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Methods issuing an explicit galil command
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void GalilProtocol::SendProtocolCommand(const ILink *link, CommandMotorEnable &command)
-{
-    std::cout<<"I am trying to send a protocol command"<<CommandToString(command.getCommandType())<<std::endl;
-    link->WriteCommand(&command);
-}
 
 void GalilProtocol::SendProtocolCommand(const ILink* link, CommandAbsoluteMove &command)
 {
@@ -112,8 +112,8 @@ void GalilProtocol::SendProtocolRequest(const ILink *link, RequestListLabels &re
 }
 void GalilProtocol::SendProtocolRequest(const ILink *link, RequestListVariables &request)
 {
-    std::cout<<"I am trying to send a protocol request of type: "<<RequestToString(request.getRequestType())<<std::endl;
-    link->WriteRequest(&request);
+//    std::cout<<"I am trying to send a protocol request of type: "<<RequestToString(request.getRequestType())<<std::endl;
+//    link->WriteRequest(&request);
 }
 void GalilProtocol::SendProtocolRequest(const ILink *link, RequestStopCode &request)
 {

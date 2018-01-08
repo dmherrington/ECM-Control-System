@@ -15,6 +15,8 @@
 #include "requests/request_components.h"
 #include "status/status_components.h"
 
+#include "communications/comms_marshaler.h"
+
 
 class GalilStateInterface
 {
@@ -30,9 +32,9 @@ public:
 public:
     void transmitMessage(const std::string &msg);
 
-    void transmitMessage(const AbstractCommand* cmd);
+    void transmitCommand(const AbstractCommand* cmd);
 
-    void transmitMessage(const AbstractRequest* req);
+    void transmitRequest(const AbstractRequest* req);
 
 public:
     void updatePosition(const std::vector<Status_Position> &data);
@@ -49,7 +51,14 @@ private:
     bool connected = false;
     bool latched = false;
 
+
+public:
+    Comms::CommsMarshaler* commsMarshaler; /**< Member variable handling the communications with the
+actual Galil unit. This parent class will be subscribing to published events from the marshaller. This
+should drive the event driven structure required to exceite the state machine.*/
+
 private:
+
     StatusInputs* statusInputs; /**< Member variable containing the current state
 inputs of the Galil Unit. Only specific inputs are relevant within the request. Relevant
 inputs are established through the settings file.*/

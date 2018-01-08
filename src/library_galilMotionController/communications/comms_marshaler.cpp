@@ -71,7 +71,10 @@ void CommsMarshaler::sendGalilRequest(const T &request)
 
 void CommsMarshaler::uploadProgram(const std::string &programString) const
 {
-
+    auto func = [this, &programString] () {
+        protocol->UploadNewProgram(link.get(), programString);
+    };
+    link->MarshalOnThread(func);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -91,11 +94,11 @@ void CommsMarshaler::SendGalilMessage(const T& message)
     ///////////////////
     /// Define function that sends the given message
     ///////////////////
-    auto func = [this, message]() {
-            protocol->SendProtocolMessage(link.get(), message);
-    };
+//    auto func = [this, message]() {
+//            protocol->SendProtocolMessage(link.get(), message);
+//    };
 
-    link->MarshalOnThread(func);
+//    link->MarshalOnThread(func);
 }
 
 
@@ -114,6 +117,21 @@ void CommsMarshaler::ConnectionOpened() const
 void CommsMarshaler::ConnectionClosed() const
 {
     Emit([&](const CommsEvents *ptr){ptr->LinkDisconnected();});
+}
+
+void CommsMarshaler::StatusReceived(const StatusGeneric &status) const
+{
+
+}
+
+void CommsMarshaler::BadRequestResponse(const StatusGeneric &status) const
+{
+
+}
+
+void CommsMarshaler::BadCommandResponse(const StatusGeneric &status) const
+{
+
 }
 
 //////////////////////////////////////////////////////////////

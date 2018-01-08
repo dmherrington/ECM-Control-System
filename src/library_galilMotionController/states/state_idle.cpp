@@ -32,7 +32,7 @@ hsm::Transition State_Idle::GetTransition()
         switch (desiredState) {
         case ECMState::STATE_READY:
         {
-            rtn = hsm::SiblingTransition<State_Ready>();
+            rtn = hsm::SiblingTransition<State_Ready>(this->currentCommand);
             break;
         }
         case ECMState::STATE_ESTOP:
@@ -70,7 +70,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to the Ready State
         desiredState = ECMState::STATE_READY;
-        this->currentCommand = command;
+        this->currentCommand = command->getClone();
         break;
     }
     case CommandType::ABSOLUTE_MOVE:

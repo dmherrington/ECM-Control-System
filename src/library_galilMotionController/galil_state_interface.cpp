@@ -9,6 +9,9 @@ GalilStateInterface::GalilStateInterface(const std::vector<MotorAxis> &available
     {
         mStatus[availableAxis[i]] = new GalilStatus(availableAxis[i]);
     }
+
+    commsMarshaler = new Comms::CommsMarshaler();
+
 }
 
 GalilStateInterface::~GalilStateInterface()
@@ -47,14 +50,14 @@ void GalilStateInterface::updatePosition(const std::vector<Status_Position> &dat
     }
 }
 
-void GalilStateInterface::transmitMessage(const AbstractRequest *req)
+void GalilStateInterface::transmitRequest(const AbstractRequest *req)
 {
 
 }
 
-void GalilStateInterface::transmitMessage(const AbstractCommand *cmd)
+void GalilStateInterface::transmitCommand(const AbstractCommand *cmd)
 {
-
+    commsMarshaler->sendGalilCommand(cmd);
 }
 
 void GalilStateInterface::transmitMessage(const std::string &msg)

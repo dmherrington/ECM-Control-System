@@ -119,7 +119,11 @@ void State_Ready::handleCommand(const AbstractCommand* command)
         if(!Owner().getAxisStatus(MotorAxis::Z)->isMotorRunning())
         {
             //If the motor is not currently armed, issue the command to arm it
-            CommandMotorEnable cmd;
+            const CommandMotorEnable* castCommand = command->as<CommandMotorEnable>();
+            Owner().commsMarshaler->sendGalilCommand<CommandMotorEnable>(*castCommand);
+            //Since we have used the command we should now delete it
+            delete command;
+            command = nullptr;
         }
         break;
     }
@@ -165,6 +169,7 @@ void State_Ready::OnEnter(const AbstractCommand* command)
     if(command != nullptr)
     {
         //The command isnt null so we should handle it
+        this->handleCommand(command);
     }
     else{
         //There was no actual command, therefore, there is nothing else to do at this point

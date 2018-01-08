@@ -6,8 +6,6 @@ galilMotionController::galilMotionController()
     std::vector<MotorAxis> availableAxis;
     availableAxis.push_back(MotorAxis::Z);
 
-    commsMarshaler = new Comms::CommsMarshaler();
-
     stateInterface = new GalilStateInterface(availableAxis);
     stateMachine = new hsm::StateMachine();
     stateMachine->Initialize<ECM::Galil::State_Idle>(stateInterface);
@@ -38,13 +36,6 @@ galilMotionController::galilMotionController()
 
 galilMotionController::~galilMotionController()
 {
-    if(commsMarshaler)
-    {
-        commsMarshaler->DisconnetLink();
-        delete commsMarshaler;
-        commsMarshaler = nullptr;
-    }
-
     if(stateMachine)
     {
         delete stateMachine;
@@ -68,7 +59,7 @@ galilMotionController::~galilMotionController()
 
 void galilMotionController::openConnection(const std::string &address)
 {
-    commsMarshaler->ConnectToLink(address);
+
 }
 
 void galilMotionController::closeConnection()
@@ -141,6 +132,11 @@ bool galilMotionController::saveProgram(const std::string &text)
 
 void galilMotionController::executeCommand(const AbstractCommand *command)
 {
+//    ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
+//    currentState->handleCommand(command);
+//    stateMachine->ProcessStateTransitions();
+//    const CommandMotorEnable* cmdCast = command->as<CommandMotorEnable>();
+//    stateInterface->commsMarshaler->sendGalilCommand<CommandMotorEnable>(*cmdCast);
     /*
     std::string commandString = command->getCommandString();
     std::cout<<"The command string seen here is: "<<commandString<<std::endl;
@@ -226,8 +222,8 @@ bool galilMotionController::loadProgram(const std::string &filePath, std::string
 
 void galilMotionController::uploadProgram(const std::string &programText)
 {
-    GBufOut returnOut;
-    GSize read_bytes = 0; //bytes read in GCommand
+    ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
+    //currentState->handleCommand();
 
     //1) Stop the motion of the machine
     CommandStop stop;

@@ -75,10 +75,11 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    void operator = (const CommandMotorEnable &rhs)
+    CommandMotorEnable& operator = (const CommandMotorEnable &rhs)
     {
         AbstractCommand::operator =(rhs);
         this->enableAxis = rhs.enableAxis;
+        return *this;
     }
 
     //!

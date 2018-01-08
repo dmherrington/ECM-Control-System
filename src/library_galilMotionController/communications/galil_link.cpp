@@ -94,6 +94,11 @@ bool GalilLink::isConnected() const
     return this->connected;
 }
 
+GReturn GalilLink::UploadProgram(const std::string &programText) const
+{
+    GReturn rtn = GProgramDownload(galil,programText.c_str(),0);
+    return rtn;
+}
 
 GReturn GalilLink::WriteTellErrorCode(char *errorDescription) const
 {
