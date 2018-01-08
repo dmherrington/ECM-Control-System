@@ -31,12 +31,12 @@ hsm::Transition State_MotionStop::GetTransition()
         switch (desiredState) {
         case ECMState::STATE_READY:
         {
-            rtn = hsm::SiblingTransition<State_Ready>();
+            rtn = hsm::SiblingTransition<State_Ready>(this->currentCommand);
             break;
         }
         case ECMState::STATE_ESTOP:
         {
-            rtn = hsm::SiblingTransition<State_EStop>();
+            rtn = hsm::SiblingTransition<State_EStop>(this->currentCommand);
         }
         default:
             std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
@@ -62,6 +62,7 @@ void State_MotionStop::handleCommand(const AbstractCommand* command)
 void State_MotionStop::Update()
 {
     //Check the status of the estop state
+    //estop will always take precidence and cause the state machine to progress into that state
     bool eStopState = this->checkEStop();
     if(eStopState == true)
     {
@@ -69,15 +70,18 @@ void State_MotionStop::Update()
         //we should therefore transition to the idle state
         desiredState = ECMState::STATE_ESTOP;
     }
+    else if(!Owner().isMotorInMotion()) //the exit condition for this state is that the machine motion has stopped on all axis
+    {
+        desiredState = ECMState::STATE_READY;
+    }
+
 }
 
 void State_MotionStop::OnEnter()
 {
     //The first thing we should do when entering this state is to stop motion of the motor
-    CommandStop cmd;
-    Owner().transmitMessage(cmd.getCommandString());
-    //Setup the state we should transition to
-    this->desiredState = ECMState::STATE_READY;
+    CommandStopPtr castCommand = std::make_shared<CommandStop>(); //the axis is defaulted to Z with no args
+    Owner().commsMarshaler->sendAbstractGalilCommand(castCommand);
 }
 
 void State_MotionStop::OnEnter(const AbstractCommand* command)

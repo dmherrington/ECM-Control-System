@@ -55,23 +55,26 @@ void State_ManualPositioning::handleCommand(const AbstractCommand* command)
     switch (currentCommand) {
     case CommandType::ABSOLUTE_MOVE:
     {
-        CommandAbsoluteMove cmd;
+
         break;
     }
     case CommandType::RELATIVE_MOVE:
     {
-        CommandRelativeMove cmd;
+
         break;
     }
     case CommandType::STOP:
     {
-        //CommandStop* cmd = command->as<CommandStop>();
-        this->currentCommand = command;
         this->desiredState = ECMState::STATE_MOTION_STOP;
         break;
     }
+    case CommandType::ESTOP:
+    {
+        this->desiredState = ECMState::STATE_ESTOP;
+        break;
+    }
     default:
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        std::cout<<"Thie command type of: "<<CommandToString(command->getCommandType())<<" has no explicit support from the idle state."<<std::endl;
         break;
     }
 }

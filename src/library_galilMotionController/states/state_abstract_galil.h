@@ -19,7 +19,11 @@ namespace Galil {
 class AbstractStateGalil : public hsm::StateWithOwner<GalilStateInterface>
 {
 public:
-    AbstractStateGalil() = default;
+    AbstractStateGalil():
+        currentCommand(nullptr)
+    {
+
+    }
 
     AbstractStateGalil(const GalilSettings &settings);
 

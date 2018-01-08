@@ -4,6 +4,8 @@
 #include <map>
 #include <math.h>
 
+#include "common/class_forward.h"
+
 #include "abstract_move_command.h"
 
 /**
@@ -20,6 +22,8 @@
 \*
 \*
 \*/
+
+ECM_CLASS_FORWARD(CommandJog);
 
 class CommandJog : public AbstractMoveCommand
 {

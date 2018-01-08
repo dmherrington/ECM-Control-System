@@ -57,12 +57,12 @@ hsm::Transition State_Ready::GetTransition()
         }
         case ECMState::STATE_ESTOP:
         {
-            rtn = hsm::SiblingTransition<State_EStop>(currentCommand);
+            rtn = hsm::SiblingTransition<State_EStop>();
             break;
         }
         case ECMState::STATE_READY_STOP:
         {
-            rtn = hsm::SiblingTransition<State_ReadyStop>(currentCommand);
+            rtn = hsm::SiblingTransition<State_ReadyStop>();
             break;
         }
         default:
@@ -83,7 +83,7 @@ void State_Ready::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to the Ready State
         desiredState = ECMState::STATE_MANUAL_POSITIONING;
-        this->currentCommand = command;
+        this->currentCommand = command->getClone();
         break;
     }
     case CommandType::RELATIVE_MOVE:
@@ -91,7 +91,7 @@ void State_Ready::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to the Ready State
         desiredState = ECMState::STATE_MANUAL_POSITIONING;
-        this->currentCommand = command;
+        this->currentCommand = command->getClone();
         break;
     }
     case CommandType::JOG_MOVE:
@@ -99,7 +99,8 @@ void State_Ready::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to the Ready State
         desiredState = ECMState::STATE_JOGGING;
-        this->currentCommand = command;
+        this->currentCommand = command->getClone();
+
         break;
     }
     case CommandType::EXECUTE_PROGRAM:
@@ -107,7 +108,7 @@ void State_Ready::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to the Ready State
         desiredState = ECMState::STATE_SCRIPT_EXECUTION;
-        this->currentCommand = command;
+        this->currentCommand = command->getClone();
         break;
     }
     case CommandType::MOTOR_OFF:
@@ -156,11 +157,12 @@ void State_Ready::OnEnter()
     //The first thing we should do when entering this state is to engage the motor
     //Let us check to see if the motor is already armed, if not, follow through with the command
 
-//    CommandMotorEnable cmd;
-//    cmd.setEnableAxis(MotorAxis::Z);
-//    GalilStatus* status = Owner().getAxisStatus(MotorAxis::Z);
-//    if(!status->isMotorRunning())
-//        Owner().transmitMessage(cmd.getCommandString());
+    if(!Owner().getAxisStatus(MotorAxis::Z)->isMotorRunning())
+    {
+        CommandMotorEnablePtr command = std::make_shared<CommandMotorEnable>();
+        command->setEnableAxis(MotorAxis::Z);
+        Owner().commsMarshaler->sendAbstractGalilCommand(command);
+    }
 }
 
 void State_Ready::OnEnter(const AbstractCommand* command)

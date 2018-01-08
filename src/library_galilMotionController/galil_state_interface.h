@@ -36,6 +36,10 @@ public:
 
     void transmitRequest(const AbstractRequest* req);
 
+    bool isMotorInMotion() const;
+    bool isMotorArmed() const;
+
+
 public:
     void updatePosition(const std::vector<Status_Position> &data);
 

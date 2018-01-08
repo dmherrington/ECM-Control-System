@@ -78,7 +78,22 @@ void State_EStop::Update()
 
 void State_EStop::OnEnter()
 {
+    //First check to see if the motor is already disarmed, and if not, disarm it
+    if(Owner().getAxisStatus(MotorAxis::Z)->isMotorRunning())
+    {
+        //If the motor is not currently armed, issue the command to arm it
+        CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();
+        Owner().commsMarshaler->sendAbstractGalilCommand(command);
+    }
+    else{
+        //since the motor was already disarmed this implies that we can safely transition to idle state
+        this->desiredState = ECMState::STATE_IDLE;
+    }
 
+    //Lastly, send a command to make sure the airbrake has been engaged
+    CommandSetBitPtr command = std::make_shared<CommandSetBit>();
+    command->appendAddress(2); //Ken: be careful in the event that this changes. This should be handled by settings or something
+    Owner().commsMarshaler->sendAbstractGalilCommand(command);
 }
 
 void State_EStop::OnEnter(const AbstractCommand *command){

@@ -56,6 +56,8 @@ void State_Jogging::handleCommand(const AbstractCommand* command)
     case CommandType::JOG_MOVE:
     {
         //This is the command that brought us into this state
+        CommandJogPtr castCommand = std::make_shared<CommandJog>(*command->as<CommandJog>());
+        Owner().commsMarshaler->sendAbstractGalilCommand(castCommand);
         break;
     }
     case CommandType::STOP:
@@ -63,11 +65,14 @@ void State_Jogging::handleCommand(const AbstractCommand* command)
         this->desiredState = ECMState::STATE_MOTION_STOP;
         break;
     }
-    default:
+    case CommandType::ESTOP:
     {
-        //For some reason we got a command in here that wasn't the only two that are conceptually supported.
-        //We will therefore ignore it for the time being.
+        this->desiredState = ECMState::STATE_ESTOP;
+        break;
     }
+    default:
+        std::cout<<"Thie command type of: "<<CommandToString(command->getCommandType())<<" has no explicit support from the idle state."<<std::endl;
+        break;
     }
 }
 
@@ -90,12 +95,13 @@ void State_Jogging::OnEnter()
     this->desiredState = ECMState::STATE_READY;
 }
 
-void State_Jogging::OnEnter(const AbstractCommand *command){
-
+void State_Jogging::OnEnter(const AbstractCommand *command)
+{
     if(command != nullptr)
     {
         //There are no specific things to have performed in this state as we should only
         //have arrived here from a ready state. We will go right to handling the command.
+        this->handleCommand(command);
     }
     else{
         this->OnEnter();

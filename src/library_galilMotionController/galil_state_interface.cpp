@@ -54,6 +54,25 @@ void GalilStateInterface::transmitRequest(const AbstractRequest *req)
 {
 
 }
+bool GalilStateInterface::isMotorInMotion() const
+{
+    bool isInMotion = false;
+
+    std::map<MotorAxis,GalilStatus*>::const_iterator it;
+
+    for (it=mStatus.begin(); it!=mStatus.end(); ++it)
+    {
+        GalilStatus* axisStatus = it->second;
+        if(axisStatus->isAxisinMotion())
+        {
+            isInMotion = true;
+            break;
+        }
+    }
+
+    return isInMotion;
+}
+
 
 void GalilStateInterface::transmitCommand(const AbstractCommand *cmd)
 {
