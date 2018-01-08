@@ -57,7 +57,7 @@ void GalilStateInterface::transmitRequest(const AbstractRequest *req)
 
 void GalilStateInterface::transmitCommand(const AbstractCommand *cmd)
 {
-    commsMarshaler->sendGalilCommand(cmd);
+    //commsMarshaler->sendGalilCommand(cmd);
 }
 
 void GalilStateInterface::transmitMessage(const std::string &msg)

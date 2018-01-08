@@ -49,9 +49,8 @@ void CommsMarshaler::sendGalilCommand(const T &command)
 {
     std::cout<<"Lets send a galil command"<<std::endl;
 
-    T newCommand = command;
-    auto func = [this, &newCommand]() {
-            protocol->SendProtocolCommand(link.get(), newCommand);
+    auto func = [this, command]() {
+            protocol->SendProtocolCommand(link.get(), command);
     };
 
     link->MarshalOnThread(func);

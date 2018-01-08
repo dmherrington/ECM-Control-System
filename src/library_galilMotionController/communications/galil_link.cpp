@@ -108,7 +108,7 @@ GReturn GalilLink::WriteTellErrorCode(char *errorDescription) const
     return rtn;
 }
 
-GReturn GalilLink::WriteCommand(AbstractCommand *command) const
+GReturn GalilLink::WriteCommand(const AbstractCommand *command) const
 {
     std::cout<<"We are trying to write a command here: "<<CommandToString(command->getCommandType())<<std::endl;
 

@@ -33,7 +33,7 @@ public:
 
     GReturn WriteRequest(AbstractRequest* request) const override;
 
-    GReturn WriteCommand(AbstractCommand *command) const override;
+    GReturn WriteCommand(const AbstractCommand *command) const override;
 
     GReturn WriteTellErrorCode(char* errorDescription) const override;
 

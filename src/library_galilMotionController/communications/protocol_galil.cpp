@@ -27,52 +27,52 @@ void GalilProtocol::UploadNewProgram(const ILink *link, const std::string &progr
 /// Methods issuing an explicit galil command
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GalilProtocol::SendProtocolCommand(const ILink* link, CommandAbsoluteMove &command)
+void GalilProtocol::SendProtocolCommand(const ILink* link, const CommandAbsoluteMove &command)
 {
     std::cout<<"I am trying to send a protocol command"<<CommandToString(command.getCommandType())<<std::endl;
     link->WriteCommand(&command);
 }
-void GalilProtocol::SendProtocolCommand(const ILink* link, CommandClearBit &command)
+void GalilProtocol::SendProtocolCommand(const ILink* link, const CommandClearBit &command)
 {
     std::cout<<"I am trying to send a protocol command"<<CommandToString(command.getCommandType())<<std::endl;
     link->WriteCommand(&command);
 }
-void GalilProtocol::SendProtocolCommand(const ILink* link, CommandEStop &command)
+void GalilProtocol::SendProtocolCommand(const ILink* link, const CommandEStop &command)
 {
     std::cout<<"I am trying to send a protocol command"<<CommandToString(command.getCommandType())<<std::endl;
     link->WriteCommand(&command);
 }
-void GalilProtocol::SendProtocolCommand(const ILink* link, CommandExecuteProgram &command)
+void GalilProtocol::SendProtocolCommand(const ILink* link, const CommandExecuteProgram &command)
 {
     std::cout<<"I am trying to send a protocol command"<<CommandToString(command.getCommandType())<<std::endl;
     link->WriteCommand(&command);
 }
-void GalilProtocol::SendProtocolCommand(const ILink* link, CommandJog &command)
+void GalilProtocol::SendProtocolCommand(const ILink* link, const CommandJog &command)
 {
     std::cout<<"I am trying to send a protocol command"<<CommandToString(command.getCommandType())<<std::endl;
     link->WriteCommand(&command);
 }
-void GalilProtocol::SendProtocolCommand(const ILink* link, CommandMotorDisable &command)
+void GalilProtocol::SendProtocolCommand(const ILink* link, const CommandMotorDisable &command)
 {
     std::cout<<"I am trying to send a protocol command"<<CommandToString(command.getCommandType())<<std::endl;
     link->WriteCommand(&command);
 }
-void GalilProtocol::SendProtocolCommand(const ILink* link, CommandMotorEnable &command)
+void GalilProtocol::SendProtocolCommand(const ILink* link, const CommandMotorEnable &command)
 {
     std::cout<<"I am trying to send a protocol command"<<CommandToString(command.getCommandType())<<std::endl;
     link->WriteCommand(&command);
 }
-void GalilProtocol::SendProtocolCommand(const ILink* link, CommandRelativeMove &command)
+void GalilProtocol::SendProtocolCommand(const ILink* link, const CommandRelativeMove &command)
 {
     std::cout<<"I am trying to send a protocol command"<<CommandToString(command.getCommandType())<<std::endl;
     link->WriteCommand(&command);
 }
-void GalilProtocol::SendProtocolCommand(const ILink* link, CommandSetBit &command)
+void GalilProtocol::SendProtocolCommand(const ILink* link, const CommandSetBit &command)
 {
     std::cout<<"I am trying to send a protocol command"<<CommandToString(command.getCommandType())<<std::endl;
     link->WriteCommand(&command);
 }
-void GalilProtocol::SendProtocolCommand(const ILink* link, CommandStop &command)
+void GalilProtocol::SendProtocolCommand(const ILink* link, const CommandStop &command)
 {
     std::cout<<"I am trying to send a protocol command"<<CommandToString(command.getCommandType())<<std::endl;
     link->WriteCommand(&command);

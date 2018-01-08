@@ -59,7 +59,7 @@ public:
 
     virtual GReturn WriteRequest(AbstractRequest* request) const = 0;
 
-    virtual GReturn WriteCommand(AbstractCommand* command) const = 0;
+    virtual GReturn WriteCommand(const AbstractCommand* command) const = 0;
 
     virtual GReturn WriteTellErrorCode(char* errorDescription) const = 0;
 

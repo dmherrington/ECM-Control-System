@@ -34,16 +34,16 @@ public:
     /// Methods issuing an explicit galil command
     //////////////////////////////////////////////////////////////
 
-    void SendProtocolCommand(const ILink* link, CommandAbsoluteMove &command);
-    void SendProtocolCommand(const ILink* link, CommandClearBit &command);
-    void SendProtocolCommand(const ILink* link, CommandEStop &command);
-    void SendProtocolCommand(const ILink* link, CommandExecuteProgram &command);
-    void SendProtocolCommand(const ILink* link, CommandJog &command);
-    void SendProtocolCommand(const ILink* link, CommandMotorDisable &command);
-    void SendProtocolCommand(const ILink* link, CommandMotorEnable &command);
-    void SendProtocolCommand(const ILink* link, CommandRelativeMove &command);
-    void SendProtocolCommand(const ILink* link, CommandSetBit &command);
-    void SendProtocolCommand(const ILink* link, CommandStop &command);
+    void SendProtocolCommand(const ILink* link, const CommandAbsoluteMove &command);
+    void SendProtocolCommand(const ILink* link, const CommandClearBit &command);
+    void SendProtocolCommand(const ILink* link, const CommandEStop &command);
+    void SendProtocolCommand(const ILink* link, const CommandExecuteProgram &command);
+    void SendProtocolCommand(const ILink* link, const CommandJog &command);
+    void SendProtocolCommand(const ILink* link, const CommandMotorDisable &command);
+    void SendProtocolCommand(const ILink* link, const CommandMotorEnable &command);
+    void SendProtocolCommand(const ILink* link, const CommandRelativeMove &command);
+    void SendProtocolCommand(const ILink* link, const CommandSetBit &command);
+    void SendProtocolCommand(const ILink* link, const CommandStop &command);
 private:
     void handleCommandResponse(const ILink* link, const AbstractCommand* command, const GReturn &response);
     void handleBadCommandResponse(const ILink* link, const CommandType &type) const;

@@ -129,6 +129,8 @@ void *galilMotionController::qt_metacast(const char *_clname)
         return static_cast<void*>(this);
     if (!strcmp(_clname, "GalilStatusUpdate_Interface"))
         return static_cast< GalilStatusUpdate_Interface*>(this);
+    if (!strcmp(_clname, "Comms::CommsEvents"))
+        return static_cast< Comms::CommsEvents*>(this);
     return QObject::qt_metacast(_clname);
 }
 
