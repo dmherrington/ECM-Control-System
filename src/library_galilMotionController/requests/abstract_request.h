@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "common/class_forward.h"
+
 #include "gclib.h"
 
 #include "requests/request_types.h"
@@ -24,6 +26,8 @@
 \*
 \*
 \*/
+
+ECM_CLASS_FORWARD(AbstractRequest);
 
 class AbstractRequest
 {

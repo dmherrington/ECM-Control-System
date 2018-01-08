@@ -20,11 +20,11 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 //    CommsGalil* comms = new CommsGalil();
-    CommandMotorEnable cmd;
-    cmd.setEnableAxis(MotorAxis::X);
+    CommandMotorEnablePtr cmd = std::make_shared<CommandMotorEnable>();
+    cmd->setEnableAxis(MotorAxis::X);
 
     Comms::CommsMarshaler* newMarshaller = new Comms::CommsMarshaler();
-    newMarshaller->sendGalilCommand<CommandMotorEnable>(cmd);
+    newMarshaller->sendAbstractGalilCommand(cmd);
 
     std::cout<<"This is a test"<<std::endl;
 //    galilMotionController galil;

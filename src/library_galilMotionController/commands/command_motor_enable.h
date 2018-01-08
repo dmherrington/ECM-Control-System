@@ -3,6 +3,8 @@
 
 #include <stdexcept>
 
+#include "common/class_forward.h"
+
 #include "abstract_command.h"
 #include "axis_definitions.h"
 
@@ -21,6 +23,7 @@
 \*
 \*/
 
+ECM_CLASS_FORWARD(CommandMotorEnable);
 
 class CommandMotorEnable : public AbstractCommand
 {

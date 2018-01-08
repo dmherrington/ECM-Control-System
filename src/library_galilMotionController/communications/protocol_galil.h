@@ -33,33 +33,20 @@ public:
     //////////////////////////////////////////////////////////////
     /// Methods issuing an explicit galil command
     //////////////////////////////////////////////////////////////
+    void SendProtocolCommand(const ILink *link, const AbstractCommandPtr command);
 
-    void SendProtocolCommand(const ILink* link, const CommandAbsoluteMove &command);
-    void SendProtocolCommand(const ILink* link, const CommandClearBit &command);
-    void SendProtocolCommand(const ILink* link, const CommandEStop &command);
-    void SendProtocolCommand(const ILink* link, const CommandExecuteProgram &command);
-    void SendProtocolCommand(const ILink* link, const CommandJog &command);
-    void SendProtocolCommand(const ILink* link, const CommandMotorDisable &command);
-    void SendProtocolCommand(const ILink* link, const CommandMotorEnable &command);
-    void SendProtocolCommand(const ILink* link, const CommandRelativeMove &command);
-    void SendProtocolCommand(const ILink* link, const CommandSetBit &command);
-    void SendProtocolCommand(const ILink* link, const CommandStop &command);
 private:
-    void handleCommandResponse(const ILink* link, const AbstractCommand* command, const GReturn &response);
+    void handleCommandResponse(const ILink* link, const AbstractCommandPtr command, const GReturn &response);
     void handleBadCommandResponse(const ILink* link, const CommandType &type) const;
 
     //////////////////////////////////////////////////////////////
     /// Methods issuing an explicit galil information request
     //////////////////////////////////////////////////////////////
 public:
-    void SendProtocolRequest(const ILink *link, RequestListLabels &request);
-    void SendProtocolRequest(const ILink *link, RequestListVariables &request);
-    void SendProtocolRequest(const ILink *link, RequestStopCode &request);
-    void SendProtocolRequest(const ILink *link, RequestTellInputs &request);
-    void SendProtocolRequest(const ILink *link, RequestTellSwitches &request);
-    void SendProtocolRequest(const ILink* link, RequestTellPosition &request);
+    void SendProtocolRequest(const ILink *link, const AbstractRequestPtr command);
+
 private:
-    void handleRequestResponse(const ILink* link, const AbstractRequest *request, const GReturn &response);
+    void handleRequestResponse(const ILink* link, const AbstractRequestPtr request, const GReturn &response);
     void handleBadRequestResponse(const ILink* link, const RequestTypes &type) const;
 
     //void SendProtocolMessage(const ILink *link, const double &message);

@@ -44,10 +44,9 @@ bool CommsMarshaler::DisconnetLink()
 /// Methods issuing Galil commands, requests, programs
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-template <typename T>
-void CommsMarshaler::sendGalilCommand(const T &command)
+void CommsMarshaler::sendAbstractGalilCommand(const AbstractCommandPtr command)
 {
-    std::cout<<"Lets send a galil command"<<std::endl;
+    std::cout<<"Lets send an abstract galil command"<<std::endl;
 
     auto func = [this, command]() {
             protocol->SendProtocolCommand(link.get(), command);
@@ -56,13 +55,12 @@ void CommsMarshaler::sendGalilCommand(const T &command)
     link->MarshalOnThread(func);
 }
 
-template <typename T>
-void CommsMarshaler::sendGalilRequest(const T &request)
+void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request)
 {
-    std::cout<<"Lets send a galil request"<<std::endl;
-    T newRequest = request;
-    auto func = [this, &newRequest]() {
-            protocol->SendProtocolRequest(link.get(), newRequest);
+    std::cout<<"Lets send an abstract galil request"<<std::endl;
+
+    auto func = [this, request]() {
+            protocol->SendProtocolRequest(link.get(), request);
     };
 
     link->MarshalOnThread(func);
@@ -155,10 +153,6 @@ void CommsMarshaler::NewPositionReceived(const Status_Position &status) const
 {
 
 }
-
-template void CommsMarshaler::sendGalilCommand<CommandMotorEnable>(const CommandMotorEnable&);
-
-template void CommsMarshaler::sendGalilRequest<RequestTellPosition>(const RequestTellPosition&);
 
 template void CommsMarshaler::SendGalilMessage<double>(const double&);
 

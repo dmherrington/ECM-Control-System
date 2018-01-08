@@ -69,11 +69,9 @@ public:
 
     virtual ECMState getDesiredState() const;
 
-private:
-    void clearCommand();
-
 protected:
     bool checkEStop() const;
+    void clearCommand();
 protected:
     GalilSettings mSettings;
     const AbstractCommand* currentCommand;

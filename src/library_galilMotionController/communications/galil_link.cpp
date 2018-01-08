@@ -108,7 +108,7 @@ GReturn GalilLink::WriteTellErrorCode(char *errorDescription) const
     return rtn;
 }
 
-GReturn GalilLink::WriteCommand(const AbstractCommand *command) const
+GReturn GalilLink::WriteCommand(const AbstractCommandPtr command) const
 {
     std::cout<<"We are trying to write a command here: "<<CommandToString(command->getCommandType())<<std::endl;
 
@@ -117,7 +117,7 @@ GReturn GalilLink::WriteCommand(const AbstractCommand *command) const
     return rtn;
 }
 
-GReturn GalilLink::WriteRequest(AbstractRequest *request) const
+GReturn GalilLink::WriteRequest(const AbstractRequestPtr request) const
 {
     std::cout<<"We are trying to write a request here: "<<RequestToString(request->getRequestType())<<std::endl;
 
@@ -128,30 +128,7 @@ GReturn GalilLink::WriteRequest(AbstractRequest *request) const
 
     GReturn rtn = GCommand(galil,stringRequest.c_str(),buf,sizeof(buf),&read_bytes);
     return rtn;
-
-//    switch (rtn) {
-//    case G_NO_ERROR:
-//    {
-//        StatusGeneric status(request->getRequestType());
-//        status.setReceivedBuffer(buf);
-//        EmitEvent([&status](const ILinkEvents *ptr){ptr->StatusReceived(status);});
-//        break;
-//    }
-//    case G_BAD_LOST_DATA:
-//    {
-//        break;
-//    }
-//    case G_BAD_RESPONSE_QUESTION_MARK:
-//    {
-//        handleBadRequestResponse(request->getRequestType());
-//        break;
-//    }
-//    default:
-//        break;
-//    }
 }
-
-
 
 //void GalilLink::_readBytes(void)
 //{

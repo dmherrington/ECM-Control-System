@@ -31,9 +31,9 @@ public:
 
     GReturn UploadProgram(const std::string &programText) const override;
 
-    GReturn WriteRequest(AbstractRequest* request) const override;
+    GReturn WriteCommand(const AbstractCommandPtr command) const override;
 
-    GReturn WriteCommand(const AbstractCommand *command) const override;
+    GReturn WriteRequest(const AbstractRequestPtr request) const override;
 
     GReturn WriteTellErrorCode(char* errorDescription) const override;
 

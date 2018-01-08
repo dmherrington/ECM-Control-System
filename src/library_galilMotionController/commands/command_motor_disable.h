@@ -2,6 +2,7 @@
 #define COMMAND_MOTOR_DISABLE_H
 
 #include <stdexcept>
+#include "common/class_forward.h"
 
 #include "abstract_command.h"
 #include "axis_definitions.h"
@@ -20,6 +21,8 @@
 \*
 \*
 \*/
+
+ECM_CLASS_FORWARD(CommandMotorDisable);
 
 class CommandMotorDisable : public AbstractCommand
 {
@@ -68,6 +71,43 @@ public:
     //! \return
     //!
     virtual std::string getCommandString() const override;
+
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    CommandMotorDisable& operator = (const CommandMotorDisable &rhs)
+    {
+        AbstractCommand::operator =(rhs);
+        this->disableAxis = rhs.disableAxis;
+        return *this;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const CommandMotorDisable &rhs)
+    {
+        if(!AbstractCommand::operator ==(rhs)){
+            return false;
+        }
+        if(this->disableAxis != rhs.disableAxis){
+            return false;
+        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const CommandMotorDisable &rhs) {
+        return !(*this == rhs);
+    }
 
 private:
     MotorAxis disableAxis = MotorAxis::Z; /**< Value of the axis to be disabled */

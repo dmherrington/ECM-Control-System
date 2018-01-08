@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "common/class_forward.h"
+
 #include "command_types.h"
 
 /**
@@ -19,6 +21,8 @@
 \*
 \*
 \*/
+
+ECM_CLASS_FORWARD(AbstractCommand);
 
 class AbstractCommand
 {

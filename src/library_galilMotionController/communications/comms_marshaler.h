@@ -42,11 +42,9 @@ public:
     //////////////////////////////////////////////////////////////
     /// Methods issuing Galil commands, requests, programs
     //////////////////////////////////////////////////////////////
-    template <typename T>
-    void sendGalilCommand(const T& command);
+    void sendAbstractGalilCommand(const AbstractCommandPtr command);
 
-    template <typename T>
-    void sendGalilRequest(const T& request);
+    void sendAbstractGalilRequest(const AbstractRequestPtr request);
 
     void uploadProgram(const std::string &programString) const;
 

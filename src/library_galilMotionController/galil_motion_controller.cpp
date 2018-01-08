@@ -132,11 +132,9 @@ bool galilMotionController::saveProgram(const std::string &text)
 
 void galilMotionController::executeCommand(const AbstractCommand *command)
 {
-//    ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
-//    currentState->handleCommand(command);
-//    stateMachine->ProcessStateTransitions();
-//    const CommandMotorEnable* cmdCast = command->as<CommandMotorEnable>();
-//    stateInterface->commsMarshaler->sendGalilCommand<CommandMotorEnable>(*cmdCast);
+    ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
+    currentState->handleCommand(command);
+    stateMachine->ProcessStateTransitions();
     /*
     std::string commandString = command->getCommandString();
     std::cout<<"The command string seen here is: "<<commandString<<std::endl;

@@ -60,9 +60,13 @@ hsm::Transition State_Ready::GetTransition()
             rtn = hsm::SiblingTransition<State_EStop>(currentCommand);
             break;
         }
-
+        case ECMState::STATE_READY_STOP:
+        {
+            rtn = hsm::SiblingTransition<State_ReadyStop>(currentCommand);
+            break;
+        }
         default:
-            std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
+            std::cout<<"I dont know how we eneded up in this transition state from state ready."<<std::endl;
             break;
         }
     }
@@ -119,11 +123,8 @@ void State_Ready::handleCommand(const AbstractCommand* command)
         if(!Owner().getAxisStatus(MotorAxis::Z)->isMotorRunning())
         {
             //If the motor is not currently armed, issue the command to arm it
-            const CommandMotorEnable* castCommand = command->as<CommandMotorEnable>();
-            Owner().commsMarshaler->sendGalilCommand<CommandMotorEnable>(*castCommand);
-            //Since we have used the command we should now delete it
-            delete command;
-            command = nullptr;
+            CommandMotorEnablePtr castCommand = std::make_shared<CommandMotorEnable>(*command->as<CommandMotorEnable>());
+            Owner().commsMarshaler->sendAbstractGalilCommand(castCommand);
         }
         break;
     }
@@ -185,4 +186,5 @@ void State_Ready::OnEnter(const AbstractCommand* command)
 #include "states/state_script_execution.h"
 #include "states/state_touchoff.h"
 #include "states/state_estop.h"
+#include "states/state_ready_stop.h"
 

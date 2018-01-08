@@ -57,9 +57,9 @@ public:
 
     virtual GReturn UploadProgram(const std::string &programText) const = 0;
 
-    virtual GReturn WriteRequest(AbstractRequest* request) const = 0;
+    virtual GReturn WriteCommand(const AbstractCommandPtr command) const = 0;
 
-    virtual GReturn WriteCommand(const AbstractCommand* command) const = 0;
+    virtual GReturn WriteRequest(const AbstractRequestPtr request) const = 0;
 
     virtual GReturn WriteTellErrorCode(char* errorDescription) const = 0;
 
