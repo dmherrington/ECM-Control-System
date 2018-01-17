@@ -30,7 +30,10 @@ enum class CommandType{
     MOTOR_ON = 6,
     RELATIVE_MOVE = 7,
     SET_BIT = 8,
-    STOP = 9
+    SET_PGAIN = 9,
+    SET_IGAIN = 10,
+    SET_DGAIN = 11,
+    STOP = 12
 };
 
 //!
@@ -58,6 +61,12 @@ inline std::string CommandToString(const CommandType &type) {
         return "CB";
     case CommandType::EXECUTE_PROGRAM:
         return "XQ";
+    case CommandType::SET_PGAIN:
+        return "KP";
+    case CommandType::SET_IGAIN:
+        return "KI";
+    case CommandType::SET_DGAIN:
+        return "KD";
     default:
         throw std::runtime_error("Unknown command type seen");
     }
@@ -87,6 +96,12 @@ inline CommandType CommandFromString(const std::string &str) {
         return CommandType::CLEAR_BIT;
     if(str == "XQ")
         return CommandType::EXECUTE_PROGRAM;
+    if(str == "KP")
+        return CommandType::SET_PGAIN;
+    if(str == "KI")
+        return CommandType::SET_IGAIN;
+    if(str == "KD")
+        return CommandType::SET_DGAIN;
     throw std::runtime_error("Unknown command type seen");
 }
 

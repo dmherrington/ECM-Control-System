@@ -14,6 +14,8 @@
 #include "commands/command_components.h"
 #include "requests/request_components.h"
 
+#include "programs/program_components.h"
+
 namespace Comms
 {
 
@@ -26,9 +28,10 @@ public:
     void AddListner(const IProtocolGalilEvents* listener);
 
     //////////////////////////////////////////////////////////////
-    /// Methods issuing an explicit galil command
+    /// Methods issuing commands relevant to the galil program
     //////////////////////////////////////////////////////////////
-    void UploadNewProgram(const ILink* link, const std::string &programString);
+    void UploadNewProgram(const ILink* link, const ProgramGeneric &program);
+    void DownloadCurrentProgram(const ILink* link);
 
     //////////////////////////////////////////////////////////////
     /// Methods issuing an explicit galil command
@@ -46,8 +49,9 @@ public:
     void SendProtocolRequest(const ILink *link, const AbstractRequestPtr command);
 
 private:
-    void handleRequestResponse(const ILink* link, const AbstractRequestPtr request, const GReturn &response);
-    void handleBadRequestResponse(const ILink* link, const RequestTypes &type) const;
+    void handleRequestResponse(const ILink* link, const AbstractRequestPtr request, const GReturn &code);
+    void generateNewStatus(const AbstractRequestPtr request, char* &buf);
+    void handleBadRequestResponse(const ILink* link, const AbstractRequestPtr request) const;
 
     //void SendProtocolMessage(const ILink *link, const double &message);
 

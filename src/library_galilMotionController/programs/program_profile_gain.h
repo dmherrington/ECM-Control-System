@@ -35,11 +35,12 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    void operator = (const ProgramProfileGain &rhs)
+    ProgramProfileGain& operator = (const ProgramProfileGain &rhs)
     {
         this->proportional = rhs.proportional;
         this->integral = rhs.integral;
         this->derivative = rhs.derivative;
+        return *this;
     }
 
     //!

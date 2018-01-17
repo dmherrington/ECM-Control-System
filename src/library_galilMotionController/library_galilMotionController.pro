@@ -57,25 +57,22 @@ SOURCES += \
     status/status_position.cpp \
     status/status_stop_code.cpp \
     galil_state_interface.cpp \
-    requests/handle_requests.cpp \
-    programs/program_interface.cpp \
     requests/request_tell_inputs.cpp \
     commands/command_estop.cpp \
     status/status_inputs.cpp \
     settings/settings_pinout.cpp \
-    settings/settings_profile_variable.cpp \
-    settings/settings_profile_gain.cpp \
-    settings/settings_generic_profile.cpp \
     communications/comms_marshaler.cpp \
     communications/galil_link.cpp \
     communications/protocol_galil.cpp \
-    status/status_generic.cpp \
     commands/command_upload_program.cpp \
-    programs/galil_settings.cpp \
     programs/program_generic_profile.cpp \
-    programs/program_interface.cpp \
     programs/program_profile_gain.cpp \
-    programs/program_profile_variable.cpp
+    programs/program_profile_variable.cpp \
+    programs/program_generic.cpp \
+    settings/galil_settings.cpp \
+    programs/galil_current_program.cpp \
+    status/abstract_status.cpp \
+    commands/command_controller_gain.cpp
 
 HEADERS += \
         axis_definitions.h \
@@ -90,6 +87,7 @@ HEADERS += \
         commands/command_absolute_move.h \
         commands/command_clear_bit.h \
         commands/command_components.h \
+        commands/command_controller_gain.h \
         commands/command_estop.h \
         commands/command_execute_program.h \
         commands/command_jog.h \
@@ -99,7 +97,21 @@ HEADERS += \
         commands/command_set_bit.h \
         commands/command_stop.h \
         commands/command_types.h \
-        programs/program_interface.h \
+        commands/command_upload_program.h \
+        communications/comms_events.h \
+        communications/comms_marshaler.h \
+        communications/galil_link.h \
+        communications/i_link.h \
+        communications/i_link_events.h \
+        communications/i_protocol.h \
+        communications/i_protocol_galil_events.h \
+        communications/protocol_galil.h \
+        programs/galil_current_program.h \
+        programs/program_components.h \
+        programs/program_generic.h \
+        programs/program_generic_profile.h \
+        programs/program_profile_gain.h \
+        programs/program_profile_variable.h \
         requests/abstract_request.h \
         requests/request_components.h \
         requests/request_list_labels.h \
@@ -111,9 +123,6 @@ HEADERS += \
         requests/request_types.h \
         settings/galil_settings.h \
         settings/settings_pinout.h \
-        settings/settings_profile_variable.h \
-        settings/settings_profile_gain.h \
-        settings/settings_generic_profile.h \
         states/hsm.h \
         states/state_abstract_galil.h \
         states/state_components.h \
@@ -134,21 +143,7 @@ HEADERS += \
         status/status_position.h \
         status/status_stop_code.h \
         status/status_switch.h \
-        communications/comms_events.h \
-        communications/comms_marshaler.h \
-        communications/galil_link.h \
-        communications/i_link.h \
-        communications/i_link_events.h \
-        communications/i_protocol.h \
-        communications/i_protocol_galil_events.h \
-        communications/protocol_galil.h \
-    status/status_generic.h \
-    commands/command_upload_program.h \
-    programs/program_generic_profile.h \
-    programs/program_interface.h \
-    programs/program_profile_gain.h \
-    programs/program_profile_variable.h
-
+        status/abstract_status.h
 
 # Unix lib Install
 unix:!symbian {
@@ -196,6 +191,7 @@ headers_commands.files   += \
         commands/command_absolute_move.h \
         commands/command_clear_bit.h \
         commands/command_components.h \
+        commands/command_controller_gain.h \
         commands/command_estop.h \
         commands/command_execute_program.h \
         commands/command_jog.h \
@@ -210,7 +206,12 @@ INSTALLS       += headers_commands
 #Header file copy
 headers_programs.path    = $$(ECM_ROOT)/include/library_galilMotionController/programs
 headers_programs.files   += \
-        programs/program_interface.h
+        programs/galil_current_program.h \
+        programs/program_components.h \
+        programs/program_generic.h \
+        programs/program_generic_profile.h \
+        programs/program_profile_gain.h \
+        programs/program_profile_variable.h
 INSTALLS       += headers_programs
 
 #Header file copy
@@ -231,10 +232,7 @@ INSTALLS       += headers_requests
 headers_settings.path    = $$(ECM_ROOT)/include/library_galilMotionController/settings
 headers_settings.files   += \
         settings/galil_settings.h \
-        settings/settings_pinout.h \
-        settings/settings_profile_variable.h \
-        settings/settings_profile_gain.h \
-        settings/settings_generic_profile.h
+        settings/settings_pinout.h
 INSTALLS       += headers_settings
 
 #Header file copy

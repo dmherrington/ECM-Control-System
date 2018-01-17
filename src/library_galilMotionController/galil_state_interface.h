@@ -9,7 +9,7 @@
 
 #include "axis_definitions.h"
 
-#include "programs/program_interface.h"
+#include "programs/galil_current_program.h"
 
 #include "commands/command_components.h"
 #include "requests/request_components.h"
@@ -70,7 +70,7 @@ inputs are established through the settings file.*/
     std::map<MotorAxis, GalilStatus*> mStatus; /**< Member variable containing the current status
 of each individual axis of the galil. This information contains positioning, motion, arming. */
 
-    ProgramInterface* galilProgram; /**< Member variable containing the current program, labels,
+    GalilCurrentProgram* galilProgram; /**< Member variable containing the current program, labels,
 and variables actually aboard the galil. This can be used as a comparison for determining if the
 current program matches what the user witnesses. Also, this can be used to restore the current state
 of the program.*/

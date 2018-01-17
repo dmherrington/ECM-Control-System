@@ -5,6 +5,7 @@
 #include "commands/abstract_move_command.h"
 #include "commands/command_absolute_move.h"
 #include "commands/command_clear_bit.h"
+#include "commands/command_controller_gain.h"
 #include "commands/command_estop.h"
 #include "commands/command_execute_program.h"
 #include "commands/command_jog.h"

@@ -1,8 +1,8 @@
 #ifndef STATUS_COMPONENTS_H
 #define STATUS_COMPONENTS_H
 
+#include "status/abstract_status.h"
 #include "status/galil_status.h"
-#include "status/status_generic.h"
 #include "status/status_inputs.h"
 #include "status/status_position.h"
 #include "status/status_stop_code.h"

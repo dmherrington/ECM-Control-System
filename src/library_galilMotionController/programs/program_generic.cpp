@@ -1,0 +1,34 @@
+#include "program_generic.h"
+
+ProgramGeneric::ProgramGeneric()
+{
+
+}
+
+void ProgramGeneric::addProfile(const ProgramGenericProfile &profile)
+{
+    std::string profileName = profile.getProfileName();
+
+    std::pair<std::map<std::string, ProgramGenericProfile>::iterator,bool> ret;
+    ret = profileMap.insert(std::pair<std::string, ProgramGenericProfile>(profileName,profile));
+
+    if (ret.second==false) //this means that the item was already in there
+    {
+        ret.first->second = profile;
+    }
+}
+
+std::string ProgramGeneric::buildProgram() const
+{
+    std::string programString;
+
+    std::map<std::string, ProgramGenericProfile>::iterator it; //establish an iterator to move through map
+    for(it == profileMap.begin(); it != profileMap.end(); ++it)
+    {
+        ProgramGenericProfile profile = it->second;
+        programString += profile.getProfileProgram();
+        programString += "\r\n";
+    }
+
+    return programString;
+}

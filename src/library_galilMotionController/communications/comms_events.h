@@ -32,6 +32,10 @@ public:
         UNUSED(msg);
     }
 
+    virtual void NewStatusPosition(const Status_Position &status)
+    {
+        UNUSED(status);
+    }
 };
 
 }

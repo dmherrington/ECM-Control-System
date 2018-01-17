@@ -20,11 +20,11 @@
 #include "galil_parse_greturn.h"
 
 #include "settings/galil_settings.h"
-#include "settings/settings_generic_profile.h"
 
 #include "galil_poll_status.h"
 #include "galil_state_interface.h"
 
+#include "programs/program_generic.h"
 
 /**
 \* @file  galil_motion_controller.h
@@ -70,14 +70,17 @@ public:
     bool saveProgramAs(const std::string &filePath, const std::string &text);
     bool loadProgram(const std::string &filePath, std::string &programText);
 
-    void uploadProgram(const std::string &programText);
+    void uploadProgram(const ProgramGeneric &program) const;
 
-    void downloadProgram(std::string &programText);
+    void downloadProgram() const;
 
     void executeCommand(const AbstractCommand* command);
 
     void executeStringCommand(const std::string &stringCommand);
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    /// Callback Interfafce as required from inheritance of GalilStatusUpdate_Interface
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 public:
     void cbi_GalilStatusRequestCommand(const AbstractRequest* request) override;
 

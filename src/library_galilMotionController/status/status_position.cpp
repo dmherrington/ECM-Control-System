@@ -1,20 +1,23 @@
 #include "status_position.h"
 
-Status_Position::Status_Position()
+Status_Position::Status_Position():
+    AbstractStatus(RequestTypes::TELL_POSITION)
 {
     this->currentAxis = MotorAxis::Z;
     this->latestUpdate.CurrentTime(Data::Devices::SYSTEMCLOCK,this->latestUpdate);
     this->position = 0;
 }
 
-Status_Position::Status_Position(const MotorAxis &axis, const Data::EnvironmentTime &time, const uint64_t &pos)
+Status_Position::Status_Position(const MotorAxis &axis, const Data::EnvironmentTime &time, const uint64_t &pos):
+    AbstractStatus(RequestTypes::TELL_POSITION)
 {
     this->currentAxis = axis;
     this->latestUpdate = time;
     this->position = pos;
 }
 
-Status_Position::Status_Position(const Status_Position &copy)
+Status_Position::Status_Position(const Status_Position &copy):
+    AbstractStatus(copy)
 {
     this->currentAxis = copy.currentAxis;
     this->position = copy.position;

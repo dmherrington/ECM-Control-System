@@ -1,11 +1,11 @@
-#include "settings_profile_variable.h"
+#include "program_profile_variable.h"
 
-SettingsProfileVariable::SettingsProfileVariable()
+ProgramProfileVariable::ProgramProfileVariable()
 {
 
 }
 
-SettingsProfileVariable::SettingsProfileVariable(const SettingsProfileVariable &copy)
+ProgramProfileVariable::ProgramProfileVariable(const ProgramProfileVariable &copy)
 {
     this->displayName = copy.displayName;
     this->variableName = copy.variableName;
@@ -14,7 +14,7 @@ SettingsProfileVariable::SettingsProfileVariable(const SettingsProfileVariable &
     this->def = copy.def;
 }
 
-void SettingsProfileVariable::read(const QJsonObject &jsonObject)
+void ProgramProfileVariable::read(const QJsonObject &jsonObject)
 {
     this->setDisplayName(jsonObject["DisplayName"].toString().toStdString());
     this->setVariableName(jsonObject["VariableName"].toString().toStdString());
@@ -23,7 +23,7 @@ void SettingsProfileVariable::read(const QJsonObject &jsonObject)
     this->setDefaultValue(jsonObject["DefaultValue"].toDouble());
 }
 
-void SettingsProfileVariable::write(QJsonArray &jsonArray) const
+void ProgramProfileVariable::write(QJsonArray &jsonArray) const
 {
     QJsonObject variableDataObject;
     variableDataObject["DisplayName"] = QString::fromStdString(displayName);
@@ -34,62 +34,62 @@ void SettingsProfileVariable::write(QJsonArray &jsonArray) const
     jsonArray.append(variableDataObject);
 }
 
-std::string SettingsProfileVariable::getDisplayName() const
+std::string ProgramProfileVariable::getDisplayName() const
 {
     return this->displayName;
 }
 
-std::string SettingsProfileVariable::getVariableName() const
+std::string ProgramProfileVariable::getVariableName() const
 {
     return this->variableName;
 }
 
-double SettingsProfileVariable::getCurrentValue() const
+double ProgramProfileVariable::getCurrentValue() const
 {
     return this->cur;
 }
 
-double SettingsProfileVariable::getDefaultValue() const
+double ProgramProfileVariable::getDefaultValue() const
 {
     return this->def;
 }
 
-double SettingsProfileVariable::getMaxValue() const
+double ProgramProfileVariable::getMaxValue() const
 {
     return this->max;
 }
 
-double SettingsProfileVariable::getMinValue() const
+double ProgramProfileVariable::getMinValue() const
 {
     return this->min;
 }
 
-void SettingsProfileVariable::setDisplayName(const std::string &name)
+void ProgramProfileVariable::setDisplayName(const std::string &name)
 {
     this->displayName = name;
 }
 
-void SettingsProfileVariable::setVariableName(const std::string &name)
+void ProgramProfileVariable::setVariableName(const std::string &name)
 {
     this->variableName = name;
 }
 
-void SettingsProfileVariable::setCurrentValue(const double &value)
+void ProgramProfileVariable::setCurrentValue(const double &value)
 {
     this->cur = value;
 }
 
-void SettingsProfileVariable::setDefaultValue(const double &value)
+void ProgramProfileVariable::setDefaultValue(const double &value)
 {
     this->def = value;
 }
 
-void SettingsProfileVariable::setMaxValue(const double &value)
+void ProgramProfileVariable::setMaxValue(const double &value)
 {
     this->max = value;
 }
 
-void SettingsProfileVariable::setMinValue(const double &value)
+void ProgramProfileVariable::setMinValue(const double &value)
 {
     this->min = value;
 }

@@ -13,10 +13,13 @@ galilMotionController::galilMotionController()
     stateMachine->UpdateStates();
     stateMachine->ProcessStateTransitions();
 
+    //Instantiating the galil state polling object. This is only needed to be done once within the program
     galilPolling = new GalilPollState();
     galilPolling->connectCallback(this);
+
     //    GReturn rtnCode = GOpen("169.254.78.101",&mConnection);
 
+    //Setting up the proper directory paths for all of the stuff
     char* ECMPath = getenv("ECM_ROOT");
     if(ECMPath){
         std::string rootPath(ECMPath);
@@ -24,7 +27,7 @@ galilMotionController::galilMotionController()
         QDir programsDirectory(QString::fromStdString(rootPath + "/Galil/programs"));
         QDir settingsDirectory(QString::fromStdString(rootPath + "/Galil/settings"));
 
-        profilesDirectory.mkpath(QString::fromStdString(rootPath + "/Galil/programs"));
+        profilesDirectory.mkpath(QString::fromStdString(rootPath + "/Galil/profiles"));
         programsDirectory.mkpath(QString::fromStdString(rootPath + "/Galil/programs"));
         settingsDirectory.mkpath(QString::fromStdString(rootPath + "/Galil/settings"));
 
@@ -61,15 +64,18 @@ void galilMotionController::openConnection(const std::string &address)
 {
     if(stateInterface->commsMarshaler->ConnectToLink(address)) //if true this means we have connected to the galil unit
     {
-        stateInterface->setConnected(true);
         //since we have now connected to the galil we can begin collecting information
-
+        stateInterface->setConnected(true);
     }
 }
 
 void galilMotionController::closeConnection()
 {
-
+    if(stateInterface->commsMarshaler->DisconnetLink()) //if true this means we have disconnected from the galil unit
+    {
+        //since we have now disconnected from the galil we should stop collecting information
+        stateInterface->setConnected(false);
+    }
 }
 
 bool galilMotionController::saveSettings()
@@ -223,46 +229,53 @@ bool galilMotionController::loadProgram(const std::string &filePath, std::string
 }
 
 
-void galilMotionController::uploadProgram(const std::string &programText)
+void galilMotionController::uploadProgram(const ProgramGeneric &program) const
 {
-    ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
-    //currentState->handleCommand();
+    stateInterface->commsMarshaler->uploadProgram(program);
+//    ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
+//    //currentState->handleCommand();
 
-    //1) Stop the motion of the machine
-    CommandStop stop;
-    GCmd(galil,stop.getCommandString().c_str());
-    //GReturn rtn = GCommand(mConnection,stop.getCommandString().c_str(),returnOut,sizeof(returnOut),&read_bytes);
-    //2) Turn off the power supply
-    CommandSetBit setBit;
-    setBit.appendAddress(2);
-    GCmd(galil,setBit.getCommandString().c_str());
+//    //1) Stop the motion of the machine
+//    CommandStop stop;
+//    GCmd(galil,stop.getCommandString().c_str());
+//    //GReturn rtn = GCommand(mConnection,stop.getCommandString().c_str(),returnOut,sizeof(returnOut),&read_bytes);
+//    //2) Turn off the power supply
+//    CommandSetBit setBit;
+//    setBit.appendAddress(2);
+//    GCmd(galil,setBit.getCommandString().c_str());
 
-    //3) Write the program
-    GReturn rtnCode = GProgramDownload(galil,programText.c_str(),0);
-    std::cout<<"The return code here is "<<std::endl;
+//    //3) Write the program
+//    GReturn rtnCode = GProgramDownload(galil,programText.c_str(),0);
+//    std::cout<<"The return code here is "<<std::endl;
 }
 
-void galilMotionController::downloadProgram(std::string &programText)
+void galilMotionController::downloadProgram() const
 {
-    GBufOut returnOut;
-    GSize read_bytes = 0; //bytes read in GCommand
+    stateInterface->commsMarshaler->downloadProgram();
+//    GBufOut returnOut;
+//    GSize read_bytes = 0; //bytes read in GCommand
 
-    //1) Stop the motion of the machine
-    CommandStop stop;
-    GCmd(galil,stop.getCommandString().c_str());
-    //GReturn rtn = GCommand(mConnection,stop.getCommandString().c_str(),returnOut,sizeof(returnOut),&read_bytes);
-    //2) Turn off the power supply
-    CommandSetBit setBit;
-    setBit.appendAddress(2);
-    GCmd(galil,setBit.getCommandString().c_str());
+//    //1) Stop the motion of the machine
+//    CommandStop stop;
+//    GCmd(galil,stop.getCommandString().c_str());
+//    //GReturn rtn = GCommand(mConnection,stop.getCommandString().c_str(),returnOut,sizeof(returnOut),&read_bytes);
+//    //2) Turn off the power supply
+//    CommandSetBit setBit;
+//    setBit.appendAddress(2);
+//    GCmd(galil,setBit.getCommandString().c_str());
 
-    //rtn = GCommand(mConnection,setBit.getCommandString().c_str(),returnOut,sizeof(returnOut),&read_bytes);
-    //3) Read the program
-    char* buf = new char[10]();
-    GReturn rtnCode = GProgramUpload(galil,buf,10);
+//    //rtn = GCommand(mConnection,setBit.getCommandString().c_str(),returnOut,sizeof(returnOut),&read_bytes);
+//    //3) Read the program
+//    char* buf = new char[10]();
+//    GReturn rtnCode = GProgramUpload(galil,buf,10);
 
 
-    programText = std::string(buf);
-    delete[] buf;
+//    programText = std::string(buf);
+//    delete[] buf;
+}
+
+void galilMotionController::cbi_GalilStatusRequestCommand(const AbstractRequest *request)
+{
+    stateInterface->transmitRequest(request);
 }
 

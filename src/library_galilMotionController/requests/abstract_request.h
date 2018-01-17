@@ -7,10 +7,10 @@
 #include <string.h>
 
 #include "common/class_forward.h"
-
-#include "gclib.h"
+#include "common/environment_time.h"
 
 #include "requests/request_types.h"
+#include "status/abstract_status.h"
 
 /**
 \* @file  abstract_request.h
@@ -82,13 +82,33 @@ public:
 
     unsigned int getAllocatedBufferSize() const;
 
-    char *getBuffer() const;
+    char *getBuffer();
 
     virtual void increaseBufferSize(char* chrArray);
+
+    virtual std::vector<AbstractStatusPtr> getStatus() const
+    {
+        std::vector<AbstractStatusPtr> vector;
+        return vector;
+    }
+
+public:
+    Data::EnvironmentTime getTime() const
+    {
+        return this->latestUpdate;
+    }
+
+    void updateTime()
+    {
+        this->latestUpdate.CurrentTime(Data::Devices::SYSTEMCLOCK,this->latestUpdate);
+    }
 
 protected:
     RequestTypes requestType;
     unsigned int bufferSize;
+    char* buffer;
+    Data::EnvironmentTime latestUpdate;
+
 };
 
 #endif // ABSTRACT_REQUEST_H

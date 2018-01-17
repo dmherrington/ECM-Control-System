@@ -53,7 +53,8 @@ public:
     //!
     std::string getRequestString() const override;
 
-    std::vector<Status_Position> parseResponse(const char* chrArray) const;
+
+    std::vector<AbstractStatusPtr> getStatus() const override;
 
 private:
     MotorAxis tellAxis; /**< Value of the axis to be position requested */

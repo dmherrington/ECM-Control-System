@@ -1,18 +1,18 @@
-#include "settings_profile_gain.h"
+#include "program_profile_gain.h"
 
-SettingsProfileGain::SettingsProfileGain()
+ProgramProfileGain::ProgramProfileGain()
 {
 
 }
 
-SettingsProfileGain::SettingsProfileGain(const SettingsProfileGain &copy)
+ProgramProfileGain::ProgramProfileGain(const ProgramProfileGain &copy)
 {
     this->proportional = copy.proportional;
     this->integral = copy.integral;
     this->derivative = copy.derivative;
 }
 
-void SettingsProfileGain::read(const QJsonObject &json)
+void ProgramProfileGain::read(const QJsonObject &json)
 {
     //Parse the json object the same way that we had packed it up when saving
     QJsonObject gainsObject  = json["Gains"].toObject();
@@ -21,7 +21,7 @@ void SettingsProfileGain::read(const QJsonObject &json)
     this->setGainValue(GainType::DGain, gainsObject["DGain"].toDouble());
 }
 
-void SettingsProfileGain::write(QJsonObject &json) const
+void ProgramProfileGain::write(QJsonObject &json) const
 {
     QJsonObject gainsObject;
     gainsObject["PGain"] = proportional;
@@ -31,7 +31,7 @@ void SettingsProfileGain::write(QJsonObject &json) const
     json["Gains"] = gainsObject;
 }
 
-double SettingsProfileGain::getGainValue(const GainType &type) const
+double ProgramProfileGain::getGainValue(const GainType &type) const
 {
     double gainValue = 0.0;
 
@@ -51,7 +51,7 @@ double SettingsProfileGain::getGainValue(const GainType &type) const
     return gainValue;
 }
 
-void SettingsProfileGain::setGainValue(const GainType &type, const double value)
+void ProgramProfileGain::setGainValue(const GainType &type, const double value)
 {
     switch (type) {
     case GainType::PGain:

@@ -71,6 +71,7 @@ bool GalilLink::Connect(void)
     if(rtnCode == G_NO_ERROR)
     {
         this->connected = true;
+        EmitEvent([](const ILinkEvents *ptr){ptr->ConnectionOpened();});
     }
 
     return this->connected;
@@ -84,6 +85,8 @@ bool GalilLink::Disconnect(void)
         if(rtnCode == G_NO_ERROR)
         {
             this->connected = false;
+            EmitEvent([](const ILinkEvents *ptr){ptr->ConnectionClosed();});
+
         }
     }
     return this->connected;
@@ -100,6 +103,11 @@ GReturn GalilLink::UploadProgram(const std::string &programText) const
     return rtn;
 }
 
+GReturn GalilLink::DownloadProgram(const std::string &programText) const
+{
+
+}
+
 GReturn GalilLink::WriteTellErrorCode(char *errorDescription) const
 {
     GSize read_bytes = 0; //bytes read in GCommand
@@ -108,25 +116,21 @@ GReturn GalilLink::WriteTellErrorCode(char *errorDescription) const
     return rtn;
 }
 
-GReturn GalilLink::WriteCommand(const AbstractCommandPtr command) const
+GReturn GalilLink::WriteCommand(const std::string &command) const
 {
-    std::cout<<"We are trying to write a command here: "<<CommandToString(command->getCommandType())<<std::endl;
-
-    std::string stringCommand = command->getCommandString();
-    GReturn rtn = GCmd(galil,stringCommand.c_str());
+    GReturn rtn = GCmd(galil,command.c_str());
     return rtn;
 }
 
 GReturn GalilLink::WriteRequest(const AbstractRequestPtr request) const
 {
     std::cout<<"We are trying to write a request here: "<<RequestToString(request->getRequestType())<<std::endl;
-
-    char* buf = request->getBuffer(); //buffer to be allocated for the response
     GSize read_bytes = 0; //bytes read in GCommand
+    char* buf = request->getBuffer(); //buffer to be allocated for the response
+    std::string commandString = request->getRequestString();
 
-    std::string stringRequest = request->getRequestString();
-
-    GReturn rtn = GCommand(galil,stringRequest.c_str(),buf,sizeof(buf),&read_bytes);
+    GReturn rtn = GCommand(galil,commandString.c_str(),buf,sizeof(buf),&read_bytes);
+    request->updateTime();
     return rtn;
 }
 

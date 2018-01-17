@@ -15,6 +15,11 @@
 #include "commands/command_components.h"
 #include "requests/request_components.h"
 
+#include "programs/program_generic.h"
+#include "programs/galil_current_program.h"
+
+#include "status/status_components.h"
+
 namespace Comms
 {
 
@@ -46,7 +51,9 @@ public:
 
     void sendAbstractGalilRequest(const AbstractRequestPtr request);
 
-    void uploadProgram(const std::string &programString) const;
+    void uploadProgram(const ProgramGeneric &program) const;
+
+    void downloadProgram() const;
 
     //!
     //! \brief Issue a message to a given link
@@ -68,11 +75,11 @@ private:
 
     void ConnectionClosed() const override;
 
-    void StatusReceived(const StatusGeneric &status) const override;
+    void StatusReceived(const AbstractStatus &status) const override;
 
-    void BadRequestResponse(const StatusGeneric &status) const override;
+    void BadRequestResponse(const AbstractStatus &status) const override;
 
-    void BadCommandResponse(const StatusGeneric &status) const override;
+    void BadCommandResponse(const AbstractStatus &status) const override;
 
     //////////////////////////////////////////////////////////////
     /// IProtocolGalilEvents
@@ -87,7 +94,14 @@ private:
 
     void NewPositionReceived(const Status_Position &status) const override;
 
+    void NewStatusReceived(const std::vector<AbstractStatusPtr> &status) const override;
+
 private:
+    void parseStatus(const AbstractStatusPtr &status) const;
+
+private:
+    bool isConnected;
+
     std::shared_ptr<ILink> link;
     std::shared_ptr<GalilProtocol> protocol;
 

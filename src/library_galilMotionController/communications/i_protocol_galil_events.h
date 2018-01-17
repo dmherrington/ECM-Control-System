@@ -14,6 +14,8 @@ namespace Comms
 class IProtocolGalilEvents
 {
 public:
+    virtual void NewStatusReceived(const std::vector<AbstractStatusPtr> &status) const = 0;
+
     virtual void NewPositionReceived(const Status_Position &status) const = 0;
     //!
     //! \brief A Message has been received over Mavlink protocol

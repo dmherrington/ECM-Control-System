@@ -60,10 +60,6 @@ bool GalilStateInterface::isConnected()
     return this->connected;
 }
 
-void GalilStateInterface::transmitRequest(const AbstractRequest *req)
-{
-
-}
 bool GalilStateInterface::isMotorInMotion() const
 {
     bool isInMotion = false;
@@ -83,6 +79,11 @@ bool GalilStateInterface::isMotorInMotion() const
     return isInMotion;
 }
 
+
+void GalilStateInterface::transmitRequest(const AbstractRequest *req)
+{
+
+}
 
 void GalilStateInterface::transmitCommand(const AbstractCommand *cmd)
 {

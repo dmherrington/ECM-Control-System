@@ -71,11 +71,6 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         //This command will transition the machine to the Ready State
         desiredState = ECMState::STATE_READY;
         this->clearCommand();
-//        this->currentCommand = command->getClone();
-//        CommandMotorEnablePtr castCommand = std::make_shared<CommandMotorEnable>(*command->as<CommandMotorEnable>());
-//        delete command;
-//        command = nullptr;
-        std::cout<<"Let us check this here"<<std::endl;
         break;
     }
     case CommandType::ABSOLUTE_MOVE:

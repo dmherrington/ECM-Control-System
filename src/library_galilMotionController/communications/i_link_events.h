@@ -13,11 +13,11 @@ public:
 
     virtual void ConnectionClosed() const = 0;
 
-    virtual void StatusReceived(const StatusGeneric &status) const = 0;
+    virtual void StatusReceived(const AbstractStatus &status) const = 0;
 
-    virtual void BadRequestResponse(const StatusGeneric &status) const = 0;
+    virtual void BadRequestResponse(const AbstractStatus &status) const = 0;
 
-    virtual void BadCommandResponse(const StatusGeneric &status) const = 0;
+    virtual void BadCommandResponse(const AbstractStatus &status) const = 0;
 };
 
 } //END Comms

@@ -17,10 +17,11 @@ unsigned int AbstractRequest::getAllocatedBufferSize() const
     return this->bufferSize;
 }
 
-char* AbstractRequest::getBuffer() const
+char* AbstractRequest::getBuffer()
 {
     char str[this->bufferSize];
-    return str;
+    buffer = str;
+    return buffer;
     //strcpy(chrArray,str);
 }
 

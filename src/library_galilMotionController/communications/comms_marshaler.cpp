@@ -8,7 +8,8 @@ namespace Comms
 /// Setup
 //////////////////////////////////////////////////////////////
 
-CommsMarshaler::CommsMarshaler()
+CommsMarshaler::CommsMarshaler():
+    isConnected(false)
 {
     //let us simplify this and do this upon constuction as there will only be one link
     link = std::make_shared<GalilLink>();
@@ -33,12 +34,14 @@ CommsMarshaler::CommsMarshaler()
 bool CommsMarshaler::ConnectToLink(const std::string &address)
 {
     link->SetLinkAddress(address);
-    return link->Connect();
+    isConnected = link->Connect();
+    return isConnected;
 }
 
 bool CommsMarshaler::DisconnetLink()
 {
-    return link->Disconnect();
+    isConnected = link->Disconnect();
+    return isConnected;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,7 +62,6 @@ void CommsMarshaler::sendAbstractGalilCommand(const AbstractCommandPtr command)
 void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request)
 {
     std::cout<<"Lets send an abstract galil request"<<std::endl;
-
     auto func = [this, request]() {
             protocol->SendProtocolRequest(link.get(), request);
     };
@@ -67,13 +69,19 @@ void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request)
     link->MarshalOnThread(func);
 }
 
-void CommsMarshaler::uploadProgram(const std::string &programString) const
+void CommsMarshaler::uploadProgram(const ProgramGeneric &program) const
 {
-    auto func = [this, &programString] () {
-        protocol->UploadNewProgram(link.get(), programString);
+    auto func = [this, &program] () {
+        protocol->UploadNewProgram(link.get(), program);
     };
     link->MarshalOnThread(func);
 }
+
+void CommsMarshaler::downloadProgram() const
+{
+
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /// Query
@@ -117,17 +125,17 @@ void CommsMarshaler::ConnectionClosed() const
     Emit([&](const CommsEvents *ptr){ptr->LinkDisconnected();});
 }
 
-void CommsMarshaler::StatusReceived(const StatusGeneric &status) const
+void CommsMarshaler::StatusReceived(const AbstractStatus &status) const
 {
 
 }
 
-void CommsMarshaler::BadRequestResponse(const StatusGeneric &status) const
+void CommsMarshaler::BadRequestResponse(const AbstractStatus &status) const
 {
 
 }
 
-void CommsMarshaler::BadCommandResponse(const StatusGeneric &status) const
+void CommsMarshaler::BadCommandResponse(const AbstractStatus &status) const
 {
 
 }
@@ -153,6 +161,29 @@ void CommsMarshaler::MessageReceived(const double &message) const
 void CommsMarshaler::NewPositionReceived(const Status_Position &status) const
 {
 
+}
+
+void CommsMarshaler::NewStatusReceived(const std::vector<AbstractStatusPtr> &status) const
+{
+    std::cout<<"I am here"<<std::endl;
+    for(int i = 0; i < status.size(); i++)
+    {
+        parseStatus(status.at(i));
+    }
+}
+
+void CommsMarshaler::parseStatus(const AbstractStatusPtr &status) const
+{
+    switch (status->getRequestType()) {
+    case RequestTypes::TELL_POSITION:
+    {
+        Status_Position castStatus(*status.get()->as<Status_Position>());
+        Emit([&](CommsEvents *ptr){ptr->NewStatusPosition(castStatus);});
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 template void CommsMarshaler::SendGalilMessage<double>(const double&);

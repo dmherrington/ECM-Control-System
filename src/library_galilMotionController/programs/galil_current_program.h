@@ -1,18 +1,17 @@
-#ifndef PROGRAM_INTERFACE_H
-#define PROGRAM_INTERFACE_H
+#ifndef GALIL_CURRENT_PROGRAM_H
+#define GALIL_CURRENT_PROGRAM_H
 
 #include <string>
-
 #include <map>
 
-class ProgramInterface
+class GalilCurrentProgram
 {
 public:
-    ProgramInterface();
+    GalilCurrentProgram();
 
-    ProgramInterface(const ProgramInterface &copy);
+    GalilCurrentProgram(const GalilCurrentProgram &copy);
 
-    ~ProgramInterface() = default;
+    ~GalilCurrentProgram() = default;
 
 public:
     void setProgram(const std::string &programString);
@@ -42,4 +41,4 @@ private:
     std::map<std::string, int> variables;
 };
 
-#endif // PROGRAM_INTERFACE_H
+#endif // GALIL_CURRENT_PROGRAM_H

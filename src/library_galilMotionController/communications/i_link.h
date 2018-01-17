@@ -11,6 +11,8 @@
 #include "requests/abstract_request.h"
 #include "commands/abstract_command.h"
 
+#include "gclib.h"
+
 namespace Comms
 {
 
@@ -51,8 +53,9 @@ public:
     }
 
     virtual GReturn UploadProgram(const std::string &programText) const = 0;
+    virtual GReturn DownloadProgram(const std::string &programText) const = 0;
 
-    virtual GReturn WriteCommand(const AbstractCommandPtr command) const = 0;
+    virtual GReturn WriteCommand(const std::string &command) const = 0;
 
     virtual GReturn WriteRequest(const AbstractRequestPtr request) const = 0;
 

@@ -4,6 +4,8 @@
 
 #include <algorithm>
 
+#include "programs/program_generic.h"
+
 namespace Comms
 {
 
@@ -17,10 +19,16 @@ void GalilProtocol::AddListner(const IProtocolGalilEvents* listener)
     m_Listners.push_back(listener);
 }
 
-void GalilProtocol::UploadNewProgram(const ILink *link, const std::string &programString)
+void GalilProtocol::UploadNewProgram(const ILink *link, const ProgramGeneric &program)
 {
     std::cout<<"I am trying to upload a new program"<<std::endl;
+    std::string programString = program.buildProgram();
     GReturn rtn = link->UploadProgram(programString);
+}
+
+void GalilProtocol::DownloadCurrentProgram(const ILink *link)
+{
+    std::cout<<"I am trying to download a new program"<<std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -30,13 +38,8 @@ void GalilProtocol::UploadNewProgram(const ILink *link, const std::string &progr
 void GalilProtocol::SendProtocolCommand(const ILink *link, const AbstractCommandPtr command)
 {
     std::cout<<"I am in here"<<std::endl;
-    //link->WriteCommand(command);
-}
-
-void GalilProtocol::handleBadCommandResponse(const ILink* link, const CommandType &type) const
-{
-    char error[100];
-    link->WriteTellErrorCode(error);
+    GReturn rtn = link->WriteCommand(command->getCommandString());
+    handleCommandResponse(link,command,rtn);
 }
 
 void GalilProtocol::handleCommandResponse(const ILink *link, const AbstractCommandPtr command, const GReturn &response)
@@ -56,6 +59,12 @@ void GalilProtocol::handleCommandResponse(const ILink *link, const AbstractComma
         }
 }
 
+void GalilProtocol::handleBadCommandResponse(const ILink* link, const CommandType &type) const
+{
+    char error[100];
+    link->WriteTellErrorCode(error);
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Methods issuing an explicit galil information request
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,14 +72,17 @@ void GalilProtocol::handleCommandResponse(const ILink *link, const AbstractComma
 void GalilProtocol::SendProtocolRequest(const ILink *link, const AbstractRequestPtr request)
 {
     std::cout<<"I am trying to send a protocol request of type: "<<RequestToString(request->getRequestType())<<std::endl;
-    link->WriteRequest(request);
+    GReturn rtn = link->WriteRequest(request);
+    handleRequestResponse(link,request,rtn);
 }
 
-void GalilProtocol::handleRequestResponse(const ILink *link, const AbstractRequestPtr request, const GReturn &response)
+void GalilProtocol::handleRequestResponse(const ILink *link, const AbstractRequestPtr request, const GReturn &code)
 {
-        switch (response) {
+        switch (code) {
         case G_NO_ERROR:
         {
+            std::vector<AbstractStatusPtr> status = request->getStatus();
+            Emit([&](const IProtocolGalilEvents* ptr){ptr->NewStatusReceived(status);});
             break;
         }
         case G_BAD_LOST_DATA:
@@ -79,7 +91,7 @@ void GalilProtocol::handleRequestResponse(const ILink *link, const AbstractReque
         }
         case G_BAD_RESPONSE_QUESTION_MARK:
         {
-            handleBadRequestResponse(link, request->getRequestType());
+            handleBadRequestResponse(link, request);
             break;
         }
         default:
@@ -87,7 +99,11 @@ void GalilProtocol::handleRequestResponse(const ILink *link, const AbstractReque
         }
 }
 
-void GalilProtocol::handleBadRequestResponse(const ILink* link, const RequestTypes &type) const
+void GalilProtocol::generateNewStatus(const AbstractRequestPtr request, char *&buf)
+{
+
+}
+void GalilProtocol::handleBadRequestResponse(const ILink* link, const AbstractRequestPtr request) const
 {
     char error[100];
     link->WriteTellErrorCode(error);
