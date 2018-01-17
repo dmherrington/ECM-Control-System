@@ -232,7 +232,7 @@ void MainWindow::loadSettings(const QString &path)
         //gather up the component into a complete profile item
         QJsonObject profileObj  = outerObj[key].toObject();
         //let us create a profile object from the data
-        SettingsGenericProfile profile;
+        ProgramGenericProfile profile;
         profile.read(profileObj);
 
         WidgetVariableDataDisplay* newWidget = new WidgetVariableDataDisplay();

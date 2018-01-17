@@ -29,12 +29,12 @@ public:
     void setDataChanged(const bool &changed);
     bool hasDataChanged();
 
-    SettingsGenericProfile getProfile() const;
+    ProgramGenericProfile getProfile() const;
 
 public:
     void read(const QJsonArray &jsonArray);
     void write(QJsonObject &json) const;
-    void updateProfile(const SettingsGenericProfile &data);
+    void updateProfile(const ProgramGenericProfile &data);
 
 public:
     WidgetVariableData* addNewVariable();
@@ -70,7 +70,7 @@ private:
     Ui::WidgetVariableDataDisplay *ui;
 
 private:
-    SettingsGenericProfile* profile;
+    ProgramGenericProfile* profile;
 
     bool _hasDataChanged = false;
     std::vector<WidgetVariableData*> vectorData;

@@ -14,7 +14,7 @@ WidgetProfileVariableDisplay::~WidgetProfileVariableDisplay()
     delete ui;
 }
 
-void WidgetProfileVariableDisplay::loadProfileVariable(const SettingsProfileVariable variable)
+void WidgetProfileVariableDisplay::loadProfileVariable(const ProgramProfileVariable variable)
 {
     this->ui->label_displayName->setText(QString::fromStdString(variable.getDisplayName()));
     this->ui->doubleSpinBox_desiredValue->setMaximum(variable.getMaxValue());

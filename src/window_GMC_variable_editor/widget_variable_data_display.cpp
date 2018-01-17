@@ -6,7 +6,7 @@ WidgetVariableDataDisplay::WidgetVariableDataDisplay(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    profile = new SettingsGenericProfile();
+    profile = new ProgramGenericProfile();
 
     this->blockSignals(true);
 
@@ -20,9 +20,9 @@ WidgetVariableDataDisplay::~WidgetVariableDataDisplay()
     delete ui;
 }
 
-SettingsGenericProfile WidgetVariableDataDisplay::getProfile() const
+ProgramGenericProfile WidgetVariableDataDisplay::getProfile() const
 {
-    SettingsGenericProfile newProfile(*this->profile);
+    ProgramGenericProfile newProfile(*this->profile);
     std::cout<<"Lets check this"<<std::endl;
     return newProfile;
 }
@@ -129,7 +129,7 @@ void WidgetVariableDataDisplay::write(QJsonObject &json) const
     QJsonObject newObject;
 
     //next update the profile object with all of the settings
-    std::map<std::string, SettingsProfileVariable> settingsData;
+    std::map<std::string, ProgramProfileVariable> settingsData;
 
     for(unsigned int i = 0; i < vectorData.size(); i++)
     {
@@ -145,12 +145,12 @@ void WidgetVariableDataDisplay::write(QJsonObject &json) const
 }
 
 
-void WidgetVariableDataDisplay::updateProfile(const SettingsGenericProfile &data)
+void WidgetVariableDataDisplay::updateProfile(const ProgramGenericProfile &data)
 {
     profile->copyData(data);
     this->updateRendering();
-    std::map<std::string,SettingsProfileVariable> mapVariables = profile->getVariableMap();
-    std::map<std::string,SettingsProfileVariable>::iterator mapIterator;
+    std::map<std::string,ProgramProfileVariable> mapVariables = profile->getVariableMap();
+    std::map<std::string,ProgramProfileVariable>::iterator mapIterator;
     for(mapIterator = mapVariables.begin(); mapIterator != mapVariables.end(); ++mapIterator)
     {
         WidgetVariableData* dataWidget = this->addNewVariable();

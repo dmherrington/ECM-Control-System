@@ -1,5 +1,5 @@
-#ifndef SETTINGS_PROFILE_GAIN_H
-#define SETTINGS_PROFILE_GAIN_H
+#ifndef PROGRAM_PROFILE_GAIN_H
+#define PROGRAM_PROFILE_GAIN_H
 
 #include <string>
 
@@ -76,4 +76,4 @@ private:
     double derivative = 0.0;
 };
 
-#endif // SETTINGS_PROFILE_GAIN_H
+#endif // PROGRAM_PROFILE_GAIN_H

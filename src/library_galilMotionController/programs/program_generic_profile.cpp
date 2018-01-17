@@ -1,16 +1,16 @@
 #include "settings_generic_profile.h"
 
-ProgramGenericProfile::ProgramGenericProfile()
+SettingsGenericProfile::SettingsGenericProfile()
 {
-    profileGain = new ProgramProfileGain();
+    profileGain = new SettingsProfileGain();
 }
 
-ProgramGenericProfile::ProgramGenericProfile(const ProgramGenericProfile &copy)
+SettingsGenericProfile::SettingsGenericProfile(const SettingsGenericProfile &copy)
 {
     this->copyData(copy);
 }
 
-void ProgramGenericProfile::copyData(const ProgramGenericProfile &copy)
+void SettingsGenericProfile::copyData(const SettingsGenericProfile &copy)
 {
     this->profileName = copy.profileName;
     this->profileLabel = copy.profileLabel;
@@ -18,7 +18,7 @@ void ProgramGenericProfile::copyData(const ProgramGenericProfile &copy)
     this->variableMap = copy.variableMap;
 }
 
-ProgramGenericProfile::~ProgramGenericProfile()
+SettingsGenericProfile::~SettingsGenericProfile()
 {
     //destructor of the SettingsGenericProfile class
 
@@ -29,7 +29,7 @@ ProgramGenericProfile::~ProgramGenericProfile()
     //next iterate through the variable list and destroy variables
 }
 
-void ProgramGenericProfile::read(const QJsonObject &json)
+void SettingsGenericProfile::read(const QJsonObject &json)
 {
     this->setProfileName(json["ProfileName"].toString().toStdString());
     this->setProfileLabel(json["ProfileLabel"].toString().toStdString());
@@ -38,13 +38,13 @@ void ProgramGenericProfile::read(const QJsonObject &json)
     for(int i = 0; i < variableArray.size(); i++)
     {
         QJsonObject jsonObject = variableArray[i].toObject();
-        ProgramProfileVariable variable;
+        SettingsProfileVariable variable;
         variable.read(jsonObject);
         this->variableMap[variable.getDisplayName()] = variable;
     }
 }
 
-void ProgramGenericProfile::write(QJsonObject &json) const
+void SettingsGenericProfile::write(QJsonObject &json) const
 {
     //first, add the label name that shall be displayed when interacting with parameters from the profile
     json["ProfileName"] = QString::fromStdString(profileName);
@@ -57,10 +57,10 @@ void ProgramGenericProfile::write(QJsonObject &json) const
 
     //next write all of the variables to the object
     QJsonArray variableDataArray;
-    std::map<std::string,ProgramProfileVariable>::const_iterator it;
+    std::map<std::string,SettingsProfileVariable>::const_iterator it;
     for (it=variableMap.begin(); it!=variableMap.end(); ++it)
     {
-        ProgramProfileVariable var = it->second;
+        SettingsProfileVariable var = it->second;
         if((var.getDisplayName() == "") || (var.getVariableName() == ""))
             continue;
 
@@ -69,33 +69,33 @@ void ProgramGenericProfile::write(QJsonObject &json) const
     json["Variables"] = variableDataArray;
 }
 
-std::string ProgramGenericProfile::getProfileName() const
+std::string SettingsGenericProfile::getProfileName() const
 {
     return this->profileName;
 }
 
-void ProgramGenericProfile::setProfileName(const std::string &name)
+void SettingsGenericProfile::setProfileName(const std::string &name)
 {
     this->profileName = name;
 }
 
-std::string ProgramGenericProfile::getProfileLabel() const
+std::string SettingsGenericProfile::getProfileLabel() const
 {
     return this->profileLabel;
 }
 
-void ProgramGenericProfile::setProfileLabel(const std::string &name)
+void SettingsGenericProfile::setProfileLabel(const std::string &name)
 {
     this->profileLabel = name;
 }
 
-void ProgramGenericProfile::setVariableMap(const std::map<std::string, ProgramProfileVariable> &data)
+void SettingsGenericProfile::setVariableMap(const std::map<std::string, SettingsProfileVariable> &data)
 {
     this->variableMap.clear();
     this->variableMap = data;
 }
 
-std::map<std::string,ProgramProfileVariable> ProgramGenericProfile::getVariableMap() const
+std::map<std::string,SettingsProfileVariable> SettingsGenericProfile::getVariableMap() const
 {
     return this->variableMap;
 }

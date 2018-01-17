@@ -22,8 +22,8 @@ public:
 public:
     void read(const QJsonObject &jsonObject);
     void write(QJsonArray &jsonArray) const;
-    void setVariableData(const SettingsProfileVariable &data);
-    SettingsProfileVariable getProfileVariable() const;
+    void setVariableData(const ProgramProfileVariable &data);
+    ProgramProfileVariable getProfileVariable() const;
 
 public:
 
@@ -62,7 +62,7 @@ private:
     Ui::WidgetVariableData *ui;
 
 private:
-    SettingsProfileVariable* variable;
+    ProgramProfileVariable* variable;
 
 };
 

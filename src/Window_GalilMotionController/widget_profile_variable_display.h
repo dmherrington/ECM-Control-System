@@ -17,7 +17,7 @@ public:
     explicit WidgetProfileVariableDisplay(QWidget *parent = 0);
     ~WidgetProfileVariableDisplay();
 
-    void loadProfileVariable(const SettingsProfileVariable variable);
+    void loadProfileVariable(const ProgramProfileVariable variable);
 
 private slots:
     void on_doubleSpinBox_desiredValue_editingFinished();

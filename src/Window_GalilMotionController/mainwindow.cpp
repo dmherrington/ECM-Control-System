@@ -242,7 +242,7 @@ void MainWindow::on_action_LoadProfile_triggered()
                 //gather up the component into a complete profile item
                 QJsonObject profileObj  = outerObj[key].toObject();
                 //let us create a profile object from the data
-                SettingsGenericProfile profile;
+                ProgramGenericProfile profile;
                 profile.read(profileObj);
                 WidgetProfileDisplay* newWidget = new WidgetProfileDisplay();
                 m_ProfileDisplay[profile.getProfileName()] = newWidget;

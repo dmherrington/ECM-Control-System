@@ -1,5 +1,5 @@
-#ifndef SETTINGS_PROFILE_VARIABLE_H
-#define SETTINGS_PROFILE_VARIABLE_H
+#ifndef PROGRAM_PROFILE_VARIABLE_H
+#define PROGRAM_PROFILE_VARIABLE_H
 
 #include <QString>
 #include <QJsonArray>
@@ -155,4 +155,4 @@ private:
     double cur = 0.0;
 };
 
-#endif // SETTINGS_PROFILE_VARIABLE_H
+#endif // PROGRAM_PROFILE_VARIABLE_H

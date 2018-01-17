@@ -1,5 +1,5 @@
-#ifndef SETTINGS_GENERIC_PROFILE_H
-#define SETTINGS_GENERIC_PROFILE_H
+#ifndef PROGRAM_GENERIC_PROFILE_H
+#define PROGRAM_GENERIC_PROFILE_H
 
 #include <map>
 #include <string>
@@ -31,18 +31,18 @@ public:
     void setProfileLabel(const std::string &label);
     std::string getProfileLabel() const;
 
-    void setVariableMap(const std::map<std::string,ProgramProfileVariable> &data);
-    std::map<std::string,ProgramProfileVariable> getVariableMap() const;
+    void setVariableMap(const std::map<std::string,SettingsProfileVariable> &data);
+    std::map<std::string,SettingsProfileVariable> getVariableMap() const;
 
 public:
-    ProgramProfileGain* profileGain;
+    SettingsProfileGain* profileGain;
 
 private:
     std::string profileName = "Default";
     std::string profileLabel = "Default";
 
-    std::map<std::string,ProgramProfileVariable> variableMap;
+    std::map<std::string,SettingsProfileVariable> variableMap;
 
 };
 
-#endif // SETTINGS_GENERIC_PROFILE_H
+#endif // PROGRAM_GENERIC_PROFILE_H

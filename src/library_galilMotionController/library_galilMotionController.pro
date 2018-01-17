@@ -31,7 +31,6 @@ SOURCES += \
         commands/command_relative_move.cpp \
         commands/command_stop.cpp \
         galil_parse_greturn.cpp \
-    settings/galil_settings.cpp \
     commands/command_set_bit.cpp \
     galil_poll_status.cpp \
     commands/command_clear_bit.cpp \
@@ -71,7 +70,12 @@ SOURCES += \
     communications/galil_link.cpp \
     communications/protocol_galil.cpp \
     status/status_generic.cpp \
-    commands/command_upload_program.cpp
+    commands/command_upload_program.cpp \
+    programs/galil_settings.cpp \
+    programs/program_generic_profile.cpp \
+    programs/program_interface.cpp \
+    programs/program_profile_gain.cpp \
+    programs/program_profile_variable.cpp
 
 HEADERS += \
         axis_definitions.h \
@@ -139,7 +143,11 @@ HEADERS += \
         communications/i_protocol_galil_events.h \
         communications/protocol_galil.h \
     status/status_generic.h \
-    commands/command_upload_program.h
+    commands/command_upload_program.h \
+    programs/program_generic_profile.h \
+    programs/program_interface.h \
+    programs/program_profile_gain.h \
+    programs/program_profile_variable.h
 
 
 # Unix lib Install

@@ -19,11 +19,11 @@ public:
     explicit WidgetProfileDisplay(QWidget *parent = 0);
     ~WidgetProfileDisplay();
 
-    void loadProfile(const SettingsGenericProfile &profile);
+    void loadProfile(const ProgramGenericProfile &profile);
 
 private:
     Ui::WidgetProfileDisplay *ui;
-    SettingsGenericProfile* settingsProfile;
+    ProgramGenericProfile* settingsProfile;
 };
 
 #endif // WIDGET_PROFILE_DISPLAY_H

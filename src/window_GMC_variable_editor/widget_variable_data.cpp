@@ -5,7 +5,7 @@ WidgetVariableData::WidgetVariableData(QWidget *parent) :
     QWidget(parent),ui(new Ui::WidgetVariableData)
 {
     ui->setupUi(this);
-    variable = new SettingsProfileVariable();
+    variable = new ProgramProfileVariable();
 }
 
 WidgetVariableData::~WidgetVariableData()
@@ -119,15 +119,15 @@ void WidgetVariableData::write(QJsonArray &jsonArray) const
     variable->write(jsonArray);
 }
 
-void WidgetVariableData::setVariableData(const SettingsProfileVariable &data)
+void WidgetVariableData::setVariableData(const ProgramProfileVariable &data)
 {
     *variable = data;
     this->updateDisplayValues();
 }
 
-SettingsProfileVariable WidgetVariableData::getProfileVariable() const
+ProgramProfileVariable WidgetVariableData::getProfileVariable() const
 {
-    SettingsProfileVariable newVariable(*this->variable);
+    ProgramProfileVariable newVariable(*this->variable);
     return newVariable;
 }
 
