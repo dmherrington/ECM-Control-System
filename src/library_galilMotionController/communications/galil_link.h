@@ -83,7 +83,6 @@ private:
 private:
     QThread *m_ListenThread;
     GCon galil; /**< Member variable containing a pointer to the Galil interface */
-    std::string galilAddress; /**< Member variable containing information about the address to the Galil unit. */
 
     bool connected;
 };

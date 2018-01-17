@@ -50,6 +50,16 @@ void GalilStateInterface::updatePosition(const std::vector<Status_Position> &dat
     }
 }
 
+void GalilStateInterface::setConnected(const bool &val)
+{
+    this->connected = val;
+}
+
+bool GalilStateInterface::isConnected()
+{
+    return this->connected;
+}
+
 void GalilStateInterface::transmitRequest(const AbstractRequest *req)
 {
 

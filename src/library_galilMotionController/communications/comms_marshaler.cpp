@@ -30,8 +30,9 @@ CommsMarshaler::CommsMarshaler()
 //! \param linkName Name of link to connect to
 //! \return True if connection succesfull, false otherwise
 //!
-bool CommsMarshaler::ConnectToLink(const std::string &linkName)
+bool CommsMarshaler::ConnectToLink(const std::string &address)
 {
+    link->SetLinkAddress(address);
     return link->Connect();
 }
 

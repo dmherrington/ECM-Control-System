@@ -40,19 +40,14 @@ public:
     //! \brief Set the name of the link
     //! \param str Name of link
     //!
-    virtual void SetLinkName(const std::string &str)
+    virtual void SetLinkAddress(const std::string &str)
     {
-        m_LinkName = str;
+        address = str;
     }
 
-
-    //!
-    //! \brief Get the name of link
-    //! \return Name of link
-    //!
-    virtual std::string GetLinkName() const
+    virtual std::string GetLinkAddress() const
     {
-        return m_LinkName;
+        return this->address;
     }
 
     virtual GReturn UploadProgram(const std::string &programText) const = 0;
@@ -75,10 +70,10 @@ public:
 
     virtual void MarshalOnThread(std::function<void()> func) = 0;
 
+protected:
+    std::string address; /**< Member variable containing information about the address to the unit. */
+
 private:
-
-    std::string m_LinkName;
-
     std::vector<const ILinkEvents*> m_Listeners;
 };
 

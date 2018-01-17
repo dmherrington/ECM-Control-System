@@ -59,7 +59,12 @@ galilMotionController::~galilMotionController()
 
 void galilMotionController::openConnection(const std::string &address)
 {
+    if(stateInterface->commsMarshaler->ConnectToLink(address)) //if true this means we have connected to the galil unit
+    {
+        stateInterface->setConnected(true);
+        //since we have now connected to the galil we can begin collecting information
 
+    }
 }
 
 void galilMotionController::closeConnection()

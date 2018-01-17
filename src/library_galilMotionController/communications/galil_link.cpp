@@ -67,7 +67,7 @@ bool GalilLink::Connect(void)
     }
 
     //We should attempt connecting to the Galil unit at the prescribed address
-    GReturn rtnCode = GOpen(galilAddress.c_str(),&galil);
+    GReturn rtnCode = GOpen(address.c_str(),&galil);
     if(rtnCode == G_NO_ERROR)
     {
         this->connected = true;
