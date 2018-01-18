@@ -6,11 +6,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
-enum class GainType{
-    PGain,
-    IGain,
-    DGain
-};
+#include "common_galil/galil_controller_gains.h"
 
 class ProgramProfileGain
 {

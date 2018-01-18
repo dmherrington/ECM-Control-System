@@ -3,21 +3,20 @@
 
 #include "axis_definitions.h"
 #include "common/class_forward.h"
-#include "commands/abstract_command.h"
+#include "commands/command_components.h"
 
-enum class gainTypes {
-    Proportional = 1,
-    Integral = 2,
-    Derivative = 3
-};
+#include "programs/program_profile_gain.h"
+#include "common_galil/galil_controller_gains.h"
+
 
 ECM_CLASS_FORWARD(CommandControllerGain);
 class CommandControllerGain
 {
 public:
+    CommandControllerGain(const ProgramProfileGain &profileGain);
     CommandControllerGain(const MotorAxis &axis);
 
-    void setGainValue(const gainTypes &type, const double value);
+    void setGainValue(const GainType &type, const double value);
     double getGainValue(const gainTypes &type) const;
     std::string getCommandString(const gainTypes &type) const;
 

@@ -18,6 +18,16 @@ void ProgramGeneric::addProfile(const ProgramGenericProfile &profile)
     }
 }
 
+bool ProgramGeneric::getProfileFromName(const std::string &profileName, ProgramGenericProfile &profile) const
+{
+    if(profileMap.count(profileName) > 0)
+    {
+        profile = profileMap.at(profileName);
+        return true;
+    }
+    return false;
+}
+
 std::string ProgramGeneric::buildProgram() const
 {
     std::string programString;

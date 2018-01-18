@@ -65,6 +65,18 @@ void State_Idle::handleCommand(const AbstractCommand* command)
 {
     CommandType currentCommand = command->getCommandType();
     switch (currentCommand) {
+    case CommandType::DOWNLOAD_PROGRAM:
+    {
+        //we can only download/upload commands in the idle state so this command is valid
+        Owner().commsMarshaler->downloadProgram();
+        break;
+    }
+    case CommandType::UPLOAD_PROGRAM:
+    {
+        CommandUploadProgram* castCommand = AbstractCommand.as<CommandUploadProgram>();
+        Owner().commsMarshaler->uploadProgram();
+        break;
+    }
     case CommandType::MOTOR_ON:
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.

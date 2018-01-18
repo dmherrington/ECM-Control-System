@@ -72,7 +72,8 @@ SOURCES += \
     settings/galil_settings.cpp \
     programs/galil_current_program.cpp \
     status/abstract_status.cpp \
-    commands/command_controller_gain.cpp
+    commands/command_controller_gain.cpp \
+    commands/command_download_program.cpp
 
 HEADERS += \
         axis_definitions.h \
@@ -143,7 +144,9 @@ HEADERS += \
         status/status_position.h \
         status/status_stop_code.h \
         status/status_switch.h \
-        status/abstract_status.h
+        status/abstract_status.h \
+    commands/command_download_program.h \
+    common_galil/galil_controller_gains.h
 
 # Unix lib Install
 unix:!symbian {

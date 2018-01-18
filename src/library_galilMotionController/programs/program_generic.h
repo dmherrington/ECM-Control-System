@@ -13,6 +13,8 @@ public:
 
     void addProfile(const ProgramGenericProfile &profile);
 
+    bool getProfileFromName(const std::string &profileName, ProgramGenericProfile &profile) const;
+
     std::string buildProgram() const;
 
 private:

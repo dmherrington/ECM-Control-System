@@ -21,19 +21,21 @@
 \*/
 
 enum class CommandType{
-    ABSOLUTE_MOVE = 0,
-    CLEAR_BIT = 1,
-    ESTOP = 2,
-    EXECUTE_PROGRAM = 3,
-    JOG_MOVE = 4,
-    MOTOR_OFF = 5,
-    MOTOR_ON = 6,
-    RELATIVE_MOVE = 7,
-    SET_BIT = 8,
-    SET_PGAIN = 9,
-    SET_IGAIN = 10,
-    SET_DGAIN = 11,
-    STOP = 12
+    ABSOLUTE_MOVE,
+    CLEAR_BIT,
+    DOWNLOAD_PROGRAM,
+    ESTOP,
+    EXECUTE_PROGRAM,
+    JOG_MOVE,
+    MOTOR_OFF,
+    MOTOR_ON,
+    RELATIVE_MOVE,
+    SET_BIT,
+    SET_PGAIN,
+    SET_IGAIN,
+    SET_DGAIN,
+    STOP,
+    UPLOAD_PROGRAM
 };
 
 //!

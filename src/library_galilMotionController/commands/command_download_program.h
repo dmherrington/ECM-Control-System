@@ -1,18 +1,20 @@
-#ifndef COMMAND_EXECUTE_PROGRAM_H
-#define COMMAND_EXECUTE_PROGRAM_H
+#ifndef COMMAND_DOWNLOAD_PROGRAM_H
+#define COMMAND_DOWNLOAD_PROGRAM_H
 
+#include "common/class_forward.h"
 #include "commands/abstract_command.h"
 
-class CommandExecuteProgram : public AbstractCommand
+ECM_CLASS_FORWARD(CommandDownloadProgram);
+class CommandDownloadProgram : public AbstractCommand
 {
 public:
-    CommandExecuteProgram();
+    CommandDownloadProgram();
 
-    CommandExecuteProgram(const CommandExecuteProgram &copy);
+    CommandDownloadProgram(const CommandDownloadProgram &copy);
 
     /**
       */
-    virtual ~CommandExecuteProgram() = default;
+    virtual ~CommandDownloadProgram() = default;
 
 public:
     /**
@@ -28,18 +30,11 @@ public:
     void getClone(AbstractCommand** state) const override;
 
 public:
-
-
-public:
     //!
     //! \brief getCommandString
     //! \return
     //!
     virtual std::string getCommandString() const override;
-
-private:
-    std::string scriptName = ""; /**< Value of the script location to start */
-
 };
 
-#endif // COMMAND_EXECUTE_PROGRAM_H
+#endif // COMMAND_DOWNLOAD_PROGRAM_H

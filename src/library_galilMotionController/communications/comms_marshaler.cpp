@@ -79,7 +79,10 @@ void CommsMarshaler::uploadProgram(const ProgramGeneric &program) const
 
 void CommsMarshaler::downloadProgram() const
 {
-
+    auto func = [this] () {
+        protocol->DownloadCurrentProgram(link.get());
+    };
+    link->MarshalOnThread(func);
 }
 
 

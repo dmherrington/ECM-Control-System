@@ -1,20 +1,27 @@
 #include "command_controller_gain.h"
 
+CommandControllerGain::CommandControllerGain(const ProgramProfileGain &profileGain)
+{
+    this->gain.p = profileGain.getGainValue(GainType::PGain);
+    this->gain.i = profileGain.getGainValue(GainType::IGain);
+    this->gain.d = profileGain.getGainValue(GainType::DGain);
+}
+
 CommandControllerGain::CommandControllerGain(const MotorAxis &axis)
 {
     this->axis = axis;
 }
 
-void CommandControllerGain::setGainValue(const gainTypes &type, const double value)
+void CommandControllerGain::setGainValue(const GainType &type, const double value)
 {
     switch (type) {
-    case gainTypes::Proportional:
+    case GainType::PGain:
         this->gain.p = value;
         break;
-    case gainTypes::Integral:
+    case GainType::IGain:
         this->gain.i = value;
         break;
-    case gainTypes::Derivative:
+    case GainType::DGain:
         this->gain.d = value;
         break;
     default:
@@ -22,16 +29,16 @@ void CommandControllerGain::setGainValue(const gainTypes &type, const double val
     }
 }
 
-double CommandControllerGain::getGainValue(const gainTypes &type) const
+double CommandControllerGain::getGainValue(const GainType &type) const
 {
     switch (type) {
-    case gainTypes::Proportional:
+    case GainType::PGain:
         return this->gain.p;
         break;
-    case gainTypes::Integral:
+    case GainType::IGain:
         return this->gain.i;
         break;
-    case gainTypes::Derivative:
+    case GainType::DGain:
         return this->gain.d;
         break;
     default:
@@ -40,25 +47,25 @@ double CommandControllerGain::getGainValue(const gainTypes &type) const
     }
 }
 
-std::string CommandControllerGain::getCommandString(const gainTypes &type) const
+std::string CommandControllerGain::getCommandString(const GainType &type) const
 {
     std::string rtn;
     switch (type) {
-    case gainTypes::Proportional:
+    case GainType::PGain:
     {
         CommandProportionalGain gain(this->axis);
         gain.setGainValue(this->gain.p);
         rtn = gain.getCommandString();
         break;
     }
-    case gainTypes::Integral:
+    case GainType::IGain:
     {
         CommandIntegralGain gain(this->axis);
         gain.setGainValue(this->gain.i);
         rtn = gain.getCommandString();
         break;
     }
-    case gainTypes::Derivative:
+    case GainType::DGain:
     {
         CommandDerivativeGain gain(this->axis);
         gain.setGainValue(this->gain.d);
