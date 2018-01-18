@@ -18,7 +18,7 @@
 #include "communications/comms_marshaler.h"
 
 
-class GalilStateInterface
+class GalilStateInterface : public Comms::CommsEvents
 {
 public:
     GalilStateInterface(const std::vector<MotorAxis> &availableAxis);
@@ -30,17 +30,18 @@ public:
     StatusInputs* getStatusInputs() const;
 
 public:
-    void transmitMessage(const std::string &msg);
+    void NewStatusPosition(const Status_Position &status) override;
 
-    void transmitCommand(const AbstractCommand* cmd);
+    void NewStatusMotorEnabled(const Status_MotorEnabled &status) override;
 
-    void transmitRequest(const AbstractRequest* req);
+    void NewStatusMotorInMotion(const Status_AxisInMotion &status) override;
 
+public:
     bool isMotorInMotion() const;
     bool isMotorArmed() const;
 
 
-public:
+private:
     void updatePosition(const std::vector<Status_Position> &data);
 
 public:

@@ -51,7 +51,7 @@ public:
     //! \brief getCommandString
     //! \return
     //!
-    virtual std::string getCommandString() const override;
+    std::string getCommandString() const override;
 
 public:
     //!

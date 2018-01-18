@@ -36,8 +36,40 @@ public:
     //! \brief getCommandString
     //! \return
     //!
-    virtual std::string getCommandString() const override;
+    std::string getCommandString() const override;
 
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    CommandEStop& operator = (const CommandEStop &rhs)
+    {
+        AbstractCommand::operator =(rhs);
+        return *this;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const CommandEStop &rhs)
+    {
+        if(!AbstractCommand::operator ==(rhs)){
+            return false;
+        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const CommandEStop &rhs) {
+        return !(*this == rhs);
+    }
 };
 
 

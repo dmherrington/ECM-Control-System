@@ -29,7 +29,8 @@ CommandJog::CommandJog(const double &resolution, const double &speed):
 CommandJog::CommandJog(const CommandJog &copy):
     AbstractMoveCommand(copy)
 {
-
+    this->jogResolution = copy.jogResolution;
+    this->jogSpeed = copy.jogSpeed;
 }
 
 AbstractCommand* CommandJog::getClone() const

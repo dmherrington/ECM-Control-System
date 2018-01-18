@@ -7,11 +7,13 @@ GalilStateInterface::GalilStateInterface(const std::vector<MotorAxis> &available
     //leading up to it
     for(unsigned int i = 0; i < availableAxis.size(); i++)
     {
-        mStatus[availableAxis[i]] = new GalilStatus(availableAxis[i]);
+        GalilStatus* newAxisStatus = new GalilStatus(availableAxis[i]);
+        mStatus[availableAxis[i]] = newAxisStatus;
+
     }
 
     commsMarshaler = new Comms::CommsMarshaler();
-
+    commsMarshaler->AddSubscriber(this);
 }
 
 GalilStateInterface::~GalilStateInterface()
@@ -79,19 +81,4 @@ bool GalilStateInterface::isMotorInMotion() const
     return isInMotion;
 }
 
-
-void GalilStateInterface::transmitRequest(const AbstractRequest *req)
-{
-
-}
-
-void GalilStateInterface::transmitCommand(const AbstractCommand *cmd)
-{
-    //commsMarshaler->sendGalilCommand(cmd);
-}
-
-void GalilStateInterface::transmitMessage(const std::string &msg)
-{
-
-}
 

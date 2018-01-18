@@ -118,8 +118,8 @@ GReturn GalilLink::WriteTellErrorCode(char *errorDescription) const
 
 GReturn GalilLink::WriteCommand(const std::string &command) const
 {
-    GReturn rtn = GCmd(galil,command.c_str());
-    return rtn;
+    //GReturn rtn = GCmd(galil,command.c_str());
+    //return rtn;
 }
 
 GReturn GalilLink::WriteRequest(const AbstractRequestPtr request) const

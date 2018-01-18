@@ -1,23 +1,33 @@
 #include "abstract_status.h"
 
-AbstractStatus::AbstractStatus(const RequestTypes &type):
-    requestType(type)
+AbstractStatus::AbstractStatus(const StatusTypes &type):
+    statusType(type)
 {
-
+    this->latestUpdate.CurrentTime(Data::Devices::SYSTEMCLOCK,this->latestUpdate);
 }
 
 AbstractStatus::AbstractStatus(const AbstractStatus &copy)
 {
-    this->requestType = copy.requestType;
+    this->statusType = copy.statusType;
+    this->latestUpdate = copy.latestUpdate;
 }
 
-void AbstractStatus::setRequestType(const RequestTypes &type)
+void AbstractStatus::setStatusType(const StatusTypes &type)
 {
-    this->requestType = type;
+    this->statusType = type;
 }
 
-RequestTypes AbstractStatus::getRequestType() const
+StatusTypes AbstractStatus::getStatusType() const
 {
-    return this->requestType;
+    return this->statusType;
 }
 
+void AbstractStatus::setTime(const Data::EnvironmentTime &time)
+{
+    this->latestUpdate = time;
+}
+
+Data::EnvironmentTime AbstractStatus::getTime() const
+{
+    return this->latestUpdate;
+}

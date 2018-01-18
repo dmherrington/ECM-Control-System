@@ -15,9 +15,9 @@ WidgetProfileDisplay::~WidgetProfileDisplay()
 
 void WidgetProfileDisplay::loadProfile(const ProgramGenericProfile &profile)
 {
-    this->ui->doubleSpinBox_PGain->setValue(profile.profileGain->getGainValue(GainType::PGain));
-    this->ui->doubleSpinBox_IGain->setValue(profile.profileGain->getGainValue(GainType::IGain));
-    this->ui->doubleSpinBox_DGain->setValue(profile.profileGain->getGainValue(GainType::DGain));
+    this->ui->doubleSpinBox_PGain->setValue(profile.profileGain.getGainValue(GainType::PGain));
+    this->ui->doubleSpinBox_IGain->setValue(profile.profileGain.getGainValue(GainType::IGain));
+    this->ui->doubleSpinBox_DGain->setValue(profile.profileGain.getGainValue(GainType::DGain));
 
     std::map<std::string,ProgramProfileVariable> profileVariables = profile.getVariableMap();
     std::map<std::string,ProgramProfileVariable>::const_iterator it;

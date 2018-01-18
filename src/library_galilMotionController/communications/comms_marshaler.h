@@ -51,6 +51,10 @@ public:
 
     void sendAbstractGalilRequest(const AbstractRequestPtr request);
 
+    void sendGalilProfileExecution(const AbstractCommandPtr &command);
+
+    void sendGalilControllerGains(const CommandControllerGain &command);
+
     void uploadProgram(const ProgramGeneric &program) const;
 
     void downloadProgram() const;

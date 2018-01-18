@@ -1,32 +1,24 @@
 #include "status_switch.h"
 
 Status_Switch::Status_Switch():
-    currentAxis(MotorAxis::Z), originalCode(0)
+    AbstractStatus(StatusTypes::STATUS_SWITCH)
 {
-    this->latestUpdate.CurrentTime(Data::Devices::SYSTEMCLOCK,this->latestUpdate);
     initializeMap();
 }
 
-Status_Switch::Status_Switch(const MotorAxis &axis, const int &code)
+Status_Switch::Status_Switch(const MotorAxis &axis, const int &code):
+    AbstractStatus(StatusTypes::STATUS_SWITCH)
 {
     this->setSwitchCode(code); //this will also set the time
     this->setAxis(axis);
 }
 
-Status_Switch::Status_Switch(const MotorAxis &axis, const Data::EnvironmentTime &time, const int &code)
-{
-    this->currentAxis = axis;
-    this->latestUpdate = time;
-    this->originalCode = code;
-    this->parseInt(this->originalCode);
-}
-
-Status_Switch::Status_Switch(const Status_Switch &copy)
+Status_Switch::Status_Switch(const Status_Switch &copy):
+    AbstractStatus(StatusTypes::STATUS_SWITCH)
 {
     this->currentAxis = copy.currentAxis;
     this->originalCode = copy.originalCode;
     this->mapStatus = copy.mapStatus;
-    this->latestUpdate = copy.latestUpdate;
 }
 
 void Status_Switch::setAxis(const MotorAxis &axis)
@@ -36,24 +28,13 @@ void Status_Switch::setAxis(const MotorAxis &axis)
 
 void Status_Switch::setSwitchCode(const int &code)
 {
-    this->latestUpdate.CurrentTime(Data::Devices::SYSTEMCLOCK,this->latestUpdate);
     this->originalCode = code;
     this->parseInt(this->originalCode);
-}
-
-void Status_Switch::setTime(const Data::EnvironmentTime &time)
-{
-    this->latestUpdate = time;
 }
 
 MotorAxis Status_Switch::getAxis() const
 {
     return this->currentAxis;
-}
-
-Data::EnvironmentTime Status_Switch::getTime() const
-{
-    return this->latestUpdate;
 }
 
 int Status_Switch::getCode() const

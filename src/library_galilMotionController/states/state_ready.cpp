@@ -170,6 +170,10 @@ void State_Ready::OnEnter()
         command->setEnableAxis(MotorAxis::Z);
         Owner().commsMarshaler->sendAbstractGalilCommand(command);
     }
+
+    //Next we should establish the necessary gains for motion within this state
+    CommandControllerGain command;
+    Owner().commsMarshaler->sendGalilControllerGains(command);
 }
 
 void State_Ready::OnEnter(const AbstractCommand* command)

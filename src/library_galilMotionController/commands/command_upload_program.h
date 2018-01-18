@@ -6,7 +6,7 @@
 #include "programs/program_generic.h"
 
 ECM_CLASS_FORWARD(CommandUploadProgram);
-class CommandUploadProgram
+class CommandUploadProgram : public AbstractCommand
 {
 public:
     CommandUploadProgram();

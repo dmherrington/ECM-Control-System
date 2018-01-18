@@ -73,7 +73,10 @@ public:
         return commandType;
     }
 
-    virtual std::string getCommandString() const = 0;
+    virtual std::string getCommandString() const
+    {
+        return "";
+    }
 
 public:
     //!

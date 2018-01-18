@@ -3,21 +3,23 @@
 
 #include <string.h>
 #include "common/class_forward.h"
-#include "requests/request_types.h"
 #include "common/environment_time.h"
 
-#include "gclib.h"
+#include "status/status_types.h"
 
 ECM_CLASS_FORWARD(AbstractStatus);
 class AbstractStatus
 {
 public:
-    AbstractStatus(const RequestTypes &type);
+    AbstractStatus(const StatusTypes &type);
 
     AbstractStatus(const AbstractStatus &copy);
 
-    void setRequestType(const RequestTypes &type);
-    RequestTypes getRequestType() const;
+    void setStatusType(const StatusTypes &type);
+    StatusTypes getStatusType() const;
+
+    void setTime(const Data::EnvironmentTime &time);
+    Data::EnvironmentTime getTime() const;
 
 public:
     /**
@@ -42,12 +44,16 @@ public:
 public:
     AbstractStatus& operator = (const AbstractStatus &rhs)
     {
-        this->requestType = rhs.requestType;
+        this->statusType = rhs.statusType;
+        this->latestUpdate = rhs.latestUpdate;
         return *this;
     }
 
     bool operator == (const AbstractStatus &rhs) {
-        if(this->requestType != rhs.requestType){
+        if(this->statusType != rhs.statusType){
+            return false;
+        }
+        if(this->latestUpdate != rhs.latestUpdate){
             return false;
         }
         return true;
@@ -58,7 +64,8 @@ public:
     }
 
 private:
-    RequestTypes requestType;
+    StatusTypes statusType;
+    Data::EnvironmentTime latestUpdate;
 };
 
 #endif // ABSTRACT_STATUS_H

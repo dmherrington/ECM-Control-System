@@ -63,6 +63,48 @@ public:
 public:
     std::string getCommandString() const override;
 
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    CommandJog& operator = (const CommandJog &rhs)
+    {
+        AbstractMoveCommand::operator =(rhs);
+        this->jogResolution = rhs.jogResolution;
+        this->jogSpeed = rhs.jogSpeed;
+        return *this;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const CommandJog &rhs)
+    {
+        if(!AbstractCommand::operator ==(rhs)){
+            return false;
+        }
+        if(this->jogResolution != rhs.jogResolution){
+            return false;
+        }
+        if(this->jogSpeed != rhs.jogSpeed){
+            return false;
+        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const CommandJog &rhs) {
+        return !(*this == rhs);
+    }
+
+
 private:
     double jogResolution = 1000; /**< Value of the jog resolution as related to the TM command */
     std::map<MotorAxis, double> jogSpeed; /**< Value of the jog speed in cnts/second */

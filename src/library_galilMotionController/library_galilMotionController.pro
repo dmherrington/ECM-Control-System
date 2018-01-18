@@ -34,7 +34,6 @@ SOURCES += \
     commands/command_set_bit.cpp \
     galil_poll_status.cpp \
     commands/command_clear_bit.cpp \
-    commands/command_execute_program.cpp \
     states/state_idle.cpp \
     states/state_ready.cpp \
     states/state_jogging.cpp \
@@ -73,7 +72,10 @@ SOURCES += \
     programs/galil_current_program.cpp \
     status/abstract_status.cpp \
     commands/command_controller_gain.cpp \
-    commands/command_download_program.cpp
+    commands/command_download_program.cpp \
+    commands/command_execute_profile.cpp \
+    status/status_axis_in_motion.cpp \
+    status/status_motor_enabled.cpp
 
 HEADERS += \
         axis_definitions.h \
@@ -89,8 +91,9 @@ HEADERS += \
         commands/command_clear_bit.h \
         commands/command_components.h \
         commands/command_controller_gain.h \
+        commands/command_download_program.h \
         commands/command_estop.h \
-        commands/command_execute_program.h \
+        commands/command_execute_profile.h \
         commands/command_jog.h \
         commands/command_motor_disable.h \
         commands/command_motor_enable.h \
@@ -99,6 +102,7 @@ HEADERS += \
         commands/command_stop.h \
         commands/command_types.h \
         commands/command_upload_program.h \
+        common_galil/galil_controller_gains.h \
         communications/comms_events.h \
         communications/comms_marshaler.h \
         communications/galil_link.h \
@@ -145,8 +149,9 @@ HEADERS += \
         status/status_stop_code.h \
         status/status_switch.h \
         status/abstract_status.h \
-    commands/command_download_program.h \
-    common_galil/galil_controller_gains.h
+    status/status_axis_in_motion.h \
+    status/status_types.h \
+    status/status_motor_enabled.h
 
 # Unix lib Install
 unix:!symbian {

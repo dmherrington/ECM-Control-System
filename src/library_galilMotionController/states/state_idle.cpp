@@ -73,8 +73,9 @@ void State_Idle::handleCommand(const AbstractCommand* command)
     }
     case CommandType::UPLOAD_PROGRAM:
     {
-        CommandUploadProgram* castCommand = AbstractCommand.as<CommandUploadProgram>();
-        Owner().commsMarshaler->uploadProgram();
+        this->currentCommand = command->getClone();
+        const CommandUploadProgram* castCommand = this->currentCommand->as<CommandUploadProgram>();
+        Owner().commsMarshaler->uploadProgram(castCommand->getProgram());
         break;
     }
     case CommandType::MOTOR_ON:

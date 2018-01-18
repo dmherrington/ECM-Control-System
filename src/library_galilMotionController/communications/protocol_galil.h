@@ -32,10 +32,18 @@ public:
     //////////////////////////////////////////////////////////////
     void UploadNewProgram(const ILink* link, const ProgramGeneric &program);
     void DownloadCurrentProgram(const ILink* link);
+    void ExecuteProfile(const ILink* link, const AbstractCommandPtr &command);
+
+    //////////////////////////////////////////////////////////////
+    /// Methods issuing an explicit galil controller gain command
+    //////////////////////////////////////////////////////////////
+public:
+    void SendProtocolGainCommand(const ILink *link, const CommandControllerGain &command);
 
     //////////////////////////////////////////////////////////////
     /// Methods issuing an explicit galil command
     //////////////////////////////////////////////////////////////
+public:
     void SendProtocolCommand(const ILink *link, const AbstractCommandPtr command);
 
 private:

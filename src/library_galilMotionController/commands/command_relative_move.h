@@ -54,6 +54,43 @@ public:
 public:
     std::string getCommandString() const override;
 
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    CommandRelativeMove& operator = (const CommandRelativeMove &rhs)
+    {
+        AbstractCommand::operator =(rhs);
+        this->relativeMove = rhs.relativeMove;
+        return *this;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const CommandRelativeMove &rhs)
+    {
+        if(!AbstractCommand::operator ==(rhs)){
+            return false;
+        }
+        if(this->relativeMove != rhs.relativeMove){
+            return false;
+        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const CommandRelativeMove &rhs) {
+        return !(*this == rhs);
+    }
+
 private:
     std::map<MotorAxis, int> relativeMove; /**< Value of the relative move */
 };

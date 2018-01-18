@@ -11,9 +11,13 @@ class ProgramGeneric
 public:
     ProgramGeneric();
 
+    ProgramGeneric(const ProgramGeneric &copy);
+
     void addProfile(const ProgramGenericProfile &profile);
 
     bool getProfileFromName(const std::string &profileName, ProgramGenericProfile &profile) const;
+
+    bool getProfileLabel(const std::string &profileName, std::string &profileLabel) const;
 
     std::string buildProgram() const;
 

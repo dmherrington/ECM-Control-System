@@ -8,7 +8,7 @@
 #include "commands/command_controller_gain.h"
 #include "commands/command_download_program.h"
 #include "commands/command_estop.h"
-#include "commands/command_execute_program.h"
+#include "commands/command_execute_profile.h"
 #include "commands/command_jog.h"
 #include "commands/command_motor_disable.h"
 #include "commands/command_motor_enable.h"

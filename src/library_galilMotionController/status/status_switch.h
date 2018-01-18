@@ -3,8 +3,8 @@
 
 #include <map>
 
-#include "common/environment_time.h"
 #include <axis_definitions.h>
+#include "status/abstract_status.h"
 
 enum SwitchStatus{
     POSLAT = 0,
@@ -17,23 +17,19 @@ enum SwitchStatus{
     AXIS_IN_MOTION = 7
 };
 
-class Status_Switch
+class Status_Switch : public AbstractStatus
 {
 public:
     Status_Switch();
 
     Status_Switch(const MotorAxis &axis, const int &code);
 
-    Status_Switch(const MotorAxis &axis, const Data::EnvironmentTime &time, const int &code);
-
     Status_Switch(const Status_Switch &copy);
 
     void setAxis(const MotorAxis &axis);
     void setSwitchCode(const int &code);
-    void setTime(const Data::EnvironmentTime &time);
 
     MotorAxis getAxis() const;
-    Data::EnvironmentTime getTime() const;
     int getCode() const;
     bool getSwitchStatus(const SwitchStatus &bit) const;
 
@@ -44,13 +40,16 @@ private:
 public:
     void operator = (const Status_Switch &rhs)
     {
+        AbstractStatus::operator =(rhs);
         this->currentAxis = rhs.currentAxis;
         this->originalCode = rhs.originalCode;
         this->mapStatus = rhs.mapStatus;
-        this->latestUpdate = rhs.latestUpdate;
     }
 
     bool operator == (const Status_Switch &rhs) {
+        if(!AbstractStatus::operator ==(rhs)){
+            return false;
+        }
         if(this->currentAxis != rhs.currentAxis){
             return false;
         }
@@ -58,9 +57,6 @@ public:
             return false;
         }
         if(this->mapStatus != rhs.mapStatus){
-            return false;
-        }
-        if(this->latestUpdate != rhs.latestUpdate){
             return false;
         }
         return true;
@@ -71,10 +67,9 @@ public:
     }
 
 private:
-    MotorAxis currentAxis;
-    int originalCode;
+    MotorAxis currentAxis = MotorAxis::Z;
+    int originalCode = 0;
     std::map<SwitchStatus,bool> mapStatus;
-    Data::EnvironmentTime latestUpdate;
 };
 
 #endif // STATUS_SWITCH_H

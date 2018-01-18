@@ -5,6 +5,11 @@ ProgramGeneric::ProgramGeneric()
 
 }
 
+ProgramGeneric::ProgramGeneric(const ProgramGeneric &copy)
+{
+    this->profileMap = copy.profileMap;
+}
+
 void ProgramGeneric::addProfile(const ProgramGenericProfile &profile)
 {
     std::string profileName = profile.getProfileName();
@@ -23,6 +28,16 @@ bool ProgramGeneric::getProfileFromName(const std::string &profileName, ProgramG
     if(profileMap.count(profileName) > 0)
     {
         profile = profileMap.at(profileName);
+        return true;
+    }
+    return false;
+}
+
+bool ProgramGeneric::getProfileLabel(const std::string &profileName, std::string &profileLabel) const
+{
+    if(profileMap.count(profileName) > 0)
+    {
+        profileLabel = profileMap.at(profileName).getProfileLabel();
         return true;
     }
     return false;

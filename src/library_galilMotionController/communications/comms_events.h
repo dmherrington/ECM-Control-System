@@ -36,6 +36,17 @@ public:
     {
         UNUSED(status);
     }
+
+    virtual void NewStatusMotorEnabled(const Status_MotorEnabled &status)
+    {
+        UNUSED(status);
+    }
+
+    virtual void NewStatusMotorInMotion(const Status_AxisInMotion &status)
+    {
+        UNUSED(status);
+    }
+
 };
 
 }

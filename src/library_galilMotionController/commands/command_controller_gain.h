@@ -8,31 +8,6 @@
 #include "programs/program_profile_gain.h"
 #include "common_galil/galil_controller_gains.h"
 
-
-ECM_CLASS_FORWARD(CommandControllerGain);
-class CommandControllerGain
-{
-public:
-    CommandControllerGain(const ProgramProfileGain &profileGain);
-    CommandControllerGain(const MotorAxis &axis);
-
-    void setGainValue(const GainType &type, const double value);
-    double getGainValue(const gainTypes &type) const;
-    std::string getCommandString(const gainTypes &type) const;
-
-private:
-    struct controllerGain
-    {
-        double p = 0.0;
-        double i = 0.0;
-        double d = 0.0;
-    };
-
-private:
-    MotorAxis axis = MotorAxis::Z;
-    controllerGain gain;
-};
-
 ECM_CLASS_FORWARD(CommandProportionalGain);
 class CommandProportionalGain : public AbstractCommand
 {
@@ -63,7 +38,7 @@ public:
     //! \brief getCommandString
     //! \return
     //!
-    virtual std::string getCommandString() const override;
+    std::string getCommandString() const override;
 
 public:
     void setGainValue(const double &value);
@@ -103,7 +78,7 @@ public:
     //! \brief getCommandString
     //! \return
     //!
-    virtual std::string getCommandString() const override;
+    std::string getCommandString() const override;
 
 public:
     void setGainValue(const double &value);
@@ -143,7 +118,7 @@ public:
     //! \brief getCommandString
     //! \return
     //!
-    virtual std::string getCommandString() const override;
+    std::string getCommandString() const override;
 
 public:
     void setGainValue(const double &value);
@@ -151,6 +126,35 @@ public:
 private:
     MotorAxis axis = MotorAxis::Z;
     double gainValue = 0.0;
+};
+
+ECM_CLASS_FORWARD(CommandControllerGain);
+class CommandControllerGain
+{
+public:
+    CommandControllerGain();
+    CommandControllerGain(const ProgramProfileGain &profileGain);
+
+    /**
+      */
+    virtual ~CommandControllerGain() = default;
+
+public:
+    void setGainValue(const GainType &type, const double value);
+    double getGainValue(const GainType &type) const;
+    std::string getCommandString(const GainType &type) const;
+
+private:
+    struct controllerGain
+    {
+        double p = 60.0;
+        double i = 30.0;
+        double d = 2.0;
+    };
+
+private:
+    MotorAxis axis = MotorAxis::Z;
+    controllerGain gain;
 };
 
 #endif // COMMAND_CONTROLLER_GAIN_H

@@ -3,8 +3,7 @@
 
 #include <QWidget>
 
-#include "library_galilMotionController/settings/settings_profile_variable.h"
-
+#include "library_galilMotionController/programs/program_profile_variable.h"
 namespace Ui {
 class WidgetProfileVariableDisplay;
 }

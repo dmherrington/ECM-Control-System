@@ -34,7 +34,40 @@ public:
     //! \brief getCommandString
     //! \return
     //!
-    virtual std::string getCommandString() const override;
+    std::string getCommandString() const override;
+
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    CommandDownloadProgram& operator = (const CommandDownloadProgram &rhs)
+    {
+        AbstractCommand::operator =(rhs);
+        return *this;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const CommandDownloadProgram &rhs)
+    {
+        if(!AbstractCommand::operator ==(rhs)){
+            return false;
+        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const CommandDownloadProgram &rhs) {
+        return !(*this == rhs);
+    }
 };
 
 #endif // COMMAND_DOWNLOAD_PROGRAM_H

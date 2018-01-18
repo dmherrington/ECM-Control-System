@@ -1,15 +1,15 @@
 #include "command_controller_gain.h"
 
+CommandControllerGain::CommandControllerGain()
+{
+
+}
+
 CommandControllerGain::CommandControllerGain(const ProgramProfileGain &profileGain)
 {
     this->gain.p = profileGain.getGainValue(GainType::PGain);
     this->gain.i = profileGain.getGainValue(GainType::IGain);
     this->gain.d = profileGain.getGainValue(GainType::DGain);
-}
-
-CommandControllerGain::CommandControllerGain(const MotorAxis &axis)
-{
-    this->axis = axis;
 }
 
 void CommandControllerGain::setGainValue(const GainType &type, const double value)
@@ -75,6 +75,7 @@ std::string CommandControllerGain::getCommandString(const GainType &type) const
     default:
         break;
     }
+    return rtn;
 }
 
 ////////////////////////////////////////////////////////////////////////////

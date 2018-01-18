@@ -38,7 +38,44 @@ public:
     //! \brief getCommandString
     //! \return
     //!
-    virtual std::string getCommandString() const override;
+    std::string getCommandString() const override;
+
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    CommandClearBit& operator = (const CommandClearBit &rhs)
+    {
+        AbstractCommand::operator =(rhs);
+        this->digitalAddr = rhs.digitalAddr;
+        return *this;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const CommandClearBit &rhs)
+    {
+        if(!AbstractCommand::operator ==(rhs)){
+            return false;
+        }
+        if(this->digitalAddr != rhs.digitalAddr){
+            return false;
+        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const CommandClearBit &rhs) {
+        return !(*this == rhs);
+    }
 
 private:
     std::vector<unsigned int> digitalAddr; /**< Value of the IO address to set high/low */

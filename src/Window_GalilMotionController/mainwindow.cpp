@@ -194,20 +194,20 @@ void MainWindow::on_pushButton_MotorDisable_clicked()
 
 void MainWindow::on_pushButton_RunProfile_clicked()
 {
-    CommandExecuteProgram* start = new CommandExecuteProgram();
-    m_Galil->executeCommand(start);
-    delete start;
+    //CommandExecuteProfile* start = new CommandExecuteProfile();
+    //m_Galil->executeCommand(start);
+    //delete start;
 }
 
 void MainWindow::on_pushButton_UploadProgram_clicked()
 {
-    m_Galil->uploadProgram(ui->programText->toPlainText().toStdString());
+    //m_Galil->uploadProgram(ui->programText->toPlainText().toStdString());
 }
 
 void MainWindow::on_pushButton_DownloadProgram_clicked()
 {
     std::string programText ="";
-    m_Galil->downloadProgram(programText);
+    //m_Galil->downloadProgram(programText);
     ui->programText->setText(QString::fromStdString(programText));
 }
 

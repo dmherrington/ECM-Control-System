@@ -14,7 +14,7 @@ CommandUploadProgram::CommandUploadProgram(const CommandUploadProgram &copy):
 
 AbstractCommand* CommandUploadProgram::getClone() const
 {
-    return (new CommandDownloadProgram(*this));
+    return (new CommandUploadProgram(*this));
 }
 
 void CommandUploadProgram::getClone(AbstractCommand** state) const

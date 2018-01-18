@@ -30,6 +30,7 @@ public:
     AbstractMoveCommand(const CommandType &type, const MotorAxis &axis):
         AbstractCommand(type)
     {
+        this->moveType = type;
         this->moveAxis = axis;
         moveDirection[MotorAxis::X] = Direction::DIRECTION_UP;
         moveDirection[MotorAxis::Y] = Direction::DIRECTION_UP;
@@ -41,8 +42,9 @@ public:
     AbstractMoveCommand(const AbstractMoveCommand &copy):
         AbstractCommand(copy.getMoveType())
     {
-        this->moveAxis = copy.getMoveAxis();
-        this->moveDirection = copy.getMoveDirection();
+        this->moveType = copy.moveType;
+        this->moveAxis = copy.moveAxis;
+        this->moveDirection = copy.moveDirection;
     }
 
 public:
@@ -99,14 +101,45 @@ public:
     }
 
 public:
-    AbstractMoveCommand& operator = (const AbstractMoveCommand &assign)
+    AbstractMoveCommand& operator = (const AbstractMoveCommand &rhs)
     {
-        this->moveType = assign.moveType;
-        this->moveAxis = assign.moveAxis;
-        this->moveDirection = assign.moveDirection;
+        AbstractCommand::operator =(rhs);
+        this->moveType = rhs.moveType;
+        this->moveAxis = rhs.moveAxis;
+        this->moveDirection = rhs.moveDirection;
         return *this;
     }
 
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const AbstractMoveCommand &rhs)
+    {
+        if(!AbstractCommand::operator ==(rhs)){
+            return false;
+        }
+        if(this->moveType != rhs.moveType){
+            return false;
+        }
+        if(this->moveAxis != rhs.moveAxis){
+            return false;
+        }
+        if(this->moveDirection != rhs.moveDirection){
+            return false;
+        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const AbstractMoveCommand &rhs) {
+        return !(*this == rhs);
+    }
 
 
 protected:

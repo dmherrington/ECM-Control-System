@@ -19,6 +19,10 @@ void GalilProtocol::AddListner(const IProtocolGalilEvents* listener)
     m_Listners.push_back(listener);
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Methods issuing commands relevant to the galil program
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void GalilProtocol::UploadNewProgram(const ILink *link, const ProgramGeneric &program)
 {
     std::cout<<"I am trying to upload a new program"<<std::endl;
@@ -29,6 +33,34 @@ void GalilProtocol::UploadNewProgram(const ILink *link, const ProgramGeneric &pr
 void GalilProtocol::DownloadCurrentProgram(const ILink *link)
 {
     std::cout<<"I am trying to download a new program"<<std::endl;
+}
+
+void GalilProtocol::ExecuteProfile(const ILink *link, const AbstractCommandPtr &command)
+{
+    std::cout<<"I am trying to execute a new profile"<<std::endl;
+    //First, let us establish the correct gains for the galil
+//    CommandControllerGain commandGain(profile.profileGain);
+//    SendProtocolGainCommand(link,commandGain);
+    //Next, let us exectue the profile
+//    CommandExecuteProfilePtr commandPtr = std::make_shared<CommandExecuteProfile>(command);
+//    SendProtocolCommand(link,commandPtr);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Methods issuing an explicit galil controller gain command
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void GalilProtocol::SendProtocolGainCommand(const ILink *link, const CommandControllerGain &command)
+{
+    //Grab the proportional gain and set it
+    std::string pCommandString = command.getCommandString(GainType::PGain);
+    GReturn rtn = link->WriteCommand(pCommandString);
+    //Grab the integral gain and set it
+    std::string iCommandString = command.getCommandString(GainType::IGain);
+    rtn = link->WriteCommand(iCommandString);
+    //Grab the derivative gain and set it
+    std::string dCommandString = command.getCommandString(GainType::DGain);
+    rtn = link->WriteCommand(dCommandString);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
