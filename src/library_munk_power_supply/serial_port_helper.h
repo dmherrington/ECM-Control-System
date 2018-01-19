@@ -30,7 +30,11 @@ public:
     void receivedBytes(const QByteArray &array);
 
 signals:
+<<<<<<< HEAD
+    void bytesReceived(const QByteArray &data);
+=======
     void transmitByteArray(const QByteArray &array);
+>>>>>>> master
 
 private:
     bool searchForStartingIndex(const QByteArray &array, int &index);

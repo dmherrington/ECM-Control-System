@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/Images">
+        <file>images/open_icon.png</file>
+        <file>images/save_icon.png</file>
+        <file>images/exit_icon.png</file>
+        <file>images/add_complex.png</file>
+        <file>images/add_simple.png</file>
+        <file>images/cancel.png</file>
+    </qresource>
+</RCC>
