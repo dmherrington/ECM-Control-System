@@ -70,8 +70,11 @@ std::vector<AbstractStatusPtr> RequestTellPosition::getStatus() const
         //we will not currently support this
     }
     else{
-        Status_PositionPtr position = std::make_shared<Status_Position>(tellAxis, latestUpdate, result.toInt());
-        rtn.push_back(position);
+        Status_PositionPtr position = std::make_shared<Status_Position>();
+        position->setAxis(tellAxis);
+        position->setTime(latestUpdate);
+        position->setPosition(result.toInt());
+       rtn.push_back(position);
     }
 
     return rtn;

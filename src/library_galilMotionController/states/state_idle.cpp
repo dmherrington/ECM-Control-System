@@ -170,8 +170,8 @@ void State_Idle::OnEnter()
     CommandMotorDisable cmd;
     cmd.setDisableAxis(MotorAxis::Z);
     GalilStatus* status = Owner().getAxisStatus(MotorAxis::Z);
-    if(status->isMotorRunning())
-        Owner().transmitMessage(cmd.getCommandString());
+//    if(status->isMotorRunning())
+//        Owner().commsMarshaler.(cmd.getCommandString());
 }
 
 void State_Idle::OnEnter(const AbstractCommand *command)

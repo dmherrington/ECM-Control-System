@@ -149,9 +149,9 @@ HEADERS += \
         status/status_stop_code.h \
         status/status_switch.h \
         status/abstract_status.h \
-    status/status_axis_in_motion.h \
-    status/status_types.h \
-    status/status_motor_enabled.h
+        status/status_axis_in_motion.h \
+        status/status_types.h \
+        status/status_motor_enabled.h
 
 # Unix lib Install
 unix:!symbian {
@@ -200,16 +200,24 @@ headers_commands.files   += \
         commands/command_clear_bit.h \
         commands/command_components.h \
         commands/command_controller_gain.h \
+        commands/command_download_program.h \
         commands/command_estop.h \
-        commands/command_execute_program.h \
+        commands/command_execute_profile.h \
         commands/command_jog.h \
         commands/command_motor_disable.h \
         commands/command_motor_enable.h \
         commands/command_relative_move.h \
         commands/command_set_bit.h \
         commands/command_stop.h \
-        commands/command_types.h
+        commands/command_types.h \
+        commands/command_upload_program.h
 INSTALLS       += headers_commands
+
+#Header file copy
+headers_common_galil.path    = $$(ECM_ROOT)/include/library_galilMotionController/common_galil
+headers_common_galil.files   += \
+        common_galil/galil_controller_gains.h
+INSTALLS       += headers_common_galil
 
 #Header file copy
 headers_programs.path    = $$(ECM_ROOT)/include/library_galilMotionController/programs
@@ -270,7 +278,11 @@ headers_status.files   += \
         status/status_inputs.h \
         status/status_position.h \
         status/status_stop_code.h \
-        status/status_switch.h
+        status/status_switch.h \
+        status/abstract_status.h \
+        status/status_axis_in_motion.h \
+        status/status_types.h \
+        status/status_motor_enabled.h
 INSTALLS       += headers_status
 
 INCLUDEPATH += $$PWD/../

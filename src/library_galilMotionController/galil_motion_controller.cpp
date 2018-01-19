@@ -276,6 +276,6 @@ void galilMotionController::downloadProgram() const
 
 void galilMotionController::cbi_GalilStatusRequestCommand(const AbstractRequest *request)
 {
-    stateInterface->transmitRequest(request);
+    //stateInterface->transmitRequest(request);
 }
 
