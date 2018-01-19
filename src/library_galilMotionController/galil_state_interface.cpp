@@ -81,4 +81,19 @@ bool GalilStateInterface::isMotorInMotion() const
     return isInMotion;
 }
 
+void GalilStateInterface::NewStatusPosition(const Status_Position &status)
+{
+    std::cout<<"State interface has seen a new position"<<std::endl;
+}
+
+void GalilStateInterface::NewStatusMotorEnabled(const Status_MotorEnabled &status)
+{
+    std::cout<<"State interface has seen a new motor enabled"<<std::endl;
+}
+
+void GalilStateInterface::NewStatusMotorInMotion(const Status_AxisInMotion &status)
+{
+    std::cout<<"State interface has seen a new motor in motion"<<std::endl;
+}
+
 
