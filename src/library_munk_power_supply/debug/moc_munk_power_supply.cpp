@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'munk_power_supply.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.9.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.10.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'munk_power_supply.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.9.1. It"
+#error "This file was generated using the moc from 5.10.0. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MunkPowerSupply_t {
-    QByteArrayData data[25];
-    char stringdata0[471];
+    QByteArrayData data[23];
+    char stringdata0[454];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -53,9 +53,7 @@ QT_MOC_LITERAL(18, 375, 20), // "Data::DataFaultCodes"
 QT_MOC_LITERAL(19, 396, 4), // "code"
 QT_MOC_LITERAL(20, 401, 20), // "transmissionProgress"
 QT_MOC_LITERAL(21, 422, 15), // "munkSupplyError"
-QT_MOC_LITERAL(22, 438, 15), // "serialPortError"
-QT_MOC_LITERAL(23, 454, 11), // "receivedMSG"
-QT_MOC_LITERAL(24, 466, 4) // "data"
+QT_MOC_LITERAL(22, 438, 15) // "serialPortError"
 
     },
     "MunkPowerSupply\0signal_SerialPortStatus\0"
@@ -71,7 +69,7 @@ QT_MOC_LITERAL(24, 466, 4) // "data"
     "segmentTime\0messageGenerationProgress\0"
     "Data::DataFaultCodes\0code\0"
     "transmissionProgress\0munkSupplyError\0"
-    "serialPortError\0receivedMSG\0data"
+    "serialPortError"
 };
 #undef QT_MOC_LITERAL
 
@@ -81,7 +79,7 @@ static const uint qt_meta_data_MunkPowerSupply[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -89,17 +87,14 @@ static const uint qt_meta_data_MunkPowerSupply[] = {
        8,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    2,   59,    2, 0x06 /* Public */,
-       6,    2,   64,    2, 0x06 /* Public */,
-      10,    2,   69,    2, 0x06 /* Public */,
-      14,    1,   74,    2, 0x06 /* Public */,
-      17,    1,   77,    2, 0x06 /* Public */,
-      20,    0,   80,    2, 0x06 /* Public */,
-      21,    0,   81,    2, 0x06 /* Public */,
-      22,    0,   82,    2, 0x06 /* Public */,
-
- // slots: name, argc, parameters, tag, flags
-      23,    1,   83,    2, 0x08 /* Private */,
+       1,    2,   54,    2, 0x06 /* Public */,
+       6,    2,   59,    2, 0x06 /* Public */,
+      10,    2,   64,    2, 0x06 /* Public */,
+      14,    1,   69,    2, 0x06 /* Public */,
+      17,    1,   72,    2, 0x06 /* Public */,
+      20,    0,   75,    2, 0x06 /* Public */,
+      21,    0,   76,    2, 0x06 /* Public */,
+      22,    0,   77,    2, 0x06 /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Bool, 0x80000000 | 4,    3,    5,
@@ -110,9 +105,6 @@ static const uint qt_meta_data_MunkPowerSupply[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-
- // slots: parameters
-    QMetaType::Void, QMetaType::QByteArray,   24,
 
        0        // eod
 };
@@ -131,64 +123,62 @@ void MunkPowerSupply::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
         case 5: _t->transmissionProgress(); break;
         case 6: _t->munkSupplyError(); break;
         case 7: _t->serialPortError(); break;
-        case 8: _t->receivedMSG((*reinterpret_cast< const QByteArray(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
-        void **func = reinterpret_cast<void **>(_a[1]);
         {
             typedef void (MunkPowerSupply::*_t)(const bool & , const std::string & );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&MunkPowerSupply::signal_SerialPortStatus)) {
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MunkPowerSupply::signal_SerialPortStatus)) {
                 *result = 0;
                 return;
             }
         }
         {
             typedef void (MunkPowerSupply::*_t)(const DataParameter::SegmentCurrentSetpoint & , const DataParameter::SegmentCurrentSetpoint & );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&MunkPowerSupply::signal_NewCurrentSetpoint)) {
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MunkPowerSupply::signal_NewCurrentSetpoint)) {
                 *result = 1;
                 return;
             }
         }
         {
             typedef void (MunkPowerSupply::*_t)(const DataParameter::SegmentVoltageSetpoint & , const DataParameter::SegmentVoltageSetpoint & );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&MunkPowerSupply::signal_NewVoltageSetpoint)) {
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MunkPowerSupply::signal_NewVoltageSetpoint)) {
                 *result = 2;
                 return;
             }
         }
         {
             typedef void (MunkPowerSupply::*_t)(const DataParameter::SegmentTimeGeneral & );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&MunkPowerSupply::signal_NewTimeSetpoint)) {
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MunkPowerSupply::signal_NewTimeSetpoint)) {
                 *result = 3;
                 return;
             }
         }
         {
             typedef void (MunkPowerSupply::*_t)(const Data::DataFaultCodes & );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&MunkPowerSupply::messageGenerationProgress)) {
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MunkPowerSupply::messageGenerationProgress)) {
                 *result = 4;
                 return;
             }
         }
         {
             typedef void (MunkPowerSupply::*_t)();
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&MunkPowerSupply::transmissionProgress)) {
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MunkPowerSupply::transmissionProgress)) {
                 *result = 5;
                 return;
             }
         }
         {
             typedef void (MunkPowerSupply::*_t)();
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&MunkPowerSupply::munkSupplyError)) {
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MunkPowerSupply::munkSupplyError)) {
                 *result = 6;
                 return;
             }
         }
         {
             typedef void (MunkPowerSupply::*_t)();
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&MunkPowerSupply::serialPortError)) {
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MunkPowerSupply::serialPortError)) {
                 *result = 7;
                 return;
             }
@@ -211,9 +201,9 @@ void *MunkPowerSupply::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
     if (!strcmp(_clname, qt_meta_stringdata_MunkPowerSupply.stringdata0))
-        return static_cast<void*>(const_cast< MunkPowerSupply*>(this));
-    if (!strcmp(_clname, "SerialPortManager_Interface"))
-        return static_cast< SerialPortManager_Interface*>(const_cast< MunkPowerSupply*>(this));
+        return static_cast<void*>(this);
+    if (!strcmp(_clname, "comms::CommsEvents"))
+        return static_cast< comms::CommsEvents*>(this);
     return QObject::qt_metacast(_clname);
 }
 
@@ -223,13 +213,13 @@ int MunkPowerSupply::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 9)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 8;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 9)
+        if (_id < 8)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 9;
+        _id -= 8;
     }
     return _id;
 }

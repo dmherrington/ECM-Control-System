@@ -26,24 +26,59 @@ public:
     ~MainWindow();
 
 private slots:
+
     void on_pushButton_released();
 
     void widgetSegmentDisplay_dataUpdate(const std::list<DataParameter::SegmentTimeDataDetailed> &newData);
 
-    void onOpen();
-    void onSave();
-    void onSaveAs();
-    void onExit();
+    void slot_SerialPortStatus(const bool &open_close, const std::string &errorString);
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Private SLOTS related to events triggered from the munk library
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    void slot_ConnectionStatusUpdate(const bool &open_close);
+
+    void slot_CommunicationError();
+
+    void slot_CommunicationUpdate();
+
+    void slot_SegmentSetAck();
+
+    void slot_SegmentException();
+
+    void slot_FaultCodeRecieved();
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Private SLOTS related to actions triggered directly from the GUI
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    void on_actionLoad_triggered();
+
+    void on_actionSave_triggered();
+
+    void on_actionSave_As_triggered();
+
+    void on_actionOpen_Connection_triggered();
+
+    void on_actionClose_Connection_triggered();
+
+    void on_actionTransmit_To_Munk_triggered();
 
     void onGraphLegend();
 
-    void on_pushButton_transmit_released();
-
-    void slot_SerialPortStatus(const bool &open_close, const std::string &errorString);
-
-    void on_pushButton_connect_released();
+private:
+    QString saveAsFileDialog(const std::string &filePath, const std::string &suffix);
+    QString loadFileDialog(const std::string &filePath, const std::string &suffix);
+    QString getMunkSegmentsPath();
+    void saveSettings(const QString &path);
+    void loadMunkPowerSegment(const QString &path);
 
 private:
+    QString munkSegmentsPath;
+    QString munkCurrentFile;
+
     Ui::MainWindow *ui;
 
     MunkPowerSupply *m_PowerSupply;

@@ -9,7 +9,7 @@ namespace Data
 {
 
 //!
-//! \brief The CurrentFactorType enum
+//! \brief The FaultCodesRegister3 enum
 //!
 enum class FaultCodesRegister3
 {
@@ -29,8 +29,47 @@ enum class FaultCodesRegister3
     ERR_FR3_RESERVED_14 = 8192, /**< */
     ERR_FR3_RESERVED_15 = 16384, /**< */
     ERR_FR3_RESERVED_16 = 32768 /**< */
-
 };
+
+inline std::string FaultCodesRegister3ToString(const FaultCodesRegister3 &type) {
+    switch (type) {
+    case FaultCodesRegister3::ERR_FR3_EXTERNAL_TRIP1:
+        return "Read";
+    case FaultCodesRegister3::ERR_FR3_EXTERNAL_TRIP2:
+        return "Write";
+    case FaultCodesRegister3::ERR_FR3_PLD_PWM_GENERATOR1:
+        return "Read";
+    case FaultCodesRegister3::ERR_FR3_PLD_PWM_GENERATOR2:
+        return "Write";
+    case FaultCodesRegister3::ERR_FR3_LOST_FIELDBUS:
+        return "Read";
+    case FaultCodesRegister3::ERR_FR3_DYNAMIC_OVERCURRENT:
+        return "Write";
+    case FaultCodesRegister3::ERR_FR3_RESERVED_7:
+        return "Read";
+    case FaultCodesRegister3::ERR_FR3_RESERVED_8:
+        return "Write";
+    case FaultCodesRegister3::ERR_FR3_RESERVED_9:
+        return "Read";
+    case FaultCodesRegister3::ERR_FR3_RESERVED_10:
+        return "Write";
+    case FaultCodesRegister3::ERR_FR3_RESERVED_11:
+        return "Read";
+    case FaultCodesRegister3::ERR_FR3_RESERVED_12:
+        return "Write";
+    case FaultCodesRegister3::ERR_FR3_RESERVED_13:
+        return "Read";
+    case FaultCodesRegister3::ERR_FR3_RESERVED_14:
+        return "Write";
+    case FaultCodesRegister3::ERR_FR3_RESERVED_15:
+        return "Read";
+    case FaultCodesRegister3::ERR_FR3_RESERVED_16:
+        return "Write";
+    default:
+        throw std::runtime_error("Unknown current type seen");
+    }
+}
+
 
 } //end of namespace Data
 

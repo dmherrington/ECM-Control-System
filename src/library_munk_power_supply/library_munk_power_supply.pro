@@ -25,65 +25,78 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += munk_power_supply.cpp \
-    data_registers/abstract_parameter.cpp \
-    data_registers/segment_time_general.cpp \
-    data_registers/segment_time_detailed.cpp \
-    data_registers/segment_time_data_general.cpp \
-    data_registers/segment_time_data_detailed.cpp \
+    parse_munk_response.cpp \
+    serial_port_manager.cpp \
+    serial_port_helper.cpp \
+    communications/munk_comms_marshaler.cpp \
+    communications/serial_configuration.cpp \
+    communications/munk_serial_link.cpp \
+    communications/protocol_munk.cpp \
     data/register_data_object.cpp \
-    data_registers/segment_voltage_setpoint.cpp \
-    data_registers/segment_current_setpoint.cpp \
+    data_registers/abstract_parameter.cpp \
     data_registers/parameter_memory_write.cpp \
+    data_registers/segment_current_data.cpp \
+    data_registers/segment_current_setpoint.cpp \
+    data_registers/segment_time_data_detailed.cpp \
+    data_registers/segment_time_data_general.cpp \
+    data_registers/segment_time_detailed.cpp \
+    data_registers/segment_time_general.cpp \
+    data_registers/segment_voltage_data.cpp \
+    data_registers/segment_voltage_setpoint.cpp \
+    data_response/exception_response.cpp \
     data_response/fault_register_one.cpp \
     data_response/fault_register_three.cpp \
     data_response/fault_register_two.cpp \
-    data_response/valid_response.cpp \
-    data_response/exception_response.cpp \
-    data_registers/segment_current_data.cpp \
-    data_registers/segment_voltage_data.cpp \
-    parse_munk_response.cpp \
-    serial_port_manager.cpp \
-    serial_port_helper.cpp
+    data_response/valid_response.cpp
 
 HEADERS += \
     library_munk_power_supply_global.h \
     munk_power_supply.h\
-    data/type_read_write.h \
-    data/type_segment_level.h \
-    data/type_segment_mode.h \
-    data/type_prescalar_power.h \
-    data_registers/type_definition.h \
-    data_registers/abstract_parameter.h \
-    data_registers/segment_time_general.h \
-    data_registers/segment_time_detailed.h \
-    data/type_segment_parameter.h \
-    data/type_current_set.h \
-    data/type_voltage_set.h \
-    data_registers/segment_time_data_general.h \
-    data_registers/segment_time_data_detailed.h \
-    data/register_data_object.h \
-    data_registers/segment_voltage_setpoint.h \
-    data_registers/segment_current_setpoint.h \
-    data/type_current_voltage_prescale.h \
-    data/type_current_factor.h \
+    parse_munk_response.h \
+    serial_port_helper.h \
+    serial_port_manager.h \
+    communications/comms_events.h \
+    communications/i_link.h \
+    communications/i_link_events.h \
+    communications/i_protocol.h \
+    communications/i_protocol_munk_events.h \
+    communications/link_configuration.h \
+    communications/munk_comms_marshaler.h \
+    communications/munk_serial_link.h \
+    communications/protocol_munk.h \
+    communications/serial_configuration.h \
     data/fault_codes_register_one.h \
     data/fault_codes_register_two.h \
     data/fault_codes_register_three.h \
+    data/register_data_object.h \
+    data/type_current_factor.h \
+    data/type_current_set.h \
+    data/type_current_voltage_prescale.h \
+    data/type_fault_codes_general.h \
+    data/type_prescalar_power.h \
+    data/type_read_write.h \
+    data/type_response_exception.h \
+    data/type_segment_level.h \
+    data/type_segment_mode.h \
+    data/type_segment_parameter.h \
+    data/type_supply_output.h \
+    data/type_voltage_set.h \
+    data_registers/abstract_parameter.h \
     data_registers/parameter_memory_write.h \
+    data_registers/segment_current_data.h \
+    data_registers/segment_current_setpoint.h \
+    data_registers/segment_time_data_detailed.h \
+    data_registers/segment_time_data_general.h \
+    data_registers/segment_time_detailed.h \
+    data_registers/segment_time_general.h \
+    data_registers/segment_voltage_data.h \
+    data_registers/segment_voltage_setpoint.h \
+    data_registers/type_definition.h \
+    data_response/exception_response.h \
     data_response/fault_register_one.h \
     data_response/fault_register_three.h \
     data_response/fault_register_two.h \
-    data_response/valid_response.h \
-    data_response/exception_response.h \
-    data/type_response_exception.h \
-    data/type_supply_output.h \
-    data_registers/segment_current_data.h \
-    data_registers/segment_voltage_data.h \
-    data/type_fault_codes_general.h \
-    parse_munk_response.h \
-    serial_port_manager.h \
-    serial_port_helper.h
-
+    data_response/valid_response.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib
@@ -107,51 +120,66 @@ headers.files   += \
 INSTALLS       += headers
 
 #Header file copy
+headers_communications.path    = $$(ECM_ROOT)/include/library_munk_power_supply/communications
+headers_communications.files   += \
+    communications/comms_events.h \
+    communications/i_link.h \
+    communications/i_link_events.h \
+    communications/i_protocol.h \
+    communications/i_protocol_munk_events.h \
+    communications/link_configuration.h \
+    communications/munk_comms_marshaler.h \
+    communications/munk_serial_link.h \
+    communications/protocol_munk.h \
+    communications/serial_configuration.h \
+INSTALLS       += headers_communications
+
+#Header file copy
 headers_data.path    = $$(ECM_ROOT)/include/library_munk_power_supply/data
 headers_data.files   += \
-    data/type_read_write.h \
-    data/type_segment_level.h \
-    data/type_segment_mode.h \
-    data/type_prescalar_power.h \
-    data/type_segment_parameter.h \
-    data/type_current_set.h \
-    data/type_voltage_set.h \
-    data/register_data_object.h \
-    data/type_current_voltage_prescale.h \
-    data/type_current_factor.h \
     data/fault_codes_register_one.h \
     data/fault_codes_register_two.h \
     data/fault_codes_register_three.h \
+    data/register_data_object.h \
+    data/type_current_factor.h \
+    data/type_current_set.h \
+    data/type_current_voltage_prescale.h \
+    data/type_fault_codes_general.h \
+    data/type_prescalar_power.h \
+    data/type_read_write.h \
     data/type_response_exception.h \
+    data/type_segment_level.h \
+    data/type_segment_mode.h \
+    data/type_segment_parameter.h \
     data/type_supply_output.h \
-    data/type_fault_codes_general.h
+    data/type_voltage_set.h \
 INSTALLS       += headers_data
 
 #Header file copy
 headers_data_registers.path    = $$(ECM_ROOT)/include/library_munk_power_supply/data_registers
 headers_data_registers.files   += \
-    data_registers/type_definition.h \
     data_registers/abstract_parameter.h \
-    data_registers/segment_time_general.h \
-    data_registers/segment_time_detailed.h \
-    data_registers/segment_time_data_general.h \
-    data_registers/segment_time_data_detailed.h \
-    data_registers/segment_voltage_setpoint.h \
-    data_registers/segment_current_setpoint.h \
     data_registers/parameter_memory_write.h \
     data_registers/segment_current_data.h \
-    data_registers/segment_voltage_data.h
+    data_registers/segment_current_setpoint.h \
+    data_registers/segment_time_data_detailed.h \
+    data_registers/segment_time_data_general.h \
+    data_registers/segment_time_detailed.h \
+    data_registers/segment_time_general.h \
+    data_registers/segment_voltage_data.h \
+    data_registers/segment_voltage_setpoint.h \
+    data_registers/type_definition.h \
 INSTALLS       += headers_data_registers
 
 
 #Header file copy
 headers_data_response.path    = $$(ECM_ROOT)/include/library_munk_power_supply/data_response
 headers_data_response.files   += \
+    data_response/exception_response.h \
     data_response/fault_register_one.h \
     data_response/fault_register_three.h \
     data_response/fault_register_two.h \
-    data_response/valid_response.h \
-    data_response/exception_response.h \
+    data_response/valid_response.h
 INSTALLS       += headers_data_response
 
 INCLUDEPATH += $$PWD/../

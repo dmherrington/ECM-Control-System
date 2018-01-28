@@ -4,9 +4,11 @@
 #include <iostream>
 #include <QDebug>
 #include <QObject>
-#include <QtSerialPort/QSerialPort>
 
 #include "library_munk_power_supply_global.h"
+
+#include "communications/munk_comms_marshaler.h"
+#include "communications/serial_configuration.h"
 
 #include "data_registers/abstract_parameter.h"
 #include "data_registers/segment_time_general.h"
@@ -24,19 +26,11 @@
 
 #include "data/type_fault_codes_general.h"
 
-#include "serial_port_manager.h"
+using namespace munk;
 
-#include <QDebug>
-
-class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply : public QObject, public SerialPortManager_Interface
+class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply : public QObject, comms::CommsEvents
 {
     Q_OBJECT
-private:
-    struct structSetpoints
-    {
-        DataParameter::SegmentCurrentSetpoint iSet;
-        DataParameter::SegmentVoltageSetpoint vSet;
-    };
 
 public:
     //!
@@ -55,68 +49,26 @@ public:
     //!
     //! \brief openSerialPort
     //!
-    void openSerialPort();
+    void openSerialPort(const QString &name);
 
     //!
     //! \brief closeSerialPort
     //!
     void closeSerialPort();
 
-    //!
-    //! \brief openSerialPort
-    //! \param name
-    //!
-    void configureSerialPort(const QString &name);
-
-    //!
-    //! \brief openSerialPort
-    //! \param name
-    //! \param rate
-    //! \param bits
-    //! \param parity
-    //! \param stop
-    //!
-    void configureSerialPort(const QString &name, const QSerialPort::BaudRate &rate, const QSerialPort::DataBits &bits, const QSerialPort::Parity &parity, const QSerialPort::StopBits &stop);
-
-public:
-    //!
-    //! \brief cbiSerialPortHelper_serialPortStatus
-    //! \param open_close
-    //! \param errorString
-    //!
-    void cbiSerialPortHelper_serialPortStatus(const bool &open_close, const std::string &errorString) override;
-
 signals:
 
-    //!
-    //! \brief signal_SerialPortStatus
-    //! \param open_close
-    //! \param errorString
-    //!
-    void signal_SerialPortStatus(const bool &open_close, const std::string &errorString);
+    void signal_ConnectionStatusUpdated(const bool &open_close);
 
-    //!
-    //! \brief signal_NewCurrentSetpoint
-    //! \param currentSetpoint
-    //!
-    void signal_NewCurrentSetpoint(const DataParameter::SegmentCurrentSetpoint &currentSetpointREV, const DataParameter::SegmentCurrentSetpoint &currentSetpointFWD);
+    void signal_CommunicationError();
 
-    //!
-    //! \brief signal_NewVoltageSetpoint
-    //! \param voltageSetpoint
-    //!
-    void signal_NewVoltageSetpoint(const DataParameter::SegmentVoltageSetpoint &voltageSetpointREV, const DataParameter::SegmentVoltageSetpoint &voltageSetpointFWD);
+    void signal_CommunicationUpdate();
 
-    //!
-    //! \brief signal_NewTimeSetpoint
-    //! \param segmentTime
-    //!
-    void signal_NewTimeSetpoint(const DataParameter::SegmentTimeGeneral &segmentTime);
+    void signal_SegmentSetAck();
 
-    void messageGenerationProgress(const Data::DataFaultCodes &code);
-    void transmissionProgress();
-    void munkSupplyError();
-    void serialPortError();
+    void signal_SegmentException();
+
+    void signal_FaultCodeRecieved();
 
 private:
 
@@ -126,8 +78,29 @@ private:
     //!
     void generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData);
 
-private slots:
-    void receivedMSG(const QByteArray &data);
+private:
+    /////////////////////////////////////////////////////////
+    /// Virtual Functions imposed from comms::CommsEvents
+    /////////////////////////////////////////////////////////
+
+    void ConnectionOpened() const override;
+
+    void ConnectionClosed() const override;
+
+    void CommunicationError(const std::string &type, const std::string &msg) const override;
+
+    void CommunicationUpdate(const std::string &name, const std::string &msg) const override;
+
+    void FaultCodeRegister1Received() override;
+
+    void FaultCodeRegister2Received() override;
+
+    void FaultCodeRegister3Received() override;
+
+    void SegmentSetpointAcknowledged() override;
+
+    void ExceptionResponseReceived() override;
+
 
 private:
         DataParameter::SegmentTimeGeneral m_segmentTimeGeneral;
@@ -137,14 +110,9 @@ private:
 
         DataParameter::SegmentVoltageSetpoint m_fwdVSetpoint;
         DataParameter::SegmentVoltageSetpoint m_revVSetpoint;
+
 private:
-    //!
-    //! \brief serialPort
-    //!
-    SerialPortManager* portHelper;
-
-    QByteArray buffer;
-
+    comms::MunkCommsMarshaler* commsMarshaler;
 };
 
 #endif // MUNK_POWER_SUPPLY_H

@@ -1,23 +1,32 @@
 #include "munk_power_supply.h"
 
 MunkPowerSupply::MunkPowerSupply():
+    m_segmentTimeGeneral(),
     m_fwdISetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::FORWARD),
     m_revISetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::REVERSE),
     m_fwdVSetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::FORWARD),
     m_revVSetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::REVERSE)
 {
-    portHelper = new SerialPortManager(this);
-    portHelper->connectCallback(this);
-
-    connect(portHelper,SIGNAL(bytesReceived(QByteArray)),this,SLOT(receivedMSG(QByteArray)));
-
-    m_segmentTimeGeneral = DataParameter::SegmentTimeGeneral();
+    commsMarshaler = new comms::MunkCommsMarshaler();
+    commsMarshaler->AddSubscriber(this);
 }
 
 MunkPowerSupply::~MunkPowerSupply()
 {
-    delete portHelper;
-    portHelper = nullptr;
+    commsMarshaler->DisconnetFromLink();
+    delete commsMarshaler;
+    commsMarshaler = nullptr;
+}
+
+void MunkPowerSupply::openSerialPort(const QString &name)
+{
+    comms::SerialConfiguration config(name.toStdString());
+    commsMarshaler->ConnectToLink(config);
+}
+
+void MunkPowerSupply::closeSerialPort()
+{
+    commsMarshaler->DisconnetFromLink();
 }
 
 void MunkPowerSupply::generateAndTransmitMessage(const DataParameter::SegmentTimeDetailed &detailedSegmentData)
@@ -28,31 +37,25 @@ void MunkPowerSupply::generateAndTransmitMessage(const DataParameter::SegmentTim
 
     QByteArray fwdVArray = m_fwdVSetpoint.getFullMessage();
     if(fwdVArray.size() > 0)
-        transmitVector.push_back(new DataParameter::SegmentVoltageSetpoint(m_fwdVSetpoint));
+        commsMarshaler->sendForwardVoltageSetpoint(m_fwdVSetpoint);
 
     QByteArray fwdIArray = m_fwdISetpoint.getFullMessage();
     if(fwdIArray.size() > 0)
-        transmitVector.push_back(new DataParameter::SegmentCurrentSetpoint(m_fwdISetpoint));
+        commsMarshaler->sendForwardCurrentSetpoint(m_fwdISetpoint);
 
     QByteArray revVArray = m_revVSetpoint.getFullMessage();
     if(revVArray.size() > 0)
-        transmitVector.push_back(new DataParameter::SegmentVoltageSetpoint(m_revVSetpoint));
+        commsMarshaler->sendReverseVoltageSetpoint(m_revVSetpoint);
 
     QByteArray revIArray = m_revISetpoint.getFullMessage();
     if(revIArray.size() > 0)
-        transmitVector.push_back(new DataParameter::SegmentCurrentSetpoint(m_revISetpoint));
+        commsMarshaler->sendReverseCurrentSetpoint(m_revISetpoint);
 
     QByteArray dataArray = m_segmentTimeGeneral.getFullMessage();
-    if(fwdIArray.size() > 0)
-        transmitVector.push_back(new DataParameter::SegmentTimeGeneral(m_segmentTimeGeneral));
+    if(dataArray.size() > 0)
+        commsMarshaler->sendSegmentTime(m_segmentTimeGeneral);
 
-    if(transmitVector.size() > 0)
-    {
-        DataParameter::ParameterMemoryWrite* writeEEPROM = new DataParameter::ParameterMemoryWrite();
-        transmitVector.push_back(writeEEPROM);
-
-        portHelper->writeParameters(transmitVector);
-    }
+    commsMarshaler->sendCommitToEEPROM();
 }
 
 void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData)
@@ -165,42 +168,54 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
             //Ken: Figure out what to do this in case
         }
     }
-
-//    emit(signal_NewCurrentSetpoint(m_revISetpoint,m_fwdISetpoint));
-//    emit(signal_NewVoltageSetpoint(m_revVSetpoint,m_fwdVSetpoint));
-//    emit(signal_NewTimeSetpoint(m_segmentTimeGeneral));
 }
 
-void MunkPowerSupply::openSerialPort()
+/////////////////////////////////////////////////////////
+/// Virtual Functions imposed from comms::CommsEvents
+/////////////////////////////////////////////////////////
+
+void MunkPowerSupply::ConnectionOpened() const
 {
-    portHelper->openSerialPort();
+    emit signal_ConnectionStatusUpdated(true);
 }
 
-void MunkPowerSupply::configureSerialPort(const QString &name)
+void MunkPowerSupply::ConnectionClosed() const
 {
-  portHelper->configureSerialPort(name);
+    emit signal_ConnectionStatusUpdated(false);
 }
 
-void MunkPowerSupply::configureSerialPort(const QString &name, const QSerialPort::BaudRate &rate, const QSerialPort::DataBits &bits, const QSerialPort::Parity &parity, const QSerialPort::StopBits &stop)
+void MunkPowerSupply::CommunicationError(const std::string &type, const std::string &msg) const
 {
-    UNUSED(name);
-    UNUSED(rate);
-    UNUSED(bits);
-    UNUSED(parity);
-    UNUSED(stop);
+    emit signal_CommunicationError();
 }
 
-void MunkPowerSupply::closeSerialPort()
+void MunkPowerSupply::CommunicationUpdate(const std::string &name, const std::string &msg) const
 {
-    portHelper->closeSerialPort();
+    emit signal_CommunicationUpdate();
 }
 
-void MunkPowerSupply::cbiSerialPortHelper_serialPortStatus(const bool &open_close, const std::string &errorString)
+void MunkPowerSupply::FaultCodeRegister1Received()
 {
-    emit signal_SerialPortStatus(open_close, errorString);
+    emit signal_FaultCodeRecieved();
 }
 
-void MunkPowerSupply::receivedMSG(const QByteArray &data)
+void MunkPowerSupply::FaultCodeRegister2Received()
 {
-    buffer += data;
+    emit signal_FaultCodeRecieved();
 }
+
+void MunkPowerSupply::FaultCodeRegister3Received()
+{
+    emit signal_FaultCodeRecieved();
+}
+
+void MunkPowerSupply::SegmentSetpointAcknowledged()
+{
+    emit signal_SegmentSetAck();
+}
+
+void MunkPowerSupply::ExceptionResponseReceived()
+{
+    emit signal_SegmentException();
+}
+

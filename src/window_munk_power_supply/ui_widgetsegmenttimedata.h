@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widgetsegmenttimedata.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.1
+** Created by: Qt User Interface Compiler version 5.10.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -221,13 +221,13 @@ public:
 
     void retranslateUi(QWidget *WidgetSegmentTimeData)
     {
-        WidgetSegmentTimeData->setWindowTitle(QApplication::translate("WidgetSegmentTimeData", "Form", Q_NULLPTR));
-        label_SegmentName->setText(QApplication::translate("WidgetSegmentTimeData", "Segment # 8", Q_NULLPTR));
-        label->setText(QApplication::translate("WidgetSegmentTimeData", "Mode", Q_NULLPTR));
-        label_2->setText(QApplication::translate("WidgetSegmentTimeData", "Voltage", Q_NULLPTR));
-        label_3->setText(QApplication::translate("WidgetSegmentTimeData", "Current", Q_NULLPTR));
-        label_4->setText(QApplication::translate("WidgetSegmentTimeData", "Time", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("WidgetSegmentTimeData", "REMOVE", Q_NULLPTR));
+        WidgetSegmentTimeData->setWindowTitle(QApplication::translate("WidgetSegmentTimeData", "Form", nullptr));
+        label_SegmentName->setText(QApplication::translate("WidgetSegmentTimeData", "Segment # 8", nullptr));
+        label->setText(QApplication::translate("WidgetSegmentTimeData", "Mode", nullptr));
+        label_2->setText(QApplication::translate("WidgetSegmentTimeData", "Voltage", nullptr));
+        label_3->setText(QApplication::translate("WidgetSegmentTimeData", "Current", nullptr));
+        label_4->setText(QApplication::translate("WidgetSegmentTimeData", "Time", nullptr));
+        pushButton->setText(QApplication::translate("WidgetSegmentTimeData", "REMOVE", nullptr));
     } // retranslateUi
 
 };
