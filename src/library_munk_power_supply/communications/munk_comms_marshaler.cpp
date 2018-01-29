@@ -172,19 +172,35 @@ void MunkCommsMarshaler::FaultCodeRegister3Received(const ILink* link_ptr) const
     Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister3Received();});
 }
 
-void MunkCommsMarshaler::SegmentSetpointAcknowledged(const ILink* link_ptr) const
+void MunkCommsMarshaler::SegmentVoltageSetpointAcknowledged(const ILink* link_ptr, const Data::SegmentMode &mode, const int &numberRegisters) const
 {
-    UNUSED(link_ptr);
-
-    Emit([&](CommsEvents *ptr){ptr->SegmentSetpointAcknowledged();});
+    if(mode == Data::SegmentMode::FORWARD)
+        Emit([&](CommsEvents *ptr){ptr->ForwardVoltageSetpointAcknowledged(numberRegisters);});
+    else
+        Emit([&](CommsEvents *ptr){ptr->ReverseVoltageSetpointAcknowledged(numberRegisters);});
 }
 
-void MunkCommsMarshaler::ExceptionResponseReceived(const ILink* link_ptr) const
+void MunkCommsMarshaler::SegmentCurrentSetpointAcknowledged(const ILink* link_ptr , const Data::SegmentMode &mode, const int &numberRegisters) const
 {
     UNUSED(link_ptr);
-
-    Emit([&](CommsEvents *ptr){ptr->ExceptionResponseReceived();});
+    if(mode == Data::SegmentMode::FORWARD)
+        Emit([&](CommsEvents *ptr){ptr->ForwardCurrentSetpointAcknowledged(numberRegisters);});
+    else
+        Emit([&](CommsEvents *ptr){ptr->ReverseCurrentSetpointAcknowledged(numberRegisters);});
 }
+
+void MunkCommsMarshaler::SegmentTimeSetpointAcknowledged(const ILink* link_ptr , const int &numberRegisters) const
+{
+    UNUSED(link_ptr);
+    Emit([&](CommsEvents *ptr){ptr->SegmentTimeAcknowledged(numberRegisters);});
+}
+
+void MunkCommsMarshaler::ExceptionResponseReceived(const ILink* link_ptr, const Data::ReadWriteType &type, const uint8_t &code) const
+{
+    UNUSED(link_ptr);
+    Emit([&](CommsEvents *ptr){ptr->ExceptionResponseReceived(type,Data::ExceptionCodeToString(Data::ExceptionCodeFromInt(code)));});
+}
+
 
 } //end of namespace comms
 } //end of namespace munk

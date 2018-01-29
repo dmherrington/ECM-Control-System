@@ -16,6 +16,11 @@
 #include "data_registers/segment_current_setpoint.h"
 #include "data_registers/parameter_memory_write.h"
 
+#include "munk_data_framing.h"
+
+#include "data/type_current_set.h"
+#include "data/type_voltage_set.h"
+#include "data/type_segment_parameter.h"
 
 namespace munk {
 namespace comms{
@@ -64,6 +69,12 @@ public:
     //!
     void ReceiveData(ILink *link, const std::vector<uint8_t> &buffer) override;
 
+    void parseForException(const ILink *link, const MunkMessage &msg);
+
+    void parseForFaultCode(const ILink *link, const MunkMessage &msg);
+
+    void parseForAck(const ILink *link, const MunkMessage &msg);
+
 private:
 
     void Emit(const std::function<void(const IProtocolMunkEvents*)> func)
@@ -74,6 +85,8 @@ private:
 
 private:
     std::vector<const IProtocolMunkEvents*> m_Listners;
+
+    MunkDataFraming dataParse;
 };
 
 

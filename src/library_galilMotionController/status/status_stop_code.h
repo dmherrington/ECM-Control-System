@@ -23,10 +23,11 @@ public:
     int getCode() const;
 
 public:
-    void operator = (const Status_StopCode &rhs)
+    Status_StopCode& operator = (const Status_StopCode &rhs)
     {
         this->currentAxis = rhs.currentAxis;
         this->stopCode = rhs.stopCode;
+        return *this;
     }
 
     bool operator == (const Status_StopCode &rhs) {

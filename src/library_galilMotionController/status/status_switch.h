@@ -38,12 +38,13 @@ private:
     void parseInt(const uint8_t &value);
 
 public:
-    void operator = (const Status_Switch &rhs)
+    Status_Switch& operator = (const Status_Switch &rhs)
     {
         AbstractStatus::operator =(rhs);
         this->currentAxis = rhs.currentAxis;
         this->originalCode = rhs.originalCode;
         this->mapStatus = rhs.mapStatus;
+        return *this;
     }
 
     bool operator == (const Status_Switch &rhs) {

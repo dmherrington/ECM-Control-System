@@ -82,10 +82,11 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    void operator = (const SegmentTimeGeneral &rhs)
+    SegmentTimeGeneral& operator = (const SegmentTimeGeneral &rhs)
     {
         AbstractParameter::operator =(rhs);
         this->registerData = rhs.registerData;
+        return *this;
     }
 
     //!

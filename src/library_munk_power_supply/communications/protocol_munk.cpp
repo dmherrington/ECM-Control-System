@@ -7,7 +7,8 @@
 namespace munk {
 namespace comms{
 
-MunkProtocol::MunkProtocol()
+MunkProtocol::MunkProtocol():
+    dataParse(1)
 {
 
 }
@@ -92,15 +93,67 @@ void MunkProtocol::ReceiveData(ILink *link, const std::vector<uint8_t> &buffer)
     {
         //we should create a structure to succesfully parse it here
         std::cout<<"We have received data from the serial buffer: "<<c<<std::endl;
-
-        //In this function is where we should emit the events related to the munk protocol
-//        Emit([&](const IProtocolMunkEvents* ptr){ptr->FaultCodeRegister1Received(link);});
-//        Emit([&](const IProtocolMunkEvents* ptr){ptr->FaultCodeRegister2Received(link);});
-//        Emit([&](const IProtocolMunkEvents* ptr){ptr->FaultCodeRegister3Received(link);});
-//        Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentSetpointAcknowledged(link);});
-//        Emit([&](const IProtocolMunkEvents* ptr){ptr->ExceptionResponseReceived(link);});
+        if(dataParse.additionalByteRecevied(c) == FramingState::RECEIVED_ENTIRE_MESSAGE)
+        {
+            MunkMessage completeMessage = dataParse.getCurrentMessage();
+            if(completeMessage.isException() == Data::ExceptionType::EXCEPTION)
+                parseForException(link, completeMessage);
+            else if(completeMessage.isReadWriteType() == Data::ReadWriteType::READ)
+                parseForFaultCode(link, completeMessage);
+            else if(completeMessage.isReadWriteType() == Data::ReadWriteType::WRITE)
+                parseForAck(link, completeMessage);
+        }
     }
 }
+
+
+void MunkProtocol::parseForException(const ILink *link, const MunkMessage &msg)
+{
+    Emit([&](const IProtocolMunkEvents* ptr){ptr->ExceptionResponseReceived(link,msg.isReadWriteType(),msg.getDataByte(2));});
+}
+
+void MunkProtocol::parseForFaultCode(const ILink *link, const MunkMessage &msg)
+{
+//    uint8_t highPC = msg.getDataByte();
+//    uint8_t lowPC = msg.getDataByte();
+//    int parameterCode = lowPC | (highPC<<8);
+}
+
+void MunkProtocol::parseForAck(const ILink *link, const MunkMessage &msg)
+{
+    uint8_t highPC = msg.getDataByte(2);
+    uint8_t lowPC = msg.getDataByte(3);
+    int parameterCode = lowPC | (highPC<<8);
+
+    uint8_t highREG = msg.getDataByte(4);
+    uint8_t lowREG = msg.getDataByte(5);
+    int numberOfRegisters = lowREG | (highREG<<8);
+
+    if(Data::isOfVoltageSegmentType(parameterCode))
+    {
+        if(Data::isForwardVoltageType(parameterCode))
+            Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentVoltageSetpointAcknowledged(link,Data::SegmentMode::FORWARD,numberOfRegisters);});
+        else
+            Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentVoltageSetpointAcknowledged(link,Data::SegmentMode::REVERSE,numberOfRegisters);});
+    }
+    else if(Data::isOfCurrentSegmentType(parameterCode))
+    {
+        if(Data::isForwardCurrentType(parameterCode))
+            Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentCurrentSetpointAcknowledged(link,Data::SegmentMode::FORWARD,numberOfRegisters);});
+        else
+            Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentCurrentSetpointAcknowledged(link,Data::SegmentMode::REVERSE,numberOfRegisters);});
+    }
+    else if(Data::isOfTimeSegmentType(parameterCode))
+    {
+        Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentTimeSetpointAcknowledged(link,numberOfRegisters);});
+    }
+    else
+    {
+        std::cout<<"We have received an ack for a type that I am not currently aware of."<<std::endl;
+    }
+}
+
+
 
 } //end of namespace comms
 } //end of namespace munk

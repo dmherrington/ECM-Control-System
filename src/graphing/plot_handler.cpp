@@ -89,7 +89,7 @@ void PlotHandler::updateData(const QVector<double> &timeVector, const QVector<do
         currentGraph->setData(timeVector,currentVector);
         voltageGraph->setData(timeVector,voltageVector);
 
-        this->xAxis->setRange(0,timeVector.back());
+        this->xAxis->setRange(0,timeVector.back() + 1.0);
         this->yAxis->setRange(minV - 1.0, maxV + 1.0);
         this->yAxis2->setRange(minI - 1.0, maxI + 1.0);
 

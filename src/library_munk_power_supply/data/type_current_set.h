@@ -12,6 +12,13 @@
 namespace Data
 {
 
+inline bool isOfCurrentSegmentType(const int &value)
+{
+    if((value >= 6000) && (value <= 6300))
+        return true;
+    return false;
+}
+
 //!
 //! \brief The CurrentSetFWDType enum
 //!
@@ -106,6 +113,17 @@ inline Data::CurrentSetFWDType getFWDCurrentIndex(const int &index)
 {
     std::vector<CurrentSetFWDType> objects = getListOfCurrentSetFWDTypes();
     return objects.at(index);
+}
+
+inline bool isForwardCurrentType(const int &value)
+{
+    std::vector<CurrentSetFWDType> objects = getListOfCurrentSetFWDTypes();
+    for(unsigned int i = 0; i < objects.size(); i++)
+    {
+        if(static_cast<int>(objects.at(i)) == value)
+            return true;
+    }
+    return false;
 }
 
 //_________________________________________________________________________
@@ -204,6 +222,17 @@ inline Data::CurrentSetREVType getREVCurrentIndex(const int &index)
 {
     std::vector<CurrentSetREVType> objects = getListOfCurrentSetREVTypes();
     return objects.at(index);
+}
+
+inline bool isReverseCurrentType(const int &value)
+{
+    std::vector<CurrentSetREVType> objects = getListOfCurrentSetREVTypes();
+    for(unsigned int i = 0; i < objects.size(); i++)
+    {
+        if(static_cast<int>(objects.at(i)) == value)
+            return true;
+    }
+    return false;
 }
 
 } //end of namespace Data

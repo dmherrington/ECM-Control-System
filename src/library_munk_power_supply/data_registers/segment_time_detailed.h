@@ -69,10 +69,11 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    void operator = (const SegmentTimeDetailed &rhs)
+    SegmentTimeDetailed& operator = (const SegmentTimeDetailed &rhs)
     {
         this->slaveAddress = rhs.slaveAddress;
         this->detailedRegisterData = rhs.detailedRegisterData;
+        return *this;
     }
 
     //!

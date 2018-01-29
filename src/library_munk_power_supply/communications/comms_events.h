@@ -4,6 +4,8 @@
 #include <string>
 #include "common/common.h"
 
+#include "data/type_read_write.h"
+
 namespace munk {
 namespace comms{
 
@@ -58,14 +60,35 @@ public:
 
     }
 
-    virtual void SegmentSetpointAcknowledged()
+    virtual void ForwardVoltageSetpointAcknowledged(const int &numberOfRegisters) const
     {
-
+        UNUSED(numberOfRegisters);
     }
 
-    virtual void ExceptionResponseReceived()
+    virtual void ReverseVoltageSetpointAcknowledged(const int &numberOfRegisters) const
     {
+        UNUSED(numberOfRegisters);
+    }
 
+    virtual void ForwardCurrentSetpointAcknowledged(const int &numberOfRegisters) const
+    {
+        UNUSED(numberOfRegisters);
+    }
+
+    virtual void ReverseCurrentSetpointAcknowledged(const int &numberOfRegisters) const
+    {
+        UNUSED(numberOfRegisters);
+    }
+
+    virtual void SegmentTimeAcknowledged(const int &numberOfRegisters) const
+    {
+        UNUSED(numberOfRegisters);
+    }
+
+    virtual void ExceptionResponseReceived(const Data::ReadWriteType &RWType, const std::string &meaning) const
+    {
+        UNUSED(RWType);
+        UNUSED(meaning);
     }
 
 };

@@ -25,9 +25,10 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    void operator = (const SettingsPinout &rhs)
+    SettingsPinout& operator = (const SettingsPinout &rhs)
     {
         this->mapPinout = rhs.mapPinout;
+        return *this;
     }
 
     //!

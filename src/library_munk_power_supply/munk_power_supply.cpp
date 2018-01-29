@@ -209,13 +209,34 @@ void MunkPowerSupply::FaultCodeRegister3Received()
     emit signal_FaultCodeRecieved();
 }
 
-void MunkPowerSupply::SegmentSetpointAcknowledged()
+void MunkPowerSupply::ForwardVoltageSetpointAcknowledged(const int &numberOfRegisters) const
 {
-    emit signal_SegmentSetAck();
+    UNUSED(numberOfRegisters);
 }
 
-void MunkPowerSupply::ExceptionResponseReceived()
+void MunkPowerSupply::ReverseVoltageSetpointAcknowledged(const int &numberOfRegisters) const
 {
-    emit signal_SegmentException();
+    UNUSED(numberOfRegisters);
+}
+
+void MunkPowerSupply::ForwardCurrentSetpointAcknowledged(const int &numberOfRegisters) const
+{
+    UNUSED(numberOfRegisters);
+}
+
+void MunkPowerSupply::ReverseCurrentSetpointAcknowledged(const int &numberOfRegisters) const
+{
+    UNUSED(numberOfRegisters);
+}
+
+void MunkPowerSupply::SegmentTimeAcknowledged(const int &numberOfRegisters) const
+{
+    UNUSED(numberOfRegisters);
+}
+
+void MunkPowerSupply::ExceptionResponseReceived(const Data::ReadWriteType &RWType, const std::string &meaning) const
+{
+    UNUSED(RWType);
+    UNUSED(meaning);
 }
 

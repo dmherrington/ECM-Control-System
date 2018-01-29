@@ -48,7 +48,8 @@ SOURCES += munk_power_supply.cpp \
     data_response/fault_register_three.cpp \
     data_response/fault_register_two.cpp \
     data_response/valid_response.cpp \
-    communications/munk_data_framing.cpp
+    communications/munk_data_framing.cpp \
+    communications/munk_message.cpp
 
 HEADERS += \
     library_munk_power_supply_global.h \
@@ -62,7 +63,10 @@ HEADERS += \
     communications/i_protocol.h \
     communications/i_protocol_munk_events.h \
     communications/link_configuration.h \
+    communications/message_framing_state.h \
     communications/munk_comms_marshaler.h \
+    communications/munk_data_framing.h \
+    communications/munk_message.h \
     communications/munk_serial_link.h \
     communications/protocol_munk.h \
     communications/serial_configuration.h \
@@ -73,6 +77,7 @@ HEADERS += \
     data/type_current_factor.h \
     data/type_current_set.h \
     data/type_current_voltage_prescale.h \
+    data/type_exception_message.h \
     data/type_fault_codes_general.h \
     data/type_prescalar_power.h \
     data/type_read_write.h \
@@ -97,8 +102,8 @@ HEADERS += \
     data_response/fault_register_one.h \
     data_response/fault_register_three.h \
     data_response/fault_register_two.h \
-    data_response/valid_response.h \
-    communications/munk_data_framing.h
+    data_response/valid_response.h
+
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib
@@ -130,7 +135,10 @@ headers_communications.files   += \
     communications/i_protocol.h \
     communications/i_protocol_munk_events.h \
     communications/link_configuration.h \
+    communications/message_framing_state.h \
     communications/munk_comms_marshaler.h \
+    communications/munk_data_framing.h \
+    communications/munk_message.h \
     communications/munk_serial_link.h \
     communications/protocol_munk.h \
     communications/serial_configuration.h \
@@ -146,6 +154,7 @@ headers_data.files   += \
     data/type_current_factor.h \
     data/type_current_set.h \
     data/type_current_voltage_prescale.h \
+    data/type_exception_message.h \
     data/type_fault_codes_general.h \
     data/type_prescalar_power.h \
     data/type_read_write.h \

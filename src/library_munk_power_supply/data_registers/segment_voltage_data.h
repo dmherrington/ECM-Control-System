@@ -82,12 +82,13 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    void operator = (const SegmentVoltageData &rhs)
+    SegmentVoltageData& operator = (const SegmentVoltageData &rhs)
     {
         this->level = rhs.level;
         this->mode = rhs.mode;
         this->prescale = rhs.prescale;
         this->voltage = rhs.voltage;
+        return *this;
     }
 
     //!

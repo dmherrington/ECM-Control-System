@@ -5,6 +5,22 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    uint8_t value  = 131;
+
+    uint8_t ba = 131;
+    uint8_t timeMask = 127<<0;
+    uint8_t ExcValue = (ba & (~timeMask));
+
+    uint8_t RWMask = 240<<0;
+    uint8_t RWValue = (ba & (~RWMask));
+
+
+    for(int i = 0; i <= 8; i++)
+    {
+        uint8_t HIGHSeqType = value >> i;
+        std::cout<<"value is "<<(uint8_t)HIGHSeqType<<std::endl;
+    }
+
     ui->setupUi(this);
 
     const auto infos = QSerialPortInfo::availablePorts();
@@ -166,13 +182,6 @@ void MainWindow::widgetSegmentDisplay_dataUpdate(const std::list<DataParameter::
 
         currentVector.push_back(currentValue);
         currentVector.push_back(currentValue);
-
-//        for(unsigned int i = beginningValue; i <= endingValue; i++)
-//        {
-//            voltageVector.push_back(voltageValue);
-//            currentVector.push_back(currentValue);
-//            timeVector.push_back(i/10.0);
-//        }
 
     }
 

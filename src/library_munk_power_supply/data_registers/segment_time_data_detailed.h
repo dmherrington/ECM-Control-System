@@ -157,12 +157,13 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    void operator = (const SegmentTimeDataDetailed &rhs)
+    SegmentTimeDataDetailed& operator = (const SegmentTimeDataDetailed &rhs)
     {
         this->supplyOutput = rhs.supplyOutput;
         this->dataObject = rhs.dataObject;
         this->segmentMode = rhs.segmentMode;
         this->timeValue = rhs.timeValue;
+        return *this;
     }
 
     //!

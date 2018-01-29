@@ -97,9 +97,17 @@ private:
 
     void FaultCodeRegister3Received() override;
 
-    void SegmentSetpointAcknowledged() override;
+    virtual void ForwardVoltageSetpointAcknowledged(const int &numberOfRegisters) const override;
 
-    void ExceptionResponseReceived() override;
+    virtual void ReverseVoltageSetpointAcknowledged(const int &numberOfRegisters) const override;
+
+    virtual void ForwardCurrentSetpointAcknowledged(const int &numberOfRegisters) const override;
+
+    virtual void ReverseCurrentSetpointAcknowledged(const int &numberOfRegisters) const override;
+
+    virtual void SegmentTimeAcknowledged(const int &numberOfRegisters) const override;
+
+    virtual void ExceptionResponseReceived(const Data::ReadWriteType &RWType, const std::string &meaning) const override;
 
 
 private:

@@ -22,11 +22,12 @@ public:
     bool isMotorMoving() const;
 
 public:
-    void operator = (const Status_AxisInMotion &rhs)
+    Status_AxisInMotion& operator = (const Status_AxisInMotion &rhs)
     {
         AbstractStatus::operator =(rhs);
         this->currentAxis = rhs.currentAxis;
         this->isInMotion = rhs.isInMotion;
+        return *this;
     }
 
     bool operator == (const Status_AxisInMotion &rhs) {

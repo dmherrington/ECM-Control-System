@@ -19,6 +19,8 @@
 #include "data_registers/segment_current_setpoint.h"
 #include "data_registers/parameter_memory_write.h"
 
+#include "data/type_exception_message.h"
+
 namespace munk {
 namespace comms{
 
@@ -85,14 +87,14 @@ private:
     //////////////////////////////////////////////////////////////
 
     void FaultCodeRegister1Received(const ILink* link_ptr) const override;
-
     void FaultCodeRegister2Received(const ILink* link_ptr) const override;
-
     void FaultCodeRegister3Received(const ILink* link_ptr) const override;
 
-    void SegmentSetpointAcknowledged(const ILink* link_ptr) const override;
+    void SegmentVoltageSetpointAcknowledged(const ILink* link_ptr, const Data::SegmentMode &mode, const int &numberRegisters) const override;
+    void SegmentCurrentSetpointAcknowledged(const ILink* link_ptr , const Data::SegmentMode &mode, const int &numberRegisters) const override;
+    void SegmentTimeSetpointAcknowledged(const ILink* link_ptr , const int &numberRegisters) const override;
 
-    void ExceptionResponseReceived(const ILink* link_ptr) const override;
+    void ExceptionResponseReceived(const ILink* link_ptr, const Data::ReadWriteType &type, const uint8_t &code) const override;
 
 private:
     std::shared_ptr<ILink> link;

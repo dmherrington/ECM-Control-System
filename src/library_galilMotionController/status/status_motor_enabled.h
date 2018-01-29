@@ -22,11 +22,12 @@ public:
     bool isMotorEnabled() const;
 
 public:
-    void operator = (const Status_MotorEnabled &rhs)
+    Status_MotorEnabled& operator = (const Status_MotorEnabled &rhs)
     {
         AbstractStatus::operator =(rhs);
         this->currentAxis = rhs.currentAxis;
         this->isEnabled = rhs.isEnabled;
+        return *this;
     }
 
     bool operator == (const Status_MotorEnabled &rhs) {

@@ -74,12 +74,13 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    void operator = (const SegmentVoltageSetpoint &rhs)
+    SegmentVoltageSetpoint& operator = (const SegmentVoltageSetpoint &rhs)
     {
         AbstractParameter::operator =(rhs);
         this->supplyOutput = rhs.supplyOutput;
         this->mode = rhs.mode;
         this->data = rhs.data;
+        return *this;
     }
 
     //!

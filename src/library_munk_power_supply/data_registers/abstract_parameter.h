@@ -101,13 +101,14 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    void operator = (const AbstractParameter &rhs)
+    AbstractParameter& operator = (const AbstractParameter &rhs)
     {
         this->parameterCode = rhs.parameterCode;
         this->slaveAddress = rhs.slaveAddress;
         this->readOrwrite = rhs.readOrwrite;
         this->highChecksum = rhs.highChecksum;
         this->lowChecksum = rhs.lowChecksum;
+        return *this;
     }
 
     //!
