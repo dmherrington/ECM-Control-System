@@ -75,18 +75,25 @@ void PlotHandler::updateData(const QVector<double> &timeVector, const QVector<do
                 maxV = voltageVector[i];
             else if(voltageVector[i] < minV)
                 minV = voltageVector[i];
+        }
 
+        for(unsigned int i = 0; i < currentVector.size(); i++)
+        {
             if(voltageVector[i] > maxI)
                 maxI = currentVector[i];
             else if(voltageVector[i] < minI)
                 minI = currentVector[i];
         }
 
+
         currentGraph->setData(timeVector,currentVector);
         voltageGraph->setData(timeVector,voltageVector);
 
         this->xAxis->setRange(0,timeVector.back());
         this->yAxis->setRange(minV - 1.0, maxV + 1.0);
+        this->yAxis2->setRange(minI - 1.0, maxI + 1.0);
+
+        voltageGraph->rescaleAxes(true);
         currentGraph->rescaleAxes(true);
     }
     else{

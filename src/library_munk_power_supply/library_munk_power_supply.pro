@@ -47,7 +47,8 @@ SOURCES += munk_power_supply.cpp \
     data_response/fault_register_one.cpp \
     data_response/fault_register_three.cpp \
     data_response/fault_register_two.cpp \
-    data_response/valid_response.cpp
+    data_response/valid_response.cpp \
+    communications/munk_data_framing.cpp
 
 HEADERS += \
     library_munk_power_supply_global.h \
@@ -96,7 +97,8 @@ HEADERS += \
     data_response/fault_register_one.h \
     data_response/fault_register_three.h \
     data_response/fault_register_two.h \
-    data_response/valid_response.h
+    data_response/valid_response.h \
+    communications/munk_data_framing.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib
