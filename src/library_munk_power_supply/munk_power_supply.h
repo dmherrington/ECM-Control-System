@@ -58,17 +58,17 @@ public:
 
 signals:
 
-    void signal_ConnectionStatusUpdated(const bool &open_close);
+    void signal_ConnectionStatusUpdated(const bool &open_close) const;
 
-    void signal_CommunicationError();
+    void signal_CommunicationError() const;
 
-    void signal_CommunicationUpdate();
+    void signal_CommunicationUpdate() const;
 
-    void signal_SegmentSetAck();
+    void signal_SegmentSetAck() const;
 
-    void signal_SegmentException();
+    void signal_SegmentException() const;
 
-    void signal_FaultCodeRecieved();
+    void signal_FaultCodeRecieved() const;
 
 private:
 

@@ -100,7 +100,7 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
             else{
                 if(fwdLevelCounter >= 8)
                 {
-                    emit messageGenerationProgress(Data::DataFaultCodes::DATA_FAULT_TOO_MANY_VI_COMBOS);
+                    //emit messageGenerationProgress(Data::DataFaultCodes::DATA_FAULT_TOO_MANY_VI_COMBOS);
                     return;
                 }
                 //assign a new level to this combination
@@ -130,7 +130,7 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
             {
                 if(revLevelCounter >= 8)
                 {
-                    emit messageGenerationProgress(Data::DataFaultCodes::DATA_FAULT_TOO_MANY_VI_COMBOS);
+                    //emit messageGenerationProgress(Data::DataFaultCodes::DATA_FAULT_TOO_MANY_VI_COMBOS);
                     return;
                 }
 

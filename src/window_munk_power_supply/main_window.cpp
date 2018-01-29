@@ -146,22 +146,33 @@ void MainWindow::widgetSegmentDisplay_dataUpdate(const std::list<DataParameter::
     std::vector<double> currentVector;
     std::vector<double> timeVector;
 
-    unsigned int beginningValue = 0;
-    unsigned int endingValue = 0;
+    double beginningValue = 0;
+    double endingValue = 0;
 
     for (iterator = newData.begin(); iterator != newData.end(); ++iterator) {
         DataParameter::SegmentTimeDataDetailed subData = *iterator;
 
         beginningValue = endingValue;
-        endingValue += (((double)subData.getTimeValue())/1000.0)*10.0;
-        double voltageValue = subData.getSegmentVoltage();
-        double currentValue = subData.getSegmentCurrent();
-        for(unsigned int i = beginningValue; i <= endingValue; i++)
-        {
-            voltageVector.push_back(voltageValue);
-            currentVector.push_back(currentValue);
-            timeVector.push_back(i/10.0);
-        }
+        endingValue += (((double)subData.getTimeValue())/1000.0);
+
+        timeVector.push_back(beginningValue);
+        timeVector.push_back(endingValue);
+
+        double voltageValue = subData.getGraphingVoltage();
+        double currentValue = subData.getGraphingCurrent();
+
+        voltageVector.push_back(voltageValue);
+        voltageVector.push_back(voltageValue);
+
+        currentVector.push_back(currentValue);
+        currentVector.push_back(currentValue);
+
+//        for(unsigned int i = beginningValue; i <= endingValue; i++)
+//        {
+//            voltageVector.push_back(voltageValue);
+//            currentVector.push_back(currentValue);
+//            timeVector.push_back(i/10.0);
+//        }
 
     }
 

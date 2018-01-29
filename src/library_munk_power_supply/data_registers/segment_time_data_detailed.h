@@ -110,6 +110,18 @@ public:
     double getSegmentCurrent() const;
 
     //!
+    //! \brief getGraphingVoltage
+    //! \return
+    //!
+    double getGraphingVoltage() const;
+
+    //!
+    //! \brief getGraphingCurrent
+    //! \return
+    //!
+    double getGraphingCurrent() const;
+
+    //!
     //! \brief getSegmentMode
     //! \return
     //!
