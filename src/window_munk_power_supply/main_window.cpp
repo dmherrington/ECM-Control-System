@@ -5,23 +5,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    uint8_t value  = 131;
-
-    uint8_t ba = 131;
-    uint8_t timeMask = 127<<0;
-    uint8_t ExcValue = (ba & (~timeMask));
-
-    uint8_t RWMask = 240<<0;
-    uint8_t RWValue = (ba & (~RWMask));
-
-
-    for(int i = 0; i <= 8; i++)
-    {
-        uint8_t HIGHSeqType = value >> i;
-        std::cout<<"value is "<<(uint8_t)HIGHSeqType<<std::endl;
-    }
-
     ui->setupUi(this);
+    ui->progressBar->setValue(0);
 
     const auto infos = QSerialPortInfo::availablePorts();
 
@@ -37,7 +22,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     m_PowerSupply = new MunkPowerSupply();
-    connect(m_PowerSupply, SIGNAL(signal_SerialPortStatus(bool,std::string)), this, SLOT(slot_SerialPortStatus(bool,std::string)));
+    connect(m_PowerSupply,SIGNAL(signal_ConnectionStatusUpdated(bool)), this, SLOT(slot_ConnectionStatusUpdate(bool)));
+    connect(m_PowerSupply,SIGNAL(signal_CommunicationError(std::string,std::string)), this, SLOT(slot_CommunicationError(std::string,std::string)));
+    connect(m_PowerSupply,SIGNAL(signal_CommunicationUpdate(std::string,std::string)), this, SLOT(slot_CommunicationUpdate(std::string,std::string)));
+    connect(m_PowerSupply,SIGNAL(signal_FaultCodeRecieved(int,std::string)), this, SLOT(slot_FaultCodeRecieved(int,std::string)));
+    connect(m_PowerSupply,SIGNAL(signal_SegmentSetAck(std::string)),this,SLOT(slot_SegmentSetAck(std::string)));
+    connect(m_PowerSupply,SIGNAL(signal_SegmentException(std::string,std::string)),this,SLOT(slot_SegmentException(std::string,std::string)));
 
     char* ECMPath = getenv("ECM_ROOT");
     if(ECMPath){
@@ -65,33 +55,46 @@ void MainWindow::slot_ConnectionStatusUpdate(const bool &open_close)
         statusBar()->showMessage(tr("Connection Closed"),2500);
 }
 
-void MainWindow::slot_CommunicationError()
-{
-
-}
-
-void MainWindow::slot_CommunicationUpdate()
-{
-
-}
-
-void MainWindow::slot_SegmentSetAck()
-{
-
-}
-
-void MainWindow::slot_SegmentException()
-{
-
-}
-
-void MainWindow::slot_FaultCodeRecieved()
+void MainWindow::slot_CommunicationError(const std::string &type, const std::string &msg)
 {
     QMessageBox msgBox;
-    msgBox.setText("A fault code has been thrown from the MUNK.");
-    msgBox.setInformativeText("");
+    msgBox.setText("A communication error has been thrown from the MUNK.");
+    msgBox.setInformativeText(QString::fromStdString(msg));
     msgBox.setIcon(QMessageBox::Critical);
-    int ret = msgBox.exec();
+    msgBox.exec();
+}
+
+void MainWindow::slot_CommunicationUpdate(const std::string &name, const std::string &msg)
+{
+    QMessageBox msgBox;
+    msgBox.setText(QString::fromStdString(name));
+    msgBox.setInformativeText(QString::fromStdString(msg));
+    msgBox.setIcon(QMessageBox::Information);
+    msgBox.exec();
+}
+
+void MainWindow::slot_SegmentSetAck(const std::string &msg)
+{
+    ui->progressBar->setValue(ui->progressBar->value() + 20);
+    statusBar()->showMessage(QString::fromStdString(msg),1000);
+}
+
+void MainWindow::slot_SegmentException(const std::string &RW, const std::string &meaning)
+{
+    QMessageBox msgBox;
+    msgBox.setText("A fault code has been thrown when" + QString::fromStdString(RW) + "from the MUNK.");
+    msgBox.setInformativeText(QString::fromStdString(meaning));
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.exec();
+}
+
+void MainWindow::slot_FaultCodeRecieved(const int &regNum, const std::string &msg)
+{
+    QMessageBox msgBox;
+    msgBox.setText("A fault code has been thrown from register" + QString::number(regNum)+ " on the MUNK.");
+    msgBox.setInformativeText(QString::fromStdString(msg));
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.exec();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -202,7 +205,7 @@ void MainWindow::slot_SerialPortStatus(const bool &open_close, const std::string
         dialog->setIcon(QMessageBox::Information);
         dialog->setText("The serial port was open succesfully.");
         dialog->exec();
-        ui->pushButton_connect->setText("DISCONNECT");
+        //ui->pushButton_connect->setText("DISCONNECT");
     }
     else
     {
@@ -281,4 +284,15 @@ void MainWindow::loadMunkPowerSegment(const QString &path)
 
     QJsonDocument loadDoc(QJsonDocument::fromJson(loadData));
     ui->segmentWidget->read(loadDoc.object());
+}
+
+void MainWindow::on_pushButton_transmit_released()
+{
+    this->on_actionTransmit_To_Munk_triggered();
+}
+
+void MainWindow::on_actionExit_triggered()
+{
+    m_PowerSupply->closeSerialPort();
+    qApp->quit();
 }

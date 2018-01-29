@@ -19,10 +19,10 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QProgressBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QToolBar>
-#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include "plot_handler.h"
 #include "widget_segment_time_display.h"
@@ -43,21 +43,14 @@ public:
     QWidget *centralWidget;
     QGridLayout *gridLayout_3;
     QGridLayout *gridLayout_2;
-    QVBoxLayout *verticalLayout;
-    QGridLayout *gridLayout;
-    QSpacerItem *horizontalSpacer_2;
     QComboBox *comboBox_comPort;
-    QPushButton *pushButton;
-    QSpacerItem *verticalSpacer_3;
-    QSpacerItem *verticalSpacer_4;
-    QSpacerItem *horizontalSpacer;
-    QPushButton *pushButton_connect;
-    QSpacerItem *verticalSpacer_2;
-    QPushButton *pushButton_transmit;
     QSpacerItem *verticalSpacer_5;
     QSpacerItem *horizontalSpacer_3;
     graphing::PlotHandler *graphWidget;
-    QSpacerItem *verticalSpacer;
+    QGridLayout *gridLayout;
+    QPushButton *pushButton;
+    QPushButton *pushButton_transmit;
+    QProgressBar *progressBar;
     WidgetSegmentTimeDisplay *segmentWidget;
     QSpacerItem *verticalSpacer_6;
     QToolBar *mainToolBar;
@@ -70,7 +63,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(665, 334);
+        MainWindow->resize(665, 358);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -80,20 +73,153 @@ public:
         QFont font;
         font.setPointSize(10);
         MainWindow->setFont(font);
+        MainWindow->setStyleSheet(QLatin1String("QMainWindow{\n"
+"background-color:#1d1d1d;\n"
+"}\n"
+"\n"
+"QMenuBar{\n"
+"background-color:#1d1d1d;\n"
+"padding:5px;\n"
+"	font: 12pt \"MS Shell Dlg 2\";\n"
+"}\n"
+"\n"
+"QMenuBar::item{\n"
+"background-color:#1d1d1d;\n"
+"color:#fff;\n"
+"padding:5px;\n"
+"\n"
+"}\n"
+"\n"
+"QMenu{\n"
+"color:#fff;\n"
+"padding:0;\n"
+"}\n"
+"\n"
+"QMenu::item:selected{\n"
+"color:#fff;\n"
+"background-color:#00aba9;\n"
+"}\n"
+"\n"
+"QTableWidget{\n"
+"background-color:#3d3d3d;\n"
+"color:#fff;\n"
+"  selection-background-color: #da532c;\n"
+"border:solid;\n"
+"border-width:3px;\n"
+"border-color:#da532c;\n"
+"}\n"
+"QHeaderView::section{\n"
+"background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, 217, 255), stop:1 rgba(36, 158, 217, 255));\n"
+"border:none;\n"
+"border-top-style:solid;\n"
+"border-width:1px;\n"
+"border-top-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, 217, 255), stop:1 rgba(36, 158, 217, 255));\n"
+"color:#fff;\n"
+"\n"
+"}\n"
+"QHeaderView{\n"
+"background-color:qlineargradient"
+                        "(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, 217, 255), stop:1 rgba(36, 158, 217, 255));\n"
+"\n"
+"border:none;\n"
+"border-top-style:solid;\n"
+"border-width:1px;\n"
+"border-top-color:#149ED9;\n"
+"color:#fff;\n"
+"	font: 75 12pt \"Calibri\";\n"
+"}\n"
+"\n"
+"QTableCornerButton::section{\n"
+"border:none;\n"
+"background-color:#149ED9;\n"
+"}\n"
+"\n"
+"QListWidget{\n"
+"background-color:#3d3d3d;\n"
+"color:#fff;\n"
+"}\n"
+"\n"
+"QMenu{\n"
+"background-color:#3d3d3d;\n"
+"}\n"
+"QStatusBar{\n"
+"background-color:#7e3878;\n"
+"color:#fff;\n"
+"}\n"
+"\n"
+"QPushButton{\n"
+"border-style:solid;\n"
+"\n"
+"background-color:#3d3d3d;\n"
+"color:#fff;\n"
+"border-radius:7px;\n"
+"}\n"
+"QPushButton:hover{\n"
+"color:#ccc;\n"
+"	background-color: qlineargradient(spread:pad, x1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(45, 45, 45, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
+"	border-color:#2d89ef;\n"
+"border-width:2px;\n"
+"}\n"
+"\n"
+"QPushButton:pressed{\n"
+"background-color: qlineargradient(spread:pad, x"
+                        "1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(29, 29, 29, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
+"}\n"
+"\n"
+"\n"
+"QTabWidget::tab{\n"
+"background-color:#3d3d3d;\n"
+"}\n"
+"\n"
+"QLineEdit{\n"
+"border-radius:0;\n"
+"}\n"
+"\n"
+"QProgressBar{\n"
+"border-radius:0;\n"
+"text-align:center;\n"
+"color:#fff;\n"
+"background-color:transparent;\n"
+"border: 2px solid #e3a21a;\n"
+"border-radius:7px;\n"
+"	font: 75 12pt \"Open Sans\";\n"
+"\n"
+"}\n"
+"\n"
+"QProgressBar::chunk{\n"
+"background-color:#2d89ef;\n"
+"width:20px;\n"
+"}"));
         actionLoad = new QAction(MainWindow);
         actionLoad->setObjectName(QStringLiteral("actionLoad"));
+        QIcon icon;
+        icon.addFile(QStringLiteral("../../images/open_white_icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionLoad->setIcon(icon);
         actionSave = new QAction(MainWindow);
         actionSave->setObjectName(QStringLiteral("actionSave"));
+        QIcon icon1;
+        icon1.addFile(QStringLiteral(":/images/save_icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionSave->setIcon(icon1);
         actionSave_As = new QAction(MainWindow);
         actionSave_As->setObjectName(QStringLiteral("actionSave_As"));
+        actionSave_As->setIcon(icon1);
         actionExit = new QAction(MainWindow);
         actionExit->setObjectName(QStringLiteral("actionExit"));
+        QIcon icon2;
+        icon2.addFile(QStringLiteral(":/images/exit_icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionExit->setIcon(icon2);
         actionGraph_Legend = new QAction(MainWindow);
         actionGraph_Legend->setObjectName(QStringLiteral("actionGraph_Legend"));
         actionOpen_Connection = new QAction(MainWindow);
         actionOpen_Connection->setObjectName(QStringLiteral("actionOpen_Connection"));
+        QIcon icon3;
+        icon3.addFile(QStringLiteral(":/images/open_connection_icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionOpen_Connection->setIcon(icon3);
         actionClose_Connection = new QAction(MainWindow);
         actionClose_Connection->setObjectName(QStringLiteral("actionClose_Connection"));
+        QIcon icon4;
+        icon4.addFile(QStringLiteral(":/images/disconnect_icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionClose_Connection->setIcon(icon4);
         actionTransmit_To_Munk = new QAction(MainWindow);
         actionTransmit_To_Munk->setObjectName(QStringLiteral("actionTransmit_To_Munk"));
         centralWidget = new QWidget(MainWindow);
@@ -105,17 +231,6 @@ public:
         gridLayout_2 = new QGridLayout();
         gridLayout_2->setSpacing(6);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setSpacing(6);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        gridLayout = new QGridLayout();
-        gridLayout->setSpacing(6);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        gridLayout->setSizeConstraint(QLayout::SetFixedSize);
-        horizontalSpacer_2 = new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
-
-        gridLayout->addItem(horizontalSpacer_2, 0, 1, 1, 1);
-
         comboBox_comPort = new QComboBox(centralWidget);
         comboBox_comPort->setObjectName(QStringLiteral("comboBox_comPort"));
         QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -123,64 +238,140 @@ public:
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(comboBox_comPort->sizePolicy().hasHeightForWidth());
         comboBox_comPort->setSizePolicy(sizePolicy1);
-        comboBox_comPort->setMinimumSize(QSize(80, 0));
+        comboBox_comPort->setMinimumSize(QSize(100, 0));
+        QFont font1;
+        font1.setPointSize(12);
+        comboBox_comPort->setFont(font1);
+        comboBox_comPort->setStyleSheet(QLatin1String("QMainWindow{\n"
+"background-color:#1d1d1d;\n"
+"}\n"
+"\n"
+"QMenuBar{\n"
+"background-color:#1d1d1d;\n"
+"padding:5px;\n"
+"	font: 12pt \"MS Shell Dlg 2\";\n"
+"}\n"
+"\n"
+"QMenuBar::item{\n"
+"background-color:#1d1d1d;\n"
+"color:#fff;\n"
+"padding:5px;\n"
+"\n"
+"}\n"
+"\n"
+"QMenu{\n"
+"color:#fff;\n"
+"padding:0;\n"
+"}\n"
+"\n"
+"QMenu::item:selected{\n"
+"color:#fff;\n"
+"background-color:#00aba9;\n"
+"}\n"
+"\n"
+"QTableWidget{\n"
+"background-color:#3d3d3d;\n"
+"color:#fff;\n"
+"  selection-background-color: #da532c;\n"
+"border:solid;\n"
+"border-width:3px;\n"
+"border-color:#da532c;\n"
+"}\n"
+"QHeaderView::section{\n"
+"background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, 217, 255), stop:1 rgba(36, 158, 217, 255));\n"
+"border:none;\n"
+"border-top-style:solid;\n"
+"border-width:1px;\n"
+"border-top-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, 217, 255), stop:1 rgba(36, 158, 217, 255));\n"
+"color:#fff;\n"
+"\n"
+"}\n"
+"QHeaderView{\n"
+"background-color:qlineargradient"
+                        "(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, 217, 255), stop:1 rgba(36, 158, 217, 255));\n"
+"\n"
+"border:none;\n"
+"border-top-style:solid;\n"
+"border-width:1px;\n"
+"border-top-color:#149ED9;\n"
+"color:#fff;\n"
+"	font: 75 12pt \"Calibri\";\n"
+"}\n"
+"\n"
+"QTableCornerButton::section{\n"
+"border:none;\n"
+"background-color:#149ED9;\n"
+"}\n"
+"\n"
+"QListWidget{\n"
+"background-color:#3d3d3d;\n"
+"color:#fff;\n"
+"}\n"
+"\n"
+"QMenu{\n"
+"background-color:#3d3d3d;\n"
+"}\n"
+"QStatusBar{\n"
+"background-color:#7e3878;\n"
+"color:#fff;\n"
+"}\n"
+"\n"
+"QPushButton{\n"
+"border-style:solid;\n"
+"\n"
+"background-color:#3d3d3d;\n"
+"color:#fff;\n"
+"border-radius:7px;\n"
+"}\n"
+"QPushButton:hover{\n"
+"color:#ccc;\n"
+"	background-color: qlineargradient(spread:pad, x1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(45, 45, 45, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
+"	border-color:#2d89ef;\n"
+"border-width:2px;\n"
+"}\n"
+"\n"
+"QPushButton:pressed{\n"
+"background-color: qlineargradient(spread:pad, x"
+                        "1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(29, 29, 29, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
+"}\n"
+"\n"
+"\n"
+"QTabWidget::tab{\n"
+"background-color:#3d3d3d;\n"
+"}\n"
+"\n"
+"QLineEdit{\n"
+"border-radius:0;\n"
+"}\n"
+"\n"
+"QProgressBar{\n"
+"border-radius:0;\n"
+"text-align:center;\n"
+"color:#fff;\n"
+"background-color:transparent;\n"
+"border: 2px solid #e3a21a;\n"
+"border-radius:7px;\n"
+"	font: 75 12pt \"Open Sans\";\n"
+"\n"
+"}\n"
+"\n"
+"QProgressBar::chunk{\n"
+"background-color:#2d89ef;\n"
+"width:20px;\n"
+"}"));
 
-        gridLayout->addWidget(comboBox_comPort, 0, 0, 1, 1);
-
-        pushButton = new QPushButton(centralWidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        sizePolicy1.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
-        pushButton->setSizePolicy(sizePolicy1);
-        pushButton->setMinimumSize(QSize(80, 0));
-        pushButton->setFlat(false);
-
-        gridLayout->addWidget(pushButton, 2, 0, 1, 1);
-
-        verticalSpacer_3 = new QSpacerItem(20, 10, QSizePolicy::Minimum, QSizePolicy::Fixed);
-
-        gridLayout->addItem(verticalSpacer_3, 1, 1, 1, 1);
-
-        verticalSpacer_4 = new QSpacerItem(20, 10, QSizePolicy::Minimum, QSizePolicy::Fixed);
-
-        gridLayout->addItem(verticalSpacer_4, 1, 2, 1, 1);
-
-        horizontalSpacer = new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
-
-        gridLayout->addItem(horizontalSpacer, 2, 1, 1, 1);
-
-        pushButton_connect = new QPushButton(centralWidget);
-        pushButton_connect->setObjectName(QStringLiteral("pushButton_connect"));
-        sizePolicy1.setHeightForWidth(pushButton_connect->sizePolicy().hasHeightForWidth());
-        pushButton_connect->setSizePolicy(sizePolicy1);
-        pushButton_connect->setMinimumSize(QSize(100, 0));
-
-        gridLayout->addWidget(pushButton_connect, 0, 2, 1, 1);
-
-        verticalSpacer_2 = new QSpacerItem(20, 10, QSizePolicy::Minimum, QSizePolicy::Fixed);
-
-        gridLayout->addItem(verticalSpacer_2, 1, 0, 1, 1);
-
-        pushButton_transmit = new QPushButton(centralWidget);
-        pushButton_transmit->setObjectName(QStringLiteral("pushButton_transmit"));
-        sizePolicy1.setHeightForWidth(pushButton_transmit->sizePolicy().hasHeightForWidth());
-        pushButton_transmit->setSizePolicy(sizePolicy1);
-        pushButton_transmit->setMinimumSize(QSize(100, 0));
-
-        gridLayout->addWidget(pushButton_transmit, 2, 2, 1, 1);
-
-
-        verticalLayout->addLayout(gridLayout);
+        gridLayout_2->addWidget(comboBox_comPort, 0, 0, 1, 1);
 
         verticalSpacer_5 = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        verticalLayout->addItem(verticalSpacer_5);
+        gridLayout_2->addItem(verticalSpacer_5, 1, 0, 1, 1);
 
 
-        gridLayout_2->addLayout(verticalLayout, 0, 0, 1, 1);
+        gridLayout_3->addLayout(gridLayout_2, 0, 0, 1, 1);
 
-        horizontalSpacer_3 = new QSpacerItem(13, 100, QSizePolicy::Fixed, QSizePolicy::Minimum);
+        horizontalSpacer_3 = new QSpacerItem(18, 100, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
-        gridLayout_2->addItem(horizontalSpacer_3, 0, 1, 1, 1);
+        gridLayout_3->addItem(horizontalSpacer_3, 0, 1, 1, 1);
 
         graphWidget = new graphing::PlotHandler(centralWidget);
         graphWidget->setObjectName(QStringLiteral("graphWidget"));
@@ -191,14 +382,36 @@ public:
         graphWidget->setSizePolicy(sizePolicy2);
         graphWidget->setMinimumSize(QSize(300, 200));
 
-        gridLayout_2->addWidget(graphWidget, 0, 2, 1, 1);
+        gridLayout_3->addWidget(graphWidget, 0, 2, 1, 1);
 
+        gridLayout = new QGridLayout();
+        gridLayout->setSpacing(6);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        pushButton = new QPushButton(centralWidget);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        sizePolicy1.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
+        pushButton->setSizePolicy(sizePolicy1);
+        pushButton->setMinimumSize(QSize(80, 30));
+        pushButton->setFont(font1);
+        pushButton->setFlat(false);
 
-        gridLayout_3->addLayout(gridLayout_2, 0, 0, 1, 1);
+        gridLayout->addWidget(pushButton, 0, 0, 1, 1);
 
-        verticalSpacer = new QSpacerItem(10, 13, QSizePolicy::Minimum, QSizePolicy::Fixed);
+        pushButton_transmit = new QPushButton(centralWidget);
+        pushButton_transmit->setObjectName(QStringLiteral("pushButton_transmit"));
+        sizePolicy1.setHeightForWidth(pushButton_transmit->sizePolicy().hasHeightForWidth());
+        pushButton_transmit->setSizePolicy(sizePolicy1);
+        pushButton_transmit->setMinimumSize(QSize(100, 30));
+        pushButton_transmit->setFont(font1);
 
-        gridLayout_3->addItem(verticalSpacer, 1, 0, 1, 1);
+        gridLayout->addWidget(pushButton_transmit, 0, 1, 1, 1);
+
+        progressBar = new QProgressBar(centralWidget);
+        progressBar->setObjectName(QStringLiteral("progressBar"));
+        progressBar->setMinimumSize(QSize(0, 30));
+        progressBar->setValue(24);
+
+        gridLayout->addWidget(progressBar, 0, 2, 1, 1);
 
         segmentWidget = new WidgetSegmentTimeDisplay(centralWidget);
         segmentWidget->setObjectName(QStringLiteral("segmentWidget"));
@@ -209,11 +422,14 @@ public:
         segmentWidget->setSizePolicy(sizePolicy3);
         segmentWidget->setMinimumSize(QSize(0, 0));
 
-        gridLayout_3->addWidget(segmentWidget, 2, 0, 1, 1);
+        gridLayout->addWidget(segmentWidget, 1, 0, 1, 3);
+
+
+        gridLayout_3->addLayout(gridLayout, 1, 0, 1, 3);
 
         verticalSpacer_6 = new QSpacerItem(10, 37, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
 
-        gridLayout_3->addItem(verticalSpacer_6, 3, 0, 1, 1);
+        gridLayout_3->addItem(verticalSpacer_6, 2, 0, 1, 1);
 
         MainWindow->setCentralWidget(centralWidget);
         mainToolBar = new QToolBar(MainWindow);
@@ -221,7 +437,7 @@ public:
         MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 665, 21));
+        menuBar->setGeometry(QRect(0, 0, 665, 40));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menuBar);
@@ -262,7 +478,6 @@ public:
         actionClose_Connection->setText(QApplication::translate("MainWindow", "Close Connection", nullptr));
         actionTransmit_To_Munk->setText(QApplication::translate("MainWindow", "Transmit To Munk", nullptr));
         pushButton->setText(QApplication::translate("MainWindow", "ADD", nullptr));
-        pushButton_connect->setText(QApplication::translate("MainWindow", "CONNECT", nullptr));
         pushButton_transmit->setText(QApplication::translate("MainWindow", "TRANSMIT", nullptr));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", nullptr));
         menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", nullptr));

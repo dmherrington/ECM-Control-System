@@ -6,6 +6,10 @@
 
 #include "data/type_read_write.h"
 
+#include "data/fault_codes_register_one.h"
+#include "data/fault_codes_register_two.h"
+#include "data/fault_codes_register_three.h"
+
 namespace munk {
 namespace comms{
 
@@ -45,19 +49,19 @@ public:
     /// Munk Protocol Events
     /////////////////////////////////////////////////////////
 
-    virtual void FaultCodeRegister1Received()
+    virtual void FaultCodeRegister1Received(const std::string &msg)
     {
-
+        UNUSED(msg);
     }
 
-    virtual void FaultCodeRegister2Received()
+    virtual void FaultCodeRegister2Received(const std::string &msg)
     {
-
+        UNUSED(msg);
     }
 
-    virtual void FaultCodeRegister3Received()
+    virtual void FaultCodeRegister3Received(const std::string &msg)
     {
-
+        UNUSED(msg);
     }
 
     virtual void ForwardVoltageSetpointAcknowledged(const int &numberOfRegisters) const

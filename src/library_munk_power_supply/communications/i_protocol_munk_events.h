@@ -9,6 +9,10 @@
 #include "data/type_read_write.h"
 #include "data/type_segment_mode.h"
 
+#include "data/fault_codes_register_one.h"
+#include "data/fault_codes_register_two.h"
+#include "data/fault_codes_register_three.h"
+
 namespace munk {
 namespace comms{
 
@@ -19,9 +23,9 @@ class IProtocolMunkEvents
 {
 public:
 
-    virtual void FaultCodeRegister1Received(const ILink* link_ptr) const = 0;
-    virtual void FaultCodeRegister2Received(const ILink* link_ptr) const = 0;
-    virtual void FaultCodeRegister3Received(const ILink* link_ptr) const = 0;
+    virtual void FaultCodeRegister1Received(const ILink* link_ptr, const Data::FaultCodesRegister1 &code) const = 0;
+    virtual void FaultCodeRegister2Received(const ILink* link_ptr, const Data::FaultCodesRegister2 &code) const = 0;
+    virtual void FaultCodeRegister3Received(const ILink* link_ptr, const Data::FaultCodesRegister3 &code) const = 0;
 
     virtual void SegmentVoltageSetpointAcknowledged(const ILink* link_ptr, const Data::SegmentMode &mode, const int &numberRegisters) const = 0;
     virtual void SegmentCurrentSetpointAcknowledged(const ILink* link_ptr , const Data::SegmentMode &mode, const int &numberRegisters) const = 0;

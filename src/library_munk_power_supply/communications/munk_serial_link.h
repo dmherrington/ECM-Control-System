@@ -57,7 +57,7 @@ public:
         else {
             postToThread([func](){
                 func();
-            });
+            }, m_port);
         }
     }
 

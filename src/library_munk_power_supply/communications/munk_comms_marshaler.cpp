@@ -41,7 +41,11 @@ bool MunkCommsMarshaler::ConnectToLink(const SerialConfiguration &linkConfig)
 
 bool MunkCommsMarshaler::DisconnetFromLink()
 {
-    link->Disconnect();
+    auto func = [this]() {
+        link->Disconnect();
+    };
+
+    link->MarshalOnThread(func);
     return link->isConnected();
 }
 
@@ -151,29 +155,27 @@ void MunkCommsMarshaler::CommunicationUpdate(const std::string &name, const std:
 /// IProtocolMunkEvents
 //////////////////////////////////////////////////////////////
 
-void MunkCommsMarshaler::FaultCodeRegister1Received(const ILink* link_ptr) const
+void MunkCommsMarshaler::FaultCodeRegister1Received(const ILink* link_ptr, const Data::FaultCodesRegister1 &code) const
 {
     UNUSED(link_ptr);
-
-    Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister1Received();});
+    Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister1Received(Data::FaultCodesRegister1ToString(code));});
 }
 
-void MunkCommsMarshaler::FaultCodeRegister2Received(const ILink* link_ptr) const
+void MunkCommsMarshaler::FaultCodeRegister2Received(const ILink* link_ptr,  const Data::FaultCodesRegister2 &code) const
 {
     UNUSED(link_ptr);
-
-    Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister2Received();});
+    Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister2Received(Data::FaultCodesRegister2ToString(code));});
 }
 
-void MunkCommsMarshaler::FaultCodeRegister3Received(const ILink* link_ptr) const
+void MunkCommsMarshaler::FaultCodeRegister3Received(const ILink* link_ptr,  const Data::FaultCodesRegister3 &code) const
 {
     UNUSED(link_ptr);
-
-    Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister3Received();});
+    Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister3Received(Data::FaultCodesRegister3ToString(code));});
 }
 
 void MunkCommsMarshaler::SegmentVoltageSetpointAcknowledged(const ILink* link_ptr, const Data::SegmentMode &mode, const int &numberRegisters) const
 {
+    UNUSED(link_ptr);
     if(mode == Data::SegmentMode::FORWARD)
         Emit([&](CommsEvents *ptr){ptr->ForwardVoltageSetpointAcknowledged(numberRegisters);});
     else

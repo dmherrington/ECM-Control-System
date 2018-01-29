@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MunkPowerSupply_t {
-    QByteArrayData data[9];
-    char stringdata0[182];
+    QByteArrayData data[16];
+    char stringdata0[226];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -36,17 +36,25 @@ QT_MOC_LITERAL(1, 16, 30), // "signal_ConnectionStatusUpdated"
 QT_MOC_LITERAL(2, 47, 0), // ""
 QT_MOC_LITERAL(3, 48, 10), // "open_close"
 QT_MOC_LITERAL(4, 59, 25), // "signal_CommunicationError"
-QT_MOC_LITERAL(5, 85, 26), // "signal_CommunicationUpdate"
-QT_MOC_LITERAL(6, 112, 20), // "signal_SegmentSetAck"
-QT_MOC_LITERAL(7, 133, 23), // "signal_SegmentException"
-QT_MOC_LITERAL(8, 157, 24) // "signal_FaultCodeRecieved"
+QT_MOC_LITERAL(5, 85, 11), // "std::string"
+QT_MOC_LITERAL(6, 97, 4), // "type"
+QT_MOC_LITERAL(7, 102, 3), // "msg"
+QT_MOC_LITERAL(8, 106, 26), // "signal_CommunicationUpdate"
+QT_MOC_LITERAL(9, 133, 4), // "name"
+QT_MOC_LITERAL(10, 138, 24), // "signal_FaultCodeRecieved"
+QT_MOC_LITERAL(11, 163, 6), // "regNum"
+QT_MOC_LITERAL(12, 170, 20), // "signal_SegmentSetAck"
+QT_MOC_LITERAL(13, 191, 23), // "signal_SegmentException"
+QT_MOC_LITERAL(14, 215, 2), // "RW"
+QT_MOC_LITERAL(15, 218, 7) // "meaning"
 
     },
     "MunkPowerSupply\0signal_ConnectionStatusUpdated\0"
     "\0open_close\0signal_CommunicationError\0"
-    "signal_CommunicationUpdate\0"
+    "std::string\0type\0msg\0signal_CommunicationUpdate\0"
+    "name\0signal_FaultCodeRecieved\0regNum\0"
     "signal_SegmentSetAck\0signal_SegmentException\0"
-    "signal_FaultCodeRecieved"
+    "RW\0meaning"
 };
 #undef QT_MOC_LITERAL
 
@@ -65,19 +73,19 @@ static const uint qt_meta_data_MunkPowerSupply[] = {
 
  // signals: name, argc, parameters, tag, flags
        1,    1,   44,    2, 0x06 /* Public */,
-       4,    0,   47,    2, 0x06 /* Public */,
-       5,    0,   48,    2, 0x06 /* Public */,
-       6,    0,   49,    2, 0x06 /* Public */,
-       7,    0,   50,    2, 0x06 /* Public */,
-       8,    0,   51,    2, 0x06 /* Public */,
+       4,    2,   47,    2, 0x06 /* Public */,
+       8,    2,   52,    2, 0x06 /* Public */,
+      10,    2,   57,    2, 0x06 /* Public */,
+      12,    1,   62,    2, 0x06 /* Public */,
+      13,    2,   65,    2, 0x06 /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Bool,    3,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 5, 0x80000000 | 5,    6,    7,
+    QMetaType::Void, 0x80000000 | 5, 0x80000000 | 5,    9,    7,
+    QMetaType::Void, QMetaType::Int, 0x80000000 | 5,   11,    7,
+    QMetaType::Void, 0x80000000 | 5,    7,
+    QMetaType::Void, 0x80000000 | 5, 0x80000000 | 5,   14,   15,
 
        0        // eod
 };
@@ -89,11 +97,11 @@ void MunkPowerSupply::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->signal_ConnectionStatusUpdated((*reinterpret_cast< const bool(*)>(_a[1]))); break;
-        case 1: _t->signal_CommunicationError(); break;
-        case 2: _t->signal_CommunicationUpdate(); break;
-        case 3: _t->signal_SegmentSetAck(); break;
-        case 4: _t->signal_SegmentException(); break;
-        case 5: _t->signal_FaultCodeRecieved(); break;
+        case 1: _t->signal_CommunicationError((*reinterpret_cast< const std::string(*)>(_a[1])),(*reinterpret_cast< const std::string(*)>(_a[2]))); break;
+        case 2: _t->signal_CommunicationUpdate((*reinterpret_cast< const std::string(*)>(_a[1])),(*reinterpret_cast< const std::string(*)>(_a[2]))); break;
+        case 3: _t->signal_FaultCodeRecieved((*reinterpret_cast< const int(*)>(_a[1])),(*reinterpret_cast< const std::string(*)>(_a[2]))); break;
+        case 4: _t->signal_SegmentSetAck((*reinterpret_cast< const std::string(*)>(_a[1]))); break;
+        case 5: _t->signal_SegmentException((*reinterpret_cast< const std::string(*)>(_a[1])),(*reinterpret_cast< const std::string(*)>(_a[2]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -106,36 +114,36 @@ void MunkPowerSupply::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
             }
         }
         {
-            typedef void (MunkPowerSupply::*_t)() const;
+            typedef void (MunkPowerSupply::*_t)(const std::string & , const std::string & ) const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MunkPowerSupply::signal_CommunicationError)) {
                 *result = 1;
                 return;
             }
         }
         {
-            typedef void (MunkPowerSupply::*_t)() const;
+            typedef void (MunkPowerSupply::*_t)(const std::string & , const std::string & ) const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MunkPowerSupply::signal_CommunicationUpdate)) {
                 *result = 2;
                 return;
             }
         }
         {
-            typedef void (MunkPowerSupply::*_t)() const;
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MunkPowerSupply::signal_SegmentSetAck)) {
+            typedef void (MunkPowerSupply::*_t)(const int & , const std::string & ) const;
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MunkPowerSupply::signal_FaultCodeRecieved)) {
                 *result = 3;
                 return;
             }
         }
         {
-            typedef void (MunkPowerSupply::*_t)() const;
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MunkPowerSupply::signal_SegmentException)) {
+            typedef void (MunkPowerSupply::*_t)(const std::string & ) const;
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MunkPowerSupply::signal_SegmentSetAck)) {
                 *result = 4;
                 return;
             }
         }
         {
-            typedef void (MunkPowerSupply::*_t)() const;
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MunkPowerSupply::signal_FaultCodeRecieved)) {
+            typedef void (MunkPowerSupply::*_t)(const std::string & , const std::string & ) const;
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MunkPowerSupply::signal_SegmentException)) {
                 *result = 5;
                 return;
             }
@@ -189,33 +197,38 @@ void MunkPowerSupply::signal_ConnectionStatusUpdated(const bool & _t1)const
 }
 
 // SIGNAL 1
-void MunkPowerSupply::signal_CommunicationError()const
+void MunkPowerSupply::signal_CommunicationError(const std::string & _t1, const std::string & _t2)const
 {
-    QMetaObject::activate(const_cast< MunkPowerSupply *>(this), &staticMetaObject, 1, nullptr);
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(const_cast< MunkPowerSupply *>(this), &staticMetaObject, 1, _a);
 }
 
 // SIGNAL 2
-void MunkPowerSupply::signal_CommunicationUpdate()const
+void MunkPowerSupply::signal_CommunicationUpdate(const std::string & _t1, const std::string & _t2)const
 {
-    QMetaObject::activate(const_cast< MunkPowerSupply *>(this), &staticMetaObject, 2, nullptr);
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(const_cast< MunkPowerSupply *>(this), &staticMetaObject, 2, _a);
 }
 
 // SIGNAL 3
-void MunkPowerSupply::signal_SegmentSetAck()const
+void MunkPowerSupply::signal_FaultCodeRecieved(const int & _t1, const std::string & _t2)const
 {
-    QMetaObject::activate(const_cast< MunkPowerSupply *>(this), &staticMetaObject, 3, nullptr);
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(const_cast< MunkPowerSupply *>(this), &staticMetaObject, 3, _a);
 }
 
 // SIGNAL 4
-void MunkPowerSupply::signal_SegmentException()const
+void MunkPowerSupply::signal_SegmentSetAck(const std::string & _t1)const
 {
-    QMetaObject::activate(const_cast< MunkPowerSupply *>(this), &staticMetaObject, 4, nullptr);
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(const_cast< MunkPowerSupply *>(this), &staticMetaObject, 4, _a);
 }
 
 // SIGNAL 5
-void MunkPowerSupply::signal_FaultCodeRecieved()const
+void MunkPowerSupply::signal_SegmentException(const std::string & _t1, const std::string & _t2)const
 {
-    QMetaObject::activate(const_cast< MunkPowerSupply *>(this), &staticMetaObject, 5, nullptr);
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(const_cast< MunkPowerSupply *>(this), &staticMetaObject, 5, _a);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

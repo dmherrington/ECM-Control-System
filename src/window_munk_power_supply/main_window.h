@@ -39,15 +39,15 @@ private slots:
 
     void slot_ConnectionStatusUpdate(const bool &open_close);
 
-    void slot_CommunicationError();
+    void slot_CommunicationError(const std::string &type, const std::string &msg);
 
-    void slot_CommunicationUpdate();
+    void slot_CommunicationUpdate(const std::string &name, const std::string &msg);
 
-    void slot_SegmentSetAck();
+    void slot_SegmentSetAck(const std::string &msg);
 
-    void slot_SegmentException();
+    void slot_SegmentException(const std::string &RW, const std::string &meaning);
 
-    void slot_FaultCodeRecieved();
+    void slot_FaultCodeRecieved(const int &regNum, const std::string &msg);
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,6 +67,10 @@ private slots:
     void on_actionTransmit_To_Munk_triggered();
 
     void onGraphLegend();
+
+    void on_pushButton_transmit_released();
+
+    void on_actionExit_triggered();
 
 private:
     QString saveAsFileDialog(const std::string &filePath, const std::string &suffix);

@@ -186,57 +186,74 @@ void MunkPowerSupply::ConnectionClosed() const
 
 void MunkPowerSupply::CommunicationError(const std::string &type, const std::string &msg) const
 {
-    emit signal_CommunicationError();
+    emit signal_CommunicationError(type,msg);
 }
 
 void MunkPowerSupply::CommunicationUpdate(const std::string &name, const std::string &msg) const
 {
-    emit signal_CommunicationUpdate();
+    emit signal_CommunicationUpdate(name,msg);
 }
 
-void MunkPowerSupply::FaultCodeRegister1Received()
+void MunkPowerSupply::FaultCodeRegister1Received(const std::string &msg)
 {
-    emit signal_FaultCodeRecieved();
+    emit signal_FaultCodeRecieved(1,msg);
 }
 
-void MunkPowerSupply::FaultCodeRegister2Received()
+void MunkPowerSupply::FaultCodeRegister2Received(const std::string &msg)
 {
-    emit signal_FaultCodeRecieved();
+    emit signal_FaultCodeRecieved(2,msg);
 }
 
-void MunkPowerSupply::FaultCodeRegister3Received()
+void MunkPowerSupply::FaultCodeRegister3Received(const std::string &msg)
 {
-    emit signal_FaultCodeRecieved();
+    emit signal_FaultCodeRecieved(3,msg);
 }
 
 void MunkPowerSupply::ForwardVoltageSetpointAcknowledged(const int &numberOfRegisters) const
 {
-    UNUSED(numberOfRegisters);
+    std::string msg = "The forward voltage setpoints have been set for ";
+    msg += std::to_string(numberOfRegisters);
+    msg += " registers.";
+    emit signal_SegmentSetAck(msg);
 }
 
 void MunkPowerSupply::ReverseVoltageSetpointAcknowledged(const int &numberOfRegisters) const
 {
-    UNUSED(numberOfRegisters);
+    std::string msg = "The reverse voltage setpoints have been set for ";
+    msg += std::to_string(numberOfRegisters);
+    msg += " registers.";
+    emit signal_SegmentSetAck(msg);
 }
 
 void MunkPowerSupply::ForwardCurrentSetpointAcknowledged(const int &numberOfRegisters) const
 {
-    UNUSED(numberOfRegisters);
+    std::string msg = "The forward current setpoints have been set for ";
+    msg += std::to_string(numberOfRegisters);
+    msg += " registers.";
+    emit signal_SegmentSetAck(msg);
 }
 
 void MunkPowerSupply::ReverseCurrentSetpointAcknowledged(const int &numberOfRegisters) const
 {
-    UNUSED(numberOfRegisters);
+    std::string msg = "The reverse current setpoints have been set for ";
+    msg += std::to_string(numberOfRegisters);
+    msg += " registers.";
+    emit signal_SegmentSetAck(msg);
 }
 
 void MunkPowerSupply::SegmentTimeAcknowledged(const int &numberOfRegisters) const
 {
-    UNUSED(numberOfRegisters);
+    std::string msg = "The segment times have been set for ";
+    msg += std::to_string(numberOfRegisters);
+    msg += " registers.";
+    emit signal_SegmentSetAck(msg);
 }
 
 void MunkPowerSupply::ExceptionResponseReceived(const Data::ReadWriteType &RWType, const std::string &meaning) const
 {
-    UNUSED(RWType);
-    UNUSED(meaning);
+    if(RWType == Data::ReadWriteType::READ)
+        emit signal_SegmentException("READING",meaning);
+    else
+        emit signal_SegmentException("WRITING",meaning);
 }
 

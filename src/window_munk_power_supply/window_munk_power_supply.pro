@@ -82,3 +82,6 @@ DEPENDPATH += $$PWD/../graphing
 
 SUBDIRS += \
     window_munk_power_supply.pro
+
+RESOURCES += \
+    imageicons.qrc

@@ -28,9 +28,10 @@
 
 using namespace munk;
 
-class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply : public QObject, comms::CommsEvents
+class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply :  public QObject, comms::CommsEvents
 {
-    Q_OBJECT
+
+Q_OBJECT
 
 public:
     //!
@@ -60,15 +61,15 @@ signals:
 
     void signal_ConnectionStatusUpdated(const bool &open_close) const;
 
-    void signal_CommunicationError() const;
+    void signal_CommunicationError(const std::string &type, const std::string &msg) const;
 
-    void signal_CommunicationUpdate() const;
+    void signal_CommunicationUpdate(const std::string &name, const std::string &msg) const;
 
-    void signal_SegmentSetAck() const;
+    void signal_FaultCodeRecieved(const int &regNum, const std::string &msg) const;
 
-    void signal_SegmentException() const;
+    void signal_SegmentSetAck(const std::string &msg) const;
 
-    void signal_FaultCodeRecieved() const;
+    void signal_SegmentException(const std::string &RW, const std::string &meaning) const;
 
 private:
 
@@ -91,11 +92,11 @@ private:
 
     void CommunicationUpdate(const std::string &name, const std::string &msg) const override;
 
-    void FaultCodeRegister1Received() override;
+    void FaultCodeRegister1Received(const std::string &msg) override;
 
-    void FaultCodeRegister2Received() override;
+    void FaultCodeRegister2Received(const std::string &msg) override;
 
-    void FaultCodeRegister3Received() override;
+    void FaultCodeRegister3Received(const std::string &msg) override;
 
     virtual void ForwardVoltageSetpointAcknowledged(const int &numberOfRegisters) const override;
 

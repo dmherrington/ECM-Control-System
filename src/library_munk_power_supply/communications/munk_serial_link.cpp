@@ -112,6 +112,7 @@ bool MunkSerialLink::Connect(void)
 bool MunkSerialLink::Disconnect(void)
 {
     if (m_port) {
+        m_ListenThread->quit();
         m_port->close();
         delete m_port;
         m_port = NULL;
@@ -143,7 +144,7 @@ bool MunkSerialLink::_hardwareConnect(QSerialPort::SerialPortError& error, QStri
 
     std::cout << "MunkSerialLink: hardwareConnect to " << _config.portName() << std::endl;
 
-    m_port = new QSerialPort(QString::fromStdString(_config.portName()).trimmed());
+    m_port = new QSerialPort(QString::fromStdString(_config.portName()).trimmed(),0);
 
     for (int openRetries = 0; openRetries < 4; openRetries++) {
         if (!m_port->open(QIODevice::ReadWrite)) {
@@ -173,7 +174,7 @@ bool MunkSerialLink::_hardwareConnect(QSerialPort::SerialPortError& error, QStri
     m_port->setStopBits     (static_cast<QSerialPort::StopBits>     (_config.stopBits()));
     m_port->setParity       (static_cast<QSerialPort::Parity>       (_config.parity()));
 
-    EmitEvent([this](const ILinkEvents *ptr){ptr->CommunicationUpdate(getPortName(), "Opened port!");});
+    //EmitEvent([this](const ILinkEvents *ptr){ptr->CommunicationUpdate(getPortName(), "Opened port!");});
     EmitEvent([this](const ILinkEvents *ptr){ptr->ConnectionOpened();});
 
     std::cout << "Connection SeriaLink: " << "with settings " << _config.portName() << " "
@@ -229,8 +230,6 @@ void MunkSerialLink::PortEventLoop()
 {
     if(m_port->bytesAvailable())
         this->_readBytes();
-
-
 
     if(m_port->errorString() != "")
     {

@@ -86,9 +86,9 @@ private:
     /// IProtocolMunkEvents
     //////////////////////////////////////////////////////////////
 
-    void FaultCodeRegister1Received(const ILink* link_ptr) const override;
-    void FaultCodeRegister2Received(const ILink* link_ptr) const override;
-    void FaultCodeRegister3Received(const ILink* link_ptr) const override;
+    void FaultCodeRegister1Received(const ILink* link_ptr, const Data::FaultCodesRegister1 &code) const override;
+    void FaultCodeRegister2Received(const ILink* link_ptr, const Data::FaultCodesRegister2 &code) const override;
+    void FaultCodeRegister3Received(const ILink* link_ptr, const Data::FaultCodesRegister3 &code) const override;
 
     void SegmentVoltageSetpointAcknowledged(const ILink* link_ptr, const Data::SegmentMode &mode, const int &numberRegisters) const override;
     void SegmentCurrentSetpointAcknowledged(const ILink* link_ptr , const Data::SegmentMode &mode, const int &numberRegisters) const override;
