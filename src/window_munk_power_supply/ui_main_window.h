@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'main_window.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.0
+** Created by: Qt User Interface Compiler version 5.9.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -16,6 +16,7 @@
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -45,6 +46,7 @@ public:
     QGridLayout *gridLayout_2;
     QComboBox *comboBox_comPort;
     QSpacerItem *verticalSpacer_5;
+    QLabel *label;
     QSpacerItem *horizontalSpacer_3;
     graphing::PlotHandler *graphWidget;
     QGridLayout *gridLayout;
@@ -63,7 +65,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(665, 358);
+        MainWindow->resize(665, 361);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -149,11 +151,15 @@ public:
 "\n"
 "QPushButton{\n"
 "border-style:solid;\n"
-"\n"
 "background-color:#3d3d3d;\n"
 "color:#fff;\n"
 "border-radius:7px;\n"
 "}\n"
+"\n"
+"QPushButton:disabled {\n"
+"background-color: rgb(204, 0, 0);\n"
+"}\n"
+"\n"
 "QPushButton:hover{\n"
 "color:#ccc;\n"
 "	background-color: qlineargradient(spread:pad, x1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(45, 45, 45, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
@@ -161,9 +167,9 @@ public:
 "border-width:2px;\n"
 "}\n"
 "\n"
-"QPushButton:pressed{\n"
-"background-color: qlineargradient(spread:pad, x"
-                        "1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(29, 29, 29, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
+""
+                        "QPushButton:pressed{\n"
+"background-color: qlineargradient(spread:pad, x1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(29, 29, 29, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
 "}\n"
 "\n"
 "\n"
@@ -366,6 +372,11 @@ public:
 
         gridLayout_2->addItem(verticalSpacer_5, 1, 0, 1, 1);
 
+        label = new QLabel(centralWidget);
+        label->setObjectName(QStringLiteral("label"));
+
+        gridLayout_2->addWidget(label, 2, 0, 1, 1);
+
 
         gridLayout_3->addLayout(gridLayout_2, 0, 0, 1, 1);
 
@@ -403,6 +414,7 @@ public:
         pushButton_transmit->setSizePolicy(sizePolicy1);
         pushButton_transmit->setMinimumSize(QSize(100, 30));
         pushButton_transmit->setFont(font1);
+        pushButton_transmit->setToolTipDuration(-1);
 
         gridLayout->addWidget(pushButton_transmit, 0, 1, 1, 1);
 
@@ -427,7 +439,7 @@ public:
 
         gridLayout_3->addLayout(gridLayout, 1, 0, 1, 3);
 
-        verticalSpacer_6 = new QSpacerItem(10, 37, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
+        verticalSpacer_6 = new QSpacerItem(10, 5, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
 
         gridLayout_3->addItem(verticalSpacer_6, 2, 0, 1, 1);
 
@@ -437,7 +449,7 @@ public:
         MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 665, 40));
+        menuBar->setGeometry(QRect(0, 0, 665, 39));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menuBar);
@@ -468,20 +480,24 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
-        actionLoad->setText(QApplication::translate("MainWindow", "Open", nullptr));
-        actionSave->setText(QApplication::translate("MainWindow", "Save", nullptr));
-        actionSave_As->setText(QApplication::translate("MainWindow", "Save As", nullptr));
-        actionExit->setText(QApplication::translate("MainWindow", "Exit", nullptr));
-        actionGraph_Legend->setText(QApplication::translate("MainWindow", "Graph Legend", nullptr));
-        actionOpen_Connection->setText(QApplication::translate("MainWindow", "Open Connection", nullptr));
-        actionClose_Connection->setText(QApplication::translate("MainWindow", "Close Connection", nullptr));
-        actionTransmit_To_Munk->setText(QApplication::translate("MainWindow", "Transmit To Munk", nullptr));
-        pushButton->setText(QApplication::translate("MainWindow", "ADD", nullptr));
-        pushButton_transmit->setText(QApplication::translate("MainWindow", "TRANSMIT", nullptr));
-        menuFile->setTitle(QApplication::translate("MainWindow", "File", nullptr));
-        menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", nullptr));
-        menuHelp->setTitle(QApplication::translate("MainWindow", "Tools", nullptr));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
+        actionLoad->setText(QApplication::translate("MainWindow", "Open", Q_NULLPTR));
+        actionSave->setText(QApplication::translate("MainWindow", "Save", Q_NULLPTR));
+        actionSave_As->setText(QApplication::translate("MainWindow", "Save As", Q_NULLPTR));
+        actionExit->setText(QApplication::translate("MainWindow", "Exit", Q_NULLPTR));
+        actionGraph_Legend->setText(QApplication::translate("MainWindow", "Graph Legend", Q_NULLPTR));
+        actionOpen_Connection->setText(QApplication::translate("MainWindow", "Open Connection", Q_NULLPTR));
+        actionClose_Connection->setText(QApplication::translate("MainWindow", "Close Connection", Q_NULLPTR));
+        actionTransmit_To_Munk->setText(QApplication::translate("MainWindow", "Transmit To Munk", Q_NULLPTR));
+        label->setText(QApplication::translate("MainWindow", "TextLabel", Q_NULLPTR));
+        pushButton->setText(QApplication::translate("MainWindow", "ADD", Q_NULLPTR));
+#ifndef QT_NO_TOOLTIP
+        pushButton_transmit->setToolTip(QString());
+#endif // QT_NO_TOOLTIP
+        pushButton_transmit->setText(QApplication::translate("MainWindow", "TRANSMIT", Q_NULLPTR));
+        menuFile->setTitle(QApplication::translate("MainWindow", "File", Q_NULLPTR));
+        menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", Q_NULLPTR));
+        menuHelp->setTitle(QApplication::translate("MainWindow", "Tools", Q_NULLPTR));
     } // retranslateUi
 
 };

@@ -5,9 +5,13 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
     ui->setupUi(this);
     ui->progressBar->setValue(0);
+    ui->pushButton_transmit->setEnabled(false);
+    ui->actionTransmit_To_Munk->setEnabled(false);
 
+    ui->pushButton_transmit->setToolTip("Connect to the munk in order to transmit the segments.");
     const auto infos = QSerialPortInfo::availablePorts();
 
     Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()) {
@@ -49,6 +53,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::slot_ConnectionStatusUpdate(const bool &open_close)
 {
+    ui->pushButton_transmit->setEnabled(open_close);
+    ui->actionTransmit_To_Munk->setEnabled(open_close);
+
     if(open_close)
         statusBar()->showMessage(tr("Connection Opened"),2500);
     else
