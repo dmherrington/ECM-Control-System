@@ -26,13 +26,6 @@ public:
     ~MainWindow();
 
 private slots:
-
-    void on_pushButton_released();
-
-    void widgetSegmentDisplay_dataUpdate(const std::list<DataParameter::SegmentTimeDataDetailed> &newData);
-
-    void slot_SerialPortStatus(const bool &open_close, const std::string &errorString);
-
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     /// Private SLOTS related to events triggered from the munk library
     /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,10 +42,15 @@ private slots:
 
     void slot_FaultCodeRecieved(const int &regNum, const std::string &msg);
 
+    void slot_WriteProgressUpdated(const int &completed, const int &required);
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     /// Private SLOTS related to actions triggered directly from the GUI
     /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    void widgetSegmentDisplay_dataUpdate(const std::list<DataParameter::SegmentTimeDataDetailed> &newData);
+
+    void on_pushButton_AddSegment_released();
 
     void on_actionLoad_triggered();
 
@@ -88,6 +86,8 @@ private:
     MunkPowerSupply *m_PowerSupply;
 
     QString m_FilePath;
+
+    bool segmentUnlocked = false;
 };
 
 #endif // MAIN_WINDOW_H

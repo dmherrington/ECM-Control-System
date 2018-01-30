@@ -20,6 +20,7 @@
 #include "data_registers/parameter_memory_write.h"
 
 #include "data/type_exception_message.h"
+#include "data_registers/register_fault_state.h"
 
 namespace munk {
 namespace comms{
@@ -67,6 +68,13 @@ public:
 
     void sendCommitToEEPROM();
 
+    /////////////////////////////////////////////////////////////////////
+    /// Methods issuing general fault & status requests
+    /////////////////////////////////////////////////////////////////////
+
+    void sendRegisterFaultStateRequest(const DataParameter::RegisterFaultState &request);
+
+
 private:
     //////////////////////////////////////////////////////////////
     /// React to Link Events
@@ -93,6 +101,7 @@ private:
     void SegmentVoltageSetpointAcknowledged(const ILink* link_ptr, const Data::SegmentMode &mode, const int &numberRegisters) const override;
     void SegmentCurrentSetpointAcknowledged(const ILink* link_ptr , const Data::SegmentMode &mode, const int &numberRegisters) const override;
     void SegmentTimeSetpointAcknowledged(const ILink* link_ptr , const int &numberRegisters) const override;
+    void SegmentCommittedToMemory(const ILink* link_ptr) const override;
 
     void ExceptionResponseReceived(const ILink* link_ptr, const Data::ReadWriteType &type, const uint8_t &code) const override;
 

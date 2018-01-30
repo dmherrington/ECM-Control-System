@@ -9,6 +9,9 @@ MunkPowerSupply::MunkPowerSupply():
 {
     commsMarshaler = new comms::MunkCommsMarshaler();
     commsMarshaler->AddSubscriber(this);
+
+    pollStatus = new MunkPollStatus();
+    pollStatus->connectCallback(this);
 }
 
 MunkPowerSupply::~MunkPowerSupply()
@@ -26,36 +29,59 @@ void MunkPowerSupply::openSerialPort(const QString &name)
 
 void MunkPowerSupply::closeSerialPort()
 {
+    pollStatus->pausePolling();
     commsMarshaler->DisconnetFromLink();
 }
 
 void MunkPowerSupply::generateAndTransmitMessage(const DataParameter::SegmentTimeDetailed &detailedSegmentData)
 {
     generateMessages(detailedSegmentData);
-
-    std::vector<DataParameter::AbstractParameter*> transmitVector;
+    commsProgress.clearCurrentProgress();
+    std::vector<MunkMessageType> messages;
 
     QByteArray fwdVArray = m_fwdVSetpoint.getFullMessage();
     if(fwdVArray.size() > 0)
+    {
         commsMarshaler->sendForwardVoltageSetpoint(m_fwdVSetpoint);
+        messages.push_back(MunkMessageType::FWDVolt);
+    }
 
     QByteArray fwdIArray = m_fwdISetpoint.getFullMessage();
     if(fwdIArray.size() > 0)
+    {
         commsMarshaler->sendForwardCurrentSetpoint(m_fwdISetpoint);
+        messages.push_back(MunkMessageType::REVVolt);
+    }
 
     QByteArray revVArray = m_revVSetpoint.getFullMessage();
     if(revVArray.size() > 0)
+    {
         commsMarshaler->sendReverseVoltageSetpoint(m_revVSetpoint);
+        messages.push_back(MunkMessageType::FWDCur);
+    }
 
     QByteArray revIArray = m_revISetpoint.getFullMessage();
     if(revIArray.size() > 0)
+    {
         commsMarshaler->sendReverseCurrentSetpoint(m_revISetpoint);
+        messages.push_back(MunkMessageType::REVCur);
+    }
 
     QByteArray dataArray = m_segmentTimeGeneral.getFullMessage();
     if(dataArray.size() > 0)
+    {
         commsMarshaler->sendSegmentTime(m_segmentTimeGeneral);
+        messages.push_back(MunkMessageType::SEGTime);
+    }
 
     commsMarshaler->sendCommitToEEPROM();
+    messages.push_back(MunkMessageType::Mem);
+    commsProgress.transmittingNewSegment(messages);
+
+    int needed = 0;
+    int required = 0;
+    commsProgress.currentProgress(needed,required);
+    emit signal_SegmentWriteProgress(needed,required);
 }
 
 void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData)
@@ -176,6 +202,7 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
 
 void MunkPowerSupply::ConnectionOpened() const
 {
+    pollStatus->beginPolling();
     emit signal_ConnectionStatusUpdated(true);
 }
 
@@ -209,45 +236,77 @@ void MunkPowerSupply::FaultCodeRegister3Received(const std::string &msg)
     emit signal_FaultCodeRecieved(3,msg);
 }
 
-void MunkPowerSupply::ForwardVoltageSetpointAcknowledged(const int &numberOfRegisters) const
+void MunkPowerSupply::ForwardVoltageSetpointAcknowledged(const int &numberOfRegisters)
 {
     std::string msg = "The forward voltage setpoints have been set for ";
     msg += std::to_string(numberOfRegisters);
     msg += " registers.";
     emit signal_SegmentSetAck(msg);
+
+    int needed = 0;
+    int required = 0;
+    commsProgress.receivedAckProgress(MunkMessageType::FWDVolt,needed,required);
+    emit signal_SegmentWriteProgress(needed,required);
 }
 
-void MunkPowerSupply::ReverseVoltageSetpointAcknowledged(const int &numberOfRegisters) const
+void MunkPowerSupply::ReverseVoltageSetpointAcknowledged(const int &numberOfRegisters)
 {
     std::string msg = "The reverse voltage setpoints have been set for ";
     msg += std::to_string(numberOfRegisters);
     msg += " registers.";
     emit signal_SegmentSetAck(msg);
+    int needed = 0;
+    int required = 0;
+    commsProgress.receivedAckProgress(MunkMessageType::REVVolt,needed,required);
+    emit signal_SegmentWriteProgress(needed,required);
 }
 
-void MunkPowerSupply::ForwardCurrentSetpointAcknowledged(const int &numberOfRegisters) const
+void MunkPowerSupply::ForwardCurrentSetpointAcknowledged(const int &numberOfRegisters)
 {
     std::string msg = "The forward current setpoints have been set for ";
     msg += std::to_string(numberOfRegisters);
     msg += " registers.";
     emit signal_SegmentSetAck(msg);
+    int needed = 0;
+    int required = 0;
+    commsProgress.receivedAckProgress(MunkMessageType::FWDCur,needed,required);
+    emit signal_SegmentWriteProgress(needed,required);
 }
 
-void MunkPowerSupply::ReverseCurrentSetpointAcknowledged(const int &numberOfRegisters) const
+void MunkPowerSupply::ReverseCurrentSetpointAcknowledged(const int &numberOfRegisters)
 {
     std::string msg = "The reverse current setpoints have been set for ";
     msg += std::to_string(numberOfRegisters);
     msg += " registers.";
     emit signal_SegmentSetAck(msg);
+    int needed = 0;
+    int required = 0;
+    commsProgress.receivedAckProgress(MunkMessageType::REVCur,needed,required);
+    emit signal_SegmentWriteProgress(needed,required);
 }
 
-void MunkPowerSupply::SegmentTimeAcknowledged(const int &numberOfRegisters) const
+void MunkPowerSupply::SegmentTimeAcknowledged(const int &numberOfRegisters)
 {
     std::string msg = "The segment times have been set for ";
     msg += std::to_string(numberOfRegisters);
     msg += " registers.";
     emit signal_SegmentSetAck(msg);
+    int needed = 0;
+    int required = 0;
+    commsProgress.receivedAckProgress(MunkMessageType::SEGTime,needed,required);
+    emit signal_SegmentWriteProgress(needed,required);
 }
+
+void MunkPowerSupply::SegmentCommitedToMemoryAcknowledged()
+{
+    std::string msg = "The segment has been commited to memory.";
+    emit signal_SegmentSetAck(msg);
+    int needed = 0;
+    int required = 0;
+    commsProgress.receivedAckProgress(MunkMessageType::Mem,needed,required);
+    emit signal_SegmentWriteProgress(needed,required);
+}
+
 
 void MunkPowerSupply::ExceptionResponseReceived(const Data::ReadWriteType &RWType, const std::string &meaning) const
 {
@@ -256,4 +315,10 @@ void MunkPowerSupply::ExceptionResponseReceived(const Data::ReadWriteType &RWTyp
     else
         emit signal_SegmentException("WRITING",meaning);
 }
+
+void MunkPowerSupply::cbi_MunkFaultStateRequest(const DataParameter::RegisterFaultState &request) const
+{
+    commsMarshaler->sendRegisterFaultStateRequest(request);
+}
+
 

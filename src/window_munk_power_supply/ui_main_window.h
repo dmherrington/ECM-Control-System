@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'main_window.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.1
+** Created by: Qt User Interface Compiler version 5.10.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -16,7 +16,6 @@
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -46,11 +45,10 @@ public:
     QGridLayout *gridLayout_2;
     QComboBox *comboBox_comPort;
     QSpacerItem *verticalSpacer_5;
-    QLabel *label;
     QSpacerItem *horizontalSpacer_3;
     graphing::PlotHandler *graphWidget;
     QGridLayout *gridLayout;
-    QPushButton *pushButton;
+    QPushButton *pushButton_AddSegment;
     QPushButton *pushButton_transmit;
     QProgressBar *progressBar;
     WidgetSegmentTimeDisplay *segmentWidget;
@@ -372,11 +370,6 @@ public:
 
         gridLayout_2->addItem(verticalSpacer_5, 1, 0, 1, 1);
 
-        label = new QLabel(centralWidget);
-        label->setObjectName(QStringLiteral("label"));
-
-        gridLayout_2->addWidget(label, 2, 0, 1, 1);
-
 
         gridLayout_3->addLayout(gridLayout_2, 0, 0, 1, 1);
 
@@ -398,15 +391,15 @@ public:
         gridLayout = new QGridLayout();
         gridLayout->setSpacing(6);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        pushButton = new QPushButton(centralWidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        sizePolicy1.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
-        pushButton->setSizePolicy(sizePolicy1);
-        pushButton->setMinimumSize(QSize(80, 30));
-        pushButton->setFont(font1);
-        pushButton->setFlat(false);
+        pushButton_AddSegment = new QPushButton(centralWidget);
+        pushButton_AddSegment->setObjectName(QStringLiteral("pushButton_AddSegment"));
+        sizePolicy1.setHeightForWidth(pushButton_AddSegment->sizePolicy().hasHeightForWidth());
+        pushButton_AddSegment->setSizePolicy(sizePolicy1);
+        pushButton_AddSegment->setMinimumSize(QSize(80, 30));
+        pushButton_AddSegment->setFont(font1);
+        pushButton_AddSegment->setFlat(false);
 
-        gridLayout->addWidget(pushButton, 0, 0, 1, 1);
+        gridLayout->addWidget(pushButton_AddSegment, 0, 0, 1, 1);
 
         pushButton_transmit = new QPushButton(centralWidget);
         pushButton_transmit->setObjectName(QStringLiteral("pushButton_transmit"));
@@ -449,7 +442,7 @@ public:
         MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 665, 39));
+        menuBar->setGeometry(QRect(0, 0, 665, 40));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menuBar);
@@ -480,24 +473,50 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
-        actionLoad->setText(QApplication::translate("MainWindow", "Open", Q_NULLPTR));
-        actionSave->setText(QApplication::translate("MainWindow", "Save", Q_NULLPTR));
-        actionSave_As->setText(QApplication::translate("MainWindow", "Save As", Q_NULLPTR));
-        actionExit->setText(QApplication::translate("MainWindow", "Exit", Q_NULLPTR));
-        actionGraph_Legend->setText(QApplication::translate("MainWindow", "Graph Legend", Q_NULLPTR));
-        actionOpen_Connection->setText(QApplication::translate("MainWindow", "Open Connection", Q_NULLPTR));
-        actionClose_Connection->setText(QApplication::translate("MainWindow", "Close Connection", Q_NULLPTR));
-        actionTransmit_To_Munk->setText(QApplication::translate("MainWindow", "Transmit To Munk", Q_NULLPTR));
-        label->setText(QApplication::translate("MainWindow", "TextLabel", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("MainWindow", "ADD", Q_NULLPTR));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
+        actionLoad->setText(QApplication::translate("MainWindow", "Open", nullptr));
+#ifndef QT_NO_TOOLTIP
+        actionLoad->setToolTip(QApplication::translate("MainWindow", "Open", nullptr));
+#endif // QT_NO_TOOLTIP
+        actionSave->setText(QApplication::translate("MainWindow", "Save", nullptr));
+#ifndef QT_NO_TOOLTIP
+        actionSave->setToolTip(QApplication::translate("MainWindow", "Save", nullptr));
+#endif // QT_NO_TOOLTIP
+        actionSave_As->setText(QApplication::translate("MainWindow", "Save As", nullptr));
+#ifndef QT_NO_TOOLTIP
+        actionSave_As->setToolTip(QApplication::translate("MainWindow", "Save As", nullptr));
+#endif // QT_NO_TOOLTIP
+        actionExit->setText(QApplication::translate("MainWindow", "Exit", nullptr));
+#ifndef QT_NO_TOOLTIP
+        actionExit->setToolTip(QApplication::translate("MainWindow", "Exit", nullptr));
+#endif // QT_NO_TOOLTIP
+        actionGraph_Legend->setText(QApplication::translate("MainWindow", "Graph Legend", nullptr));
+        actionOpen_Connection->setText(QApplication::translate("MainWindow", "Open Connection", nullptr));
+#ifndef QT_NO_TOOLTIP
+        actionOpen_Connection->setToolTip(QApplication::translate("MainWindow", "Open Connection", nullptr));
+#endif // QT_NO_TOOLTIP
+        actionClose_Connection->setText(QApplication::translate("MainWindow", "Close Connection", nullptr));
+#ifndef QT_NO_TOOLTIP
+        actionClose_Connection->setToolTip(QApplication::translate("MainWindow", "Close Connection", nullptr));
+#endif // QT_NO_TOOLTIP
+        actionTransmit_To_Munk->setText(QApplication::translate("MainWindow", "Transmit To Munk", nullptr));
+#ifndef QT_NO_TOOLTIP
+        comboBox_comPort->setToolTip(QString());
+#endif // QT_NO_TOOLTIP
+#ifndef QT_NO_TOOLTIP
+        pushButton_AddSegment->setToolTip(QString());
+#endif // QT_NO_TOOLTIP
+        pushButton_AddSegment->setText(QApplication::translate("MainWindow", "ADD", nullptr));
 #ifndef QT_NO_TOOLTIP
         pushButton_transmit->setToolTip(QString());
 #endif // QT_NO_TOOLTIP
-        pushButton_transmit->setText(QApplication::translate("MainWindow", "TRANSMIT", Q_NULLPTR));
-        menuFile->setTitle(QApplication::translate("MainWindow", "File", Q_NULLPTR));
-        menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", Q_NULLPTR));
-        menuHelp->setTitle(QApplication::translate("MainWindow", "Tools", Q_NULLPTR));
+        pushButton_transmit->setText(QApplication::translate("MainWindow", "TRANSMIT", nullptr));
+#ifndef QT_NO_TOOLTIP
+        progressBar->setToolTip(QString());
+#endif // QT_NO_TOOLTIP
+        menuFile->setTitle(QApplication::translate("MainWindow", "File", nullptr));
+        menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", nullptr));
+        menuHelp->setTitle(QApplication::translate("MainWindow", "Tools", nullptr));
     } // retranslateUi
 
 };

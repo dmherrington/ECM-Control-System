@@ -105,6 +105,11 @@ FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
             //the message we received is complete
             currentMSGState = FramingState::RECEIVED_ENTIRE_MESSAGE;
         }
+        else
+        {
+            currentMessge.resetData();
+            currentMSGState = FramingState::WAITING;
+        }
         break;
     }
     default:

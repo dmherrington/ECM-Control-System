@@ -61,6 +61,16 @@ public:
     virtual std::string getDescription() const;
 
 
+    AbstractParameter* getClone() const override
+    {
+        return (new SegmentCurrentSetpoint(*this));
+    }
+
+    void getClone(AbstractParameter** parameter) const override
+    {
+        *parameter = new SegmentCurrentSetpoint(*this);
+    }
+
 public:
     void appendData(const SegmentCurrentData &currentSetpoint);
 

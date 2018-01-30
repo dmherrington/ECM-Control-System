@@ -30,7 +30,7 @@ public:
     virtual void SegmentVoltageSetpointAcknowledged(const ILink* link_ptr, const Data::SegmentMode &mode, const int &numberRegisters) const = 0;
     virtual void SegmentCurrentSetpointAcknowledged(const ILink* link_ptr , const Data::SegmentMode &mode, const int &numberRegisters) const = 0;
     virtual void SegmentTimeSetpointAcknowledged(const ILink* link_ptr , const int &numberRegisters) const = 0;
-
+    virtual void SegmentCommittedToMemory(const ILink* link_ptr) const = 0;
 
     virtual void ExceptionResponseReceived(const ILink* link_ptr, const Data::ReadWriteType &type, const uint8_t &code) const = 0;
 };

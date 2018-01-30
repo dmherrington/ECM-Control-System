@@ -8,6 +8,12 @@ ParameterMemoryWrite::ParameterMemoryWrite()
     this->parameterCode = DataParameter::ParameterTypeToInt(ParameterType::MEMORYWRITE);
 }
 
+ParameterMemoryWrite::ParameterMemoryWrite(const ParameterMemoryWrite &copy):
+    AbstractParameter(copy)
+{
+
+}
+
 ParameterType ParameterMemoryWrite::getParameterType() const
 {
     return ParameterType::MEMORYWRITE;

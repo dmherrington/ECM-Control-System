@@ -13,7 +13,10 @@ enum class ParameterType{
     PATTERNWRITECOMMAND,
     CURRENTSETPOINT,
     MEMORYWRITE,
-    VOLTAGESETPOINT
+    VOLTAGESETPOINT,
+    FAULT_STATE,
+    STATUS_STATE,
+    FAULT_DETAILED
 };
 
 inline std::string ParameterTypeToString(const ParameterType &type) {

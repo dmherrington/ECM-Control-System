@@ -78,6 +78,20 @@ void MunkProtocol::sendCommitToEEPROM(const ILink *link, const DataParameter::Pa
     }
 }
 
+/////////////////////////////////////////////////////////////////////
+/// Methods issuing general fault & status requests
+/////////////////////////////////////////////////////////////////////
+
+void MunkProtocol::sendFaultStateRequest(const ILink *link, const DataParameter::RegisterFaultState &request)
+{
+    if(link->isConnected())
+    {
+        link->WriteBytes(request.getFullMessage());
+        this->readVector.push_back(request.getClone());
+    }
+}
+
+
 //!
 //! \brief Read data incoming from some link
 //!
@@ -99,10 +113,19 @@ void MunkProtocol::ReceiveData(ILink *link, const std::vector<uint8_t> &buffer)
             if(completeMessage.isException() == Data::ExceptionType::EXCEPTION)
                 parseForException(link, completeMessage);
             else if(completeMessage.isReadWriteType() == Data::ReadWriteType::READ)
-                parseForFaultCode(link, completeMessage);
+                parseForReadMessage(link, completeMessage);
             else if(completeMessage.isReadWriteType() == Data::ReadWriteType::WRITE)
                 parseForAck(link, completeMessage);
         }
+    }
+}
+
+void MunkProtocol::parseForReadMessage(const ILink *link, const MunkMessage &msg)
+{
+    DataParameter::AbstractParameter* currentRead = readVector.front();
+    if(currentRead->getParameterType() == DataParameter::ParameterType::FAULT_STATE)
+    {
+        parseForFaultStateCode(link,currentRead,msg);
     }
 }
 
@@ -112,11 +135,38 @@ void MunkProtocol::parseForException(const ILink *link, const MunkMessage &msg)
     Emit([&](const IProtocolMunkEvents* ptr){ptr->ExceptionResponseReceived(link,msg.isReadWriteType(),msg.getDataByte(2));});
 }
 
-void MunkProtocol::parseForFaultCode(const ILink *link, const MunkMessage &msg)
+void MunkProtocol::parseForFaultStateCode(const ILink *link, const DataParameter::AbstractParameter* parameter, const MunkMessage &msg)
 {
-//    uint8_t highPC = msg.getDataByte();
-//    uint8_t lowPC = msg.getDataByte();
-//    int parameterCode = lowPC | (highPC<<8);
+    const DataParameter::RegisterFaultState* faultState = parameter->as<DataParameter::RegisterFaultState>();
+    Data::FaultRegisterType type = static_cast<Data::FaultRegisterType>(faultState->getParameterCode());
+    uint8_t dataHi = msg.getDataByte(3);
+    uint8_t dataLo = msg.getDataByte(4);
+    int faultCode = dataLo | (dataHi<<8);
+
+    switch (type) {
+    case Data::FaultRegisterType::FAULT_REGISTER_1:
+    {
+        Data::FaultCodesRegister1 castCode = static_cast<Data::FaultCodesRegister1>(faultCode);
+        Emit([&](const IProtocolMunkEvents* ptr){ptr->FaultCodeRegister1Received(link,castCode);});
+        break;
+    }
+    case Data::FaultRegisterType::FAULT_REGISTER_2:
+    {
+        Data::FaultCodesRegister2 castCode = static_cast<Data::FaultCodesRegister2>(faultCode);
+        Emit([&](const IProtocolMunkEvents* ptr){ptr->FaultCodeRegister2Received(link,castCode);});
+        break;
+    }
+    case Data::FaultRegisterType::FAULT_REGISTER_3:
+    {
+        Data::FaultCodesRegister3 castCode = static_cast<Data::FaultCodesRegister3>(faultCode);
+        Emit([&](const IProtocolMunkEvents* ptr){ptr->FaultCodeRegister3Received(link,castCode);});
+        break;
+    }
+    default:
+        break;
+    }
+    delete parameter;
+    parameter = nullptr;
 }
 
 void MunkProtocol::parseForAck(const ILink *link, const MunkMessage &msg)
@@ -146,6 +196,10 @@ void MunkProtocol::parseForAck(const ILink *link, const MunkMessage &msg)
     else if(Data::isOfTimeSegmentType(parameterCode))
     {
         Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentTimeSetpointAcknowledged(link,numberOfRegisters);});
+    }
+    else if(parameterCode == DataParameter::ParameterTypeToInt(DataParameter::ParameterType::MEMORYWRITE))
+    {
+        Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentCommittedToMemory(link);});
     }
     else
     {

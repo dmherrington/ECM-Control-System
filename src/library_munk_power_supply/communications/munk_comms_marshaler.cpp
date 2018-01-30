@@ -122,6 +122,19 @@ void MunkCommsMarshaler::sendCommitToEEPROM()
     link->MarshalOnThread(func);
 }
 
+/////////////////////////////////////////////////////////////////////
+/// Methods issuing general fault & status requests
+/////////////////////////////////////////////////////////////////////
+
+void MunkCommsMarshaler::sendRegisterFaultStateRequest(const DataParameter::RegisterFaultState &request)
+{
+    auto func = [this, request]() {
+            protocol->sendFaultStateRequest(link.get(), request);
+    };
+
+    link->MarshalOnThread(func);
+}
+
 //////////////////////////////////////////////////////////////
 /// React to Link Events
 //////////////////////////////////////////////////////////////
@@ -196,6 +209,13 @@ void MunkCommsMarshaler::SegmentTimeSetpointAcknowledged(const ILink* link_ptr ,
     UNUSED(link_ptr);
     Emit([&](CommsEvents *ptr){ptr->SegmentTimeAcknowledged(numberRegisters);});
 }
+
+void MunkCommsMarshaler::SegmentCommittedToMemory(const ILink* link_ptr) const
+{
+    UNUSED(link_ptr);
+    Emit([&](CommsEvents *ptr){ptr->SegmentCommitedToMemoryAcknowledged();});
+}
+
 
 void MunkCommsMarshaler::ExceptionResponseReceived(const ILink* link_ptr, const Data::ReadWriteType &type, const uint8_t &code) const
 {

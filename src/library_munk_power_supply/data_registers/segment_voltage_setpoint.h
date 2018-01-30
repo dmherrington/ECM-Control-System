@@ -48,6 +48,16 @@ public:
     //!
     virtual std::string getDescription() const;
 
+    AbstractParameter* getClone() const override
+    {
+        return (new SegmentVoltageSetpoint(*this));
+    }
+
+    void getClone(AbstractParameter** parameter) const override
+    {
+        *parameter = new SegmentVoltageSetpoint(*this);
+    }
+
     //!
     //! \brief getByteArray
     //! \return

@@ -15,12 +15,17 @@
 #include "data_registers/segment_voltage_setpoint.h"
 #include "data_registers/segment_current_setpoint.h"
 #include "data_registers/parameter_memory_write.h"
+#include "data_registers/register_fault_state.h"
+#include "data_registers/type_definition.h"
 
 #include "munk_data_framing.h"
 
 #include "data/type_current_set.h"
 #include "data/type_voltage_set.h"
 #include "data/type_segment_parameter.h"
+#include "data/type_fault_status_registers.h"
+
+#include "data_registers/type_definition.h"
 
 namespace munk {
 namespace comms{
@@ -58,6 +63,13 @@ public:
 
     void sendCommitToEEPROM(const ILink *link, const DataParameter::ParameterMemoryWrite &command);
 
+    /////////////////////////////////////////////////////////////////////
+    /// Methods issuing general fault & status requests
+    /////////////////////////////////////////////////////////////////////
+
+    void sendFaultStateRequest(const ILink *link, const DataParameter::RegisterFaultState &request);
+
+
 public:
 
     //!
@@ -71,7 +83,9 @@ public:
 
     void parseForException(const ILink *link, const MunkMessage &msg);
 
-    void parseForFaultCode(const ILink *link, const MunkMessage &msg);
+    void parseForReadMessage(const ILink *link, const MunkMessage &msg);
+
+    void parseForFaultStateCode(const ILink *link, const DataParameter::AbstractParameter *parameter, const MunkMessage &msg);
 
     void parseForAck(const ILink *link, const MunkMessage &msg);
 
@@ -87,6 +101,8 @@ private:
     std::vector<const IProtocolMunkEvents*> m_Listners;
 
     MunkDataFraming dataParse;
+
+    std::vector<DataParameter::AbstractParameter*> readVector;
 };
 
 

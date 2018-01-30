@@ -64,29 +64,34 @@ public:
         UNUSED(msg);
     }
 
-    virtual void ForwardVoltageSetpointAcknowledged(const int &numberOfRegisters) const
+    virtual void ForwardVoltageSetpointAcknowledged(const int &numberOfRegisters)
     {
         UNUSED(numberOfRegisters);
     }
 
-    virtual void ReverseVoltageSetpointAcknowledged(const int &numberOfRegisters) const
+    virtual void ReverseVoltageSetpointAcknowledged(const int &numberOfRegisters)
     {
         UNUSED(numberOfRegisters);
     }
 
-    virtual void ForwardCurrentSetpointAcknowledged(const int &numberOfRegisters) const
+    virtual void ForwardCurrentSetpointAcknowledged(const int &numberOfRegisters)
     {
         UNUSED(numberOfRegisters);
     }
 
-    virtual void ReverseCurrentSetpointAcknowledged(const int &numberOfRegisters) const
+    virtual void ReverseCurrentSetpointAcknowledged(const int &numberOfRegisters)
     {
         UNUSED(numberOfRegisters);
     }
 
-    virtual void SegmentTimeAcknowledged(const int &numberOfRegisters) const
+    virtual void SegmentTimeAcknowledged(const int &numberOfRegisters)
     {
         UNUSED(numberOfRegisters);
+    }
+
+    virtual void SegmentCommitedToMemoryAcknowledged()
+    {
+
     }
 
     virtual void ExceptionResponseReceived(const Data::ReadWriteType &RWType, const std::string &meaning) const

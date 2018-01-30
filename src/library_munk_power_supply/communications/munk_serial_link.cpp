@@ -115,7 +115,7 @@ bool MunkSerialLink::Disconnect(void)
         m_ListenThread->quit();
         m_port->close();
         delete m_port;
-        m_port = NULL;
+        m_port = nullptr;
         EmitEvent([](const ILinkEvents *ptr){ptr->ConnectionClosed();});
     }
     return isConnected();

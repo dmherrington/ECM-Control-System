@@ -9,6 +9,7 @@
 
 #include "communications/munk_comms_marshaler.h"
 #include "communications/serial_configuration.h"
+#include "communications/comms_progress_handler.h"
 
 #include "data_registers/abstract_parameter.h"
 #include "data_registers/segment_time_general.h"
@@ -26,9 +27,11 @@
 
 #include "data/type_fault_codes_general.h"
 
+#include "munk_poll_status.h"
+
 using namespace munk;
 
-class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply :  public QObject, comms::CommsEvents
+class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply :  public QObject, comms::CommsEvents, MunkStatusCallback_Interface
 {
 
 Q_OBJECT
@@ -71,6 +74,8 @@ signals:
 
     void signal_SegmentException(const std::string &RW, const std::string &meaning) const;
 
+    void signal_SegmentWriteProgress(const int &completed, const int &required);
+
 private:
 
     //!
@@ -98,17 +103,25 @@ private:
 
     void FaultCodeRegister3Received(const std::string &msg) override;
 
-    virtual void ForwardVoltageSetpointAcknowledged(const int &numberOfRegisters) const override;
+    void ForwardVoltageSetpointAcknowledged(const int &numberOfRegisters) override;
 
-    virtual void ReverseVoltageSetpointAcknowledged(const int &numberOfRegisters) const override;
+    void ReverseVoltageSetpointAcknowledged(const int &numberOfRegisters) override;
 
-    virtual void ForwardCurrentSetpointAcknowledged(const int &numberOfRegisters) const override;
+    void ForwardCurrentSetpointAcknowledged(const int &numberOfRegisters) override;
 
-    virtual void ReverseCurrentSetpointAcknowledged(const int &numberOfRegisters) const override;
+    void ReverseCurrentSetpointAcknowledged(const int &numberOfRegisters) override;
 
-    virtual void SegmentTimeAcknowledged(const int &numberOfRegisters) const override;
+    void SegmentTimeAcknowledged(const int &numberOfRegisters) override;
 
-    virtual void ExceptionResponseReceived(const Data::ReadWriteType &RWType, const std::string &meaning) const override;
+    void SegmentCommitedToMemoryAcknowledged() override;
+
+    void ExceptionResponseReceived(const Data::ReadWriteType &RWType, const std::string &meaning) const override;
+
+    ///////////////////////////////////////////////////////////////
+    /// Virtual Functions imposed from MunkStatusCallback_Interface
+    ///////////////////////////////////////////////////////////////
+
+    void cbi_MunkFaultStateRequest(const DataParameter::RegisterFaultState &request) const override;
 
 
 private:
@@ -122,6 +135,8 @@ private:
 
 private:
     comms::MunkCommsMarshaler* commsMarshaler;
+    MunkPollStatus* pollStatus;
+    CommsProgressHandler commsProgress;
 };
 
 #endif // MUNK_POWER_SUPPLY_H

@@ -49,10 +49,14 @@ SOURCES += munk_power_supply.cpp \
     data_response/fault_register_two.cpp \
     data_response/valid_response.cpp \
     communications/munk_data_framing.cpp \
-    communications/munk_message.cpp
+    communications/munk_message.cpp \
+    munk_poll_status.cpp \
+    data_registers/register_standard_faults.cpp \
+    communications/comms_progress_handler.cpp
 
 HEADERS += \
     library_munk_power_supply_global.h \
+    munk_poll_status.h \
     munk_power_supply.h\
     parse_munk_response.h \
     serial_port_helper.h \
@@ -79,6 +83,7 @@ HEADERS += \
     data/type_current_voltage_prescale.h \
     data/type_exception_message.h \
     data/type_fault_codes_general.h \
+    data/type_fault_status_registers.h \
     data/type_prescalar_power.h \
     data/type_read_write.h \
     data/type_response_exception.h \
@@ -89,6 +94,7 @@ HEADERS += \
     data/type_voltage_set.h \
     data_registers/abstract_parameter.h \
     data_registers/parameter_memory_write.h \
+    data_registers/register_fault_state.h \
     data_registers/segment_current_data.h \
     data_registers/segment_current_setpoint.h \
     data_registers/segment_time_data_detailed.h \
@@ -102,8 +108,8 @@ HEADERS += \
     data_response/fault_register_one.h \
     data_response/fault_register_three.h \
     data_response/fault_register_two.h \
-    data_response/valid_response.h
-
+    data_response/valid_response.h \
+    communications/comms_progress_handler.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib
@@ -120,10 +126,11 @@ INSTALLS += lib
 headers.path    = $$(ECM_ROOT)/include/library_munk_power_supply
 headers.files   += \
     library_munk_power_supply_global.h \
+    munk_poll_status.h \
     munk_power_supply.h\
-    serial_port_manager.h \
+    parse_munk_response.h \
     serial_port_helper.h \
-    parse_munk_response.h
+    serial_port_manager.h
 INSTALLS       += headers
 
 #Header file copy
@@ -156,6 +163,7 @@ headers_data.files   += \
     data/type_current_voltage_prescale.h \
     data/type_exception_message.h \
     data/type_fault_codes_general.h \
+    data/type_fault_status_registers.h \
     data/type_prescalar_power.h \
     data/type_read_write.h \
     data/type_response_exception.h \
@@ -163,7 +171,7 @@ headers_data.files   += \
     data/type_segment_mode.h \
     data/type_segment_parameter.h \
     data/type_supply_output.h \
-    data/type_voltage_set.h \
+    data/type_voltage_set.h
 INSTALLS       += headers_data
 
 #Header file copy
@@ -171,6 +179,7 @@ headers_data_registers.path    = $$(ECM_ROOT)/include/library_munk_power_supply/
 headers_data_registers.files   += \
     data_registers/abstract_parameter.h \
     data_registers/parameter_memory_write.h \
+    data_registers/register_fault_state.h \
     data_registers/segment_current_data.h \
     data_registers/segment_current_setpoint.h \
     data_registers/segment_time_data_detailed.h \
@@ -179,7 +188,7 @@ headers_data_registers.files   += \
     data_registers/segment_time_general.h \
     data_registers/segment_voltage_data.h \
     data_registers/segment_voltage_setpoint.h \
-    data_registers/type_definition.h \
+    data_registers/type_definition.h
 INSTALLS       += headers_data_registers
 
 

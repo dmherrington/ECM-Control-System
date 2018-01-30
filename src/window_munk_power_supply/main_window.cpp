@@ -12,6 +12,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionTransmit_To_Munk->setEnabled(false);
 
     ui->pushButton_transmit->setToolTip("Connect to the munk in order to transmit the segments.");
+    ui->pushButton_AddSegment->setToolTip("Add an additional segment for the munk power supply to process.");
+    ui->progressBar->setToolTip("Status bar reflecting the state of syncrhonization to the munk using the current register segment.");
+    ui->comboBox_comPort->setToolTip("Select the appropriate com port the munk.");
+
     const auto infos = QSerialPortInfo::availablePorts();
 
     Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()) {
@@ -30,8 +34,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_PowerSupply,SIGNAL(signal_CommunicationError(std::string,std::string)), this, SLOT(slot_CommunicationError(std::string,std::string)));
     connect(m_PowerSupply,SIGNAL(signal_CommunicationUpdate(std::string,std::string)), this, SLOT(slot_CommunicationUpdate(std::string,std::string)));
     connect(m_PowerSupply,SIGNAL(signal_FaultCodeRecieved(int,std::string)), this, SLOT(slot_FaultCodeRecieved(int,std::string)));
-    connect(m_PowerSupply,SIGNAL(signal_SegmentSetAck(std::string)),this,SLOT(slot_SegmentSetAck(std::string)));
     connect(m_PowerSupply,SIGNAL(signal_SegmentException(std::string,std::string)),this,SLOT(slot_SegmentException(std::string,std::string)));
+
+    connect(m_PowerSupply,SIGNAL(signal_SegmentWriteProgress(int,int)),this,SLOT(slot_WriteProgressUpdated(int,int)));
+    connect(m_PowerSupply,SIGNAL(signal_SegmentSetAck(std::string)),this,SLOT(slot_SegmentSetAck(std::string)));
 
     char* ECMPath = getenv("ECM_ROOT");
     if(ECMPath){
@@ -82,7 +88,6 @@ void MainWindow::slot_CommunicationUpdate(const std::string &name, const std::st
 
 void MainWindow::slot_SegmentSetAck(const std::string &msg)
 {
-    ui->progressBar->setValue(ui->progressBar->value() + 20);
     statusBar()->showMessage(QString::fromStdString(msg),1000);
 }
 
@@ -103,6 +108,13 @@ void MainWindow::slot_FaultCodeRecieved(const int &regNum, const std::string &ms
     msgBox.setIcon(QMessageBox::Critical);
     msgBox.exec();
 }
+
+void MainWindow::slot_WriteProgressUpdated(const int &completed, const int &required)
+{
+    if(segmentUnlocked)
+        this->ui->progressBar->setValue(completed/required);
+}
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Private SLOTS related to actions triggered directly from the GUI
@@ -150,6 +162,7 @@ void MainWindow::on_actionClose_Connection_triggered()
 
 void MainWindow::on_actionTransmit_To_Munk_triggered()
 {
+    segmentUnlocked = true;
     DataParameter::SegmentTimeDetailed dataSegment = ui->segmentWidget->getRawData();
     m_PowerSupply->generateAndTransmitMessage(dataSegment);
 }
@@ -162,10 +175,11 @@ void MainWindow::onGraphLegend()
 }
 
 
-
-
 void MainWindow::widgetSegmentDisplay_dataUpdate(const std::list<DataParameter::SegmentTimeDataDetailed> &newData)
 {
+    segmentUnlocked = false;
+    ui->progressBar->setValue(0);
+
     std::list<DataParameter::SegmentTimeDataDetailed>::const_iterator iterator;
 
     std::vector<double> voltageVector;
@@ -198,29 +212,13 @@ void MainWindow::widgetSegmentDisplay_dataUpdate(const std::list<DataParameter::
     ui->graphWidget->updateData(QVector<double>::fromStdVector(timeVector), QVector<double>::fromStdVector(voltageVector), QVector<double>::fromStdVector(currentVector));
 }
 
-void MainWindow::on_pushButton_released()
+void MainWindow::on_pushButton_AddSegment_released()
 {
+    segmentUnlocked = false;
+    ui->progressBar->setValue(0);
+
     ui->segmentWidget->addNewSegment();
     ui->segmentWidget->cbiSegmentDataInterface_UpdatedData();
-}
-
-void MainWindow::slot_SerialPortStatus(const bool &open_close, const std::string &errorString)
-{
-    if(open_close)
-    {
-        QMessageBox *dialog = new QMessageBox();
-        dialog->setIcon(QMessageBox::Information);
-        dialog->setText("The serial port was open succesfully.");
-        dialog->exec();
-        //ui->pushButton_connect->setText("DISCONNECT");
-    }
-    else
-    {
-        QMessageBox *dialog = new QMessageBox();
-        dialog->setIcon(QMessageBox::Information);
-        std::string newString = "The serial port was not opened succesfully.\n " + errorString;
-        dialog->setText(QString::fromStdString(newString));
-    }
 }
 
 QString MainWindow::saveAsFileDialog(const std::string &filePath, const std::string &suffix)
@@ -303,3 +301,4 @@ void MainWindow::on_actionExit_triggered()
     m_PowerSupply->closeSerialPort();
     qApp->quit();
 }
+
