@@ -111,6 +111,7 @@ void MainWindow::slot_FaultCodeRecieved(const int &regNum, const std::string &ms
 
 void MainWindow::slot_WriteProgressUpdated(const int &completed, const int &required)
 {
+    int value = completed/required;
     if(segmentUnlocked)
         this->ui->progressBar->setValue(completed/required);
 }

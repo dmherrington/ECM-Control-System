@@ -69,7 +69,6 @@ void GalilProtocol::SendProtocolGainCommand(const ILink *link, const CommandCont
 
 void GalilProtocol::SendProtocolCommand(const ILink *link, const AbstractCommandPtr command)
 {
-    std::cout<<"I am in here"<<std::endl;
     GReturn rtn = link->WriteCommand(command->getCommandString());
     handleCommandResponse(link,command,rtn);
 }
@@ -103,7 +102,6 @@ void GalilProtocol::handleBadCommandResponse(const ILink* link, const CommandTyp
 
 void GalilProtocol::SendProtocolRequest(const ILink *link, const AbstractRequestPtr request)
 {
-    std::cout<<"I am trying to send a protocol request of type: "<<RequestToString(request->getRequestType())<<std::endl;
     GReturn rtn = link->WriteRequest(request);
     handleRequestResponse(link,request,rtn);
 }

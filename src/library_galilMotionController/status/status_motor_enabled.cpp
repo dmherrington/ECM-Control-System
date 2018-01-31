@@ -14,11 +14,6 @@ Status_MotorEnabled::Status_MotorEnabled(const Status_MotorEnabled &copy):
     this->isEnabled = copy.isEnabled;
 }
 
-void Status_MotorEnabled::parseGalilString(const std::string &str)
-{
-
-}
-
 void Status_MotorEnabled::setAxis(const MotorAxis &axis)
 {
     this->currentAxis = axis;

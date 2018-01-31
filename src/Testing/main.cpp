@@ -16,9 +16,16 @@
 
 //using namespace hsm;
 
+#include "library_galilMotionController/status/status_switch.h"
+
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
+
+    Status_Switch newStatus;
+    newStatus.setSwitchCode(47);
+
+    /*
 //    CommsGalil* comms = new CommsGalil();
     CommandMotorEnablePtr cmd = std::make_shared<CommandMotorEnable>();
     cmd->setEnableAxis(MotorAxis::X);
@@ -70,5 +77,6 @@ int main(int argc, char *argv[])
 //       stateMachine.ProcessStateTransitions();
 //       stateMachine.UpdateStates();
 
+*/
     return a.exec();
 }

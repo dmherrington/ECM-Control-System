@@ -6,6 +6,7 @@ namespace Galil {
 State_EStop::State_EStop():
     AbstractStateGalil()
 {
+    std::cout<<"We are in the constructor of State_EStop"<<std::endl;
     this->currentState = ECMState::STATE_ESTOP;
     this->desiredState = ECMState::STATE_ESTOP;
 }
@@ -46,20 +47,8 @@ void State_EStop::handleCommand(const AbstractCommand* command)
     CommandType currentCommand = command->getCommandType();
 
     switch (currentCommand) {
-    case CommandType::ABSOLUTE_MOVE:
-    case CommandType::CLEAR_BIT:
-    case CommandType::EXECUTE_PROGRAM:
-    case CommandType::JOG_MOVE:
-    case CommandType::MOTOR_OFF:
-    case CommandType::MOTOR_ON:
-    case CommandType::RELATIVE_MOVE:
-    case CommandType::SET_BIT:
-    case CommandType::STOP:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
     default:
+        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
 }
@@ -67,8 +56,7 @@ void State_EStop::handleCommand(const AbstractCommand* command)
 void State_EStop::Update()
 {
     //Check the status of the estop state
-    bool eStopState = this->checkEStop();
-    if(eStopState == false)
+    if(!this->checkEStop())
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
@@ -79,30 +67,24 @@ void State_EStop::Update()
 void State_EStop::OnEnter()
 {
     //First check to see if the motor is already disarmed, and if not, disarm it
-    if(Owner().getAxisStatus(MotorAxis::Z)->isMotorRunning())
+    if(Owner().isMotorEnabled())
     {
         //If the motor is not currently armed, issue the command to arm it
         CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();
-        Owner().commsMarshaler->sendAbstractGalilCommand(command);
+        Owner().issueGalilCommand(command);
     }
-    else{
-        //since the motor was already disarmed this implies that we can safely transition to idle state
-        this->desiredState = ECMState::STATE_IDLE;
-    }
-
     //Lastly, send a command to make sure the airbrake has been engaged
     CommandSetBitPtr command = std::make_shared<CommandSetBit>();
     command->appendAddress(2); //Ken: be careful in the event that this changes. This should be handled by settings or something
-    Owner().commsMarshaler->sendAbstractGalilCommand(command);
+    Owner().issueGalilCommand(command);
 }
 
-void State_EStop::OnEnter(const AbstractCommand *command){
+void State_EStop::OnEnter(const AbstractCommand *command)
+{
+    this->OnEnter();
 
     if(command != nullptr)
     {
-
-    }
-    else{
 
     }
 }

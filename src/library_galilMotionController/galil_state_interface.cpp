@@ -9,11 +9,7 @@ GalilStateInterface::GalilStateInterface(const std::vector<MotorAxis> &available
     {
         GalilStatus* newAxisStatus = new GalilStatus(availableAxis[i]);
         mStatus[availableAxis[i]] = newAxisStatus;
-
     }
-
-    commsMarshaler = new Comms::CommsMarshaler();
-    commsMarshaler->AddSubscriber(this);
 }
 
 GalilStateInterface::~GalilStateInterface()
@@ -35,11 +31,6 @@ GalilStatus* GalilStateInterface::getAxisStatus(const MotorAxis &axis)
         return mStatus.at(axis);
     else
         return nullptr;
-}
-
-StatusInputs* GalilStateInterface::getStatusInputs() const
-{
-    return this->statusInputs;
 }
 
 void GalilStateInterface::updatePosition(const std::vector<Status_Position> &data)
@@ -81,19 +72,28 @@ bool GalilStateInterface::isMotorInMotion() const
     return isInMotion;
 }
 
-void GalilStateInterface::NewStatusPosition(const Status_Position &status)
+bool GalilStateInterface::isMotorEnabled() const
 {
-    std::cout<<"State interface has seen a new position"<<std::endl;
+    bool isArmed = false;
+
+    std::map<MotorAxis,GalilStatus*>::const_iterator it;
+
+    for (it=mStatus.begin(); it!=mStatus.end(); ++it)
+    {
+        GalilStatus* axisStatus = it->second;
+        if(axisStatus->isMotorEnabled())
+        {
+            isArmed = true;
+            break;
+        }
+    }
+
+    return isArmed;
 }
 
-void GalilStateInterface::NewStatusMotorEnabled(const Status_MotorEnabled &status)
+bool GalilStateInterface::isEStopEngaged() const
 {
-    std::cout<<"State interface has seen a new motor enabled"<<std::endl;
-}
-
-void GalilStateInterface::NewStatusMotorInMotion(const Status_AxisInMotion &status)
-{
-    std::cout<<"State interface has seen a new motor in motion"<<std::endl;
+    return statusInputs.get().getResult(GalilPins::GALIL_PIN_ESTOP);
 }
 
 

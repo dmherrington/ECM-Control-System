@@ -1,12 +1,13 @@
 #ifndef STATUS_SWITCH_H
 #define STATUS_SWITCH_H
 
+#include <iostream>
 #include <map>
 
 #include <axis_definitions.h>
 #include "status/abstract_status.h"
 
-enum SwitchStatus{
+enum class SwitchStatus{
     POSLAT = 0,
     HOME_SW = 1,
     RLIMIT = 2,
@@ -16,6 +17,8 @@ enum SwitchStatus{
     POSITION_ERROR = 6,
     AXIS_IN_MOTION = 7
 };
+
+ECM_CLASS_FORWARD(Status_Switch);
 
 class Status_Switch : public AbstractStatus
 {

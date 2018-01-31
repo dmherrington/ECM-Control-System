@@ -11,12 +11,18 @@ bool GalilStatus::isAxisinMotion() const
 {
     return axisMoving.get();
 }
-bool GalilStatus::setMotorRunning(const bool &isRunning)
+
+bool GalilStatus::setMotorEnabled(const bool &isRunning)
 {
     return motorRunning.set(isRunning);
 }
 
-bool GalilStatus::isMotorRunning() const
+bool GalilStatus::setMotorMoving(const bool &isMoving)
+{
+    return axisMoving.set(isMoving);
+}
+
+bool GalilStatus::isMotorEnabled() const
 {
     return motorRunning.get();
 }

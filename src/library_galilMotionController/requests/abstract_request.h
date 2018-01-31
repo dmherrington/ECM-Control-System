@@ -82,9 +82,14 @@ public:
 
     unsigned int getAllocatedBufferSize() const;
 
-    char *getBuffer();
+    std::string getBuffer();
 
-    virtual void increaseBufferSize(char* chrArray);
+    void setBuffer(const std::string &receivedBuffer)
+    {
+        buffer = receivedBuffer;
+    }
+
+    virtual void increaseBufferSize();
 
     virtual std::vector<AbstractStatusPtr> getStatus() const
     {
@@ -106,7 +111,7 @@ public:
 protected:
     RequestTypes requestType;
     unsigned int bufferSize;
-    char* buffer;
+    std::string buffer;
     Data::EnvironmentTime latestUpdate;
 
 };

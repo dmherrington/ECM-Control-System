@@ -80,6 +80,7 @@ void MunkSerialLink::setSerialConfiguration(const SerialConfiguration &config)
     if(isConnected())
         Disconnect();
     _config = config;
+    _config.setDynamic();
 
     std::cout << "Create SerialLink " << config.portName() << config.baud() << config.flowControl()
              << config.parity() << config.dataBits() << config.stopBits() << std::endl;
@@ -144,7 +145,15 @@ bool MunkSerialLink::_hardwareConnect(QSerialPort::SerialPortError& error, QStri
 
     std::cout << "MunkSerialLink: hardwareConnect to " << _config.portName() << std::endl;
 
-    m_port = new QSerialPort(QString::fromStdString(_config.portName()).trimmed(),0);
+    //m_port = new QSerialPort(QString::fromStdString(_config.portName()).trimmed(),0);
+    std::cout << "Configuring port" << std::endl;
+    m_port = new QSerialPort();
+    m_port->setPortName(QString::fromStdString(_config.portName()).trimmed());
+    m_port->setBaudRate     (_config.baud());
+    m_port->setDataBits     (static_cast<QSerialPort::DataBits>     (_config.dataBits()));
+    m_port->setFlowControl  (static_cast<QSerialPort::FlowControl>  (_config.flowControl()));
+    m_port->setStopBits     (static_cast<QSerialPort::StopBits>     (_config.stopBits()));
+    m_port->setParity       (static_cast<QSerialPort::Parity>       (_config.parity()));
 
     for (int openRetries = 0; openRetries < 4; openRetries++) {
         if (!m_port->open(QIODevice::ReadWrite)) {
@@ -156,6 +165,7 @@ bool MunkSerialLink::_hardwareConnect(QSerialPort::SerialPortError& error, QStri
     }
 
     if (!m_port->isOpen() ) {
+        std::cout<<"The open failed."<<std::endl;
         //std::cerr << "open failed" << m_port->errorString().toStdString() << m_port->error() << getName() << _config.isAutoConnect() << std::endl;
         error = m_port->error();
         errorString = m_port->errorString();
@@ -165,14 +175,6 @@ bool MunkSerialLink::_hardwareConnect(QSerialPort::SerialPortError& error, QStri
         m_port = NULL;
         return false; // couldn't open serial port
     }
-
-    std::cout << "Configuring port" << std::endl;
-
-    m_port->setBaudRate     (_config.baud());
-    m_port->setDataBits     (static_cast<QSerialPort::DataBits>     (_config.dataBits()));
-    m_port->setFlowControl  (static_cast<QSerialPort::FlowControl>  (_config.flowControl()));
-    m_port->setStopBits     (static_cast<QSerialPort::StopBits>     (_config.stopBits()));
-    m_port->setParity       (static_cast<QSerialPort::Parity>       (_config.parity()));
 
     //EmitEvent([this](const ILinkEvents *ptr){ptr->CommunicationUpdate(getPortName(), "Opened port!");});
     EmitEvent([this](const ILinkEvents *ptr){ptr->ConnectionOpened();});
@@ -207,6 +209,10 @@ void MunkSerialLink::WriteBytes(const QByteArray &data) const
 {
     if(m_port && m_port->isOpen()) {
         m_port->write(data);
+        if(m_port->waitForBytesWritten(30000))
+        {
+            std::cout<<"The port has timed out."<<std::endl;
+        }
     } else {
         // Error occured
         _emitLinkError("Could not send data to link. Most likely port is disconnected");

@@ -55,7 +55,7 @@ void State_ScriptExecution::handleCommand(const AbstractCommand* command)
     case CommandType::EXECUTE_PROGRAM:
     {
         CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
-        Owner().commsMarshaler->sendGalilProfileExecution(castCommand);
+        Owner().issueGalilCommand(castCommand);
         this->clearCommand();
         break;
     }

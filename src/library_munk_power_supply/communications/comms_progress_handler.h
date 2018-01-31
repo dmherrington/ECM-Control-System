@@ -21,9 +21,9 @@ public:
 
     void transmittingNewSegment(const std::vector<MunkMessageType> &msgsRequired);
 
-    void currentProgress(int &needed, int &complete);
+    void currentProgress(int &complete, int &needed);
 
-    void receivedAckProgress(const MunkMessageType &type, int &needed, int &complete);
+    void receivedAckProgress(const MunkMessageType &type, int &complete, int &needed);
 
     void clearCurrentProgress();
 

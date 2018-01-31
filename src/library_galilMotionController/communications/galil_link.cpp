@@ -118,18 +118,20 @@ GReturn GalilLink::WriteTellErrorCode(char *errorDescription) const
 
 GReturn GalilLink::WriteCommand(const std::string &command) const
 {
-    //GReturn rtn = GCmd(galil,command.c_str());
-    //return rtn;
+    GReturn rtn = GCmd(galil,command.c_str());
+    return rtn;
 }
 
-GReturn GalilLink::WriteRequest(const AbstractRequestPtr request) const
+GReturn GalilLink::WriteRequest(AbstractRequestPtr request) const
 {
-    std::cout<<"We are trying to write a request here: "<<RequestToString(request->getRequestType())<<std::endl;
     GSize read_bytes = 0; //bytes read in GCommand
-    char* buf = request->getBuffer(); //buffer to be allocated for the response
+    char buf[request->getAllocatedBufferSize()];
+
+    //char* buf = request->getBuffer(); //buffer to be allocated for the response
     std::string commandString = request->getRequestString();
 
     GReturn rtn = GCommand(galil,commandString.c_str(),buf,sizeof(buf),&read_bytes);
+    request->setBuffer(std::string(buf));
     request->updateTime();
     return rtn;
 }

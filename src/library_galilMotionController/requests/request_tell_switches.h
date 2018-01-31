@@ -6,7 +6,12 @@
 #include <map>
 
 #include "requests/abstract_request.h"
+#include "status/status_switch.h"
 #include "axis_definitions.h"
+
+#include "common/class_forward.h"
+
+ECM_CLASS_FORWARD(RequestTellSwitches);
 
 class RequestTellSwitches : public AbstractRequest
 {
@@ -57,6 +62,7 @@ public:
     //!
     std::string getRequestString() const override;
 
+    std::vector<AbstractStatusPtr> getStatus() const override;
 
 private:
     MotorAxis tellAxis; /**< Value of the axis to be position requested */

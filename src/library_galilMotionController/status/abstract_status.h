@@ -53,9 +53,6 @@ public:
         if(this->statusType != rhs.statusType){
             return false;
         }
-        if(this->latestUpdate != rhs.latestUpdate){
-            return false;
-        }
         return true;
     }
 

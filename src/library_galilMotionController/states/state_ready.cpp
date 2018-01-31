@@ -65,6 +65,11 @@ hsm::Transition State_Ready::GetTransition()
             rtn = hsm::SiblingTransition<State_ReadyStop>();
             break;
         }
+        case ECMState::STATE_IDLE:
+        {
+            rtn = hsm::SiblingTransition<State_Idle>();
+            break;
+        }
         default:
             std::cout<<"I dont know how we eneded up in this transition state from state ready."<<std::endl;
             break;
@@ -128,11 +133,11 @@ void State_Ready::handleCommand(const AbstractCommand* command)
     {
         //While this state is responsive to this command, the motor should already be completely armed when it has arrived to this state.
         //First check to see if the motor is already armed, and if not, arm it
-        if(!Owner().getAxisStatus(MotorAxis::Z)->isMotorRunning())
+        if(!Owner().isMotorEnabled())
         {
             //If the motor is not currently armed, issue the command to arm it
             CommandMotorEnablePtr castCommand = std::make_shared<CommandMotorEnable>(*command->as<CommandMotorEnable>());
-            Owner().commsMarshaler->sendAbstractGalilCommand(castCommand);
+            Owner().issueGalilCommand(castCommand);
         }
         break;
     }
@@ -161,19 +166,20 @@ void State_Ready::Update()
 
 void State_Ready::OnEnter()
 {
+    std::cout<<"We are in the state ready enter"<<std::endl;
     //The first thing we should do when entering this state is to engage the motor
     //Let us check to see if the motor is already armed, if not, follow through with the command
 
-    if(!Owner().getAxisStatus(MotorAxis::Z)->isMotorRunning())
+    if(!Owner().isMotorEnabled())
     {
         CommandMotorEnablePtr command = std::make_shared<CommandMotorEnable>();
         command->setEnableAxis(MotorAxis::Z);
-        Owner().commsMarshaler->sendAbstractGalilCommand(command);
+        Owner().issueGalilCommand(command);
     }
 
     //Next we should establish the necessary gains for motion within this state
     CommandControllerGain command;
-    Owner().commsMarshaler->sendGalilControllerGains(command);
+    Owner().issueGalilControllerGains(command);
 }
 
 void State_Ready::OnEnter(const AbstractCommand* command)
@@ -200,4 +206,4 @@ void State_Ready::OnEnter(const AbstractCommand* command)
 #include "states/state_touchoff.h"
 #include "states/state_estop.h"
 #include "states/state_ready_stop.h"
-
+#include "states/state_idle.h"

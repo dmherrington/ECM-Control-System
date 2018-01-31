@@ -13,12 +13,10 @@ public:
 
     Status_AxisInMotion(const Status_AxisInMotion &copy);
 
-    void parseGalilString(const std::string &str);
-
     void setAxis(const MotorAxis &axis);
     MotorAxis getAxis() const;
 
-    void setMotorMoving(const bool &motion);
+    void setMotorMoving(const bool &moving);
     bool isMotorMoving() const;
 
 public:
@@ -26,7 +24,7 @@ public:
     {
         AbstractStatus::operator =(rhs);
         this->currentAxis = rhs.currentAxis;
-        this->isInMotion = rhs.isInMotion;
+        this->moving = rhs.moving;
         return *this;
     }
 
@@ -38,7 +36,7 @@ public:
         if(this->currentAxis != rhs.currentAxis){
             return false;
         }
-        if(this->isInMotion != rhs.isInMotion){
+        if(this->moving != rhs.moving){
             return false;
         }
         return true;
@@ -50,8 +48,7 @@ public:
 
 private:
     MotorAxis currentAxis = MotorAxis::Z;
-    bool isInMotion = 0;
-
+    bool moving = false;
 };
 
 #endif // STATUS_AXIS_IN_MOTION_H

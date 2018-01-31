@@ -13,13 +13,13 @@ void CommsProgressHandler::transmittingNewSegment(const std::vector<MunkMessageT
         this->progressMap[msgsRequired.at(i)] = false;
 }
 
-void CommsProgressHandler::receivedAckProgress(const MunkMessageType &type, int &needed, int &complete)
+void CommsProgressHandler::receivedAckProgress(const MunkMessageType &type, int &complete, int &needed)
 {
     this->progressMap[type] = true;
-    this->currentProgress(needed,complete);
+    this->currentProgress(complete,needed);
 }
 
-void CommsProgressHandler::currentProgress(int &needed, int &complete)
+void CommsProgressHandler::currentProgress(int &complete, int &needed)
 {
     needed = this->progressMap.size();
     std::map<MunkMessageType,bool>::iterator it;

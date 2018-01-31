@@ -4,19 +4,14 @@ Status_AxisInMotion::Status_AxisInMotion():
     AbstractStatus(StatusTypes::STATUS_MOTOREN)
 {
     this->currentAxis = MotorAxis::Z;
-    this->isInMotion = false;
+    this->moving = 0;
 }
 
 Status_AxisInMotion::Status_AxisInMotion(const Status_AxisInMotion &copy):
     AbstractStatus(copy)
 {
     this->currentAxis = copy.currentAxis;
-    this->isInMotion = copy.isInMotion;
-}
-
-void Status_AxisInMotion::parseGalilString(const std::string &str)
-{
-
+    this->moving = copy.moving;
 }
 
 void Status_AxisInMotion::setAxis(const MotorAxis &axis)
@@ -29,12 +24,12 @@ MotorAxis Status_AxisInMotion::getAxis() const
     return this->currentAxis;
 }
 
-void Status_AxisInMotion::setMotorMoving(const bool &motion)
+void Status_AxisInMotion::setMotorMoving(const bool &moving)
 {
-    this->isInMotion = motion;
+    this->moving = moving;
 }
 
 bool Status_AxisInMotion::isMotorMoving() const
 {
-    return this->isInMotion;
+    return this->moving;
 }

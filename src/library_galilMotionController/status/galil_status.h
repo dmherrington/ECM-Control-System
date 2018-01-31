@@ -19,10 +19,12 @@ public:
 public:
     void setPosition(const Status_Position &pos);
 
-    bool setMotorRunning(const bool &isRunning);
+    bool setMotorEnabled(const bool &isRunning);
+
+    bool setMotorMoving(const bool &isMoving);
 
 public:
-    bool isMotorRunning() const;
+    bool isMotorEnabled() const;
 
     bool isAxisinMotion() const;
 

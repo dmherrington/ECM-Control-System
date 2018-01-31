@@ -2,6 +2,7 @@
 #define STATE_JOGGING_H
 
 #include "states/state_abstract_galil.h"
+#include "commands/command_motion_start.h"
 
 namespace ECM{
 namespace Galil {

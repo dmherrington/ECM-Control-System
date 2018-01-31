@@ -6,6 +6,7 @@ namespace Galil {
 State_MotionStop::State_MotionStop():
     AbstractStateGalil()
 {
+    std::cout<<"We are in the constructor of State_MotionStop"<<std::endl;
     this->currentState = ECMState::STATE_MOTION_STOP;
     this->desiredState = ECMState::STATE_MOTION_STOP;
 }
@@ -81,7 +82,7 @@ void State_MotionStop::OnEnter()
 {
     //The first thing we should do when entering this state is to stop motion of the motor
     CommandStopPtr castCommand = std::make_shared<CommandStop>(); //the axis is defaulted to Z with no args
-    Owner().commsMarshaler->sendAbstractGalilCommand(castCommand);
+    Owner().issueGalilCommand(castCommand);
 }
 
 void State_MotionStop::OnEnter(const AbstractCommand* command)

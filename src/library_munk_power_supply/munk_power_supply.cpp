@@ -202,7 +202,7 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
 
 void MunkPowerSupply::ConnectionOpened() const
 {
-    pollStatus->beginPolling();
+    //pollStatus->beginPolling();
     emit signal_ConnectionStatusUpdated(true);
 }
 
@@ -243,10 +243,10 @@ void MunkPowerSupply::ForwardVoltageSetpointAcknowledged(const int &numberOfRegi
     msg += " registers.";
     emit signal_SegmentSetAck(msg);
 
-    int needed = 0;
+    int completed = 0;
     int required = 0;
-    commsProgress.receivedAckProgress(MunkMessageType::FWDVolt,needed,required);
-    emit signal_SegmentWriteProgress(needed,required);
+    commsProgress.receivedAckProgress(MunkMessageType::FWDVolt,completed,required);
+    emit signal_SegmentWriteProgress(completed,required);
 }
 
 void MunkPowerSupply::ReverseVoltageSetpointAcknowledged(const int &numberOfRegisters)
@@ -255,10 +255,10 @@ void MunkPowerSupply::ReverseVoltageSetpointAcknowledged(const int &numberOfRegi
     msg += std::to_string(numberOfRegisters);
     msg += " registers.";
     emit signal_SegmentSetAck(msg);
-    int needed = 0;
+    int completed = 0;
     int required = 0;
-    commsProgress.receivedAckProgress(MunkMessageType::REVVolt,needed,required);
-    emit signal_SegmentWriteProgress(needed,required);
+    commsProgress.receivedAckProgress(MunkMessageType::REVVolt,completed,required);
+    emit signal_SegmentWriteProgress(completed,required);
 }
 
 void MunkPowerSupply::ForwardCurrentSetpointAcknowledged(const int &numberOfRegisters)
@@ -267,10 +267,10 @@ void MunkPowerSupply::ForwardCurrentSetpointAcknowledged(const int &numberOfRegi
     msg += std::to_string(numberOfRegisters);
     msg += " registers.";
     emit signal_SegmentSetAck(msg);
-    int needed = 0;
+    int completed = 0;
     int required = 0;
-    commsProgress.receivedAckProgress(MunkMessageType::FWDCur,needed,required);
-    emit signal_SegmentWriteProgress(needed,required);
+    commsProgress.receivedAckProgress(MunkMessageType::FWDCur,completed,required);
+    emit signal_SegmentWriteProgress(completed,required);
 }
 
 void MunkPowerSupply::ReverseCurrentSetpointAcknowledged(const int &numberOfRegisters)
@@ -279,10 +279,10 @@ void MunkPowerSupply::ReverseCurrentSetpointAcknowledged(const int &numberOfRegi
     msg += std::to_string(numberOfRegisters);
     msg += " registers.";
     emit signal_SegmentSetAck(msg);
-    int needed = 0;
+    int completed = 0;
     int required = 0;
-    commsProgress.receivedAckProgress(MunkMessageType::REVCur,needed,required);
-    emit signal_SegmentWriteProgress(needed,required);
+    commsProgress.receivedAckProgress(MunkMessageType::REVCur,completed,required);
+    emit signal_SegmentWriteProgress(completed,required);
 }
 
 void MunkPowerSupply::SegmentTimeAcknowledged(const int &numberOfRegisters)
@@ -291,20 +291,20 @@ void MunkPowerSupply::SegmentTimeAcknowledged(const int &numberOfRegisters)
     msg += std::to_string(numberOfRegisters);
     msg += " registers.";
     emit signal_SegmentSetAck(msg);
-    int needed = 0;
+    int completed = 0;
     int required = 0;
-    commsProgress.receivedAckProgress(MunkMessageType::SEGTime,needed,required);
-    emit signal_SegmentWriteProgress(needed,required);
+    commsProgress.receivedAckProgress(MunkMessageType::SEGTime,completed,required);
+    emit signal_SegmentWriteProgress(completed,required);
 }
 
 void MunkPowerSupply::SegmentCommitedToMemoryAcknowledged()
 {
     std::string msg = "The segment has been commited to memory.";
     emit signal_SegmentSetAck(msg);
-    int needed = 0;
+    int completed = 0;
     int required = 0;
-    commsProgress.receivedAckProgress(MunkMessageType::Mem,needed,required);
-    emit signal_SegmentWriteProgress(needed,required);
+    commsProgress.receivedAckProgress(MunkMessageType::Mem,completed,required);
+    emit signal_SegmentWriteProgress(completed,required);
 }
 
 

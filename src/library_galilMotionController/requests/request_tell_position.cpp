@@ -1,7 +1,7 @@
 #include "request_tell_position.h"
 
 RequestTellPosition::RequestTellPosition(const MotorAxis &axis):
-    AbstractRequest(RequestTypes::TELL_POSITION), tellAxis(axis)
+    AbstractRequest(RequestTypes::TELL_POSITION,20), tellAxis(axis)
 {
 
 }
@@ -61,7 +61,7 @@ std::vector<AbstractStatusPtr> RequestTellPosition::getStatus() const
 {
     std::vector<AbstractStatusPtr> rtn;
     //as the galil only currently reports a single axis here, we will make the parse easy for now
-    QString result = QString::fromUtf8(buffer);
+    QString result = QString::fromStdString(buffer);
     QStringList list = result.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
     result = list.at(0);
     result = result.trimmed();
@@ -79,6 +79,5 @@ std::vector<AbstractStatusPtr> RequestTellPosition::getStatus() const
 
     return rtn;
 }
-
 
 
