@@ -61,6 +61,16 @@ public:
     virtual std::string getDescription() const;
 
 
+    AbstractParameter* getClone() const override
+    {
+        return (new SegmentCurrentSetpoint(*this));
+    }
+
+    void getClone(AbstractParameter** parameter) const override
+    {
+        *parameter = new SegmentCurrentSetpoint(*this);
+    }
+
 public:
     void appendData(const SegmentCurrentData &currentSetpoint);
 
@@ -71,12 +81,13 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    void operator = (const SegmentCurrentSetpoint &rhs)
+    SegmentCurrentSetpoint& operator = (const SegmentCurrentSetpoint &rhs)
     {
         AbstractParameter::operator =(rhs);
         this->supplyOutput = rhs.supplyOutput;
         this->mode = rhs.mode;
         this->data = rhs.data;
+        return *this;
     }
 
     //!

@@ -147,9 +147,9 @@ public:
 private:
     struct controllerGain
     {
-        double p = 60.0;
-        double i = 30.0;
-        double d = 2.0;
+        double p = 3.0;
+        double i = 1.0;
+        double d = 35.0;
     };
 
 private:

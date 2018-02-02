@@ -78,12 +78,13 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    void operator = (const SegmentTimeDataGeneral &rhs)
+    SegmentTimeDataGeneral& operator = (const SegmentTimeDataGeneral &rhs)
     {
         this->segmentLevel = rhs.segmentLevel;
         this->segmentMode = rhs.segmentMode;
         this->segmentPower = rhs.segmentPower;
         this->timeValue = rhs.timeValue;
+        return *this;
     }
 
     //!

@@ -6,6 +6,7 @@ namespace Galil {
 State_ReadyStop::State_ReadyStop():
     AbstractStateGalil()
 {
+    std::cout<<"We are in the constructor of State_ReadyStop"<<std::endl;
     this->currentState = ECMState::STATE_READY_STOP;
     this->desiredState = ECMState::STATE_READY_STOP;
 }
@@ -67,6 +68,8 @@ void State_ReadyStop::Update()
         //we should therefore transition to the idle state
         desiredState = ECMState::STATE_ESTOP;
     }
+    else if(!Owner().isMotorEnabled())
+        desiredState = ECMState::STATE_IDLE;
 }
 
 void State_ReadyStop::OnEnter()
@@ -75,11 +78,11 @@ void State_ReadyStop::OnEnter()
     //Let us check to see if the motor is already armed, if not, follow through with the command
 
     //First check to see if the motor is already disarmed, and if not, disarm it
-    if(Owner().getAxisStatus(MotorAxis::Z)->isMotorRunning())
+    if(Owner().isMotorEnabled())
     {
-        //If the motor is not currently armed, issue the command to arm it
+        //If the motor is currently armed, issue the command to disarm it
         CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();
-        Owner().commsMarshaler->sendAbstractGalilCommand(command);
+        Owner().issueGalilCommand(command);
     }
     else{
         //since the motor was already disarmed this implies that we can safely transition to idle state
@@ -89,7 +92,7 @@ void State_ReadyStop::OnEnter()
     //Lastly, send a command to make sure the airbrake has been engaged
     CommandSetBitPtr command = std::make_shared<CommandSetBit>();
     command->appendAddress(2); //Ken: be careful in the event that this changes. This should be handled by settings or something
-    Owner().commsMarshaler->sendAbstractGalilCommand(command);
+    Owner().issueGalilCommand(command);
 }
 
 void State_ReadyStop::OnEnter(const AbstractCommand* command)

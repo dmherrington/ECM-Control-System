@@ -38,7 +38,7 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    void operator =(const RegisterDataObject &rhs);
+    RegisterDataObject& operator =(const RegisterDataObject &rhs);
 
     //!
     //! \brief operator <

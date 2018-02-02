@@ -3,9 +3,11 @@
 
 #include <map>
 
+#include "common/class_forward.h"
 #include <axis_definitions.h>
 #include "status/abstract_status.h"
 
+ECM_CLASS_FORWARD(Status_StopCode);
 
 class Status_StopCode : public AbstractStatus
 {
@@ -23,14 +25,18 @@ public:
     int getCode() const;
 
 public:
-    void operator = (const Status_StopCode &rhs)
+    Status_StopCode& operator = (const Status_StopCode &rhs)
     {
+        AbstractStatus::operator =(rhs);
         this->currentAxis = rhs.currentAxis;
         this->stopCode = rhs.stopCode;
+        return *this;
     }
 
     bool operator == (const Status_StopCode &rhs) {
-
+        if(!AbstractStatus::operator ==(rhs)){
+            return false;
+        }
         if(this->currentAxis != rhs.currentAxis){
             return false;
         }

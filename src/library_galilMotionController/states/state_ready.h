@@ -13,6 +13,7 @@ class State_ScriptExecution;
 class State_Touchoff;
 class State_EStop;
 class State_ReadyStop;
+class State_Idle;
 
 class State_Ready : public AbstractStateGalil
 {

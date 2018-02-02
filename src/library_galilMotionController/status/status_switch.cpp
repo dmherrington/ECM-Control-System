@@ -3,6 +3,7 @@
 Status_Switch::Status_Switch():
     AbstractStatus(StatusTypes::STATUS_SWITCH)
 {
+    this->currentAxis = MotorAxis::Z;
     initializeMap();
 }
 
@@ -51,18 +52,22 @@ bool Status_Switch::getSwitchStatus(const SwitchStatus &status) const
 
 void Status_Switch::initializeMap()
 {
-    mapStatus = {{POSLAT,false}, {HOME_SW,false}, {RLIMIT,false},
-                 {FLIMIT,false}, {RESERVED,false}, {MOTOR_OFF,false},
-                 {POSITION_ERROR,false},{AXIS_IN_MOTION,false}};
+    mapStatus = {{SwitchStatus::POSLAT,false}, {SwitchStatus::HOME_SW,false}, {SwitchStatus::RLIMIT,false},
+                 {SwitchStatus::FLIMIT,false}, {SwitchStatus::RESERVED,false}, {SwitchStatus::MOTOR_OFF,false},
+                 {SwitchStatus::POSITION_ERROR,false},{SwitchStatus::AXIS_IN_MOTION,false}};
 }
 
 void Status_Switch::parseInt(const uint8_t &value)
 {
-    std::map<SwitchStatus,bool>::iterator it;
-    int i = 0;
-    for(it = mapStatus.begin(); it!=mapStatus.end(); ++it)
+    unsigned int mask = 1 << (sizeof(uint8_t) * 8 - 1);
+
+    std::map<SwitchStatus,bool>::reverse_iterator it;
+    for(it = mapStatus.rbegin(); it!=mapStatus.rend(); ++it)
     {
-        ++i;
-        mapStatus.at(it->first) = (value >> i) & 1;
+        if( (value & mask) == 0 )
+            mapStatus.at(it->first) = false;
+        else
+           mapStatus.at(it->first) = true;
+        mask  >>= 1;
     }
 }

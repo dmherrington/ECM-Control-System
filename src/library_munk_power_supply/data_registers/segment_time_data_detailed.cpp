@@ -86,9 +86,29 @@ double SegmentTimeDataDetailed::getSegmentVoltage() const
     return this->dataObject.voltage;
 }
 
+double SegmentTimeDataDetailed::getGraphingVoltage() const
+{
+    if(segmentMode == Data::SegmentMode::FORWARD)
+        return this->dataObject.voltage;
+    else if(segmentMode == Data::SegmentMode::REVERSE)
+        return (-1) * this->dataObject.voltage;
+    else
+        return 0.0;
+}
+
 double SegmentTimeDataDetailed::getSegmentCurrent() const
 {
     return this->dataObject.current;
+}
+
+double SegmentTimeDataDetailed::getGraphingCurrent() const
+{
+    if(segmentMode == Data::SegmentMode::FORWARD)
+        return this->dataObject.current;
+    else if(segmentMode == Data::SegmentMode::REVERSE)
+        return (-1) * this->dataObject.current;
+    else
+        return 0.0;
 }
 
 Data::SegmentMode SegmentTimeDataDetailed::getSegmentMode() const

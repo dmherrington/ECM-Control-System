@@ -1,0 +1,25 @@
+{
+    "segmentData": [
+        {
+            "current": 3,
+            "segmentMode": "FORWARD",
+            "supplyOutput": "OUTPUT1",
+            "time": 500,
+            "voltage": 3
+        },
+        {
+            "current": 3,
+            "segmentMode": "REVERSE",
+            "supplyOutput": "OUTPUT1",
+            "time": 500,
+            "voltage": 4
+        },
+        {
+            "current": 0,
+            "segmentMode": "HIZ",
+            "supplyOutput": "OUTPUT1",
+            "time": 500,
+            "voltage": 0
+        }
+    ]
+}

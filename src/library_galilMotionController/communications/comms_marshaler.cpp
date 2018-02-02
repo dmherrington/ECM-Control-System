@@ -61,7 +61,6 @@ void CommsMarshaler::sendAbstractGalilCommand(const AbstractCommandPtr command)
 
 void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request)
 {
-    std::cout<<"Lets send an abstract galil request."<<std::endl;
     auto func = [this, request]() {
             protocol->SendProtocolRequest(link.get(), request);
     };
@@ -187,7 +186,6 @@ void CommsMarshaler::NewPositionReceived(const Status_Position &status) const
 
 void CommsMarshaler::NewStatusReceived(const std::vector<AbstractStatusPtr> &status) const
 {
-    std::cout<<"A new status has been received by the CommsMarshaler"<<std::endl;
     for(int i = 0; i < status.size(); i++)
     {
         parseStatus(status.at(i));
@@ -203,16 +201,29 @@ void CommsMarshaler::parseStatus(const AbstractStatusPtr &status) const
         Emit([&](CommsEvents *ptr){ptr->NewStatusPosition(castStatus);});
         break;
     }
-    case StatusTypes::STATUS_MOTOREN:
+    case StatusTypes::STATUS_TELLINPUTS:
     {
-        Status_MotorEnabled castStatus(*status.get()->as<Status_MotorEnabled>());
-        Emit([&](CommsEvents *ptr){ptr->NewStatusMotorEnabled(castStatus);});
+        StatusInputs castStatus(*status.get()->as<StatusInputs>());
+        Emit([&](CommsEvents *ptr){ptr->NewStatusInputs(castStatus);});
         break;
     }
-    case StatusTypes::STATUS_AXISMOTION:
+    case StatusTypes::STATUS_SWITCH:
     {
-        Status_AxisInMotion castStatus(*status.get()->as<Status_AxisInMotion>());
-        Emit([&](CommsEvents *ptr){ptr->NewStatusMotorInMotion(castStatus);});
+        Status_Switch castStatus(*status.get()->as<Status_Switch>());
+
+        Status_MotorEnabled motorEnabled;
+        motorEnabled.setMotorEnabled(!castStatus.getSwitchStatus(SwitchStatus::MOTOR_OFF));
+        Emit([&](CommsEvents *ptr){ptr->NewStatusMotorEnabled(motorEnabled);});
+
+        Status_AxisInMotion axisMotion;
+        axisMotion.setMotorMoving(castStatus.getSwitchStatus(SwitchStatus::AXIS_IN_MOTION));
+        Emit([&](CommsEvents *ptr){ptr->NewStatusMotorInMotion(axisMotion);});
+        break;
+    }
+    case StatusTypes::STATUS_STOPCODE:
+    {
+        Status_StopCode castStatus(*status.get()->as<Status_StopCode>());
+        Emit([&](CommsEvents *ptr){ptr->NewStatusMotorStopCode(castStatus);});
         break;
     }
 

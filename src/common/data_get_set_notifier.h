@@ -10,6 +10,7 @@ template <typename T>
 class DataGetSetNotifier
 {
 public:
+
     void AddNotifier(void* obj, const std::function<void()> func) {
         std::lock_guard<std::mutex> guardData(m_NotifierListMutex);
 

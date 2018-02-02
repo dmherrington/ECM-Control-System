@@ -13,8 +13,6 @@ public:
 
     Status_MotorEnabled(const Status_MotorEnabled &copy);
 
-    void parseGalilString(const std::string &str);
-
     void setAxis(const MotorAxis &axis);
     MotorAxis getAxis() const;
 
@@ -22,11 +20,12 @@ public:
     bool isMotorEnabled() const;
 
 public:
-    void operator = (const Status_MotorEnabled &rhs)
+    Status_MotorEnabled& operator = (const Status_MotorEnabled &rhs)
     {
         AbstractStatus::operator =(rhs);
         this->currentAxis = rhs.currentAxis;
         this->isEnabled = rhs.isEnabled;
+        return *this;
     }
 
     bool operator == (const Status_MotorEnabled &rhs) {
@@ -49,7 +48,7 @@ public:
 
 private:
     MotorAxis currentAxis = MotorAxis::Z;
-    bool isEnabled = 0;
+    bool isEnabled = false;
 
 };
 

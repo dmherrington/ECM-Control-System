@@ -110,6 +110,18 @@ public:
     double getSegmentCurrent() const;
 
     //!
+    //! \brief getGraphingVoltage
+    //! \return
+    //!
+    double getGraphingVoltage() const;
+
+    //!
+    //! \brief getGraphingCurrent
+    //! \return
+    //!
+    double getGraphingCurrent() const;
+
+    //!
     //! \brief getSegmentMode
     //! \return
     //!
@@ -145,12 +157,13 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    void operator = (const SegmentTimeDataDetailed &rhs)
+    SegmentTimeDataDetailed& operator = (const SegmentTimeDataDetailed &rhs)
     {
         this->supplyOutput = rhs.supplyOutput;
         this->dataObject = rhs.dataObject;
         this->segmentMode = rhs.segmentMode;
         this->timeValue = rhs.timeValue;
+        return *this;
     }
 
     //!

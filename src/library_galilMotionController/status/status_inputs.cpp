@@ -1,47 +1,48 @@
 #include "status_inputs.h"
 
-StatusInputs::StatusInputs()
+StatusInputs::StatusInputs():
+    AbstractStatus(StatusTypes::STATUS_TELLINPUTS)
 {
-
+    for(int i=1;i<9;i++)
+        this->mapInputs[i] = true;
 }
 
-StatusInputs::StatusInputs(const std::vector<int> &pins)
+StatusInputs::StatusInputs(const StatusInputs &copy):
+    AbstractStatus(copy)
 {
-    this->tellInputs = pins;
+    this->mapInputs = copy.mapInputs;
 }
 
-StatusInputs::StatusInputs(const StatusInputs &copy)
+bool StatusInputs::getResult(const GalilPins &pin) const
 {
-    this->tellInputs = copy.tellInputs;
-    this->tellResults = copy.tellResults;
+    int pinNumber = static_cast<int>(pin);
+    if(this->mapInputs.count(pinNumber) > 0)
+        return this->mapInputs.at(pinNumber);
+    return true;
 }
 
-void StatusInputs::setInputs(const std::vector<int> &pins)
+void StatusInputs::setInputCode(const int &code)
 {
-    this->tellInputs = pins;
+    this->originalCode = code;
+    this->parseInt(this->originalCode);
 }
 
-void StatusInputs::setResult(const std::map<int, bool> &res)
+int StatusInputs::getInputCode() const
 {
-    this->tellResults = res;
+    return this->originalCode;
 }
 
-void StatusInputs::setResult(const int &pin, bool &res)
+void StatusInputs::parseInt(const uint8_t &value)
 {
-    this->tellResults[pin] = res;
-}
+    unsigned int mask = 1 << (sizeof(uint8_t) * 8 - 1);
 
-std::map<int,bool> StatusInputs::getResults() const
-{
-    return this->tellResults;
-}
-
-bool StatusInputs::getResult(const int &pin, bool &exists) const
-{
-    if(this->tellResults.count(pin) > 0)
+    std::map<int,bool>::reverse_iterator it;
+    for(it = mapInputs.rbegin(); it!=mapInputs.rend(); ++it)
     {
-        exists = true;
-        return this->tellResults.at(pin);
+        if( (value & mask) == 0 )
+            mapInputs.at(it->first) = false;
+        else
+           mapInputs.at(it->first) = true;
+        mask  >>= 1;
     }
-    return false;
 }

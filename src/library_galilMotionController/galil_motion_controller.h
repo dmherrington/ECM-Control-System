@@ -26,6 +26,8 @@
 
 #include "programs/program_generic.h"
 
+#include "communications/comms_marshaler.h"
+
 /**
 \* @file  galil_motion_controller.h
 \*
@@ -41,7 +43,7 @@
 \*
 \*/
 
-class GMC_SHARED_EXPORT galilMotionController : public QObject, public GalilStatusUpdate_Interface, public Comms::CommsEvents
+class GMC_SHARED_EXPORT galilMotionController : public QObject, public GalilStatusUpdate_Interface, public GalilCallback_StateInterface, public Comms::CommsEvents
 {
     Q_OBJECT
 
@@ -55,8 +57,16 @@ public:
     void closeConnection();
 
 public:
+    //////////////////////////////////////////////////////////////
+    /// Virtual methods allowed from Comms::CommsEvents
+    //////////////////////////////////////////////////////////////
     void LinkConnected() const override;
     void LinkDisconnected() const override;
+    void NewStatusInputs(const StatusInputs &status) override;
+    void NewStatusPosition(const Status_Position &status) override;
+    void NewStatusMotorEnabled(const Status_MotorEnabled &status) override;
+    void NewStatusMotorInMotion(const Status_AxisInMotion &status) override;
+    void NewStatusMotorStopCode(const Status_StopCode &status) override;
 
 public:
 
@@ -81,8 +91,16 @@ public:
     ///////////////////////////////////////////////////////////////////////////////////////////////
     /// Callback Interfafce as required from inheritance of GalilStatusUpdate_Interface
     ///////////////////////////////////////////////////////////////////////////////////////////////
-public:
-    void cbi_GalilStatusRequestCommand(const AbstractRequest* request) override;
+private:
+    void cbi_GalilStatusRequest(const AbstractRequestPtr request) override;
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    /// Callback Interfafce as required from inheritance of GalilCallback_StateInterface
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+private:
+    void cbi_AbstractGalilCommand(const AbstractCommandPtr command) override;
+    void cbi_AbstractGalilRequest(const AbstractRequestPtr request) override;
+    void cbi_GalilControllerGains(const CommandControllerGain &gains) override;
 
 signals:
     void commsStatus(const bool &opened);
@@ -97,6 +115,10 @@ private:
     QString programPath;
     QString settingsPath;
 
+public:
+    Comms::CommsMarshaler* commsMarshaler; /**< Member variable handling the communications with the
+actual Galil unit. This parent class will be subscribing to published events from the marshaller. This
+should drive the event driven structure required to exceite the state machine.*/
 
 private:
     GCon galil; /**< Member variable containing a pointer to the Galil interface */

@@ -5,20 +5,22 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
     ui->setupUi(this);
+    ui->progressBar->setValue(0);
+    ui->pushButton_transmit->setEnabled(false);
+    ui->actionTransmit_To_Munk->setEnabled(false);
+
+    ui->pushButton_transmit->setToolTip("Connect to the munk in order to transmit the segments.");
+    ui->pushButton_AddSegment->setToolTip("Add an additional segment for the munk power supply to process.");
+    ui->progressBar->setToolTip("Status bar reflecting the state of syncrhonization to the munk using the current register segment.");
+    ui->comboBox_comPort->setToolTip("Select the appropriate com port the munk.");
 
     const auto infos = QSerialPortInfo::availablePorts();
 
     Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()) {
         ui->comboBox_comPort->addItem(port.portName());
     }
-
-    connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::onOpen);
-    connect(ui->actionSave, &QAction::triggered, this, &MainWindow::onSave);
-    connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::onSaveAs);
-    connect(ui->actionExit, &QAction::triggered, this, &MainWindow::onExit);
-
-
     connect(ui->actionGraph_Legend, &QAction::triggered, this, &MainWindow::onGraphLegend);
 
 
@@ -28,11 +30,22 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     m_PowerSupply = new MunkPowerSupply();
-    connect(m_PowerSupply, SIGNAL(signal_SerialPortStatus(bool,std::string)), this, SLOT(slot_SerialPortStatus(bool,std::string)));
+    connect(m_PowerSupply,SIGNAL(signal_ConnectionStatusUpdated(bool)), this, SLOT(slot_ConnectionStatusUpdate(bool)));
+    connect(m_PowerSupply,SIGNAL(signal_CommunicationError(std::string,std::string)), this, SLOT(slot_CommunicationError(std::string,std::string)));
+    connect(m_PowerSupply,SIGNAL(signal_CommunicationUpdate(std::string,std::string)), this, SLOT(slot_CommunicationUpdate(std::string,std::string)));
+    connect(m_PowerSupply,SIGNAL(signal_FaultCodeRecieved(int,std::string)), this, SLOT(slot_FaultCodeRecieved(int,std::string)));
+    connect(m_PowerSupply,SIGNAL(signal_SegmentException(std::string,std::string)),this,SLOT(slot_SegmentException(std::string,std::string)));
+
+    connect(m_PowerSupply,SIGNAL(signal_SegmentWriteProgress(int,int)),this,SLOT(slot_WriteProgressUpdated(int,int)));
+    connect(m_PowerSupply,SIGNAL(signal_SegmentSetAck(std::string)),this,SLOT(slot_SegmentSetAck(std::string)));
 
     char* ECMPath = getenv("ECM_ROOT");
-    std::string rootPath(ECMPath);
-    m_FilePath = QString::fromStdString(rootPath + "save.json");
+    if(ECMPath){
+        std::string rootPath(ECMPath);
+        QDir settingsDirectory(QString::fromStdString(rootPath + "/Munk/segments"));
+        settingsDirectory.mkpath(QString::fromStdString(rootPath + "/Munk/segments"));
+        munkSegmentsPath = settingsDirectory.absolutePath() + "/generalSegments.json";
+    }
 }
 
 MainWindow::~MainWindow()
@@ -40,59 +53,119 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::onOpen()
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Private SLOTS related to events triggered from the munk library
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::slot_ConnectionStatusUpdate(const bool &open_close)
 {
-    QFileDialog fileDialog(this, "Choose file to open");
-    fileDialog.setFileMode(QFileDialog::AnyFile);
-    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
-    fileDialog.setNameFilter("Open Files (*.json)");
-    fileDialog.setDefaultSuffix("json");
-    fileDialog.exec();
-    m_FilePath = fileDialog.selectedFiles().first();
+    ui->pushButton_transmit->setEnabled(open_close);
+    ui->actionTransmit_To_Munk->setEnabled(open_close);
 
-    QFile loadFile(m_FilePath);
+    if(open_close)
+        statusBar()->showMessage(tr("Connection Opened"),2500);
+    else
+        statusBar()->showMessage(tr("Connection Closed"),2500);
+}
 
-    if (!loadFile.open(QIODevice::ReadOnly)) {
-        qWarning("Couldn't open file.");
+void MainWindow::slot_CommunicationError(const std::string &type, const std::string &msg)
+{
+    QMessageBox msgBox;
+    msgBox.setText("A communication error has been thrown from the MUNK.");
+    msgBox.setInformativeText(QString::fromStdString(msg));
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.exec();
+}
+
+void MainWindow::slot_CommunicationUpdate(const std::string &name, const std::string &msg)
+{
+    QMessageBox msgBox;
+    msgBox.setText(QString::fromStdString(name));
+    msgBox.setInformativeText(QString::fromStdString(msg));
+    msgBox.setIcon(QMessageBox::Information);
+    msgBox.exec();
+}
+
+void MainWindow::slot_SegmentSetAck(const std::string &msg)
+{
+    statusBar()->showMessage(QString::fromStdString(msg),1000);
+}
+
+void MainWindow::slot_SegmentException(const std::string &RW, const std::string &meaning)
+{
+    QMessageBox msgBox;
+    msgBox.setText("A fault code has been thrown when" + QString::fromStdString(RW) + "from the MUNK.");
+    msgBox.setInformativeText(QString::fromStdString(meaning));
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.exec();
+}
+
+void MainWindow::slot_FaultCodeRecieved(const int &regNum, const std::string &msg)
+{
+    QMessageBox msgBox;
+    msgBox.setText("A fault code has been thrown from register" + QString::number(regNum)+ " on the MUNK.");
+    msgBox.setInformativeText(QString::fromStdString(msg));
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.exec();
+}
+
+void MainWindow::slot_WriteProgressUpdated(const int &completed, const int &required)
+{
+    int value = completed/required;
+    if(segmentUnlocked)
+        this->ui->progressBar->setValue(completed/required);
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Private SLOTS related to actions triggered directly from the GUI
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionLoad_triggered()
+{
+    QString fullFile = loadFileDialog(this->getMunkSegmentsPath().toStdString(),"json");
+    this->munkCurrentFile = fullFile;
+    if(!fullFile.isEmpty()&& !fullFile.isNull()){
+        this->loadMunkPowerSegment(fullFile);
     }
-
-    QByteArray loadData = loadFile.readAll();
-
-    QJsonDocument loadDoc(QJsonDocument::fromJson(loadData));
-    ui->segmentWidget->read(loadDoc.object());
 }
-void MainWindow::onSave()
-{
-    QFile saveFile(m_FilePath);
 
-    if (!saveFile.open(QIODevice::WriteOnly)) {
-        qWarning("Couldn't open save file.");
+void MainWindow::on_actionSave_triggered()
+{
+    if(!munkCurrentFile.isEmpty())
+    {
+        this->saveSettings(this->munkSegmentsPath);
     }
-
-    QJsonObject saveObject;
-    ui->segmentWidget->write(saveObject);
-    QJsonDocument saveDoc(saveObject);
-    saveFile.write(saveDoc.toJson());
+    else
+    {
+        this->on_actionSave_As_triggered();
+    }
 }
 
-void MainWindow::onSaveAs()
+void MainWindow::on_actionSave_As_triggered()
 {
-
-    QFileDialog fileDialog(this, "Choose file to save");
-    fileDialog.setFileMode(QFileDialog::AnyFile);
-    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
-    fileDialog.setNameFilter("Save Files (*.json)");
-    fileDialog.setDefaultSuffix("json");
-    fileDialog.exec();
-    m_FilePath = fileDialog.selectedFiles().first();
-    std::cout<<"The new filepath is: "<<m_FilePath.toStdString()<<std::endl;
+    QString fullFile = saveAsFileDialog(this->getMunkSegmentsPath().toStdString(),"json");
+    if(!fullFile.isEmpty() && !fullFile.isNull()){
+        this->munkCurrentFile = fullFile;
+        this->saveSettings(this->munkCurrentFile);
+    }
 }
 
-void MainWindow::onExit()
+void MainWindow::on_actionOpen_Connection_triggered()
+{
+    m_PowerSupply->openSerialPort(ui->comboBox_comPort->currentText());
+}
+
+void MainWindow::on_actionClose_Connection_triggered()
 {
     m_PowerSupply->closeSerialPort();
+}
 
-    QApplication::quit();
+void MainWindow::on_actionTransmit_To_Munk_triggered()
+{
+    segmentUnlocked = true;
+    DataParameter::SegmentTimeDetailed dataSegment = ui->segmentWidget->getRawData();
+    m_PowerSupply->generateAndTransmitMessage(dataSegment);
 }
 
 void MainWindow::onGraphLegend()
@@ -102,71 +175,131 @@ void MainWindow::onGraphLegend()
     ui->graphWidget->replot();
 }
 
+
 void MainWindow::widgetSegmentDisplay_dataUpdate(const std::list<DataParameter::SegmentTimeDataDetailed> &newData)
 {
+    segmentUnlocked = false;
+    ui->progressBar->setValue(0);
+
     std::list<DataParameter::SegmentTimeDataDetailed>::const_iterator iterator;
 
     std::vector<double> voltageVector;
     std::vector<double> currentVector;
     std::vector<double> timeVector;
 
-    unsigned int beginningValue = 0;
-    unsigned int endingValue = 0;
+    double beginningValue = 0;
+    double endingValue = 0;
 
     for (iterator = newData.begin(); iterator != newData.end(); ++iterator) {
         DataParameter::SegmentTimeDataDetailed subData = *iterator;
 
         beginningValue = endingValue;
-        endingValue += (((double)subData.getTimeValue())/1000.0)*10.0;
-        double voltageValue = subData.getSegmentVoltage();
-        double currentValue = subData.getSegmentCurrent();
-        for(unsigned int i = beginningValue; i <= endingValue; i++)
-        {
-            voltageVector.push_back(voltageValue);
-            currentVector.push_back(currentValue);
-            timeVector.push_back(i/10.0);
-        }
+        endingValue += (((double)subData.getTimeValue())/1000.0);
+
+        timeVector.push_back(beginningValue);
+        timeVector.push_back(endingValue);
+
+        double voltageValue = subData.getGraphingVoltage();
+        double currentValue = subData.getGraphingCurrent();
+
+        voltageVector.push_back(voltageValue);
+        voltageVector.push_back(voltageValue);
+
+        currentVector.push_back(currentValue);
+        currentVector.push_back(currentValue);
 
     }
 
     ui->graphWidget->updateData(QVector<double>::fromStdVector(timeVector), QVector<double>::fromStdVector(voltageVector), QVector<double>::fromStdVector(currentVector));
 }
 
-void MainWindow::on_pushButton_released()
+void MainWindow::on_pushButton_AddSegment_released()
 {
+    segmentUnlocked = false;
+    ui->progressBar->setValue(0);
+
     ui->segmentWidget->addNewSegment();
     ui->segmentWidget->cbiSegmentDataInterface_UpdatedData();
 }
 
+QString MainWindow::saveAsFileDialog(const std::string &filePath, const std::string &suffix)
+{
+    QString fullFilePath;
+    QFileDialog fileDialog(this, "Save profile as:");
+    QDir galilProgramDirectory(QString::fromStdString(filePath));
+    fileDialog.setDirectory(galilProgramDirectory);
+    fileDialog.setFileMode(QFileDialog::AnyFile);
+    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+    QString nameFilter = "Save Files (*.";
+    nameFilter += QString::fromStdString(suffix) + ")";
+    fileDialog.setNameFilter(nameFilter);
+    fileDialog.setDefaultSuffix(QString::fromStdString(suffix));
+    fileDialog.exec();
+    if(fileDialog.selectedFiles().size() > 0)
+        fullFilePath = fileDialog.selectedFiles().first();
+    return fullFilePath;
+}
+
+QString MainWindow::loadFileDialog(const std::string &filePath, const std::string &suffix)
+{
+    QString fullFilePath;
+    QFileDialog fileDialog(this, "Choose profile to open");
+    QDir galilProgramDirectory(QString::fromStdString(filePath));
+    fileDialog.setDirectory(galilProgramDirectory);
+    fileDialog.setFileMode(QFileDialog::AnyFile);
+    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
+    QString nameFilter = "Open Files (*.";
+    nameFilter += QString::fromStdString(suffix) + ")";
+    fileDialog.setNameFilter(nameFilter);
+    fileDialog.setDefaultSuffix(QString::fromStdString(suffix));
+    fileDialog.exec();
+    if(fileDialog.selectedFiles().size() > 0)
+        fullFilePath = fileDialog.selectedFiles().first();
+    return fullFilePath;
+}
+
+QString MainWindow::getMunkSegmentsPath()
+{
+    QFile file(munkSegmentsPath);
+    QFileInfo fileInfo(file);
+    return fileInfo.absolutePath();
+}
+
+void MainWindow::saveSettings(const QString &path)
+{
+    QFile saveFile(path);
+
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        qWarning("Couldn't open save file.");
+    }
+
+    QJsonObject saveObject;
+    ui->segmentWidget->write(saveObject);
+    QJsonDocument saveDoc(saveObject);
+    saveFile.write(saveDoc.toJson());
+    saveFile.close();
+}
+
+void MainWindow::loadMunkPowerSegment(const QString &path)
+{
+    QFile loadFile(path);
+     if (!loadFile.open(QIODevice::ReadOnly)) return;
+
+    QByteArray loadData = loadFile.readAll();
+    loadFile.close();
+
+    QJsonDocument loadDoc(QJsonDocument::fromJson(loadData));
+    ui->segmentWidget->read(loadDoc.object());
+}
+
 void MainWindow::on_pushButton_transmit_released()
 {
-    DataParameter::SegmentTimeDetailed dataSegment = ui->segmentWidget->getRawData();
-    m_PowerSupply->generateAndTransmitMessage(dataSegment);
+    this->on_actionTransmit_To_Munk_triggered();
 }
 
-void MainWindow::slot_SerialPortStatus(const bool &open_close, const std::string &errorString)
+void MainWindow::on_actionExit_triggered()
 {
-    if(open_close)
-    {
-        QMessageBox *dialog = new QMessageBox();
-        dialog->setIcon(QMessageBox::Information);
-        dialog->setText("The serial port was open succesfully.");
-        dialog->exec();
-        ui->pushButton_connect->setText("DISCONNECT");
-    }
-    else
-    {
-        QMessageBox *dialog = new QMessageBox();
-        dialog->setIcon(QMessageBox::Information);
-        std::string newString = "The serial port was not opened succesfully.\n " + errorString;
-        dialog->setText(QString::fromStdString(newString));
-    }
+    m_PowerSupply->closeSerialPort();
+    qApp->quit();
 }
 
-
-void MainWindow::on_pushButton_connect_released()
-{
-    QString comPortName = ui->comboBox_comPort->currentText();
-    m_PowerSupply->configureSerialPort(comPortName);
-    m_PowerSupply->openSerialPort();
-}

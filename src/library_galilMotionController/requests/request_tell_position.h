@@ -6,7 +6,9 @@
 
 #include "requests/abstract_request.h"
 #include "status/status_position.h"
+#include "common/class_forward.h"
 
+ECM_CLASS_FORWARD(RequestTellPosition);
 
 class RequestTellPosition : public AbstractRequest
 {

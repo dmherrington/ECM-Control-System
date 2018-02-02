@@ -8,6 +8,13 @@
 namespace Data
 {
 
+inline bool isOfVoltageSegmentType(const int &value)
+{
+    if((value >= 6500) && (value <= 6800))
+        return true;
+    return false;
+}
+
 //!
 //! \brief The VoltageSetFWDType enum
 //!
@@ -102,6 +109,18 @@ inline Data::VoltageSetFWDType getFWDVoltageIndex(const int &index)
 {
     std::vector<VoltageSetFWDType> objects = getListOfVoltageSetFWDTypes();
     return objects.at(index);
+}
+
+
+inline bool isForwardVoltageType(const int &value)
+{
+    std::vector<VoltageSetFWDType> objects = getListOfVoltageSetFWDTypes();
+    for(unsigned int i = 0; i < objects.size(); i++)
+    {
+        if(static_cast<int>(objects.at(i)) == value)
+            return true;
+    }
+    return false;
 }
 
 //_________________________________________________________________________
@@ -200,6 +219,17 @@ inline Data::VoltageSetREVType getREVVoltageIndex(const int &index)
 {
     std::vector<VoltageSetREVType> objects = getListOfVoltageSetREVTypes();
     return objects.at(index);
+}
+
+inline bool isReverseVoltageType(const int &value)
+{
+    std::vector<VoltageSetREVType> objects = getListOfVoltageSetREVTypes();
+    for(unsigned int i = 0; i < objects.size(); i++)
+    {
+        if(static_cast<int>(objects.at(i)) == value)
+            return true;
+    }
+    return false;
 }
 
 } //end of namespace Data

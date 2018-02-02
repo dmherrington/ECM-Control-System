@@ -70,9 +70,8 @@ public:
     void SendGalilMessage(const T& message);
 
 private:
-
     //////////////////////////////////////////////////////////////
-    /// React to Link Events
+    /// Virtual methods imposed from ILinkEvents
     //////////////////////////////////////////////////////////////
 
     void ConnectionOpened() const override;
@@ -86,7 +85,7 @@ private:
     void BadCommandResponse(const AbstractStatus &status) const override;
 
     //////////////////////////////////////////////////////////////
-    /// IProtocolGalilEvents
+    /// Virtual methods imposed from IProtocolGalilEvents
     //////////////////////////////////////////////////////////////
 
     //!

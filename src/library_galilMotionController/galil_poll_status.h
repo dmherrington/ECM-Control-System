@@ -13,13 +13,13 @@
 class GalilStatusUpdate_Interface
 {
 public:
-    virtual void cbi_GalilStatusRequestCommand(const AbstractRequest* request) = 0;
+    virtual void cbi_GalilStatusRequest(const AbstractRequestPtr request) = 0;
 };
 
 class GalilPollState : public Thread
 {
 public:
-    GalilPollState(const int &msTimeout = 20);
+    GalilPollState(const int &msTimeout = 50);
 
     ~GalilPollState() {
         std::cout << "Destructor on the galil timeout state machine" << std::endl;

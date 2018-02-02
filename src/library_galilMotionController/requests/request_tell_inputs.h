@@ -6,7 +6,10 @@
 #include <map>
 
 #include "requests/abstract_request.h"
+#include "status/status_inputs.h"
 #include "axis_definitions.h"
+
+ECM_CLASS_FORWARD(RequestTellInputs);
 
 class RequestTellInputs : public AbstractRequest
 {
@@ -37,28 +40,13 @@ public:
     void getClone(AbstractRequest** req) const override;
 
 public:
-    void setInputs(const std::vector<int> &pins);
-
-    void setResult(const std::string &res);
-
-    void setResult(const std::map<int, bool> &res);
-
-public:
-    std::map<int, bool> getResults() const;
-
-    bool getResult(const int &pin, bool &exists) const;
-
-public:
     //!
     //! \brief getCommandString
     //! \return
     //!
     std::string getRequestString() const override;
 
-
-private:
-    std::vector<int> tellInputs; /**< Value of the pins to be requested */
-    std::map<int, bool> tellResults; /**< Results of the request */
+    std::vector<AbstractStatusPtr> getStatus() const override;
 
 };
 #endif // REQUEST_TELL_INPUTS_H

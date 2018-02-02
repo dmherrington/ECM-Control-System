@@ -7,13 +7,19 @@
 
 #include "requests/abstract_request.h"
 #include "axis_definitions.h"
+#include "status/abstract_status.h"
 
-class StatusInputs
+ECM_CLASS_FORWARD(StatusInputs);
+
+enum class GalilPins{
+    GALIL_PIN_ESTOP = 2,
+    GALIL_PIN_TOUCHOFF = 3
+};
+
+class StatusInputs : public AbstractStatus
 {
 public:
     StatusInputs();
-
-    StatusInputs(const std::vector<int> &pins);
 
     StatusInputs(const StatusInputs &copy);
 
@@ -23,21 +29,48 @@ public:
     virtual ~StatusInputs() = default;
 
 public:
-    void setInputs(const std::vector<int> &pins);
+    void setInputCode(const int &code);
 
-    void setResult(const std::map<int, bool> &res);
-
-    void setResult(const int &pin, bool &res);
-
+    int getInputCode() const;
 
 public:
-    std::map<int, bool> getResults() const;
+    std::map<int, bool> getResult() const;
 
-    bool getResult(const int &pin, bool &exists) const;
+    bool getResult(const GalilPins &pin) const;
 
 private:
-    std::vector<int> tellInputs; /**< Value of the pins to be requested */
-    std::map<int, bool> tellResults; /**< Results of the request */
+    void parseInt(const uint8_t &value);
+
+public:
+    StatusInputs& operator = (const StatusInputs &rhs)
+    {
+        AbstractStatus::operator =(rhs);
+        this->originalCode = rhs.originalCode;
+        this->mapInputs = rhs.mapInputs;
+        return *this;
+    }
+
+    bool operator == (const StatusInputs &rhs) {
+        if(!AbstractStatus::operator ==(rhs)){
+            return false;
+        }
+        if(this->originalCode != rhs.originalCode){
+            return false;
+        }
+        if(this->mapInputs != rhs.mapInputs){
+            return false;
+        }
+        return true;
+    }
+
+    bool operator != (const StatusInputs &rhs) {
+        return !(*this == rhs);
+    }
+
+
+private:
+    int originalCode = 0;
+    std::map<int, bool> mapInputs; /**< Results of the request */
 
 };
 #endif // STATUS_INPUTS_H

@@ -6,6 +6,7 @@ namespace Galil {
 State_Jogging::State_Jogging():
     AbstractStateGalil()
 {
+    std::cout<<"We are in the constructor of State_Jogging"<<std::endl;
     this->currentState = ECMState::STATE_JOGGING;
     this->desiredState = ECMState::STATE_JOGGING;
 }
@@ -57,7 +58,11 @@ void State_Jogging::handleCommand(const AbstractCommand* command)
     {
         //This is the command that brought us into this state
         CommandJogPtr castCommand = std::make_shared<CommandJog>(*command->as<CommandJog>());
-        Owner().commsMarshaler->sendAbstractGalilCommand(castCommand);
+        this->clearCommand();
+        Owner().issueGalilCommand(castCommand); //KEN Fix this to differentiate a motion command so we can auto begin motion upon ack
+
+        CommandMotionStartPtr motionStartCommand = std::make_shared<CommandMotionStart>();
+        Owner().issueGalilCommand(motionStartCommand); //KEN Fix this to differentiate a motion command so we can auto begin motion upon ack
         break;
     }
     case CommandType::STOP:

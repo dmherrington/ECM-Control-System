@@ -45,6 +45,11 @@ public:
     //!
     virtual DataParameter::ParameterType getParameterType() const = 0;
 
+    virtual int getParameterCode() const
+    {
+        return this->parameterCode;
+    }
+
     //!
     //! \brief getByteArray
     //! \return
@@ -63,6 +68,37 @@ public:
     //!
     virtual std::string getDescription() const  = 0;
 
+    /**
+     * @brief getClone
+     * @return
+     */
+    virtual AbstractParameter* getClone() const = 0;
+
+    /**
+     * @brief getClone
+     * @param state
+     */
+    virtual void getClone(AbstractParameter** state) const = 0;
+
+    /**
+     *
+     */
+    template <class T>
+    const T *as() const
+    {
+        //ensure that we are attempting to cast it to a type of state
+        return static_cast<const T *>(this);
+    }
+
+    /**
+     *
+     */
+    template <class T>
+    T *as()
+    {
+        //ensure that we are attempting to cast it to a type of state
+        return static_cast<T *>(this);
+    }
 public:
     //!
     //! \brief setSlaveAddress
@@ -101,13 +137,14 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    void operator = (const AbstractParameter &rhs)
+    AbstractParameter& operator = (const AbstractParameter &rhs)
     {
         this->parameterCode = rhs.parameterCode;
         this->slaveAddress = rhs.slaveAddress;
         this->readOrwrite = rhs.readOrwrite;
         this->highChecksum = rhs.highChecksum;
         this->lowChecksum = rhs.lowChecksum;
+        return *this;
     }
 
     //!

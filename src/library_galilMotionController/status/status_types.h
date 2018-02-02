@@ -25,7 +25,8 @@ enum class StatusTypes{
     STATUS_AXISMOTION = 1,
     STATUS_MOTOREN = 2,
     STATUS_STOPCODE = 3,
-    STATUS_SWITCH = 4
+    STATUS_SWITCH = 4,
+    STATUS_TELLINPUTS = 5
 };
 
 

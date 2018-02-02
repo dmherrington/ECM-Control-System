@@ -52,13 +52,14 @@ hsm::Transition State_Idle::GetTransition()
 void State_Idle::Update()
 {
     //Check the status of the estop state
-    bool eStopState = this->checkEStop();
-    if(eStopState == false)
+    if(this->checkEStop())
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
         desiredState = ECMState::STATE_ESTOP;
     }
+    else if(Owner().isMotorEnabled() || Owner().isMotorInMotion())
+        desiredState = ECMState::STATE_READY;
 }
 
 void State_Idle::handleCommand(const AbstractCommand* command)
@@ -68,14 +69,12 @@ void State_Idle::handleCommand(const AbstractCommand* command)
     case CommandType::DOWNLOAD_PROGRAM:
     {
         //we can only download/upload commands in the idle state so this command is valid
-        Owner().commsMarshaler->downloadProgram();
         break;
     }
     case CommandType::UPLOAD_PROGRAM:
     {
         this->currentCommand = command->getClone();
         const CommandUploadProgram* castCommand = this->currentCommand->as<CommandUploadProgram>();
-        Owner().commsMarshaler->uploadProgram(castCommand->getProgram());
         break;
     }
     case CommandType::MOTOR_ON:
@@ -132,11 +131,11 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         //If we are here because the motor hasn't turned off and is moving, something is wrong.
 
         //First check to see if the motor is already disarmed, and if not, disarm it
-        if(Owner().getAxisStatus(MotorAxis::Z)->isMotorRunning())
+        if(Owner().getAxisStatus(MotorAxis::Z)->isMotorEnabled())
         {
             //If the motor is not currently armed, issue the command to arm it
             CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();
-            Owner().commsMarshaler->sendAbstractGalilCommand(command);
+            Owner().issueGalilCommand(command);
         }
         else{
             //since the motor was already disarmed this implies that we can safely transition to idle state
@@ -146,7 +145,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         //Lastly, send a command to make sure the airbrake has been engaged
         CommandSetBitPtr command = std::make_shared<CommandSetBit>();
         command->appendAddress(2); //Ken: be careful in the event that this changes. This should be handled by settings or something
-        Owner().commsMarshaler->sendAbstractGalilCommand(command);
+        Owner().issueGalilCommand(command);
 
         break;
     }
@@ -167,11 +166,11 @@ void State_Idle::OnEnter()
     //To get to this state, it should be noted that we should have already transitioned through
     //the stop state, or motion on the motor has already ceased
     //Let us check to see if the motor is already disabled, if not, follow through with the command
-    CommandMotorDisable cmd;
-    cmd.setDisableAxis(MotorAxis::Z);
-    GalilStatus* status = Owner().getAxisStatus(MotorAxis::Z);
-//    if(status->isMotorRunning())
-//        Owner().commsMarshaler.(cmd.getCommandString());
+    if(Owner().isMotorEnabled())
+    {
+        CommandMotorDisablePtr castCommand = std::make_shared<CommandMotorDisable>();
+        Owner().issueGalilCommand(castCommand);
+    }
 }
 
 void State_Idle::OnEnter(const AbstractCommand *command)

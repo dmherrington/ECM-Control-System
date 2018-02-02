@@ -20,6 +20,8 @@ public:
     //!
     ParameterMemoryWrite();
 
+    ParameterMemoryWrite(const ParameterMemoryWrite &copy);
+
 public:
     //!
     //! \brief getParameterType
@@ -39,11 +41,23 @@ public:
     //!
     virtual std::string getDescription() const;
 
+    AbstractParameter* getClone() const override
+    {
+        return (new ParameterMemoryWrite(*this));
+    }
+
+    void getClone(AbstractParameter** parameter) const override
+    {
+        *parameter = new ParameterMemoryWrite(*this);
+    }
+
     //!
     //! \brief getExpectedResponse
     //! \return
     //!
     QByteArray getExpectedResponse() const override;
+
+
 };
 
 }

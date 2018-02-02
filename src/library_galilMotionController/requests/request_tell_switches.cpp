@@ -1,7 +1,7 @@
 #include "request_tell_switches.h"
 
 RequestTellSwitches::RequestTellSwitches(const MotorAxis &axis):
-    AbstractRequest(RequestTypes::TELL_POSITION), tellAxis(axis)
+    AbstractRequest(RequestTypes::TELL_SWITCHES), tellAxis(axis)
 {
 
 }
@@ -63,6 +63,28 @@ std::string RequestTellSwitches::getRequestString() const
     return str;
 }
 
+std::vector<AbstractStatusPtr> RequestTellSwitches::getStatus() const
+{
+    std::vector<AbstractStatusPtr> rtn;
+    //as the galil only currently reports a single axis here, we will make the parse easy for now
+    QString result = QString::fromStdString(buffer);
+    QStringList list = result.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
+    result = list.at(0);
+    result = result.trimmed();
+    if(tellAxis == MotorAxis::ALL)
+    {
+        //we will not currently support this
+    }
+    else{
+        Status_SwitchPtr status = std::make_shared<Status_Switch>();
+        status->setAxis(tellAxis);
+        status->setTime(latestUpdate);
+        status->setSwitchCode(result.toInt());
+        rtn.push_back(status);
+    }
+
+    return rtn;
+}
 
 
 

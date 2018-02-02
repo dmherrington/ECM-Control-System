@@ -20,10 +20,11 @@ RegisterDataObject::RegisterDataObject(const RegisterDataObject &obj)
     this->current =obj.current;
 }
 
-void RegisterDataObject::operator =(const RegisterDataObject &rhs)
+RegisterDataObject& RegisterDataObject::operator =(const RegisterDataObject &rhs)
 {
     this->voltage = rhs.voltage;
     this->current =rhs.current;
+    return *this;
 }
 
 bool RegisterDataObject::operator <(const RegisterDataObject &rhs) const

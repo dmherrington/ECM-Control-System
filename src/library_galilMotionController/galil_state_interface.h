@@ -7,6 +7,8 @@
 #include "gclib.h"
 #include "gclibo.h"
 
+#include "common/data_get_set_notifier.h"
+
 #include "axis_definitions.h"
 
 #include "programs/galil_current_program.h"
@@ -15,10 +17,15 @@
 #include "requests/request_components.h"
 #include "status/status_components.h"
 
-#include "communications/comms_marshaler.h"
+class GalilCallback_StateInterface
+{
+public:
+    virtual void cbi_AbstractGalilCommand(const AbstractCommandPtr command) = 0;
+    virtual void cbi_AbstractGalilRequest(const AbstractRequestPtr request) = 0;
+    virtual void cbi_GalilControllerGains(const CommandControllerGain &gains) = 0;
+};
 
-
-class GalilStateInterface : public Comms::CommsEvents
+class GalilStateInterface
 {
 public:
     GalilStateInterface(const std::vector<MotorAxis> &availableAxis);
@@ -26,20 +33,28 @@ public:
     ~GalilStateInterface();
 
 public:
-    GalilStatus* getAxisStatus(const MotorAxis &axis);
-    StatusInputs* getStatusInputs() const;
+    void connectCallback(GalilCallback_StateInterface *cb)
+    {
+        m_CB = cb;
+    }
 
+    void issueGalilCommand(const AbstractCommandPtr command)
+    {
+        if(m_CB)
+            m_CB->cbi_AbstractGalilCommand(command);
+    }
+    void issueGalilControllerGains(const CommandControllerGain &gains)
+    {
+        if(m_CB)
+            m_CB->cbi_GalilControllerGains(gains);
+    }
 public:
-    void NewStatusPosition(const Status_Position &status) override;
-
-    void NewStatusMotorEnabled(const Status_MotorEnabled &status) override;
-
-    void NewStatusMotorInMotion(const Status_AxisInMotion &status) override;
+    GalilStatus* getAxisStatus(const MotorAxis &axis);
 
 public:
     bool isMotorInMotion() const;
-    bool isMotorArmed() const;
-
+    bool isMotorEnabled() const;
+    bool isEStopEngaged() const;
 
 private:
     void updatePosition(const std::vector<Status_Position> &data);
@@ -56,18 +71,15 @@ private:
     bool connected = false;
     bool latched = false;
 
+private:
+    GalilCallback_StateInterface *m_CB;
 
 public:
-    Comms::CommsMarshaler* commsMarshaler; /**< Member variable handling the communications with the
-actual Galil unit. This parent class will be subscribing to published events from the marshaller. This
-should drive the event driven structure required to exceite the state machine.*/
+    DataGetSetNotifier<StatusInputs> statusInputs; /**< Member variable containing the current state
+inputs of the Galil Unit. Inputs can be gathered based on the enum settings contained within the file.
+Eventually this should change to be pulled from a configuraiton.*/
 
 private:
-
-    StatusInputs* statusInputs; /**< Member variable containing the current state
-inputs of the Galil Unit. Only specific inputs are relevant within the request. Relevant
-inputs are established through the settings file.*/
-
     std::map<MotorAxis, GalilStatus*> mStatus; /**< Member variable containing the current status
 of each individual axis of the galil. This information contains positioning, motion, arming. */
 

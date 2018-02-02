@@ -85,9 +85,8 @@ void MainWindow::on_pushButton_IncreaseJog_released()
 void MainWindow::on_pushButton_DecreaseJog_pressed()
 {
     int jogRate = abs(ui->spinBox_Jog->value());
-    CommandJog* beginJog = new CommandJog(MotorAxis::Z,jogRate);
-    m_Galil->executeCommand(beginJog);
-    delete beginJog;
+    CommandJog beginJog(MotorAxis::Z,jogRate);
+    m_Galil->executeCommand(&beginJog);
 }
 
 //!
@@ -96,9 +95,8 @@ void MainWindow::on_pushButton_DecreaseJog_pressed()
 //!
 void MainWindow::on_pushButton_DecreaseJog_released()
 {
-    CommandStop* stop = new CommandStop(MotorAxis::Z);
-    m_Galil->executeCommand(stop);
-    delete stop;
+    CommandStop stop(MotorAxis::Z);
+    m_Galil->executeCommand(&stop);
 }
 
 

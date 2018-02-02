@@ -27,6 +27,7 @@ enum class CommandType{
     ESTOP,
     EXECUTE_PROGRAM,
     JOG_MOVE,
+    MOTION_START,
     MOTOR_OFF,
     MOTOR_ON,
     RELATIVE_MOVE,
@@ -49,6 +50,8 @@ inline std::string CommandToString(const CommandType &type) {
         return "MO";
     case CommandType::MOTOR_ON:
         return "SH";
+    case CommandType::MOTION_START:
+        return "BG";
     case CommandType::JOG_MOVE:
         return "JG";
     case CommandType::RELATIVE_MOVE:
@@ -84,6 +87,8 @@ inline CommandType CommandFromString(const std::string &str) {
         return CommandType::MOTOR_OFF;
     if(str == "SH")
         return CommandType::MOTOR_ON;
+    if(str == "BG")
+        return CommandType::MOTION_START;
     if(str == "JG")
         return CommandType::JOG_MOVE;
     if(str == "PR")

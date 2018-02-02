@@ -8,6 +8,13 @@
 namespace Data
 {
 
+inline bool isOfTimeSegmentType(const int &value)
+{
+    if((value >= 4170) && (value <= 4186))
+        return true;
+    return false;
+}
+
 //!
 //! \brief The SegmentParameter enum
 //!
@@ -30,46 +37,6 @@ enum class SegmentParameter{
     SEGMENT16 = 4186, /**< */
 };
 
-//!
-//! \brief ReadWriteTypeToString
-//! \param type
-//! \return
-//!
-inline std::string ReadWriteTypeToString(const ReadWriteType &type) {
-    switch (type) {
-    case ReadWriteType::READ:
-        return "Read";
-    case ReadWriteType::WRITE:
-        return "Write";
-    default:
-        throw std::runtime_error("Unknown read or write type seen");
-    }
-}
-
-//!
-//! \brief ReadWriteTypeFromString
-//! \param str
-//! \return
-//!
-inline ReadWriteType ReadWriteTypeFromString(const std::string &str) {
-    if(str == "Read")
-        return ReadWriteType::READ;
-    if(str == "Write")
-        return ReadWriteType::WRITE;
-    throw std::runtime_error("Unknown read or write type seen");
-}
-
-//!
-//! \brief getListOfReadWriteType
-//! \return
-//!
-inline std::vector<std::string> getListOfReadWriteType()
-{
-    std::vector<std::string> str;
-    str.push_back(Data::ReadWriteTypeToString(ReadWriteType::READ));
-    str.push_back(Data::ReadWriteTypeToString(ReadWriteType::WRITE));
-    return str;
-}
 
 } //end of namespace Data
 

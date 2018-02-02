@@ -4,7 +4,11 @@
 #include <string>
 
 #include "requests/abstract_request.h"
+#include "status/status_stop_code.h"
 #include "axis_definitions.h"
+#include "common/class_forward.h"
+
+ECM_CLASS_FORWARD(RequestStopCode);
 
 class RequestStopCode : public AbstractRequest
 {
@@ -49,6 +53,8 @@ public:
     //! \return
     //!
     std::string getRequestString() const override;
+
+    std::vector<AbstractStatusPtr> getStatus() const;
 
 private:
     MotorAxis codeAxis; /**< Value of the axis stop code is requested for*/

@@ -35,7 +35,7 @@ public:
 
     GReturn WriteCommand(const std::string &command) const override;
 
-    GReturn WriteRequest(const AbstractRequestPtr request) const override;
+    GReturn WriteRequest(AbstractRequestPtr request) const override;
 
     GReturn WriteTellErrorCode(char* errorDescription) const override;
 

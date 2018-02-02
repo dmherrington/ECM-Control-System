@@ -94,13 +94,14 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    void operator = (const SegmentCurrentData &rhs)
+    SegmentCurrentData& operator = (const SegmentCurrentData &rhs)
     {
         this->level = rhs.level;
         this->mode = rhs.mode;
         this->prescale = rhs.prescale;
         this->current = rhs.current;
         this->currentFactor = rhs.currentFactor;
+        return *this;
     }
 
     //!

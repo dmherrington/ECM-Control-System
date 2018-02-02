@@ -6,7 +6,12 @@ galilMotionController::galilMotionController()
     std::vector<MotorAxis> availableAxis;
     availableAxis.push_back(MotorAxis::Z);
 
+    commsMarshaler = new Comms::CommsMarshaler();
+    commsMarshaler->AddSubscriber(this);
+
     stateInterface = new GalilStateInterface(availableAxis);
+    stateInterface->connectCallback(this);
+
     stateMachine = new hsm::StateMachine();
     stateMachine->Initialize<ECM::Galil::State_Idle>(stateInterface);
     //if we begin issuing text commands we have to be careful how the state machine progresses
@@ -16,6 +21,7 @@ galilMotionController::galilMotionController()
     //Instantiating the galil state polling object. This is only needed to be done once within the program
     galilPolling = new GalilPollState();
     galilPolling->connectCallback(this);
+
 
     //    GReturn rtnCode = GOpen("169.254.78.101",&mConnection);
 
@@ -62,16 +68,12 @@ galilMotionController::~galilMotionController()
 
 void galilMotionController::openConnection(const std::string &address)
 {
-    if(stateInterface->commsMarshaler->ConnectToLink(address)) //if true this means we have connected to the galil unit
-    {
-        //since we have now connected to the galil we can begin collecting information
-        stateInterface->setConnected(true);
-    }
+    commsMarshaler->ConnectToLink(address); //if true this means we have connected to the galil unit
 }
 
 void galilMotionController::closeConnection()
 {
-    if(stateInterface->commsMarshaler->DisconnetLink()) //if true this means we have disconnected from the galil unit
+    if(commsMarshaler->DisconnetLink()) //if true this means we have disconnected from the galil unit
     {
         //since we have now disconnected from the galil we should stop collecting information
         stateInterface->setConnected(false);
@@ -99,6 +101,7 @@ bool galilMotionController::loadSettings(const std::string &filePath)
 
 void galilMotionController::LinkConnected() const
 {
+    stateInterface->setConnected(true);
     galilPolling->beginPolling();
 }
 
@@ -110,6 +113,47 @@ void galilMotionController::LinkDisconnected() const
         galilPolling->pausePolling();
         galilPolling->stop();
 
+    }
+}
+
+void galilMotionController::NewStatusInputs(const StatusInputs &status)
+{
+    if(stateInterface->statusInputs.set(status))
+    {
+        stateMachine->UpdateStates();
+        stateMachine->ProcessStateTransitions();
+    }
+}
+
+void galilMotionController::NewStatusPosition(const Status_Position &status)
+{
+    //std::cout<<"A new position status has been received: "<<status.getPosition()<<std::endl;
+}
+
+void galilMotionController::NewStatusMotorEnabled(const Status_MotorEnabled &status)
+{
+    if(stateInterface->getAxisStatus(status.getAxis())->setMotorEnabled(status.isMotorEnabled()))
+    {
+        stateMachine->UpdateStates();
+        stateMachine->ProcessStateTransitions();
+    }
+}
+void galilMotionController::NewStatusMotorStopCode(const Status_StopCode &status)
+{
+    std::cout<<"I have received a new motor stop code."<<std::endl;
+}
+
+void galilMotionController::NewStatusMotorInMotion(const Status_AxisInMotion &status)
+{
+    if(stateInterface->getAxisStatus(status.getAxis())->setMotorMoving(status.isMotorMoving()))
+    {
+        if(status.isMotorMoving()==false)
+        {
+            RequestStopCodePtr request = std::make_shared<RequestStopCode>();
+            commsMarshaler->sendAbstractGalilRequest(request);
+        }
+        stateMachine->UpdateStates();
+        stateMachine->ProcessStateTransitions();
     }
 }
 
@@ -231,7 +275,7 @@ bool galilMotionController::loadProgram(const std::string &filePath, std::string
 
 void galilMotionController::uploadProgram(const ProgramGeneric &program) const
 {
-    stateInterface->commsMarshaler->uploadProgram(program);
+    commsMarshaler->uploadProgram(program);
 //    ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
 //    //currentState->handleCommand();
 
@@ -251,7 +295,7 @@ void galilMotionController::uploadProgram(const ProgramGeneric &program) const
 
 void galilMotionController::downloadProgram() const
 {
-    stateInterface->commsMarshaler->downloadProgram();
+    commsMarshaler->downloadProgram();
 //    GBufOut returnOut;
 //    GSize read_bytes = 0; //bytes read in GCommand
 
@@ -274,8 +318,24 @@ void galilMotionController::downloadProgram() const
 //    delete[] buf;
 }
 
-void galilMotionController::cbi_GalilStatusRequestCommand(const AbstractRequest *request)
+void galilMotionController::cbi_GalilStatusRequest(const AbstractRequestPtr request)
 {
-    //stateInterface->transmitRequest(request);
+    commsMarshaler->sendAbstractGalilRequest(request);
 }
+
+void galilMotionController::cbi_AbstractGalilCommand(const AbstractCommandPtr command)
+{
+    commsMarshaler->sendAbstractGalilCommand(command);
+}
+
+void galilMotionController::cbi_AbstractGalilRequest(const AbstractRequestPtr request)
+{
+    commsMarshaler->sendAbstractGalilRequest(request);
+}
+
+void galilMotionController::cbi_GalilControllerGains(const CommandControllerGain &gains)
+{
+    commsMarshaler->sendGalilControllerGains(gains);
+}
+
 

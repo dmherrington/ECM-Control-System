@@ -25,11 +25,12 @@ public:
     uint64_t getPosition() const;
 
 public:
-    void operator = (const Status_Position &rhs)
+    Status_Position& operator = (const Status_Position &rhs)
     {
         AbstractStatus::operator =(rhs);
         this->currentAxis = rhs.currentAxis;
         this->position = rhs.position;
+        return *this;
     }
 
     bool operator == (const Status_Position &rhs) {

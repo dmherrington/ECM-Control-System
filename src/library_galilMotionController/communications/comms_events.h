@@ -32,6 +32,11 @@ public:
         UNUSED(msg);
     }
 
+    virtual void NewStatusInputs(const StatusInputs &status)
+    {
+        UNUSED(status);
+    }
+
     virtual void NewStatusPosition(const Status_Position &status)
     {
         UNUSED(status);
@@ -43,6 +48,11 @@ public:
     }
 
     virtual void NewStatusMotorInMotion(const Status_AxisInMotion &status)
+    {
+        UNUSED(status);
+    }
+
+    virtual void NewStatusMotorStopCode(const Status_StopCode &status)
     {
         UNUSED(status);
     }
