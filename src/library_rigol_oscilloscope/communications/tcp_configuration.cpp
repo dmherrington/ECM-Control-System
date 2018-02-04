@@ -5,7 +5,7 @@ namespace comms{
 
 TCPConfiguration::TCPConfiguration()
 {
-    _listenAddress       = "127.0.0.1";
+    _listenAddress       = "192.168.1.17";
     _listenPortNumber    = 5555;
 }
 TCPConfiguration::TCPConfiguration(const std::string& listenAddress, const int &listenPort)

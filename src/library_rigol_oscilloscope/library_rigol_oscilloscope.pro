@@ -27,7 +27,9 @@ SOURCES += \
     communications/rigol_tcp_link.cpp \
     communications/tcp_configuration.cpp \
     communications/rigol_comms_marshaler.cpp \
-    communications/protocol_rigol.cpp
+    communications/protocol_rigol.cpp \
+    commands/acquire/abstract_acquire_command.cpp \
+    rigol_poll_measurements.cpp
 
 HEADERS += \
         library_rigol_oscilloscope_global.h \ 
@@ -42,7 +44,13 @@ HEADERS += \
     communications/rigol_tcp_link.h \
     communications/tcp_configuration.h \
     data/i_link.h \
-    commands/i_link.h
+    data/type_available_measurements.h \
+    data/type_available_channels.h \
+    commands/acquire/i_link.h \
+    commands/measure/i_link.h \
+    commands/acquire/abstract_acquire_command.h \
+    data/type_acquire_commands.h \
+    rigol_poll_measurements.h
 
 # Unix lib Install
 unix:!symbian {

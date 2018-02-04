@@ -1,5 +1,5 @@
-#ifndef GALIL_STATE_MACHINE_H
-#define GALIL_STATE_MACHINE_H
+#ifndef RIGOL_POLL_MEASUREMENTS_H
+#define RIGOL_POLL_MEASUREMENTS_H
 
 #include <iostream>
 #include <QDate>
@@ -8,25 +8,29 @@
 #include "common/threadmanager.h"
 #include "common/timer.h"
 
-#include "requests/request_components.h"
-
 class GalilStatusUpdate_Interface
 {
 public:
     virtual void cbi_GalilStatusRequest(const AbstractRequestPtr request) = 0;
 };
 
-class GalilPollState : public Thread
+
+class RigolPollMeasurement : public Thread
 {
 public:
-    GalilPollState(const int &msTimeout = 50);
+    RigolPollMeasurement(const int &msTimeout = 50);
 
-    ~GalilPollState() {
+    ~RigolPollMeasurement() {
         std::cout << "Destructor on the galil timeout state machine" << std::endl;
         mToExit = true;
     }
+public:
+    void addPollingMeasurement();
+
+public:
 
     void beginPolling();
+
     void pausePolling();
 
     void run();
@@ -60,4 +64,4 @@ protected:
     }
 };
 
-#endif // GALIL_STATE_MACHINE_H
+#endif // RIGOL_POLL_MEASUREMENTS_H

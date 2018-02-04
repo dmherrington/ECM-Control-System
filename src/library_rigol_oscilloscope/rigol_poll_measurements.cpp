@@ -1,18 +1,18 @@
-#include "galil_poll_status.h"
+#include "rigol_poll_measurements.h"
 
-GalilPollState::GalilPollState(const int &msTimeout):
+RigolPollMeasurement::RigolPollMeasurement(const int &msTimeout):
     m_CB(nullptr), timeout(msTimeout)
 {
 
 }
 
-void GalilPollState::beginPolling()
+void RigolPollMeasurement::beginPolling()
 {
     m_Timeout.start();
     this->start();
 }
 
-void GalilPollState::pausePolling()
+void RigolPollMeasurement::pausePolling()
 {
     m_LambdasToRun.push_back([this]{
         m_Timeout.stop();
@@ -21,7 +21,7 @@ void GalilPollState::pausePolling()
     });
 }
 
-void GalilPollState::run()
+void RigolPollMeasurement::run()
 {
     while(true)
     {
@@ -45,20 +45,9 @@ void GalilPollState::run()
             //these functions will update the actual stored information of the galil unit in the state
             //interface class contained at the callback location
 
-            // 1: Request the position of the galil unit
             if(m_CB)
             {
-//                RequestTellPositionPtr requestTP = std::make_shared<RequestTellPosition>();
-//                m_CB->cbi_GalilStatusRequest(requestTP);
-                // 2: Request the stop codes
-//                RequestStopCodePtr requestSC = std::make_shared<RequestStopCode>();
-//                m_CB->cbi_GalilStatusRequest(requestSC);
-                // 3: Request the tell switches
-                RequestTellSwitchesPtr requestTS = std::make_shared<RequestTellSwitches>();;
-                m_CB->cbi_GalilStatusRequest(requestTS);
-                // 4: Request the current inputs
-                RequestTellInputsPtr requestTI = std::make_shared<RequestTellInputs>();
-                m_CB->cbi_GalilStatusRequest(requestTI);
+
             }
             m_Timeout.reset();
         }
