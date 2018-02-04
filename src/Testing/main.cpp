@@ -5,25 +5,21 @@
 #include <QStringList>
 #include <QRegExp>
 
-#include "library_galilMotionController/communications/comms_marshaler.h"
-
-//#include "library_galilMotionController/galil_motion_controller.h"
-//#include "library_galilMotionController/states/state_components.h"
-//#include "library_galilMotionController/galil_state_interface.h"
-//#include "library_galilMotionController/galil_poll_status.h"
-
-#include "comms_galil/comms_galil.h"
-
-//using namespace hsm;
-
-#include "library_galilMotionController/status/status_switch.h"
+#include "library_rigol_oscilloscope/communications/rigol_comms_marshaler.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    Status_Switch newStatus;
-    newStatus.setSwitchCode(47);
+    rigol::comms::RigolCommsMarshaler* marshal = new rigol::comms::RigolCommsMarshaler();
+    rigol::comms::TCPConfiguration newConfig;
+    marshal->ConnectToLink(newConfig);
+    QByteArray newArray;
+    newArray.append("*IDN?");
+    marshal->EmitByteArray(newArray);
+
+//    Status_Switch newStatus;
+//    newStatus.setSwitchCode(47);
 
     /*
 //    CommsGalil* comms = new CommsGalil();

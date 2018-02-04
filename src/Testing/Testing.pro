@@ -1,5 +1,6 @@
 QT -= gui
 QT += core serialport
+QT += network
 
 CONFIG += c++11 console
 CONFIG -= app_bundle
@@ -32,21 +33,9 @@ win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lc
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
 else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
 
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_rigol_oscilloscope/release/ -llibrary_rigol_oscilloscope
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_rigol_oscilloscope/debug/ -llibrary_rigol_oscilloscope
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_rigol_oscilloscope/ -llibrary_rigol_oscilloscope
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/release/ -llibrary_galilMotionController
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/debug/ -llibrary_galilMotionController
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_galilMotionController/ -llibrary_galilMotionController
-
-INCLUDEPATH += $$PWD/../library_galilMotionController
-DEPENDPATH += $$PWD/../library_galilMotionController
-
-
-unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
-unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo
-
-INCLUDEPATH += $$PWD/../../tools/galil/lib/dynamic/x86
-DEPENDPATH += $$PWD/../../tools/galil/lib/dynamic/x86
-
-win32: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
-else:unix: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
-
+INCLUDEPATH += $$PWD/../library_rigol_oscilloscope
+DEPENDPATH += $$PWD/../library_rigol_oscilloscope
