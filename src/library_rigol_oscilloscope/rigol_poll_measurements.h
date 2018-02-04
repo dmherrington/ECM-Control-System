@@ -8,10 +8,12 @@
 #include "common/threadmanager.h"
 #include "common/timer.h"
 
+#include "commands/measure/abstract_measure_command.h"
+
 class GalilStatusUpdate_Interface
 {
 public:
-    virtual void cbi_GalilStatusRequest(const AbstractRequestPtr request) = 0;
+    virtual void cbi_GalilStatusRequest() = 0;
 };
 
 
@@ -25,7 +27,7 @@ public:
         mToExit = true;
     }
 public:
-    void addPollingMeasurement();
+    void addPollingMeasurement(const rigol::commands::AbstractMeasureCommand* command);
 
 public:
 

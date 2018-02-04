@@ -21,6 +21,11 @@ void RigolPollMeasurement::pausePolling()
     });
 }
 
+void RigolPollMeasurement::addPollingMeasurement(const rigol::commands::AbstractMeasureCommand *command)
+{
+
+}
+
 void RigolPollMeasurement::run()
 {
     while(true)

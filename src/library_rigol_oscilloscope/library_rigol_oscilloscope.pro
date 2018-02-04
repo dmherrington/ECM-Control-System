@@ -28,8 +28,12 @@ SOURCES += \
     communications/tcp_configuration.cpp \
     communications/rigol_comms_marshaler.cpp \
     communications/protocol_rigol.cpp \
-    commands/acquire/abstract_acquire_command.cpp \
-    rigol_poll_measurements.cpp
+    rigol_poll_measurements.cpp \
+    commands/acquire/acquire_command_average.cpp \
+    commands/acquire/acquire_command_mdepth.cpp \
+    commands/acquire/acquire_command_type.cpp \
+    commands/acquire/acquire_command_srate.cpp \
+    commands/measure/measure_command_item.cpp
 
 HEADERS += \
         library_rigol_oscilloscope_global.h \ 
@@ -43,14 +47,22 @@ HEADERS += \
     communications/rigol_comms_marshaler.h \
     communications/rigol_tcp_link.h \
     communications/tcp_configuration.h \
-    data/i_link.h \
     data/type_available_measurements.h \
     data/type_available_channels.h \
-    commands/acquire/i_link.h \
-    commands/measure/i_link.h \
     commands/acquire/abstract_acquire_command.h \
     data/type_acquire_commands.h \
-    rigol_poll_measurements.h
+    rigol_poll_measurements.h \
+    commands/acquire/acquire_command_average.h \
+    commands/acquire/acquire_command_mdepth.h \
+    commands/acquire/acquire_command_type.h \
+    commands/acquire/acquire_command_srate.h \
+    data/type_read_write.h \
+    data/type_memory_depth.h \
+    commands/measure/abstract_measure_command.h \
+    data/type_measure_commands.h \
+    commands/measure/measure_command_item.h \
+    commands/abstract_rigol_command.h \
+    data/type_available_commands.h
 
 # Unix lib Install
 unix:!symbian {

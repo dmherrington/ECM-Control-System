@@ -1,5 +1,5 @@
-#ifndef ABSTRACT_ACQUIRE_COMMAND_H
-#define ABSTRACT_ACQUIRE_COMMAND_H
+#ifndef ABSTRACT_MEASURE_COMMAND_H
+#define ABSTRACT_MEASURE_COMMAND_H
 
 /**
 \* @file  abstract_acquire_command.h
@@ -21,27 +21,27 @@
 #include "common/class_forward.h"
 #include "commands/abstract_rigol_command.h"
 
-#include "data/type_acquire_commands.h"
+#include "data/type_measure_commands.h"
 #include "data/type_read_write.h"
 
 namespace rigol {
 namespace commands{
 
-ECM_CLASS_FORWARD(AbstractAcquireCommand);
+ECM_CLASS_FORWARD(AbstractMeasureCommand);
 
-class AbstractAcquireCommand : public AbstractRigolCommand
+class AbstractMeasureCommand : public AbstractRigolCommand
 {
 public:
-    AbstractAcquireCommand(const data::AcquireType &acquire, const data::ReadWriteType &rw = data::ReadWriteType::WRITE):
+    AbstractMeasureCommand(const data::MeasurementCommands &measure, const data::ReadWriteType &rw = data::ReadWriteType::WRITE):
         AbstractRigolCommand(data::CommandTypes::COMMAND_MEASURE,rw)
     {
-        this->acquireType = acquire;
+        this->measurementCommand = measure;
     }
 
-    AbstractAcquireCommand(const AbstractAcquireCommand& copy):
+    AbstractMeasureCommand(const AbstractMeasureCommand& copy):
         AbstractRigolCommand(copy)
     {
-        this->acquireType = copy.acquireType;
+        this->measurementCommand = copy.measurementCommand;
     }
 
 
@@ -71,18 +71,18 @@ public:
      * @brief getClone
      * @return
      */
-    virtual AbstractAcquireCommand* getClone() const = 0;
+    virtual AbstractMeasureCommand* getClone() const = 0;
 
     /**
      * @brief getClone
      * @param state
      */
-    virtual void getClone(AbstractAcquireCommand** state) const = 0;
+    virtual void getClone(AbstractMeasureCommand** state) const = 0;
 
 public:
-    virtual data::AcquireType getAcquisitionType() const
+    virtual data::MeasurementCommands getMeasurementType() const
     {
-        return acquireType;
+        return measurementCommand;
     }
 
 public:
@@ -90,10 +90,10 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    AbstractAcquireCommand& operator = (const AbstractAcquireCommand &rhs)
+    AbstractMeasureCommand& operator = (const AbstractMeasureCommand &rhs)
     {
         AbstractRigolCommand::operator =(rhs);
-        this->acquireType = rhs.acquireType;
+        this->measurementCommand = rhs.measurementCommand;
         return *this;
     }
 
@@ -102,12 +102,12 @@ public:
     //! \param rhs
     //! \return
     //!
-    bool operator == (const AbstractAcquireCommand &rhs)
+    bool operator == (const AbstractMeasureCommand &rhs)
     {
         if(!AbstractRigolCommand::operator ==(rhs)){
             return false;
         }
-        if(this->acquireType != rhs.acquireType){
+        if(this->measurementCommand != rhs.measurementCommand){
             return false;
         }
         return true;
@@ -118,16 +118,16 @@ public:
     //! \param rhs
     //! \return
     //!
-    bool operator != (const AbstractAcquireCommand &rhs) {
+    bool operator != (const AbstractMeasureCommand &rhs) {
         return !(*this == rhs);
     }
 
-
 protected:
-    data::AcquireType acquireType;
+    data::MeasurementCommands measurementCommand;
+
 };
 
 } //end of namespace commands
 } //end of namespace rigol
 
-#endif // ABSTRACT_ACQUIRE_COMMAND_H
+#endif // ABSTRACT_MEASURE_COMMAND_H
