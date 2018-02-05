@@ -15,12 +15,12 @@ AcquireCommand_Type::AcquireCommand_Type(const AcquireCommand_Type &copy):
 
 }
 
-AbstractAcquireCommand* AcquireCommand_Type::getClone() const
+AbstractRigolCommand* AcquireCommand_Type::getClone() const
 {
     return (new AcquireCommand_Type(*this));
 }
 
-void AcquireCommand_Type::getClone(AbstractAcquireCommand** state) const
+void AcquireCommand_Type::getClone(AbstractRigolCommand** state) const
 {
     *state = new AcquireCommand_Type(*this);
 }

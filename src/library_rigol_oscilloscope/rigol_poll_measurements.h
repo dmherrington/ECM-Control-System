@@ -2,6 +2,8 @@
 #define RIGOL_POLL_MEASUREMENTS_H
 
 #include <iostream>
+#include <map>
+
 #include <QDate>
 
 #include "common/environment_time.h"
@@ -10,25 +12,26 @@
 
 #include "commands/measure/abstract_measure_command.h"
 
-class GalilStatusUpdate_Interface
+class RigolMeasurementUpdates_Interface
 {
 public:
-    virtual void cbi_GalilStatusRequest() = 0;
+    virtual void cbi_RigolMeasurementRequests(const rigol::commands::AbstractRigolCommandPtr request) = 0;
 };
 
 
 class RigolPollMeasurement : public Thread
 {
 public:
-    RigolPollMeasurement(const int &msTimeout = 50);
+    RigolPollMeasurement(const int &msTimeout = 100);
 
     ~RigolPollMeasurement() {
         std::cout << "Destructor on the galil timeout state machine" << std::endl;
         mToExit = true;
     }
 public:
-    void addPollingMeasurement(const rigol::commands::AbstractMeasureCommand* command);
+    void addPollingMeasurement(const rigol::commands::AbstractMeasureCommandPtr command);
 
+    void removePollingMeasurement(const std::string &key);
 public:
 
     void beginPolling();
@@ -37,7 +40,7 @@ public:
 
     void run();
 
-    void connectCallback(GalilStatusUpdate_Interface *cb)
+    void connectCallback(RigolMeasurementUpdates_Interface *cb)
     {
         m_CB = cb;
     }
@@ -47,7 +50,9 @@ private:
     int timeout;
 
 private:
-    GalilStatusUpdate_Interface *m_CB;
+    RigolMeasurementUpdates_Interface *m_CB;
+
+    std::map<std::string, rigol::commands::AbstractMeasureCommandPtr> currentRequests;
 
 protected:
     std::list<std::function<void()>> m_LambdasToRun;

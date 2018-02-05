@@ -15,12 +15,12 @@ AcquireCommand_Average::AcquireCommand_Average(const AcquireCommand_Average &cop
 
 }
 
-AbstractAcquireCommand* AcquireCommand_Average::getClone() const
+AbstractRigolCommand* AcquireCommand_Average::getClone() const
 {
     return (new AcquireCommand_Average(*this));
 }
 
-void AcquireCommand_Average::getClone(AbstractAcquireCommand** state) const
+void AcquireCommand_Average::getClone(AbstractRigolCommand** state) const
 {
     *state = new AcquireCommand_Average(*this);
 }

@@ -31,17 +31,18 @@ public:
     AcquireCommand_Average(const AcquireCommand_Average &copy);
 
 public:
+
     /**
      * @brief getClone
      * @return
      */
-    AbstractAcquireCommand* getClone() const override;
+    AbstractRigolCommand* getClone() const override;
 
     /**
      * @brief getClone
      * @param state
      */
-    void getClone(AbstractAcquireCommand** state) const override;
+    void getClone(AbstractRigolCommand** state) const override;
 
 public:
     //!

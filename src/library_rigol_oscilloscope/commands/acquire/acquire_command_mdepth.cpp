@@ -15,12 +15,12 @@ AcquireCommand_Mdepth::AcquireCommand_Mdepth(const AcquireCommand_Mdepth &copy):
 
 }
 
-AbstractAcquireCommand* AcquireCommand_Mdepth::getClone() const
+AbstractRigolCommand* AcquireCommand_Mdepth::getClone() const
 {
     return (new AcquireCommand_Mdepth(*this));
 }
 
-void AcquireCommand_Mdepth::getClone(AbstractAcquireCommand** state) const
+void AcquireCommand_Mdepth::getClone(AbstractRigolCommand** state) const
 {
     *state = new AcquireCommand_Mdepth(*this);
 }

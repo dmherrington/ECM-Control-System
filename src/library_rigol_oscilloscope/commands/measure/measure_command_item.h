@@ -40,13 +40,13 @@ public:
      * @brief getClone
      * @return
      */
-    AbstractMeasureCommand* getClone() const override;
+    AbstractRigolCommand* getClone() const override;
 
     /**
      * @brief getClone
      * @param state
      */
-    void getClone(AbstractMeasureCommand** state) const override;
+    void getClone(AbstractRigolCommand** state) const override;
 
 public:
     void setChannel(const data::AvailableChannels &measureChannel);
@@ -65,7 +65,16 @@ public:
         rtn+= getSuffixCommand();
         rtn+= data::MeasurementTypeToString(this->measureType);
         rtn+= ",";
-        rtn+=data::AvailableChannels::
+        rtn+=data::AvailableChannelsToString(this->channel);
+        return rtn;
+    }
+
+    std::string getCommandKey() const override
+    {
+        std::string rtn;
+        rtn+= data::MeasurementTypeToString(this->measureType);
+        rtn+= "_";
+        rtn+=data::AvailableChannelsToString(this->channel);
         return rtn;
     }
 

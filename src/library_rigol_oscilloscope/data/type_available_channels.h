@@ -19,11 +19,11 @@ inline std::string AvailableChannelsToString(const AvailableChannels &channel) {
     switch (channel) {
     case AvailableChannels::CHANNEL_1:
         return "CHANnel1";
-    case AvailableChannels::CHANNEL_1:
+    case AvailableChannels::CHANNEL_2:
         return "CHANnel2";
-    case AvailableChannels::CHANNEL_1:
+    case AvailableChannels::CHANNEL_3:
         return "CHANnel3";
-    case AvailableChannels::CHANNEL_1:
+    case AvailableChannels::CHANNEL_4:
         return "CHANnel4";
     default:
         throw std::runtime_error("Unknown channel seen");

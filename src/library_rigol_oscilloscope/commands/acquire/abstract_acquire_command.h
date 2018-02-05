@@ -67,18 +67,6 @@ public:
         return static_cast<T *>(this);
     }
 
-    /**
-     * @brief getClone
-     * @return
-     */
-    virtual AbstractAcquireCommand* getClone() const = 0;
-
-    /**
-     * @brief getClone
-     * @param state
-     */
-    virtual void getClone(AbstractAcquireCommand** state) const = 0;
-
 public:
     virtual data::AcquireType getAcquisitionType() const
     {

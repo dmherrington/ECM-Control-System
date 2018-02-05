@@ -15,12 +15,12 @@ AcquireCommand_Srate::AcquireCommand_Srate(const AcquireCommand_Srate &copy):
 
 }
 
-AbstractAcquireCommand* AcquireCommand_Srate::getClone() const
+AbstractRigolCommand* AcquireCommand_Srate::getClone() const
 {
     return (new AcquireCommand_Srate(*this));
 }
 
-void AcquireCommand_Srate::getClone(AbstractAcquireCommand** state) const
+void AcquireCommand_Srate::getClone(AbstractRigolCommand** state) const
 {
     *state = new AcquireCommand_Srate(*this);
 }

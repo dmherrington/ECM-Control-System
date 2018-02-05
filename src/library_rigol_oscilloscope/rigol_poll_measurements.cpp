@@ -21,9 +21,18 @@ void RigolPollMeasurement::pausePolling()
     });
 }
 
-void RigolPollMeasurement::addPollingMeasurement(const rigol::commands::AbstractMeasureCommand *command)
+void RigolPollMeasurement::addPollingMeasurement(const rigol::commands::AbstractMeasureCommandPtr command)
 {
+    m_LambdasToRun.push_back([this,command]{
+        this->currentRequests[command->getCommandKey()] = command;
+    });
+}
 
+void RigolPollMeasurement::removePollingMeasurement(const std::string &key)
+{
+    m_LambdasToRun.push_back([this,key]{
+        this->currentRequests.erase(key);
+    });
 }
 
 void RigolPollMeasurement::run()
@@ -46,13 +55,15 @@ void RigolPollMeasurement::run()
 
         if(timeElapsed > timeout)
         {
-            //this means we should request the state of all the standard IO/Errors/Pos of the galil unit
-            //these functions will update the actual stored information of the galil unit in the state
-            //interface class contained at the callback location
-
+            //this means we should request measurements from the rigol that are in our queue
             if(m_CB)
             {
-
+                std::map<std::string, rigol::commands::AbstractMeasureCommandPtr>::iterator it;
+                for (it = currentRequests.begin(); it != currentRequests.end(); it++)
+                {
+                    m_CB->cbi_RigolMeasurementRequests(it->second);
+                    //std::cout << it->first << ' ' << it->second << '\n';
+                }
             }
             m_Timeout.reset();
         }

@@ -92,6 +92,11 @@ public:
         return "";
     }
 
+    virtual std::string getCommandKey() const
+    {
+        return "";
+    }
+
 public:
     //!
     //! \brief operator =

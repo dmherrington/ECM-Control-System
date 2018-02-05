@@ -35,13 +35,13 @@ public:
      * @brief getClone
      * @return
      */
-    AbstractAcquireCommand* getClone() const override;
+    AbstractRigolCommand* getClone() const override;
 
     /**
      * @brief getClone
      * @param state
      */
-    void getClone(AbstractAcquireCommand** state) const override;
+    void getClone(AbstractRigolCommand** state) const override;
 
 public:
     //!
@@ -72,7 +72,7 @@ public:
     //! \param rhs
     //! \return
     //!
-    bool operator != (const AcquireCommand_Average &rhs) {
+    bool operator != (const AcquireCommand_Type &rhs) {
         return !(*this == rhs);
     }
 

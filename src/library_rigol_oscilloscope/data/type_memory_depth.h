@@ -96,12 +96,12 @@ inline std::string DepthDualChannelToString(const DepthDualChannel &depth) {
 inline std::vector<std::string> getListOfDualChannelDepth()
 {
     std::vector<std::string> str;
-    str.push_back(DepthSingleChannelToString(DepthDualChannel::DEPTH_AUTO));
-    str.push_back(DepthSingleChannelToString(DepthDualChannel::DEPTH_6000));
-    str.push_back(DepthSingleChannelToString(DepthDualChannel::DEPTH_60000));
-    str.push_back(DepthSingleChannelToString(DepthDualChannel::DEPTH_600000));
-    str.push_back(DepthSingleChannelToString(DepthDualChannel::DEPTH_6000000));
-    str.push_back(DepthSingleChannelToString(DepthDualChannel::DEPTH_12000000));
+    str.push_back(DepthDualChannelToString(DepthDualChannel::DEPTH_AUTO));
+    str.push_back(DepthDualChannelToString(DepthDualChannel::DEPTH_6000));
+    str.push_back(DepthDualChannelToString(DepthDualChannel::DEPTH_60000));
+    str.push_back(DepthDualChannelToString(DepthDualChannel::DEPTH_600000));
+    str.push_back(DepthDualChannelToString(DepthDualChannel::DEPTH_6000000));
+    str.push_back(DepthDualChannelToString(DepthDualChannel::DEPTH_12000000));
     return str;
 }
 

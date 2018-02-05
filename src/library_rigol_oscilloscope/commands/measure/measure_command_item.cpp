@@ -4,15 +4,16 @@ namespace rigol {
 namespace commands{
 
 MeasureCommand_Item::MeasureCommand_Item():
-    AbstractMeasureCommand(data::MeasurementType::MEASURE_ITEM)
+    AbstractMeasureCommand(data::MeasurementCommands::MEASURE_ITEM)
 {
 
 }
 
 MeasureCommand_Item::MeasureCommand_Item(const data::AvailableChannels &channel, const data::MeasurementTypes &type):
-    AbstractMeasureCommand(data::MeasurementType::MEASURE_ITEM)
+    AbstractMeasureCommand(data::MeasurementCommands::MEASURE_ITEM)
 {
-
+    this->channel = channel;
+    this->measureType = type;
 }
 
 MeasureCommand_Item::MeasureCommand_Item(const MeasureCommand_Item &copy):
@@ -21,12 +22,12 @@ MeasureCommand_Item::MeasureCommand_Item(const MeasureCommand_Item &copy):
 
 }
 
-AbstractMeasureCommand* AbstractMeasureCommand::getClone() const
+AbstractRigolCommand* MeasureCommand_Item::getClone() const
 {
     return (new MeasureCommand_Item(*this));
 }
 
-void MeasureCommand_Item::getClone(AbstractMeasureCommand** state) const
+void MeasureCommand_Item::getClone(AbstractRigolCommand** state) const
 {
     *state = new MeasureCommand_Item(*this);
 }
