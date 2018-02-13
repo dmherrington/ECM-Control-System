@@ -60,6 +60,6 @@ private:
 };
 
 } //end of namespace comms
-} //end of namespace munk
+} //end of namespace rigol
 
 #endif // LINK_CONFIGURATION_H

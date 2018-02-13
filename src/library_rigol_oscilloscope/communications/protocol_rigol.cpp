@@ -23,7 +23,7 @@ void RigolProtocol::ReceiveData(ILink *link, const std::vector<uint8_t> &buffer)
 {
     UNUSED(link);
     std::cout<<"I have received some data that looks like this."<<std::endl;
-    for(int i = 0; i < buffer.size(); i++)
+    for(size_t i = 0; i < buffer.size(); i++)
     {
         std::cout<<buffer.at(i);
     }
@@ -34,4 +34,4 @@ void RigolProtocol::ReceiveData(ILink *link, const std::vector<uint8_t> &buffer)
 
 
 } //end of namespace comms
-} //end of namespace munk
+} //end of namespace rigol

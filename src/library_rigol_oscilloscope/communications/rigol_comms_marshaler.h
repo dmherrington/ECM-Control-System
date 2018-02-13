@@ -71,6 +71,6 @@ private:
 };
 
 } //end of namespace comms
-} //end of namespace munk
+} //end of namespace rigol
 
 #endif // RIGOL_COMMS_MARSHALER_H

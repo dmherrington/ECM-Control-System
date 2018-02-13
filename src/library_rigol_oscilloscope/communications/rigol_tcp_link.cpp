@@ -103,6 +103,7 @@ bool RigolTCPLink::Disconnect(void)
         delete m_socket;
         m_socket = NULL;
     }
+    return true;
 }
 
 

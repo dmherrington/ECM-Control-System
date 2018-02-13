@@ -1,5 +1,5 @@
-#ifndef PROTOCOL_MUNK_H
-#define PROTOCOL_MUNK_H
+#ifndef PROTOCOL_RIGOL_H
+#define PROTOCOL_RIGOL_H
 
 #include <memory>
 #include <vector>
@@ -53,6 +53,6 @@ private:
 
 
 } //end of namespace comms
-} //end of namespace munk
+} //end of namespace rigol
 
-#endif // PROTOCOL_MUNK_H
+#endif // PROTOCOL_RIGOL_H

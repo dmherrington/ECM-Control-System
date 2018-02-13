@@ -24,7 +24,7 @@ RigolCommsMarshaler::~RigolCommsMarshaler()
     link->Disconnect();
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////
-/// Connect/Disconnect from Munk Methods
+/// Connect/Disconnect from Rigol Methods
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 //!
@@ -94,4 +94,4 @@ void RigolCommsMarshaler::CommunicationUpdate(const std::string &name, const std
 
 
 } //end of namespace comms
-} //end of namespace munk
+} //end of namespace rigol
