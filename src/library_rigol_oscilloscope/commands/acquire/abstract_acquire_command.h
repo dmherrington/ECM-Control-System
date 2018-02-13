@@ -110,6 +110,12 @@ public:
         return !(*this == rhs);
     }
 
+protected:
+
+    std::string getAcquireCommandString()
+    {
+        return data::AcquireTypeToString(acquireType);
+    }
 
 protected:
     data::AcquireType acquireType;

@@ -4,6 +4,9 @@
 #include <string>
 #include <vector>
 
+namespace rigol {
+namespace data{
+
 enum class DepthSingleChannel
 {
     DEPTH_AUTO,
@@ -155,5 +158,8 @@ inline std::vector<std::string> getListOfQuadratureChannelDepth()
     str.push_back(DepthQuadratureChannelToString(DepthQuadratureChannel::DEPTH_6000000));
     return str;
 }
+
+} //end of namespace data
+} //end of namespace rigol
 
 #endif // TYPE_MEMORY_DEPTH_H

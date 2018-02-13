@@ -33,11 +33,16 @@ public:
 
 public:
 
-    void setSingleChannelDepth(const DepthSingleChannel &depth);
+    void setSingleChannelDepth(const data::DepthSingleChannel &depth);
 
-    void setDualChannelDepth(const DepthDualChannel &depth);
+    void setDualChannelDepth(const data::DepthDualChannel &depth);
 
-    void setQuadratureChannelDepth(const DepthQuadratureChannel &depth);
+    void setQuadratureChannelDepth(const data::DepthQuadratureChannel &depth);
+
+    std::string getChannelDepth() const;
+
+public:
+    std::string getCommandKey() const override;
 
 public:
     /**

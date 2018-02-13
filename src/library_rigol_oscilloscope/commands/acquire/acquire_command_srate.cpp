@@ -12,7 +12,7 @@ AcquireCommand_Srate::AcquireCommand_Srate():
 AcquireCommand_Srate::AcquireCommand_Srate(const AcquireCommand_Srate &copy):
     AbstractAcquireCommand(copy)
 {
-
+    this->sampleRate = copy.sampleRate;
 }
 
 AbstractRigolCommand* AcquireCommand_Srate::getClone() const
@@ -23,6 +23,14 @@ AbstractRigolCommand* AcquireCommand_Srate::getClone() const
 void AcquireCommand_Srate::getClone(AbstractRigolCommand** state) const
 {
     *state = new AcquireCommand_Srate(*this);
+}
+
+std::string AcquireCommand_Srate::getCommandKey() const
+{
+    std::string str = "";
+    str+=data::AcquireTypeToString(this->getAcquisitionType());
+    str+=getSuffixCommand();
+    return str;
 }
 
 } //end of namespace commands

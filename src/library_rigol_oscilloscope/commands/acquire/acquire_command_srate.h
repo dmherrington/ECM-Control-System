@@ -31,6 +31,17 @@ public:
     AcquireCommand_Srate(const AcquireCommand_Srate &copy);
 
 public:
+
+    void setReadOrWrite(const data::ReadWriteType &type) override
+    {
+        //This type of
+        UNUSED(type);
+        this->RWType = data::ReadWriteType::READ;
+    }
+
+    std::string getCommandKey() const override;
+
+public:
     /**
      * @brief getClone
      * @return
@@ -76,7 +87,8 @@ public:
         return !(*this == rhs);
     }
 
-
+private:
+    std::string sampleRate = "";
 };
 
 } //end of namespace commands

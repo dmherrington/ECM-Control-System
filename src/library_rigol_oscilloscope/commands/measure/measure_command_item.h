@@ -63,9 +63,7 @@ public:
         std::string rtn = getPrefixCommand();
         rtn+= data::MeasurementCommandToString(this->measurementCommand);
         rtn+= getSuffixCommand();
-        rtn+= data::MeasurementTypeToString(this->measureType);
-        rtn+= ",";
-        rtn+=data::AvailableChannelsToString(this->channel);
+        rtn+=getCommandKey();
         return rtn;
     }
 
@@ -73,7 +71,7 @@ public:
     {
         std::string rtn;
         rtn+= data::MeasurementTypeToString(this->measureType);
-        rtn+= "_";
+        rtn+= ",";
         rtn+=data::AvailableChannelsToString(this->channel);
         return rtn;
     }

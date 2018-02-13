@@ -12,7 +12,7 @@ AcquireCommand_Mdepth::AcquireCommand_Mdepth():
 AcquireCommand_Mdepth::AcquireCommand_Mdepth(const AcquireCommand_Mdepth &copy):
     AbstractAcquireCommand(copy)
 {
-
+    this->memDepth = copy.memDepth;
 }
 
 AbstractRigolCommand* AcquireCommand_Mdepth::getClone() const
@@ -23,6 +23,40 @@ AbstractRigolCommand* AcquireCommand_Mdepth::getClone() const
 void AcquireCommand_Mdepth::getClone(AbstractRigolCommand** state) const
 {
     *state = new AcquireCommand_Mdepth(*this);
+}
+
+void AcquireCommand_Mdepth::setSingleChannelDepth(const data::DepthSingleChannel &depth)
+{
+    this->memDepth = data::DepthSingleChannelToString(depth);
+}
+
+void AcquireCommand_Mdepth::setDualChannelDepth(const data::DepthDualChannel &depth)
+{
+    this->memDepth = data::DepthDualChannelToString(depth);
+}
+
+void AcquireCommand_Mdepth::setQuadratureChannelDepth(const data::DepthQuadratureChannel &depth)
+{
+    this->memDepth = data::DepthQuadratureChannelToString(depth);
+}
+
+std::string AcquireCommand_Mdepth::getChannelDepth() const
+{
+    return this->memDepth;
+}
+
+std::string AcquireCommand_Mdepth::getCommandKey() const
+{
+    std::string str = "";
+    str+=data::AcquireTypeToString(this->getAcquisitionType());
+    if(this->isReadorWrite() == data::ReadWriteType::WRITE)
+    {
+        str+=" ";
+        str+=memDepth;
+    }
+    str+=getSuffixCommand();
+
+    return str;
 }
 
 } //end of namespace commands

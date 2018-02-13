@@ -1,7 +1,7 @@
 #include "rigol_poll_measurements.h"
 
 RigolPollMeasurement::RigolPollMeasurement(const int &msTimeout):
-    m_CB(nullptr), timeout(msTimeout)
+   timeout(msTimeout), m_CB(nullptr)
 {
 
 }
@@ -34,6 +34,7 @@ void RigolPollMeasurement::removePollingMeasurement(const std::string &key)
         this->currentRequests.erase(key);
     });
 }
+
 
 void RigolPollMeasurement::run()
 {

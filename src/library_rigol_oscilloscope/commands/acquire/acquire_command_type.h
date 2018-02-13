@@ -17,6 +17,7 @@
 \*/
 
 #include "abstract_acquire_command.h"
+#include "acquire_command_type_options.h"
 
 namespace rigol {
 namespace commands{
@@ -29,6 +30,15 @@ public:
     AcquireCommand_Type();
 
     AcquireCommand_Type(const AcquireCommand_Type &copy);
+
+public:
+
+    void setAcquisitionMode(const data::AcquireCommand_TypeMode &mode);
+
+    data::AcquireCommand_TypeMode getAcquisitionMode() const;
+
+public:
+    std::string getCommandKey() const override;
 
 public:
     /**
@@ -51,6 +61,7 @@ public:
     AcquireCommand_Type& operator = (const AcquireCommand_Type &rhs)
     {
         AbstractAcquireCommand::operator =(rhs);
+        this->option = rhs.option;
         return *this;
     }
 
@@ -62,6 +73,9 @@ public:
     bool operator == (const AcquireCommand_Type &rhs)
     {
         if(!AbstractAcquireCommand::operator ==(rhs)){
+            return false;
+        }
+        if(this->option != rhs.option){
             return false;
         }
         return true;
@@ -76,6 +90,8 @@ public:
         return !(*this == rhs);
     }
 
+private:
+    data::AcquireCommand_TypeMode option = data::AcquireCommand_TypeMode::AVERAGE;
 
 };
 

@@ -18,6 +18,7 @@
 
 #include <string>
 
+#include "common/common.h"
 #include "common/class_forward.h"
 #include "data/type_available_commands.h"
 #include "data/type_read_write.h"
@@ -89,13 +90,13 @@ public:
 
     virtual std::string getCommandString() const
     {
-        return "";
+        std::string str = "";
+        str+=getPrefixCommand();
+        str+=getCommandKey();
+        return str;
     }
 
-    virtual std::string getCommandKey() const
-    {
-        return "";
-    }
+    virtual std::string getCommandKey() const = 0;
 
 public:
     //!
@@ -146,9 +147,9 @@ protected:
     std::string getSuffixCommand() const
     {
         if(RWType == data::ReadWriteType::READ)
-            return "? ";
+            return "?";
         else
-            return " ";
+            return "";
     }
 
 protected:

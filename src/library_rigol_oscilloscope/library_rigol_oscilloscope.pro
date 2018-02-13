@@ -62,7 +62,8 @@ HEADERS += \
     data/type_available_measurements.h \
     data/type_measure_commands.h \
     data/type_memory_depth.h \
-    data/type_read_write.h
+    data/type_read_write.h \
+    commands/acquire/acquire_command_type_options.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

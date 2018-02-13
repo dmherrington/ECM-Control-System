@@ -16,6 +16,8 @@
 \*
 \*/
 
+#include <math.h>
+
 #include "abstract_acquire_command.h"
 
 namespace rigol {
@@ -29,6 +31,15 @@ public:
     AcquireCommand_Average();
 
     AcquireCommand_Average(const AcquireCommand_Average &copy);
+
+public:
+
+    void setSampleNumbers(const unsigned int &samples);
+
+    unsigned int getSampleNumber() const;
+
+public:
+    std::string getCommandKey() const override;
 
 public:
 
@@ -52,6 +63,7 @@ public:
     AcquireCommand_Average& operator = (const AcquireCommand_Average &rhs)
     {
         AbstractAcquireCommand::operator =(rhs);
+        this->queryNumber = rhs.queryNumber;
         return *this;
     }
 
@@ -65,6 +77,9 @@ public:
         if(!AbstractAcquireCommand::operator ==(rhs)){
             return false;
         }
+        if(this->queryNumber != rhs.queryNumber){
+            return false;
+        }
         return true;
     }
 
@@ -76,6 +91,9 @@ public:
     bool operator != (const AcquireCommand_Average &rhs) {
         return !(*this == rhs);
     }
+
+private:
+    unsigned int queryNumber = 8;
 
 };
 

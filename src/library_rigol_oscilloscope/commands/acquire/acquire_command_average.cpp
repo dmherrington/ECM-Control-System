@@ -12,7 +12,7 @@ AcquireCommand_Average::AcquireCommand_Average():
 AcquireCommand_Average::AcquireCommand_Average(const AcquireCommand_Average &copy):
     AbstractAcquireCommand(copy)
 {
-
+    this->queryNumber = copy.queryNumber;
 }
 
 AbstractRigolCommand* AcquireCommand_Average::getClone() const
@@ -23,6 +23,38 @@ AbstractRigolCommand* AcquireCommand_Average::getClone() const
 void AcquireCommand_Average::getClone(AbstractRigolCommand** state) const
 {
     *state = new AcquireCommand_Average(*this);
+}
+
+void AcquireCommand_Average::setSampleNumbers(const unsigned int &samples)
+{
+    /* The following checks that the sample number is a power of 2 before
+     * making the assignment. Additionally, this check ensures that the
+     * value is within the required range of the argument.
+     */
+
+    unsigned int powerOfTwo = 1;
+    while (powerOfTwo < samples && powerOfTwo < 1024)
+       powerOfTwo *= 2;
+
+    this->queryNumber = pow(2,powerOfTwo);
+}
+
+unsigned int AcquireCommand_Average::getSampleNumber() const
+{
+    return this->queryNumber;
+}
+
+std::string AcquireCommand_Average::getCommandKey() const
+{
+    std::string str = "";
+    str+= data::AcquireTypeToString(this->getAcquisitionType());
+    if(this->isReadorWrite() == data::ReadWriteType::WRITE)
+    {
+        str+=" ";
+        str+=std::to_string(this->queryNumber);
+    }
+    str+=getSuffixCommand();
+    return str;
 }
 
 } //end of namespace commands
