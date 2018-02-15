@@ -88,13 +88,7 @@ public:
         return RWType;
     }
 
-    virtual std::string getCommandString() const
-    {
-        std::string str = "";
-        str+=getPrefixCommand();
-        str+=getCommandKey();
-        return str;
-    }
+    virtual std::string getCommandString() const = 0;
 
     virtual std::string getCommandKey() const = 0;
 

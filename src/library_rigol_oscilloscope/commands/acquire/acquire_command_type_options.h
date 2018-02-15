@@ -10,7 +10,7 @@ namespace data{
 
 enum class AcquireCommand_TypeMode
 {
-    NORAML,
+    NORMAL,
     AVERAGE,
     PEAK,
     HRE
@@ -23,7 +23,7 @@ enum class AcquireCommand_TypeMode
 //!
 inline std::string AcquireTypeModeToString(const AcquireCommand_TypeMode &type) {
     switch (type) {
-    case AcquireCommand_TypeMode::NORAML:
+    case AcquireCommand_TypeMode::NORMAL:
         return "NORMal";
     case AcquireCommand_TypeMode::AVERAGE:
         return "AVERages";
@@ -43,7 +43,7 @@ inline std::string AcquireTypeModeToString(const AcquireCommand_TypeMode &type) 
 //!
 inline AcquireCommand_TypeMode AcquireTypeModeFromString(const std::string &str) {
     if(str == "NORMal")
-        return AcquireCommand_TypeMode::NORAML;
+        return AcquireCommand_TypeMode::NORMAL;
     if(str == "AVERages")
         return AcquireCommand_TypeMode::AVERAGE;
     if(str == "PEAK")
@@ -60,7 +60,7 @@ inline AcquireCommand_TypeMode AcquireTypeModeFromString(const std::string &str)
 inline std::vector<std::string> getListOfAcquireModeTypes()
 {
     std::vector<std::string> str;
-    str.push_back(AcquireTypeModeToString(AcquireCommand_TypeMode::NORAML));
+    str.push_back(AcquireTypeModeToString(AcquireCommand_TypeMode::NORMAL));
     str.push_back(AcquireTypeModeToString(AcquireCommand_TypeMode::AVERAGE));
     str.push_back(AcquireTypeModeToString(AcquireCommand_TypeMode::PEAK));
     str.push_back(AcquireTypeModeToString(AcquireCommand_TypeMode::HRE));

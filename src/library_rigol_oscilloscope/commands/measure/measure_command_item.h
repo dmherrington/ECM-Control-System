@@ -16,6 +16,8 @@
 \*
 \*/
 
+#include <QJsonObject>
+
 #include "abstract_measure_command.h"
 
 #include "data/type_available_channels.h"
@@ -34,6 +36,10 @@ public:
     MeasureCommand_Item(const data::AvailableChannels &channel, const data::MeasurementTypes &type);
 
     MeasureCommand_Item(const MeasureCommand_Item &copy);
+
+    void read(const QJsonObject &json);
+
+    void write(QJsonObject &json) const;
 
 public:
     /**
@@ -63,16 +69,18 @@ public:
         std::string rtn = getPrefixCommand();
         rtn+= data::MeasurementCommandToString(this->measurementCommand);
         rtn+= getSuffixCommand();
-        rtn+=getCommandKey();
+        rtn+= data::MeasurementTypeEnumToString(this->measureType);
+        rtn+= ",";
+        rtn+=data::AvailableChannelsToString(this->channel);
         return rtn;
     }
 
     std::string getCommandKey() const override
     {
         std::string rtn;
-        rtn+= data::MeasurementTypeToString(this->measureType);
-        rtn+= ",";
         rtn+=data::AvailableChannelsToString(this->channel);
+        rtn+= "_";
+        rtn+= data::MeasurementTypeEnumToString(this->measureType);
         return rtn;
     }
 
@@ -110,8 +118,8 @@ public:
     }
 
 private:
-    data::MeasurementTypes measureType;
     data::AvailableChannels channel = data::AvailableChannels::CHANNEL_1;
+    data::MeasurementTypes measureType = data::MeasurementTypes::MEASURE_VRMS;
 
 };
 

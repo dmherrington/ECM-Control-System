@@ -34,7 +34,7 @@ void AcquireCommand_Average::setSampleNumbers(const unsigned int &samples)
 
     unsigned int powerOfTwo = 1;
     while (powerOfTwo < samples && powerOfTwo < 1024)
-       powerOfTwo *= 2;
+        powerOfTwo *= 2;
 
     this->queryNumber = pow(2,powerOfTwo);
 }
@@ -44,16 +44,10 @@ unsigned int AcquireCommand_Average::getSampleNumber() const
     return this->queryNumber;
 }
 
-std::string AcquireCommand_Average::getCommandKey() const
+std::string AcquireCommand_Average::getAcquireCommandString() const
 {
     std::string str = "";
-    str+= data::AcquireTypeToString(this->getAcquisitionType());
-    if(this->isReadorWrite() == data::ReadWriteType::WRITE)
-    {
-        str+=" ";
-        str+=std::to_string(this->queryNumber);
-    }
-    str+=getSuffixCommand();
+    str+=std::to_string(this->queryNumber);
     return str;
 }
 

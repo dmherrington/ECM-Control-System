@@ -13,7 +13,7 @@
 #include "i_link_events.h"
 #include "comms_events.h"
 
-
+#include "commands/measure/measure_command_item.h"
 
 namespace rigol {
 namespace comms{
@@ -37,6 +37,9 @@ public:
     bool ConnectToLink(const TCPConfiguration &linkConfig);
     bool DisconnetFromLink();
 
+
+    void sendSetMeasurementCommand(const commands::MeasureCommand_Item &command);
+    void sendMeasurementRequest(const commands::MeasureCommand_Item &command);
 
     ///////////////////////////////////////////////////////////////////
     /// Methods issuing something to rigol

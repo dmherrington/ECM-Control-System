@@ -9,4 +9,5 @@ SUBDIRS += \
     library_galilMotionController \
     window_GMC_variable_editor \
     Testing \
-    library_rigol_oscilloscope
+    library_rigol_oscilloscope \
+    window_rigol_oscilliscope

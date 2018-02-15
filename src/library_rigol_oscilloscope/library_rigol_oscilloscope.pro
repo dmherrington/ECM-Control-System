@@ -33,7 +33,9 @@ SOURCES += \
     commands/acquire/acquire_command_mdepth.cpp \
     commands/acquire/acquire_command_type.cpp \
     commands/acquire/acquire_command_srate.cpp \
-    commands/measure/measure_command_item.cpp
+    commands/measure/measure_command_item.cpp \
+    rigol_oscilliscope.cpp \
+    commands/measure/rigol_measurement_queue.cpp
 
 HEADERS += \
         library_rigol_oscilloscope_global.h \ 
@@ -63,7 +65,9 @@ HEADERS += \
     data/type_measure_commands.h \
     data/type_memory_depth.h \
     data/type_read_write.h \
-    commands/acquire/acquire_command_type_options.h
+    commands/acquire/acquire_command_type_options.h \
+    rigol_oscilliscope.h \
+    commands/measure/rigol_measurement_queue.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

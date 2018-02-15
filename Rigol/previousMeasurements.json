@@ -1,0 +1,24 @@
+{
+    "Measurements At Channel": [
+        {
+            "channel": "CHANNEL 1",
+            "measurement": "VMAX",
+            "r_w": "Read"
+        },
+        {
+            "channel": "CHANNEL 2",
+            "measurement": "VMAX",
+            "r_w": "Read"
+        },
+        {
+            "channel": "CHANNEL 3",
+            "measurement": "VMAX",
+            "r_w": "Read"
+        },
+        {
+            "channel": "CHANNEL 4",
+            "measurement": "VMAX",
+            "r_w": "Read"
+        }
+    ]
+}

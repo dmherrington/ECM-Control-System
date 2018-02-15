@@ -35,16 +35,10 @@ data::AcquireCommand_TypeMode AcquireCommand_Type::getAcquisitionMode() const
     return this->option;
 }
 
-std::string AcquireCommand_Type::getCommandKey() const
+std::string AcquireCommand_Type::getAcquireCommandString() const
 {
     std::string str = "";
-    str+=data::AcquireTypeToString(this->getAcquisitionType());
-    if(this->isReadorWrite() == data::ReadWriteType::WRITE)
-    {
-        str+=" ";
-        str+=data::AcquireTypeModeToString(this->option);
-    }
-    str+=getSuffixCommand();
+    str+=data::AcquireTypeModeToString(this->option);
     return str;
 }
 

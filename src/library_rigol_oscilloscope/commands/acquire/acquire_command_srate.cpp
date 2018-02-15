@@ -25,11 +25,9 @@ void AcquireCommand_Srate::getClone(AbstractRigolCommand** state) const
     *state = new AcquireCommand_Srate(*this);
 }
 
-std::string AcquireCommand_Srate::getCommandKey() const
+std::string AcquireCommand_Srate::getAcquireCommandString() const
 {
     std::string str = "";
-    str+=data::AcquireTypeToString(this->getAcquisitionType());
-    str+=getSuffixCommand();
     return str;
 }
 

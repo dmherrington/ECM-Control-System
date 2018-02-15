@@ -39,7 +39,8 @@ public:
         this->RWType = data::ReadWriteType::READ;
     }
 
-    std::string getCommandKey() const override;
+protected:
+    std::string getAcquireCommandString() const override;
 
 public:
     /**

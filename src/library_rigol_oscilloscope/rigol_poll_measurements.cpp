@@ -21,18 +21,29 @@ void RigolPollMeasurement::pausePolling()
     });
 }
 
-void RigolPollMeasurement::addPollingMeasurement(const rigol::commands::AbstractMeasureCommandPtr command)
+void RigolPollMeasurement::addPollingMeasurement(const rigol::commands::MeasureCommand_Item &command)
 {
-    m_LambdasToRun.push_back([this,command]{
-        this->currentRequests[command->getCommandKey()] = command;
-    });
+    if(isThreadActive())
+        m_LambdasToRun.push_back([this,command]{
+            this->measurementQueue.insertIntoQueue(command);
+        });
+    else
+        this->measurementQueue.insertIntoQueue(command);
 }
 
 void RigolPollMeasurement::removePollingMeasurement(const std::string &key)
 {
-    m_LambdasToRun.push_back([this,key]{
-        this->currentRequests.erase(key);
-    });
+    if(isThreadActive())
+        m_LambdasToRun.push_back([this,key]{
+            this->measurementQueue.removeFromQueue(key);
+        });
+    else
+        this->measurementQueue.removeFromQueue(key);
+}
+
+rigol::commands::RigolMeasurementQueue RigolPollMeasurement::getCurrentPollingMeasurements() const
+{
+    return this->measurementQueue;
 }
 
 
@@ -59,11 +70,10 @@ void RigolPollMeasurement::run()
             //this means we should request measurements from the rigol that are in our queue
             if(m_CB)
             {
-                std::map<std::string, rigol::commands::AbstractMeasureCommandPtr>::iterator it;
-                for (it = currentRequests.begin(); it != currentRequests.end(); it++)
+                std::vector<rigol::commands::MeasureCommand_Item> vec = this->measurementQueue.getMeasurementItems();
+                for (unsigned int i = 0; i < vec.size(); i++)
                 {
-                    m_CB->cbi_RigolMeasurementRequests(it->second);
-                    //std::cout << it->first << ' ' << it->second << '\n';
+                    m_CB->cbi_RigolMeasurementRequests(vec.at(i));
                 }
             }
             m_Timeout.reset();

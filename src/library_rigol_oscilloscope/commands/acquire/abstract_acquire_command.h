@@ -67,6 +67,25 @@ public:
         return static_cast<T *>(this);
     }
 
+    std::string getCommandString() const override
+    {
+        std::string str = "";
+        str+=getPrefixCommand();
+        str+= data::AcquireTypeToString(this->getAcquisitionType());
+        if(this->isReadorWrite() == data::ReadWriteType::WRITE)
+        {
+            str+=this->getAcquireCommandString();
+        }
+        str+=getSuffixCommand();
+        return str;
+    }
+
+    std::string getCommandKey() const override
+    {
+        return "";
+    }
+
+
 public:
     virtual data::AcquireType getAcquisitionType() const
     {
@@ -111,11 +130,7 @@ public:
     }
 
 protected:
-
-    std::string getAcquireCommandString()
-    {
-        return data::AcquireTypeToString(acquireType);
-    }
+    virtual std::string getAcquireCommandString() const = 0;
 
 protected:
     data::AcquireType acquireType;

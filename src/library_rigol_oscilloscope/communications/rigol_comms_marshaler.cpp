@@ -49,6 +49,28 @@ bool RigolCommsMarshaler::DisconnetFromLink()
     return link->isConnected();
 }
 
+void RigolCommsMarshaler::sendSetMeasurementCommand(const rigol::commands::MeasureCommand_Item &command)
+{
+    std::cout<<"Lets send a measure command item"<<std::endl;
+
+//    auto func = [this, command]() {
+//            protocol->send(link.get(), command);
+//    };
+
+//    link->MarshalOnThread(func);
+}
+
+void RigolCommsMarshaler::sendMeasurementRequest(const rigol::commands::MeasureCommand_Item &command)
+{
+    std::cout<<"Lets send a measure request item"<<std::endl;
+
+//    auto func = [this, command]() {
+//            protocol->send(link.get(), command);
+//    };
+
+//    link->MarshalOnThread(func);
+}
+
 void RigolCommsMarshaler::EmitByteArray(const QByteArray &data)
 {
     auto func = [this, data]() {

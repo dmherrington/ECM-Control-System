@@ -37,8 +37,8 @@ public:
 
     data::AcquireCommand_TypeMode getAcquisitionMode() const;
 
-public:
-    std::string getCommandKey() const override;
+protected:
+    std::string getAcquireCommandString() const override;
 
 public:
     /**

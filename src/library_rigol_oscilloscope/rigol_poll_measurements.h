@@ -10,12 +10,13 @@
 #include "common/threadmanager.h"
 #include "common/timer.h"
 
-#include "commands/measure/abstract_measure_command.h"
+#include "commands/measure/measure_command_item.h"
+#include "commands/measure/rigol_measurement_queue.h"
 
 class RigolMeasurementUpdates_Interface
 {
 public:
-    virtual void cbi_RigolMeasurementRequests(const rigol::commands::AbstractRigolCommandPtr request) = 0;
+    virtual void cbi_RigolMeasurementRequests(const rigol::commands::MeasureCommand_Item &request) = 0;
 };
 
 
@@ -29,11 +30,13 @@ public:
         mToExit = true;
     }
 public:
-    void addPollingMeasurement(const rigol::commands::AbstractMeasureCommandPtr command);
+    void addPollingMeasurement(const rigol::commands::MeasureCommand_Item &command);
 
     void removePollingMeasurement(const std::string &key);
-public:
 
+    rigol::commands::RigolMeasurementQueue getCurrentPollingMeasurements() const;
+
+public:
     void beginPolling();
 
     void pausePolling();
@@ -52,7 +55,7 @@ private:
 private:
     RigolMeasurementUpdates_Interface *m_CB;
 
-    std::map<std::string, rigol::commands::AbstractMeasureCommandPtr> currentRequests;
+    rigol::commands::RigolMeasurementQueue measurementQueue;
 
 protected:
     std::list<std::function<void()>> m_LambdasToRun;

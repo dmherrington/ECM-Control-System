@@ -19,7 +19,22 @@ MeasureCommand_Item::MeasureCommand_Item(const data::AvailableChannels &channel,
 MeasureCommand_Item::MeasureCommand_Item(const MeasureCommand_Item &copy):
     AbstractMeasureCommand(copy)
 {
+    this->channel = copy.channel;
+    this->measureType = copy.measureType;
+}
 
+void MeasureCommand_Item::read(const QJsonObject &json)
+{
+    setChannel(data::AvailableChannelsDisplayToEnum((json["channel"].toString().toStdString())));
+    setMeasurementType(data::AvailableMeasurementTypeStringToEnum(json["measurement"].toString().toStdString()));
+    setReadOrWrite(data::ReadWriteTypeFromString(json["r_w"].toString().toStdString()));
+}
+
+void MeasureCommand_Item::write(QJsonObject &json) const
+{
+    json["channel"] = QString::fromStdString(data::AvailableChannelsToDisplayString(this->channel));
+    json["measurement"] = QString::fromStdString(data::MeasurementTypeEnumToString(this->measureType));
+    json["r_w"] = QString::fromStdString(data::ReadWriteTypeToString(this->isReadorWrite()));
 }
 
 AbstractRigolCommand* MeasureCommand_Item::getClone() const

@@ -45,17 +45,10 @@ std::string AcquireCommand_Mdepth::getChannelDepth() const
     return this->memDepth;
 }
 
-std::string AcquireCommand_Mdepth::getCommandKey() const
+std::string AcquireCommand_Mdepth::getAcquireCommandString() const
 {
     std::string str = "";
-    str+=data::AcquireTypeToString(this->getAcquisitionType());
-    if(this->isReadorWrite() == data::ReadWriteType::WRITE)
-    {
-        str+=" ";
-        str+=memDepth;
-    }
-    str+=getSuffixCommand();
-
+    str+=memDepth;
     return str;
 }
 
