@@ -80,6 +80,8 @@ void *RigolOscilliscope::qt_metacast(const char *_clname)
         return static_cast<void*>(const_cast< RigolOscilliscope*>(this));
     if (!strcmp(_clname, "RigolMeasurementUpdates_Interface"))
         return static_cast< RigolMeasurementUpdates_Interface*>(const_cast< RigolOscilliscope*>(this));
+    if (!strcmp(_clname, "comms::CommsEvents"))
+        return static_cast< comms::CommsEvents*>(const_cast< RigolOscilliscope*>(this));
     return QObject::qt_metacast(_clname);
 }
 

@@ -37,6 +37,11 @@ void MeasureCommand_Item::write(QJsonObject &json) const
     json["r_w"] = QString::fromStdString(data::ReadWriteTypeToString(this->isReadorWrite()));
 }
 
+AbstractRigolStatus* MeasureCommand_Item::getExpectedResponse() const
+{
+    return new RigolMeasurementStatus(this->channel,this->measureType);
+}
+
 AbstractRigolCommand* MeasureCommand_Item::getClone() const
 {
     return (new MeasureCommand_Item(*this));

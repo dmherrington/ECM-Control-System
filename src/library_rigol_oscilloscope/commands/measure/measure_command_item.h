@@ -23,6 +23,8 @@
 #include "data/type_available_channels.h"
 #include "data/type_available_measurements.h"
 
+#include "rigol_measurement_status.h"
+
 namespace rigol {
 namespace commands{
 
@@ -40,6 +42,9 @@ public:
     void read(const QJsonObject &json);
 
     void write(QJsonObject &json) const;
+
+public:
+    AbstractRigolStatus* getExpectedResponse() const override;
 
 public:
     /**
@@ -72,6 +77,7 @@ public:
         rtn+= data::MeasurementTypeEnumToString(this->measureType);
         rtn+= ",";
         rtn+=data::AvailableChannelsToString(this->channel);
+        rtn+="\n";
         return rtn;
     }
 
@@ -92,6 +98,8 @@ public:
     MeasureCommand_Item& operator = (const MeasureCommand_Item &rhs)
     {
         AbstractMeasureCommand::operator =(rhs);
+        this->channel = rhs.channel;
+        this->measureType = rhs.measureType;
         return *this;
     }
 
@@ -103,6 +111,12 @@ public:
     bool operator == (const MeasureCommand_Item &rhs)
     {
         if(!AbstractMeasureCommand::operator ==(rhs)){
+            return false;
+        }
+        if(this->channel != rhs.channel){
+            return false;
+        }
+        if(this->measureType != rhs.measureType){
             return false;
         }
         return true;

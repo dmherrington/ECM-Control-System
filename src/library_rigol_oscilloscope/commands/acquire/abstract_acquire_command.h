@@ -77,6 +77,7 @@ public:
             str+=this->getAcquireCommandString();
         }
         str+=getSuffixCommand();
+        str+="\n";
         return str;
     }
 

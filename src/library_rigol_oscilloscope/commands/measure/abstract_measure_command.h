@@ -68,6 +68,9 @@ public:
     }
 
 public:
+    virtual AbstractRigolStatus* getExpectedResponse() const = 0;
+
+public:
     virtual data::MeasurementCommands getMeasurementCommand() const
     {
         return measurementCommand;

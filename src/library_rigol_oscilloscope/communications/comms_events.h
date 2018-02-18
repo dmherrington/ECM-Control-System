@@ -37,16 +37,11 @@ public:
         UNUSED(msg);
     }
 
-
-
-    /////////////////////////////////////////////////////////
-    /// Rigol Protocol Events
-    /////////////////////////////////////////////////////////
-
-    virtual void FaultCodeRegister1Received(const std::string &msg)
+    virtual void NewMeasurementUpdate()
     {
-        UNUSED(msg);
+
     }
+
 
 };
 

@@ -13,6 +13,22 @@ void RigolProtocol::AddListner(const IProtocolRigolEvents* listener)
     m_Listners.push_back(listener);
 }
 
+void RigolProtocol::sendSetMeasurementCommand(const ILink *link, const commands::MeasureCommand_Item &command)
+{
+    std::string commandString = command.getCommandString();
+    QByteArray byteArray(commandString.c_str(), commandString.length());
+    link->WriteBytes(byteArray);
+}
+
+void RigolProtocol::sendMeasurementRequest(const ILink *link, const commands::MeasureCommand_Item &command)
+{
+    std::string commandString = command.getCommandString();
+    QByteArray byteArray(commandString.c_str(), commandString.length());
+    commands::AbstractRigolStatus* response = command.getExpectedResponse(); //this also establishes the time of request
+    this->responseQueue.push_back(response);
+    link->WriteBytes(byteArray);
+}
+
 //!
 //! \brief Read data incoming from some link
 //!

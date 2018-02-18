@@ -23,6 +23,8 @@
 #include "data/type_available_commands.h"
 #include "data/type_read_write.h"
 
+#include "abstract_rigol_status.h"
+
 namespace rigol {
 namespace commands{
 

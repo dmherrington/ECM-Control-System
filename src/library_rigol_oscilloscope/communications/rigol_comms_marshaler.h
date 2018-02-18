@@ -39,6 +39,7 @@ public:
 
 
     void sendSetMeasurementCommand(const commands::MeasureCommand_Item &command);
+
     void sendMeasurementRequest(const commands::MeasureCommand_Item &command);
 
     ///////////////////////////////////////////////////////////////////
@@ -63,8 +64,9 @@ private:
     void CommunicationUpdate(const std::string &name, const std::string &msg) const override;
 
     //////////////////////////////////////////////////////////////
-    /// IProtocolRigolEvents
+    /// Virtual methods imposed from IProtocolRigolEvents
     //////////////////////////////////////////////////////////////
+
 
 
 private:

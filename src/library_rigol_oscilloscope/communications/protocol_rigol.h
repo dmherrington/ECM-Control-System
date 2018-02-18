@@ -6,6 +6,8 @@
 #include <functional>
 #include <math.h>
 #include <unordered_map>
+#include <list>
+
 #include "iostream"
 
 #include "i_link.h"
@@ -13,6 +15,8 @@
 #include "i_protocol.h"
 
 #include "common/common.h"
+
+#include "commands/measure/measure_command_item.h"
 
 namespace rigol {
 namespace comms{
@@ -30,6 +34,9 @@ public:
     /// Method issuing a measurement request to the rigol
     //////////////////////////////////////////////////////////////
 
+    void sendSetMeasurementCommand(const ILink *link, const commands::MeasureCommand_Item &command);
+
+    void sendMeasurementRequest(const ILink *link, const commands::MeasureCommand_Item &command);
 public:
 
     //!
@@ -51,6 +58,10 @@ private:
 
 private:
     std::vector<const IProtocolRigolEvents*> m_Listners;
+
+private:
+    std::list<commands::AbstractRigolStatus*> responseQueue;
+
 
 };
 

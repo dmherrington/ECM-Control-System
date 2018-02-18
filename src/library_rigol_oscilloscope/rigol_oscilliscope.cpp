@@ -45,6 +45,19 @@ void RigolOscilliscope::cbi_RigolMeasurementRequests(const commands::MeasureComm
     commsMarshaler->sendMeasurementRequest(request);
 }
 
+//////////////////////////////////////////////////////////////
+/// Virtual methods allowed from comms::CommsEvents
+//////////////////////////////////////////////////////////////
+void RigolOscilliscope::ConnectionOpened() const
+{
+    //In this case we need to initialize the oscilliscope to the desired settings
+
+}
+void RigolOscilliscope::ConnectionClosed() const
+{
+
+}
+
 void RigolOscilliscope::saveMeasurements()
 {
     QFile saveFile(measurementPath);

@@ -52,23 +52,22 @@ bool RigolCommsMarshaler::DisconnetFromLink()
 void RigolCommsMarshaler::sendSetMeasurementCommand(const rigol::commands::MeasureCommand_Item &command)
 {
     std::cout<<"Lets send a measure command item"<<std::endl;
+    auto func = [this, command]() {
+            protocol->sendSetMeasurementCommand(link.get(), command);
+    };
 
-//    auto func = [this, command]() {
-//            protocol->send(link.get(), command);
-//    };
-
-//    link->MarshalOnThread(func);
+    link->MarshalOnThread(func);
 }
 
 void RigolCommsMarshaler::sendMeasurementRequest(const rigol::commands::MeasureCommand_Item &command)
 {
     std::cout<<"Lets send a measure request item"<<std::endl;
 
-//    auto func = [this, command]() {
-//            protocol->send(link.get(), command);
-//    };
+    auto func = [this, command]() {
+            protocol->sendMeasurementRequest(link.get(), command);
+    };
 
-//    link->MarshalOnThread(func);
+    link->MarshalOnThread(func);
 }
 
 void RigolCommsMarshaler::EmitByteArray(const QByteArray &data)

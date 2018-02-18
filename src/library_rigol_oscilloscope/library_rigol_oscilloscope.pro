@@ -35,7 +35,9 @@ SOURCES += \
     commands/acquire/acquire_command_srate.cpp \
     commands/measure/measure_command_item.cpp \
     rigol_oscilliscope.cpp \
-    commands/measure/rigol_measurement_queue.cpp
+    commands/measure/rigol_measurement_queue.cpp \
+    commands/abstract_rigol_status.cpp \
+    commands/measure/rigol_measurement_status.cpp
 
 HEADERS += \
         library_rigol_oscilloscope_global.h \ 
@@ -67,7 +69,9 @@ HEADERS += \
     data/type_read_write.h \
     commands/acquire/acquire_command_type_options.h \
     rigol_oscilliscope.h \
-    commands/measure/rigol_measurement_queue.h
+    commands/measure/rigol_measurement_queue.h \
+    commands/abstract_rigol_status.h \
+    commands/measure/rigol_measurement_status.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib
