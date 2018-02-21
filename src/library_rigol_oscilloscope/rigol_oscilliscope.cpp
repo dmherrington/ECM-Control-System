@@ -3,7 +3,10 @@
 RigolOscilliscope::RigolOscilliscope(QObject *parent) : QObject(parent)
 {
     pollStatus = new RigolPollMeasurement();
+    pollStatus->connectCallback(this);
     commsMarshaler = new comms::RigolCommsMarshaler();
+    rigol::comms::TCPConfiguration newConfig;
+    commsMarshaler->ConnectToLink(newConfig);
 
     //Setting up the proper directory paths for all of the stuff
     char* ECMPath = getenv("ECM_ROOT");
@@ -51,7 +54,6 @@ void RigolOscilliscope::cbi_RigolMeasurementRequests(const commands::MeasureComm
 void RigolOscilliscope::ConnectionOpened() const
 {
     //In this case we need to initialize the oscilliscope to the desired settings
-
 }
 void RigolOscilliscope::ConnectionClosed() const
 {

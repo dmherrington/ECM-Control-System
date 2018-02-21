@@ -145,7 +145,7 @@ protected:
         if(RWType == data::ReadWriteType::READ)
             return "?";
         else
-            return "";
+            return " ";
     }
 
 protected:
