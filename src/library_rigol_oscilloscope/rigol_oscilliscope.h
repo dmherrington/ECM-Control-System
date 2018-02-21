@@ -3,6 +3,8 @@
 #include <QDir>
 #include <QObject>
 
+#include <iostream>
+
 #include "library_rigol_oscilloscope_global.h"
 
 #include "communications/rigol_comms_marshaler.h"
@@ -18,6 +20,10 @@ class LIBRARY_RIGOL_OSCILLOSCOPESHARED_EXPORT RigolOscilliscope : public QObject
 
 public:
     explicit RigolOscilliscope(QObject *parent = nullptr);
+
+public:
+    void openConnection(const std::string &ipAddress, const std::string &port);
+    void closeConnection();
 
     void addPollingMeasurement(const commands::MeasureCommand_Item &command);
     void removePollingMeasurement(const std::string &key);

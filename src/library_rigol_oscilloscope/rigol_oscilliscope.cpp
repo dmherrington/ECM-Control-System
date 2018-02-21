@@ -5,8 +5,6 @@ RigolOscilliscope::RigolOscilliscope(QObject *parent) : QObject(parent)
     pollStatus = new RigolPollMeasurement();
     pollStatus->connectCallback(this);
     commsMarshaler = new comms::RigolCommsMarshaler();
-    rigol::comms::TCPConfiguration newConfig;
-    commsMarshaler->ConnectToLink(newConfig);
 
     //Setting up the proper directory paths for all of the stuff
     char* ECMPath = getenv("ECM_ROOT");
@@ -17,6 +15,19 @@ RigolOscilliscope::RigolOscilliscope(QObject *parent) : QObject(parent)
         measurementPath = measurmentDirectory.absolutePath() + "/previousMeasurements.json";
     }
 
+}
+
+void RigolOscilliscope::openConnection(const std::string &ipAddress, const std::string &port)
+{
+    rigol::comms::TCPConfiguration newConfig;
+    newConfig.setListenAddress(ipAddress);
+    newConfig.setListenPortNumber(port);
+    commsMarshaler->ConnectToLink(newConfig);
+}
+
+void RigolOscilliscope::closeConnection()
+{
+    commsMarshaler->DisconnetFromLink();
 }
 
 void RigolOscilliscope::addPollingMeasurement(const rigol::commands::MeasureCommand_Item &command)
@@ -53,10 +64,12 @@ void RigolOscilliscope::cbi_RigolMeasurementRequests(const commands::MeasureComm
 //////////////////////////////////////////////////////////////
 void RigolOscilliscope::ConnectionOpened() const
 {
+    std::cout<<"A connection has been opened to the rigol."<<std::endl;
     //In this case we need to initialize the oscilliscope to the desired settings
 }
 void RigolOscilliscope::ConnectionClosed() const
 {
+    std::cout<<"A connection has been closed to the rigol."<<std::endl;
 
 }
 
