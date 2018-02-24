@@ -1,6 +1,7 @@
 #ifndef TUPLE_GENERIC_H
 #define TUPLE_GENERIC_H
 
+#include <typeinfo>
 #include <string>
 
 using namespace std;

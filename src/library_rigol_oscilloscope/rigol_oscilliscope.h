@@ -7,6 +7,8 @@
 
 #include "library_rigol_oscilloscope_global.h"
 
+#include "commands/acquire/acquire_components.h"
+
 #include "communications/rigol_comms_marshaler.h"
 
 #include "rigol_poll_measurements.h"
@@ -20,6 +22,8 @@ class LIBRARY_RIGOL_OSCILLOSCOPESHARED_EXPORT RigolOscilliscope : public QObject
 
 public:
     explicit RigolOscilliscope(QObject *parent = nullptr);
+
+    ~RigolOscilliscope();
 
 public:
     void openConnection(const std::string &ipAddress, const int &port);
@@ -44,6 +48,10 @@ public:
 
     void saveMeasurements();
 
+private:
+    void initializeRigol() const;
+
+
 signals:
 
 public slots:
@@ -51,7 +59,7 @@ public slots:
 private:
     comms::RigolCommsMarshaler* commsMarshaler;
     RigolPollMeasurement* pollStatus;
-    QString measurementPath;
+    QString previousSettingsPath;
 
 
 };

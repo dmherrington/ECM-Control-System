@@ -73,7 +73,8 @@ HEADERS += \
     commands/measure/rigol_measurement_queue.h \
     commands/abstract_rigol_status.h \
     commands/measure/rigol_measurement_status.h \
-    rigol_environment_time.h
+    rigol_environment_time.h \
+    commands/acquire/acquire_components.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

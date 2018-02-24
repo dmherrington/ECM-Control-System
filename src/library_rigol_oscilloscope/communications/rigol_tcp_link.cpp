@@ -129,7 +129,6 @@ bool RigolTCPLink::_hardwareConnect(QAbstractSocket::SocketError &error, QString
 
     for (int openRetries = 0; openRetries < 4; openRetries++) {
         if (!m_socket->open(QIODevice::ReadWrite)) {
-            //std::cout << "Port open failed, retrying" << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
         } else {
             break;
@@ -137,7 +136,6 @@ bool RigolTCPLink::_hardwareConnect(QAbstractSocket::SocketError &error, QString
     }
 
     if (!m_socket->isOpen() ) {
-        //std::cerr << "open failed" << m_port->errorString().toStdString() << m_port->error() << getName() << _config.isAutoConnect() << std::endl;
         error = m_socket->error();
         errorString = m_socket->errorString();
         EmitEvent([&](const ILinkEvents *ptr){ptr->CommunicationUpdate(_config.listenAddress(), "Error opening port: " + errorString.toStdString());});
@@ -175,30 +173,30 @@ void RigolTCPLink::WriteBytes(const QByteArray &data) const
     }
 }
 
-void RigolTCPLink::WriteBytesRequest(const QByteArray &data) const
+std::vector<uint8_t> RigolTCPLink::WriteBytesRequest(const QByteArray &data) const
 {
+    std::vector<uint8_t> buffer;
+
     if(m_socket && m_socket->isOpen()) {
         m_socket->write(data);
         if (m_socket->waitForBytesWritten()) {
             // read response
             if (m_socket->waitForReadyRead()) {
-                this->processPendingDatagrams();
+                buffer = this->ProcessResponse();
             }
         }
     } else {
         // Error occured
         _emitLinkError("Could not send data - link " + getSenderAddress() + ":" + std::to_string(getSenderPortNumber()) + " is disconnected!");
     }
+    return buffer;
 }
 
-std::vector<uint8_t> RigolTCPLink::ProcessResponse(const commands::MeasureCommand_Item &command) const
+std::vector<uint8_t> RigolTCPLink::ProcessResponse() const
 {
     std::vector<uint8_t> vec_buffer;
 
     if(m_socket && m_socket->isOpen()) {
-
-        //        if(m_socket->waitForBytesWritten())
-        //        {
         if(m_socket->bytesAvailable())
         {
             qint64 byteCount = m_socket->bytesAvailable();
@@ -208,7 +206,6 @@ std::vector<uint8_t> RigolTCPLink::ProcessResponse(const commands::MeasureComman
                 m_socket->read(buffer.data(), buffer.size());
                 vec_buffer = std::vector<uint8_t>(buffer.begin(), buffer.end());
             }
-            //}
         } else {
             // Error occured
             _emitLinkError("Could not send data - link " + getSenderAddress() + ":" + std::to_string(getSenderPortNumber()) + " is disconnected!");
@@ -257,27 +254,25 @@ int RigolTCPLink::getListenPortNumber() const
 
 std::string RigolTCPLink::getSenderAddress() const
 {
-    // TODO-PAT: Handle when senderAddress has not been set, as this is an optional parameter
     return _config.senderAddress();
 }
 
 int RigolTCPLink::getSenderPortNumber() const
 {
-    // TODO-PAT: Handle when senderPortNumber has not been set, as this is an optional parameter
     return _config.senderPortNumber();
 }
 
-void RigolTCPLink::processPendingDatagrams(void) const
-{
-    qint64 byteCount = m_socket->bytesAvailable();
-    if (byteCount) {
-        QByteArray buffer;
-        buffer.resize(byteCount);
-        m_socket->read(buffer.data(), buffer.size());
-        std::vector<uint8_t> vec_buffer = std::vector<uint8_t>(buffer.begin(), buffer.end());
-        EmitEvent([this,&vec_buffer](const ILinkEvents *ptr){ptr->ReceiveData(vec_buffer);});
-    }
-}
+//void RigolTCPLink::processPendingDatagrams(void) const
+//{
+//    qint64 byteCount = m_socket->bytesAvailable();
+//    if (byteCount) {
+//        QByteArray buffer;
+//        buffer.resize(byteCount);
+//        m_socket->read(buffer.data(), buffer.size());
+//        std::vector<uint8_t> vec_buffer = std::vector<uint8_t>(buffer.begin(), buffer.end());
+//        EmitEvent([this,&vec_buffer](const ILinkEvents *ptr){ptr->ReceiveData(vec_buffer);});
+//    }
+//}
 
 void RigolTCPLink::linkError(QTcpSocket::SocketError error)
 {
@@ -288,17 +283,6 @@ void RigolTCPLink::linkError(QTcpSocket::SocketError error)
         break;
     default:
         break;
-    }
-}
-
-void RigolTCPLink::PortEventLoop()
-{
-    if(m_socket->bytesAvailable())
-        this->processPendingDatagrams();
-
-    if(m_socket->errorString() != "")
-    {
-        linkError(m_socket->error());
     }
 }
 

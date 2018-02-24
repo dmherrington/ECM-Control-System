@@ -13,9 +13,13 @@ RigolOscilliscope::RigolOscilliscope(QObject *parent) : QObject(parent)
         std::string rootPath(ECMPath);
         QDir measurmentDirectory(QString::fromStdString(rootPath + "/Rigol"));
         measurmentDirectory.mkpath(QString::fromStdString(rootPath + "/Rigol"));
-        measurementPath = measurmentDirectory.absolutePath() + "/previousMeasurements.json";
+        previousSettingsPath = measurmentDirectory.absolutePath() + "/previousMeasurements.json";
     }
+}
 
+RigolOscilliscope::~RigolOscilliscope()
+{
+    this->saveMeasurements();
 }
 
 void RigolOscilliscope::openConnection(const std::string &ipAddress, const int &port)
@@ -74,12 +78,35 @@ void RigolOscilliscope::cbi_RigolMeasurementRequests(const commands::MeasureComm
 void RigolOscilliscope::ConnectionOpened() const
 {
     std::cout<<"A connection has been opened to the rigol."<<std::endl;
-    //In this case we need to initialize the oscilliscope to the desired settings
+    this->initializeRigol();
 }
+
 void RigolOscilliscope::ConnectionClosed() const
 {
     std::cout<<"A connection has been closed to the rigol."<<std::endl;
+}
 
+void RigolOscilliscope::initializeRigol() const
+{
+    //In this case we need to initialize the oscilliscope to the desired settings
+    commands::AcquireCommand_TypePtr acquisitionType = std::make_shared<commands::AcquireCommand_Type>();
+    acquisitionType->setAcquisitionMode(data::AcquireCommand_TypeMode::AVERAGE);
+    commsMarshaler->sendAbstractAcquireCommand(acquisitionType);
+
+    commands::AcquireCommand_AveragePtr acquisitionAve = std::make_shared<commands::AcquireCommand_Average>();
+    acquisitionAve->setSampleNumbers(8);
+    commsMarshaler->sendAbstractAcquireCommand(acquisitionAve);
+
+    /*
+     * There is a note in the trello card for two commands that seem to uncessary or not supported.
+     * ACQ:MODE:RTIM  Labview is apparently sending this to set the acquisition mode to real time
+     * vs equivalent time, but I cannot find this as a command in the manual
+     *
+     * The following command seems to be uncessary as we are never explicitly downloading the entire
+     * waveform from the oscilloscope
+     * :WAVeform:FORMat BYTE - setting the format to bytes currently, not necessary and up to you
+     * on which data type you want to handle
+     */
 }
 
 void RigolOscilliscope::NewDataReceived(const std::vector<uint8_t> &buffer) const
@@ -101,7 +128,7 @@ void RigolOscilliscope::NewMeaurementReceived(const rigol::commands::RigolMeasur
 
 void RigolOscilliscope::saveMeasurements()
 {
-    QFile saveFile(measurementPath);
+    QFile saveFile(previousSettingsPath);
 
     if (!saveFile.open(QIODevice::WriteOnly)) {
         qWarning("Couldn't open save file.");

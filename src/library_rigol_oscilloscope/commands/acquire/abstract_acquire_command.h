@@ -33,7 +33,7 @@ class AbstractAcquireCommand : public AbstractRigolCommand
 {
 public:
     AbstractAcquireCommand(const data::AcquireType &acquire, const data::ReadWriteType &rw = data::ReadWriteType::WRITE):
-        AbstractRigolCommand(data::CommandTypes::COMMAND_MEASURE,rw)
+        AbstractRigolCommand(data::CommandTypes::COMMAND_ACQUIRE,rw)
     {
         this->acquireType = acquire;
     }
@@ -72,11 +72,8 @@ public:
         std::string str = "";
         str+=getPrefixCommand();
         str+= data::AcquireTypeToString(this->getAcquisitionType());
-        if(this->isReadorWrite() == data::ReadWriteType::WRITE)
-        {
-            str+=this->getAcquireCommandString();
-        }
         str+=getSuffixCommand();
+        str+=this->getAcquireCommandString();
         str+="\n";
         return str;
     }

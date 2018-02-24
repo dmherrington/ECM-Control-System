@@ -36,7 +36,7 @@ void AcquireCommand_Average::setSampleNumbers(const unsigned int &samples)
     while (powerOfTwo < samples && powerOfTwo < 1024)
         powerOfTwo *= 2;
 
-    this->queryNumber = pow(2,powerOfTwo);
+    this->queryNumber = powerOfTwo;
 }
 
 unsigned int AcquireCommand_Average::getSampleNumber() const

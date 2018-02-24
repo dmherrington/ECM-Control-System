@@ -11,7 +11,7 @@ TupleMeasurement::TupleMeasurement()
 //!
 TupleMeasurement::TupleMeasurement(const TupleMeasurement &copy)
 {
-    this->measurementName = that.measurementName;
+    this->measurementName = copy.measurementName;
 }
 
 

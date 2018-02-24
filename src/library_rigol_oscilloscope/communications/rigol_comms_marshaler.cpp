@@ -49,6 +49,16 @@ bool RigolCommsMarshaler::DisconnetFromLink()
     return link->isConnected();
 }
 
+void RigolCommsMarshaler::sendAbstractAcquireCommand(const commands::AbstractAcquireCommandPtr command)
+{
+    auto func = [this, command]() {
+        protocol->sendSetAcquisitionCommand(link.get(), command);
+    };
+
+    link->MarshalOnThread(func);
+}
+
+
 void RigolCommsMarshaler::sendSetMeasurementCommand(const rigol::commands::MeasureCommand_Item &command)
 {
     auto func = [this, command]() {

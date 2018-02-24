@@ -32,8 +32,7 @@ public:
     virtual void RequestReset();
 
     void WriteBytes(const QByteArray &data) const override;
-    void WriteBytesRequest(const QByteArray &data) const override;
-    std::vector<uint8_t> ProcessResponse(const commands::MeasureCommand_Item &command) const override;
+    std::vector<uint8_t> WriteBytesRequest(const QByteArray &data) const override;
 
     void _emitLinkError(const std::string& errorMsg) const;
 
@@ -94,9 +93,8 @@ private:
     bool _hardwareConnect(QAbstractSocket::SocketError& error, QString& errorString);
 
 private:
-    void processPendingDatagrams(void) const;
+    std::vector<uint8_t> ProcessResponse() const;
     void linkError(QTcpSocket::SocketError error);
-    void PortEventLoop();
 
 private:
     QTcpSocket* m_socket;

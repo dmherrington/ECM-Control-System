@@ -16,6 +16,8 @@
 
 #include "common/common.h"
 
+#include "commands/acquire/acquire_components.h"
+
 #include "commands/measure/measure_command_item.h"
 #include "commands/measure/rigol_measurement_status.h"
 
@@ -34,6 +36,8 @@ public:
     //////////////////////////////////////////////////////////////
     /// Method issuing a measurement request to the rigol
     //////////////////////////////////////////////////////////////
+
+    void sendSetAcquisitionCommand(const ILink *link, const commands::AbstractAcquireCommandPtr command);
 
     void sendSetMeasurementCommand(const ILink *link, const commands::MeasureCommand_Item &command);
 

@@ -13,6 +13,8 @@
 #include "i_link_events.h"
 #include "comms_events.h"
 
+#include "commands/acquire/acquire_components.h"
+
 #include "commands/measure/measure_command_item.h"
 
 namespace rigol {
@@ -38,9 +40,12 @@ public:
     bool DisconnetFromLink();
 
 
+    void sendAbstractAcquireCommand(const commands::AbstractAcquireCommandPtr command);
+
     void sendSetMeasurementCommand(const commands::MeasureCommand_Item &command);
 
     void sendMeasurementRequest(const commands::MeasureCommand_Item &command);
+
 
     ///////////////////////////////////////////////////////////////////
     /// Methods issuing something to rigol
