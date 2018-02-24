@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_channel_measurements.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.0
+** Created by: Qt User Interface Compiler version 5.9.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -82,6 +82,8 @@ public:
         listWidget_Measurements->setSizePolicy(sizePolicy);
         listWidget_Measurements->setMinimumSize(QSize(250, 0));
         listWidget_Measurements->setMaximumSize(QSize(250, 16777215));
+        listWidget_Measurements->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+        listWidget_Measurements->setSelectionMode(QAbstractItemView::ContiguousSelection);
         listWidget_Measurements->setResizeMode(QListView::Adjust);
 
         horizontalLayout_2->addWidget(listWidget_Measurements);
@@ -101,8 +103,8 @@ public:
 
     void retranslateUi(QWidget *WidgetChannelMeasurements)
     {
-        WidgetChannelMeasurements->setWindowTitle(QApplication::translate("WidgetChannelMeasurements", "Form", nullptr));
-        label_Channel->setText(QApplication::translate("WidgetChannelMeasurements", "Default Channel", nullptr));
+        WidgetChannelMeasurements->setWindowTitle(QApplication::translate("WidgetChannelMeasurements", "Form", Q_NULLPTR));
+        label_Channel->setText(QApplication::translate("WidgetChannelMeasurements", "Default Channel", Q_NULLPTR));
     } // retranslateUi
 
 };

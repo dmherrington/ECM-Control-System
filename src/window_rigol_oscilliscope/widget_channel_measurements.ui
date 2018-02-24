@@ -94,6 +94,12 @@
          <height>16777215</height>
         </size>
        </property>
+       <property name="sizeAdjustPolicy">
+        <enum>QAbstractScrollArea::AdjustToContents</enum>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::ContiguousSelection</enum>
+       </property>
        <property name="resizeMode">
         <enum>QListView::Adjust</enum>
        </property>

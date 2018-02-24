@@ -2,6 +2,9 @@
 #define WIDGET_CHANNEL_MEASUREMENTS_H
 
 #include <QWidget>
+#include <QMenu>
+#include <iostream>
+
 #include "library_rigol_oscilloscope/commands/measure/measure_command_item.h"
 
 namespace Ui {
@@ -19,6 +22,10 @@ public:
     void setMeasurementChannel(const rigol::data::AvailableChannels &channel);
     void addMeasurement(const rigol::commands::MeasureCommand_Item *measurement);
     void removeMeasurement(const std::string &key);
+
+private slots:
+    void showListContextMenu(const QPoint &pos);
+    void eraseItem();
 
 private:
     Ui::WidgetChannelMeasurements *ui;

@@ -34,30 +34,30 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_AddMeasurement_released()
 {
-    rigolInterface->openConnection("192.168.1.17",5555);
+//    rigolInterface->openConnection("192.168.1.17",5555);
 
-    rigol::commands::MeasureCommand_Item measureArea;
-    measureArea.setChannel(rigol::data::AvailableChannels::CHANNEL_1);
-    measureArea.setMeasurementType(rigol::data::MeasurementTypes::MEASURE_MAREA);
-    rigolInterface->addPollingMeasurement(measureArea);
+//    rigol::commands::MeasureCommand_Item measureArea;
+//    measureArea.setChannel(rigol::data::AvailableChannels::CHANNEL_1);
+//    measureArea.setMeasurementType(rigol::data::MeasurementTypes::MEASURE_MAREA);
+//    rigolInterface->addPollingMeasurement(measureArea);
 
-    rigol::commands::MeasureCommand_Item measureVtop;
-    measureVtop.setChannel(rigol::data::AvailableChannels::CHANNEL_2);
-    measureVtop.setMeasurementType(rigol::data::MeasurementTypes::MEASURE_VTOP);
-    rigolInterface->addPollingMeasurement(measureVtop);
+//    rigol::commands::MeasureCommand_Item measureVtop;
+//    measureVtop.setChannel(rigol::data::AvailableChannels::CHANNEL_2);
+//    measureVtop.setMeasurementType(rigol::data::MeasurementTypes::MEASURE_VTOP);
+//    rigolInterface->addPollingMeasurement(measureVtop);
 
-    rigolInterface->executeMeasurementPolling(true);
+//    rigolInterface->executeMeasurementPolling(true);
 
-//    std::string channel = this->ui->comboBox_MeasurementChannels->currentText().toStdString();
-//    AvailableChannels desiredChannel = AvailableChannelsDisplayToEnum(channel);
+    std::string channel = this->ui->comboBox_MeasurementChannels->currentText().toStdString();
+    AvailableChannels desiredChannel = AvailableChannelsDisplayToEnum(channel);
 
-//    std::string measurement = this->ui->comboBox_MeasurementType->currentText().toStdString();
-//    MeasurementTypes desiredMeasurement = AvailableMeasurementTypeStringToEnum(measurement);
+    std::string measurement = this->ui->comboBox_MeasurementType->currentText().toStdString();
+    MeasurementTypes desiredMeasurement = AvailableMeasurementTypeStringToEnum(measurement);
 
-//    rigol::commands::MeasureCommand_Item* newMeasurement = new rigol::commands::MeasureCommand_Item(desiredChannel,desiredMeasurement);
-//    rigolInterface->addPollingMeasurement(*newMeasurement);
+    rigol::commands::MeasureCommand_Item* newMeasurement = new rigol::commands::MeasureCommand_Item(desiredChannel,desiredMeasurement);
+    //rigolInterface->addPollingMeasurement(*newMeasurement);
 
-//    mapWidgets.at(desiredChannel)->addMeasurement(newMeasurement);
+    mapWidgets.at(desiredChannel)->addMeasurement(newMeasurement);
 //    queue.insertIntoQueue(*newMeasurement);
 //    if(queue.getQueueSize() > 3)
 //    {
