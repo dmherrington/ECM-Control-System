@@ -39,7 +39,8 @@ HEADERS += graphing.h\
     plot_handler.h \
     qcustomplot.h \
     time_plot.h \
-    plot_data.h
+    plot_data.h \
+    number_systems.h
 
 
 # Unix lib Install

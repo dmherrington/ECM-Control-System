@@ -11,6 +11,8 @@
 
 #include "qcustomplot.h"
 #include "time_plot.h"
+#include "plot_data.h"
+#include "number_systems.h"
 
 namespace graphing
 {

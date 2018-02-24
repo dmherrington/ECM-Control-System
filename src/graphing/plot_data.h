@@ -4,14 +4,7 @@
 #include <QVector>
 #include "graphing_global.h"
 
-#include "dimensional_expression.h"
-
-#include "vector.h"
-#include "quaternion.h"
-
 #include "number_systems.h"
-
-#include "expression_engine_global.h"
 
 namespace graphing
 {
@@ -65,7 +58,7 @@ public:
     //! \brief Copy constructor
     //! \param that Object to copy
     //!
-    PlotData(const CartesianData& that)
+    PlotData(const PlotData& that)
     {
         *(this) = that;
     }
@@ -171,7 +164,7 @@ public:
     //! \brief Set the unit of the domain of this container
     //! \param unit Unit
     //!
-    void setUnit(const DimensionalAnalysis::DimensionalExpression &unit)
+    void setUnit(const std::string &unit)
     {
         m_Unit = unit;
     }
@@ -181,7 +174,7 @@ public:
     //! \brief Get the unit of the domain of this container
     //! \return Unit
     //!
-    DimensionalAnalysis::DimensionalExpression getUnit() const
+    std::string getUnit() const
     {
         return m_Unit;
     }
@@ -215,7 +208,7 @@ private:
     double m_ConstValue;
 
     //! Unit of the domain
-    DimensionalAnalysis::DimensionalExpression m_Unit;
+    std::string m_Unit;
 
     //! True if the plot is of a constant value
     bool m_IsConstValue;

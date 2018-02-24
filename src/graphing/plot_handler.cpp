@@ -848,17 +848,19 @@ void PlotHandler::DoPlotRecalculate()
         m_PlotParameters[plotIndex].Redraw = false;
 
 
-        ExpressionEngine::CartesianData dr;
+        PlotData dr;
         if(m_PlotMode == PLOT_ENTIRE_SEQUENCE)
         {
-            dr = m_PlotParameters[plotIndex].operation.Evaluate(QDateTime(), m_OriginTime, msInTimeUnit);
+            //Ken Fix: This needs to determine how long the vector of data should be
+            //dr = m_PlotParameters[plotIndex].operation.Evaluate(QDateTime(), m_OriginTime, msInTimeUnit);
         }
         if(m_PlotMode == PlotHandler::PLOT_WINDOW_ONLY)
         {
-            dr = m_PlotParameters[plotIndex].operation.Evaluate(m_LeftWindow, m_OriginTime, msInTimeUnit);
+            //Ken Fix: This needs to determine how long the vector of data should be
+            //dr = m_PlotParameters[plotIndex].operation.Evaluate(m_LeftWindow, m_OriginTime, msInTimeUnit);
         }
 
-        for(int i = 0 ; i < ExpressionEngine::NumberSystems::NumElements(dr.NumberSystem()) ; i++)
+        for(int i = 0 ; i < NumberSystems::NumElements(dr.NumberSystem()) ; i++)
         {
 
             //add plot and set parameters
@@ -882,7 +884,8 @@ void PlotHandler::DoPlotRecalculate()
 
             QCPGraph *g = m_PlotParameters[plotIndex].g.at(i);
 
-            QString UnitName = QString::fromUtf8(dr.getUnit().ToShortHandString().c_str());
+            //Ken Fix Unit Name
+            QString UnitName;// = QString::fromUtf8(dr.getUnit().ToShortHandString().c_str());
             if(UnitName == "")
                 UnitName = "Unitless";
             g->setName(m_PlotParameters.at(plotIndex).DisplayName + " : " + UnitName);
