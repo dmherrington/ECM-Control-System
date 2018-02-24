@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       -= gui
+QT += core
 
 TARGET = common
 TEMPLATE = lib
@@ -23,7 +24,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += common.cpp \
-    environment_time.cpp
+    environment_time.cpp \
+    tuple_sensor.cpp \
+    tuple_measurement.cpp
 
 HEADERS += common.h\
         common_global.h \
@@ -31,7 +34,10 @@ HEADERS += common.h\
     timer.h \
     environment_time.h \
     class_forward.h \
-    data_get_set_notifier.h
+    data_get_set_notifier.h \
+    tuple_generic.h \
+    tuple_sensor.h \
+    tuple_measurement.h
 
 #Header file copy
 headers.path    = $$(ECM_ROOT)/include/common
@@ -49,3 +55,5 @@ lib.path    = $$(ECM_ROOT)/lib
 win32:CONFIG(release, debug|release):       lib.files   += release/common.lib release/common.dll
 else:win32:CONFIG(debug, debug|release):    lib.files   += debug/common.lib debug/common.dll
 INSTALLS += lib
+
+INCLUDEPATH += $$PWD/../

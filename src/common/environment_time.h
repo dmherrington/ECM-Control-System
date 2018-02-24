@@ -5,8 +5,7 @@
 #include <QDataStream>
 #include <QMetaType>
 
-namespace Data
-{
+#include "common_global.h"
 
 /*!
  * \brief Enumeration of time sources availabe
@@ -21,7 +20,7 @@ enum Devices
  *
  * This object will likely not appropriatly handle a DST event.
  */
-class EnvironmentTime
+class COMMONSHARED_EXPORT EnvironmentTime
 {
 public:
 
@@ -215,8 +214,6 @@ private:
 
 };
 
-} // Data namespace
-
-Q_DECLARE_METATYPE(Data::EnvironmentTime)
+Q_DECLARE_METATYPE(EnvironmentTime)
 
 #endif // TIME_H

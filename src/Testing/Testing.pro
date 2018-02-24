@@ -1,5 +1,6 @@
 QT -= gui
 QT += core serialport
+QT += network
 
 CONFIG += c++11 console
 CONFIG -= app_bundle
@@ -17,36 +18,42 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp \
     state2.cpp \
-    state1.cpp
+    state1.cpp \
+    clock_testing.cpp
 
 HEADERS += \
     hsm.h \
     state2.h \
-    state1.h
+    state1.h \
+    clock_testing.h
 
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
 
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_rigol_oscilloscope/release/ -llibrary_rigol_oscilloscope
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_rigol_oscilloscope/debug/ -llibrary_rigol_oscilloscope
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_rigol_oscilloscope/ -llibrary_rigol_oscilloscope
+
+INCLUDEPATH += $$PWD/../library_rigol_oscilloscope
+DEPENDPATH += $$PWD/../library_rigol_oscilloscope
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../library_rigol_oscilloscope/release/liblibrary_rigol_oscilloscope.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../library_rigol_oscilloscope/debug/liblibrary_rigol_oscilloscope.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../library_rigol_oscilloscope/release/library_rigol_oscilloscope.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../library_rigol_oscilloscope/debug/library_rigol_oscilloscope.lib
+else:unix:!macx: PRE_TARGETDEPS += $$OUT_PWD/../library_rigol_oscilloscope/liblibrary_rigol_oscilloscope.a
+
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
 else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
 
+INCLUDEPATH += $$PWD/../common
+DEPENDPATH += $$PWD/../common
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/release/ -llibrary_galilMotionController
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/debug/ -llibrary_galilMotionController
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_galilMotionController/ -llibrary_galilMotionController
-
-INCLUDEPATH += $$PWD/../library_galilMotionController
-DEPENDPATH += $$PWD/../library_galilMotionController
-
-
-unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
-unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo
-
-INCLUDEPATH += $$PWD/../../tools/galil/lib/dynamic/x86
-DEPENDPATH += $$PWD/../../tools/galil/lib/dynamic/x86
-
-win32: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
-else:unix: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
-
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../common/release/libcommon.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../common/debug/libcommon.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../common/release/common.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../common/debug/common.lib
+else:unix:!macx: PRE_TARGETDEPS += $$OUT_PWD/../common/libcommon.a

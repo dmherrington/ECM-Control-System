@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# Display each command line as it's executed
+set -x
+
+# Build API for Sensoray 24xx Ethernet I/O product family as a static library
+gcc -Wall -O2 -m32 -fPIC -c -D OSTYPE_LINUX -I ./ -o session.o session.c
+gcc -Wall -O2 -m32 -fPIC -c -D OSTYPE_LINUX -I ./ -o s24xx.o s24xx.c
+gcc -Wall -O2 -m32 -fPIC -c -D OSTYPE_LINUX -I ./ -o s2410.o s2410.c
+gcc -Wall -O2 -m32 -fPIC -c -D OSTYPE_LINUX -I ./ -o s2426.o s2426.c
+gcc -Wall -O2 -m32 -fPIC -c -D OSTYPE_LINUX -I ./ -o osd_implementation.o osd_implementation.c
+
+# Create the library, lib24xx.a
+#gcc session.o s24xx.o s2410.o s2426.o osd_implementation.o -shared -o lib24xx.so -Wl,-soname,lib24xx.so -lpthread
+ar  r lib24xx.a session.o s24xx.o s2410.o s2426.o osd_implementation.o 
+
+#gcc session.o s24xx.o s2410.o s2426.o osd_implementation.o -o lib24xx.a -Wl -lpthread
+
+# Compile the demo application program
+#gcc -Wall -c -D OSTYPE_LINUX -I ../linux -I ../common Demo2410_EventDriven.c -o demo.o
+
+#gcc -Wall -c -D OSTYPE_LINUX -I ../linux -I ../common Demo2410_EventDriven.c -o demo.o
+
+#gcc -Wall -c -D OSTYPE_LINUX -I ../linux -I ./ Demo2410_Simple.c -o demo.o
+
+# Create executable demo
+#gcc -o demo demo.o -L. -Wl,-rpath,'$ORIGIN' -l24xx
+
+#gcc -o demo demo.o -L. -Wl  -l24xx -pthread
+
