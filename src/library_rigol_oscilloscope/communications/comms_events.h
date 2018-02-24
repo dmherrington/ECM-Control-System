@@ -3,6 +3,7 @@
 
 #include <string>
 #include "common/common.h"
+#include "commands/measure/rigol_measurement_status.h"
 
 namespace rigol {
 namespace comms{
@@ -41,6 +42,17 @@ public:
     {
 
     }
+
+    virtual void NewDataReceived(const std::vector<uint8_t> &buffer) const
+    {
+        UNUSED(buffer);
+    }
+
+    virtual void NewMeaurementReceived(const rigol::commands::RigolMeasurementStatus &status) const
+    {
+        UNUSED(status);
+    }
+
 
 
 };

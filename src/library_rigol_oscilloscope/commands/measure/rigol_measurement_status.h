@@ -19,6 +19,10 @@ public:
 
 public:
     void setMeasurementValue(const double &measurement);
+    void setMeasurementString(const std::string &newString)
+    {
+        this->str = newString;
+    }
 
 public:
     data::AvailableChannels getChannel() const;
@@ -26,6 +30,11 @@ public:
     data::MeasurementTypes getMeasurementType() const;
 
     double getMeasurementValue() const;
+
+    std::string getMeasurementString() const
+    {
+        return this->str;
+    }
 
 public:
     //!
@@ -38,6 +47,7 @@ public:
         this->channel = rhs.channel;
         this->measureType = rhs.measureType;
         this->value = rhs.value;
+        this->str = rhs.str;
         return *this;
     }
 
@@ -60,6 +70,9 @@ public:
         if(this->value != rhs.value){
             return false;
         }
+        if(this->str != rhs.str){
+            return false;
+        }
         return true;
     }
 
@@ -76,6 +89,7 @@ private:
     data::AvailableChannels channel = data::AvailableChannels::CHANNEL_1;
     data::MeasurementTypes measureType = data::MeasurementTypes::MEASURE_VRMS;
     double value = 0.0;
+    std::string str = "";
 };
 
 } //end of namespace commands

@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 
+#include "commands/measure/rigol_measurement_status.h"
 namespace rigol {
 namespace comms{
 

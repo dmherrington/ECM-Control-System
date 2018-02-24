@@ -17,6 +17,7 @@
 #include "common/common.h"
 
 #include "commands/measure/measure_command_item.h"
+#include "commands/measure/rigol_measurement_status.h"
 
 namespace rigol {
 namespace comms{

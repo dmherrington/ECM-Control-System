@@ -1,0 +1,13 @@
+#!/bin/sh
+# Build Sensoray 2600 demo program
+
+./makelib
+
+# Compile demo program
+gcc -Wall -DOSTYPE_LINUX -c -I ../linux -I ../common Demo2410_Simple.c -o demo2410.o
+gcc -Wall -DOSTYPE_LINUX -c -I ../linux -I ../common Demo2426_Simple.c -o demo2426.o
+
+# Create demo program
+gcc -g -o demo2410 demo2410.o -L. -l24xx -pthread
+gcc -g -o demo2426 demo2426.o -L. -l24xx -pthread
+

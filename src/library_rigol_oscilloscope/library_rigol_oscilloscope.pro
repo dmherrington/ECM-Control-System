@@ -37,7 +37,8 @@ SOURCES += \
     rigol_oscilliscope.cpp \
     commands/measure/rigol_measurement_queue.cpp \
     commands/abstract_rigol_status.cpp \
-    commands/measure/rigol_measurement_status.cpp
+    commands/measure/rigol_measurement_status.cpp \
+    rigol_environment_time.cpp
 
 HEADERS += \
         library_rigol_oscilloscope_global.h \ 
@@ -71,7 +72,8 @@ HEADERS += \
     rigol_oscilliscope.h \
     commands/measure/rigol_measurement_queue.h \
     commands/abstract_rigol_status.h \
-    commands/measure/rigol_measurement_status.h
+    commands/measure/rigol_measurement_status.h \
+    rigol_environment_time.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib
@@ -87,7 +89,8 @@ INSTALLS += lib
 #Header file copy
 headers_commands.path    = $$(ECM_ROOT)/include/library_rigol_oscilloscope/commands
 headers_commands.files   += \
-    commands/abstract_rigol_command.h
+    commands/abstract_rigol_command.h \
+    commands/abstract_rigol_status.h
 INSTALLS       += headers_commands
 
 #Header file copy
@@ -134,9 +137,26 @@ headers_data.files   += \
     data/type_read_write.h
 INSTALLS       += headers_data
 
+#Header file copy
+headers_general.path    = $$(ECM_ROOT)/include/library_rigol_oscilloscope
+headers_general.files   += \
+        library_rigol_oscilloscope_global.h \
+        rigol_environment_time.h \
+        rigol_oscilliscope.h \
+        rigol_poll_measurements.h
+INSTALLS       += headers_general
+
 INCLUDEPATH += $$PWD/../
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
 else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
 
+INCLUDEPATH += $$PWD/../common
+DEPENDPATH += $$PWD/../common
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../common/release/libcommon.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../common/debug/libcommon.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../common/release/common.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../common/debug/common.lib
+else:unix:!macx: PRE_TARGETDEPS += $$OUT_PWD/../common/libcommon.a

@@ -156,7 +156,7 @@ bool RigolTCPLink::_hardwareConnect(QAbstractSocket::SocketError &error, QString
 
 
     m_ListenThread = new AppThread(10, [&](){
-        this->PortEventLoop();
+        //this->PortEventLoop();
     });
     m_socket->moveToThread(m_ListenThread);
     m_ListenThread->start();
@@ -175,6 +175,47 @@ void RigolTCPLink::WriteBytes(const QByteArray &data) const
     }
 }
 
+void RigolTCPLink::WriteBytesRequest(const QByteArray &data) const
+{
+    if(m_socket && m_socket->isOpen()) {
+        m_socket->write(data);
+        if (m_socket->waitForBytesWritten()) {
+            // read response
+            if (m_socket->waitForReadyRead()) {
+                this->processPendingDatagrams();
+            }
+        }
+    } else {
+        // Error occured
+        _emitLinkError("Could not send data - link " + getSenderAddress() + ":" + std::to_string(getSenderPortNumber()) + " is disconnected!");
+    }
+}
+
+std::vector<uint8_t> RigolTCPLink::ProcessResponse(const commands::MeasureCommand_Item &command) const
+{
+    std::vector<uint8_t> vec_buffer;
+
+    if(m_socket && m_socket->isOpen()) {
+
+        //        if(m_socket->waitForBytesWritten())
+        //        {
+        if(m_socket->bytesAvailable())
+        {
+            qint64 byteCount = m_socket->bytesAvailable();
+            if (byteCount) {
+                QByteArray buffer;
+                buffer.resize(byteCount);
+                m_socket->read(buffer.data(), buffer.size());
+                vec_buffer = std::vector<uint8_t>(buffer.begin(), buffer.end());
+            }
+            //}
+        } else {
+            // Error occured
+            _emitLinkError("Could not send data - link " + getSenderAddress() + ":" + std::to_string(getSenderPortNumber()) + " is disconnected!");
+        }
+    }
+    return vec_buffer;
+}
 
 
 //!
@@ -226,7 +267,7 @@ int RigolTCPLink::getSenderPortNumber() const
     return _config.senderPortNumber();
 }
 
-void RigolTCPLink::processPendingDatagrams(void)
+void RigolTCPLink::processPendingDatagrams(void) const
 {
     qint64 byteCount = m_socket->bytesAvailable();
     if (byteCount) {

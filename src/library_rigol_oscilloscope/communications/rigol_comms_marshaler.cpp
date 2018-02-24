@@ -51,7 +51,6 @@ bool RigolCommsMarshaler::DisconnetFromLink()
 
 void RigolCommsMarshaler::sendSetMeasurementCommand(const rigol::commands::MeasureCommand_Item &command)
 {
-    std::cout<<"Lets send a measure command item"<<std::endl;
     auto func = [this, command]() {
             protocol->sendSetMeasurementCommand(link.get(), command);
     };
@@ -61,8 +60,6 @@ void RigolCommsMarshaler::sendSetMeasurementCommand(const rigol::commands::Measu
 
 void RigolCommsMarshaler::sendMeasurementRequest(const rigol::commands::MeasureCommand_Item &command)
 {
-    std::cout<<"Lets send a measure request item"<<std::endl;
-
     auto func = [this, command]() {
             protocol->sendMeasurementRequest(link.get(), command);
     };
@@ -96,6 +93,7 @@ void RigolCommsMarshaler::ConnectionClosed() const
 void RigolCommsMarshaler::ReceiveData(const std::vector<uint8_t> &buffer) const
 {
     protocol->ReceiveData(link.get(),buffer);
+    //if there is something still in the queue we should send it
 }
 
 void RigolCommsMarshaler::CommunicationError(const std::string &type, const std::string &msg) const
@@ -111,6 +109,16 @@ void RigolCommsMarshaler::CommunicationUpdate(const std::string &name, const std
 //////////////////////////////////////////////////////////////
 /// IProtocolRigolEvents
 //////////////////////////////////////////////////////////////
+void RigolCommsMarshaler::ResponseReceived(const ILink* link_ptr, const std::vector<uint8_t> &buffer) const
+{
+    Emit([&](CommsEvents *ptr){ptr->NewDataReceived(buffer);});
+}
+
+void RigolCommsMarshaler::NewMeaurementReceived(const ILink* link_ptr, const rigol::commands::RigolMeasurementStatus &status) const
+{
+    Emit([&](CommsEvents *ptr){ptr->NewMeaurementReceived(status);});
+}
+
 
 
 

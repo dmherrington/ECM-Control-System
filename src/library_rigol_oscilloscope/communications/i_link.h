@@ -11,6 +11,8 @@
 #include "i_link_events.h"
 #include "tcp_configuration.h"
 
+#include "commands/measure/measure_command_item.h"
+
 namespace rigol {
 namespace comms{
 
@@ -59,6 +61,13 @@ public:
     //!
     virtual void WriteBytes(const QByteArray &data) const = 0;
 
+    //!
+    //! \brief WriteBytesRequest
+    //! \param data
+    //!
+    virtual void WriteBytesRequest(const QByteArray &data) const = 0;
+
+    virtual std::vector<uint8_t> ProcessResponse(const commands::MeasureCommand_Item &command) const  = 0;
     //!
     //! \brief setSerialConfiguration
     //! \param config

@@ -66,8 +66,8 @@ private:
     //////////////////////////////////////////////////////////////
     /// Virtual methods imposed from IProtocolRigolEvents
     //////////////////////////////////////////////////////////////
-
-
+    void ResponseReceived(const ILink* link_ptr, const std::vector<uint8_t> &buffer) const override;
+    void NewMeaurementReceived(const ILink* link_ptr, const rigol::commands::RigolMeasurementStatus &status) const override;
 
 private:
     std::shared_ptr<ILink> link;

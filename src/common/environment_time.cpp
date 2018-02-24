@@ -4,8 +4,6 @@
 
 #include <QDateTime>
 
-namespace  Data {
-
 const int EnvironmentTime::NonLeapDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 /*!
@@ -416,6 +414,4 @@ std::string EnvironmentTime::dateString() const
     std::string str = "";
     str += std::to_string(this->year) + "_" + std::to_string(this->month) + "_" + std::to_string(this->dayOfMonth);
     return str;
-}
-
 }

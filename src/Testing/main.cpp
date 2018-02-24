@@ -5,18 +5,37 @@
 #include <QStringList>
 #include <QRegExp>
 
-#include "library_rigol_oscilloscope/communications/rigol_comms_marshaler.h"
+#include "library_rigol_oscilloscope/rigol_oscilliscope.h"
+#include "clock_testing.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    rigol::comms::RigolCommsMarshaler* marshal = new rigol::comms::RigolCommsMarshaler();
-    rigol::comms::TCPConfiguration newConfig;
-    marshal->ConnectToLink(newConfig);
-    QByteArray newArray;
-    newArray.append("*IDN?");
-    marshal->EmitByteArray(newArray);
+
+//    rigol::comms::RigolCommsMarshaler* marshal = new rigol::comms::RigolCommsMarshaler();
+//    rigol::comms::TCPConfiguration newConfig;
+//    marshal->ConnectToLink(newConfig);
+//    QByteArray newArray;
+//    newArray.append("*IDN?");
+//    marshal->EmitByteArray(newArray);
+
+    RigolOscilliscope* rigolInterface = new RigolOscilliscope();
+//    rigolInterface->openConnection("192.168.1.17",5555);
+    rigolInterface->openConnection("127.0.0.1",5555);
+
+
+    rigol::commands::MeasureCommand_Item measureArea;
+    measureArea.setChannel(rigol::data::AvailableChannels::CHANNEL_1);
+    measureArea.setMeasurementType(rigol::data::MeasurementTypes::MEASURE_MAREA);
+    rigolInterface->addPollingMeasurement(measureArea);
+
+    rigol::commands::MeasureCommand_Item measureVtop;
+    measureVtop.setChannel(rigol::data::AvailableChannels::CHANNEL_2);
+    measureVtop.setMeasurementType(rigol::data::MeasurementTypes::MEASURE_VTOP);
+    rigolInterface->addPollingMeasurement(measureVtop);
+
+    rigolInterface->executeMeasurementPolling(true);
 
 //    Status_Switch newStatus;
 //    newStatus.setSwitchCode(47);

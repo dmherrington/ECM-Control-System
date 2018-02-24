@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       -= gui
+QT += core
 
 TARGET = common
 TEMPLATE = lib
@@ -49,3 +50,5 @@ lib.path    = $$(ECM_ROOT)/lib
 win32:CONFIG(release, debug|release):       lib.files   += release/common.lib release/common.dll
 else:win32:CONFIG(debug, debug|release):    lib.files   += debug/common.lib debug/common.dll
 INSTALLS += lib
+
+INCLUDEPATH += $$PWD/../

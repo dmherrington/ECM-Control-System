@@ -2,6 +2,9 @@
 #define ABSTRACT_RIGOL_STATUS_H
 
 #include <string.h>
+
+#include "library_rigol_oscilloscope_global.h"
+
 #include "common/class_forward.h"
 #include "common/environment_time.h"
 
@@ -12,6 +15,7 @@ namespace commands {
 
 using namespace data;
 ECM_CLASS_FORWARD(AbstractRigolStatus);
+
 class AbstractRigolStatus
 {
 public:
@@ -22,8 +26,8 @@ public:
     void setCommandType(const CommandTypes &type);
     CommandTypes getCommandType() const;
 
-    void setTime(const Data::EnvironmentTime &time);
-    Data::EnvironmentTime getTime() const;
+    void setTime(const EnvironmentTime &time);
+    EnvironmentTime getTime() const;
 
 public:
     /**
@@ -49,7 +53,7 @@ public:
     AbstractRigolStatus& operator = (const AbstractRigolStatus &rhs)
     {
         this->commandType = rhs.commandType;
-        this->latestUpdate = rhs.latestUpdate;
+        //this->latestUpdate = rhs.latestUpdate;
         return *this;
     }
 
@@ -66,7 +70,7 @@ public:
 
 private:
     CommandTypes commandType;
-    Data::EnvironmentTime latestUpdate;
+    EnvironmentTime latestUpdate;
 };
 
 } //end of namespace commands

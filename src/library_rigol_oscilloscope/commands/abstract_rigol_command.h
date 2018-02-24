@@ -143,7 +143,7 @@ protected:
     std::string getSuffixCommand() const
     {
         if(RWType == data::ReadWriteType::READ)
-            return "?";
+            return "? ";
         else
             return " ";
     }

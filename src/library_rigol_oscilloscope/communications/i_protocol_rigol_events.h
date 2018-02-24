@@ -15,7 +15,9 @@ namespace comms{
 class IProtocolRigolEvents
 {
 public:
+    virtual void ResponseReceived(const ILink* link_ptr, const std::vector<uint8_t> &buffer) const = 0;
 
+    virtual void NewMeaurementReceived(const ILink* link_ptr, const rigol::commands::RigolMeasurementStatus &status) const = 0;
 };
 
 

@@ -65,7 +65,7 @@ void RigolPollMeasurement::run()
         //improbable the next function will fire
         double timeElapsed = m_Timeout.elapsedMilliseconds();
 
-        if(timeElapsed > timeout)
+        if(timeElapsed >= timeout)
         {
             //this means we should request measurements from the rigol that are in our queue
             if(m_CB)

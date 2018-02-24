@@ -22,11 +22,12 @@ public:
     explicit RigolOscilliscope(QObject *parent = nullptr);
 
 public:
-    void openConnection(const std::string &ipAddress, const std::string &port);
+    void openConnection(const std::string &ipAddress, const int &port);
     void closeConnection();
 
     void addPollingMeasurement(const commands::MeasureCommand_Item &command);
     void removePollingMeasurement(const std::string &key);
+    void executeMeasurementPolling(const bool &execute);
     commands::RigolMeasurementQueue getCurrentPollingMeasurements() const;
 
 public:
@@ -35,6 +36,8 @@ public:
     //////////////////////////////////////////////////////////////
     void ConnectionOpened() const override;
     void ConnectionClosed() const override;
+    void NewDataReceived(const std::vector<uint8_t> &buffer) const override;
+    void NewMeaurementReceived(const rigol::commands::RigolMeasurementStatus &status) const override;
 
 public:
     void cbi_RigolMeasurementRequests(const rigol::commands::MeasureCommand_Item &request) override;

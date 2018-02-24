@@ -77,7 +77,6 @@ public:
         rtn+= data::MeasurementTypeEnumToString(this->measureType);
         rtn+= ",";
         rtn+=data::AvailableChannelsToString(this->channel);
-        rtn+="\n";
         return rtn;
     }
 

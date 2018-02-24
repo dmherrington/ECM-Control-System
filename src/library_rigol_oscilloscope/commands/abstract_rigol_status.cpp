@@ -7,7 +7,7 @@ namespace commands {
 AbstractRigolStatus::AbstractRigolStatus(const CommandTypes &type):
     commandType(type)
 {
-    this->latestUpdate.CurrentTime(Data::Devices::SYSTEMCLOCK,this->latestUpdate);
+    this->latestUpdate.CurrentTime(Devices::SYSTEMCLOCK,this->latestUpdate);
 }
 
 AbstractRigolStatus::AbstractRigolStatus(const AbstractRigolStatus &copy)
@@ -26,12 +26,12 @@ CommandTypes AbstractRigolStatus::getCommandType() const
     return this->commandType;
 }
 
-void AbstractRigolStatus::setTime(const Data::EnvironmentTime &time)
+void AbstractRigolStatus::setTime(const EnvironmentTime &time)
 {
     this->latestUpdate = time;
 }
 
-Data::EnvironmentTime AbstractRigolStatus::getTime() const
+EnvironmentTime AbstractRigolStatus::getTime() const
 {
     return this->latestUpdate;
 }

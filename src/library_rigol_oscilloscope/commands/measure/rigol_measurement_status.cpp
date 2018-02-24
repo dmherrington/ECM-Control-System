@@ -16,6 +16,7 @@ RigolMeasurementStatus::RigolMeasurementStatus(const RigolMeasurementStatus &cop
     this->channel = copy.channel;
     this->measureType = copy.measureType;
     this->value = copy.value;
+    this->str = copy.str;
 }
 
 void RigolMeasurementStatus::setMeasurementValue(const double &measurement)
