@@ -42,8 +42,8 @@ void TestTime::run()
 
         if(timeElapsed >= timeout)
         {
-            rigol::EnvironmentTime newTime;
-            newTime.CurrentTime(rigol::Devices::SYSTEMCLOCK,newTime);
+            EnvironmentTime newTime;
+            newTime.CurrentTime(Devices::SYSTEMCLOCK,newTime);
             std::cout<<"The current time is:"<<std::endl;
             std::cout<<newTime.ToString().toStdString()<<std::endl;
             std::cout<<"The elapsed time seen here is"<<std::to_string(timeElapsed)<<std::endl;

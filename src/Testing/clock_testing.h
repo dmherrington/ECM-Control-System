@@ -6,7 +6,7 @@
 
 #include <QDate>
 
-#include "library_rigol_oscilloscope/rigol_environment_time.h"
+#include "common/environment_time.h"
 
 #include "common/threadmanager.h"
 #include "common/timer.h"

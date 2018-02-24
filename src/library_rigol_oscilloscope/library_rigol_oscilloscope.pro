@@ -37,8 +37,7 @@ SOURCES += \
     rigol_oscilliscope.cpp \
     commands/measure/rigol_measurement_queue.cpp \
     commands/abstract_rigol_status.cpp \
-    commands/measure/rigol_measurement_status.cpp \
-    rigol_environment_time.cpp
+    commands/measure/rigol_measurement_status.cpp
 
 HEADERS += \
         library_rigol_oscilloscope_global.h \ 
@@ -73,7 +72,6 @@ HEADERS += \
     commands/measure/rigol_measurement_queue.h \
     commands/abstract_rigol_status.h \
     commands/measure/rigol_measurement_status.h \
-    rigol_environment_time.h \
     commands/acquire/acquire_components.h
 # Unix lib Install
 unix:!symbian {
