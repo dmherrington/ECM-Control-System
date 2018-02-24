@@ -37,7 +37,8 @@ HEADERS += common.h\
     data_get_set_notifier.h \
     tuple_generic.h \
     tuple_sensor.h \
-    tuple_measurement.h
+    tuple_measurement.h \
+    threaded_scheduler.h
 
 #Header file copy
 headers.path    = $$(ECM_ROOT)/include/common

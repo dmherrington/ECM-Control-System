@@ -38,7 +38,8 @@ HEADERS += graphing.h\
         graphing_global.h \
     plot_handler.h \
     qcustomplot.h \
-    time_plot.h
+    time_plot.h \
+    plot_data.h
 
 
 # Unix lib Install
@@ -57,3 +58,13 @@ INSTALLS += lib
 headers.path    = $$(ECM_ROOT)/include/graphing
 headers.files   += $$HEADERS
 INSTALLS       += headers
+
+INCLUDEPATH += $$PWD/../
+INCLUDEPATH += $$(ECM_ROOT)/include
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
+else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
+
+INCLUDEPATH += $$PWD/../common
+DEPENDPATH += $$PWD/../common
