@@ -25,8 +25,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += common.cpp \
     environment_time.cpp \
-    tuple_sensor.cpp \
-    tuple_measurement.cpp
+    tuple_measurement_string.cpp \
+    tuple_sensor_string.cpp \
+    tuple_ecm_data.cpp \
+    tuple_master_string.cpp
 
 HEADERS += common.h\
         common_global.h \
@@ -36,8 +38,11 @@ HEADERS += common.h\
     class_forward.h \
     data_get_set_notifier.h \
     tuple_generic.h \
-    tuple_sensor.h \
-    tuple_measurement.h
+    threaded_scheduler.h \
+    tuple_measurement_string.h \
+    tuple_sensor_string.h \
+    tuple_ecm_data.h \
+    tuple_master_string.h
 
 #Header file copy
 headers.path    = $$(ECM_ROOT)/include/common

@@ -10,6 +10,7 @@
 #include <map>
 
 #include "measure_command_item.h"
+#include "data/type_read_write.h"
 
 namespace rigol {
 namespace commands{
@@ -27,12 +28,14 @@ public:
 
     void write(QJsonObject &json) const;
 
+    void clearQueue();
+
 public:
     //!
     //! \brief insertIntoQueue
     //! \param item
     //!
-    void insertIntoQueue(const MeasureCommand_Item &item);
+    bool insertIntoQueue(const MeasureCommand_Item &item);
 
     //!
     //! \brief removeFromQueue

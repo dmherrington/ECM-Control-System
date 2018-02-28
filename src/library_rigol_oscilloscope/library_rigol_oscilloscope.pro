@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       -= gui
-QT += network
+QT += core network
 
 TARGET = library_rigol_oscilloscope
 TEMPLATE = lib
@@ -72,7 +72,8 @@ HEADERS += \
     commands/measure/rigol_measurement_queue.h \
     commands/abstract_rigol_status.h \
     commands/measure/rigol_measurement_status.h \
-    commands/acquire/acquire_components.h
+    commands/acquire/acquire_components.h \
+    commands/measure/measure_components.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

@@ -1,10 +1,14 @@
 #ifndef TUPLE_GENERIC_H
 #define TUPLE_GENERIC_H
 
+#include <QString>
 #include <typeinfo>
 #include <string>
 
+#include "common_global.h"
+
 using namespace std;
+
 class TupleGeneric
 {
 public:
@@ -14,14 +18,14 @@ public:
     //! \brief pure virtual method giving the name of tuple
     //! \return string name
     //!
-    virtual string Type() const = 0;
+    virtual QString Type() const = 0;
 
 
     //!
     //! \brief pure virtual method to find human readable name
     //! \return string name
     //!
-    virtual string HumanName() const = 0;
+    virtual QString HumanName() const = 0;
 
 
     //!

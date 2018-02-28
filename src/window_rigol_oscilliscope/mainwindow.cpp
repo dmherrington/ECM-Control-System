@@ -41,7 +41,8 @@ void MainWindow::on_pushButton_AddMeasurement_released()
     MeasurementTypes desiredMeasurement = AvailableMeasurementTypeStringToEnum(measurement);
 
     rigol::commands::MeasureCommand_Item* newMeasurement = new rigol::commands::MeasureCommand_Item(desiredChannel,desiredMeasurement);
-    //rigolInterface->addPollingMeasurement(*newMeasurement);
+    bool unique = rigolInterface->addPollingMeasurement(*newMeasurement);
 
-    mapWidgets.at(desiredChannel)->addMeasurement(newMeasurement);
+    if(unique)
+        mapWidgets.at(desiredChannel)->addMeasurement(newMeasurement);
 }

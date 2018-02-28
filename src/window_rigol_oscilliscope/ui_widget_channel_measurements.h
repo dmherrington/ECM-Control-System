@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_channel_measurements.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.1
+** Created by: Qt User Interface Compiler version 5.10.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -40,7 +40,7 @@ public:
     {
         if (WidgetChannelMeasurements->objectName().isEmpty())
             WidgetChannelMeasurements->setObjectName(QStringLiteral("WidgetChannelMeasurements"));
-        WidgetChannelMeasurements->resize(282, 118);
+        WidgetChannelMeasurements->resize(282, 121);
         gridLayout = new QGridLayout(WidgetChannelMeasurements);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         horizontalLayout = new QHBoxLayout();
@@ -103,8 +103,8 @@ public:
 
     void retranslateUi(QWidget *WidgetChannelMeasurements)
     {
-        WidgetChannelMeasurements->setWindowTitle(QApplication::translate("WidgetChannelMeasurements", "Form", Q_NULLPTR));
-        label_Channel->setText(QApplication::translate("WidgetChannelMeasurements", "Default Channel", Q_NULLPTR));
+        WidgetChannelMeasurements->setWindowTitle(QApplication::translate("WidgetChannelMeasurements", "Form", nullptr));
+        label_Channel->setText(QApplication::translate("WidgetChannelMeasurements", "Default Channel", nullptr));
     } // retranslateUi
 
 };

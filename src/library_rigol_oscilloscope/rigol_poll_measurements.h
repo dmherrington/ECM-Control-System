@@ -34,6 +34,8 @@ public:
 
     void removePollingMeasurement(const std::string &key);
 
+    void clearQueue();
+
     rigol::commands::RigolMeasurementQueue getCurrentPollingMeasurements() const;
 
 public:
