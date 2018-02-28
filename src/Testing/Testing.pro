@@ -28,8 +28,12 @@ HEADERS += \
     clock_testing.h
 
 
+
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
+INCLUDEPATH += $$(ECM_ROOT)/tools/sensoray/lib/
+INCLUDEPATH += $$(ECM_ROOT)/include
+
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_rigol_oscilloscope/release/ -llibrary_rigol_oscilloscope
@@ -57,3 +61,8 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../comm
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../common/release/common.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../common/debug/common.lib
 else:unix:!macx: PRE_TARGETDEPS += $$OUT_PWD/../common/libcommon.a
+
+unix:!macx|win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
+
+INCLUDEPATH += $$PWD/../../tools/sensoray
+DEPENDPATH += $$PWD/../../tools/sensoray

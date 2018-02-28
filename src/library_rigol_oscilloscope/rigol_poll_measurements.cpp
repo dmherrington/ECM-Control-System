@@ -41,6 +41,16 @@ void RigolPollMeasurement::removePollingMeasurement(const std::string &key)
         this->measurementQueue.removeFromQueue(key);
 }
 
+void RigolPollMeasurement::clearQueue()
+{
+    if(isThreadActive())
+        m_LambdasToRun.push_back([this]{
+            this->measurementQueue.clearQueue();
+        });
+    else
+        this->measurementQueue.clearQueue();
+}
+
 rigol::commands::RigolMeasurementQueue RigolPollMeasurement::getCurrentPollingMeasurements() const
 {
     return this->measurementQueue;

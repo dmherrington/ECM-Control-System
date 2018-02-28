@@ -26,8 +26,10 @@ public:
     void setCommandType(const CommandTypes &type);
     CommandTypes getCommandType() const;
 
-    void setTime(const EnvironmentTime &time);
-    EnvironmentTime getTime() const;
+    void updateReceivedTime();
+    EnvironmentTime getRequestTime() const;
+    EnvironmentTime getReceivedTime() const;
+
 
 public:
     /**
@@ -53,7 +55,8 @@ public:
     AbstractRigolStatus& operator = (const AbstractRigolStatus &rhs)
     {
         this->commandType = rhs.commandType;
-        //this->latestUpdate = rhs.latestUpdate;
+        this->requestTime = rhs.requestTime;
+        this->receivedTime = rhs.receivedTime;
         return *this;
     }
 
@@ -70,7 +73,8 @@ public:
 
 private:
     CommandTypes commandType;
-    EnvironmentTime latestUpdate;
+    EnvironmentTime requestTime;
+    EnvironmentTime receivedTime;
 };
 
 } //end of namespace commands

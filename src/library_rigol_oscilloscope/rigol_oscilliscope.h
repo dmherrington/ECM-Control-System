@@ -8,6 +8,7 @@
 #include "library_rigol_oscilloscope_global.h"
 
 #include "commands/acquire/acquire_components.h"
+#include "commands/measure/measure_components.h"
 
 #include "communications/rigol_comms_marshaler.h"
 
@@ -21,7 +22,7 @@ class LIBRARY_RIGOL_OSCILLOSCOPESHARED_EXPORT RigolOscilliscope : public QObject
     Q_OBJECT
 
 public:
-    explicit RigolOscilliscope(QObject *parent = nullptr);
+    explicit RigolOscilliscope(const std::string &name = "Rigol_Oscilloscope", QObject *parent = nullptr);
 
     ~RigolOscilliscope();
 
@@ -29,7 +30,7 @@ public:
     void openConnection(const std::string &ipAddress, const int &port);
     void closeConnection();
 
-    void addPollingMeasurement(const commands::MeasureCommand_Item &command);
+    bool addPollingMeasurement(const commands::MeasureCommand_Item &command);
     void removePollingMeasurement(const std::string &key);
     void executeMeasurementPolling(const bool &execute);
     commands::RigolMeasurementQueue getCurrentPollingMeasurements() const;
@@ -47,9 +48,11 @@ public:
     void cbi_RigolMeasurementRequests(const rigol::commands::MeasureCommand_Item &request) override;
 
     void saveMeasurements();
+    void loadMeaurements(const std::string &path);
 
 private:
     void initializeRigol() const;
+    void loadFromQueue(const rigol::commands::RigolMeasurementQueue &updatedQueue);
 
 
 signals:
@@ -57,8 +60,10 @@ signals:
 public slots:
 
 private:
+    std::string sensorName;
     comms::RigolCommsMarshaler* commsMarshaler;
     RigolPollMeasurement* pollStatus;
+    rigol::commands::RigolMeasurementQueue queue;
     QString previousSettingsPath;
 
 

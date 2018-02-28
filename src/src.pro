@@ -10,4 +10,6 @@ SUBDIRS += \
     window_GMC_variable_editor \
     Testing \
     library_rigol_oscilloscope \
-    window_rigol_oscilliscope
+    window_rigol_oscilliscope \
+    test_graphing \
+    ECM_gui

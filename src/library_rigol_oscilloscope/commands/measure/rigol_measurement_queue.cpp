@@ -21,6 +21,8 @@ void RigolMeasurementQueue::read(const QJsonObject &json)
         QJsonObject measurementObject = measurementArray[i].toObject();
         MeasureCommand_Item newItem;
         newItem.read(measurementObject);
+        newItem.setReadOrWrite(data::ReadWriteType::WRITE);
+        insertIntoQueue(newItem);
     }
 }
 
@@ -37,15 +39,22 @@ void RigolMeasurementQueue::write(QJsonObject &json) const
     json["Measurements At Channel"] = measurementArray;
 }
 
-void RigolMeasurementQueue::insertIntoQueue(const MeasureCommand_Item &item)
+bool RigolMeasurementQueue::insertIntoQueue(const MeasureCommand_Item &item)
 {
-    queue.insert(std::pair<std::string,MeasureCommand_Item>(item.getCommandKey(),item));
+    std::pair<std::map<std::string,MeasureCommand_Item>::iterator,bool> ret;
+    ret = queue.insert(std::pair<std::string,MeasureCommand_Item>(item.getCommandKey(),item));
+    return ret.second; //if false the value already existed
 }
 
 void RigolMeasurementQueue::removeFromQueue(const std::string &key)
 {
     if(queue.count(key) > 0)
         queue.erase(key);
+}
+
+void RigolMeasurementQueue::clearQueue()
+{
+    this->queue.clear();
 }
 
 MeasureCommand_Item RigolMeasurementQueue::getAtKey(const std::string &key) const

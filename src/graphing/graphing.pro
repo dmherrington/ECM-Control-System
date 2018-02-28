@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       -= gui
+QT += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
@@ -40,7 +40,8 @@ HEADERS += graphing.h\
     qcustomplot.h \
     time_plot.h \
     plot_data.h \
-    number_systems.h
+    number_systems.h \
+    I_plot_comparable.h
 
 
 # Unix lib Install
@@ -69,3 +70,6 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
 
 INCLUDEPATH += $$PWD/../common
 DEPENDPATH += $$PWD/../common
+
+FORMS += \
+    display_base_plot_instantaneous.ui

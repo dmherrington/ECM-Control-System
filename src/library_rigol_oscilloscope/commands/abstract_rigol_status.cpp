@@ -7,13 +7,14 @@ namespace commands {
 AbstractRigolStatus::AbstractRigolStatus(const CommandTypes &type):
     commandType(type)
 {
-    this->latestUpdate.CurrentTime(Devices::SYSTEMCLOCK,this->latestUpdate);
+    this->requestTime.CurrentTime(Devices::SYSTEMCLOCK,this->requestTime);
 }
 
 AbstractRigolStatus::AbstractRigolStatus(const AbstractRigolStatus &copy)
 {
     this->commandType = copy.commandType;
-    this->latestUpdate = copy.latestUpdate;
+    this->receivedTime = copy.receivedTime;
+    this->requestTime = copy.requestTime;
 }
 
 void AbstractRigolStatus::setCommandType(const CommandTypes &type)
@@ -26,14 +27,19 @@ CommandTypes AbstractRigolStatus::getCommandType() const
     return this->commandType;
 }
 
-void AbstractRigolStatus::setTime(const EnvironmentTime &time)
+void AbstractRigolStatus::updateReceivedTime()
 {
-    this->latestUpdate = time;
+    this->receivedTime.CurrentTime(Devices::SYSTEMCLOCK,this->receivedTime);
 }
 
-EnvironmentTime AbstractRigolStatus::getTime() const
+EnvironmentTime AbstractRigolStatus::getReceivedTime() const
 {
-    return this->latestUpdate;
+    return this->receivedTime;
+}
+
+EnvironmentTime AbstractRigolStatus::getRequestTime() const
+{
+    return this->requestTime;
 }
 
 } //end of namespace commands

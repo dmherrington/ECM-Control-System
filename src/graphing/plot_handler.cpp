@@ -126,7 +126,7 @@ void PlotHandler::AddPlot(const std::string &Expression)
         }
     }
 
-    //if we already have the plot added, don't do nothing.
+    //if we already have the plot added, don't do anything.
     if(found == true)
         return;
 

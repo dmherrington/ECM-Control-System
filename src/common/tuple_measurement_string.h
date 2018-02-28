@@ -1,36 +1,34 @@
-#ifndef TUPLE_MEASUREMENT_H
-#define TUPLE_MEASUREMENT_H
+#ifndef TUPLE_MEASUREMENT_STRING_H
+#define TUPLE_MEASUREMENT_STRING_H
 
 #include "tuple_generic.h"
 
-class TupleMeasurement : public TupleGeneric
+class COMMONSHARED_EXPORT TupleMeasurementString : public TupleGeneric
 {
 public:
-    TupleMeasurement();
+    TupleMeasurementString();
 
-    TupleMeasurement(const TupleMeasurement &copy);
-
-
+    TupleMeasurementString(const TupleMeasurementString &copy);
 
     //!
     //! \brief Type of tuple object this is
     //! \return String indicating type
     //!
-    string Type() const override;
+    QString Type() const override;
 
 
     //!
     //! \brief method to find human readable name
     //! \return string name
     //!
-    string HumanName() const override;
+    QString HumanName() const override;
 
 
     //!
     //! \brief Assignment operator
     //! \param rhs Right hand side of assignment
     //!
-    void operator= (const TupleMeasurement &rhs);
+    void operator= (const TupleMeasurementString &rhs);
 
 
     //!
@@ -56,11 +54,12 @@ public:
     //!
     virtual bool operator!=(const TupleGeneric& rhs) const;
 
+    //! Name of the source originating the measurement
+    QString sourceName;
 
-    //! Name of sensor
-    string measurementName;
-
+    //! Name of measurement
+    QString measurementName;
 
 };
 
-#endif // TUPLE_MEASUREMENT_H
+#endif // TUPLE_MEASUREMENT_STRING_H

@@ -32,8 +32,12 @@ void RigolProtocol::sendMeasurementRequest(const ILink *link, const commands::Me
 {
     std::string commandString = command.getCommandString();
     QByteArray byteArray(commandString.c_str(), commandString.length());
+    commands::RigolMeasurementStatus measurementStatus(command.getChannel(),command.getMeasurementType());
     std::vector<uint8_t> rcvBuffer = link->WriteBytesRequest(byteArray);
-    Emit([&](const IProtocolRigolEvents* ptr){ptr->ResponseReceived(link,rcvBuffer);});
+    measurementStatus.updateReceivedTime();
+    measurementStatus.setMeasurementString(std::string(rcvBuffer.begin(), rcvBuffer.end()));
+    Emit([&](const IProtocolRigolEvents* ptr){ptr->NewMeaurementReceived(link,measurementStatus);});
+    //Emit([&](const IProtocolRigolEvents* ptr){ptr->ResponseReceived(link,rcvBuffer);});
 }
 
 //!

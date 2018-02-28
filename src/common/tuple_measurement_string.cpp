@@ -1,6 +1,6 @@
-#include "tuple_measurement.h"
+#include "tuple_measurement_string.h"
 
-TupleMeasurement::TupleMeasurement()
+TupleMeasurementString::TupleMeasurementString()
 {
 
 }
@@ -9,8 +9,9 @@ TupleMeasurement::TupleMeasurement()
 //! \brief Copy Constructor
 //! \param that Object to copy from
 //!
-TupleMeasurement::TupleMeasurement(const TupleMeasurement &copy)
+TupleMeasurementString::TupleMeasurementString(const TupleMeasurementString &copy)
 {
+    this->sourceName = copy.sourceName;
     this->measurementName = copy.measurementName;
 }
 
@@ -19,9 +20,9 @@ TupleMeasurement::TupleMeasurement(const TupleMeasurement &copy)
 //! \brief Type of tuple object this is
 //! \return String indicating type
 //!
-string TupleMeasurement::Type() const
+QString TupleMeasurementString::Type() const
 {
-    return "Sensor";
+    return "Measurement";
 }
 
 
@@ -29,7 +30,7 @@ string TupleMeasurement::Type() const
 //! \brief method to find human readable name
 //! \return string name
 //!
-string TupleMeasurement::HumanName() const
+QString TupleMeasurementString::HumanName() const
 {
     return this->measurementName;
 }
@@ -39,8 +40,9 @@ string TupleMeasurement::HumanName() const
 //! \brief Assignment operator
 //! \param rhs Right hand side of assignment
 //!
-void TupleMeasurement::operator = (const TupleMeasurement& rhs)
+void TupleMeasurementString::operator = (const TupleMeasurementString& rhs)
 {
+    this->sourceName = rhs.sourceName;
     this->measurementName = rhs.measurementName;
 }
 
@@ -50,7 +52,7 @@ void TupleMeasurement::operator = (const TupleMeasurement& rhs)
 //! \param rhs Right hand side of assignment
 //! \return true is less than, false otherwise
 //!
-bool TupleMeasurement::operator< (const TupleGeneric& rhs) const
+bool TupleMeasurementString::operator< (const TupleGeneric& rhs) const
 {
     if(*this == rhs)
         return false;
@@ -58,22 +60,12 @@ bool TupleMeasurement::operator< (const TupleGeneric& rhs) const
     if(this->Type() != rhs.Type())
         return this->Type() < rhs.Type();
 
-//    if(this->labName > ((TupleSensorString*)&rhs)->labName)
-//        return false;
-//    if(this->labName < ((TupleSensorString*)&rhs)->labName)
-//        return true;
+    if(this->sourceName > ((TupleMeasurementString*)&rhs)->sourceName)
+        return false;
+    if(this->sourceName < ((TupleMeasurementString*)&rhs)->sourceName)
+        return true;
 
-//    if(this->modelName > ((TupleSensorString*)&rhs)->modelName)
-//        return false;
-//    if(this->modelName < ((TupleSensorString*)&rhs)->modelName)
-//        return true;
-
-//    if(this->entityName > ((TupleSensorString*)&rhs)->entityName)
-//        return false;
-//    if(this->entityName < ((TupleSensorString*)&rhs)->entityName)
-//        return true;
-
-    if(this->measurementName >= ((TupleMeasurement*)&rhs)->measurementName)
+    if(this->measurementName >= ((TupleMeasurementString*)&rhs)->measurementName)
         return false;
 
     return true;
@@ -85,12 +77,15 @@ bool TupleMeasurement::operator< (const TupleGeneric& rhs) const
 //! \param rhs Right hand side of equivilance
 //! \return true if equivilant
 //!
-bool TupleMeasurement::operator==(const TupleGeneric& rhs) const
+bool TupleMeasurementString::operator==(const TupleGeneric& rhs) const
 {
     if(typeid(*this) != typeid(rhs))
         return false;
 
-    if(this->measurementName != ((TupleMeasurement*)&rhs)->measurementName)
+    if(this->sourceName != ((TupleMeasurementString*)&rhs)->sourceName)
+        return false;
+
+    if(this->measurementName != ((TupleMeasurementString*)&rhs)->measurementName)
         return false;
 
     return true;
@@ -102,7 +97,7 @@ bool TupleMeasurement::operator==(const TupleGeneric& rhs) const
 //! \param rhs Right hand side of non-equivilance
 //! \return true if not equivilant
 //!
-bool TupleMeasurement::operator!=(const TupleGeneric& rhs) const
+bool TupleMeasurementString::operator!=(const TupleGeneric& rhs) const
 {
     return !((*this) == rhs);
 }
