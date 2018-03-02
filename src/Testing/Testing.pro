@@ -66,3 +66,10 @@ unix:!macx|win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
 
 INCLUDEPATH += $$PWD/../../tools/sensoray
 DEPENDPATH += $$PWD/../../tools/sensoray
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/release/ -llibrary_sensoray
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/debug/ -llibrary_sensoray
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_sensoray/ -llibrary_sensoray
+
+INCLUDEPATH += $$PWD/../library_sensoray
+DEPENDPATH += $$PWD/../library_sensoray

@@ -4,21 +4,24 @@
 #include <memory>
 #include <vector>
 
-
-
-namespace Comms
-{
+namespace sensoray {
+namespace comms{
 
 class ILink;
 
 class IProtocol
 {
 public:
+    //!
+    //! \brief ReceiveData
+    //! \param link
+    //! \param buffer
+    //!
     virtual void ReceiveData(ILink *link, const std::vector<uint8_t> &buffer) = 0;
-
 };
 
 
-} //END MAVLINKComms
+} //end of namespace comms
+} //end of namespace sensoray
 
 #endif // I_PROTOCOL_H
