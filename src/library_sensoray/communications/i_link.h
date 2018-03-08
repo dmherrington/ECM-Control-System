@@ -52,8 +52,6 @@ public:
     //!
     virtual void RequestReset() = 0;
 
-    virtual void resetSensorayIO() = 0;
-
     //!
     //! \brief setSerialConfiguration
     //! \param config
@@ -70,13 +68,13 @@ public:
     //! \brief Connect
     //! \return
     //!
-    virtual bool Connect(void) = 0;
+    virtual bool ConnectToDevice(void) = 0;
 
     //!
     //! \brief Disconnect
     //! \return
     //!
-    virtual bool Disconnect(void) = 0;
+    virtual bool DisconnectFromDevice(void) = 0;
 
     //!
     //! \brief MarshalOnThread

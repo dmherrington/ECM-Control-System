@@ -13,6 +13,7 @@
 #include "common/common.h"
 
 #include "i_link.h"
+#include "sensoray_link.h"
 #include "i_protocol_sensoray_events.h"
 #include "i_protocol.h"
 
@@ -30,10 +31,21 @@ public:
     void AddListner(const IProtocolSensorayEvents* listener);
 
 public:
+
     //////////////////////////////////////////////////////////////
     /// Method issuing a request to the sensoray device
     //////////////////////////////////////////////////////////////
-    void resetSensorayIO(ILink *link);
+    bool openSerialPort(SensorayLink *link, const SerialConfiguration &config);
+
+    bool closeSerialPort (SensorayLink *link);
+
+    void transmitDataToSerialPort(SensorayLink *link, const QByteArray &msg);
+
+    //////////////////////////////////////////////////////////////
+    /// Method issuing a request to the sensoray device
+    //////////////////////////////////////////////////////////////
+    void resetSensorayIO(SensorayLink *link);
+
 
 public:
 

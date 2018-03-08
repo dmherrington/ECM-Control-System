@@ -33,11 +33,11 @@ public:
 
     void setAPIOpen(const bool &status){ connectedAPI = status;}
     void setDeviceConnected(const bool &status) { connectedDevice = status;}
-    void setCommPortOpened(const bool &status) { connectedComms = status; }
+    void setSerialPortConnected(const bool &status) { connectedComms = status; }
 
     bool isAPIOpen(){ return connectedAPI;}
-    bool isDeviceConnected() { return connectedDevice;}
-    bool isCommPortOpened() { return connectedComms; }
+    bool isDeviceConnected() { return connectedAPI && connectedDevice;}
+    bool isSerialPortConnected() { return connectedAPI && connectedDevice && connectedComms; }
 private:
     bool connectedAPI = false; /**< Boolean member variable capturing the status of the device connection*/
     bool connectedDevice = false; /**< Boolean member variable capturing the status of the device connection*/

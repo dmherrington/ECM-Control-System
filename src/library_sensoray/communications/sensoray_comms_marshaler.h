@@ -7,7 +7,8 @@
 
 #include "i_link.h"
 #include "sensoray_tcp_configuration.h"
-#include "sensoray_tcp_link.h"
+#include "sensoray_serial_configuration.h"
+#include "sensoray_link.h"
 #include "protocol_sensoray.h"
 #include "i_link_events.h"
 #include "i_protocol_sensoray_events.h"
@@ -23,9 +24,9 @@ public:
     CommsMarshaler();
 
     virtual ~CommsMarshaler();
-    //////////////////////////////////////////////////////////////
-    /// Connect/Disconnect from Sensoray Methods
-    //////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////
+    /// Methods supporting the Connect/Disconnect from Sensoray Device
+    ///////////////////////////////////////////////////////////////////
 
     //!
     //! \brief Connect to an already created link
@@ -33,14 +34,37 @@ public:
     //! \return True if connection successful, false otherwise
     //!
     bool ConnectToLink(const SensorayTCPConfiguration &linkConfig);
+
+    //!
+    //! \brief DisconnetFromLink
+    //! \return
+    //!
     bool DisconnetFromLink();
 
+    ///////////////////////////////////////////////////////////////////
+    /// Methods supporting the Connect/Disconnect from of the Sensory Device
+    /// and accompanying RS485 port
+    ///////////////////////////////////////////////////////////////////
+
+    //!
+    //! \brief ConnectToSerialPort
+    //! \param linkConfig
+    //! \return
+    //!
+    bool ConnectToSerialPort(const SerialConfiguration &config);
+
+    //!
+    //! \brief DisconnetFromSerialPort
+    //! \return
+    //!
+    bool DisconnetFromSerialPort();
+
+
+    void WriteToSerialPort(const QByteArray &data) const;
 
     ///////////////////////////////////////////////////////////////////
     /// Methods issuing something to the sensoray
     ///////////////////////////////////////////////////////////////////
-    void EmitByteArray(const QByteArray &data);
-
     void resetSensorayIO();
 
 private:
@@ -64,7 +88,7 @@ private:
     void ResponseReceived(const ILink* link_ptr, const std::vector<uint8_t> &buffer) const override;
 
 private:
-    std::shared_ptr<ILink> link;
+    std::shared_ptr<SensorayLink> link;
     std::shared_ptr<SensorayProtocol> protocol;
 
 };

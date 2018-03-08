@@ -28,8 +28,8 @@ SOURCES += \
     communications/protocol_sensoray.cpp \
     communications/sensoray_comms_marshaler.cpp \
     communications/sensoray_tcp_configuration.cpp \
-    communications/sensoray_tcp_link.cpp \
-    communications/serial_configuration.cpp
+    communications/sensoray_serial_configuration.cpp \
+    communications/sensoray_link.cpp
 
 HEADERS += \
         sensoray.h \
@@ -41,11 +41,11 @@ HEADERS += \
     communications/i_protocol_sensoray_events.h \
     communications/link_configuration.h \
     communications/protocol_sensoray.h \
-    communications/sensoray_tcp_link.h \
     communications/sensoray_comms_marshaler.h \
     communications/sensoray_tcp_configuration.h \
     communications/sensoray_session.h \
-    communications/serial_configuration.h
+    communications/sensoray_serial_configuration.h \
+    communications/sensoray_link.h
 
 # Unix lib Install
 unix:!symbian {

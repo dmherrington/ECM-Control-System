@@ -13,9 +13,32 @@ void SensorayProtocol::AddListner(const IProtocolSensorayEvents *listener)
     m_Listners.push_back(listener);
 }
 
-void SensorayProtocol::resetSensorayIO(ILink *link)
+void SensorayProtocol::resetSensorayIO(SensorayLink *link)
 {
-    link->resetSensorayIO();
+    if(link->isConnected())
+    {
+        link->resetSensorayIO();
+    }
+}
+
+bool SensorayProtocol::openSerialPort(SensorayLink *link, const SerialConfiguration &config)
+{
+    if(!link->isSerialPortConnected())
+        link->OpenSerialPort(config);
+}
+
+bool SensorayProtocol::closeSerialPort (SensorayLink *link)
+{
+    if(link->isSerialPortConnected())
+        link->CloseSerialPort();
+}
+
+void SensorayProtocol::transmitDataToSerialPort(SensorayLink *link, const QByteArray &msg)
+{
+    if(link->isSerialPortConnected())
+    {
+        QByteArray response = link->WriteToSerialPort(msg);
+    }
 }
 
 //!

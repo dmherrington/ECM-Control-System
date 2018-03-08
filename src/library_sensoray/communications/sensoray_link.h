@@ -12,7 +12,7 @@
 #include <QTimer>
 
 #include "sensoray_tcp_configuration.h"
-
+#include "sensoray_serial_configuration.h"
 #include "i_link.h"
 
 #include "s24xx.h"
@@ -22,29 +22,39 @@
 namespace sensoray{
 namespace comms {
 
-class SensorayTCPLink : public ILink
+class SensorayLink : public ILink
 {
 public:
 
-    SensorayTCPLink();
+    SensorayLink();
 
-    ~SensorayTCPLink();
+    ~SensorayLink();
 
 public:
     virtual void RequestReset();
 
-    void resetSensorayIO() override;
+    void resetSensorayIO();
 
     void _emitLinkError(const std::string& errorMsg) const;
 
 public:
     void setTCPConfiguration(const SensorayTCPConfiguration &config) override;
 
-    bool Connect(void) override;
+    bool ConnectToDevice(void) override;
 
-    bool Disconnect(void) override;
+    bool DisconnectFromDevice (void) override;
 
     bool isConnected() const override;
+
+public:
+    bool OpenSerialPort(const SerialConfiguration &config);
+
+    bool CloseSerialPort (void);
+
+    void WriteToSerialPort(const QByteArray &data);
+
+    bool isSerialPortConnected() const;
+
 
 public:
     std::string getDeviceAddress() const;

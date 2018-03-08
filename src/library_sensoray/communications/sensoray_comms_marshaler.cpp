@@ -11,7 +11,7 @@ namespace comms{
 CommsMarshaler::CommsMarshaler()
 {
     //let us simplify this and do this upon constuction as there will only be one link
-    link = std::make_shared<SensorayTCPLink>();
+    link = std::make_shared<SensorayLink>();
     link->AddListener(this);
 
     //let us simplify this and do this upon constuction as there will only be one protocol
@@ -21,10 +21,10 @@ CommsMarshaler::CommsMarshaler()
 
 CommsMarshaler::~CommsMarshaler()
 {
-    link->Disconnect();
+    link->DisconnectFromDevice();
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////
-/// Connect/Disconnect from Rigol Methods
+/// Methods supporting the Connect/Disconnect from Sensoray Device
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 //!
@@ -35,26 +35,55 @@ CommsMarshaler::~CommsMarshaler()
 bool CommsMarshaler::ConnectToLink(const SensorayTCPConfiguration &linkConfig)
 {
     link->setTCPConfiguration(linkConfig);
-    link->Connect();
+    link->ConnectToDevice();
     return link->isConnected();
 }
 
 bool CommsMarshaler::DisconnetFromLink()
 {
     auto func = [this]() {
-        link->Disconnect();
+        link->DisconnectFromDevice();
     };
 
     link->MarshalOnThread(func);
     return link->isConnected();
 }
 
-void CommsMarshaler::EmitByteArray(const QByteArray &data)
+///////////////////////////////////////////////////////////////////////////////////////////////
+/// Methods supporting the Connect/Disconnect from of the Sensory Device and accompanying
+/// RS485 port
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+//!
+//! \brief ConnectToSerialPort
+//! \param linkConfig
+//! \return
+//!
+bool CommsMarshaler::ConnectToSerialPort(const SerialConfiguration &config)
+{
+    auto func = [this, config]() {
+        protocol->openSerialPort(link.get(),config);
+    };
+    link->MarshalOnThread(func);
+}
+
+//!
+//! \brief DisconnetFromSerialPort
+//! \return
+//!
+bool CommsMarshaler::DisconnetFromSerialPort()
+{
+    auto func = [this]() {
+        protocol->closeSerialPort(link.get());
+    };
+    link->MarshalOnThread(func);
+}
+
+void CommsMarshaler::WriteToSerialPort(const QByteArray &data) const
 {
     auto func = [this, data]() {
-        //link->WriteBytes(data);
+        protocol->transmitDataToSerialPort(link.get(),data);
     };
-
     link->MarshalOnThread(func);
 }
 
