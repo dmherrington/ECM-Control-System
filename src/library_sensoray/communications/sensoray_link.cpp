@@ -270,6 +270,8 @@ QByteArray SensorayLink::WriteToSerialPort(const QByteArray &data)
             _emitLinkError(std::string(s24xx_ErrorText(errorCode)));
             return response;
         }
+        response = QByteArray(reinterpret_cast<char*>(buf), nchars);
+
         return response;
     }
 }

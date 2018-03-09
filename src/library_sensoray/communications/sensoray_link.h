@@ -51,7 +51,7 @@ public:
 
     bool CloseSerialPort (void);
 
-    void WriteToSerialPort(const QByteArray &data);
+    QByteArray WriteToSerialPort(const QByteArray &data);
 
     bool isSerialPortConnected() const;
 

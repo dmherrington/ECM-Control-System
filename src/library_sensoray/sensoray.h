@@ -30,6 +30,10 @@ public:
     //////////////////////////////////////////////////////////////
     void ConnectionOpened() const override;
     void ConnectionClosed() const override;
+    void NewDataReceived(const QByteArray &buffer) const override;
+
+signals:
+    void ReceivedSerialMessage(const QByteArray &msg);
 
 private:
     void initializeSensoray() const;

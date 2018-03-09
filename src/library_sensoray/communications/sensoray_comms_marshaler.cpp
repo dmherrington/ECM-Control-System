@@ -129,7 +129,7 @@ void CommsMarshaler::CommunicationUpdate(const std::string &name, const std::str
 //////////////////////////////////////////////////////////////
 /// IProtocolSensorayEvents
 //////////////////////////////////////////////////////////////
-void CommsMarshaler::ResponseReceived(const ILink* link_ptr, const std::vector<uint8_t> &buffer) const
+void CommsMarshaler::ResponseReceived(const ILink* link_ptr, const QByteArray &buffer) const
 {
     Emit([&](CommsEvents *ptr){ptr->NewDataReceived(buffer);});
 }

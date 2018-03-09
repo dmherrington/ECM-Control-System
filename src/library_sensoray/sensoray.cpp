@@ -16,7 +16,7 @@ void Sensoray::openConnection(const std::string &ipAddress, const int &portNumbe
 
 void Sensoray::closeConnection()
 {
-
+    commsMarshaler->DisconnetFromLink();
 }
 
 //////////////////////////////////////////////////////////////
@@ -31,6 +31,11 @@ void Sensoray::ConnectionOpened() const
 void Sensoray::ConnectionClosed() const
 {
     std::cout<<"A connection has been closed to the sensoray device."<<std::endl;
+}
+
+void Sensoray::NewDataReceived(const QByteArray &buffer) const
+{
+    emit ReceivedSerialMessage(buffer);
 }
 
 void Sensoray::initializeSensoray() const

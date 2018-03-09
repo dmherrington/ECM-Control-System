@@ -85,7 +85,7 @@ private:
     //////////////////////////////////////////////////////////////
     /// Virtual methods imposed from IProtocolSensorayEvents
     //////////////////////////////////////////////////////////////
-    void ResponseReceived(const ILink* link_ptr, const std::vector<uint8_t> &buffer) const override;
+    void ResponseReceived(const ILink* link_ptr, const QByteArray &buffer) const override;
 
 private:
     std::shared_ptr<SensorayLink> link;

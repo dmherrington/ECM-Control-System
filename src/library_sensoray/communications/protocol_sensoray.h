@@ -46,19 +46,6 @@ public:
     //////////////////////////////////////////////////////////////
     void resetSensorayIO(SensorayLink *link);
 
-
-public:
-
-    //!
-    //! \brief Read data incoming from some link
-    //!
-    //! This code is largely a copy from MAVLinkProtocol::receiveBytes in qgroundcontrol
-    //! \param link Link which data was read from
-    //! \param buffer data that was read.
-    //!
-    void ReceiveData(ILink *link, const std::vector<uint8_t> &buffer) override;
-
-
 private:
 
     void Emit(const std::function<void(const IProtocolSensorayEvents*)> func)

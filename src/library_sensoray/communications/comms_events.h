@@ -1,6 +1,8 @@
 #ifndef COMMS_EVENTS_H
 #define COMMS_EVENTS_H
 
+#include <QByteArray>
+
 #include <string>
 #include "common/common.h"
 
@@ -37,7 +39,7 @@ public:
         UNUSED(msg);
     }
 
-    virtual void NewDataReceived(const std::vector<uint8_t> &buffer) const
+    virtual void NewDataReceived(const QByteArray &buffer) const
     {
         UNUSED(buffer);
     }
