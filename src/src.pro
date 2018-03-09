@@ -12,4 +12,5 @@ SUBDIRS += \
     library_rigol_oscilloscope \
     window_rigol_oscilliscope \
     test_graphing \
-    ECM_gui
+    ECM_gui \
+    library_sensoray

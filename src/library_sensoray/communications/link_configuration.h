@@ -1,15 +1,14 @@
-#ifndef LINK_CONFIGURATION_H
-#define LINK_CONFIGURATION_H
+#ifndef SENSORAY_LINK_CONFIGURATION_H
+#define SENSORAY_LINK_CONFIGURATION_H
 
 #include <string>
 
-namespace rigol {
+namespace sensoray {
 namespace comms{
 
 class LinkConfiguration
 {
 public:
-
     virtual void copyFrom(LinkConfiguration* source)
     {
         Q_ASSERT(source != NULL);
@@ -50,8 +49,6 @@ public:
     */
     void setAutoConnect(bool autoc = true) { _autoConnect = autoc; }
 
-
-
 private:
 
     std::string _name;
@@ -60,6 +57,6 @@ private:
 };
 
 } //end of namespace comms
-} //end of namespace rigol
+} //end of namespace sensoray
 
-#endif // LINK_CONFIGURATION_H
+#endif // SENSORAY_LINK_CONFIGURATION_H

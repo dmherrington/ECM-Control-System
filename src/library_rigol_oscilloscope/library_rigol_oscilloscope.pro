@@ -55,7 +55,6 @@ HEADERS += \
     communications/i_link_events.h \
     communications/i_protocol.h \
     communications/i_protocol_rigol_events.h \
-    communications/link_configuration.h \
     communications/protocol_rigol.h \
     communications/rigol_comms_marshaler.h \
     communications/rigol_tcp_link.h \
@@ -73,7 +72,8 @@ HEADERS += \
     commands/abstract_rigol_status.h \
     commands/measure/rigol_measurement_status.h \
     commands/acquire/acquire_components.h \
-    commands/measure/measure_components.h
+    commands/measure/measure_components.h \
+    communications/rigol_link_configuration.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib
