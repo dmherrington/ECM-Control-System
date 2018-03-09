@@ -12,8 +12,8 @@
 #include <QStringList>
 #include <QRegExp>
 
-#include "library_rigol_oscilloscope/rigol_oscilliscope.h"
-#include "clock_testing.h"
+
+#include "library_sensoray/sensoray.h"
 
 #include "s24xx.h"
 
@@ -24,25 +24,26 @@ static void IoLoop( HSESSION sess );
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-
+    Sensoray newInterface;
+    newInterface.openConnection("192.168.1.101",23);
     // Testing of the Sensoray device
-    HSESSION sess;
-    S24XXERR err = ERR_NONE;
-    if ( !s24xx_ApiOpen() )
-        printf( "Error: Failed to open session interface\n" );
+//    HSESSION sess;
+//    S24XXERR err = ERR_NONE;
+//    if ( !s24xx_ApiOpen() )
+//        printf( "Error: Failed to open session interface\n" );
 
-    // Create session object and open the telnet session.
-    else if ( !s24xx_SessionOpen( &sess, &err, 2426, "192.168.1.101", 23, 2000 ) )
-        s24xx_ErrorText( err ) ;
+//    // Create session object and open the telnet session.
+//    else if ( !s24xx_SessionOpen( &sess, &err, 2426, "192.168.1.101", 23, 2000 ) )
+//        s24xx_ErrorText( err ) ;
 
-    // Run i/o loop and then close the api.
-    else
-    {
-        IoLoop( sess ); 	// Run the i/o processing loop.
+//    // Run i/o loop and then close the api.
+//    else
+//    {
+//        IoLoop( sess ); 	// Run the i/o processing loop.
 
-        s24xx_SessionClose( sess );		// Terminate telnet connection.
-        s24xx_ApiClose();				// Free API resources.
-    }
+//        s24xx_SessionClose( sess );		// Terminate telnet connection.
+//        s24xx_ApiClose();				// Free API resources.
+//    }
 
 //    rigol::comms::RigolCommsMarshaler* marshal = new rigol::comms::RigolCommsMarshaler();
 //    rigol::comms::TCPConfiguration newConfig;

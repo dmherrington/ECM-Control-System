@@ -6,7 +6,7 @@
 
 #include "library_rigol_oscilloscope_global.h"
 
-#include "link_configuration.h"
+#include "rigol_link_configuration.h"
 
 
 namespace rigol{
