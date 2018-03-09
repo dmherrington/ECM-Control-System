@@ -4,6 +4,8 @@
 #include <QString>
 #include "tuple_generic.h"
 
+namespace common {
+
 class COMMONSHARED_EXPORT TupleSensorString : public TupleGeneric
 {
 public:
@@ -62,5 +64,7 @@ public:
     QString sensorName;
 
 };
+
+} //end of namespace common
 
 #endif // TUPLE_SENSOR_STRING_H

@@ -25,7 +25,7 @@ private:
     //! \param plotCollection Pointer to plot collection
     //! \return Pointer to newly created object
     //!
-    static ISensorDisplay* CreateNewDisplayObject(const TupleSensorString &sensor, const Data::SensorTypes &type, ECMPlotCollection* plotCollection);
+    static ISensorDisplay* CreateNewDisplayObject(const common::TupleSensorString &sensor, const data::SensorTypes &type, ECMPlotCollection* plotCollection);
 
 
 public:
@@ -64,7 +64,7 @@ public:
     //! \param type Type of sensor.
     //! \return Pointer to widget.
     //!
-    QObject* CreateSensor(const TupleSensorString &sensor, const Data::SensorTypes &type);
+    QObject* CreateSensor(const common::TupleSensorString &sensor, const data::SensorTypes &type);
 
 
     //!
@@ -72,7 +72,7 @@ public:
     //! \param sensor Identifier of widget.
     //! \return  Return pointer to widget, NULL if not.
     //!
-    QWidget* getWidget(const TupleSensorString &sensor);
+    QWidget* getWidget(const common::TupleSensorString &sensor);
 
 
     //!
@@ -80,14 +80,14 @@ public:
     //! \param sensor Sensor in the collection to update
     //! \param state Sensor state containing the data
     //!
-    void UpdateNonPlottedData(const TupleSensorString &sensor, const Data::SensorState &state);
+    void UpdateNonPlottedData(const common::TupleSensorString &sensor, const data::SensorState &state);
 
 
     //!
     //! \brief Request an update of plotted data for a sensor in the collection.
     //! \param sensor Key to sensor in collection.
     //!
-    void PlottedDataUpdated(const TupleSensorString &sensor);
+    void PlottedDataUpdated(const common::TupleSensorString &sensor);
 
 
     //!

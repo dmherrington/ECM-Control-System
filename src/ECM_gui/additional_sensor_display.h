@@ -51,7 +51,7 @@ public:
     //! \param sensor Sensor to create
     //! \param type Type of sensor to make
     //!
-    Q_INVOKABLE void NewDock(const TupleSensorString &sensor, const Data::SensorTypes &type);
+    Q_INVOKABLE void NewDock(const common::TupleSensorString &sensor, const data::SensorTypes &type);
 
 
     /**
@@ -59,14 +59,14 @@ public:
      * @param sensorName Name of the sensor of interest
      * @return True if the sensor is displayed, false otherwise
      */
-    bool isSensorDisplayed(const TupleSensorString &sensor);
+    bool isSensorDisplayed(const common::TupleSensorString &sensor);
 
 
     //!
     //! \brief Notify about a sensor that can be used by this object
     //! \param sensor Sensor that can be used
     //!
-    void AddUsableSensor(const TupleSensorString &sensor);
+    void AddUsableSensor(const common::TupleSensorString &sensor);
 
 
     //!
@@ -88,13 +88,13 @@ public:
     //! \param sensor Sensor to update
     //! \param state State to give
     //!
-    void UpdateNonPlottedData(const TupleSensorString &sensor, const Data::SensorState &state);
+    void UpdateNonPlottedData(const common::TupleSensorString &sensor, const data::SensorState &state);
 
 
     //!
     //! \brief update plotted data in displays kept by the dock window
     //!
-    void UpdatePlottedData(const TupleSensorString &sensor);
+    void UpdatePlottedData(const common::TupleSensorString &sensor);
 
 
     //!
@@ -122,7 +122,7 @@ signals:
     //! \param sensor Sensor adding
     //! \param type type of sensor
     //!
-    void CreateNewDock(ECMCore::TupleSensorString sensor, Data::SensorTypes type);
+    void CreateNewDock(common::TupleSensorString sensor, data::SensorTypes type);
 
     //!
     //! \brief WindowRangeChanged Signal to be emitted when the x-axis range is changed
@@ -136,7 +136,7 @@ signals:
     //! \brief Signal to emit when display state of a sensor in the dock has changed.
     //! \param sensor Sensor whoose state has changed.
     //!
-    void SensorDisplayChanged(TupleSensorString sensor, bool display);
+    void SensorDisplayChanged(common::TupleSensorString sensor, bool display);
 
     //!
     //! \brief changeColorScheme Signal to be emitted when the color scheme is changed

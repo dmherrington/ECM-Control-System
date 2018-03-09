@@ -7,6 +7,8 @@
 
 #include "common_global.h"
 
+namespace common {
+
 /*!
  * \brief Enumeration of time sources availabe
  */
@@ -214,6 +216,8 @@ private:
 
 };
 
-Q_DECLARE_METATYPE(EnvironmentTime)
+} //end of namespace common
+
+Q_DECLARE_METATYPE(common::EnvironmentTime)
 
 #endif // TIME_H

@@ -1,5 +1,7 @@
 #include "tuple_sensor_string.h"
 
+namespace common {
+
 TupleSensorString::TupleSensorString()
 {
 
@@ -101,4 +103,6 @@ bool TupleSensorString::operator!=(const TupleGeneric& rhs) const
 {
     return !((*this) == rhs);
 }
+
+} //end of namespace common
 

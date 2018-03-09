@@ -83,7 +83,7 @@ private:
     //////////////////////////////////////////////////////////////
     /// Virtual methods imposed from IProtocolSensorayEvents
     //////////////////////////////////////////////////////////////
-    void ResponseReceived(const ILink* link_ptr, const QByteArray &buffer) const override;
+    void ResponseReceived(const QByteArray &buffer) const override;
 
 private:
     SensoraySession* m_Session;

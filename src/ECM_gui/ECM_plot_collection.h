@@ -1,24 +1,19 @@
 #ifndef ECM_PLOT_COLLECTION_H
 #define ECM_PLOT_COLLECTION_H
 
+#include <QStringList>
 #include <QHash>
 #include <QList>
 
-#include "ECM_gui_global.h"
-
-#include "model_state.h"
-#include "sensor_state.h"
+#include "ECM_controller_gui.h"
 
 #include "common/threaded_scheduler.h"
 #include "common/tuple_ecm_data.h"
+#include "common/tuple_sensor_string.h"
+
 #include "ECM_plot_identifier.h"
 
 #include "observation_scalar.h"
-
-#include "math_expression.h"
-
-#include <QStringList>
-
 #include "observation_collection.h"
 
 //!
@@ -35,7 +30,7 @@
 //! It is then scheduled to be inserted into the respective ExpressionEngine::PlotTimeData object on a seperate thread.
 //! This means that the insertion into temporary list is rather short, while insertion into main data store is performed in a seperate thread.
 //!
-class ECMPlotCollection : public ExpressionEngine::ObservationCollection
+class ECMPlotCollection
 {
 Q_OBJECT
 public:
@@ -51,56 +46,12 @@ public:
     //!
     ~ECMPlotCollection();
 
-
-    //!
-    //! \brief Method to notify the plot collection about exo dynamic data present in an ISAAC component.
-    //! \param component ISAAC component that contains data
-    //! \param dataName Name of ExoDynamic data
-    //! \param dim Dimension of data
-    //!
-    void NotifyExoDynamicInformation(const ECMCore::TupleECMData &component, const QString &dataName, const DimensionalAnalysis::DimensionalExpression &dim);
-
-
-    //!
-    //! \brief Update dynamic plots with an observed state, including ExoDynamic data
-    //! \param element ISAAC component to update
-    //! \param state Observed state
-    //!
-    void UpdateDynamicPlots(const ECMCore::TupleECMData &element, const Data::ModelState &state, const double &ms_delay);
-
-
-    //!
-    //! \brief Update dynamic plots with an observed state, including ExoDynamic data
-    //! \param element ISAAC component to update
-    //! \param state List of observed state
-    //!
-    void UpdateDynamicPlots(const ECMCore::TupleECMData &element, const QList<Data::ModelState> &stateList, const QList<double> &ms_delay = QList<double>());
-
-
-    //!
-    //! \brief Update dynamic plots with a list of observed sensor state
-    //! \param element ISAAC component to update
-    //! \param state Observed sensor state
-    //!
-    void UpdateDynamicPlots(const ECMCore::TupleECMData &element, const QList<Data::SensorState> &stateList, const QList<double> &ms_delay = QList<double>());
-
-
-    //!
-    //! \brief Update Plots containing exodynamic data
-    //! \param element Component containing exodynamic data
-    //! \param time Time data is valid at
-    //! \param names Name of ExoDynamic data
-    //! \param values Value
-    //!
-    void UpdateExoDynamicPlots(const ECMCore::TupleECMData &element, const QDateTime time, QList<QString> &names, QList<HSI_FLOAT64> &values);
-
-
     //!
     //! \brief Update any plots for an observed sensor state
     //! \param sensor ISAAC sensor component to update
     //! \param state Observed sensor state
     //!
-    void UpdateSensorPlots(const ECMCore::TupleECMData sensor, const Data::SensorState &state);
+    void UpdateSensorPlots(const common::TupleSensorString sensor, const double &state);
 
 
     //!
@@ -108,24 +59,7 @@ public:
     //! \param element ISAAC components
     //! \return List of pointers to plot data
     //!
-    QList<std::shared_ptr<ExpressionEngine::IPlotComparable> > getPlots(const ECMCore::TupleECMData &element) const;
-
-
-    //!
-    //! \brief Retreive a list of all ISAAC components contained in a single math expressions
-    //! \param expr Math expression
-    //! \return List of ISAAC components
-    //!
-    QList<ECMCore::TupleECMData> ECMComponentInExpression(const ExpressionEngine::MathExpression &expr);
-
-
-    //!
-    //! \brief Assist in compleating a string
-    //! \param partialString Partial string to compleate
-    //! \return List of strings that can be used
-    //!
-    QStringList CompleteAssist(const QString &partialString);
-
+    QList<std::shared_ptr<ExpressionEngine::IPlotComparable> > getPlots(const common::TupleECMData &element) const;
 
     //!
     //! \brief Set current time of the plots
@@ -139,7 +73,7 @@ public:
     //! \param component Component querying
     //! \return List of all subplots
     //!
-    QList<ECMPlotIdentifier> AllSubPlots(const ECMCore::TupleECMData &component) const;
+    QList<ECMPlotIdentifier> AllSubPlots(const common::TupleECMData &component) const;
 
 
 private slots:

@@ -51,8 +51,6 @@ SensorayLink::SensorayLink()
 SensorayLink::~SensorayLink()
 {
     DisconnectFromDevice();
-    if(m_Session) delete m_Session;
-    m_Session = nullptr;
 }
 
 void SensorayLink::RequestReset()

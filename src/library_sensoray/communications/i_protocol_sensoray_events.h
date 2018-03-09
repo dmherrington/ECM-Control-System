@@ -15,7 +15,7 @@ namespace comms{
 class IProtocolSensorayEvents
 {
 public:
-    virtual void ResponseReceived(const ILink* link_ptr, const QByteArray &buffer) const = 0;
+    virtual void ResponseReceived(const QByteArray &buffer) const = 0;
 };
 
 

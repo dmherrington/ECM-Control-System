@@ -3,13 +3,13 @@
 
 #include <QWidget>
 #include <QTableWidgetItem>
-#include <string>
 
 #include "I_sensor_display.h"
-#include "I_plot_comparable.h"
 
-#include "common/tuple_measurement_string.h"
+#include "observation_scalar.h"
+#include "observation_quaternion.h"
 
+#include "../ECM_plot_collection.h"
 
 namespace Ui {
 class DisplayBasePlotInstantaneous;
@@ -20,7 +20,7 @@ class DisplayBasePlotInstantaneous : public QWidget, public ISensorDisplay
     Q_OBJECT
 
 public:
-    explicit DisplayBasePlotInstantaneous(const TupleMeasurementString &measurementType, QWidget *parent = 0);
+    explicit DisplayBasePlotInstantaneous(const common::TupleMeasurementString &measurementType, QWidget *parent = 0);
     ~DisplayBasePlotInstantaneous();
 
     //!

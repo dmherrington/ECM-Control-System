@@ -210,8 +210,8 @@ bool ECMPlotIdentifier::isConstObject() const
 
 
 //!
-//! \brief Determine if this identifier contains data about a specific component of ISAAC
-//! \param thing Specific component of ISAAC
+//! \brief Determine if this identifier contains data about a specific component of ECM
+//! \param thing Specific component of ECM
 //! \return true if contains
 //!
 bool ECMPlotIdentifier::IsECMElement(const ECMCore::TupleECMData &thing)
@@ -224,8 +224,8 @@ bool ECMPlotIdentifier::IsECMElement(const ECMCore::TupleECMData &thing)
 
 
 //!
-//! \brief Get the ISAAC component this plot refers to
-//! \return ISAAC component
+//! \brief Get the ECM component this plot refers to
+//! \return ECM component
 //!
 ECMCore::TupleECMData ECMPlotIdentifier::ECMComponent() const
 {

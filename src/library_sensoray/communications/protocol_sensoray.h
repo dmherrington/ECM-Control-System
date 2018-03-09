@@ -36,16 +36,16 @@ public:
     //////////////////////////////////////////////////////////////
     /// Method issuing a request to the sensoray device
     //////////////////////////////////////////////////////////////
-    bool openSerialPort(SensorayLink *link, const SerialConfiguration &config);
+    bool openSerialPort(const SerialConfiguration &config);
 
-    bool closeSerialPort (SensorayLink *link);
+    bool closeSerialPort ();
 
-    void transmitDataToSerialPort(SensorayLink *link, const QByteArray &msg);
+    void transmitDataToSerialPort(const QByteArray &msg);
 
     //////////////////////////////////////////////////////////////
     /// Method issuing a request to the sensoray device
     //////////////////////////////////////////////////////////////
-    void resetSensorayIO(SensorayLink *link);
+    void resetSensorayIO();
 
     void updateCurrentSession(SensoraySession* session);
 private:

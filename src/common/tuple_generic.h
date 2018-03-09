@@ -9,6 +9,8 @@
 
 using namespace std;
 
+namespace common {
+
 class TupleGeneric
 {
 public:
@@ -49,4 +51,5 @@ public:
     virtual bool operator!=(const TupleGeneric& rhs) const = 0;
 };
 
+}//end of namespace common
 #endif // TUPLE_GENERIC_H

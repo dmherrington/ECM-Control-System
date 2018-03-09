@@ -18,7 +18,7 @@ void SensorayProtocol::updateCurrentSession(SensoraySession *session)
     this->m_Session = session;
 }
 
-void SensorayProtocol::resetSensorayIO(SensorayLink *link)
+void SensorayProtocol::resetSensorayIO()
 {
     S24XXERR errorCode = S24XXERR::ERR_NONE;
     u8	dioChan;
@@ -34,7 +34,7 @@ void SensorayProtocol::resetSensorayIO(SensorayLink *link)
     }
 }
 
-bool SensorayProtocol::openSerialPort(SensorayLink *link, const SerialConfiguration &config)
+bool SensorayProtocol::openSerialPort(const SerialConfiguration &config)
 {
     S24XXERR errorCode = S24XXERR::ERR_NONE;
     s2426_ComportOpen(m_Session->handle,&errorCode,config.baud(),config.getSensorayParity(),config.getSensorayDataBits(),config.getSensorayStopBits());
@@ -42,7 +42,7 @@ bool SensorayProtocol::openSerialPort(SensorayLink *link, const SerialConfigurat
         return true;
 }
 
-bool SensorayProtocol::closeSerialPort (SensorayLink *link)
+bool SensorayProtocol::closeSerialPort ()
 {
     S24XXERR errorCode = S24XXERR::ERR_NONE;
     s2426_ComportClose(m_Session->handle,&errorCode);
@@ -51,7 +51,7 @@ bool SensorayProtocol::closeSerialPort (SensorayLink *link)
     return false;
 }
 
-void SensorayProtocol::transmitDataToSerialPort(SensorayLink *link, const QByteArray &msg)
+void SensorayProtocol::transmitDataToSerialPort(const QByteArray &msg)
 {
     if(m_Session->isSerialPortConnected())
     {
@@ -75,7 +75,7 @@ void SensorayProtocol::transmitDataToSerialPort(SensorayLink *link, const QByteA
 
         }
         response = QByteArray(reinterpret_cast<char*>(buf), nchars);
-        Emit([&](const IProtocolSensorayEvents* ptr){ptr->ResponseReceived(link,response);});
+        Emit([&](const IProtocolSensorayEvents* ptr){ptr->ResponseReceived(response);});
     }
 }
 

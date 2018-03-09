@@ -27,7 +27,10 @@ CommsMarshaler::CommsMarshaler()
 
 CommsMarshaler::~CommsMarshaler()
 {
+    protocol->closeSerialPort();
     link->DisconnectFromDevice();
+    if(m_Session) delete m_Session;
+    m_Session = nullptr;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /// Methods supporting the Connect/Disconnect from Sensoray Device
@@ -68,7 +71,7 @@ bool CommsMarshaler::DisconnetFromLink()
 bool CommsMarshaler::ConnectToSerialPort(const SerialConfiguration &config)
 {
     auto func = [this, config]() {
-        protocol->openSerialPort(link.get(),config);
+        protocol->openSerialPort(config);
     };
     link->MarshalOnThread(func);
 }
@@ -80,7 +83,7 @@ bool CommsMarshaler::ConnectToSerialPort(const SerialConfiguration &config)
 bool CommsMarshaler::DisconnetFromSerialPort()
 {
     auto func = [this]() {
-        protocol->closeSerialPort(link.get());
+        protocol->closeSerialPort();
     };
     link->MarshalOnThread(func);
 }
@@ -88,7 +91,7 @@ bool CommsMarshaler::DisconnetFromSerialPort()
 void CommsMarshaler::WriteToSerialPort(const QByteArray &data) const
 {
     auto func = [this, data]() {
-        protocol->transmitDataToSerialPort(link.get(),data);
+        protocol->transmitDataToSerialPort(data);
     };
     link->MarshalOnThread(func);
 }
@@ -96,7 +99,7 @@ void CommsMarshaler::WriteToSerialPort(const QByteArray &data) const
 void CommsMarshaler::resetSensorayIO()
 {
     auto func = [this]() {
-        protocol->resetSensorayIO(link.get());
+        protocol->resetSensorayIO();
     };
 
     link->MarshalOnThread(func);
@@ -129,7 +132,7 @@ void CommsMarshaler::CommunicationUpdate(const std::string &name, const std::str
 //////////////////////////////////////////////////////////////
 /// IProtocolSensorayEvents
 //////////////////////////////////////////////////////////////
-void CommsMarshaler::ResponseReceived(const ILink* link_ptr, const QByteArray &buffer) const
+void CommsMarshaler::ResponseReceived(const QByteArray &buffer) const
 {
     Emit([&](CommsEvents *ptr){ptr->NewDataReceived(buffer);});
 }
