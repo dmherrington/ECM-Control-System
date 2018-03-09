@@ -10,13 +10,19 @@ namespace comms{
 
 CommsMarshaler::CommsMarshaler()
 {
+    m_Session = new SensoraySession();
+
     //let us simplify this and do this upon constuction as there will only be one link
     link = std::make_shared<SensorayLink>();
     link->AddListener(this);
+    link->updateCurrentSession(m_Session);
 
     //let us simplify this and do this upon constuction as there will only be one protocol
     protocol = std::make_shared<SensorayProtocol>();
     protocol->AddListner(this);
+    protocol->updateCurrentSession(m_Session);
+
+
 }
 
 CommsMarshaler::~CommsMarshaler()

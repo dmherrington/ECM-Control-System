@@ -12,18 +12,12 @@
 #include <QStringList>
 #include <QRegExp>
 
-
-#include "library_sensoray/sensoray.h"
-
-#include "s24xx.h"
-
-
-// Forward declaration.
-static void IoLoop( HSESSION sess );
+#include "sensoray.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
+
     Sensoray newInterface;
     newInterface.openConnection("192.168.1.101",23);
     // Testing of the Sensoray device
@@ -126,60 +120,4 @@ int main(int argc, char *argv[])
 
 */
     return a.exec();
-}
-
-//////////////////////////////////////
-// Main I/O processing loop.
-
-static void IoLoop(HSESSION sess )
-{
-    S2426_ADC_SAMPLE samp[8];
-    int	iters;
-    S24XXERR err = ERR_NONE;
-    u8	dioChan;
-    u32	EncoderCounts;			// Snapshot of encoder counts and acquisition time.
-    u32	EncoderTimestamp;
-    u8	dinDebounced;			// Snapshot of debounced dins.
-
-    // Set session timeout to 5 seconds. Don't reset i/o upon timeout.
-//	s24xx_SetTimeout( sess, &err, 5, UNITS_SECONDS, ACTION_NONE );
-
-    // Set encoder mode.
-    s2426_WriteEncoderMode( sess, &err, QUADRATURE_X4, ENC_PRELOAD_DISABLE );
-
-    // Activate pwm mode for dout channels 12-15, using arbitrary timing values.
-    for ( dioChan = 12; dioChan < 16; dioChan++ )
-    {
-        s2426_SetDoutMode( sess, &err, dioChan, DOUT2426_MODE_PWM );
-        s2426_WritePwm( sess, &err, dioChan, (u16)( ( 23 * ( dioChan + 1 ) ) & 255 ), (u16)( ( 39 * ( dioChan + 1 ) ) & 511 ) );
-    }
-
-    // Execute the i/o processing loop a few times, approximately ten times per second.
-    for (iters = 0; iters < 10000; iters++)
-    {
-        // Read encoder counts.
-        s2426_ReadEncoderCounts( sess, &err, &EncoderCounts, &EncoderTimestamp );
-
-        // Write counts to digital outputs.
-        s2426_WriteDout( sess, &err, (u16)iters );
-
-        // Read a/d converter.
-        s2426_ReadAdc( sess, &err, samp, TRUE );
-
-        // Write counts to dac.
-        s2426_WriteAout( sess, &err, (s16)iters, TRUE );
-
-        // Read debounced digital inputs.
-        s2426_ReadDin( sess, &err, &dinDebounced, NULL );
-
-        // Abort if error detected.
-        if ( err != ERR_NONE )
-        {
-            printf( "Error: %s\n", s24xx_ErrorText( err ) );
-            break;
-        }
-
-        // Wait one "tick" time. In a realtime application this should use an ipc mechanism with realtime behavior.
-        Sleep(1);
-    }
 }

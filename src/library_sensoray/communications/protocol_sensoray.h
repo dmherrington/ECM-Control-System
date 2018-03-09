@@ -14,6 +14,7 @@
 
 #include "i_link.h"
 #include "sensoray_link.h"
+#include "sensoray_session.h"
 #include "i_protocol_sensoray_events.h"
 #include "i_protocol.h"
 
@@ -46,6 +47,7 @@ public:
     //////////////////////////////////////////////////////////////
     void resetSensorayIO(SensorayLink *link);
 
+    void updateCurrentSession(SensoraySession* session);
 private:
 
     void Emit(const std::function<void(const IProtocolSensorayEvents*)> func)
@@ -55,6 +57,8 @@ private:
     }
 
 private:
+    SensoraySession* m_Session;
+
     std::vector<const IProtocolSensorayEvents*> m_Listners;
 };
 

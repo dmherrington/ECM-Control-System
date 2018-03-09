@@ -86,6 +86,7 @@ private:
     void ResponseReceived(const ILink* link_ptr, const QByteArray &buffer) const override;
 
 private:
+    SensoraySession* m_Session;
     std::shared_ptr<SensorayLink> link;
     std::shared_ptr<SensorayProtocol> protocol;
 
