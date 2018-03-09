@@ -13,4 +13,5 @@ SUBDIRS += \
     window_rigol_oscilliscope \
     test_graphing \
     ECM_gui \
-    library_sensoray
+    library_sensoray \
+    library_westinghouse510
