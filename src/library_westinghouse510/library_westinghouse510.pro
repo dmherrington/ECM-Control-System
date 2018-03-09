@@ -33,9 +33,32 @@ HEADERS += \
         library_westinghouse510_global.h \ 
     data/type_read_write.h \
     data_registers/abstract_register.h \
-    data_registers/register_operation_signal.h \
     data_registers/available_registers.h \
-    data_registers/register_flow_rate.h
+    data_registers/register_flow_rate.h \
+    data_registers/register_operation_signal.h
+
+#Header file copy
+headers.path    = $$(ECM_ROOT)/include/library_westinghouse510
+headers.files   += \
+    library_westinghouse510_global.h \
+    westinghouse_510.h
+INSTALLS       += headers
+
+#Header file copy
+headers_data.path    = $$(ECM_ROOT)/include/library_westinghouse510/data
+headers_data.files   += \
+    data/type_read_write.h
+INSTALLS       += headers_data
+
+#Header file copy
+headers_data_registers.path    = $$(ECM_ROOT)/include/library_westinghouse510/data_registers
+headers_data_registers.files   += \
+    data_registers/abstract_register.h \
+    data_registers/available_registers.h \
+    data_registers/register_flow_rate.h \
+    data_registers/register_operation_signal.h
+INSTALLS       += headers_data_registers
+
 
 # Unix lib Install
 unix:!symbian {
@@ -48,6 +71,7 @@ lib.path    = $$(ECM_ROOT)/lib
 win32:CONFIG(release, debug|release):       lib.files   += release/library_westinghouse510.lib release/library_westinghouse510.dll
 else:win32:CONFIG(debug, debug|release):    lib.files   += debug/library_westinghouse510.lib debug/library_westinghouse510.dll
 INSTALLS += lib
+
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include
