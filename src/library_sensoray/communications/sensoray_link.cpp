@@ -163,7 +163,6 @@ bool SensorayLink::DisconnectFromDevice(void)
 /// @return success/fail
 bool SensorayLink::_hardwareConnect()
 {
-    HSESSION session;
     S24XXERR errorCode = S24XXERR::ERR_NONE;
 
     if(!s24xx_ApiOpen())
@@ -246,7 +245,7 @@ bool SensorayLink::isSerialPortConnected() const
     return m_Session->isSerialPortConnected();
 }
 
-QByteArray SensorayLink::WriteToSerialPort(const QByteArray &data)
+QByteArray SensorayLink::WriteToSerialPort(const QByteArray &msg)
 {
     QByteArray response;
     //Since this serial port is only being used for the pump, we know we can
@@ -254,9 +253,10 @@ QByteArray SensorayLink::WriteToSerialPort(const QByteArray &data)
     //will alleviate the headache of trying to coordiate TX/RX across libraries
     if(isSerialPortConnected())
     {
+        QByteArray dataCopy = msg;
         S24XXERR errorCode = S24XXERR::ERR_NONE;
         //first write the information to the serial port and wait until completed
-        s2426_ComportWrite(m_Session->handle,&errorCode, data.data(), data.length(),true);
+        s2426_ComportWrite(m_Session->handle,&errorCode, dataCopy.data(), dataCopy.length(),true);
         if(errorCode != S24XXERR::ERR_NONE)
         {
             _emitLinkError(std::string(s24xx_ErrorText(errorCode)));
@@ -271,9 +271,8 @@ QByteArray SensorayLink::WriteToSerialPort(const QByteArray &data)
             return response;
         }
         response = QByteArray(reinterpret_cast<char*>(buf), nchars);
-
-        return response;
     }
+    return response;
 }
 
 void SensorayLink::_emitLinkError(const std::string& errorMsg) const

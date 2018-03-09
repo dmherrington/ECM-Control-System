@@ -76,8 +76,6 @@ private:
 
     void ConnectionClosed() const override;
 
-    void ReceiveData(const std::vector<uint8_t> &buffer) const override;
-
     void CommunicationError(const std::string &type, const std::string &msg) const override;
 
     void CommunicationUpdate(const std::string &name, const std::string &msg) const override;

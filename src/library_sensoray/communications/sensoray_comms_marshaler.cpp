@@ -110,12 +110,6 @@ void CommsMarshaler::ConnectionClosed() const
     Emit([&](CommsEvents *ptr){ptr->ConnectionClosed();});
 }
 
-void CommsMarshaler::ReceiveData(const std::vector<uint8_t> &buffer) const
-{
-    protocol->ReceiveData(link.get(),buffer);
-    //if there is something still in the queue we should send it
-}
-
 void CommsMarshaler::CommunicationError(const std::string &type, const std::string &msg) const
 {
     Emit([&](CommsEvents *ptr){ptr->CommunicationError(type,msg);});

@@ -19,18 +19,51 @@ void Sensoray::closeConnection()
     commsMarshaler->DisconnetFromLink();
 }
 
+void Sensoray::transmitSerialMessage(const QByteArray &data)
+{
+    commsMarshaler->WriteToSerialPort(data);
+}
 //////////////////////////////////////////////////////////////
 /// Virtual methods allowed from comms::CommsEvents
 //////////////////////////////////////////////////////////////
+
+//!
+//! \brief Sensoray::ConnectionOpened
+//!
 void Sensoray::ConnectionOpened() const
 {
     std::cout<<"A connection has been opened to the sensoray device."<<std::endl;
     this->initializeSensoray();
+    emit ConnectionStatus();
 }
 
+//!
+//! \brief Sensoray::ConnectionClosed
+//!
 void Sensoray::ConnectionClosed() const
 {
     std::cout<<"A connection has been closed to the sensoray device."<<std::endl;
+    emit ConnectionStatus();
+}
+
+//!
+//! \brief CommunicationError
+//! \param type
+//! \param msg
+//!
+void Sensoray::CommunicationError(const std::string &type, const std::string &msg) const
+{
+
+}
+
+//!
+//! \brief CommunicationUpdate
+//! \param name
+//! \param msg
+//!
+void Sensoray::CommunicationUpdate(const std::string &name, const std::string &msg) const
+{
+
 }
 
 void Sensoray::NewDataReceived(const QByteArray &buffer) const

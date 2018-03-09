@@ -19,13 +19,7 @@ public:
 
     }
 
-    SensoraySession(const SensoraySession &copy)
-    {
-        this->connectedAPI = copy.connectedAPI;
-        this->connectedDevice = copy.connectedDevice;
-        this->connectedComms = copy.connectedComms;
-        this->handle = copy.handle;
-    }
+    SensoraySession(const SensoraySession &copy) = delete;
 
     ~SensoraySession() = default;
 

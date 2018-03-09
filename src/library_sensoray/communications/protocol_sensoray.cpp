@@ -24,13 +24,15 @@ void SensorayProtocol::resetSensorayIO(SensorayLink *link)
 bool SensorayProtocol::openSerialPort(SensorayLink *link, const SerialConfiguration &config)
 {
     if(!link->isSerialPortConnected())
-        link->OpenSerialPort(config);
+        return link->OpenSerialPort(config);
+    return true;
 }
 
 bool SensorayProtocol::closeSerialPort (SensorayLink *link)
 {
     if(link->isSerialPortConnected())
-        link->CloseSerialPort();
+        return link->CloseSerialPort();
+    return true;
 }
 
 void SensorayProtocol::transmitDataToSerialPort(SensorayLink *link, const QByteArray &msg)
