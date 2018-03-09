@@ -33,8 +33,6 @@ public:
 public:
     virtual void RequestReset();
 
-    void resetSensorayIO();
-
     void _emitLinkError(const std::string& errorMsg) const;
 
 public:
@@ -46,14 +44,7 @@ public:
 
     bool isConnected() const override;
 
-public:
-    bool OpenSerialPort(const SerialConfiguration &config);
-
-    bool CloseSerialPort (void);
-
-    QByteArray WriteToSerialPort(const QByteArray &msg);
-
-    bool isSerialPortConnected() const;
+    void updateCurrentSession(SensoraySession* session);
 
 
 public:

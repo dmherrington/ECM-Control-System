@@ -12,19 +12,14 @@
 #include <QStringList>
 #include <QRegExp>
 
-
-#include "library_westinghouse510/data_registers/register_flow_rate.h"
+#include "sensoray.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    westinghousePump::registers::Register_FlowRate newFlow;
-    newFlow.setSlaveAddress(1);
-    newFlow.setVolumetricFlow(1.89271);
-    QByteArray ba = newFlow.getFullMessage();
-    std::cout<<"The new message is:"<<std::endl;
-//    Sensoray newInterface;
-//    newInterface.openConnection("192.168.1.101",23);
+
+    Sensoray newInterface;
+    newInterface.openConnection("192.168.1.101",23);
     // Testing of the Sensoray device
 //    HSESSION sess;
 //    S24XXERR err = ERR_NONE;

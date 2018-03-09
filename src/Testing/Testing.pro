@@ -31,7 +31,7 @@ HEADERS += \
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include
-
+INCLUDEPATH += $$(ECM_ROOT)/tools/sensoray/lib/
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
@@ -40,9 +40,14 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
 INCLUDEPATH += $$PWD/../common
 DEPENDPATH += $$PWD/../common
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/release/ -llibrary_westinghouse510
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/debug/ -llibrary_westinghouse510
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_westinghouse510/ -llibrary_westinghouse510
+unix:!macx|win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
 
-INCLUDEPATH += $$PWD/../library_westinghouse510
-DEPENDPATH += $$PWD/../library_westinghouse510
+INCLUDEPATH += $$PWD/../../tools/sensoray
+DEPENDPATH += $$PWD/../../tools/sensoray
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/release/ -llibrary_sensoray
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/debug/ -llibrary_sensoray
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_sensoray/ -llibrary_sensoray
+
+INCLUDEPATH += $$PWD/../library_sensoray
+DEPENDPATH += $$PWD/../library_sensoray
