@@ -25,7 +25,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         westinghouse_510.cpp \
     data_registers/abstract_register.cpp \
-    data_registers/register_operation_signal.cpp
+    data_registers/register_operation_signal.cpp \
+    data_registers/register_flow_rate.cpp
 
 HEADERS += \
         westinghouse_510.h \
@@ -33,7 +34,8 @@ HEADERS += \
     data/type_read_write.h \
     data_registers/abstract_register.h \
     data_registers/register_operation_signal.h \
-    data_registers/available_registers.h
+    data_registers/available_registers.h \
+    data_registers/register_flow_rate.h
 
 # Unix lib Install
 unix:!symbian {
