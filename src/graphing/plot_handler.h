@@ -3,19 +3,19 @@
 
 #include <vector>
 #include <string>
-
 #include "graphing_global.h"
+
+#include "qcustomplot.h"
+#include "common/environment_time.h"
+#include "data/Observation/I_plot_comparable.h"
+#include "data/Observation/I_observation.h"
+
+#include "time_plot.h"
 
 #include "common/common.h"
 #include "common/threaded_scheduler.h"
 
-#include "qcustomplot.h"
-#include "time_plot.h"
-#include "plot_data.h"
-#include "number_systems.h"
-
-namespace graphing
-{
+namespace graphing {
 
 //!
 //! \brief A TimePlot object that is to hold and display measurments based on time

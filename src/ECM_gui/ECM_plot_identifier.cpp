@@ -6,7 +6,7 @@
 //! \param dimension Dimesnion beign plotted (position, velocity, attitude, etc)
 //! \param axis Axis plotting
 //!
-ECMPlotIdentifier::ECMPlotIdentifier(const ECMCore::TupleECMData &thing, const char *dimension, const char *axis) :
+ECMPlotIdentifier::ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension, const char *axis) :
     m_thing(thing),
     m_AxisProvided(true)
 {
@@ -40,7 +40,7 @@ ECMPlotIdentifier::ECMPlotIdentifier(const ECMCore::TupleECMData &thing, const c
 //! \param thing Model/Entity/Sensor/Whatever being plotted
 //! \param dimension Dimesnion beign plotted (position, velocity, attitude, etc)
 //!
-ECMPlotIdentifier::ECMPlotIdentifier(const ECMCore::TupleECMData &thing, const char *dimension) :
+ECMPlotIdentifier::ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension) :
     m_thing(thing),
     m_AxisProvided(false)
 {
@@ -75,7 +75,7 @@ ECMPlotIdentifier::ECMPlotIdentifier(const ECMCore::TupleECMData &thing, const c
 //! \param axisStrLen Length of axis string
 //! \param axisHash Provided hash for axis string
 //!
-ECMPlotIdentifier::ECMPlotIdentifier(const ECMCore::TupleECMData &thing, const char *dimension, const uint dimStrLen, const uint dimHash, const char *axis, const uint axisStrLen, const uint axisHash) :
+ECMPlotIdentifier::ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension, const uint dimStrLen, const uint dimHash, const char *axis, const uint axisStrLen, const uint axisHash) :
     m_thing(thing),
     m_AxisProvided(true)
 {
@@ -104,7 +104,7 @@ ECMPlotIdentifier::ECMPlotIdentifier(const ECMCore::TupleECMData &thing, const c
 //! \param dimStrLen Length of name
 //! \param dimHash Provided hash for name
 //!
-ECMPlotIdentifier::ECMPlotIdentifier(const ECMCore::TupleECMData &thing, const char *dimension, const uint dimStrLen, const uint dimHash) :
+ECMPlotIdentifier::ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension, const uint dimStrLen, const uint dimHash) :
     m_thing(thing),
     m_AxisProvided(false)
 {
@@ -130,7 +130,7 @@ ECMPlotIdentifier::~ECMPlotIdentifier()
 //! \brief pure virtual method for equivilance
 //! \return true if equal
 //!
-bool ECMPlotIdentifier::operator==(const ExpressionEngine::IPlotComparable& rhs) const
+bool ECMPlotIdentifier::operator==(const data::observation::IPlotComparable& rhs) const
 {
     if(typeid(rhs) != typeid(*this))
         return false;
@@ -160,7 +160,7 @@ bool ECMPlotIdentifier::operator==(const ExpressionEngine::IPlotComparable& rhs)
 //! \brief pure virtual method for non-equivilance
 //! \return true if not equal
 //!
-bool ECMPlotIdentifier::operator!=(const ExpressionEngine::IPlotComparable& rhs) const
+bool ECMPlotIdentifier::operator!=(const data::observation::IPlotComparable& rhs) const
 {
     return (!(*this == rhs));
 }
@@ -177,7 +177,7 @@ bool ECMPlotIdentifier::operator!=(const ExpressionEngine::IPlotComparable& rhs)
 //!
 //! \return A shared_ptr containing data in the comparable object
 //!
-std::shared_ptr<ExpressionEngine::IPlotComparable> ECMPlotIdentifier::CreateSharedPtr() const
+std::shared_ptr<data::observation::IPlotComparable> ECMPlotIdentifier::CreateSharedPtr() const
 {
     ECMPlotIdentifier *Copy;
     if(m_AxisProvided == true)
@@ -187,7 +187,7 @@ std::shared_ptr<ExpressionEngine::IPlotComparable> ECMPlotIdentifier::CreateShar
 
     Copy->copied = true;
 
-    std::shared_ptr<ExpressionEngine::IPlotComparable> rtnPtr(Copy);
+    std::shared_ptr<data::observation::IPlotComparable> rtnPtr(Copy);
 
     return rtnPtr;
 }
@@ -214,7 +214,7 @@ bool ECMPlotIdentifier::isConstObject() const
 //! \param thing Specific component of ECM
 //! \return true if contains
 //!
-bool ECMPlotIdentifier::IsECMElement(const ECMCore::TupleECMData &thing)
+bool ECMPlotIdentifier::IsECMElement(const common::TupleECMData &thing)
 {
     if(m_thing == thing)
         return true;
@@ -227,7 +227,7 @@ bool ECMPlotIdentifier::IsECMElement(const ECMCore::TupleECMData &thing)
 //! \brief Get the ECM component this plot refers to
 //! \return ECM component
 //!
-ECMCore::TupleECMData ECMPlotIdentifier::ECMComponent() const
+common::TupleECMData ECMPlotIdentifier::ECMComponent() const
 {
     return m_thing;
 }

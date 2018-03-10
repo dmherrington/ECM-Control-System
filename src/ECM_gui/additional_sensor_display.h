@@ -167,7 +167,7 @@ private:
 
     Ui::AdditionalSensorDisplay *ui;
 
-    //! Graph collection in ISAAC, needed to create new sensor displays
+    //! Graph collection in ECM, needed to create new sensor displays
     ECMPlotCollection *m_PlotCollection;
 
     // Boolean indicating whether the docks were created
@@ -177,13 +177,13 @@ private:
     bool m_ContextMenuCreated;
 
     //! Available sensors that can be displayed by this object
-    QMap<TupleSensorString, bool> m_ShownSensors;
+    QMap<common::TupleSensorString, bool> m_ShownSensors;
 
 
-    QMap<TupleSensorString, QAction*> m_SensorActionMap;
+    QMap<common::TupleSensorString, QAction*> m_SensorActionMap;
 
     // Map of a sensor tuple and the corresponding dock widget (with SensorDisplay widget) pointer
-    QMap<TupleSensorString, QDockWidget *> m_SensorDockMap;
+    QMap<common::TupleSensorString, QDockWidget *> m_SensorDockMap;
 
 
     //! Collection of display objects

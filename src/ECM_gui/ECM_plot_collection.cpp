@@ -1,7 +1,7 @@
 #include "ECM_plot_collection.h"
 
-#include "Sensors/sensor.h"
-#include "Sensors/sensor_waypoint.h"
+#include "data/Sensors/sensor.h"
+#include "data/Sensors/sensor_voltage.h"
 
 static const uint Sensed_Voltage_Hash = qHash('S') ^ qHash('e') ^ qHash('n') ^ qHash('s') ^ qHash('e') ^ qHash('d') ^ qHash('_') ^ qHash('V') ^ qHash('o') ^ qHash('l') ^ qHash('t') ^ qHash('a') ^ qHash('g') ^ qHash('e');
 
@@ -27,19 +27,19 @@ ECMPlotCollection::~ECMPlotCollection()
 //! \param sensor ECM sensor component to update
 //! \param state Observed sensor state
 //!
-void ECMPlotCollection::UpdateSensorPlots(const ECMCore::TupleSensorString sensor, const double &state)
+void ECMPlotCollection::UpdateSensorPlots(const common::TupleSensorString sensor, const data::SensorState &state)
 {
-//    QDate tmp_Date(state.validityTime->year, state.validityTime->month, state.validityTime->dayOfMonth);
-//    QTime tmp_Time(state.validityTime->hour, state.validityTime->minute, state.validityTime->second, state.validityTime->millisecond);
-//    QDateTime time = QDateTime(tmp_Date, tmp_Time);
+    QDate tmp_Date(state.validityTime->year, state.validityTime->month, state.validityTime->dayOfMonth);
+    QTime tmp_Time(state.validityTime->hour, state.validityTime->minute, state.validityTime->second, state.validityTime->millisecond);
+    QDateTime time = QDateTime(tmp_Date, tmp_Time);
 
     switch(state.getSensorData()->getType())
     {
-    case Data::SENSOR_VOLTAGE:
+    case data::SENSOR_VOLTAGE:
     {
         ECMPlotIdentifier ID_S(sensor, "Sensed_Voltage", 14, Sensed_Voltage_Hash);
-        MakePlot(ID_S, DimensionalAnalysis::DimensionalExpression(DimensionalAnalysis::VoltageDimension(DimensionalAnalysis::UNIT_VOLTAGE_VOLTS)));
-        HSI_FLOAT64 value = ((Data::SensorVoltage*)state.getSensorData().get())->getVoltage(DimensionalAnalysis::UNIT_VOLTAGE_VOLTS);
+        MakePlot(ID_S, data::VoltageDimension(data::UNIT_VOLTAGE_VOLTS).ShortHand());
+        double value = ((data::SensorVoltage*)state.getSensorData().get())->getVoltage(data::UNIT_VOLTAGE_VOLTS);
         InsertData(ID_S, time, value);
 
         break;
@@ -58,9 +58,9 @@ void ECMPlotCollection::UpdateSensorPlots(const ECMCore::TupleSensorString senso
 //! \param element ECM components
 //! \return List of pointers to plot data
 //!
-QList<std::shared_ptr<ExpressionEngine::IPlotComparable> > ECMPlotCollection::getPlots(const ECMCore::TupleECMData &element) const
+QList<std::shared_ptr<data::observation::IPlotComparable> > ECMPlotCollection::getPlots(const common::TupleECMData &element) const
 {
-    QList<std::shared_ptr<ExpressionEngine::IPlotComparable>> rtnList;
+    QList<std::shared_ptr<data::observation::IPlotComparable>> rtnList;
 
     QList<ECMPlotIdentifier> ID_list = m_ComponentToIDsHash[element];
 
@@ -69,74 +69,6 @@ QList<std::shared_ptr<ExpressionEngine::IPlotComparable> > ECMPlotCollection::ge
 
     return rtnList;
 
-}
-
-
-//!
-//! \brief Retreive a list of all ECM components contained in a single math expressions
-//! \param expr Math expression
-//! \return List of ECM components
-//!
-QList<ECMCore::TupleECMData> ECMPlotCollection::ECMComponentInExpression(const ExpressionEngine::MathExpression &expr)
-{
-    QList<ECMCore::TupleECMData> rtnList;
-
-
-    QList<std::shared_ptr<ExpressionEngine::IPlotComparable> > plotsInExpression = expr.SourcesInExpression();
-    for(int i = 0 ; i < plotsInExpression.size() ; i++)
-    {
-        std::shared_ptr<ExpressionEngine::IPlotComparable> ptr = plotsInExpression.at(i);
-        ECMCore::TupleECMData component = ((ECMPlotIdentifier*)ptr.get())->ECMComponent();
-        if(!rtnList.contains(component))
-            rtnList.append(component);
-    }
-
-    return rtnList;
-}
-
-
-//!
-//! \brief Assist in compleating a string
-//! \param partialString Partial string to compleate
-//! \return List of strings that can be used
-//!
-QStringList ECMPlotCollection::CompleteAssist(const QString &partialString)
-{
-    QStringList wordList;
-    for(int i = 0 ; i < m_PlotReferenceString.size() ; i++)
-    {
-        if(strncmp(m_PlotReferenceString.at(i).toStdString().c_str(), partialString.toStdString().c_str(), partialString.size()) == 0)
-        {
-
-            int startElement = 0;
-            for(int j = partialString.size() ; j > 0 ; j--)
-            {
-                if(m_PlotReferenceString.at(i).size() <= j)
-                    continue;
-
-                if(m_PlotReferenceString.at(i).at(j) == ':' || m_PlotReferenceString.at(i).at(j) == '.')
-                {
-                    startElement = j;
-                    break;
-                }
-            }
-
-            QString referenceWord;
-            for(int j = startElement ; j < m_PlotReferenceString.at(i).size() ; j++)
-            {
-                if(j != startElement && ( m_PlotReferenceString.at(i).at(j) == ':' || m_PlotReferenceString.at(i).at(j) == '.') )
-                {
-                    break;
-                }
-                referenceWord += m_PlotReferenceString.at(i).at(j);
-            }
-
-            if(!wordList.contains(referenceWord))
-                wordList.append(referenceWord);
-        }
-    }
-
-    return wordList;
 }
 
 
@@ -157,7 +89,7 @@ void ECMPlotCollection::CurrentTime(const QDateTime &currTime)
 //! \param component Component querying
 //! \return List of all subplots
 //!
-QList<ECMPlotIdentifier> ECMPlotCollection::AllSubPlots(const ECMCore::TupleECMData &component) const
+QList<ECMPlotIdentifier> ECMPlotCollection::AllSubPlots(const common::TupleECMData &component) const
 {
     return m_ComponentToIDsHash[component];
 }
@@ -181,7 +113,7 @@ void ECMPlotCollection::DoDistributeCurrentTime()
 //! \param ID ID to make
 //! \return True if a plot was made
 //!
-bool ECMPlotCollection::MakePlot(const ECMPlotIdentifier &ID, const DimensionalAnalysis::DimensionalExpression &unit)
+bool ECMPlotCollection::MakePlot(const ECMPlotIdentifier &ID, const std::string &unit)
 {
     if(MakeScalarContainer(ID, unit))
     {

@@ -3,7 +3,6 @@
 
 #include "display_base_plot_instantaneous.h"
 
-
 class DisplayVoltage : public DisplayBasePlotInstantaneous
 {
     Q_OBJECT
@@ -15,15 +14,14 @@ public:
      * @param sensor Tuple that defines the sensor that is being displayed
      * @param parent
      */
-    explicit DisplayVoltage(ECMCore::TupleSensorString sensor, const ECMPlotCollection *sourceCollection, QWidget *parent = 0);
+    explicit DisplayVoltage(common::TupleSensorString sensor, const ECMPlotCollection *sourceCollection, QWidget *parent = 0);
     ~DisplayVoltage();
 
 
-     virtual void setPlotData(const QList<std::shared_ptr<ExpressionEngine::IPlotComparable> > &plotList);
+     virtual void setPlotData(const QList<std::shared_ptr<data::observation::IPlotComparable>> &plotList);
 
 private:
-
-    ExpressionEngine::MathExpression m_Expression;
+    std::string m_Expression;
 };
 
 #endif // DISPLAY_VOLTAGE_H

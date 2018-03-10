@@ -18,7 +18,7 @@ enum VoltageUnit
 
 
 //!
-//! \brief Object representing an angle dimension
+//! \brief Object representing a voltage dimension
 //!
 class VoltageDimension : public IDimension, IDimensionUnits<VoltageUnit>
 {

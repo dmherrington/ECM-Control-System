@@ -8,8 +8,7 @@
 #include <QFileInfo>
 
 
-namespace graphing
-{
+namespace graphing {
 
 
 // //////////////////////////////////////////////////////////////
@@ -848,7 +847,7 @@ void PlotHandler::DoPlotRecalculate()
         m_PlotParameters[plotIndex].Redraw = false;
 
 
-        PlotData dr;
+        data::observation::CartesianData dr;
         if(m_PlotMode == PLOT_ENTIRE_SEQUENCE)
         {
             //Ken Fix: This needs to determine how long the vector of data should be
@@ -860,7 +859,7 @@ void PlotHandler::DoPlotRecalculate()
             //dr = m_PlotParameters[plotIndex].operation.Evaluate(m_LeftWindow, m_OriginTime, msInTimeUnit);
         }
 
-        for(int i = 0 ; i < NumberSystems::NumElements(dr.NumberSystem()) ; i++)
+        for(int i = 0 ; i < data::observation::NumberSystems::NumElements(dr.NumberSystem()) ; i++)
         {
 
             //add plot and set parameters

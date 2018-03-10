@@ -12,9 +12,9 @@
 #include <QMutex>
 #include <typeinfo>
 
-#include "I_plot_comparable.h"
-
 #include "data_global.h"
+
+#include "I_plot_comparable.h"
 
 #include "cartesian_data.h"
 #include "cartesian_evaluation_parameters.h"

@@ -71,3 +71,17 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
 
 INCLUDEPATH += $$PWD/../common
 DEPENDPATH += $$PWD/../common
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../data/release/ -ldata
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../data/debug/ -ldata
+else:unix:!macx: LIBS += -L$$OUT_PWD/../data/ -ldata
+
+INCLUDEPATH += $$PWD/../data
+DEPENDPATH += $$PWD/../data
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../graphing/release/ -lgraphing
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../graphing/debug/ -lgraphing
+else:unix:!macx: LIBS += -L$$OUT_PWD/../graphing/ -lgraphing
+
+INCLUDEPATH += $$PWD/../graphing
+DEPENDPATH += $$PWD/../graphing

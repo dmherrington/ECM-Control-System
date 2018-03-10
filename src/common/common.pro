@@ -42,7 +42,8 @@ HEADERS += common.h\
     tuple_measurement_string.h \
     tuple_sensor_string.h \
     tuple_ecm_data.h \
-    tuple_master_string.h
+    tuple_master_string.h \
+    comms/abstract_communication.h
 
 #Header file copy
 headers.path    = $$(ECM_ROOT)/include/common
@@ -60,5 +61,3 @@ lib.path    = $$(ECM_ROOT)/lib
 win32:CONFIG(release, debug|release):       lib.files   += release/common.lib release/common.dll
 else:win32:CONFIG(debug, debug|release):    lib.files   += debug/common.lib debug/common.dll
 INSTALLS += lib
-
-INCLUDEPATH += $$PWD/../

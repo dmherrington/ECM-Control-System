@@ -10,8 +10,7 @@
 #include <QList>
 #include <QString>
 
-namespace data
-{
+namespace data {
 
 
 enum Dimensions

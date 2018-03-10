@@ -29,20 +29,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES += graphing.cpp \
+SOURCES += \
     plot_handler.cpp \
     qcustomplot.cpp \
     time_plot.cpp
 
-HEADERS += graphing.h\
+HEADERS +=\
         graphing_global.h \
     plot_handler.h \
     qcustomplot.h \
     time_plot.h \
-    plot_data.h \
-    number_systems.h \
-    I_plot_comparable.h
+    number_systems.h
 
+FORMS += \
+    display_base_plot_instantaneous.ui
 
 # Unix lib Install
 unix:!symbian {
@@ -71,5 +71,10 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
 INCLUDEPATH += $$PWD/../common
 DEPENDPATH += $$PWD/../common
 
-FORMS += \
-    display_base_plot_instantaneous.ui
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../data/release/ -ldata
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../data/debug/ -ldata
+else:unix:!macx: LIBS += -L$$OUT_PWD/../data/ -ldata
+
+INCLUDEPATH += $$PWD/../data
+DEPENDPATH += $$PWD/../data
+

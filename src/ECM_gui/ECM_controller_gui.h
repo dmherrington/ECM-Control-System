@@ -3,8 +3,8 @@
 
 #include <QMainWindow>
 
-#include "additional_sensor_display.h"
 #include "ECM_plot_collection.h"
+#include "additional_sensor_display.h"
 
 namespace Ui {
 class ECMControllerGUI;

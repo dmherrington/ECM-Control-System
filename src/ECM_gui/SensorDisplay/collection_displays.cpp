@@ -19,7 +19,7 @@ ISensorDisplay* CollectionDisplays::CreateNewDisplayObject(const common::TupleSe
 
         sensorFrame = new DisplayVoltage(sensor, plotCollection);
 
-        QList<std::shared_ptr<ExpressionEngine::IPlotComparable>> plots;
+        QList<std::shared_ptr<data::observation::IPlotComparable>> plots;
         plots.append(A1.CreateSharedPtr());
         ((DisplayVoltage*)sensorFrame)->setPlotData(plots);
 

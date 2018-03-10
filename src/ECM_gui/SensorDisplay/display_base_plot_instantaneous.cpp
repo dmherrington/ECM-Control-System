@@ -1,9 +1,10 @@
 #include "display_base_plot_instantaneous.h"
 #include "ui_display_base_plot_instantaneous.h"
 
-DisplayBasePlotInstantaneous::DisplayBasePlotInstantaneous(const TupleMeasurementString &measurementType, QWidget *parent) :
+DisplayBasePlotInstantaneous::DisplayBasePlotInstantaneous(const common::TupleSensorString &measurementType, const ECMPlotCollection *sourceCollection, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::DisplayBasePlotInstantaneous)
+    ui(new Ui::DisplayBasePlotInstantaneous),
+    m_sourceCollection(sourceCollection)
 {
     ui->setupUi(this);
     this->m_Measurement = measurementType;
@@ -66,6 +67,17 @@ void DisplayBasePlotInstantaneous::ChangeInstantaniousReading(const int key, con
     m_InstantValueCellHash[key]->setText(value);
 }
 
+//!
+//! \brief Method to update any information that is not contained in a plot for the sensor
+//! \param sensor Tuple describing the sensor
+//! \param sensorData Sensor data to update
+//!
+void DisplayBasePlotInstantaneous::UpdateNonPlottedData(const common::TupleSensorString &sensor, const data::SensorState &sensorData)
+{
+    UNUSED(sensor);
+    UNUSED(sensorData);
+}
+
 /**
  * @brief setOriginTime Set the "zero" time of the plot
  * @param originTime Desired origin time of the plot
@@ -94,7 +106,7 @@ void DisplayBasePlotInstantaneous::ChangePlotMode(const graphing::PlotHandler::P
 //!
 //! \param plotList List of plot objects
 //!
-void DisplayBasePlotInstantaneous::setPlotData(const QList<std::shared_ptr<graphing::IPlotComparable> > &plotList)
+void DisplayBasePlotInstantaneous::setPlotData(const QList<std::shared_ptr<data::observation::IPlotComparable> > &plotList)
 {
     m_PlotData = plotList;
 

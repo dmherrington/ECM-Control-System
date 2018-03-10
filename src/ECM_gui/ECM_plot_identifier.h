@@ -1,16 +1,15 @@
 #ifndef ECM_PLOT_IDENTIFIER_H
 #define ECM_PLOT_IDENTIFIER_H
 
-#include "I_plot_comparable.h"
+#include <QHash>
 
 #include "common/tuple_ecm_data.h"
-
-#include <QHash>
+#include "data/Observation/I_plot_comparable.h"
 
 //!
 //! \brief An object that is to be used to uniquly identify a plot in the ECM
 //!
-class ECMPlotIdentifier : public ExpressionEngine::IPlotComparable
+class ECMPlotIdentifier : public data::observation::IPlotComparable
 {
 public:
 
@@ -20,7 +19,7 @@ public:
     //! \param dimension Dimesnion beign plotted (position, velocity, attitude, etc)
     //! \param axis Axis plotting
     //!
-    ECMPlotIdentifier(const ECMCore::TupleECMData &thing, const char *dimension, const char *axis);
+    ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension, const char *axis);
 
 
     //!
@@ -28,7 +27,7 @@ public:
     //! \param thing Model/Entity/Sensor/Whatever being plotted
     //! \param dimension Dimesnion beign plotted (position, velocity, attitude, etc)
     //!
-    ECMPlotIdentifier(const ECMCore::TupleECMData &thing, const char *dimension);
+    ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension);
 
 
     //!
@@ -46,7 +45,7 @@ public:
     //! \param axisStrLen Length of axis string
     //! \param axisHash Provided hash for axis string
     //!
-    ECMPlotIdentifier(const ECMCore::TupleECMData &thing, const char *dimension, const uint dimStrLen, const uint dimHash, const char *axis, const uint axisStrLen, const uint axisHash);
+    ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension, const uint dimStrLen, const uint dimHash, const char *axis, const uint axisStrLen, const uint axisHash);
 
 
     //!
@@ -61,7 +60,7 @@ public:
     //! \param dimStrLen Length of name
     //! \param dimHash Provided hash for name
     //!
-    ECMPlotIdentifier(const ECMCore::TupleECMData &thing, const char *dimension, const uint dimStrLen, const uint dimHash);
+    ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension, const uint dimStrLen, const uint dimHash);
 
     //!
     //! \brief Destructor
@@ -73,14 +72,14 @@ public:
     //! \brief pure virtual method for equivilance
     //! \return true if equal
     //!
-    virtual bool operator==(const ExpressionEngine::IPlotComparable& rhs) const;
+    virtual bool operator==(const data::observation::IPlotComparable& rhs) const;
 
 
     //!
     //! \brief pure virtual method for non-equivilance
     //! \return true if not equal
     //!
-    virtual bool operator!=(const ExpressionEngine::IPlotComparable& rhs) const;
+    virtual bool operator!=(const data::observation::IPlotComparable& rhs) const;
 
 
     //!
@@ -94,7 +93,7 @@ public:
     //!
     //! \return A shared_ptr containing data in the comparable object
     //!
-    virtual std::shared_ptr<ExpressionEngine::IPlotComparable> CreateSharedPtr() const;
+    virtual std::shared_ptr<data::observation::IPlotComparable> CreateSharedPtr() const;
 
 
     virtual uint hash() const;
@@ -103,18 +102,18 @@ public:
     virtual bool isConstObject() const;
 
     //!
-    //! \brief Determine if this identifier contains data about a specific component of ISAAC
-    //! \param thing Specific component of ISAAC
+    //! \brief Determine if this identifier contains data about a specific component of ECM
+    //! \param thing Specific component of ECM
     //! \return true if contains
     //!
-    bool IsECMElement(const ECMCore::TupleECMData &thing);
+    bool IsECMElement(const common::TupleECMData &thing);
 
 
     //!
-    //! \brief Get the ISAAC component this plot refers to
-    //! \return ISAAC component
+    //! \brief Get the ECM component this plot refers to
+    //! \return ECM component
     //!
-    ECMCore::TupleECMData ECMComponent() const;
+    common::TupleECMData ECMComponent() const;
 
 
     //!
@@ -137,7 +136,7 @@ public:
 
 private:
 
-    ECMCore::TupleECMData m_thing;
+    common::TupleECMData m_thing;
     char m_dimension[100]; //TODO change this to GraphableDimensions
     char m_axis[100];
 

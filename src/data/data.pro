@@ -36,7 +36,6 @@ HEADERS += \
         data_global.h \ 
     Sensors/sensor.h \
     Sensors/sensor_voltage.h \
-    data_global.h \
     sensor_collection.h \
     sensor_state.h \
     Dimensions/dimension.h \
@@ -53,10 +52,55 @@ HEADERS += \
     Observation/cartesian_data.h \
     Observation/cartesian_evaluation_parameters.h
 
-unix {
-    target.path = /usr/lib
+# Unix lib Install
+unix:!symbian {
+    target.path = $$(ECM_ROOT)/lib
     INSTALLS += target
 }
+
+# Windows lib install
+lib.path    = $$(ECM_ROOT)/lib
+win32:CONFIG(release, debug|release):       lib.files   += release/data.lib release/data.dll
+else:win32:CONFIG(debug, debug|release):    lib.files   += debug/data.lib debug/data.dll
+INSTALLS += lib
+
+#Header file copy
+headers_common_data.path    = $$(ECM_ROOT)/include/data
+headers_common_data.files   += \
+        data_global.h \
+        sensor_collection.h \
+        sensor_state.h
+INSTALLS       += headers_common_data
+
+#Header file copy
+headers_data_dimensions.path    = $$(ECM_ROOT)/include/data/Dimensions
+headers_data_dimensions.files   += \
+    Dimensions/dimension.h \
+    Dimensions/time_dimension.h \
+    Dimensions/voltage_dimension.h
+INSTALLS       += headers_data_dimensions
+
+#Header file copy
+headers_data_observations.path    = $$(ECM_ROOT)/include/data/Observation
+headers_data_observations.files   += \
+    Observation/cartesian_data.h \
+    Observation/cartesian_evaluation_parameters.h \
+    Observation/I_observation.h \
+    Observation/I_plot_comparable.h \
+    Observation/I_time_data.h \
+    Observation/number_systems.h \
+    Observation/observation_collection.h \
+    Observation/observation_ID_reference.h \
+    Observation/observation_scalar.h \
+    Observation/time_data_reference.h
+INSTALLS       += headers_data_observations
+
+#Header file copy
+headers_data_sensors.path    = $$(ECM_ROOT)/include/data/Sensors
+headers_data_sensors.files   += \
+    Sensors/sensor.h \
+    Sensors/sensor_voltage.h
+INSTALLS       += headers_data_sensors
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/

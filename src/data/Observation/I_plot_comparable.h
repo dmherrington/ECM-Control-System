@@ -5,7 +5,7 @@
 #include <memory>
 #include "stdlib.h"
 
-#include "data_global.h"
+#include "data/data_global.h"
 #include "common/common.h"
 
 namespace data {
@@ -13,7 +13,7 @@ namespace observation {
 //!
 //! \brief Interface to uniquly identifiy a data source.
 //!
-class IPlotComparable
+class Export IPlotComparable
 {
 public:
 

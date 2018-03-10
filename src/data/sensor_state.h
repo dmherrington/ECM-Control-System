@@ -105,8 +105,9 @@ private:
     //! The sensor data
     std::shared_ptr<Sensor> sensorData;
 
+public:
     //! The time of the state measurment
-    common::EnvironmentTime      *validityTime;
+    common::EnvironmentTime *validityTime;
 };
 
 } //Data

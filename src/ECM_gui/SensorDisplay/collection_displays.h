@@ -4,8 +4,6 @@
 #include "I_sensor_display.h"
 #include "display_voltage.h"
 
-#include "common/tuple_sensor_string.h"
-#include "graphing/plot_handler.h"
 #include "../ECM_plot_collection.h"
 
 
@@ -119,9 +117,9 @@ private:
 
 
     //! Map to Sensor display objects to be shown in the popout GUI window
-    QMap<TupleSensorString, ISensorDisplay*> m_SensorDisplays;
+    QMap<common::TupleSensorString, ISensorDisplay*> m_SensorDisplays;
 
-    //! Pointer to the plot collection object in ISAAC
+    //! Pointer to the plot collection object in ECM
     ECMPlotCollection *m_PlotCollection;
 
     //! Current mode of the plots in this collection
