@@ -6,15 +6,20 @@
 
 #include "library_sensoray_global.h"
 
+#include "common/common.h"
+#include "common/comms/abstract_communication.h"
+
 #include "communications/sensoray_tcp_configuration.h"
+#include "communications/sensoray_serial_configuration.h"
+
 #include "communications/sensoray_comms_marshaler.h"
 
 using namespace sensoray;
 
-class LIBRARY_SENSORAYSHARED_EXPORT Sensoray : public QObject, public comms::CommsEvents
+class LIBRARY_SENSORAYSHARED_EXPORT Sensoray : public QObject, public common::comms::ICommunication, public comms::CommsEvents
 {
     Q_OBJECT
-
+    Q_INTERFACES(common::comms::ICommunication)
 public:
     //!
     //! \brief Sensoray
@@ -26,23 +31,33 @@ public:
     ~Sensoray() = default;
 
 public:
+    ///////////////////////////////////////////////////////////////////////////
+    /// Methods supporting the Connect/Disconnect from Sensoray device
+    ///////////////////////////////////////////////////////////////////////////
+
     //!
     //! \brief openConnection
     //! \param ipAddress
     //! \param portNumber
     //!
-    void openConnection(const std::string &ipAddress, const int &portNumber);
+    void openConnection(const comms::SensorayTCPConfiguration &config);
 
     //!
     //! \brief closeConnection
     //!
     void closeConnection();
 
-    //!
-    //! \brief transmitSerialMessage
-    //! \param data
-    //!
-    void transmitSerialMessage(const QByteArray &data);
+
+
+public:
+    ///////////////////////////////////////////////////////////////////////////
+    /// Methods supporting the Connect/Disconnect from accompanying RS485 port
+    ///////////////////////////////////////////////////////////////////////////
+
+    void openSerialPortConnection(const common::comms::SerialConfiguration &config) const override;
+    void closeSerialPortConnection() const override;
+    void writeToSerialPort(const QByteArray &msg) const override;
+    bool isSerialPortOpen() const override;
 
 public:
     //////////////////////////////////////////////////////////////
@@ -79,12 +94,13 @@ public:
     //!
     void NewDataReceived(const QByteArray &buffer) const override;
 
+    void SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const override;
+
+
 signals:
-    //!
-    //! \brief ReceivedSerialMessage
-    //! \param msg
-    //!
-    void ReceivedSerialMessage(const QByteArray &msg) const;
+    void signal_SerialPortConnectionUpdate(const common::comms::CommunicationUpdate update) const override;
+
+    void signal_RXNewSerialData(const QByteArray data) override;
 
     //!
     //! \brief ConnectionStatus

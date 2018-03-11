@@ -11,6 +11,7 @@
 #include "iostream"
 
 #include "common/common.h"
+#include "common/comms/serial_configuration.h"
 
 #include "i_link.h"
 #include "sensoray_link.h"
@@ -36,7 +37,7 @@ public:
     //////////////////////////////////////////////////////////////
     /// Method issuing a request to the sensoray device
     //////////////////////////////////////////////////////////////
-    bool openSerialPort(const SerialConfiguration &config);
+    bool openSerialPort(const common::comms::SerialConfiguration &config);
 
     bool closeSerialPort ();
 

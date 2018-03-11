@@ -28,7 +28,6 @@ SOURCES += \
     communications/protocol_sensoray.cpp \
     communications/sensoray_comms_marshaler.cpp \
     communications/sensoray_tcp_configuration.cpp \
-    communications/sensoray_serial_configuration.cpp \
     communications/sensoray_link.cpp
 
 HEADERS += \

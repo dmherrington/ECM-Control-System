@@ -13,47 +13,66 @@
 namespace sensoray {
 namespace comms{
 
-class SerialConfiguration : public LinkConfiguration
+static inline S2426_DATABITS getSensorayDataBits(const QSerialPort::DataBits &dataBits)
 {
+    S2426_DATABITS rtn = NDATABITS_5;
 
-public:
-    enum SerialParity {
-        NoParity = 0,
-        EvenParity = 1,
-        OddParity = 2
-    };
+    switch (dataBits) {
+    case QSerialPort::Data5:
+        rtn = NDATABITS_5;
+        break;
+    case QSerialPort::Data6:
+        rtn = NDATABITS_6;
+        break;
+    case QSerialPort::Data7:
+        rtn = NDATABITS_7;
+        break;
+    case QSerialPort::Data8:
+        rtn = NDATABITS_8;
+        break;
+    default:
+        break;
+    }
 
-public:
-    SerialConfiguration(const std::string& name = "");
-    SerialConfiguration(SerialConfiguration* copy);
+    return rtn;
+}
+static inline S2426_STOPBITS getSensorayStopBits(const QSerialPort::StopBits &stopBits)
+{
+    S2426_STOPBITS rtn = STOPBITS_0;
 
+    switch (stopBits) {
+    case QSerialPort::OneStop:
+    case QSerialPort::OneAndHalfStop:
+    case QSerialPort::TwoStop:
+        rtn = STOPBITS_1;
+    break;
 
-    int  baud() const         { return _baud; }
-    int  dataBits() const     { return _dataBits; }
-    int  flowControl() const  { return _flowControl; }
-    int  stopBits() const     { return _stopBits; }
-    SerialParity  parity() const       { return _parity; }
+    default:
+        break;
+    }
 
-    void setBaud            (const int &baud);
-    void setDataBits        (const int &databits);
-    void setFlowControl     (const int &flowControl);
-    void setStopBits        (const int &stopBits);
-    void setParity          (const SerialParity &parity);
+    return rtn;
+}
+static inline S2426_PARITY getSensorayParity(const QSerialPort::Parity &parity)
+{
+    S2426_PARITY rtn = PARITY_TYPE_NONE;
 
-    /// From LinkConfiguration
-    void        copyFrom        (LinkConfiguration* source);
+    switch (parity) {
+    case QSerialPort::EvenParity:
+        rtn = PARITY_TYPE_EVEN;
+        break;
+    case QSerialPort::OddParity:
+        rtn = PARITY_TYPE_ODD;
+        break;
+    case QSerialPort::NoParity:
+        rtn = PARITY_TYPE_NONE;
+        break;
+    default:
+        break;
+    }
 
-    S2426_DATABITS getSensorayDataBits() const;
-    S2426_STOPBITS getSensorayStopBits() const;
-    S2426_PARITY getSensorayParity() const;
-
-private:
-    int _baud ;
-    int _dataBits;
-    int _flowControl;
-    int _stopBits;
-    SerialParity _parity;
-};
+    return rtn;
+}
 
 } //end of namespace comms
 } //end of namespace sensoray

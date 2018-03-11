@@ -21,8 +21,6 @@ CommsMarshaler::CommsMarshaler()
     protocol = std::make_shared<SensorayProtocol>();
     protocol->AddListner(this);
     protocol->updateCurrentSession(m_Session);
-
-
 }
 
 CommsMarshaler::~CommsMarshaler()
@@ -68,7 +66,7 @@ bool CommsMarshaler::DisconnetFromLink()
 //! \param linkConfig
 //! \return
 //!
-bool CommsMarshaler::ConnectToSerialPort(const SerialConfiguration &config)
+void CommsMarshaler::ConnectToSerialPort(const common::comms::SerialConfiguration &config)
 {
     auto func = [this, config]() {
         protocol->openSerialPort(config);
@@ -80,7 +78,7 @@ bool CommsMarshaler::ConnectToSerialPort(const SerialConfiguration &config)
 //! \brief DisconnetFromSerialPort
 //! \return
 //!
-bool CommsMarshaler::DisconnetFromSerialPort()
+void CommsMarshaler::DisconnetFromSerialPort()
 {
     auto func = [this]() {
         protocol->closeSerialPort();
@@ -135,6 +133,11 @@ void CommsMarshaler::CommunicationUpdate(const std::string &name, const std::str
 void CommsMarshaler::ResponseReceived(const QByteArray &buffer) const
 {
     Emit([&](CommsEvents *ptr){ptr->NewDataReceived(buffer);});
+}
+
+void CommsMarshaler::SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const
+{
+    Emit([&](CommsEvents *ptr){ptr->SerialPortStatusUpdate(update);});
 }
 
 } //end of namespace comms

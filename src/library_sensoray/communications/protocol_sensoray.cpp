@@ -34,12 +34,19 @@ void SensorayProtocol::resetSensorayIO()
     }
 }
 
-bool SensorayProtocol::openSerialPort(const SerialConfiguration &config)
+bool SensorayProtocol::openSerialPort(const common::comms::SerialConfiguration &config)
 {
     S24XXERR errorCode = S24XXERR::ERR_NONE;
-    s2426_ComportOpen(m_Session->handle,&errorCode,config.baud(),config.getSensorayParity(),config.getSensorayDataBits(),config.getSensorayStopBits());
+    s2426_ComportOpen(m_Session->handle,&errorCode,config.baud(),getSensorayParity(config.parity()),
+                      getSensorayDataBits(config.dataBits()),getSensorayStopBits(config.stopBits()));
     if(errorCode == S24XXERR::ERR_NONE)
+    {
+        common::comms::CommunicationUpdate serialPortUpdate;
+        serialPortUpdate.setSourceName("Sensoray");
+        serialPortUpdate.setUpdateType(1);
+        Emit([&](const IProtocolSensorayEvents* ptr){ptr->SerialPortStatusUpdate(serialPortUpdate);});
         return true;
+    }
 }
 
 bool SensorayProtocol::closeSerialPort ()

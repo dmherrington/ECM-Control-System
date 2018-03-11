@@ -13,13 +13,22 @@
 #include <QRegExp>
 
 #include "sensoray.h"
+#include "westinghouse_510.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    Sensoray newInterface;
-    newInterface.openConnection("192.168.1.101",23);
+    Sensoray* newInterface = new Sensoray();
+    sensoray::comms::SensorayTCPConfiguration sensorayConfig;
+
+    newInterface->openConnection(sensorayConfig);
+
+    westinghousePump::Westinghouse510* pump = new westinghousePump::Westinghouse510(newInterface);
+
+    common::comms::SerialConfiguration newSerialConfig;
+    newInterface->openSerialPortConnection(newSerialConfig);
+
     // Testing of the Sensoray device
 //    HSESSION sess;
 //    S24XXERR err = ERR_NONE;

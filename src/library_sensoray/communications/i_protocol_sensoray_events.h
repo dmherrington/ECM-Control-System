@@ -6,6 +6,8 @@
 
 #include "i_link.h"
 
+#include "common/comms/communication_update.h"
+
 namespace sensoray {
 namespace comms{
 
@@ -15,6 +17,7 @@ namespace comms{
 class IProtocolSensorayEvents
 {
 public:
+    virtual void SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const = 0;
     virtual void ResponseReceived(const QByteArray &buffer) const = 0;
 };
 

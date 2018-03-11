@@ -6,6 +6,8 @@
 #include <string>
 #include "common/common.h"
 
+#include "common/comms/communication_update.h"
+
 namespace sensoray {
 namespace comms{
 
@@ -43,6 +45,13 @@ public:
     {
         UNUSED(buffer);
     }
+
+    virtual void SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const
+    {
+        UNUSED(update);
+    }
+
+
 };
 
 } //end of namespace comms

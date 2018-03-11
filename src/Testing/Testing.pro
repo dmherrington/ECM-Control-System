@@ -51,3 +51,10 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../library_sensoray/ -llibrary_sensoray
 
 INCLUDEPATH += $$PWD/../library_sensoray
 DEPENDPATH += $$PWD/../library_sensoray
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/release/ -llibrary_westinghouse510
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/debug/ -llibrary_westinghouse510
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_westinghouse510/ -llibrary_westinghouse510
+
+INCLUDEPATH += $$PWD/../library_westinghouse510
+DEPENDPATH += $$PWD/../library_westinghouse510
