@@ -1,27 +1,30 @@
-#include "munk_data_framing.h"
+#include "westinghouse_510_data_framing.h"
 
-MunkDataFraming::MunkDataFraming(const int &munkAddress):
-    munkAddress(munkAddress), currentMSGState(FramingState::WAITING)
+namespace westinghousePump{
+namespace comms{
+
+WestinghouseDataFraming::WestinghouseDataFraming(const int &address):
+    pumpAddress(address), currentMSGState(FramingState::WAITING)
 {
 
 }
 
-FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
+FramingState WestinghouseDataFraming::additionalByteRecevied(const uint8_t &byte)
 {
     switch (currentMSGState) {
     case FramingState::WAITING:
     case FramingState::RECEIVED_ENTIRE_MESSAGE:
     {
         //we should be looking for a byte equal to the address
-        if(byte == munkAddress)
+        if(byte == pumpAddress)
         {
-            currentMSGState = FramingState::RECIEVED_MUNK_ADDRESS;
+            currentMSGState = FramingState::RECIEVED_PUMP_ADDRESS;
             currentMessge.resetData();
             currentMessge.appendArray(byte);
         }
         break;
     }
-    case FramingState::RECIEVED_MUNK_ADDRESS:
+    case FramingState::RECIEVED_PUMP_ADDRESS:
     {
         //once we have first received the munk address, the next byte will be the function code
         currentMessge.appendArray(byte);
@@ -38,12 +41,12 @@ FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
             // one byte to follow telling us of the exception code and concluding with
             // the checksum
             currentMSGState = FramingState::RECEIVED_EXCEPTION_FUNCTION_CODE;
-            currentMessge.setExceptionType(Data::ExceptionType::EXCEPTION);
+            currentMessge.setExceptionType(data::ExceptionType::EXCEPTION);
         }
         else
         {
             currentMSGState = currentMessge.setReadWriteType(RWValue);
-            currentMessge.setExceptionType(Data::ExceptionType::NO_EXCEPTION);
+            currentMessge.setExceptionType(data::ExceptionType::NO_EXCEPTION);
         }
         break;
     }
@@ -118,13 +121,13 @@ FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
     return currentMSGState;
 }
 
-MunkMessage MunkDataFraming::getCurrentMessage() const
+WestinghouseMessage WestinghouseDataFraming::getCurrentMessage() const
 {
     return this->currentMessge;
 }
 
 
-unsigned int MunkDataFraming::CRC16(const QByteArray &array) const
+unsigned int WestinghouseDataFraming::CRC16(const QByteArray &array) const
 {
 char j;
 WORD Temp = 0xFFFF;
@@ -144,3 +147,6 @@ for (j=8;j!=0;j--){
 }
 return Temp;
 }
+
+} //end of namespace comms
+} //end of namespace westinghousePump

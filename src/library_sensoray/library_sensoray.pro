@@ -7,6 +7,15 @@
 QT       -= gui
 QT += core network serialport
 
+unix {
+DEFINES += OSTYPE_LINUX
+}
+win32 {
+DEFINES += OSTYPE_WINDOWS
+}
+
+
+
 TARGET = library_sensoray
 TEMPLATE = lib
 
@@ -94,7 +103,10 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
 INCLUDEPATH += $$PWD/../common
 DEPENDPATH += $$PWD/../common
 
-unix:!macx|win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
 
-INCLUDEPATH += $$PWD/../../tools/sensoray
-DEPENDPATH += $$PWD/../../tools/sensoray
+unix:!macx: LIBS += -L$$PWD/../../tools/sensoray/lib/linux/x64/ -l24xx
+
+INCLUDEPATH += $$PWD/../../tools/sensoray/lib/linux/x64
+DEPENDPATH += $$PWD/../../tools/sensoray/lib/linux/x64
+
+unix:!macx: PRE_TARGETDEPS += $$PWD/../../tools/sensoray/lib/linux/x64/lib24xx.a

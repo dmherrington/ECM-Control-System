@@ -5,29 +5,35 @@
 #include <string.h>
 #include <sys/timeb.h>
 #include <time.h>
-#include <windows.h>
-#include <conio.h>
 
 #include <QString>
 #include <QStringList>
 #include <QRegExp>
 
-#include "sensoray.h"
-#include "westinghouse_510.h"
-
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    Sensoray* newInterface = new Sensoray();
-    sensoray::comms::SensorayTCPConfiguration sensorayConfig;
+    uint8_t byte = 131;
+    uint8_t exceptionMask = 127<<0;
+    uint8_t exceptionValue = (byte & (~exceptionMask));
+    if(exceptionValue == 128)
+    {
+        //we have a problem
+    }
+    std::cout<<"The exception value is: "<<exceptionValue<<std::endl;
+    uint8_t RWMask = 240<<0;
+    uint8_t RWValue = (byte & (~RWMask));
 
-    newInterface->openConnection(sensorayConfig);
+//    Sensoray* newInterface = new Sensoray();
+//    sensoray::comms::SensorayTCPConfiguration sensorayConfig;
 
-    westinghousePump::Westinghouse510* pump = new westinghousePump::Westinghouse510(newInterface);
+//    newInterface->openConnection(sensorayConfig);
 
-    common::comms::SerialConfiguration newSerialConfig;
-    newInterface->openSerialPortConnection(newSerialConfig);
+//    westinghousePump::Westinghouse510* pump = new westinghousePump::Westinghouse510(newInterface);
+
+//    common::comms::SerialConfiguration newSerialConfig;
+//    newInterface->openSerialPortConnection(newSerialConfig);
 
     // Testing of the Sensoray device
 //    HSESSION sess;

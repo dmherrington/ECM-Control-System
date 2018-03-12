@@ -96,9 +96,12 @@ public:
 
     void SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const override;
 
+    void SerialPortConnection(const common::comms::CommunicationConnection &connection) const override;
 
 signals:
-    void signal_SerialPortConnectionUpdate(const common::comms::CommunicationUpdate update) const override;
+    void signal_SerialPortConnection(const common::comms::CommunicationConnection update) const override;
+
+    void signal_SerialPortUpdate(const common::comms::CommunicationUpdate update) const override;
 
     void signal_RXNewSerialData(const QByteArray data) override;
 

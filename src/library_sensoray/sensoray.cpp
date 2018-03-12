@@ -96,7 +96,12 @@ void Sensoray::NewDataReceived(const QByteArray &buffer) const
 
 void Sensoray::SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const
 {
-    emit signal_SerialPortConnectionUpdate(update);
+    emit signal_SerialPortUpdate(update);
+}
+
+void Sensoray::SerialPortConnection(const common::comms::CommunicationConnection &connection) const
+{
+    emit signal_SerialPortConnection(connection);
 }
 
 void Sensoray::initializeSensoray() const

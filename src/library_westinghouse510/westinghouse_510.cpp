@@ -8,7 +8,8 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
     qRegisterMetaType<common::comms::CommunicationUpdate>("CommunicationUpdate");
 
     this->m_Comms = commsObject;
-    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortConnectionUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_SerialPortConnectionUpdate(common::comms::CommunicationUpdate)));
+    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortConnection(common::comms::CommunicationUpdate)),this,SLOT(slot_SerialPortConnection(common::comms::CommunicationUpdate)));
+    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_SerialPortUpdate(common::comms::CommunicationUpdate)));
 
     this->m_State = new Westinghouse510_State();
 
@@ -33,9 +34,19 @@ void Westinghouse510::updatePumpOperations(const registers::Register_OperationSi
     this->m_Comms->writeToSerialPort(desOps.getFullMessage());
 }
 
-void Westinghouse510::slot_SerialPortConnectionUpdate(const common::comms::CommunicationUpdate &update) const
+void Westinghouse510::slot_SerialPortConnection(const common::comms::CommunicationConnection &connection)
 {
-    std::cout<<"This has been called"<<std::endl;
+
+}
+
+void Westinghouse510::slot_SerialPortUpdate(const common::comms::CommunicationUpdate &update)
+{
+
+}
+
+void Westinghouse510::slot_SerialPortReceivedData(const QByteArray &data)
+{
+
 }
 
 }

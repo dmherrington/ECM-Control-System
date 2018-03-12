@@ -41,12 +41,13 @@ bool SensorayProtocol::openSerialPort(const common::comms::SerialConfiguration &
                       getSensorayDataBits(config.dataBits()),getSensorayStopBits(config.stopBits()));
     if(errorCode == S24XXERR::ERR_NONE)
     {
-        common::comms::CommunicationUpdate serialPortUpdate;
-        serialPortUpdate.setSourceName("Sensoray");
-        serialPortUpdate.setUpdateType(1);
-        Emit([&](const IProtocolSensorayEvents* ptr){ptr->SerialPortStatusUpdate(serialPortUpdate);});
+        common::comms::CommunicationConnection serialConnection;
+        serialConnection.setSourceName("Sensoray");
+        serialConnection.setConnection(true);
+        Emit([&](const IProtocolSensorayEvents* ptr){ptr->SerialPortConnectionUpdate(serialConnection);});
         return true;
     }
+    return false;
 }
 
 bool SensorayProtocol::closeSerialPort ()
@@ -54,7 +55,13 @@ bool SensorayProtocol::closeSerialPort ()
     S24XXERR errorCode = S24XXERR::ERR_NONE;
     s2426_ComportClose(m_Session->handle,&errorCode);
     if(errorCode == S24XXERR::ERR_NONE)
+    {
+        common::comms::CommunicationConnection serialConnection;
+        serialConnection.setSourceName("Sensoray");
+        serialConnection.setConnection(false);
+        Emit([&](const IProtocolSensorayEvents* ptr){ptr->SerialPortConnectionUpdate(serialConnection);});
         return true;
+    }
     return false;
 }
 

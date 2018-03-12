@@ -6,7 +6,7 @@
 
 
 // Note: one of these external symbols must be defined:
-#define  OSTYPE_WINDOWS
+//  OSTYPE_WINDOWS
 //  OSTYPE_LINUX
 
 

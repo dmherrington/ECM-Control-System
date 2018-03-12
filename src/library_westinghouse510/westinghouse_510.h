@@ -31,7 +31,9 @@ signals:
     void signal_PumpOperating(const bool &value);
 
 private slots:
-    void slot_SerialPortConnectionUpdate(const common::comms::CommunicationUpdate &update) const;
+    void slot_SerialPortConnection(const common::comms::CommunicationConnection &connection);
+    void slot_SerialPortUpdate(const common::comms::CommunicationUpdate &connection);
+    void slot_SerialPortReceivedData(const QByteArray &data);
 
 private:
     const common::comms::ICommunication* m_Comms;

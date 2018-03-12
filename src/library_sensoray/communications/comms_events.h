@@ -6,6 +6,7 @@
 #include <string>
 #include "common/common.h"
 
+#include "common/comms/communication_connection.h"
 #include "common/comms/communication_update.h"
 
 namespace sensoray {
@@ -44,6 +45,11 @@ public:
     virtual void NewDataReceived(const QByteArray &buffer) const
     {
         UNUSED(buffer);
+    }
+
+    virtual void SerialPortConnection(const common::comms::CommunicationConnection &connection) const
+    {
+        UNUSED(connection);
     }
 
     virtual void SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const

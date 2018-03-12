@@ -135,6 +135,11 @@ void CommsMarshaler::ResponseReceived(const QByteArray &buffer) const
     Emit([&](CommsEvents *ptr){ptr->NewDataReceived(buffer);});
 }
 
+void CommsMarshaler::SerialPortConnectionUpdate(const common::comms::CommunicationConnection &connection) const
+{
+    Emit([&](CommsEvents *ptr){ptr->SerialPortConnection(connection);});
+}
+
 void CommsMarshaler::SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const
 {
     Emit([&](CommsEvents *ptr){ptr->SerialPortStatusUpdate(update);});

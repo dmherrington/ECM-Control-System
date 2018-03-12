@@ -1,7 +1,5 @@
 #include "sensoray_link.h"
-#include <time.h>
-#include <windows.h>
-#include <conio.h>
+
 namespace sensoray{
 namespace comms {
 

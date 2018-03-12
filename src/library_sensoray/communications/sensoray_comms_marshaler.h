@@ -85,6 +85,7 @@ private:
     /// Virtual methods imposed from IProtocolSensorayEvents
     //////////////////////////////////////////////////////////////
     void ResponseReceived(const QByteArray &buffer) const override;
+    void SerialPortConnectionUpdate(const common::comms::CommunicationConnection &connection) const override;
     void SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const override;
 
 private:

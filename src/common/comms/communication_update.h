@@ -10,7 +10,14 @@ namespace comms {
 class CommunicationUpdate
 {
 public:
-    CommunicationUpdate(const std::string &source = "", const int &status = 0, const std::string &msg = "")
+    enum class UpdateTypes
+    {
+        UPDATE,
+        ALERT,
+        ERROR
+    };
+public:
+    CommunicationUpdate(const std::string &source = "", const UpdateTypes &status = UpdateTypes::UPDATE, const std::string &msg = "")
     {
         this->sourceName = source;
         this->type = status;
@@ -31,7 +38,7 @@ public:
     {
         this->sourceName = source;
     }
-    void setUpdateType(const int &status)
+    void setUpdateType(const UpdateTypes &status)
     {
         this->type = status;
     }
@@ -45,7 +52,7 @@ public:
     {
         return this->sourceName;
     }
-    int getUpdateType() const
+    UpdateTypes getUpdateType() const
     {
         return this->type;
     }
@@ -65,7 +72,7 @@ public:
 
 private:
     std::string sourceName;
-    int type;
+    UpdateTypes type;
     std::string message;
 };
 
