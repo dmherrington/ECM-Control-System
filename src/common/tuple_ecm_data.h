@@ -8,10 +8,10 @@
 
 #include "common.h"
 #include "tuple_master_string.h"
+#include "tuple_measurement_string.h"
 #include "tuple_sensor_string.h"
 
-namespace ECMCore
-{
+namespace common {
 
 //!
 //! \brief A container object for tuples that ECM uses to key data
@@ -135,8 +135,8 @@ private:
 
 
 
-} //end of namespace ECMCore
+} //end of namespace common
 
-Q_DECLARE_METATYPE(ECMCore::TupleECMData)
+Q_DECLARE_METATYPE(common::TupleECMData)
 
 #endif // TUPLE_ECM_DATA_H

@@ -1,14 +1,15 @@
-#ifndef SENSORAY_LINK_CONFIGURATION_H
-#define SENSORAY_LINK_CONFIGURATION_H
+#ifndef LINK_CONFIGURATION_H
+#define LINK_CONFIGURATION_H
 
 #include <string>
 
-namespace sensoray {
+namespace common {
 namespace comms{
 
 class LinkConfiguration
 {
 public:
+
     virtual void copyFrom(LinkConfiguration* source)
     {
         Q_ASSERT(source != NULL);
@@ -49,6 +50,8 @@ public:
     */
     void setAutoConnect(bool autoc = true) { _autoConnect = autoc; }
 
+
+
 private:
 
     std::string _name;
@@ -57,6 +60,6 @@ private:
 };
 
 } //end of namespace comms
-} //end of namespace sensoray
+} //end of namespace common
 
-#endif // SENSORAY_LINK_CONFIGURATION_H
+#endif // LINK_CONFIGURATION_H

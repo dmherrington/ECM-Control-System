@@ -11,6 +11,7 @@
 #include "iostream"
 
 #include "common/common.h"
+#include "common/comms/serial_configuration.h"
 
 #include "i_link.h"
 #include "sensoray_link.h"
@@ -36,16 +37,16 @@ public:
     //////////////////////////////////////////////////////////////
     /// Method issuing a request to the sensoray device
     //////////////////////////////////////////////////////////////
-    bool openSerialPort(SensorayLink *link, const SerialConfiguration &config);
+    bool openSerialPort(const common::comms::SerialConfiguration &config);
 
-    bool closeSerialPort (SensorayLink *link);
+    bool closeSerialPort ();
 
-    void transmitDataToSerialPort(SensorayLink *link, const QByteArray &msg);
+    void transmitDataToSerialPort(const QByteArray &msg);
 
     //////////////////////////////////////////////////////////////
     /// Method issuing a request to the sensoray device
     //////////////////////////////////////////////////////////////
-    void resetSensorayIO(SensorayLink *link);
+    void resetSensorayIO();
 
     void updateCurrentSession(SensoraySession* session);
 private:

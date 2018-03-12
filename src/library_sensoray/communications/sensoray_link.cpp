@@ -1,7 +1,5 @@
 #include "sensoray_link.h"
-#include <time.h>
-#include <windows.h>
-#include <conio.h>
+
 namespace sensoray{
 namespace comms {
 
@@ -51,8 +49,6 @@ SensorayLink::SensorayLink()
 SensorayLink::~SensorayLink()
 {
     DisconnectFromDevice();
-    if(m_Session) delete m_Session;
-    m_Session = nullptr;
 }
 
 void SensorayLink::RequestReset()
@@ -158,7 +154,7 @@ void SensorayLink::_emitLinkError(const std::string& errorMsg) const
     EmitEvent([&](const ILinkEvents *ptr){ptr->CommunicationError("Link Error", msg);});
 }
 
-LinkConfiguration SensorayLink::getLinkConfiguration()
+common::comms::LinkConfiguration SensorayLink::getLinkConfiguration()
 {
     return _config;
 }

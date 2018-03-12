@@ -3,6 +3,8 @@
 
 #include "tuple_generic.h"
 
+namespace common {
+
 class COMMONSHARED_EXPORT TupleMeasurementString : public TupleGeneric
 {
 public:
@@ -61,5 +63,7 @@ public:
     QString measurementName;
 
 };
+
+} //end of namespace common
 
 #endif // TUPLE_MEASUREMENT_STRING_H

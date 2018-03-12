@@ -5,21 +5,44 @@
 #include <string.h>
 #include <sys/timeb.h>
 #include <time.h>
-#include <windows.h>
-#include <conio.h>
 
 #include <QString>
 #include <QStringList>
 #include <QRegExp>
 
-#include "sensoray.h"
+#include "library_sensoray/sensoray.h"
+#include "library_westinghouse510/westinghouse_510.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    Sensoray newInterface;
-    newInterface.openConnection("192.168.1.101",23);
+//    uint8_t byte = 131;
+//    uint8_t exceptionMask = 127<<0;
+//    uint8_t exceptionValue = (byte & (~exceptionMask));
+//    if(exceptionValue == 128)
+//    {
+//        //we have a problem
+//    }
+//    std::cout<<"The exception value is: "<<exceptionValue<<std::endl;
+//    uint8_t RWMask = 240<<0;
+//    uint8_t RWValue = (byte & (~RWMask));
+
+    Sensoray* newInterface = new Sensoray();
+    sensoray::comms::SensorayTCPConfiguration sensorayConfig;
+
+//    newInterface->openConnection(sensorayConfig);
+
+    westinghousePump::Westinghouse510* pump = new westinghousePump::Westinghouse510(newInterface,01);
+    westinghousePump::registers::Register_OperationSignal newOps;
+    newOps.setSlaveAddress(01);
+    newOps.shouldReverse(false);
+    newOps.shouldRun(true);
+    newOps.setReadorWrite(westinghousePump::data::ReadWriteType::WRITE);
+    pump->slot_SerialPortReceivedData(newOps.getFullMessage());
+//    common::comms::SerialConfiguration newSerialConfig;
+//    newInterface->openSerialPortConnection(newSerialConfig);
+
     // Testing of the Sensoray device
 //    HSESSION sess;
 //    S24XXERR err = ERR_NONE;

@@ -5,6 +5,9 @@
 #-------------------------------------------------
 
 QT       -= gui
+QT = core
+QT += serialport
+QT += network
 
 TARGET = library_westinghouse510
 TEMPLATE = lib
@@ -26,7 +29,10 @@ SOURCES += \
         westinghouse_510.cpp \
     data_registers/abstract_register.cpp \
     data_registers/register_operation_signal.cpp \
-    data_registers/register_flow_rate.cpp
+    data_registers/register_flow_rate.cpp \
+    westinghouse_510_state.cpp \
+    communications/westinghouse_510_data_framing.cpp \
+    communications/westinghouse_message.cpp
 
 HEADERS += \
         westinghouse_510.h \
@@ -35,7 +41,13 @@ HEADERS += \
     data_registers/abstract_register.h \
     data_registers/available_registers.h \
     data_registers/register_flow_rate.h \
-    data_registers/register_operation_signal.h
+    data_registers/register_operation_signal.h \
+    data_registers/register_components.h \
+    westinghouse_510_state.h \
+    communications/westinghouse_510_data_framing.h \
+    communications/westinghouse_510_message_framing.h \
+    communications/westinghouse_message.h \
+    data/type_exception_message.h
 
 #Header file copy
 headers.path    = $$(ECM_ROOT)/include/library_westinghouse510

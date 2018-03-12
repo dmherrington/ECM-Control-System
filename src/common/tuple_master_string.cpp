@@ -1,8 +1,6 @@
 #include "tuple_master_string.h"
 
-namespace ECMCore
-{
-
+namespace common {
 
 //!
 //! \brief Default Constructor
@@ -102,5 +100,4 @@ bool TupleMasterString::operator!=(const TupleGeneric& rhs) const
     return !((*this) == rhs);
 }
 
-}
-
+} //end of namespace common

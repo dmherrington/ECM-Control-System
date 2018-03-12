@@ -32,7 +32,7 @@ FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
         uint8_t RWMask = 240<<0;
         uint8_t RWValue = (byte & (~RWMask));
 
-        if(exceptionValue == 127)
+        if(exceptionValue == 128)
         {
             // this means that we have received an exception message and there is only
             // one byte to follow telling us of the exception code and concluding with
@@ -51,11 +51,13 @@ FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
     {
         currentMSGState = FramingState::RECEIVED_EXCEPTION_CODE;
         currentMessge.appendArray(byte);
+        break;
     }
     case FramingState::RECEIVED_EXCEPTION_CODE:
     {
         currentMSGState = FramingState::RECEIVED_CRC_LOW;
         currentMessge.appendArray(byte);
+        break;
     }
     case FramingState::RECEIVED_STD_FUNCTION_CODE_READ:
     {
@@ -63,12 +65,14 @@ FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
         currentMSGState = FramingState::RECEIVED_PAYLOAD;
         currentMessge.appendArray(byte);
         currentMessge.setRemainingPayload(byte);
+        break;
     }
     case FramingState::RECEIVED_STD_FUNCTION_CODE_WRITE:
     {
         currentMSGState = FramingState::RECEIVED_PAYLOAD;
         currentMessge.appendArray(byte);
         currentMessge.setRemainingPayload(currentMessge.remainingPayloadSize() - 1);
+        break;
     }
     case FramingState::RECEIVED_PAYLOAD:
     {
@@ -78,11 +82,13 @@ FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
         {
             currentMSGState = FramingState::RECEIVED_LAST_PAYLOAD;
         }
+        break;
     }
     case FramingState::RECEIVED_LAST_PAYLOAD:
     {
         currentMSGState = FramingState::RECEIVED_CRC_LOW;
         currentMessge.appendArray(byte);
+        break;
     }
     case FramingState::RECEIVED_CRC_LOW:
     {

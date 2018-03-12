@@ -3,13 +3,12 @@
 
 #include <QWidget>
 #include <QTableWidgetItem>
-#include <string>
 
 #include "I_sensor_display.h"
-#include "I_plot_comparable.h"
 
-#include "common/tuple_measurement_string.h"
+#include "data/Observation/observation_scalar.h"
 
+#include "../ECM_plot_collection.h"
 
 namespace Ui {
 class DisplayBasePlotInstantaneous;
@@ -20,7 +19,7 @@ class DisplayBasePlotInstantaneous : public QWidget, public ISensorDisplay
     Q_OBJECT
 
 public:
-    explicit DisplayBasePlotInstantaneous(const TupleMeasurementString &measurementType, QWidget *parent = 0);
+    explicit DisplayBasePlotInstantaneous(const common::TupleSensorString &measurementType, const ECMPlotCollection *sourceCollection, QWidget *parent = 0);
     ~DisplayBasePlotInstantaneous();
 
     //!
@@ -47,6 +46,13 @@ public:
     void ChangeInstantaniousReading(const int key, const QString &value);
 
 
+    //!
+    //! \brief Method to update any information that is not contained in a plot for the sensor
+    //! \param sensor Tuple describing the sensor
+    //! \param sensorData Sensor data to update
+    //!
+    virtual void UpdateNonPlottedData(const common::TupleSensorString &sensor, const data::SensorState &sensorData);
+
 
     /**
      * @brief setOriginTime Set the "zero" time of the plot
@@ -69,7 +75,7 @@ public:
     //!
     //! \param plotList List of plot objects
     //!
-    void setPlotData(const QList<std::shared_ptr<graphing::IPlotComparable> > &plotList);
+    void setPlotData(const QList<std::shared_ptr<data::observation::IPlotComparable> > &plotList);
 
 
     virtual QWidget* getWidget();
@@ -129,7 +135,7 @@ private:
 protected:
     Ui::DisplayBasePlotInstantaneous *ui;
 
-    TupleMeasurementString m_Measurement;
+    common::TupleSensorString m_Measurement;
 
 private:
 
@@ -139,9 +145,12 @@ private:
     QDateTime m_rangeLow;
     QDateTime m_rangeHigh;
 
-    QList<std::shared_ptr<graphing::IPlotComparable> > m_PlotData;
+    QList<std::shared_ptr<data::observation::IPlotComparable> > m_PlotData;
 
     QDateTime m_OriginTime;
+
+protected:
+    const ECMPlotCollection *m_sourceCollection;
 };
 
 #endif // DISPLAY_BASE_PLOT_INSTANTANEOUS_H

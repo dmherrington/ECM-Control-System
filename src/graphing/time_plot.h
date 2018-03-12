@@ -6,8 +6,7 @@
 #include "graphing_global.h"
 #include "qcustomplot.h"
 
-namespace graphing
-{
+namespace graphing {
 
 //!
 //! \brief Abstract base class for a plot based on time

@@ -3,15 +3,21 @@
 Sensoray::Sensoray(const std::string &name, QObject *parent):
     QObject(parent)
 {
+    qRegisterMetaType<common::comms::CommunicationConnection>("CommunicationConnection");
+    qRegisterMetaType<common::comms::CommunicationUpdate>("CommunicationUpdate");
+
     commsMarshaler = new comms::CommsMarshaler();
     commsMarshaler->AddSubscriber(this);
 }
 
 
-void Sensoray::openConnection(const std::string &ipAddress, const int &portNumber)
+///////////////////////////////////////////////////////////////////////////
+/// Methods supporting the Connect/Disconnect from Sensoray device
+///////////////////////////////////////////////////////////////////////////
+
+void Sensoray::openConnection(const comms::SensorayTCPConfiguration &config)
 {
-    comms::SensorayTCPConfiguration linkConfig(ipAddress,portNumber,2426);
-    commsMarshaler->ConnectToLink(linkConfig);
+    commsMarshaler->ConnectToLink(config);
 }
 
 void Sensoray::closeConnection()
@@ -19,10 +25,27 @@ void Sensoray::closeConnection()
     commsMarshaler->DisconnetFromLink();
 }
 
-void Sensoray::transmitSerialMessage(const QByteArray &data)
+///////////////////////////////////////////////////////////////////////////
+/// Methods supporting the Connect/Disconnect from accompanying RS485 port
+///////////////////////////////////////////////////////////////////////////
+
+void Sensoray::openSerialPortConnection(const common::comms::SerialConfiguration &config) const
 {
-    commsMarshaler->WriteToSerialPort(data);
+    commsMarshaler->ConnectToSerialPort(config);
 }
+void Sensoray::closeSerialPortConnection() const
+{
+    commsMarshaler->DisconnetFromSerialPort();
+}
+void Sensoray::writeToSerialPort(const QByteArray &msg) const
+{
+    commsMarshaler->WriteToSerialPort(msg);
+}
+bool Sensoray::isSerialPortOpen() const
+{
+    return false;
+}
+
 //////////////////////////////////////////////////////////////
 /// Virtual methods allowed from comms::CommsEvents
 //////////////////////////////////////////////////////////////
@@ -68,7 +91,17 @@ void Sensoray::CommunicationUpdate(const std::string &name, const std::string &m
 
 void Sensoray::NewDataReceived(const QByteArray &buffer) const
 {
-    emit ReceivedSerialMessage(buffer);
+
+}
+
+void Sensoray::SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const
+{
+    emit signal_SerialPortUpdate(update);
+}
+
+void Sensoray::SerialPortConnection(const common::comms::CommunicationConnection &connection) const
+{
+    emit signal_SerialPortConnection(connection);
 }
 
 void Sensoray::initializeSensoray() const

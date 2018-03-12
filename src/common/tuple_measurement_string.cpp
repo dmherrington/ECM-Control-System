@@ -1,5 +1,7 @@
 #include "tuple_measurement_string.h"
 
+namespace common {
+
 TupleMeasurementString::TupleMeasurementString()
 {
 
@@ -101,4 +103,7 @@ bool TupleMeasurementString::operator!=(const TupleGeneric& rhs) const
 {
     return !((*this) == rhs);
 }
+
+} //end of namespace common
+
 

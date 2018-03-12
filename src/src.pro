@@ -14,4 +14,5 @@ SUBDIRS += \
     test_graphing \
     ECM_gui \
     library_sensoray \
-    library_westinghouse510
+    library_westinghouse510 \
+    data

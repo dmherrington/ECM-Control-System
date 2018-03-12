@@ -1,19 +1,21 @@
-#ifndef PLOT_DATA_H
-#define PLOT_DATA_H
+#ifndef CARTESIAN_DATA_H
+#define CARTESIAN_DATA_H
 
 #include <QVector>
-#include "graphing_global.h"
+
+#include "data_global.h"
 
 #include "number_systems.h"
 
-namespace graphing
-{
+
+namespace data {
+namespace observation {
 
 //!
 //! \brief Object to hold data for plotting an arbitrary amount of dimensions on a cartesian 2D real(ℝ) axis plot.
 //! This object is intended to be a temporary object to pass data from the long-term storage to the plotting mechanism.
 //!
-class GRAPHINGSHARED_EXPORT PlotData
+class Export CartesianData
 {
 public:
 
@@ -21,7 +23,7 @@ public:
     //!
     //! \brief Empty constructor
     //!
-    PlotData() :
+    CartesianData() :
         m_NumberSystem(NumberSystems::SCALAR)
     {
 
@@ -31,7 +33,7 @@ public:
     //!
     //! \brief Constructor for a single observation
     //!
-    PlotData(const NumberSystems::StorableDimensions numberSystem) :
+    CartesianData(const NumberSystems::StorableDimensions numberSystem) :
         m_Time(1),
         m_Value(1),
         m_IsConstValue(true),
@@ -45,7 +47,7 @@ public:
     //! \param length Length of data (number of observations)
     //! \param numberSystem Number system
     //!
-    PlotData(const int length, const NumberSystems::StorableDimensions numberSystem) :
+    CartesianData(const int length, const NumberSystems::StorableDimensions numberSystem) :
         m_Time(length),
         m_Value(length),
         m_NumberSystem(numberSystem)
@@ -58,7 +60,7 @@ public:
     //! \brief Copy constructor
     //! \param that Object to copy
     //!
-    PlotData(const PlotData& that)
+    CartesianData(const CartesianData& that)
     {
         *(this) = that;
     }
@@ -68,7 +70,7 @@ public:
     //! \brief Assignment operator
     //! \param rhs assignment
     //!
-    void operator =(const PlotData& rhs)
+    void operator =(const CartesianData& rhs)
     {
         m_Time = rhs.m_Time;
         m_Value = rhs.m_Value;
@@ -218,7 +220,7 @@ private:
 
 };
 
-} //end of namespace graphing
+} //end of namespace observation
+} //end of namespace data
 
-
-#endif // PLOT_DATA_H
+#endif // CARTESIAN_DATA_H

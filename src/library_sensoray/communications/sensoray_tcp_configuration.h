@@ -4,13 +4,12 @@
 #include <QTcpSocket>
 
 #include <string>
-#include "library_sensoray_global.h"
-#include "link_configuration.h"
+#include "common/comms/link_configuration.h"
 
 namespace sensoray{
 namespace comms{
 
-class SensorayTCPConfiguration : public LinkConfiguration
+class SensorayTCPConfiguration : public common::comms::LinkConfiguration
 {
 public:
     SensorayTCPConfiguration();

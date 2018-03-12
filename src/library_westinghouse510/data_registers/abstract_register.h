@@ -113,6 +113,11 @@ public:
     //!
     QByteArray getFullMessage() const;
 
+    //!
+    //! \brief parseFromArray
+    //! \param msg
+    //!
+    virtual void parseFromArray(const QByteArray &msg) = 0;
 
 private:
     //!

@@ -2,9 +2,7 @@
 
 #include <QHash>
 
-namespace ECMCore
-{
-
+namespace common {
 
 //!
 //! \brief Default Constructor
@@ -220,4 +218,5 @@ uint qHash(const TupleECMData &key, uint seed)
     return key.ComputeHash();
 }
 
-}
+} //end of namespace common
+

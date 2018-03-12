@@ -33,6 +33,12 @@ public:
     //!
     QByteArray getByteArray() const override;
 
+    //!
+    //! \brief parseFromArray
+    //! \param msg
+    //!
+    void parseFromArray(const QByteArray &msg) override;
+
 public:
     void shouldRun(const bool &value);
 
@@ -68,6 +74,9 @@ public:
     {
         *parameter = new Register_OperationSignal(*this);
     }
+
+private:
+    bool checkMask(const uint16_t &value, const unsigned int &mask) const;
 
 public:
     //!

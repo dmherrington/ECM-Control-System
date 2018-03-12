@@ -18,7 +18,7 @@ void SensorayProtocol::updateCurrentSession(SensoraySession *session)
     this->m_Session = session;
 }
 
-void SensorayProtocol::resetSensorayIO(SensorayLink *link)
+void SensorayProtocol::resetSensorayIO()
 {
     S24XXERR errorCode = S24XXERR::ERR_NONE;
     u8	dioChan;
@@ -34,24 +34,38 @@ void SensorayProtocol::resetSensorayIO(SensorayLink *link)
     }
 }
 
-bool SensorayProtocol::openSerialPort(SensorayLink *link, const SerialConfiguration &config)
+bool SensorayProtocol::openSerialPort(const common::comms::SerialConfiguration &config)
 {
     S24XXERR errorCode = S24XXERR::ERR_NONE;
-    s2426_ComportOpen(m_Session->handle,&errorCode,config.baud(),config.getSensorayParity(),config.getSensorayDataBits(),config.getSensorayStopBits());
+    s2426_ComportOpen(m_Session->handle,&errorCode,config.baud(),getSensorayParity(config.parity()),
+                      getSensorayDataBits(config.dataBits()),getSensorayStopBits(config.stopBits()));
     if(errorCode == S24XXERR::ERR_NONE)
+    {
+        common::comms::CommunicationConnection serialConnection;
+        serialConnection.setSourceName("Sensoray");
+        serialConnection.setConnection(true);
+        Emit([&](const IProtocolSensorayEvents* ptr){ptr->SerialPortConnectionUpdate(serialConnection);});
         return true;
+    }
+    return false;
 }
 
-bool SensorayProtocol::closeSerialPort (SensorayLink *link)
+bool SensorayProtocol::closeSerialPort ()
 {
     S24XXERR errorCode = S24XXERR::ERR_NONE;
     s2426_ComportClose(m_Session->handle,&errorCode);
     if(errorCode == S24XXERR::ERR_NONE)
+    {
+        common::comms::CommunicationConnection serialConnection;
+        serialConnection.setSourceName("Sensoray");
+        serialConnection.setConnection(false);
+        Emit([&](const IProtocolSensorayEvents* ptr){ptr->SerialPortConnectionUpdate(serialConnection);});
         return true;
+    }
     return false;
 }
 
-void SensorayProtocol::transmitDataToSerialPort(SensorayLink *link, const QByteArray &msg)
+void SensorayProtocol::transmitDataToSerialPort(const QByteArray &msg)
 {
     if(m_Session->isSerialPortConnected())
     {
@@ -65,8 +79,13 @@ void SensorayProtocol::transmitDataToSerialPort(SensorayLink *link, const QByteA
         s2426_ComportWrite(m_Session->handle,&errorCode, dataCopy.data(), dataCopy.length(),true);
         if(errorCode != S24XXERR::ERR_NONE)
         {
-
+            //if there was already an error writing there is no point to continue to read
+            return;
         }
+
+        //according to the westinghouse manual the pump needs approximatley 10ms to respond
+        //therefore waiting >10ms should be sufficient for the entire message to be ready
+        std::this_thread::sleep_for(std::chrono::milliseconds(12));
         //second read whatever information is available from the port
         char buf[256];
         int nchars = s2426_ComportRead(m_Session->handle, &errorCode, buf, sizeof(buf)-1, false);
@@ -75,7 +94,7 @@ void SensorayProtocol::transmitDataToSerialPort(SensorayLink *link, const QByteA
 
         }
         response = QByteArray(reinterpret_cast<char*>(buf), nchars);
-        Emit([&](const IProtocolSensorayEvents* ptr){ptr->ResponseReceived(link,response);});
+        Emit([&](const IProtocolSensorayEvents* ptr){ptr->ResponseReceived(response);});
     }
 }
 

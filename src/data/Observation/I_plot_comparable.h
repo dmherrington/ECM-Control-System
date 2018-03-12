@@ -1,20 +1,19 @@
 #ifndef IPLOTCOMPARABLE_H
 #define IPLOTCOMPARABLE_H
 
-#include "graphing_global.h"
-
-#include "stdlib.h"
-#include <memory>
 #include <QString>
+#include <memory>
+#include "stdlib.h"
 
-namespace graphing
-{
+#include "data/data_global.h"
+#include "common/common.h"
 
-
+namespace data {
+namespace observation {
 //!
 //! \brief Interface to uniquly identifiy a data source.
 //!
-class IPlotComparable
+class Export IPlotComparable
 {
 public:
 
@@ -87,7 +86,7 @@ inline bool operator !=(const std::shared_ptr<IPlotComparable> &a, const std::sh
 }
 
 
-
-} //END ExpressionEngine
+} //end of namespace observation
+} //end of namespace data
 
 #endif // IPLOTCOMPARABLE_H

@@ -2,17 +2,18 @@
 #define SENSORAY_COMMS_MARSHALER_H
 
 #include "common/publisher.h"
+#include "common/comms/serial_configuration.h"
 
 #include <unordered_map>
 
 #include "i_link.h"
 #include "sensoray_tcp_configuration.h"
-#include "sensoray_serial_configuration.h"
 #include "sensoray_link.h"
 #include "protocol_sensoray.h"
 #include "i_link_events.h"
 #include "i_protocol_sensoray_events.h"
 #include "comms_events.h"
+
 
 namespace sensoray {
 namespace comms{
@@ -51,13 +52,13 @@ public:
     //! \param linkConfig
     //! \return
     //!
-    bool ConnectToSerialPort(const SerialConfiguration &config);
+    void ConnectToSerialPort(const common::comms::SerialConfiguration &config);
 
     //!
     //! \brief DisconnetFromSerialPort
     //! \return
     //!
-    bool DisconnetFromSerialPort();
+    void DisconnetFromSerialPort();
 
 
     void WriteToSerialPort(const QByteArray &data) const;
@@ -83,7 +84,9 @@ private:
     //////////////////////////////////////////////////////////////
     /// Virtual methods imposed from IProtocolSensorayEvents
     //////////////////////////////////////////////////////////////
-    void ResponseReceived(const ILink* link_ptr, const QByteArray &buffer) const override;
+    void ResponseReceived(const QByteArray &buffer) const override;
+    void SerialPortConnectionUpdate(const common::comms::CommunicationConnection &connection) const override;
+    void SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const override;
 
 private:
     SensoraySession* m_Session;

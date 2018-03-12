@@ -7,9 +7,7 @@
 #include "common_global.h"
 #include "tuple_generic.h"
 
-namespace ECMCore
-{
-
+namespace common {
 
 //!
 //! \brief A tuple to uniquly identify a master state in ECM
@@ -83,6 +81,6 @@ public:
 
 } // end of namespace ECMCore
 
-Q_DECLARE_METATYPE(ECMCore::TupleMasterString)
+Q_DECLARE_METATYPE(common::TupleMasterString)
 
 #endif // TUPLE_MASTER_STRING_H

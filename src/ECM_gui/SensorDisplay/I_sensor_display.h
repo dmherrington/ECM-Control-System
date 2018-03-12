@@ -3,11 +3,23 @@
 
 #include <QWidget>
 
-#include "plot_handler.h"
+#include "data/sensor_state.h"
+#include "common/tuple_sensor_string.h"
+#include "graphing/plot_handler.h"
 
 class ISensorDisplay
 {
 public:
+
+    //!
+    //! \brief Update any display of non-plotted data
+    //!
+    //! Any data that is to be plotted is not kept by this class
+    //! instead PlottedDataUpdated is called with a configured pointer to the data
+    //! \param sensor Identifier for sensor
+    //! \param sensorData State of sensor
+    //!
+    virtual void UpdateNonPlottedData(const common::TupleSensorString &sensor, const data::SensorState &sensorData) = 0;
 
 
     //!

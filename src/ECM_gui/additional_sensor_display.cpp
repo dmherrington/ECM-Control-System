@@ -48,7 +48,7 @@ void AdditionalSensorDisplay::DisplayActionTriggered()
     //find the dock that was selected to be changed
     QAction* SendingObject = (QAction*)sender();
 
-    ECMCore::TupleSensorString key;
+    common::TupleSensorString key;
     bool found = false;
     for(int i = 0 ; i < m_SensorActionMap.size() ; i++)
     {
@@ -93,11 +93,11 @@ void AdditionalSensorDisplay::DisplayActionTriggered()
 //! \param sensor Sensor to create
 //! \param type Type of sensor to make
 //!
-void AdditionalSensorDisplay::NewDock(const ECMCore::TupleSensorString &sensor, const Data::SensorTypes &type)
+void AdditionalSensorDisplay::NewDock(const common::TupleSensorString &sensor, const data::SensorTypes &type)
 {
     if (this->thread() != QThread::currentThread())
     {
-        QMetaObject::invokeMethod(this, "NewDock", Qt::BlockingQueuedConnection, Q_ARG(const ECMCore::TupleSensorString&, sensor), Q_ARG(Data::SensorTypes, type));
+        QMetaObject::invokeMethod(this, "NewDock", Qt::BlockingQueuedConnection, Q_ARG(const common::TupleSensorString&, sensor), Q_ARG(data::SensorTypes, type));
         return;
     }
 
@@ -150,7 +150,7 @@ void AdditionalSensorDisplay::NewDock(const ECMCore::TupleSensorString &sensor, 
 }
 
 
-bool AdditionalSensorDisplay::isSensorDisplayed(const TupleSensorString &sensor)
+bool AdditionalSensorDisplay::isSensorDisplayed(const common::TupleSensorString &sensor)
 {
     return m_ShownSensors[sensor];
 }
@@ -160,7 +160,7 @@ bool AdditionalSensorDisplay::isSensorDisplayed(const TupleSensorString &sensor)
 //! \brief Notify about a sensor that can be used by this object
 //! \param sensor Sensor that can be used
 //!
-void AdditionalSensorDisplay::AddUsableSensor(const TupleSensorString &sensor)
+void AdditionalSensorDisplay::AddUsableSensor(const common::TupleSensorString &sensor)
 {
     //if already inserted, do nothing
     if(m_ShownSensors.contains(sensor))
@@ -187,7 +187,7 @@ void AdditionalSensorDisplay::OnDockVisibilitiy(bool visible)
 {
     QDockWidget *dock = (QDockWidget*)sender();
 
-    ECMCore::TupleSensorString sensor;
+    common::TupleSensorString sensor;
     bool sensorFound = false;
     for(int i = 0 ; i < m_SensorDockMap.size() ; i++)
     {
@@ -231,7 +231,7 @@ void AdditionalSensorDisplay::SetOriginTime(const QDateTime &time)
 //! \param sensor Sensor to update
 //! \param state State to give
 //!
-void AdditionalSensorDisplay::UpdateNonPlottedData(const TupleSensorString &sensor, const Data::SensorState &state)
+void AdditionalSensorDisplay::UpdateNonPlottedData(const common::TupleSensorString &sensor, const data::SensorState &state)
 {
     m_SensorDisplays.UpdateNonPlottedData(sensor, state);
 }
@@ -240,7 +240,7 @@ void AdditionalSensorDisplay::UpdateNonPlottedData(const TupleSensorString &sens
 //!
 //! \brief update plotted data in displays kept by the dock window
 //!
-void AdditionalSensorDisplay::UpdatePlottedData(const TupleSensorString &sensor)
+void AdditionalSensorDisplay::UpdatePlottedData(const common::TupleSensorString &sensor)
 {
     m_SensorDisplays.PlottedDataUpdated(sensor);
 }
