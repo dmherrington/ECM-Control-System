@@ -5,6 +5,13 @@ QT += network
 CONFIG += c++11 console
 CONFIG -= app_bundle
 
+unix {
+DEFINES += OSTYPE_LINUX
+}
+win32 {
+DEFINES += OSTYPE_WINDOWS
+}
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -31,10 +38,39 @@ HEADERS += \
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include
-s
+INCLUDEPATH += $$(ECM_ROOT)/tools/sensoray/lib/
+
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
 else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
 
 INCLUDEPATH += $$PWD/../common
 DEPENDPATH += $$PWD/../common
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/release/ -llibrary_sensoray
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/debug/ -llibrary_sensoray
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_sensoray/ -llibrary_sensoray
+
+INCLUDEPATH += $$PWD/../library_sensoray
+DEPENDPATH += $$PWD/../library_sensoray
+
+win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
+
+INCLUDEPATH += $$PWD/../../tools/sensoray
+DEPENDPATH += $$PWD/../../tools/sensoray
+
+
+unix:!macx: LIBS += -L$$PWD/../../tools/sensoray/lib/linux/x64/ -l24xx
+
+INCLUDEPATH += $$PWD/../../tools/sensoray/lib/linux/x64
+DEPENDPATH += $$PWD/../../tools/sensoray/lib/linux/x64
+
+unix:!macx: PRE_TARGETDEPS += $$PWD/../../tools/sensoray/lib/linux/x64/lib24xx.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/release/ -llibrary_westinghouse510
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/debug/ -llibrary_westinghouse510
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_westinghouse510/ -llibrary_westinghouse510
+
+INCLUDEPATH += $$PWD/../library_westinghouse510
+DEPENDPATH += $$PWD/../library_westinghouse510

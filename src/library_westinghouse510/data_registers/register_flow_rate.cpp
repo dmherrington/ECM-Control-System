@@ -52,6 +52,22 @@ QByteArray Register_FlowRate::getByteArray() const
     return data;
 }
 
+void Register_FlowRate::parseFromArray(const QByteArray &msg)
+{
+    this->setSlaveAddress(msg.at(0));
+    //parse if it is read/write
+    if(msg.at(1) == static_cast<int>(data::ReadWriteType::READ))
+        this->setReadorWrite(data::ReadWriteType::READ);
+    else
+        this->setReadorWrite(data::ReadWriteType::WRITE);
+
+    uint8_t dataHi = msg.at(4);
+    uint8_t dataLo = msg.at(5);
+    uint32_t setFlow = dataLo | (dataHi<<8);
+    double GPM = setFlow / 1000.0;
+    this->flowRate = GPM/0.264172;
+}
+
 void Register_FlowRate::setVolumetricFlow(const double &value)
 {
     this->flowRate = value;

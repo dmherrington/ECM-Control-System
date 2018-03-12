@@ -2,11 +2,6 @@
 #define SENSORAY_SERIAL_CONFIGURATION_H
 
 #include <QSerialPort>
-#include <QStringList>
-#include <string>
-
-#include "common/common.h"
-#include "link_configuration.h"
 
 #include "s24xx.h"
 

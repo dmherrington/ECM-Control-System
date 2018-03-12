@@ -10,7 +10,8 @@ namespace registers{
 
 enum class RegisterType{
     OPERATION_SIGNAL,
-    FLOWRATE
+    FLOWRATE,
+    UNKNOWN
 };
 
 inline std::string RegisterTypeToString(const RegisterType &type) {
@@ -42,6 +43,19 @@ inline int RegisterTypeToInt(const RegisterType &type)
         return 1281;
     default:
         throw std::runtime_error("Unknown register type seen");
+    }
+}
+
+
+inline RegisterType RegisterTypeFromInt(const int &type)
+{
+    switch (type) {
+    case 9473:
+        return RegisterType::OPERATION_SIGNAL;
+    case 1281:
+        return RegisterType::FLOWRATE;
+    default:
+        return RegisterType::UNKNOWN;
     }
 }
 

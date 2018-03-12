@@ -33,6 +33,12 @@ public:
     //!
     QByteArray getByteArray() const override;
 
+    //!
+    //! \brief parseFromArray
+    //! \param msg
+    //!
+    void parseFromArray(const QByteArray &msg) override;
+
 public:
     void setVolumetricFlow(const double &value);
 

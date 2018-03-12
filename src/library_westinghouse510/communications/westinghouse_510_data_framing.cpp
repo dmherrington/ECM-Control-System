@@ -54,11 +54,13 @@ FramingState WestinghouseDataFraming::additionalByteRecevied(const uint8_t &byte
     {
         currentMSGState = FramingState::RECEIVED_EXCEPTION_CODE;
         currentMessge.appendArray(byte);
+        break;
     }
     case FramingState::RECEIVED_EXCEPTION_CODE:
     {
-        currentMSGState = FramingState::RECEIVED_CRC_LOW;
+        currentMSGState = FramingState::RECEIVED_CRC_HIGH;
         currentMessge.appendArray(byte);
+        break;
     }
     case FramingState::RECEIVED_STD_FUNCTION_CODE_READ:
     {
@@ -66,12 +68,14 @@ FramingState WestinghouseDataFraming::additionalByteRecevied(const uint8_t &byte
         currentMSGState = FramingState::RECEIVED_PAYLOAD;
         currentMessge.appendArray(byte);
         currentMessge.setRemainingPayload(byte);
+        break;
     }
     case FramingState::RECEIVED_STD_FUNCTION_CODE_WRITE:
     {
         currentMSGState = FramingState::RECEIVED_PAYLOAD;
         currentMessge.appendArray(byte);
-        currentMessge.setRemainingPayload(currentMessge.remainingPayloadSize() - 1);
+        currentMessge.setRemainingPayload(3);
+        break;
     }
     case FramingState::RECEIVED_PAYLOAD:
     {
@@ -81,16 +85,18 @@ FramingState WestinghouseDataFraming::additionalByteRecevied(const uint8_t &byte
         {
             currentMSGState = FramingState::RECEIVED_LAST_PAYLOAD;
         }
+        break;
     }
     case FramingState::RECEIVED_LAST_PAYLOAD:
     {
-        currentMSGState = FramingState::RECEIVED_CRC_LOW;
+        currentMSGState = FramingState::RECEIVED_CRC_HIGH;
         currentMessge.appendArray(byte);
+        break;
     }
-    case FramingState::RECEIVED_CRC_LOW:
+    case FramingState::RECEIVED_CRC_HIGH:
     {
         //we already had the low byte and therefore we must have received the high byte
-        currentMSGState = FramingState::RECEIVED_CRC_HIGH;
+        currentMSGState = FramingState::RECEIVED_CRC_LOW;
         currentMessge.appendArray(byte);
 
         uint8_t highByte = currentMessge.getDataByte(currentMessge.getDataSize() - 1);

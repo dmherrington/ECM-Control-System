@@ -47,7 +47,6 @@ HEADERS += \
     communications/i_link_events.h \
     communications/i_protocol.h \
     communications/i_protocol_sensoray_events.h \
-    communications/link_configuration.h \
     communications/protocol_sensoray.h \
     communications/sensoray_comms_marshaler.h \
     communications/sensoray_tcp_configuration.h \
@@ -82,13 +81,12 @@ headers_communications.files   += \
     communications/i_link_events.h \
     communications/i_protocol.h \
     communications/i_protocol_sensoray_events.h \
-    communications/link_configuration.h \
     communications/protocol_sensoray.h \
-    communications/sensoray_tcp_link.h \
     communications/sensoray_comms_marshaler.h \
-    communications/sensoray_tcp_configuration.h \
+    communications/sensoray_link.h \
+    communications/serial_configuration.h \
     communications/sensoray_session.h \
-    communications/serial_configuration.h
+    communications/sensoray_tcp_configuration.h \
 INSTALLS       += headers_communications
 
 
@@ -104,9 +102,18 @@ INCLUDEPATH += $$PWD/../common
 DEPENDPATH += $$PWD/../common
 
 
+win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
+
+INCLUDEPATH += $$PWD/../../tools/sensoray
+DEPENDPATH += $$PWD/../../tools/sensoray
+
+
 unix:!macx: LIBS += -L$$PWD/../../tools/sensoray/lib/linux/x64/ -l24xx
 
 INCLUDEPATH += $$PWD/../../tools/sensoray/lib/linux/x64
 DEPENDPATH += $$PWD/../../tools/sensoray/lib/linux/x64
 
 unix:!macx: PRE_TARGETDEPS += $$PWD/../../tools/sensoray/lib/linux/x64/lib24xx.a
+
+
+

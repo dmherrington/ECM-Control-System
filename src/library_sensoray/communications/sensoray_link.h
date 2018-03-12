@@ -1,8 +1,6 @@
 #ifndef SENSORAY_TCP_LINK_H
 #define SENSORAY_TCP_LINK_H
 
-#include "library_sensoray_global.h"
-
 #include <mutex>
 #include <iostream>
 #include <thread>
@@ -51,7 +49,7 @@ public:
     std::string getDeviceAddress() const;
     int getTelnetPortNumber() const;
 
-    LinkConfiguration getLinkConfiguration();
+    common::comms::LinkConfiguration getLinkConfiguration();
 
     virtual void MarshalOnThread(std::function<void()> func){
         ///////////////////

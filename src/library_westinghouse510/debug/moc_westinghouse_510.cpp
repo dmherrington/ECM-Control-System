@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_westinghousePump__Westinghouse510_t {
-    QByteArrayData data[8];
-    char stringdata0[159];
+    QByteArrayData data[12];
+    char stringdata0[251];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -36,17 +36,22 @@ QT_MOC_LITERAL(1, 34, 22), // "signal_PumpFlowUpdated"
 QT_MOC_LITERAL(2, 57, 0), // ""
 QT_MOC_LITERAL(3, 58, 5), // "value"
 QT_MOC_LITERAL(4, 64, 20), // "signal_PumpOperating"
-QT_MOC_LITERAL(5, 85, 31), // "slot_SerialPortConnectionUpdate"
-QT_MOC_LITERAL(6, 117, 34), // "common::comms::CommunicationU..."
-QT_MOC_LITERAL(7, 152, 6) // "update"
+QT_MOC_LITERAL(5, 85, 25), // "slot_SerialPortConnection"
+QT_MOC_LITERAL(6, 111, 38), // "common::comms::CommunicationC..."
+QT_MOC_LITERAL(7, 150, 10), // "connection"
+QT_MOC_LITERAL(8, 161, 21), // "slot_SerialPortUpdate"
+QT_MOC_LITERAL(9, 183, 34), // "common::comms::CommunicationU..."
+QT_MOC_LITERAL(10, 218, 27), // "slot_SerialPortReceivedData"
+QT_MOC_LITERAL(11, 246, 4) // "data"
 
     },
     "westinghousePump::Westinghouse510\0"
     "signal_PumpFlowUpdated\0\0value\0"
-    "signal_PumpOperating\0"
-    "slot_SerialPortConnectionUpdate\0"
+    "signal_PumpOperating\0slot_SerialPortConnection\0"
+    "common::comms::CommunicationConnection\0"
+    "connection\0slot_SerialPortUpdate\0"
     "common::comms::CommunicationUpdate\0"
-    "update"
+    "slot_SerialPortReceivedData\0data"
 };
 #undef QT_MOC_LITERAL
 
@@ -56,7 +61,7 @@ static const uint qt_meta_data_westinghousePump__Westinghouse510[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -64,11 +69,13 @@ static const uint qt_meta_data_westinghousePump__Westinghouse510[] = {
        2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   29,    2, 0x06 /* Public */,
-       4,    1,   32,    2, 0x06 /* Public */,
+       1,    1,   39,    2, 0x06 /* Public */,
+       4,    1,   42,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       5,    1,   35,    2, 0x08 /* Private */,
+       5,    1,   45,    2, 0x08 /* Private */,
+       8,    1,   48,    2, 0x08 /* Private */,
+      10,    1,   51,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Double,    3,
@@ -76,6 +83,8 @@ static const uint qt_meta_data_westinghousePump__Westinghouse510[] = {
 
  // slots: parameters
     QMetaType::Void, 0x80000000 | 6,    7,
+    QMetaType::Void, 0x80000000 | 9,    7,
+    QMetaType::Void, QMetaType::QByteArray,   11,
 
        0        // eod
 };
@@ -88,13 +97,22 @@ void westinghousePump::Westinghouse510::qt_static_metacall(QObject *_o, QMetaObj
         switch (_id) {
         case 0: _t->signal_PumpFlowUpdated((*reinterpret_cast< const double(*)>(_a[1]))); break;
         case 1: _t->signal_PumpOperating((*reinterpret_cast< const bool(*)>(_a[1]))); break;
-        case 2: _t->slot_SerialPortConnectionUpdate((*reinterpret_cast< const common::comms::CommunicationUpdate(*)>(_a[1]))); break;
+        case 2: _t->slot_SerialPortConnection((*reinterpret_cast< const common::comms::CommunicationConnection(*)>(_a[1]))); break;
+        case 3: _t->slot_SerialPortUpdate((*reinterpret_cast< const common::comms::CommunicationUpdate(*)>(_a[1]))); break;
+        case 4: _t->slot_SerialPortReceivedData((*reinterpret_cast< const QByteArray(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
         case 2:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+            case 0:
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< common::comms::CommunicationConnection >(); break;
+            }
+            break;
+        case 3:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
@@ -146,13 +164,13 @@ int westinghousePump::Westinghouse510::qt_metacall(QMetaObject::Call _c, int _id
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 5;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 3)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 5;
     }
     return _id;
 }

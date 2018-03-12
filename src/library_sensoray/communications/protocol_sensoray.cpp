@@ -79,8 +79,13 @@ void SensorayProtocol::transmitDataToSerialPort(const QByteArray &msg)
         s2426_ComportWrite(m_Session->handle,&errorCode, dataCopy.data(), dataCopy.length(),true);
         if(errorCode != S24XXERR::ERR_NONE)
         {
-
+            //if there was already an error writing there is no point to continue to read
+            return;
         }
+
+        //according to the westinghouse manual the pump needs approximatley 10ms to respond
+        //therefore waiting >10ms should be sufficient for the entire message to be ready
+        std::this_thread::sleep_for(std::chrono::milliseconds(12));
         //second read whatever information is available from the port
         char buf[256];
         int nchars = s2426_ComportRead(m_Session->handle, &errorCode, buf, sizeof(buf)-1, false);
