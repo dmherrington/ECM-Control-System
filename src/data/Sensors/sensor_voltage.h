@@ -1,11 +1,11 @@
 #ifndef SENSOR_VOLTAGE_H
 #define SENSOR_VOLTAGE_H
 
-
 #include "../data_global.h"
+
 #include "sensor.h"
 
-#include "Dimensions/voltage_dimension.h"
+#include "dimensions/voltage_dimension.h"
 
 namespace data
 {
@@ -22,7 +22,7 @@ public:
      * \brief Constructor
      * \param name Name of sensor
      */
-    Export SensorVoltage(const std::string &name);
+    SensorVoltage(const std::string &name);
 
 
     /*!
@@ -30,7 +30,7 @@ public:
      * \param unit Desired unit of voltage.
      * \return The voltage in the disired unit.
      */
-    Export double getVoltage(const data::VoltageUnit &unit) const;
+    double getVoltage(const data::VoltageUnit &unit) const;
 
 
     /*!
@@ -38,26 +38,26 @@ public:
      * \param value Voltage value to set to.
      * \param unit Unit of voltage.
      */
-    Export void SetVoltage(const double &value, const data::VoltageUnit &unit);
+    void SetVoltage(const double &value, const data::VoltageUnit &unit);
 
 
     //! Get the type of the concrete sensor
     /*!
      *  \return Type of sensor
      */
-    Export virtual SensorTypes getType() const;
+    virtual SensorTypes getType() const;
 
     //! Get the description of the concrete sensor
     /*!
      *  \return Description of sensor
      */
-    Export virtual std::string getDescription() const;
+    virtual std::string getDescription() const;
 
     /*!
      * \brief Assign a data from a sensor to this instance.
      * \param S Sensor to assign to.
      */
-    Export virtual void Assign(const Sensor* S);
+    virtual void Assign(const Sensor* S);
 
 private:
     double m_Volt;

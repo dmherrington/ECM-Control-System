@@ -20,7 +20,7 @@ public:
 class MunkPollStatus : public Thread
 {
 public:
-    MunkPollStatus(const int &msTimeout = 500);
+    MunkPollStatus(const int &msTimeout = 250);
 
     ~MunkPollStatus() {
         std::cout << "Destructor on the munk poll status object" << std::endl;

@@ -7,13 +7,17 @@
 
 #include "qcustomplot.h"
 #include "common/environment_time.h"
-#include "data/Observation/I_plot_comparable.h"
-#include "data/Observation/I_observation.h"
+
+#include "data/observation/I_plot_comparable.h"
+#include "data/observation/I_observation.h"
+#include "data/observation/observation_collection.h"
+#include "data/observation/cartesian_evaluation_parameters.h"
 
 #include "time_plot.h"
 
 #include "common/common.h"
 #include "common/threaded_scheduler.h"
+#include "common/tuple_ecm_data.h"
 
 namespace graphing {
 
@@ -67,6 +71,11 @@ public:
     //!
     ~PlotHandler();
 
+    //!
+    //! \brief SupplyPlotCollection
+    //! \param collection
+    //!
+    void SupplyPlotCollection(const data::observation::ObservationCollection* collection);
 
     //!
     //! \brief Change mode of operation
@@ -79,14 +88,14 @@ public:
     //! \brief Adds a plot to the handler object
     //! \param dataKey Key to indentify data
     //!
-    void AddPlot(const std::string &Expression);
+    void AddPlot(const data::observation::IPlotComparablePtr expression);
 
 
     //!
     //! \brief Retreive a list of all active expressions
     //! \return List of active expressions
     //!
-    QList<std::string> ActiveExpressions() const;
+    QList<std::shared_ptr<data::observation::IPlotComparable>> ActiveExpressions() const;
 
 
     //!
@@ -94,7 +103,7 @@ public:
     //! \param dataKey Plot to change name of
     //! \param displayName Name to change to
     //!
-    void ChangeName(const std::string &dataKey, const QString &displayName);
+    void ChangeName(const common::TupleECMData &tuple, const QString &displayName);
 
 
     //!
@@ -102,7 +111,7 @@ public:
     //! \param dataKey Plot to change color of
     //! \param color Colour to change to
     //!
-    void ChangeColor(const std::string &operation, const QColor &color);
+    void ChangeColor(const common::TupleECMData &tuple, const QColor &color);
 
 
     //!
@@ -119,7 +128,7 @@ public:
     //! \brief Remove a graph from plot
     //! \param dataKey Key of data to remove
     //!
-    void RemoveGraphData(const std::string &operation);
+    void RemoveGraphData(const common::TupleECMData &tuple);
 
 
     //!
@@ -368,18 +377,15 @@ private:
     //! Current time of graph. Nessessary if redrawing without changing time (i.e. zoom in)
     QDateTime m_CurrTime;
 
+    const data::observation::ObservationCollection *m_ObservationCollection;
 
     //!
     //! \brief The plot_data_variables struct
     //!
     struct plot_data_variables{
-
-        //! shared_ptr to a comparable object being plotted
-        //! See SelectionChanged code for why this is a shared_ptr
-        std::string operation;
+        data::observation::IPlotComparablePtr operation;
+        const data::observation::ObservationCollection *observations;
         QString DisplayName;
-        QVector<double> xgraph_data;
-        QVector<double> ygraph_data;
         TimeUnit unitVariable;
         QColor GraphColor;
         QString Line_Type;
@@ -424,7 +430,7 @@ private:
     //! Origin time on the plot
     QDateTime m_OriginTime;
 
-    //! ms since epoch. Only provided as convience in calculations.
+    //! ms since epoch. Only provided as convenience in calculations.
     qint64 m_OriginTime_msSinceEpoch;
 
     //! Unit time is held in.

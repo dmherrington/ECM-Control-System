@@ -17,7 +17,7 @@ namespace data
 /*!
  * This object contains the dynamics, valid time, and data for a sensor.
  */
-class Export SensorState
+class SensorState
 {
 public:
 
@@ -110,7 +110,7 @@ public:
     common::EnvironmentTime *validityTime;
 };
 
-} //Data
+} //end of namespace data
 
 Q_DECLARE_METATYPE(data::SensorState)
 

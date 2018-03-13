@@ -7,7 +7,7 @@
 
 #include <stdexcept>
 
-#include "data_global.h"
+#include "../data_global.h"
 
 namespace data {
 namespace observation {

@@ -29,6 +29,9 @@
 
 #include "munk_poll_status.h"
 
+#include "common/tuple_sensor_string.h"
+#include "data/sensor_state.h"
+
 using namespace munk;
 
 class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply :  public QObject, comms::CommsEvents, MunkStatusCallback_Interface
@@ -124,6 +127,9 @@ private:
     void cbi_MunkFaultStateRequest(const DataParameter::RegisterFaultState &request) const override;
 
 
+signals:
+    void signal_NewSensorData(const common::TupleSensorString sensor, const data::SensorState state) const;
+
 private:
         DataParameter::SegmentTimeGeneral m_segmentTimeGeneral;
 
@@ -137,6 +143,7 @@ private:
     comms::MunkCommsMarshaler* commsMarshaler;
     MunkPollStatus* pollStatus;
     CommsProgressHandler commsProgress;
+
 };
 
 #endif // MUNK_POWER_SUPPLY_H

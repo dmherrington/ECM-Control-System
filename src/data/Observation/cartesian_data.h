@@ -3,7 +3,7 @@
 
 #include <QVector>
 
-#include "data_global.h"
+#include "../data_global.h"
 
 #include "number_systems.h"
 
@@ -15,7 +15,7 @@ namespace observation {
 //! \brief Object to hold data for plotting an arbitrary amount of dimensions on a cartesian 2D real(ℝ) axis plot.
 //! This object is intended to be a temporary object to pass data from the long-term storage to the plotting mechanism.
 //!
-class Export CartesianData
+class CartesianData
 {
 public:
 

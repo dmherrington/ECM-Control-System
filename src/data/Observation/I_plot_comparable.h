@@ -5,15 +5,19 @@
 #include <memory>
 #include "stdlib.h"
 
-#include "data/data_global.h"
+#include "../data_global.h"
 #include "common/common.h"
+#include "common/class_forward.h"
 
 namespace data {
 namespace observation {
+
+ECM_CLASS_FORWARD(IPlotComparable);
+
 //!
 //! \brief Interface to uniquly identifiy a data source.
 //!
-class Export IPlotComparable
+class IPlotComparable
 {
 public:
 

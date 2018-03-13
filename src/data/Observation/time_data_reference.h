@@ -3,7 +3,7 @@
 
 #include <QHash>
 
-#include "data_global.h"
+#include "../data_global.h"
 
 #include "I_time_data.h"
 

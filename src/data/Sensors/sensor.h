@@ -35,32 +35,32 @@ public:
     /*!
      *  \param name Name of sensor
      */
-    Export Sensor(const std::string &name);
+    Sensor(const std::string &name);
 
 
     //! Destructor
-    virtual Export ~Sensor();
+    virtual ~Sensor();
 
 
     //! Get the name of this sensor
     /*!
      *  \return Name of sensor
      */
-    Export std::string getName() const;
+    std::string getName() const;
 
 
     //! Get the type of the concrete sensor
     /*!
      *  \return Type of sensor
      */
-    Export virtual SensorTypes getType() const = 0;
+    virtual SensorTypes getType() const = 0;
 
 
     //! Get the description of the concrete sensor
     /*!
      *  \return Description of sensor
      */
-    Export virtual std::string getDescription() const = 0;
+    virtual std::string getDescription() const = 0;
 
     /*!
      * \brief Assign a data from a sensor to this instance.

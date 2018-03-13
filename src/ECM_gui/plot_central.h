@@ -40,7 +40,7 @@ public:
     //! Must be performed prior to displaying a plot
     //! \param plotCollection Pointer to plot collection.
     //!
-    void SupplyPlotCollection(ECMPlotCollection *plotCollection);
+    //void SupplyPlotCollection(ECMPlotCollection *plotCollection);
 
 
     //!

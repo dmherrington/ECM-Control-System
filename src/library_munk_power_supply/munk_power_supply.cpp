@@ -7,11 +7,15 @@ MunkPowerSupply::MunkPowerSupply():
     m_fwdVSetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::FORWARD),
     m_revVSetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::REVERSE)
 {
+    qRegisterMetaType<data::SensorState>("SensorState");
+    qRegisterMetaType<common::TupleSensorString>("TupleSensorString");
+
     commsMarshaler = new comms::MunkCommsMarshaler();
     commsMarshaler->AddSubscriber(this);
 
     pollStatus = new MunkPollStatus();
     pollStatus->connectCallback(this);
+    pollStatus->beginPolling();
 }
 
 MunkPowerSupply::~MunkPowerSupply()
@@ -318,7 +322,22 @@ void MunkPowerSupply::ExceptionResponseReceived(const Data::ReadWriteType &RWTyp
 
 void MunkPowerSupply::cbi_MunkFaultStateRequest(const DataParameter::RegisterFaultState &request) const
 {
-    commsMarshaler->sendRegisterFaultStateRequest(request);
+    common::TupleSensorString tupleSensor;
+    tupleSensor.sourceName = "TestSource";
+    tupleSensor.sensorName = "TestSensor";
+
+    common::EnvironmentTime time;
+    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,time);
+
+    data::SensorState stateSensor;
+    stateSensor.ConstructSensor(data::SENSOR_VOLTAGE , "Sensor_Voltage");
+
+    stateSensor.validityTime->setTime(time);
+    double r = ((double) rand() / (RAND_MAX));
+    ((data::SensorVoltage*)stateSensor.getSensorData().get())->SetVoltage(r*10.0,data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
+    emit signal_NewSensorData(tupleSensor,stateSensor);
+
+    //commsMarshaler->sendRegisterFaultStateRequest(request);
 }
 
 

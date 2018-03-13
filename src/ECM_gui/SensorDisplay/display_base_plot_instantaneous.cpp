@@ -145,8 +145,8 @@ QWidget* DisplayBasePlotInstantaneous::getWidget()
 //!
 void DisplayBasePlotInstantaneous::AddExpressionPlot(const  std::string &expr, const QColor &color)
 {
-    ui->customPlot->AddPlot(expr);
-    ui->customPlot->ChangeColor(expr, color);
+    //ui->customPlot->AddPlot(expr);
+    //ui->customPlot->ChangeColor(expr, color);
 }
 
 

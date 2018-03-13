@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       -= gui
-QT = core
+QT += core
 QT += serialport
 QT += network
 

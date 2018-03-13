@@ -3,7 +3,7 @@
 //!
 //! \brief Constructor
 //! \param thing Model/Entity/Sensor/Whatever being plotted
-//! \param dimension Dimesnion beign plotted (position, velocity, attitude, etc)
+//! \param dimension Dimension being plotted (position, velocity, attitude, etc)
 //! \param axis Axis plotting
 //!
 ECMPlotIdentifier::ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension, const char *axis) :

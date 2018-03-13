@@ -17,6 +17,8 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QSplitter>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
@@ -30,6 +32,8 @@ public:
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     PlotCentral *centralCustomPlot;
+    QSplitter *splitter;
+    QPushButton *pushButton;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -38,7 +42,7 @@ public:
     {
         if (ECMControllerGUI->objectName().isEmpty())
             ECMControllerGUI->setObjectName(QStringLiteral("ECMControllerGUI"));
-        ECMControllerGUI->resize(638, 341);
+        ECMControllerGUI->resize(790, 356);
         centralWidget = new QWidget(ECMControllerGUI);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout = new QGridLayout(centralWidget);
@@ -50,10 +54,19 @@ public:
 
         gridLayout->addWidget(centralCustomPlot, 0, 0, 1, 1);
 
+        splitter = new QSplitter(centralWidget);
+        splitter->setObjectName(QStringLiteral("splitter"));
+        splitter->setOrientation(Qt::Vertical);
+        pushButton = new QPushButton(splitter);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        splitter->addWidget(pushButton);
+
+        gridLayout->addWidget(splitter, 0, 1, 1, 1);
+
         ECMControllerGUI->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(ECMControllerGUI);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 638, 22));
+        menuBar->setGeometry(QRect(0, 0, 790, 21));
         ECMControllerGUI->setMenuBar(menuBar);
         mainToolBar = new QToolBar(ECMControllerGUI);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -70,6 +83,7 @@ public:
     void retranslateUi(QMainWindow *ECMControllerGUI)
     {
         ECMControllerGUI->setWindowTitle(QApplication::translate("ECMControllerGUI", "ECMControllerGUI", nullptr));
+        pushButton->setText(QApplication::translate("ECMControllerGUI", "PushButton", nullptr));
     } // retranslateUi
 
 };

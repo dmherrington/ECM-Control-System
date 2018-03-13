@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QHash>
 
-#include "data_global.h"
+#include "../data_global.h"
 
 #include "common/threaded_scheduler.h"
 

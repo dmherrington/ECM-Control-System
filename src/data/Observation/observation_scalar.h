@@ -9,7 +9,7 @@
 #include "stdlib.h"
 #include <memory>
 
-#include "data_global.h"
+#include "../data_global.h"
 
 #include "common/threaded_scheduler.h"
 
@@ -37,7 +37,7 @@ namespace observation {
 //!
 //!
 //!
-class Export ObservationScalar : public QObject, public IObservation
+class ObservationScalar : public QObject, public IObservation
 {
 Q_OBJECT
 public:

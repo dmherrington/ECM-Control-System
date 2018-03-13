@@ -2,10 +2,12 @@
 #define ECM_PLOT_IDENTIFIER_H
 
 #include <QHash>
+#include "common/class_forward.h"
 
 #include "common/tuple_ecm_data.h"
 #include "data/Observation/I_plot_comparable.h"
 
+ECM_CLASS_FORWARD(ECMPlotIdentifier);
 //!
 //! \brief An object that is to be used to uniquly identify a plot in the ECM
 //!

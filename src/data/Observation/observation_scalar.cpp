@@ -92,7 +92,7 @@ namespace observation {
         {
             if(m_Domain.at(j).toMSecsSinceEpoch() < MinTime_ms)
             {
-                MinPoint = j;
+                MinPoint = j; //this isnt exactly correct as it will break at the first one that is less than minimum time
                 break;
             }
         }
@@ -106,15 +106,12 @@ namespace observation {
         m_DataMutex.lock();
         for(int j = 0 ; j < NumPoint - MinPoint ; j++)
         {
-            //if(isnan(m_PlotParameters.at(plotIndex).PlotRange.at(j + MinPoint)))
-                //continue;
-
             qint64 domain_ms = m_Domain.at(j + MinPoint).toMSecsSinceEpoch();
-            if(std::abs(currTime_ms - domain_ms) < min)
-            {
-                currentRangeTime = m_Range.at(j + MinPoint);
-                min = std::abs(currTime_ms - domain_ms);
-            }
+//            if(std::abs(currTime_ms - domain_ms) < min)
+//            {
+//                currentRangeTime = m_Range.at(j + MinPoint);
+//                min = std::abs(currTime_ms - domain_ms);
+//            }
 
             v.InsertData(j, (domain_ms - OriginTime_ms) / parameters.msInTimeUnit, m_Range.at(j + MinPoint));
         }

@@ -13,6 +13,9 @@
 #include "data/Observation/observation_scalar.h"
 #include "data/Observation/observation_collection.h"
 
+#include "data/Sensors/sensor.h"
+#include "data/Sensors/sensor_voltage.h"
+
 #include "ECM_plot_identifier.h"
 
 

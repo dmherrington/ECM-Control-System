@@ -1,8 +1,5 @@
 #include "ECM_plot_collection.h"
 
-#include "data/Sensors/sensor.h"
-#include "data/Sensors/sensor_voltage.h"
-
 static const uint Sensed_Voltage_Hash = qHash('S') ^ qHash('e') ^ qHash('n') ^ qHash('s') ^ qHash('e') ^ qHash('d') ^ qHash('_') ^ qHash('V') ^ qHash('o') ^ qHash('l') ^ qHash('t') ^ qHash('a') ^ qHash('g') ^ qHash('e');
 
 //!
@@ -41,7 +38,6 @@ void ECMPlotCollection::UpdateSensorPlots(const common::TupleSensorString sensor
         MakePlot(ID_S, data::VoltageDimension(data::UNIT_VOLTAGE_VOLTS).ShortHand());
         double value = ((data::SensorVoltage*)state.getSensorData().get())->getVoltage(data::UNIT_VOLTAGE_VOLTS);
         InsertData(ID_S, time, value);
-
         break;
     }
     default:

@@ -31,10 +31,10 @@ PlotCentral::~PlotCentral()
 //! Must be performed prior to displaying a plot
 //! \param plotCollection Pointer to plot collection.
 //!
-void PlotCentral::SupplyPlotCollection(ECMPlotCollection *plotCollection)
-{
-    m_PlotCollection = plotCollection;
-}
+//void PlotCentral::SupplyPlotCollection(ECMPlotCollection *plotCollection)
+//{
+//    m_PlotCollection = plotCollection;
+//}
 
 
 //!

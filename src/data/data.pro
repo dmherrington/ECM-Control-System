@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       -= gui
+QT += core
 
 TARGET = data
 TEMPLATE = lib
@@ -23,34 +24,34 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Sensors/sensor.cpp \
-    Sensors/sensor_voltage.cpp \
     sensor_collection.cpp \
     sensor_state.cpp \
-    Dimensions/time_dimension.cpp \
-    Dimensions/voltage_dimension.cpp \
-    Observation/observation_collection.cpp \
-    Observation/observation_scalar.cpp
+    dimensions/time_dimension.cpp \
+    dimensions/voltage_dimension.cpp \
+    observation/observation_collection.cpp \
+    observation/observation_scalar.cpp \
+    sensors/sensor.cpp \
+    sensors/sensor_voltage.cpp
 
 HEADERS += \
-        data_global.h \ 
-    Sensors/sensor.h \
-    Sensors/sensor_voltage.h \
+    data_global.h \
     sensor_collection.h \
     sensor_state.h \
-    Dimensions/dimension.h \
-    Dimensions/time_dimension.h \
-    Dimensions/voltage_dimension.h \
-    Observation/I_observation.h \
-    Observation/I_plot_comparable.h \
-    Observation/I_time_data.h \
-    Observation/number_systems.h \
-    Observation/observation_collection.h \
-    Observation/observation_scalar.h \
-    Observation/time_data_reference.h \
-    Observation/observation_ID_reference.h \
-    Observation/cartesian_data.h \
-    Observation/cartesian_evaluation_parameters.h
+    dimensions/dimension.h \
+    dimensions/time_dimension.h \
+    dimensions/voltage_dimension.h \
+    observation/cartesian_data.h \
+    observation/cartesian_evaluation_parameters.h \
+    observation/I_observation.h \
+    observation/I_plot_comparable.h \
+    observation/I_time_data.h \
+    observation/number_systems.h \
+    observation/observation_collection.h \
+    observation/observation_ID_reference.h \
+    observation/observation_scalar.h \
+    observation/time_data_reference.h \
+    sensors/sensor.h \
+    sensors/sensor_voltage.h
 
 # Unix lib Install
 unix:!symbian {
@@ -73,33 +74,33 @@ headers_common_data.files   += \
 INSTALLS       += headers_common_data
 
 #Header file copy
-headers_data_dimensions.path    = $$(ECM_ROOT)/include/data/Dimensions
+headers_data_dimensions.path    = $$(ECM_ROOT)/include/data/dimensions
 headers_data_dimensions.files   += \
-    Dimensions/dimension.h \
-    Dimensions/time_dimension.h \
-    Dimensions/voltage_dimension.h
+    dimensions/dimension.h \
+    dimensions/time_dimension.h \
+    dimensions/voltage_dimension.h
 INSTALLS       += headers_data_dimensions
 
 #Header file copy
-headers_data_observations.path    = $$(ECM_ROOT)/include/data/Observation
+headers_data_observations.path    = $$(ECM_ROOT)/include/data/observation
 headers_data_observations.files   += \
-    Observation/cartesian_data.h \
-    Observation/cartesian_evaluation_parameters.h \
-    Observation/I_observation.h \
-    Observation/I_plot_comparable.h \
-    Observation/I_time_data.h \
-    Observation/number_systems.h \
-    Observation/observation_collection.h \
-    Observation/observation_ID_reference.h \
-    Observation/observation_scalar.h \
-    Observation/time_data_reference.h
+    observation/cartesian_data.h \
+    observation/cartesian_evaluation_parameters.h \
+    observation/I_observation.h \
+    observation/I_plot_comparable.h \
+    observation/I_time_data.h \
+    observation/number_systems.h \
+    observation/observation_collection.h \
+    observation/observation_ID_reference.h \
+    observation/observation_scalar.h \
+    observation/time_data_reference.h
 INSTALLS       += headers_data_observations
 
 #Header file copy
-headers_data_sensors.path    = $$(ECM_ROOT)/include/data/Sensors
+headers_data_sensors.path    = $$(ECM_ROOT)/include/data/sensors
 headers_data_sensors.files   += \
-    Sensors/sensor.h \
-    Sensors/sensor_voltage.h
+    sensors/sensor.h \
+    sensors/sensor_voltage.h
 INSTALLS       += headers_data_sensors
 
 INCLUDEPATH += $$PWD/../

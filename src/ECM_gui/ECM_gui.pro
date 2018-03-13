@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
@@ -86,3 +87,10 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../graphing/ -lgraphing
 
 INCLUDEPATH += $$PWD/../graphing
 DEPENDPATH += $$PWD/../graphing
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_munk_power_supply/release/ -llibrary_munk_power_supply
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_munk_power_supply/debug/ -llibrary_munk_power_supply
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_munk_power_supply/ -llibrary_munk_power_supply
+
+INCLUDEPATH += $$PWD/../library_munk_power_supply
+DEPENDPATH += $$PWD/../library_munk_power_supply

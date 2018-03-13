@@ -12,7 +12,7 @@
 #include <QMutex>
 #include <typeinfo>
 
-#include "data_global.h"
+#include "../data_global.h"
 
 #include "I_plot_comparable.h"
 

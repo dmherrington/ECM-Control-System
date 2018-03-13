@@ -67,4 +67,6 @@ public:
 
 } //end of namespace common
 
+Q_DECLARE_METATYPE(common::TupleSensorString)
+
 #endif // TUPLE_SENSOR_STRING_H

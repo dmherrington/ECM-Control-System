@@ -4,6 +4,10 @@
 #include <QMainWindow>
 
 #include "ECM_plot_collection.h"
+#include "ECM_plot_identifier.h"
+
+#include "munk_power_supply.h"
+
 #include "additional_sensor_display.h"
 #include "common/threadmanager.h"
 #include "common/timer.h"
@@ -19,6 +23,10 @@ public:
     explicit ECMControllerGUI(QWidget *parent = 0);
     ~ECMControllerGUI();
 
+private slots:
+    void on_pushButton_released();
+    void slot_NewSensorData(const common::TupleSensorString sensor, const data::SensorState state);
+
 private:
     Ui::ECMControllerGUI *ui;
 
@@ -27,6 +35,8 @@ private:
     CollectionDisplays m_SensorDisplays;
 
     AdditionalSensorDisplay *m_additionalSensorDisplay;
+
+    MunkPowerSupply* testMunk;
 };
 
 #endif // ECM_CONTROLLER_GUI_H
