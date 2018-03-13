@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'additional_sensor_display.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.1
+** Created by: Qt User Interface Compiler version 5.10.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -66,8 +66,8 @@ public:
 
     void retranslateUi(QMainWindow *AdditionalSensorDisplay)
     {
-        AdditionalSensorDisplay->setWindowTitle(QApplication::translate("AdditionalSensorDisplay", "MainWindow", Q_NULLPTR));
-        menuView->setTitle(QApplication::translate("AdditionalSensorDisplay", "View", Q_NULLPTR));
+        AdditionalSensorDisplay->setWindowTitle(QApplication::translate("AdditionalSensorDisplay", "MainWindow", nullptr));
+        menuView->setTitle(QApplication::translate("AdditionalSensorDisplay", "View", nullptr));
     } // retranslateUi
 
 };

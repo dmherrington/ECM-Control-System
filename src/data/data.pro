@@ -103,7 +103,7 @@ headers_data_sensors.files   += \
 INSTALLS       += headers_data_sensors
 
 INCLUDEPATH += $$PWD/../
-INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
+INCLUDEPATH += $$(ECM_ROOT)/include
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
