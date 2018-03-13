@@ -12,7 +12,8 @@ namespace data
 //!
 //! \brief Default constructor, allocates dynamic space
 //!
-SensorState::SensorState()
+SensorState::SensorState():
+    m_allocated(false)
 {
     Allocate();
 }
@@ -37,6 +38,7 @@ SensorState::SensorState(bool allocate)
 SensorState::SensorState(const SensorState &that)
 {
     this->sensorData = that.sensorData;
+    this->validityTime = that.validityTime;
 }
 
 

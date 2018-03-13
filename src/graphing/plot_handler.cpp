@@ -26,6 +26,7 @@ PlotHandler::PlotHandler(QWidget *parent) :
 {
     m_FigureProperties.grid = true;
     m_FigureProperties.grid_custom = false;
+    this->xAxis->setTickStep(0.1);
     m_FigureProperties.xGridSpacing = this->xAxis->tickStep();
     m_FigureProperties.yGridSpacing = this->yAxis->tickStep();
 
@@ -36,8 +37,9 @@ PlotHandler::PlotHandler(QWidget *parent) :
     m_FigureProperties.legend = false;
 
     m_FigureProperties.window_custom = false;
-    m_FigureProperties.yWindow_max = 0.000;
+    m_FigureProperties.yWindow_max = 20.000;
     m_FigureProperties.yWindow_min = 0.000;
+
 
     m_TimeUnit = SECONDS;
 
@@ -50,7 +52,7 @@ PlotHandler::PlotHandler(QWidget *parent) :
     connect(this, SIGNAL(mouseRelease(QMouseEvent*)), this, SLOT(RecalculatePlots()));
     connect(this, SIGNAL(mouseDoubleClick(QMouseEvent*)), this, SLOT(on_double_click(QMouseEvent*)));
 
-    this->rescaleAxes(true);
+    //this->rescaleAxes(true);
 
     m_CurrTimeGraph = this->addGraph();
     m_CurrTimeGraph->setPen(QPen(Qt::red));
@@ -80,7 +82,22 @@ PlotHandler::PlotHandler(QWidget *parent) :
     //do not automatically add elements to legend, prevents event bars from displaying
     this->setAutoAddPlottableToLegend(false);
 
-    Replot(rpHint);
+    QVector<double> x(251), y0(251), y1(251);
+    for (int i=0; i<251; ++i)
+    {
+      x[i] = i;
+      y0[i] = qExp(-i/150.0)*qCos(i/10.0); // exponentially decaying cosine
+      y1[i] = qExp(-i/150.0);              // exponential envelope
+    }
+    // configure right and top axis to show ticks but no labels:
+    // (see QCPAxisRect::setupFullAxesBox for a quicker method to do this)
+    this->xAxis2->setVisible(true);
+    this->xAxis2->setTickLabels(false);
+    this->yAxis2->setVisible(true);
+    this->yAxis2->setTickLabels(false);
+    this->graph(0)->setData(x, y0);
+    this->replot();
+    //Replot(rpHint);
 }
 
 
@@ -210,18 +227,20 @@ void PlotHandler::ChangeColor(const std::string &operation, const QColor &color)
 //! \brief Redraw all expressions that rely on the provided data sources
 //! \param source Data sources to redraw
 //!
-//void PlotHandler::RedrawDataSource(const QList<std::shared_ptr<ExpressionEngine::IPlotComparable> > &sources)
-//{
-//    for (int i = 0 ; i < m_PlotParameters.size() ; i++)
-//    {
+void PlotHandler::RedrawDataSource(const QList<std::shared_ptr<data::observation::IPlotComparable> > &sources)
+{
+    for (int i = 0 ; i < m_PlotParameters.size() ; i++)
+    {
+        m_PlotParameters[i].Redraw = true;
+
 //        for(int j = 0 ; j < sources.size() ; j++)
 //        {
 //            if(m_PlotParameters.at(i).operation.ContainsSource(*sources.at(j)))
 //                m_PlotParameters[i].Redraw = true;
 //        }
-//    }
-//    RecalculatePlots();
-//}
+    }
+    RecalculatePlots();
+}
 
 
 
@@ -847,9 +866,13 @@ void PlotHandler::DoPlotRecalculate()
         m_PlotParameters[plotIndex].Redraw = false;
 
 
-        data::observation::CartesianData dr;
+        data::observation::CartesianData dr(2,data::observation::NumberSystems::SCALAR);
+        dr.InsertData(0,0,10);
+        dr.InsertData(1,1,12);
         if(m_PlotMode == PLOT_ENTIRE_SEQUENCE)
         {
+            int i = 0;
+            i++;
             //Ken Fix: This needs to determine how long the vector of data should be
             //dr = m_PlotParameters[plotIndex].operation.Evaluate(QDateTime(), m_OriginTime, msInTimeUnit);
         }
@@ -880,8 +903,8 @@ void PlotHandler::DoPlotRecalculate()
             }
 
             mReplotting.lock();
-
-            QCPGraph *g = m_PlotParameters[plotIndex].g.at(i);
+            QCPGraph *g = m_CurrTimeGraph;
+            //QCPGraph *g = m_PlotParameters[plotIndex].g.at(i);
 
             //Ken Fix Unit Name
             QString UnitName;// = QString::fromUtf8(dr.getUnit().ToShortHandString().c_str());
@@ -897,7 +920,6 @@ void PlotHandler::DoPlotRecalculate()
             //set data in graph
             g->clearData();
             g->setData(d, r);
-
             if(m_PlotParameters.at(plotIndex).Selected == true)
             {
                 QCPPlottableLegendItem *item = this->legend->itemWithPlottable(g);

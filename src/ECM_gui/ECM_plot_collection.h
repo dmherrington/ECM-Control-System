@@ -110,9 +110,6 @@ private:
 
     QList<QString> m_PlotReferenceString;
 
-    QHash<common::TupleECMData, bool> m_PlotsCreated;
-
-
 
     //! Scheduler to distribute current time to all plots
     ThreadedScheduler m_DistributeCurrentTimeScheduler;

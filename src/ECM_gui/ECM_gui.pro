@@ -44,7 +44,8 @@ SOURCES += \
     ECM_plot_identifier.cpp \
     SensorDisplay/collection_displays.cpp \
     SensorDisplay/display_base_plot_instantaneous.cpp \
-    SensorDisplay/display_voltage.cpp
+    SensorDisplay/display_voltage.cpp \
+    plot_central.cpp
 
 HEADERS += \
         ECM_controller_gui.h \
@@ -54,7 +55,8 @@ HEADERS += \
     SensorDisplay/collection_displays.h \
     SensorDisplay/display_base_plot_instantaneous.h \
     SensorDisplay/display_voltage.h \
-    SensorDisplay/I_sensor_display.h
+    SensorDisplay/I_sensor_display.h \
+    plot_central.h
 
 FORMS += \
         ECM_controller_gui.ui \

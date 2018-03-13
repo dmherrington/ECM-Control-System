@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'ECM_controller_gui.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.0
+** Created by: Qt User Interface Compiler version 5.9.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -13,37 +13,51 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
+#include "plot_central.h"
 
 QT_BEGIN_NAMESPACE
 
 class Ui_ECMControllerGUI
 {
 public:
+    QWidget *centralWidget;
+    QGridLayout *gridLayout;
+    PlotCentral *centralCustomPlot;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
-    QWidget *centralWidget;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *ECMControllerGUI)
     {
         if (ECMControllerGUI->objectName().isEmpty())
             ECMControllerGUI->setObjectName(QStringLiteral("ECMControllerGUI"));
-        ECMControllerGUI->resize(400, 300);
+        ECMControllerGUI->resize(638, 341);
+        centralWidget = new QWidget(ECMControllerGUI);
+        centralWidget->setObjectName(QStringLiteral("centralWidget"));
+        gridLayout = new QGridLayout(centralWidget);
+        gridLayout->setSpacing(6);
+        gridLayout->setContentsMargins(11, 11, 11, 11);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        centralCustomPlot = new PlotCentral(centralWidget);
+        centralCustomPlot->setObjectName(QStringLiteral("centralCustomPlot"));
+
+        gridLayout->addWidget(centralCustomPlot, 0, 0, 1, 1);
+
+        ECMControllerGUI->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(ECMControllerGUI);
         menuBar->setObjectName(QStringLiteral("menuBar"));
+        menuBar->setGeometry(QRect(0, 0, 638, 22));
         ECMControllerGUI->setMenuBar(menuBar);
         mainToolBar = new QToolBar(ECMControllerGUI);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
-        ECMControllerGUI->addToolBar(mainToolBar);
-        centralWidget = new QWidget(ECMControllerGUI);
-        centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        ECMControllerGUI->setCentralWidget(centralWidget);
+        ECMControllerGUI->addToolBar(Qt::TopToolBarArea, mainToolBar);
         statusBar = new QStatusBar(ECMControllerGUI);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         ECMControllerGUI->setStatusBar(statusBar);
@@ -55,7 +69,7 @@ public:
 
     void retranslateUi(QMainWindow *ECMControllerGUI)
     {
-        ECMControllerGUI->setWindowTitle(QApplication::translate("ECMControllerGUI", "ECMControllerGUI", nullptr));
+        ECMControllerGUI->setWindowTitle(QApplication::translate("ECMControllerGUI", "ECMControllerGUI", Q_NULLPTR));
     } // retranslateUi
 
 };

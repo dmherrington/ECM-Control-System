@@ -171,6 +171,7 @@ bool ObservationCollection::MakeScalarContainer(const IPlotComparable &ID, const
     if(!m_DataScalar.contains(IDreference))
     {
         m_DataScalar.insert(IDreference, new ObservationScalar(ID));
+        made = true;
     }
 
     m_DataScalar[IDreference]->setUnit(unit);

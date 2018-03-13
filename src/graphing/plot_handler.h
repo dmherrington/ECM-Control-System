@@ -194,7 +194,7 @@ public slots:
     //! \brief Redraw all expressions that rely on the provided data sources
     //! \param source Data sources to redraw
     //!
-    //void RedrawDataSource(const QList<std::shared_ptr<ExpressionEngine::IPlotComparable> > &sources);
+    void RedrawDataSource(const QList<std::shared_ptr<data::observation::IPlotComparable> > &sources);
 
 
 

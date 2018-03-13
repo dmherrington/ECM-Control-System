@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'additional_sensor_display.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.0
+** Created by: Qt User Interface Compiler version 5.9.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -49,7 +49,7 @@ public:
         AdditionalSensorDisplay->setCentralWidget(centralwidget);
         menubar = new QMenuBar(AdditionalSensorDisplay);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 800, 25));
+        menubar->setGeometry(QRect(0, 0, 800, 22));
         menuView = new QMenu(menubar);
         menuView->setObjectName(QStringLiteral("menuView"));
         AdditionalSensorDisplay->setMenuBar(menubar);
@@ -66,8 +66,8 @@ public:
 
     void retranslateUi(QMainWindow *AdditionalSensorDisplay)
     {
-        AdditionalSensorDisplay->setWindowTitle(QApplication::translate("AdditionalSensorDisplay", "MainWindow", nullptr));
-        menuView->setTitle(QApplication::translate("AdditionalSensorDisplay", "View", nullptr));
+        AdditionalSensorDisplay->setWindowTitle(QApplication::translate("AdditionalSensorDisplay", "MainWindow", Q_NULLPTR));
+        menuView->setTitle(QApplication::translate("AdditionalSensorDisplay", "View", Q_NULLPTR));
     } // retranslateUi
 
 };

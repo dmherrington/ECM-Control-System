@@ -5,7 +5,8 @@
 
 #include "ECM_plot_collection.h"
 #include "additional_sensor_display.h"
-
+#include "common/threadmanager.h"
+#include "common/timer.h"
 namespace Ui {
 class ECMControllerGUI;
 }
@@ -21,8 +22,10 @@ public:
 private:
     Ui::ECMControllerGUI *ui;
 
-    // Additional sensor display form
     ECMPlotCollection m_PlotCollection;
+
+    CollectionDisplays m_SensorDisplays;
+
     AdditionalSensorDisplay *m_additionalSensorDisplay;
 };
 
