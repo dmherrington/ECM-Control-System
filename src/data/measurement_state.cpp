@@ -1,9 +1,4 @@
-#include "sensor_state.h"
-
-#include <stdio.h>
-#include <sstream>
-#include <QBuffer>
-#include <stdexcept>
+#include "digital_state.h"
 
 namespace data
 {
@@ -12,7 +7,7 @@ namespace data
 //!
 //! \brief Default constructor, allocates dynamic space
 //!
-SensorState::SensorState():
+DigitalState::DigitalState():
     m_allocated(false)
 {
     Allocate();
@@ -25,7 +20,7 @@ SensorState::SensorState():
 //! If this object is to immediattly assigned to, it may be worthwile to not allocate space.
 //! \param allocate true if we are to allocate space in the object
 //!
-SensorState::SensorState(bool allocate)
+DigitalState::DigitalState(bool allocate)
 {
     Allocate();
 }
@@ -35,9 +30,9 @@ SensorState::SensorState(bool allocate)
  * \brief Copy constructor
  * \param that Data to copy from
  */
-SensorState::SensorState(const SensorState &that)
+DigitalState::DigitalState(const DigitalState &that)
 {
-    this->sensorData = that.sensorData;
+    this->state = that.state;
     this->validityTime = that.validityTime;
     this->ref_count = that.ref_count;
 
@@ -51,7 +46,7 @@ SensorState::SensorState(const SensorState &that)
  *
  * Delete the sensor object if it is set.
  */
-SensorState::~SensorState()
+DigitalState::~DigitalState()
 {
     if(m_allocated == false)
         return;
@@ -69,7 +64,7 @@ SensorState::~SensorState()
 //! \param that Object to assing from
 //! \return reference to assigned object
 //!
-SensorState& SensorState::operator =(const SensorState &rhs)
+DigitalState& DigitalState::operator =(const DigitalState &rhs)
 {
     // if the object being replaced, it may need to be deallocated before replaced.
     if(m_allocated == true)
@@ -86,7 +81,7 @@ SensorState& SensorState::operator =(const SensorState &rhs)
     if(m_allocated)
         *ref_count = *ref_count + 1;
 
-    this->sensorData = rhs.sensorData;
+    this->state = rhs.state;
 
     return *this;
 }
@@ -95,7 +90,7 @@ SensorState& SensorState::operator =(const SensorState &rhs)
 //!
 //! \brief Allocate space for dynamic structure to be held
 //!
-void SensorState::Allocate()
+void DigitalState::Allocate()
 {
     if(m_allocated == true)
         return;
@@ -107,29 +102,16 @@ void SensorState::Allocate()
 
     m_allocated = true;
 
-    this->sensorData = NULL;
+    this->state = false;
 }
-
-
-//!
-//! \brief Construct a sensor to be present in this state
-//! \param type Type of sensor to create
-//! \param name Name of sensor creating
-//! \exception std::runtime Thrown when Type does not match a value in SensorTypes.
-//!
-void SensorState::ConstructSensor(const SensorTypes &type, std::string name)
-{    
-    this->sensorData = std::shared_ptr<Sensor>(SensorCollection::ConstructSensor(type, name));
-}
-
 
 //!
 //! \brief Get a pointer to the sensor data held by this state.
 //! \return Pointer to data, Null if no data provided.
 //!
-std::shared_ptr<Sensor> SensorState::getSensorData() const
+std::shared_ptr<Sensor> DigitalState::getDigitalIO() const
 {
-    return this->sensorData;
+    return this->state;
 }
 
 
@@ -137,15 +119,15 @@ std::shared_ptr<Sensor> SensorState::getSensorData() const
 //! \brief set sensor data held in this object
 //! \param sensorData Data to set to
 //!
-void SensorState::setSensorData(const std::shared_ptr<Sensor> &sensorData)
+void DigitalState::setDigitalIO(const bool &IOState)
 {
-    this->sensorData = sensorData;
+    this->state = IOState;
 }
 
 //!
 //! \brief Delete dynamic data held by this object
 //!
-void SensorState::Deallocate()
+void DigitalState::Deallocate()
 {
     if(m_allocated)
     {

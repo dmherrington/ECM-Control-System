@@ -31,7 +31,8 @@ SOURCES += \
     observation/observation_collection.cpp \
     observation/observation_scalar.cpp \
     sensors/sensor.cpp \
-    sensors/sensor_voltage.cpp
+    sensors/sensor_voltage.cpp \
+    measurement_state.cpp
 
 HEADERS += \
     data_global.h \
@@ -51,7 +52,8 @@ HEADERS += \
     observation/observation_scalar.h \
     observation/time_data_reference.h \
     sensors/sensor.h \
-    sensors/sensor_voltage.h
+    sensors/sensor_voltage.h \
+    digital_state.h
 
 # Unix lib Install
 unix:!symbian {
@@ -69,6 +71,7 @@ INSTALLS += lib
 headers_common_data.path    = $$(ECM_ROOT)/include/data
 headers_common_data.files   += \
         data_global.h \
+        measurement_state.h \
         sensor_collection.h \
         sensor_state.h
 INSTALLS       += headers_common_data
