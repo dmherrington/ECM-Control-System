@@ -98,7 +98,7 @@ void State_Jogging::Update()
 
 void State_Jogging::OnEnter()
 {
-    //this shouldn't really happen as how are we supposed to know the jogging rate
+    //this shouldn't really happen as how are we supposed to know the actual state jogging command
     //we therefore are going to do nothing other than change the state back to State_Ready
     this->desiredState = ECMState::STATE_READY;
 }
@@ -107,8 +107,6 @@ void State_Jogging::OnEnter(const AbstractCommand *command)
 {
     if(command != nullptr)
     {
-        //There are no specific things to have performed in this state as we should only
-        //have arrived here from a ready state. We will go right to handling the command.
         this->handleCommand(command);
     }
     else{

@@ -75,7 +75,6 @@ void State_MotionStop::Update()
     {
         desiredState = ECMState::STATE_READY;
     }
-
 }
 
 void State_MotionStop::OnEnter()

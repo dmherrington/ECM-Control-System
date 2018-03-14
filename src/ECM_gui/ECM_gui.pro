@@ -46,7 +46,10 @@ SOURCES += \
     SensorDisplay/collection_displays.cpp \
     SensorDisplay/display_base_plot_instantaneous.cpp \
     SensorDisplay/display_voltage.cpp \
-    plot_central.cpp
+    plot_central.cpp \
+    dialog_pump_control.cpp \
+    dialog_munk_control.cpp \
+    dialog_custom_commands.cpp
 
 HEADERS += \
         ECM_controller_gui.h \
@@ -57,12 +60,18 @@ HEADERS += \
     SensorDisplay/display_base_plot_instantaneous.h \
     SensorDisplay/display_voltage.h \
     SensorDisplay/I_sensor_display.h \
-    plot_central.h
+    plot_central.h \
+    dialog_pump_control.h \
+    dialog_munk_control.h \
+    dialog_custom_commands.h
 
 FORMS += \
         ECM_controller_gui.ui \
     additional_sensor_display.ui \
-    SensorDisplay/display_base_plot_instantaneous.ui
+    SensorDisplay/display_base_plot_instantaneous.ui \
+    dialog_pump_control.ui \
+    dialog_munk_control.ui \
+    dialog_custom_commands.ui
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include

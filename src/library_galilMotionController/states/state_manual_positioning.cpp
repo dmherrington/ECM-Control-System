@@ -50,18 +50,21 @@ hsm::Transition State_ManualPositioning::GetTransition()
 
 void State_ManualPositioning::handleCommand(const AbstractCommand* command)
 {
-    CommandType currentCommand = command->getCommandType();
+    const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
+
+    CommandType currentCommand = copyCommand->getCommandType();
 
     switch (currentCommand) {
     case CommandType::ABSOLUTE_MOVE:
-    {        
+    {
         Owner().getAxisStatus(MotorAxis::Z)->axisMoving.AddNotifier(this,[this]
         {
             if(Owner().getAxisStatus(MotorAxis::Z)->axisMoving.get())
                 motionFlag = true;
         });
 
-        CommandAbsoluteMovePtr castCommand = std::make_shared<CommandAbsoluteMove>(*command->as<CommandAbsoluteMove>());
+        CommandAbsoluteMovePtr castCommand = std::make_shared<CommandAbsoluteMove>(*copyCommand->as<CommandAbsoluteMove>());
         this->clearCommand();
         Owner().issueGalilMotionCommand(castCommand);
         break;
@@ -73,7 +76,7 @@ void State_ManualPositioning::handleCommand(const AbstractCommand* command)
             if(Owner().getAxisStatus(MotorAxis::Z)->axisMoving.get())
                 motionFlag = true;
         });
-        CommandRelativeMovePtr castCommand = std::make_shared<CommandRelativeMove>(*command->as<CommandRelativeMove>());
+        CommandRelativeMovePtr castCommand = std::make_shared<CommandRelativeMove>(*copyCommand->as<CommandRelativeMove>());
         this->clearCommand();
         Owner().issueGalilMotionCommand(castCommand);
         break;
@@ -105,11 +108,10 @@ void State_ManualPositioning::Update()
         desiredState = ECMState::STATE_ESTOP;
         return;
     }
-
-    //this may get checked to fast and therefore needs a flag to conditionally enable this check once motion has started
-    if(motionFlag)
+    else if(!Owner().getAxisStatus(MotorAxis::Z)->isAxisinMotion())
     {
-        if(!Owner().getAxisStatus(MotorAxis::Z)->isAxisinMotion())
+        //this may get checked to fast and therefore needs a flag to conditionally enable this check once motion has started
+        if(motionFlag)
         {
             //the motor is no longer moving, now let us determine why it is no longer moving
             if(Owner().getAxisStatus(MotorAxis::Z)->stopCode.get().getCode() == 1)
@@ -117,6 +119,10 @@ void State_ManualPositioning::Update()
                 //the motor has come to a stop because it has reached the desired position
             }
         }
+    }
+    else
+    {
+        motionFlag = true;
     }
 }
 
@@ -136,7 +142,6 @@ void State_ManualPositioning::OnEnter(const AbstractCommand *command)
     }
     else{
         //For some reason the command was null. This is an interesting case.
-        std::cout<<"The command is null even though we have been told to enter the manual positioning state."<<std::endl;
         this->desiredState = ECMState::STATE_READY;
     }
 }

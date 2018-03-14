@@ -91,7 +91,7 @@ void State_HomePositioning::Update()
 
 void State_HomePositioning::OnEnter()
 {
-    //this shouldn't really happen as how are we supposed to know the actual touchoff command
+    //this shouldn't really happen as how are we supposed to know the actual home position command
     //we therefore are going to do nothing other than change the state back to State_Ready
     this->desiredState = ECMState::STATE_READY;
 }
