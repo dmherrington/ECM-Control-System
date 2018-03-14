@@ -6,6 +6,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->ledWidget->setDiameter(30);
+    ui->ledWidget->setColor(QColor(0,255,0));
     m_Galil = new galilMotionController();
 
     char* ECMPath = getenv("ECM_ROOT");

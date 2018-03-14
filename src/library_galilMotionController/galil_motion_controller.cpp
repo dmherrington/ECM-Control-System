@@ -161,6 +161,20 @@ void galilMotionController::NewStatusMotorInMotion(const Status_AxisInMotion &st
     }
 }
 
+void galilMotionController::NewStatusVariableValue(const Status_VariableValue &status)
+{
+    if(stateInterface->statusVariables.updateVariable(status))
+    {
+        stateMachine->UpdateStates();
+        stateMachine->ProcessStateTransitions();
+    }
+}
+
+void galilMotionController::NewStatusVariableList(const Status_VariableList &status)
+{
+    stateInterface->statusVariables = status;
+}
+
 void galilMotionController::getProgramPath(std::string &filePath) const
 {
     QFile file(programPath);
@@ -236,19 +250,19 @@ void galilMotionController::executeStringCommand(const std::string &stringComman
         std::cout<<"The string seen here is: "<<testString<<std::endl;
     }
 
-//    QString.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
+    //    QString.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
 
-//    std::string testString(buf);
-//    size_t index = testString.find("\r\n");
-//    if(index != std::string::npos)
-//    {
-//        //this means that it was found
-//        std::string response = testString.substr (0,index);
-//        std::cout<<"The string seen here is: "<<response<<std::endl;
-//    }
-//    std::cout<<"Command Executed."<<std::endl;
-//    std::cout<<ParseGReturn::getGReturnString(rtn);
-//    std::cout<<"Returned: "<<std::string(returnOut)<<std::endl;
+    //    std::string testString(buf);
+    //    size_t index = testString.find("\r\n");
+    //    if(index != std::string::npos)
+    //    {
+    //        //this means that it was found
+    //        std::string response = testString.substr (0,index);
+    //        std::cout<<"The string seen here is: "<<response<<std::endl;
+    //    }
+    //    std::cout<<"Command Executed."<<std::endl;
+    //    std::cout<<ParseGReturn::getGReturnString(rtn);
+    //    std::cout<<"Returned: "<<std::string(returnOut)<<std::endl;
 }
 
 bool galilMotionController::saveProgramAs(const std::string &filePath, const std::string &text)
@@ -280,46 +294,46 @@ bool galilMotionController::loadProgram(const std::string &filePath, std::string
 void galilMotionController::uploadProgram(const ProgramGeneric &program) const
 {
     commsMarshaler->uploadProgram(program);
-//    ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
-//    //currentState->handleCommand();
+    //    ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
+    //    //currentState->handleCommand();
 
-//    //1) Stop the motion of the machine
-//    CommandStop stop;
-//    GCmd(galil,stop.getCommandString().c_str());
-//    //GReturn rtn = GCommand(mConnection,stop.getCommandString().c_str(),returnOut,sizeof(returnOut),&read_bytes);
-//    //2) Turn off the power supply
-//    CommandSetBit setBit;
-//    setBit.appendAddress(2);
-//    GCmd(galil,setBit.getCommandString().c_str());
+    //    //1) Stop the motion of the machine
+    //    CommandStop stop;
+    //    GCmd(galil,stop.getCommandString().c_str());
+    //    //GReturn rtn = GCommand(mConnection,stop.getCommandString().c_str(),returnOut,sizeof(returnOut),&read_bytes);
+    //    //2) Turn off the power supply
+    //    CommandSetBit setBit;
+    //    setBit.appendAddress(2);
+    //    GCmd(galil,setBit.getCommandString().c_str());
 
-//    //3) Write the program
-//    GReturn rtnCode = GProgramDownload(galil,programText.c_str(),0);
-//    std::cout<<"The return code here is "<<std::endl;
+    //    //3) Write the program
+    //    GReturn rtnCode = GProgramDownload(galil,programText.c_str(),0);
+    //    std::cout<<"The return code here is "<<std::endl;
 }
 
 void galilMotionController::downloadProgram() const
 {
     commsMarshaler->downloadProgram();
-//    GBufOut returnOut;
-//    GSize read_bytes = 0; //bytes read in GCommand
+    //    GBufOut returnOut;
+    //    GSize read_bytes = 0; //bytes read in GCommand
 
-//    //1) Stop the motion of the machine
-//    CommandStop stop;
-//    GCmd(galil,stop.getCommandString().c_str());
-//    //GReturn rtn = GCommand(mConnection,stop.getCommandString().c_str(),returnOut,sizeof(returnOut),&read_bytes);
-//    //2) Turn off the power supply
-//    CommandSetBit setBit;
-//    setBit.appendAddress(2);
-//    GCmd(galil,setBit.getCommandString().c_str());
+    //    //1) Stop the motion of the machine
+    //    CommandStop stop;
+    //    GCmd(galil,stop.getCommandString().c_str());
+    //    //GReturn rtn = GCommand(mConnection,stop.getCommandString().c_str(),returnOut,sizeof(returnOut),&read_bytes);
+    //    //2) Turn off the power supply
+    //    CommandSetBit setBit;
+    //    setBit.appendAddress(2);
+    //    GCmd(galil,setBit.getCommandString().c_str());
 
-//    //rtn = GCommand(mConnection,setBit.getCommandString().c_str(),returnOut,sizeof(returnOut),&read_bytes);
-//    //3) Read the program
-//    char* buf = new char[10]();
-//    GReturn rtnCode = GProgramUpload(galil,buf,10);
+    //    //rtn = GCommand(mConnection,setBit.getCommandString().c_str(),returnOut,sizeof(returnOut),&read_bytes);
+    //    //3) Read the program
+    //    char* buf = new char[10]();
+    //    GReturn rtnCode = GProgramUpload(galil,buf,10);
 
 
-//    programText = std::string(buf);
-//    delete[] buf;
+    //    programText = std::string(buf);
+    //    delete[] buf;
 }
 
 void galilMotionController::cbi_GalilStatusRequest(const AbstractRequestPtr request)
@@ -342,9 +356,23 @@ void galilMotionController::cbi_AbstractGalilRequest(const AbstractRequestPtr re
     commsMarshaler->sendAbstractGalilRequest(request);
 }
 
+void galilMotionController::cbi_AbstractGalilAddPolled(const AbstractRequestPtr request)
+{
+    galilPolling->addRequest(request);
+}
+
+void galilMotionController::cbi_AbstractGalilRemovePolled(const std::string &name)
+{
+    galilPolling->removeRequest(name);
+}
+
 void galilMotionController::cbi_GalilControllerGains(const CommandControllerGain &gains)
 {
     commsMarshaler->sendGalilControllerGains(gains);
 }
 
+void galilMotionController::cbi_ResetHomingLatch()
+{
+    emit signal_GalilResetHomingLatch(); //this should be emitted everytime the motor is turned off
+}
 

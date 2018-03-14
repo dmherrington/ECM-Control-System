@@ -1,6 +1,8 @@
 #ifndef GALIL_STATE_MACHINE_H
 #define GALIL_STATE_MACHINE_H
 
+#include <map>
+
 #include <iostream>
 #include <QDate>
 
@@ -29,6 +31,9 @@ public:
     void beginPolling();
     void pausePolling();
 
+    void addRequest(const AbstractRequestPtr request);
+    void removeRequest(const std::string &name);
+
     void run();
 
     void connectCallback(GalilStatusUpdate_Interface *cb)
@@ -42,6 +47,7 @@ private:
 
 private:
     GalilStatusUpdate_Interface *m_CB;
+    std::map<std::string,AbstractRequestPtr> requests;
 
 protected:
     std::list<std::function<void()>> m_LambdasToRun;

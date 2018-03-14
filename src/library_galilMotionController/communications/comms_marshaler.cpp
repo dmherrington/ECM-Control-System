@@ -237,7 +237,18 @@ void CommsMarshaler::parseStatus(const AbstractStatusPtr &status) const
         Emit([&](CommsEvents *ptr){ptr->NewStatusMotorStopCode(castStatus);});
         break;
     }
-
+    case StatusTypes::STATUS_VARIABLELIST:
+    {
+        Status_VariableList castStatus(*status.get()->as<Status_VariableList>());
+        Emit([&](CommsEvents *ptr){ptr->NewStatusVariableList(castStatus);});
+        break;
+    }
+    case StatusTypes::STATUS_VARIABLEVALUE:
+    {
+        Status_VariableValue castStatus(*status.get()->as<Status_VariableValue>());
+        Emit([&](CommsEvents *ptr){ptr->NewStatusVariableValue(castStatus);});
+        break;
+    }
     default:
         break;
     }

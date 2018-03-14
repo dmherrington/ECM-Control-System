@@ -26,6 +26,7 @@ hsm::Transition State_ScriptExecution::GetTransition()
 
     if(currentState != desiredState)
     {
+        Owner().issueGalilRemovePollingRequest("cutdone");
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
@@ -92,25 +93,54 @@ void State_ScriptExecution::Update()
         //we should therefore transition to the idle state
         desiredState = ECMState::STATE_ESTOP;
     }
+
+    double varValue;
+    if(Owner().statusVariables.getVariableValue("touchof",varValue))
+    {
+        switch ((int)varValue) {
+        case 0:
+        {
+            //the part is still being cut
+            break;
+        }
+        case 1:
+        {
+            //the part is finished being cut
+            CommandExecuteProfile* command = new CommandExecuteProfile(CommandExecuteProfile::ProfileType::HOMING,"home");
+            this->currentCommand = command;
+            desiredState = ECMState::STATE_MOTION_STOP;
+            break;
+        }
+        default:
+            //there is a case condition that does not follow the flow chart
+            break;
+        }
+    }
+    else
+    {
+        //this variable doesnt exist so we should abort the touchoff routine
+        desiredState = ECMState::STATE_MOTION_STOP;
+    }
 }
 
 void State_ScriptExecution::OnEnter()
 {
-    //Since the only way to have transitioned into this state is to have come through the ready state
-    //There should not be much to actually setup at this point
+    //this shouldn't really happen as how are we supposed to know the the actual profile to execute
+    //we therefore are going to do nothing other than change the state back to State_Ready
+    desiredState = ECMState::STATE_READY;
 }
 
 void State_ScriptExecution::OnEnter(const AbstractCommand* command)
 {
-    this->OnEnter();
-
     if(command != nullptr)
     {
+        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("cutdone");
+        Owner().issueGalilAddPollingRequest(request);
         //The command isnt null so we should handle it
         this->handleCommand(command);
     }
     else{
-        //There was no actual command, therefore, there is nothing else to do at this point
+        this->OnEnter();
     }
 }
 

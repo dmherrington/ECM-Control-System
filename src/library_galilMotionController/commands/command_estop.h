@@ -1,7 +1,6 @@
 #ifndef COMMAND_ESTOP_H
 #define COMMAND_ESTOP_H
 
-
 #include <string>
 
 #include "commands/abstract_command.h"

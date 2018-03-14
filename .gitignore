@@ -26,4 +26,9 @@ example/example
 *.gypi
 /include/*
 "doxygen/html/"
+/src/common/debug/*
+/src/data/debug/*
+/src/library_galilMotionController/debug/*
 /src/window_GMC_variable_editor/debug/*
+/src/Window_GalilMotionController/debug/*
+/src/ECM_GUI/debug/*

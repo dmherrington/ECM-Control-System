@@ -49,13 +49,27 @@ hsm::Transition State_HomePositioning::GetTransition()
 
 void State_HomePositioning::handleCommand(const AbstractCommand* command)
 {
-    CommandType currentCommand = command->getCommandType();
+    const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
 
+    CommandType currentCommand = copyCommand->getCommandType();
     switch (currentCommand) {
+    case CommandType::EXECUTE_PROGRAM:
+    {
+        CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*copyCommand->as<CommandExecuteProfile>());
+        Owner().issueGalilMotionCommand(castCommand);
+        break;
+    }
     case CommandType::STOP:
     {
-        CommandStop cmd;
-        this->desiredState = ECMState::STATE_MOTION_STOP;
+        desiredState = ECMState::STATE_MOTION_STOP;
+        delete copyCommand;
+        break;
+    }
+    case CommandType::ESTOP:
+    {
+        desiredState = ECMState::STATE_ESTOP;
+        delete copyCommand;
         break;
     }
     default:
@@ -77,22 +91,25 @@ void State_HomePositioning::Update()
 
 void State_HomePositioning::OnEnter()
 {
-
+    //this shouldn't really happen as how are we supposed to know the actual touchoff command
+    //we therefore are going to do nothing other than change the state back to State_Ready
+    this->desiredState = ECMState::STATE_READY;
 }
 
-void State_HomePositioning::OnEnter(const AbstractCommand *command){
-
+void State_HomePositioning::OnEnter(const AbstractCommand* command)
+{
     if(command != nullptr)
     {
-
+        this->handleCommand(command);
     }
     else{
-
+        this->OnEnter();
     }
 }
 
 } //end of namespace Galil
 } //end of namespace ECM
 
+#include "states/state_ready.h"
 #include "states/state_motion_stop.h"
 #include "states/state_estop.h"

@@ -57,6 +57,16 @@ public:
         UNUSED(status);
     }
 
+    virtual void NewStatusVariableValue(const Status_VariableValue &status)
+    {
+        UNUSED(status);
+    }
+
+    virtual void NewStatusVariableList(const Status_VariableList &status)
+    {
+        UNUSED(status);
+    }
+
 };
 
 }

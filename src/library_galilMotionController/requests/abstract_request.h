@@ -70,6 +70,17 @@ public:
     virtual void getClone(AbstractRequest** state) const = 0;
 
 public:
+    virtual void setRequestName(const std::string &name)
+    {
+        this->requestName = name;
+    }
+
+    virtual std::string getRequestName() const
+    {
+        return requestName;
+    }
+
+public:
     virtual RequestTypes getRequestType() const
     {
         return requestType;
@@ -109,6 +120,7 @@ public:
     }
 
 protected:
+    std::string requestName = "";
     RequestTypes requestType;
     unsigned int bufferSize;
     std::string buffer;

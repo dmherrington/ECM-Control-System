@@ -33,15 +33,6 @@ GalilStatus* GalilStateInterface::getAxisStatus(const MotorAxis &axis)
         return nullptr;
 }
 
-void GalilStateInterface::updatePosition(const std::vector<Status_Position> &data)
-{
-    for (unsigned int i = 0; i < data.size(); i++)
-    {
-        MotorAxis axis = data.at(i).getAxis();
-        if(mStatus.count(axis) > 0)
-            mStatus.at(axis)->setPosition(data.at(i));
-    }
-}
 
 void GalilStateInterface::setConnected(const bool &val)
 {

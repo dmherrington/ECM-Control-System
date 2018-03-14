@@ -55,7 +55,7 @@ void State_Idle::Update()
     if(this->checkEStop())
     {
         //this means that the estop button has been cleared
-        //we should therefore transition to the idle state
+        //we should therefore transition to STATE_ESTOP
         desiredState = ECMState::STATE_ESTOP;
     }
     else if(Owner().isMotorEnabled() || Owner().isMotorInMotion())
@@ -72,12 +72,12 @@ void State_Idle::handleCommand(const AbstractCommand* command)
     case CommandType::DOWNLOAD_PROGRAM:
     {
         //we can only download/upload commands in the idle state so this command is valid
-        const CommandDownloadProgram* castCommand = this->currentCommand->as<CommandDownloadProgram>();
+        const CommandDownloadProgram* castCommand = copyCommand->as<CommandDownloadProgram>();
         break;
     }
     case CommandType::UPLOAD_PROGRAM:
     {
-        const CommandUploadProgram* castCommand = this->currentCommand->as<CommandUploadProgram>();
+        const CommandUploadProgram* castCommand = copyCommand->as<CommandUploadProgram>();
         break;
     }
     case CommandType::MOTOR_ON:
@@ -85,36 +85,16 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to the Ready State and we no longer need the command
         desiredState = ECMState::STATE_READY;
+        delete copyCommand;
         break;
     }
     case CommandType::ABSOLUTE_MOVE:
-    {
-        //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
-        //This command will transition the machine to the Ready State
-        desiredState = ECMState::STATE_READY;
-        this->currentCommand = copyCommand;
-        break;
-    }
     case CommandType::RELATIVE_MOVE:
-    {
-        //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
-        //This command will transition the machine to the Ready State
-        desiredState = ECMState::STATE_READY;
-        this->currentCommand = copyCommand;
-        break;
-    }
     case CommandType::JOG_MOVE:
-    {
-        //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
-        //This command will transition the machine to the Ready State
-        desiredState = ECMState::STATE_READY;
-        this->currentCommand = copyCommand;
-        break;
-    }
     case CommandType::EXECUTE_PROGRAM:
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
-        //This command will transition the machine to the Ready State
+        //This command will transition the machine to STATE_READY
         desiredState = ECMState::STATE_READY;
         this->currentCommand = copyCommand;
         break;
@@ -154,6 +134,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
     case CommandType::ESTOP:
     {
         desiredState = ECMState::STATE_ESTOP;
+        delete copyCommand;
         break;
     }
     default:

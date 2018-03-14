@@ -26,7 +26,8 @@ enum class RequestTypes{
     STOP_CODE = 2,
     TELL_INPUTS = 3,
     TELL_POSITION = 4,
-    TELL_SWITCHES = 5
+    TELL_SWITCHES = 5,
+    TELL_VARIABLE = 6
 };
 
 //!

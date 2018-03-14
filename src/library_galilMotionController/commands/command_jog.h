@@ -1,6 +1,5 @@
 #ifndef COMMAND_JOG_H
 #define COMMAND_JOG_H
-
 #include <map>
 #include <math.h>
 

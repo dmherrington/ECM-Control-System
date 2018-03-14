@@ -6,7 +6,7 @@ namespace Galil {
 State_Ready::State_Ready():
     AbstractStateGalil()
 {
-    std::cout<<"We are in the constructor of State_Ready"<<std::endl;
+    std::cout<<"We are in the constructor of STATE_READY"<<std::endl;
     this->currentState = ECMState::STATE_READY;
     this->desiredState = ECMState::STATE_READY;
 }
@@ -30,14 +30,9 @@ hsm::Transition State_Ready::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_ESTOP:
+        case ECMState::STATE_MANUAL_POSITIONING:
         {
-            rtn = hsm::SiblingTransition<State_EStop>();
-            break;
-        }
-        case ECMState::STATE_HOME_POSITIONING:
-        {
-            rtn = hsm::SiblingTransition<State_HomePositioning>(currentCommand);
+            rtn = hsm::SiblingTransition<State_ManualPositioning>(currentCommand);
             break;
         }
         case ECMState::STATE_JOGGING:
@@ -45,14 +40,9 @@ hsm::Transition State_Ready::GetTransition()
             rtn = hsm::SiblingTransition<State_Jogging>(currentCommand);
             break;
         }
-        case ECMState::STATE_MANUAL_POSITIONING:
+        case ECMState::STATE_HOME_POSITIONING:
         {
-            rtn = hsm::SiblingTransition<State_ManualPositioning>(currentCommand);
-            break;
-        }
-        case ECMState::STATE_READY_STOP:
-        {
-            rtn = hsm::SiblingTransition<State_ReadyStop>();
+            rtn = hsm::SiblingTransition<State_HomePositioning>(currentCommand);
             break;
         }
         case ECMState::STATE_SCRIPT_EXECUTION:
@@ -65,8 +55,18 @@ hsm::Transition State_Ready::GetTransition()
             rtn = hsm::SiblingTransition<State_Touchoff>(currentCommand);
             break;
         }
+        case ECMState::STATE_READY_STOP:
+        {
+            rtn = hsm::SiblingTransition<State_ReadyStop>();
+            break;
+        }
+        case ECMState::STATE_ESTOP:
+        {
+            rtn = hsm::SiblingTransition<State_EStop>();
+            break;
+        }
         default:
-            std::cout<<"I dont know how we eneded up in this transition state from state ready."<<std::endl;
+            std::cout<<"I dont know how we eneded up in this transition state from STATE_READY."<<std::endl;
             break;
         }
     }
@@ -89,13 +89,6 @@ void State_Ready::handleCommand(const AbstractCommand* command)
         break;
     }
     case CommandType::ABSOLUTE_MOVE:
-    {
-        //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
-        //This command will transition the machine to STATE_MANUAL_POSITIONING
-        desiredState = ECMState::STATE_MANUAL_POSITIONING;
-        this->currentCommand = copyCommand;
-        break;
-    }
     case CommandType::RELATIVE_MOVE:
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
@@ -115,9 +108,32 @@ void State_Ready::handleCommand(const AbstractCommand* command)
     case CommandType::EXECUTE_PROGRAM:
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
-        //This command will transition the machine to STATE_SCRIPT_EXECUTION
-        desiredState = ECMState::STATE_SCRIPT_EXECUTION;
-        this->currentCommand = command->getClone();
+        CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
+        switch (castCommand->getProfileType()) {
+        case CommandExecuteProfile::ProfileType::HOMING:
+        {
+            //This command will transition the machine to STATE_HOME_POSITIONING
+            desiredState = ECMState::STATE_HOME_POSITIONING;
+            this->currentCommand = copyCommand;
+            break;
+        }
+        case CommandExecuteProfile::ProfileType::PROFILE:
+        {
+            //This command will transition the machine to STATE_SCRIPT_EXECUTION
+            desiredState = ECMState::STATE_SCRIPT_EXECUTION;
+            this->currentCommand = copyCommand;
+            break;
+        }
+        case CommandExecuteProfile::ProfileType::TOUCHOFF:
+        {
+            //This command will transition the machine to STATE_TOUCHOFF
+            desiredState = ECMState::STATE_TOUCHOFF;
+            this->currentCommand = copyCommand;
+            break;
+        }
+        default:
+            break;
+        }
         break;
     }
     case CommandType::MOTOR_OFF:

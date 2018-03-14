@@ -26,6 +26,8 @@ hsm::Transition State_Touchoff::GetTransition()
 
     if(currentState != desiredState)
     {
+        Owner().issueGalilRemovePollingRequest("touchst");
+
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
@@ -34,13 +36,18 @@ hsm::Transition State_Touchoff::GetTransition()
             return hsm::SiblingTransition<State_Ready>();
             break;
         }
+        case ECMState::STATE_MOTION_STOP:
+        {
+            rtn = hsm::SiblingTransition<State_MotionStop>(currentCommand);
+            break;
+        }
         case ECMState::STATE_ESTOP:
         {
             rtn = hsm::SiblingTransition<State_EStop>();
             break;
         }
         default:
-            std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
+            std::cout<<"I dont know how we eneded up in this transition state from STATE_TOUCHOFF."<<std::endl;
             break;
         }
     }
@@ -50,52 +57,27 @@ hsm::Transition State_Touchoff::GetTransition()
 
 void State_Touchoff::handleCommand(const AbstractCommand* command)
 {
-    CommandType currentCommand = command->getCommandType();
+    const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
 
+    CommandType currentCommand = copyCommand->getCommandType();
     switch (currentCommand) {
-    case CommandType::ABSOLUTE_MOVE:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::CLEAR_BIT:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
     case CommandType::EXECUTE_PROGRAM:
     {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::JOG_MOVE:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::MOTOR_OFF:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::MOTOR_ON:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::RELATIVE_MOVE:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-    case CommandType::SET_BIT:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*copyCommand->as<CommandExecuteProfile>());
+        Owner().issueGalilMotionCommand(castCommand);
         break;
     }
     case CommandType::STOP:
     {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        desiredState = ECMState::STATE_MOTION_STOP;
+        delete copyCommand;
+        break;
+    }
+    case CommandType::ESTOP:
+    {
+        desiredState = ECMState::STATE_ESTOP;
+        delete copyCommand;
         break;
     }
     default:
@@ -113,26 +95,66 @@ void State_Touchoff::Update()
         //we should therefore transition to the idle state
         desiredState = ECMState::STATE_ESTOP;
     }
+
+    double varValue;
+    if(Owner().statusVariables.getVariableValue("touchof",varValue))
+    {
+        switch ((int)varValue) {
+        case 0:
+        {
+            //continue searching for home
+            break;
+        }
+        case 1:
+        {
+            //we have finished the touchoff routine
+            break;
+        }
+        case 2:
+        {
+            //ERROR: inconsistent or positional limit exceeded
+            CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
+            this->currentCommand = command;
+            desiredState = ECMState::STATE_MOTION_STOP;
+            break;
+        }
+        case 3:
+        {
+            //ERROR: already touch part
+            CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
+            this->currentCommand = command;
+            desiredState = ECMState::STATE_MOTION_STOP;
+            break;
+        }
+        default:
+            //there is a case condition that does not follow the flow chart
+            break;
+        }
+    }
+    else
+    {
+        //this variable doesnt exist so we should abort the touchoff routine
+        desiredState = ECMState::STATE_MOTION_STOP;
+    }
 }
 
 void State_Touchoff::OnEnter()
 {
-    //The first thing we should do when entering this state is to engage the motor
-    //Let us check to see if the motor is already armed, if not, follow through with the command
-    CommandMotorEnable cmd;
-
+    //this shouldn't really happen as how are we supposed to know the actual touchoff command
+    //we therefore are going to do nothing other than change the state back to State_Ready
+    this->desiredState = ECMState::STATE_READY;
 }
 
 void State_Touchoff::OnEnter(const AbstractCommand* command)
 {
-    this->OnEnter();
-
     if(command != nullptr)
     {
-        //The command isnt null so we should handle it
+        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("touchst");
+        Owner().issueGalilAddPollingRequest(request);
+        this->handleCommand(command);
     }
     else{
-        //There was no actual command, therefore, there is nothing else to do at this point
+        this->OnEnter();
     }
 }
 
@@ -140,4 +162,5 @@ void State_Touchoff::OnEnter(const AbstractCommand* command)
 } //end of namespace ECM
 
 #include "states/state_ready.h"
+#include "states/state_motion_stop.h"
 #include "states/state_estop.h"

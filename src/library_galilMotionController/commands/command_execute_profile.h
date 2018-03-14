@@ -13,13 +13,13 @@ class CommandExecuteProfile : public AbstractCommand
 public:
     enum class ProfileType
     {
-        HOME,
-        PROFILE,
-        TOUCHOFF
+        HOMING,
+        TOUCHOFF,
+        PROFILE
     };
 
 public:
-    CommandExecuteProfile(const std::string &name, const ProgramGeneric &program);
+    CommandExecuteProfile(const ProfileType &type, const std::string &name);
 
     CommandExecuteProfile(const CommandExecuteProfile &copy);
 
@@ -47,13 +47,21 @@ public:
     //!
     std::string getCommandString() const override;
 
-private:
-    std::string getProfileLabel() const;
+    //!
+    //! \brief getProfileLabel
+    //! \return
+    //!
+    ProfileType getProfileType() const;
+
+    //!
+    //! \brief getProfileLabel
+    //! \return
+    //!
+    std::string getProfileName() const;
 
 private:
+    ProfileType profileType;
     std::string profileName;
-    ProgramGeneric executeProgram;
-
 };
 
 #endif // COMMAND_EXECUTE_PROFILE_H
