@@ -28,18 +28,21 @@ SOURCES += \
         mainwindow.cpp \
     widget_variable_data.cpp \
     widget_variable_data_display.cpp \
-    variable_name_check.cpp
+    variable_name_check.cpp \
+    dialog.cpp
 
 HEADERS += \
         mainwindow.h \
     widget_variable_data.h \
     widget_variable_data_display.h \
-    variable_name_check.h
+    variable_name_check.h \
+    dialog.h
 
 FORMS += \
         mainwindow.ui \
     widget_variable_data.ui \
-    widget_variable_data_display.ui
+    widget_variable_data_display.ui \
+    dialog.ui
 
 RESOURCES += \
     imageicons.qrc

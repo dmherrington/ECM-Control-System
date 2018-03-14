@@ -8,7 +8,7 @@
 #include <iostream>
 
 #include "widget_variable_data.h"
-#include "library_galilMotionController/settings/settings_generic_profile.h"
+#include "library_galilMotionController/programs/program_generic_profile.h"
 
 namespace Ui {
 class WidgetVariableDataDisplay;

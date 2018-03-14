@@ -3,7 +3,7 @@
 AbstractStatus::AbstractStatus(const StatusTypes &type):
     statusType(type)
 {
-    this->latestUpdate.CurrentTime(Data::Devices::SYSTEMCLOCK,this->latestUpdate);
+    this->latestUpdate.CurrentTime(common::Devices::SYSTEMCLOCK,this->latestUpdate);
 }
 
 AbstractStatus::AbstractStatus(const AbstractStatus &copy)
@@ -22,12 +22,12 @@ StatusTypes AbstractStatus::getStatusType() const
     return this->statusType;
 }
 
-void AbstractStatus::setTime(const Data::EnvironmentTime &time)
+void AbstractStatus::setTime(const common::EnvironmentTime &time)
 {
     this->latestUpdate = time;
 }
 
-Data::EnvironmentTime AbstractStatus::getTime() const
+common::EnvironmentTime AbstractStatus::getTime() const
 {
     return this->latestUpdate;
 }

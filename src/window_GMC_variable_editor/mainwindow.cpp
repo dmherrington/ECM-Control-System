@@ -27,7 +27,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_AddMotionProfile_clicked()
+void MainWindow::testSlot()
 {
     WidgetVariableDataDisplay* newWidget = new WidgetVariableDataDisplay();
     std::pair<std::map<std::string,WidgetVariableDataDisplay*>::iterator,bool> ret;
@@ -55,6 +55,10 @@ void MainWindow::on_pushButton_AddMotionProfile_clicked()
         int pageCount = ui->toolBox->count();
         ui->toolBox->setCurrentIndex(pageCount - 1);
     }
+}
+void MainWindow::on_pushButton_AddMotionProfile_clicked()
+{
+
 }
 
 void MainWindow::on_pushButton_RemoveMotionProfile_clicked()

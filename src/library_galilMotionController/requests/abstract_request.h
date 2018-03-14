@@ -98,21 +98,21 @@ public:
     }
 
 public:
-    Data::EnvironmentTime getTime() const
+    common::EnvironmentTime getTime() const
     {
         return this->latestUpdate;
     }
 
     void updateTime()
     {
-        this->latestUpdate.CurrentTime(Data::Devices::SYSTEMCLOCK,this->latestUpdate);
+        this->latestUpdate.CurrentTime(common::Devices::SYSTEMCLOCK,this->latestUpdate);
     }
 
 protected:
     RequestTypes requestType;
     unsigned int bufferSize;
     std::string buffer;
-    Data::EnvironmentTime latestUpdate;
+    common::EnvironmentTime latestUpdate;
 
 };
 
