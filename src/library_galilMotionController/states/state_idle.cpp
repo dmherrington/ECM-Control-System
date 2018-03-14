@@ -64,25 +64,27 @@ void State_Idle::Update()
 
 void State_Idle::handleCommand(const AbstractCommand* command)
 {
-    CommandType currentCommand = command->getCommandType();
+    const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
+
+    CommandType currentCommand = copyCommand->getCommandType();
     switch (currentCommand) {
     case CommandType::DOWNLOAD_PROGRAM:
     {
         //we can only download/upload commands in the idle state so this command is valid
+        const CommandDownloadProgram* castCommand = this->currentCommand->as<CommandDownloadProgram>();
         break;
     }
     case CommandType::UPLOAD_PROGRAM:
     {
-        this->currentCommand = command->getClone();
         const CommandUploadProgram* castCommand = this->currentCommand->as<CommandUploadProgram>();
         break;
     }
     case CommandType::MOTOR_ON:
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
-        //This command will transition the machine to the Ready State
+        //This command will transition the machine to the Ready State and we no longer need the command
         desiredState = ECMState::STATE_READY;
-        this->clearCommand();
         break;
     }
     case CommandType::ABSOLUTE_MOVE:
@@ -90,7 +92,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to the Ready State
         desiredState = ECMState::STATE_READY;
-        this->currentCommand = command->getClone();
+        this->currentCommand = copyCommand;
         break;
     }
     case CommandType::RELATIVE_MOVE:
@@ -98,7 +100,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to the Ready State
         desiredState = ECMState::STATE_READY;
-        this->currentCommand = command->getClone();
+        this->currentCommand = copyCommand;
         break;
     }
     case CommandType::JOG_MOVE:
@@ -106,7 +108,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to the Ready State
         desiredState = ECMState::STATE_READY;
-        this->currentCommand = command->getClone();
+        this->currentCommand = copyCommand;
         break;
     }
     case CommandType::EXECUTE_PROGRAM:
@@ -114,7 +116,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to the Ready State
         desiredState = ECMState::STATE_READY;
-        this->currentCommand = command->getClone();
+        this->currentCommand = copyCommand;
         break;
     }
     case CommandType::CLEAR_BIT:
@@ -175,12 +177,11 @@ void State_Idle::OnEnter()
 
 void State_Idle::OnEnter(const AbstractCommand *command)
 {
+    this->OnEnter();
+
     if(command != nullptr)
     {
-        std::cout<<"For some reason we saw a command within the onEnter function."<<std::endl;
-    }
-    else{
-
+        this->handleCommand(command);
     }
 }
 

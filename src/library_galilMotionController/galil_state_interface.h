@@ -21,6 +21,7 @@ class GalilCallback_StateInterface
 {
 public:
     virtual void cbi_AbstractGalilCommand(const AbstractCommandPtr command) = 0;
+    virtual void cbi_AbstractGalilMotionCommand(const AbstractCommandPtr command) = 0;
     virtual void cbi_AbstractGalilRequest(const AbstractRequestPtr request) = 0;
     virtual void cbi_GalilControllerGains(const CommandControllerGain &gains) = 0;
 };
@@ -43,6 +44,13 @@ public:
         if(m_CB)
             m_CB->cbi_AbstractGalilCommand(command);
     }
+
+    void issueGalilMotionCommand(const AbstractCommandPtr command)
+    {
+        if(m_CB)
+            m_CB->cbi_AbstractGalilMotionCommand(command);
+    }
+
     void issueGalilControllerGains(const CommandControllerGain &gains)
     {
         if(m_CB)

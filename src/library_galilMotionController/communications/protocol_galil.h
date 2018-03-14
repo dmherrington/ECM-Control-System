@@ -46,6 +46,8 @@ public:
 public:
     void SendProtocolCommand(const ILink *link, const AbstractCommandPtr command);
 
+    void SendProtocolMotionCommand(const ILink* link, const AbstractCommandPtr command);
+
 private:
     void handleCommandResponse(const ILink* link, const AbstractCommandPtr command, const GReturn &response);
     void handleBadCommandResponse(const ILink* link, const CommandType &type) const;

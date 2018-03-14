@@ -140,7 +140,11 @@ void galilMotionController::NewStatusMotorEnabled(const Status_MotorEnabled &sta
 }
 void galilMotionController::NewStatusMotorStopCode(const Status_StopCode &status)
 {
-    std::cout<<"I have received a new motor stop code."<<std::endl;
+    if(stateInterface->getAxisStatus(status.getAxis())->stopCode.set(status))
+    {
+        stateMachine->UpdateStates();
+        stateMachine->ProcessStateTransitions();
+    }
 }
 
 void galilMotionController::NewStatusMotorInMotion(const Status_AxisInMotion &status)
@@ -326,6 +330,11 @@ void galilMotionController::cbi_GalilStatusRequest(const AbstractRequestPtr requ
 void galilMotionController::cbi_AbstractGalilCommand(const AbstractCommandPtr command)
 {
     commsMarshaler->sendAbstractGalilCommand(command);
+}
+
+void galilMotionController::cbi_AbstractGalilMotionCommand(const AbstractCommandPtr command)
+{
+    commsMarshaler->sendAbstractGalilMotionCommand(command);
 }
 
 void galilMotionController::cbi_AbstractGalilRequest(const AbstractRequestPtr request)

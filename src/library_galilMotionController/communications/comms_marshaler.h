@@ -49,6 +49,8 @@ public:
     //////////////////////////////////////////////////////////////
     void sendAbstractGalilCommand(const AbstractCommandPtr command);
 
+    void sendAbstractGalilMotionCommand(const AbstractCommandPtr command);
+
     void sendAbstractGalilRequest(const AbstractRequestPtr request);
 
     void sendGalilProfileExecution(const AbstractCommandPtr &command);

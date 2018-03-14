@@ -10,6 +10,7 @@
 #include "common/data_get_set_notifier.h"
 
 #include "status/status_position.h"
+#include "status/status_stop_code.h"
 
 class GalilStatus
 {
@@ -38,6 +39,8 @@ public:
     DataGetSetNotifier<bool> axisMoving;
 
     DataGetSetNotifier<Status_Position> position;
+
+    DataGetSetNotifier<Status_StopCode> stopCode;
 };
 
 #endif // GALIL_STATUS_H

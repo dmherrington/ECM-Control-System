@@ -30,14 +30,9 @@ hsm::Transition State_Ready::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_MANUAL_POSITIONING:
+        case ECMState::STATE_ESTOP:
         {
-            rtn = hsm::SiblingTransition<State_ManualPositioning>(currentCommand);
-            break;
-        }
-        case ECMState::STATE_JOGGING:
-        {
-            rtn = hsm::SiblingTransition<State_Jogging>(currentCommand);
+            rtn = hsm::SiblingTransition<State_EStop>();
             break;
         }
         case ECMState::STATE_HOME_POSITIONING:
@@ -45,19 +40,14 @@ hsm::Transition State_Ready::GetTransition()
             rtn = hsm::SiblingTransition<State_HomePositioning>(currentCommand);
             break;
         }
-        case ECMState::STATE_TOUCHOFF:
+        case ECMState::STATE_JOGGING:
         {
-            rtn = hsm::SiblingTransition<State_Touchoff>(currentCommand);
+            rtn = hsm::SiblingTransition<State_Jogging>(currentCommand);
             break;
         }
-        case ECMState::STATE_SCRIPT_EXECUTION:
+        case ECMState::STATE_MANUAL_POSITIONING:
         {
-            rtn = hsm::SiblingTransition<State_ScriptExecution>(currentCommand);
-            break;
-        }
-        case ECMState::STATE_ESTOP:
-        {
-            rtn = hsm::SiblingTransition<State_EStop>();
+            rtn = hsm::SiblingTransition<State_ManualPositioning>(currentCommand);
             break;
         }
         case ECMState::STATE_READY_STOP:
@@ -65,9 +55,14 @@ hsm::Transition State_Ready::GetTransition()
             rtn = hsm::SiblingTransition<State_ReadyStop>();
             break;
         }
-        case ECMState::STATE_IDLE:
+        case ECMState::STATE_SCRIPT_EXECUTION:
         {
-            rtn = hsm::SiblingTransition<State_Idle>();
+            rtn = hsm::SiblingTransition<State_ScriptExecution>(currentCommand);
+            break;
+        }
+        case ECMState::STATE_TOUCHOFF:
+        {
+            rtn = hsm::SiblingTransition<State_Touchoff>(currentCommand);
             break;
         }
         default:
@@ -81,44 +76,46 @@ hsm::Transition State_Ready::GetTransition()
 
 void State_Ready::handleCommand(const AbstractCommand* command)
 {
-    CommandType currentCommand = command->getCommandType();
+    const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
+
+    CommandType currentCommand = copyCommand->getCommandType();
     switch (currentCommand) {
     case CommandType::DOWNLOAD_PROGRAM:
     case CommandType::UPLOAD_PROGRAM:
     {
-        desiredState = ECMState::STATE_IDLE;
-        this->currentCommand = command->getClone();
+        desiredState = ECMState::STATE_READY_STOP;
+        this->currentCommand = copyCommand;
         break;
     }
     case CommandType::ABSOLUTE_MOVE:
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
-        //This command will transition the machine to the Ready State
+        //This command will transition the machine to STATE_MANUAL_POSITIONING
         desiredState = ECMState::STATE_MANUAL_POSITIONING;
-        this->currentCommand = command->getClone();
+        this->currentCommand = copyCommand;
         break;
     }
     case CommandType::RELATIVE_MOVE:
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
-        //This command will transition the machine to the Ready State
+        //This command will transition the machine to STATE_MANUAL_POSITIONING
         desiredState = ECMState::STATE_MANUAL_POSITIONING;
-        this->currentCommand = command->getClone();
+        this->currentCommand = copyCommand;
         break;
     }
     case CommandType::JOG_MOVE:
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
-        //This command will transition the machine to the Ready State
+        //This command will transition the machine to STATE_JOGGING
         desiredState = ECMState::STATE_JOGGING;
-        this->currentCommand = command->getClone();
-
+        this->currentCommand = copyCommand;
         break;
     }
     case CommandType::EXECUTE_PROGRAM:
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
-        //This command will transition the machine to the Ready State
+        //This command will transition the machine to STATE_SCRIPT_EXECUTION
         desiredState = ECMState::STATE_SCRIPT_EXECUTION;
         this->currentCommand = command->getClone();
         break;
@@ -206,4 +203,3 @@ void State_Ready::OnEnter(const AbstractCommand* command)
 #include "states/state_touchoff.h"
 #include "states/state_estop.h"
 #include "states/state_ready_stop.h"
-#include "states/state_idle.h"

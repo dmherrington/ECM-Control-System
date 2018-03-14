@@ -99,6 +99,7 @@ private:
     ///////////////////////////////////////////////////////////////////////////////////////////////
 private:
     void cbi_AbstractGalilCommand(const AbstractCommandPtr command) override;
+    void cbi_AbstractGalilMotionCommand(const AbstractCommandPtr command) override;
     void cbi_AbstractGalilRequest(const AbstractRequestPtr request) override;
     void cbi_GalilControllerGains(const CommandControllerGain &gains) override;
 

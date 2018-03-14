@@ -34,13 +34,18 @@ hsm::Transition State_ScriptExecution::GetTransition()
             return hsm::SiblingTransition<State_Ready>();
             break;
         }
+        case ECMState::STATE_MOTION_STOP:
+        {
+            return hsm::SiblingTransition<State_MotionStop>();
+            break;
+        }
         case ECMState::STATE_ESTOP:
         {
             rtn = hsm::SiblingTransition<State_EStop>();
             break;
         }
         default:
-            std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
+            std::cout<<"I dont know how we eneded up in this transition state from state script execution."<<std::endl;
             break;
         }
     }
@@ -62,13 +67,13 @@ void State_ScriptExecution::handleCommand(const AbstractCommand* command)
     case CommandType::STOP:
     {
         desiredState = ECMState::STATE_MOTION_STOP;
-        this->currentCommand = command->getClone();
+        this->clearCommand();
         break;
     }
     case CommandType::ESTOP:
     {
         desiredState = ECMState::STATE_ESTOP;
-        this->currentCommand = command->getClone();
+        this->clearCommand();
         break;
     }
     default:
@@ -102,6 +107,7 @@ void State_ScriptExecution::OnEnter(const AbstractCommand* command)
     if(command != nullptr)
     {
         //The command isnt null so we should handle it
+        this->handleCommand(command);
     }
     else{
         //There was no actual command, therefore, there is nothing else to do at this point

@@ -54,13 +54,28 @@ void State_ManualPositioning::handleCommand(const AbstractCommand* command)
 
     switch (currentCommand) {
     case CommandType::ABSOLUTE_MOVE:
-    {
+    {        
+        Owner().getAxisStatus(MotorAxis::Z)->axisMoving.AddNotifier(this,[this]
+        {
+            if(Owner().getAxisStatus(MotorAxis::Z)->axisMoving.get())
+                motionFlag = true;
+        });
 
+        CommandAbsoluteMovePtr castCommand = std::make_shared<CommandAbsoluteMove>(*command->as<CommandAbsoluteMove>());
+        this->clearCommand();
+        Owner().issueGalilMotionCommand(castCommand);
         break;
     }
     case CommandType::RELATIVE_MOVE:
     {
-
+        Owner().getAxisStatus(MotorAxis::Z)->axisMoving.AddNotifier(this,[this]
+        {
+            if(Owner().getAxisStatus(MotorAxis::Z)->axisMoving.get())
+                motionFlag = true;
+        });
+        CommandRelativeMovePtr castCommand = std::make_shared<CommandRelativeMove>(*command->as<CommandRelativeMove>());
+        this->clearCommand();
+        Owner().issueGalilMotionCommand(castCommand);
         break;
     }
     case CommandType::STOP:
@@ -74,7 +89,7 @@ void State_ManualPositioning::handleCommand(const AbstractCommand* command)
         break;
     }
     default:
-        std::cout<<"Thie command type of: "<<CommandToString(command->getCommandType())<<" has no explicit support from the idle state."<<std::endl;
+        std::cout<<"The command type of: "<<CommandToString(command->getCommandType())<<" has no explicit support within the manual positioning state."<<std::endl;
         break;
     }
 }
@@ -91,9 +106,17 @@ void State_ManualPositioning::Update()
         return;
     }
 
-    if(!Owner().getAxisStatus(MotorAxis::Z)->isAxisinMotion())
+    //this may get checked to fast and therefore needs a flag to conditionally enable this check once motion has started
+    if(motionFlag)
     {
-        //the motor is no longer moving so why should we be in this state
+        if(!Owner().getAxisStatus(MotorAxis::Z)->isAxisinMotion())
+        {
+            //the motor is no longer moving, now let us determine why it is no longer moving
+            if(Owner().getAxisStatus(MotorAxis::Z)->stopCode.get().getCode() == 1)
+            {
+                //the motor has come to a stop because it has reached the desired position
+            }
+        }
     }
 }
 

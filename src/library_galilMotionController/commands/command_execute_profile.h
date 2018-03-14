@@ -7,8 +7,17 @@
 #include "programs/program_generic.h"
 
 ECM_CLASS_FORWARD(CommandExecuteProfile);
+
 class CommandExecuteProfile : public AbstractCommand
 {
+public:
+    enum class ProfileType
+    {
+        HOME,
+        PROFILE,
+        TOUCHOFF
+    };
+
 public:
     CommandExecuteProfile(const std::string &name, const ProgramGeneric &program);
 

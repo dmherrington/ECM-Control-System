@@ -10,6 +10,7 @@
 #include "commands/command_estop.h"
 #include "commands/command_execute_profile.h"
 #include "commands/command_jog.h"
+#include "commands/command_motion_start.h"
 #include "commands/command_motor_disable.h"
 #include "commands/command_motor_enable.h"
 #include "commands/command_relative_move.h"

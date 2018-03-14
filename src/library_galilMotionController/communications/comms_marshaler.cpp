@@ -59,6 +59,17 @@ void CommsMarshaler::sendAbstractGalilCommand(const AbstractCommandPtr command)
     link->MarshalOnThread(func);
 }
 
+void CommsMarshaler::sendAbstractGalilMotionCommand(const AbstractCommandPtr command)
+{
+    std::cout<<"Lets send an abstract galil motion command"<<std::endl;
+
+    auto func = [this, command]() {
+            protocol->SendProtocolMotionCommand(link.get(), command);
+    };
+
+    link->MarshalOnThread(func);
+}
+
 void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request)
 {
     auto func = [this, request]() {
