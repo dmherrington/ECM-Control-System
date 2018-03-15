@@ -50,7 +50,7 @@ HEADERS += \
 FORMS += \
     main_window.ui \
     widget_segment_time_display.ui \
-    widgetsegmenttimedata.ui
+    widget_segment_time_data.ui
 
 # Copy Files
 target.path = $$(ECM_ROOT)/bin

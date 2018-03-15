@@ -47,9 +47,14 @@ SOURCES += \
     SensorDisplay/display_base_plot_instantaneous.cpp \
     SensorDisplay/display_voltage.cpp \
     plot_central.cpp \
-    dialog_pump_control.cpp \
-    dialog_munk_control.cpp \
-    dialog_custom_commands.cpp
+    misc_dialogs/dialog_custom_commands.cpp \
+    pump_dialog/dialog_pump_control.cpp \
+    LED.cpp \
+    munk_dialog/widget_segment_time_data.cpp \
+    munk_dialog/widget_segment_time_display.cpp \
+    munk_dialog/window_munk_power_supply.cpp \
+    misc_dialogs/window_touchoff.cpp \
+    misc_dialogs/dialog_connections.cpp
 
 HEADERS += \
         ECM_controller_gui.h \
@@ -61,17 +66,26 @@ HEADERS += \
     SensorDisplay/display_voltage.h \
     SensorDisplay/I_sensor_display.h \
     plot_central.h \
-    dialog_pump_control.h \
-    dialog_munk_control.h \
-    dialog_custom_commands.h
+    misc_dialogs/dialog_custom_commands.h \
+    pump_dialog/dialog_pump_control.h \
+    LED.h \
+    munk_dialog/widget_segment_time_data.h \
+    munk_dialog/widget_segment_time_display.h \
+    munk_dialog/window_munk_power_supply.h \
+    misc_dialogs/window_touchoff.h \
+    misc_dialogs/dialog_connections.h
 
 FORMS += \
         ECM_controller_gui.ui \
     additional_sensor_display.ui \
     SensorDisplay/display_base_plot_instantaneous.ui \
-    dialog_pump_control.ui \
-    dialog_munk_control.ui \
-    dialog_custom_commands.ui
+    misc_dialogs/dialog_custom_commands.ui \
+    pump_dialog/dialog_pump_control.ui \
+    munk_dialog/widget_segment_time_data.ui \
+    munk_dialog/widget_segment_time_display.ui \
+    munk_dialog/window_munk_power_supply.ui \
+    misc_dialogs/window_touchoff.ui \
+    misc_dialogs/dialog_connections.ui
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include
@@ -97,9 +111,9 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../graphing/ -lgraphing
 INCLUDEPATH += $$PWD/../graphing
 DEPENDPATH += $$PWD/../graphing
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/release/ -llibrary_westinghouse510
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/debug/ -llibrary_westinghouse510
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_westinghouse510/ -llibrary_westinghouse510
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_munk_power_supply/release/ -llibrary_munk_power_supply
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_munk_power_supply/debug/ -llibrary_munk_power_supply
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_munk_power_supply/ -llibrary_munk_power_supply
 
-INCLUDEPATH += $$PWD/../library_westinghouse510
-DEPENDPATH += $$PWD/../library_westinghouse510
+INCLUDEPATH += $$PWD/../library_munk_power_supply
+DEPENDPATH += $$PWD/../library_munk_power_supply

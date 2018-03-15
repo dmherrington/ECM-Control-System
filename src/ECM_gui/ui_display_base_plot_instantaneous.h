@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'display_base_plot_instantaneous.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.1
+** Created by: Qt User Interface Compiler version 5.10.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -204,19 +204,19 @@ public:
 
     void retranslateUi(QWidget *DisplayBasePlotInstantaneous)
     {
-        DisplayBasePlotInstantaneous->setWindowTitle(QApplication::translate("DisplayBasePlotInstantaneous", "Form", Q_NULLPTR));
-        tabWidget_AcclerationData->setTabText(tabWidget_AcclerationData->indexOf(tab_1), QApplication::translate("DisplayBasePlotInstantaneous", "Plot", Q_NULLPTR));
-        pushButton_yWindow->setText(QApplication::translate("DisplayBasePlotInstantaneous", "Y-Scale Custom", Q_NULLPTR));
-        label_9->setText(QApplication::translate("DisplayBasePlotInstantaneous", "MAX", Q_NULLPTR));
-        label_10->setText(QApplication::translate("DisplayBasePlotInstantaneous", "MIN", Q_NULLPTR));
-        pushButton_Legend->setText(QApplication::translate("DisplayBasePlotInstantaneous", "LEGEND ON", Q_NULLPTR));
-        pushButton_tagDisplayed->setText(QApplication::translate("DisplayBasePlotInstantaneous", "DISPLAY TAG", Q_NULLPTR));
-        pushButton_Grid->setText(QApplication::translate("DisplayBasePlotInstantaneous", "GRID OFF", Q_NULLPTR));
-        pushButton_GridSpacing->setText(QApplication::translate("DisplayBasePlotInstantaneous", "GRID MAN", Q_NULLPTR));
-        label_7->setText(QApplication::translate("DisplayBasePlotInstantaneous", "Y", Q_NULLPTR));
-        label_8->setText(QApplication::translate("DisplayBasePlotInstantaneous", "X", Q_NULLPTR));
-        tabWidget_AcclerationData->setTabText(tabWidget_AcclerationData->indexOf(tab_2), QApplication::translate("DisplayBasePlotInstantaneous", "Graph Properties", Q_NULLPTR));
-        tabWidget_AcclerationData->setTabText(tabWidget_AcclerationData->indexOf(tab_3), QApplication::translate("DisplayBasePlotInstantaneous", "Instantaneous", Q_NULLPTR));
+        DisplayBasePlotInstantaneous->setWindowTitle(QApplication::translate("DisplayBasePlotInstantaneous", "Form", nullptr));
+        tabWidget_AcclerationData->setTabText(tabWidget_AcclerationData->indexOf(tab_1), QApplication::translate("DisplayBasePlotInstantaneous", "Plot", nullptr));
+        pushButton_yWindow->setText(QApplication::translate("DisplayBasePlotInstantaneous", "Y-Scale Custom", nullptr));
+        label_9->setText(QApplication::translate("DisplayBasePlotInstantaneous", "MAX", nullptr));
+        label_10->setText(QApplication::translate("DisplayBasePlotInstantaneous", "MIN", nullptr));
+        pushButton_Legend->setText(QApplication::translate("DisplayBasePlotInstantaneous", "LEGEND ON", nullptr));
+        pushButton_tagDisplayed->setText(QApplication::translate("DisplayBasePlotInstantaneous", "DISPLAY TAG", nullptr));
+        pushButton_Grid->setText(QApplication::translate("DisplayBasePlotInstantaneous", "GRID OFF", nullptr));
+        pushButton_GridSpacing->setText(QApplication::translate("DisplayBasePlotInstantaneous", "GRID MAN", nullptr));
+        label_7->setText(QApplication::translate("DisplayBasePlotInstantaneous", "Y", nullptr));
+        label_8->setText(QApplication::translate("DisplayBasePlotInstantaneous", "X", nullptr));
+        tabWidget_AcclerationData->setTabText(tabWidget_AcclerationData->indexOf(tab_2), QApplication::translate("DisplayBasePlotInstantaneous", "Graph Properties", nullptr));
+        tabWidget_AcclerationData->setTabText(tabWidget_AcclerationData->indexOf(tab_3), QApplication::translate("DisplayBasePlotInstantaneous", "Instantaneous", nullptr));
     } // retranslateUi
 
 };

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'dialog_pump_control.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.1
+** Created by: Qt User Interface Compiler version 5.10.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -411,9 +411,11 @@ public:
 
         lineEdit_OnTime = new QLineEdit(Dialog_PumpControl);
         lineEdit_OnTime->setObjectName(QStringLiteral("lineEdit_OnTime"));
+        lineEdit_OnTime->setEnabled(true);
         sizePolicy1.setHeightForWidth(lineEdit_OnTime->sizePolicy().hasHeightForWidth());
         lineEdit_OnTime->setSizePolicy(sizePolicy1);
         lineEdit_OnTime->setMinimumSize(QSize(140, 20));
+        lineEdit_OnTime->setReadOnly(true);
 
         verticalLayout->addWidget(lineEdit_OnTime);
 
@@ -625,15 +627,15 @@ public:
 
     void retranslateUi(QDialog *Dialog_PumpControl)
     {
-        Dialog_PumpControl->setWindowTitle(QApplication::translate("Dialog_PumpControl", "Dialog", Q_NULLPTR));
-        label_Electrolyte->setText(QApplication::translate("Dialog_PumpControl", "Electrolyte Type:", Q_NULLPTR));
-        label_pH->setText(QApplication::translate("Dialog_PumpControl", "Electrolyte pH:", Q_NULLPTR));
-        label_Conductivity->setText(QApplication::translate("Dialog_PumpControl", "Conductivity (mS/cm):", Q_NULLPTR));
-        pushButton_PumpRunning->setText(QApplication::translate("Dialog_PumpControl", "ON", Q_NULLPTR));
-        label_OnTime->setText(QApplication::translate("Dialog_PumpControl", "On Time:", Q_NULLPTR));
-        label_Flowrate->setText(QApplication::translate("Dialog_PumpControl", "Flowrate Setpoint (lpm)", Q_NULLPTR));
-        label_delayTim->setText(QApplication::translate("Dialog_PumpControl", "Delay Time (sec)", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("Dialog_PumpControl", "DONE", Q_NULLPTR));
+        Dialog_PumpControl->setWindowTitle(QApplication::translate("Dialog_PumpControl", "Dialog", nullptr));
+        label_Electrolyte->setText(QApplication::translate("Dialog_PumpControl", "Electrolyte Type:", nullptr));
+        label_pH->setText(QApplication::translate("Dialog_PumpControl", "Electrolyte pH:", nullptr));
+        label_Conductivity->setText(QApplication::translate("Dialog_PumpControl", "Conductivity (mS/cm):", nullptr));
+        pushButton_PumpRunning->setText(QApplication::translate("Dialog_PumpControl", "ON", nullptr));
+        label_OnTime->setText(QApplication::translate("Dialog_PumpControl", "On Time:", nullptr));
+        label_Flowrate->setText(QApplication::translate("Dialog_PumpControl", "Flowrate Setpoint (lpm)", nullptr));
+        label_delayTim->setText(QApplication::translate("Dialog_PumpControl", "Delay Time (sec)", nullptr));
+        pushButton->setText(QApplication::translate("Dialog_PumpControl", "DONE", nullptr));
     } // retranslateUi
 
 };

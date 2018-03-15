@@ -590,15 +590,15 @@ width:20px;
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>graphing::PlotHandler</class>
+   <class>WidgetSegmentTimeDisplay</class>
    <extends>QWidget</extends>
-   <header>plot_handler.h</header>
+   <header>munk_dialog/widget_segment_time_display.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>WidgetSegmentTimeDisplay</class>
+   <class>graphing::PlotHandler</class>
    <extends>QWidget</extends>
-   <header>widget_segment_time_display.h</header>
+   <header>plot_handler.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

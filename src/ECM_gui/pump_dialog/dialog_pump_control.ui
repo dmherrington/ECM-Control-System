@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>480</width>
-    <height>297</height>
+    <width>444</width>
+    <height>278</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
@@ -153,13 +159,22 @@ width:20px;
            <height>20</height>
           </size>
          </property>
+         <property name="maximumSize">
+          <size>
+           <width>170</width>
+           <height>20</height>
+          </size>
+         </property>
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
           <string>Electrolyte Type:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -170,6 +185,17 @@ width:20px;
            <width>170</width>
            <height>20</height>
           </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>170</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
          </property>
         </widget>
        </item>
@@ -191,13 +217,22 @@ width:20px;
            <height>20</height>
           </size>
          </property>
+         <property name="maximumSize">
+          <size>
+           <width>170</width>
+           <height>20</height>
+          </size>
+         </property>
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
           <string>Electrolyte pH:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -208,6 +243,17 @@ width:20px;
            <width>170</width>
            <height>20</height>
           </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>170</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
          </property>
         </widget>
        </item>
@@ -229,13 +275,22 @@ width:20px;
            <height>20</height>
           </size>
          </property>
+         <property name="maximumSize">
+          <size>
+           <width>170</width>
+           <height>20</height>
+          </size>
+         </property>
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
           <string>Conductivity (mS/cm):</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -246,6 +301,17 @@ width:20px;
            <width>170</width>
            <height>20</height>
           </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>170</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
          </property>
         </widget>
        </item>
@@ -268,7 +334,13 @@ width:20px;
          <property name="minimumSize">
           <size>
            <width>140</width>
-           <height>50</height>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>40</height>
           </size>
          </property>
          <property name="font">
@@ -450,6 +522,11 @@ width:20px;
            <height>20</height>
           </size>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>13</pointsize>
+          </font>
+         </property>
          <property name="readOnly">
           <bool>true</bool>
          </property>
@@ -537,7 +614,7 @@ width:20px;
          </property>
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="alignment">
@@ -555,7 +632,7 @@ width:20px;
         <widget class="QLabel" name="label_Flowrate">
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -573,7 +650,7 @@ width:20px;
          </property>
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="alignment">
@@ -588,7 +665,7 @@ width:20px;
         <widget class="QLabel" name="label_delayTim">
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -613,6 +690,11 @@ width:20px;
        <width>100</width>
        <height>40</height>
       </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
      </property>
      <property name="styleSheet">
       <string notr="true">QMainWindow{

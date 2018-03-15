@@ -6,6 +6,8 @@
 #include "ECM_plot_collection.h"
 #include "ECM_plot_identifier.h"
 
+#include "munk_dialog/window_munk_power_supply.h"
+
 #include "additional_sensor_display.h"
 #include "common/threadmanager.h"
 #include "common/timer.h"
@@ -21,9 +23,52 @@ public:
     explicit ECMControllerGUI(QWidget *parent = 0);
     ~ECMControllerGUI();
 
+private:
+    bool maybeSave();
 private slots:
-    void on_pushButton_released();
     void slot_NewSensorData(const common::TupleSensorString sensor, const data::SensorState state);
+
+    void on_pushButton_MotorEnable_released();
+
+    void on_spinBox_CutDepth_editingFinished();
+
+    void on_spinBox_CutSpeed_editingFinished();
+
+    void on_spinBox_RetractDistance_editingFinished();
+
+    void on_spinBox_RetractPeriod_editingFinished();
+
+    void on_spinBox_Pause_editingFinished();
+
+    void on_spinBox_StepSize_editingFinished();
+
+    void on_pushButton_IncreaseJog_released();
+
+    void on_pushButton_DecreaseJog_released();
+
+    void on_pushButton_IncreaseRelativeMove_released();
+
+    void on_pushButton_DecreaseRelativeMove_released();
+
+    void on_pushButton_MotorDisable_released();
+
+    void on_pushButton_SetHome_released();
+
+    void on_pushButton_MoveHome_released();
+
+    void on_pushButton_released();
+
+    void on_pushButton_RunProfile_released();
+
+    void on_pushButton_UploadProgram_released();
+
+    void on_pushButton_DownloadProgram_released();
+
+    void on_pushButton_EstablishTouchoff_released();
+
+protected:
+    void readSettings();
+    void closeEvent(QCloseEvent *event);
 
 private:
     Ui::ECMControllerGUI *ui;
@@ -34,6 +79,7 @@ private:
 
     AdditionalSensorDisplay *m_additionalSensorDisplay;
 
+    Window_MunkPowerSupply* m_WindowMunk;
 };
 
 #endif // ECM_CONTROLLER_GUI_H
