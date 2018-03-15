@@ -5,7 +5,7 @@
 #include "common/class_forward.h"
 
 #include "common/tuple_ecm_data.h"
-#include "data/Observation/I_plot_comparable.h"
+#include "data/observation/I_plot_comparable.h"
 
 ECM_CLASS_FORWARD(ECMPlotIdentifier);
 //!

@@ -40,9 +40,12 @@ private slots:
 public slots:
     void slot_SerialPortReceivedData(const QByteArray &data);
 
+
+public:
+    Westinghouse510_State* m_State;
+
 private:
     const common::comms::ICommunication* m_Comms;
-    Westinghouse510_State* m_State;
     comms::WestinghouseDataFraming* m_DataFraming;
 };
 

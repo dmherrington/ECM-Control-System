@@ -3,6 +3,8 @@
 
 #include "display_base_plot_instantaneous.h"
 
+#include "sensors/sensor_voltage.h"
+
 class DisplayVoltage : public DisplayBasePlotInstantaneous
 {
     Q_OBJECT

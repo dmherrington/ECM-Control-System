@@ -6,7 +6,7 @@
 
 #include "I_sensor_display.h"
 
-#include "data/Observation/observation_scalar.h"
+#include "data/observation/observation_scalar.h"
 
 #include "../ECM_plot_collection.h"
 

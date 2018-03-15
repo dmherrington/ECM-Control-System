@@ -10,8 +10,12 @@ public:
     Westinghouse510_State();
 
 public:
+    bool pumpConnected = false;
+
+public:
     DataGetSetNotifier<bool> pumpON;
     DataGetSetNotifier<double> flowRate;
+    DataGetSetNotifier<double> delayTime;
 };    
 
 } //end of namespace westinghouse

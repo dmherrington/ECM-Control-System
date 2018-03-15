@@ -26,17 +26,15 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_additionalSensorDisplay->setWindowTitle("ECM Sensors");
 
     //give collection of plots
-    ui->centralCustomPlot->SupplyPlotCollection(&m_PlotCollection);
-    ui->centralCustomPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
+//    ui->centralCustomPlot->SupplyPlotCollection(&m_PlotCollection);
+//    ui->centralCustomPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
 
     common::TupleSensorString tupleSensor;
     tupleSensor.sourceName = "TestSource";
     tupleSensor.sensorName = "TestSensor";
     ECMPlotIdentifierPtr newPlot = std::make_shared<ECMPlotIdentifier>(tupleSensor, "Sensed_Voltage");
-    ui->centralCustomPlot->AddPlot(newPlot);
+//    ui->centralCustomPlot->AddPlot(newPlot);
 
-    testMunk = new MunkPowerSupply();
-    connect(testMunk,SIGNAL(signal_NewSensorData(common::TupleSensorString,data::SensorState)),this,SLOT(slot_NewSensorData(common::TupleSensorString,data::SensorState)));
 }
 
 ECMControllerGUI::~ECMControllerGUI()
@@ -49,7 +47,7 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString sensor
     m_PlotCollection.UpdateSensorPlots(sensor, state);
     QList<std::shared_ptr<data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(sensor);
     plots = m_PlotCollection.getPlots(sensor);
-    ui->centralCustomPlot->RedrawDataSource(plots);
+//    ui->centralCustomPlot->RedrawDataSource(plots);
 }
 
 void ECMControllerGUI::on_pushButton_released()

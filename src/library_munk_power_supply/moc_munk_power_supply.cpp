@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MunkPowerSupply_t {
-    QByteArrayData data[19];
-    char stringdata0[273];
+    QByteArrayData data[24];
+    char stringdata0[351];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -49,7 +49,12 @@ QT_MOC_LITERAL(14, 215, 2), // "RW"
 QT_MOC_LITERAL(15, 218, 7), // "meaning"
 QT_MOC_LITERAL(16, 226, 27), // "signal_SegmentWriteProgress"
 QT_MOC_LITERAL(17, 254, 9), // "completed"
-QT_MOC_LITERAL(18, 264, 8) // "required"
+QT_MOC_LITERAL(18, 264, 8), // "required"
+QT_MOC_LITERAL(19, 273, 20), // "signal_NewSensorData"
+QT_MOC_LITERAL(20, 294, 25), // "common::TupleSensorString"
+QT_MOC_LITERAL(21, 320, 6), // "sensor"
+QT_MOC_LITERAL(22, 327, 17), // "data::SensorState"
+QT_MOC_LITERAL(23, 345, 5) // "state"
 
     },
     "MunkPowerSupply\0signal_ConnectionStatusUpdated\0"
@@ -58,7 +63,9 @@ QT_MOC_LITERAL(18, 264, 8) // "required"
     "name\0signal_FaultCodeRecieved\0regNum\0"
     "signal_SegmentSetAck\0signal_SegmentException\0"
     "RW\0meaning\0signal_SegmentWriteProgress\0"
-    "completed\0required"
+    "completed\0required\0signal_NewSensorData\0"
+    "common::TupleSensorString\0sensor\0"
+    "data::SensorState\0state"
 };
 #undef QT_MOC_LITERAL
 
@@ -68,21 +75,22 @@ static const uint qt_meta_data_MunkPowerSupply[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       7,       // signalCount
+       8,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   49,    2, 0x06 /* Public */,
-       4,    2,   52,    2, 0x06 /* Public */,
-       8,    2,   57,    2, 0x06 /* Public */,
-      10,    2,   62,    2, 0x06 /* Public */,
-      12,    1,   67,    2, 0x06 /* Public */,
-      13,    2,   70,    2, 0x06 /* Public */,
-      16,    2,   75,    2, 0x06 /* Public */,
+       1,    1,   54,    2, 0x06 /* Public */,
+       4,    2,   57,    2, 0x06 /* Public */,
+       8,    2,   62,    2, 0x06 /* Public */,
+      10,    2,   67,    2, 0x06 /* Public */,
+      12,    1,   72,    2, 0x06 /* Public */,
+      13,    2,   75,    2, 0x06 /* Public */,
+      16,    2,   80,    2, 0x06 /* Public */,
+      19,    2,   85,    2, 0x06 /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Bool,    3,
@@ -92,6 +100,7 @@ static const uint qt_meta_data_MunkPowerSupply[] = {
     QMetaType::Void, 0x80000000 | 5,    7,
     QMetaType::Void, 0x80000000 | 5, 0x80000000 | 5,   14,   15,
     QMetaType::Void, QMetaType::Int, QMetaType::Int,   17,   18,
+    QMetaType::Void, 0x80000000 | 20, 0x80000000 | 22,   21,   23,
 
        0        // eod
 };
@@ -109,7 +118,21 @@ void MunkPowerSupply::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
         case 4: _t->signal_SegmentSetAck((*reinterpret_cast< const std::string(*)>(_a[1]))); break;
         case 5: _t->signal_SegmentException((*reinterpret_cast< const std::string(*)>(_a[1])),(*reinterpret_cast< const std::string(*)>(_a[2]))); break;
         case 6: _t->signal_SegmentWriteProgress((*reinterpret_cast< const int(*)>(_a[1])),(*reinterpret_cast< const int(*)>(_a[2]))); break;
+        case 7: _t->signal_NewSensorData((*reinterpret_cast< const common::TupleSensorString(*)>(_a[1])),(*reinterpret_cast< const data::SensorState(*)>(_a[2]))); break;
         default: ;
+        }
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        switch (_id) {
+        default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+        case 7:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+            case 0:
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< common::TupleSensorString >(); break;
+            case 1:
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< data::SensorState >(); break;
+            }
+            break;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
@@ -163,6 +186,13 @@ void MunkPowerSupply::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
                 return;
             }
         }
+        {
+            typedef void (MunkPowerSupply::*_t)(const common::TupleSensorString , const data::SensorState ) const;
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&MunkPowerSupply::signal_NewSensorData)) {
+                *result = 7;
+                return;
+            }
+        }
     }
 }
 
@@ -195,13 +225,13 @@ int MunkPowerSupply::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 8;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
-            *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 7;
+        if (_id < 8)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 8;
     }
     return _id;
 }
@@ -253,6 +283,13 @@ void MunkPowerSupply::signal_SegmentWriteProgress(const int & _t1, const int & _
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
     QMetaObject::activate(this, &staticMetaObject, 6, _a);
+}
+
+// SIGNAL 7
+void MunkPowerSupply::signal_NewSensorData(const common::TupleSensorString _t1, const data::SensorState _t2)const
+{
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(const_cast< MunkPowerSupply *>(this), &staticMetaObject, 7, _a);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

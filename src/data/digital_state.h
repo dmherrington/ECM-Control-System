@@ -62,7 +62,7 @@ public:
     //! \brief Get a pointer to the sensor data held by this state.
     //! \return Pointer to data, Null if no data provided.
     //!
-    std::shared_ptr<Sensor> getDigitalIO() const;
+    bool getDigitalIO() const;
 
 
     //!

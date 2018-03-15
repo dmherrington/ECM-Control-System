@@ -75,7 +75,7 @@ static const uint qt_meta_data_westinghousePump__Westinghouse510[] = {
  // slots: name, argc, parameters, tag, flags
        5,    1,   45,    2, 0x08 /* Private */,
        8,    1,   48,    2, 0x08 /* Private */,
-      10,    1,   51,    2, 0x08 /* Private */,
+      10,    1,   51,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Double,    3,

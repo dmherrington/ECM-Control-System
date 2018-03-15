@@ -10,11 +10,11 @@
 #include "common/threaded_scheduler.h"
 #include "common/tuple_ecm_data.h"
 
-#include "data/Observation/observation_scalar.h"
-#include "data/Observation/observation_collection.h"
+#include "data/observation/observation_scalar.h"
+#include "data/observation/observation_collection.h"
 
-#include "data/Sensors/sensor.h"
-#include "data/Sensors/sensor_voltage.h"
+#include "data/sensors/sensor.h"
+#include "data/sensors/sensor_voltage.h"
 
 #include "ECM_plot_identifier.h"
 

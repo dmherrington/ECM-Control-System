@@ -1,7 +1,5 @@
 #include "display_voltage.h"
 
-#include "Sensors/sensor_voltage.h"
-
 DisplayVoltage::DisplayVoltage(common::TupleSensorString sensor, const ECMPlotCollection *sourceCollection, QWidget *parent) :
     DisplayBasePlotInstantaneous(sensor,sourceCollection, parent)
 {

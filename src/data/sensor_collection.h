@@ -1,8 +1,8 @@
 #ifndef SENSOR_COLLECTION_H
 #define SENSOR_COLLECTION_H
 
-#include "Sensors/sensor.h"
-#include "Sensors/sensor_voltage.h"
+#include "sensors/sensor.h"
+#include "sensors/sensor_voltage.h"
 
 namespace data
 {

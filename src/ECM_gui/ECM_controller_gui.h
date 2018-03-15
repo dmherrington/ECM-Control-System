@@ -6,8 +6,6 @@
 #include "ECM_plot_collection.h"
 #include "ECM_plot_identifier.h"
 
-#include "munk_power_supply.h"
-
 #include "additional_sensor_display.h"
 #include "common/threadmanager.h"
 #include "common/timer.h"
@@ -36,7 +34,6 @@ private:
 
     AdditionalSensorDisplay *m_additionalSensorDisplay;
 
-    MunkPowerSupply* testMunk;
 };
 
 #endif // ECM_CONTROLLER_GUI_H

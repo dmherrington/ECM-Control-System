@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>474</width>
-    <height>291</height>
+    <width>480</width>
+    <height>297</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -435,6 +435,9 @@ width:20px;
        </item>
        <item>
         <widget class="QLineEdit" name="lineEdit_OnTime">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -446,6 +449,9 @@ width:20px;
            <width>140</width>
            <height>20</height>
           </size>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -470,7 +476,7 @@ width:20px;
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="LED" name="widget_PumpOn" native="true">
+        <widget class="QWidget" name="widget_PumpOn" native="true">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -502,7 +508,7 @@ width:20px;
         </spacer>
        </item>
        <item>
-        <widget class="LED" name="widget_PumpOn_2" native="true">
+        <widget class="QWidget" name="widget_PumpOn_2" native="true">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -736,14 +742,6 @@ width:20px;
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>LED</class>
-   <extends>QWidget</extends>
-   <header>LED.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

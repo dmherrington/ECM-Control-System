@@ -27,8 +27,8 @@ public:
     CommandTypes getCommandType() const;
 
     void updateReceivedTime();
-    EnvironmentTime getRequestTime() const;
-    EnvironmentTime getReceivedTime() const;
+    common::EnvironmentTime getRequestTime() const;
+    common::EnvironmentTime getReceivedTime() const;
 
 
 public:
@@ -73,8 +73,8 @@ public:
 
 private:
     CommandTypes commandType;
-    EnvironmentTime requestTime;
-    EnvironmentTime receivedTime;
+    common::EnvironmentTime requestTime;
+    common::EnvironmentTime receivedTime;
 };
 
 } //end of namespace commands

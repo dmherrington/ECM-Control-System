@@ -40,7 +40,7 @@ void Westinghouse510::updatePumpOperations(const registers::Register_OperationSi
 
 void Westinghouse510::slot_SerialPortConnection(const common::comms::CommunicationConnection &connection)
 {
-
+    this->m_State->pumpConnected = connection.isConnected();
 }
 
 void Westinghouse510::slot_SerialPortUpdate(const common::comms::CommunicationUpdate &update)
