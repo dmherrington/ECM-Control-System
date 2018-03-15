@@ -8,6 +8,8 @@
 
 #include "munk_dialog/window_munk_power_supply.h"
 
+#include "library_galilMotionController/galil_motion_controller.h"
+
 #include "additional_sensor_display.h"
 #include "common/threadmanager.h"
 #include "common/timer.h"
@@ -30,33 +32,11 @@ private slots:
 
     void on_pushButton_MotorEnable_released();
 
-    void on_spinBox_CutDepth_editingFinished();
-
-    void on_spinBox_CutSpeed_editingFinished();
-
-    void on_spinBox_RetractDistance_editingFinished();
-
-    void on_spinBox_RetractPeriod_editingFinished();
-
-    void on_spinBox_Pause_editingFinished();
-
-    void on_spinBox_StepSize_editingFinished();
-
-    void on_pushButton_IncreaseJog_released();
-
-    void on_pushButton_DecreaseJog_released();
-
-    void on_pushButton_IncreaseRelativeMove_released();
-
-    void on_pushButton_DecreaseRelativeMove_released();
-
     void on_pushButton_MotorDisable_released();
 
-    void on_pushButton_SetHome_released();
+    void on_pushButton_ResetHome_released();
 
     void on_pushButton_MoveHome_released();
-
-    void on_pushButton_released();
 
     void on_pushButton_RunProfile_released();
 
@@ -65,6 +45,38 @@ private slots:
     void on_pushButton_DownloadProgram_released();
 
     void on_pushButton_EstablishTouchoff_released();
+
+
+    void on_pushButton_IncreaseJog_pressed();
+
+    void on_pushButton_IncreaseJog_released();
+
+    void on_pushButton_DecreaseJog_pressed();
+
+    void on_pushButton_DecreaseJog_released();
+
+    void on_pushButton_IncreaseRelativeMove_released();
+
+    void on_pushButton_DecreaseRelativeMove_released();
+
+
+
+
+    void on_doubleSpinBox_CutDepth_editingFinished();
+
+    void on_doubleSpinBox_RetractDistance_editingFinished();
+
+    void on_doubleSpinBox_StepSize_editingFinished();
+
+    void on_spinBox_RetractSpeed_editingFinished();
+
+    void on_spinBox_PlungeSpeed_editingFinished();
+
+    void on_spinBox_CutSpeed_editingFinished();
+
+    void on_spinBox_RetractPeriod_editingFinished();
+
+    void on_spinBox_Pause_editingFinished();
 
 protected:
     void readSettings();
@@ -80,6 +92,8 @@ private:
     AdditionalSensorDisplay *m_additionalSensorDisplay;
 
     Window_MunkPowerSupply* m_WindowMunk;
+
+    GalilMotionController * m_Galil;
 };
 
 #endif // ECM_CONTROLLER_GUI_H

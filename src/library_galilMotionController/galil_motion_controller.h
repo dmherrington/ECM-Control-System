@@ -43,14 +43,14 @@
 \*
 \*/
 
-class GMC_SHARED_EXPORT galilMotionController : public QObject, public GalilStatusUpdate_Interface, public GalilCallback_StateInterface, public Comms::CommsEvents
+class GMC_SHARED_EXPORT GalilMotionController : public QObject, public GalilStatusUpdate_Interface, public GalilCallback_StateInterface, public Comms::CommsEvents
 {
     Q_OBJECT
 
 public:
-    galilMotionController();
+    GalilMotionController();
 
-    ~galilMotionController();
+    ~GalilMotionController();
 
 public:
     void openConnection(const std::string &address);

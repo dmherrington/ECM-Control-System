@@ -1,7 +1,7 @@
 #include "galil_motion_controller.h"
 
 
-galilMotionController::galilMotionController()
+GalilMotionController::GalilMotionController()
 {
     std::vector<MotorAxis> availableAxis;
     availableAxis.push_back(MotorAxis::Z);
@@ -43,7 +43,7 @@ galilMotionController::galilMotionController()
     }
 }
 
-galilMotionController::~galilMotionController()
+GalilMotionController::~GalilMotionController()
 {
     if(stateMachine)
     {
@@ -66,12 +66,12 @@ galilMotionController::~galilMotionController()
 
 }
 
-void galilMotionController::openConnection(const std::string &address)
+void GalilMotionController::openConnection(const std::string &address)
 {
     commsMarshaler->ConnectToLink(address); //if true this means we have connected to the galil unit
 }
 
-void galilMotionController::closeConnection()
+void GalilMotionController::closeConnection()
 {
     if(commsMarshaler->DisconnetLink()) //if true this means we have disconnected from the galil unit
     {
@@ -80,18 +80,18 @@ void galilMotionController::closeConnection()
     }
 }
 
-bool galilMotionController::saveSettings()
+bool GalilMotionController::saveSettings()
 {
     m_Settings.saveSettings(settingsPath);
 }
 
-bool galilMotionController::saveSettingsAs(const std::string &filePath)
+bool GalilMotionController::saveSettingsAs(const std::string &filePath)
 {
     settingsPath = QString::fromStdString(filePath);
     m_Settings.saveSettings(settingsPath);
 }
 
-bool galilMotionController::loadSettings(const std::string &filePath)
+bool GalilMotionController::loadSettings(const std::string &filePath)
 {
     settingsPath = QString::fromStdString(filePath);
     m_Settings.loadSettings(settingsPath);
@@ -99,14 +99,14 @@ bool galilMotionController::loadSettings(const std::string &filePath)
 
 
 
-void galilMotionController::LinkConnected() const
+void GalilMotionController::LinkConnected() const
 {
     stateInterface->setConnected(true);
     galilPolling->beginPolling();
 }
 
 
-void galilMotionController::LinkDisconnected() const
+void GalilMotionController::LinkDisconnected() const
 {
     if(galilPolling)
     {
@@ -116,7 +116,7 @@ void galilMotionController::LinkDisconnected() const
     }
 }
 
-void galilMotionController::NewStatusInputs(const StatusInputs &status)
+void GalilMotionController::NewStatusInputs(const StatusInputs &status)
 {
     if(stateInterface->statusInputs.set(status))
     {
@@ -125,12 +125,12 @@ void galilMotionController::NewStatusInputs(const StatusInputs &status)
     }
 }
 
-void galilMotionController::NewStatusPosition(const Status_Position &status)
+void GalilMotionController::NewStatusPosition(const Status_Position &status)
 {
     //std::cout<<"A new position status has been received: "<<status.getPosition()<<std::endl;
 }
 
-void galilMotionController::NewStatusMotorEnabled(const Status_MotorEnabled &status)
+void GalilMotionController::NewStatusMotorEnabled(const Status_MotorEnabled &status)
 {
     if(stateInterface->getAxisStatus(status.getAxis())->setMotorEnabled(status.isMotorEnabled()))
     {
@@ -138,7 +138,7 @@ void galilMotionController::NewStatusMotorEnabled(const Status_MotorEnabled &sta
         stateMachine->ProcessStateTransitions();
     }
 }
-void galilMotionController::NewStatusMotorStopCode(const Status_StopCode &status)
+void GalilMotionController::NewStatusMotorStopCode(const Status_StopCode &status)
 {
     if(stateInterface->getAxisStatus(status.getAxis())->stopCode.set(status))
     {
@@ -147,7 +147,7 @@ void galilMotionController::NewStatusMotorStopCode(const Status_StopCode &status
     }
 }
 
-void galilMotionController::NewStatusMotorInMotion(const Status_AxisInMotion &status)
+void GalilMotionController::NewStatusMotorInMotion(const Status_AxisInMotion &status)
 {
     if(stateInterface->getAxisStatus(status.getAxis())->setMotorMoving(status.isMotorMoving()))
     {
@@ -161,7 +161,7 @@ void galilMotionController::NewStatusMotorInMotion(const Status_AxisInMotion &st
     }
 }
 
-void galilMotionController::NewStatusVariableValue(const Status_VariableValue &status)
+void GalilMotionController::NewStatusVariableValue(const Status_VariableValue &status)
 {
     if(stateInterface->statusVariables.updateVariable(status))
     {
@@ -170,26 +170,26 @@ void galilMotionController::NewStatusVariableValue(const Status_VariableValue &s
     }
 }
 
-void galilMotionController::NewStatusVariableList(const Status_VariableList &status)
+void GalilMotionController::NewStatusVariableList(const Status_VariableList &status)
 {
     stateInterface->statusVariables = status;
 }
 
-void galilMotionController::getProgramPath(std::string &filePath) const
+void GalilMotionController::getProgramPath(std::string &filePath) const
 {
     QFile file(programPath);
     QFileInfo fileInfo(file);
     filePath = fileInfo.absolutePath().toStdString();
 }
 
-void galilMotionController::getSettingsPath(std::string &filePath) const
+void GalilMotionController::getSettingsPath(std::string &filePath) const
 {
     QFile file(settingsPath);
     QFileInfo fileInfo(file);
     filePath = fileInfo.absolutePath().toStdString();
 }
 
-bool galilMotionController::saveProgram(const std::string &text)
+bool GalilMotionController::saveProgram(const std::string &text)
 {
     QFile file(programPath);
 
@@ -203,7 +203,7 @@ bool galilMotionController::saveProgram(const std::string &text)
     return true;
 }
 
-void galilMotionController::executeCommand(const AbstractCommand *command)
+void GalilMotionController::executeCommand(const AbstractCommand *command)
 {
     ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
     currentState->handleCommand(command);
@@ -228,7 +228,7 @@ void galilMotionController::executeCommand(const AbstractCommand *command)
     */
 }
 
-void galilMotionController::executeStringCommand(const std::string &stringCommand)
+void GalilMotionController::executeStringCommand(const std::string &stringCommand)
 {
     std::cout<<"The command string seen here is: "<<stringCommand<<std::endl;
     char buf[1024];
@@ -265,7 +265,7 @@ void galilMotionController::executeStringCommand(const std::string &stringComman
     //    std::cout<<"Returned: "<<std::string(returnOut)<<std::endl;
 }
 
-bool galilMotionController::saveProgramAs(const std::string &filePath, const std::string &text)
+bool GalilMotionController::saveProgramAs(const std::string &filePath, const std::string &text)
 {
     //this sets the current program file path
     programPath = QString::fromStdString(filePath);
@@ -273,7 +273,7 @@ bool galilMotionController::saveProgramAs(const std::string &filePath, const std
     return saved;
 }
 
-bool galilMotionController::loadProgram(const std::string &filePath, std::string &programText)
+bool GalilMotionController::loadProgram(const std::string &filePath, std::string &programText)
 {
     //this sets the current program file path
     programPath = QString::fromStdString(filePath);
@@ -291,7 +291,7 @@ bool galilMotionController::loadProgram(const std::string &filePath, std::string
 }
 
 
-void galilMotionController::uploadProgram(const ProgramGeneric &program) const
+void GalilMotionController::uploadProgram(const ProgramGeneric &program) const
 {
     commsMarshaler->uploadProgram(program);
     //    ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
@@ -311,7 +311,7 @@ void galilMotionController::uploadProgram(const ProgramGeneric &program) const
     //    std::cout<<"The return code here is "<<std::endl;
 }
 
-void galilMotionController::downloadProgram() const
+void GalilMotionController::downloadProgram() const
 {
     commsMarshaler->downloadProgram();
     //    GBufOut returnOut;
@@ -336,42 +336,42 @@ void galilMotionController::downloadProgram() const
     //    delete[] buf;
 }
 
-void galilMotionController::cbi_GalilStatusRequest(const AbstractRequestPtr request)
+void GalilMotionController::cbi_GalilStatusRequest(const AbstractRequestPtr request)
 {
     commsMarshaler->sendAbstractGalilRequest(request);
 }
 
-void galilMotionController::cbi_AbstractGalilCommand(const AbstractCommandPtr command)
+void GalilMotionController::cbi_AbstractGalilCommand(const AbstractCommandPtr command)
 {
     commsMarshaler->sendAbstractGalilCommand(command);
 }
 
-void galilMotionController::cbi_AbstractGalilMotionCommand(const AbstractCommandPtr command)
+void GalilMotionController::cbi_AbstractGalilMotionCommand(const AbstractCommandPtr command)
 {
     commsMarshaler->sendAbstractGalilMotionCommand(command);
 }
 
-void galilMotionController::cbi_AbstractGalilRequest(const AbstractRequestPtr request)
+void GalilMotionController::cbi_AbstractGalilRequest(const AbstractRequestPtr request)
 {
     commsMarshaler->sendAbstractGalilRequest(request);
 }
 
-void galilMotionController::cbi_AbstractGalilAddPolled(const AbstractRequestPtr request)
+void GalilMotionController::cbi_AbstractGalilAddPolled(const AbstractRequestPtr request)
 {
     galilPolling->addRequest(request);
 }
 
-void galilMotionController::cbi_AbstractGalilRemovePolled(const std::string &name)
+void GalilMotionController::cbi_AbstractGalilRemovePolled(const std::string &name)
 {
     galilPolling->removeRequest(name);
 }
 
-void galilMotionController::cbi_GalilControllerGains(const CommandControllerGain &gains)
+void GalilMotionController::cbi_GalilControllerGains(const CommandControllerGain &gains)
 {
     commsMarshaler->sendGalilControllerGains(gains);
 }
 
-void galilMotionController::cbi_ResetHomingLatch()
+void GalilMotionController::cbi_ResetHomingLatch()
 {
     emit signal_GalilResetHomingLatch(); //this should be emitted everytime the motor is turned off
 }

@@ -16,6 +16,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_WindowMunk = new Window_MunkPowerSupply();
     m_WindowMunk->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
 
+    m_Galil = new GalilMotionController();
+
     readSettings();
 
     common::EnvironmentTime startTime;
@@ -116,82 +118,128 @@ bool ECMControllerGUI::maybeSave()
 
 void ECMControllerGUI::on_pushButton_MotorEnable_released()
 {
-
+    CommandMotorEnable command;
+    command.setEnableAxis(MotorAxis::Z);
+    m_Galil->executeCommand(&command);
 }
 
-void ECMControllerGUI::on_spinBox_CutDepth_editingFinished()
+void ECMControllerGUI::on_doubleSpinBox_CutDepth_editingFinished()
 {
+    Command_Variable command("maxdepth",ui->doubleSpinBox_CutDepth->value());
+    m_Galil->executeCommand(&command);
+}
 
+void ECMControllerGUI::on_doubleSpinBox_RetractDistance_editingFinished()
+{
+    Command_Variable command("rtdist",ui->doubleSpinBox_RetractDistance->value());
+    m_Galil->executeCommand(&command);
+}
+
+void ECMControllerGUI::on_doubleSpinBox_StepSize_editingFinished()
+{
+    Command_Variable command("step",ui->doubleSpinBox_StepSize->value());
+    m_Galil->executeCommand(&command);
+}
+
+void ECMControllerGUI::on_spinBox_RetractSpeed_editingFinished()
+{
+    Command_Variable command("backsp",ui->spinBox_CutSpeed->value());
+    m_Galil->executeCommand(&command);
+}
+
+void ECMControllerGUI::on_spinBox_PlungeSpeed_editingFinished()
+{
+    Command_Variable command("forsp",ui->spinBox_CutSpeed->value());
+    m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_spinBox_CutSpeed_editingFinished()
 {
-
-}
-
-void ECMControllerGUI::on_spinBox_RetractDistance_editingFinished()
-{
-
+    Command_Variable command("speed",ui->spinBox_CutSpeed->value());
+    m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_spinBox_RetractPeriod_editingFinished()
 {
-
+    Command_Variable command("rtfq",ui->spinBox_RetractPeriod->value());
+    m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_spinBox_Pause_editingFinished()
 {
-
+    Command_Variable command("rtpause",ui->spinBox_Pause->value());
+    m_Galil->executeCommand(&command);
 }
 
-void ECMControllerGUI::on_spinBox_StepSize_editingFinished()
-{
+/////////////////////////////////////////////////////////////////////////
+/// USER HAS INTERACTED WITHIN THE MANUAL MOVE PANEL
+/////////////////////////////////////////////////////////////////////////
 
+void ECMControllerGUI::on_pushButton_IncreaseJog_pressed()
+{
+    int jogRate = abs(ui->spinBox_Jog->value()) * (-1);
+    CommandJog beginJog(MotorAxis::Z,jogRate);
+    m_Galil->executeCommand(&beginJog);
 }
 
 void ECMControllerGUI::on_pushButton_IncreaseJog_released()
 {
+    CommandStop stop(MotorAxis::Z);
+    m_Galil->executeCommand(&stop);
+}
 
+void ECMControllerGUI::on_pushButton_DecreaseJog_pressed()
+{
+    int jogRate = abs(ui->spinBox_Jog->value());
+    CommandJog beginJog(MotorAxis::Z,jogRate);
+    m_Galil->executeCommand(&beginJog);
 }
 
 void ECMControllerGUI::on_pushButton_DecreaseJog_released()
 {
-
+    CommandStop stop(MotorAxis::Z);
+    m_Galil->executeCommand(&stop);
 }
+
 
 void ECMControllerGUI::on_pushButton_IncreaseRelativeMove_released()
 {
-
+    int relativeDistance = abs(ui->spinBox_RelativeMove->value()) * (-1);
+    CommandRelativeMove move(MotorAxis::Z, relativeDistance);
+    m_Galil->executeCommand(&move);
 }
 
 void ECMControllerGUI::on_pushButton_DecreaseRelativeMove_released()
 {
-
+    int relativeDistance = abs(ui->spinBox_RelativeMove->value());
+    CommandRelativeMove move(MotorAxis::Z, relativeDistance);
+    m_Galil->executeCommand(&move);
 }
 
 void ECMControllerGUI::on_pushButton_MotorDisable_released()
 {
-
+    CommandMotorDisable command;
+    command.setDisableAxis(MotorAxis::Z);
+    m_Galil->executeCommand(&command);
 }
 
-void ECMControllerGUI::on_pushButton_SetHome_released()
+void ECMControllerGUI::on_pushButton_ResetHome_released()
 {
-
+    CommandExecuteProfile command(CommandExecuteProfile::ProfileType::HOMING,"latch");
+    m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_pushButton_MoveHome_released()
 {
-
-}
-
-void ECMControllerGUI::on_pushButton_released()
-{
-
+    CommandAbsoluteMove command(MotorAxis::Z,0);
+    m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_pushButton_RunProfile_released()
 {
-
+    //get the profile name from the GUI
+    //CommandExecuteProfile command(CommandExecuteProfile::ProfileType::PROFILE,"touchof");
+    //m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_pushButton_UploadProgram_released()
@@ -206,5 +254,6 @@ void ECMControllerGUI::on_pushButton_DownloadProgram_released()
 
 void ECMControllerGUI::on_pushButton_EstablishTouchoff_released()
 {
-
+    CommandExecuteProfile command(CommandExecuteProfile::ProfileType::TOUCHOFF,"touchof");
+    m_Galil->executeCommand(&command);
 }

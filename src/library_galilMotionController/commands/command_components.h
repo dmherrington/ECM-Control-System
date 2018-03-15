@@ -18,5 +18,6 @@
 #include "commands/command_stop.h"
 #include "commands/command_types.h"
 #include "commands/command_upload_program.h"
+#include "commands/command_variable.h"
 
 #endif // COMMAND_COMPONENTS_H

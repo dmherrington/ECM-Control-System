@@ -62,7 +62,12 @@ public:
     {
         if (Dialog_PumpControl->objectName().isEmpty())
             Dialog_PumpControl->setObjectName(QStringLiteral("Dialog_PumpControl"));
-        Dialog_PumpControl->resize(480, 297);
+        Dialog_PumpControl->resize(444, 278);
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(Dialog_PumpControl->sizePolicy().hasHeightForWidth());
+        Dialog_PumpControl->setSizePolicy(sizePolicy);
         Dialog_PumpControl->setStyleSheet(QLatin1String("QMainWindow{\n"
 "background-color:#1d1d1d;\n"
 "}\n"
@@ -192,21 +197,22 @@ public:
         gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
         label_Electrolyte = new QLabel(Dialog_PumpControl);
         label_Electrolyte->setObjectName(QStringLiteral("label_Electrolyte"));
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(label_Electrolyte->sizePolicy().hasHeightForWidth());
         label_Electrolyte->setSizePolicy(sizePolicy);
         label_Electrolyte->setMinimumSize(QSize(170, 20));
+        label_Electrolyte->setMaximumSize(QSize(170, 20));
         QFont font;
-        font.setPointSize(12);
+        font.setPointSize(10);
         label_Electrolyte->setFont(font);
+        label_Electrolyte->setAlignment(Qt::AlignCenter);
 
         gridLayout_4->addWidget(label_Electrolyte, 0, 0, 1, 1);
 
         lineEdit_Electrolyte = new QLineEdit(Dialog_PumpControl);
         lineEdit_Electrolyte->setObjectName(QStringLiteral("lineEdit_Electrolyte"));
         lineEdit_Electrolyte->setMinimumSize(QSize(170, 20));
+        lineEdit_Electrolyte->setMaximumSize(QSize(170, 20));
+        lineEdit_Electrolyte->setFont(font);
 
         gridLayout_4->addWidget(lineEdit_Electrolyte, 1, 0, 1, 1);
 
@@ -220,13 +226,17 @@ public:
         sizePolicy.setHeightForWidth(label_pH->sizePolicy().hasHeightForWidth());
         label_pH->setSizePolicy(sizePolicy);
         label_pH->setMinimumSize(QSize(170, 20));
+        label_pH->setMaximumSize(QSize(170, 20));
         label_pH->setFont(font);
+        label_pH->setAlignment(Qt::AlignCenter);
 
         gridLayout_3->addWidget(label_pH, 0, 0, 1, 1);
 
         lineEdit_pH = new QLineEdit(Dialog_PumpControl);
         lineEdit_pH->setObjectName(QStringLiteral("lineEdit_pH"));
         lineEdit_pH->setMinimumSize(QSize(170, 20));
+        lineEdit_pH->setMaximumSize(QSize(170, 20));
+        lineEdit_pH->setFont(font);
 
         gridLayout_3->addWidget(lineEdit_pH, 1, 0, 1, 1);
 
@@ -240,13 +250,17 @@ public:
         sizePolicy.setHeightForWidth(label_Conductivity->sizePolicy().hasHeightForWidth());
         label_Conductivity->setSizePolicy(sizePolicy);
         label_Conductivity->setMinimumSize(QSize(170, 20));
+        label_Conductivity->setMaximumSize(QSize(170, 20));
         label_Conductivity->setFont(font);
+        label_Conductivity->setAlignment(Qt::AlignCenter);
 
         gridLayout_2->addWidget(label_Conductivity, 0, 0, 1, 1);
 
         lineEdit_Conuctivity = new QLineEdit(Dialog_PumpControl);
         lineEdit_Conuctivity->setObjectName(QStringLiteral("lineEdit_Conuctivity"));
         lineEdit_Conuctivity->setMinimumSize(QSize(170, 20));
+        lineEdit_Conuctivity->setMaximumSize(QSize(170, 20));
+        lineEdit_Conuctivity->setFont(font);
 
         gridLayout_2->addWidget(lineEdit_Conuctivity, 1, 0, 1, 1);
 
@@ -267,7 +281,8 @@ public:
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(pushButton_PumpRunning->sizePolicy().hasHeightForWidth());
         pushButton_PumpRunning->setSizePolicy(sizePolicy1);
-        pushButton_PumpRunning->setMinimumSize(QSize(140, 50));
+        pushButton_PumpRunning->setMinimumSize(QSize(140, 40));
+        pushButton_PumpRunning->setMaximumSize(QSize(16777215, 40));
         QFont font1;
         font1.setPointSize(18);
         font1.setBold(true);
@@ -404,7 +419,9 @@ public:
         sizePolicy1.setHeightForWidth(label_OnTime->sizePolicy().hasHeightForWidth());
         label_OnTime->setSizePolicy(sizePolicy1);
         label_OnTime->setMinimumSize(QSize(140, 20));
-        label_OnTime->setFont(font);
+        QFont font2;
+        font2.setPointSize(12);
+        label_OnTime->setFont(font2);
         label_OnTime->setAlignment(Qt::AlignCenter);
 
         verticalLayout->addWidget(label_OnTime);
@@ -415,6 +432,9 @@ public:
         sizePolicy1.setHeightForWidth(lineEdit_OnTime->sizePolicy().hasHeightForWidth());
         lineEdit_OnTime->setSizePolicy(sizePolicy1);
         lineEdit_OnTime->setMinimumSize(QSize(140, 20));
+        QFont font3;
+        font3.setPointSize(13);
+        lineEdit_OnTime->setFont(font3);
         lineEdit_OnTime->setReadOnly(true);
 
         verticalLayout->addWidget(lineEdit_OnTime);
@@ -495,6 +515,7 @@ public:
         sizePolicy.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
         pushButton->setSizePolicy(sizePolicy);
         pushButton->setMinimumSize(QSize(100, 40));
+        pushButton->setFont(font2);
         pushButton->setStyleSheet(QLatin1String("QMainWindow{\n"
 "background-color:#1d1d1d;\n"
 "}\n"
