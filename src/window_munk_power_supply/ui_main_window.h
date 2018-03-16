@@ -24,8 +24,8 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
+#include "munk_dialog/widget_segment_time_display.h"
 #include "plot_handler.h"
-#include "widget_segment_time_display.h"
 
 QT_BEGIN_NAMESPACE
 

@@ -1,5 +1,5 @@
-#ifndef TYPE_DEFINITION_H
-#define TYPE_DEFINITION_H
+#ifndef MUNK_REGISTER_DEFINITIONS_H
+#define MUNK_REGISTER_DEFINITIONS_H
 
 #include <string>
 #include <stdexcept>
@@ -70,4 +70,4 @@ inline ParameterType ParameterTypeFromInt(const int &param)
 } //end of namepsace registers_Munk
 
 
-#endif // TYPE_DEFINITION_H
+#endif // MUNK_REGISTER_DEFINITIONS_H

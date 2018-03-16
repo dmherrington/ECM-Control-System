@@ -1,5 +1,5 @@
-#ifndef I_LINK_EVENTS_H
-#define I_LINK_EVENTS_H
+#ifndef RIGOL_I_LINK_EVENTS_H
+#define RIGOL_I_LINK_EVENTS_H
 
 #include <cstdlib>
 #include <vector>
@@ -29,4 +29,4 @@ public:
 } //end of namespace comms
 
 
-#endif // I_LINK_EVENTS_H
+#endif // RIGOL_I_LINK_EVENTS_H

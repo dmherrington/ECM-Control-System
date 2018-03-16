@@ -1,5 +1,5 @@
-#ifndef TCP_CONFIGURATION_H
-#define TCP_CONFIGURATION_H
+#ifndef RIGOL_TCP_CONFIGURATION_H
+#define RIGOL_TCP_CONFIGURATION_H
 
 #include <QTcpSocket>
 #include <string>

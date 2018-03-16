@@ -1,5 +1,5 @@
-#ifndef ABSTRACT_STATUS_H
-#define ABSTRACT_STATUS_H
+#ifndef GALIL_ABSTRACT_STATUS_H
+#define GALIL_ABSTRACT_STATUS_H
 
 #include <string.h>
 #include "common/class_forward.h"
@@ -65,4 +65,4 @@ private:
     common::EnvironmentTime latestUpdate;
 };
 
-#endif // ABSTRACT_STATUS_H
+#endif // GALIL_ABSTRACT_STATUS_H

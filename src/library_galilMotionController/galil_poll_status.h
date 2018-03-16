@@ -1,5 +1,5 @@
-#ifndef GALIL_STATE_MACHINE_H
-#define GALIL_STATE_MACHINE_H
+#ifndef GALIL_POLL_STATUS_H
+#define GALIL_POLL_STATUS_H
 
 #include <map>
 

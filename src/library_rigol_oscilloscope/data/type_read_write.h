@@ -1,5 +1,5 @@
-#ifndef TYPE_READ_WRITE_H
-#define TYPE_READ_WRITE_H
+#ifndef RIGOL_TYPE_READ_WRITE_H
+#define RIGOL_TYPE_READ_WRITE_H
 
 #include <string>
 #include <stdexcept>
@@ -59,4 +59,4 @@ inline std::vector<std::string> getListOfReadWriteType()
 } //end of namespace data_Rigol
 
 
-#endif // TYPE_READ_WRITE_H
+#endif // RIGOL_TYPE_READ_WRITE_H

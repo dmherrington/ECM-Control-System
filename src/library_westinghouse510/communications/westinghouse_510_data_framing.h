@@ -1,5 +1,5 @@
-#ifndef MUNK_DATA_FRAMING_H
-#define MUNK_DATA_FRAMING_H
+#ifndef WESTINGHOUSE_DATA_FRAMING_H
+#define WESTINGHOUSE_DATA_FRAMING_H
 
 #include <QByteArray>
 
@@ -29,4 +29,4 @@ private:
 } //end of namespace comms_WestinghousePump
 
 
-#endif // MUNK_DATA_FRAMING_H
+#endif // WESTINGHOUSE_DATA_FRAMING_H

@@ -1,5 +1,5 @@
-#ifndef ILINK_H
-#define ILINK_H
+#ifndef RIGOL_I_LINK_H
+#define RIGOL_I_LINK_H
 
 #include <cstdlib>
 #include <memory>
@@ -106,4 +106,4 @@ private:
 } //end of namespace comms
 
 
-#endif // ILINK_H
+#endif // RIGOL_I_LINK_H

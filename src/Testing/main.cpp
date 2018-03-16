@@ -10,9 +10,11 @@
 #include <QStringList>
 #include <QRegExp>
 
-#include "library_sensoray/sensoray.h"
-#include "library_westinghouse510/westinghouse_510.h"
-
+//#include "library_galilMotionController/galil_motion_controller.h"
+//#include "library_munk_power_supply/munk_power_supply.h"
+#include "library_rigol_oscilloscope/rigol_oscilliscope.h"
+//#include "library_westinghouse510/westinghouse_510.h"
+//#include "library_sensoray/sensoray.h"
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
@@ -28,18 +30,21 @@ int main(int argc, char *argv[])
 //    uint8_t RWMask = 240<<0;
 //    uint8_t RWValue = (byte & (~RWMask));
 
-    Sensoray* newInterface = new Sensoray();
-    sensoray::comms::SensorayTCPConfiguration sensorayConfig;
+//    GalilMotionController* newGalil = new GalilMotionController();
+//    MunkPowerSupply* newMunk = new MunkPowerSupply();
+
+//    Sensoray* newInterface = new Sensoray();
+//    comms_Sensoray::SensorayTCPConfiguration sensorayConfig;
 
 //    newInterface->openConnection(sensorayConfig);
 
-    westinghousePump::Westinghouse510* pump = new westinghousePump::Westinghouse510(newInterface,01);
-    westinghousePump::data_register::Register_OperationSignal newOps;
-    newOps.setSlaveAddress(01);
-    newOps.shouldReverse(false);
-    newOps.shouldRun(true);
-    newOps.setReadorWrite(westinghousePump::data::ReadWriteType::WRITE);
-    pump->slot_SerialPortReceivedData(newOps.getFullMessage());
+//    Westinghouse510* pump = new Westinghouse510(newInterface,01);
+//    registers_WestinghousePump::Register_OperationSignal newOps;
+//    newOps.setSlaveAddress(01);
+//    newOps.shouldReverse(false);
+//    newOps.shouldRun(true);
+//    newOps.setReadorWrite(data_WestinghousePump::ReadWriteType::WRITE);
+//    pump->slot_SerialPortReceivedData(newOps.getFullMessage());
 //    common::comms::SerialConfiguration newSerialConfig;
 //    newInterface->openSerialPortConnection(newSerialConfig);
 

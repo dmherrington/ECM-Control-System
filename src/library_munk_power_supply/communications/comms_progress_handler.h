@@ -1,5 +1,5 @@
-#ifndef COMMS_PROGRESS_HANDLER_H
-#define COMMS_PROGRESS_HANDLER_H
+#ifndef MUNK_COMMS_PROGRESS_HANDLER_H
+#define MUNK_COMMS_PROGRESS_HANDLER_H
 
 #include <map>
 #include <vector>
@@ -37,4 +37,4 @@ private:
 } //end of namespace comms_Munk
 
 
-#endif // COMMS_PROGRESS_HANDLER_H
+#endif // MUNK_COMMS_PROGRESS_HANDLER_H

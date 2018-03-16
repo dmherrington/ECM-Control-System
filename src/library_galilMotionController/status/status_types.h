@@ -1,5 +1,5 @@
-#ifndef STATUS_TYPES_H
-#define STATUS_TYPES_H
+#ifndef GALIL_STATUS_TYPES_H
+#define GALIL_STATUS_TYPES_H
 
 #include <vector>
 #include <string>
@@ -34,4 +34,4 @@ enum class StatusTypes{
 
 
 
-#endif // STATUS_TYPES_H
+#endif // GALIL_STATUS_TYPES_H

@@ -1,5 +1,5 @@
-#ifndef I_PROTOCOL_H
-#define I_PROTOCOL_H
+#ifndef RIGOL_I_PROTOCOL_H
+#define RIGOL_I_PROTOCOL_H
 
 #include <memory>
 #include <vector>
@@ -23,4 +23,4 @@ public:
 } //end of namespace comms
 
 
-#endif // I_PROTOCOL_H
+#endif // RIGOL_I_PROTOCOL_H

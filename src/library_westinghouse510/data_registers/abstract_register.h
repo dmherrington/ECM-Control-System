@@ -1,5 +1,5 @@
-#ifndef ABSTRACT_PARAMETER_H
-#define ABSTRACT_PARAMETER_H
+#ifndef ABSTRACT_WESTINGHOUSE_REGISTER_H
+#define ABSTRACT_WESTINGHOUSE_REGISTER_H
 
 #include <QByteArray>
 #include <QBitArray>
@@ -212,4 +212,4 @@ protected:
 } //end of namespace registers_WestinghousePump
 
 
-#endif // ABSTRACT_PARAMETER_H
+#endif // ABSTRACT_WESTINGHOUSE_REGISTER_H

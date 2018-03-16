@@ -1,5 +1,5 @@
-#ifndef COMMS_EVENTS_H
-#define COMMS_EVENTS_H
+#ifndef RIGOL_COMMS_EVENTS_H
+#define RIGOL_COMMS_EVENTS_H
 
 #include <string>
 #include "common/common.h"
@@ -60,4 +60,4 @@ public:
 } //end of namespace comms
 
 
-#endif // COMMS_EVENTS_H
+#endif // RIGOL_COMMS_EVENTS_H

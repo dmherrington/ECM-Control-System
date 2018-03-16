@@ -1,5 +1,5 @@
-#ifndef TYPE_READ_WRITE_H
-#define TYPE_READ_WRITE_H
+#ifndef TYPE_MUNK_READ_WRITE_H
+#define TYPE_MUNK_READ_WRITE_H
 
 #include <string>
 #include <stdexcept>
@@ -60,4 +60,4 @@ inline std::vector<std::string> getListOfReadWriteType()
 } //end of namespace data_Munk
 
 
-#endif // TYPE_READ_WRITE_H
+#endif // TYPE_MUNK_READ_WRITE_H

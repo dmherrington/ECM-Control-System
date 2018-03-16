@@ -1,5 +1,5 @@
-#ifndef COMMS_EVENTS_MUNK_H
-#define COMMS_EVENTS_MUNK_H
+#ifndef MUNK_COMMS_EVENTS_H
+#define MUNK_COMMS_EVENTS_H
 
 #include <string>
 #include "common/common.h"

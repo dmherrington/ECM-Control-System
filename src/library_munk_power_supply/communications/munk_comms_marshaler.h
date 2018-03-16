@@ -114,4 +114,4 @@ private:
 } //end of namespace comms_Munk
 
 
-#endif // COMMS_MARSHALER_H
+#endif // MUNK_COMMS_MARSHALER_H

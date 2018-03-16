@@ -1,5 +1,5 @@
-#ifndef TYPE_DEFINITION_H
-#define TYPE_DEFINITION_H
+#ifndef WESTINGHOUSE_AVAILABLE_REGISTERS_H
+#define WESTINGHOUSE_AVAILABLE_REGISTERS_H
 
 #include <string>
 #include <stdexcept>
@@ -71,4 +71,4 @@ inline std::vector<std::string> getListOfRegisterTypes()
 } //end of namespace registers_WestinghousePump
 
 
-#endif // TYPE_DEFINITION_H
+#endif // WESTINGHOUSE_AVAILABLE_REGISTERS_H

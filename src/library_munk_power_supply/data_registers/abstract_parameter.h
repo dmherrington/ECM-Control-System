@@ -1,5 +1,5 @@
-#ifndef ABSTRACT_PARAMETER_H
-#define ABSTRACT_PARAMETER_H
+#ifndef MUNK_ABSTRACT_REGISTERS_H
+#define MUNK_ABSTRACT_REGISTERS_H
 
 #include <QByteArray>
 #include <QBitArray>
@@ -217,4 +217,4 @@ protected:
 } //end of namespace registers_Munk
 
 
-#endif // ABSTRACT_PARAMETER_H
+#endif // MUNK_ABSTRACT_REGISTERS_H

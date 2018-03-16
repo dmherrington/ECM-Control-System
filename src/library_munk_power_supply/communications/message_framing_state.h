@@ -1,5 +1,5 @@
-#ifndef MESSAGE_FRAMING_STATE_H
-#define MESSAGE_FRAMING_STATE_H
+#ifndef MUNK_MESSAGE_FRAMING_STATE_H
+#define MUNK_MESSAGE_FRAMING_STATE_H
 
 enum class FramingState{
     WAITING,
@@ -15,4 +15,4 @@ enum class FramingState{
     RECEIVED_ENTIRE_MESSAGE
 };
 
-#endif // MESSAGE_FRAMING_STATE_H
+#endif // MUNK_MESSAGE_FRAMING_STATE_H
