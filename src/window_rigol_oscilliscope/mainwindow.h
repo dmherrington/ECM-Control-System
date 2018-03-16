@@ -7,7 +7,7 @@
 #include "library_rigol_oscilloscope/rigol_oscilliscope.h"
 #include "library_rigol_oscilloscope/commands/measure/rigol_measurement_queue.h"
 
-using namespace rigol::data;
+using namespace rigol::data_Rigol;
 
 namespace Ui {
 class MainWindow;
@@ -26,7 +26,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    rigol::commands::RigolMeasurementQueue queue;
+    commands_Rigol::RigolMeasurementQueue queue;
 
     std::map<AvailableChannels, WidgetChannelMeasurements*> mapWidgets;
     RigolOscilliscope* rigolInterface;

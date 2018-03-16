@@ -1,21 +1,21 @@
 #include "segment_voltage_data.h"
 
-namespace DataParameter
-{
+
+namespace registers_Munk {
 
 //!
 //! \brief SegmentVoltageData::SegmentVoltageData
 //! \param levelValue
 //! \param levelMode
 //!
-SegmentVoltageData::SegmentVoltageData(const Data::SegmentLevel &levelValue, const Data::SegmentMode &levelMode)
+SegmentVoltageData::SegmentVoltageData(const data_Munk::SegmentLevel &levelValue, const data_Munk::SegmentMode &levelMode)
 {
     //let us update the stored values with those that created the object
     this->level = levelValue;
     this->mode = levelMode;
     //let us initialize some default values
     this->voltage = 0.0;
-    this->prescale = Data::SegmentVIPower::ONE;
+    this->prescale = data_Munk::SegmentVIPower::ONE;
 }
 
 
@@ -35,44 +35,44 @@ QByteArray SegmentVoltageData::getDataArray() const
     return byteArray;
 }
 
-void SegmentVoltageData::updatePrescalePower(const Data::SegmentVIPower &value)
+void SegmentVoltageData::updatePrescalePower(const data_Munk::SegmentVIPower &value)
 {
     this->prescale = value;
 }
 
-Data::DataFaultCodes SegmentVoltageData::updateVoltageSetpoint(const double &value)
+data_Munk::DataFaultCodes SegmentVoltageData::updateVoltageSetpoint(const double &value)
 {
     int newValue = value * 100;
-    this->updatePrescalePower(Data::SegmentVIPower::ONE);
+    this->updatePrescalePower(data_Munk::SegmentVIPower::ONE);
 
     if(newValue > 4095)
     {
         this->voltage = 4095;
-        return Data::DataFaultCodes::DATA_VALUE_GREATER_THAN_MAX;
+        return data_Munk::DataFaultCodes::DATA_VALUE_GREATER_THAN_MAX;
     }
     else if(newValue < 0)
     {
         this->voltage = 0;
-        return Data::DataFaultCodes::DATA_VALUE_LESS_THAN_MIN;
+        return data_Munk::DataFaultCodes::DATA_VALUE_LESS_THAN_MIN;
     }
     else
     {
         this->voltage = newValue;
-        return Data::DataFaultCodes::DATA_UPDATE_SUCCESSFUL;
+        return data_Munk::DataFaultCodes::DATA_UPDATE_SUCCESSFUL;
     }
 }
 
-Data::SegmentLevel SegmentVoltageData::getSegmentLevel() const
+data_Munk::SegmentLevel SegmentVoltageData::getSegmentLevel() const
 {
     return this->level;
 }
 
-Data::SegmentMode SegmentVoltageData::getSegmentMode() const
+data_Munk::SegmentMode SegmentVoltageData::getSegmentMode() const
 {
     return this->mode;
 }
 
-Data::SegmentVIPower SegmentVoltageData::getVoltagePrescale() const
+data_Munk::SegmentVIPower SegmentVoltageData::getVoltagePrescale() const
 {
     return this->prescale;
 }
@@ -100,4 +100,5 @@ uint32_t SegmentVoltageData::updateSetPointBitArray(const uint32_t &bitArray) co
     return ba;
 }
 
-} //end of namepsace DataParameter
+} //end of namespace registers_Munk
+

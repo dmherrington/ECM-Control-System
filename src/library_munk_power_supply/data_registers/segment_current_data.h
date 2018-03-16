@@ -16,8 +16,8 @@
 
 #include "data/type_fault_codes_general.h"
 
-namespace DataParameter
-{
+
+namespace registers_Munk{
 
 //!
 //! \brief The SegmentCurrentSetpoint class
@@ -30,7 +30,7 @@ public:
     //! \param levelValue
     //! \param levelMode
     //!
-    SegmentCurrentData(const Data::SegmentLevel &levelValue, const Data::SegmentMode &levelMode);
+    SegmentCurrentData(const data_Munk::SegmentLevel &levelValue, const data_Munk::SegmentMode &levelMode);
 
 public:
     //!
@@ -44,44 +44,44 @@ public:
     //! \brief updateCurrentFactor
     //! \param value
     //!
-    void updateCurrentFactor(const Data::CurrentFactorType &value);
+    void updateCurrentFactor(const data_Munk::CurrentFactorType &value);
 
     //!
     //! \brief updatePrescalePower
     //! \param value
     //!
-    void updatePrescalePower(const Data::SegmentVIPower &value);
+    void updatePrescalePower(const data_Munk::SegmentVIPower &value);
 
     //!
     //! \brief updateCurrentSetpoint
     //! \param value
     //!
-    Data::DataFaultCodes updateCurrentSetpoint(const int &value);
+    data_Munk::DataFaultCodes updateCurrentSetpoint(const int &value);
 
 public:
     //!
     //! \brief getSegmentLevel
     //! \return
     //!
-    Data::SegmentLevel getSegmentLevel() const;
+    data_Munk::SegmentLevel getSegmentLevel() const;
 
     //!
     //! \brief getSegmentMode
     //! \return
     //!
-    Data::SegmentMode getSegmentMode() const;
+    data_Munk::SegmentMode getSegmentMode() const;
 
     //!
     //! \brief getCurrentFactor
     //! \return
     //!
-    Data::CurrentFactorType getCurrentFactor() const;
+    data_Munk::CurrentFactorType getCurrentFactor() const;
 
     //!
     //! \brief getCurrentPrescale
     //! \return
     //!
-    Data::SegmentVIPower getCurrentPrescale() const;
+    data_Munk::SegmentVIPower getCurrentPrescale() const;
 
     //!
     //! \brief getCurrent
@@ -164,22 +164,22 @@ private:
     //!
     //! \brief level
     //!
-    Data::SegmentLevel level;
+    data_Munk::SegmentLevel level;
 
     //!
     //! \brief mode
     //!
-    Data::SegmentMode mode;
+    data_Munk::SegmentMode mode;
 
     //!
     //! \brief currentFactor
     //!
-    Data::CurrentFactorType currentFactor;
+    data_Munk::CurrentFactorType currentFactor;
 
     //!
     //! \brief prescale
     //!
-    Data::SegmentVIPower prescale;
+    data_Munk::SegmentVIPower prescale;
 
     //!
     //! \brief current
@@ -187,6 +187,7 @@ private:
     int current;
 };
 
-} //end of namespace DataParameter
+} //end of namepsace registers_Munk
+
 
 #endif // SEGMENT_CURRENT_SETPOINT_H

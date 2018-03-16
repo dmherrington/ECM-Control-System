@@ -1,6 +1,6 @@
 #include "sensor_voltage.h"
 
-namespace data
+namespace common_data
 {
 
 
@@ -21,7 +21,7 @@ SensorVoltage::SensorVoltage(const std::string &name)
  */
 double SensorVoltage::getVoltage(const VoltageUnit &unit) const
 {
-    return m_Volt * data::VoltageDimension(unit).RatioToBaseUnit();
+    return m_Volt * common_data::VoltageDimension(unit).RatioToBaseUnit();
 }
 
 

@@ -1,5 +1,5 @@
-#ifndef ILINK_H
-#define ILINK_H
+#ifndef I_LINK_MUNK_H
+#define I_LINK_MUNK_H
 
 #include <cstdlib>
 #include <memory>
@@ -11,8 +11,8 @@
 #include "i_link_events.h"
 #include "serial_configuration.h"
 
-namespace munk {
-namespace comms{
+
+namespace comms_Munk{
 
 class ILink
 {
@@ -94,7 +94,7 @@ private:
 
 };
 
-} //end of namespace comms
-} //end of namespace munk
+} //end of namespace comms_Munk
 
-#endif // ILINK_H
+
+#endif // I_LINK_MUNK_H

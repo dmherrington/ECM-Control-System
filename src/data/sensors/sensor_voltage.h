@@ -7,8 +7,7 @@
 
 #include "dimensions/voltage_dimension.h"
 
-namespace data
-{
+namespace common_data {
 
 
 /*!
@@ -30,7 +29,7 @@ public:
      * \param unit Desired unit of voltage.
      * \return The voltage in the disired unit.
      */
-    double getVoltage(const data::VoltageUnit &unit) const;
+    double getVoltage(const common_data::VoltageUnit &unit) const;
 
 
     /*!
@@ -38,7 +37,7 @@ public:
      * \param value Voltage value to set to.
      * \param unit Unit of voltage.
      */
-    void SetVoltage(const double &value, const data::VoltageUnit &unit);
+    void SetVoltage(const double &value, const common_data::VoltageUnit &unit);
 
 
     //! Get the type of the concrete sensor

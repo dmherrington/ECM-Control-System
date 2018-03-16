@@ -9,7 +9,7 @@
 
 #include "../data_global.h"
 
-namespace data {
+namespace common_data {
 namespace observation {
 
 //!

@@ -8,7 +8,9 @@
 
 #include "munk_dialog/window_munk_power_supply.h"
 
+#include "library_munk_power_supply/munk_power_supply.h"
 #include "library_galilMotionController/galil_motion_controller.h"
+#include "library_sensoray/sensoray.h"
 
 #include "additional_sensor_display.h"
 #include "common/threadmanager.h"
@@ -28,7 +30,7 @@ public:
 private:
     bool maybeSave();
 private slots:
-    void slot_NewSensorData(const common::TupleSensorString sensor, const data::SensorState state);
+    void slot_NewSensorData(const common::TupleSensorString sensor, const common_data::SensorState state);
 
     void on_pushButton_MotorEnable_released();
 
@@ -93,7 +95,9 @@ private:
 
     Window_MunkPowerSupply* m_WindowMunk;
 
-    GalilMotionController * m_Galil;
+    MunkPowerSupply* m_Munk;
+    GalilMotionController* m_Galil;
+    Sensoray* m_Sensoray;
 };
 
 #endif // ECM_CONTROLLER_GUI_H

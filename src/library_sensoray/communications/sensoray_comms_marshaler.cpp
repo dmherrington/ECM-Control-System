@@ -1,7 +1,7 @@
 #include "sensoray_comms_marshaler.h"
 
-namespace sensoray {
-namespace comms{
+
+namespace comms_Sensoray{
 
 
 //////////////////////////////////////////////////////////////
@@ -146,4 +146,4 @@ void CommsMarshaler::SerialPortStatusUpdate(const common::comms::CommunicationUp
 }
 
 } //end of namespace comms
-} //end of namespace sensoray
+

@@ -1,7 +1,7 @@
 #include "sensoray_link.h"
 
-namespace sensoray{
-namespace comms {
+
+namespace comms_Sensoray {
 
 //!
 //! \brief This class defines a thread such that a QObject can run in peace.
@@ -170,4 +170,4 @@ int SensorayLink::getTelnetPortNumber() const
 }
 
 } //end of namepsace comms
-} //end of namespace sensoray
+

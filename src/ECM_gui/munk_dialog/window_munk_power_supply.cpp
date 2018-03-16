@@ -1,11 +1,17 @@
 #include "window_munk_power_supply.h"
 #include "ui_window_munk_power_supply.h"
 
-Window_MunkPowerSupply::Window_MunkPowerSupply(QWidget *parent) :
+Window_MunkPowerSupply::Window_MunkPowerSupply(const MunkPowerSupply *obj, QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::Window_MunkPowerSupply)
+    ui(new Ui::Window_MunkPowerSupply),
+    munk(obj)
 {
     ui->setupUi(this);
+    ui->widget_connection->setDiameter(6);
+    this->on_connectionUpdated(munk->isConnected());
+
+    connect(munk,SIGNAL(signal_ConnectionStatusUpdated(bool)),this,SLOT(on_connectionUpdated(bool)));
+
     readSettings();
 }
 
@@ -45,6 +51,13 @@ void Window_MunkPowerSupply::showEvent(QShowEvent *event)
     windowHidden = false;
 }
 
+void Window_MunkPowerSupply::on_connectionUpdated(const bool &val)
+{
+    if(val)
+        ui->widget_connection->setColor(QColor(0,255,0));
+    else
+        ui->widget_connection->setColor(QColor(255,0,0));
+}
 void Window_MunkPowerSupply::on_pushButton_AddSegment_released()
 {
     ui->segmentWidget->addNewSegment();

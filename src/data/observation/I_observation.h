@@ -5,7 +5,7 @@
 
 #include "I_time_data.h"
 
-namespace data {
+namespace common_data {
 namespace observation {
 
 //!

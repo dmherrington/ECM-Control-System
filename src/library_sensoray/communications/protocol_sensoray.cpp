@@ -1,7 +1,7 @@
 #include "protocol_sensoray.h"
 
-namespace sensoray {
-namespace comms{
+
+namespace comms_Sensoray{
 
 SensorayProtocol::SensorayProtocol()
 {
@@ -99,4 +99,4 @@ void SensorayProtocol::transmitDataToSerialPort(const QByteArray &msg)
 }
 
 } //end of namespace comms
-} //end of namespace sensoray
+

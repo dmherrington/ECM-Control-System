@@ -11,8 +11,9 @@
 #include <data/type_segment_level.h>
 #include <data/type_segment_mode.h>
 
-namespace DataParameter
-{
+
+namespace registers_Munk{
+
 //!
 //! \brief The SegmentTimeGeneral class
 //!
@@ -37,7 +38,7 @@ public:
     //! \brief getParameterType
     //! \return
     //!
-    virtual DataParameter::ParameterType getParameterType() const;
+    virtual registers_Munk::ParameterType getParameterType() const;
 
     //!
     //! \brief getByteArray
@@ -128,8 +129,10 @@ private:
     //!
     //! \brief registerData
     //!
-    std::vector<DataParameter::SegmentTimeDataGeneral> registerData;
+    std::vector<registers_Munk::SegmentTimeDataGeneral> registerData;
 };
 
-} //end of namespace MunkPowerSupply
+} //end of namepsace registers_Munk
+
+
 #endif // SEGMENT_TIMES_H

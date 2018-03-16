@@ -19,7 +19,7 @@ public:
     //! \param sensor Identifier for sensor
     //! \param sensorData State of sensor
     //!
-    virtual void UpdateNonPlottedData(const common::TupleSensorString &sensor, const data::SensorState &sensorData) = 0;
+    virtual void UpdateNonPlottedData(const common::TupleSensorString &sensor, const common_data::SensorState &sensorData) = 0;
 
 
     //!

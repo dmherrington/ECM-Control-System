@@ -51,7 +51,7 @@ public:
     //! \param sensor Sensor to create
     //! \param type Type of sensor to make
     //!
-    Q_INVOKABLE void NewDock(const common::TupleSensorString &sensor, const data::SensorTypes &type);
+    Q_INVOKABLE void NewDock(const common::TupleSensorString &sensor, const common_data::SensorTypes &type);
 
 
     /**
@@ -88,7 +88,7 @@ public:
     //! \param sensor Sensor to update
     //! \param state State to give
     //!
-    void UpdateNonPlottedData(const common::TupleSensorString &sensor, const data::SensorState &state);
+    void UpdateNonPlottedData(const common::TupleSensorString &sensor, const common_data::SensorState &state);
 
 
     //!
@@ -122,7 +122,7 @@ signals:
     //! \param sensor Sensor adding
     //! \param type type of sensor
     //!
-    void CreateNewDock(common::TupleSensorString sensor, data::SensorTypes type);
+    void CreateNewDock(common::TupleSensorString sensor, common_data::SensorTypes type);
 
     //!
     //! \brief WindowRangeChanged Signal to be emitted when the x-axis range is changed

@@ -4,6 +4,9 @@
 #include <map>
 #include <vector>
 
+
+namespace comms_Munk{
+
 enum class MunkMessageType
 {
     FWDVolt,
@@ -30,5 +33,8 @@ public:
 private:
     std::map<MunkMessageType,bool> progressMap;
 };
+
+} //end of namespace comms_Munk
+
 
 #endif // COMMS_PROGRESS_HANDLER_H

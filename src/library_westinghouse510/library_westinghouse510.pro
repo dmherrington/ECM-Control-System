@@ -35,30 +35,40 @@ SOURCES += \
     communications/westinghouse_message.cpp
 
 HEADERS += \
-        westinghouse_510.h \
-        library_westinghouse510_global.h \ 
+    library_westinghouse510_global.h \
+    westinghouse_510.h \
+    westinghouse_510_state.h \
+    data/type_exception_message.h \
     data/type_read_write.h \
     data_registers/abstract_register.h \
     data_registers/available_registers.h \
     data_registers/register_flow_rate.h \
-    data_registers/register_operation_signal.h \
     data_registers/register_components.h \
-    westinghouse_510_state.h \
+    data_registers/register_operation_signal.h \
     communications/westinghouse_510_data_framing.h \
     communications/westinghouse_510_message_framing.h \
-    communications/westinghouse_message.h \
-    data/type_exception_message.h
+    communications/westinghouse_message.h
 
 #Header file copy
 headers.path    = $$(ECM_ROOT)/include/library_westinghouse510
 headers.files   += \
     library_westinghouse510_global.h \
-    westinghouse_510.h
+    westinghouse_510.h \
+    westinghouse_510_state.h
 INSTALLS       += headers
+
+#Header file copy
+headers_comms.path    = $$(ECM_ROOT)/include/library_westinghouse510/comms
+headers_comms.files   += \
+    communications/westinghouse_510_data_framing.h \
+    communications/westinghouse_510_message_framing.h \
+    communications/westinghouse_message.h
+INSTALLS       += headers_comms
 
 #Header file copy
 headers_data.path    = $$(ECM_ROOT)/include/library_westinghouse510/data
 headers_data.files   += \
+    data/type_exception_message.h \
     data/type_read_write.h
 INSTALLS       += headers_data
 
@@ -68,7 +78,8 @@ headers_data_registers.files   += \
     data_registers/abstract_register.h \
     data_registers/available_registers.h \
     data_registers/register_flow_rate.h \
-    data_registers/register_operation_signal.h
+    data_registers/register_components.h \
+    data_registers/register_operation_signal.h \
 INSTALLS       += headers_data_registers
 
 

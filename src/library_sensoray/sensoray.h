@@ -14,9 +14,7 @@
 
 #include "communications/sensoray_comms_marshaler.h"
 
-using namespace sensoray;
-
-class LIBRARY_SENSORAYSHARED_EXPORT Sensoray : public QObject, public common::comms::ICommunication, public comms::CommsEvents
+class LIBRARY_SENSORAYSHARED_EXPORT Sensoray : public QObject, public common::comms::ICommunication, public comms_Sensoray::CommsEvents
 {
     Q_OBJECT
     Q_INTERFACES(common::comms::ICommunication)
@@ -26,7 +24,7 @@ public:
     //! \param name
     //! \param parent
     //!
-    explicit Sensoray(const std::string &name = "Rigol_Oscilloscope", QObject *parent = nullptr);
+    explicit Sensoray(const std::string &name = "Sensoray", QObject *parent = nullptr);
 
     ~Sensoray() = default;
 
@@ -40,7 +38,7 @@ public:
     //! \param ipAddress
     //! \param portNumber
     //!
-    void openConnection(const comms::SensorayTCPConfiguration &config);
+    void openConnection(const comms_Sensoray::SensorayTCPConfiguration &config);
 
     //!
     //! \brief closeConnection
@@ -117,7 +115,7 @@ private:
     void initializeSensoray() const;
 
 private:
-    sensoray::comms::CommsMarshaler* commsMarshaler; /**< Member variable handling the communications with the
+    comms_Sensoray::CommsMarshaler* commsMarshaler; /**< Member variable handling the communications with the
 actual Galil unit. This parent class will be subscribing to published events from the marshaller. This
 should drive the event driven structure required to exceite the state machine.*/
 };

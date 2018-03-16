@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Data
-{
+
+namespace data_Munk{
 
 //!
 //! \brief The ExceptionType enum
@@ -52,6 +52,7 @@ inline std::string ExceptionCodeToString(const ExceptionCode &code) {
     }
 }
 
-} //end of namespace Data
+} //end of namespace data_Munk
+
 
 #endif // TYPE_EXCEPTION_MESSAGE_H

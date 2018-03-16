@@ -1,5 +1,8 @@
 #include "munk_message.h"
 
+
+namespace comms_Munk{
+
 MunkMessage::MunkMessage(const MunkMessage &copy)
 {
     currentArray = copy.getDataArray();
@@ -11,8 +14,8 @@ MunkMessage::MunkMessage(const MunkMessage &copy)
 void MunkMessage::resetData()
 {
     currentArray.clear();
-    rwType = Data::ReadWriteType::WRITE;
-    exType = Data::ExceptionType::NO_EXCEPTION;
+    rwType = data_Munk::ReadWriteType::WRITE;
+    exType = data_Munk::ExceptionType::NO_EXCEPTION;
     remainingPayload = 0;
 }
 
@@ -38,33 +41,33 @@ int MunkMessage::getDataSize() const
 
 FramingState MunkMessage::setReadWriteType(const uint8_t &RWType)
 {
-    if(RWType == static_cast<uint8_t>(Data::ReadWriteType::WRITE))
+    if(RWType == static_cast<uint8_t>(data_Munk::ReadWriteType::WRITE))
     {
-        this->rwType = Data::ReadWriteType::WRITE;
+        this->rwType = data_Munk::ReadWriteType::WRITE;
         return FramingState::RECEIVED_STD_FUNCTION_CODE_WRITE;
         remainingPayload = 4;
     }
     else
     {
-        this->rwType = Data::ReadWriteType::READ;
+        this->rwType = data_Munk::ReadWriteType::READ;
         return FramingState::RECEIVED_STD_FUNCTION_CODE_READ;
     }
 }
 
-void MunkMessage::setExceptionType(const Data::ExceptionType &EXType)
+void MunkMessage::setExceptionType(const data_Munk::ExceptionType &EXType)
 {
-    if(EXType == Data::ExceptionType::NO_EXCEPTION)
-        this->exType = Data::ExceptionType::NO_EXCEPTION;
+    if(EXType == data_Munk::ExceptionType::NO_EXCEPTION)
+        this->exType = data_Munk::ExceptionType::NO_EXCEPTION;
     else
-        this->exType = Data::ExceptionType::EXCEPTION;
+        this->exType = data_Munk::ExceptionType::EXCEPTION;
 }
 
-Data::ReadWriteType MunkMessage::isReadWriteType() const
+data_Munk::ReadWriteType MunkMessage::isReadWriteType() const
 {
     return rwType;
 }
 
-Data::ExceptionType MunkMessage::isException() const
+data_Munk::ExceptionType MunkMessage::isException() const
 {
     return exType;
 }
@@ -78,4 +81,6 @@ int MunkMessage::remainingPayloadSize() const
 {
     return this->remainingPayload;
 }
+
+} //end of namespace comms_Munk
 

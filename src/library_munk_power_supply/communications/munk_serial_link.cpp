@@ -5,8 +5,8 @@
 #include <QCoreApplication>
 #include <QTimer>
 
-namespace munk {
-namespace comms{
+
+namespace comms_Munk{
 
 //!
 //! \brief This class defines a thread such that a QObject can run in peace.
@@ -248,6 +248,5 @@ std::string MunkSerialLink::getPortName() const
     return _config.portName();
 }
 
+} //end of namespace comms_Munk
 
-} //end of namespace comms
-} //end of namespace munk

@@ -3,7 +3,7 @@
 
 #include "common/data_get_set_notifier.h"
 
-namespace westinghousePump {
+
 class Westinghouse510_State
 {
 public:
@@ -17,7 +17,5 @@ public:
     DataGetSetNotifier<double> flowRate;
     DataGetSetNotifier<double> delayTime;
 };    
-
-} //end of namespace westinghouse
 
 #endif // WESTINGHOUSE_510_STATE_H

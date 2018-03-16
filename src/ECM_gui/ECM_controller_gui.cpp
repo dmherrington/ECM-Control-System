@@ -9,14 +9,17 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     ui(new Ui::ECMControllerGUI),
     m_SensorDisplays(&m_PlotCollection)
 {
-    qRegisterMetaType<data::SensorState>("SensorState");
+    qRegisterMetaType<common_data::SensorState>("SensorState");
     qRegisterMetaType<common::TupleSensorString>("TupleSensorString");
 
     ui->setupUi(this);
-    m_WindowMunk = new Window_MunkPowerSupply();
-    m_WindowMunk->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
 
     m_Galil = new GalilMotionController();
+    m_Munk = new MunkPowerSupply();
+    m_Sensoray = new Sensoray();
+
+    m_WindowMunk = new Window_MunkPowerSupply(m_Munk);
+    m_WindowMunk->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
 
     readSettings();
 
@@ -50,10 +53,10 @@ ECMControllerGUI::~ECMControllerGUI()
     delete ui;
 }
 
-void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString sensor, const data::SensorState state)
+void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString sensor, const common_data::SensorState state)
 {
     m_PlotCollection.UpdateSensorPlots(sensor, state);
-    QList<std::shared_ptr<data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(sensor);
+    QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(sensor);
     plots = m_PlotCollection.getPlots(sensor);
 //    ui->centralCustomPlot->RedrawDataSource(plots);
 }
@@ -95,7 +98,6 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
     settings.setValue("size", size());
     settings.setValue("munkDisplayed",m_WindowMunk->isHidden());
 
-    //m_WindowMunk->closeEvent(event);
     m_WindowMunk->close();
     event->accept();
 }

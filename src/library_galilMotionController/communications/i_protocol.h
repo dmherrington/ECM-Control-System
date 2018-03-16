@@ -1,5 +1,5 @@
-#ifndef I_PROTOCOL_H
-#define I_PROTOCOL_H
+#ifndef I_PROTOCOL_GALIL_H
+#define I_PROTOCOL_GALIL_H
 
 #include <memory>
 #include <vector>
@@ -17,6 +17,6 @@ public:
 };
 
 
-} //END MAVLINKComms
+} //end of namespace Comms
 
-#endif // I_PROTOCOL_H
+#endif // I_PROTOCOL_GALIL_H

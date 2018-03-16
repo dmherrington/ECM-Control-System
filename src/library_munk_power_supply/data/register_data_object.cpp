@@ -1,6 +1,6 @@
 #include "register_data_object.h"
 
-namespace Data {
+namespace data_Munk{
 
 RegisterDataObject::RegisterDataObject():
     voltage(0),current(0)
@@ -61,4 +61,5 @@ bool RegisterDataObject::operator !=(const RegisterDataObject &rhs) const
     return !((*this) == rhs);
 }
 
-} //end of namespace Data
+} //end of namespace data_Munk
+

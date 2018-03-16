@@ -29,12 +29,11 @@
 
 #include "munk_poll_status.h"
 
-#include "common/tuple_sensor_string.h"
-#include "data/sensor_state.h"
+using namespace registers_Munk;
+using namespace data_Munk;
+using namespace comms_Munk;
 
-using namespace munk;
-
-class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply :  public QObject, comms::CommsEvents, MunkStatusCallback_Interface
+class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply :  public QObject, CommsEvents, MunkStatusCallback_Interface
 {
 
 Q_OBJECT
@@ -51,7 +50,7 @@ public:
     //! \brief generateAndTransmitMessage
     //! \param detailedSegmentData
     //!
-    void generateAndTransmitMessage(const DataParameter::SegmentTimeDetailed &detailedSegmentData);
+    void generateAndTransmitMessage(const SegmentTimeDetailed &detailedSegmentData);
 
     //!
     //! \brief openSerialPort
@@ -62,6 +61,8 @@ public:
     //! \brief closeSerialPort
     //!
     void closeSerialPort();
+
+    bool isConnected() const;
 
 signals:
 
@@ -85,7 +86,7 @@ private:
     //! \brief generateMessages
     //! \param detailedSegmentData
     //!
-    void generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData);
+    void generateMessages(const SegmentTimeDetailed &detailedSegmentData);
 
 private:
     /////////////////////////////////////////////////////////
@@ -118,29 +119,25 @@ private:
 
     void SegmentCommitedToMemoryAcknowledged() override;
 
-    void ExceptionResponseReceived(const Data::ReadWriteType &RWType, const std::string &meaning) const override;
+    void ExceptionResponseReceived(const ReadWriteType &RWType, const std::string &meaning) const override;
 
     ///////////////////////////////////////////////////////////////
     /// Virtual Functions imposed from MunkStatusCallback_Interface
     ///////////////////////////////////////////////////////////////
 
-    void cbi_MunkFaultStateRequest(const DataParameter::RegisterFaultState &request) const override;
-
-
-signals:
-    void signal_NewSensorData(const common::TupleSensorString sensor, const data::SensorState state) const;
+    void cbi_MunkFaultStateRequest(const RegisterFaultState &request) const override;
 
 private:
-        DataParameter::SegmentTimeGeneral m_segmentTimeGeneral;
+        SegmentTimeGeneral m_segmentTimeGeneral;
 
-        DataParameter::SegmentCurrentSetpoint m_fwdISetpoint;
-        DataParameter::SegmentCurrentSetpoint m_revISetpoint;
+        SegmentCurrentSetpoint m_fwdISetpoint;
+        SegmentCurrentSetpoint m_revISetpoint;
 
-        DataParameter::SegmentVoltageSetpoint m_fwdVSetpoint;
-        DataParameter::SegmentVoltageSetpoint m_revVSetpoint;
+        SegmentVoltageSetpoint m_fwdVSetpoint;
+        SegmentVoltageSetpoint m_revVSetpoint;
 
 private:
-    comms::MunkCommsMarshaler* commsMarshaler;
+    MunkCommsMarshaler* commsMarshaler;
     MunkPollStatus* pollStatus;
     CommsProgressHandler commsProgress;
 

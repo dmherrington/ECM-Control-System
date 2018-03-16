@@ -5,8 +5,7 @@
 #include <stdexcept>
 #include <vector>
 
-namespace rigol{
-namespace data {
+namespace data_Rigol {
 
 enum class AvailableChannels
 {
@@ -78,7 +77,7 @@ inline std::vector<AvailableChannels> getListOfAvailableChannelsEnum()
     return str;
 }
 
-} //end of namespace data
-} //end of namespace rigol
+} //end of namespace data_Rigol
+
 
 #endif // TYPE_AVAILABLE_CHANNELS_H

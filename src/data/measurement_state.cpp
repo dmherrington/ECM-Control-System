@@ -1,6 +1,6 @@
 #include "digital_state.h"
 
-namespace data
+namespace common_data
 {
 
 

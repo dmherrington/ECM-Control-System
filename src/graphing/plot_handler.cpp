@@ -101,7 +101,7 @@ PlotHandler::~PlotHandler()
 }
 
 
-void PlotHandler::SupplyPlotCollection(const data::observation::ObservationCollection* collection)
+void PlotHandler::SupplyPlotCollection(const common_data::observation::ObservationCollection* collection)
 {
     m_ObservationCollection = collection;
 }
@@ -121,7 +121,7 @@ void PlotHandler::ChangeMode(const PlotMode mode)
 //! \brief Graph data on plot instance
 //! \param dataKey Key to indentify data
 //!
-void PlotHandler::AddPlot(const data::observation::IPlotComparablePtr expression)
+void PlotHandler::AddPlot(const common_data::observation::IPlotComparablePtr expression)
 {
     bool found = false;
     for (int i = 0; i < m_PlotParameters.size(); i++)
@@ -159,9 +159,9 @@ void PlotHandler::AddPlot(const data::observation::IPlotComparablePtr expression
 //! \brief Retreive a list of all active expressions
 //! \return List of active expressions
 //!
-QList<std::shared_ptr<data::observation::IPlotComparable>> PlotHandler::ActiveExpressions() const
+QList<std::shared_ptr<common_data::observation::IPlotComparable>> PlotHandler::ActiveExpressions() const
 {
-    QList<std::shared_ptr<data::observation::IPlotComparable>> list;
+    QList<std::shared_ptr<common_data::observation::IPlotComparable>> list;
     for (int i = 0; i < m_PlotParameters.size(); i++)
     {
         list.append(m_PlotParameters.at(i).operation);
@@ -218,7 +218,7 @@ void PlotHandler::ChangeColor(const common::TupleECMData &tuple, const QColor &c
 //! \brief Redraw all expressions that rely on the provided data sources
 //! \param source Data sources to redraw
 //!
-void PlotHandler::RedrawDataSource(const QList<std::shared_ptr<data::observation::IPlotComparable> > &sources)
+void PlotHandler::RedrawDataSource(const QList<std::shared_ptr<common_data::observation::IPlotComparable> > &sources)
 {
     for (int i = 0 ; i < m_PlotParameters.size() ; i++)
     {
@@ -738,7 +738,7 @@ void PlotHandler::removeSelectedGraph()
 //!
 void PlotHandler::removeAllGraphs()
 {
-//    QList<std::shared_ptr<data::observation::IPlotComparable>> removedExpressions;
+//    QList<std::shared_ptr<common_data::observation::IPlotComparable>> removedExpressions;
 //    m_PlotParametersMutex.lock();
 //    for (int i=0 ; i < m_PlotParameters.count() ; i++)
 //    {
@@ -856,7 +856,7 @@ void PlotHandler::DoPlotRecalculate()
 
         m_PlotParameters[plotIndex].Redraw = false;
 
-        data::observation::CartesianData dr;
+        common_data::observation::CartesianData dr;
 
         if(m_PlotMode == PLOT_ENTIRE_SEQUENCE)
         {
@@ -870,7 +870,7 @@ void PlotHandler::DoPlotRecalculate()
             //dr = m_PlotParameters[plotIndex].operation.Evaluate(m_LeftWindow, m_OriginTime, msInTimeUnit);
         }
 
-        for(int i = 0 ; i < data::observation::NumberSystems::NumElements(dr.NumberSystem()) ; i++)
+        for(int i = 0 ; i < common_data::observation::NumberSystems::NumElements(dr.NumberSystem()) ; i++)
         {
 
             //add plot and set parameters

@@ -1,7 +1,7 @@
 #include "register_operation_signal.h"
 
-namespace westinghousePump{
-namespace registers{
+
+namespace registers_WestinghousePump{
 
 Register_OperationSignal::Register_OperationSignal():
     AbstractRegister(RegisterTypeToInt(RegisterType::OPERATION_SIGNAL))
@@ -64,10 +64,10 @@ void Register_OperationSignal::parseFromArray(const QByteArray &msg)
 {
     this->setSlaveAddress(msg.at(0));
     //parse if it is read/write
-    if(msg.at(1) == static_cast<int>(data::ReadWriteType::READ))
-        this->setReadorWrite(data::ReadWriteType::READ);
+    if(msg.at(1) == static_cast<int>(data_WestinghousePump::ReadWriteType::READ))
+        this->setReadorWrite(data_WestinghousePump::ReadWriteType::READ);
     else
-        this->setReadorWrite(data::ReadWriteType::WRITE);
+        this->setReadorWrite(data_WestinghousePump::ReadWriteType::WRITE);
 
     uint8_t dataHi = msg.at(4);
     uint8_t dataLo = msg.at(5);
@@ -131,5 +131,5 @@ bool Register_OperationSignal::isReset() const
     return _reset;
 }
 
-} //end of namespace registers
-} //end of namespace westinghousePump
+} //end of namespace registers_WestinghousePump 
+

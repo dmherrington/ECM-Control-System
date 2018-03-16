@@ -36,10 +36,10 @@ public:
 
     void write(QJsonObject &json) const;
 
-    DataParameter::SegmentTimeDetailed getRawData() const;
+    data_register::SegmentTimeDetailed getRawData() const;
 
 signals:
-    void updatedData(const std::list<DataParameter::SegmentTimeDataDetailed> &newData);
+    void updatedData(const std::list<registers_Munk::SegmentTimeDataDetailed> &newData);
 
 protected:
         WidgetSegmentTimeData tempObject;

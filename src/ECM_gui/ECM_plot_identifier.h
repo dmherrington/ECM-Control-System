@@ -11,7 +11,7 @@ ECM_CLASS_FORWARD(ECMPlotIdentifier);
 //!
 //! \brief An object that is to be used to uniquly identify a plot in the ECM
 //!
-class ECMPlotIdentifier : public data::observation::IPlotComparable
+class ECMPlotIdentifier : public common_data::observation::IPlotComparable
 {
 public:
 
@@ -74,14 +74,14 @@ public:
     //! \brief pure virtual method for equivilance
     //! \return true if equal
     //!
-    virtual bool operator==(const data::observation::IPlotComparable& rhs) const;
+    virtual bool operator==(const common_data::observation::IPlotComparable& rhs) const;
 
 
     //!
     //! \brief pure virtual method for non-equivilance
     //! \return true if not equal
     //!
-    virtual bool operator!=(const data::observation::IPlotComparable& rhs) const;
+    virtual bool operator!=(const common_data::observation::IPlotComparable& rhs) const;
 
 
     //!
@@ -95,7 +95,7 @@ public:
     //!
     //! \return A shared_ptr containing data in the comparable object
     //!
-    virtual std::shared_ptr<data::observation::IPlotComparable> CreateSharedPtr() const;
+    virtual std::shared_ptr<common_data::observation::IPlotComparable> CreateSharedPtr() const;
 
 
     virtual uint hash() const;

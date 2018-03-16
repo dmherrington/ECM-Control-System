@@ -5,8 +5,7 @@
 
 #include "s24xx.h"
 
-namespace sensoray{
-namespace comms {
+namespace comms_Sensoray {
 
 class SensoraySession : public QObject
 {
@@ -39,6 +38,6 @@ private:
 };
 
 } //end of namespace comms
-} //end of namespace sensoray
+
 
 #endif // SENSORAY_SESSION_H

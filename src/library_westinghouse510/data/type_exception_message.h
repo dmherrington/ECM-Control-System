@@ -5,10 +5,7 @@
 #include <stdexcept>
 #include <vector>
 
-
-namespace westinghousePump{
-namespace data{
-
+namespace data_WestinghousePump {
 //!
 //! \brief The ExceptionType enum
 //!
@@ -17,7 +14,6 @@ enum class ExceptionType{
     NO_EXCEPTION = 01 /**< */
 };
 
-} //end of namespace data
-} //end of namespace westinghousePump
+} //end of namespace data_WestinghousePump
 
 #endif // TYPE_WESTINGHOUSE_EXCEPTION_H

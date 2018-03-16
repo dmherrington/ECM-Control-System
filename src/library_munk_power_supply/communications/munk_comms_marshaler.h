@@ -22,8 +22,8 @@
 #include "data/type_exception_message.h"
 #include "data_registers/register_fault_state.h"
 
-namespace munk {
-namespace comms{
+
+namespace comms_Munk{
 
 class MunkCommsMarshaler : public Publisher<CommsEvents>, private ILinkEvents, private IProtocolMunkEvents
 {
@@ -44,27 +44,28 @@ public:
     bool ConnectToLink(const SerialConfiguration &linkConfig);
     bool DisconnetFromLink();
 
+    bool isConnected() const;
 
     ///////////////////////////////////////////////////////////////////
     /// Methods issuing voltage setpoints relevant to the munk program
     ///////////////////////////////////////////////////////////////////
-    void sendForwardVoltageSetpoint(const DataParameter::SegmentVoltageSetpoint &setpoint);
+    void sendForwardVoltageSetpoint(const registers_Munk::SegmentVoltageSetpoint &setpoint);
 
-    void sendReverseVoltageSetpoint(const DataParameter::SegmentVoltageSetpoint &setpoint);
+    void sendReverseVoltageSetpoint(const registers_Munk::SegmentVoltageSetpoint &setpoint);
 
     /////////////////////////////////////////////////////////////////////
     /// Methods issuing current setpoints relevant to the munk program
     /////////////////////////////////////////////////////////////////////
 
-    void sendForwardCurrentSetpoint(const DataParameter::SegmentCurrentSetpoint &setpoint);
+    void sendForwardCurrentSetpoint(const registers_Munk::SegmentCurrentSetpoint &setpoint);
 
-    void sendReverseCurrentSetpoint(const DataParameter::SegmentCurrentSetpoint &setpoint);
+    void sendReverseCurrentSetpoint(const registers_Munk::SegmentCurrentSetpoint &setpoint);
 
     /////////////////////////////////////////////////////////////////////
     /// Methods issuing general segment data to the munk program
     /////////////////////////////////////////////////////////////////////
 
-    void sendSegmentTime(const DataParameter::SegmentTimeGeneral &segment);
+    void sendSegmentTime(const registers_Munk::SegmentTimeGeneral &segment);
 
     void sendCommitToEEPROM();
 
@@ -72,7 +73,7 @@ public:
     /// Methods issuing general fault & status requests
     /////////////////////////////////////////////////////////////////////
 
-    void sendRegisterFaultStateRequest(const DataParameter::RegisterFaultState &request);
+    void sendRegisterFaultStateRequest(const registers_Munk::RegisterFaultState &request);
 
 
 private:
@@ -94,24 +95,23 @@ private:
     /// IProtocolMunkEvents
     //////////////////////////////////////////////////////////////
 
-    void FaultCodeRegister1Received(const ILink* link_ptr, const Data::FaultCodesRegister1 &code) const override;
-    void FaultCodeRegister2Received(const ILink* link_ptr, const Data::FaultCodesRegister2 &code) const override;
-    void FaultCodeRegister3Received(const ILink* link_ptr, const Data::FaultCodesRegister3 &code) const override;
+    void FaultCodeRegister1Received(const ILink* link_ptr, const data_Munk::FaultCodesRegister1 &code) const override;
+    void FaultCodeRegister2Received(const ILink* link_ptr, const data_Munk::FaultCodesRegister2 &code) const override;
+    void FaultCodeRegister3Received(const ILink* link_ptr, const data_Munk::FaultCodesRegister3 &code) const override;
 
-    void SegmentVoltageSetpointAcknowledged(const ILink* link_ptr, const Data::SegmentMode &mode, const int &numberRegisters) const override;
-    void SegmentCurrentSetpointAcknowledged(const ILink* link_ptr , const Data::SegmentMode &mode, const int &numberRegisters) const override;
+    void SegmentVoltageSetpointAcknowledged(const ILink* link_ptr, const data_Munk::SegmentMode &mode, const int &numberRegisters) const override;
+    void SegmentCurrentSetpointAcknowledged(const ILink* link_ptr , const data_Munk::SegmentMode &mode, const int &numberRegisters) const override;
     void SegmentTimeSetpointAcknowledged(const ILink* link_ptr , const int &numberRegisters) const override;
     void SegmentCommittedToMemory(const ILink* link_ptr) const override;
 
-    void ExceptionResponseReceived(const ILink* link_ptr, const Data::ReadWriteType &type, const uint8_t &code) const override;
+    void ExceptionResponseReceived(const ILink* link_ptr, const data_Munk::ReadWriteType &type, const uint8_t &code) const override;
 
 private:
     std::shared_ptr<ILink> link;
     std::shared_ptr<MunkProtocol> protocol;
-
 };
 
-} //end of namespace comms
-} //end of namespace munk
+} //end of namespace comms_Munk
+
 
 #endif // COMMS_MARSHALER_H

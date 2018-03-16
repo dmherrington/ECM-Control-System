@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Data
-{
+
+namespace data_Munk{
 
 //!
 //! \brief The SegmentMode enum
@@ -85,14 +85,15 @@ inline uint32_t SegmentModeToBitArray(const SegmentMode &type, const uint32_t &b
 inline std::vector<std::string> getListOfSegmentMode()
 {
     std::vector<std::string> str;
-    str.push_back(Data::SegmentModeToString(SegmentMode::DEAD));
-    str.push_back(Data::SegmentModeToString(SegmentMode::FORWARD));
-    str.push_back(Data::SegmentModeToString(SegmentMode::REVERSE));
-    str.push_back(Data::SegmentModeToString(SegmentMode::ILLEGAL));
-    str.push_back(Data::SegmentModeToString(SegmentMode::HIZ));
+    str.push_back(data_Munk::SegmentModeToString(SegmentMode::DEAD));
+    str.push_back(data_Munk::SegmentModeToString(SegmentMode::FORWARD));
+    str.push_back(data_Munk::SegmentModeToString(SegmentMode::REVERSE));
+    str.push_back(data_Munk::SegmentModeToString(SegmentMode::ILLEGAL));
+    str.push_back(data_Munk::SegmentModeToString(SegmentMode::HIZ));
     return str;
 }
 
-} //end of namespace Data
+} //end of namespace data_Munk
+
 
 #endif // TYPE_SEGMENT_MODE_H

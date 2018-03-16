@@ -1,10 +1,12 @@
 #ifndef REGISTER_FLOW_RATE_H
 #define REGISTER_FLOW_RATE_H
 
+#include "data/type_read_write.h"
+
 #include "abstract_register.h"
 
-namespace westinghousePump{
-namespace registers{
+
+namespace registers_WestinghousePump{
 
 class Register_FlowRate : public AbstractRegister
 {
@@ -103,7 +105,7 @@ private:
     double flowRate = 0.0;
 };
 
-} //end of namespace registers
-} //end of namespace westinghousePump
+} //end of namespace registers_WestinghousePump
+
 
 #endif // REGISTER_FLOW_RATE_H

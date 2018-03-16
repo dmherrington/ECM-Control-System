@@ -32,11 +32,7 @@
    <string>ECMControllerGUI</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow{
-background-color:#1d1d1d;
-}
-
-QMenuBar{
+   <string notr="true">QMenuBar{
 background-color:#1d1d1d;
 padding:5px;
 	font: 12pt &quot;MS Shell Dlg 2&quot;;

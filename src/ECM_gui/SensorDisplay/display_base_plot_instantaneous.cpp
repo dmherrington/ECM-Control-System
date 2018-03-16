@@ -72,7 +72,7 @@ void DisplayBasePlotInstantaneous::ChangeInstantaniousReading(const int key, con
 //! \param sensor Tuple describing the sensor
 //! \param sensorData Sensor data to update
 //!
-void DisplayBasePlotInstantaneous::UpdateNonPlottedData(const common::TupleSensorString &sensor, const data::SensorState &sensorData)
+void DisplayBasePlotInstantaneous::UpdateNonPlottedData(const common::TupleSensorString &sensor, const common_data::SensorState &sensorData)
 {
     UNUSED(sensor);
     UNUSED(sensorData);
@@ -106,7 +106,7 @@ void DisplayBasePlotInstantaneous::ChangePlotMode(const graphing::PlotHandler::P
 //!
 //! \param plotList List of plot objects
 //!
-void DisplayBasePlotInstantaneous::setPlotData(const QList<std::shared_ptr<data::observation::IPlotComparable> > &plotList)
+void DisplayBasePlotInstantaneous::setPlotData(const QList<std::shared_ptr<common_data::observation::IPlotComparable> > &plotList)
 {
     m_PlotData = plotList;
 

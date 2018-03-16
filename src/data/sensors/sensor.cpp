@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-namespace data
+namespace common_data
 {
 
 

@@ -6,8 +6,8 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Data
-{
+
+namespace data_Munk{
 
 //!
 //! \brief The RegisterDataObject class
@@ -73,6 +73,7 @@ public:
     double current;
 };
 
-} //end of namespace Data
+} //end of namespace data_Munk
+
 
 #endif // REGISTER_DATA_OBJECT_H

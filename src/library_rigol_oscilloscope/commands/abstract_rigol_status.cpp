@@ -1,7 +1,7 @@
 #include "abstract_rigol_status.h"
 
-namespace rigol {
-namespace commands {
+
+namespace commands_Rigol {
 
 
 AbstractRigolStatus::AbstractRigolStatus(const CommandTypes &type):
@@ -43,4 +43,4 @@ common::EnvironmentTime AbstractRigolStatus::getRequestTime() const
 }
 
 } //end of namespace commands
-} //end of namespace rigol
+

@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_AdditionalSensorDisplay_t {
     QByteArrayData data[24];
-    char stringdata0[305];
+    char stringdata0[312];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -36,35 +36,35 @@ QT_MOC_LITERAL(1, 24, 13), // "CreateNewDock"
 QT_MOC_LITERAL(2, 38, 0), // ""
 QT_MOC_LITERAL(3, 39, 25), // "common::TupleSensorString"
 QT_MOC_LITERAL(4, 65, 6), // "sensor"
-QT_MOC_LITERAL(5, 72, 17), // "data::SensorTypes"
-QT_MOC_LITERAL(6, 90, 4), // "type"
-QT_MOC_LITERAL(7, 95, 18), // "WindowRangeChanged"
-QT_MOC_LITERAL(8, 114, 4), // "left"
-QT_MOC_LITERAL(9, 119, 5), // "right"
-QT_MOC_LITERAL(10, 125, 20), // "SensorDisplayChanged"
-QT_MOC_LITERAL(11, 146, 7), // "display"
-QT_MOC_LITERAL(12, 154, 13), // "SchemeChanged"
-QT_MOC_LITERAL(13, 168, 6), // "scheme"
-QT_MOC_LITERAL(14, 175, 11), // "AxisChanged"
-QT_MOC_LITERAL(15, 187, 5), // "lower"
-QT_MOC_LITERAL(16, 193, 5), // "upper"
-QT_MOC_LITERAL(17, 199, 17), // "ChangeColorScheme"
-QT_MOC_LITERAL(18, 217, 26), // "CustomContextMenuRequested"
-QT_MOC_LITERAL(19, 244, 3), // "pos"
-QT_MOC_LITERAL(20, 248, 22), // "DisplayActionTriggered"
-QT_MOC_LITERAL(21, 271, 17), // "OnDockVisibilitiy"
-QT_MOC_LITERAL(22, 289, 7), // "visible"
-QT_MOC_LITERAL(23, 297, 7) // "NewDock"
+QT_MOC_LITERAL(5, 72, 24), // "common_data::SensorTypes"
+QT_MOC_LITERAL(6, 97, 4), // "type"
+QT_MOC_LITERAL(7, 102, 18), // "WindowRangeChanged"
+QT_MOC_LITERAL(8, 121, 4), // "left"
+QT_MOC_LITERAL(9, 126, 5), // "right"
+QT_MOC_LITERAL(10, 132, 20), // "SensorDisplayChanged"
+QT_MOC_LITERAL(11, 153, 7), // "display"
+QT_MOC_LITERAL(12, 161, 13), // "SchemeChanged"
+QT_MOC_LITERAL(13, 175, 6), // "scheme"
+QT_MOC_LITERAL(14, 182, 11), // "AxisChanged"
+QT_MOC_LITERAL(15, 194, 5), // "lower"
+QT_MOC_LITERAL(16, 200, 5), // "upper"
+QT_MOC_LITERAL(17, 206, 17), // "ChangeColorScheme"
+QT_MOC_LITERAL(18, 224, 26), // "CustomContextMenuRequested"
+QT_MOC_LITERAL(19, 251, 3), // "pos"
+QT_MOC_LITERAL(20, 255, 22), // "DisplayActionTriggered"
+QT_MOC_LITERAL(21, 278, 17), // "OnDockVisibilitiy"
+QT_MOC_LITERAL(22, 296, 7), // "visible"
+QT_MOC_LITERAL(23, 304, 7) // "NewDock"
 
     },
     "AdditionalSensorDisplay\0CreateNewDock\0"
     "\0common::TupleSensorString\0sensor\0"
-    "data::SensorTypes\0type\0WindowRangeChanged\0"
-    "left\0right\0SensorDisplayChanged\0display\0"
-    "SchemeChanged\0scheme\0AxisChanged\0lower\0"
-    "upper\0ChangeColorScheme\0"
-    "CustomContextMenuRequested\0pos\0"
-    "DisplayActionTriggered\0OnDockVisibilitiy\0"
+    "common_data::SensorTypes\0type\0"
+    "WindowRangeChanged\0left\0right\0"
+    "SensorDisplayChanged\0display\0SchemeChanged\0"
+    "scheme\0AxisChanged\0lower\0upper\0"
+    "ChangeColorScheme\0CustomContextMenuRequested\0"
+    "pos\0DisplayActionTriggered\0OnDockVisibilitiy\0"
     "visible\0NewDock"
 };
 #undef QT_MOC_LITERAL
@@ -123,7 +123,7 @@ void AdditionalSensorDisplay::qt_static_metacall(QObject *_o, QMetaObject::Call 
         AdditionalSensorDisplay *_t = static_cast<AdditionalSensorDisplay *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->CreateNewDock((*reinterpret_cast< common::TupleSensorString(*)>(_a[1])),(*reinterpret_cast< data::SensorTypes(*)>(_a[2]))); break;
+        case 0: _t->CreateNewDock((*reinterpret_cast< common::TupleSensorString(*)>(_a[1])),(*reinterpret_cast< common_data::SensorTypes(*)>(_a[2]))); break;
         case 1: _t->WindowRangeChanged((*reinterpret_cast< QDateTime(*)>(_a[1])),(*reinterpret_cast< QDateTime(*)>(_a[2]))); break;
         case 2: _t->SensorDisplayChanged((*reinterpret_cast< common::TupleSensorString(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
         case 3: _t->SchemeChanged((*reinterpret_cast< bool(*)>(_a[1]))); break;
@@ -132,7 +132,7 @@ void AdditionalSensorDisplay::qt_static_metacall(QObject *_o, QMetaObject::Call 
         case 6: _t->CustomContextMenuRequested((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
         case 7: _t->DisplayActionTriggered(); break;
         case 8: _t->OnDockVisibilitiy((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 9: _t->NewDock((*reinterpret_cast< const common::TupleSensorString(*)>(_a[1])),(*reinterpret_cast< const data::SensorTypes(*)>(_a[2]))); break;
+        case 9: _t->NewDock((*reinterpret_cast< const common::TupleSensorString(*)>(_a[1])),(*reinterpret_cast< const common_data::SensorTypes(*)>(_a[2]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -163,7 +163,7 @@ void AdditionalSensorDisplay::qt_static_metacall(QObject *_o, QMetaObject::Call 
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            typedef void (AdditionalSensorDisplay::*_t)(common::TupleSensorString , data::SensorTypes );
+            typedef void (AdditionalSensorDisplay::*_t)(common::TupleSensorString , common_data::SensorTypes );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&AdditionalSensorDisplay::CreateNewDock)) {
                 *result = 0;
                 return;
@@ -230,7 +230,7 @@ int AdditionalSensorDisplay::qt_metacall(QMetaObject::Call _c, int _id, void **_
 }
 
 // SIGNAL 0
-void AdditionalSensorDisplay::CreateNewDock(common::TupleSensorString _t1, data::SensorTypes _t2)
+void AdditionalSensorDisplay::CreateNewDock(common::TupleSensorString _t1, common_data::SensorTypes _t2)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);

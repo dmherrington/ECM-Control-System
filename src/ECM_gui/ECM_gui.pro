@@ -6,6 +6,14 @@
 
 QT       += core gui
 QT       += serialport
+QT       += network
+
+unix {
+DEFINES += OSTYPE_LINUX
+}
+win32 {
+DEFINES += OSTYPE_WINDOWS
+}
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
@@ -89,6 +97,9 @@ FORMS += \
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include
+INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
+INCLUDEPATH += $$(ECM_ROOT)/tools/sensoray/lib/
+
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
@@ -118,9 +129,48 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../library_munk_power_supply/ -llibrary_mun
 INCLUDEPATH += $$PWD/../library_munk_power_supply
 DEPENDPATH += $$PWD/../library_munk_power_supply
 
+unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
+unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo
+
+INCLUDEPATH += $$PWD/../../tools/galil/lib/dynamic/x86
+DEPENDPATH += $$PWD/../../tools/galil/lib/dynamic/x86
+
+win32: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
+else:unix: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
+
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/release/ -llibrary_galilMotionController
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/debug/ -llibrary_galilMotionController
 else:unix:!macx: LIBS += -L$$OUT_PWD/../library_galilMotionController/ -llibrary_galilMotionController
 
 INCLUDEPATH += $$PWD/../library_galilMotionController
 DEPENDPATH += $$PWD/../library_galilMotionController
+
+
+win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
+
+INCLUDEPATH += $$PWD/../../tools/sensoray
+DEPENDPATH += $$PWD/../../tools/sensoray
+
+
+unix:!macx: LIBS += -L$$PWD/../../tools/sensoray/lib/linux/x64/ -l24xx
+
+INCLUDEPATH += $$PWD/../../tools/sensoray/lib/linux/x64
+DEPENDPATH += $$PWD/../../tools/sensoray/lib/linux/x64
+
+unix:!macx: PRE_TARGETDEPS += $$PWD/../../tools/sensoray/lib/linux/x64/lib24xx.a
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/release/ -llibrary_sensoray
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/debug/ -llibrary_sensoray
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_sensoray/ -llibrary_sensoray
+
+INCLUDEPATH += $$PWD/../library_sensoray
+DEPENDPATH += $$PWD/../library_sensoray
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/release/ -llibrary_westinghouse510
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/debug/ -llibrary_westinghouse510
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_westinghouse510/ -llibrary_westinghouse510
+
+INCLUDEPATH += $$PWD/../library_westinghouse510
+DEPENDPATH += $$PWD/../library_westinghouse510

@@ -4,8 +4,8 @@
 #include <string>
 #include <stdexcept>
 
-namespace rigol {
-namespace data{
+
+namespace data_Rigol{
 
 enum class CommandTypes
 {
@@ -29,7 +29,7 @@ inline std::string getRigolCommandString(const CommandTypes &command) {
     }
 }
 
-} //end of namespace data
-} //end of namespace rigol
+} //end of namespace data_Rigol
+
 
 #endif // TYPE_AVAILABLE_COMMANDS_H

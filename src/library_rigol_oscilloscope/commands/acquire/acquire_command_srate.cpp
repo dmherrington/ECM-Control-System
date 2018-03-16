@@ -1,10 +1,10 @@
 #include "acquire_command_srate.h"
 
-namespace rigol {
-namespace commands{
+
+namespace commands_Rigol{
 
 AcquireCommand_Srate::AcquireCommand_Srate():
-    AbstractAcquireCommand(data::AcquireType::ACQUIRE_SRAT)
+    AbstractAcquireCommand(data_Rigol::AcquireType::ACQUIRE_SRAT)
 {
 
 }
@@ -32,4 +32,4 @@ std::string AcquireCommand_Srate::getAcquireCommandString() const
 }
 
 } //end of namespace commands
-} //end of namespace rigol
+

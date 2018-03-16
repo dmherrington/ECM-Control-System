@@ -77,7 +77,7 @@ void ECMPlotCollection::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
 }
 
 const QMetaObject ECMPlotCollection::staticMetaObject = {
-    { &data::observation::ObservationCollection::staticMetaObject, qt_meta_stringdata_ECMPlotCollection.data,
+    { &common_data::observation::ObservationCollection::staticMetaObject, qt_meta_stringdata_ECMPlotCollection.data,
       qt_meta_data_ECMPlotCollection,  qt_static_metacall, nullptr, nullptr}
 };
 
@@ -92,12 +92,12 @@ void *ECMPlotCollection::qt_metacast(const char *_clname)
     if (!_clname) return nullptr;
     if (!strcmp(_clname, qt_meta_stringdata_ECMPlotCollection.stringdata0))
         return static_cast<void*>(this);
-    return data::observation::ObservationCollection::qt_metacast(_clname);
+    return common_data::observation::ObservationCollection::qt_metacast(_clname);
 }
 
 int ECMPlotCollection::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = data::observation::ObservationCollection::qt_metacall(_c, _id, _a);
+    _id = common_data::observation::ObservationCollection::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {

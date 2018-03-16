@@ -8,15 +8,15 @@ WidgetSegmentTimeData::WidgetSegmentTimeData(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    data = new DataParameter::SegmentTimeDataDetailed();
+    data = new registers_Munk::SegmentTimeDataDetailed();
 
-    std::vector<std::string> modeValues = Data::getListOfSegmentMode();
+    std::vector<std::string> modeValues = data_Munk::getListOfSegmentMode();
 
     size_t size = modeValues.size();
     for(unsigned int i = 0; i < size; i++)
         this->ui->comboBox_Mode->addItem(QString::fromStdString(modeValues[i]));
 
-    int index = this->ui->comboBox_Mode->findText(QString::fromStdString(Data::SegmentModeToString(data->getSegmentMode())));
+    int index = this->ui->comboBox_Mode->findText(QString::fromStdString(data_Munk::SegmentModeToString(data->getSegmentMode())));
     this->ui->comboBox_Mode->setCurrentIndex(index);
 }
 
@@ -35,7 +35,7 @@ void WidgetSegmentTimeData::updateDisplayData() const
 {
     blockCallback = true;
 
-    int modeIndex = ui->comboBox_Mode->findText(QString::fromStdString(Data::SegmentModeToString(data->getSegmentMode())));
+    int modeIndex = ui->comboBox_Mode->findText(QString::fromStdString(data_Munk::SegmentModeToString(data->getSegmentMode())));
     ui->comboBox_Mode->setCurrentIndex(modeIndex);
     ui->doubleSpinBox_Current->setValue(data->getSegmentCurrent());
     ui->doubleSpinBox_Time->setValue(data->getTimeValue() / 1000.0);
@@ -52,10 +52,10 @@ void WidgetSegmentTimeData::updateSegmentName(const int &segmentNumber)
 
 void WidgetSegmentTimeData::on_comboBox_Mode_currentIndexChanged(const QString &arg1)
 {
-    Data::SegmentMode selectedMode = Data::SegmentModeFromString(arg1.toStdString());
+    data_Munk::SegmentMode selectedMode = data_Munk::SegmentModeFromString(arg1.toStdString());
     data->setSegmentMode(selectedMode);
 
-    if((selectedMode == Data::SegmentMode::HIZ) || (selectedMode == Data::SegmentMode::DEAD))
+    if((selectedMode == data_Munk::SegmentMode::HIZ) || (selectedMode == data_Munk::SegmentMode::DEAD))
     {
         ui->doubleSpinBox_Current->setValue(0.0);
         ui->doubleSpinBox_Current->setEnabled(false);

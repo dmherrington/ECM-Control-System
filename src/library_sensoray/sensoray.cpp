@@ -6,7 +6,7 @@ Sensoray::Sensoray(const std::string &name, QObject *parent):
     qRegisterMetaType<common::comms::CommunicationConnection>("CommunicationConnection");
     qRegisterMetaType<common::comms::CommunicationUpdate>("CommunicationUpdate");
 
-    commsMarshaler = new comms::CommsMarshaler();
+    commsMarshaler = new comms_Sensoray::CommsMarshaler();
     commsMarshaler->AddSubscriber(this);
 }
 
@@ -15,7 +15,7 @@ Sensoray::Sensoray(const std::string &name, QObject *parent):
 /// Methods supporting the Connect/Disconnect from Sensoray device
 ///////////////////////////////////////////////////////////////////////////
 
-void Sensoray::openConnection(const comms::SensorayTCPConfiguration &config)
+void Sensoray::openConnection(const comms_Sensoray::SensorayTCPConfiguration &config)
 {
     commsMarshaler->ConnectToLink(config);
 }

@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
-namespace westinghousePump{
-namespace registers{
+
+namespace registers_WestinghousePump{
 
 enum class RegisterType{
     OPERATION_SIGNAL,
@@ -68,7 +68,7 @@ inline std::vector<std::string> getListOfRegisterTypes()
     return str;
 }
 
-} //end of namespace registers
-} //end of namespace westinghousePump
+} //end of namespace registers_WestinghousePump
+
 
 #endif // TYPE_DEFINITION_H

@@ -1,11 +1,11 @@
-#ifndef I_PROTOCOL_H
-#define I_PROTOCOL_H
+#ifndef I_PROTOCOL_MUNK_H
+#define I_PROTOCOL_MUNK_H
 
 #include <memory>
 #include <vector>
 
-namespace munk {
-namespace comms{
+
+namespace comms_Munk{
 
 class ILink;
 
@@ -22,7 +22,7 @@ public:
 };
 
 
-} //end of namespace comms
-} //end of namespace munk
+} //end of namespace comms_Munk
 
-#endif // I_PROTOCOL_H
+
+#endif // I_PROTOCOL_MUNK_H

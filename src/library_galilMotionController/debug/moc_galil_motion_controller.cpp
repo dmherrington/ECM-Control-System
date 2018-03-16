@@ -20,18 +20,18 @@
 QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
-struct qt_meta_stringdata_galilMotionController_t {
+struct qt_meta_stringdata_GalilMotionController_t {
     QByteArrayData data[10];
     char stringdata0[143];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_galilMotionController_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_GalilMotionController_t, stringdata0) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
-static const qt_meta_stringdata_galilMotionController_t qt_meta_stringdata_galilMotionController = {
+static const qt_meta_stringdata_GalilMotionController_t qt_meta_stringdata_GalilMotionController = {
     {
-QT_MOC_LITERAL(0, 0, 21), // "galilMotionController"
+QT_MOC_LITERAL(0, 0, 21), // "GalilMotionController"
 QT_MOC_LITERAL(1, 22, 11), // "commsStatus"
 QT_MOC_LITERAL(2, 34, 0), // ""
 QT_MOC_LITERAL(3, 35, 6), // "opened"
@@ -43,14 +43,14 @@ QT_MOC_LITERAL(8, 102, 11), // "errorString"
 QT_MOC_LITERAL(9, 114, 28) // "signal_GalilResetHomingLatch"
 
     },
-    "galilMotionController\0commsStatus\0\0"
+    "GalilMotionController\0commsStatus\0\0"
     "opened\0newProgramReceived\0std::string\0"
     "programText\0currentErrorCode\0errorString\0"
     "signal_GalilResetHomingLatch"
 };
 #undef QT_MOC_LITERAL
 
-static const uint qt_meta_data_galilMotionController[] = {
+static const uint qt_meta_data_GalilMotionController[] = {
 
  // content:
        7,       // revision
@@ -78,10 +78,10 @@ static const uint qt_meta_data_galilMotionController[] = {
        0        // eod
 };
 
-void galilMotionController::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void GalilMotionController::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        galilMotionController *_t = static_cast<galilMotionController *>(_o);
+        GalilMotionController *_t = static_cast<GalilMotionController *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->commsStatus((*reinterpret_cast< const bool(*)>(_a[1]))); break;
@@ -93,29 +93,29 @@ void galilMotionController::qt_static_metacall(QObject *_o, QMetaObject::Call _c
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            typedef void (galilMotionController::*_t)(const bool & );
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&galilMotionController::commsStatus)) {
+            typedef void (GalilMotionController::*_t)(const bool & );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&GalilMotionController::commsStatus)) {
                 *result = 0;
                 return;
             }
         }
         {
-            typedef void (galilMotionController::*_t)(const std::string & );
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&galilMotionController::newProgramReceived)) {
+            typedef void (GalilMotionController::*_t)(const std::string & );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&GalilMotionController::newProgramReceived)) {
                 *result = 1;
                 return;
             }
         }
         {
-            typedef void (galilMotionController::*_t)(const std::string & );
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&galilMotionController::currentErrorCode)) {
+            typedef void (GalilMotionController::*_t)(const std::string & );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&GalilMotionController::currentErrorCode)) {
                 *result = 2;
                 return;
             }
         }
         {
-            typedef void (galilMotionController::*_t)();
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&galilMotionController::signal_GalilResetHomingLatch)) {
+            typedef void (GalilMotionController::*_t)();
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&GalilMotionController::signal_GalilResetHomingLatch)) {
                 *result = 3;
                 return;
             }
@@ -123,21 +123,21 @@ void galilMotionController::qt_static_metacall(QObject *_o, QMetaObject::Call _c
     }
 }
 
-const QMetaObject galilMotionController::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_galilMotionController.data,
-      qt_meta_data_galilMotionController,  qt_static_metacall, nullptr, nullptr}
+const QMetaObject GalilMotionController::staticMetaObject = {
+    { &QObject::staticMetaObject, qt_meta_stringdata_GalilMotionController.data,
+      qt_meta_data_GalilMotionController,  qt_static_metacall, nullptr, nullptr}
 };
 
 
-const QMetaObject *galilMotionController::metaObject() const
+const QMetaObject *GalilMotionController::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *galilMotionController::qt_metacast(const char *_clname)
+void *GalilMotionController::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_galilMotionController.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_GalilMotionController.stringdata0))
         return static_cast<void*>(this);
     if (!strcmp(_clname, "GalilStatusUpdate_Interface"))
         return static_cast< GalilStatusUpdate_Interface*>(this);
@@ -148,7 +148,7 @@ void *galilMotionController::qt_metacast(const char *_clname)
     return QObject::qt_metacast(_clname);
 }
 
-int galilMotionController::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int GalilMotionController::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QObject::qt_metacall(_c, _id, _a);
     if (_id < 0)
@@ -166,28 +166,28 @@ int galilMotionController::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void galilMotionController::commsStatus(const bool & _t1)
+void GalilMotionController::commsStatus(const bool & _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 
 // SIGNAL 1
-void galilMotionController::newProgramReceived(const std::string & _t1)
+void GalilMotionController::newProgramReceived(const std::string & _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 1, _a);
 }
 
 // SIGNAL 2
-void galilMotionController::currentErrorCode(const std::string & _t1)
+void GalilMotionController::currentErrorCode(const std::string & _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 2, _a);
 }
 
 // SIGNAL 3
-void galilMotionController::signal_GalilResetHomingLatch()
+void GalilMotionController::signal_GalilResetHomingLatch()
 {
     QMetaObject::activate(this, &staticMetaObject, 3, nullptr);
 }

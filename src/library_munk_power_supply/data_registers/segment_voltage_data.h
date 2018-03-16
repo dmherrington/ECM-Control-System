@@ -15,8 +15,9 @@
 #include "data/type_current_voltage_prescale.h"
 #include "data/type_voltage_set.h"
 
-namespace DataParameter
-{
+
+namespace registers_Munk{
+
 //!
 //! \brief The SegmentVoltageData class
 //!
@@ -30,7 +31,7 @@ public:
     //! \param levelValue
     //! \param levelMode
     //!
-    SegmentVoltageData(const Data::SegmentLevel &levelValue, const Data::SegmentMode &levelMode);
+    SegmentVoltageData(const data_Munk::SegmentLevel &levelValue, const data_Munk::SegmentMode &levelMode);
 
 public:
     //!
@@ -44,32 +45,32 @@ public:
     //! \brief updatePrescalePower
     //! \param value
     //!
-    void updatePrescalePower(const Data::SegmentVIPower &value);
+    void updatePrescalePower(const data_Munk::SegmentVIPower &value);
 
     //!
     //! \brief updateVoltageSetpoint
     //! \param value
     //!
-    Data::DataFaultCodes updateVoltageSetpoint(const double &value);
+    data_Munk::DataFaultCodes updateVoltageSetpoint(const double &value);
 
 public:
     //!
     //! \brief getSegmentLevel
     //! \return
     //!
-    Data::SegmentLevel getSegmentLevel() const;
+    data_Munk::SegmentLevel getSegmentLevel() const;
 
     //!
     //! \brief getSegmentMode
     //! \return
     //!
-    Data::SegmentMode getSegmentMode() const;
+    data_Munk::SegmentMode getSegmentMode() const;
 
     //!
     //! \brief getCurrentPrescale
     //! \return
     //!
-    Data::SegmentVIPower getVoltagePrescale() const;
+    data_Munk::SegmentVIPower getVoltagePrescale() const;
 
     //!
     //! \brief getVoltage
@@ -141,17 +142,17 @@ private:
     //!
     //! \brief level
     //!
-    Data::SegmentLevel level;
+    data_Munk::SegmentLevel level;
 
     //!
     //! \brief mode
     //!
-    Data::SegmentMode mode;
+    data_Munk::SegmentMode mode;
 
     //!
     //! \brief prescale
     //!
-    Data::SegmentVIPower prescale;
+    data_Munk::SegmentVIPower prescale;
 
     //!
     //! \brief voltage
@@ -159,6 +160,7 @@ private:
     int voltage;
 };
 
-} //end of namespace DataParameter
+} //end of namepsace registers_Munk
+
 
 #endif // SEGMENT_VOLTAGE_SETPOINT_H

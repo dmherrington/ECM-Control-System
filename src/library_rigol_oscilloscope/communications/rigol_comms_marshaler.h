@@ -17,8 +17,7 @@
 
 #include "commands/measure/measure_command_item.h"
 
-namespace rigol {
-namespace comms{
+namespace comms_Rigol{
 
 class RigolCommsMarshaler : public Publisher<CommsEvents>, private ILinkEvents, private IProtocolRigolEvents
 {
@@ -40,17 +39,17 @@ public:
     bool DisconnetFromLink();
 
 
-    void sendAbstractAcquireCommand(const commands::AbstractAcquireCommandPtr command);
+    void sendAbstractAcquireCommand(const commands_Rigol::AbstractAcquireCommandPtr command);
 
-    void sendSetMeasurementCommand(const commands::MeasureCommand_Item &command);
+    void sendSetMeasurementCommand(const commands_Rigol::MeasureCommand_Item &command);
 
-    void sendMeasurementRequest(const commands::MeasureCommand_Item &command);
+    void sendMeasurementRequest(const commands_Rigol::MeasureCommand_Item &command);
 
 
     ///////////////////////////////////////////////////////////////////
     /// Methods issuing something to rigol
     ///////////////////////////////////////////////////////////////////
-    void EmitByteArray(const QByteArray &data);
+    void EmitByteArray(const QByteArray &data_Rigol);
 
 
 private:
@@ -72,7 +71,7 @@ private:
     /// Virtual methods imposed from IProtocolRigolEvents
     //////////////////////////////////////////////////////////////
     void ResponseReceived(const ILink* link_ptr, const std::vector<uint8_t> &buffer) const override;
-    void NewMeaurementReceived(const ILink* link_ptr, const rigol::commands::RigolMeasurementStatus &status) const override;
+    void NewMeaurementReceived(const ILink* link_ptr, const commands_Rigol::RigolMeasurementStatus &status) const override;
 
 private:
     std::shared_ptr<ILink> link;
@@ -81,6 +80,6 @@ private:
 };
 
 } //end of namespace comms
-} //end of namespace rigol
+
 
 #endif // RIGOL_COMMS_MARSHALER_H

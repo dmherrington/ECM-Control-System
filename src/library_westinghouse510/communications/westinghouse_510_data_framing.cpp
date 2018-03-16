@@ -1,7 +1,6 @@
 #include "westinghouse_510_data_framing.h"
 
-namespace westinghousePump{
-namespace comms{
+namespace comms_WestinghousePump{
 
 WestinghouseDataFraming::WestinghouseDataFraming(const int &address):
     pumpAddress(address), currentMSGState(FramingState::WAITING)
@@ -41,12 +40,12 @@ FramingState WestinghouseDataFraming::additionalByteRecevied(const uint8_t &byte
             // one byte to follow telling us of the exception code and concluding with
             // the checksum
             currentMSGState = FramingState::RECEIVED_EXCEPTION_FUNCTION_CODE;
-            currentMessge.setExceptionType(data::ExceptionType::EXCEPTION);
+            currentMessge.setExceptionType(data_WestinghousePump::ExceptionType::EXCEPTION);
         }
         else
         {
             currentMSGState = currentMessge.setReadWriteType(RWValue);
-            currentMessge.setExceptionType(data::ExceptionType::NO_EXCEPTION);
+            currentMessge.setExceptionType(data_WestinghousePump::ExceptionType::NO_EXCEPTION);
         }
         break;
     }
@@ -136,11 +135,11 @@ WestinghouseMessage WestinghouseDataFraming::getCurrentMessage() const
 unsigned int WestinghouseDataFraming::CRC16(const QByteArray &array) const
 {
 char j;
-WORD Temp = 0xFFFF;
+unsigned int Temp = 0xFFFF;
 int size = array.size();
 for (int i=0;i<size;i++){
 unsigned char charTemp = (unsigned char)array.at(i);
-Temp ^= (WORD)charTemp;
+Temp ^= (unsigned int)charTemp;
 for (j=8;j!=0;j--){
 
     if ((Temp & 0x0001) != 0) {      // If the LSB is set
@@ -154,5 +153,5 @@ for (j=8;j!=0;j--){
 return Temp;
 }
 
-} //end of namespace comms
-} //end of namespace westinghousePump
+} //end of namespace comms_WestinghousePump
+

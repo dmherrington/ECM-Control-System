@@ -9,8 +9,7 @@
 #include "common/comms/communication_update.h"
 #include "common/comms/communication_connection.h"
 
-namespace sensoray {
-namespace comms{
+namespace comms_Sensoray{
 
 //!
 //! \brief Interface that it to be implemented by users of rigol comms to listen for any events it fired
@@ -25,6 +24,5 @@ public:
 
 
 } //end of namespace comms
-} //end of namespace sensoray
 
 #endif // I_PROTOCOL_SENSORARY_EVENTS_H

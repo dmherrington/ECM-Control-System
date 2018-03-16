@@ -51,7 +51,7 @@ public:
     //! \param sensor Tuple describing the sensor
     //! \param sensorData Sensor data to update
     //!
-    virtual void UpdateNonPlottedData(const common::TupleSensorString &sensor, const data::SensorState &sensorData);
+    virtual void UpdateNonPlottedData(const common::TupleSensorString &sensor, const common_data::SensorState &sensorData);
 
 
     /**
@@ -75,7 +75,7 @@ public:
     //!
     //! \param plotList List of plot objects
     //!
-    void setPlotData(const QList<std::shared_ptr<data::observation::IPlotComparable> > &plotList);
+    void setPlotData(const QList<std::shared_ptr<common_data::observation::IPlotComparable> > &plotList);
 
 
     virtual QWidget* getWidget();
@@ -145,7 +145,7 @@ private:
     QDateTime m_rangeLow;
     QDateTime m_rangeHigh;
 
-    QList<std::shared_ptr<data::observation::IPlotComparable> > m_PlotData;
+    QList<std::shared_ptr<common_data::observation::IPlotComparable> > m_PlotData;
 
     QDateTime m_OriginTime;
 

@@ -4,8 +4,7 @@
 #include "sensors/sensor.h"
 #include "sensors/sensor_voltage.h"
 
-namespace data
-{
+namespace common_data{
 
 class SensorCollection
 {

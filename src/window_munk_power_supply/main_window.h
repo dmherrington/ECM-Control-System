@@ -48,7 +48,7 @@ private slots:
     /// Private SLOTS related to actions triggered directly from the GUI
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    void widgetSegmentDisplay_dataUpdate(const std::list<DataParameter::SegmentTimeDataDetailed> &newData);
+    void widgetSegmentDisplay_dataUpdate(const std::list<registers_Munk::SegmentTimeDataDetailed> &newData);
 
     void on_pushButton_AddSegment_released();
 

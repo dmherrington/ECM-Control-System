@@ -9,7 +9,7 @@
 #include "common/common.h"
 #include "common/class_forward.h"
 
-namespace data {
+namespace common_data {
 namespace observation {
 
 ECM_CLASS_FORWARD(IPlotComparable);

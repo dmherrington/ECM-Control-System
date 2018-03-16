@@ -5,8 +5,7 @@
 #include <stdexcept>
 #include <vector>
 
-namespace rigol{
-namespace data {
+namespace data_Rigol{
 
 //!
 //! \brief The ReadWriteType enum
@@ -57,7 +56,7 @@ inline std::vector<std::string> getListOfReadWriteType()
     return str;
 }
 
-} //end of namespace data
-} //end of namespace rigol
+} //end of namespace data_Rigol
+
 
 #endif // TYPE_READ_WRITE_H

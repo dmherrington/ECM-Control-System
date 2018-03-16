@@ -33,12 +33,12 @@ WidgetSegmentTimeData* WidgetSegmentTimeDisplay::addNewSegment()
 
 void WidgetSegmentTimeDisplay::cbiSegmentDataInterface_UpdatedData()
 {
-    std::list<DataParameter::SegmentTimeDataDetailed> dataList;
+    std::list<registers_Munk::SegmentTimeDataDetailed> dataList;
 
     std::list<WidgetSegmentTimeData*>::iterator iterator;
     for (iterator = m_dataList.begin(); iterator != m_dataList.end(); ++iterator) {
         WidgetSegmentTimeData* newData = *iterator;
-        dataList.push_back(DataParameter::SegmentTimeDataDetailed(*newData->getData()));
+        dataList.push_back(registers_Munk::SegmentTimeDataDetailed(*newData->getData()));
     }
     updatedData(dataList);
 }
@@ -87,9 +87,9 @@ void WidgetSegmentTimeDisplay::write(QJsonObject &json) const
     json["segmentData"] = segmentDataArray;
 }
 
-DataParameter::SegmentTimeDetailed WidgetSegmentTimeDisplay::getRawData() const
+registers_Munk::SegmentTimeDetailed WidgetSegmentTimeDisplay::getRawData() const
 {
-    DataParameter::SegmentTimeDetailed detailedData(1);
+    registers_Munk::SegmentTimeDetailed detailedData(1);
 
     std::list<WidgetSegmentTimeData*>::const_iterator iterator;
     for (iterator = m_dataList.begin(); iterator != m_dataList.end(); ++iterator) {

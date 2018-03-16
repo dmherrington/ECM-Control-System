@@ -1,6 +1,6 @@
 #include "observation_collection.h"
 
-namespace data {
+namespace common_data {
 namespace observation {
 
 //!

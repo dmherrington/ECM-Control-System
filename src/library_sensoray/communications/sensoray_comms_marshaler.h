@@ -15,8 +15,8 @@
 #include "comms_events.h"
 
 
-namespace sensoray {
-namespace comms{
+
+namespace comms_Sensoray{
 
 class CommsMarshaler : public Publisher<CommsEvents>, private ILinkEvents, private IProtocolSensorayEvents
 {
@@ -96,6 +96,6 @@ private:
 };
 
 } //end of namespace comms
-} //end of namespace sensoray
+
 
 #endif // SENSORAY_COMMS_MARSHALER_H

@@ -14,12 +14,17 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QFormLayout>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QProgressBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QWidget>
+#include "LED.h"
 #include "munk_dialog/widget_segment_time_display.h"
 
 QT_BEGIN_NAMESPACE
@@ -27,12 +32,28 @@ QT_BEGIN_NAMESPACE
 class Ui_Window_MunkPowerSupply
 {
 public:
+    QAction *actionOpen;
+    QAction *actionSave;
+    QAction *actionSave_As;
+    QAction *actionClose;
+    QAction *actionOpen_Connection;
+    QAction *actionClose_Connection;
+    QAction *actionTX_To_Munk;
+    QAction *actionRead_Parameters;
     QWidget *centralwidget;
-    QFormLayout *formLayout;
+    QGridLayout *gridLayout;
     WidgetSegmentTimeDisplay *segmentWidget;
+    QFormLayout *formLayout;
+    QLabel *label;
+    LED *widget_connection;
     QPushButton *pushButton_AddSegment;
     QPushButton *pushButton_transmit;
+    QProgressBar *progressBar;
     QMenuBar *menubar;
+    QMenu *menuFile;
+    QMenu *menuEdit;
+    QMenu *menuTools;
+    QMenu *menuHelp;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *Window_MunkPowerSupply)
@@ -40,18 +61,15 @@ public:
         if (Window_MunkPowerSupply->objectName().isEmpty())
             Window_MunkPowerSupply->setObjectName(QStringLiteral("Window_MunkPowerSupply"));
         Window_MunkPowerSupply->setWindowModality(Qt::NonModal);
-        Window_MunkPowerSupply->resize(218, 330);
-        QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
+        Window_MunkPowerSupply->resize(524, 330);
+        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Window_MunkPowerSupply->sizePolicy().hasHeightForWidth());
         Window_MunkPowerSupply->setSizePolicy(sizePolicy);
-        Window_MunkPowerSupply->setMinimumSize(QSize(0, 330));
-        Window_MunkPowerSupply->setStyleSheet(QLatin1String("QMainWindow{\n"
-"background-color:#1d1d1d;\n"
-"}\n"
-"\n"
-"QMenuBar{\n"
+        Window_MunkPowerSupply->setMinimumSize(QSize(524, 330));
+        Window_MunkPowerSupply->setMaximumSize(QSize(16777215, 330));
+        Window_MunkPowerSupply->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
 "	font: 12pt \"MS Shell Dlg 2\";\n"
@@ -92,8 +110,8 @@ public:
 "\n"
 "}\n"
 "QHeaderView{\n"
-"background-color:qlineargradient"
-                        "(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, 217, 255), stop:1 rgba(36, 158, 217, 255));\n"
+"background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, "
+                        "217, 255), stop:1 rgba(36, 158, 217, 255));\n"
 "\n"
 "border:none;\n"
 "border-top-style:solid;\n"
@@ -139,9 +157,9 @@ public:
 "border-width:2px;\n"
 "}\n"
 "\n"
-""
-                        "QPushButton:pressed{\n"
-"background-color: qlineargradient(spread:pad, x1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(29, 29, 29, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
+"QPushButton:pressed{\n"
+"background-color: qlineargrad"
+                        "ient(spread:pad, x1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(29, 29, 29, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
 "}\n"
 "\n"
 "\n"
@@ -169,10 +187,26 @@ public:
 "width:20px;\n"
 "}"));
         Window_MunkPowerSupply->setUnifiedTitleAndToolBarOnMac(false);
+        actionOpen = new QAction(Window_MunkPowerSupply);
+        actionOpen->setObjectName(QStringLiteral("actionOpen"));
+        actionSave = new QAction(Window_MunkPowerSupply);
+        actionSave->setObjectName(QStringLiteral("actionSave"));
+        actionSave_As = new QAction(Window_MunkPowerSupply);
+        actionSave_As->setObjectName(QStringLiteral("actionSave_As"));
+        actionClose = new QAction(Window_MunkPowerSupply);
+        actionClose->setObjectName(QStringLiteral("actionClose"));
+        actionOpen_Connection = new QAction(Window_MunkPowerSupply);
+        actionOpen_Connection->setObjectName(QStringLiteral("actionOpen_Connection"));
+        actionClose_Connection = new QAction(Window_MunkPowerSupply);
+        actionClose_Connection->setObjectName(QStringLiteral("actionClose_Connection"));
+        actionTX_To_Munk = new QAction(Window_MunkPowerSupply);
+        actionTX_To_Munk->setObjectName(QStringLiteral("actionTX_To_Munk"));
+        actionRead_Parameters = new QAction(Window_MunkPowerSupply);
+        actionRead_Parameters->setObjectName(QStringLiteral("actionRead_Parameters"));
         centralwidget = new QWidget(Window_MunkPowerSupply);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
-        formLayout = new QFormLayout(centralwidget);
-        formLayout->setObjectName(QStringLiteral("formLayout"));
+        gridLayout = new QGridLayout(centralwidget);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
         segmentWidget = new WidgetSegmentTimeDisplay(centralwidget);
         segmentWidget->setObjectName(QStringLiteral("segmentWidget"));
         QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
@@ -304,22 +338,46 @@ public:
 "width:20px;\n"
 "}"));
 
-        formLayout->setWidget(0, QFormLayout::SpanningRole, segmentWidget);
+        gridLayout->addWidget(segmentWidget, 0, 0, 1, 4);
 
-        pushButton_AddSegment = new QPushButton(centralwidget);
-        pushButton_AddSegment->setObjectName(QStringLiteral("pushButton_AddSegment"));
+        formLayout = new QFormLayout();
+        formLayout->setObjectName(QStringLiteral("formLayout"));
+        label = new QLabel(centralwidget);
+        label->setObjectName(QStringLiteral("label"));
         QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy2.setHorizontalStretch(0);
         sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy2);
+        label->setMinimumSize(QSize(90, 30));
+        label->setMaximumSize(QSize(90, 30));
+        QFont font;
+        font.setPointSize(12);
+        label->setFont(font);
+
+        formLayout->setWidget(0, QFormLayout::LabelRole, label);
+
+        widget_connection = new LED(centralwidget);
+        widget_connection->setObjectName(QStringLiteral("widget_connection"));
+        sizePolicy2.setHeightForWidth(widget_connection->sizePolicy().hasHeightForWidth());
+        widget_connection->setSizePolicy(sizePolicy2);
+        widget_connection->setMinimumSize(QSize(30, 30));
+        widget_connection->setMaximumSize(QSize(30, 30));
+
+        formLayout->setWidget(0, QFormLayout::FieldRole, widget_connection);
+
+
+        gridLayout->addLayout(formLayout, 1, 0, 1, 1);
+
+        pushButton_AddSegment = new QPushButton(centralwidget);
+        pushButton_AddSegment->setObjectName(QStringLiteral("pushButton_AddSegment"));
         sizePolicy2.setHeightForWidth(pushButton_AddSegment->sizePolicy().hasHeightForWidth());
         pushButton_AddSegment->setSizePolicy(sizePolicy2);
         pushButton_AddSegment->setMinimumSize(QSize(80, 30));
-        QFont font;
-        font.setPointSize(12);
         pushButton_AddSegment->setFont(font);
         pushButton_AddSegment->setFlat(false);
 
-        formLayout->setWidget(1, QFormLayout::LabelRole, pushButton_AddSegment);
+        gridLayout->addWidget(pushButton_AddSegment, 1, 1, 1, 1);
 
         pushButton_transmit = new QPushButton(centralwidget);
         pushButton_transmit->setObjectName(QStringLiteral("pushButton_transmit"));
@@ -329,16 +387,46 @@ public:
         pushButton_transmit->setFont(font);
         pushButton_transmit->setToolTipDuration(-1);
 
-        formLayout->setWidget(1, QFormLayout::FieldRole, pushButton_transmit);
+        gridLayout->addWidget(pushButton_transmit, 1, 2, 1, 1);
+
+        progressBar = new QProgressBar(centralwidget);
+        progressBar->setObjectName(QStringLiteral("progressBar"));
+        progressBar->setValue(24);
+
+        gridLayout->addWidget(progressBar, 1, 3, 1, 1);
 
         Window_MunkPowerSupply->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Window_MunkPowerSupply);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 218, 40));
+        menubar->setGeometry(QRect(0, 0, 524, 40));
+        menuFile = new QMenu(menubar);
+        menuFile->setObjectName(QStringLiteral("menuFile"));
+        menuEdit = new QMenu(menubar);
+        menuEdit->setObjectName(QStringLiteral("menuEdit"));
+        menuTools = new QMenu(menubar);
+        menuTools->setObjectName(QStringLiteral("menuTools"));
+        menuHelp = new QMenu(menubar);
+        menuHelp->setObjectName(QStringLiteral("menuHelp"));
         Window_MunkPowerSupply->setMenuBar(menubar);
         statusbar = new QStatusBar(Window_MunkPowerSupply);
         statusbar->setObjectName(QStringLiteral("statusbar"));
         Window_MunkPowerSupply->setStatusBar(statusbar);
+
+        menubar->addAction(menuFile->menuAction());
+        menubar->addAction(menuEdit->menuAction());
+        menubar->addAction(menuTools->menuAction());
+        menubar->addAction(menuHelp->menuAction());
+        menuFile->addAction(actionOpen);
+        menuFile->addSeparator();
+        menuFile->addAction(actionSave);
+        menuFile->addAction(actionSave_As);
+        menuFile->addSeparator();
+        menuFile->addAction(actionClose);
+        menuTools->addAction(actionOpen_Connection);
+        menuTools->addAction(actionClose_Connection);
+        menuTools->addSeparator();
+        menuTools->addAction(actionTX_To_Munk);
+        menuTools->addAction(actionRead_Parameters);
 
         retranslateUi(Window_MunkPowerSupply);
 
@@ -348,6 +436,15 @@ public:
     void retranslateUi(QMainWindow *Window_MunkPowerSupply)
     {
         Window_MunkPowerSupply->setWindowTitle(QApplication::translate("Window_MunkPowerSupply", "Munk Power Supply Control", nullptr));
+        actionOpen->setText(QApplication::translate("Window_MunkPowerSupply", "Open", nullptr));
+        actionSave->setText(QApplication::translate("Window_MunkPowerSupply", "Save", nullptr));
+        actionSave_As->setText(QApplication::translate("Window_MunkPowerSupply", "Save As", nullptr));
+        actionClose->setText(QApplication::translate("Window_MunkPowerSupply", "Close", nullptr));
+        actionOpen_Connection->setText(QApplication::translate("Window_MunkPowerSupply", "Open Connection", nullptr));
+        actionClose_Connection->setText(QApplication::translate("Window_MunkPowerSupply", "Close Connection", nullptr));
+        actionTX_To_Munk->setText(QApplication::translate("Window_MunkPowerSupply", "Transmit Parameters", nullptr));
+        actionRead_Parameters->setText(QApplication::translate("Window_MunkPowerSupply", "Read Parameters", nullptr));
+        label->setText(QApplication::translate("Window_MunkPowerSupply", "Connected:", nullptr));
 #ifndef QT_NO_TOOLTIP
         pushButton_AddSegment->setToolTip(QString());
 #endif // QT_NO_TOOLTIP
@@ -356,6 +453,10 @@ public:
         pushButton_transmit->setToolTip(QString());
 #endif // QT_NO_TOOLTIP
         pushButton_transmit->setText(QApplication::translate("Window_MunkPowerSupply", "TRANSMIT", nullptr));
+        menuFile->setTitle(QApplication::translate("Window_MunkPowerSupply", "File", nullptr));
+        menuEdit->setTitle(QApplication::translate("Window_MunkPowerSupply", "Edit", nullptr));
+        menuTools->setTitle(QApplication::translate("Window_MunkPowerSupply", "Tools", nullptr));
+        menuHelp->setTitle(QApplication::translate("Window_MunkPowerSupply", "Help", nullptr));
     } // retranslateUi
 
 };

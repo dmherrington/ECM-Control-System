@@ -12,8 +12,8 @@
 #include "measure_command_item.h"
 #include "data/type_read_write.h"
 
-namespace rigol {
-namespace commands{
+
+namespace commands_Rigol{
 
 class RigolMeasurementQueue
 {
@@ -63,6 +63,6 @@ private:
 };
 
 } //end of namespace commands
-} //end of namespace rigol
+
 
 #endif // RIGOL_MEASUREMENT_QUEUE_H

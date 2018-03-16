@@ -20,7 +20,7 @@ public:
     ~DisplayVoltage();
 
 
-     virtual void setPlotData(const QList<std::shared_ptr<data::observation::IPlotComparable>> &plotList);
+     virtual void setPlotData(const QList<std::shared_ptr<common_data::observation::IPlotComparable>> &plotList);
 
 private:
     std::string m_Expression;

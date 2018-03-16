@@ -1,7 +1,7 @@
 #include "rigol_measurement_queue.h"
 
-namespace rigol {
-namespace commands{
+
+namespace commands_Rigol{
 
 RigolMeasurementQueue::RigolMeasurementQueue()
 {
@@ -21,7 +21,7 @@ void RigolMeasurementQueue::read(const QJsonObject &json)
         QJsonObject measurementObject = measurementArray[i].toObject();
         MeasureCommand_Item newItem;
         newItem.read(measurementObject);
-        newItem.setReadOrWrite(data::ReadWriteType::WRITE);
+        newItem.setReadOrWrite(data_Rigol::ReadWriteType::WRITE);
         insertIntoQueue(newItem);
     }
 }
@@ -79,4 +79,4 @@ std::vector<MeasureCommand_Item> RigolMeasurementQueue::getMeasurementItems() co
 }
 
 } //end of namespace commands
-} //end of namespace rigol
+

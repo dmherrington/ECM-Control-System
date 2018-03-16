@@ -10,7 +10,7 @@
 #include <QList>
 #include <QString>
 
-namespace data {
+namespace common_data {
 
 
 enum Dimensions

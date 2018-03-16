@@ -3,7 +3,7 @@
 
 #include "dimension.h"
 
-namespace data {
+namespace common_data {
 
 //!
 //! \brief Allowed units in voltage dimension

@@ -6,8 +6,8 @@
 #include <string>
 
 #include "commands/measure/rigol_measurement_status.h"
-namespace rigol {
-namespace comms{
+
+namespace comms_Rigol{
 
 class ILink;
 
@@ -27,6 +27,6 @@ public:
 };
 
 } //end of namespace comms
-} //end of namespace rigol
+
 
 #endif // I_LINK_EVENTS_H

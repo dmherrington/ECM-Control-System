@@ -14,10 +14,12 @@
 
 #include "rigol_poll_measurements.h"
 
-using namespace rigol;
+using namespace commands_Rigol;
+using namespace comms_Rigol;
+using namespace data_Rigol;
 
 class LIBRARY_RIGOL_OSCILLOSCOPESHARED_EXPORT RigolOscilliscope : public QObject, public RigolMeasurementUpdates_Interface,
-        public comms::CommsEvents
+        public comms_Rigol::CommsEvents
 {
     Q_OBJECT
 
@@ -30,10 +32,10 @@ public:
     void openConnection(const std::string &ipAddress, const int &port);
     void closeConnection();
 
-    bool addPollingMeasurement(const commands::MeasureCommand_Item &command);
+    bool addPollingMeasurement(const commands_Rigol::MeasureCommand_Item &command);
     void removePollingMeasurement(const std::string &key);
     void executeMeasurementPolling(const bool &execute);
-    commands::RigolMeasurementQueue getCurrentPollingMeasurements() const;
+    commands_Rigol::RigolMeasurementQueue getCurrentPollingMeasurements() const;
 
 public:
     //////////////////////////////////////////////////////////////
@@ -42,17 +44,17 @@ public:
     void ConnectionOpened() const override;
     void ConnectionClosed() const override;
     void NewDataReceived(const std::vector<uint8_t> &buffer) const override;
-    void NewMeaurementReceived(const rigol::commands::RigolMeasurementStatus &status) const override;
+    void NewMeaurementReceived(const commands_Rigol::RigolMeasurementStatus &status) const override;
 
 public:
-    void cbi_RigolMeasurementRequests(const rigol::commands::MeasureCommand_Item &request) override;
+    void cbi_RigolMeasurementRequests(const commands_Rigol::MeasureCommand_Item &request) override;
 
     void saveMeasurements();
     void loadMeaurements(const std::string &path);
 
 private:
     void initializeRigol() const;
-    void loadFromQueue(const rigol::commands::RigolMeasurementQueue &updatedQueue);
+    void loadFromQueue(const commands_Rigol::RigolMeasurementQueue &updatedQueue);
 
 
 signals:
@@ -61,9 +63,9 @@ public slots:
 
 private:
     std::string sensorName;
-    comms::RigolCommsMarshaler* commsMarshaler;
+    comms_Rigol::RigolCommsMarshaler* commsMarshaler;
     RigolPollMeasurement* pollStatus;
-    rigol::commands::RigolMeasurementQueue queue;
+    commands_Rigol::RigolMeasurementQueue queue;
     QString previousSettingsPath;
 
 

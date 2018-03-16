@@ -34,7 +34,7 @@
 //! It is then scheduled to be inserted into the respective ExpressionEngine::PlotTimeData object on a seperate thread.
 //! This means that the insertion into temporary list is rather short, while insertion into main data store is performed in a seperate thread.
 //!
-class ECMPlotCollection : public data::observation::ObservationCollection
+class ECMPlotCollection : public common_data::observation::ObservationCollection
 {
 Q_OBJECT
 public:
@@ -55,7 +55,7 @@ public:
     //! \param sensor ECM sensor component to update
     //! \param state Observed sensor state
     //!
-    void UpdateSensorPlots(const common::TupleSensorString sensor, const data::SensorState &state);
+    void UpdateSensorPlots(const common::TupleSensorString sensor, const common_data::SensorState &state);
 
 
     //!
@@ -63,7 +63,7 @@ public:
     //! \param element ECM components
     //! \return List of pointers to plot data
     //!
-    QList<std::shared_ptr<data::observation::IPlotComparable> > getPlots(const common::TupleECMData &element) const;
+    QList<std::shared_ptr<common_data::observation::IPlotComparable> > getPlots(const common::TupleECMData &element) const;
 
     //!
     //! \brief Set current time of the plots

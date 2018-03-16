@@ -10,10 +10,8 @@
 
 #include <data/type_read_write.h>
 
-namespace DataParameter{
 
-typedef unsigned int WORD;
-
+namespace registers_Munk{
 //!
 //! \brief The AbstractParameter class
 //!
@@ -43,7 +41,7 @@ public:
     //! \brief getParameterType
     //! \return
     //!
-    virtual DataParameter::ParameterType getParameterType() const = 0;
+    virtual registers_Munk::ParameterType getParameterType() const = 0;
 
     virtual int getParameterCode() const
     {
@@ -110,7 +108,7 @@ public:
     //! \brief setReadorWrite
     //! \param type
     //!
-    void setReadorWrite(const Data::ReadWriteType &type);
+    void setReadorWrite(const data_Munk::ReadWriteType &type);
 
     //!
     //! \brief getFullMessage
@@ -203,7 +201,7 @@ protected:
     //!
     //! \brief readOrwrite
     //!
-    Data::ReadWriteType readOrwrite;
+    data_Munk::ReadWriteType readOrwrite;
 
     //!
     //! \brief highChecksum
@@ -216,5 +214,7 @@ protected:
     mutable uint8_t lowChecksum;
 };
 
-} //end of namespace DataParameter
+} //end of namespace registers_Munk
+
+
 #endif // ABSTRACT_PARAMETER_H

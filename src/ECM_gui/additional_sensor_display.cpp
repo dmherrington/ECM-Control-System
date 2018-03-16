@@ -93,11 +93,11 @@ void AdditionalSensorDisplay::DisplayActionTriggered()
 //! \param sensor Sensor to create
 //! \param type Type of sensor to make
 //!
-void AdditionalSensorDisplay::NewDock(const common::TupleSensorString &sensor, const data::SensorTypes &type)
+void AdditionalSensorDisplay::NewDock(const common::TupleSensorString &sensor, const common_data::SensorTypes &type)
 {
     if (this->thread() != QThread::currentThread())
     {
-        QMetaObject::invokeMethod(this, "NewDock", Qt::BlockingQueuedConnection, Q_ARG(const common::TupleSensorString&, sensor), Q_ARG(data::SensorTypes, type));
+        QMetaObject::invokeMethod(this, "NewDock", Qt::BlockingQueuedConnection, Q_ARG(const common::TupleSensorString&, sensor), Q_ARG(common_data::SensorTypes, type));
         return;
     }
 
@@ -231,7 +231,7 @@ void AdditionalSensorDisplay::SetOriginTime(const QDateTime &time)
 //! \param sensor Sensor to update
 //! \param state State to give
 //!
-void AdditionalSensorDisplay::UpdateNonPlottedData(const common::TupleSensorString &sensor, const data::SensorState &state)
+void AdditionalSensorDisplay::UpdateNonPlottedData(const common::TupleSensorString &sensor, const common_data::SensorState &state)
 {
     m_SensorDisplays.UpdateNonPlottedData(sensor, state);
 }

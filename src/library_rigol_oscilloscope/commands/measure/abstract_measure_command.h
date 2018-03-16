@@ -24,16 +24,16 @@
 #include "data/type_measure_commands.h"
 #include "data/type_read_write.h"
 
-namespace rigol {
-namespace commands{
+
+namespace commands_Rigol{
 
 ECM_CLASS_FORWARD(AbstractMeasureCommand);
 
 class AbstractMeasureCommand : public AbstractRigolCommand
 {
 public:
-    AbstractMeasureCommand(const data::MeasurementCommands &measure, const data::ReadWriteType &rw = data::ReadWriteType::WRITE):
-        AbstractRigolCommand(data::CommandTypes::COMMAND_MEASURE,rw)
+    AbstractMeasureCommand(const data_Rigol::MeasurementCommands &measure, const data_Rigol::ReadWriteType &rw = data_Rigol::ReadWriteType::WRITE):
+        AbstractRigolCommand(data_Rigol::CommandTypes::COMMAND_MEASURE,rw)
     {
         this->measurementCommand = measure;
     }
@@ -71,7 +71,7 @@ public:
     virtual AbstractRigolStatus* getExpectedResponse() const = 0;
 
 public:
-    virtual data::MeasurementCommands getMeasurementCommand() const
+    virtual data_Rigol::MeasurementCommands getMeasurementCommand() const
     {
         return measurementCommand;
     }
@@ -114,11 +114,11 @@ public:
     }
 
 protected:
-    data::MeasurementCommands measurementCommand;
+    data_Rigol::MeasurementCommands measurementCommand;
 
 };
 
 } //end of namespace commands
-} //end of namespace rigol
+
 
 #endif // ABSTRACT_MEASURE_COMMAND_H

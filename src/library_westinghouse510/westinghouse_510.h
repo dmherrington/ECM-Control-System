@@ -11,9 +11,11 @@
 #include "data_registers/register_components.h"
 
 #include "communications/westinghouse_510_data_framing.h"
+
 #include "westinghouse_510_state.h"
 
-namespace westinghousePump{
+using namespace comms_WestinghousePump;
+using namespace registers_WestinghousePump;
 
 class LIBRARY_WESTINGHOUSE510SHARED_EXPORT Westinghouse510 : public QObject
 {
@@ -23,12 +25,11 @@ public:
 
     ~Westinghouse510() = default;
 
-    void updatePumpFlowRate(const registers::Register_FlowRate &desRate);
-
-    void updatePumpOperations(const registers::Register_OperationSignal &desOps);
+    void setPumpFlowRate(const Register_FlowRate &desRate);
+    void setPumpOperations(const Register_OperationSignal &desOps);
 
 private:
-    void parseReceivedMessage(const comms::WestinghouseMessage &msg);
+    void parseReceivedMessage(const WestinghouseMessage &msg);
 
 signals:
     void signal_PumpFlowUpdated(const double &value);
@@ -46,8 +47,7 @@ public:
 
 private:
     const common::comms::ICommunication* m_Comms;
-    comms::WestinghouseDataFraming* m_DataFraming;
+    WestinghouseDataFraming* m_DataFraming;
 };
 
-} //end of namespace westinghouse
 #endif // WESTINGHOUSE_510_H

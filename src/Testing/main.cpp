@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 //    newInterface->openConnection(sensorayConfig);
 
     westinghousePump::Westinghouse510* pump = new westinghousePump::Westinghouse510(newInterface,01);
-    westinghousePump::registers::Register_OperationSignal newOps;
+    westinghousePump::data_register::Register_OperationSignal newOps;
     newOps.setSlaveAddress(01);
     newOps.shouldReverse(false);
     newOps.shouldRun(true);
@@ -62,8 +62,8 @@ int main(int argc, char *argv[])
 //        s24xx_ApiClose();				// Free API resources.
 //    }
 
-//    rigol::comms::RigolCommsMarshaler* marshal = new rigol::comms::RigolCommsMarshaler();
-//    rigol::comms::TCPConfiguration newConfig;
+//    comms_Rigol::RigolCommsMarshaler* marshal = new comms_Rigol::RigolCommsMarshaler();
+//    comms_Rigol::TCPConfiguration newConfig;
 //    marshal->ConnectToLink(newConfig);
 //    QByteArray newArray;
 //    newArray.append("*IDN?");

@@ -10,10 +10,9 @@
 
 #include "data/type_read_write.h"
 
-namespace westinghousePump{
-namespace registers{
+namespace registers_WestinghousePump{
 
-typedef unsigned int WORD;
+//typedef unsigned int WORD;
 
 //!
 //! \brief The AbstractParameter class
@@ -105,7 +104,7 @@ public:
     //! \brief setReadorWrite
     //! \param type
     //!
-    void setReadorWrite(const data::ReadWriteType &type);
+    void setReadorWrite(const data_WestinghousePump::ReadWriteType &type);
 
     //!
     //! \brief getFullMessage
@@ -197,7 +196,7 @@ protected:
     //!
     //! \brief readOrwrite
     //!
-    data::ReadWriteType readOrwrite;
+    data_WestinghousePump::ReadWriteType readOrwrite;
 
     //!
     //! \brief highChecksum
@@ -210,7 +209,7 @@ protected:
     mutable uint8_t lowChecksum;
 };
 
-} //end of namespace registers
-} //end of namespace westinghousePump
+} //end of namespace registers_WestinghousePump
+
 
 #endif // ABSTRACT_PARAMETER_H

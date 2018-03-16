@@ -1,5 +1,5 @@
-#ifndef COMMS_EVENTS_H
-#define COMMS_EVENTS_H
+#ifndef COMMS_EVENTS_MUNK_H
+#define COMMS_EVENTS_MUNK_H
 
 #include <string>
 #include "common/common.h"
@@ -10,8 +10,7 @@
 #include "data/fault_codes_register_two.h"
 #include "data/fault_codes_register_three.h"
 
-namespace munk {
-namespace comms{
+namespace comms_Munk{
 
 class CommsEvents
 {
@@ -94,7 +93,7 @@ public:
 
     }
 
-    virtual void ExceptionResponseReceived(const Data::ReadWriteType &RWType, const std::string &meaning) const
+    virtual void ExceptionResponseReceived(const data_Munk::ReadWriteType &RWType, const std::string &meaning) const
     {
         UNUSED(RWType);
         UNUSED(meaning);
@@ -102,7 +101,7 @@ public:
 
 };
 
-} //end of namespace comms
-} //end of namespace munk
+} //end of namespace comms_Munk
 
-#endif // COMMS_EVENTS_H
+
+#endif // COMMS_EVENTS_MUNK_H

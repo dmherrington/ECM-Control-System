@@ -1,5 +1,5 @@
-#ifndef COMMS_EVENTS_H
-#define COMMS_EVENTS_H
+#ifndef COMMS_EVENTS_GALIL_H
+#define COMMS_EVENTS_GALIL_H
 
 #include <string>
 #include "common/common.h"
@@ -71,4 +71,4 @@ public:
 
 }
 
-#endif // COMMS_EVENTS_H
+#endif // COMMS_EVENTS_GALIL_H

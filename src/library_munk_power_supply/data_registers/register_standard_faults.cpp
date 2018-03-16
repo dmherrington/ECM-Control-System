@@ -1,16 +1,17 @@
 #include "register_fault_state.h"
-namespace DataParameter
-{
+
+
+namespace registers_Munk {
 
 //!
 //! \brief RegisterStandardFaults::RegisterStandardFaults
 //! \param type
 //!
-RegisterFaultState::RegisterFaultState(const Data::FaultRegisterType &type):
+RegisterFaultState::RegisterFaultState(const data_Munk::FaultRegisterType &type):
     AbstractParameter()
 {
     this->parameterCode = static_cast<int>(type);
-    this->setReadorWrite(Data::ReadWriteType::READ);
+    this->setReadorWrite(data_Munk::ReadWriteType::READ);
 }
 
 //!
@@ -47,4 +48,5 @@ QByteArray RegisterFaultState::getExpectedResponse() const
     return ba;
 }
 
-} //end of namepsace DataParameter
+} //end of namespace registers_Munk
+

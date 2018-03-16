@@ -75,7 +75,7 @@ public:
     //! \brief SupplyPlotCollection
     //! \param collection
     //!
-    void SupplyPlotCollection(const data::observation::ObservationCollection* collection);
+    void SupplyPlotCollection(const common_data::observation::ObservationCollection* collection);
 
     //!
     //! \brief Change mode of operation
@@ -88,14 +88,14 @@ public:
     //! \brief Adds a plot to the handler object
     //! \param dataKey Key to indentify data
     //!
-    void AddPlot(const data::observation::IPlotComparablePtr expression);
+    void AddPlot(const common_data::observation::IPlotComparablePtr expression);
 
 
     //!
     //! \brief Retreive a list of all active expressions
     //! \return List of active expressions
     //!
-    QList<std::shared_ptr<data::observation::IPlotComparable>> ActiveExpressions() const;
+    QList<std::shared_ptr<common_data::observation::IPlotComparable>> ActiveExpressions() const;
 
 
     //!
@@ -203,7 +203,7 @@ public slots:
     //! \brief Redraw all expressions that rely on the provided data sources
     //! \param source Data sources to redraw
     //!
-    void RedrawDataSource(const QList<std::shared_ptr<data::observation::IPlotComparable> > &sources);
+    void RedrawDataSource(const QList<std::shared_ptr<common_data::observation::IPlotComparable> > &sources);
 
 
 
@@ -377,14 +377,14 @@ private:
     //! Current time of graph. Nessessary if redrawing without changing time (i.e. zoom in)
     QDateTime m_CurrTime;
 
-    const data::observation::ObservationCollection *m_ObservationCollection;
+    const common_data::observation::ObservationCollection *m_ObservationCollection;
 
     //!
     //! \brief The plot_data_variables struct
     //!
     struct plot_data_variables{
-        data::observation::IPlotComparablePtr operation;
-        const data::observation::ObservationCollection *observations;
+        common_data::observation::IPlotComparablePtr operation;
+        const common_data::observation::ObservationCollection *observations;
         QString DisplayName;
         TimeUnit unitVariable;
         QColor GraphColor;

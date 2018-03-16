@@ -1,5 +1,8 @@
 #include "comms_progress_handler.h"
 
+
+namespace comms_Munk{
+
 CommsProgressHandler::CommsProgressHandler()
 {
 
@@ -36,3 +39,6 @@ void CommsProgressHandler::clearCurrentProgress()
 {
     this->progressMap.clear();
 }
+
+} //end of namespace comms_Munk
+

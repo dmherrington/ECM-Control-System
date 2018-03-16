@@ -1,5 +1,5 @@
-#ifndef SERIALLINK_H
-#define SERIALLINK_H
+#ifndef GALILLINK_H
+#define GALILLINK_H
 
 #include <chrono>
 #include <mutex>
@@ -89,6 +89,6 @@ private:
     bool connected;
 };
 
-} //END MAVLINKComms
+} //end of namespace Comms
 
-#endif // SERIALLINK_H
+#endif // GALILLINK_H

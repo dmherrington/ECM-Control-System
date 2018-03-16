@@ -4,8 +4,7 @@
 #include <memory>
 #include <vector>
 
-namespace rigol {
-namespace comms{
+namespace comms_Rigol{
 
 class ILink;
 
@@ -22,6 +21,6 @@ public:
 
 
 } //end of namespace comms
-} //end of namespace rigol
+
 
 #endif // I_PROTOCOL_H

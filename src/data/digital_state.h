@@ -8,7 +8,7 @@
 #include "sensor_collection.h"
 #include "common/environment_time.h"
 
-namespace data
+namespace common_data
 {
 
 class DigitalState
@@ -96,6 +96,6 @@ public:
 
 } //end of namespace data
 
-Q_DECLARE_METATYPE(data::DigitalState)
+Q_DECLARE_METATYPE(common_data::DigitalState)
 
 #endif // DIGITAL_STATE_H

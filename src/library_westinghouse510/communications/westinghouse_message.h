@@ -11,8 +11,8 @@
 
 #include "westinghouse_510_message_framing.h"
 
-namespace westinghousePump {
-namespace comms {
+
+namespace comms_WestinghousePump {
 
 class WestinghouseMessage
 {
@@ -30,11 +30,11 @@ public:
 
     FramingState setReadWriteType(const uint8_t &RWType);
 
-    void setExceptionType(const data::ExceptionType &EXType);
+    void setExceptionType(const data_WestinghousePump::ExceptionType &EXType);
 
-    data::ReadWriteType isReadWriteType() const;
+    data_WestinghousePump::ReadWriteType isReadWriteType() const;
 
-    data::ExceptionType isException() const;
+    data_WestinghousePump::ExceptionType isException() const;
 
     void setRemainingPayload(const int &size);
 
@@ -51,12 +51,12 @@ public:
     }
 private:
     QByteArray currentArray;
-    data::ReadWriteType rwType = data::ReadWriteType::WRITE;
-    data::ExceptionType exType = data::ExceptionType::NO_EXCEPTION;
+    data_WestinghousePump::ReadWriteType rwType = data_WestinghousePump::ReadWriteType::WRITE;
+    data_WestinghousePump::ExceptionType exType = data_WestinghousePump::ExceptionType::NO_EXCEPTION;
     int remainingPayload = 0;
 };
 
-} //end of namespace comms
-} //end of namespace westinghousePump
+} //end of namespace comms_WestinghousePump
+
 
 #endif //WESTINGHOUSE_MESSAGE_H

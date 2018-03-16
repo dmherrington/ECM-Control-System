@@ -39,7 +39,7 @@ public:
 
     void updateDisplayData() const;
 
-    DataParameter::SegmentTimeDataDetailed* getData() const
+    registers_Munk::SegmentTimeDataDetailed* getData() const
     {
         return this->data;
     }
@@ -84,7 +84,7 @@ private:
 
     Ui::WidgetSegmentTimeData* ui;
 
-    DataParameter::SegmentTimeDataDetailed* data;
+    registers_Munk::SegmentTimeDataDetailed* data;
 
 private:
     mutable bool blockCallback;

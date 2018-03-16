@@ -3,7 +3,7 @@
 
 #include "I_plot_comparable.h"
 
-namespace data {
+namespace common_data {
 namespace observation {
 
 class ObservationIDReference

@@ -1,5 +1,5 @@
-#ifndef COMMS_EVENTS_H
-#define COMMS_EVENTS_H
+#ifndef COMMS_EVENTS_SENSORAY_H
+#define COMMS_EVENTS_SENSORAY_H
 
 #include <QByteArray>
 
@@ -9,8 +9,7 @@
 #include "common/comms/communication_connection.h"
 #include "common/comms/communication_update.h"
 
-namespace sensoray {
-namespace comms{
+namespace comms_Sensoray{
 
 class CommsEvents
 {
@@ -61,6 +60,5 @@ public:
 };
 
 } //end of namespace comms
-} //end of namespace sensoray
 
-#endif // COMMS_EVENTS_H
+#endif // COMMS_EVENTS_SENSORAY_H

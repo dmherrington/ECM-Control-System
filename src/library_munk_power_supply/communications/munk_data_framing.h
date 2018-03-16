@@ -9,6 +9,9 @@
 #include "munk_message.h"
 #include "message_framing_state.h"
 
+
+namespace comms_Munk{
+
 class MunkDataFraming
 {
     typedef unsigned int WORD;
@@ -25,5 +28,8 @@ private:
     FramingState currentMSGState;
     MunkMessage currentMessge;
 };
+
+} //end of namespace comms_Munk
+
 
 #endif // MUNK_DATA_FRAMING_H

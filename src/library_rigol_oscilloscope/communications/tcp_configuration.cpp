@@ -1,7 +1,6 @@
 #include "tcp_configuration.h"
 
-namespace rigol{
-namespace comms{
+namespace comms_Rigol {
 
 TCPConfiguration::TCPConfiguration()
 {
@@ -66,5 +65,5 @@ void TCPConfiguration::setSenderPortNumber(int portNumber)
     _senderPortNumber = portNumber;
 }
 
-} //end of namepsace comms
-} //end of namespace rigol
+} //end of namepsace comms_Rigol
+

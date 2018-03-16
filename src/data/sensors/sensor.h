@@ -8,7 +8,7 @@
 #include <istream>
 #include <ostream>
 
-namespace data
+namespace common_data
 {
 
 /*!

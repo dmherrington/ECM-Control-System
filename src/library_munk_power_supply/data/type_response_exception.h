@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Data
-{
+
+namespace data_Munk{
 
 //!
 //! \brief The TypeResponseException enum
@@ -57,12 +57,13 @@ inline TypeResponseException TypeResponseExceptionFromString(const std::string &
 inline std::vector<std::string> getListOfTypeResponseException()
 {
     std::vector<std::string> str;
-    str.push_back(Data::TypeResponseExceptionToString(TypeResponseException::LEVEL1));
-    str.push_back(Data::TypeResponseExceptionToString(TypeResponseException::LEVEL2));
-    str.push_back(Data::TypeResponseExceptionToString(TypeResponseException::LEVEL3));
+    str.push_back(data_Munk::TypeResponseExceptionToString(TypeResponseException::LEVEL1));
+    str.push_back(data_Munk::TypeResponseExceptionToString(TypeResponseException::LEVEL2));
+    str.push_back(data_Munk::TypeResponseExceptionToString(TypeResponseException::LEVEL3));
     return str;
 }
 
-} //end of namespace Data
+} //end of namespace data_Munk
+
 
 #endif // TYPE_RESPONSE_EXCEPTION_H

@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
-namespace rigol {
-namespace data{
+
+namespace data_Rigol{
 
 enum class AcquireCommand_TypeMode
 {
@@ -68,7 +68,7 @@ inline std::vector<std::string> getListOfAcquireModeTypes()
 }
 
 } //end of namespace data
-} //end of namespace rigol
+
 
 
 #endif // ACQUIRE_COMMAND_TYPE_OPTIONS_H

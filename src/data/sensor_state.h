@@ -10,7 +10,7 @@
 
 #include <memory>
 
-namespace data
+namespace common_data
 {
 
 //! The state of a sensor
@@ -112,6 +112,6 @@ public:
 
 } //end of namespace data
 
-Q_DECLARE_METATYPE(data::SensorState)
+Q_DECLARE_METATYPE(common_data::SensorState)
 
 #endif // SENSOR_STATE_H

@@ -14,7 +14,7 @@
 class MunkStatusCallback_Interface
 {
 public:
-    virtual void cbi_MunkFaultStateRequest(const DataParameter::RegisterFaultState &request) const = 0;
+    virtual void cbi_MunkFaultStateRequest(const registers_Munk::RegisterFaultState &request) const = 0;
 };
 
 class MunkPollStatus : public Thread

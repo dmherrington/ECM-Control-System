@@ -1,13 +1,11 @@
-#ifndef TYPE_READ_WRITE_H
-#define TYPE_READ_WRITE_H
+#ifndef TYPE_WESTINGHOUSE_READ_WRITE_H
+#define TYPE_WESTINGHOUSE_READ_WRITE_H
 
 #include <string>
 #include <stdexcept>
 #include <vector>
 
-namespace westinghousePump{
-namespace data{
-
+namespace data_WestinghousePump {
 //!
 //! \brief The ReadWriteType enum
 //!
@@ -57,7 +55,5 @@ inline std::vector<std::string> getListOfReadWriteType()
     return str;
 }
 
-} //end of namespace data
-} //end of namespace westinghousePump
-
-#endif // TYPE_READ_WRITE_H
+} //end of namespace data_WestinghousePump
+#endif // TYPE_WESTINGHOUSE_READ_WRITE_H

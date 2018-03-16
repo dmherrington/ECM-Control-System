@@ -9,13 +9,10 @@
 #include "westinghouse_message.h"
 #include "westinghouse_510_message_framing.h"
 
-namespace westinghousePump{
-namespace comms{
+namespace comms_WestinghousePump{
 
 class WestinghouseDataFraming
 {
-    typedef unsigned int WORD;
-
 public:
     WestinghouseDataFraming(const int &address);
     FramingState additionalByteRecevied(const uint8_t &byte);
@@ -29,7 +26,7 @@ private:
     WestinghouseMessage currentMessge;
 };
 
-} //end of namespace comms
-} //end of namespace westinghousePump
+} //end of namespace comms_WestinghousePump
+
 
 #endif // MUNK_DATA_FRAMING_H

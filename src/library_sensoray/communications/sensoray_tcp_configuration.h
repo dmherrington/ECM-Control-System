@@ -6,8 +6,8 @@
 #include <string>
 #include "common/comms/link_configuration.h"
 
-namespace sensoray{
-namespace comms{
+
+namespace comms_Sensoray{
 
 class SensorayTCPConfiguration : public common::comms::LinkConfiguration
 {
@@ -37,6 +37,6 @@ private:
 };
 
 } //end of namepsace comms
-} //end of namespace sensoray
+
 
 #endif // SENSORARY_TCP_CONFIGURATION_H

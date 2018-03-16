@@ -5,8 +5,7 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Data
-{
+namespace data_Munk{
 
 //!
 //! \brief The FaultCodesRegister1 enum
@@ -69,6 +68,6 @@ inline std::string FaultCodesRegister1ToString(const FaultCodesRegister1 &type) 
     }
 }
 
+} //end of namespace data_Munk
 
-} //end of namespace Data
 #endif // FAULT_CODES_REGISTER_ONE_H

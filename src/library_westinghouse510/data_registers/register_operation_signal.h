@@ -1,10 +1,11 @@
 #ifndef REGISTER_OPERATION_SIGNAL_H
 #define REGISTER_OPERATION_SIGNAL_H
 
+#include "data/type_read_write.h"
+
 #include "abstract_register.h"
 
-namespace westinghousePump{
-namespace registers{
+namespace registers_WestinghousePump{
 
 class Register_OperationSignal : public AbstractRegister
 {
@@ -134,6 +135,6 @@ private:
     bool _reset = false;
 };
 
-} //end of namespace registers
-} //end of namespace westinghousePump
+} //end of namespace registers_WestinghousePump 
+
 #endif // REGISTER_OPERATION_SIGNAL_H

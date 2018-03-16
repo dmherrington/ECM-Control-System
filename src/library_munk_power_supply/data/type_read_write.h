@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Data
-{
+
+namespace data_Munk {
 
 //!
 //! \brief The ReadWriteType enum
@@ -52,11 +52,12 @@ inline ReadWriteType ReadWriteTypeFromString(const std::string &str) {
 inline std::vector<std::string> getListOfReadWriteType()
 {
     std::vector<std::string> str;
-    str.push_back(Data::ReadWriteTypeToString(ReadWriteType::READ));
-    str.push_back(Data::ReadWriteTypeToString(ReadWriteType::WRITE));
+    str.push_back(data_Munk::ReadWriteTypeToString(ReadWriteType::READ));
+    str.push_back(data_Munk::ReadWriteTypeToString(ReadWriteType::WRITE));
     return str;
 }
 
-} //end of namespace Data
+} //end of namespace data_Munk
+
 
 #endif // TYPE_READ_WRITE_H

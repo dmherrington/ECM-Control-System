@@ -19,8 +19,8 @@
 #include "abstract_acquire_command.h"
 #include "data/type_memory_depth.h"
 
-namespace rigol {
-namespace commands{
+
+namespace commands_Rigol{
 
 ECM_CLASS_FORWARD(AcquireCommand_Mdepth);
 
@@ -33,11 +33,11 @@ public:
 
 public:
 
-    void setSingleChannelDepth(const data::DepthSingleChannel &depth);
+    void setSingleChannelDepth(const data_Rigol::DepthSingleChannel &depth);
 
-    void setDualChannelDepth(const data::DepthDualChannel &depth);
+    void setDualChannelDepth(const data_Rigol::DepthDualChannel &depth);
 
-    void setQuadratureChannelDepth(const data::DepthQuadratureChannel &depth);
+    void setQuadratureChannelDepth(const data_Rigol::DepthQuadratureChannel &depth);
 
     std::string getChannelDepth() const;
 
@@ -99,6 +99,6 @@ private:
 };
 
 } //end of namespace commands
-} //end of namespace rigol
+
 
 #endif // ACQUIRE_COMMAND_MDEPTH_H

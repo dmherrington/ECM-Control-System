@@ -16,7 +16,7 @@
 
 #include "time_data_reference.h"
 
-namespace data {
+namespace common_data {
 namespace observation {
 
 //!
@@ -100,7 +100,7 @@ public:
     //! \param [in] componentIndex Specific scalar component of observation retreive. Defaults to empty string if desired to retreive full observation.
     //! \return True if identifier exists in collection, false otherwise
     //!
-    bool Evaluate(const IPlotComparable &ID, CartesianData &data, const CartesianEvaluationParameters &parameters, const std::string &componentIndex = "") const;
+    bool Evaluate(const IPlotComparable &ID, CartesianData &common_data, const CartesianEvaluationParameters &parameters, const std::string &componentIndex = "") const;
 
 
 public:

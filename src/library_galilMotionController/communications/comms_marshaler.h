@@ -1,5 +1,5 @@
-#ifndef COMMS_MARSHALER_H
-#define COMMS_MARSHALER_H
+#ifndef COMMS_MARSHALER_GALIL_H
+#define COMMS_MARSHALER_GALIL_H
 
 #include "common/publisher.h"
 

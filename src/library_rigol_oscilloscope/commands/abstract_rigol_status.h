@@ -10,10 +10,10 @@
 
 #include "data/type_available_commands.h"
 
-namespace rigol {
-namespace commands {
 
-using namespace data;
+namespace commands_Rigol {
+
+using namespace data_Rigol;
 ECM_CLASS_FORWARD(AbstractRigolStatus);
 
 class AbstractRigolStatus
@@ -78,6 +78,6 @@ private:
 };
 
 } //end of namespace commands
-} //end of namespace rigol
+
 
 #endif // ABSTRACT_RIGOL_STATUS_H

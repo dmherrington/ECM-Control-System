@@ -8,7 +8,7 @@
 #include "number_systems.h"
 
 
-namespace data {
+namespace common_data {
 namespace observation {
 
 //!

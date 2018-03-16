@@ -21,7 +21,7 @@ void RigolPollMeasurement::pausePolling()
     });
 }
 
-void RigolPollMeasurement::addPollingMeasurement(const rigol::commands::MeasureCommand_Item &command)
+void RigolPollMeasurement::addPollingMeasurement(const commands_Rigol::MeasureCommand_Item &command)
 {
     if(isThreadActive())
         m_LambdasToRun.push_back([this,command]{
@@ -51,7 +51,7 @@ void RigolPollMeasurement::clearQueue()
         this->measurementQueue.clearQueue();
 }
 
-rigol::commands::RigolMeasurementQueue RigolPollMeasurement::getCurrentPollingMeasurements() const
+commands_Rigol::RigolMeasurementQueue RigolPollMeasurement::getCurrentPollingMeasurements() const
 {
     return this->measurementQueue;
 }
@@ -80,7 +80,7 @@ void RigolPollMeasurement::run()
             //this means we should request measurements from the rigol that are in our queue
             if(m_CB)
             {
-                std::vector<rigol::commands::MeasureCommand_Item> vec = this->measurementQueue.getMeasurementItems();
+                std::vector<commands_Rigol::MeasureCommand_Item> vec = this->measurementQueue.getMeasurementItems();
                 for (unsigned int i = 0; i < vec.size(); i++)
                 {
                     m_CB->cbi_RigolMeasurementRequests(vec.at(i));

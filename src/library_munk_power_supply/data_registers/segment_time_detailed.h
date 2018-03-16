@@ -8,8 +8,9 @@
 #include "segment_time_data_detailed.h"
 #include "segment_time_general.h"
 
-namespace DataParameter
-{
+
+namespace registers_Munk{
+
 //!
 //! \brief The SegmentTimeDetailed class
 //!
@@ -56,7 +57,7 @@ public:
     //! \brief getRegisterData
     //! \return
     //!
-    std::vector<DataParameter::SegmentTimeDataDetailed> getRegisterData() const;
+    std::vector<registers_Munk::SegmentTimeDataDetailed> getRegisterData() const;
 
     //!
     //! \brief initializeData
@@ -110,9 +111,10 @@ private:
     //!
     //! \brief detailedRegisterData
     //!
-    std::vector<DataParameter::SegmentTimeDataDetailed> detailedRegisterData;
+    std::vector<registers_Munk::SegmentTimeDataDetailed> detailedRegisterData;
 };
 
-} //end of namespace MunkPowerSupply
+} //end of namepsace registers_Munk
+
 
 #endif // SEGMENT_TIME_DETAILED_H

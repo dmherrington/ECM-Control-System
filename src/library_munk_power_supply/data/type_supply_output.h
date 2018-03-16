@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Data
-{
+
+namespace data_Munk{
 
 //!
 //! \brief The TypeSupplyOutput enum
@@ -82,17 +82,18 @@ inline TypeSupplyOutput TypeSupplyOutputString(const std::string &str) {
 inline std::vector<std::string> getListOfTypeSupplyOutput()
 {
     std::vector<std::string> str;
-    str.push_back(Data::TypeSupplyOutputToString(TypeSupplyOutput::OUTPUT1));
-    str.push_back(Data::TypeSupplyOutputToString(TypeSupplyOutput::OUTPUT2));
-    str.push_back(Data::TypeSupplyOutputToString(TypeSupplyOutput::OUTPUT3));
-    str.push_back(Data::TypeSupplyOutputToString(TypeSupplyOutput::OUTPUT4));
-    str.push_back(Data::TypeSupplyOutputToString(TypeSupplyOutput::OUTPUT5));
-    str.push_back(Data::TypeSupplyOutputToString(TypeSupplyOutput::OUTPUT6));
-    str.push_back(Data::TypeSupplyOutputToString(TypeSupplyOutput::OUTPUT7));
-    str.push_back(Data::TypeSupplyOutputToString(TypeSupplyOutput::OUTPUT8));
+    str.push_back(data_Munk::TypeSupplyOutputToString(TypeSupplyOutput::OUTPUT1));
+    str.push_back(data_Munk::TypeSupplyOutputToString(TypeSupplyOutput::OUTPUT2));
+    str.push_back(data_Munk::TypeSupplyOutputToString(TypeSupplyOutput::OUTPUT3));
+    str.push_back(data_Munk::TypeSupplyOutputToString(TypeSupplyOutput::OUTPUT4));
+    str.push_back(data_Munk::TypeSupplyOutputToString(TypeSupplyOutput::OUTPUT5));
+    str.push_back(data_Munk::TypeSupplyOutputToString(TypeSupplyOutput::OUTPUT6));
+    str.push_back(data_Munk::TypeSupplyOutputToString(TypeSupplyOutput::OUTPUT7));
+    str.push_back(data_Munk::TypeSupplyOutputToString(TypeSupplyOutput::OUTPUT8));
     return str;
 }
 
-} //end of namespace Data
+} //end of namespace data_Munk
+
 
 #endif // TYPE_SUPPLY_OUTPUT_H

@@ -24,7 +24,7 @@ ECMPlotCollection::~ECMPlotCollection()
 //! \param sensor ECM sensor component to update
 //! \param state Observed sensor state
 //!
-void ECMPlotCollection::UpdateSensorPlots(const common::TupleSensorString sensor, const data::SensorState &state)
+void ECMPlotCollection::UpdateSensorPlots(const common::TupleSensorString sensor, const common_data::SensorState &state)
 {
     QDate tmp_Date(state.validityTime->year, state.validityTime->month, state.validityTime->dayOfMonth);
     QTime tmp_Time(state.validityTime->hour, state.validityTime->minute, state.validityTime->second, state.validityTime->millisecond);
@@ -32,11 +32,11 @@ void ECMPlotCollection::UpdateSensorPlots(const common::TupleSensorString sensor
 
     switch(state.getSensorData()->getType())
     {
-    case data::SENSOR_VOLTAGE:
+    case common_data::SENSOR_VOLTAGE:
     {
         ECMPlotIdentifier ID_S(sensor, "Sensed_Voltage", 14, Sensed_Voltage_Hash);
-        MakePlot(ID_S, data::VoltageDimension(data::UNIT_VOLTAGE_VOLTS).ShortHand());
-        double value = ((data::SensorVoltage*)state.getSensorData().get())->getVoltage(data::UNIT_VOLTAGE_VOLTS);
+        MakePlot(ID_S, common_data::VoltageDimension(common_data::UNIT_VOLTAGE_VOLTS).ShortHand());
+        double value = ((common_data::SensorVoltage*)state.getSensorData().get())->getVoltage(common_data::UNIT_VOLTAGE_VOLTS);
         InsertData(ID_S, time, value);
         break;
     }
@@ -54,9 +54,9 @@ void ECMPlotCollection::UpdateSensorPlots(const common::TupleSensorString sensor
 //! \param element ECM components
 //! \return List of pointers to plot data
 //!
-QList<std::shared_ptr<data::observation::IPlotComparable> > ECMPlotCollection::getPlots(const common::TupleECMData &element) const
+QList<std::shared_ptr<common_data::observation::IPlotComparable> > ECMPlotCollection::getPlots(const common::TupleECMData &element) const
 {
-    QList<std::shared_ptr<data::observation::IPlotComparable>> rtnList;
+    QList<std::shared_ptr<common_data::observation::IPlotComparable>> rtnList;
 
     QList<ECMPlotIdentifier> ID_list = m_ComponentToIDsHash[element];
 

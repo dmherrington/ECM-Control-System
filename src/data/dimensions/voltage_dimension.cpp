@@ -1,6 +1,6 @@
 #include "voltage_dimension.h"
 
-namespace data
+namespace common_data
 {
 
 

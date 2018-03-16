@@ -1,7 +1,7 @@
 #include "time_dimension.h"
 
 
-namespace data
+namespace common_data
 {
 
 

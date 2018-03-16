@@ -7,8 +7,8 @@
 #include <data/type_segment_level.h>
 #include <data/type_segment_mode.h>
 
-namespace DataParameter
-{
+
+namespace registers_Munk{
 
 //!
 //! \brief The SegmentTimeDataGeneral class
@@ -28,26 +28,26 @@ public:
     //! \param power
     //! \param time
     //!
-    SegmentTimeDataGeneral(const Data::SegmentLevel &level, const Data::SegmentMode &mode, const uint32_t &time);
+    SegmentTimeDataGeneral(const data_Munk::SegmentLevel &level, const data_Munk::SegmentMode &mode, const uint32_t &time);
 
 public:
     //!
     //! \brief setSegmentLevel
     //! \param level
     //!
-    void setSegmentLevel(const Data::SegmentLevel &level);
+    void setSegmentLevel(const data_Munk::SegmentLevel &level);
 
     //!
     //! \brief setSegmentMode
     //! \param mode
     //!
-    void setSegmentMode(const Data::SegmentMode &mode);
+    void setSegmentMode(const data_Munk::SegmentMode &mode);
 
     //!
     //! \brief setSegmentPower
     //! \param power
     //!
-    void setSegmentPower(const Data::SegmentPower &power);
+    void setSegmentPower(const data_Munk::SegmentPower &power);
 
     //!
     //! \brief setTimeValue
@@ -122,17 +122,17 @@ private:
     //!
     //! \brief segmentLevel
     //!
-    Data::SegmentLevel segmentLevel;
+    data_Munk::SegmentLevel segmentLevel;
 
     //!
     //! \brief segmentMode
     //!
-    Data::SegmentMode segmentMode;
+    data_Munk::SegmentMode segmentMode;
 
     //!
     //! \brief segmentPower
     //!
-    Data::SegmentPower segmentPower;
+    data_Munk::SegmentPower segmentPower;
 
     //!
     //! \brief timeValue
@@ -141,5 +141,7 @@ private:
 
 };
 
-} //end of namespace DataParameter
+} //end of namepsace registers_Munk
+
+
 #endif // SEGMENT_TIME_DATA_H

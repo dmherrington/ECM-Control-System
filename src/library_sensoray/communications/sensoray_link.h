@@ -17,8 +17,8 @@
 
 #include "sensoray_session.h"
 
-namespace sensoray{
-namespace comms {
+
+namespace comms_Sensoray {
 
 class SensorayLink : public ILink
 {
@@ -97,6 +97,5 @@ private:
 };
 
 } //end of namepsace comms
-} //end of namespace rigol
 
 #endif // SENSORAY_TCP_LINK_H
