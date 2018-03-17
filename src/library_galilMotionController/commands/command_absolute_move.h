@@ -21,6 +21,8 @@
 \*
 \*/
 
+ECM_CLASS_FORWARD(CommandAbsoluteMove);
+
 class CommandAbsoluteMove : public AbstractMoveCommand
 {
 public:

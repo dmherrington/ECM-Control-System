@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_WidgetSegmentTimeDisplay_t {
     QByteArrayData data[5];
-    char stringdata0[96];
+    char stringdata0[97];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,12 +34,12 @@ static const qt_meta_stringdata_WidgetSegmentTimeDisplay_t qt_meta_stringdata_Wi
 QT_MOC_LITERAL(0, 0, 24), // "WidgetSegmentTimeDisplay"
 QT_MOC_LITERAL(1, 25, 11), // "updatedData"
 QT_MOC_LITERAL(2, 37, 0), // ""
-QT_MOC_LITERAL(3, 38, 49), // "std::list<DataParameter::Segm..."
-QT_MOC_LITERAL(4, 88, 7) // "newData"
+QT_MOC_LITERAL(3, 38, 50), // "std::list<registers_Munk::Seg..."
+QT_MOC_LITERAL(4, 89, 7) // "newData"
 
     },
     "WidgetSegmentTimeDisplay\0updatedData\0"
-    "\0std::list<DataParameter::SegmentTimeDataDetailed>\0"
+    "\0std::list<registers_Munk::SegmentTimeDataDetailed>\0"
     "newData"
 };
 #undef QT_MOC_LITERAL
@@ -72,13 +72,13 @@ void WidgetSegmentTimeDisplay::qt_static_metacall(QObject *_o, QMetaObject::Call
         WidgetSegmentTimeDisplay *_t = static_cast<WidgetSegmentTimeDisplay *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->updatedData((*reinterpret_cast< const std::list<DataParameter::SegmentTimeDataDetailed>(*)>(_a[1]))); break;
+        case 0: _t->updatedData((*reinterpret_cast< const std::list<registers_Munk::SegmentTimeDataDetailed>(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            typedef void (WidgetSegmentTimeDisplay::*_t)(const std::list<DataParameter::SegmentTimeDataDetailed> & );
+            typedef void (WidgetSegmentTimeDisplay::*_t)(const std::list<registers_Munk::SegmentTimeDataDetailed> & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&WidgetSegmentTimeDisplay::updatedData)) {
                 *result = 0;
                 return;
@@ -126,7 +126,7 @@ int WidgetSegmentTimeDisplay::qt_metacall(QMetaObject::Call _c, int _id, void **
 }
 
 // SIGNAL 0
-void WidgetSegmentTimeDisplay::updatedData(const std::list<DataParameter::SegmentTimeDataDetailed> & _t1)
+void WidgetSegmentTimeDisplay::updatedData(const std::list<registers_Munk::SegmentTimeDataDetailed> & _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);

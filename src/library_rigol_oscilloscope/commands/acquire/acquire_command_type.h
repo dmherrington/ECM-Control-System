@@ -19,8 +19,8 @@
 #include "abstract_acquire_command.h"
 #include "acquire_command_type_options.h"
 
-namespace rigol {
-namespace commands{
+
+namespace commands_Rigol{
 
 ECM_CLASS_FORWARD(AcquireCommand_Type);
 
@@ -33,9 +33,9 @@ public:
 
 public:
 
-    void setAcquisitionMode(const data::AcquireCommand_TypeMode &mode);
+    void setAcquisitionMode(const data_Rigol::AcquireCommand_TypeMode &mode);
 
-    data::AcquireCommand_TypeMode getAcquisitionMode() const;
+    data_Rigol::AcquireCommand_TypeMode getAcquisitionMode() const;
 
 protected:
     std::string getAcquireCommandString() const override;
@@ -91,11 +91,11 @@ public:
     }
 
 private:
-    data::AcquireCommand_TypeMode option = data::AcquireCommand_TypeMode::AVERAGE;
+    data_Rigol::AcquireCommand_TypeMode option = data_Rigol::AcquireCommand_TypeMode::AVERAGE;
 
 };
 
 } //end of namespace commands
-} //end of namespace rigol
+
 
 #endif // ACQUIRE_COMMAND_TYPE_H

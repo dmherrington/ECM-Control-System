@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
     QByteArrayData data[32];
-    char stringdata0[629];
+    char stringdata0[630];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -51,18 +51,18 @@ QT_MOC_LITERAL(16, 208, 25), // "slot_WriteProgressUpdated"
 QT_MOC_LITERAL(17, 234, 9), // "completed"
 QT_MOC_LITERAL(18, 244, 8), // "required"
 QT_MOC_LITERAL(19, 253, 31), // "widgetSegmentDisplay_dataUpdate"
-QT_MOC_LITERAL(20, 285, 49), // "std::list<DataParameter::Segm..."
-QT_MOC_LITERAL(21, 335, 7), // "newData"
-QT_MOC_LITERAL(22, 343, 33), // "on_pushButton_AddSegment_rele..."
-QT_MOC_LITERAL(23, 377, 23), // "on_actionLoad_triggered"
-QT_MOC_LITERAL(24, 401, 23), // "on_actionSave_triggered"
-QT_MOC_LITERAL(25, 425, 26), // "on_actionSave_As_triggered"
-QT_MOC_LITERAL(26, 452, 34), // "on_actionOpen_Connection_trig..."
-QT_MOC_LITERAL(27, 487, 35), // "on_actionClose_Connection_tri..."
-QT_MOC_LITERAL(28, 523, 35), // "on_actionTransmit_To_Munk_tri..."
-QT_MOC_LITERAL(29, 559, 13), // "onGraphLegend"
-QT_MOC_LITERAL(30, 573, 31), // "on_pushButton_transmit_released"
-QT_MOC_LITERAL(31, 605, 23) // "on_actionExit_triggered"
+QT_MOC_LITERAL(20, 285, 50), // "std::list<registers_Munk::Seg..."
+QT_MOC_LITERAL(21, 336, 7), // "newData"
+QT_MOC_LITERAL(22, 344, 33), // "on_pushButton_AddSegment_rele..."
+QT_MOC_LITERAL(23, 378, 23), // "on_actionLoad_triggered"
+QT_MOC_LITERAL(24, 402, 23), // "on_actionSave_triggered"
+QT_MOC_LITERAL(25, 426, 26), // "on_actionSave_As_triggered"
+QT_MOC_LITERAL(26, 453, 34), // "on_actionOpen_Connection_trig..."
+QT_MOC_LITERAL(27, 488, 35), // "on_actionClose_Connection_tri..."
+QT_MOC_LITERAL(28, 524, 35), // "on_actionTransmit_To_Munk_tri..."
+QT_MOC_LITERAL(29, 560, 13), // "onGraphLegend"
+QT_MOC_LITERAL(30, 574, 31), // "on_pushButton_transmit_released"
+QT_MOC_LITERAL(31, 606, 23) // "on_actionExit_triggered"
 
     },
     "MainWindow\0slot_ConnectionStatusUpdate\0"
@@ -72,7 +72,7 @@ QT_MOC_LITERAL(31, 605, 23) // "on_actionExit_triggered"
     "RW\0meaning\0slot_FaultCodeRecieved\0"
     "regNum\0slot_WriteProgressUpdated\0"
     "completed\0required\0widgetSegmentDisplay_dataUpdate\0"
-    "std::list<DataParameter::SegmentTimeDataDetailed>\0"
+    "std::list<registers_Munk::SegmentTimeDataDetailed>\0"
     "newData\0on_pushButton_AddSegment_released\0"
     "on_actionLoad_triggered\0on_actionSave_triggered\0"
     "on_actionSave_As_triggered\0"
@@ -153,7 +153,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 4: _t->slot_SegmentException((*reinterpret_cast< const std::string(*)>(_a[1])),(*reinterpret_cast< const std::string(*)>(_a[2]))); break;
         case 5: _t->slot_FaultCodeRecieved((*reinterpret_cast< const int(*)>(_a[1])),(*reinterpret_cast< const std::string(*)>(_a[2]))); break;
         case 6: _t->slot_WriteProgressUpdated((*reinterpret_cast< const int(*)>(_a[1])),(*reinterpret_cast< const int(*)>(_a[2]))); break;
-        case 7: _t->widgetSegmentDisplay_dataUpdate((*reinterpret_cast< const std::list<DataParameter::SegmentTimeDataDetailed>(*)>(_a[1]))); break;
+        case 7: _t->widgetSegmentDisplay_dataUpdate((*reinterpret_cast< const std::list<registers_Munk::SegmentTimeDataDetailed>(*)>(_a[1]))); break;
         case 8: _t->on_pushButton_AddSegment_released(); break;
         case 9: _t->on_actionLoad_triggered(); break;
         case 10: _t->on_actionSave_triggered(); break;

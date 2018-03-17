@@ -75,7 +75,6 @@ void State_MotionStop::Update()
     {
         desiredState = ECMState::STATE_READY;
     }
-
 }
 
 void State_MotionStop::OnEnter()
@@ -91,7 +90,8 @@ void State_MotionStop::OnEnter(const AbstractCommand* command)
 
     if(command != nullptr)
     {
-        //The command isnt null so we should handle it if applicable
+        //The command might not be empty, however, we cannot handle anything in this state
+        //Allow the state to transition and perhaps it will get handled in the next
     }
     else{
         //There was no actual command, therefore, there is nothing else to do at this point

@@ -24,16 +24,16 @@
 #include "data/type_acquire_commands.h"
 #include "data/type_read_write.h"
 
-namespace rigol {
-namespace commands{
+
+namespace commands_Rigol{
 
 ECM_CLASS_FORWARD(AbstractAcquireCommand);
 
 class AbstractAcquireCommand : public AbstractRigolCommand
 {
 public:
-    AbstractAcquireCommand(const data::AcquireType &acquire, const data::ReadWriteType &rw = data::ReadWriteType::WRITE):
-        AbstractRigolCommand(data::CommandTypes::COMMAND_ACQUIRE,rw)
+    AbstractAcquireCommand(const data_Rigol::AcquireType &acquire, const data_Rigol::RigolRWType &rw = data_Rigol::RigolRWType::WRITE):
+        AbstractRigolCommand(data_Rigol::CommandTypes::COMMAND_ACQUIRE,rw)
     {
         this->acquireType = acquire;
     }
@@ -71,7 +71,7 @@ public:
     {
         std::string str = "";
         str+=getPrefixCommand();
-        str+= data::AcquireTypeToString(this->getAcquisitionType());
+        str+= data_Rigol::AcquireTypeToString(this->getAcquisitionType());
         str+=getSuffixCommand();
         str+=this->getAcquireCommandString();
         str+="\n";
@@ -85,7 +85,7 @@ public:
 
 
 public:
-    virtual data::AcquireType getAcquisitionType() const
+    virtual data_Rigol::AcquireType getAcquisitionType() const
     {
         return acquireType;
     }
@@ -131,10 +131,10 @@ protected:
     virtual std::string getAcquireCommandString() const = 0;
 
 protected:
-    data::AcquireType acquireType;
+    data_Rigol::AcquireType acquireType;
 };
 
 } //end of namespace commands
-} //end of namespace rigol
+
 
 #endif // ABSTRACT_ACQUIRE_COMMAND_H

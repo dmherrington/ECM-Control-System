@@ -14,8 +14,8 @@
 #include "i_link.h"
 #include "serial_configuration.h"
 
-namespace munk {
-namespace comms{
+
+namespace comms_Munk{
 
 class MunkSerialLink : public ILink
 {
@@ -103,7 +103,7 @@ private:
 
 };
 
-} //end of namespace comms
-} //end of namespace munk
+} //end of namespace comms_Munk
+
 
 #endif // MUNK_SERIAL_LINK_H

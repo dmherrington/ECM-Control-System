@@ -1,10 +1,10 @@
 #include "acquire_command_average.h"
 
-namespace rigol {
-namespace commands{
+
+namespace commands_Rigol{
 
 AcquireCommand_Average::AcquireCommand_Average():
-    AbstractAcquireCommand(data::AcquireType::ACQUIRE_AVERAGE)
+    AbstractAcquireCommand(data_Rigol::AcquireType::ACQUIRE_AVERAGE)
 {
 
 }
@@ -52,4 +52,4 @@ std::string AcquireCommand_Average::getAcquireCommandString() const
 }
 
 } //end of namespace commands
-} //end of namespace rigol
+

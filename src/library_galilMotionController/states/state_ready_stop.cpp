@@ -31,7 +31,7 @@ hsm::Transition State_ReadyStop::GetTransition()
         switch (desiredState) {
         case ECMState::STATE_IDLE:
         {
-            rtn = hsm::SiblingTransition<State_Idle>();
+            rtn = hsm::SiblingTransition<State_Idle>(currentCommand);
             break;
         }
         case ECMState::STATE_ESTOP:
@@ -99,6 +99,8 @@ void State_ReadyStop::OnEnter(const AbstractCommand* command)
 {
     this->OnEnter();
 
+    //The reason we got here is because we have a command that needs us to transition to the idle state
+    //Therefore we should not clear the current command and have it transtion on to the idle state
     if(command != nullptr)
     {
         //The command isnt null so we should handle it

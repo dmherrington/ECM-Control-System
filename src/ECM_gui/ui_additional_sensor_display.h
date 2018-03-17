@@ -49,7 +49,7 @@ public:
         AdditionalSensorDisplay->setCentralWidget(centralwidget);
         menubar = new QMenuBar(AdditionalSensorDisplay);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 800, 25));
+        menubar->setGeometry(QRect(0, 0, 800, 22));
         menuView = new QMenu(menubar);
         menuView->setObjectName(QStringLiteral("menuView"));
         AdditionalSensorDisplay->setMenuBar(menubar);

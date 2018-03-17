@@ -24,8 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionGraph_Legend, &QAction::triggered, this, &MainWindow::onGraphLegend);
 
 
-    connect(ui->segmentWidget,SIGNAL(updatedData(std::list<DataParameter::SegmentTimeDataDetailed>)),
-            this,SLOT(widgetSegmentDisplay_dataUpdate(std::list<DataParameter::SegmentTimeDataDetailed>)));
+    connect(ui->segmentWidget,SIGNAL(updatedData(std::list<registers_Munk::SegmentTimeDataDetailed>)),
+            this,SLOT(widgetSegmentDisplay_dataUpdate(std::list<registers_Munk::SegmentTimeDataDetailed>)));
 
 
 
@@ -164,24 +164,24 @@ void MainWindow::on_actionClose_Connection_triggered()
 void MainWindow::on_actionTransmit_To_Munk_triggered()
 {
     segmentUnlocked = true;
-    DataParameter::SegmentTimeDetailed dataSegment = ui->segmentWidget->getRawData();
+    registers_Munk::SegmentTimeDetailed dataSegment = ui->segmentWidget->getRawData();
     m_PowerSupply->generateAndTransmitMessage(dataSegment);
 }
 
 void MainWindow::onGraphLegend()
 {
-    bool isShowing = ui->graphWidget->legend->visible();
-    ui->graphWidget->legend->setVisible(!isShowing);
-    ui->graphWidget->replot();
+//    bool isShowing = ui->graphWidget->legend->visible();
+//    ui->graphWidget->legend->setVisible(!isShowing);
+//    ui->graphWidget->replot();
 }
 
 
-void MainWindow::widgetSegmentDisplay_dataUpdate(const std::list<DataParameter::SegmentTimeDataDetailed> &newData)
+void MainWindow::widgetSegmentDisplay_dataUpdate(const std::list<registers_Munk::SegmentTimeDataDetailed> &newData)
 {
     segmentUnlocked = false;
     ui->progressBar->setValue(0);
 
-    std::list<DataParameter::SegmentTimeDataDetailed>::const_iterator iterator;
+    std::list<registers_Munk::SegmentTimeDataDetailed>::const_iterator iterator;
 
     std::vector<double> voltageVector;
     std::vector<double> currentVector;
@@ -191,7 +191,7 @@ void MainWindow::widgetSegmentDisplay_dataUpdate(const std::list<DataParameter::
     double endingValue = 0;
 
     for (iterator = newData.begin(); iterator != newData.end(); ++iterator) {
-        DataParameter::SegmentTimeDataDetailed subData = *iterator;
+        registers_Munk::SegmentTimeDataDetailed subData = *iterator;
 
         beginningValue = endingValue;
         endingValue += (((double)subData.getTimeValue())/1000.0);
@@ -210,7 +210,7 @@ void MainWindow::widgetSegmentDisplay_dataUpdate(const std::list<DataParameter::
 
     }
 
-    ui->graphWidget->updateData(QVector<double>::fromStdVector(timeVector), QVector<double>::fromStdVector(voltageVector), QVector<double>::fromStdVector(currentVector));
+    //ui->graphWidget->updateData(QVector<double>::fromStdVector(timeVector), QVector<double>::fromStdVector(voltageVector), QVector<double>::fromStdVector(currentVector));
 }
 
 void MainWindow::on_pushButton_AddSegment_released()

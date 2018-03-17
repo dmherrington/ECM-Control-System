@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
-namespace rigol {
-namespace data{
+
+namespace data_Rigol{
 
 enum class MeasurementCommands
 {
@@ -49,7 +49,7 @@ inline std::vector<std::string> getListOfMeasurementTypes()
     return str;
 }
 
-} //end of namespace data
-} //end of namespace rigol
+} //end of namespace data_Rigol
+
 
 #endif // TYPE_MEASURE_COMMANDS_H

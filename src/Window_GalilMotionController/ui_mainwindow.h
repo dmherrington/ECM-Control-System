@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.1
+** Created by: Qt User Interface Compiler version 5.10.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -32,7 +32,7 @@
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
-#include "plot_handler.h"
+#include "LED.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -51,8 +51,8 @@ public:
     QAction *action_LoadProfile;
     QWidget *centralWidget;
     QGridLayout *gridLayout_6;
+    QWidget *graphingWidget;
     QTextEdit *programText;
-    graphing::PlotHandler *graphingWidget;
     QGridLayout *gridLayout_5;
     QFrame *frame_ProfileOptions;
     QGridLayout *gridLayout_2;
@@ -114,6 +114,7 @@ public:
     QSpacerItem *verticalSpacer_3;
     QSpacerItem *verticalSpacer_2;
     QSpacerItem *horizontalSpacer;
+    LED *ledWidget;
     QMenuBar *menuBar;
     QMenu *menuGalil;
     QMenu *menuLoad;
@@ -157,36 +158,36 @@ public:
         gridLayout_6->setSpacing(6);
         gridLayout_6->setContentsMargins(11, 11, 11, 11);
         gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
-        programText = new QTextEdit(centralWidget);
-        programText->setObjectName(QStringLiteral("programText"));
-        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
+        graphingWidget = new QWidget(centralWidget);
+        graphingWidget->setObjectName(QStringLiteral("graphingWidget"));
+        QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(programText->sizePolicy().hasHeightForWidth());
-        programText->setSizePolicy(sizePolicy1);
+        sizePolicy1.setHeightForWidth(graphingWidget->sizePolicy().hasHeightForWidth());
+        graphingWidget->setSizePolicy(sizePolicy1);
+        graphingWidget->setMinimumSize(QSize(0, 250));
+
+        gridLayout_6->addWidget(graphingWidget, 0, 1, 1, 2);
+
+        programText = new QTextEdit(centralWidget);
+        programText->setObjectName(QStringLiteral("programText"));
+        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(programText->sizePolicy().hasHeightForWidth());
+        programText->setSizePolicy(sizePolicy2);
         programText->setMinimumSize(QSize(480, 0));
         programText->setMaximumSize(QSize(480, 16777215));
 
         gridLayout_6->addWidget(programText, 0, 0, 1, 1);
-
-        graphingWidget = new graphing::PlotHandler(centralWidget);
-        graphingWidget->setObjectName(QStringLiteral("graphingWidget"));
-        QSizePolicy sizePolicy2(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(graphingWidget->sizePolicy().hasHeightForWidth());
-        graphingWidget->setSizePolicy(sizePolicy2);
-        graphingWidget->setMinimumSize(QSize(0, 250));
-
-        gridLayout_6->addWidget(graphingWidget, 0, 1, 1, 2);
 
         gridLayout_5 = new QGridLayout();
         gridLayout_5->setSpacing(6);
         gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
         frame_ProfileOptions = new QFrame(centralWidget);
         frame_ProfileOptions->setObjectName(QStringLiteral("frame_ProfileOptions"));
-        sizePolicy2.setHeightForWidth(frame_ProfileOptions->sizePolicy().hasHeightForWidth());
-        frame_ProfileOptions->setSizePolicy(sizePolicy2);
+        sizePolicy1.setHeightForWidth(frame_ProfileOptions->sizePolicy().hasHeightForWidth());
+        frame_ProfileOptions->setSizePolicy(sizePolicy1);
         frame_ProfileOptions->setMinimumSize(QSize(480, 250));
         frame_ProfileOptions->setMaximumSize(QSize(2000, 16777215));
         frame_ProfileOptions->setFrameShape(QFrame::Box);
@@ -521,8 +522,8 @@ public:
 
         frame_ProfileOptions_2 = new QFrame(centralWidget);
         frame_ProfileOptions_2->setObjectName(QStringLiteral("frame_ProfileOptions_2"));
-        sizePolicy2.setHeightForWidth(frame_ProfileOptions_2->sizePolicy().hasHeightForWidth());
-        frame_ProfileOptions_2->setSizePolicy(sizePolicy2);
+        sizePolicy1.setHeightForWidth(frame_ProfileOptions_2->sizePolicy().hasHeightForWidth());
+        frame_ProfileOptions_2->setSizePolicy(sizePolicy1);
         frame_ProfileOptions_2->setMinimumSize(QSize(152, 70));
         frame_ProfileOptions_2->setFrameShape(QFrame::Box);
         frame_ProfileOptions_2->setFrameShadow(QFrame::Plain);
@@ -630,10 +631,15 @@ public:
 
         gridLayout_6->addItem(horizontalSpacer, 1, 2, 1, 1);
 
+        ledWidget = new LED(centralWidget);
+        ledWidget->setObjectName(QStringLiteral("ledWidget"));
+
+        gridLayout_6->addWidget(ledWidget, 2, 2, 1, 1);
+
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1080, 22));
+        menuBar->setGeometry(QRect(0, 0, 1080, 21));
         menuGalil = new QMenu(menuBar);
         menuGalil->setObjectName(QStringLiteral("menuGalil"));
         menuLoad = new QMenu(menuGalil);
@@ -674,48 +680,48 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
-        actionSave_Program->setText(QApplication::translate("MainWindow", "Save Program", Q_NULLPTR));
-        actionSave_As_Program->setText(QApplication::translate("MainWindow", "Save_As Program", Q_NULLPTR));
-        actionSave_Current_Parameters->setText(QApplication::translate("MainWindow", "Save Current Parameters", Q_NULLPTR));
-        actionSave_As_Current_Parameters->setText(QApplication::translate("MainWindow", "Save_As Current Parameters", Q_NULLPTR));
-        actionLoad_Parameters->setText(QApplication::translate("MainWindow", "Load Parameters", Q_NULLPTR));
-        actionOpen_Connection->setText(QApplication::translate("MainWindow", "Open Connection", Q_NULLPTR));
-        actionClose_Connection->setText(QApplication::translate("MainWindow", "Close Connection", Q_NULLPTR));
-        actionExit->setText(QApplication::translate("MainWindow", "Exit", Q_NULLPTR));
-        action_LoadProgram->setText(QApplication::translate("MainWindow", "Load Program", Q_NULLPTR));
-        action_LoadProfile->setText(QApplication::translate("MainWindow", "Load Profile", Q_NULLPTR));
-        label_ManualControl_2->setText(QApplication::translate("MainWindow", "Profile Optons", Q_NULLPTR));
-        pushButton_DownloadProgram->setText(QApplication::translate("MainWindow", "Download Program", Q_NULLPTR));
-        pushButton_UploadProgram->setText(QApplication::translate("MainWindow", "Upload Program", Q_NULLPTR));
-        pushButton_RunProfile->setText(QApplication::translate("MainWindow", "Run Profile", Q_NULLPTR));
-        pushButton_StopProfile->setText(QApplication::translate("MainWindow", "Stop Profile", Q_NULLPTR));
-        pushButton_SetInitialGap->setText(QApplication::translate("MainWindow", "Set Initial Gap", Q_NULLPTR));
-        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "Tab 1", Q_NULLPTR));
-        label_ManualControl->setText(QApplication::translate("MainWindow", "Manual Control", Q_NULLPTR));
-        label_ManualControl_4->setText(QApplication::translate("MainWindow", "Step Control (um)", Q_NULLPTR));
-        label_ManualControl_3->setText(QApplication::translate("MainWindow", "Jog Control (um/sec)", Q_NULLPTR));
-        pushButton_IncreaseRelativeMove->setText(QApplication::translate("MainWindow", "INCREASE", Q_NULLPTR));
-        pushButton_DecreaseRelativeMove->setText(QApplication::translate("MainWindow", "DECREASE", Q_NULLPTR));
-        pushButton_IncreaseJog->setText(QApplication::translate("MainWindow", "INCREASE", Q_NULLPTR));
-        pushButton_DecreaseJog->setText(QApplication::translate("MainWindow", "DECREASE", Q_NULLPTR));
-        pushButton_SetHome->setText(QApplication::translate("MainWindow", "Set Home", Q_NULLPTR));
-        pushButton_MoveHome->setText(QApplication::translate("MainWindow", "Move To Home", Q_NULLPTR));
-        pushButton_MotorEnable->setText(QApplication::translate("MainWindow", "ENABLE MOTOR", Q_NULLPTR));
-        pushButton_MotorDisable->setText(QApplication::translate("MainWindow", "STOP MOTOR", Q_NULLPTR));
-        radioButton_D1->setText(QApplication::translate("MainWindow", "D1", Q_NULLPTR));
-        radioButton_D2->setText(QApplication::translate("MainWindow", "D2", Q_NULLPTR));
-        radioButton_D3->setText(QApplication::translate("MainWindow", "D3", Q_NULLPTR));
-        label_ManualControl_5->setText(QApplication::translate("MainWindow", "DIO Signals", Q_NULLPTR));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
+        actionSave_Program->setText(QApplication::translate("MainWindow", "Save Program", nullptr));
+        actionSave_As_Program->setText(QApplication::translate("MainWindow", "Save_As Program", nullptr));
+        actionSave_Current_Parameters->setText(QApplication::translate("MainWindow", "Save Current Parameters", nullptr));
+        actionSave_As_Current_Parameters->setText(QApplication::translate("MainWindow", "Save_As Current Parameters", nullptr));
+        actionLoad_Parameters->setText(QApplication::translate("MainWindow", "Load Parameters", nullptr));
+        actionOpen_Connection->setText(QApplication::translate("MainWindow", "Open Connection", nullptr));
+        actionClose_Connection->setText(QApplication::translate("MainWindow", "Close Connection", nullptr));
+        actionExit->setText(QApplication::translate("MainWindow", "Exit", nullptr));
+        action_LoadProgram->setText(QApplication::translate("MainWindow", "Load Program", nullptr));
+        action_LoadProfile->setText(QApplication::translate("MainWindow", "Load Profile", nullptr));
+        label_ManualControl_2->setText(QApplication::translate("MainWindow", "Profile Optons", nullptr));
+        pushButton_DownloadProgram->setText(QApplication::translate("MainWindow", "Download Program", nullptr));
+        pushButton_UploadProgram->setText(QApplication::translate("MainWindow", "Upload Program", nullptr));
+        pushButton_RunProfile->setText(QApplication::translate("MainWindow", "Run Profile", nullptr));
+        pushButton_StopProfile->setText(QApplication::translate("MainWindow", "Stop Profile", nullptr));
+        pushButton_SetInitialGap->setText(QApplication::translate("MainWindow", "Set Initial Gap", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "Tab 1", nullptr));
+        label_ManualControl->setText(QApplication::translate("MainWindow", "Manual Control", nullptr));
+        label_ManualControl_4->setText(QApplication::translate("MainWindow", "Step Control (um)", nullptr));
+        label_ManualControl_3->setText(QApplication::translate("MainWindow", "Jog Control (um/sec)", nullptr));
+        pushButton_IncreaseRelativeMove->setText(QApplication::translate("MainWindow", "INCREASE", nullptr));
+        pushButton_DecreaseRelativeMove->setText(QApplication::translate("MainWindow", "DECREASE", nullptr));
+        pushButton_IncreaseJog->setText(QApplication::translate("MainWindow", "INCREASE", nullptr));
+        pushButton_DecreaseJog->setText(QApplication::translate("MainWindow", "DECREASE", nullptr));
+        pushButton_SetHome->setText(QApplication::translate("MainWindow", "Set Home", nullptr));
+        pushButton_MoveHome->setText(QApplication::translate("MainWindow", "Move To Home", nullptr));
+        pushButton_MotorEnable->setText(QApplication::translate("MainWindow", "ENABLE MOTOR", nullptr));
+        pushButton_MotorDisable->setText(QApplication::translate("MainWindow", "STOP MOTOR", nullptr));
+        radioButton_D1->setText(QApplication::translate("MainWindow", "D1", nullptr));
+        radioButton_D2->setText(QApplication::translate("MainWindow", "D2", nullptr));
+        radioButton_D3->setText(QApplication::translate("MainWindow", "D3", nullptr));
+        label_ManualControl_5->setText(QApplication::translate("MainWindow", "DIO Signals", nullptr));
         textEdit_CMD->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-size:8.25pt;\"><br /></p></body></html>", Q_NULLPTR));
-        pushButton_CMDSend->setText(QApplication::translate("MainWindow", "SEND", Q_NULLPTR));
-        menuGalil->setTitle(QApplication::translate("MainWindow", "File", Q_NULLPTR));
-        menuLoad->setTitle(QApplication::translate("MainWindow", "Load", Q_NULLPTR));
-        menuSettings->setTitle(QApplication::translate("MainWindow", "Parameters", Q_NULLPTR));
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
+        pushButton_CMDSend->setText(QApplication::translate("MainWindow", "SEND", nullptr));
+        menuGalil->setTitle(QApplication::translate("MainWindow", "File", nullptr));
+        menuLoad->setTitle(QApplication::translate("MainWindow", "Load", nullptr));
+        menuSettings->setTitle(QApplication::translate("MainWindow", "Parameters", nullptr));
     } // retranslateUi
 
 };

@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       -= gui
-QT = core
+QT += core
 QT += serialport
 
 TARGET = library_munk_power_supply
@@ -25,13 +25,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += munk_power_supply.cpp \
-    parse_munk_response.cpp \
-    serial_port_manager.cpp \
-    serial_port_helper.cpp \
+    communications/comms_progress_handler.cpp \
     communications/munk_comms_marshaler.cpp \
-    communications/serial_configuration.cpp \
+    communications/munk_data_framing.cpp \
+    communications/munk_message.cpp \
     communications/munk_serial_link.cpp \
     communications/protocol_munk.cpp \
+    communications/serial_configuration.cpp \
     data/register_data_object.cpp \
     data_registers/abstract_parameter.cpp \
     data_registers/parameter_memory_write.cpp \
@@ -48,25 +48,18 @@ SOURCES += munk_power_supply.cpp \
     data_response/fault_register_three.cpp \
     data_response/fault_register_two.cpp \
     data_response/valid_response.cpp \
-    communications/munk_data_framing.cpp \
-    communications/munk_message.cpp \
     munk_poll_status.cpp \
-    data_registers/register_standard_faults.cpp \
-    communications/comms_progress_handler.cpp
+    data_registers/register_standard_faults.cpp
 
 HEADERS += \
     library_munk_power_supply_global.h \
     munk_poll_status.h \
     munk_power_supply.h\
-    parse_munk_response.h \
-    serial_port_helper.h \
-    serial_port_manager.h \
     communications/comms_events.h \
     communications/i_link.h \
     communications/i_link_events.h \
     communications/i_protocol.h \
     communications/i_protocol_munk_events.h \
-    communications/link_configuration.h \
     communications/message_framing_state.h \
     communications/munk_comms_marshaler.h \
     communications/munk_data_framing.h \
@@ -127,10 +120,7 @@ headers.path    = $$(ECM_ROOT)/include/library_munk_power_supply
 headers.files   += \
     library_munk_power_supply_global.h \
     munk_poll_status.h \
-    munk_power_supply.h\
-    parse_munk_response.h \
-    serial_port_helper.h \
-    serial_port_manager.h
+    munk_power_supply.h
 INSTALLS       += headers
 
 #Header file copy
@@ -144,7 +134,7 @@ headers_communications.files   += \
     communications/link_configuration.h \
     communications/message_framing_state.h \
     communications/munk_comms_marshaler.h \
-    communications/munk_data_framing.h \
+    communications/data_framing.h \
     communications/munk_message.h \
     communications/munk_serial_link.h \
     communications/protocol_munk.h \
@@ -207,3 +197,13 @@ INCLUDEPATH += $$PWD/../
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
 else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
+
+INCLUDEPATH += $$PWD/../common
+DEPENDPATH += $$PWD/../common
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../data/release/ -ldata
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../data/debug/ -ldata
+else:unix:!macx: LIBS += -L$$OUT_PWD/../data/ -ldata
+
+INCLUDEPATH += $$PWD/../data
+DEPENDPATH += $$PWD/../data

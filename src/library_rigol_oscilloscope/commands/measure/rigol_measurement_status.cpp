@@ -1,7 +1,7 @@
 #include "rigol_measurement_status.h"
 
-namespace rigol {
-namespace commands{
+
+namespace commands_Rigol{
 
 RigolMeasurementStatus::RigolMeasurementStatus(const AvailableChannels &measureChannel, const MeasurementTypes &type):
     AbstractRigolStatus(CommandTypes::COMMAND_MEASURE)
@@ -24,12 +24,12 @@ void RigolMeasurementStatus::setMeasurementValue(const double &measurement)
     this->value = measurement;
 }
 
-data::AvailableChannels RigolMeasurementStatus::getChannel() const
+data_Rigol::AvailableChannels RigolMeasurementStatus::getChannel() const
 {
     return this->channel;
 }
 
-data::MeasurementTypes RigolMeasurementStatus::getMeasurementType() const
+data_Rigol::MeasurementTypes RigolMeasurementStatus::getMeasurementType() const
 {
     return this->measureType;
 }
@@ -40,4 +40,4 @@ double RigolMeasurementStatus::getMeasurementValue() const
 }
 
 } //end of namespace commands
-} //end of namespace rigol
+

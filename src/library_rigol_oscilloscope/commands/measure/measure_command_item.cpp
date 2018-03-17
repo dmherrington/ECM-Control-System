@@ -1,16 +1,16 @@
 #include "measure_command_item.h"
 
-namespace rigol {
-namespace commands{
+
+namespace commands_Rigol{
 
 MeasureCommand_Item::MeasureCommand_Item():
-    AbstractMeasureCommand(data::MeasurementCommands::MEASURE_ITEM)
+    AbstractMeasureCommand(data_Rigol::MeasurementCommands::MEASURE_ITEM)
 {
 
 }
 
-MeasureCommand_Item::MeasureCommand_Item(const data::AvailableChannels &channel, const data::MeasurementTypes &type):
-    AbstractMeasureCommand(data::MeasurementCommands::MEASURE_ITEM)
+MeasureCommand_Item::MeasureCommand_Item(const data_Rigol::AvailableChannels &channel, const data_Rigol::MeasurementTypes &type):
+    AbstractMeasureCommand(data_Rigol::MeasurementCommands::MEASURE_ITEM)
 {
     this->channel = channel;
     this->measureType = type;
@@ -25,16 +25,16 @@ MeasureCommand_Item::MeasureCommand_Item(const MeasureCommand_Item &copy):
 
 void MeasureCommand_Item::read(const QJsonObject &json)
 {
-    setChannel(data::AvailableChannelsDisplayToEnum((json["channel"].toString().toStdString())));
-    setMeasurementType(data::AvailableMeasurementTypeStringToEnum(json["measurement"].toString().toStdString()));
-    setReadOrWrite(data::ReadWriteTypeFromString(json["r_w"].toString().toStdString()));
+    setChannel(data_Rigol::AvailableChannelsDisplayToEnum((json["channel"].toString().toStdString())));
+    setMeasurementType(data_Rigol::AvailableMeasurementTypeStringToEnum(json["measurement"].toString().toStdString()));
+    setReadOrWrite(data_Rigol::ReadWriteTypeFromString(json["r_w"].toString().toStdString()));
 }
 
 void MeasureCommand_Item::write(QJsonObject &json) const
 {
-    json["channel"] = QString::fromStdString(data::AvailableChannelsToDisplayString(this->channel));
-    json["measurement"] = QString::fromStdString(data::MeasurementTypeEnumToString(this->measureType));
-    json["r_w"] = QString::fromStdString(data::ReadWriteTypeToString(this->isReadorWrite()));
+    json["channel"] = QString::fromStdString(data_Rigol::AvailableChannelsToDisplayString(this->channel));
+    json["measurement"] = QString::fromStdString(data_Rigol::MeasurementTypeEnumToString(this->measureType));
+    json["r_w"] = QString::fromStdString(data_Rigol::ReadWriteTypeToString(this->isReadorWrite()));
 }
 
 AbstractRigolStatus* MeasureCommand_Item::getExpectedResponse() const
@@ -52,25 +52,25 @@ void MeasureCommand_Item::getClone(AbstractRigolCommand** state) const
     *state = new MeasureCommand_Item(*this);
 }
 
-void MeasureCommand_Item::setChannel(const data::AvailableChannels &measureChannel)
+void MeasureCommand_Item::setChannel(const data_Rigol::AvailableChannels &measureChannel)
 {
     this->channel = measureChannel;
 }
 
-void MeasureCommand_Item::setMeasurementType(const data::MeasurementTypes &type)
+void MeasureCommand_Item::setMeasurementType(const data_Rigol::MeasurementTypes &type)
 {
     this->measureType = type;
 }
 
-data::AvailableChannels MeasureCommand_Item::getChannel() const
+data_Rigol::AvailableChannels MeasureCommand_Item::getChannel() const
 {
     return this->channel;
 }
 
-data::MeasurementTypes MeasureCommand_Item::getMeasurementType() const
+data_Rigol::MeasurementTypes MeasureCommand_Item::getMeasurementType() const
 {
     return this->measureType;
 }
 
 } //end of namespace commands
-} //end of namespace rigol
+

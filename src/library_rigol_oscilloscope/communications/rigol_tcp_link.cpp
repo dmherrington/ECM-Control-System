@@ -1,7 +1,6 @@
 #include "rigol_tcp_link.h"
 
-namespace rigol{
-namespace comms {
+namespace comms_Rigol{
 
 //!
 //! \brief This class defines a thread such that a QObject can run in peace.
@@ -286,5 +285,5 @@ void RigolTCPLink::linkError(QTcpSocket::SocketError error)
     }
 }
 
-} //end of namepsace comms
-} //end of namespace rigol
+} //end of namepsace comms_Rigol
+

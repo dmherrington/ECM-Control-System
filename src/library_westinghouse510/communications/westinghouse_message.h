@@ -6,13 +6,13 @@
 #include "common/common.h"
 #include "common/class_forward.h"
 
-#include "data/type_read_write.h"
-#include "data/type_exception_message.h"
+#include "../data/type_read_write.h"
+#include "data/westinghouse_exception_message.h"
 
 #include "westinghouse_510_message_framing.h"
 
-namespace westinghousePump {
-namespace comms {
+
+namespace comms_WestinghousePump {
 
 class WestinghouseMessage
 {
@@ -28,13 +28,13 @@ public:
     uint8_t getDataByte(const int &index) const;
     int getDataSize() const;
 
-    FramingState setReadWriteType(const uint8_t &RWType);
+    WestinghouseFramingState setReadWriteType(const uint8_t &RWType);
 
-    void setExceptionType(const data::ExceptionType &EXType);
+    void setExceptionType(const data_WestinghousePump::WestinghouseExceptionTypes &EXType);
 
-    data::ReadWriteType isReadWriteType() const;
+    data_WestinghousePump::RWType isReadWriteType() const;
 
-    data::ExceptionType isException() const;
+    data_WestinghousePump::WestinghouseExceptionTypes isException() const;
 
     void setRemainingPayload(const int &size);
 
@@ -51,12 +51,12 @@ public:
     }
 private:
     QByteArray currentArray;
-    data::ReadWriteType rwType = data::ReadWriteType::WRITE;
-    data::ExceptionType exType = data::ExceptionType::NO_EXCEPTION;
+    data_WestinghousePump::RWType rwType = data_WestinghousePump::RWType::WRITE;
+    data_WestinghousePump::WestinghouseExceptionTypes exType = data_WestinghousePump::WestinghouseExceptionTypes::NO_EXCEPTION;
     int remainingPayload = 0;
 };
 
-} //end of namespace comms
-} //end of namespace westinghousePump
+} //end of namespace comms_WestinghousePump
+
 
 #endif //WESTINGHOUSE_MESSAGE_H

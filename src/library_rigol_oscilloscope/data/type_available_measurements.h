@@ -5,8 +5,7 @@
 #include <stdexcept>
 #include <vector>
 
-namespace rigol{
-namespace data {
+namespace data_Rigol {
 
 enum class MeasurementTypes
 {
@@ -204,8 +203,7 @@ inline std::vector<std::string> getListOfAvailableMeasurements()
     return str;
 }
 
+} //end of namespace data_Rigol
 
-} //end of namespace data
-} //end of namespace rigol
 
 #endif // TYPE_AVAILABLE_MEASUREMENTS_H

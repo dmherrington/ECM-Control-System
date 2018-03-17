@@ -1,8 +1,6 @@
 #include "rigol_comms_marshaler.h"
 
-namespace rigol {
-namespace comms{
-
+namespace comms_Rigol{
 
 //////////////////////////////////////////////////////////////
 /// Setup
@@ -49,7 +47,7 @@ bool RigolCommsMarshaler::DisconnetFromLink()
     return link->isConnected();
 }
 
-void RigolCommsMarshaler::sendAbstractAcquireCommand(const commands::AbstractAcquireCommandPtr command)
+void RigolCommsMarshaler::sendAbstractAcquireCommand(const commands_Rigol::AbstractAcquireCommandPtr command)
 {
     auto func = [this, command]() {
         protocol->sendSetAcquisitionCommand(link.get(), command);
@@ -59,7 +57,7 @@ void RigolCommsMarshaler::sendAbstractAcquireCommand(const commands::AbstractAcq
 }
 
 
-void RigolCommsMarshaler::sendSetMeasurementCommand(const rigol::commands::MeasureCommand_Item &command)
+void RigolCommsMarshaler::sendSetMeasurementCommand(const commands_Rigol::MeasureCommand_Item &command)
 {
     auto func = [this, command]() {
             protocol->sendSetMeasurementCommand(link.get(), command);
@@ -68,7 +66,7 @@ void RigolCommsMarshaler::sendSetMeasurementCommand(const rigol::commands::Measu
     link->MarshalOnThread(func);
 }
 
-void RigolCommsMarshaler::sendMeasurementRequest(const rigol::commands::MeasureCommand_Item &command)
+void RigolCommsMarshaler::sendMeasurementRequest(const commands_Rigol::MeasureCommand_Item &command)
 {
     auto func = [this, command]() {
             protocol->sendMeasurementRequest(link.get(), command);
@@ -124,13 +122,10 @@ void RigolCommsMarshaler::ResponseReceived(const ILink* link_ptr, const std::vec
     Emit([&](CommsEvents *ptr){ptr->NewDataReceived(buffer);});
 }
 
-void RigolCommsMarshaler::NewMeaurementReceived(const ILink* link_ptr, const rigol::commands::RigolMeasurementStatus &status) const
+void RigolCommsMarshaler::NewMeaurementReceived(const ILink* link_ptr, const commands_Rigol::RigolMeasurementStatus &status) const
 {
     Emit([&](CommsEvents *ptr){ptr->NewMeaurementReceived(status);});
 }
 
+} //end of namespace comms_Rigol
 
-
-
-} //end of namespace comms
-} //end of namespace rigol

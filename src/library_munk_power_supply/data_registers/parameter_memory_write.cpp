@@ -1,11 +1,11 @@
 #include "parameter_memory_write.h"
 
-namespace DataParameter{
 
+namespace registers_Munk {
 
 ParameterMemoryWrite::ParameterMemoryWrite()
 {
-    this->parameterCode = DataParameter::ParameterTypeToInt(ParameterType::MEMORYWRITE);
+    this->parameterCode = ParameterTypeToInt(ParameterType::MEMORYWRITE);
 }
 
 ParameterMemoryWrite::ParameterMemoryWrite(const ParameterMemoryWrite &copy):
@@ -54,4 +54,5 @@ QByteArray ParameterMemoryWrite::getExpectedResponse() const
     return ba;
 }
 
-} //end of namespace ParameterMemoryWrite
+} //end of namespace registers_Munk
+

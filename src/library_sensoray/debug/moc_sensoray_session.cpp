@@ -20,25 +20,25 @@
 QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
-struct qt_meta_stringdata_sensoray__comms__SensoraySession_t {
+struct qt_meta_stringdata_comms_Sensoray__SensoraySession_t {
     QByteArrayData data[1];
-    char stringdata0[33];
+    char stringdata0[32];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_sensoray__comms__SensoraySession_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_comms_Sensoray__SensoraySession_t, stringdata0) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
-static const qt_meta_stringdata_sensoray__comms__SensoraySession_t qt_meta_stringdata_sensoray__comms__SensoraySession = {
+static const qt_meta_stringdata_comms_Sensoray__SensoraySession_t qt_meta_stringdata_comms_Sensoray__SensoraySession = {
     {
-QT_MOC_LITERAL(0, 0, 32) // "sensoray::comms::SensoraySession"
+QT_MOC_LITERAL(0, 0, 31) // "comms_Sensoray::SensoraySession"
 
     },
-    "sensoray::comms::SensoraySession"
+    "comms_Sensoray::SensoraySession"
 };
 #undef QT_MOC_LITERAL
 
-static const uint qt_meta_data_sensoray__comms__SensoraySession[] = {
+static const uint qt_meta_data_comms_Sensoray__SensoraySession[] = {
 
  // content:
        7,       // revision
@@ -54,7 +54,7 @@ static const uint qt_meta_data_sensoray__comms__SensoraySession[] = {
        0        // eod
 };
 
-void sensoray::comms::SensoraySession::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void comms_Sensoray::SensoraySession::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     Q_UNUSED(_o);
     Q_UNUSED(_id);
@@ -62,26 +62,26 @@ void sensoray::comms::SensoraySession::qt_static_metacall(QObject *_o, QMetaObje
     Q_UNUSED(_a);
 }
 
-const QMetaObject sensoray::comms::SensoraySession::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_sensoray__comms__SensoraySession.data,
-      qt_meta_data_sensoray__comms__SensoraySession,  qt_static_metacall, nullptr, nullptr}
+const QMetaObject comms_Sensoray::SensoraySession::staticMetaObject = {
+    { &QObject::staticMetaObject, qt_meta_stringdata_comms_Sensoray__SensoraySession.data,
+      qt_meta_data_comms_Sensoray__SensoraySession,  qt_static_metacall, nullptr, nullptr}
 };
 
 
-const QMetaObject *sensoray::comms::SensoraySession::metaObject() const
+const QMetaObject *comms_Sensoray::SensoraySession::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *sensoray::comms::SensoraySession::qt_metacast(const char *_clname)
+void *comms_Sensoray::SensoraySession::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_sensoray__comms__SensoraySession.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_comms_Sensoray__SensoraySession.stringdata0))
         return static_cast<void*>(this);
     return QObject::qt_metacast(_clname);
 }
 
-int sensoray::comms::SensoraySession::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int comms_Sensoray::SensoraySession::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QObject::qt_metacall(_c, _id, _a);
     return _id;

@@ -1,5 +1,5 @@
-#ifndef TCP_CONFIGURATION_H
-#define TCP_CONFIGURATION_H
+#ifndef RIGOL_TCP_CONFIGURATION_H
+#define RIGOL_TCP_CONFIGURATION_H
 
 #include <QTcpSocket>
 #include <string>
@@ -9,8 +9,7 @@
 #include "rigol_link_configuration.h"
 
 
-namespace rigol{
-namespace comms{
+namespace comms_Rigol{
 
 class TCPConfiguration : public LinkConfiguration
 {
@@ -45,7 +44,7 @@ private:
     QTcpSocket *m_socket;
 };
 
-} //end of namepsace comms
-} //end of namespace rigol
+} //end of namepsace comms_Rigol
+
 
 #endif // TCP_CONFIGURATION_H

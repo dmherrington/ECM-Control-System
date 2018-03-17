@@ -5,8 +5,7 @@
 #include <stdexcept>
 #include <vector>
 
-namespace rigol {
-namespace data{
+namespace data_Rigol{
 
 enum class AcquireType
 {
@@ -67,7 +66,7 @@ inline std::vector<std::string> getListOfAcquireTypes()
     return str;
 }
 
-} //end of namespace data
-} //end of namespace rigol
+} //end of namespace data_Rigol
+
 
 #endif // TYPE_ACQUIRE_COMMANDS_H

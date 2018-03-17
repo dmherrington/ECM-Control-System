@@ -1,6 +1,6 @@
 #include "segment_time_detailed.h"
 
-namespace DataParameter{
+namespace registers_Munk{
 
 SegmentTimeDetailed::SegmentTimeDetailed()
 {
@@ -38,7 +38,7 @@ void SegmentTimeDetailed::updateRegisterData(const int &registerIndex, const Seg
     this->detailedRegisterData.at(registerIndex).updateData(data);
 }
 
-std::vector<DataParameter::SegmentTimeDataDetailed> SegmentTimeDetailed::getRegisterData() const
+std::vector<registers_Munk::SegmentTimeDataDetailed> SegmentTimeDetailed::getRegisterData() const
 {
     return this->detailedRegisterData;
 }
@@ -48,4 +48,5 @@ void SegmentTimeDetailed::initializeData()
     this->detailedRegisterData.clear();
 }
 
-} //end of namespace DataRegister
+} //end of namespace registers_Munk
+

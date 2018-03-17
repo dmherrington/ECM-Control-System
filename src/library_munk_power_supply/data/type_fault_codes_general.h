@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Data
-{
+
+namespace data_Munk{
 
 //!
 //! \brief The CurrentFactorType enum
@@ -22,6 +22,7 @@ enum class DataFaultCodes{
     DATA_FAULT_OUTPUT_SUPPLY_MISMATCH /**< */
 };
 
-} //end of namespace Data
+} //end of namespace data_Munk
+
 
 #endif // TYPE_FAULT_CODES_GENERAL_H

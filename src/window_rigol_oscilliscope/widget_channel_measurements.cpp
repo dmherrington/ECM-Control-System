@@ -37,14 +37,14 @@ void WidgetChannelMeasurements::eraseItem()
     }
 }
 
-void WidgetChannelMeasurements::setMeasurementChannel(const rigol::data::AvailableChannels &channel)
+void WidgetChannelMeasurements::setMeasurementChannel(const data_Rigol::AvailableChannels &channel)
 {
-    this->ui->label_Channel->setText(QString::fromStdString(rigol::data::AvailableChannelsToDisplayString(channel)));
+    this->ui->label_Channel->setText(QString::fromStdString(data_Rigol::AvailableChannelsToDisplayString(channel)));
 }
 
-void WidgetChannelMeasurements::addMeasurement(const rigol::commands::MeasureCommand_Item* measurement)
+void WidgetChannelMeasurements::addMeasurement(const commands_Rigol::MeasureCommand_Item* measurement)
 {
-    std::string str = rigol::data::MeasurementTypeEnumToString(measurement->getMeasurementType());
+    std::string str = data_Rigol::MeasurementTypeEnumToString(measurement->getMeasurementType());
     this->ui->listWidget_Measurements->addItem(QString::fromStdString(str));
 }
 

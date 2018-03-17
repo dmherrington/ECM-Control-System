@@ -1,8 +1,7 @@
 #include "munk_comms_marshaler.h"
 
-namespace munk {
-namespace comms{
 
+namespace comms_Munk{
 
 //////////////////////////////////////////////////////////////
 /// Setup
@@ -49,10 +48,15 @@ bool MunkCommsMarshaler::DisconnetFromLink()
     return link->isConnected();
 }
 
+bool MunkCommsMarshaler::isConnected() const
+{
+    return link->isConnected();
+}
+
 ///////////////////////////////////////////////////////////////////
 /// Methods issuing voltage setpoints relevant to the munk program
 ///////////////////////////////////////////////////////////////////
-void MunkCommsMarshaler::sendForwardVoltageSetpoint(const DataParameter::SegmentVoltageSetpoint &setpoint)
+void MunkCommsMarshaler::sendForwardVoltageSetpoint(const registers_Munk::SegmentVoltageSetpoint &setpoint)
 {
     std::cout<<"Lets send a forward voltage setpoint to the munk."<<std::endl;
     auto func = [this, setpoint]() {
@@ -62,7 +66,7 @@ void MunkCommsMarshaler::sendForwardVoltageSetpoint(const DataParameter::Segment
     link->MarshalOnThread(func);
 }
 
-void MunkCommsMarshaler::sendReverseVoltageSetpoint(const DataParameter::SegmentVoltageSetpoint &setpoint)
+void MunkCommsMarshaler::sendReverseVoltageSetpoint(const registers_Munk::SegmentVoltageSetpoint &setpoint)
 {
     std::cout<<"Lets send a reverse voltage setpoint to the munk."<<std::endl;
     auto func = [this, setpoint]() {
@@ -76,7 +80,7 @@ void MunkCommsMarshaler::sendReverseVoltageSetpoint(const DataParameter::Segment
 /// Methods issuing current setpoints relevant to the munk program
 /////////////////////////////////////////////////////////////////////
 
-void MunkCommsMarshaler::sendForwardCurrentSetpoint(const DataParameter::SegmentCurrentSetpoint &setpoint)
+void MunkCommsMarshaler::sendForwardCurrentSetpoint(const registers_Munk::SegmentCurrentSetpoint &setpoint)
 {
     std::cout<<"Lets send a forward current setpoint to the munk."<<std::endl;
     auto func = [this, setpoint]() {
@@ -86,7 +90,7 @@ void MunkCommsMarshaler::sendForwardCurrentSetpoint(const DataParameter::Segment
     link->MarshalOnThread(func);
 }
 
-void MunkCommsMarshaler::sendReverseCurrentSetpoint(const DataParameter::SegmentCurrentSetpoint &setpoint)
+void MunkCommsMarshaler::sendReverseCurrentSetpoint(const registers_Munk::SegmentCurrentSetpoint &setpoint)
 {
     std::cout<<"Lets send a reverse current setpoint to the munk."<<std::endl;
     auto func = [this, setpoint]() {
@@ -100,7 +104,7 @@ void MunkCommsMarshaler::sendReverseCurrentSetpoint(const DataParameter::Segment
 /// Methods issuing general segment data to the munk program
 /////////////////////////////////////////////////////////////////////
 
-void MunkCommsMarshaler::sendSegmentTime(const DataParameter::SegmentTimeGeneral &segment)
+void MunkCommsMarshaler::sendSegmentTime(const registers_Munk::SegmentTimeGeneral &segment)
 {
     std::cout<<"Lets send a segment time to the munk."<<std::endl;
     auto func = [this, segment]() {
@@ -112,7 +116,7 @@ void MunkCommsMarshaler::sendSegmentTime(const DataParameter::SegmentTimeGeneral
 
 void MunkCommsMarshaler::sendCommitToEEPROM()
 {
-    DataParameter::ParameterMemoryWrite command;
+    registers_Munk::ParameterMemoryWrite command;
 
     std::cout<<"Lets send a commit to EEPROM of the munk."<<std::endl;
     auto func = [this, command]() {
@@ -126,7 +130,7 @@ void MunkCommsMarshaler::sendCommitToEEPROM()
 /// Methods issuing general fault & status requests
 /////////////////////////////////////////////////////////////////////
 
-void MunkCommsMarshaler::sendRegisterFaultStateRequest(const DataParameter::RegisterFaultState &request)
+void MunkCommsMarshaler::sendRegisterFaultStateRequest(const registers_Munk::RegisterFaultState &request)
 {
     auto func = [this, request]() {
             protocol->sendFaultStateRequest(link.get(), request);
@@ -168,37 +172,37 @@ void MunkCommsMarshaler::CommunicationUpdate(const std::string &name, const std:
 /// IProtocolMunkEvents
 //////////////////////////////////////////////////////////////
 
-void MunkCommsMarshaler::FaultCodeRegister1Received(const ILink* link_ptr, const Data::FaultCodesRegister1 &code) const
+void MunkCommsMarshaler::FaultCodeRegister1Received(const ILink* link_ptr, const data_Munk::FaultCodesRegister1 &code) const
 {
     UNUSED(link_ptr);
-    Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister1Received(Data::FaultCodesRegister1ToString(code));});
+    Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister1Received(data_Munk::FaultCodesRegister1ToString(code));});
 }
 
-void MunkCommsMarshaler::FaultCodeRegister2Received(const ILink* link_ptr,  const Data::FaultCodesRegister2 &code) const
+void MunkCommsMarshaler::FaultCodeRegister2Received(const ILink* link_ptr,  const data_Munk::FaultCodesRegister2 &code) const
 {
     UNUSED(link_ptr);
-    Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister2Received(Data::FaultCodesRegister2ToString(code));});
+    Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister2Received(data_Munk::FaultCodesRegister2ToString(code));});
 }
 
-void MunkCommsMarshaler::FaultCodeRegister3Received(const ILink* link_ptr,  const Data::FaultCodesRegister3 &code) const
+void MunkCommsMarshaler::FaultCodeRegister3Received(const ILink* link_ptr,  const data_Munk::FaultCodesRegister3 &code) const
 {
     UNUSED(link_ptr);
-    Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister3Received(Data::FaultCodesRegister3ToString(code));});
+    Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister3Received(data_Munk::FaultCodesRegister3ToString(code));});
 }
 
-void MunkCommsMarshaler::SegmentVoltageSetpointAcknowledged(const ILink* link_ptr, const Data::SegmentMode &mode, const int &numberRegisters) const
+void MunkCommsMarshaler::SegmentVoltageSetpointAcknowledged(const ILink* link_ptr, const data_Munk::SegmentMode &mode, const int &numberRegisters) const
 {
     UNUSED(link_ptr);
-    if(mode == Data::SegmentMode::FORWARD)
+    if(mode == data_Munk::SegmentMode::FORWARD)
         Emit([&](CommsEvents *ptr){ptr->ForwardVoltageSetpointAcknowledged(numberRegisters);});
     else
         Emit([&](CommsEvents *ptr){ptr->ReverseVoltageSetpointAcknowledged(numberRegisters);});
 }
 
-void MunkCommsMarshaler::SegmentCurrentSetpointAcknowledged(const ILink* link_ptr , const Data::SegmentMode &mode, const int &numberRegisters) const
+void MunkCommsMarshaler::SegmentCurrentSetpointAcknowledged(const ILink* link_ptr , const data_Munk::SegmentMode &mode, const int &numberRegisters) const
 {
     UNUSED(link_ptr);
-    if(mode == Data::SegmentMode::FORWARD)
+    if(mode == data_Munk::SegmentMode::FORWARD)
         Emit([&](CommsEvents *ptr){ptr->ForwardCurrentSetpointAcknowledged(numberRegisters);});
     else
         Emit([&](CommsEvents *ptr){ptr->ReverseCurrentSetpointAcknowledged(numberRegisters);});
@@ -217,12 +221,12 @@ void MunkCommsMarshaler::SegmentCommittedToMemory(const ILink* link_ptr) const
 }
 
 
-void MunkCommsMarshaler::ExceptionResponseReceived(const ILink* link_ptr, const Data::ReadWriteType &type, const uint8_t &code) const
+void MunkCommsMarshaler::ExceptionResponseReceived(const ILink* link_ptr, const data_Munk::MunkRWType &type, const uint8_t &code) const
 {
     UNUSED(link_ptr);
-    Emit([&](CommsEvents *ptr){ptr->ExceptionResponseReceived(type,Data::ExceptionCodeToString(Data::ExceptionCodeFromInt(code)));});
+    Emit([&](CommsEvents *ptr){ptr->ExceptionResponseReceived(type,data_Munk::ExceptionCodeToString(data_Munk::ExceptionCodeFromInt(code)));});
 }
 
 
-} //end of namespace comms
-} //end of namespace munk
+} //end of namespace comms_Munk
+

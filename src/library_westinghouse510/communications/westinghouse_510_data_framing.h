@@ -1,35 +1,35 @@
-#ifndef MUNK_DATA_FRAMING_H
-#define MUNK_DATA_FRAMING_H
+#ifndef WESTINGHOUSE_DATA_FRAMING_H
+#define WESTINGHOUSE_DATA_FRAMING_H
 
 #include <QByteArray>
 
 #include "common/common.h"
 #include "common/class_forward.h"
 
+#include "../data/type_read_write.h"
+#include "data/westinghouse_exception_message.h"
+
 #include "westinghouse_message.h"
 #include "westinghouse_510_message_framing.h"
 
-namespace westinghousePump{
-namespace comms{
+namespace comms_WestinghousePump{
 
 class WestinghouseDataFraming
 {
-    typedef unsigned int WORD;
-
 public:
     WestinghouseDataFraming(const int &address);
-    FramingState additionalByteRecevied(const uint8_t &byte);
+    WestinghouseFramingState additionalByteRecevied(const uint8_t &byte);
     WestinghouseMessage getCurrentMessage() const;
 private:
     unsigned int CRC16(const QByteArray &array) const;
 
 private:
     int pumpAddress;
-    FramingState currentMSGState;
+    WestinghouseFramingState currentMSGState;
     WestinghouseMessage currentMessge;
 };
 
-} //end of namespace comms
-} //end of namespace westinghousePump
+} //end of namespace comms_WestinghousePump
 
-#endif // MUNK_DATA_FRAMING_H
+
+#endif // WESTINGHOUSE_DATA_FRAMING_H

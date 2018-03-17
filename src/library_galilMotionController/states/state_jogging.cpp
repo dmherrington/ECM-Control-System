@@ -51,18 +51,21 @@ hsm::Transition State_Jogging::GetTransition()
 
 void State_Jogging::handleCommand(const AbstractCommand* command)
 {
-    CommandType currentCommand = command->getCommandType();
+    const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
 
+    CommandType currentCommand = copyCommand->getCommandType();
     switch (currentCommand) {
     case CommandType::JOG_MOVE:
     {
         //This is the command that brought us into this state
         CommandJogPtr castCommand = std::make_shared<CommandJog>(*command->as<CommandJog>());
         this->clearCommand();
-        Owner().issueGalilCommand(castCommand); //KEN Fix this to differentiate a motion command so we can auto begin motion upon ack
+        Owner().issueGalilMotionCommand(castCommand);
+//        Owner().issueGalilCommand(castCommand); //KEN Fix this to differentiate a motion command so we can auto begin motion upon ack
 
-        CommandMotionStartPtr motionStartCommand = std::make_shared<CommandMotionStart>();
-        Owner().issueGalilCommand(motionStartCommand); //KEN Fix this to differentiate a motion command so we can auto begin motion upon ack
+//        CommandMotionStartPtr motionStartCommand = std::make_shared<CommandMotionStart>();
+//        Owner().issueGalilCommand(motionStartCommand);
         break;
     }
     case CommandType::STOP:
@@ -95,7 +98,7 @@ void State_Jogging::Update()
 
 void State_Jogging::OnEnter()
 {
-    //this shouldn't really happen as how are we supposed to know the jogging rate
+    //this shouldn't really happen as how are we supposed to know the actual state jogging command
     //we therefore are going to do nothing other than change the state back to State_Ready
     this->desiredState = ECMState::STATE_READY;
 }
@@ -104,8 +107,6 @@ void State_Jogging::OnEnter(const AbstractCommand *command)
 {
     if(command != nullptr)
     {
-        //There are no specific things to have performed in this state as we should only
-        //have arrived here from a ready state. We will go right to handling the command.
         this->handleCommand(command);
     }
     else{

@@ -10,6 +10,7 @@
 #include <cstddef>
 
 #include "widget_variable_data_display.h"
+#include "dialog.h"
 
 #include "QtWaitingSpinner/waitingspinnerwidget.h"
 
@@ -40,6 +41,7 @@ public slots:
     void on_actionAppClosing();
 
 private slots:
+    void testSlot();
 
     void on_pushButton_AddMotionProfile_clicked();
 
@@ -57,6 +59,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    Dialog *dialog;
 
     QString settingsPath;
     std::map<std::string, WidgetVariableDataDisplay*> mapData;

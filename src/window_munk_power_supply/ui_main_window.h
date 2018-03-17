@@ -24,7 +24,6 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
-#include "plot_handler.h"
 #include "widget_segment_time_display.h"
 
 QT_BEGIN_NAMESPACE
@@ -46,7 +45,7 @@ public:
     QComboBox *comboBox_comPort;
     QSpacerItem *verticalSpacer_5;
     QSpacerItem *horizontalSpacer_3;
-    graphing::PlotHandler *graphWidget;
+    QWidget *graphWidget;
     QGridLayout *gridLayout;
     QPushButton *pushButton_AddSegment;
     QPushButton *pushButton_transmit;
@@ -377,7 +376,7 @@ public:
 
         gridLayout_3->addItem(horizontalSpacer_3, 0, 1, 1, 1);
 
-        graphWidget = new graphing::PlotHandler(centralWidget);
+        graphWidget = new QWidget(centralWidget);
         graphWidget->setObjectName(QStringLiteral("graphWidget"));
         QSizePolicy sizePolicy2(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
         sizePolicy2.setHorizontalStretch(0);

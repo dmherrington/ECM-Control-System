@@ -1,17 +1,17 @@
 #include "command_execute_profile.h"
 
-CommandExecuteProfile::CommandExecuteProfile(const std::string &name, const ProgramGeneric &program):
+CommandExecuteProfile::CommandExecuteProfile(const ProfileType &type, const std::string &name):
     AbstractCommand(CommandType::EXECUTE_PROGRAM)
 {
+    this->profileType = type;
     this->profileName = name;
-    this->executeProgram = program;
 }
 
 CommandExecuteProfile::CommandExecuteProfile(const CommandExecuteProfile &copy):
     AbstractCommand(copy)
 {
+    this->profileType = copy.profileType;
     this->profileName = copy.profileName;
-    this->executeProgram = copy.executeProgram;
 }
 
 AbstractCommand* CommandExecuteProfile::getClone() const
@@ -27,14 +27,29 @@ void CommandExecuteProfile::getClone(AbstractCommand** state) const
 std::string CommandExecuteProfile::getCommandString() const
 {
     std::string str;
-    std::string profileLabel = "";
 
-    if(executeProgram.getProfileLabel(this->profileName, profileLabel))
-    {
-        str.append("XQ");
-        //this means there is a specific locaiton to start
-        str.append(" #");
-        str.append(profileLabel);
-    }
+    str.append("XQ");
+    //this means there is a specific locaiton to start
+    str.append(" #");
+    str.append(profileName);
+
     return str;
+}
+
+//!
+//! \brief getProfileLabel
+//! \return
+//!
+CommandExecuteProfile::ProfileType CommandExecuteProfile::getProfileType() const
+{
+    return this->profileType;
+}
+
+//!
+//! \brief getProfileLabel
+//! \return
+//!
+std::string CommandExecuteProfile::getProfileName() const
+{
+    return this->profileName;
 }

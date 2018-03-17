@@ -33,6 +33,9 @@ public:
     void OnEnter() override;
 
     void OnEnter(const AbstractCommand *command);
+
+private:
+    bool motionFlag = false;
 };
 
 } //end of namespace Galil

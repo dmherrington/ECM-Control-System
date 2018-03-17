@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Data
-{
+
+namespace data_Munk{
 
 inline bool isOfVoltageSegmentType(const int &value)
 {
@@ -105,7 +105,7 @@ inline std::vector<VoltageSetFWDType> getListOfVoltageSetFWDTypes()
 //! \param index
 //! \return
 //!
-inline Data::VoltageSetFWDType getFWDVoltageIndex(const int &index)
+inline data_Munk::VoltageSetFWDType getFWDVoltageIndex(const int &index)
 {
     std::vector<VoltageSetFWDType> objects = getListOfVoltageSetFWDTypes();
     return objects.at(index);
@@ -215,7 +215,7 @@ inline std::vector<VoltageSetREVType> getListOfVoltageSetREVTypes()
 //! \param index
 //! \return
 //!
-inline Data::VoltageSetREVType getREVVoltageIndex(const int &index)
+inline data_Munk::VoltageSetREVType getREVVoltageIndex(const int &index)
 {
     std::vector<VoltageSetREVType> objects = getListOfVoltageSetREVTypes();
     return objects.at(index);
@@ -232,6 +232,7 @@ inline bool isReverseVoltageType(const int &value)
     return false;
 }
 
-} //end of namespace Data
+} //end of namespace data_Munk
+
 
 #endif // TYPE_VOLTAGE_SET_H

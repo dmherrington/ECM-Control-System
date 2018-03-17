@@ -1,6 +1,6 @@
 #include "sensor_collection.h"
 
-namespace data
+namespace common_data
 {
 
 Sensor* SensorCollection::ConstructSensor(const SensorTypes &type, std::string name)

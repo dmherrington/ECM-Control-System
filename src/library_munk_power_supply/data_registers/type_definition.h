@@ -1,12 +1,12 @@
-#ifndef TYPE_DEFINITION_H
-#define TYPE_DEFINITION_H
+#ifndef MUNK_REGISTER_DEFINITIONS_H
+#define MUNK_REGISTER_DEFINITIONS_H
 
 #include <string>
 #include <stdexcept>
 #include <vector>
 
-namespace DataParameter
-{
+
+namespace registers_Munk{
 
 enum class ParameterType{
     SEGMENTTIMES,
@@ -54,8 +54,8 @@ inline int ParameterTypeToInt(const ParameterType &type)
 inline std::vector<std::string> getListOfParameterTypes()
 {
     std::vector<std::string> str;
-    str.push_back(DataParameter::ParameterTypeToString(ParameterType::SEGMENTTIMES));
-    str.push_back(DataParameter::ParameterTypeToString(ParameterType::MEMORYWRITE));
+    str.push_back(registers_Munk::ParameterTypeToString(ParameterType::SEGMENTTIMES));
+    str.push_back(registers_Munk::ParameterTypeToString(ParameterType::MEMORYWRITE));
     return str;
 }
 
@@ -67,6 +67,7 @@ inline ParameterType ParameterTypeFromInt(const int &param)
         return ParameterType::MEMORYWRITE;
 }
 
-} //end of namespace DataParameter
+} //end of namepsace registers_Munk
 
-#endif // TYPE_DEFINITION_H
+
+#endif // MUNK_REGISTER_DEFINITIONS_H

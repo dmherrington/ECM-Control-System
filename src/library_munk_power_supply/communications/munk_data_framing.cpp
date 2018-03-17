@@ -1,5 +1,8 @@
 #include "munk_data_framing.h"
 
+
+namespace comms_Munk{
+
 MunkDataFraming::MunkDataFraming(const int &munkAddress):
     munkAddress(munkAddress), currentMSGState(FramingState::WAITING)
 {
@@ -38,12 +41,12 @@ FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
             // one byte to follow telling us of the exception code and concluding with
             // the checksum
             currentMSGState = FramingState::RECEIVED_EXCEPTION_FUNCTION_CODE;
-            currentMessge.setExceptionType(Data::ExceptionType::EXCEPTION);
+            currentMessge.setExceptionType(data_Munk::MunkExceptionType::EXCEPTION);
         }
         else
         {
             currentMSGState = currentMessge.setReadWriteType(RWValue);
-            currentMessge.setExceptionType(Data::ExceptionType::NO_EXCEPTION);
+            currentMessge.setExceptionType(data_Munk::MunkExceptionType::NO_EXCEPTION);
         }
         break;
     }
@@ -150,3 +153,6 @@ for (j=8;j!=0;j--){
 }
 return Temp;
 }
+
+} //end of namespace comms_Munk
+

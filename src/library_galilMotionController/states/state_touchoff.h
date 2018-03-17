@@ -7,6 +7,7 @@ namespace ECM{
 namespace Galil {
 
 class State_Ready;
+class State_MotionStop;
 class State_EStop;
 
 ECM_CLASS_FORWARD(State_Touchoff);

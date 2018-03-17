@@ -1,5 +1,5 @@
-#ifndef COMMS_MARSHALER_H
-#define COMMS_MARSHALER_H
+#ifndef COMMS_MARSHALER_GALIL_H
+#define COMMS_MARSHALER_GALIL_H
 
 #include "common/publisher.h"
 
@@ -48,6 +48,8 @@ public:
     /// Methods issuing Galil commands, requests, programs
     //////////////////////////////////////////////////////////////
     void sendAbstractGalilCommand(const AbstractCommandPtr command);
+
+    void sendAbstractGalilMotionCommand(const AbstractCommandPtr command);
 
     void sendAbstractGalilRequest(const AbstractRequestPtr request);
 

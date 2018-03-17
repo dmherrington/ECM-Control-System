@@ -10,15 +10,16 @@
 
 #include "abstract_parameter.h"
 
-#include <data/type_read_write.h>
+#include "data/type_read_write.h"
 #include "data/type_fault_status_registers.h"
 
-namespace DataParameter{
+
+namespace registers_Munk{
 
 class RegisterFaultState : public AbstractParameter
 {
 public:
-    RegisterFaultState(const Data::FaultRegisterType &type);
+    RegisterFaultState(const data_Munk::FaultRegisterType &type);
 
     RegisterFaultState(const RegisterFaultState &copy);
 
@@ -27,7 +28,7 @@ public:
     //! \brief getParameterType
     //! \return
     //!
-    virtual DataParameter::ParameterType getParameterType() const;
+    virtual registers_Munk::ParameterType getParameterType() const;
 
     //!
     //! \brief getDescription
@@ -92,5 +93,7 @@ public:
 
 };
 
-} //end of namespace DataParameter
+} //end of namepsace registers_Munk
+
+
 #endif // REGISTER_STANDARD_FAULTS_H

@@ -1,10 +1,10 @@
 #ifndef WESTINGHOUSE_MESSAGE_FRAMING_H
 #define WESTINGHOUSE_MESSAGE_FRAMING_H
 
-namespace westinghousePump{
-namespace comms{
 
-enum class FramingState{
+namespace comms_WestinghousePump{
+
+enum class WestinghouseFramingState{
     WAITING,
     RECIEVED_PUMP_ADDRESS,
     RECEIVED_EXCEPTION_FUNCTION_CODE,
@@ -18,7 +18,7 @@ enum class FramingState{
     RECEIVED_ENTIRE_MESSAGE
 };
 
-} //end of namespace comms
-} //end of namespace westinghousePump
+} //end of namespace comms_WestinghousePump
+
 
 #endif // WESTINGHOUSE_MESSAGE_FRAMING_H

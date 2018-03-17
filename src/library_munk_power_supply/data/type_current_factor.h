@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Data
-{
+
+namespace data_Munk{
 
 //!
 //! \brief The CurrentFactorType enum
@@ -52,11 +52,12 @@ inline CurrentFactorType CurrentFactorFromString(const std::string &str) {
 inline std::vector<std::string> getListOfCurrentFactor()
 {
     std::vector<std::string> str;
-    str.push_back(Data::CurrentFactorToString(CurrentFactorType::AMPS));
-    str.push_back(Data::CurrentFactorToString(CurrentFactorType::A_DM2));
+    str.push_back(data_Munk::CurrentFactorToString(CurrentFactorType::AMPS));
+    str.push_back(data_Munk::CurrentFactorToString(CurrentFactorType::A_DM2));
     return str;
 }
 
-} //end of namespace Data
+} //end of namespace data_Munk
+
 
 #endif // TYPE_CURRENT_FACTOR_H

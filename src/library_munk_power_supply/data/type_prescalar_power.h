@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Data
-{
+
+namespace data_Munk{
 
 //!
 //! \brief The SegmentPower enum
@@ -67,11 +67,11 @@ inline SegmentPower SegmentPowerFromString(const std::string &str) {
 inline std::vector<std::string> getListOfSegmentPower()
 {
     std::vector<std::string> str;
-    str.push_back(Data::SegmentPowerToString(SegmentPower::ONE));
-    str.push_back(Data::SegmentPowerToString(SegmentPower::TEN));
-    str.push_back(Data::SegmentPowerToString(SegmentPower::ONE_HUNDRED));
-    str.push_back(Data::SegmentPowerToString(SegmentPower::ONE_THOUSAND));
-    str.push_back(Data::SegmentPowerToString(SegmentPower::TEN_THOUSAND));
+    str.push_back(data_Munk::SegmentPowerToString(SegmentPower::ONE));
+    str.push_back(data_Munk::SegmentPowerToString(SegmentPower::TEN));
+    str.push_back(data_Munk::SegmentPowerToString(SegmentPower::ONE_HUNDRED));
+    str.push_back(data_Munk::SegmentPowerToString(SegmentPower::ONE_THOUSAND));
+    str.push_back(data_Munk::SegmentPowerToString(SegmentPower::TEN_THOUSAND));
     return str;
 }
 
@@ -112,5 +112,7 @@ inline SegmentPower ValueToEquivalentSegmentPower(const int &value)
     }
 }
 
-} //end of namespace Data
+} //end of namespace data_Munk
+
+
 #endif // TYPE_PRESCALAR_POWER_H

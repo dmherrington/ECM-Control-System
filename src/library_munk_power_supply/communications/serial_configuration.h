@@ -1,18 +1,18 @@
-#ifndef SERIALCONFIGURATION_H
-#define SERIALCONFIGURATION_H
+#ifndef SERIALCONFIGURATION_MUNK_H
+#define SERIALCONFIGURATION_MUNK_H
 
 #include <QSerialPort>
 #include <QStringList>
 #include <string>
 
 #include "common/common.h"
-#include "link_configuration.h"
+#include "common/comms/link_configuration.h"
 
 
-namespace munk {
-namespace comms{
 
-class SerialConfiguration : public LinkConfiguration
+namespace comms_Munk{
+
+class SerialConfiguration : public common::comms::LinkConfiguration
 {
 public:
     SerialConfiguration(const std::string& name = "");
@@ -60,7 +60,7 @@ private:
     bool _usbDirect;
 };
 
-} //end of namespace comms
-} //end of namespace munk
+} //end of namespace comms_Munk
 
-#endif // SERIALCONFIGURATION_H
+
+#endif // SERIALCONFIGURATION_MUNK_H

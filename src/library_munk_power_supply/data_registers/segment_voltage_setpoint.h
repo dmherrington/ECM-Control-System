@@ -13,8 +13,9 @@
 
 #include "data_registers/segment_voltage_data.h"
 
-namespace DataParameter
-{
+
+namespace registers_Munk{
+
 //!
 //! \brief The SegmentVoltageSetpoint class
 //!
@@ -27,7 +28,7 @@ public:
     //! \param levelValue
     //! \param levelMode
     //!
-    SegmentVoltageSetpoint(const Data::TypeSupplyOutput &outputNum, const Data::SegmentMode &levelMode);
+    SegmentVoltageSetpoint(const data_Munk::TypeSupplyOutput &outputNum, const data_Munk::SegmentMode &levelMode);
 
     //!
     //! \brief SegmentVoltageSetpoint
@@ -40,7 +41,7 @@ public:
     //! \brief getParameterType
     //! \return
     //!
-    virtual DataParameter::ParameterType getParameterType() const;
+    virtual registers_Munk::ParameterType getParameterType() const;
 
     //!
     //! \brief getDescription
@@ -128,19 +129,20 @@ private:
     //!
     //! \brief supplyOutput
     //!
-    Data::TypeSupplyOutput supplyOutput;
+    data_Munk::TypeSupplyOutput supplyOutput;
 
     //!
     //! \brief mode
     //!
-    Data::SegmentMode mode;
+    data_Munk::SegmentMode mode;
 
     //!
     //! \brief data
     //!
-    std::map<Data::SegmentLevel, SegmentVoltageData> data;
+    std::map<data_Munk::SegmentLevel, SegmentVoltageData> data;
 };
 
-} //end of namespace DataParameter
+} //end of namepsace registers_Munk
+
 
 #endif // SEGMENT_VOLTAGE_SETPOINT_H

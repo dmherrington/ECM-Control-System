@@ -1,14 +1,15 @@
 #include "segment_time_data_general.h"
 
-namespace DataParameter {
+
+namespace registers_Munk{
 
 SegmentTimeDataGeneral::SegmentTimeDataGeneral():
-    segmentLevel(Data::SegmentLevel::LEVEL1),segmentMode(Data::SegmentMode::HIZ),segmentPower(Data::SegmentPower::ONE),timeValue(0)
+    segmentLevel(data_Munk::SegmentLevel::LEVEL1),segmentMode(data_Munk::SegmentMode::HIZ),segmentPower(data_Munk::SegmentPower::ONE),timeValue(0)
 {
 
 }
 
-SegmentTimeDataGeneral::SegmentTimeDataGeneral(const Data::SegmentLevel &level, const Data::SegmentMode &mode, const uint32_t &time)
+SegmentTimeDataGeneral::SegmentTimeDataGeneral(const data_Munk::SegmentLevel &level, const data_Munk::SegmentMode &mode, const uint32_t &time)
 {
     setSegmentMode(mode);
     setSegmentLevel(level);
@@ -16,7 +17,7 @@ SegmentTimeDataGeneral::SegmentTimeDataGeneral(const Data::SegmentLevel &level, 
 }
 
 
-void SegmentTimeDataGeneral::setSegmentLevel(const Data::SegmentLevel &level)
+void SegmentTimeDataGeneral::setSegmentLevel(const data_Munk::SegmentLevel &level)
 {
     /*
      *This basically forces us to check that if we are in one of these operational modes
@@ -24,7 +25,7 @@ void SegmentTimeDataGeneral::setSegmentLevel(const Data::SegmentLevel &level)
      * wrong. However, this should also signify a call to update the data on the GUI
      * in the event that they become out of sync.
      */
-    if((this->segmentMode == Data::SegmentMode::HIZ) || (this->segmentMode == Data::SegmentMode::DEAD))
+    if((this->segmentMode == data_Munk::SegmentMode::HIZ) || (this->segmentMode == data_Munk::SegmentMode::DEAD))
     {
         //we should ignore this command
         return;
@@ -33,18 +34,18 @@ void SegmentTimeDataGeneral::setSegmentLevel(const Data::SegmentLevel &level)
     this->segmentLevel = level;
 }
 
-void SegmentTimeDataGeneral::setSegmentMode(const Data::SegmentMode &mode)
+void SegmentTimeDataGeneral::setSegmentMode(const data_Munk::SegmentMode &mode)
 {
     this->segmentMode = mode;
 
     //Document this
-    if(this->segmentMode == Data::SegmentMode::HIZ)
-        this->segmentLevel = Data::SegmentLevel::LEVEL1;
-    else if(this->segmentMode == Data::SegmentMode::DEAD)
-        this->segmentLevel = Data::SegmentLevel::LEVEL2;
+    if(this->segmentMode == data_Munk::SegmentMode::HIZ)
+        this->segmentLevel = data_Munk::SegmentLevel::LEVEL1;
+    else if(this->segmentMode == data_Munk::SegmentMode::DEAD)
+        this->segmentLevel = data_Munk::SegmentLevel::LEVEL2;
 }
 
-void SegmentTimeDataGeneral::setSegmentPower(const Data::SegmentPower &power)
+void SegmentTimeDataGeneral::setSegmentPower(const data_Munk::SegmentPower &power)
 {
     this->segmentPower = power;
 }
@@ -53,13 +54,13 @@ void SegmentTimeDataGeneral::setTimeValue(const uint32_t &time)
 {
     if(time <= 127)
     {
-        this->setSegmentPower(Data::SegmentPower::ONE);
+        this->setSegmentPower(data_Munk::SegmentPower::ONE);
         this->timeValue = time;
 
     }
     else{
         int result = pow(10,(int)log10(time));
-        this->setSegmentPower(Data::ValueToEquivalentSegmentPower(result));
+        this->setSegmentPower(data_Munk::ValueToEquivalentSegmentPower(result));
         uint32_t resultingTime = time / result;
 
         if(resultingTime > 127)
@@ -76,9 +77,9 @@ void SegmentTimeDataGeneral::setTimeValue(const uint32_t &time)
 uint32_t SegmentTimeDataGeneral::getConstructedBitArray() const
 {
    uint32_t ba = 0;
-   ba = Data::SegmentLevelToBitArray(this->segmentLevel,ba);
-   ba = Data::SegmentModeToBitArray(this->segmentMode,ba);
-   ba = Data::SegmentPowerToBitArray(this->segmentPower,ba);
+   ba = data_Munk::SegmentLevelToBitArray(this->segmentLevel,ba);
+   ba = data_Munk::SegmentModeToBitArray(this->segmentMode,ba);
+   ba = data_Munk::SegmentPowerToBitArray(this->segmentPower,ba);
 
    uint32_t timeMask = 127<<0;
    ba = (ba & (~timeMask)) | (this->timeValue<<0);
@@ -88,9 +89,9 @@ uint32_t SegmentTimeDataGeneral::getConstructedBitArray() const
 
 void SegmentTimeDataGeneral::resetData()
 {
-    setSegmentLevel(Data::SegmentLevel::LEVEL1);
-    setSegmentMode(Data::SegmentMode::DEAD);
-    setSegmentPower(Data::SegmentPower::ONE);
+    setSegmentLevel(data_Munk::SegmentLevel::LEVEL1);
+    setSegmentMode(data_Munk::SegmentMode::DEAD);
+    setSegmentPower(data_Munk::SegmentPower::ONE);
     setTimeValue(0);
 }
 
@@ -99,4 +100,5 @@ void SegmentTimeDataGeneral::updateData(const SegmentTimeDataGeneral &data)
     this->operator =(data);
 }
 
-} //end of namespace DataParameter
+} //end of namespace registers_Munk
+

@@ -36,7 +36,8 @@ enum class CommandType{
     SET_IGAIN,
     SET_DGAIN,
     STOP,
-    UPLOAD_PROGRAM
+    UPLOAD_PROGRAM,
+    SET_VARIABLE
 };
 
 //!

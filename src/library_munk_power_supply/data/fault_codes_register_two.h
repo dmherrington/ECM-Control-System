@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Data
-{
+
+namespace data_Munk{
 
 //!
 //! \brief The CurrentFactorType enum
@@ -69,6 +69,7 @@ inline std::string FaultCodesRegister2ToString(const FaultCodesRegister2 &type) 
     }
 }
 
-} //end of namespace Data
+} //end of namespace data_Munk
+
 
 #endif // FAULT_CODES_REGISTER_TWO_H

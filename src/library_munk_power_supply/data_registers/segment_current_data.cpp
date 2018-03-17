@@ -1,17 +1,17 @@
 #include "segment_current_data.h"
 
-namespace DataParameter
-{
 
-SegmentCurrentData::SegmentCurrentData(const Data::SegmentLevel &levelValue, const Data::SegmentMode &levelMode)
+namespace registers_Munk {
+
+SegmentCurrentData::SegmentCurrentData(const data_Munk::SegmentLevel &levelValue, const data_Munk::SegmentMode &levelMode)
 {
     //let us update the stored values with those that created the object
     this->level = levelValue;
     this->mode = levelMode;
     //let us initialize some default values
-    this->currentFactor = Data::CurrentFactorType::AMPS;
+    this->currentFactor = data_Munk::CurrentFactorType::AMPS;
     this->current = 0.0;
-    this->prescale = Data::SegmentVIPower::ONE;
+    this->prescale = data_Munk::SegmentVIPower::ONE;
 }
 
 
@@ -33,51 +33,51 @@ QByteArray SegmentCurrentData::getDataArray() const
 
 }
 
-void SegmentCurrentData::updateCurrentFactor(const Data::CurrentFactorType &value)
+void SegmentCurrentData::updateCurrentFactor(const data_Munk::CurrentFactorType &value)
 {
     this->currentFactor = value;
 }
 
-void SegmentCurrentData::updatePrescalePower(const Data::SegmentVIPower &value)
+void SegmentCurrentData::updatePrescalePower(const data_Munk::SegmentVIPower &value)
 {
     this->prescale = value;
 }
 
-Data::DataFaultCodes SegmentCurrentData::updateCurrentSetpoint(const int &value)
+data_Munk::DataFaultCodes SegmentCurrentData::updateCurrentSetpoint(const int &value)
 {
     if(value > 4095)
     {
         this->current = 4095;
-        return Data::DataFaultCodes::DATA_VALUE_GREATER_THAN_MAX;
+        return data_Munk::DataFaultCodes::DATA_VALUE_GREATER_THAN_MAX;
     }
     else if(value < 0)
     {
         this->current = 0;
-        return Data::DataFaultCodes::DATA_VALUE_LESS_THAN_MIN;
+        return data_Munk::DataFaultCodes::DATA_VALUE_LESS_THAN_MIN;
     }
     else
     {
         this->current = value;
-        return Data::DataFaultCodes::DATA_UPDATE_SUCCESSFUL;
+        return data_Munk::DataFaultCodes::DATA_UPDATE_SUCCESSFUL;
     }
 }
 
-Data::SegmentLevel SegmentCurrentData::getSegmentLevel() const
+data_Munk::SegmentLevel SegmentCurrentData::getSegmentLevel() const
 {
     return this->level;
 }
 
-Data::SegmentMode SegmentCurrentData::getSegmentMode() const
+data_Munk::SegmentMode SegmentCurrentData::getSegmentMode() const
 {
     return this->mode;
 }
 
-Data::CurrentFactorType SegmentCurrentData::getCurrentFactor() const
+data_Munk::CurrentFactorType SegmentCurrentData::getCurrentFactor() const
 {
     return this->currentFactor;
 }
 
-Data::SegmentVIPower SegmentCurrentData::getCurrentPrescale() const
+data_Munk::SegmentVIPower SegmentCurrentData::getCurrentPrescale() const
 {
     return this->prescale;
 }
@@ -115,4 +115,6 @@ uint32_t SegmentCurrentData::updateSetPointBitArray(const uint32_t &bitArray) co
     ba = (bitArray & (~mask)) | (this->current<<0);
     return ba;
 }
-} //end of namespace DataParameter
+
+} //end of namespace registers_Munk
+

@@ -1,7 +1,6 @@
 #include "westinghouse_message.h"
 
-namespace westinghousePump {
-namespace comms {
+namespace comms_WestinghousePump {
 
 WestinghouseMessage::WestinghouseMessage(const WestinghouseMessage &copy)
 {
@@ -14,8 +13,8 @@ WestinghouseMessage::WestinghouseMessage(const WestinghouseMessage &copy)
 void WestinghouseMessage::resetData()
 {
     currentArray.clear();
-    rwType = data::ReadWriteType::WRITE;
-    exType = data::ExceptionType::NO_EXCEPTION;
+    rwType = data_WestinghousePump::RWType::WRITE;
+    exType = data_WestinghousePump::WestinghouseExceptionTypes::NO_EXCEPTION;
     remainingPayload = 0;
 }
 
@@ -39,35 +38,35 @@ int WestinghouseMessage::getDataSize() const
     return this->currentArray.size();
 }
 
-FramingState WestinghouseMessage::setReadWriteType(const uint8_t &RWType)
+WestinghouseFramingState WestinghouseMessage::setReadWriteType(const uint8_t &RWType)
 {
-    if(RWType == static_cast<uint8_t>(data::ReadWriteType::WRITE))
+    if(RWType == static_cast<uint8_t>(data_WestinghousePump::RWType::WRITE))
     {
-        this->rwType = data::ReadWriteType::WRITE;
-        return FramingState::RECEIVED_STD_FUNCTION_CODE_WRITE;
+        this->rwType = data_WestinghousePump::RWType::WRITE;
+        return WestinghouseFramingState::RECEIVED_STD_FUNCTION_CODE_WRITE;
         remainingPayload = 4;
     }
     else
     {
-        this->rwType = data::ReadWriteType::READ;
-        return FramingState::RECEIVED_STD_FUNCTION_CODE_READ;
+        this->rwType = data_WestinghousePump::RWType::READ;
+        return WestinghouseFramingState::RECEIVED_STD_FUNCTION_CODE_READ;
     }
 }
 
-void WestinghouseMessage::setExceptionType(const data::ExceptionType &EXType)
+void WestinghouseMessage::setExceptionType(const data_WestinghousePump::WestinghouseExceptionTypes &EXType)
 {
-    if(EXType == data::ExceptionType::NO_EXCEPTION)
-        this->exType = data::ExceptionType::NO_EXCEPTION;
+    if(EXType == data_WestinghousePump::WestinghouseExceptionTypes::NO_EXCEPTION)
+        this->exType = data_WestinghousePump::WestinghouseExceptionTypes::NO_EXCEPTION;
     else
-        this->exType = data::ExceptionType::EXCEPTION;
+        this->exType = data_WestinghousePump::WestinghouseExceptionTypes::EXCEPTION;
 }
 
-data::ReadWriteType WestinghouseMessage::isReadWriteType() const
+data_WestinghousePump::RWType WestinghouseMessage::isReadWriteType() const
 {
     return rwType;
 }
 
-data::ExceptionType WestinghouseMessage::isException() const
+data_WestinghousePump::WestinghouseExceptionTypes WestinghouseMessage::isException() const
 {
     return exType;
 }
@@ -82,5 +81,5 @@ int WestinghouseMessage::remainingPayloadSize() const
     return this->remainingPayload;
 }
 
-} //end of namespace comms
-} //end of namespace westinghousePump
+} //end of namespace comms_WestinghousePump
+

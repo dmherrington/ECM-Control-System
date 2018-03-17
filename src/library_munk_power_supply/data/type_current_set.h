@@ -9,8 +9,8 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Data
-{
+
+namespace data_Munk{
 
 inline bool isOfCurrentSegmentType(const int &value)
 {
@@ -109,7 +109,7 @@ inline std::vector<CurrentSetFWDType> getListOfCurrentSetFWDTypes()
 //! \param index
 //! \return
 //!
-inline Data::CurrentSetFWDType getFWDCurrentIndex(const int &index)
+inline data_Munk::CurrentSetFWDType getFWDCurrentIndex(const int &index)
 {
     std::vector<CurrentSetFWDType> objects = getListOfCurrentSetFWDTypes();
     return objects.at(index);
@@ -218,7 +218,7 @@ inline std::vector<CurrentSetREVType> getListOfCurrentSetREVTypes()
 //! \param index
 //! \return
 //!
-inline Data::CurrentSetREVType getREVCurrentIndex(const int &index)
+inline data_Munk::CurrentSetREVType getREVCurrentIndex(const int &index)
 {
     std::vector<CurrentSetREVType> objects = getListOfCurrentSetREVTypes();
     return objects.at(index);
@@ -235,6 +235,7 @@ inline bool isReverseCurrentType(const int &value)
     return false;
 }
 
-} //end of namespace Data
+} //end of namespace data_Munk
+
 
 #endif // TYPE_CURRENT_SET_H

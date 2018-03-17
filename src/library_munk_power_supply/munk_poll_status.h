@@ -14,13 +14,13 @@
 class MunkStatusCallback_Interface
 {
 public:
-    virtual void cbi_MunkFaultStateRequest(const DataParameter::RegisterFaultState &request) const = 0;
+    virtual void cbi_MunkFaultStateRequest(const registers_Munk::RegisterFaultState &request) const = 0;
 };
 
 class MunkPollStatus : public Thread
 {
 public:
-    MunkPollStatus(const int &msTimeout = 500);
+    MunkPollStatus(const int &msTimeout = 250);
 
     ~MunkPollStatus() {
         std::cout << "Destructor on the munk poll status object" << std::endl;

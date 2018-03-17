@@ -2,16 +2,20 @@
 
 MunkPowerSupply::MunkPowerSupply():
     m_segmentTimeGeneral(),
-    m_fwdISetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::FORWARD),
-    m_revISetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::REVERSE),
-    m_fwdVSetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::FORWARD),
-    m_revVSetpoint(Data::TypeSupplyOutput::OUTPUT1,Data::SegmentMode::REVERSE)
+    m_fwdISetpoint(TypeSupplyOutput::OUTPUT1,SegmentMode::FORWARD),
+    m_revISetpoint(TypeSupplyOutput::OUTPUT1,SegmentMode::REVERSE),
+    m_fwdVSetpoint(TypeSupplyOutput::OUTPUT1,SegmentMode::FORWARD),
+    m_revVSetpoint(TypeSupplyOutput::OUTPUT1,SegmentMode::REVERSE)
 {
-    commsMarshaler = new comms::MunkCommsMarshaler();
+    //    qRegisterMetaType<SensorState>("SensorState");
+    //    qRegisterMetaType<TupleSensorString>("TupleSensorString");
+
+    commsMarshaler = new MunkCommsMarshaler();
     commsMarshaler->AddSubscriber(this);
 
-    pollStatus = new MunkPollStatus();
-    pollStatus->connectCallback(this);
+//    pollStatus = new MunkPollStatus();
+//    pollStatus->connectCallback(this);
+//    pollStatus->beginPolling();
 }
 
 MunkPowerSupply::~MunkPowerSupply()
@@ -23,7 +27,7 @@ MunkPowerSupply::~MunkPowerSupply()
 
 void MunkPowerSupply::openSerialPort(const QString &name)
 {
-    comms::SerialConfiguration config(name.toStdString());
+    SerialConfiguration config(name.toStdString());
     commsMarshaler->ConnectToLink(config);
 }
 
@@ -33,7 +37,12 @@ void MunkPowerSupply::closeSerialPort()
     commsMarshaler->DisconnetFromLink();
 }
 
-void MunkPowerSupply::generateAndTransmitMessage(const DataParameter::SegmentTimeDetailed &detailedSegmentData)
+bool MunkPowerSupply::isConnected() const
+{
+    return commsMarshaler->isConnected();
+}
+
+void MunkPowerSupply::generateAndTransmitMessage(const SegmentTimeDetailed &detailedSegmentData)
 {
     generateMessages(detailedSegmentData);
     commsProgress.clearCurrentProgress();
@@ -84,7 +93,7 @@ void MunkPowerSupply::generateAndTransmitMessage(const DataParameter::SegmentTim
     emit signal_SegmentWriteProgress(needed,required);
 }
 
-void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData)
+void MunkPowerSupply::generateMessages(const SegmentTimeDetailed &detailedSegmentData)
 {
     //SegmentTime Parameter holding data
     m_segmentTimeGeneral.setSlaveAddress(detailedSegmentData.getSlaveAddress());
@@ -99,24 +108,24 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
     m_revVSetpoint.initializeData();
 
     //maps holding containers to determine what is unique
-    std::map<Data::RegisterDataObject,Data::SegmentLevel> fwdMap;
-    std::map<Data::RegisterDataObject,Data::SegmentLevel> revMap;
+    std::map<RegisterDataObject,data_Munk::SegmentLevel> fwdMap;
+    std::map<RegisterDataObject,data_Munk::SegmentLevel> revMap;
 
-    std::vector<DataParameter::SegmentTimeDataDetailed> detailedData = detailedSegmentData.getRegisterData();
+    std::vector<SegmentTimeDataDetailed> detailedData = detailedSegmentData.getRegisterData();
 
-    std::vector<std::string> fwdLevelVector = Data::getListOfSegmentLevel();
+    std::vector<std::string> fwdLevelVector = getListOfSegmentLevel();
     int fwdLevelCounter = 0;
-    std::vector<std::string> revLevelVector = Data::getListOfSegmentLevel();
+    std::vector<std::string> revLevelVector = getListOfSegmentLevel();
     int revLevelCounter = 0;
 
     //allow us to loop through all of the possible data segments
     for(unsigned int i = 0; i < detailedData.size(); i++)
     {
-        DataParameter::SegmentTimeDataDetailed detail = detailedData.at(i);
+        registers_Munk::SegmentTimeDataDetailed detail = detailedData.at(i);
         //determine the mode of the segment
-        Data::SegmentMode mode = detail.getSegmentMode();
+        data_Munk::SegmentMode mode = detail.getSegmentMode();
 
-        if(mode == Data::SegmentMode::FORWARD)
+        if(mode == data_Munk::SegmentMode::FORWARD)
         {
             if(fwdMap.count(detail.getRegisterDataObject()) > 0)
             {
@@ -130,22 +139,22 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
                     return;
                 }
                 //assign a new level to this combination
-                Data::SegmentLevel newLevel = Data::SegmentLevelFromString(fwdLevelVector.at(fwdLevelCounter));
-                fwdMap.insert(std::pair<Data::RegisterDataObject,Data::SegmentLevel>(detail.getRegisterDataObject(),newLevel));
+                data_Munk::SegmentLevel newLevel = SegmentLevelFromString(fwdLevelVector.at(fwdLevelCounter));
+                fwdMap.insert(std::pair<RegisterDataObject,data_Munk::SegmentLevel>(detail.getRegisterDataObject(),newLevel));
 
-                DataParameter::SegmentVoltageData vData(newLevel,mode);
+                SegmentVoltageData vData(newLevel,mode);
                 vData.updateVoltageSetpoint(detail.getRegisterDataObject().voltage);
                 m_fwdVSetpoint.appendData(vData);
-                DataParameter::SegmentCurrentData iData(newLevel,mode);
+                SegmentCurrentData iData(newLevel,mode);
                 iData.updateCurrentSetpoint(detail.getRegisterDataObject().current);
                 m_fwdISetpoint.appendData(iData);
                 fwdLevelCounter++;
             }
-            Data::SegmentLevel level = fwdMap.at(detail.getRegisterDataObject());
-            DataParameter::SegmentTimeDataGeneral generalData(level,mode,detail.getTimeValue());
+            SegmentLevel level = fwdMap.at(detail.getRegisterDataObject());
+            SegmentTimeDataGeneral generalData(level,mode,detail.getTimeValue());
             m_segmentTimeGeneral.appendRegisterData(generalData);
         }
-        else if(mode == Data::SegmentMode::REVERSE)
+        else if(mode == data_Munk::SegmentMode::REVERSE)
         {
             if(revMap.count(detail.getRegisterDataObject()) > 0)
             {
@@ -161,32 +170,32 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
                 }
 
                 //assign a new level to this combination
-                Data::SegmentLevel newLevel = Data::SegmentLevelFromString(revLevelVector.at(revLevelCounter));
-                revMap.insert(std::pair<Data::RegisterDataObject,Data::SegmentLevel>(detail.getRegisterDataObject(),newLevel));
+                data_Munk::SegmentLevel newLevel = SegmentLevelFromString(revLevelVector.at(revLevelCounter));
+                revMap.insert(std::pair<RegisterDataObject,data_Munk::SegmentLevel>(detail.getRegisterDataObject(),newLevel));
 
-                DataParameter::SegmentVoltageData vData(newLevel,mode);
+                SegmentVoltageData vData(newLevel,mode);
                 vData.updateVoltageSetpoint(detail.getRegisterDataObject().voltage);
                 m_revVSetpoint.appendData(vData);
-                DataParameter::SegmentCurrentData iData(newLevel,mode);
+                SegmentCurrentData iData(newLevel,mode);
                 iData.updateCurrentSetpoint(detail.getRegisterDataObject().current);
                 m_revISetpoint.appendData(iData);
                 revLevelCounter++;
             }
-            Data::SegmentLevel level = revMap.at(detail.getRegisterDataObject());
-            DataParameter::SegmentTimeDataGeneral generalData(level,mode,detail.getTimeValue());
+            SegmentLevel level = revMap.at(detail.getRegisterDataObject());
+            SegmentTimeDataGeneral generalData(level,mode,detail.getTimeValue());
             m_segmentTimeGeneral.appendRegisterData(generalData);
         }
-        else if(mode == Data::SegmentMode::DEAD)
+        else if(mode == data_Munk::SegmentMode::DEAD)
         {
-            DataParameter::SegmentTimeDataGeneral generalData;
-            generalData.setSegmentMode(Data::SegmentMode::DEAD);
+            SegmentTimeDataGeneral generalData;
+            generalData.setSegmentMode(data_Munk::SegmentMode::DEAD);
             generalData.setTimeValue(detail.getTimeValue());
             m_segmentTimeGeneral.appendRegisterData(generalData);
         }
-        else if(mode == Data::SegmentMode::HIZ)
+        else if(mode == data_Munk::SegmentMode::HIZ)
         {
-            DataParameter::SegmentTimeDataGeneral generalData;
-            generalData.setSegmentMode(Data::SegmentMode::HIZ);
+            SegmentTimeDataGeneral generalData;
+            generalData.setSegmentMode(data_Munk::SegmentMode::HIZ);
             generalData.setTimeValue(detail.getTimeValue());
             m_segmentTimeGeneral.appendRegisterData(generalData);
         }
@@ -202,8 +211,8 @@ void MunkPowerSupply::generateMessages(const DataParameter::SegmentTimeDetailed 
 
 void MunkPowerSupply::ConnectionOpened() const
 {
-    //pollStatus->beginPolling();
     emit signal_ConnectionStatusUpdated(true);
+    //pollStatus->beginPolling();
 }
 
 void MunkPowerSupply::ConnectionClosed() const
@@ -308,15 +317,15 @@ void MunkPowerSupply::SegmentCommitedToMemoryAcknowledged()
 }
 
 
-void MunkPowerSupply::ExceptionResponseReceived(const Data::ReadWriteType &RWType, const std::string &meaning) const
+void MunkPowerSupply::ExceptionResponseReceived(const MunkRWType &RWType, const std::string &meaning) const
 {
-    if(RWType == Data::ReadWriteType::READ)
+    if(RWType == data_Munk::MunkRWType::READ)
         emit signal_SegmentException("READING",meaning);
     else
         emit signal_SegmentException("WRITING",meaning);
 }
 
-void MunkPowerSupply::cbi_MunkFaultStateRequest(const DataParameter::RegisterFaultState &request) const
+void MunkPowerSupply::cbi_MunkFaultStateRequest(const RegisterFaultState &request) const
 {
     commsMarshaler->sendRegisterFaultStateRequest(request);
 }

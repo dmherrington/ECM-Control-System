@@ -1,13 +1,13 @@
-#ifndef I_LINK_EVENTS_H
-#define I_LINK_EVENTS_H
+#ifndef RIGOL_I_LINK_EVENTS_H
+#define RIGOL_I_LINK_EVENTS_H
 
 #include <cstdlib>
 #include <vector>
 #include <string>
 
 #include "commands/measure/rigol_measurement_status.h"
-namespace rigol {
-namespace comms{
+
+namespace comms_Rigol{
 
 class ILink;
 
@@ -27,6 +27,6 @@ public:
 };
 
 } //end of namespace comms
-} //end of namespace rigol
 
-#endif // I_LINK_EVENTS_H
+
+#endif // RIGOL_I_LINK_EVENTS_H

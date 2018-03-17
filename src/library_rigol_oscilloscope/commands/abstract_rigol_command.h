@@ -25,15 +25,15 @@
 
 #include "abstract_rigol_status.h"
 
-namespace rigol {
-namespace commands{
+
+namespace commands_Rigol{
 
 ECM_CLASS_FORWARD(AbstractRigolCommand);
 
 class AbstractRigolCommand
 {
 public:
-    AbstractRigolCommand(const data::CommandTypes &command, const data::ReadWriteType &rw = data::ReadWriteType::WRITE)
+    AbstractRigolCommand(const data_Rigol::CommandTypes &command, const data_Rigol::RigolRWType &rw = data_Rigol::RigolRWType::WRITE)
     {
         this->commandType = command;
         this->RWType = rw;
@@ -75,17 +75,17 @@ public:
     virtual void getClone(AbstractRigolCommand** state) const = 0;
 
 public:
-    virtual data::CommandTypes getCommandType() const
+    virtual data_Rigol::CommandTypes getCommandType() const
     {
         return commandType;
     }
 
-    virtual void setReadOrWrite(const data::ReadWriteType &type)
+    virtual void setReadOrWrite(const data_Rigol::RigolRWType &type)
     {
         this->RWType = type;
     }
 
-    virtual data::ReadWriteType isReadorWrite() const
+    virtual data_Rigol::RigolRWType isReadorWrite() const
     {
         return RWType;
     }
@@ -135,26 +135,26 @@ protected:
     virtual std::string getPrefixCommand() const
     {
         std::string rtn = ":";
-        rtn +=data::getRigolCommandString(this->commandType);
+        rtn +=data_Rigol::getRigolCommandString(this->commandType);
         rtn+=":";
         return rtn;
     }
 
     std::string getSuffixCommand() const
     {
-        if(RWType == data::ReadWriteType::READ)
+        if(RWType == data_Rigol::RigolRWType::READ)
             return "? ";
         else
             return " ";
     }
 
 protected:
-    data::CommandTypes commandType;
-    data::ReadWriteType RWType;
+    data_Rigol::CommandTypes commandType;
+    data_Rigol::RigolRWType RWType;
 
 };
 
 } //end of namespace commands
-} //end of namespace rigol
+
 
 #endif // ABSTRACT_RIGOL_COMMAND_H

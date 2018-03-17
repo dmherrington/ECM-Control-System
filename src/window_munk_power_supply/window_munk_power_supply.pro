@@ -19,8 +19,6 @@ lessThan(QT_MAJOR_VERSION, 5) {
 
 unix:QMAKE_CXXFLAGS += -std=gnu++0x
 
-CONFIG += plugin
-
 TARGET = window_munk_power_supply
 TEMPLATE = app
 
@@ -50,7 +48,7 @@ HEADERS += \
 FORMS += \
     main_window.ui \
     widget_segment_time_display.ui \
-    widgetsegmenttimedata.ui
+    widget_segment_time_data.ui
 
 # Copy Files
 target.path = $$(ECM_ROOT)/bin
@@ -73,12 +71,6 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../library_munk_power_supply/ -llibrary_mun
 INCLUDEPATH += $$PWD/../library_munk_power_supply
 DEPENDPATH += $$PWD/../library_munk_power_supply
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../graphing/release/ -lgraphing
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../graphing/debug/ -lgraphing
-else:unix:!macx: LIBS += -L$$OUT_PWD/../graphing/ -lgraphing
-
-INCLUDEPATH += $$PWD/../graphing
-DEPENDPATH += $$PWD/../graphing
 
 SUBDIRS += \
     window_munk_power_supply.pro

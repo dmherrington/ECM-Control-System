@@ -1,20 +1,20 @@
 #include "segment_current_setpoint.h"
 
-namespace DataParameter
-{
 
-SegmentCurrentSetpoint::SegmentCurrentSetpoint(const Data::TypeSupplyOutput &outputNum, const Data::SegmentMode &levelMode)
+namespace registers_Munk {
+
+SegmentCurrentSetpoint::SegmentCurrentSetpoint(const data_Munk::TypeSupplyOutput &outputNum, const data_Munk::SegmentMode &levelMode)
 {
     this->supplyOutput = outputNum;
     this->mode = levelMode;
 
-    if(levelMode == Data::SegmentMode::FORWARD)
+    if(levelMode == data_Munk::SegmentMode::FORWARD)
     {
-        this->parameterCode = (int)Data::getFWDCurrentIndex((int)outputNum);
+        this->parameterCode = (int)data_Munk::getFWDCurrentIndex((int)outputNum);
     }
-    else if(levelMode == Data::SegmentMode::REVERSE)
+    else if(levelMode == data_Munk::SegmentMode::REVERSE)
     {
-        this->parameterCode = (int)Data::getREVCurrentIndex((int)outputNum);
+        this->parameterCode = (int)data_Munk::getREVCurrentIndex((int)outputNum);
     }
     else{
 
@@ -52,7 +52,7 @@ QByteArray SegmentCurrentSetpoint::getByteArray() const
         ba.append(LOWSeqType);
 
         ba.append((uint8_t)data.size() * 2);
-        for (std::map<Data::SegmentLevel, SegmentCurrentData>::const_iterator it=this->data.begin(); it!=this->data.end(); ++it)
+        for (std::map<data_Munk::SegmentLevel, SegmentCurrentData>::const_iterator it=this->data.begin(); it!=this->data.end(); ++it)
         {
             SegmentCurrentData tmpCurrent = it->second;
             QByteArray tmpArray = tmpCurrent.getDataArray();
@@ -75,7 +75,7 @@ QByteArray SegmentCurrentSetpoint::getExpectedResponse() const
 
 void SegmentCurrentSetpoint::appendData(const SegmentCurrentData &currentSetpoint)
 {
-    this->data.insert(std::pair<Data::SegmentLevel,SegmentCurrentData>(currentSetpoint.getSegmentLevel(),currentSetpoint));
+    this->data.insert(std::pair<data_Munk::SegmentLevel,SegmentCurrentData>(currentSetpoint.getSegmentLevel(),currentSetpoint));
 }
 
 void SegmentCurrentSetpoint::initializeData()
@@ -83,4 +83,5 @@ void SegmentCurrentSetpoint::initializeData()
     this->data.clear();
 }
 
-} //end of namespace DataParameter
+} //end of namespace registers_Munk
+

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_variable_data.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.1
+** Created by: Qt User Interface Compiler version 5.10.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -199,15 +199,15 @@ public:
 
     void retranslateUi(QWidget *WidgetVariableData)
     {
-        WidgetVariableData->setWindowTitle(QApplication::translate("WidgetVariableData", "Form", Q_NULLPTR));
-        label->setText(QApplication::translate("WidgetVariableData", "Max Value", Q_NULLPTR));
-        label_2->setText(QApplication::translate("WidgetVariableData", "Min Value", Q_NULLPTR));
-        label_3->setText(QApplication::translate("WidgetVariableData", "Default Value", Q_NULLPTR));
-        pushButton_removeVariable->setText(QApplication::translate("WidgetVariableData", "Remove Variable", Q_NULLPTR));
-        label_4->setText(QApplication::translate("WidgetVariableData", "Display Name", Q_NULLPTR));
+        WidgetVariableData->setWindowTitle(QApplication::translate("WidgetVariableData", "Form", nullptr));
+        label->setText(QApplication::translate("WidgetVariableData", "Max Value", nullptr));
+        label_2->setText(QApplication::translate("WidgetVariableData", "Min Value", nullptr));
+        label_3->setText(QApplication::translate("WidgetVariableData", "Default Value", nullptr));
+        pushButton_removeVariable->setText(QApplication::translate("WidgetVariableData", "Remove Variable", nullptr));
+        label_4->setText(QApplication::translate("WidgetVariableData", "Display Name", nullptr));
         lineEdit_displayName->setText(QString());
         lineEdit_displayName->setPlaceholderText(QString());
-        label_5->setText(QApplication::translate("WidgetVariableData", "Variable Name", Q_NULLPTR));
+        label_5->setText(QApplication::translate("WidgetVariableData", "Variable Name", nullptr));
     } // retranslateUi
 
 };

@@ -1,15 +1,16 @@
 #include "abstract_parameter.h"
 
-namespace DataParameter {
+
+namespace registers_Munk {
 
 AbstractParameter::AbstractParameter():
-    parameterCode(0),slaveAddress(0),readOrwrite(Data::ReadWriteType::WRITE),highChecksum(0),lowChecksum(0)
+    parameterCode(0),slaveAddress(0),readOrwrite(data_Munk::MunkRWType::WRITE),highChecksum(0),lowChecksum(0)
 {
 
 }
 
 AbstractParameter::AbstractParameter(const int &code):
-    parameterCode(code),slaveAddress(0),readOrwrite(Data::ReadWriteType::WRITE),highChecksum(0),lowChecksum(0)
+    parameterCode(code),slaveAddress(0),readOrwrite(data_Munk::MunkRWType::WRITE),highChecksum(0),lowChecksum(0)
 {
 
 }
@@ -28,7 +29,7 @@ void AbstractParameter::setSlaveAddress(const uint8_t &address)
     this->slaveAddress = address;
 }
 
-void AbstractParameter::setReadorWrite(const Data::ReadWriteType &type)
+void AbstractParameter::setReadorWrite(const data_Munk::MunkRWType &type)
 {
     this->readOrwrite = type;
 }
@@ -95,12 +96,13 @@ QByteArray AbstractParameter::getFullExpectedResonse() const
 
 unsigned int AbstractParameter::CRC16(const QByteArray &array) const
 {
+    //redefining word so its not so bad
     char j;
-    WORD Temp = 0xFFFF;
+    unsigned int Temp = 0xFFFF;
     int size = array.size();
     for (int i=0;i<size;i++){
         unsigned char charTemp = (unsigned char)array.at(i);
-        Temp ^= (WORD)charTemp;
+        Temp ^= (unsigned int)charTemp;
         for (j=8;j!=0;j--){
 
             if ((Temp & 0x0001) != 0) {      // If the LSB is set
@@ -114,4 +116,5 @@ unsigned int AbstractParameter::CRC16(const QByteArray &array) const
     return Temp;
 }
 
-} //end of namespace DataParameter
+} //end of namespace registers_Munk
+

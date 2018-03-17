@@ -1,5 +1,5 @@
-#ifndef STATUS_TYPES_H
-#define STATUS_TYPES_H
+#ifndef GALIL_STATUS_TYPES_H
+#define GALIL_STATUS_TYPES_H
 
 #include <vector>
 #include <string>
@@ -26,10 +26,12 @@ enum class StatusTypes{
     STATUS_MOTOREN = 2,
     STATUS_STOPCODE = 3,
     STATUS_SWITCH = 4,
-    STATUS_TELLINPUTS = 5
+    STATUS_TELLINPUTS = 5,
+    STATUS_VARIABLEVALUE = 6,
+    STATUS_VARIABLELIST = 7
 };
 
 
 
 
-#endif // STATUS_TYPES_H
+#endif // GALIL_STATUS_TYPES_H

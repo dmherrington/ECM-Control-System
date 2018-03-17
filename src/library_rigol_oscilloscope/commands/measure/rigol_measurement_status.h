@@ -6,14 +6,14 @@
 #include "data/type_available_channels.h"
 #include "data/type_available_measurements.h"
 
-namespace rigol {
-namespace commands{
+
+namespace commands_Rigol{
 
 class RigolMeasurementStatus : public AbstractRigolStatus
 {
 
 public:
-    RigolMeasurementStatus(const data::AvailableChannels &measureChannel, const data::MeasurementTypes &type);
+    RigolMeasurementStatus(const data_Rigol::AvailableChannels &measureChannel, const data_Rigol::MeasurementTypes &type);
 
     RigolMeasurementStatus(const RigolMeasurementStatus &copy);
 
@@ -25,9 +25,9 @@ public:
     }
 
 public:
-    data::AvailableChannels getChannel() const;
+    data_Rigol::AvailableChannels getChannel() const;
 
-    data::MeasurementTypes getMeasurementType() const;
+    data_Rigol::MeasurementTypes getMeasurementType() const;
 
     double getMeasurementValue() const;
 
@@ -86,13 +86,13 @@ public:
     }
 
 private:
-    data::AvailableChannels channel = data::AvailableChannels::CHANNEL_1;
-    data::MeasurementTypes measureType = data::MeasurementTypes::MEASURE_VRMS;
+    data_Rigol::AvailableChannels channel = data_Rigol::AvailableChannels::CHANNEL_1;
+    data_Rigol::MeasurementTypes measureType = data_Rigol::MeasurementTypes::MEASURE_VRMS;
     double value = 0.0;
     std::string str = "";
 };
 
 } //end of namespace commands
-} //end of namespace rigol
+
 
 #endif // RIGOL_MEASUREMENT_STATUS_H

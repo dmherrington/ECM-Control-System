@@ -14,8 +14,8 @@
 
 #include "data_registers/segment_current_data.h"
 
-namespace DataParameter
-{
+
+namespace registers_Munk{
 
 //!
 //! \brief The SegmentCurrentSetpoint class
@@ -28,7 +28,7 @@ public:
     //! \param levelValue
     //! \param levelMode
     //!
-    SegmentCurrentSetpoint(const Data::TypeSupplyOutput &outputNum, const Data::SegmentMode &levelMode);
+    SegmentCurrentSetpoint(const data_Munk::TypeSupplyOutput &outputNum, const data_Munk::SegmentMode &levelMode);
 
     //!
     //! \brief SegmentCurrentSetpoint
@@ -40,7 +40,7 @@ public:
     //! \brief getParameterType
     //! \return
     //!
-    virtual DataParameter::ParameterType getParameterType() const;
+    virtual registers_Munk::ParameterType getParameterType() const;
 
     //!
     //! \brief getByteArray
@@ -125,19 +125,20 @@ private:
     //!
     //! \brief supplyOutput
     //!
-    Data::TypeSupplyOutput supplyOutput;
+    data_Munk::TypeSupplyOutput supplyOutput;
 
     //!
     //! \brief mode
     //!
-    Data::SegmentMode mode;
+    data_Munk::SegmentMode mode;
 
     //!
     //! \brief data
     //!
-    std::map<Data::SegmentLevel, SegmentCurrentData> data;
+    std::map<data_Munk::SegmentLevel, SegmentCurrentData> data;
 };
 
-} //end of namespace DataParameter
+} //end of namepsace registers_Munk
+
 
 #endif // SEGMENT_CURRENT_SETPOINT_H

@@ -1,50 +1,48 @@
-#ifndef ABSTRACT_PARAMETER_H
-#define ABSTRACT_PARAMETER_H
+#ifndef ABSTRACT_WESTINGHOUSE_REGISTER_H
+#define ABSTRACT_WESTINGHOUSE_REGISTER_H
 
 #include <QByteArray>
 #include <QBitArray>
 #include <string>
 
-#include "available_registers.h"
 #include "common/common.h"
+#include "../data/type_read_write.h"
+#include "available_registers.h"
 
-#include "data/type_read_write.h"
+namespace registers_WestinghousePump{
 
-namespace westinghousePump{
-namespace registers{
-
-typedef unsigned int WORD;
+//typedef unsigned int WORD;
 
 //!
 //! \brief The AbstractParameter class
 //!
-class AbstractRegister
+class AbstractWestinghouseRegister
 {
 public:
     //!
     //! \brief AbstractParameter
     //!
-    AbstractRegister();
+    AbstractWestinghouseRegister();
 
     //!
     //! \brief AbstractParameter
     //! \param code
     //!
-    AbstractRegister(const int &code);
+    AbstractWestinghouseRegister(const int &code);
 
     //!
     //! \brief AbstractParameter
     //! \param copy
     //!
-    AbstractRegister(const AbstractRegister &copy);
+    AbstractWestinghouseRegister(const AbstractWestinghouseRegister &copy);
 
-    virtual ~AbstractRegister() = default;
+    virtual ~AbstractWestinghouseRegister() = default;
 public:
     //!
     //! \brief getParameterType
     //! \return
     //!
-    virtual RegisterType getRegisterType() const = 0;
+    virtual WestinhouseRegisterTypes getRegisterType() const = 0;
 
     virtual int getRegisterCode() const
     {
@@ -67,13 +65,13 @@ public:
      * @brief getClone
      * @return
      */
-    virtual AbstractRegister* getClone() const = 0;
+    virtual AbstractWestinghouseRegister* getClone() const = 0;
 
     /**
      * @brief getClone
      * @param state
      */
-    virtual void getClone(AbstractRegister** state) const = 0;
+    virtual void getClone(AbstractWestinghouseRegister** state) const = 0;
 
     /**
      *
@@ -105,7 +103,7 @@ public:
     //! \brief setReadorWrite
     //! \param type
     //!
-    void setReadorWrite(const data::ReadWriteType &type);
+    void setReadorWrite(const data_WestinghousePump::RWType &type);
 
     //!
     //! \brief getFullMessage
@@ -131,7 +129,7 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    AbstractRegister& operator = (const AbstractRegister &rhs)
+    AbstractWestinghouseRegister& operator = (const AbstractWestinghouseRegister &rhs)
     {
         this->parameterCode = rhs.parameterCode;
         this->slaveAddress = rhs.slaveAddress;
@@ -146,7 +144,7 @@ public:
     //! \param rhs
     //! \return
     //!
-    bool operator == (const AbstractRegister &rhs)
+    bool operator == (const AbstractWestinghouseRegister &rhs)
     {
         if(this->parameterCode != rhs.parameterCode){
             return false;
@@ -171,7 +169,7 @@ public:
     //! \param rhs
     //! \return
     //!
-    bool operator != (const AbstractRegister &rhs) {
+    bool operator != (const AbstractWestinghouseRegister &rhs) {
         return !(*this == rhs);
     }
 
@@ -197,7 +195,7 @@ protected:
     //!
     //! \brief readOrwrite
     //!
-    data::ReadWriteType readOrwrite;
+    data_WestinghousePump::RWType readOrwrite;
 
     //!
     //! \brief highChecksum
@@ -210,7 +208,7 @@ protected:
     mutable uint8_t lowChecksum;
 };
 
-} //end of namespace registers
-} //end of namespace westinghousePump
+} //end of namespace registers_WestinghousePump
 
-#endif // ABSTRACT_PARAMETER_H
+
+#endif // ABSTRACT_WESTINGHOUSE_REGISTER_H

@@ -11,8 +11,10 @@
 
 #include "message_framing_state.h"
 
-class MunkMessage
-{
+
+namespace comms_Munk{
+
+class MunkMessage {
 public:
     MunkMessage() = default;
 
@@ -27,11 +29,11 @@ public:
 
     FramingState setReadWriteType(const uint8_t &RWType);
 
-    void setExceptionType(const Data::ExceptionType &EXType);
+    void setExceptionType(const data_Munk::MunkExceptionType &EXType);
 
-    Data::ReadWriteType isReadWriteType() const;
+    data_Munk::MunkRWType isReadWriteType() const;
 
-    Data::ExceptionType isException() const;
+    data_Munk::MunkExceptionType isException() const;
 
     void setRemainingPayload(const int &size);
 
@@ -48,9 +50,12 @@ public:
     }
 private:
     QByteArray currentArray;
-    Data::ReadWriteType rwType = Data::ReadWriteType::WRITE;
-    Data::ExceptionType exType = Data::ExceptionType::NO_EXCEPTION;
+    data_Munk::MunkRWType rwType = data_Munk::MunkRWType::WRITE;
+    data_Munk::MunkExceptionType exType = data_Munk::MunkExceptionType::NO_EXCEPTION;
     int remainingPayload = 0;
 };
+
+} //end of namespace comms_Munk
+
 
 #endif // MUNK_MESSAGE_H

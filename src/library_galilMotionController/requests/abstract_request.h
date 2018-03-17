@@ -70,6 +70,17 @@ public:
     virtual void getClone(AbstractRequest** state) const = 0;
 
 public:
+    virtual void setRequestName(const std::string &name)
+    {
+        this->requestName = name;
+    }
+
+    virtual std::string getRequestName() const
+    {
+        return requestName;
+    }
+
+public:
     virtual RequestTypes getRequestType() const
     {
         return requestType;
@@ -98,21 +109,22 @@ public:
     }
 
 public:
-    Data::EnvironmentTime getTime() const
+    common::EnvironmentTime getTime() const
     {
         return this->latestUpdate;
     }
 
     void updateTime()
     {
-        this->latestUpdate.CurrentTime(Data::Devices::SYSTEMCLOCK,this->latestUpdate);
+        this->latestUpdate.CurrentTime(common::Devices::SYSTEMCLOCK,this->latestUpdate);
     }
 
 protected:
+    std::string requestName = "";
     RequestTypes requestType;
     unsigned int bufferSize;
     std::string buffer;
-    Data::EnvironmentTime latestUpdate;
+    common::EnvironmentTime latestUpdate;
 
 };
 

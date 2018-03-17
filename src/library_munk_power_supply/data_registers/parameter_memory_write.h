@@ -7,8 +7,8 @@
 
 #include "abstract_parameter.h"
 
-namespace DataParameter{
 
+namespace registers_Munk{
 //!
 //! \brief The ParameterMemoryWrite class
 //!
@@ -27,7 +27,7 @@ public:
     //! \brief getParameterType
     //! \return
     //!
-    virtual DataParameter::ParameterType getParameterType() const;
+    virtual registers_Munk::ParameterType getParameterType() const;
 
     //!
     //! \brief getByteArray
@@ -60,5 +60,7 @@ public:
 
 };
 
-}
+} //end of namepsace registers_Munk
+
+
 #endif // PARAMETER_MEMORY_WRITE_H

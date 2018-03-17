@@ -10,6 +10,7 @@
 #include "status/status_stop_code.h"
 #include "status/status_switch.h"
 #include "status/status_types.h"
-
+#include "status/status_variable_list.h"
+#include "status/status_variable_value.h"
 
 #endif // STATUS_COMPONENTS_H

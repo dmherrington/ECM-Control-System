@@ -8,6 +8,7 @@
 #include "requests/request_tell_inputs.h"
 #include "requests/request_tell_position.h"
 #include "requests/request_tell_switches.h"
+#include "requests/request_tell_variable.h"
 #include "requests/request_types.h"
 
 #endif // REQUEST_COMPONENTS_H

@@ -1,21 +1,21 @@
 #include "abstract_register.h"
 
-namespace westinghousePump{
-namespace registers{
 
-AbstractRegister::AbstractRegister():
-    parameterCode(0),slaveAddress(0),readOrwrite(data::ReadWriteType::WRITE),highChecksum(0),lowChecksum(0)
+namespace registers_WestinghousePump{
+
+AbstractWestinghouseRegister::AbstractWestinghouseRegister():
+    parameterCode(0),slaveAddress(0),readOrwrite(data_WestinghousePump::RWType::WRITE),highChecksum(0),lowChecksum(0)
 {
 
 }
 
-AbstractRegister::AbstractRegister(const int &code):
-    parameterCode(code),slaveAddress(0),readOrwrite(data::ReadWriteType::WRITE),highChecksum(0),lowChecksum(0)
+AbstractWestinghouseRegister::AbstractWestinghouseRegister(const int &code):
+    parameterCode(code),slaveAddress(0),readOrwrite(data_WestinghousePump::RWType::WRITE),highChecksum(0),lowChecksum(0)
 {
 
 }
 
-AbstractRegister::AbstractRegister(const AbstractRegister &copy)
+AbstractWestinghouseRegister::AbstractWestinghouseRegister(const AbstractWestinghouseRegister &copy)
 {
     this->parameterCode = copy.parameterCode;
     this->slaveAddress = copy.slaveAddress;
@@ -24,17 +24,17 @@ AbstractRegister::AbstractRegister(const AbstractRegister &copy)
     this->lowChecksum = copy.lowChecksum;
 }
 
-void AbstractRegister::setSlaveAddress(const uint8_t &address)
+void AbstractWestinghouseRegister::setSlaveAddress(const uint8_t &address)
 {
     this->slaveAddress = address;
 }
 
-void AbstractRegister::setReadorWrite(const data::ReadWriteType &type)
+void AbstractWestinghouseRegister::setReadorWrite(const data_WestinghousePump::RWType &type)
 {
     this->readOrwrite = type;
 }
 
-QByteArray AbstractRegister::getPrefixByteArray() const
+QByteArray AbstractWestinghouseRegister::getPrefixByteArray() const
 {
     QByteArray ba;
 
@@ -49,7 +49,7 @@ QByteArray AbstractRegister::getPrefixByteArray() const
     return ba;
 }
 
-QByteArray AbstractRegister::getFullMessage() const
+QByteArray AbstractWestinghouseRegister::getFullMessage() const
 {
     QByteArray dataSum;
 
@@ -71,14 +71,14 @@ QByteArray AbstractRegister::getFullMessage() const
     return dataSum;
 }
 
-unsigned int AbstractRegister::CRC16(const QByteArray &array) const
+unsigned int AbstractWestinghouseRegister::CRC16(const QByteArray &array) const
 {
     char j;
-    WORD Temp = 0xFFFF;
+    unsigned int Temp = 0xFFFF;
     int size = array.size();
     for (int i=0;i<size;i++){
         unsigned char charTemp = (unsigned char)array.at(i);
-        Temp ^= (WORD)charTemp;
+        Temp ^= (unsigned int)charTemp;
         for (j=8;j!=0;j--){
 
             if ((Temp & 0x0001) != 0) {      // If the LSB is set
@@ -92,5 +92,5 @@ unsigned int AbstractRegister::CRC16(const QByteArray &array) const
     return Temp;
 }
 
-} //end of namespace registers
-} //end of namespace westinghousePump
+} //end of namespace registers_WestinghousePump 
+

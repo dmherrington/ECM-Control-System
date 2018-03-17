@@ -8,7 +8,7 @@ RigolOscilliscope::RigolOscilliscope(const std::string &name, QObject *parent):
     pollStatus = new RigolPollMeasurement();
     pollStatus->connectCallback(this);
 
-    commsMarshaler = new comms::RigolCommsMarshaler();
+    commsMarshaler = new comms_Rigol::RigolCommsMarshaler();
     commsMarshaler->AddSubscriber(this);
 
     //Setting up the proper directory paths for all of the stuff
@@ -29,7 +29,7 @@ RigolOscilliscope::~RigolOscilliscope()
 
 void RigolOscilliscope::openConnection(const std::string &ipAddress, const int &port)
 {
-    rigol::comms::TCPConfiguration newConfig;
+    comms_Rigol::TCPConfiguration newConfig;
     newConfig.setListenAddress(ipAddress);
     newConfig.setListenPortNumber(port);
     commsMarshaler->ConnectToLink(newConfig);
@@ -40,7 +40,7 @@ void RigolOscilliscope::closeConnection()
     commsMarshaler->DisconnetFromLink();
 }
 
-bool RigolOscilliscope::addPollingMeasurement(const rigol::commands::MeasureCommand_Item &command)
+bool RigolOscilliscope::addPollingMeasurement(const commands_Rigol::MeasureCommand_Item &command)
 {
     /*
      *  First we need to check if this type of measurement already exists
@@ -55,8 +55,8 @@ bool RigolOscilliscope::addPollingMeasurement(const rigol::commands::MeasureComm
     {
         commsMarshaler->sendSetMeasurementCommand(command);
         //next we should copy this write command as a read command for the polling object
-        rigol::commands::MeasureCommand_Item copyCommand(command);
-        copyCommand.setReadOrWrite(data::ReadWriteType::READ);
+        commands_Rigol::MeasureCommand_Item copyCommand(command);
+        copyCommand.setReadOrWrite(data_Rigol::RigolRWType::READ);
         pollStatus->addPollingMeasurement(copyCommand);
         saveMeasurements();
     }
@@ -76,12 +76,12 @@ void RigolOscilliscope::executeMeasurementPolling(const bool &execute)
         pollStatus->pausePolling();
 }
 
-rigol::commands::RigolMeasurementQueue RigolOscilliscope::getCurrentPollingMeasurements() const
+commands_Rigol::RigolMeasurementQueue RigolOscilliscope::getCurrentPollingMeasurements() const
 {
     return pollStatus->getCurrentPollingMeasurements();
 }
 
-void RigolOscilliscope::cbi_RigolMeasurementRequests(const commands::MeasureCommand_Item &request)
+void RigolOscilliscope::cbi_RigolMeasurementRequests(const commands_Rigol::MeasureCommand_Item &request)
 {
     commsMarshaler->sendMeasurementRequest(request);
 }
@@ -103,11 +103,11 @@ void RigolOscilliscope::ConnectionClosed() const
 void RigolOscilliscope::initializeRigol() const
 {
     //In this case we need to initialize the oscilliscope to the desired settings
-    commands::AcquireCommand_TypePtr acquisitionType = std::make_shared<commands::AcquireCommand_Type>();
-    acquisitionType->setAcquisitionMode(data::AcquireCommand_TypeMode::AVERAGE);
+    commands_Rigol::AcquireCommand_TypePtr acquisitionType = std::make_shared<commands_Rigol::AcquireCommand_Type>();
+    acquisitionType->setAcquisitionMode(data_Rigol::AcquireCommand_TypeMode::AVERAGE);
     commsMarshaler->sendAbstractAcquireCommand(acquisitionType);
 
-    commands::AcquireCommand_AveragePtr acquisitionAve = std::make_shared<commands::AcquireCommand_Average>();
+    commands_Rigol::AcquireCommand_AveragePtr acquisitionAve = std::make_shared<commands_Rigol::AcquireCommand_Average>();
     acquisitionAve->setSampleNumbers(8);
     commsMarshaler->sendAbstractAcquireCommand(acquisitionAve);
 
@@ -123,13 +123,13 @@ void RigolOscilliscope::initializeRigol() const
      */
 }
 
-void RigolOscilliscope::loadFromQueue(const commands::RigolMeasurementQueue &updatedQueue)
+void RigolOscilliscope::loadFromQueue(const commands_Rigol::RigolMeasurementQueue &updatedQueue)
 {
     this->queue.clearQueue();
     this->pollStatus->pausePolling();
     this->pollStatus->clearQueue();
 
-    std::vector<rigol::commands::MeasureCommand_Item> measurementItems = updatedQueue.getMeasurementItems();
+    std::vector<commands_Rigol::MeasureCommand_Item> measurementItems = updatedQueue.getMeasurementItems();
     for(int i = 0; i < measurementItems.size(); i++)
     {
         this->addPollingMeasurement(measurementItems.at(i));
@@ -145,9 +145,9 @@ void RigolOscilliscope::NewDataReceived(const std::vector<uint8_t> &buffer) cons
     }
 }
 
-void RigolOscilliscope::NewMeaurementReceived(const rigol::commands::RigolMeasurementStatus &status) const
+void RigolOscilliscope::NewMeaurementReceived(const commands_Rigol::RigolMeasurementStatus &status) const
 {
-    std::cout<<"I have received some data from the command:"<<data::MeasurementTypeEnumToString(status.getMeasurementType())<<std::endl;
+    std::cout<<"I have received some data from the command:"<<data_Rigol::MeasurementTypeEnumToString(status.getMeasurementType())<<std::endl;
     std::string returnString = status.getMeasurementString();
     std::cout<<"The data looked like: "<<returnString<<std::endl;
     std::cout<<"The time of the request was: "<<status.getRequestTime().ToString().toStdString()<<std::endl;
@@ -163,7 +163,7 @@ void RigolOscilliscope::saveMeasurements()
     }
 
     QJsonObject saveObject;
-    rigol::commands::RigolMeasurementQueue currentQueue = pollStatus->getCurrentPollingMeasurements();
+    commands_Rigol::RigolMeasurementQueue currentQueue = pollStatus->getCurrentPollingMeasurements();
     currentQueue.write(saveObject);
     QJsonDocument saveDoc(saveObject);
     saveFile.write(saveDoc.toJson());
@@ -180,7 +180,7 @@ void RigolOscilliscope::loadMeaurements(const std::string &path)
 
     QJsonDocument loadDoc(QJsonDocument::fromJson(loadData));
     QJsonObject jsonObject = loadDoc.object();
-    rigol::commands::RigolMeasurementQueue loadQueue;
+    commands_Rigol::RigolMeasurementQueue loadQueue;
     loadQueue.read(jsonObject);
     this->loadFromQueue(loadQueue);
 }

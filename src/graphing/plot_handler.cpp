@@ -36,8 +36,9 @@ PlotHandler::PlotHandler(QWidget *parent) :
     m_FigureProperties.legend = false;
 
     m_FigureProperties.window_custom = false;
-    m_FigureProperties.yWindow_max = 0.000;
+    m_FigureProperties.yWindow_max = 20.000;
     m_FigureProperties.yWindow_min = 0.000;
+
 
     m_TimeUnit = SECONDS;
 
@@ -100,6 +101,12 @@ PlotHandler::~PlotHandler()
 }
 
 
+void PlotHandler::SupplyPlotCollection(const common_data::observation::ObservationCollection* collection)
+{
+    m_ObservationCollection = collection;
+}
+
+
 //!
 //! \brief Change mode of operation
 //! \param mode Mode to change to
@@ -114,12 +121,12 @@ void PlotHandler::ChangeMode(const PlotMode mode)
 //! \brief Graph data on plot instance
 //! \param dataKey Key to indentify data
 //!
-void PlotHandler::AddPlot(const std::string &Expression)
+void PlotHandler::AddPlot(const common_data::observation::IPlotComparablePtr expression)
 {
     bool found = false;
     for (int i = 0; i < m_PlotParameters.size(); i++)
     {
-        if (m_PlotParameters.at(i).operation == Expression)
+        if (m_PlotParameters.at(i).operation == expression)
         {
             found = true;
         }
@@ -130,7 +137,8 @@ void PlotHandler::AddPlot(const std::string &Expression)
         return;
 
     plot_data_variables User_Data;
-    User_Data.operation = Expression;
+    User_Data.operation = expression;
+    User_Data.observations = m_ObservationCollection;
     User_Data.GraphColor.setRgb(rand() % 255, rand() % 255, rand() % 255);
     User_Data.DisplayName = "";
     User_Data.unitVariable = m_TimeUnit;
@@ -143,7 +151,7 @@ void PlotHandler::AddPlot(const std::string &Expression)
     m_PlotParameters.append(User_Data);
     RecalculatePlots();
 
-    emit PlotAdded(Expression);
+    //emit PlotAdded(expression);
 }
 
 
@@ -151,9 +159,9 @@ void PlotHandler::AddPlot(const std::string &Expression)
 //! \brief Retreive a list of all active expressions
 //! \return List of active expressions
 //!
-QList<std::string> PlotHandler::ActiveExpressions() const
+QList<std::shared_ptr<common_data::observation::IPlotComparable>> PlotHandler::ActiveExpressions() const
 {
-    QList<std::string> list;
+    QList<std::shared_ptr<common_data::observation::IPlotComparable>> list;
     for (int i = 0; i < m_PlotParameters.size(); i++)
     {
         list.append(m_PlotParameters.at(i).operation);
@@ -168,19 +176,19 @@ QList<std::string> PlotHandler::ActiveExpressions() const
 //! \param dataKey Plot to change name of
 //! \param displayName Name to change to
 //!
-void PlotHandler::ChangeName(const std::string &operation, const QString &displayName)
+void PlotHandler::ChangeName(const common::TupleECMData &tuple, const QString &displayName)
 {
-    for (int i = 0; i < m_PlotParameters.size(); i++) {
-        if (m_PlotParameters.at(i).operation == operation)
-        {
-            if(m_PlotParameters.at(i).DisplayName != displayName)
-            {
-                m_PlotParameters[i].DisplayName = displayName;
-                RecalculatePlots();
-            }
-            break;
-        }
-    }
+//    for (int i = 0; i < m_PlotParameters.size(); i++) {
+//        if (m_PlotParameters.at(i).operation == tuple)
+//        {
+//            if(m_PlotParameters.at(i).DisplayName != displayName)
+//            {
+//                m_PlotParameters[i].DisplayName = displayName;
+//                RecalculatePlots();
+//            }
+//            break;
+//        }
+//    }
 }
 
 
@@ -189,20 +197,20 @@ void PlotHandler::ChangeName(const std::string &operation, const QString &displa
 //! \param dataKey Plot to change color of
 //! \param color Colour to change to
 //!
-void PlotHandler::ChangeColor(const std::string &operation, const QColor &color)
+void PlotHandler::ChangeColor(const common::TupleECMData &tuple, const QColor &color)
 {
-    for (int i = 0; i < m_PlotParameters.size(); i++) {
-        if (m_PlotParameters.at(i).operation == operation)
-        {
-            if(m_PlotParameters.at(i).GraphColor != color)
-            {
-                m_PlotParameters[i].GraphColor = color;
-                m_PlotParameters[i].Redraw = true;
-                RecalculatePlots();
-            }
-            break;
-        }
-    }
+//    for (int i = 0; i < m_PlotParameters.size(); i++) {
+//        if (m_PlotParameters.at(i).operation == tuple)
+//        {
+//            if(m_PlotParameters.at(i).GraphColor != color)
+//            {
+//                m_PlotParameters[i].GraphColor = color;
+//                m_PlotParameters[i].Redraw = true;
+//                RecalculatePlots();
+//            }
+//            break;
+//        }
+//    }
 }
 
 
@@ -210,18 +218,20 @@ void PlotHandler::ChangeColor(const std::string &operation, const QColor &color)
 //! \brief Redraw all expressions that rely on the provided data sources
 //! \param source Data sources to redraw
 //!
-//void PlotHandler::RedrawDataSource(const QList<std::shared_ptr<ExpressionEngine::IPlotComparable> > &sources)
-//{
-//    for (int i = 0 ; i < m_PlotParameters.size() ; i++)
-//    {
-//        for(int j = 0 ; j < sources.size() ; j++)
-//        {
-//            if(m_PlotParameters.at(i).operation.ContainsSource(*sources.at(j)))
-//                m_PlotParameters[i].Redraw = true;
-//        }
-//    }
-//    RecalculatePlots();
-//}
+void PlotHandler::RedrawDataSource(const QList<std::shared_ptr<common_data::observation::IPlotComparable> > &sources)
+{
+    for (int i = 0 ; i < m_PlotParameters.size() ; i++)
+    {
+        for(int j = 0 ; j < sources.size() ; j++)
+        {
+
+            if(m_PlotParameters.at(i).operation == sources.at(i)->CreateSharedPtr())
+                m_PlotParameters[i].Redraw = true;
+        }
+    }
+
+    RecalculatePlots();
+}
 
 
 
@@ -266,19 +276,19 @@ void PlotHandler::AddEvent(const QDateTime &time, const QString &name, const QSt
 //! \brief Remove a graph from plot
 //! \param dataKey Key of data to remove
 //!
-void PlotHandler::RemoveGraphData(const std::string &operation)
+void PlotHandler::RemoveGraphData(const common::TupleECMData &tuple)
 {
-    for (int i = 0; i < m_PlotParameters.size(); i++)
-    {
-        if (m_PlotParameters.at(i).operation == operation)
-        {
-            for(int j = 0 ; j < m_PlotParameters[i].g.size() ; j++)
-                MarshalRemoveGraph(m_PlotParameters[i].g.at(j));
-            m_PlotParameters.removeAt(i);
-            Draw();
-            break;
-        }
-    }
+//    for (int i = 0; i < m_PlotParameters.size(); i++)
+//    {
+//        if (m_PlotParameters.at(i).operation == operation)
+//        {
+//            for(int j = 0 ; j < m_PlotParameters[i].g.size() ; j++)
+//                MarshalRemoveGraph(m_PlotParameters[i].g.at(j));
+//            m_PlotParameters.removeAt(i);
+//            Draw();
+//            break;
+//        }
+//    }
 }
 
 
@@ -602,7 +612,7 @@ void PlotHandler::SelectionChanged()
 
         if(selectionMade == true)
         {
-            emit PlotSelected(m_PlotParameters.at(i).operation);
+            //emit PlotSelected(m_PlotParameters.at(i).operation);
             break;
         }
     }
@@ -690,36 +700,36 @@ void PlotHandler::RecalculateAllGraphs()
 //!
 void PlotHandler::removeSelectedGraph()
 {
-    bool selected = false;
-    std::string deletedExpr;
-    //loop through all graphs
-    for (int i=0 ; i < m_PlotParameters.count() ; i++)
-    {
-        if(m_PlotParameters.at(i).Selected == false)
-            continue;
+//    bool selected = false;
+//    std::string deletedExpr;
+//    //loop through all graphs
+//    for (int i=0 ; i < m_PlotParameters.count() ; i++)
+//    {
+//        if(m_PlotParameters.at(i).Selected == false)
+//            continue;
 
-        m_PlotParametersMutex.lock();
+//        m_PlotParametersMutex.lock();
 
 
-        for(int j = 0 ; j < m_PlotParameters.at(i).g.size() ; j++)
-        {
-            //if a graph is selected and has a corresponding plot remove it
-            //if (m_PlotParameters.at(i).g != NULL && m_PlotParameters[i].Selected == true)
-            if (m_PlotParameters.at(i).g.at(j) != NULL)
-                MarshalRemoveGraph(m_PlotParameters[i].g.at(j));
-        }
+//        for(int j = 0 ; j < m_PlotParameters.at(i).g.size() ; j++)
+//        {
+//            //if a graph is selected and has a corresponding plot remove it
+//            //if (m_PlotParameters.at(i).g != NULL && m_PlotParameters[i].Selected == true)
+//            if (m_PlotParameters.at(i).g.at(j) != NULL)
+//                MarshalRemoveGraph(m_PlotParameters[i].g.at(j));
+//        }
 
-        deletedExpr = m_PlotParameters[i].operation;
-        selected = true;
-        m_PlotParameters.removeAt(i);
-        Draw();
+//        deletedExpr = m_PlotParameters[i].operation;
+//        selected = true;
+//        m_PlotParameters.removeAt(i);
+//        Draw();
 
-        m_PlotParametersMutex.unlock();
-        break;
-    }
+//        m_PlotParametersMutex.unlock();
+//        break;
+//    }
 
-    if(selected)
-        emit PlotDelete(deletedExpr);
+//    if(selected)
+//        emit PlotDelete(deletedExpr);
 }
 
 
@@ -728,26 +738,26 @@ void PlotHandler::removeSelectedGraph()
 //!
 void PlotHandler::removeAllGraphs()
 {
-    QList<std::string> removedExpressions;
-    m_PlotParametersMutex.lock();
-    for (int i=0 ; i < m_PlotParameters.count() ; i++)
-    {
-        for(int j = 0 ; j < m_PlotParameters[i].g.size() ; j++)
-        {
-            MarshalRemoveGraph(m_PlotParameters[i].g.at(j));
-        }
-        removedExpressions.append(m_PlotParameters[i].operation);
-    }
-    m_PlotParameters.clear();
-    m_PlotParametersMutex.unlock();
-    Draw();
+//    QList<std::shared_ptr<common_data::observation::IPlotComparable>> removedExpressions;
+//    m_PlotParametersMutex.lock();
+//    for (int i=0 ; i < m_PlotParameters.count() ; i++)
+//    {
+//        for(int j = 0 ; j < m_PlotParameters[i].g.size() ; j++)
+//        {
+//            MarshalRemoveGraph(m_PlotParameters[i].g.at(j));
+//        }
+//        removedExpressions.append(m_PlotParameters[i].operation);
+//    }
+//    m_PlotParameters.clear();
+//    m_PlotParametersMutex.unlock();
+//    Draw();
 
 
-    //emit signal that we deleted
-    for (int i = 0 ; i < removedExpressions.size() ; i++)
-    {
-        emit PlotDelete(removedExpressions.at(i));
-    }
+//    //emit signal that we deleted
+//    for (int i = 0 ; i < removedExpressions.size() ; i++)
+//    {
+//        emit PlotDelete(removedExpressions.at(i));
+//    }
 }
 
 
@@ -846,10 +856,11 @@ void PlotHandler::DoPlotRecalculate()
 
         m_PlotParameters[plotIndex].Redraw = false;
 
+        common_data::observation::CartesianData dr;
 
-        data::observation::CartesianData dr;
         if(m_PlotMode == PLOT_ENTIRE_SEQUENCE)
         {
+            bool valid = m_PlotParameters[plotIndex].observations->Evaluate(*m_PlotParameters[plotIndex].operation.get(),dr,CartesianEvaluationParameters(m_OriginTime, m_OriginTime, msInTimeUnit));
             //Ken Fix: This needs to determine how long the vector of data should be
             //dr = m_PlotParameters[plotIndex].operation.Evaluate(QDateTime(), m_OriginTime, msInTimeUnit);
         }
@@ -859,7 +870,7 @@ void PlotHandler::DoPlotRecalculate()
             //dr = m_PlotParameters[plotIndex].operation.Evaluate(m_LeftWindow, m_OriginTime, msInTimeUnit);
         }
 
-        for(int i = 0 ; i < data::observation::NumberSystems::NumElements(dr.NumberSystem()) ; i++)
+        for(int i = 0 ; i < common_data::observation::NumberSystems::NumElements(dr.NumberSystem()) ; i++)
         {
 
             //add plot and set parameters
@@ -880,7 +891,6 @@ void PlotHandler::DoPlotRecalculate()
             }
 
             mReplotting.lock();
-
             QCPGraph *g = m_PlotParameters[plotIndex].g.at(i);
 
             //Ken Fix Unit Name
@@ -897,7 +907,7 @@ void PlotHandler::DoPlotRecalculate()
             //set data in graph
             g->clearData();
             g->setData(d, r);
-
+            g->rescaleAxes(false);
             if(m_PlotParameters.at(plotIndex).Selected == true)
             {
                 QCPPlottableLegendItem *item = this->legend->itemWithPlottable(g);
@@ -908,8 +918,6 @@ void PlotHandler::DoPlotRecalculate()
 
             mReplotting.unlock();
         }
-
-
     }
 
     //place event bars in appropriate locations

@@ -1,6 +1,7 @@
 #include "segment_time_general.h"
 
-namespace DataParameter{
+
+namespace registers_Munk {
 
 SegmentTimeGeneral::SegmentTimeGeneral():
     AbstractParameter()
@@ -82,4 +83,5 @@ void SegmentTimeGeneral::appendRegisterData(const SegmentTimeDataGeneral &data)
     this->registerData.push_back(data);
 }
 
-} //end of namespace DataRegister
+} //end of namespace registers_Munk
+

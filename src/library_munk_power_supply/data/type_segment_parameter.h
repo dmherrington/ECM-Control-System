@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Data
-{
+
+namespace data_Munk{
 
 inline bool isOfTimeSegmentType(const int &value)
 {
@@ -38,6 +38,7 @@ enum class SegmentParameter{
 };
 
 
-} //end of namespace Data
+} //end of namespace data_Munk
+
 
 #endif // TYPE_SEGMENT_PARAMETER_H

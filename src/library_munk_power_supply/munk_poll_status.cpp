@@ -44,9 +44,9 @@ void MunkPollStatus::run()
             //this means we should request the state of anything we desire from the munk
             if(m_CB)
             {
-                DataParameter::RegisterFaultState requestRegister1(Data::FaultRegisterType::FAULT_REGISTER_1);
-                DataParameter::RegisterFaultState requestRegister2(Data::FaultRegisterType::FAULT_REGISTER_2);
-                DataParameter::RegisterFaultState requestRegister3(Data::FaultRegisterType::FAULT_REGISTER_3);
+                registers_Munk::RegisterFaultState requestRegister1(data_Munk::FaultRegisterType::FAULT_REGISTER_1);
+                registers_Munk::RegisterFaultState requestRegister2(data_Munk::FaultRegisterType::FAULT_REGISTER_2);
+                registers_Munk::RegisterFaultState requestRegister3(data_Munk::FaultRegisterType::FAULT_REGISTER_3);
 
                 m_CB->cbi_MunkFaultStateRequest(requestRegister1);
                 m_CB->cbi_MunkFaultStateRequest(requestRegister2);

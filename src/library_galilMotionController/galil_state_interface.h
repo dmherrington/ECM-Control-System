@@ -21,8 +21,12 @@ class GalilCallback_StateInterface
 {
 public:
     virtual void cbi_AbstractGalilCommand(const AbstractCommandPtr command) = 0;
+    virtual void cbi_AbstractGalilMotionCommand(const AbstractCommandPtr command) = 0;
     virtual void cbi_AbstractGalilRequest(const AbstractRequestPtr request) = 0;
+    virtual void cbi_AbstractGalilAddPolled(const AbstractRequestPtr request) = 0;
+    virtual void cbi_AbstractGalilRemovePolled(const std::string &name) = 0;
     virtual void cbi_GalilControllerGains(const CommandControllerGain &gains) = 0;
+    virtual void cbi_ResetHomingLatch() = 0;
 };
 
 class GalilStateInterface
@@ -43,11 +47,31 @@ public:
         if(m_CB)
             m_CB->cbi_AbstractGalilCommand(command);
     }
+
+    void issueGalilMotionCommand(const AbstractCommandPtr command)
+    {
+        if(m_CB)
+            m_CB->cbi_AbstractGalilMotionCommand(command);
+    }
+
     void issueGalilControllerGains(const CommandControllerGain &gains)
     {
         if(m_CB)
             m_CB->cbi_GalilControllerGains(gains);
     }
+
+    void issueGalilAddPollingRequest(const AbstractRequestPtr request)
+    {
+        if(m_CB)
+            m_CB->cbi_AbstractGalilAddPolled(request);
+    }
+
+    void issueGalilRemovePollingRequest(const std::string &name)
+    {
+        if(m_CB)
+            m_CB->cbi_AbstractGalilRemovePolled(name);
+    }
+
 public:
     GalilStatus* getAxisStatus(const MotorAxis &axis);
 
@@ -55,9 +79,6 @@ public:
     bool isMotorInMotion() const;
     bool isMotorEnabled() const;
     bool isEStopEngaged() const;
-
-private:
-    void updatePosition(const std::vector<Status_Position> &data);
 
 public:
     bool isConnected();
@@ -78,6 +99,10 @@ public:
     DataGetSetNotifier<StatusInputs> statusInputs; /**< Member variable containing the current state
 inputs of the Galil Unit. Inputs can be gathered based on the enum settings contained within the file.
 Eventually this should change to be pulled from a configuraiton.*/
+
+    Status_VariableList statusVariables;/**< Member variable containing the current list of variables
+based on the program that is currently on the Galil Unit. Values of this may be updated per the
+the request of the polling status function.*/
 
 private:
     std::map<MotorAxis, GalilStatus*> mStatus; /**< Member variable containing the current status

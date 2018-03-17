@@ -20,34 +20,34 @@
 QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
-struct qt_meta_stringdata_westinghousePump__Westinghouse510_t {
+struct qt_meta_stringdata_Westinghouse510_t {
     QByteArrayData data[12];
-    char stringdata0[251];
+    char stringdata0[233];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_westinghousePump__Westinghouse510_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Westinghouse510_t, stringdata0) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
-static const qt_meta_stringdata_westinghousePump__Westinghouse510_t qt_meta_stringdata_westinghousePump__Westinghouse510 = {
+static const qt_meta_stringdata_Westinghouse510_t qt_meta_stringdata_Westinghouse510 = {
     {
-QT_MOC_LITERAL(0, 0, 33), // "westinghousePump::Westinghous..."
-QT_MOC_LITERAL(1, 34, 22), // "signal_PumpFlowUpdated"
-QT_MOC_LITERAL(2, 57, 0), // ""
-QT_MOC_LITERAL(3, 58, 5), // "value"
-QT_MOC_LITERAL(4, 64, 20), // "signal_PumpOperating"
-QT_MOC_LITERAL(5, 85, 25), // "slot_SerialPortConnection"
-QT_MOC_LITERAL(6, 111, 38), // "common::comms::CommunicationC..."
-QT_MOC_LITERAL(7, 150, 10), // "connection"
-QT_MOC_LITERAL(8, 161, 21), // "slot_SerialPortUpdate"
-QT_MOC_LITERAL(9, 183, 34), // "common::comms::CommunicationU..."
-QT_MOC_LITERAL(10, 218, 27), // "slot_SerialPortReceivedData"
-QT_MOC_LITERAL(11, 246, 4) // "data"
+QT_MOC_LITERAL(0, 0, 15), // "Westinghouse510"
+QT_MOC_LITERAL(1, 16, 22), // "signal_PumpFlowUpdated"
+QT_MOC_LITERAL(2, 39, 0), // ""
+QT_MOC_LITERAL(3, 40, 5), // "value"
+QT_MOC_LITERAL(4, 46, 20), // "signal_PumpOperating"
+QT_MOC_LITERAL(5, 67, 25), // "slot_SerialPortConnection"
+QT_MOC_LITERAL(6, 93, 38), // "common::comms::CommunicationC..."
+QT_MOC_LITERAL(7, 132, 10), // "connection"
+QT_MOC_LITERAL(8, 143, 21), // "slot_SerialPortUpdate"
+QT_MOC_LITERAL(9, 165, 34), // "common::comms::CommunicationU..."
+QT_MOC_LITERAL(10, 200, 27), // "slot_SerialPortReceivedData"
+QT_MOC_LITERAL(11, 228, 4) // "data"
 
     },
-    "westinghousePump::Westinghouse510\0"
-    "signal_PumpFlowUpdated\0\0value\0"
-    "signal_PumpOperating\0slot_SerialPortConnection\0"
+    "Westinghouse510\0signal_PumpFlowUpdated\0"
+    "\0value\0signal_PumpOperating\0"
+    "slot_SerialPortConnection\0"
     "common::comms::CommunicationConnection\0"
     "connection\0slot_SerialPortUpdate\0"
     "common::comms::CommunicationUpdate\0"
@@ -55,7 +55,7 @@ QT_MOC_LITERAL(11, 246, 4) // "data"
 };
 #undef QT_MOC_LITERAL
 
-static const uint qt_meta_data_westinghousePump__Westinghouse510[] = {
+static const uint qt_meta_data_Westinghouse510[] = {
 
  // content:
        7,       // revision
@@ -89,7 +89,7 @@ static const uint qt_meta_data_westinghousePump__Westinghouse510[] = {
        0        // eod
 };
 
-void westinghousePump::Westinghouse510::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void Westinghouse510::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
         Westinghouse510 *_t = static_cast<Westinghouse510 *>(_o);
@@ -139,26 +139,26 @@ void westinghousePump::Westinghouse510::qt_static_metacall(QObject *_o, QMetaObj
     }
 }
 
-const QMetaObject westinghousePump::Westinghouse510::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_westinghousePump__Westinghouse510.data,
-      qt_meta_data_westinghousePump__Westinghouse510,  qt_static_metacall, nullptr, nullptr}
+const QMetaObject Westinghouse510::staticMetaObject = {
+    { &QObject::staticMetaObject, qt_meta_stringdata_Westinghouse510.data,
+      qt_meta_data_Westinghouse510,  qt_static_metacall, nullptr, nullptr}
 };
 
 
-const QMetaObject *westinghousePump::Westinghouse510::metaObject() const
+const QMetaObject *Westinghouse510::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *westinghousePump::Westinghouse510::qt_metacast(const char *_clname)
+void *Westinghouse510::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_westinghousePump__Westinghouse510.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Westinghouse510.stringdata0))
         return static_cast<void*>(this);
     return QObject::qt_metacast(_clname);
 }
 
-int westinghousePump::Westinghouse510::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int Westinghouse510::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QObject::qt_metacall(_c, _id, _a);
     if (_id < 0)
@@ -176,14 +176,14 @@ int westinghousePump::Westinghouse510::qt_metacall(QMetaObject::Call _c, int _id
 }
 
 // SIGNAL 0
-void westinghousePump::Westinghouse510::signal_PumpFlowUpdated(const double & _t1)
+void Westinghouse510::signal_PumpFlowUpdated(const double & _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 
 // SIGNAL 1
-void westinghousePump::Westinghouse510::signal_PumpOperating(const bool & _t1)
+void Westinghouse510::signal_PumpOperating(const bool & _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 1, _a);

@@ -7,19 +7,19 @@
 //! \param plotCollection Pointer to plot collection
 //! \return Pointer to newly created object
 //!
-ISensorDisplay* CollectionDisplays::CreateNewDisplayObject(const common::TupleSensorString &sensor,  const data::SensorTypes &type, ECMPlotCollection *plotCollection)
+ISensorDisplay* CollectionDisplays::CreateNewDisplayObject(const common::TupleSensorString &sensor,  const common_data::SensorTypes &type, ECMPlotCollection *plotCollection)
 {
     ISensorDisplay *sensorFrame;
     switch(type)
     {
-    case data::SENSOR_VOLTAGE:
+    case common_data::SENSOR_VOLTAGE:
     {
         ECMPlotIdentifier A1 = ECMPlotIdentifier(sensor, "Sensed_Voltage");
         if(plotCollection->SourceExists(A1) == false) return NULL;
 
         sensorFrame = new DisplayVoltage(sensor, plotCollection);
 
-        QList<std::shared_ptr<data::observation::IPlotComparable>> plots;
+        QList<std::shared_ptr<common_data::observation::IPlotComparable>> plots;
         plots.append(A1.CreateSharedPtr());
         ((DisplayVoltage*)sensorFrame)->setPlotData(plots);
 
@@ -87,7 +87,7 @@ void CollectionDisplays::DistributeOriginTime(const QDateTime &originTime)
 //! \param type Type of sensor.
 //! \return Pointer to widget.
 //!
-QObject* CollectionDisplays::CreateSensor(const common::TupleSensorString &sensor, const data::SensorTypes &type)
+QObject* CollectionDisplays::CreateSensor(const common::TupleSensorString &sensor, const common_data::SensorTypes &type)
 {
     if(m_SensorDisplays.contains(sensor) == true && m_SensorDisplays[sensor] != NULL)
         return NULL;
@@ -123,7 +123,7 @@ QWidget* CollectionDisplays::getWidget(const common::TupleSensorString &sensor)
 //! \param sensor Sensor in the collection to update
 //! \param state Sensor state containing the data
 //!
-void CollectionDisplays::UpdateNonPlottedData(const common::TupleSensorString &sensor, const data::SensorState &state)
+void CollectionDisplays::UpdateNonPlottedData(const common::TupleSensorString &sensor, const common_data::SensorState &state)
 {
     if(!m_SensorDisplays.contains(sensor) || m_SensorDisplays[sensor] == NULL)
         return;

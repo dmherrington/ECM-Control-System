@@ -1,13 +1,13 @@
 #include "abstract_rigol_status.h"
 
-namespace rigol {
-namespace commands {
+
+namespace commands_Rigol {
 
 
 AbstractRigolStatus::AbstractRigolStatus(const CommandTypes &type):
     commandType(type)
 {
-    this->requestTime.CurrentTime(Devices::SYSTEMCLOCK,this->requestTime);
+    this->requestTime.CurrentTime(common::Devices::SYSTEMCLOCK,this->requestTime);
 }
 
 AbstractRigolStatus::AbstractRigolStatus(const AbstractRigolStatus &copy)
@@ -29,18 +29,18 @@ CommandTypes AbstractRigolStatus::getCommandType() const
 
 void AbstractRigolStatus::updateReceivedTime()
 {
-    this->receivedTime.CurrentTime(Devices::SYSTEMCLOCK,this->receivedTime);
+    this->receivedTime.CurrentTime(common::Devices::SYSTEMCLOCK,this->receivedTime);
 }
 
-EnvironmentTime AbstractRigolStatus::getReceivedTime() const
+common::EnvironmentTime AbstractRigolStatus::getReceivedTime() const
 {
     return this->receivedTime;
 }
 
-EnvironmentTime AbstractRigolStatus::getRequestTime() const
+common::EnvironmentTime AbstractRigolStatus::getRequestTime() const
 {
     return this->requestTime;
 }
 
 } //end of namespace commands
-} //end of namespace rigol
+

@@ -20,9 +20,7 @@
 #include "i_protocol.h"
 
 
-
-namespace sensoray {
-namespace comms{
+namespace comms_Sensoray{
 
 class SensorayProtocol : public IProtocol
 {
@@ -65,6 +63,5 @@ private:
 
 
 } //end of namespace comms
-} //end of namespace sensoray
 
 #endif // PROTOCOL_SENSORAY_H

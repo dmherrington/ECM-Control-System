@@ -1,5 +1,5 @@
-#ifndef I_LINK_EVENTS_H
-#define I_LINK_EVENTS_H
+#ifndef I_LINK_EVENTS_GALIL_H
+#define I_LINK_EVENTS_GALIL_H
 
 #include "status/status_components.h"
 
@@ -20,6 +20,6 @@ public:
     virtual void BadCommandResponse(const AbstractStatus &status) const = 0;
 };
 
-} //END Comms
+} //end of namespace Comms
 
-#endif // I_LINK_EVENTS_H
+#endif // I_LINK_EVENTS_GALIL_H

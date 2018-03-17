@@ -1,27 +1,27 @@
 #include "segment_voltage_setpoint.h"
 
-namespace DataParameter
-{
+
+namespace registers_Munk {
 
 //!
 //! \brief SegmentVoltageSetpoint::SegmentVoltageSetpoint
 //! \param levelValue
 //! \param levelMode
 //!
-SegmentVoltageSetpoint::SegmentVoltageSetpoint(const Data::TypeSupplyOutput &outputNum, const Data::SegmentMode &levelMode):
+SegmentVoltageSetpoint::SegmentVoltageSetpoint(const data_Munk::TypeSupplyOutput &outputNum, const data_Munk::SegmentMode &levelMode):
     AbstractParameter()
 {
     //let us update the stored values with those that created the object
     this->supplyOutput = outputNum;
     this->mode = levelMode;
 
-    if(levelMode == Data::SegmentMode::FORWARD)
+    if(levelMode == data_Munk::SegmentMode::FORWARD)
     {
-        this->parameterCode = (int)Data::getFWDVoltageIndex((int)outputNum);
+        this->parameterCode = (int)data_Munk::getFWDVoltageIndex((int)outputNum);
     }
-    else if(levelMode == Data::SegmentMode::REVERSE)
+    else if(levelMode == data_Munk::SegmentMode::REVERSE)
     {
-        this->parameterCode = (int)Data::getREVVoltageIndex((int)outputNum);
+        this->parameterCode = (int)data_Munk::getREVVoltageIndex((int)outputNum);
     }
     else{
 
@@ -60,7 +60,7 @@ QByteArray SegmentVoltageSetpoint::getByteArray() const
         ba.append(LOWSeqType);
 
         ba.append((uint8_t)data.size() * 2);
-        for (std::map<Data::SegmentLevel, SegmentVoltageData>::const_iterator it=this->data.begin(); it!=this->data.end(); ++it)
+        for (std::map<data_Munk::SegmentLevel, SegmentVoltageData>::const_iterator it=this->data.begin(); it!=this->data.end(); ++it)
         {
             SegmentVoltageData tmpVoltage = it->second;
             QByteArray tmpArray = tmpVoltage.getDataArray();
@@ -84,7 +84,7 @@ QByteArray SegmentVoltageSetpoint::getExpectedResponse() const
 
 void SegmentVoltageSetpoint::appendData(const SegmentVoltageData &voltageSetpoint)
 {
-    this->data.insert(std::pair<Data::SegmentLevel,SegmentVoltageData>(voltageSetpoint.getSegmentLevel(),voltageSetpoint));
+    this->data.insert(std::pair<data_Munk::SegmentLevel,SegmentVoltageData>(voltageSetpoint.getSegmentLevel(),voltageSetpoint));
 }
 
 void SegmentVoltageSetpoint::initializeData()
@@ -92,5 +92,5 @@ void SegmentVoltageSetpoint::initializeData()
     this->data.clear();
 }
 
+} //end of namespace registers_Munk
 
-} //end of namepsace DataParameter

@@ -1,5 +1,5 @@
-#ifndef ILINK_H
-#define ILINK_H
+#ifndef RIGOL_I_LINK_H
+#define RIGOL_I_LINK_H
 
 #include <cstdlib>
 #include <memory>
@@ -13,8 +13,8 @@
 
 #include "commands/measure/measure_command_item.h"
 
-namespace rigol {
-namespace comms{
+
+namespace comms_Rigol{
 
 class ILink
 {
@@ -59,14 +59,14 @@ public:
     //! \param bytes
     //! \param length
     //!
-    virtual void WriteBytes(const QByteArray &data) const = 0;
+    virtual void WriteBytes(const QByteArray &data_Rigol) const = 0;
 
     //!
     //! \brief WriteBytesRequest
     //! \param data
     //!
     //!
-    virtual std::vector<uint8_t> WriteBytesRequest(const QByteArray &data) const = 0;
+    virtual std::vector<uint8_t> WriteBytesRequest(const QByteArray &data_Rigol) const = 0;
 
     //!
     //! \brief setSerialConfiguration
@@ -104,6 +104,6 @@ private:
 };
 
 } //end of namespace comms
-} //end of namespace rigol
 
-#endif // ILINK_H
+
+#endif // RIGOL_I_LINK_H

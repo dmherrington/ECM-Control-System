@@ -5,14 +5,15 @@
 #include <QBuffer>
 #include <stdexcept>
 
-namespace data
+namespace common_data
 {
 
 
 //!
 //! \brief Default constructor, allocates dynamic space
 //!
-SensorState::SensorState()
+SensorState::SensorState():
+    m_allocated(false)
 {
     Allocate();
 }
@@ -37,6 +38,11 @@ SensorState::SensorState(bool allocate)
 SensorState::SensorState(const SensorState &that)
 {
     this->sensorData = that.sensorData;
+    this->validityTime = that.validityTime;
+    this->ref_count = that.ref_count;
+
+    if(m_allocated)
+        *ref_count = *ref_count + 1;
 }
 
 
@@ -141,10 +147,13 @@ void SensorState::setSensorData(const std::shared_ptr<Sensor> &sensorData)
 //!
 void SensorState::Deallocate()
 {
-    delete validityTime;
-    delete ref_count;
+    if(m_allocated)
+    {
+        delete validityTime;
+        delete ref_count;
 
-    m_allocated = false;
+        m_allocated = false;
+    }
 }
 
-}
+} //end of namespace data

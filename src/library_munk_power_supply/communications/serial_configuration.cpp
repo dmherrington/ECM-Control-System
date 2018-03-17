@@ -1,7 +1,7 @@
 #include "serial_configuration.h"
 
-namespace munk {
-namespace comms{
+
+namespace comms_Munk{
 
 static QStringList kSupportedBaudRates;
 
@@ -156,5 +156,5 @@ void SerialConfiguration::_initBaudRates()
         kSupportedBaudRates << "921600";
 }
 
-} //end of namespace comms
-} //end of namespace munk
+} //end of namespace comms_Munk
+

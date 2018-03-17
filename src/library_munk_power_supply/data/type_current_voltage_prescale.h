@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Data
-{
+
+namespace data_Munk{
 
 //!
 //! \brief The SegmentVIPower enum
@@ -70,11 +70,11 @@ inline SegmentVIPower SegmentVIPowerFromString(const std::string &str) {
 inline std::vector<std::string> getListOfSegmentVIPower()
 {
     std::vector<std::string> str;
-    str.push_back(Data::SegmentVIPowerToString(SegmentVIPower::ONE));
-    str.push_back(Data::SegmentVIPowerToString(SegmentVIPower::ONE_HUNDREDTH));
-    str.push_back(Data::SegmentVIPowerToString(SegmentVIPower::ONE_TENTH));
-    str.push_back(Data::SegmentVIPowerToString(SegmentVIPower::TEN));
-    str.push_back(Data::SegmentVIPowerToString(SegmentVIPower::ONE_HUNDRED));
+    str.push_back(data_Munk::SegmentVIPowerToString(SegmentVIPower::ONE));
+    str.push_back(data_Munk::SegmentVIPowerToString(SegmentVIPower::ONE_HUNDREDTH));
+    str.push_back(data_Munk::SegmentVIPowerToString(SegmentVIPower::ONE_TENTH));
+    str.push_back(data_Munk::SegmentVIPowerToString(SegmentVIPower::TEN));
+    str.push_back(data_Munk::SegmentVIPowerToString(SegmentVIPower::ONE_HUNDRED));
     return str;
 }
 
@@ -115,6 +115,7 @@ inline uint32_t SegmenVIPowerToBitArray(const SegmentVIPower &type, const uint32
 //    }
 //}
 
-} //end of namespace Data
+} //end of namespace data_Munk
+
 
 #endif // TYPE_CURRENT_VOLTAGE_PRESCALE_H

@@ -1,6 +1,7 @@
 #ifndef TUPLE_GENERIC_H
 #define TUPLE_GENERIC_H
 
+#include <QMetaType>
 #include <QString>
 #include <typeinfo>
 #include <string>

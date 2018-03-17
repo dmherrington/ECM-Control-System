@@ -12,6 +12,26 @@ void GalilPollState::beginPolling()
     this->start();
 }
 
+void GalilPollState::addRequest(const AbstractRequestPtr request)
+{
+    m_LambdasToRun.push_back([this,request]{
+        std::pair<std::map<std::string,AbstractRequestPtr>::iterator,bool> ret;
+        ret = requests.insert ( std::pair<std::string,AbstractRequestPtr>(request->getRequestName(),request));
+        if (ret.second==false) {
+            requests[request->getRequestName()] = request;
+        }
+    });
+}
+
+void GalilPollState::removeRequest(const std::string &name)
+{
+    m_LambdasToRun.push_back([this,name]
+    {
+        if(requests.count(name) > 0)
+            requests.erase(name);
+    });
+}
+
 void GalilPollState::pausePolling()
 {
     m_LambdasToRun.push_back([this]{
@@ -59,6 +79,11 @@ void GalilPollState::run()
                 // 4: Request the current inputs
                 RequestTellInputsPtr requestTI = std::make_shared<RequestTellInputs>();
                 m_CB->cbi_GalilStatusRequest(requestTI);
+
+                //Iterate through any remaining requests
+                std::map<std::string,AbstractRequestPtr>::iterator it;
+                for (it=requests.begin(); it!=requests.end(); ++it)
+                    m_CB->cbi_GalilStatusRequest(it->second);
             }
             m_Timeout.reset();
         }

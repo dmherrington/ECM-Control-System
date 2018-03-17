@@ -73,6 +73,19 @@ void GalilProtocol::SendProtocolCommand(const ILink *link, const AbstractCommand
     handleCommandResponse(link,command,rtn);
 }
 
+void GalilProtocol::SendProtocolMotionCommand(const ILink *link, const AbstractCommandPtr command)
+{
+    GReturn rtn = link->WriteCommand(command->getCommandString());
+    handleCommandResponse(link,command,rtn);
+
+    if(rtn == G_NO_ERROR)
+    {
+        CommandMotionStartPtr motionPTR = std::make_shared<CommandMotionStart>();
+        rtn = link->WriteCommand(motionPTR->getCommandString());
+        handleCommandResponse(link,motionPTR,rtn);
+    }
+}
+
 void GalilProtocol::handleCommandResponse(const ILink *link, const AbstractCommandPtr command, const GReturn &response)
 {
         switch (response) {

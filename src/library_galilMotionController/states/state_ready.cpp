@@ -6,7 +6,7 @@ namespace Galil {
 State_Ready::State_Ready():
     AbstractStateGalil()
 {
-    std::cout<<"We are in the constructor of State_Ready"<<std::endl;
+    std::cout<<"We are in the constructor of STATE_READY"<<std::endl;
     this->currentState = ECMState::STATE_READY;
     this->desiredState = ECMState::STATE_READY;
 }
@@ -45,19 +45,14 @@ hsm::Transition State_Ready::GetTransition()
             rtn = hsm::SiblingTransition<State_HomePositioning>(currentCommand);
             break;
         }
-        case ECMState::STATE_TOUCHOFF:
-        {
-            rtn = hsm::SiblingTransition<State_Touchoff>(currentCommand);
-            break;
-        }
         case ECMState::STATE_SCRIPT_EXECUTION:
         {
             rtn = hsm::SiblingTransition<State_ScriptExecution>(currentCommand);
             break;
         }
-        case ECMState::STATE_ESTOP:
+        case ECMState::STATE_TOUCHOFF:
         {
-            rtn = hsm::SiblingTransition<State_EStop>();
+            rtn = hsm::SiblingTransition<State_Touchoff>(currentCommand);
             break;
         }
         case ECMState::STATE_READY_STOP:
@@ -65,13 +60,13 @@ hsm::Transition State_Ready::GetTransition()
             rtn = hsm::SiblingTransition<State_ReadyStop>();
             break;
         }
-        case ECMState::STATE_IDLE:
+        case ECMState::STATE_ESTOP:
         {
-            rtn = hsm::SiblingTransition<State_Idle>();
+            rtn = hsm::SiblingTransition<State_EStop>();
             break;
         }
         default:
-            std::cout<<"I dont know how we eneded up in this transition state from state ready."<<std::endl;
+            std::cout<<"I dont know how we eneded up in this transition state from STATE_READY."<<std::endl;
             break;
         }
     }
@@ -81,46 +76,64 @@ hsm::Transition State_Ready::GetTransition()
 
 void State_Ready::handleCommand(const AbstractCommand* command)
 {
-    CommandType currentCommand = command->getCommandType();
+    const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
+
+    CommandType currentCommand = copyCommand->getCommandType();
     switch (currentCommand) {
     case CommandType::DOWNLOAD_PROGRAM:
     case CommandType::UPLOAD_PROGRAM:
     {
-        desiredState = ECMState::STATE_IDLE;
-        this->currentCommand = command->getClone();
+        desiredState = ECMState::STATE_READY_STOP;
+        this->currentCommand = copyCommand;
         break;
     }
     case CommandType::ABSOLUTE_MOVE:
-    {
-        //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
-        //This command will transition the machine to the Ready State
-        desiredState = ECMState::STATE_MANUAL_POSITIONING;
-        this->currentCommand = command->getClone();
-        break;
-    }
     case CommandType::RELATIVE_MOVE:
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
-        //This command will transition the machine to the Ready State
+        //This command will transition the machine to STATE_MANUAL_POSITIONING
         desiredState = ECMState::STATE_MANUAL_POSITIONING;
-        this->currentCommand = command->getClone();
+        this->currentCommand = copyCommand;
         break;
     }
     case CommandType::JOG_MOVE:
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
-        //This command will transition the machine to the Ready State
+        //This command will transition the machine to STATE_JOGGING
         desiredState = ECMState::STATE_JOGGING;
-        this->currentCommand = command->getClone();
-
+        this->currentCommand = copyCommand;
         break;
     }
     case CommandType::EXECUTE_PROGRAM:
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
-        //This command will transition the machine to the Ready State
-        desiredState = ECMState::STATE_SCRIPT_EXECUTION;
-        this->currentCommand = command->getClone();
+        CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
+        switch (castCommand->getProfileType()) {
+        case CommandExecuteProfile::ProfileType::HOMING:
+        {
+            //This command will transition the machine to STATE_HOME_POSITIONING
+            desiredState = ECMState::STATE_HOME_POSITIONING;
+            this->currentCommand = copyCommand;
+            break;
+        }
+        case CommandExecuteProfile::ProfileType::PROFILE:
+        {
+            //This command will transition the machine to STATE_SCRIPT_EXECUTION
+            desiredState = ECMState::STATE_SCRIPT_EXECUTION;
+            this->currentCommand = copyCommand;
+            break;
+        }
+        case CommandExecuteProfile::ProfileType::TOUCHOFF:
+        {
+            //This command will transition the machine to STATE_TOUCHOFF
+            desiredState = ECMState::STATE_TOUCHOFF;
+            this->currentCommand = copyCommand;
+            break;
+        }
+        default:
+            break;
+        }
         break;
     }
     case CommandType::MOTOR_OFF:
@@ -206,4 +219,3 @@ void State_Ready::OnEnter(const AbstractCommand* command)
 #include "states/state_touchoff.h"
 #include "states/state_estop.h"
 #include "states/state_ready_stop.h"
-#include "states/state_idle.h"

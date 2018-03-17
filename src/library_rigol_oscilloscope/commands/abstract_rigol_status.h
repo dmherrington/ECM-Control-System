@@ -10,10 +10,10 @@
 
 #include "data/type_available_commands.h"
 
-namespace rigol {
-namespace commands {
 
-using namespace data;
+namespace commands_Rigol {
+
+using namespace data_Rigol;
 ECM_CLASS_FORWARD(AbstractRigolStatus);
 
 class AbstractRigolStatus
@@ -27,8 +27,8 @@ public:
     CommandTypes getCommandType() const;
 
     void updateReceivedTime();
-    EnvironmentTime getRequestTime() const;
-    EnvironmentTime getReceivedTime() const;
+    common::EnvironmentTime getRequestTime() const;
+    common::EnvironmentTime getReceivedTime() const;
 
 
 public:
@@ -73,11 +73,11 @@ public:
 
 private:
     CommandTypes commandType;
-    EnvironmentTime requestTime;
-    EnvironmentTime receivedTime;
+    common::EnvironmentTime requestTime;
+    common::EnvironmentTime receivedTime;
 };
 
 } //end of namespace commands
-} //end of namespace rigol
+
 
 #endif // ABSTRACT_RIGOL_STATUS_H

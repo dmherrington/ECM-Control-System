@@ -23,7 +23,7 @@ private:
     //! \param plotCollection Pointer to plot collection
     //! \return Pointer to newly created object
     //!
-    static ISensorDisplay* CreateNewDisplayObject(const common::TupleSensorString &sensor, const data::SensorTypes &type, ECMPlotCollection* plotCollection);
+    static ISensorDisplay* CreateNewDisplayObject(const common::TupleSensorString &sensor, const common_data::SensorTypes &type, ECMPlotCollection* plotCollection);
 
 
 public:
@@ -62,7 +62,7 @@ public:
     //! \param type Type of sensor.
     //! \return Pointer to widget.
     //!
-    QObject* CreateSensor(const common::TupleSensorString &sensor, const data::SensorTypes &type);
+    QObject* CreateSensor(const common::TupleSensorString &sensor, const common_data::SensorTypes &type);
 
 
     //!
@@ -78,7 +78,7 @@ public:
     //! \param sensor Sensor in the collection to update
     //! \param state Sensor state containing the data
     //!
-    void UpdateNonPlottedData(const common::TupleSensorString &sensor, const data::SensorState &state);
+    void UpdateNonPlottedData(const common::TupleSensorString &sensor, const common_data::SensorState &state);
 
 
     //!

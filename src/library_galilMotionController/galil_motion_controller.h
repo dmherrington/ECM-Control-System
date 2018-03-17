@@ -43,14 +43,14 @@
 \*
 \*/
 
-class GMC_SHARED_EXPORT galilMotionController : public QObject, public GalilStatusUpdate_Interface, public GalilCallback_StateInterface, public Comms::CommsEvents
+class GMC_SHARED_EXPORT GalilMotionController : public QObject, public GalilStatusUpdate_Interface, public GalilCallback_StateInterface, public Comms::CommsEvents
 {
     Q_OBJECT
 
 public:
-    galilMotionController();
+    GalilMotionController();
 
-    ~galilMotionController();
+    ~GalilMotionController();
 
 public:
     void openConnection(const std::string &address);
@@ -67,7 +67,8 @@ public:
     void NewStatusMotorEnabled(const Status_MotorEnabled &status) override;
     void NewStatusMotorInMotion(const Status_AxisInMotion &status) override;
     void NewStatusMotorStopCode(const Status_StopCode &status) override;
-
+    void NewStatusVariableList(const Status_VariableList &status) override;
+    void NewStatusVariableValue(const Status_VariableValue &status) override;
 public:
 
     void getSettingsPath(std::string &settingsPath) const;
@@ -99,8 +100,12 @@ private:
     ///////////////////////////////////////////////////////////////////////////////////////////////
 private:
     void cbi_AbstractGalilCommand(const AbstractCommandPtr command) override;
+    void cbi_AbstractGalilMotionCommand(const AbstractCommandPtr command) override;
     void cbi_AbstractGalilRequest(const AbstractRequestPtr request) override;
+    void cbi_AbstractGalilAddPolled(const AbstractRequestPtr request) override;
+    void cbi_AbstractGalilRemovePolled(const std::string &name) override;
     void cbi_GalilControllerGains(const CommandControllerGain &gains) override;
+    void cbi_ResetHomingLatch() override;
 
 signals:
     void commsStatus(const bool &opened);
@@ -109,6 +114,7 @@ signals:
 
     void currentErrorCode(const std::string &errorString);
 
+    void signal_GalilResetHomingLatch();
 
 private:
     QString profilesPath;

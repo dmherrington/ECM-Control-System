@@ -1,5 +1,5 @@
-#ifndef ILINK_H
-#define ILINK_H
+#ifndef I_LINK_GALIL_H
+#define I_LINK_GALIL_H
 
 #include <cstdlib>
 #include <memory>
@@ -80,6 +80,6 @@ private:
     std::vector<const ILinkEvents*> m_Listeners;
 };
 
-} //END Comms
+} //end of namespace Comms
 
-#endif // ILINK_H
+#endif // I_LINK_GALIL_H

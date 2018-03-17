@@ -7,6 +7,12 @@
 
 #include "library_munk_power_supply_global.h"
 
+#include "data/type_read_write.h"
+#include "data/type_exception_message.h"
+#include "data/type_current_voltage_prescale.h"
+#include "data/type_fault_codes_general.h"
+#include "data/type_supply_output.h"
+
 #include "communications/munk_comms_marshaler.h"
 #include "communications/serial_configuration.h"
 #include "communications/comms_progress_handler.h"
@@ -21,17 +27,13 @@
 #include "data_registers/segment_current_setpoint.h"
 #include "data_registers/parameter_memory_write.h"
 
-#include "data/type_supply_output.h"
-
-#include "data/type_current_voltage_prescale.h"
-
-#include "data/type_fault_codes_general.h"
-
 #include "munk_poll_status.h"
 
-using namespace munk;
+using namespace registers_Munk;
+using namespace data_Munk;
+using namespace comms_Munk;
 
-class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply :  public QObject, comms::CommsEvents, MunkStatusCallback_Interface
+class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply :  public QObject, CommsEvents, MunkStatusCallback_Interface
 {
 
 Q_OBJECT
@@ -48,7 +50,7 @@ public:
     //! \brief generateAndTransmitMessage
     //! \param detailedSegmentData
     //!
-    void generateAndTransmitMessage(const DataParameter::SegmentTimeDetailed &detailedSegmentData);
+    void generateAndTransmitMessage(const SegmentTimeDetailed &detailedSegmentData);
 
     //!
     //! \brief openSerialPort
@@ -59,6 +61,8 @@ public:
     //! \brief closeSerialPort
     //!
     void closeSerialPort();
+
+    bool isConnected() const;
 
 signals:
 
@@ -82,7 +86,7 @@ private:
     //! \brief generateMessages
     //! \param detailedSegmentData
     //!
-    void generateMessages(const DataParameter::SegmentTimeDetailed &detailedSegmentData);
+    void generateMessages(const SegmentTimeDetailed &detailedSegmentData);
 
 private:
     /////////////////////////////////////////////////////////
@@ -115,28 +119,28 @@ private:
 
     void SegmentCommitedToMemoryAcknowledged() override;
 
-    void ExceptionResponseReceived(const Data::ReadWriteType &RWType, const std::string &meaning) const override;
+    void ExceptionResponseReceived(const MunkRWType &RWType, const std::string &meaning) const override;
 
     ///////////////////////////////////////////////////////////////
     /// Virtual Functions imposed from MunkStatusCallback_Interface
     ///////////////////////////////////////////////////////////////
 
-    void cbi_MunkFaultStateRequest(const DataParameter::RegisterFaultState &request) const override;
-
-
-private:
-        DataParameter::SegmentTimeGeneral m_segmentTimeGeneral;
-
-        DataParameter::SegmentCurrentSetpoint m_fwdISetpoint;
-        DataParameter::SegmentCurrentSetpoint m_revISetpoint;
-
-        DataParameter::SegmentVoltageSetpoint m_fwdVSetpoint;
-        DataParameter::SegmentVoltageSetpoint m_revVSetpoint;
+    void cbi_MunkFaultStateRequest(const RegisterFaultState &request) const override;
 
 private:
-    comms::MunkCommsMarshaler* commsMarshaler;
+        SegmentTimeGeneral m_segmentTimeGeneral;
+
+        SegmentCurrentSetpoint m_fwdISetpoint;
+        SegmentCurrentSetpoint m_revISetpoint;
+
+        SegmentVoltageSetpoint m_fwdVSetpoint;
+        SegmentVoltageSetpoint m_revVSetpoint;
+
+private:
+    MunkCommsMarshaler* commsMarshaler;
     MunkPollStatus* pollStatus;
     CommsProgressHandler commsProgress;
+
 };
 
 #endif // MUNK_POWER_SUPPLY_H

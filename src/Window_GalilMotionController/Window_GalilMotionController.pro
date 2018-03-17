@@ -27,12 +27,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     widget_profile_variable_display.cpp \
-    widget_profile_display.cpp
+    widget_profile_display.cpp \
+    LED.cpp
 
 HEADERS += \
         mainwindow.h \
     widget_profile_variable_display.h \
-    widget_profile_display.h
+    widget_profile_display.h \
+    LED.h
 
 FORMS += \
         mainwindow.ui \
@@ -53,13 +55,6 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../library_galilMotionController/ -llibrary
 
 INCLUDEPATH += $$PWD/../library_galilMotionController
 DEPENDPATH += $$PWD/../library_galilMotionController
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../graphing/release/ -lgraphing
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../graphing/debug/ -lgraphing
-else:unix:!macx: LIBS += -L$$OUT_PWD/../graphing/ -lgraphing
-
-INCLUDEPATH += $$PWD/../graphing
-DEPENDPATH += $$PWD/../graphing
 
 unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
 unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo

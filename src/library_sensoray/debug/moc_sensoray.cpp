@@ -161,8 +161,8 @@ void *Sensoray::qt_metacast(const char *_clname)
         return static_cast<void*>(this);
     if (!strcmp(_clname, "common::comms::ICommunication"))
         return static_cast< common::comms::ICommunication*>(this);
-    if (!strcmp(_clname, "comms::CommsEvents"))
-        return static_cast< comms::CommsEvents*>(this);
+    if (!strcmp(_clname, "comms_Sensoray::CommsEvents"))
+        return static_cast< comms_Sensoray::CommsEvents*>(this);
     if (!strcmp(_clname, "ICommunication"))
         return static_cast< common::comms::ICommunication*>(this);
     return QObject::qt_metacast(_clname);

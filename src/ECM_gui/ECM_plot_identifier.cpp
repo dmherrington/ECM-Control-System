@@ -3,7 +3,7 @@
 //!
 //! \brief Constructor
 //! \param thing Model/Entity/Sensor/Whatever being plotted
-//! \param dimension Dimesnion beign plotted (position, velocity, attitude, etc)
+//! \param dimension Dimension being plotted (position, velocity, attitude, etc)
 //! \param axis Axis plotting
 //!
 ECMPlotIdentifier::ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension, const char *axis) :
@@ -130,7 +130,7 @@ ECMPlotIdentifier::~ECMPlotIdentifier()
 //! \brief pure virtual method for equivilance
 //! \return true if equal
 //!
-bool ECMPlotIdentifier::operator==(const data::observation::IPlotComparable& rhs) const
+bool ECMPlotIdentifier::operator==(const common_data::observation::IPlotComparable& rhs) const
 {
     if(typeid(rhs) != typeid(*this))
         return false;
@@ -160,7 +160,7 @@ bool ECMPlotIdentifier::operator==(const data::observation::IPlotComparable& rhs
 //! \brief pure virtual method for non-equivilance
 //! \return true if not equal
 //!
-bool ECMPlotIdentifier::operator!=(const data::observation::IPlotComparable& rhs) const
+bool ECMPlotIdentifier::operator!=(const common_data::observation::IPlotComparable& rhs) const
 {
     return (!(*this == rhs));
 }
@@ -177,7 +177,7 @@ bool ECMPlotIdentifier::operator!=(const data::observation::IPlotComparable& rhs
 //!
 //! \return A shared_ptr containing data in the comparable object
 //!
-std::shared_ptr<data::observation::IPlotComparable> ECMPlotIdentifier::CreateSharedPtr() const
+std::shared_ptr<common_data::observation::IPlotComparable> ECMPlotIdentifier::CreateSharedPtr() const
 {
     ECMPlotIdentifier *Copy;
     if(m_AxisProvided == true)
@@ -187,7 +187,7 @@ std::shared_ptr<data::observation::IPlotComparable> ECMPlotIdentifier::CreateSha
 
     Copy->copied = true;
 
-    std::shared_ptr<data::observation::IPlotComparable> rtnPtr(Copy);
+    std::shared_ptr<common_data::observation::IPlotComparable> rtnPtr(Copy);
 
     return rtnPtr;
 }

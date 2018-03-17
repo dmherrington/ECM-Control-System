@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Data
-{
+
+namespace data_Munk{
 
 //!
 //! \brief The ReadWriteType enum
@@ -29,6 +29,7 @@ enum class FaultDetailedRegisterType{
     FAULT_DETAILED_3 = 322 /**< */
 };
 
-} //end of namespace Data
+} //end of namespace data_Munk
+
 
 #endif // TYPE_FAULT_STATUS_REGISTERS_H

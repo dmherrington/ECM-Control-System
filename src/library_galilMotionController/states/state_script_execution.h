@@ -15,11 +15,6 @@ ECM_CLASS_FORWARD(State_ScriptExecution);
 //Forward declare the class states available to transition to from this one
 class State_MotionStop;
 class State_EStop;
-class State_Jogging;
-class State_ManualPositioning;
-class State_Touchoff;
-class State_ScriptExecution;
-class State_HomePositioning;
 
 class State_ScriptExecution : public AbstractStateGalil
 {

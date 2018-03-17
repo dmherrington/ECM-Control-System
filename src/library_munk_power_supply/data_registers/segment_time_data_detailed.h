@@ -11,8 +11,8 @@
 #include <data/register_data_object.h>
 #include <data/type_supply_output.h>
 
-namespace DataParameter
-{
+
+namespace registers_Munk{
 
 //!
 //! \brief The SegmentTimeDataDetailed class is the class that the user should implement when establishing
@@ -35,7 +35,7 @@ public:
     //! \param power
     //! \param time
     //!
-    SegmentTimeDataDetailed(const double &voltage, const double &current, const Data::SegmentMode &mode, const uint32_t &time);
+    SegmentTimeDataDetailed(const double &voltage, const double &current, const data_Munk::SegmentMode &mode, const uint32_t &time);
 
 
     SegmentTimeDataDetailed(const SegmentTimeDataDetailed &copy);
@@ -46,7 +46,7 @@ public:
     //! \brief setSupplyOutput
     //! \param outputNumber
     //!
-    void setSupplyOutput(const Data::TypeSupplyOutput &outputNumber);
+    void setSupplyOutput(const data_Munk::TypeSupplyOutput &outputNumber);
 
     //!
     //! \brief setSegmentVoltage
@@ -64,7 +64,7 @@ public:
     //! \brief setSegmentMode
     //! \param mode
     //!
-    void setSegmentMode(const Data::SegmentMode &mode);
+    void setSegmentMode(const data_Munk::SegmentMode &mode);
 
     //!
     //! \brief setTimeValue
@@ -88,13 +88,13 @@ public:
     //! \brief getSupplyOutputNumber
     //! \return
     //!
-    Data::TypeSupplyOutput getSupplyOutputNumber() const;
+    data_Munk::TypeSupplyOutput getSupplyOutputNumber() const;
 
     //!
     //! \brief getRegisterDataObject
     //! \return
     //!
-    Data::RegisterDataObject getRegisterDataObject() const;
+    data_Munk::RegisterDataObject getRegisterDataObject() const;
 
 
     //!
@@ -125,7 +125,7 @@ public:
     //! \brief getSegmentMode
     //! \return
     //!
-    Data::SegmentMode getSegmentMode() const;
+    data_Munk::SegmentMode getSegmentMode() const;
 
     //!
     //! \brief getTimeValue
@@ -136,8 +136,8 @@ public:
 public:
     void read(const QJsonObject &json)
     {
-        setSupplyOutput(Data::TypeSupplyOutputString(json["supplyOutput"].toString().toStdString()));
-        setSegmentMode(Data::SegmentModeFromString(json["segmentMode"].toString().toStdString()));
+        setSupplyOutput(data_Munk::TypeSupplyOutputString(json["supplyOutput"].toString().toStdString()));
+        setSegmentMode(data_Munk::SegmentModeFromString(json["segmentMode"].toString().toStdString()));
         setSegmentVoltage(json["voltage"].toDouble());
         setSegmentCurrent(json["current"].toDouble());
         setTimeValue(json["time"].toDouble());
@@ -145,8 +145,8 @@ public:
 
     void write(QJsonObject &json) const
     {
-        json["supplyOutput"] = QString::fromStdString(Data::TypeSupplyOutputToString(supplyOutput));
-        json["segmentMode"] = QString::fromStdString(Data::SegmentModeToString(segmentMode));
+        json["supplyOutput"] = QString::fromStdString(data_Munk::TypeSupplyOutputToString(supplyOutput));
+        json["segmentMode"] = QString::fromStdString(data_Munk::SegmentModeToString(segmentMode));
         json["voltage"] = dataObject.voltage;
         json["current"] = dataObject.current;
         json["time"] = (int)timeValue;
@@ -202,17 +202,17 @@ private:
     //!
     //! \brief supplyOutput
     //!
-    Data::TypeSupplyOutput supplyOutput;
+    data_Munk::TypeSupplyOutput supplyOutput;
 
     //!
     //! \brief dataObject
     //!
-    Data::RegisterDataObject dataObject;
+    data_Munk::RegisterDataObject dataObject;
 
     //!
     //! \brief segmentMode
     //!
-    Data::SegmentMode segmentMode;
+    data_Munk::SegmentMode segmentMode;
 
     //!
     //! \brief timeValue
@@ -222,7 +222,8 @@ private:
 };
 
 
-} //end of namespace DataParameter
+} //end of namepsace registers_Munk
+
 
 
 #endif // SEGMENT_TIME_DATA_DETAILED_H

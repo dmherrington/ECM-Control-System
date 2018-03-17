@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Data
-{
+
+namespace data_Munk{
 
 //!
 //! \brief The SegmentLevel enum
@@ -82,14 +82,14 @@ inline SegmentLevel SegmentLevelFromString(const std::string &str) {
 inline std::vector<std::string> getListOfSegmentLevel()
 {
     std::vector<std::string> str;
-    str.push_back(Data::SegmentLevelToString(SegmentLevel::LEVEL1));
-    str.push_back(Data::SegmentLevelToString(SegmentLevel::LEVEL2));
-    str.push_back(Data::SegmentLevelToString(SegmentLevel::LEVEL3));
-    str.push_back(Data::SegmentLevelToString(SegmentLevel::LEVEL4));
-    str.push_back(Data::SegmentLevelToString(SegmentLevel::LEVEL5));
-    str.push_back(Data::SegmentLevelToString(SegmentLevel::LEVEL6));
-    str.push_back(Data::SegmentLevelToString(SegmentLevel::LEVEL7));
-    str.push_back(Data::SegmentLevelToString(SegmentLevel::LEVEL8));
+    str.push_back(data_Munk::SegmentLevelToString(SegmentLevel::LEVEL1));
+    str.push_back(data_Munk::SegmentLevelToString(SegmentLevel::LEVEL2));
+    str.push_back(data_Munk::SegmentLevelToString(SegmentLevel::LEVEL3));
+    str.push_back(data_Munk::SegmentLevelToString(SegmentLevel::LEVEL4));
+    str.push_back(data_Munk::SegmentLevelToString(SegmentLevel::LEVEL5));
+    str.push_back(data_Munk::SegmentLevelToString(SegmentLevel::LEVEL6));
+    str.push_back(data_Munk::SegmentLevelToString(SegmentLevel::LEVEL7));
+    str.push_back(data_Munk::SegmentLevelToString(SegmentLevel::LEVEL8));
     return str;
 }
 
@@ -106,6 +106,7 @@ inline uint32_t SegmentLevelToBitArray(const SegmentLevel &type, const uint32_t 
     return ba;
 }
 
-} //end of namespace Data
+} //end of namespace data_Munk
+
 
 #endif // TYPE_SEGMENT_LEVEL_H

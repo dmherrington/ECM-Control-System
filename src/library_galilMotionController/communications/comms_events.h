@@ -1,5 +1,5 @@
-#ifndef COMMS_EVENTS_H
-#define COMMS_EVENTS_H
+#ifndef COMMS_EVENTS_GALIL_H
+#define COMMS_EVENTS_GALIL_H
 
 #include <string>
 #include "common/common.h"
@@ -57,8 +57,18 @@ public:
         UNUSED(status);
     }
 
+    virtual void NewStatusVariableValue(const Status_VariableValue &status)
+    {
+        UNUSED(status);
+    }
+
+    virtual void NewStatusVariableList(const Status_VariableList &status)
+    {
+        UNUSED(status);
+    }
+
 };
 
 }
 
-#endif // COMMS_EVENTS_H
+#endif // COMMS_EVENTS_GALIL_H

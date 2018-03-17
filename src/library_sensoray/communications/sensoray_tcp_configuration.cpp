@@ -1,7 +1,7 @@
 #include "sensoray_tcp_configuration.h"
 
-namespace sensoray{
-namespace comms{
+
+namespace comms_Sensoray{
 
 SensorayTCPConfiguration::SensorayTCPConfiguration()
 {
@@ -56,4 +56,4 @@ void SensorayTCPConfiguration::setDeviceModel(const unsigned short &model)
 }
 
 } //end of namepsace comms
-} //end of namespace sensoray
+

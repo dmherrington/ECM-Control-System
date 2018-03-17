@@ -5,8 +5,8 @@
 
 #include "s24xx.h"
 
-namespace sensoray {
-namespace comms{
+
+namespace comms_Sensoray{
 
 static inline S2426_DATABITS getSensorayDataBits(const QSerialPort::DataBits &dataBits)
 {
@@ -70,6 +70,6 @@ static inline S2426_PARITY getSensorayParity(const QSerialPort::Parity &parity)
 }
 
 } //end of namespace comms
-} //end of namespace sensoray
+
 
 #endif // SENSORAY_SERIAL_CONFIGURATION_H

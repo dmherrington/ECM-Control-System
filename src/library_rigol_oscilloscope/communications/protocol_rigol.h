@@ -21,8 +21,7 @@
 #include "commands/measure/measure_command_item.h"
 #include "commands/measure/rigol_measurement_status.h"
 
-namespace rigol {
-namespace comms{
+namespace comms_Rigol{
 
 class RigolProtocol : public IProtocol
 {
@@ -37,11 +36,11 @@ public:
     /// Method issuing a measurement request to the rigol
     //////////////////////////////////////////////////////////////
 
-    void sendSetAcquisitionCommand(const ILink *link, const commands::AbstractAcquireCommandPtr command);
+    void sendSetAcquisitionCommand(const ILink *link, const commands_Rigol::AbstractAcquireCommandPtr command);
 
-    void sendSetMeasurementCommand(const ILink *link, const commands::MeasureCommand_Item &command);
+    void sendSetMeasurementCommand(const ILink *link, const commands_Rigol::MeasureCommand_Item &command);
 
-    void sendMeasurementRequest(const ILink *link, const commands::MeasureCommand_Item &command);
+    void sendMeasurementRequest(const ILink *link, const commands_Rigol::MeasureCommand_Item &command);
 public:
 
     //!
@@ -65,13 +64,13 @@ private:
     std::vector<const IProtocolRigolEvents*> m_Listners;
 
 private:
-    std::list<commands::AbstractRigolStatus*> responseQueue;
+    std::list<commands_Rigol::AbstractRigolStatus*> responseQueue;
 
 
 };
 
 
 } //end of namespace comms
-} //end of namespace rigol
+
 
 #endif // PROTOCOL_RIGOL_H

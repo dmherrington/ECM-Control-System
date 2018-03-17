@@ -1,5 +1,5 @@
-#ifndef ILINK_H
-#define ILINK_H
+#ifndef I_LINK_SENSORAY_H
+#define I_LINK_SENSORAY_H
 
 #include <cstdlib>
 #include <memory>
@@ -11,8 +11,7 @@
 #include "i_link_events.h"
 #include "sensoray_tcp_configuration.h"
 
-namespace sensoray {
-namespace comms{
+namespace comms_Sensoray{
 
 class ILink
 {
@@ -88,6 +87,5 @@ private:
 };
 
 } //end of namespace comms
-} //end of namespace sensoray
 
-#endif // ILINK_H
+#endif // I_LINK_SENSORAY_H

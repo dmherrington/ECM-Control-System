@@ -25,8 +25,8 @@
 
 #include "rigol_measurement_status.h"
 
-namespace rigol {
-namespace commands{
+
+namespace commands_Rigol{
 
 ECM_CLASS_FORWARD(MeasureCommand_Item);
 
@@ -35,7 +35,7 @@ class MeasureCommand_Item : public AbstractMeasureCommand
 public:
     MeasureCommand_Item();
 
-    MeasureCommand_Item(const data::AvailableChannels &channel, const data::MeasurementTypes &type);
+    MeasureCommand_Item(const data_Rigol::AvailableChannels &channel, const data_Rigol::MeasurementTypes &type);
 
     MeasureCommand_Item(const MeasureCommand_Item &copy);
 
@@ -60,32 +60,32 @@ public:
     void getClone(AbstractRigolCommand** state) const override;
 
 public:
-    void setChannel(const data::AvailableChannels &measureChannel);
+    void setChannel(const data_Rigol::AvailableChannels &measureChannel);
 
-    void setMeasurementType(const data::MeasurementTypes &type);
+    void setMeasurementType(const data_Rigol::MeasurementTypes &type);
 
-    data::AvailableChannels getChannel() const;
+    data_Rigol::AvailableChannels getChannel() const;
 
-    data::MeasurementTypes getMeasurementType() const;
+    data_Rigol::MeasurementTypes getMeasurementType() const;
 
 public:
     std::string getCommandString() const override
     {
         std::string rtn = getPrefixCommand();
-        rtn+= data::MeasurementCommandToString(this->measurementCommand);
+        rtn+= data_Rigol::MeasurementCommandToString(this->measurementCommand);
         rtn+= getSuffixCommand();
-        rtn+= data::MeasurementTypeEnumToString(this->measureType);
+        rtn+= data_Rigol::MeasurementTypeEnumToString(this->measureType);
         rtn+= ",";
-        rtn+=data::AvailableChannelsToString(this->channel);
+        rtn+=data_Rigol::AvailableChannelsToString(this->channel);
         return rtn;
     }
 
     std::string getCommandKey() const override
     {
         std::string rtn;
-        rtn+=data::AvailableChannelsToString(this->channel);
+        rtn+=data_Rigol::AvailableChannelsToString(this->channel);
         rtn+= "_";
-        rtn+= data::MeasurementTypeEnumToString(this->measureType);
+        rtn+= data_Rigol::MeasurementTypeEnumToString(this->measureType);
         return rtn;
     }
 
@@ -131,12 +131,12 @@ public:
     }
 
 private:
-    data::AvailableChannels channel = data::AvailableChannels::CHANNEL_1;
-    data::MeasurementTypes measureType = data::MeasurementTypes::MEASURE_VRMS;
+    data_Rigol::AvailableChannels channel = data_Rigol::AvailableChannels::CHANNEL_1;
+    data_Rigol::MeasurementTypes measureType = data_Rigol::MeasurementTypes::MEASURE_VRMS;
 
 };
 
 } //end of namespace commands
-} //end of namespace rigol
+
 
 #endif // MEASURE_COMMAND_ITEM_H

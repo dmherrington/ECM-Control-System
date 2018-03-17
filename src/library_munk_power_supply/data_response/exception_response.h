@@ -1,5 +1,5 @@
-#ifndef EXCEPTION_RESPONSE_H
-#define EXCEPTION_RESPONSE_H
+#ifndef MUNK_EXCEPTION_RESPONSE_H
+#define MUNK_EXCEPTION_RESPONSE_H
 
 
 class ExceptionResponse
@@ -8,4 +8,4 @@ public:
     ExceptionResponse();
 };
 
-#endif // EXCEPTION_RESPONSE_H
+#endif // MUNK_EXCEPTION_RESPONSE_H

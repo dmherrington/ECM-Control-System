@@ -1,12 +1,11 @@
-#ifndef I_LINK_EVENTS_H
-#define I_LINK_EVENTS_H
+#ifndef I_LINK_EVENTS_SENSORAY_H
+#define I_LINK_EVENTS_SENSORAY_H
 
 #include <cstdlib>
 #include <vector>
 #include <string>
 
-namespace sensoray {
-namespace comms{
+namespace comms_Sensoray{
 
 class ILink;
 
@@ -24,6 +23,5 @@ public:
 };
 
 } //end of namespace comms
-} //end of namespace sensoray
 
-#endif // I_LINK_EVENTS_H
+#endif // I_LINK_EVENTS_SENSORAY_H

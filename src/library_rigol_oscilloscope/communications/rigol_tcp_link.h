@@ -17,8 +17,7 @@
 
 #include "i_link.h"
 
-namespace rigol{
-namespace comms {
+namespace comms_Rigol {
 
 class RigolTCPLink : public ILink
 {
@@ -31,8 +30,8 @@ public:
 public:
     virtual void RequestReset();
 
-    void WriteBytes(const QByteArray &data) const override;
-    std::vector<uint8_t> WriteBytesRequest(const QByteArray &data) const override;
+    void WriteBytes(const QByteArray &data_Rigol) const override;
+    std::vector<uint8_t> WriteBytesRequest(const QByteArray &data_Rigol) const override;
 
     void _emitLinkError(const std::string& errorMsg) const;
 
@@ -112,7 +111,7 @@ private:
     TCPConfiguration _config;
 };
 
-} //end of namepsace comms
-} //end of namespace rigol
+} //end of namepsace comms_Rigol
+
 
 #endif // RIGOL_TCP_LINK_H

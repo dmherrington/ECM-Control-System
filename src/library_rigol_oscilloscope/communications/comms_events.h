@@ -1,12 +1,12 @@
-#ifndef COMMS_EVENTS_H
-#define COMMS_EVENTS_H
+#ifndef RIGOL_COMMS_EVENTS_H
+#define RIGOL_COMMS_EVENTS_H
 
 #include <string>
 #include "common/common.h"
 #include "commands/measure/rigol_measurement_status.h"
 
-namespace rigol {
-namespace comms{
+
+namespace comms_Rigol{
 
 class CommsEvents
 {
@@ -48,7 +48,7 @@ public:
         UNUSED(buffer);
     }
 
-    virtual void NewMeaurementReceived(const rigol::commands::RigolMeasurementStatus &status) const
+    virtual void NewMeaurementReceived(const commands_Rigol::RigolMeasurementStatus &status) const
     {
         UNUSED(status);
     }
@@ -58,6 +58,6 @@ public:
 };
 
 } //end of namespace comms
-} //end of namespace rigol
 
-#endif // COMMS_EVENTS_H
+
+#endif // RIGOL_COMMS_EVENTS_H

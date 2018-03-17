@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.1
+** Created by: Qt User Interface Compiler version 5.10.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -172,20 +172,20 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
-        actionSave->setText(QApplication::translate("MainWindow", "Save", Q_NULLPTR));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
+        actionSave->setText(QApplication::translate("MainWindow", "Save", nullptr));
 #ifndef QT_NO_STATUSTIP
         actionSave->setStatusTip(QString());
 #endif // QT_NO_STATUSTIP
-        actionSave_As->setText(QApplication::translate("MainWindow", "Save_As", Q_NULLPTR));
-        actionLoad->setText(QApplication::translate("MainWindow", "Load", Q_NULLPTR));
-        actionExit->setText(QApplication::translate("MainWindow", "Exit", Q_NULLPTR));
-        pushButton_AddMotionProfile->setText(QApplication::translate("MainWindow", "Add Motion Profile", Q_NULLPTR));
-        pushButton_RemoveMotionProfile->setText(QApplication::translate("MainWindow", "Remove Motion Profile", Q_NULLPTR));
-        toolBox->setItemText(toolBox->indexOf(page_2), QApplication::translate("MainWindow", "Page 2", Q_NULLPTR));
-        menuFile->setTitle(QApplication::translate("MainWindow", "File", Q_NULLPTR));
-        menuOptions->setTitle(QApplication::translate("MainWindow", "Options", Q_NULLPTR));
-        menuHelp->setTitle(QApplication::translate("MainWindow", "Help", Q_NULLPTR));
+        actionSave_As->setText(QApplication::translate("MainWindow", "Save_As", nullptr));
+        actionLoad->setText(QApplication::translate("MainWindow", "Load", nullptr));
+        actionExit->setText(QApplication::translate("MainWindow", "Exit", nullptr));
+        pushButton_AddMotionProfile->setText(QApplication::translate("MainWindow", "Add Motion Profile", nullptr));
+        pushButton_RemoveMotionProfile->setText(QApplication::translate("MainWindow", "Remove Motion Profile", nullptr));
+        toolBox->setItemText(toolBox->indexOf(page_2), QApplication::translate("MainWindow", "Page 2", nullptr));
+        menuFile->setTitle(QApplication::translate("MainWindow", "File", nullptr));
+        menuOptions->setTitle(QApplication::translate("MainWindow", "Options", nullptr));
+        menuHelp->setTitle(QApplication::translate("MainWindow", "Help", nullptr));
     } // retranslateUi
 
 };

@@ -3,8 +3,7 @@
 
 #include <string>
 
-namespace rigol {
-namespace comms{
+namespace comms_Rigol{
 
 class LinkConfiguration
 {
@@ -59,6 +58,6 @@ private:
 };
 
 } //end of namespace comms
-} //end of namespace rigol
+
 
 #endif // RIGOL_LINK_CONFIGURATION_H

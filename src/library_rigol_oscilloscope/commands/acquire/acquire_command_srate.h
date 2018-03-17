@@ -18,8 +18,8 @@
 
 #include "abstract_acquire_command.h"
 
-namespace rigol {
-namespace commands{
+
+namespace commands_Rigol{
 
 ECM_CLASS_FORWARD(AcquireCommand_Srate);
 
@@ -32,11 +32,11 @@ public:
 
 public:
 
-    void setReadOrWrite(const data::ReadWriteType &type) override
+    void setReadOrWrite(const data_Rigol::RigolRWType &type) override
     {
         //This type of
         UNUSED(type);
-        this->RWType = data::ReadWriteType::READ;
+        this->RWType = data_Rigol::RigolRWType::READ;
     }
 
 protected:
@@ -93,6 +93,6 @@ private:
 };
 
 } //end of namespace commands
-} //end of namespace rigol
+
 
 #endif // ACQUIRE_COMMAND_SRATE_H

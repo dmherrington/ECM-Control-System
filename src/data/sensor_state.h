@@ -10,14 +10,14 @@
 
 #include <memory>
 
-namespace data
+namespace common_data
 {
 
 //! The state of a sensor
 /*!
  * This object contains the dynamics, valid time, and data for a sensor.
  */
-class Export SensorState
+class SensorState
 {
 public:
 
@@ -110,8 +110,8 @@ public:
     common::EnvironmentTime *validityTime;
 };
 
-} //Data
+} //end of namespace data
 
-Q_DECLARE_METATYPE(data::SensorState)
+Q_DECLARE_METATYPE(common_data::SensorState)
 
 #endif // SENSOR_STATE_H

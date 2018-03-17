@@ -1,5 +1,5 @@
-#ifndef MAVLINK_COMMS_H
-#define MAVLINK_COMMS_H
+#ifndef PROTOCOL_GALIL_H
+#define PROTOCOL_GALIL_H
 
 #include <memory>
 #include <vector>
@@ -46,6 +46,8 @@ public:
 public:
     void SendProtocolCommand(const ILink *link, const AbstractCommandPtr command);
 
+    void SendProtocolMotionCommand(const ILink* link, const AbstractCommandPtr command);
+
 private:
     void handleCommandResponse(const ILink* link, const AbstractCommandPtr command, const GReturn &response);
     void handleBadCommandResponse(const ILink* link, const CommandType &type) const;
@@ -87,6 +89,6 @@ private:
 };
 
 
-} //END MAVLINKComms
+} //end of namespace Comms
 
-#endif // MAVLINK_COMMS_H
+#endif // PROTOCOL_GALIL_H

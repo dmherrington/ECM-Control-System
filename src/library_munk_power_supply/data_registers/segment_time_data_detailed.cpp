@@ -1,16 +1,17 @@
 #include "segment_time_data_detailed.h"
 
-namespace DataParameter {
+
+namespace registers_Munk {
 
 SegmentTimeDataDetailed::SegmentTimeDataDetailed():
-    supplyOutput(Data::TypeSupplyOutput::OUTPUT1),dataObject(0.0,0.0),segmentMode(Data::SegmentMode::DEAD),timeValue(100)
+    supplyOutput(data_Munk::TypeSupplyOutput::OUTPUT1),dataObject(0.0,0.0),segmentMode(data_Munk::SegmentMode::DEAD),timeValue(100)
 {
 
 }
 
-SegmentTimeDataDetailed::SegmentTimeDataDetailed(const double &voltage, const double &current, const Data::SegmentMode &mode, const uint32_t &time)
+SegmentTimeDataDetailed::SegmentTimeDataDetailed(const double &voltage, const double &current, const data_Munk::SegmentMode &mode, const uint32_t &time)
 {
-    setSupplyOutput(Data::TypeSupplyOutput::OUTPUT1);
+    setSupplyOutput(data_Munk::TypeSupplyOutput::OUTPUT1);
     setSegmentVoltage(voltage);
     setSegmentCurrent(current);
     setSegmentMode(mode);
@@ -26,7 +27,7 @@ SegmentTimeDataDetailed::SegmentTimeDataDetailed(const SegmentTimeDataDetailed &
     this->setTimeValue(copy.getTimeValue());
 }
 
-void SegmentTimeDataDetailed::setSupplyOutput(const Data::TypeSupplyOutput &outputNumber)
+void SegmentTimeDataDetailed::setSupplyOutput(const data_Munk::TypeSupplyOutput &outputNumber)
 {
     this->supplyOutput = outputNumber;
 }
@@ -41,7 +42,7 @@ void SegmentTimeDataDetailed::setSegmentCurrent(const double &current)
     this->dataObject.current = current;
 }
 
-void SegmentTimeDataDetailed::setSegmentMode(const Data::SegmentMode &mode)
+void SegmentTimeDataDetailed::setSegmentMode(const data_Munk::SegmentMode &mode)
 {
     this->segmentMode = mode;
 }
@@ -62,7 +63,7 @@ void SegmentTimeDataDetailed::resetData()
 {
     setSegmentVoltage(0);
     setSegmentCurrent(0);
-    setSegmentMode(Data::SegmentMode::DEAD);
+    setSegmentMode(data_Munk::SegmentMode::DEAD);
     setTimeValue(0);
 }
 
@@ -71,12 +72,12 @@ void SegmentTimeDataDetailed::updateData(const SegmentTimeDataDetailed &data)
     this->operator =(data);
 }
 
-Data::TypeSupplyOutput SegmentTimeDataDetailed::getSupplyOutputNumber() const
+data_Munk::TypeSupplyOutput SegmentTimeDataDetailed::getSupplyOutputNumber() const
 {
     return this->supplyOutput;
 }
 
-Data::RegisterDataObject SegmentTimeDataDetailed::getRegisterDataObject() const
+data_Munk::RegisterDataObject SegmentTimeDataDetailed::getRegisterDataObject() const
 {
     return this->dataObject;
 }
@@ -88,9 +89,9 @@ double SegmentTimeDataDetailed::getSegmentVoltage() const
 
 double SegmentTimeDataDetailed::getGraphingVoltage() const
 {
-    if(segmentMode == Data::SegmentMode::FORWARD)
+    if(segmentMode == data_Munk::SegmentMode::FORWARD)
         return this->dataObject.voltage;
-    else if(segmentMode == Data::SegmentMode::REVERSE)
+    else if(segmentMode == data_Munk::SegmentMode::REVERSE)
         return (-1) * this->dataObject.voltage;
     else
         return 0.0;
@@ -103,15 +104,15 @@ double SegmentTimeDataDetailed::getSegmentCurrent() const
 
 double SegmentTimeDataDetailed::getGraphingCurrent() const
 {
-    if(segmentMode == Data::SegmentMode::FORWARD)
+    if(segmentMode == data_Munk::SegmentMode::FORWARD)
         return this->dataObject.current;
-    else if(segmentMode == Data::SegmentMode::REVERSE)
+    else if(segmentMode == data_Munk::SegmentMode::REVERSE)
         return (-1) * this->dataObject.current;
     else
         return 0.0;
 }
 
-Data::SegmentMode SegmentTimeDataDetailed::getSegmentMode() const
+data_Munk::SegmentMode SegmentTimeDataDetailed::getSegmentMode() const
 {
     return this->segmentMode;
 }
@@ -120,4 +121,6 @@ uint32_t SegmentTimeDataDetailed::getTimeValue() const
 {
     return this->timeValue;
 }
-} //end of namespace DataParameter
+
+} //end of namespace registers_Munk
+

@@ -20,8 +20,8 @@
 
 #include "abstract_acquire_command.h"
 
-namespace rigol {
-namespace commands{
+
+namespace commands_Rigol{
 
 ECM_CLASS_FORWARD(AcquireCommand_Average);
 
@@ -98,6 +98,6 @@ private:
 };
 
 } //end of namespace commands
-} //end of namespace rigol
+
 
 #endif // ACQUIRE_COMMAND_AVERAGE_H

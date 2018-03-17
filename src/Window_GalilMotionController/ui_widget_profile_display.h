@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_profile_display.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.1
+** Created by: Qt User Interface Compiler version 5.10.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -187,10 +187,10 @@ public:
 
     void retranslateUi(QWidget *WidgetProfileDisplay)
     {
-        WidgetProfileDisplay->setWindowTitle(QApplication::translate("WidgetProfileDisplay", "Form", Q_NULLPTR));
-        label_2->setText(QApplication::translate("WidgetProfileDisplay", "PGain", Q_NULLPTR));
-        label_IGain->setText(QApplication::translate("WidgetProfileDisplay", "IGain  ", Q_NULLPTR));
-        label_DGain->setText(QApplication::translate("WidgetProfileDisplay", "DGain", Q_NULLPTR));
+        WidgetProfileDisplay->setWindowTitle(QApplication::translate("WidgetProfileDisplay", "Form", nullptr));
+        label_2->setText(QApplication::translate("WidgetProfileDisplay", "PGain", nullptr));
+        label_IGain->setText(QApplication::translate("WidgetProfileDisplay", "IGain  ", nullptr));
+        label_DGain->setText(QApplication::translate("WidgetProfileDisplay", "DGain", nullptr));
     } // retranslateUi
 
 };

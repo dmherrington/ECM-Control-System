@@ -76,7 +76,11 @@ SOURCES += \
     commands/command_execute_profile.cpp \
     status/status_axis_in_motion.cpp \
     status/status_motor_enabled.cpp \
-    commands/command_motion_start.cpp
+    commands/command_motion_start.cpp \
+    commands/command_variable.cpp \
+    requests/request_variable.cpp \
+    status/status_variable_value.cpp \
+    status/status_variable_list.cpp
 
 HEADERS += \
         axis_definitions.h \
@@ -153,7 +157,11 @@ HEADERS += \
         status/status_axis_in_motion.h \
         status/status_types.h \
         status/status_motor_enabled.h \
-    commands/command_motion_start.h
+    commands/command_motion_start.h \
+    commands/command_variable.h \
+    requests/request_tell_variable.h \
+    status/status_variable_value.h \
+    status/status_variable_list.h
 
 # Unix lib Install
 unix:!symbian {

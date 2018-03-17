@@ -27,8 +27,8 @@
 
 #include "data_registers/type_definition.h"
 
-namespace munk {
-namespace comms{
+
+namespace comms_Munk{
 
 class MunkProtocol : public IProtocol
 {
@@ -43,31 +43,31 @@ public:
     /// Methods issuing voltage setpoints relevant to the munk program
     /////////////////////////////////////////////////////////////////////
 
-    void sendForwardVoltageSetpoint(const ILink *link, const DataParameter::SegmentVoltageSetpoint &setpoint);
+    void sendForwardVoltageSetpoint(const ILink *link, const registers_Munk::SegmentVoltageSetpoint &setpoint);
 
-    void sendReverseVoltageSetpoint(const ILink *link, const DataParameter::SegmentVoltageSetpoint &setpoint);
+    void sendReverseVoltageSetpoint(const ILink *link, const registers_Munk::SegmentVoltageSetpoint &setpoint);
 
     /////////////////////////////////////////////////////////////////////
     /// Methods issuing current setpoints relevant to the munk program
     /////////////////////////////////////////////////////////////////////
 
-    void sendForwardCurrentSetpoint(const ILink *link, const DataParameter::SegmentCurrentSetpoint &setpoint);
+    void sendForwardCurrentSetpoint(const ILink *link, const registers_Munk::SegmentCurrentSetpoint &setpoint);
 
-    void sendReverseCurrentSetpoint(const ILink *link, const DataParameter::SegmentCurrentSetpoint &setpoint);
+    void sendReverseCurrentSetpoint(const ILink *link, const registers_Munk::SegmentCurrentSetpoint &setpoint);
 
     /////////////////////////////////////////////////////////////////////
     /// Methods issuing general segment data to the munk program
     /////////////////////////////////////////////////////////////////////
 
-    void sendSegmentTime(const ILink *link, const DataParameter::SegmentTimeGeneral &segment);
+    void sendSegmentTime(const ILink *link, const registers_Munk::SegmentTimeGeneral &segment);
 
-    void sendCommitToEEPROM(const ILink *link, const DataParameter::ParameterMemoryWrite &command);
+    void sendCommitToEEPROM(const ILink *link, const registers_Munk::ParameterMemoryWrite &command);
 
     /////////////////////////////////////////////////////////////////////
     /// Methods issuing general fault & status requests
     /////////////////////////////////////////////////////////////////////
 
-    void sendFaultStateRequest(const ILink *link, const DataParameter::RegisterFaultState &request);
+    void sendFaultStateRequest(const ILink *link, const registers_Munk::RegisterFaultState &request);
 
 
 public:
@@ -85,7 +85,7 @@ public:
 
     void parseForReadMessage(const ILink *link, const MunkMessage &msg);
 
-    void parseForFaultStateCode(const ILink *link, const DataParameter::AbstractParameter *parameter, const MunkMessage &msg);
+    void parseForFaultStateCode(const ILink *link, const registers_Munk::AbstractParameter *parameter, const MunkMessage &msg);
 
     void parseForAck(const ILink *link, const MunkMessage &msg);
 
@@ -102,11 +102,11 @@ private:
 
     MunkDataFraming dataParse;
 
-    std::vector<DataParameter::AbstractParameter*> readVector;
+    std::vector<registers_Munk::AbstractParameter*> readVector;
 };
 
 
-} //end of namespace comms
-} //end of namespace munk
+} //end of namespace comms_Munk
+
 
 #endif // PROTOCOL_MUNK_H

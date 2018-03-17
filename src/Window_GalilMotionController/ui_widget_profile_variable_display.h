@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_profile_variable_display.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.1
+** Created by: Qt User Interface Compiler version 5.10.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -81,8 +81,8 @@ public:
 
     void retranslateUi(QWidget *WidgetProfileVariableDisplay)
     {
-        WidgetProfileVariableDisplay->setWindowTitle(QApplication::translate("WidgetProfileVariableDisplay", "Form", Q_NULLPTR));
-        label_displayName->setText(QApplication::translate("WidgetProfileVariableDisplay", "Display Name:", Q_NULLPTR));
+        WidgetProfileVariableDisplay->setWindowTitle(QApplication::translate("WidgetProfileVariableDisplay", "Form", nullptr));
+        label_displayName->setText(QApplication::translate("WidgetProfileVariableDisplay", "Display Name:", nullptr));
     } // retranslateUi
 
 };

@@ -1,5 +1,5 @@
-#ifndef ABSTRACT_STATUS_H
-#define ABSTRACT_STATUS_H
+#ifndef GALIL_ABSTRACT_STATUS_H
+#define GALIL_ABSTRACT_STATUS_H
 
 #include <string.h>
 #include "common/class_forward.h"
@@ -18,8 +18,8 @@ public:
     void setStatusType(const StatusTypes &type);
     StatusTypes getStatusType() const;
 
-    void setTime(const Data::EnvironmentTime &time);
-    Data::EnvironmentTime getTime() const;
+    void setTime(const common::EnvironmentTime &time);
+    common::EnvironmentTime getTime() const;
 
 public:
     /**
@@ -62,7 +62,7 @@ public:
 
 private:
     StatusTypes statusType;
-    Data::EnvironmentTime latestUpdate;
+    common::EnvironmentTime latestUpdate;
 };
 
-#endif // ABSTRACT_STATUS_H
+#endif // GALIL_ABSTRACT_STATUS_H

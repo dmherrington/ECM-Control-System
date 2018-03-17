@@ -119,7 +119,7 @@ private:
     Ui::MainWindow *ui;
 
 private:
-    galilMotionController* m_Galil;
+    GalilMotionController* m_Galil;
     std::string profilePath;
     std::map<std::string,WidgetProfileDisplay*> m_ProfileDisplay;
 

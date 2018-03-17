@@ -163,9 +163,9 @@ void WidgetVariableDataDisplay::updateRendering()
     this->blockSignals(true);
     ui->lineEdit_profileName->setText(QString::fromStdString(this->profile->getProfileName()));
     ui->lineEdit_profileLabel->setText(QString::fromStdString(this->profile->getProfileLabel()));
-    ui->doubleSpinBox_PGain->setValue(this->profile->profileGain->getGainValue(GainType::PGain));
-    ui->doubleSpinBox_IGain->setValue(this->profile->profileGain->getGainValue(GainType::IGain));
-    ui->doubleSpinBox_DGain->setValue(this->profile->profileGain->getGainValue(GainType::DGain));
+    ui->doubleSpinBox_PGain->setValue(this->profile->profileGain.getGainValue(GainType::PGain));
+    ui->doubleSpinBox_IGain->setValue(this->profile->profileGain.getGainValue(GainType::IGain));
+    ui->doubleSpinBox_DGain->setValue(this->profile->profileGain.getGainValue(GainType::DGain));
     this->blockSignals(false);
 }
 
@@ -187,19 +187,19 @@ void WidgetVariableDataDisplay::on_dataChanged()
 void WidgetVariableDataDisplay::on_doubleSpinBox_PGain_editingFinished()
 {
     double value = this->ui->doubleSpinBox_PGain->value();
-    this->profile->profileGain->setGainValue(GainType::PGain,value);
+    this->profile->profileGain.setGainValue(GainType::PGain,value);
 }
 
 void WidgetVariableDataDisplay::on_doubleSpinBox_IGain_editingFinished()
 {
     double value = this->ui->doubleSpinBox_IGain->value();
-    this->profile->profileGain->setGainValue(GainType::IGain,value);
+    this->profile->profileGain.setGainValue(GainType::IGain,value);
 }
 
 void WidgetVariableDataDisplay::on_doubleSpinBox_DGain_editingFinished()
 {
     double value = this->ui->doubleSpinBox_DGain->value();
-    this->profile->profileGain->setGainValue(GainType::DGain,value);
+    this->profile->profileGain.setGainValue(GainType::DGain,value);
 }
 
 void WidgetVariableDataDisplay::on_lineEdit_profileLabel_editingFinished()

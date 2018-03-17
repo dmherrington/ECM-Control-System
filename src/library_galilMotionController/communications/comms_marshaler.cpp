@@ -59,6 +59,17 @@ void CommsMarshaler::sendAbstractGalilCommand(const AbstractCommandPtr command)
     link->MarshalOnThread(func);
 }
 
+void CommsMarshaler::sendAbstractGalilMotionCommand(const AbstractCommandPtr command)
+{
+    std::cout<<"Lets send an abstract galil motion command"<<std::endl;
+
+    auto func = [this, command]() {
+            protocol->SendProtocolMotionCommand(link.get(), command);
+    };
+
+    link->MarshalOnThread(func);
+}
+
 void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request)
 {
     auto func = [this, request]() {
@@ -226,7 +237,18 @@ void CommsMarshaler::parseStatus(const AbstractStatusPtr &status) const
         Emit([&](CommsEvents *ptr){ptr->NewStatusMotorStopCode(castStatus);});
         break;
     }
-
+    case StatusTypes::STATUS_VARIABLELIST:
+    {
+        Status_VariableList castStatus(*status.get()->as<Status_VariableList>());
+        Emit([&](CommsEvents *ptr){ptr->NewStatusVariableList(castStatus);});
+        break;
+    }
+    case StatusTypes::STATUS_VARIABLEVALUE:
+    {
+        Status_VariableValue castStatus(*status.get()->as<Status_VariableValue>());
+        Emit([&](CommsEvents *ptr){ptr->NewStatusVariableValue(castStatus);});
+        break;
+    }
     default:
         break;
     }
