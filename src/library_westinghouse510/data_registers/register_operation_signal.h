@@ -1,13 +1,11 @@
 #ifndef REGISTER_OPERATION_SIGNAL_H
 #define REGISTER_OPERATION_SIGNAL_H
 
-#include "data/type_read_write.h"
-
 #include "abstract_register.h"
 
 namespace registers_WestinghousePump{
 
-class Register_OperationSignal : public AbstractRegister
+class Register_OperationSignal : public AbstractWestinghouseRegister
 {
 public:
     Register_OperationSignal();
@@ -26,7 +24,7 @@ public:
     //! \brief getRegisterType
     //! \return
     //!
-    RegisterType getRegisterType() const override;
+    WestinhouseRegisterTypes getRegisterType() const override;
 
     //!
     //! \brief getByteArray
@@ -62,7 +60,7 @@ public:
     //! \brief getClone
     //! \return
     //!
-    AbstractRegister* getClone() const override
+    AbstractWestinghouseRegister* getClone() const override
     {
         return (new Register_OperationSignal(*this));
     }
@@ -71,7 +69,7 @@ public:
     //! \brief getClone
     //! \param parameter
     //!
-    void getClone(AbstractRegister** parameter) const override
+    void getClone(AbstractWestinghouseRegister** parameter) const override
     {
         *parameter = new Register_OperationSignal(*this);
     }
@@ -86,7 +84,7 @@ public:
     //!
     Register_OperationSignal& operator = (const Register_OperationSignal &rhs)
     {
-        AbstractRegister::operator =(rhs);
+        AbstractWestinghouseRegister::operator =(rhs);
         this->_run = rhs._run;
         this->_reverse = rhs._reverse;
         this->_fault = rhs._fault;
@@ -101,7 +99,7 @@ public:
     //!
     bool operator == (const Register_OperationSignal &rhs)
     {
-        if(!AbstractRegister::operator ==(rhs)){
+        if(!AbstractWestinghouseRegister::operator ==(rhs)){
             return false;
         }
         if(this->_run != rhs._run){

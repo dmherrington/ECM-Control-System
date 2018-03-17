@@ -41,12 +41,12 @@ FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
             // one byte to follow telling us of the exception code and concluding with
             // the checksum
             currentMSGState = FramingState::RECEIVED_EXCEPTION_FUNCTION_CODE;
-            currentMessge.setExceptionType(data_Munk::ExceptionType::EXCEPTION);
+            currentMessge.setExceptionType(data_Munk::MunkExceptionType::EXCEPTION);
         }
         else
         {
             currentMSGState = currentMessge.setReadWriteType(RWValue);
-            currentMessge.setExceptionType(data_Munk::ExceptionType::NO_EXCEPTION);
+            currentMessge.setExceptionType(data_Munk::MunkExceptionType::NO_EXCEPTION);
         }
         break;
     }

@@ -19,7 +19,7 @@ public:
     explicit WidgetChannelMeasurements(QWidget *parent = 0);
     ~WidgetChannelMeasurements();
 
-    void setMeasurementChannel(const rigol::data_Rigol::AvailableChannels &channel);
+    void setMeasurementChannel(const data_Rigol::AvailableChannels &channel);
     void addMeasurement(const commands_Rigol::MeasureCommand_Item *measurement);
     void removeMeasurement(const std::string &key);
 

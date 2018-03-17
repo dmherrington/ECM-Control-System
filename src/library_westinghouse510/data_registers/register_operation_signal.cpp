@@ -4,12 +4,12 @@
 namespace registers_WestinghousePump{
 
 Register_OperationSignal::Register_OperationSignal():
-    AbstractRegister(RegisterTypeToInt(RegisterType::OPERATION_SIGNAL))
+    AbstractWestinghouseRegister(RegisterTypeToInt(WestinhouseRegisterTypes::OPERATION_SIGNAL))
 {
 
 }
 Register_OperationSignal::Register_OperationSignal(const Register_OperationSignal &copy):
-    AbstractRegister(copy)
+    AbstractWestinghouseRegister(copy)
 {
 
 }
@@ -27,9 +27,9 @@ std::string Register_OperationSignal::getDescription() const
 //! \brief getRegisterType
 //! \return
 //!
-RegisterType Register_OperationSignal::getRegisterType() const
+WestinhouseRegisterTypes Register_OperationSignal::getRegisterType() const
 {
-    return RegisterType::OPERATION_SIGNAL;
+    return WestinhouseRegisterTypes::OPERATION_SIGNAL;
 }
 
 //!
@@ -64,10 +64,10 @@ void Register_OperationSignal::parseFromArray(const QByteArray &msg)
 {
     this->setSlaveAddress(msg.at(0));
     //parse if it is read/write
-    if(msg.at(1) == static_cast<int>(data_WestinghousePump::ReadWriteType::READ))
-        this->setReadorWrite(data_WestinghousePump::ReadWriteType::READ);
+    if(msg.at(1) == static_cast<int>(data_WestinghousePump::RWType::READ))
+        this->setReadorWrite(data_WestinghousePump::RWType::READ);
     else
-        this->setReadorWrite(data_WestinghousePump::ReadWriteType::WRITE);
+        this->setReadorWrite(data_WestinghousePump::RWType::WRITE);
 
     uint8_t dataHi = msg.at(4);
     uint8_t dataLo = msg.at(5);

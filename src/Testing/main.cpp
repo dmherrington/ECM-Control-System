@@ -10,11 +10,8 @@
 #include <QStringList>
 #include <QRegExp>
 
-//#include "library_galilMotionController/galil_motion_controller.h"
-//#include "library_munk_power_supply/munk_power_supply.h"
-#include "library_rigol_oscilloscope/rigol_oscilliscope.h"
-//#include "library_westinghouse510/westinghouse_510.h"
-//#include "library_sensoray/sensoray.h"
+#include "main.h"
+
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);

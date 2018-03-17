@@ -7,6 +7,8 @@
 
 #include "library_rigol_oscilloscope_global.h"
 
+#include "data/type_read_write.h"
+
 #include "commands/acquire/acquire_components.h"
 #include "commands/measure/measure_components.h"
 

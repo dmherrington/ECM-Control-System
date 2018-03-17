@@ -3,19 +3,19 @@
 
 namespace registers_WestinghousePump{
 
-AbstractRegister::AbstractRegister():
-    parameterCode(0),slaveAddress(0),readOrwrite(data_WestinghousePump::ReadWriteType::WRITE),highChecksum(0),lowChecksum(0)
+AbstractWestinghouseRegister::AbstractWestinghouseRegister():
+    parameterCode(0),slaveAddress(0),readOrwrite(data_WestinghousePump::RWType::WRITE),highChecksum(0),lowChecksum(0)
 {
 
 }
 
-AbstractRegister::AbstractRegister(const int &code):
-    parameterCode(code),slaveAddress(0),readOrwrite(data_WestinghousePump::ReadWriteType::WRITE),highChecksum(0),lowChecksum(0)
+AbstractWestinghouseRegister::AbstractWestinghouseRegister(const int &code):
+    parameterCode(code),slaveAddress(0),readOrwrite(data_WestinghousePump::RWType::WRITE),highChecksum(0),lowChecksum(0)
 {
 
 }
 
-AbstractRegister::AbstractRegister(const AbstractRegister &copy)
+AbstractWestinghouseRegister::AbstractWestinghouseRegister(const AbstractWestinghouseRegister &copy)
 {
     this->parameterCode = copy.parameterCode;
     this->slaveAddress = copy.slaveAddress;
@@ -24,17 +24,17 @@ AbstractRegister::AbstractRegister(const AbstractRegister &copy)
     this->lowChecksum = copy.lowChecksum;
 }
 
-void AbstractRegister::setSlaveAddress(const uint8_t &address)
+void AbstractWestinghouseRegister::setSlaveAddress(const uint8_t &address)
 {
     this->slaveAddress = address;
 }
 
-void AbstractRegister::setReadorWrite(const data_WestinghousePump::ReadWriteType &type)
+void AbstractWestinghouseRegister::setReadorWrite(const data_WestinghousePump::RWType &type)
 {
     this->readOrwrite = type;
 }
 
-QByteArray AbstractRegister::getPrefixByteArray() const
+QByteArray AbstractWestinghouseRegister::getPrefixByteArray() const
 {
     QByteArray ba;
 
@@ -49,7 +49,7 @@ QByteArray AbstractRegister::getPrefixByteArray() const
     return ba;
 }
 
-QByteArray AbstractRegister::getFullMessage() const
+QByteArray AbstractWestinghouseRegister::getFullMessage() const
 {
     QByteArray dataSum;
 
@@ -71,7 +71,7 @@ QByteArray AbstractRegister::getFullMessage() const
     return dataSum;
 }
 
-unsigned int AbstractRegister::CRC16(const QByteArray &array) const
+unsigned int AbstractWestinghouseRegister::CRC16(const QByteArray &array) const
 {
     char j;
     unsigned int Temp = 0xFFFF;

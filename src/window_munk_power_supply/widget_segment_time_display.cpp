@@ -87,9 +87,9 @@ void WidgetSegmentTimeDisplay::write(QJsonObject &json) const
     json["segmentData"] = segmentDataArray;
 }
 
-data_register::SegmentTimeDetailed WidgetSegmentTimeDisplay::getRawData() const
+registers_Munk::SegmentTimeDetailed WidgetSegmentTimeDisplay::getRawData() const
 {
-    data_register::SegmentTimeDetailed detailedData(1);
+    registers_Munk::SegmentTimeDetailed detailedData(1);
 
     std::list<WidgetSegmentTimeData*>::const_iterator iterator;
     for (iterator = m_dataList.begin(); iterator != m_dataList.end(); ++iterator) {

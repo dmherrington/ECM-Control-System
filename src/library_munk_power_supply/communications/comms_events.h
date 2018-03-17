@@ -93,7 +93,7 @@ public:
 
     }
 
-    virtual void ExceptionResponseReceived(const data_Munk::ReadWriteType &RWType, const std::string &meaning) const
+    virtual void ExceptionResponseReceived(const data_Munk::MunkRWType &RWType, const std::string &meaning) const
     {
         UNUSED(RWType);
         UNUSED(meaning);

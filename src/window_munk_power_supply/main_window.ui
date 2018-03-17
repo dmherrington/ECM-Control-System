@@ -328,7 +328,7 @@ width:20px;
      </spacer>
     </item>
     <item row="0" column="2">
-     <widget class="graphing::PlotHandler" name="graphWidget" native="true">
+     <widget class="QWidget" name="graphWidget" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
         <horstretch>0</horstretch>
@@ -592,13 +592,7 @@ width:20px;
   <customwidget>
    <class>WidgetSegmentTimeDisplay</class>
    <extends>QWidget</extends>
-   <header>munk_dialog/widget_segment_time_display.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>graphing::PlotHandler</class>
-   <extends>QWidget</extends>
-   <header>plot_handler.h</header>
+   <header>widget_segment_time_display.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

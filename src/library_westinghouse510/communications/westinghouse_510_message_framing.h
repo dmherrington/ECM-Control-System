@@ -4,7 +4,7 @@
 
 namespace comms_WestinghousePump{
 
-enum class FramingState{
+enum class WestinghouseFramingState{
     WAITING,
     RECIEVED_PUMP_ADDRESS,
     RECEIVED_EXCEPTION_FUNCTION_CODE,

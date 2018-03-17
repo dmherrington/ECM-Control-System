@@ -7,7 +7,6 @@
 #include "library_rigol_oscilloscope/rigol_oscilliscope.h"
 #include "library_rigol_oscilloscope/commands/measure/rigol_measurement_queue.h"
 
-using namespace rigol::data_Rigol;
 
 namespace Ui {
 class MainWindow;

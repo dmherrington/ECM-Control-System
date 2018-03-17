@@ -164,15 +164,15 @@ void MainWindow::on_actionClose_Connection_triggered()
 void MainWindow::on_actionTransmit_To_Munk_triggered()
 {
     segmentUnlocked = true;
-    data_register::SegmentTimeDetailed dataSegment = ui->segmentWidget->getRawData();
+    registers_Munk::SegmentTimeDetailed dataSegment = ui->segmentWidget->getRawData();
     m_PowerSupply->generateAndTransmitMessage(dataSegment);
 }
 
 void MainWindow::onGraphLegend()
 {
-    bool isShowing = ui->graphWidget->legend->visible();
-    ui->graphWidget->legend->setVisible(!isShowing);
-    ui->graphWidget->replot();
+//    bool isShowing = ui->graphWidget->legend->visible();
+//    ui->graphWidget->legend->setVisible(!isShowing);
+//    ui->graphWidget->replot();
 }
 
 
@@ -210,7 +210,7 @@ void MainWindow::widgetSegmentDisplay_dataUpdate(const std::list<registers_Munk:
 
     }
 
-    ui->graphWidget->updateData(QVector<double>::fromStdVector(timeVector), QVector<double>::fromStdVector(voltageVector), QVector<double>::fromStdVector(currentVector));
+    //ui->graphWidget->updateData(QVector<double>::fromStdVector(timeVector), QVector<double>::fromStdVector(voltageVector), QVector<double>::fromStdVector(currentVector));
 }
 
 void MainWindow::on_pushButton_AddSegment_released()

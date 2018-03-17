@@ -104,7 +104,7 @@ private:
     void SegmentTimeSetpointAcknowledged(const ILink* link_ptr , const int &numberRegisters) const override;
     void SegmentCommittedToMemory(const ILink* link_ptr) const override;
 
-    void ExceptionResponseReceived(const ILink* link_ptr, const data_Munk::ReadWriteType &type, const uint8_t &code) const override;
+    void ExceptionResponseReceived(const ILink* link_ptr, const data_Munk::MunkRWType &type, const uint8_t &code) const override;
 
 private:
     std::shared_ptr<ILink> link;

@@ -32,7 +32,7 @@ ECM_CLASS_FORWARD(AbstractMeasureCommand);
 class AbstractMeasureCommand : public AbstractRigolCommand
 {
 public:
-    AbstractMeasureCommand(const data_Rigol::MeasurementCommands &measure, const data_Rigol::ReadWriteType &rw = data_Rigol::ReadWriteType::WRITE):
+    AbstractMeasureCommand(const data_Rigol::MeasurementCommands &measure, const data_Rigol::RigolRWType &rw = data_Rigol::RigolRWType::WRITE):
         AbstractRigolCommand(data_Rigol::CommandTypes::COMMAND_MEASURE,rw)
     {
         this->measurementCommand = measure;

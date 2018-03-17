@@ -11,7 +11,7 @@ RegisterFaultState::RegisterFaultState(const data_Munk::FaultRegisterType &type)
     AbstractParameter()
 {
     this->parameterCode = static_cast<int>(type);
-    this->setReadorWrite(data_Munk::ReadWriteType::READ);
+    this->setReadorWrite(data_Munk::MunkRWType::READ);
 }
 
 //!

@@ -1,14 +1,11 @@
 #ifndef REGISTER_FLOW_RATE_H
 #define REGISTER_FLOW_RATE_H
 
-#include "data/type_read_write.h"
-
 #include "abstract_register.h"
-
 
 namespace registers_WestinghousePump{
 
-class Register_FlowRate : public AbstractRegister
+class Register_FlowRate : public AbstractWestinghouseRegister
 {
 public:
     Register_FlowRate();
@@ -27,7 +24,7 @@ public:
     //! \brief getRegisterType
     //! \return
     //!
-    RegisterType getRegisterType() const override;
+    WestinhouseRegisterTypes getRegisterType() const override;
 
     //!
     //! \brief getByteArray
@@ -50,7 +47,7 @@ public:
     //! \brief getClone
     //! \return
     //!
-    AbstractRegister* getClone() const override
+    AbstractWestinghouseRegister* getClone() const override
     {
         return (new Register_FlowRate(*this));
     }
@@ -59,7 +56,7 @@ public:
     //! \brief getClone
     //! \param parameter
     //!
-    void getClone(AbstractRegister** parameter) const override
+    void getClone(AbstractWestinghouseRegister** parameter) const override
     {
         *parameter = new Register_FlowRate(*this);
     }
@@ -71,7 +68,7 @@ public:
     //!
     Register_FlowRate& operator = (const Register_FlowRate &rhs)
     {
-        AbstractRegister::operator =(rhs);
+        AbstractWestinghouseRegister::operator =(rhs);
         this->flowRate = rhs.flowRate;
         return *this;
     }
@@ -83,7 +80,7 @@ public:
     //!
     bool operator == (const Register_FlowRate &rhs)
     {
-        if(!AbstractRegister::operator ==(rhs)){
+        if(!AbstractWestinghouseRegister::operator ==(rhs)){
             return false;
         }
         if(this->flowRate != rhs.flowRate){

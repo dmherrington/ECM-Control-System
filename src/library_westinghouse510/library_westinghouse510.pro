@@ -38,8 +38,6 @@ HEADERS += \
     library_westinghouse510_global.h \
     westinghouse_510.h \
     westinghouse_510_state.h \
-    data/type_exception_message.h \
-    data/type_read_write.h \
     data_registers/abstract_register.h \
     data_registers/available_registers.h \
     data_registers/register_flow_rate.h \
@@ -47,7 +45,9 @@ HEADERS += \
     data_registers/register_operation_signal.h \
     communications/westinghouse_510_data_framing.h \
     communications/westinghouse_510_message_framing.h \
-    communications/westinghouse_message.h
+    communications/westinghouse_message.h \
+    data/westinghouse_exception_message.h \
+    data/type_read_write.h
 
 #Header file copy
 headers.path    = $$(ECM_ROOT)/include/library_westinghouse510

@@ -10,9 +10,9 @@ namespace data_Rigol{
 //!
 //! \brief The ReadWriteType enum
 //!
-enum class ReadWriteType{
-    READ = 03, /**< */
-    WRITE = 16 /**< */
+enum class RigolRWType{
+    READ = 0, /**< */
+    WRITE = 1 /**< */
 };
 
 //!
@@ -20,11 +20,11 @@ enum class ReadWriteType{
 //! \param type
 //! \return
 //!
-inline std::string ReadWriteTypeToString(const ReadWriteType &type) {
+inline std::string ReadWriteTypeToString(const RigolRWType &type) {
     switch (type) {
-    case ReadWriteType::READ:
+    case RigolRWType::READ:
         return "Read";
-    case ReadWriteType::WRITE:
+    case RigolRWType::WRITE:
         return "Write";
     default:
         throw std::runtime_error("Unknown read or write type seen");
@@ -36,11 +36,11 @@ inline std::string ReadWriteTypeToString(const ReadWriteType &type) {
 //! \param str
 //! \return
 //!
-inline ReadWriteType ReadWriteTypeFromString(const std::string &str) {
+inline RigolRWType ReadWriteTypeFromString(const std::string &str) {
     if(str == "Read")
-        return ReadWriteType::READ;
+        return RigolRWType::READ;
     if(str == "Write")
-        return ReadWriteType::WRITE;
+        return RigolRWType::WRITE;
     throw std::runtime_error("Unknown read or write type seen");
 }
 
@@ -51,8 +51,8 @@ inline ReadWriteType ReadWriteTypeFromString(const std::string &str) {
 inline std::vector<std::string> getListOfReadWriteType()
 {
     std::vector<std::string> str;
-    str.push_back(ReadWriteTypeToString(ReadWriteType::READ));
-    str.push_back(ReadWriteTypeToString(ReadWriteType::WRITE));
+    str.push_back(ReadWriteTypeToString(RigolRWType::READ));
+    str.push_back(ReadWriteTypeToString(RigolRWType::WRITE));
     return str;
 }
 

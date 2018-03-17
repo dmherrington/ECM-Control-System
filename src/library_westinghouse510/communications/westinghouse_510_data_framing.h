@@ -6,6 +6,9 @@
 #include "common/common.h"
 #include "common/class_forward.h"
 
+#include "../data/type_read_write.h"
+#include "data/westinghouse_exception_message.h"
+
 #include "westinghouse_message.h"
 #include "westinghouse_510_message_framing.h"
 
@@ -15,14 +18,14 @@ class WestinghouseDataFraming
 {
 public:
     WestinghouseDataFraming(const int &address);
-    FramingState additionalByteRecevied(const uint8_t &byte);
+    WestinghouseFramingState additionalByteRecevied(const uint8_t &byte);
     WestinghouseMessage getCurrentMessage() const;
 private:
     unsigned int CRC16(const QByteArray &array) const;
 
 private:
     int pumpAddress;
-    FramingState currentMSGState;
+    WestinghouseFramingState currentMSGState;
     WestinghouseMessage currentMessge;
 };
 

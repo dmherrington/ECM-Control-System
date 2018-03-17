@@ -22,16 +22,16 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
 //        emit signal_PumpOperating(m_State->pumpON.get());
 //    });
 
-    m_DataFraming = new WestinghouseDataFraming(pumpAddress);
+    m_DataFraming = new comms_WestinghousePump::WestinghouseDataFraming(pumpAddress);
 
 }
 
-void Westinghouse510::setPumpFlowRate(const Register_FlowRate &desRate)
+void Westinghouse510::setPumpFlowRate(const registers_WestinghousePump::Register_FlowRate &desRate)
 {
     this->m_Comms->writeToSerialPort(desRate.getFullMessage());
 }
 
-void Westinghouse510::setPumpOperations(const Register_OperationSignal &desOps)
+void Westinghouse510::setPumpOperations(const registers_WestinghousePump::Register_OperationSignal &desOps)
 {
     this->m_Comms->writeToSerialPort(desOps.getFullMessage());
 }
@@ -50,32 +50,32 @@ void Westinghouse510::slot_SerialPortReceivedData(const QByteArray &data)
 {
     for(int i = 0; i < data.size(); i++)
     {
-        FramingState currentState = m_DataFraming->additionalByteRecevied(data.at(i));
-        if(currentState == FramingState::RECEIVED_ENTIRE_MESSAGE)
+        comms_WestinghousePump::WestinghouseFramingState currentState = m_DataFraming->additionalByteRecevied(data.at(i));
+        if(currentState == comms_WestinghousePump::WestinghouseFramingState::RECEIVED_ENTIRE_MESSAGE)
         {
-            WestinghouseMessage rxMSG = m_DataFraming->getCurrentMessage();
+            comms_WestinghousePump::WestinghouseMessage rxMSG = m_DataFraming->getCurrentMessage();
             this->parseReceivedMessage(rxMSG);
         }
     }
 }
 
-void Westinghouse510::parseReceivedMessage(const WestinghouseMessage &msg)
+void Westinghouse510::parseReceivedMessage(const comms_WestinghousePump::WestinghouseMessage &msg)
 {
-    if(msg.isException() == data_WestinghousePump::ExceptionType::EXCEPTION)
+    if(msg.isException() == data_WestinghousePump::WestinghouseExceptionTypes::EXCEPTION)
     {
 
     }
     else {
-        if(msg.isReadWriteType() == data_WestinghousePump::ReadWriteType::WRITE)
+        if(msg.isReadWriteType() == data_WestinghousePump::RWType::WRITE)
         {
             uint8_t dataHi = msg.getDataByte(2);
             uint8_t dataLo = msg.getDataByte(3);
             int registerCode = dataLo | (dataHi<<8);
-            RegisterType rxType = RegisterTypeFromInt(registerCode);
+            registers_WestinghousePump::WestinhouseRegisterTypes rxType = registers_WestinghousePump::RegisterTypeFromInt(registerCode);
             switch (rxType) {
-            case RegisterType::FLOWRATE:
+            case registers_WestinghousePump::WestinhouseRegisterTypes::FLOWRATE:
             {
-                Register_FlowRate writeFlow;
+                registers_WestinghousePump::Register_FlowRate writeFlow;
                 writeFlow.parseFromArray(msg.getDataArray());
                 if(m_State->flowRate.set(writeFlow.getVolumetricFlow()))
                 {
@@ -83,9 +83,9 @@ void Westinghouse510::parseReceivedMessage(const WestinghouseMessage &msg)
                 }
                 break;
             }
-            case RegisterType::OPERATION_SIGNAL:
+            case registers_WestinghousePump::WestinhouseRegisterTypes::OPERATION_SIGNAL:
             {
-                Register_OperationSignal writeOps;
+                registers_WestinghousePump::Register_OperationSignal writeOps;
                 writeOps.parseFromArray(msg.getDataArray());
                 if(m_State->pumpON.set(writeOps.isRun()))
                 {

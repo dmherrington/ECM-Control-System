@@ -11,6 +11,8 @@
 #include "library_munk_power_supply/munk_power_supply.h"
 #include "library_galilMotionController/galil_motion_controller.h"
 #include "library_sensoray/sensoray.h"
+#include "library_rigol_oscilloscope/rigol_oscilliscope.h"
+#include "library_westinghouse510/westinghouse_510.h"
 
 #include "additional_sensor_display.h"
 #include "common/threadmanager.h"
@@ -98,6 +100,9 @@ private:
     MunkPowerSupply* m_Munk;
     GalilMotionController* m_Galil;
     Sensoray* m_Sensoray;
+    RigolOscilliscope* m_Rigol;
+    Westinghouse510* m_Pump;
+
 };
 
 #endif // ECM_CONTROLLER_GUI_H

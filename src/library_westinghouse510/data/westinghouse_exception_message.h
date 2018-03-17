@@ -9,7 +9,7 @@ namespace data_WestinghousePump {
 //!
 //! \brief The ExceptionType enum
 //!
-enum class ExceptionType{
+enum class WestinghouseExceptionTypes{
     EXCEPTION = 00, /**< */
     NO_EXCEPTION = 01 /**< */
 };

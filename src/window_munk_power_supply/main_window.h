@@ -8,8 +8,6 @@
 
 #include <iostream>
 
-#include "qcustomplot.h"
-
 #include "library_munk_power_supply/munk_power_supply.h"
 #include "widget_segment_time_data.h"
 

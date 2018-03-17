@@ -14,8 +14,8 @@ MunkMessage::MunkMessage(const MunkMessage &copy)
 void MunkMessage::resetData()
 {
     currentArray.clear();
-    rwType = data_Munk::ReadWriteType::WRITE;
-    exType = data_Munk::ExceptionType::NO_EXCEPTION;
+    rwType = data_Munk::MunkRWType::WRITE;
+    exType = data_Munk::MunkExceptionType::NO_EXCEPTION;
     remainingPayload = 0;
 }
 
@@ -41,33 +41,33 @@ int MunkMessage::getDataSize() const
 
 FramingState MunkMessage::setReadWriteType(const uint8_t &RWType)
 {
-    if(RWType == static_cast<uint8_t>(data_Munk::ReadWriteType::WRITE))
+    if(RWType == static_cast<uint8_t>(data_Munk::MunkRWType::WRITE))
     {
-        this->rwType = data_Munk::ReadWriteType::WRITE;
+        this->rwType = data_Munk::MunkRWType::WRITE;
         return FramingState::RECEIVED_STD_FUNCTION_CODE_WRITE;
         remainingPayload = 4;
     }
     else
     {
-        this->rwType = data_Munk::ReadWriteType::READ;
+        this->rwType = data_Munk::MunkRWType::READ;
         return FramingState::RECEIVED_STD_FUNCTION_CODE_READ;
     }
 }
 
-void MunkMessage::setExceptionType(const data_Munk::ExceptionType &EXType)
+void MunkMessage::setExceptionType(const data_Munk::MunkExceptionType &EXType)
 {
-    if(EXType == data_Munk::ExceptionType::NO_EXCEPTION)
-        this->exType = data_Munk::ExceptionType::NO_EXCEPTION;
+    if(EXType == data_Munk::MunkExceptionType::NO_EXCEPTION)
+        this->exType = data_Munk::MunkExceptionType::NO_EXCEPTION;
     else
-        this->exType = data_Munk::ExceptionType::EXCEPTION;
+        this->exType = data_Munk::MunkExceptionType::EXCEPTION;
 }
 
-data_Munk::ReadWriteType MunkMessage::isReadWriteType() const
+data_Munk::MunkRWType MunkMessage::isReadWriteType() const
 {
     return rwType;
 }
 
-data_Munk::ExceptionType MunkMessage::isException() const
+data_Munk::MunkExceptionType MunkMessage::isException() const
 {
     return exType;
 }

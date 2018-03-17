@@ -9,7 +9,7 @@ namespace data_WestinghousePump {
 //!
 //! \brief The ReadWriteType enum
 //!
-enum class ReadWriteType{
+enum class RWType{
     READ = 03, /**< */
     WRITE = 06 /**< */
 };
@@ -19,11 +19,11 @@ enum class ReadWriteType{
 //! \param type
 //! \return
 //!
-inline std::string ReadWriteTypeToString(const ReadWriteType &type) {
+inline std::string ReadWriteTypeToString(const RWType &type) {
     switch (type) {
-    case ReadWriteType::READ:
+    case RWType::READ:
         return "Read";
-    case ReadWriteType::WRITE:
+    case RWType::WRITE:
         return "Write";
     default:
         throw std::runtime_error("Unknown read or write type seen");
@@ -35,11 +35,11 @@ inline std::string ReadWriteTypeToString(const ReadWriteType &type) {
 //! \param str
 //! \return
 //!
-inline ReadWriteType ReadWriteTypeFromString(const std::string &str) {
+inline RWType ReadWriteTypeFromString(const std::string &str) {
     if(str == "Read")
-        return ReadWriteType::READ;
+        return RWType::READ;
     if(str == "Write")
-        return ReadWriteType::WRITE;
+        return RWType::WRITE;
     throw std::runtime_error("Unknown read or write type seen");
 }
 
@@ -50,8 +50,8 @@ inline ReadWriteType ReadWriteTypeFromString(const std::string &str) {
 inline std::vector<std::string> getListOfReadWriteType()
 {
     std::vector<std::string> str;
-    str.push_back(ReadWriteTypeToString(ReadWriteType::READ));
-    str.push_back(ReadWriteTypeToString(ReadWriteType::WRITE));
+    str.push_back(ReadWriteTypeToString(RWType::READ));
+    str.push_back(ReadWriteTypeToString(RWType::WRITE));
     return str;
 }
 

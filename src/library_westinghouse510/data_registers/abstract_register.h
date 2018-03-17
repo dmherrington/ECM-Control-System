@@ -5,10 +5,9 @@
 #include <QBitArray>
 #include <string>
 
-#include "available_registers.h"
 #include "common/common.h"
-
-#include "data/type_read_write.h"
+#include "../data/type_read_write.h"
+#include "available_registers.h"
 
 namespace registers_WestinghousePump{
 
@@ -17,33 +16,33 @@ namespace registers_WestinghousePump{
 //!
 //! \brief The AbstractParameter class
 //!
-class AbstractRegister
+class AbstractWestinghouseRegister
 {
 public:
     //!
     //! \brief AbstractParameter
     //!
-    AbstractRegister();
+    AbstractWestinghouseRegister();
 
     //!
     //! \brief AbstractParameter
     //! \param code
     //!
-    AbstractRegister(const int &code);
+    AbstractWestinghouseRegister(const int &code);
 
     //!
     //! \brief AbstractParameter
     //! \param copy
     //!
-    AbstractRegister(const AbstractRegister &copy);
+    AbstractWestinghouseRegister(const AbstractWestinghouseRegister &copy);
 
-    virtual ~AbstractRegister() = default;
+    virtual ~AbstractWestinghouseRegister() = default;
 public:
     //!
     //! \brief getParameterType
     //! \return
     //!
-    virtual RegisterType getRegisterType() const = 0;
+    virtual WestinhouseRegisterTypes getRegisterType() const = 0;
 
     virtual int getRegisterCode() const
     {
@@ -66,13 +65,13 @@ public:
      * @brief getClone
      * @return
      */
-    virtual AbstractRegister* getClone() const = 0;
+    virtual AbstractWestinghouseRegister* getClone() const = 0;
 
     /**
      * @brief getClone
      * @param state
      */
-    virtual void getClone(AbstractRegister** state) const = 0;
+    virtual void getClone(AbstractWestinghouseRegister** state) const = 0;
 
     /**
      *
@@ -104,7 +103,7 @@ public:
     //! \brief setReadorWrite
     //! \param type
     //!
-    void setReadorWrite(const data_WestinghousePump::ReadWriteType &type);
+    void setReadorWrite(const data_WestinghousePump::RWType &type);
 
     //!
     //! \brief getFullMessage
@@ -130,7 +129,7 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    AbstractRegister& operator = (const AbstractRegister &rhs)
+    AbstractWestinghouseRegister& operator = (const AbstractWestinghouseRegister &rhs)
     {
         this->parameterCode = rhs.parameterCode;
         this->slaveAddress = rhs.slaveAddress;
@@ -145,7 +144,7 @@ public:
     //! \param rhs
     //! \return
     //!
-    bool operator == (const AbstractRegister &rhs)
+    bool operator == (const AbstractWestinghouseRegister &rhs)
     {
         if(this->parameterCode != rhs.parameterCode){
             return false;
@@ -170,7 +169,7 @@ public:
     //! \param rhs
     //! \return
     //!
-    bool operator != (const AbstractRegister &rhs) {
+    bool operator != (const AbstractWestinghouseRegister &rhs) {
         return !(*this == rhs);
     }
 
@@ -196,7 +195,7 @@ protected:
     //!
     //! \brief readOrwrite
     //!
-    data_WestinghousePump::ReadWriteType readOrwrite;
+    data_WestinghousePump::RWType readOrwrite;
 
     //!
     //! \brief highChecksum

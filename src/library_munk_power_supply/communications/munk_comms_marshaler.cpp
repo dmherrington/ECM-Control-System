@@ -221,7 +221,7 @@ void MunkCommsMarshaler::SegmentCommittedToMemory(const ILink* link_ptr) const
 }
 
 
-void MunkCommsMarshaler::ExceptionResponseReceived(const ILink* link_ptr, const data_Munk::ReadWriteType &type, const uint8_t &code) const
+void MunkCommsMarshaler::ExceptionResponseReceived(const ILink* link_ptr, const data_Munk::MunkRWType &type, const uint8_t &code) const
 {
     UNUSED(link_ptr);
     Emit([&](CommsEvents *ptr){ptr->ExceptionResponseReceived(type,data_Munk::ExceptionCodeToString(data_Munk::ExceptionCodeFromInt(code)));});

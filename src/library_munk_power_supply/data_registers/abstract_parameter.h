@@ -8,7 +8,7 @@
 #include "type_definition.h"
 #include "common/common.h"
 
-#include <data/type_read_write.h>
+#include "data/type_read_write.h"
 
 
 namespace registers_Munk{
@@ -108,7 +108,7 @@ public:
     //! \brief setReadorWrite
     //! \param type
     //!
-    void setReadorWrite(const data_Munk::ReadWriteType &type);
+    void setReadorWrite(const data_Munk::MunkRWType &type);
 
     //!
     //! \brief getFullMessage
@@ -201,7 +201,7 @@ protected:
     //!
     //! \brief readOrwrite
     //!
-    data_Munk::ReadWriteType readOrwrite;
+    data_Munk::MunkRWType readOrwrite;
 
     //!
     //! \brief highChecksum

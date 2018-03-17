@@ -317,9 +317,9 @@ void MunkPowerSupply::SegmentCommitedToMemoryAcknowledged()
 }
 
 
-void MunkPowerSupply::ExceptionResponseReceived(const ReadWriteType &RWType, const std::string &meaning) const
+void MunkPowerSupply::ExceptionResponseReceived(const MunkRWType &RWType, const std::string &meaning) const
 {
-    if(RWType == data_Munk::ReadWriteType::READ)
+    if(RWType == data_Munk::MunkRWType::READ)
         emit signal_SegmentException("READING",meaning);
     else
         emit signal_SegmentException("WRITING",meaning);

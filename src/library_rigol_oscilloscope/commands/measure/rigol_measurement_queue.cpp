@@ -21,7 +21,7 @@ void RigolMeasurementQueue::read(const QJsonObject &json)
         QJsonObject measurementObject = measurementArray[i].toObject();
         MeasureCommand_Item newItem;
         newItem.read(measurementObject);
-        newItem.setReadOrWrite(data_Rigol::ReadWriteType::WRITE);
+        newItem.setReadOrWrite(data_Rigol::RigolRWType::WRITE);
         insertIntoQueue(newItem);
     }
 }

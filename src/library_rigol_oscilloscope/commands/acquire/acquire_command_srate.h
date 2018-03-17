@@ -32,11 +32,11 @@ public:
 
 public:
 
-    void setReadOrWrite(const data_Rigol::ReadWriteType &type) override
+    void setReadOrWrite(const data_Rigol::RigolRWType &type) override
     {
         //This type of
         UNUSED(type);
-        this->RWType = data_Rigol::ReadWriteType::READ;
+        this->RWType = data_Rigol::RigolRWType::READ;
     }
 
 protected:

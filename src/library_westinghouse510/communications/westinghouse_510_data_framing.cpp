@@ -3,27 +3,27 @@
 namespace comms_WestinghousePump{
 
 WestinghouseDataFraming::WestinghouseDataFraming(const int &address):
-    pumpAddress(address), currentMSGState(FramingState::WAITING)
+    pumpAddress(address), currentMSGState(WestinghouseFramingState::WAITING)
 {
 
 }
 
-FramingState WestinghouseDataFraming::additionalByteRecevied(const uint8_t &byte)
+WestinghouseFramingState WestinghouseDataFraming::additionalByteRecevied(const uint8_t &byte)
 {
     switch (currentMSGState) {
-    case FramingState::WAITING:
-    case FramingState::RECEIVED_ENTIRE_MESSAGE:
+    case WestinghouseFramingState::WAITING:
+    case WestinghouseFramingState::RECEIVED_ENTIRE_MESSAGE:
     {
         //we should be looking for a byte equal to the address
         if(byte == pumpAddress)
         {
-            currentMSGState = FramingState::RECIEVED_PUMP_ADDRESS;
+            currentMSGState = WestinghouseFramingState::RECIEVED_PUMP_ADDRESS;
             currentMessge.resetData();
             currentMessge.appendArray(byte);
         }
         break;
     }
-    case FramingState::RECIEVED_PUMP_ADDRESS:
+    case WestinghouseFramingState::RECIEVED_PUMP_ADDRESS:
     {
         //once we have first received the munk address, the next byte will be the function code
         currentMessge.appendArray(byte);
@@ -39,63 +39,63 @@ FramingState WestinghouseDataFraming::additionalByteRecevied(const uint8_t &byte
             // this means that we have received an exception message and there is only
             // one byte to follow telling us of the exception code and concluding with
             // the checksum
-            currentMSGState = FramingState::RECEIVED_EXCEPTION_FUNCTION_CODE;
-            currentMessge.setExceptionType(data_WestinghousePump::ExceptionType::EXCEPTION);
+            currentMSGState = WestinghouseFramingState::RECEIVED_EXCEPTION_FUNCTION_CODE;
+            currentMessge.setExceptionType(data_WestinghousePump::WestinghouseExceptionTypes::EXCEPTION);
         }
         else
         {
             currentMSGState = currentMessge.setReadWriteType(RWValue);
-            currentMessge.setExceptionType(data_WestinghousePump::ExceptionType::NO_EXCEPTION);
+            currentMessge.setExceptionType(data_WestinghousePump::WestinghouseExceptionTypes::NO_EXCEPTION);
         }
         break;
     }
-    case FramingState::RECEIVED_EXCEPTION_FUNCTION_CODE:
+    case WestinghouseFramingState::RECEIVED_EXCEPTION_FUNCTION_CODE:
     {
-        currentMSGState = FramingState::RECEIVED_EXCEPTION_CODE;
+        currentMSGState = WestinghouseFramingState::RECEIVED_EXCEPTION_CODE;
         currentMessge.appendArray(byte);
         break;
     }
-    case FramingState::RECEIVED_EXCEPTION_CODE:
+    case WestinghouseFramingState::RECEIVED_EXCEPTION_CODE:
     {
-        currentMSGState = FramingState::RECEIVED_CRC_HIGH;
+        currentMSGState = WestinghouseFramingState::RECEIVED_CRC_HIGH;
         currentMessge.appendArray(byte);
         break;
     }
-    case FramingState::RECEIVED_STD_FUNCTION_CODE_READ:
+    case WestinghouseFramingState::RECEIVED_STD_FUNCTION_CODE_READ:
     {
         //this byte tells us how many bytes are following the message
-        currentMSGState = FramingState::RECEIVED_PAYLOAD;
+        currentMSGState = WestinghouseFramingState::RECEIVED_PAYLOAD;
         currentMessge.appendArray(byte);
         currentMessge.setRemainingPayload(byte);
         break;
     }
-    case FramingState::RECEIVED_STD_FUNCTION_CODE_WRITE:
+    case WestinghouseFramingState::RECEIVED_STD_FUNCTION_CODE_WRITE:
     {
-        currentMSGState = FramingState::RECEIVED_PAYLOAD;
+        currentMSGState = WestinghouseFramingState::RECEIVED_PAYLOAD;
         currentMessge.appendArray(byte);
         currentMessge.setRemainingPayload(3);
         break;
     }
-    case FramingState::RECEIVED_PAYLOAD:
+    case WestinghouseFramingState::RECEIVED_PAYLOAD:
     {
         currentMessge.appendArray(byte);
         currentMessge.setRemainingPayload(currentMessge.remainingPayloadSize() - 1);
         if(currentMessge.remainingPayloadSize() < 1)
         {
-            currentMSGState = FramingState::RECEIVED_LAST_PAYLOAD;
+            currentMSGState = WestinghouseFramingState::RECEIVED_LAST_PAYLOAD;
         }
         break;
     }
-    case FramingState::RECEIVED_LAST_PAYLOAD:
+    case WestinghouseFramingState::RECEIVED_LAST_PAYLOAD:
     {
-        currentMSGState = FramingState::RECEIVED_CRC_HIGH;
+        currentMSGState = WestinghouseFramingState::RECEIVED_CRC_HIGH;
         currentMessge.appendArray(byte);
         break;
     }
-    case FramingState::RECEIVED_CRC_HIGH:
+    case WestinghouseFramingState::RECEIVED_CRC_HIGH:
     {
         //we already had the low byte and therefore we must have received the high byte
-        currentMSGState = FramingState::RECEIVED_CRC_LOW;
+        currentMSGState = WestinghouseFramingState::RECEIVED_CRC_LOW;
         currentMessge.appendArray(byte);
 
         uint8_t highByte = currentMessge.getDataByte(currentMessge.getDataSize() - 1);
@@ -111,12 +111,12 @@ FramingState WestinghouseDataFraming::additionalByteRecevied(const uint8_t &byte
         if((highByte == highChecksum) && (lowByte == lowChecksum))
         {
             //the message we received is complete
-            currentMSGState = FramingState::RECEIVED_ENTIRE_MESSAGE;
+            currentMSGState = WestinghouseFramingState::RECEIVED_ENTIRE_MESSAGE;
         }
         else
         {
             currentMessge.resetData();
-            currentMSGState = FramingState::WAITING;
+            currentMSGState = WestinghouseFramingState::WAITING;
         }
         break;
     }

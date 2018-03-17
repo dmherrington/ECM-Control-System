@@ -4,13 +4,13 @@
 namespace registers_Munk {
 
 AbstractParameter::AbstractParameter():
-    parameterCode(0),slaveAddress(0),readOrwrite(data_Munk::ReadWriteType::WRITE),highChecksum(0),lowChecksum(0)
+    parameterCode(0),slaveAddress(0),readOrwrite(data_Munk::MunkRWType::WRITE),highChecksum(0),lowChecksum(0)
 {
 
 }
 
 AbstractParameter::AbstractParameter(const int &code):
-    parameterCode(code),slaveAddress(0),readOrwrite(data_Munk::ReadWriteType::WRITE),highChecksum(0),lowChecksum(0)
+    parameterCode(code),slaveAddress(0),readOrwrite(data_Munk::MunkRWType::WRITE),highChecksum(0),lowChecksum(0)
 {
 
 }
@@ -29,7 +29,7 @@ void AbstractParameter::setSlaveAddress(const uint8_t &address)
     this->slaveAddress = address;
 }
 
-void AbstractParameter::setReadorWrite(const data_Munk::ReadWriteType &type)
+void AbstractParameter::setReadorWrite(const data_Munk::MunkRWType &type)
 {
     this->readOrwrite = type;
 }

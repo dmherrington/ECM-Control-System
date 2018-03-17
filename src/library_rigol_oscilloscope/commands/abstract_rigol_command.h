@@ -33,7 +33,7 @@ ECM_CLASS_FORWARD(AbstractRigolCommand);
 class AbstractRigolCommand
 {
 public:
-    AbstractRigolCommand(const data_Rigol::CommandTypes &command, const data_Rigol::ReadWriteType &rw = data_Rigol::ReadWriteType::WRITE)
+    AbstractRigolCommand(const data_Rigol::CommandTypes &command, const data_Rigol::RigolRWType &rw = data_Rigol::RigolRWType::WRITE)
     {
         this->commandType = command;
         this->RWType = rw;
@@ -80,12 +80,12 @@ public:
         return commandType;
     }
 
-    virtual void setReadOrWrite(const data_Rigol::ReadWriteType &type)
+    virtual void setReadOrWrite(const data_Rigol::RigolRWType &type)
     {
         this->RWType = type;
     }
 
-    virtual data_Rigol::ReadWriteType isReadorWrite() const
+    virtual data_Rigol::RigolRWType isReadorWrite() const
     {
         return RWType;
     }
@@ -142,7 +142,7 @@ protected:
 
     std::string getSuffixCommand() const
     {
-        if(RWType == data_Rigol::ReadWriteType::READ)
+        if(RWType == data_Rigol::RigolRWType::READ)
             return "? ";
         else
             return " ";
@@ -150,7 +150,7 @@ protected:
 
 protected:
     data_Rigol::CommandTypes commandType;
-    data_Rigol::ReadWriteType RWType;
+    data_Rigol::RigolRWType RWType;
 
 };
 

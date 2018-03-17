@@ -29,11 +29,11 @@ public:
 
     FramingState setReadWriteType(const uint8_t &RWType);
 
-    void setExceptionType(const data_Munk::ExceptionType &EXType);
+    void setExceptionType(const data_Munk::MunkExceptionType &EXType);
 
-    data_Munk::ReadWriteType isReadWriteType() const;
+    data_Munk::MunkRWType isReadWriteType() const;
 
-    data_Munk::ExceptionType isException() const;
+    data_Munk::MunkExceptionType isException() const;
 
     void setRemainingPayload(const int &size);
 
@@ -50,8 +50,8 @@ public:
     }
 private:
     QByteArray currentArray;
-    data_Munk::ReadWriteType rwType = data_Munk::ReadWriteType::WRITE;
-    data_Munk::ExceptionType exType = data_Munk::ExceptionType::NO_EXCEPTION;
+    data_Munk::MunkRWType rwType = data_Munk::MunkRWType::WRITE;
+    data_Munk::MunkExceptionType exType = data_Munk::MunkExceptionType::NO_EXCEPTION;
     int remainingPayload = 0;
 };
 

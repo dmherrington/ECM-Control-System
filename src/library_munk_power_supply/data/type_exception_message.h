@@ -11,7 +11,7 @@ namespace data_Munk{
 //!
 //! \brief The ExceptionType enum
 //!
-enum class ExceptionType{
+enum class MunkExceptionType{
     EXCEPTION = 00, /**< */
     NO_EXCEPTION = 01 /**< */
 };

@@ -36,7 +36,7 @@ public:
 
     void write(QJsonObject &json) const;
 
-    data_register::SegmentTimeDetailed getRawData() const;
+    registers_Munk::SegmentTimeDetailed getRawData() const;
 
 signals:
     void updatedData(const std::list<registers_Munk::SegmentTimeDataDetailed> &newData);

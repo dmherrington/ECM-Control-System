@@ -7,11 +7,11 @@ MainWindow::MainWindow(QWidget *parent) :
     rigolInterface(new RigolOscilliscope)
 {
     ui->setupUi(this);
-    std::vector<AvailableChannels> avaialableChannels = rigol::data_Rigol::getListOfAvailableChannelsEnum();
+    std::vector<AvailableChannels> avaialableChannels = data_Rigol::getListOfAvailableChannelsEnum();
 
     for(size_t i = 0; i < avaialableChannels.size(); i++)
     {
-        std::string channelString = rigol::data_Rigol::AvailableChannelsToDisplayString(avaialableChannels.at(i));
+        std::string channelString = data_Rigol::AvailableChannelsToDisplayString(avaialableChannels.at(i));
         ui->comboBox_MeasurementChannels->insertItem(i,QString::fromStdString(channelString));
 
         WidgetChannelMeasurements* newChannel = new WidgetChannelMeasurements();
@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->verticalLayout_ChannelMeasurements->addWidget(newChannel);
     }
 
-    std::vector<std::string> availableMeasurements = rigol::data_Rigol::getListOfAvailableMeasurements();
+    std::vector<std::string> availableMeasurements = data_Rigol::getListOfAvailableMeasurements();
     for(size_t i = 0; i < availableMeasurements.size(); i++)
     {
         ui->comboBox_MeasurementType->insertItem(i,QString::fromStdString(availableMeasurements.at(i)));

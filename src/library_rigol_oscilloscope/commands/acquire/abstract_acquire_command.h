@@ -32,7 +32,7 @@ ECM_CLASS_FORWARD(AbstractAcquireCommand);
 class AbstractAcquireCommand : public AbstractRigolCommand
 {
 public:
-    AbstractAcquireCommand(const data_Rigol::AcquireType &acquire, const data_Rigol::ReadWriteType &rw = data_Rigol::ReadWriteType::WRITE):
+    AbstractAcquireCommand(const data_Rigol::AcquireType &acquire, const data_Rigol::RigolRWType &rw = data_Rigol::RigolRWType::WRITE):
         AbstractRigolCommand(data_Rigol::CommandTypes::COMMAND_ACQUIRE,rw)
     {
         this->acquireType = acquire;

@@ -110,11 +110,11 @@ void MunkProtocol::ReceiveData(ILink *link, const std::vector<uint8_t> &buffer)
         if(dataParse.additionalByteRecevied(c) == FramingState::RECEIVED_ENTIRE_MESSAGE)
         {
             MunkMessage completeMessage = dataParse.getCurrentMessage();
-            if(completeMessage.isException() == data_Munk::ExceptionType::EXCEPTION)
+            if(completeMessage.isException() == data_Munk::MunkExceptionType::EXCEPTION)
                 parseForException(link, completeMessage);
-            else if(completeMessage.isReadWriteType() == data_Munk::ReadWriteType::READ)
+            else if(completeMessage.isReadWriteType() == data_Munk::MunkRWType::READ)
                 parseForReadMessage(link, completeMessage);
-            else if(completeMessage.isReadWriteType() == data_Munk::ReadWriteType::WRITE)
+            else if(completeMessage.isReadWriteType() == data_Munk::MunkRWType::WRITE)
                 parseForAck(link, completeMessage);
         }
     }

@@ -7,6 +7,12 @@
 
 #include "library_munk_power_supply_global.h"
 
+#include "data/type_read_write.h"
+#include "data/type_exception_message.h"
+#include "data/type_current_voltage_prescale.h"
+#include "data/type_fault_codes_general.h"
+#include "data/type_supply_output.h"
+
 #include "communications/munk_comms_marshaler.h"
 #include "communications/serial_configuration.h"
 #include "communications/comms_progress_handler.h"
@@ -20,12 +26,6 @@
 #include "data_registers/segment_voltage_setpoint.h"
 #include "data_registers/segment_current_setpoint.h"
 #include "data_registers/parameter_memory_write.h"
-
-#include "data/type_supply_output.h"
-
-#include "data/type_current_voltage_prescale.h"
-
-#include "data/type_fault_codes_general.h"
 
 #include "munk_poll_status.h"
 
@@ -119,7 +119,7 @@ private:
 
     void SegmentCommitedToMemoryAcknowledged() override;
 
-    void ExceptionResponseReceived(const ReadWriteType &RWType, const std::string &meaning) const override;
+    void ExceptionResponseReceived(const MunkRWType &RWType, const std::string &meaning) const override;
 
     ///////////////////////////////////////////////////////////////
     /// Virtual Functions imposed from MunkStatusCallback_Interface

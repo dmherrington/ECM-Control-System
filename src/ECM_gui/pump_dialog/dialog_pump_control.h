@@ -2,7 +2,7 @@
 #define DIALOG_PUMP_CONTROL_H
 
 #include <QDialog>
-#include "library_westinghouse510/westinghouse_510.h"
+//#include "library_westinghouse510/westinghouse_510.h"
 
 namespace Ui {
 class Dialog_PumpControl;
@@ -13,7 +13,9 @@ class Dialog_PumpControl : public QDialog
     Q_OBJECT
 
 public:
-    explicit Dialog_PumpControl(const Westinghouse510* obj, QWidget *parent = 0);
+    explicit Dialog_PumpControl(QWidget *parent = 0);
+
+    //explicit Dialog_PumpControl(const Westinghouse510* obj, QWidget *parent = 0);
     ~Dialog_PumpControl();
 
 signals:
@@ -44,7 +46,7 @@ private slots:
 
 private:
     Ui::Dialog_PumpControl *ui;
-    const Westinghouse510* m_pump;
+    //const Westinghouse510* m_pump;
 };
 
 #endif // DIALOG_PUMP_CONTROL_H
