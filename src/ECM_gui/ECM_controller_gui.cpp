@@ -89,9 +89,14 @@ void ECMControllerGUI::readSettings()
     QSettings settings("Trolltech", "Application Example");
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
     QSize size = settings.value("size", QSize(400, 400)).toSize();
-    bool munkHidden = settings.value("size", false).toBool();
+    bool munkHidden = settings.value("munkDisplayed", false).toBool();
+    bool pumpHidden = settings.value("pumpDisplayed", false).toBool();
+
     if(!munkHidden)
         m_WindowMunk->show();
+
+    if(!pumpHidden)
+        m_WindowPump->show();
 
     resize(size);
     move(pos);
@@ -103,6 +108,7 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
     settings.setValue("pos", pos());
     settings.setValue("size", size());
     settings.setValue("munkDisplayed",m_WindowMunk->isHidden());
+    settings.setValue("pumpDisplayed",m_WindowPump->isHidden());
 
     m_WindowMunk->close();
     m_WindowPump->close();

@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Window Pump Control</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QMenuBar{
@@ -195,6 +195,12 @@ width:20px;
             <pointsize>10</pointsize>
            </font>
           </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
        </layout>
@@ -252,6 +258,12 @@ width:20px;
            <font>
             <pointsize>10</pointsize>
            </font>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -315,6 +327,12 @@ width:20px;
            <string notr="true">QLineEdit{
 border-radius:1px solid red;
 }</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -481,7 +499,7 @@ border-radius:1px solid red;
       <item row="3" column="0">
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="1">
-         <widget class="QDoubleSpinBox" name="doubleSpinBox_flowRate">
+         <widget class="QDoubleSpinBox" name="doubleSpinBox_delayTime">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -547,7 +565,7 @@ border-radius:1px solid red;
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QDoubleSpinBox" name="doubleSpinBox_delayTime">
+         <widget class="QDoubleSpinBox" name="doubleSpinBox_flowRate">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -828,6 +846,9 @@ width:20px;
            <font>
             <pointsize>13</pointsize>
            </font>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
           <property name="readOnly">
            <bool>true</bool>

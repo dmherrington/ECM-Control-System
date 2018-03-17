@@ -57,9 +57,9 @@ public:
     LED *widget_PumpConnected;
     QSpacerItem *verticalSpacer;
     QGridLayout *gridLayout;
-    QDoubleSpinBox *doubleSpinBox_flowRate;
-    QLabel *label_Flowrate;
     QDoubleSpinBox *doubleSpinBox_delayTime;
+    QLabel *label_Flowrate;
+    QDoubleSpinBox *doubleSpinBox_flowRate;
     QLabel *label_delayTim;
     QVBoxLayout *verticalLayout;
     QPushButton *pushButton_PumpRunning;
@@ -226,6 +226,8 @@ public:
         lineEdit_Electrolyte->setMinimumSize(QSize(170, 20));
         lineEdit_Electrolyte->setMaximumSize(QSize(170, 20));
         lineEdit_Electrolyte->setFont(font);
+        lineEdit_Electrolyte->setAlignment(Qt::AlignCenter);
+        lineEdit_Electrolyte->setReadOnly(true);
 
         gridLayout_4->addWidget(lineEdit_Electrolyte, 1, 0, 1, 1);
 
@@ -250,6 +252,8 @@ public:
         lineEdit_pH->setMinimumSize(QSize(170, 20));
         lineEdit_pH->setMaximumSize(QSize(170, 20));
         lineEdit_pH->setFont(font);
+        lineEdit_pH->setAlignment(Qt::AlignCenter);
+        lineEdit_pH->setReadOnly(true);
 
         gridLayout_3->addWidget(lineEdit_pH, 1, 0, 1, 1);
 
@@ -277,6 +281,8 @@ public:
         lineEdit_Conuctivity->setStyleSheet(QLatin1String("QLineEdit{\n"
 "border-radius:1px solid red;\n"
 "}"));
+        lineEdit_Conuctivity->setAlignment(Qt::AlignCenter);
+        lineEdit_Conuctivity->setReadOnly(true);
 
         gridLayout_2->addWidget(lineEdit_Conuctivity, 1, 0, 1, 1);
 
@@ -353,18 +359,18 @@ public:
 
         gridLayout = new QGridLayout();
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        doubleSpinBox_flowRate = new QDoubleSpinBox(centralwidget);
-        doubleSpinBox_flowRate->setObjectName(QStringLiteral("doubleSpinBox_flowRate"));
-        sizePolicy.setHeightForWidth(doubleSpinBox_flowRate->sizePolicy().hasHeightForWidth());
-        doubleSpinBox_flowRate->setSizePolicy(sizePolicy);
-        doubleSpinBox_flowRate->setMinimumSize(QSize(100, 20));
-        doubleSpinBox_flowRate->setMaximumSize(QSize(100, 20));
-        doubleSpinBox_flowRate->setFont(font);
-        doubleSpinBox_flowRate->setAlignment(Qt::AlignCenter);
-        doubleSpinBox_flowRate->setDecimals(0);
-        doubleSpinBox_flowRate->setValue(0);
+        doubleSpinBox_delayTime = new QDoubleSpinBox(centralwidget);
+        doubleSpinBox_delayTime->setObjectName(QStringLiteral("doubleSpinBox_delayTime"));
+        sizePolicy.setHeightForWidth(doubleSpinBox_delayTime->sizePolicy().hasHeightForWidth());
+        doubleSpinBox_delayTime->setSizePolicy(sizePolicy);
+        doubleSpinBox_delayTime->setMinimumSize(QSize(100, 20));
+        doubleSpinBox_delayTime->setMaximumSize(QSize(100, 20));
+        doubleSpinBox_delayTime->setFont(font);
+        doubleSpinBox_delayTime->setAlignment(Qt::AlignCenter);
+        doubleSpinBox_delayTime->setDecimals(0);
+        doubleSpinBox_delayTime->setValue(0);
 
-        gridLayout->addWidget(doubleSpinBox_flowRate, 0, 1, 1, 1);
+        gridLayout->addWidget(doubleSpinBox_delayTime, 0, 1, 1, 1);
 
         label_Flowrate = new QLabel(centralwidget);
         label_Flowrate->setObjectName(QStringLiteral("label_Flowrate"));
@@ -376,17 +382,17 @@ public:
 
         gridLayout->addWidget(label_Flowrate, 1, 0, 1, 1);
 
-        doubleSpinBox_delayTime = new QDoubleSpinBox(centralwidget);
-        doubleSpinBox_delayTime->setObjectName(QStringLiteral("doubleSpinBox_delayTime"));
-        sizePolicy.setHeightForWidth(doubleSpinBox_delayTime->sizePolicy().hasHeightForWidth());
-        doubleSpinBox_delayTime->setSizePolicy(sizePolicy);
-        doubleSpinBox_delayTime->setMinimumSize(QSize(100, 20));
-        doubleSpinBox_delayTime->setMaximumSize(QSize(100, 20));
-        doubleSpinBox_delayTime->setFont(font);
-        doubleSpinBox_delayTime->setAlignment(Qt::AlignCenter);
-        doubleSpinBox_delayTime->setDecimals(2);
+        doubleSpinBox_flowRate = new QDoubleSpinBox(centralwidget);
+        doubleSpinBox_flowRate->setObjectName(QStringLiteral("doubleSpinBox_flowRate"));
+        sizePolicy.setHeightForWidth(doubleSpinBox_flowRate->sizePolicy().hasHeightForWidth());
+        doubleSpinBox_flowRate->setSizePolicy(sizePolicy);
+        doubleSpinBox_flowRate->setMinimumSize(QSize(100, 20));
+        doubleSpinBox_flowRate->setMaximumSize(QSize(100, 20));
+        doubleSpinBox_flowRate->setFont(font);
+        doubleSpinBox_flowRate->setAlignment(Qt::AlignCenter);
+        doubleSpinBox_flowRate->setDecimals(2);
 
-        gridLayout->addWidget(doubleSpinBox_delayTime, 1, 1, 1, 1);
+        gridLayout->addWidget(doubleSpinBox_flowRate, 1, 1, 1, 1);
 
         label_delayTim = new QLabel(centralwidget);
         label_delayTim->setObjectName(QStringLiteral("label_delayTim"));
@@ -563,6 +569,7 @@ public:
         QFont font3;
         font3.setPointSize(13);
         lineEdit_OnTime->setFont(font3);
+        lineEdit_OnTime->setAlignment(Qt::AlignCenter);
         lineEdit_OnTime->setReadOnly(true);
 
         verticalLayout->addWidget(lineEdit_OnTime);
@@ -732,7 +739,7 @@ public:
 
     void retranslateUi(QMainWindow *Window_PumpControl)
     {
-        Window_PumpControl->setWindowTitle(QApplication::translate("Window_PumpControl", "MainWindow", nullptr));
+        Window_PumpControl->setWindowTitle(QApplication::translate("Window_PumpControl", "Window Pump Control", nullptr));
         label_Electrolyte->setText(QApplication::translate("Window_PumpControl", "Electrolyte Type:", nullptr));
         label_pH->setText(QApplication::translate("Window_PumpControl", "Electrolyte pH:", nullptr));
         label_Conductivity->setText(QApplication::translate("Window_PumpControl", "Conductivity (mS/cm):", nullptr));
