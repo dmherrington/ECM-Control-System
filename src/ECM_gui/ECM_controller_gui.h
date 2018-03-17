@@ -7,7 +7,7 @@
 #include "ECM_plot_identifier.h"
 
 #include "munk_dialog/window_munk_power_supply.h"
-#include "pump_dialog/dialog_pump_control.h"
+#include "pump_dialog/window_pump_control.h"
 
 #include "library_munk_power_supply/munk_power_supply.h"
 #include "library_galilMotionController/galil_motion_controller.h"

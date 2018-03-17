@@ -1,20 +1,20 @@
-#ifndef DIALOG_PUMP_CONTROL_H
-#define DIALOG_PUMP_CONTROL_H
+#ifndef WINDOW_PUMP_CONTROL_H
+#define WINDOW_PUMP_CONTROL_H
 
-#include <QDialog>
+#include <QMainWindow>
 #include "library_westinghouse510/westinghouse_510.h"
 
 namespace Ui {
-class Dialog_PumpControl;
+class Window_PumpControl;
 }
 
-class Dialog_PumpControl : public QDialog
+class Window_PumpControl : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit Dialog_PumpControl(const Westinghouse510* obj, QWidget *parent = 0);
-    ~Dialog_PumpControl();
+    explicit Window_PumpControl(const Westinghouse510* obj, QWidget *parent = 0);
+    ~Window_PumpControl();
 
 signals:
     void signal_updatePumpRunning(const bool &value);
@@ -43,8 +43,8 @@ private slots:
     void on_doubleSpinBox_delayTime_editingFinished();
 
 private:
-    Ui::Dialog_PumpControl *ui;
+    Ui::Window_PumpControl *ui;
     const Westinghouse510* m_pump;
 };
 
-#endif // DIALOG_PUMP_CONTROL_H
+#endif // WINDOW_PUMP_CONTROL_H

@@ -20,7 +20,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_Rigol = new RigolOscilliscope();
     m_Pump = new Westinghouse510(m_Sensoray,01);
 
-    Dialog_PumpControl* m_DialogPump = new Dialog_PumpControl(m_Pump);
+    Window_PumpControl* m_DialogPump = new Window_PumpControl(m_Pump);
     m_DialogPump->show();
 
     m_WindowMunk = new Window_MunkPowerSupply(m_Munk);

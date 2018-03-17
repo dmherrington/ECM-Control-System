@@ -54,13 +54,14 @@ SOURCES += \
     SensorDisplay/display_voltage.cpp \
     plot_central.cpp \
     misc_dialogs/dialog_custom_commands.cpp \
-    pump_dialog/dialog_pump_control.cpp \
     LED.cpp \
     munk_dialog/widget_segment_time_data.cpp \
     munk_dialog/widget_segment_time_display.cpp \
     munk_dialog/window_munk_power_supply.cpp \
     misc_dialogs/window_touchoff.cpp \
-    misc_dialogs/dialog_connections.cpp
+    misc_dialogs/dialog_connections.cpp \
+    pump_dialog/window_pump_control.cpp \
+    rigol_dialog/window_rigol_control.cpp
 
 HEADERS += \
         ECM_controller_gui.h \
@@ -73,25 +74,28 @@ HEADERS += \
     SensorDisplay/I_sensor_display.h \
     plot_central.h \
     misc_dialogs/dialog_custom_commands.h \
-    pump_dialog/dialog_pump_control.h \
     LED.h \
     munk_dialog/widget_segment_time_data.h \
     munk_dialog/widget_segment_time_display.h \
     munk_dialog/window_munk_power_supply.h \
     misc_dialogs/window_touchoff.h \
-    misc_dialogs/dialog_connections.h
+    misc_dialogs/dialog_connections.h \
+    pump_dialog/window_pump_control.h \
+    rigol_dialog/window_pump_control2.h \
+    rigol_dialog/window_rigol_control.h
 
 FORMS += \
         ECM_controller_gui.ui \
     additional_sensor_display.ui \
     SensorDisplay/display_base_plot_instantaneous.ui \
     misc_dialogs/dialog_custom_commands.ui \
-    pump_dialog/dialog_pump_control.ui \
     munk_dialog/widget_segment_time_data.ui \
     munk_dialog/widget_segment_time_display.ui \
     munk_dialog/window_munk_power_supply.ui \
     misc_dialogs/window_touchoff.ui \
-    misc_dialogs/dialog_connections.ui
+    misc_dialogs/dialog_connections.ui \
+    pump_dialog/window_pump_control.ui \
+    rigol_dialog/window_rigol_control.ui
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include

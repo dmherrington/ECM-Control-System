@@ -78,5 +78,18 @@ std::vector<MeasureCommand_Item> RigolMeasurementQueue::getMeasurementItems() co
     return rtn;
 }
 
+std::vector<MeasurementTypes> RigolMeasurementQueue::getMeasurementItemsPerChannel(const data_Rigol::AvailableChannels &channel) const
+{
+    std::vector<MeasurementTypes> rtn;
+    std::map<std::string,MeasureCommand_Item>::const_iterator it;
+    for (it = queue.begin(); it != queue.end(); ++it)
+    {
+        if(it->second.getChannel() == channel)
+            rtn.push_back(it->second.getMeasurementType());
+    }
+    return rtn;
+}
+
+
 } //end of namespace commands
 
