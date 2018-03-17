@@ -23,7 +23,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QWidget>
+#include "LED.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -48,9 +48,9 @@ public:
     QLineEdit *lineEdit_OnTime;
     QSpacerItem *verticalSpacer;
     QHBoxLayout *horizontalLayout;
-    QWidget *widget_PumpOn;
+    LED *widget_PumpOn;
     QSpacerItem *horizontalSpacer_2;
-    QWidget *widget_PumpOn_2;
+    LED *widget_PumpConnected;
     QGridLayout *gridLayout;
     QDoubleSpinBox *doubleSpinBox_flowRate;
     QLabel *label_Flowrate;
@@ -171,7 +171,8 @@ public:
 "}\n"
 "\n"
 "QLineEdit{\n"
-"border-radius:0;\n"
+"border-radius:1px solid red;\n"
+"background-color:#c4c4c4;\n"
 "}\n"
 "\n"
 "QProgressBar{\n"
@@ -261,6 +262,9 @@ public:
         lineEdit_Conuctivity->setMinimumSize(QSize(170, 20));
         lineEdit_Conuctivity->setMaximumSize(QSize(170, 20));
         lineEdit_Conuctivity->setFont(font);
+        lineEdit_Conuctivity->setStyleSheet(QLatin1String("QLineEdit{\n"
+"border-radius:1px solid red;\n"
+"}"));
 
         gridLayout_2->addWidget(lineEdit_Conuctivity, 1, 0, 1, 1);
 
@@ -448,7 +452,7 @@ public:
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        widget_PumpOn = new QWidget(Dialog_PumpControl);
+        widget_PumpOn = new LED(Dialog_PumpControl);
         widget_PumpOn->setObjectName(QStringLiteral("widget_PumpOn"));
         sizePolicy.setHeightForWidth(widget_PumpOn->sizePolicy().hasHeightForWidth());
         widget_PumpOn->setSizePolicy(sizePolicy);
@@ -460,13 +464,13 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer_2);
 
-        widget_PumpOn_2 = new QWidget(Dialog_PumpControl);
-        widget_PumpOn_2->setObjectName(QStringLiteral("widget_PumpOn_2"));
-        sizePolicy.setHeightForWidth(widget_PumpOn_2->sizePolicy().hasHeightForWidth());
-        widget_PumpOn_2->setSizePolicy(sizePolicy);
-        widget_PumpOn_2->setMinimumSize(QSize(80, 80));
+        widget_PumpConnected = new LED(Dialog_PumpControl);
+        widget_PumpConnected->setObjectName(QStringLiteral("widget_PumpConnected"));
+        sizePolicy.setHeightForWidth(widget_PumpConnected->sizePolicy().hasHeightForWidth());
+        widget_PumpConnected->setSizePolicy(sizePolicy);
+        widget_PumpConnected->setMinimumSize(QSize(80, 80));
 
-        horizontalLayout->addWidget(widget_PumpOn_2);
+        horizontalLayout->addWidget(widget_PumpConnected);
 
 
         verticalLayout_2->addLayout(horizontalLayout);

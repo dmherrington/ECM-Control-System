@@ -121,7 +121,8 @@ background-color:#3d3d3d;
 }
 
 QLineEdit{
-border-radius:0;
+border-radius:1px solid red;
+background-color:#c4c4c4;
 }
 
 QProgressBar{
@@ -312,6 +313,11 @@ width:20px;
           <font>
            <pointsize>10</pointsize>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLineEdit{
+border-radius:1px solid red;
+}</string>
          </property>
         </widget>
        </item>
@@ -553,7 +559,7 @@ width:20px;
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QWidget" name="widget_PumpOn" native="true">
+        <widget class="LED" name="widget_PumpOn" native="true">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -585,7 +591,7 @@ width:20px;
         </spacer>
        </item>
        <item>
-        <widget class="QWidget" name="widget_PumpOn_2" native="true">
+        <widget class="LED" name="widget_PumpConnected" native="true">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -824,6 +830,14 @@ width:20px;
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>LED</class>
+   <extends>QWidget</extends>
+   <header>LED.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

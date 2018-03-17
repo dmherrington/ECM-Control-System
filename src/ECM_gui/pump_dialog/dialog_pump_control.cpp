@@ -1,23 +1,23 @@
 #include "dialog_pump_control.h"
 #include "ui_dialog_pump_control.h"
 
-Dialog_PumpControl::Dialog_PumpControl(QWidget *parent) :
+Dialog_PumpControl::Dialog_PumpControl(const Westinghouse510* obj, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::Dialog_PumpControl)
-    //m_pump(obj)
+    ui(new Ui::Dialog_PumpControl),
+    m_pump(obj)
 {
     ui->setupUi(this);
-//    if(m_pump->m_State->pumpON.get())
-//    {
-//        ui->pushButton_PumpRunning->setText("OFF");
-//    }
-//    else
-//    {
-//        ui->pushButton_PumpRunning->setText("OFF");
-//    }
-//    ui->doubleSpinBox_flowRate->setValue(m_pump->m_State->flowRate.get());
+    if(m_pump->m_State->pumpON.get())
+    {
+        ui->pushButton_PumpRunning->setText("OFF");
+    }
+    else
+    {
+        ui->pushButton_PumpRunning->setText("OFF");
+    }
+    ui->doubleSpinBox_flowRate->setValue(m_pump->m_State->flowRate.get());
 
-//    ui->doubleSpinBox_delayTime->setValue(m_pump->m_State->delayTime.get());
+    ui->doubleSpinBox_delayTime->setValue(m_pump->m_State->delayTime.get());
 }
 
 Dialog_PumpControl::~Dialog_PumpControl()
