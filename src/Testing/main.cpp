@@ -30,12 +30,12 @@ int main(int argc, char *argv[])
 //    GalilMotionController* newGalil = new GalilMotionController();
 //    MunkPowerSupply* newMunk = new MunkPowerSupply();
 
-//    Sensoray* newInterface = new Sensoray();
-//    comms_Sensoray::SensorayTCPConfiguration sensorayConfig;
+    Sensoray* newInterface = new Sensoray();
+    comms_Sensoray::SensorayTCPConfiguration sensorayConfig;
 
-//    newInterface->openConnection(sensorayConfig);
+    //newInterface->openConnection(sensorayConfig);
 
-//    Westinghouse510* pump = new Westinghouse510(newInterface,01);
+    Westinghouse510* pump = new Westinghouse510(newInterface,01);
 //    registers_WestinghousePump::Register_OperationSignal newOps;
 //    newOps.setSlaveAddress(01);
 //    newOps.shouldReverse(false);

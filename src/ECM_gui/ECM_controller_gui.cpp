@@ -20,11 +20,12 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_Rigol = new RigolOscilliscope();
     m_Pump = new Westinghouse510(m_Sensoray,01);
 
-    Window_PumpControl* m_DialogPump = new Window_PumpControl(m_Pump);
-    m_DialogPump->show();
-
     m_WindowMunk = new Window_MunkPowerSupply(m_Munk);
     m_WindowMunk->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
+
+    m_WindowPump = new Window_PumpControl(m_Pump);
+    m_WindowPump->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
+    m_WindowPump->show();
 
     readSettings();
 
@@ -104,6 +105,7 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
     settings.setValue("munkDisplayed",m_WindowMunk->isHidden());
 
     m_WindowMunk->close();
+    m_WindowPump->close();
     event->accept();
 }
 

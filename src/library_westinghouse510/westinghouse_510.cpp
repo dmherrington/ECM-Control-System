@@ -6,7 +6,8 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
     qRegisterMetaType<common::comms::CommunicationUpdate>("CommunicationUpdate");
 
     this->m_Comms = commsObject;
-    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortConnection(common::comms::CommunicationUpdate)),this,SLOT(slot_SerialPortConnection(common::comms::CommunicationUpdate)));
+
+    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortConnection(common::comms::CommunicationConnection)),this,SLOT(slot_SerialPortConnection(common::comms::CommunicationConnection)));
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_SerialPortUpdate(common::comms::CommunicationUpdate)));
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_RXNewSerialData(QByteArray)),this,SLOT(slot_SerialPortReceivedData(QByteArray)));
 

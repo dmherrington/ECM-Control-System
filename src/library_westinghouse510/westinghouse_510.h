@@ -18,7 +18,7 @@ class LIBRARY_WESTINGHOUSE510SHARED_EXPORT Westinghouse510 : public QObject
 {
     Q_OBJECT
 public:
-    Westinghouse510(const common::comms::ICommunication *commsObject, const int &pumpAddress);
+    Westinghouse510(const common::comms::ICommunication* commsObject, const int &pumpAddress);
 
     ~Westinghouse510() = default;
 
@@ -33,7 +33,7 @@ signals:
     void signal_PumpOperating(const bool &value);
 
 private slots:
-    void slot_SerialPortConnection(const common::comms::CommunicationConnection &connection);
+    void slot_SerialPortConnection(const common::comms::CommunicationConnection &update);
     void slot_SerialPortUpdate(const common::comms::CommunicationUpdate &connection);
 public slots:
     void slot_SerialPortReceivedData(const QByteArray &data);

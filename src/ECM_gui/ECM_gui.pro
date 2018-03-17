@@ -60,8 +60,8 @@ SOURCES += \
     munk_dialog/window_munk_power_supply.cpp \
     misc_dialogs/window_touchoff.cpp \
     misc_dialogs/dialog_connections.cpp \
-    pump_dialog/window_pump_control.cpp \
-    rigol_dialog/window_rigol_control.cpp
+    rigol_dialog/window_rigol_control.cpp \
+    pump_dialog/window_pump_control.cpp
 
 HEADERS += \
         ECM_controller_gui.h \
@@ -80,9 +80,9 @@ HEADERS += \
     munk_dialog/window_munk_power_supply.h \
     misc_dialogs/window_touchoff.h \
     misc_dialogs/dialog_connections.h \
-    pump_dialog/window_pump_control.h \
     rigol_dialog/window_pump_control2.h \
-    rigol_dialog/window_rigol_control.h
+    rigol_dialog/window_rigol_control.h \
+    pump_dialog/window_pump_control.h
 
 FORMS += \
         ECM_controller_gui.ui \
@@ -94,8 +94,8 @@ FORMS += \
     munk_dialog/window_munk_power_supply.ui \
     misc_dialogs/window_touchoff.ui \
     misc_dialogs/dialog_connections.ui \
-    pump_dialog/window_pump_control.ui \
-    rigol_dialog/window_rigol_control.ui
+    rigol_dialog/window_rigol_control.ui \
+    pump_dialog/window_pump_control.ui
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include
@@ -162,11 +162,6 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../library_galilMotionController/ -llibrary
 
 INCLUDEPATH += $$PWD/../library_galilMotionController
 DEPENDPATH += $$PWD/../library_galilMotionController
-
-
-
-
-
 
 
 

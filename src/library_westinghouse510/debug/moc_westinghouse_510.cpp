@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Westinghouse510_t {
-    QByteArrayData data[12];
-    char stringdata0[233];
+    QByteArrayData data[13];
+    char stringdata0[240];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -38,20 +38,22 @@ QT_MOC_LITERAL(3, 40, 5), // "value"
 QT_MOC_LITERAL(4, 46, 20), // "signal_PumpOperating"
 QT_MOC_LITERAL(5, 67, 25), // "slot_SerialPortConnection"
 QT_MOC_LITERAL(6, 93, 38), // "common::comms::CommunicationC..."
-QT_MOC_LITERAL(7, 132, 10), // "connection"
-QT_MOC_LITERAL(8, 143, 21), // "slot_SerialPortUpdate"
-QT_MOC_LITERAL(9, 165, 34), // "common::comms::CommunicationU..."
-QT_MOC_LITERAL(10, 200, 27), // "slot_SerialPortReceivedData"
-QT_MOC_LITERAL(11, 228, 4) // "data"
+QT_MOC_LITERAL(7, 132, 6), // "update"
+QT_MOC_LITERAL(8, 139, 21), // "slot_SerialPortUpdate"
+QT_MOC_LITERAL(9, 161, 34), // "common::comms::CommunicationU..."
+QT_MOC_LITERAL(10, 196, 10), // "connection"
+QT_MOC_LITERAL(11, 207, 27), // "slot_SerialPortReceivedData"
+QT_MOC_LITERAL(12, 235, 4) // "data"
 
     },
     "Westinghouse510\0signal_PumpFlowUpdated\0"
     "\0value\0signal_PumpOperating\0"
     "slot_SerialPortConnection\0"
     "common::comms::CommunicationConnection\0"
-    "connection\0slot_SerialPortUpdate\0"
+    "update\0slot_SerialPortUpdate\0"
     "common::comms::CommunicationUpdate\0"
-    "slot_SerialPortReceivedData\0data"
+    "connection\0slot_SerialPortReceivedData\0"
+    "data"
 };
 #undef QT_MOC_LITERAL
 
@@ -75,7 +77,7 @@ static const uint qt_meta_data_Westinghouse510[] = {
  // slots: name, argc, parameters, tag, flags
        5,    1,   45,    2, 0x08 /* Private */,
        8,    1,   48,    2, 0x08 /* Private */,
-      10,    1,   51,    2, 0x0a /* Public */,
+      11,    1,   51,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Double,    3,
@@ -83,8 +85,8 @@ static const uint qt_meta_data_Westinghouse510[] = {
 
  // slots: parameters
     QMetaType::Void, 0x80000000 | 6,    7,
-    QMetaType::Void, 0x80000000 | 9,    7,
-    QMetaType::Void, QMetaType::QByteArray,   11,
+    QMetaType::Void, 0x80000000 | 9,   10,
+    QMetaType::Void, QMetaType::QByteArray,   12,
 
        0        // eod
 };

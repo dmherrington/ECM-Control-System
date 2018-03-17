@@ -97,6 +97,7 @@ private:
     AdditionalSensorDisplay *m_additionalSensorDisplay;
 
     Window_MunkPowerSupply* m_WindowMunk;
+    Window_PumpControl* m_WindowPump;
 
     MunkPowerSupply* m_Munk;
     GalilMotionController* m_Galil;

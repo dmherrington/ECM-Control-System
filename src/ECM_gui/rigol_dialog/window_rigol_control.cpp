@@ -1,7 +1,7 @@
 #include "window_rigol_control.h"
 #include "ui_window_rigol_control.h"
 
-Window_RigolControl::Window_RigolControl(const RigolOscilliscope* obj, QWidget *parent) :
+Window_RigolControl::Window_RigolControl(RigolOscilliscope *obj, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Window_RigolControl),
     m_Rigol(obj)
@@ -22,7 +22,7 @@ void Window_RigolControl::on_pushButton_Done_released()
 void Window_RigolControl::on_comboBox_Channel_currentIndexChanged(const QString &arg1)
 {
     this->resetRadioButtons();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(arg1);
+    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(arg1.toStdString());
     commands_Rigol::RigolMeasurementQueue currentQueue = m_Rigol->getCurrentPollingMeasurements();
     std::vector<data_Rigol::MeasurementTypes> currentMeasurements = currentQueue.getMeasurementItemsPerChannel(currentChannel);
     for(int i = 0; i < currentMeasurements.size(); i++)
@@ -141,10 +141,14 @@ void Window_RigolControl::resetRadioButtons()
 
 void Window_RigolControl::on_radioButton_AMP_toggled(bool checked)
 {
-   QString comboboxText = ui->comboBox_Channel->currentText();
-   data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-   commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_VAMP);
-   m_Rigol->addPollingMeasurement(newMeasurement);
+
+    QString comboboxText = ui->comboBox_Channel->currentText();
+    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
+    commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_VAMP);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_AVG_toggled(bool checked)
@@ -152,7 +156,10 @@ void Window_RigolControl::on_radioButton_AVG_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_VAVG);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_BASE_toggled(bool checked)
@@ -160,7 +167,10 @@ void Window_RigolControl::on_radioButton_BASE_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_VBASE);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_FDELAY_toggled(bool checked)
@@ -168,7 +178,10 @@ void Window_RigolControl::on_radioButton_FDELAY_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_FDELAY);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_FPHASE_toggled(bool checked)
@@ -176,7 +189,10 @@ void Window_RigolControl::on_radioButton_FPHASE_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_FPHASE);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_FREQUENCY_toggled(bool checked)
@@ -184,7 +200,10 @@ void Window_RigolControl::on_radioButton_FREQUENCY_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_FREQUENCY);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_FTIME_toggled(bool checked)
@@ -192,7 +211,10 @@ void Window_RigolControl::on_radioButton_FTIME_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_FTIME);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_MAREA_toggled(bool checked)
@@ -200,7 +222,10 @@ void Window_RigolControl::on_radioButton_MAREA_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_MAREA);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_MAX_toggled(bool checked)
@@ -208,7 +233,10 @@ void Window_RigolControl::on_radioButton_MAX_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_VMAX);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_MIN_toggled(bool checked)
@@ -216,7 +244,10 @@ void Window_RigolControl::on_radioButton_MIN_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_VMIN);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_MPAREA_toggled(bool checked)
@@ -224,7 +255,10 @@ void Window_RigolControl::on_radioButton_MPAREA_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_MPAREA);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_NDUTY_toggled(bool checked)
@@ -232,7 +266,10 @@ void Window_RigolControl::on_radioButton_NDUTY_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_NDUTY);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_NWIDTH_toggled(bool checked)
@@ -240,7 +277,10 @@ void Window_RigolControl::on_radioButton_NWIDTH_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_NWIDTH);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_OVERSHOOT_toggled(bool checked)
@@ -248,7 +288,10 @@ void Window_RigolControl::on_radioButton_OVERSHOOT_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_OVERSHOOT);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_PDUTY_toggled(bool checked)
@@ -256,7 +299,10 @@ void Window_RigolControl::on_radioButton_PDUTY_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_PDUTY);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_PERIOD_toggled(bool checked)
@@ -264,7 +310,10 @@ void Window_RigolControl::on_radioButton_PERIOD_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_PERIOD);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_PRESHOOT_toggled(bool checked)
@@ -272,7 +321,10 @@ void Window_RigolControl::on_radioButton_PRESHOOT_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_PRESHOOT);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_PWIDTH_toggled(bool checked)
@@ -280,7 +332,10 @@ void Window_RigolControl::on_radioButton_PWIDTH_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_PWIDTH);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_RDELAY_toggled(bool checked)
@@ -288,7 +343,10 @@ void Window_RigolControl::on_radioButton_RDELAY_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_RDELAY);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_RMS_toggled(bool checked)
@@ -296,7 +354,10 @@ void Window_RigolControl::on_radioButton_RMS_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_VRMS);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_RPHASE_toggled(bool checked)
@@ -304,7 +365,10 @@ void Window_RigolControl::on_radioButton_RPHASE_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_RPHASE);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_RTIME_toggled(bool checked)
@@ -312,7 +376,10 @@ void Window_RigolControl::on_radioButton_RTIME_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_RTIME);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_VPP_toggled(bool checked)
@@ -320,7 +387,10 @@ void Window_RigolControl::on_radioButton_VPP_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_VPP);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }
 
 void Window_RigolControl::on_radioButton_VTOP_toggled(bool checked)
@@ -328,5 +398,8 @@ void Window_RigolControl::on_radioButton_VTOP_toggled(bool checked)
     QString comboboxText = ui->comboBox_Channel->currentText();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
     commands_Rigol::MeasureCommand_Item newMeasurement(currentChannel,data_Rigol::MeasurementTypes::MEASURE_VTOP);
-    m_Rigol->addPollingMeasurement(newMeasurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
 }

@@ -14,7 +14,7 @@ class Window_RigolControl : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit Window_RigolControl(const RigolOscilliscope* obj, QWidget *parent = 0);
+    explicit Window_RigolControl(RigolOscilliscope* obj, QWidget *parent = 0);
     ~Window_RigolControl();
 
 signals:
@@ -56,7 +56,7 @@ private:
 
 private:
     Ui::Window_RigolControl *ui;
-    const RigolOscilliscope* m_Rigol;
+    RigolOscilliscope* m_Rigol;
 };
 
 #endif // WINDOW_RIGOL_CONTROL_H

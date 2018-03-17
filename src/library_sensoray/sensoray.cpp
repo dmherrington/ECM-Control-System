@@ -1,7 +1,8 @@
 #include "sensoray.h"
 
 Sensoray::Sensoray(const std::string &name, QObject *parent):
-    QObject(parent)
+    QObject(parent),
+    ICommunication()
 {
     qRegisterMetaType<common::comms::CommunicationConnection>("CommunicationConnection");
     qRegisterMetaType<common::comms::CommunicationUpdate>("CommunicationUpdate");
