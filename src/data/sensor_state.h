@@ -30,7 +30,7 @@ public:
     //!
     //! \brief Constructor specificying to allocate dynamic space or not
     //!
-    //! If this object is to immediattly assigned to, it may be worthwile to not allocate space.
+    //! If this object is to immediately assigned to, it may be worthwile to not allocate space.
     //! \param allocate true if we are to allocate space in the object
     //!
     SensorState(bool allocate);

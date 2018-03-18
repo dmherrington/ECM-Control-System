@@ -34,6 +34,10 @@ QT_BEGIN_NAMESPACE
 class Ui_Window_RigolControl
 {
 public:
+    QAction *actionOpen;
+    QAction *actionSave;
+    QAction *actionSave_As;
+    QAction *actionClose;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
     QRadioButton *radioButton_MAX;
@@ -87,11 +91,7 @@ public:
         Window_RigolControl->setSizePolicy(sizePolicy);
         Window_RigolControl->setMinimumSize(QSize(501, 260));
         Window_RigolControl->setMaximumSize(QSize(1000, 1000));
-        Window_RigolControl->setStyleSheet(QLatin1String("QMainWindow{\n"
-"background-color:#1d1d1d;\n"
-"}\n"
-"\n"
-"QMenuBar{\n"
+        Window_RigolControl->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
 "	font: 12pt \"MS Shell Dlg 2\";\n"
@@ -132,8 +132,8 @@ public:
 "\n"
 "}\n"
 "QHeaderView{\n"
-"background-color:qlineargradient"
-                        "(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, 217, 255), stop:1 rgba(36, 158, 217, 255));\n"
+"background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, "
+                        "217, 255), stop:1 rgba(36, 158, 217, 255));\n"
 "\n"
 "border:none;\n"
 "border-top-style:solid;\n"
@@ -179,9 +179,9 @@ public:
 "border-width:2px;\n"
 "}\n"
 "\n"
-""
-                        "QPushButton:pressed{\n"
-"background-color: qlineargradient(spread:pad, x1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(29, 29, 29, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
+"QPushButton:pressed{\n"
+"background-color: qlineargrad"
+                        "ient(spread:pad, x1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(29, 29, 29, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
 "}\n"
 "\n"
 "\n"
@@ -209,6 +209,14 @@ public:
 "background-color:#2d89ef;\n"
 "width:20px;\n"
 "}"));
+        actionOpen = new QAction(Window_RigolControl);
+        actionOpen->setObjectName(QStringLiteral("actionOpen"));
+        actionSave = new QAction(Window_RigolControl);
+        actionSave->setObjectName(QStringLiteral("actionSave"));
+        actionSave_As = new QAction(Window_RigolControl);
+        actionSave_As->setObjectName(QStringLiteral("actionSave_As"));
+        actionClose = new QAction(Window_RigolControl);
+        actionClose->setObjectName(QStringLiteral("actionClose"));
         centralwidget = new QWidget(Window_RigolControl);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
@@ -495,6 +503,12 @@ public:
         menubar->addAction(menuEdit->menuAction());
         menubar->addAction(menuTools->menuAction());
         menubar->addAction(menuHelp->menuAction());
+        menuFile->addAction(actionOpen);
+        menuFile->addSeparator();
+        menuFile->addAction(actionSave);
+        menuFile->addAction(actionSave_As);
+        menuFile->addSeparator();
+        menuFile->addAction(actionClose);
 
         retranslateUi(Window_RigolControl);
 
@@ -503,7 +517,11 @@ public:
 
     void retranslateUi(QMainWindow *Window_RigolControl)
     {
-        Window_RigolControl->setWindowTitle(QApplication::translate("Window_RigolControl", "MainWindow", nullptr));
+        Window_RigolControl->setWindowTitle(QApplication::translate("Window_RigolControl", "Window Rigol Control", nullptr));
+        actionOpen->setText(QApplication::translate("Window_RigolControl", "Open", nullptr));
+        actionSave->setText(QApplication::translate("Window_RigolControl", "Save", nullptr));
+        actionSave_As->setText(QApplication::translate("Window_RigolControl", "Save As", nullptr));
+        actionClose->setText(QApplication::translate("Window_RigolControl", "Close", nullptr));
         radioButton_MAX->setText(QApplication::translate("Window_RigolControl", "MAX", nullptr));
         radioButton_BASE->setText(QApplication::translate("Window_RigolControl", "BASE", nullptr));
         radioButton_OVERSHOOT->setText(QApplication::translate("Window_RigolControl", "OVERSHOOT", nullptr));

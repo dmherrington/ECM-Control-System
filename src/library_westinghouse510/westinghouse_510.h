@@ -18,7 +18,7 @@ class LIBRARY_WESTINGHOUSE510SHARED_EXPORT Westinghouse510 : public QObject
 {
     Q_OBJECT
 public:
-    Westinghouse510(const common::comms::ICommunication* commsObject, const int &pumpAddress);
+    Westinghouse510(const common::comms::ICommunication* commsObject, const int &pumpAddress, const std::string &name = "Westinghouse Pump");
 
     ~Westinghouse510() = default;
 
@@ -29,13 +29,14 @@ private:
     void parseReceivedMessage(const comms_WestinghousePump::WestinghouseMessage &msg);
 
 signals:
+    void signal_PumpConnectionUpdate(const common::comms::CommunicationConnection &value) const;
     void signal_PumpFlowUpdated(const double &value);
     void signal_PumpOperating(const bool &value);
 
 private slots:
-    void slot_SerialPortConnection(const common::comms::CommunicationConnection &update);
-    void slot_SerialPortUpdate(const common::comms::CommunicationUpdate &connection);
-public slots:
+    void slot_SerialPortReadyToConnect();
+    void slot_SerialPortConnectionUpdate(const common::comms::CommunicationConnection &update);
+    void slot_SerialPortStatusUpdate(const common::comms::CommunicationUpdate &connection);
     void slot_SerialPortReceivedData(const QByteArray &data);
 
 
@@ -45,6 +46,7 @@ public:
 private:
     const common::comms::ICommunication* m_Comms;
     comms_WestinghousePump::WestinghouseDataFraming* m_DataFraming;
+    std::string deviceName;
 };
 
 #endif // WESTINGHOUSE_510_H

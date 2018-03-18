@@ -3,7 +3,7 @@
 RigolOscilliscope::RigolOscilliscope(const std::string &name, QObject *parent):
     QObject(parent)
 {
-    this->sensorName = name;
+    this->deviceName = name;
 
     pollStatus = new RigolPollMeasurement();
     pollStatus->connectCallback(this);
@@ -91,13 +91,15 @@ void RigolOscilliscope::cbi_RigolMeasurementRequests(const commands_Rigol::Measu
 //////////////////////////////////////////////////////////////
 void RigolOscilliscope::ConnectionOpened() const
 {
-    std::cout<<"A connection has been opened to the rigol."<<std::endl;
     this->initializeRigol();
+    common::comms::CommunicationConnection connection(deviceName,true);
+    emit signal_RigolConnectionUpdate(connection);
 }
 
 void RigolOscilliscope::ConnectionClosed() const
 {
-    std::cout<<"A connection has been closed to the rigol."<<std::endl;
+    common::comms::CommunicationConnection connection(deviceName,true);
+    emit signal_RigolConnectionUpdate(connection);
 }
 
 void RigolOscilliscope::initializeRigol() const

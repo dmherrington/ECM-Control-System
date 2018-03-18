@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "library_galilMotionController/galil_motion_controller.h"
+
 namespace Ui {
 class Window_Touchoff;
 }
@@ -12,11 +14,24 @@ class Window_Touchoff : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit Window_Touchoff(QWidget *parent = 0);
+    explicit Window_Touchoff(GalilMotionController* obj, QWidget *parent = 0);
     ~Window_Touchoff();
+
+    bool isWindowHidden() const;
+
+protected:
+    void readSettings();
+    void closeEvent(QCloseEvent *event);
+    void showEvent(QShowEvent *event);
+    void hideEvent(QHideEvent *event);
+
+private slots:
+    void on_actionClose_triggered();
 
 private:
     Ui::Window_Touchoff *ui;
+    GalilMotionController* m_MotionController;
+    bool windowHidden = true;
 };
 
 #endif // WINDOW_TOUCHOFF_H

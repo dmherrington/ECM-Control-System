@@ -1,14 +1,15 @@
 #include "westinghouse_510.h"
 
-Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObject, const int &pumpAddress)
+Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObject, const int &pumpAddress, const std::string &name):
+    m_Comms(commsObject),
+    deviceName(name)
 {
     qRegisterMetaType<common::comms::CommunicationConnection>("CommunicationConnection");
     qRegisterMetaType<common::comms::CommunicationUpdate>("CommunicationUpdate");
 
-    this->m_Comms = commsObject;
-
-    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortConnection(common::comms::CommunicationConnection)),this,SLOT(slot_SerialPortConnection(common::comms::CommunicationConnection)));
-    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_SerialPortUpdate(common::comms::CommunicationUpdate)));
+    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortReadyToConnect()),this,SLOT(slot_SerialPortReadyToConnect()));
+    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortConnection(common::comms::CommunicationConnection)),this,SLOT(slot_SerialPortConnectionUpdate(common::comms::CommunicationConnection)));
+    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_SerialPortStatusUpdate(common::comms::CommunicationUpdate)));
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_RXNewSerialData(QByteArray)),this,SLOT(slot_SerialPortReceivedData(QByteArray)));
 
     this->m_State = new Westinghouse510_State();
@@ -37,12 +38,19 @@ void Westinghouse510::setPumpOperations(const registers_WestinghousePump::Regist
     this->m_Comms->writeToSerialPort(desOps.getFullMessage());
 }
 
-void Westinghouse510::slot_SerialPortConnection(const common::comms::CommunicationConnection &connection)
+void Westinghouse510::slot_SerialPortReadyToConnect()
 {
-    this->m_State->pumpConnected = connection.isConnected();
+    common::comms::SerialConfiguration config("WestinghousePort");
+    this->m_Comms->openSerialPortConnection(config);
 }
 
-void Westinghouse510::slot_SerialPortUpdate(const common::comms::CommunicationUpdate &update)
+void Westinghouse510::slot_SerialPortConnectionUpdate(const common::comms::CommunicationConnection &connection)
+{
+    this->m_State->pumpConnected = connection.isConnected();
+    emit signal_PumpConnectionUpdate(connection);
+}
+
+void Westinghouse510::slot_SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update)
 {
 
 }

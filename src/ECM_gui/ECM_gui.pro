@@ -184,3 +184,10 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../library_sensoray/ -llibrary_sensoray
 
 INCLUDEPATH += $$PWD/../library_sensoray
 DEPENDPATH += $$PWD/../library_sensoray
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../ECM_API/release/ -lECM_API
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../ECM_API/debug/ -lECM_API
+else:unix:!macx: LIBS += -L$$OUT_PWD/../ECM_API/ -lECM_API
+
+INCLUDEPATH += $$PWD/../ECM_API
+DEPENDPATH += $$PWD/../ECM_API

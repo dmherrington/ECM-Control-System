@@ -56,6 +56,11 @@ bool CommsMarshaler::DisconnetFromLink()
     return link->isConnected();
 }
 
+bool CommsMarshaler::isLinkConnected() const
+{
+    return link->isConnected();
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /// Methods supporting the Connect/Disconnect from of the Sensory Device and accompanying
 /// RS485 port

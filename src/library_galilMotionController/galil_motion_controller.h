@@ -13,6 +13,9 @@
 #include "gclibo.h"
 
 #include "library_galilmotioncontroller_global.h"
+
+#include "common/comms/communication_connection.h"
+
 #include "commands/command_components.h"
 #include "requests/request_components.h"
 #include "states/state_components.h"
@@ -48,7 +51,7 @@ class GMC_SHARED_EXPORT GalilMotionController : public QObject, public GalilStat
     Q_OBJECT
 
 public:
-    GalilMotionController();
+    GalilMotionController(const std::string &name = "Galil Motion Controller");
 
     ~GalilMotionController();
 
@@ -108,7 +111,9 @@ private:
     void cbi_ResetHomingLatch() override;
 
 signals:
-    void commsStatus(const bool &opened);
+    void signal_GalilConnectionUpdate(const common::comms::CommunicationConnection &value) const;
+
+    void signal_GalilNewPosition();
 
     void newProgramReceived(const std::string &programText);
 
@@ -142,6 +147,8 @@ uploading and/or downloading from the galil. */
 
 private:
     GalilSettings m_Settings; /**< Value of the axis to be disabled */
+
+    std::string deviceName;
 };
 
 #endif // GALIL_MOTION_CONTROLLER_H

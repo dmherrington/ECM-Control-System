@@ -17,6 +17,14 @@ public:
     explicit Window_RigolControl(RigolOscilliscope* obj, QWidget *parent = 0);
     ~Window_RigolControl();
 
+    bool isWindowHidden() const;
+
+protected:
+    void readSettings();
+    void closeEvent(QCloseEvent *event);
+    void showEvent(QShowEvent *event);
+    void hideEvent(QHideEvent *event);
+
 signals:
     void signal_RigolHideWindow();
 
@@ -50,6 +58,8 @@ private slots:
 
     void on_comboBox_Channel_currentIndexChanged(const QString &arg1);
 
+    void on_actionClose_triggered();
+
 private:
     void setRadioButton(const data_Rigol::MeasurementTypes &measurement, const bool &value);
     void resetRadioButtons();
@@ -57,6 +67,7 @@ private:
 private:
     Ui::Window_RigolControl *ui;
     RigolOscilliscope* m_Rigol;
+    bool windowHidden = true;
 };
 
 #endif // WINDOW_RIGOL_CONTROL_H

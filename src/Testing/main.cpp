@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     Sensoray* newInterface = new Sensoray();
     comms_Sensoray::SensorayTCPConfiguration sensorayConfig;
 
-    //newInterface->openConnection(sensorayConfig);
+    newInterface->openConnection(sensorayConfig);
 
     Westinghouse510* pump = new Westinghouse510(newInterface,01);
 //    registers_WestinghousePump::Register_OperationSignal newOps;

@@ -106,7 +106,7 @@ void State_ScriptExecution::Update()
         case 1:
         {
             //the part is finished being cut
-            CommandExecuteProfile* command = new CommandExecuteProfile(CommandExecuteProfile::ProfileType::HOMING,"home");
+            CommandExecuteProfile* command = new CommandExecuteProfile(ProfileType::HOMING,"home");
             this->currentCommand = command;
             desiredState = ECMState::STATE_MOTION_STOP;
             break;

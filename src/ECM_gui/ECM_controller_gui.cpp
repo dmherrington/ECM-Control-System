@@ -14,13 +14,23 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     ui->setupUi(this);
 
+    m_API = new ECM_API();
 
-    m_WindowMunk = new Window_MunkPowerSupply(m_Munk);
+    m_WindowMunk = new Window_MunkPowerSupply(m_API->m_Munk);
     m_WindowMunk->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
 
-    m_WindowPump = new Window_PumpControl(m_Pump);
+    m_WindowPump = new Window_PumpControl(m_API->m_Pump);
     m_WindowPump->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
-    m_WindowPump->show();
+
+    m_WindowRigol = new Window_RigolControl(m_API->m_Rigol);
+    m_WindowRigol->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
+
+    m_WindowTouchoff = new Window_Touchoff();
+    m_WindowTouchoff->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
+
+    m_DialogConnections = new Dialog_Connections(m_API);
+    m_WindowTouchoff->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowCloseButtonHint);
+
 
     readSettings();
 
@@ -86,12 +96,20 @@ void ECMControllerGUI::readSettings()
     QSize size = settings.value("size", QSize(400, 400)).toSize();
     bool munkHidden = settings.value("munkDisplayed", false).toBool();
     bool pumpHidden = settings.value("pumpDisplayed", false).toBool();
+    bool rigolHidden = settings.value("rigolDisplayed", false).toBool();
+    bool touchoffHidden = settings.value("touchoffDisplayed", false).toBool();
 
     if(!munkHidden)
         m_WindowMunk->show();
 
     if(!pumpHidden)
         m_WindowPump->show();
+
+    if(!munkHidden)
+        m_WindowRigol->show();
+
+    if(!pumpHidden)
+        m_WindowTouchoff->show();
 
     resize(size);
     move(pos);
@@ -102,11 +120,15 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
     QSettings settings("Trolltech", "Application Example");
     settings.setValue("pos", pos());
     settings.setValue("size", size());
-    settings.setValue("munkDisplayed",m_WindowMunk->isHidden());
-    settings.setValue("pumpDisplayed",m_WindowPump->isHidden());
+    settings.setValue("munkDisplayed",m_WindowMunk->isWindowHidden());
+    settings.setValue("pumpDisplayed",m_WindowPump->isWindowHidden());
+    settings.setValue("rigolDisplayed",m_WindowRigol->isWindowHidden());
+    settings.setValue("touchoffDisplayed",m_WindowTouchoff->isWindowHidden());
 
     m_WindowMunk->close();
     m_WindowPump->close();
+    m_WindowRigol->close();
+    m_WindowTouchoff->close();
     event->accept();
 }
 
@@ -130,55 +152,55 @@ void ECMControllerGUI::on_pushButton_MotorEnable_released()
 {
     CommandMotorEnable command;
     command.setEnableAxis(MotorAxis::Z);
-    m_Galil->executeCommand(&command);
+    m_API->m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_doubleSpinBox_CutDepth_editingFinished()
 {
     Command_Variable command("maxdepth",ui->doubleSpinBox_CutDepth->value());
-    m_Galil->executeCommand(&command);
+    m_API->m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_doubleSpinBox_RetractDistance_editingFinished()
 {
     Command_Variable command("rtdist",ui->doubleSpinBox_RetractDistance->value());
-    m_Galil->executeCommand(&command);
+    m_API->m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_doubleSpinBox_StepSize_editingFinished()
 {
     Command_Variable command("step",ui->doubleSpinBox_StepSize->value());
-    m_Galil->executeCommand(&command);
+    m_API->m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_spinBox_RetractSpeed_editingFinished()
 {
     Command_Variable command("backsp",ui->spinBox_CutSpeed->value());
-    m_Galil->executeCommand(&command);
+    m_API->m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_spinBox_PlungeSpeed_editingFinished()
 {
     Command_Variable command("forsp",ui->spinBox_CutSpeed->value());
-    m_Galil->executeCommand(&command);
+    m_API->m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_spinBox_CutSpeed_editingFinished()
 {
     Command_Variable command("speed",ui->spinBox_CutSpeed->value());
-    m_Galil->executeCommand(&command);
+    m_API->m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_spinBox_RetractPeriod_editingFinished()
 {
     Command_Variable command("rtfq",ui->spinBox_RetractPeriod->value());
-    m_Galil->executeCommand(&command);
+    m_API->m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_spinBox_Pause_editingFinished()
 {
     Command_Variable command("rtpause",ui->spinBox_Pause->value());
-    m_Galil->executeCommand(&command);
+    m_API->m_Galil->executeCommand(&command);
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -189,26 +211,26 @@ void ECMControllerGUI::on_pushButton_IncreaseJog_pressed()
 {
     int jogRate = abs(ui->spinBox_Jog->value()) * (-1);
     CommandJog beginJog(MotorAxis::Z,jogRate);
-    m_Galil->executeCommand(&beginJog);
+    m_API->m_Galil->executeCommand(&beginJog);
 }
 
 void ECMControllerGUI::on_pushButton_IncreaseJog_released()
 {
     CommandStop stop(MotorAxis::Z);
-    m_Galil->executeCommand(&stop);
+    m_API->m_Galil->executeCommand(&stop);
 }
 
 void ECMControllerGUI::on_pushButton_DecreaseJog_pressed()
 {
     int jogRate = abs(ui->spinBox_Jog->value());
     CommandJog beginJog(MotorAxis::Z,jogRate);
-    m_Galil->executeCommand(&beginJog);
+    m_API->m_Galil->executeCommand(&beginJog);
 }
 
 void ECMControllerGUI::on_pushButton_DecreaseJog_released()
 {
     CommandStop stop(MotorAxis::Z);
-    m_Galil->executeCommand(&stop);
+    m_API->m_Galil->executeCommand(&stop);
 }
 
 
@@ -216,40 +238,40 @@ void ECMControllerGUI::on_pushButton_IncreaseRelativeMove_released()
 {
     int relativeDistance = abs(ui->spinBox_RelativeMove->value()) * (-1);
     CommandRelativeMove move(MotorAxis::Z, relativeDistance);
-    m_Galil->executeCommand(&move);
+    m_API->m_Galil->executeCommand(&move);
 }
 
 void ECMControllerGUI::on_pushButton_DecreaseRelativeMove_released()
 {
     int relativeDistance = abs(ui->spinBox_RelativeMove->value());
     CommandRelativeMove move(MotorAxis::Z, relativeDistance);
-    m_Galil->executeCommand(&move);
+    m_API->m_Galil->executeCommand(&move);
 }
 
 void ECMControllerGUI::on_pushButton_MotorDisable_released()
 {
     CommandMotorDisable command;
     command.setDisableAxis(MotorAxis::Z);
-    m_Galil->executeCommand(&command);
+    m_API->m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_pushButton_ResetHome_released()
 {
-    CommandExecuteProfile command(CommandExecuteProfile::ProfileType::HOMING,"latch");
-    m_Galil->executeCommand(&command);
+    CommandExecuteProfile command(ProfileType::HOMING,"latch");
+    m_API->m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_pushButton_MoveHome_released()
 {
     CommandAbsoluteMove command(MotorAxis::Z,0);
-    m_Galil->executeCommand(&command);
+    m_API->m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_pushButton_RunProfile_released()
 {
     //get the profile name from the GUI
     //CommandExecuteProfile command(CommandExecuteProfile::ProfileType::PROFILE,"touchof");
-    //m_Galil->executeCommand(&command);
+    //m_API->m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_pushButton_UploadProgram_released()
@@ -264,6 +286,16 @@ void ECMControllerGUI::on_pushButton_DownloadProgram_released()
 
 void ECMControllerGUI::on_pushButton_EstablishTouchoff_released()
 {
-    CommandExecuteProfile command(CommandExecuteProfile::ProfileType::TOUCHOFF,"touchof");
-    m_Galil->executeCommand(&command);
+    CommandExecuteProfile command(ProfileType::TOUCHOFF,"touchof");
+    m_API->m_Galil->executeCommand(&command);
+}
+
+void ECMControllerGUI::on_actionConnections_triggered()
+{
+    m_DialogConnections->show();
+}
+
+void ECMControllerGUI::on_actionPump_triggered()
+{
+    m_WindowPump->show();
 }

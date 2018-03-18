@@ -2,6 +2,8 @@
 #define COMMAND_EXECUTE_PROFILE_H
 
 #include "common/class_forward.h"
+#include "common/types_execution_profiles.h"
+
 #include "commands/abstract_command.h"
 
 #include "programs/program_generic.h"
@@ -10,14 +12,6 @@ ECM_CLASS_FORWARD(CommandExecuteProfile);
 
 class CommandExecuteProfile : public AbstractCommand
 {
-public:
-    enum class ProfileType
-    {
-        HOMING,
-        TOUCHOFF,
-        PROFILE
-    };
-
 public:
     CommandExecuteProfile(const ProfileType &type, const std::string &name);
 

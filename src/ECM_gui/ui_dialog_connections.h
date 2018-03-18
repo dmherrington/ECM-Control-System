@@ -14,7 +14,6 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDialog>
-#include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -28,25 +27,29 @@ class Ui_Dialog_Connections
 {
 public:
     QGridLayout *gridLayout;
-    QFormLayout *formLayout;
     LED *widget_GalilConnection;
     QLabel *label_GalilConnection;
+    QPushButton *pushButton_connectGalil;
     LED *widget_MunkConnection;
     QLabel *label_MunkConnection;
+    QPushButton *pushButton_connectMunk;
     LED *widget_RigolConnection;
     QLabel *label_RigolConnection;
+    QPushButton *pushButton_connect_Rigol;
     LED *widget_SensorayConnection;
     QLabel *label_SensorayConnection;
-    LED *widget_WestinhouseConnection;
+    QPushButton *pushButton_connectSensoray;
+    LED *widget_WestinghouseConnection;
     QLabel *label_WestinghouseConnection;
+    QPushButton *pushButton_connectPump;
     QSpacerItem *horizontalSpacer;
-    QPushButton *pushButton;
+    QPushButton *pushButton_Done;
 
     void setupUi(QDialog *Dialog_Connections)
     {
         if (Dialog_Connections->objectName().isEmpty())
             Dialog_Connections->setObjectName(QStringLiteral("Dialog_Connections"));
-        Dialog_Connections->resize(269, 236);
+        Dialog_Connections->resize(335, 236);
         Dialog_Connections->setStyleSheet(QLatin1String("QMainWindow{\n"
 "background-color:#1d1d1d;\n"
 "}\n"
@@ -170,8 +173,6 @@ public:
 "}"));
         gridLayout = new QGridLayout(Dialog_Connections);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        formLayout = new QFormLayout();
-        formLayout->setObjectName(QStringLiteral("formLayout"));
         widget_GalilConnection = new LED(Dialog_Connections);
         widget_GalilConnection->setObjectName(QStringLiteral("widget_GalilConnection"));
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -182,7 +183,7 @@ public:
         widget_GalilConnection->setMinimumSize(QSize(30, 30));
         widget_GalilConnection->setMaximumSize(QSize(30, 30));
 
-        formLayout->setWidget(0, QFormLayout::LabelRole, widget_GalilConnection);
+        gridLayout->addWidget(widget_GalilConnection, 0, 0, 1, 1);
 
         label_GalilConnection = new QLabel(Dialog_Connections);
         label_GalilConnection->setObjectName(QStringLiteral("label_GalilConnection"));
@@ -194,7 +195,14 @@ public:
         font.setPointSize(10);
         label_GalilConnection->setFont(font);
 
-        formLayout->setWidget(0, QFormLayout::FieldRole, label_GalilConnection);
+        gridLayout->addWidget(label_GalilConnection, 0, 1, 1, 2);
+
+        pushButton_connectGalil = new QPushButton(Dialog_Connections);
+        pushButton_connectGalil->setObjectName(QStringLiteral("pushButton_connectGalil"));
+        pushButton_connectGalil->setMinimumSize(QSize(75, 25));
+        pushButton_connectGalil->setMaximumSize(QSize(75, 25));
+
+        gridLayout->addWidget(pushButton_connectGalil, 0, 3, 1, 1);
 
         widget_MunkConnection = new LED(Dialog_Connections);
         widget_MunkConnection->setObjectName(QStringLiteral("widget_MunkConnection"));
@@ -203,7 +211,7 @@ public:
         widget_MunkConnection->setMinimumSize(QSize(30, 30));
         widget_MunkConnection->setMaximumSize(QSize(30, 30));
 
-        formLayout->setWidget(1, QFormLayout::LabelRole, widget_MunkConnection);
+        gridLayout->addWidget(widget_MunkConnection, 1, 0, 1, 1);
 
         label_MunkConnection = new QLabel(Dialog_Connections);
         label_MunkConnection->setObjectName(QStringLiteral("label_MunkConnection"));
@@ -213,7 +221,14 @@ public:
         label_MunkConnection->setMaximumSize(QSize(200, 30));
         label_MunkConnection->setFont(font);
 
-        formLayout->setWidget(1, QFormLayout::FieldRole, label_MunkConnection);
+        gridLayout->addWidget(label_MunkConnection, 1, 1, 1, 2);
+
+        pushButton_connectMunk = new QPushButton(Dialog_Connections);
+        pushButton_connectMunk->setObjectName(QStringLiteral("pushButton_connectMunk"));
+        pushButton_connectMunk->setMinimumSize(QSize(75, 25));
+        pushButton_connectMunk->setMaximumSize(QSize(75, 25));
+
+        gridLayout->addWidget(pushButton_connectMunk, 1, 3, 1, 1);
 
         widget_RigolConnection = new LED(Dialog_Connections);
         widget_RigolConnection->setObjectName(QStringLiteral("widget_RigolConnection"));
@@ -222,7 +237,7 @@ public:
         widget_RigolConnection->setMinimumSize(QSize(30, 30));
         widget_RigolConnection->setMaximumSize(QSize(30, 30));
 
-        formLayout->setWidget(2, QFormLayout::LabelRole, widget_RigolConnection);
+        gridLayout->addWidget(widget_RigolConnection, 2, 0, 1, 1);
 
         label_RigolConnection = new QLabel(Dialog_Connections);
         label_RigolConnection->setObjectName(QStringLiteral("label_RigolConnection"));
@@ -232,7 +247,14 @@ public:
         label_RigolConnection->setMaximumSize(QSize(200, 30));
         label_RigolConnection->setFont(font);
 
-        formLayout->setWidget(2, QFormLayout::FieldRole, label_RigolConnection);
+        gridLayout->addWidget(label_RigolConnection, 2, 1, 1, 2);
+
+        pushButton_connect_Rigol = new QPushButton(Dialog_Connections);
+        pushButton_connect_Rigol->setObjectName(QStringLiteral("pushButton_connect_Rigol"));
+        pushButton_connect_Rigol->setMinimumSize(QSize(75, 25));
+        pushButton_connect_Rigol->setMaximumSize(QSize(75, 25));
+
+        gridLayout->addWidget(pushButton_connect_Rigol, 2, 3, 1, 1);
 
         widget_SensorayConnection = new LED(Dialog_Connections);
         widget_SensorayConnection->setObjectName(QStringLiteral("widget_SensorayConnection"));
@@ -241,7 +263,7 @@ public:
         widget_SensorayConnection->setMinimumSize(QSize(30, 30));
         widget_SensorayConnection->setMaximumSize(QSize(30, 30));
 
-        formLayout->setWidget(3, QFormLayout::LabelRole, widget_SensorayConnection);
+        gridLayout->addWidget(widget_SensorayConnection, 3, 0, 1, 1);
 
         label_SensorayConnection = new QLabel(Dialog_Connections);
         label_SensorayConnection->setObjectName(QStringLiteral("label_SensorayConnection"));
@@ -251,16 +273,23 @@ public:
         label_SensorayConnection->setMaximumSize(QSize(200, 30));
         label_SensorayConnection->setFont(font);
 
-        formLayout->setWidget(3, QFormLayout::FieldRole, label_SensorayConnection);
+        gridLayout->addWidget(label_SensorayConnection, 3, 1, 1, 2);
 
-        widget_WestinhouseConnection = new LED(Dialog_Connections);
-        widget_WestinhouseConnection->setObjectName(QStringLiteral("widget_WestinhouseConnection"));
-        sizePolicy.setHeightForWidth(widget_WestinhouseConnection->sizePolicy().hasHeightForWidth());
-        widget_WestinhouseConnection->setSizePolicy(sizePolicy);
-        widget_WestinhouseConnection->setMinimumSize(QSize(30, 30));
-        widget_WestinhouseConnection->setMaximumSize(QSize(30, 30));
+        pushButton_connectSensoray = new QPushButton(Dialog_Connections);
+        pushButton_connectSensoray->setObjectName(QStringLiteral("pushButton_connectSensoray"));
+        pushButton_connectSensoray->setMinimumSize(QSize(75, 25));
+        pushButton_connectSensoray->setMaximumSize(QSize(75, 25));
 
-        formLayout->setWidget(4, QFormLayout::LabelRole, widget_WestinhouseConnection);
+        gridLayout->addWidget(pushButton_connectSensoray, 3, 3, 1, 1);
+
+        widget_WestinghouseConnection = new LED(Dialog_Connections);
+        widget_WestinghouseConnection->setObjectName(QStringLiteral("widget_WestinghouseConnection"));
+        sizePolicy.setHeightForWidth(widget_WestinghouseConnection->sizePolicy().hasHeightForWidth());
+        widget_WestinghouseConnection->setSizePolicy(sizePolicy);
+        widget_WestinghouseConnection->setMinimumSize(QSize(30, 30));
+        widget_WestinghouseConnection->setMaximumSize(QSize(30, 30));
+
+        gridLayout->addWidget(widget_WestinghouseConnection, 4, 0, 1, 1);
 
         label_WestinghouseConnection = new QLabel(Dialog_Connections);
         label_WestinghouseConnection->setObjectName(QStringLiteral("label_WestinghouseConnection"));
@@ -270,24 +299,28 @@ public:
         label_WestinghouseConnection->setMaximumSize(QSize(200, 30));
         label_WestinghouseConnection->setFont(font);
 
-        formLayout->setWidget(4, QFormLayout::FieldRole, label_WestinghouseConnection);
+        gridLayout->addWidget(label_WestinghouseConnection, 4, 1, 1, 2);
 
+        pushButton_connectPump = new QPushButton(Dialog_Connections);
+        pushButton_connectPump->setObjectName(QStringLiteral("pushButton_connectPump"));
+        pushButton_connectPump->setMinimumSize(QSize(75, 25));
+        pushButton_connectPump->setMaximumSize(QSize(75, 25));
 
-        gridLayout->addLayout(formLayout, 0, 0, 1, 2);
+        gridLayout->addWidget(pushButton_connectPump, 4, 3, 1, 1);
 
         horizontalSpacer = new QSpacerItem(142, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout->addItem(horizontalSpacer, 1, 0, 1, 1);
+        gridLayout->addItem(horizontalSpacer, 5, 0, 1, 2);
 
-        pushButton = new QPushButton(Dialog_Connections);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setMinimumSize(QSize(100, 30));
-        pushButton->setMaximumSize(QSize(100, 30));
+        pushButton_Done = new QPushButton(Dialog_Connections);
+        pushButton_Done->setObjectName(QStringLiteral("pushButton_Done"));
+        pushButton_Done->setMinimumSize(QSize(100, 30));
+        pushButton_Done->setMaximumSize(QSize(100, 30));
         QFont font1;
         font1.setPointSize(12);
-        pushButton->setFont(font1);
+        pushButton_Done->setFont(font1);
 
-        gridLayout->addWidget(pushButton, 1, 1, 1, 1);
+        gridLayout->addWidget(pushButton_Done, 5, 2, 1, 2);
 
 
         retranslateUi(Dialog_Connections);
@@ -299,11 +332,16 @@ public:
     {
         Dialog_Connections->setWindowTitle(QApplication::translate("Dialog_Connections", "Dialog", nullptr));
         label_GalilConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Galil Motion Controller", nullptr));
+        pushButton_connectGalil->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
         label_MunkConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Munk Power Supply", nullptr));
+        pushButton_connectMunk->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
         label_RigolConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Rigol Oscilliscope", nullptr));
+        pushButton_connect_Rigol->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
         label_SensorayConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Sensoray ", nullptr));
+        pushButton_connectSensoray->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
         label_WestinghouseConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Westinghouse Pump", nullptr));
-        pushButton->setText(QApplication::translate("Dialog_Connections", "OK", nullptr));
+        pushButton_connectPump->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
+        pushButton_Done->setText(QApplication::translate("Dialog_Connections", "OK", nullptr));
     } // retranslateUi
 
 };

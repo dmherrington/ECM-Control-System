@@ -7,6 +7,8 @@
 
 #include "library_rigol_oscilloscope_global.h"
 
+#include "common/comms/communication_connection.h"
+
 #include "data/type_read_write.h"
 
 #include "commands/acquire/acquire_components.h"
@@ -60,11 +62,10 @@ private:
 
 
 signals:
-
-public slots:
+    void signal_RigolConnectionUpdate(const common::comms::CommunicationConnection &value) const;
 
 private:
-    std::string sensorName;
+    std::string deviceName;
     comms_Rigol::RigolCommsMarshaler* commsMarshaler;
     RigolPollMeasurement* pollStatus;
     commands_Rigol::RigolMeasurementQueue queue;

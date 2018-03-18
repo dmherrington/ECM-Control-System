@@ -8,16 +8,17 @@
 
 #include "munk_dialog/window_munk_power_supply.h"
 #include "pump_dialog/window_pump_control.h"
-
-#include "library_munk_power_supply/munk_power_supply.h"
-#include "library_galilMotionController/galil_motion_controller.h"
-#include "library_sensoray/sensoray.h"
-#include "library_rigol_oscilloscope/rigol_oscilliscope.h"
-#include "library_westinghouse510/westinghouse_510.h"
+#include "rigol_dialog/window_rigol_control.h"
+#include "misc_dialogs/dialog_connections.h"
+#include "misc_dialogs/dialog_custom_commands.h"
+#include "misc_dialogs/window_touchoff.h"
 
 #include "additional_sensor_display.h"
 #include "common/threadmanager.h"
 #include "common/timer.h"
+
+#include "ECM_API/ecm_api.h"
+
 namespace Ui {
 class ECMControllerGUI;
 }
@@ -65,8 +66,6 @@ private slots:
     void on_pushButton_DecreaseRelativeMove_released();
 
 
-
-
     void on_doubleSpinBox_CutDepth_editingFinished();
 
     void on_doubleSpinBox_RetractDistance_editingFinished();
@@ -83,6 +82,10 @@ private slots:
 
     void on_spinBox_Pause_editingFinished();
 
+    void on_actionConnections_triggered();
+
+    void on_actionPump_triggered();
+
 protected:
     void readSettings();
     void closeEvent(QCloseEvent *event);
@@ -96,9 +99,14 @@ private:
 
     AdditionalSensorDisplay *m_additionalSensorDisplay;
 
+    ECM_API* m_API;
+
     Window_MunkPowerSupply* m_WindowMunk;
     Window_PumpControl* m_WindowPump;
-
+    Window_RigolControl* m_WindowRigol;
+    Dialog_Connections* m_DialogConnections;
+    Dialog_CustomCommands* m_DialogCustomCommands;
+    Window_Touchoff* m_WindowTouchoff;
 };
 
 #endif // ECM_CONTROLLER_GUI_H

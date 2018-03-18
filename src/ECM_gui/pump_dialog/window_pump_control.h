@@ -25,9 +25,10 @@ protected:
     void hideEvent(QHideEvent *event);
 
 private slots:
-    void slot_updatedDelayTime(const double &value);
 
-    void slot_updatedConnection();
+    void  slot_PumpConnectionUpdate(const common::comms::CommunicationConnection &value);
+
+    void slot_updatedDelayTime(const double &value);
 
     void slot_updatedPumpOn(const bool &value);
 
@@ -42,6 +43,8 @@ private slots:
     void on_doubleSpinBox_flowRate_valueChanged(double arg1);
 
     void on_doubleSpinBox_delayTime_valueChanged(double arg1);
+
+    void on_actionClose_triggered();
 
 private:
     Ui::Window_PumpControl *ui;

@@ -52,7 +52,9 @@ HEADERS += common.h\
     comms/communication_connection.h \
     comms/link_configuration.h \
     comms/serial_configuration.h \
-    comms/tcp_configuration.h
+    comms/tcp_configuration.h \
+    ecm_devices.h \
+    types_execution_profiles.h
 
 #Header file copy
 headers.path    = $$(ECM_ROOT)/include/common

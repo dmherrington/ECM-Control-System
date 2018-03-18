@@ -1,7 +1,8 @@
 #include "galil_motion_controller.h"
 
 
-GalilMotionController::GalilMotionController()
+GalilMotionController::GalilMotionController(const std::string &name):
+    deviceName(name)
 {
     std::vector<MotorAxis> availableAxis;
     availableAxis.push_back(MotorAxis::Z);
@@ -103,6 +104,8 @@ void GalilMotionController::LinkConnected() const
 {
     stateInterface->setConnected(true);
     galilPolling->beginPolling();
+    common::comms::CommunicationConnection connection(deviceName,true);
+    emit signal_GalilConnectionUpdate(connection);
 }
 
 
@@ -112,8 +115,9 @@ void GalilMotionController::LinkDisconnected() const
     {
         galilPolling->pausePolling();
         galilPolling->stop();
-
     }
+    common::comms::CommunicationConnection connection(deviceName,true);
+    emit signal_GalilConnectionUpdate(connection);
 }
 
 void GalilMotionController::NewStatusInputs(const StatusInputs &status)

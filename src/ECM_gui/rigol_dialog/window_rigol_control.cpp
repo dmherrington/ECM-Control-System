@@ -14,6 +14,37 @@ Window_RigolControl::~Window_RigolControl()
     delete ui;
 }
 
+bool Window_RigolControl::isWindowHidden() const
+{
+    return windowHidden;
+}
+
+void Window_RigolControl::readSettings()
+{
+    QSettings settings("Rigol Window", "ECM Application");
+    QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
+    QSize size = settings.value("size", QSize(400, 400)).toSize();
+    resize(size);
+    move(pos);
+}
+
+void Window_RigolControl::closeEvent(QCloseEvent *event)
+{
+    QSettings settings("Rigol Window", "ECM Application");
+    settings.setValue("pos", pos());
+    settings.setValue("size", size());
+}
+
+void Window_RigolControl::hideEvent(QHideEvent *event)
+{
+    windowHidden = true;
+}
+
+void Window_RigolControl::showEvent(QShowEvent *event)
+{
+    windowHidden = false;
+}
+
 void Window_RigolControl::on_pushButton_Done_released()
 {
     emit signal_RigolHideWindow();
@@ -402,4 +433,9 @@ void Window_RigolControl::on_radioButton_VTOP_toggled(bool checked)
         m_Rigol->addPollingMeasurement(newMeasurement);
     else
         m_Rigol->removePollingMeasurement(newMeasurement.getCommandKey());
+}
+
+void Window_RigolControl::on_actionClose_triggered()
+{
+    this->hide();
 }

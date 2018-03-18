@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include "ecm_api_global.h"
+#include "common/ecm_devices.h"
 
 #include "library_munk_power_supply/munk_power_supply.h"
 #include "library_galilMotionController/galil_motion_controller.h"
@@ -17,6 +18,8 @@ class ECM_APISHARED_EXPORT ECM_API: public QObject
 
 public:
     ECM_API();
+
+    ~ECM_API() = default;
 
 public:
 

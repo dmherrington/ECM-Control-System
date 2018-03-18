@@ -32,7 +32,10 @@ SOURCES += \
     observation/observation_scalar.cpp \
     sensors/sensor.cpp \
     sensors/sensor_voltage.cpp \
-    measurement_state.cpp
+    measurement_state.cpp \
+    motion_profile_state.cpp \
+    profiles/profile_touchoff.cpp \
+    profiles/profile_homing.cpp
 
 HEADERS += \
     data_global.h \
@@ -53,7 +56,10 @@ HEADERS += \
     observation/time_data_reference.h \
     sensors/sensor.h \
     sensors/sensor_voltage.h \
-    digital_state.h
+    digital_state.h \
+    motion_profile_state.h \
+    profiles/profile_touchoff.h \
+    profiles/profile_homing.h
 
 # Unix lib Install
 unix:!symbian {

@@ -27,7 +27,7 @@ bool Window_MunkPowerSupply::isWindowHidden() const
 
 void Window_MunkPowerSupply::readSettings()
 {
-    QSettings settings("MUNKTech", "Application Example");
+    QSettings settings("Munk Window", "ECM Application");
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
     QSize size = settings.value("size", QSize(400, 400)).toSize();
     resize(size);
@@ -36,7 +36,7 @@ void Window_MunkPowerSupply::readSettings()
 
 void Window_MunkPowerSupply::closeEvent(QCloseEvent *event)
 {
-    QSettings settings("MUNKTech", "Application Example");
+    QSettings settings("Munk Window", "ECM Application");
     settings.setValue("pos", pos());
     settings.setValue("size", size());
 }
@@ -62,4 +62,9 @@ void Window_MunkPowerSupply::on_pushButton_AddSegment_released()
 {
     ui->segmentWidget->addNewSegment();
     ui->segmentWidget->cbiSegmentDataInterface_UpdatedData();
+}
+
+void Window_MunkPowerSupply::on_actionClose_triggered()
+{
+    this->hide();
 }

@@ -34,6 +34,10 @@ QT_BEGIN_NAMESPACE
 class Ui_Window_PumpControl
 {
 public:
+    QAction *actionOpen;
+    QAction *actionSave;
+    QAction *actionSave_As;
+    QAction *actionClose;
     QWidget *centralwidget;
     QGridLayout *gridLayout_7;
     QGridLayout *gridLayout_5;
@@ -50,11 +54,11 @@ public:
     QHBoxLayout *horizontalLayout;
     QVBoxLayout *verticalLayout_2;
     QLabel *label_Connection;
-    LED *widget_PumpOn;
+    LED *widget_PumpConnected;
     QSpacerItem *horizontalSpacer_2;
     QVBoxLayout *verticalLayout_3;
     QLabel *label_Running;
-    LED *widget_PumpConnected;
+    LED *widget_PumpRunning;
     QSpacerItem *verticalSpacer;
     QGridLayout *gridLayout;
     QDoubleSpinBox *doubleSpinBox_delayTime;
@@ -197,6 +201,14 @@ public:
 "background-color:#2d89ef;\n"
 "width:20px;\n"
 "}"));
+        actionOpen = new QAction(Window_PumpControl);
+        actionOpen->setObjectName(QStringLiteral("actionOpen"));
+        actionSave = new QAction(Window_PumpControl);
+        actionSave->setObjectName(QStringLiteral("actionSave"));
+        actionSave_As = new QAction(Window_PumpControl);
+        actionSave_As->setObjectName(QStringLiteral("actionSave_As"));
+        actionClose = new QAction(Window_PumpControl);
+        actionClose->setObjectName(QStringLiteral("actionClose"));
         centralwidget = new QWidget(Window_PumpControl);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         gridLayout_7 = new QGridLayout(centralwidget);
@@ -309,14 +321,14 @@ public:
 
         verticalLayout_2->addWidget(label_Connection);
 
-        widget_PumpOn = new LED(centralwidget);
-        widget_PumpOn->setObjectName(QStringLiteral("widget_PumpOn"));
-        sizePolicy.setHeightForWidth(widget_PumpOn->sizePolicy().hasHeightForWidth());
-        widget_PumpOn->setSizePolicy(sizePolicy);
-        widget_PumpOn->setMinimumSize(QSize(80, 50));
-        widget_PumpOn->setMaximumSize(QSize(80, 50));
+        widget_PumpConnected = new LED(centralwidget);
+        widget_PumpConnected->setObjectName(QStringLiteral("widget_PumpConnected"));
+        sizePolicy.setHeightForWidth(widget_PumpConnected->sizePolicy().hasHeightForWidth());
+        widget_PumpConnected->setSizePolicy(sizePolicy);
+        widget_PumpConnected->setMinimumSize(QSize(80, 50));
+        widget_PumpConnected->setMaximumSize(QSize(80, 50));
 
-        verticalLayout_2->addWidget(widget_PumpOn);
+        verticalLayout_2->addWidget(widget_PumpConnected);
 
 
         horizontalLayout->addLayout(verticalLayout_2);
@@ -338,14 +350,14 @@ public:
 
         verticalLayout_3->addWidget(label_Running);
 
-        widget_PumpConnected = new LED(centralwidget);
-        widget_PumpConnected->setObjectName(QStringLiteral("widget_PumpConnected"));
-        sizePolicy.setHeightForWidth(widget_PumpConnected->sizePolicy().hasHeightForWidth());
-        widget_PumpConnected->setSizePolicy(sizePolicy);
-        widget_PumpConnected->setMinimumSize(QSize(80, 50));
-        widget_PumpConnected->setMaximumSize(QSize(80, 50));
+        widget_PumpRunning = new LED(centralwidget);
+        widget_PumpRunning->setObjectName(QStringLiteral("widget_PumpRunning"));
+        sizePolicy.setHeightForWidth(widget_PumpRunning->sizePolicy().hasHeightForWidth());
+        widget_PumpRunning->setSizePolicy(sizePolicy);
+        widget_PumpRunning->setMinimumSize(QSize(80, 50));
+        widget_PumpRunning->setMaximumSize(QSize(80, 50));
 
-        verticalLayout_3->addWidget(widget_PumpConnected);
+        verticalLayout_3->addWidget(widget_PumpRunning);
 
 
         horizontalLayout->addLayout(verticalLayout_3);
@@ -731,6 +743,12 @@ public:
         menubar->addAction(menuEdit->menuAction());
         menubar->addAction(menuTools->menuAction());
         menubar->addAction(menuHelp->menuAction());
+        menuFile->addAction(actionOpen);
+        menuFile->addSeparator();
+        menuFile->addAction(actionSave);
+        menuFile->addAction(actionSave_As);
+        menuFile->addSeparator();
+        menuFile->addAction(actionClose);
 
         retranslateUi(Window_PumpControl);
 
@@ -740,6 +758,10 @@ public:
     void retranslateUi(QMainWindow *Window_PumpControl)
     {
         Window_PumpControl->setWindowTitle(QApplication::translate("Window_PumpControl", "Window Pump Control", nullptr));
+        actionOpen->setText(QApplication::translate("Window_PumpControl", "Open", nullptr));
+        actionSave->setText(QApplication::translate("Window_PumpControl", "Save", nullptr));
+        actionSave_As->setText(QApplication::translate("Window_PumpControl", "Save As", nullptr));
+        actionClose->setText(QApplication::translate("Window_PumpControl", "Close", nullptr));
         label_Electrolyte->setText(QApplication::translate("Window_PumpControl", "Electrolyte Type:", nullptr));
         label_pH->setText(QApplication::translate("Window_PumpControl", "Electrolyte pH:", nullptr));
         label_Conductivity->setText(QApplication::translate("Window_PumpControl", "Conductivity (mS/cm):", nullptr));

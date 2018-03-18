@@ -19,6 +19,8 @@ Window_PumpControl::Window_PumpControl(Westinghouse510* obj, QWidget *parent) :
 
     ui->doubleSpinBox_delayTime->setValue(m_Pump->m_State->delayTime.get());
 
+    connect(m_Pump,SIGNAL(signal_PumpConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(slot_PumpConnectionUpdate(common::comms::CommunicationConnection)));
+
     this->m_Pump->m_State->flowRate.AddNotifier(this,[this]
     {
         this->slot_updatedFlowRate(m_Pump->m_State->flowRate.get());
@@ -67,22 +69,25 @@ void Window_PumpControl::showEvent(QShowEvent *event)
     windowHidden = false;
 }
 
-void Window_PumpControl::slot_updatedConnection()
+void Window_PumpControl::slot_PumpConnectionUpdate(const common::comms::CommunicationConnection &value)
 {
-
+    if(value.isConnected())
+        ui->widget_PumpConnected->setColor(QColor(0,255,0));
+    else
+        ui->widget_PumpConnected->setColor(QColor(255,0,0));
 }
 
 void Window_PumpControl::slot_updatedPumpOn(const bool &value)
 {
     if(value)
     {
-        ui->widget_PumpOn->setColor(QColor(0,255,0));
+        ui->widget_PumpRunning->setColor(QColor(0,255,0));
         ui->pushButton_PumpRunning->setText("OFF");
         statusBar()->showMessage(tr("The pump has been turned on."),2500);
     }
     else
     {
-        ui->widget_PumpOn->setColor(QColor(255,0,0));
+        ui->widget_PumpRunning->setColor(QColor(255,0,0));
         ui->pushButton_PumpRunning->setText("ON");
         statusBar()->showMessage(tr("The pump has been turned off."),2500);
     }
@@ -124,4 +129,9 @@ void Window_PumpControl::on_doubleSpinBox_flowRate_valueChanged(double arg1)
 void Window_PumpControl::on_doubleSpinBox_delayTime_valueChanged(double arg1)
 {
 
+}
+
+void Window_PumpControl::on_actionClose_triggered()
+{
+    this->hide();
 }

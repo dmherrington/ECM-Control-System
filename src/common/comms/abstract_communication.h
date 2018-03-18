@@ -23,15 +23,17 @@ public:
 
     }
 public:
+    virtual bool isSerialDeviceReadyToConnect() const = 0;
     virtual void openSerialPortConnection(const SerialConfiguration &config) const  = 0;
     virtual void closeSerialPortConnection() const = 0;
     virtual void writeToSerialPort(const QByteArray &msg) const = 0;
     virtual bool isSerialPortOpen() const = 0;
 
 signals:
+    virtual void signal_SerialPortReadyToConnect() const = 0;
     virtual void signal_SerialPortConnection(const CommunicationConnection update) const = 0;
     virtual void signal_SerialPortUpdate(const CommunicationUpdate update) const = 0;
-    virtual void signal_RXNewSerialData(const QByteArray data) = 0;
+    virtual void signal_RXNewSerialData(const QByteArray data) const = 0;
 };
 
 } //end of namespace comms

@@ -36,7 +36,7 @@ SOURCES += \
 
 HEADERS += \
         ecm_api.h \
-        ecm_api_global.h 
+        ecm_api_global.h  
 
 # Unix lib Install
 unix:!symbian {
