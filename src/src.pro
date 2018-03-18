@@ -15,4 +15,5 @@ SUBDIRS += \
     ECM_gui \
     library_sensoray \
     library_westinghouse510 \
-    data
+    data \
+    ECM_API

@@ -14,11 +14,6 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     ui->setupUi(this);
 
-    m_Galil = new GalilMotionController();
-    m_Munk = new MunkPowerSupply();
-    m_Sensoray = new Sensoray();
-    m_Rigol = new RigolOscilliscope();
-    m_Pump = new Westinghouse510(m_Sensoray,01);
 
     m_WindowMunk = new Window_MunkPowerSupply(m_Munk);
     m_WindowMunk->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);

@@ -99,12 +99,6 @@ private:
     Window_MunkPowerSupply* m_WindowMunk;
     Window_PumpControl* m_WindowPump;
 
-    MunkPowerSupply* m_Munk;
-    GalilMotionController* m_Galil;
-    Sensoray* m_Sensoray;
-    RigolOscilliscope* m_Rigol;
-    Westinghouse510* m_Pump;
-
 };
 
 #endif // ECM_CONTROLLER_GUI_H
