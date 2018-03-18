@@ -109,6 +109,7 @@ private:
     void cbi_AbstractGalilRemovePolled(const std::string &name) override;
     void cbi_GalilControllerGains(const CommandControllerGain &gains) override;
     void cbi_ResetHomingLatch() override;
+    void cbi_NewMotionProfileState(const MotionProfileState &state) override;
 
 signals:
     void signal_GalilConnectionUpdate(const common::comms::CommunicationConnection &value) const;

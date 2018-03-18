@@ -8,6 +8,7 @@
 #include "gclibo.h"
 
 #include "common/data_get_set_notifier.h"
+#include "data/motion_profile_state.h"
 
 #include "axis_definitions.h"
 
@@ -27,6 +28,7 @@ public:
     virtual void cbi_AbstractGalilRemovePolled(const std::string &name) = 0;
     virtual void cbi_GalilControllerGains(const CommandControllerGain &gains) = 0;
     virtual void cbi_ResetHomingLatch() = 0;
+    virtual void cbi_NewMotionProfileState(const MotionProfileState &state) = 0;
 };
 
 class GalilStateInterface

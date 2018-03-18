@@ -6,7 +6,7 @@ Profile_Touchoff::Profile_Touchoff(const std::string &name, const std::string &t
 
 }
 
-Profile_Touchoff Profile_Homing::getType() const
+ProfileType Profile_Touchoff::getType() const
 {
     return ProfileType::TOUCHOFF;
 }

@@ -6,11 +6,11 @@ MotionProfile::MotionProfile(const std::string &name, const std::string &tag):
 
 }
 
-MotionProfileState::MotionProfileState(const ProfileType &type):
-    profileType(type)
+MotionProfileState::MotionProfileState()
 {
 
 }
+
 void MotionProfileState::ConstructProfileState(const ProfileType &type, const std::string &name, const std::string &tag)
 {
 

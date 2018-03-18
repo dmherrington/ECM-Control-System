@@ -40,7 +40,7 @@ std::string CommandExecuteProfile::getCommandString() const
 //! \brief getProfileLabel
 //! \return
 //!
-CommandExecuteProfile::ProfileType CommandExecuteProfile::getProfileType() const
+ProfileType CommandExecuteProfile::getProfileType() const
 {
     return this->profileType;
 }

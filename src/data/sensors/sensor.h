@@ -91,8 +91,6 @@ public:
     //!
     static SensorTypes StringToSensorTypeEnum(const std::string &unitString);
 
-
-
 private:
 
     //! Name of the sensor

@@ -10,7 +10,7 @@ public:
 
     ProfileType getType() const override;
 
-    void setCurrentCode(const HOMINGProfileCodes &code);
+    void setCurrentCode(const TOUCHOFFProfileCodes &code);
 
     TOUCHOFFProfileCodes getCurrentCode() const;
 

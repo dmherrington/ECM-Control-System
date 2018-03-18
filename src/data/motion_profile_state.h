@@ -6,7 +6,8 @@
 
 #include "common/types_execution_profiles.h"
 
-class MotionProfile{
+class MotionProfile
+{
 public:
     //! Constructor
     /*!
@@ -15,7 +16,7 @@ public:
     MotionProfile(const std::string &name, const std::string &tag);
 
     //! Destructor
-    virtual ~MotionProfile();
+    virtual ~MotionProfile() = default;
 
 
     //! Get the name of this sensor
@@ -43,7 +44,7 @@ public:
      */
     virtual ProfileType getType() const = 0;
 
-private:
+protected:
     std::string profileName;
     std::string profileTag;
 };
@@ -51,7 +52,7 @@ private:
 class MotionProfileState
 {
 public:
-    MotionProfileState(const ProfileType &type);
+    MotionProfileState();
 
     //!
     //! \brief Construct a sensor to be present in this state

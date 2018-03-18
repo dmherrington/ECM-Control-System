@@ -380,3 +380,8 @@ void GalilMotionController::cbi_ResetHomingLatch()
     emit signal_GalilResetHomingLatch(); //this should be emitted everytime the motor is turned off
 }
 
+void GalilMotionController::cbi_NewMotionProfileState(const MotionProfileState &state)
+{
+
+}
+
