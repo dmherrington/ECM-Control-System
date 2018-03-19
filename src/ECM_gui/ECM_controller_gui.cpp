@@ -25,7 +25,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_WindowRigol = new Window_RigolControl(m_API->m_Rigol);
     m_WindowRigol->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
 
-    m_WindowTouchoff = new Window_Touchoff();
+    m_WindowTouchoff = new Window_Touchoff(m_API->m_Galil);
     m_WindowTouchoff->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
 
     m_DialogConnections = new Dialog_Connections(m_API);

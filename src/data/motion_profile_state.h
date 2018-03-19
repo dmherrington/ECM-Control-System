@@ -15,6 +15,9 @@ public:
      */
     MotionProfile(const std::string &name, const std::string &tag);
 
+    MotionProfile(const MotionProfile &copy);
+
+
     //! Destructor
     virtual ~MotionProfile() = default;
 
@@ -72,7 +75,7 @@ public:
     //! \brief set sensor data held in this object
     //! \param sensorData Data to set to
     //!
-    void setProfileState(const std::shared_ptr<MotionProfile> &sensorData);
+    void setProfileState(const std::shared_ptr<MotionProfile> &profileData);
 
 private:
     std::shared_ptr<MotionProfile> profileStateData;

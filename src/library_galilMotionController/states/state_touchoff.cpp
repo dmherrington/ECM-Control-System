@@ -103,16 +103,29 @@ void State_Touchoff::Update()
         case 0:
         {
             //continue searching for home
+            ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+            newState.setCurrentCode(TOUCHOFFProfileCodes::SEARCHING);
+            MotionProfileState newProfileState;
+            newProfileState.setProfileState();
+            Owner().issueUpdatedMotionProfileState();
             break;
         }
         case 1:
         {
+            MotionProfileState profileUpdate;
+            profileUpdate.setProfileState();
+            ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+            newState.setCurrentCode(TOUCHOFFProfileCodes::FINISHED);
             //we have finished the touchoff routine
+
             break;
         }
         case 2:
         {
             //ERROR: inconsistent or positional limit exceeded
+            ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+            newState.setCurrentCode(TOUCHOFFProfileCodes::ERROR_INCONSISTENT);
+
             CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
             this->currentCommand = command;
             desiredState = ECMState::STATE_MOTION_STOP;
@@ -121,6 +134,9 @@ void State_Touchoff::Update()
         case 3:
         {
             //ERROR: already touch part
+            ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+            newState.setCurrentCode(TOUCHOFFProfileCodes::ERROR_TOUCHING);
+
             CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
             this->currentCommand = command;
             desiredState = ECMState::STATE_MOTION_STOP;

@@ -1,12 +1,12 @@
-#ifndef PROFILE_TOUCHOFF_H
-#define PROFILE_TOUCHOFF_H
+#ifndef PROFILESTATE_TOUCHOFF_H
+#define PROFILESTATE_TOUCHOFF_H
 
 #include "../motion_profile_state.h"
 
-class Profile_Touchoff : public MotionProfile
+class ProfileState_Touchoff : public MotionProfile
 {
 public:
-    Profile_Touchoff(const std::string &name, const std::string &tag);
+    ProfileState_Touchoff(const std::string &name, const std::string &tag);
 
     ProfileType getType() const override;
 
@@ -17,4 +17,4 @@ public:
 private:
     TOUCHOFFProfileCodes currentCode;
 };
-#endif // PROFILE_TOUCHOFF_H
+#endif // PROFILESTATE_TOUCHOFF_H

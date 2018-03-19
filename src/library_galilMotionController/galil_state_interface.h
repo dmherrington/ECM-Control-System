@@ -74,6 +74,12 @@ public:
             m_CB->cbi_AbstractGalilRemovePolled(name);
     }
 
+    void issueUpdatedMotionProfileState(const MotionProfileState &state)
+    {
+        if(m_CB)
+            m_CB->cbi_NewMotionProfileState(state);
+    }
+
 public:
     GalilStatus* getAxisStatus(const MotorAxis &axis);
 

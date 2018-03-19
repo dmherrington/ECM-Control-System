@@ -1,12 +1,12 @@
-#ifndef PROFILE_HOMING_H
-#define PROFILE_HOMING_H
+#ifndef PROFILESTATE_HOMING_H
+#define PROFILESTATE_HOMING_H
 
 #include "../motion_profile_state.h"
 
-class Profile_Homing : public MotionProfile
+class ProfileState_Homing : public MotionProfile
 {
 public:
-    Profile_Homing(const std::string &name, const std::string &tag);
+    ProfileState_Homing(const std::string &name, const std::string &tag);
 
     ProfileType getType() const override;
 
@@ -18,4 +18,4 @@ private:
     HOMINGProfileCodes currentCode;
 };
 
-#endif // PROFILE_HOMING_H
+#endif // PROFILESTATE_HOMING_H

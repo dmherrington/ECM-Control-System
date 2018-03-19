@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'window_munk_power_supply.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.0
+** Created by: Qt User Interface Compiler version 5.9.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -435,28 +435,28 @@ public:
 
     void retranslateUi(QMainWindow *Window_MunkPowerSupply)
     {
-        Window_MunkPowerSupply->setWindowTitle(QApplication::translate("Window_MunkPowerSupply", "Munk Power Supply Control", nullptr));
-        actionOpen->setText(QApplication::translate("Window_MunkPowerSupply", "Open", nullptr));
-        actionSave->setText(QApplication::translate("Window_MunkPowerSupply", "Save", nullptr));
-        actionSave_As->setText(QApplication::translate("Window_MunkPowerSupply", "Save As", nullptr));
-        actionClose->setText(QApplication::translate("Window_MunkPowerSupply", "Close", nullptr));
-        actionOpen_Connection->setText(QApplication::translate("Window_MunkPowerSupply", "Open Connection", nullptr));
-        actionClose_Connection->setText(QApplication::translate("Window_MunkPowerSupply", "Close Connection", nullptr));
-        actionTX_To_Munk->setText(QApplication::translate("Window_MunkPowerSupply", "Transmit Parameters", nullptr));
-        actionRead_Parameters->setText(QApplication::translate("Window_MunkPowerSupply", "Read Parameters", nullptr));
-        label->setText(QApplication::translate("Window_MunkPowerSupply", "Connected:", nullptr));
+        Window_MunkPowerSupply->setWindowTitle(QApplication::translate("Window_MunkPowerSupply", "Munk Power Supply Control", Q_NULLPTR));
+        actionOpen->setText(QApplication::translate("Window_MunkPowerSupply", "Open", Q_NULLPTR));
+        actionSave->setText(QApplication::translate("Window_MunkPowerSupply", "Save", Q_NULLPTR));
+        actionSave_As->setText(QApplication::translate("Window_MunkPowerSupply", "Save As", Q_NULLPTR));
+        actionClose->setText(QApplication::translate("Window_MunkPowerSupply", "Close", Q_NULLPTR));
+        actionOpen_Connection->setText(QApplication::translate("Window_MunkPowerSupply", "Open Connection", Q_NULLPTR));
+        actionClose_Connection->setText(QApplication::translate("Window_MunkPowerSupply", "Close Connection", Q_NULLPTR));
+        actionTX_To_Munk->setText(QApplication::translate("Window_MunkPowerSupply", "Transmit Parameters", Q_NULLPTR));
+        actionRead_Parameters->setText(QApplication::translate("Window_MunkPowerSupply", "Read Parameters", Q_NULLPTR));
+        label->setText(QApplication::translate("Window_MunkPowerSupply", "Connected:", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
         pushButton_AddSegment->setToolTip(QString());
 #endif // QT_NO_TOOLTIP
-        pushButton_AddSegment->setText(QApplication::translate("Window_MunkPowerSupply", "ADD", nullptr));
+        pushButton_AddSegment->setText(QApplication::translate("Window_MunkPowerSupply", "ADD", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
         pushButton_transmit->setToolTip(QString());
 #endif // QT_NO_TOOLTIP
-        pushButton_transmit->setText(QApplication::translate("Window_MunkPowerSupply", "TRANSMIT", nullptr));
-        menuFile->setTitle(QApplication::translate("Window_MunkPowerSupply", "File", nullptr));
-        menuEdit->setTitle(QApplication::translate("Window_MunkPowerSupply", "Edit", nullptr));
-        menuTools->setTitle(QApplication::translate("Window_MunkPowerSupply", "Tools", nullptr));
-        menuHelp->setTitle(QApplication::translate("Window_MunkPowerSupply", "Help", nullptr));
+        pushButton_transmit->setText(QApplication::translate("Window_MunkPowerSupply", "TRANSMIT", Q_NULLPTR));
+        menuFile->setTitle(QApplication::translate("Window_MunkPowerSupply", "File", Q_NULLPTR));
+        menuEdit->setTitle(QApplication::translate("Window_MunkPowerSupply", "Edit", Q_NULLPTR));
+        menuTools->setTitle(QApplication::translate("Window_MunkPowerSupply", "Tools", Q_NULLPTR));
+        menuHelp->setTitle(QApplication::translate("Window_MunkPowerSupply", "Help", Q_NULLPTR));
     } // retranslateUi
 
 };

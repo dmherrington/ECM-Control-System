@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'display_base_plot_instantaneous.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.0
+** Created by: Qt User Interface Compiler version 5.9.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -59,21 +59,21 @@ public:
     void setupUi(QWidget *DisplayBasePlotInstantaneous)
     {
         if (DisplayBasePlotInstantaneous->objectName().isEmpty())
-            DisplayBasePlotInstantaneous->setObjectName(QLatin1String("DisplayBasePlotInstantaneous"));
+            DisplayBasePlotInstantaneous->setObjectName(QStringLiteral("DisplayBasePlotInstantaneous"));
         DisplayBasePlotInstantaneous->resize(356, 363);
-        DisplayBasePlotInstantaneous->setStyleSheet(QLatin1String(""));
+        DisplayBasePlotInstantaneous->setStyleSheet(QStringLiteral(""));
         verticalLayout_2 = new QVBoxLayout(DisplayBasePlotInstantaneous);
         verticalLayout_2->setSpacing(0);
-        verticalLayout_2->setObjectName(QLatin1String("verticalLayout_2"));
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(-1, 0, -1, -1);
         tabWidget_AcclerationData = new QTabWidget(DisplayBasePlotInstantaneous);
-        tabWidget_AcclerationData->setObjectName(QLatin1String("tabWidget_AcclerationData"));
+        tabWidget_AcclerationData->setObjectName(QStringLiteral("tabWidget_AcclerationData"));
         tab_1 = new QWidget();
-        tab_1->setObjectName(QLatin1String("tab_1"));
+        tab_1->setObjectName(QStringLiteral("tab_1"));
         gridLayout = new QGridLayout(tab_1);
-        gridLayout->setObjectName(QLatin1String("gridLayout"));
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
         customPlot = new graphing::PlotHandler(tab_1);
-        customPlot->setObjectName(QLatin1String("customPlot"));
+        customPlot->setObjectName(QStringLiteral("customPlot"));
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -84,25 +84,25 @@ public:
 
         tabWidget_AcclerationData->addTab(tab_1, QString());
         tab_2 = new QWidget();
-        tab_2->setObjectName(QLatin1String("tab_2"));
+        tab_2->setObjectName(QStringLiteral("tab_2"));
         layoutWidget = new QWidget(tab_2);
-        layoutWidget->setObjectName(QLatin1String("layoutWidget"));
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
         layoutWidget->setGeometry(QRect(110, 20, 127, 95));
         gridLayout_4 = new QGridLayout(layoutWidget);
-        gridLayout_4->setObjectName(QLatin1String("gridLayout_4"));
+        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
         gridLayout_4->setContentsMargins(0, 0, 0, 0);
         pushButton_yWindow = new QPushButton(layoutWidget);
-        pushButton_yWindow->setObjectName(QLatin1String("pushButton_yWindow"));
+        pushButton_yWindow->setObjectName(QStringLiteral("pushButton_yWindow"));
 
         gridLayout_4->addWidget(pushButton_yWindow, 0, 0, 1, 2);
 
         doubleSpinBox_windowHigh = new QDoubleSpinBox(layoutWidget);
-        doubleSpinBox_windowHigh->setObjectName(QLatin1String("doubleSpinBox_windowHigh"));
+        doubleSpinBox_windowHigh->setObjectName(QStringLiteral("doubleSpinBox_windowHigh"));
 
         gridLayout_4->addWidget(doubleSpinBox_windowHigh, 1, 0, 1, 1);
 
         label_9 = new QLabel(layoutWidget);
-        label_9->setObjectName(QLatin1String("label_9"));
+        label_9->setObjectName(QStringLiteral("label_9"));
         QFont font;
         font.setPointSize(10);
         label_9->setFont(font);
@@ -110,71 +110,71 @@ public:
         gridLayout_4->addWidget(label_9, 1, 1, 1, 1);
 
         doubleSpinBox_windowLow = new QDoubleSpinBox(layoutWidget);
-        doubleSpinBox_windowLow->setObjectName(QLatin1String("doubleSpinBox_windowLow"));
+        doubleSpinBox_windowLow->setObjectName(QStringLiteral("doubleSpinBox_windowLow"));
         doubleSpinBox_windowLow->setMinimum(-1000);
         doubleSpinBox_windowLow->setMaximum(1000);
 
         gridLayout_4->addWidget(doubleSpinBox_windowLow, 2, 0, 1, 1);
 
         label_10 = new QLabel(layoutWidget);
-        label_10->setObjectName(QLatin1String("label_10"));
+        label_10->setObjectName(QStringLiteral("label_10"));
         label_10->setFont(font);
 
         gridLayout_4->addWidget(label_10, 2, 1, 1, 1);
 
         pushButton_Legend = new QPushButton(tab_2);
-        pushButton_Legend->setObjectName(QLatin1String("pushButton_Legend"));
+        pushButton_Legend->setObjectName(QStringLiteral("pushButton_Legend"));
         pushButton_Legend->setGeometry(QRect(180, 130, 75, 23));
         pushButton_tagDisplayed = new QPushButton(tab_2);
-        pushButton_tagDisplayed->setObjectName(QLatin1String("pushButton_tagDisplayed"));
+        pushButton_tagDisplayed->setObjectName(QStringLiteral("pushButton_tagDisplayed"));
         pushButton_tagDisplayed->setGeometry(QRect(180, 170, 75, 23));
         layoutWidget_2 = new QWidget(tab_2);
-        layoutWidget_2->setObjectName(QLatin1String("layoutWidget_2"));
+        layoutWidget_2->setObjectName(QStringLiteral("layoutWidget_2"));
         layoutWidget_2->setGeometry(QRect(10, 10, 95, 128));
         gridLayout_5 = new QGridLayout(layoutWidget_2);
-        gridLayout_5->setObjectName(QLatin1String("gridLayout_5"));
+        gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
         gridLayout_5->setContentsMargins(0, 0, 0, 0);
         pushButton_Grid = new QPushButton(layoutWidget_2);
-        pushButton_Grid->setObjectName(QLatin1String("pushButton_Grid"));
+        pushButton_Grid->setObjectName(QStringLiteral("pushButton_Grid"));
 
         gridLayout_5->addWidget(pushButton_Grid, 0, 0, 1, 2);
 
         pushButton_GridSpacing = new QPushButton(layoutWidget_2);
-        pushButton_GridSpacing->setObjectName(QLatin1String("pushButton_GridSpacing"));
+        pushButton_GridSpacing->setObjectName(QStringLiteral("pushButton_GridSpacing"));
 
         gridLayout_5->addWidget(pushButton_GridSpacing, 1, 0, 1, 2);
 
         doubleSpinBox_gridY = new QDoubleSpinBox(layoutWidget_2);
-        doubleSpinBox_gridY->setObjectName(QLatin1String("doubleSpinBox_gridY"));
+        doubleSpinBox_gridY->setObjectName(QStringLiteral("doubleSpinBox_gridY"));
         doubleSpinBox_gridY->setMaximum(100);
 
         gridLayout_5->addWidget(doubleSpinBox_gridY, 2, 0, 1, 1);
 
         label_7 = new QLabel(layoutWidget_2);
-        label_7->setObjectName(QLatin1String("label_7"));
+        label_7->setObjectName(QStringLiteral("label_7"));
         label_7->setFont(font);
 
         gridLayout_5->addWidget(label_7, 2, 1, 1, 1);
 
         doubleSpinBox_gridX = new QDoubleSpinBox(layoutWidget_2);
-        doubleSpinBox_gridX->setObjectName(QLatin1String("doubleSpinBox_gridX"));
+        doubleSpinBox_gridX->setObjectName(QStringLiteral("doubleSpinBox_gridX"));
         doubleSpinBox_gridX->setMaximum(100);
 
         gridLayout_5->addWidget(doubleSpinBox_gridX, 3, 0, 1, 1);
 
         label_8 = new QLabel(layoutWidget_2);
-        label_8->setObjectName(QLatin1String("label_8"));
+        label_8->setObjectName(QStringLiteral("label_8"));
         label_8->setFont(font);
 
         gridLayout_5->addWidget(label_8, 3, 1, 1, 1);
 
         tabWidget_AcclerationData->addTab(tab_2, QString());
         tab_3 = new QWidget();
-        tab_3->setObjectName(QLatin1String("tab_3"));
+        tab_3->setObjectName(QStringLiteral("tab_3"));
         gridLayout_3 = new QGridLayout(tab_3);
-        gridLayout_3->setObjectName(QLatin1String("gridLayout_3"));
+        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
         instantReadings = new QTableWidget(tab_3);
-        instantReadings->setObjectName(QLatin1String("instantReadings"));
+        instantReadings->setObjectName(QStringLiteral("instantReadings"));
         instantReadings->setEnabled(true);
         QFont font1;
         font1.setPointSize(8);
@@ -204,19 +204,19 @@ public:
 
     void retranslateUi(QWidget *DisplayBasePlotInstantaneous)
     {
-        DisplayBasePlotInstantaneous->setWindowTitle(QApplication::translate("DisplayBasePlotInstantaneous", "Form", nullptr));
-        tabWidget_AcclerationData->setTabText(tabWidget_AcclerationData->indexOf(tab_1), QApplication::translate("DisplayBasePlotInstantaneous", "Plot", nullptr));
-        pushButton_yWindow->setText(QApplication::translate("DisplayBasePlotInstantaneous", "Y-Scale Custom", nullptr));
-        label_9->setText(QApplication::translate("DisplayBasePlotInstantaneous", "MAX", nullptr));
-        label_10->setText(QApplication::translate("DisplayBasePlotInstantaneous", "MIN", nullptr));
-        pushButton_Legend->setText(QApplication::translate("DisplayBasePlotInstantaneous", "LEGEND ON", nullptr));
-        pushButton_tagDisplayed->setText(QApplication::translate("DisplayBasePlotInstantaneous", "DISPLAY TAG", nullptr));
-        pushButton_Grid->setText(QApplication::translate("DisplayBasePlotInstantaneous", "GRID OFF", nullptr));
-        pushButton_GridSpacing->setText(QApplication::translate("DisplayBasePlotInstantaneous", "GRID MAN", nullptr));
-        label_7->setText(QApplication::translate("DisplayBasePlotInstantaneous", "Y", nullptr));
-        label_8->setText(QApplication::translate("DisplayBasePlotInstantaneous", "X", nullptr));
-        tabWidget_AcclerationData->setTabText(tabWidget_AcclerationData->indexOf(tab_2), QApplication::translate("DisplayBasePlotInstantaneous", "Graph Properties", nullptr));
-        tabWidget_AcclerationData->setTabText(tabWidget_AcclerationData->indexOf(tab_3), QApplication::translate("DisplayBasePlotInstantaneous", "Instantaneous", nullptr));
+        DisplayBasePlotInstantaneous->setWindowTitle(QApplication::translate("DisplayBasePlotInstantaneous", "Form", Q_NULLPTR));
+        tabWidget_AcclerationData->setTabText(tabWidget_AcclerationData->indexOf(tab_1), QApplication::translate("DisplayBasePlotInstantaneous", "Plot", Q_NULLPTR));
+        pushButton_yWindow->setText(QApplication::translate("DisplayBasePlotInstantaneous", "Y-Scale Custom", Q_NULLPTR));
+        label_9->setText(QApplication::translate("DisplayBasePlotInstantaneous", "MAX", Q_NULLPTR));
+        label_10->setText(QApplication::translate("DisplayBasePlotInstantaneous", "MIN", Q_NULLPTR));
+        pushButton_Legend->setText(QApplication::translate("DisplayBasePlotInstantaneous", "LEGEND ON", Q_NULLPTR));
+        pushButton_tagDisplayed->setText(QApplication::translate("DisplayBasePlotInstantaneous", "DISPLAY TAG", Q_NULLPTR));
+        pushButton_Grid->setText(QApplication::translate("DisplayBasePlotInstantaneous", "GRID OFF", Q_NULLPTR));
+        pushButton_GridSpacing->setText(QApplication::translate("DisplayBasePlotInstantaneous", "GRID MAN", Q_NULLPTR));
+        label_7->setText(QApplication::translate("DisplayBasePlotInstantaneous", "Y", Q_NULLPTR));
+        label_8->setText(QApplication::translate("DisplayBasePlotInstantaneous", "X", Q_NULLPTR));
+        tabWidget_AcclerationData->setTabText(tabWidget_AcclerationData->indexOf(tab_2), QApplication::translate("DisplayBasePlotInstantaneous", "Graph Properties", Q_NULLPTR));
+        tabWidget_AcclerationData->setTabText(tabWidget_AcclerationData->indexOf(tab_3), QApplication::translate("DisplayBasePlotInstantaneous", "Instantaneous", Q_NULLPTR));
     } // retranslateUi
 
 };

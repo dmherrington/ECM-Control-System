@@ -58,8 +58,8 @@ HEADERS += \
     sensors/sensor_voltage.h \
     digital_state.h \
     motion_profile_state.h \
-    profiles/profile_touchoff.h \
-    profiles/profile_homing.h
+    profiles/profile_state_homing.h \
+    profiles/profile_state_touchoff.h
 
 # Unix lib Install
 unix:!symbian {
