@@ -5,6 +5,7 @@
 #include "memory"
 
 #include "common/types_execution_profiles.h"
+#include "common/environment_time.h"
 
 class MotionProfile
 {
@@ -52,18 +53,44 @@ protected:
     std::string profileTag;
 };
 
+//! The state of a sensor
+/*!
+ * This object contains the dynamics, valid time, and data for a sensor.
+ */
 class MotionProfileState
 {
 public:
-    MotionProfileState();
 
     //!
-    //! \brief Construct a sensor to be present in this state
-    //! \param type Type of sensor to create
-    //! \param name Name of sensor creating
-    //! \exception std::runtime Thrown when Type does not match a value in SensorTypes.
+    //! \brief Default constructor, allocates dynamic space
     //!
-    void ConstructProfileState(const ProfileType &type, const std::string &name, const std::string &tag);
+    MotionProfileState();
+
+    /*!
+     * \brief Copy constructor
+     * \param that Data to copy from
+     */
+    MotionProfileState(const MotionProfileState& that);
+
+    /*!
+     * \brief Destructor
+     *
+     * Delete the sensor object if it is set.
+     */
+    ~MotionProfileState();
+
+    //!
+    //! \brief Assignment operator
+    //! \param that Object to assing from
+    //! \return reference to assigned object
+    //!
+    MotionProfileState& operator =(const MotionProfileState &rhs);
+
+
+    //!
+    //! \brief Allocate space for dynamic structure to be held
+    //!
+    virtual void Allocate();
 
     //!
     //! \brief Get a pointer to the sensor data held by this state.
@@ -77,8 +104,29 @@ public:
     //!
     void setProfileState(const std::shared_ptr<MotionProfile> &profileData);
 
+protected:
+
+    //!
+    //! \brief Delete dynamic data held by this object
+    //!
+    virtual void Deallocate();
+
 private:
+
+    //! boolean indicating if space has been allocated
+    bool m_allocated;
+
+    //! Number of references
+    uint *ref_count;
+
+    //! The sensor data
     std::shared_ptr<MotionProfile> profileStateData;
+
+public:
+    //! The time of the state measurment
+    common::EnvironmentTime *validityTime;
 };
+
+Q_DECLARE_METATYPE(MotionProfileState)
 
 #endif // MOTION_PROFILE_STATE_H

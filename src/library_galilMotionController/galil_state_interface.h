@@ -27,7 +27,7 @@ public:
     virtual void cbi_AbstractGalilAddPolled(const AbstractRequestPtr request) = 0;
     virtual void cbi_AbstractGalilRemovePolled(const std::string &name) = 0;
     virtual void cbi_GalilControllerGains(const CommandControllerGain &gains) = 0;
-    virtual void cbi_ResetHomingLatch() = 0;
+    virtual void cbi_GalilHomeIndicated(const bool &indicated) = 0;
     virtual void cbi_NewMotionProfileState(const MotionProfileState &state) = 0;
 };
 
@@ -89,16 +89,16 @@ public:
     bool isEStopEngaged() const;
 
 public:
-    bool isConnected();
-    bool isLatched();
+    bool isConnected() const;
+    bool isHomeInidcated() const;
 
 public:
     void setConnected(const bool &val);
-    void setLatched(const bool &val);
+    void setHomeInidcated(const bool &val);
 
 private:
     bool connected = false;
-    bool latched = false;
+    bool indicatedHome = false;
 
 private:
     GalilCallback_StateInterface *m_CB;

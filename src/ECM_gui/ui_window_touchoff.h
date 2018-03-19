@@ -17,6 +17,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -49,6 +50,8 @@ public:
     QPushButton *pushButton_RunTouchoff;
     QSpinBox *spinBox_InitialGap;
     QLabel *label_2;
+    QPushButton *pushButton_ExecuteTouchoff;
+    QLineEdit *lineEdit_TouchoffCode;
     QMenuBar *menubar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -60,14 +63,14 @@ public:
     {
         if (Window_Touchoff->objectName().isEmpty())
             Window_Touchoff->setObjectName(QStringLiteral("Window_Touchoff"));
-        Window_Touchoff->resize(452, 155);
+        Window_Touchoff->resize(450, 195);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Window_Touchoff->sizePolicy().hasHeightForWidth());
         Window_Touchoff->setSizePolicy(sizePolicy);
-        Window_Touchoff->setMinimumSize(QSize(452, 155));
-        Window_Touchoff->setMaximumSize(QSize(452, 155));
+        Window_Touchoff->setMinimumSize(QSize(450, 195));
+        Window_Touchoff->setMaximumSize(QSize(452, 195));
         Window_Touchoff->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
@@ -237,7 +240,7 @@ public:
         horizontalLayout->addWidget(label);
 
 
-        gridLayout->addLayout(horizontalLayout, 0, 0, 1, 1);
+        gridLayout->addLayout(horizontalLayout, 0, 0, 1, 2);
 
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
@@ -264,7 +267,7 @@ public:
         verticalLayout_2->addWidget(widget_TouchoffComplete);
 
 
-        gridLayout->addLayout(verticalLayout_2, 0, 1, 2, 1);
+        gridLayout->addLayout(verticalLayout_2, 0, 2, 2, 1);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
@@ -295,12 +298,33 @@ public:
         horizontalLayout_2->addWidget(label_2);
 
 
-        gridLayout->addLayout(horizontalLayout_2, 1, 0, 1, 1);
+        gridLayout->addLayout(horizontalLayout_2, 1, 0, 1, 2);
+
+        pushButton_ExecuteTouchoff = new QPushButton(centralwidget);
+        pushButton_ExecuteTouchoff->setObjectName(QStringLiteral("pushButton_ExecuteTouchoff"));
+        sizePolicy.setHeightForWidth(pushButton_ExecuteTouchoff->sizePolicy().hasHeightForWidth());
+        pushButton_ExecuteTouchoff->setSizePolicy(sizePolicy);
+        pushButton_ExecuteTouchoff->setMinimumSize(QSize(100, 30));
+        pushButton_ExecuteTouchoff->setMaximumSize(QSize(100, 30));
+        pushButton_ExecuteTouchoff->setFont(font);
+
+        gridLayout->addWidget(pushButton_ExecuteTouchoff, 2, 0, 1, 1);
+
+        lineEdit_TouchoffCode = new QLineEdit(centralwidget);
+        lineEdit_TouchoffCode->setObjectName(QStringLiteral("lineEdit_TouchoffCode"));
+        sizePolicy.setHeightForWidth(lineEdit_TouchoffCode->sizePolicy().hasHeightForWidth());
+        lineEdit_TouchoffCode->setSizePolicy(sizePolicy);
+        lineEdit_TouchoffCode->setMinimumSize(QSize(300, 30));
+        lineEdit_TouchoffCode->setMaximumSize(QSize(300, 30));
+        lineEdit_TouchoffCode->setFont(font);
+        lineEdit_TouchoffCode->setAlignment(Qt::AlignCenter);
+
+        gridLayout->addWidget(lineEdit_TouchoffCode, 2, 1, 1, 2);
 
         Window_Touchoff->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Window_Touchoff);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 452, 40));
+        menubar->setGeometry(QRect(0, 0, 450, 40));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menubar);
@@ -342,6 +366,7 @@ public:
         label_Connection->setText(QApplication::translate("Window_Touchoff", "Completed:", nullptr));
         pushButton_RunTouchoff->setText(QApplication::translate("Window_Touchoff", "Set Initial Gap", nullptr));
         label_2->setText(QApplication::translate("Window_Touchoff", "um", nullptr));
+        pushButton_ExecuteTouchoff->setText(QApplication::translate("Window_Touchoff", "Execute", nullptr));
         menuFile->setTitle(QApplication::translate("Window_Touchoff", "File", nullptr));
         menuEdit->setTitle(QApplication::translate("Window_Touchoff", "Edit", nullptr));
         menuTools->setTitle(QApplication::translate("Window_Touchoff", "Tools", nullptr));

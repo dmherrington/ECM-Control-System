@@ -28,6 +28,14 @@ protected:
 private slots:
     void on_actionClose_triggered();
 
+    void on_pushButton_ExecuteTouchoff_released();
+
+    void slot_UpdateMotionProfileState(const MotionProfileState &state);
+
+    void on_pushButton_TouchoffRef_released();
+
+    void on_pushButton_RunTouchoff_released();
+
 private:
     Ui::Window_Touchoff *ui;
     GalilMotionController* m_MotionController;

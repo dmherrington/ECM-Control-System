@@ -154,6 +154,9 @@ void State_Idle::OnEnter()
         CommandMotorDisablePtr castCommand = std::make_shared<CommandMotorDisable>();
         Owner().issueGalilCommand(castCommand);
     }
+
+    //Update the state to indicate that the previous home indication is no longer valid
+    Owner().setHomeInidcated(false);
 }
 
 void State_Idle::OnEnter(const AbstractCommand *command)

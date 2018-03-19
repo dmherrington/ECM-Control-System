@@ -8,6 +8,8 @@ class ProfileState_Touchoff : public MotionProfile
 public:
     ProfileState_Touchoff(const std::string &name, const std::string &tag);
 
+    ProfileState_Touchoff(const ProfileState_Touchoff &copy);
+
     ProfileType getType() const override;
 
     void setCurrentCode(const TOUCHOFFProfileCodes &code);

@@ -39,9 +39,21 @@ void GalilStateInterface::setConnected(const bool &val)
     this->connected = val;
 }
 
-bool GalilStateInterface::isConnected()
+void GalilStateInterface::setHomeInidcated(const bool &val)
+{
+    this->indicatedHome = val;
+    if(m_CB)
+        m_CB->cbi_GalilHomeIndicated(this->indicatedHome);
+}
+
+bool GalilStateInterface::isConnected() const
 {
     return this->connected;
+}
+
+bool GalilStateInterface::isHomeInidcated() const
+{
+    return this->indicatedHome;
 }
 
 bool GalilStateInterface::isMotorInMotion() const

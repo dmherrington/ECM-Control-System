@@ -146,7 +146,6 @@ INCLUDEPATH += $$PWD/../library_westinghouse510
 DEPENDPATH += $$PWD/../library_westinghouse510
 
 
-
 unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
 unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo
 

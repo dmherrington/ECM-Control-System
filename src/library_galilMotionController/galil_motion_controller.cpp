@@ -4,6 +4,9 @@
 GalilMotionController::GalilMotionController(const std::string &name):
     deviceName(name)
 {
+    qRegisterMetaType<MotionProfileState>("MotionProfileState");
+
+
     std::vector<MotorAxis> availableAxis;
     availableAxis.push_back(MotorAxis::Z);
 
@@ -375,13 +378,13 @@ void GalilMotionController::cbi_GalilControllerGains(const CommandControllerGain
     commsMarshaler->sendGalilControllerGains(gains);
 }
 
-void GalilMotionController::cbi_ResetHomingLatch()
+void GalilMotionController::cbi_GalilHomeIndicated(const bool &indicated)
 {
-    emit signal_GalilResetHomingLatch(); //this should be emitted everytime the motor is turned off
+    emit signal_GalilHomeIndicated(indicated);
 }
 
 void GalilMotionController::cbi_NewMotionProfileState(const MotionProfileState &state)
 {
-
+    emit signal_GalilUpdatedProfileState(state);
 }
 

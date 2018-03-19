@@ -87,6 +87,41 @@ void State_HomePositioning::Update()
         //we should therefore transition to the idle state
         desiredState = ECMState::STATE_ESTOP;
     }
+
+    double varValue;
+    if(Owner().statusVariables.getVariableValue("homest",varValue))
+    {
+        switch ((int)varValue) {
+        case 0:
+        {
+            processFlag = true;
+            //continue searching for home
+            ProfileState_Homing newState("Homing Routine", "homest");
+            newState.setCurrentCode(HOMINGProfileCodes::INCOMPLETE);
+            MotionProfileState newProfileState;
+            newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
+            Owner().issueUpdatedMotionProfileState(newProfileState);
+            break;
+        }
+        case 1:
+        {
+            if(processFlag)
+            {
+                Owner().setHomeInidcated(true);
+                //a home position has been found
+                ProfileState_Homing newState("Homing Routine", "homest");
+                newState.setCurrentCode(HOMINGProfileCodes::COMPLETE);
+                MotionProfileState newProfileState;
+                newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
+                Owner().issueUpdatedMotionProfileState(newProfileState);
+            }
+            break;
+        }
+        default:
+            //there is a case condition that does not follow the flow chart
+            break;
+        }
+    }
 }
 
 void State_HomePositioning::OnEnter()
@@ -98,6 +133,10 @@ void State_HomePositioning::OnEnter()
 
 void State_HomePositioning::OnEnter(const AbstractCommand* command)
 {
+    this->processFlag = false;
+
+    Owner().setHomeInidcated(false);
+
     if(command != nullptr)
     {
         this->handleCommand(command);

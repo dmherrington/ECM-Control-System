@@ -108,11 +108,15 @@ private:
     void cbi_AbstractGalilAddPolled(const AbstractRequestPtr request) override;
     void cbi_AbstractGalilRemovePolled(const std::string &name) override;
     void cbi_GalilControllerGains(const CommandControllerGain &gains) override;
-    void cbi_ResetHomingLatch() override;
+    void cbi_GalilHomeIndicated(const bool &indicated) override;
     void cbi_NewMotionProfileState(const MotionProfileState &state) override;
 
 signals:
     void signal_GalilConnectionUpdate(const common::comms::CommunicationConnection &value) const;
+
+    void signal_GalilHomeIndicated(const bool &indicated) const;
+
+    void signal_GalilUpdatedProfileState(const MotionProfileState &state) const;
 
     void signal_GalilNewPosition();
 
@@ -120,7 +124,6 @@ signals:
 
     void currentErrorCode(const std::string &errorString);
 
-    void signal_GalilResetHomingLatch();
 
 private:
     QString profilesPath;
@@ -132,11 +135,11 @@ public:
 actual Galil unit. This parent class will be subscribing to published events from the marshaller. This
 should drive the event driven structure required to exceite the state machine.*/
 
-private:
-    GCon galil; /**< Member variable containing a pointer to the Galil interface */
-
     GalilStateInterface* stateInterface; /**< Member variable containing the current state
 information, settings, and callback information for the states within the HSM.*/
+
+private:
+    GCon galil; /**< Member variable containing a pointer to the Galil interface */
 
     hsm::StateMachine* stateMachine; /**< Member variable containing a pointer to the state
  machine. This state machine evolves the state per event updates and user commands either via

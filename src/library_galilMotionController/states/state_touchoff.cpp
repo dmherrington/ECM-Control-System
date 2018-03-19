@@ -102,22 +102,22 @@ void State_Touchoff::Update()
         switch ((int)varValue) {
         case 0:
         {
-            //continue searching for home
+            //continue searching for touchoff position
             ProfileState_Touchoff newState("Touchoff Routine", "touchof");
             newState.setCurrentCode(TOUCHOFFProfileCodes::SEARCHING);
             MotionProfileState newProfileState;
-            newProfileState.setProfileState();
-            Owner().issueUpdatedMotionProfileState();
+            newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
+            Owner().issueUpdatedMotionProfileState(newProfileState);
             break;
         }
         case 1:
         {
-            MotionProfileState profileUpdate;
-            profileUpdate.setProfileState();
+            //we have finished the touchoff routine
             ProfileState_Touchoff newState("Touchoff Routine", "touchof");
             newState.setCurrentCode(TOUCHOFFProfileCodes::FINISHED);
-            //we have finished the touchoff routine
-
+            MotionProfileState newProfileState;
+            newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
+            Owner().issueUpdatedMotionProfileState(newProfileState);
             break;
         }
         case 2:
@@ -125,6 +125,9 @@ void State_Touchoff::Update()
             //ERROR: inconsistent or positional limit exceeded
             ProfileState_Touchoff newState("Touchoff Routine", "touchof");
             newState.setCurrentCode(TOUCHOFFProfileCodes::ERROR_INCONSISTENT);
+            MotionProfileState newProfileState;
+            newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
+            Owner().issueUpdatedMotionProfileState(newProfileState);
 
             CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
             this->currentCommand = command;
@@ -136,6 +139,9 @@ void State_Touchoff::Update()
             //ERROR: already touch part
             ProfileState_Touchoff newState("Touchoff Routine", "touchof");
             newState.setCurrentCode(TOUCHOFFProfileCodes::ERROR_TOUCHING);
+            MotionProfileState newProfileState;
+            newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
+            Owner().issueUpdatedMotionProfileState(newProfileState);
 
             CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
             this->currentCommand = command;

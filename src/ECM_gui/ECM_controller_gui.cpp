@@ -29,8 +29,9 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_WindowTouchoff->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
 
     m_DialogConnections = new Dialog_Connections(m_API);
-    m_WindowTouchoff->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowCloseButtonHint);
+    m_DialogConnections->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowCloseButtonHint);
 
+    connect(m_API->m_Galil,SIGNAL(signal_GalilHomeIndicated(bool)),this,SLOT(slot_UpdateHomeIndicated(bool)));
 
     readSettings();
 
@@ -70,6 +71,14 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString sensor
     QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(sensor);
     plots = m_PlotCollection.getPlots(sensor);
 //    ui->centralCustomPlot->RedrawDataSource(plots);
+}
+
+void ECMControllerGUI::slot_UpdateHomeIndicated(const bool &value)
+{
+    if(value)
+        ui->widget_LEDHomeIndicated->setColor(QColor(0,255,0));
+    else
+        ui->widget_LEDHomeIndicated->setColor(QColor(255,0,0));
 }
 
 //void ECMControllerGUI::on_pushButton_released()
@@ -286,8 +295,7 @@ void ECMControllerGUI::on_pushButton_DownloadProgram_released()
 
 void ECMControllerGUI::on_pushButton_EstablishTouchoff_released()
 {
-    CommandExecuteProfile command(ProfileType::TOUCHOFF,"touchof");
-    m_API->m_Galil->executeCommand(&command);
+    m_WindowTouchoff->show();
 }
 
 void ECMControllerGUI::on_actionConnections_triggered()
@@ -298,4 +306,14 @@ void ECMControllerGUI::on_actionConnections_triggered()
 void ECMControllerGUI::on_actionPump_triggered()
 {
     m_WindowPump->show();
+}
+
+void ECMControllerGUI::on_actionPower_Supply_triggered()
+{
+    m_WindowMunk->show();
+}
+
+void ECMControllerGUI::on_actionOscilliscope_triggered()
+{
+    m_WindowRigol->show();
 }

@@ -1,6 +1,8 @@
 #ifndef STATE_HOME_POSITIONING_H
 #define STATE_HOME_POSITIONING_H
 
+#include "data/profiles/profile_state_homing.h"
+
 #include "states/state_abstract_galil.h"
 
 namespace ECM{
@@ -32,6 +34,9 @@ public:
     void OnEnter() override;
 
     void OnEnter(const AbstractCommand *command);
+
+private:
+    bool processFlag = false;
 };
 
 } //end of namespace Galil

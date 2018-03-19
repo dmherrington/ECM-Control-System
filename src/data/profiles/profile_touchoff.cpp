@@ -6,6 +6,12 @@ ProfileState_Touchoff::ProfileState_Touchoff(const std::string &name, const std:
 
 }
 
+ProfileState_Touchoff::ProfileState_Touchoff(const ProfileState_Touchoff &copy):
+    MotionProfile(copy)
+{
+
+}
+
 ProfileType ProfileState_Touchoff::getType() const
 {
     return ProfileType::TOUCHOFF;

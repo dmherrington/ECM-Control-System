@@ -36,6 +36,8 @@ private:
 private slots:
     void slot_NewSensorData(const common::TupleSensorString sensor, const common_data::SensorState state);
 
+    void slot_UpdateHomeIndicated(const bool &value);
+
     void on_pushButton_MotorEnable_released();
 
     void on_pushButton_MotorDisable_released();
@@ -85,6 +87,10 @@ private slots:
     void on_actionConnections_triggered();
 
     void on_actionPump_triggered();
+
+    void on_actionPower_Supply_triggered();
+
+    void on_actionOscilliscope_triggered();
 
 protected:
     void readSettings();
