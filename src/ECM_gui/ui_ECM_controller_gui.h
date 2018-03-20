@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'ECM_controller_gui.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.0
+** Created by: Qt User Interface Compiler version 5.9.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -45,6 +45,7 @@ public:
     QAction *actionPower_Supply;
     QAction *actionPump;
     QAction *actionOscilliscope;
+    QAction *actionTouchoff;
     QWidget *centralWidget;
     QGridLayout *gridLayout_8;
     QLineEdit *lineEdit;
@@ -95,7 +96,7 @@ public:
     QGridLayout *gridLayout_4;
     QLabel *label_ManualControl;
     QPushButton *pushButton_ResetHome;
-    LED *widget_LEDHomeLatch;
+    LED *widget_LEDHomeIndicated;
     QLineEdit *lineEdit_GalilState;
     QPushButton *pushButton_MoveHome;
     QSpacerItem *horizontalSpacer_11;
@@ -133,7 +134,7 @@ public:
     {
         if (ECMControllerGUI->objectName().isEmpty())
             ECMControllerGUI->setObjectName(QStringLiteral("ECMControllerGUI"));
-        ECMControllerGUI->resize(1040, 727);
+        ECMControllerGUI->resize(1040, 733);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -266,6 +267,8 @@ public:
         actionPump->setObjectName(QStringLiteral("actionPump"));
         actionOscilliscope = new QAction(ECMControllerGUI);
         actionOscilliscope->setObjectName(QStringLiteral("actionOscilliscope"));
+        actionTouchoff = new QAction(ECMControllerGUI);
+        actionTouchoff->setObjectName(QStringLiteral("actionTouchoff"));
         centralWidget = new QWidget(ECMControllerGUI);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout_8 = new QGridLayout(centralWidget);
@@ -714,12 +717,12 @@ public:
 
         gridLayout_4->addWidget(pushButton_ResetHome, 0, 1, 1, 1);
 
-        widget_LEDHomeLatch = new LED(frame_MaunalControl);
-        widget_LEDHomeLatch->setObjectName(QStringLiteral("widget_LEDHomeLatch"));
-        widget_LEDHomeLatch->setMinimumSize(QSize(30, 30));
-        widget_LEDHomeLatch->setMaximumSize(QSize(30, 30));
+        widget_LEDHomeIndicated = new LED(frame_MaunalControl);
+        widget_LEDHomeIndicated->setObjectName(QStringLiteral("widget_LEDHomeIndicated"));
+        widget_LEDHomeIndicated->setMinimumSize(QSize(30, 30));
+        widget_LEDHomeIndicated->setMaximumSize(QSize(30, 30));
 
-        gridLayout_4->addWidget(widget_LEDHomeLatch, 0, 2, 1, 1);
+        gridLayout_4->addWidget(widget_LEDHomeIndicated, 0, 2, 1, 1);
 
         lineEdit_GalilState = new QLineEdit(frame_MaunalControl);
         lineEdit_GalilState->setObjectName(QStringLiteral("lineEdit_GalilState"));
@@ -924,7 +927,7 @@ public:
         ECMControllerGUI->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(ECMControllerGUI);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1040, 40));
+        menuBar->setGeometry(QRect(0, 0, 1040, 39));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menuBar);
@@ -950,6 +953,8 @@ public:
         menuTools->addAction(actionPower_Supply);
         menuTools->addAction(actionPump);
         menuTools->addAction(actionOscilliscope);
+        menuTools->addSeparator();
+        menuTools->addAction(actionTouchoff);
 
         retranslateUi(ECMControllerGUI);
 
@@ -961,44 +966,45 @@ public:
 
     void retranslateUi(QMainWindow *ECMControllerGUI)
     {
-        ECMControllerGUI->setWindowTitle(QApplication::translate("ECMControllerGUI", "ECMControllerGUI", nullptr));
-        actionConnections->setText(QApplication::translate("ECMControllerGUI", "Connections", nullptr));
-        actionPower_Supply->setText(QApplication::translate("ECMControllerGUI", "Power Supply", nullptr));
-        actionPump->setText(QApplication::translate("ECMControllerGUI", "Pump", nullptr));
-        actionOscilliscope->setText(QApplication::translate("ECMControllerGUI", "Oscilliscope", nullptr));
-        label_ManualControl_5->setText(QApplication::translate("ECMControllerGUI", "DIO Signals", nullptr));
-        label_ManualControl_2->setText(QApplication::translate("ECMControllerGUI", "Profile Optons", nullptr));
-        pushButton_RunProfile->setText(QApplication::translate("ECMControllerGUI", "Run Profile", nullptr));
-        label_CutDepth->setText(QApplication::translate("ECMControllerGUI", "Depth of Cut (um)", nullptr));
-        label_CutSpeed->setText(QApplication::translate("ECMControllerGUI", "Cut Speed (um/s)", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab_linearParams), QApplication::translate("ECMControllerGUI", "Linear Parameters", nullptr));
-        label_RetractSpeed->setText(QApplication::translate("ECMControllerGUI", "Retract Speed (um/s)", nullptr));
-        label_PlungeSpeed->setText(QApplication::translate("ECMControllerGUI", "Plunge Speed (um/s)", nullptr));
-        label_RetractDistance->setText(QApplication::translate("ECMControllerGUI", "Retract Distance (um)", nullptr));
-        label_StepSize->setText(QApplication::translate("ECMControllerGUI", "Step Size (um)", nullptr));
-        label_RetractPeriod->setText(QApplication::translate("ECMControllerGUI", "Retract Period (ms)", nullptr));
-        label_Pause->setText(QApplication::translate("ECMControllerGUI", "Pause (ms)", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab_vibrationParams), QApplication::translate("ECMControllerGUI", "Vibration Parameters", nullptr));
-        pushButton_UploadProgram->setText(QApplication::translate("ECMControllerGUI", "Upload Program", nullptr));
-        pushButton_EstablishTouchoff->setText(QApplication::translate("ECMControllerGUI", "Establish Touchoff", nullptr));
-        pushButton_DownloadProgram->setText(QApplication::translate("ECMControllerGUI", "Download Program", nullptr));
-        pushButton->setText(QApplication::translate("ECMControllerGUI", "STOP", nullptr));
-        label_ManualControl->setText(QApplication::translate("ECMControllerGUI", "Manual Control", nullptr));
-        pushButton_ResetHome->setText(QApplication::translate("ECMControllerGUI", "Reset Home", nullptr));
-        pushButton_MoveHome->setText(QApplication::translate("ECMControllerGUI", "Move To Home", nullptr));
-        label->setText(QApplication::translate("ECMControllerGUI", "Current Position (um):", nullptr));
-        label_ManualControl_4->setText(QApplication::translate("ECMControllerGUI", "Step Control (um)", nullptr));
-        label_ManualControl_3->setText(QApplication::translate("ECMControllerGUI", "Jog Control (um/sec)", nullptr));
-        pushButton_IncreaseRelativeMove->setText(QApplication::translate("ECMControllerGUI", "INCREASE", nullptr));
-        pushButton_DecreaseRelativeMove->setText(QApplication::translate("ECMControllerGUI", "DECREASE", nullptr));
-        pushButton_IncreaseJog->setText(QApplication::translate("ECMControllerGUI", "INCREASE", nullptr));
-        pushButton_DecreaseJog->setText(QApplication::translate("ECMControllerGUI", "DECREASE", nullptr));
-        pushButton_MotorEnable->setText(QApplication::translate("ECMControllerGUI", "ENABLE MOTOR", nullptr));
-        pushButton_MotorDisable->setText(QApplication::translate("ECMControllerGUI", "DISABLE MOTOR", nullptr));
-        menuFile->setTitle(QApplication::translate("ECMControllerGUI", "File", nullptr));
-        menuEdit->setTitle(QApplication::translate("ECMControllerGUI", "Edit", nullptr));
-        menuTools->setTitle(QApplication::translate("ECMControllerGUI", "Tools", nullptr));
-        menuHelp->setTitle(QApplication::translate("ECMControllerGUI", "Help", nullptr));
+        ECMControllerGUI->setWindowTitle(QApplication::translate("ECMControllerGUI", "ECMControllerGUI", Q_NULLPTR));
+        actionConnections->setText(QApplication::translate("ECMControllerGUI", "Connections", Q_NULLPTR));
+        actionPower_Supply->setText(QApplication::translate("ECMControllerGUI", "Power Supply", Q_NULLPTR));
+        actionPump->setText(QApplication::translate("ECMControllerGUI", "Pump", Q_NULLPTR));
+        actionOscilliscope->setText(QApplication::translate("ECMControllerGUI", "Oscilliscope", Q_NULLPTR));
+        actionTouchoff->setText(QApplication::translate("ECMControllerGUI", "Touchoff", Q_NULLPTR));
+        label_ManualControl_5->setText(QApplication::translate("ECMControllerGUI", "DIO Signals", Q_NULLPTR));
+        label_ManualControl_2->setText(QApplication::translate("ECMControllerGUI", "Profile Optons", Q_NULLPTR));
+        pushButton_RunProfile->setText(QApplication::translate("ECMControllerGUI", "Run Profile", Q_NULLPTR));
+        label_CutDepth->setText(QApplication::translate("ECMControllerGUI", "Depth of Cut (um)", Q_NULLPTR));
+        label_CutSpeed->setText(QApplication::translate("ECMControllerGUI", "Cut Speed (um/s)", Q_NULLPTR));
+        tabWidget->setTabText(tabWidget->indexOf(tab_linearParams), QApplication::translate("ECMControllerGUI", "Linear Parameters", Q_NULLPTR));
+        label_RetractSpeed->setText(QApplication::translate("ECMControllerGUI", "Retract Speed (um/s)", Q_NULLPTR));
+        label_PlungeSpeed->setText(QApplication::translate("ECMControllerGUI", "Plunge Speed (um/s)", Q_NULLPTR));
+        label_RetractDistance->setText(QApplication::translate("ECMControllerGUI", "Retract Distance (um)", Q_NULLPTR));
+        label_StepSize->setText(QApplication::translate("ECMControllerGUI", "Step Size (um)", Q_NULLPTR));
+        label_RetractPeriod->setText(QApplication::translate("ECMControllerGUI", "Retract Period (ms)", Q_NULLPTR));
+        label_Pause->setText(QApplication::translate("ECMControllerGUI", "Pause (ms)", Q_NULLPTR));
+        tabWidget->setTabText(tabWidget->indexOf(tab_vibrationParams), QApplication::translate("ECMControllerGUI", "Vibration Parameters", Q_NULLPTR));
+        pushButton_UploadProgram->setText(QApplication::translate("ECMControllerGUI", "Upload Program", Q_NULLPTR));
+        pushButton_EstablishTouchoff->setText(QApplication::translate("ECMControllerGUI", "Establish Touchoff", Q_NULLPTR));
+        pushButton_DownloadProgram->setText(QApplication::translate("ECMControllerGUI", "Download Program", Q_NULLPTR));
+        pushButton->setText(QApplication::translate("ECMControllerGUI", "STOP", Q_NULLPTR));
+        label_ManualControl->setText(QApplication::translate("ECMControllerGUI", "Manual Control", Q_NULLPTR));
+        pushButton_ResetHome->setText(QApplication::translate("ECMControllerGUI", "Reset Home", Q_NULLPTR));
+        pushButton_MoveHome->setText(QApplication::translate("ECMControllerGUI", "Move To Home", Q_NULLPTR));
+        label->setText(QApplication::translate("ECMControllerGUI", "Current Position (um):", Q_NULLPTR));
+        label_ManualControl_4->setText(QApplication::translate("ECMControllerGUI", "Step Control (um)", Q_NULLPTR));
+        label_ManualControl_3->setText(QApplication::translate("ECMControllerGUI", "Jog Control (um/sec)", Q_NULLPTR));
+        pushButton_IncreaseRelativeMove->setText(QApplication::translate("ECMControllerGUI", "INCREASE", Q_NULLPTR));
+        pushButton_DecreaseRelativeMove->setText(QApplication::translate("ECMControllerGUI", "DECREASE", Q_NULLPTR));
+        pushButton_IncreaseJog->setText(QApplication::translate("ECMControllerGUI", "INCREASE", Q_NULLPTR));
+        pushButton_DecreaseJog->setText(QApplication::translate("ECMControllerGUI", "DECREASE", Q_NULLPTR));
+        pushButton_MotorEnable->setText(QApplication::translate("ECMControllerGUI", "ENABLE MOTOR", Q_NULLPTR));
+        pushButton_MotorDisable->setText(QApplication::translate("ECMControllerGUI", "DISABLE MOTOR", Q_NULLPTR));
+        menuFile->setTitle(QApplication::translate("ECMControllerGUI", "File", Q_NULLPTR));
+        menuEdit->setTitle(QApplication::translate("ECMControllerGUI", "Edit", Q_NULLPTR));
+        menuTools->setTitle(QApplication::translate("ECMControllerGUI", "Tools", Q_NULLPTR));
+        menuHelp->setTitle(QApplication::translate("ECMControllerGUI", "Help", Q_NULLPTR));
     } // retranslateUi
 
 };

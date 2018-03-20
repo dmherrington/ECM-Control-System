@@ -148,7 +148,7 @@ void RigolOscilliscope::NewDataReceived(const std::vector<uint8_t> &buffer) cons
 }
 
 void RigolOscilliscope::NewMeaurementReceived(const commands_Rigol::RigolMeasurementStatus &status) const
-{
+{    
     std::cout<<"I have received some data from the command:"<<data_Rigol::MeasurementTypeEnumToString(status.getMeasurementType())<<std::endl;
     std::string returnString = status.getMeasurementString();
     std::cout<<"The data looked like: "<<returnString<<std::endl;

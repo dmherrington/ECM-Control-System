@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1040</width>
-    <height>727</height>
+    <height>733</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -1673,7 +1673,7 @@ width:20px;
      <x>0</x>
      <y>0</y>
      <width>1040</width>
-     <height>40</height>
+     <height>39</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1695,6 +1695,8 @@ width:20px;
     <addaction name="actionPower_Supply"/>
     <addaction name="actionPump"/>
     <addaction name="actionOscilliscope"/>
+    <addaction name="separator"/>
+    <addaction name="actionTouchoff"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -1733,6 +1735,11 @@ width:20px;
   <action name="actionOscilliscope">
    <property name="text">
     <string>Oscilliscope</string>
+   </property>
+  </action>
+  <action name="actionTouchoff">
+   <property name="text">
+    <string>Touchoff</string>
    </property>
   </action>
  </widget>

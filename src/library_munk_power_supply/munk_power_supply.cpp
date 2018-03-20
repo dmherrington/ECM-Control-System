@@ -1,6 +1,7 @@
 #include "munk_power_supply.h"
 
-MunkPowerSupply::MunkPowerSupply():
+MunkPowerSupply::MunkPowerSupply(const std::string &name):
+    deviceName(name),
     m_segmentTimeGeneral(),
     m_fwdISetpoint(TypeSupplyOutput::OUTPUT1,SegmentMode::FORWARD),
     m_revISetpoint(TypeSupplyOutput::OUTPUT1,SegmentMode::REVERSE),
@@ -13,9 +14,8 @@ MunkPowerSupply::MunkPowerSupply():
     commsMarshaler = new MunkCommsMarshaler();
     commsMarshaler->AddSubscriber(this);
 
-//    pollStatus = new MunkPollStatus();
-//    pollStatus->connectCallback(this);
-//    pollStatus->beginPolling();
+    pollStatus = new MunkPollStatus();
+    pollStatus->connectCallback(this);
 }
 
 MunkPowerSupply::~MunkPowerSupply()
@@ -211,13 +211,15 @@ void MunkPowerSupply::generateMessages(const SegmentTimeDetailed &detailedSegmen
 
 void MunkPowerSupply::ConnectionOpened() const
 {
-    emit signal_ConnectionStatusUpdated(true);
+    common::comms::CommunicationConnection connectionUpdate(deviceName,true);
+    emit signal_MunkConnectionUpdate(connectionUpdate);
     //pollStatus->beginPolling();
 }
 
 void MunkPowerSupply::ConnectionClosed() const
 {
-    emit signal_ConnectionStatusUpdated(false);
+    common::comms::CommunicationConnection connectionUpdate(deviceName,false);
+    emit signal_MunkConnectionUpdate(connectionUpdate);
 }
 
 void MunkPowerSupply::CommunicationError(const std::string &type, const std::string &msg) const

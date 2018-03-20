@@ -1,5 +1,5 @@
-#ifndef SENSORSTATE_H
-#define SENSORSTATE_H
+#ifndef SENSOR_STATE_H
+#define SENSOR_STATE_H
 
 #include <QDataStream>
 

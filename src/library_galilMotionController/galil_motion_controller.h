@@ -112,7 +112,7 @@ private:
     void cbi_NewMotionProfileState(const MotionProfileState &state) override;
 
 signals:
-    void signal_GalilConnectionUpdate(const common::comms::CommunicationConnection &value) const;
+    void signal_MotionControllerConnectionUpdate(const common::comms::CommunicationConnection &connection) const;
 
     void signal_GalilHomeIndicated(const bool &indicated) const;
 

@@ -6,6 +6,7 @@
 #include <QObject>
 
 #include "library_munk_power_supply_global.h"
+#include "common/comms/communication_connection.h"
 
 #include "data/type_read_write.h"
 #include "data/type_exception_message.h"
@@ -36,13 +37,13 @@ using namespace comms_Munk;
 class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply :  public QObject, CommsEvents, MunkStatusCallback_Interface
 {
 
-Q_OBJECT
+    Q_OBJECT
 
 public:
     //!
     //! \brief MunkPowerSupply
     //!
-    MunkPowerSupply();
+    MunkPowerSupply(const std::string &name = "Munk_PowerSupply");
 
     ~MunkPowerSupply();
 
@@ -66,7 +67,7 @@ public:
 
 signals:
 
-    void signal_ConnectionStatusUpdated(const bool &open_close) const;
+    void signal_MunkConnectionUpdate(const common::comms::CommunicationConnection &value) const;
 
     void signal_CommunicationError(const std::string &type, const std::string &msg) const;
 
@@ -128,13 +129,15 @@ private:
     void cbi_MunkFaultStateRequest(const RegisterFaultState &request) const override;
 
 private:
-        SegmentTimeGeneral m_segmentTimeGeneral;
+    std::string deviceName;
 
-        SegmentCurrentSetpoint m_fwdISetpoint;
-        SegmentCurrentSetpoint m_revISetpoint;
+    SegmentTimeGeneral m_segmentTimeGeneral;
 
-        SegmentVoltageSetpoint m_fwdVSetpoint;
-        SegmentVoltageSetpoint m_revVSetpoint;
+    SegmentCurrentSetpoint m_fwdISetpoint;
+    SegmentCurrentSetpoint m_revISetpoint;
+
+    SegmentVoltageSetpoint m_fwdVSetpoint;
+    SegmentVoltageSetpoint m_revVSetpoint;
 
 private:
     MunkCommsMarshaler* commsMarshaler;

@@ -10,12 +10,13 @@
 #include "common/comms/communication_connection.h"
 
 #include "data/type_read_write.h"
+#include "data/sensor_state.h"
+#include "data/sensors/sensor_voltage.h"
 
 #include "commands/acquire/acquire_components.h"
 #include "commands/measure/measure_components.h"
 
 #include "communications/rigol_comms_marshaler.h"
-
 #include "rigol_poll_measurements.h"
 
 using namespace commands_Rigol;
@@ -53,6 +54,7 @@ public:
 public:
     void cbi_RigolMeasurementRequests(const commands_Rigol::MeasureCommand_Item &request) override;
 
+public:
     void saveMeasurements();
     void loadMeaurements(const std::string &path);
 
@@ -70,7 +72,6 @@ private:
     RigolPollMeasurement* pollStatus;
     commands_Rigol::RigolMeasurementQueue queue;
     QString previousSettingsPath;
-
 
 };
 

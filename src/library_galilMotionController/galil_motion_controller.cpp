@@ -107,8 +107,9 @@ void GalilMotionController::LinkConnected() const
 {
     stateInterface->setConnected(true);
     galilPolling->beginPolling();
-    common::comms::CommunicationConnection connection(deviceName,true);
-    emit signal_GalilConnectionUpdate(connection);
+
+    common::comms::CommunicationConnection connectionUpdate(deviceName,true);
+    emit signal_MotionControllerConnectionUpdate(connectionUpdate);
 }
 
 
@@ -119,8 +120,8 @@ void GalilMotionController::LinkDisconnected() const
         galilPolling->pausePolling();
         galilPolling->stop();
     }
-    common::comms::CommunicationConnection connection(deviceName,true);
-    emit signal_GalilConnectionUpdate(connection);
+    common::comms::CommunicationConnection connectionUpdate(deviceName,true);
+    emit signal_MotionControllerConnectionUpdate(connectionUpdate);
 }
 
 void GalilMotionController::NewStatusInputs(const StatusInputs &status)

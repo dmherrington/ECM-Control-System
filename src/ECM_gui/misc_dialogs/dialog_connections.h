@@ -41,7 +41,7 @@ private slots:
 
     void on_pushButton_connectGalil_released();
 
-    void on_pushButton_Done_released();
+    void on_pushButton_Close_released();
 
 private:
     void updateLEDConnectionColor(LED* ledWidget, const bool &connected);

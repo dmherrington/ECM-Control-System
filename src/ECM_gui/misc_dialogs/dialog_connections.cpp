@@ -19,8 +19,12 @@ Dialog_Connections::Dialog_Connections(ECM_API *obj, QWidget *parent) :
     ui->widget_WestinghouseConnection->setDiameter(ledDiameter);
     ui->widget_WestinghouseConnection->setColor(QColor(255,0,0));
     //let us check all of the device connections
+
     connect(m_API->m_Sensoray,SIGNAL(signal_SensorayConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(slot_SensorayConnectionUpdate(common::comms::CommunicationConnection)));
     connect(m_API->m_Pump,SIGNAL(signal_PumpConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(slot_PumpConnectionUpdate(common::comms::CommunicationConnection)));
+    connect(m_API->m_Galil,SIGNAL(signal_MotionControllerConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(slot_GalilConnectionUpdate(common::comms::CommunicationConnection)));
+    connect(m_API->m_Munk,SIGNAL(signal_MunkConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(slot_MunkConnectionUpdate(common::comms::CommunicationConnection)));
+    connect(m_API->m_Rigol,SIGNAL(signal_RigolConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(slot_RigolConnectionUpdate(common::comms::CommunicationConnection)));
 
 }
 
@@ -49,17 +53,17 @@ void Dialog_Connections::slot_PumpConnectionUpdate(const common::comms::Communic
 
 void Dialog_Connections::slot_RigolConnectionUpdate(const common::comms::CommunicationConnection &update)
 {
-    //this->updateLEDConnectionColor(ui->widget_SensorayConnection,update.isConnected());
+    this->updateLEDConnectionColor(ui->widget_RigolConnection,update.isConnected());
 }
 
 void Dialog_Connections::slot_MunkConnectionUpdate(const common::comms::CommunicationConnection &update)
 {
-    //this->updateLEDConnectionColor(ui->widget_SensorayConnection,update.isConnected());
+    this->updateLEDConnectionColor(ui->widget_MunkConnection,update.isConnected());
 }
 
 void Dialog_Connections::slot_GalilConnectionUpdate(const common::comms::CommunicationConnection &update)
 {
-    //this->updateLEDConnectionColor(ui->widget_SensorayConnection,update.isConnected());
+    this->updateLEDConnectionColor(ui->widget_GalilConnection,update.isConnected());
 }
 
 void Dialog_Connections::on_pushButton_connectSensoray_released()
@@ -88,7 +92,7 @@ void Dialog_Connections::on_pushButton_connectGalil_released()
 
 }
 
-void Dialog_Connections::on_pushButton_Done_released()
+void Dialog_Connections::on_pushButton_Close_released()
 {
-    this->close();
+    this->hide();
 }
