@@ -36,7 +36,7 @@ hsm::Transition State_ReadyStop::GetTransition()
         }
         case ECMState::STATE_ESTOP:
         {
-            rtn = hsm::SiblingTransition<State_EStop>();
+            rtn = hsm::SiblingTransition<State_EStop>(currentCommand);
         }
         default:
             std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
@@ -103,7 +103,7 @@ void State_ReadyStop::OnEnter(const AbstractCommand* command)
     //Therefore we should not clear the current command and have it transtion on to the idle state
     if(command != nullptr)
     {
-        //The command isnt null so we should handle it
+        this->currentCommand = command;
     }
     else{
         //There was no actual command, therefore, there is nothing else to do at this point

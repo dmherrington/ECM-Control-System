@@ -13,6 +13,10 @@ public:
 
     ProgramGeneric(const ProgramGeneric &copy);
 
+    void setProgramString(const std::string &text);
+
+    std::string getProgramString() const;
+
     void addProfile(const ProgramGenericProfile &profile);
 
     bool getProfileFromName(const std::string &profileName, ProgramGenericProfile &profile) const;
@@ -23,6 +27,8 @@ public:
 
 private:
     std::map<std::string, ProgramGenericProfile> profileMap;
+
+    std::string programString;
 
 };
 

@@ -79,6 +79,7 @@ void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request)
     link->MarshalOnThread(func);
 }
 
+//I do not think this method is called
 void CommsMarshaler::sendGalilProfileExecution(const AbstractCommandPtr &command)
 {
     std::cout<<"Lets send an request to execute a specific galil profile."<<std::endl;
@@ -98,18 +99,18 @@ void CommsMarshaler::sendGalilControllerGains(const CommandControllerGain &comma
     link->MarshalOnThread(func);
 }
 
-void CommsMarshaler::uploadProgram(const ProgramGeneric &program) const
+void CommsMarshaler::uploadProgram(const AbstractCommandPtr uploadCommand) const
 {
-    auto func = [this, &program] () {
-        protocol->UploadNewProgram(link.get(), program);
+    auto func = [this, uploadCommand] () {
+        protocol->UploadNewProgram(link.get(), uploadCommand);
     };
     link->MarshalOnThread(func);
 }
 
-void CommsMarshaler::downloadProgram() const
+void CommsMarshaler::downloadProgram(const AbstractCommandPtr downloadCommand) const
 {
-    auto func = [this] () {
-        protocol->DownloadCurrentProgram(link.get());
+    auto func = [this, downloadCommand] () {
+        protocol->DownloadCurrentProgram(link.get(), downloadCommand);
     };
     link->MarshalOnThread(func);
 }
@@ -176,18 +177,19 @@ void CommsMarshaler::BadCommandResponse(const AbstractStatus &status) const
 /// MAVLINK Protocol Events
 //////////////////////////////////////////////////////////////
 
-
-//!
-//! \brief A Message has been received over Mavlink protocol
-//! \param linkName Link identifier which generated call
-//! \param message Message that has been received
-//!
-void CommsMarshaler::MessageReceived(const double &message) const
+void CommsMarshaler::NewProgramUploaded(const ProgramGeneric &program) const
 {
-    Emit([&](CommsEvents *ptr)
-    {
-        ptr->StatusMessage("Testing");
-    });
+    Emit([&](CommsEvents *ptr){ptr->NewProgramUploaded(program);});
+}
+
+void CommsMarshaler::NewProgramDownloaded(const ProgramGeneric &program) const
+{
+    Emit([&](CommsEvents *ptr){ptr->NewProgramDownloaded(program);});
+}
+
+void CommsMarshaler::ErrorBadCommand(const CommandType &type, const std::string &description) const
+{
+    Emit([&](CommsEvents *ptr){ptr->ErrorBadCommand(CommandToString(type),description);});
 }
 
 void CommsMarshaler::NewPositionReceived(const Status_Position &status) const

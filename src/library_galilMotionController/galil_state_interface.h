@@ -29,6 +29,8 @@ public:
     virtual void cbi_GalilControllerGains(const CommandControllerGain &gains) = 0;
     virtual void cbi_GalilHomeIndicated(const bool &indicated) = 0;
     virtual void cbi_NewMotionProfileState(const MotionProfileState &state) = 0;
+    virtual void cbi_GalilUploadProgram(const AbstractCommandPtr command) = 0;
+    virtual void cbi_GalilDownloadProgram(const AbstractCommandPtr command) = 0;
 };
 
 class GalilStateInterface
@@ -42,6 +44,16 @@ public:
     void connectCallback(GalilCallback_StateInterface *cb)
     {
         m_CB = cb;
+    }
+
+    void issueGalilUploadProgram(const AbstractCommandPtr command)
+    {
+
+    }
+
+    void issueGalilDownloadProgram(const AbstractCommandPtr commad)
+    {
+
     }
 
     void issueGalilCommand(const AbstractCommandPtr command)

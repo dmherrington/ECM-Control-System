@@ -156,7 +156,7 @@ void State_Touchoff::Update()
     else
     {
         //this variable doesnt exist so we should abort the touchoff routine
-        desiredState = ECMState::STATE_MOTION_STOP;
+//        desiredState = ECMState::STATE_MOTION_STOP;
     }
 }
 

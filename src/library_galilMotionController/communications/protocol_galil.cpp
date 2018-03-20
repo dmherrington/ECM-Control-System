@@ -23,16 +23,30 @@ void GalilProtocol::AddListner(const IProtocolGalilEvents* listener)
 /// Methods issuing commands relevant to the galil program
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GalilProtocol::UploadNewProgram(const ILink *link, const ProgramGeneric &program)
+void GalilProtocol::UploadNewProgram(const ILink *link, const AbstractCommandPtr command)
 {
     std::cout<<"I am trying to upload a new program"<<std::endl;
-    std::string programString = program.buildProgram();
-    GReturn rtn = link->UploadProgram(programString);
+    ProgramGeneric uploadProgram = command.get()->as<CommandUploadProgram>()->getProgram();
+    GReturn rtn = link->UploadProgram(uploadProgram.getProgramString());
+    if(rtn == G_NO_ERROR)
+        Emit([&](const IProtocolGalilEvents* ptr){ptr->NewProgramUploaded(uploadProgram);});
+    else
+        handleCommandResponse(link,command,rtn);
 }
 
-void GalilProtocol::DownloadCurrentProgram(const ILink *link)
+void GalilProtocol::DownloadCurrentProgram(const ILink *link, const AbstractCommandPtr command)
 {
     std::cout<<"I am trying to download a new program"<<std::endl;
+    std::string programText;
+    GReturn rtn = link->DownloadProgram(programText);
+    if(rtn == G_NO_ERROR)
+    {
+        ProgramGeneric newProgram;
+        newProgram.setProgramString(programText);
+        Emit([&](const IProtocolGalilEvents* ptr){ptr->NewProgramDownloaded(newProgram);});
+    }
+    else
+        handleCommandResponse(link,command,rtn);
 }
 
 void GalilProtocol::ExecuteProfile(const ILink *link, const AbstractCommandPtr &command)
@@ -95,7 +109,7 @@ void GalilProtocol::handleCommandResponse(const ILink *link, const AbstractComma
         }
         case G_BAD_RESPONSE_QUESTION_MARK:
         {
-            handleBadCommandResponse(link, command->getCommandType());
+            handleBadCommand_ResponseQuestionMark(link, command->getCommandType());
             break;
         }
         default:
@@ -103,10 +117,11 @@ void GalilProtocol::handleCommandResponse(const ILink *link, const AbstractComma
         }
 }
 
-void GalilProtocol::handleBadCommandResponse(const ILink* link, const CommandType &type) const
+void GalilProtocol::handleBadCommand_ResponseQuestionMark(const ILink* link, const CommandType &type)
 {
     char error[100];
     link->WriteTellErrorCode(error);
+    Emit([&](const IProtocolGalilEvents* ptr){ptr->ErrorBadCommand(type,std::string(error));});
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

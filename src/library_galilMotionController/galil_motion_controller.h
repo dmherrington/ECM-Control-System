@@ -65,6 +65,9 @@ public:
     //////////////////////////////////////////////////////////////
     void LinkConnected() const override;
     void LinkDisconnected() const override;
+    void ErrorBadCommand(const std::string &commandType, const std::string &description) override;
+    void NewProgramUploaded(const ProgramGeneric &program) override;
+    void NewProgramDownloaded(const ProgramGeneric &program) override;
     void NewStatusInputs(const StatusInputs &status) override;
     void NewStatusPosition(const Status_Position &status) override;
     void NewStatusMotorEnabled(const Status_MotorEnabled &status) override;
@@ -83,10 +86,6 @@ public:
     bool saveProgram(const std::string &text);
     bool saveProgramAs(const std::string &filePath, const std::string &text);
     bool loadProgram(const std::string &filePath, std::string &programText);
-
-    void uploadProgram(const ProgramGeneric &program) const;
-
-    void downloadProgram() const;
 
     void executeCommand(const AbstractCommand* command);
 
@@ -110,6 +109,8 @@ private:
     void cbi_GalilControllerGains(const CommandControllerGain &gains) override;
     void cbi_GalilHomeIndicated(const bool &indicated) override;
     void cbi_NewMotionProfileState(const MotionProfileState &state) override;
+    void cbi_GalilUploadProgram(const AbstractCommandPtr command) override;
+    void cbi_GalilDownloadProgram(const AbstractCommandPtr command) override;
 
 signals:
     void signal_MotionControllerConnectionUpdate(const common::comms::CommunicationConnection &connection) const;

@@ -5,6 +5,10 @@
 
 #include "status/status_components.h"
 
+#include "programs/program_components.h"
+
+#include "commands/command_components.h"
+
 namespace Comms
 {
 
@@ -17,13 +21,12 @@ public:
     virtual void NewStatusReceived(const std::vector<AbstractStatusPtr> &status) const = 0;
 
     virtual void NewPositionReceived(const Status_Position &status) const = 0;
-    //!
-    //! \brief A Message has been received over Mavlink protocol
-    //! \param linkName Link identifier which generated command
-    //! \param message Message that has been received
-    //!
-    virtual void MessageReceived(const double &message) const = 0;
 
+    virtual void NewProgramDownloaded(const ProgramGeneric &program) const = 0;
+
+    virtual void NewProgramUploaded(const ProgramGeneric &program) const = 0;
+
+    virtual void ErrorBadCommand(const CommandType &type, const std::string &description) const = 0;
 };
 
 

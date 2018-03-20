@@ -30,8 +30,9 @@ public:
     //////////////////////////////////////////////////////////////
     /// Methods issuing commands relevant to the galil program
     //////////////////////////////////////////////////////////////
-    void UploadNewProgram(const ILink* link, const ProgramGeneric &program);
-    void DownloadCurrentProgram(const ILink* link);
+    void UploadNewProgram(const ILink* link, const AbstractCommandPtr program);
+    void DownloadCurrentProgram(const ILink* link, const AbstractCommandPtr command);
+
     void ExecuteProfile(const ILink* link, const AbstractCommandPtr &command);
 
     //////////////////////////////////////////////////////////////
@@ -50,7 +51,7 @@ public:
 
 private:
     void handleCommandResponse(const ILink* link, const AbstractCommandPtr command, const GReturn &response);
-    void handleBadCommandResponse(const ILink* link, const CommandType &type) const;
+    void handleBadCommand_ResponseQuestionMark(const ILink* link, const CommandType &type);
 
     //////////////////////////////////////////////////////////////
     /// Methods issuing an explicit galil information request

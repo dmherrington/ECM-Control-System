@@ -8,6 +8,17 @@ ProgramGeneric::ProgramGeneric()
 ProgramGeneric::ProgramGeneric(const ProgramGeneric &copy)
 {
     this->profileMap = copy.profileMap;
+    this->programString = copy.programString;
+}
+
+void ProgramGeneric::setProgramString(const std::string &text)
+{
+    this->programString = text;
+}
+
+std::string ProgramGeneric::getProgramString() const
+{
+    return this->programString;
 }
 
 void ProgramGeneric::addProfile(const ProgramGenericProfile &profile)

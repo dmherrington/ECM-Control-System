@@ -53,7 +53,7 @@ public:
     }
 
     virtual GReturn UploadProgram(const std::string &programText) const = 0;
-    virtual GReturn DownloadProgram(const std::string &programText) const = 0;
+    virtual GReturn DownloadProgram(std::string &programText) const = 0;
 
     virtual GReturn WriteCommand(const std::string &command) const = 0;
 
