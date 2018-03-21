@@ -148,15 +148,34 @@ void RigolOscilliscope::NewDataReceived(const std::vector<uint8_t> &buffer) cons
 }
 
 void RigolOscilliscope::NewMeaurementReceived(const commands_Rigol::RigolMeasurementStatus &status) const
-{    
-    //First let us construct the tuple describing the measurement
-    common::TupleSensorString(deviceName,AvailableChannelsToDisplayString(status.getChannel()),MeasurementTypeEnumToString(status.getCommandType()));
-
+{
     std::cout<<"I have received some data from the command:"<<data_Rigol::MeasurementTypeEnumToString(status.getMeasurementType())<<std::endl;
     std::string returnString = status.getMeasurementString();
     std::cout<<"The data looked like: "<<returnString<<std::endl;
     std::cout<<"The time of the request was: "<<status.getRequestTime().ToString().toStdString()<<std::endl;
     std::cout<<"The time of the receive was: "<<status.getReceivedTime().ToString().toStdString()<<std::endl;
+
+    //First let us construct the tuple describing the measurement
+    common::TupleSensorString(deviceName,AvailableChannelsToDisplayString(status.getChannel()),MeasurementTypeEnumToString(status.getCommandType()));
+    common_data::SensorState newSensorMeasurement;
+    newSensorMeasurement.setObservationTime(status.getMeasurementTime());
+
+    switch (status.getMeasurementType()) {
+    case data_Rigol::MeasurementTypes::MEASURE_VTOP:
+    {
+        newSensorMeasurement.ConstructSensor(common_data::SENSOR_VOLTAGE,"Voltage Top");
+        ((common_data::SensorVoltage*)newSensorMeasurement.getSensorData().get())->SetVoltage(status.getMeasurementValue(),common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
+        break;
+    }
+    case data_Rigol::MeasurementTypes::MEASURE_MAREA:
+    {
+        newSensorMeasurement.ConstructSensor(common_data::SENSOR_MAREA,"Current Area");
+        ((common_data::SensorMAREA*)newSensorMeasurement.getSensorData().get())->SetCurrentArea(status.getMeasurementValue(),common_data::MAREAUnit::UNIT_VOLTAGE_AMPERE_SECONDS);
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 void RigolOscilliscope::saveMeasurements()

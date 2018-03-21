@@ -3,6 +3,7 @@
 
 #include "sensors/sensor.h"
 #include "sensors/sensor_voltage.h"
+#include "sensors/sensor_marea.h"
 
 namespace common_data{
 

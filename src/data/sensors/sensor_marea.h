@@ -24,7 +24,7 @@ public:
     SensorMAREA(const std::string &name);
 
 
-    double getCurrentArea(const common_data::MAREAUnit &unit) const;
+    double GetCurrentArea(const common_data::MAREAUnit &unit) const;
 
 
     /*!
@@ -32,7 +32,7 @@ public:
      * \param value Voltage value to set to.
      * \param unit Unit of voltage.
      */
-    void setCurrentArea(const double &value, const common_data::MAREAUnit &unit);
+    void SetCurrentArea(const double &value, const common_data::MAREAUnit &unit);
 
 
     //! Get the type of the concrete sensor

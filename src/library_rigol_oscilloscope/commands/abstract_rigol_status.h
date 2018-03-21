@@ -26,6 +26,9 @@ public:
     void setCommandType(const CommandTypes &type);
     CommandTypes getCommandType() const;
 
+    void updateMeasurementTime();
+    common::EnvironmentTime getMeasurementTime() const;
+
     void updateReceivedTime();
     common::EnvironmentTime getRequestTime() const;
     common::EnvironmentTime getReceivedTime() const;
@@ -55,6 +58,7 @@ public:
     AbstractRigolStatus& operator = (const AbstractRigolStatus &rhs)
     {
         this->commandType = rhs.commandType;
+        this->measurementTime = rhs.measurementTime;
         this->requestTime = rhs.requestTime;
         this->receivedTime = rhs.receivedTime;
         return *this;
@@ -73,6 +77,7 @@ public:
 
 private:
     CommandTypes commandType;
+    common::EnvironmentTime measurementTime;
     common::EnvironmentTime requestTime;
     common::EnvironmentTime receivedTime;
 };

@@ -13,7 +13,7 @@ SensorMAREA::SensorMAREA(const std::string &name)
 }
 
 
-double SensorMAREA::getCurrentArea(const MAREAUnit &unit) const
+double SensorMAREA::GetCurrentArea(const MAREAUnit &unit) const
 {
     return m_Area * common_data::MAREADimension(unit).RatioToBaseUnit();
 }
@@ -24,7 +24,7 @@ double SensorMAREA::getCurrentArea(const MAREAUnit &unit) const
  * \param value Voltage value to set to.
  * \param unit Unit of tempurature.
  */
-void SensorMAREA::setCurrentArea(const double &value, const MAREAUnit &unit)
+void SensorMAREA::SetCurrentArea(const double &value, const MAREAUnit &unit)
 {
     m_Area = value / MAREADimension(unit).RatioToBaseUnit();
 }
