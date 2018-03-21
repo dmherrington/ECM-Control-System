@@ -35,7 +35,9 @@ SOURCES += \
     measurement_state.cpp \
     motion_profile_state.cpp \
     profiles/profile_touchoff.cpp \
-    profiles/profile_homing.cpp
+    profiles/profile_homing.cpp \
+    sensors/sensor_marea.cpp \
+    dimensions/marea_dimension.cpp
 
 HEADERS += \
     data_global.h \
@@ -59,7 +61,9 @@ HEADERS += \
     digital_state.h \
     motion_profile_state.h \
     profiles/profile_state_homing.h \
-    profiles/profile_state_touchoff.h
+    profiles/profile_state_touchoff.h \
+    sensors/sensor_marea.h \
+    dimensions/marea_dimension.h
 
 # Unix lib Install
 unix:!symbian {

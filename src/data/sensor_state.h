@@ -26,7 +26,6 @@ public:
     //!
     SensorState();
 
-
     //!
     //! \brief Constructor specificying to allocate dynamic space or not
     //!
@@ -35,13 +34,11 @@ public:
     //!
     SensorState(bool allocate);
 
-
     /*!
      * \brief Copy constructor
      * \param that Data to copy from
      */
     SensorState(const SensorState& that);
-
 
     /*!
      * \brief Destructor
@@ -50,7 +47,6 @@ public:
      */
     ~SensorState();
 
-
     //!
     //! \brief Assignment operator
     //! \param that Object to assing from
@@ -58,12 +54,10 @@ public:
     //!
     SensorState& operator =(const SensorState &rhs);
 
-
     //!
     //! \brief Allocate space for dynamic structure to be held
     //!
     virtual void Allocate();
-
 
     //!
     //! \brief Construct a sensor to be present in this state
@@ -73,19 +67,34 @@ public:
     //!
     void ConstructSensor(const SensorTypes &type, std::string name);
 
-
     //!
     //! \brief Get a pointer to the sensor data held by this state.
     //! \return Pointer to data, Null if no data provided.
     //!
     std::shared_ptr<Sensor> getSensorData() const;
 
-
     //!
     //! \brief set sensor data held in this object
     //! \param sensorData Data to set to
     //!
     void setSensorData(const std::shared_ptr<Sensor> &sensorData);
+
+    //!
+    //! \brief setObservationTime
+    //! \param time
+    //!
+    void setObservationTime(const common::EnvironmentTime &time);
+
+    //!
+    //! \brief getObservationTime
+    //! \return
+    //!
+    common::EnvironmentTime getObservationTime() const;
+
+    SensorTypes getSensorType() const
+    {
+        return this->sensorData->getType();
+    }
 
 protected:
 
@@ -102,12 +111,11 @@ private:
     //! Number of references
     uint *ref_count;
 
+    //! The time of the sensor measurment
+    common::EnvironmentTime observationTime;
+
     //! The sensor data
     std::shared_ptr<Sensor> sensorData;
-
-public:
-    //! The time of the state measurment
-    common::EnvironmentTime *validityTime;
 };
 
 } //end of namespace data

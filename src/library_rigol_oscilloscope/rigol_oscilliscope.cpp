@@ -149,6 +149,9 @@ void RigolOscilliscope::NewDataReceived(const std::vector<uint8_t> &buffer) cons
 
 void RigolOscilliscope::NewMeaurementReceived(const commands_Rigol::RigolMeasurementStatus &status) const
 {    
+    //First let us construct the tuple describing the measurement
+    common::TupleSensorString(deviceName,AvailableChannelsToDisplayString(status.getChannel()),MeasurementTypeEnumToString(status.getCommandType()));
+
     std::cout<<"I have received some data from the command:"<<data_Rigol::MeasurementTypeEnumToString(status.getMeasurementType())<<std::endl;
     std::string returnString = status.getMeasurementString();
     std::cout<<"The data looked like: "<<returnString<<std::endl;

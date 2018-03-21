@@ -7,6 +7,7 @@
 
 #include "library_rigol_oscilloscope_global.h"
 
+#include "common/tuple_sensor_string.h"
 #include "common/comms/communication_connection.h"
 
 #include "data/type_read_write.h"

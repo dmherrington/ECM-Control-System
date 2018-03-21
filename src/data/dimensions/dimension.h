@@ -17,6 +17,7 @@ enum Dimensions
 {
     TIME,
     VOLTAGE,
+    MAREA,
     DIMENSIONS_NR
 };
 

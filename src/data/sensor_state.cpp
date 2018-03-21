@@ -38,7 +38,7 @@ SensorState::SensorState(bool allocate)
 SensorState::SensorState(const SensorState &that)
 {
     this->sensorData = that.sensorData;
-    this->validityTime = that.validityTime;
+    this->observationTime = that.observationTime;
     this->ref_count = that.ref_count;
 
     if(m_allocated)
@@ -80,7 +80,7 @@ SensorState& SensorState::operator =(const SensorState &rhs)
     }
 
     m_allocated = rhs.m_allocated;
-    validityTime = rhs.validityTime;
+    observationTime = rhs.observationTime;
     ref_count = rhs.ref_count;
 
     if(m_allocated)
@@ -100,7 +100,7 @@ void SensorState::Allocate()
     if(m_allocated == true)
         return;
 
-    validityTime = new common::EnvironmentTime();
+    observationTime = common::EnvironmentTime();
     ref_count = new uint();
 
     *ref_count = 1;
@@ -143,13 +143,30 @@ void SensorState::setSensorData(const std::shared_ptr<Sensor> &sensorData)
 }
 
 //!
+//! \brief SensorState::setObservationTime
+//! \param time
+//!
+void SensorState::setObservationTime(const common::EnvironmentTime &time)
+{
+    this->observationTime = time;
+}
+
+//!
+//! \brief SensorState::getObservationTime
+//! \return
+//!
+common::EnvironmentTime SensorState::getObservationTime() const
+{
+    return this->observationTime;
+}
+
+//!
 //! \brief Delete dynamic data held by this object
 //!
 void SensorState::Deallocate()
 {
     if(m_allocated)
     {
-        delete validityTime;
         delete ref_count;
 
         m_allocated = false;

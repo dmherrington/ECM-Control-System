@@ -17,6 +17,7 @@ namespace common_data
 enum SensorTypes
 {
     SENSOR_VOLTAGE,         //! A Voltage sensor
+    SENSOR_MAREA,           //! A Current Area measurement
     SENSORTYPES_NR_ITEMS    //! The number of sensor types
 };
 

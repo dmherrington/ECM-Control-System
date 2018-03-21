@@ -9,7 +9,8 @@ namespace common {
 class COMMONSHARED_EXPORT TupleSensorString : public TupleGeneric
 {
 public:
-    TupleSensorString();
+
+    TupleSensorString(const std::string &source = "", const std::string &sensor = "", const std::string &measure = "");
 
     TupleSensorString(const TupleSensorString &copy);
 
@@ -62,6 +63,9 @@ public:
 
     //! Name of sensor
     QString sensorName;
+
+    //! Name of the measurement
+    QString measurementName;
 
 };
 

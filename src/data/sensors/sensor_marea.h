@@ -1,19 +1,19 @@
-#ifndef SENSOR_VOLTAGE_H
-#define SENSOR_VOLTAGE_H
+#ifndef SENSOR_MAREA_H
+#define SENSOR_MAREA_H
 
 #include "../data_global.h"
 
 #include "sensor.h"
 
-#include "dimensions/voltage_dimension.h"
+#include "dimensions/marea_dimension.h"
 
 namespace common_data {
 
 
 /*!
- * \brief A Sensor to hold the voltage
+ * \brief A Sensor to hold the MAREA
  */
-class SensorVoltage : public Sensor
+class SensorMAREA : public Sensor
 {
 public:
 
@@ -21,15 +21,10 @@ public:
      * \brief Constructor
      * \param name Name of sensor
      */
-    SensorVoltage(const std::string &name);
+    SensorMAREA(const std::string &name);
 
 
-    /*!
-     * \brief Get the voltage value held by the sensor.
-     * \param unit Desired unit of voltage.
-     * \return The voltage in the disired unit.
-     */
-    double getVoltage(const common_data::VoltageUnit &unit) const;
+    double getCurrentArea(const common_data::MAREAUnit &unit) const;
 
 
     /*!
@@ -37,7 +32,7 @@ public:
      * \param value Voltage value to set to.
      * \param unit Unit of voltage.
      */
-    void SetVoltage(const double &value, const common_data::VoltageUnit &unit);
+    void setCurrentArea(const double &value, const common_data::MAREAUnit &unit);
 
 
     //! Get the type of the concrete sensor
@@ -59,9 +54,8 @@ public:
     virtual void Assign(const Sensor* S);
 
 private:
-    double m_Volt;
+    double m_Area;
 };
 
 } //end of common_data namespace
-
-#endif // SENSOR_VOLTAGE_H
+#endif // SENSOR_MAREA_H

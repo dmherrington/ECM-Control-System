@@ -32,11 +32,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        ecm_api.cpp
+        ecm_api.cpp \
+    ecm_logging.cpp \
+    ecm_process.cpp
 
 HEADERS += \
         ecm_api.h \
-        ecm_api_global.h  
+        ecm_api_global.h \  
+    ecm_logging.h \
+    ecm_process.h
 
 # Unix lib Install
 unix:!symbian {
