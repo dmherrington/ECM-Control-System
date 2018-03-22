@@ -156,7 +156,7 @@ void RigolOscilliscope::NewMeaurementReceived(const commands_Rigol::RigolMeasure
     std::cout<<"The time of the receive was: "<<status.getReceivedTime().ToString().toStdString()<<std::endl;
 
     //First let us construct the tuple describing the measurement
-    common::TupleSensorString(deviceName,AvailableChannelsToDisplayString(status.getChannel()),MeasurementTypeEnumToString(status.getCommandType()));
+    common::TupleSensorString sensorTuple(deviceName,AvailableChannelsToDisplayString(status.getChannel()),MeasurementTypeEnumToString(status.getMeasurementType()));
     common_data::SensorState newSensorMeasurement;
     newSensorMeasurement.setObservationTime(status.getMeasurementTime());
 
@@ -165,12 +165,14 @@ void RigolOscilliscope::NewMeaurementReceived(const commands_Rigol::RigolMeasure
     {
         newSensorMeasurement.ConstructSensor(common_data::SENSOR_VOLTAGE,"Voltage Top");
         ((common_data::SensorVoltage*)newSensorMeasurement.getSensorData().get())->SetVoltage(status.getMeasurementValue(),common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
+        emit signal_RigolNewSensorValue(sensorTuple,newSensorMeasurement);
         break;
     }
     case data_Rigol::MeasurementTypes::MEASURE_MAREA:
     {
         newSensorMeasurement.ConstructSensor(common_data::SENSOR_MAREA,"Current Area");
         ((common_data::SensorMAREA*)newSensorMeasurement.getSensorData().get())->SetCurrentArea(status.getMeasurementValue(),common_data::MAREAUnit::UNIT_VOLTAGE_AMPERE_SECONDS);
+        emit signal_RigolNewSensorValue(sensorTuple,newSensorMeasurement);
         break;
     }
     default:

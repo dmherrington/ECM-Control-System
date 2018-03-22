@@ -5,7 +5,7 @@
 
 #include "sensor.h"
 
-#include "dimensions/marea_dimension.h"
+#include "../dimensions/marea_dimension.h"
 
 namespace common_data {
 
@@ -48,13 +48,24 @@ public:
     virtual std::string getDescription() const;
 
     /*!
+     * \brief getLoggingString
+     * \return
+     */
+    std::string getLoggingString() const override;
+
+    /*!
      * \brief Assign a data from a sensor to this instance.
      * \param S Sensor to assign to.
      */
     virtual void Assign(const Sensor* S);
 
+    friend std::ostream& operator<< (std::ostream& stream, const SensorMAREA& data)
+    {
+        return stream << data.getLoggingString();
+    }
+
 private:
-    double m_Area;
+    double m_IArea;
 };
 
 } //end of common_data namespace

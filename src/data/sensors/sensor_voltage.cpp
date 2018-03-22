@@ -55,6 +55,13 @@ std::string SensorVoltage::getDescription() const
     return "This sensor is used to hold a single voltage";
 }
 
+std::string SensorVoltage::getLoggingString() const
+{
+    VoltageDimension dimension(VoltageUnit::UNIT_VOLTAGE_VOLTS);
+    std::string rtnStr = std::to_string(m_Volt) + "\t" + dimension.ShortHand();
+    return rtnStr;
+}
+
 /*!
  * \brief Assign a data from a sensor to this instance.
  * \param S Sensor to assign to.

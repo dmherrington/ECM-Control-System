@@ -35,12 +35,6 @@ public:
     virtual Dimensions getType() const = 0;
 
 
-    //!
-    //! \brief get index of enumeration describing current unit
-    //! \return index of enumeration
-    //!
-    virtual size_t getUnitIndex() const = 0;
-
 
     //!
     //! \brief Short hand notation of dimension

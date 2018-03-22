@@ -55,16 +55,6 @@ Dimensions MAREADimension::getType() const
 
 
 //!
-//! \brief get index of enumeration describing current unit
-//! \return index of enumeration
-//!
-size_t MAREADimension::getUnitIndex() const
-{
-    return m_type;
-}
-
-
-//!
 //! \brief Short hand notation of dimension
 //! \return Short hand notation
 //!
@@ -72,7 +62,7 @@ std::string MAREADimension::ShortHand() const
 {
     switch(m_type)
     {
-    case UNIT_VOLTAGE_AMPERE_SECONDS:
+    case MAREAUnit::UNIT_VOLTAGE_AMPERE_SECONDS:
         return "A-s";
     default:
         throw new std::runtime_error("Unkown Unit");
@@ -98,7 +88,7 @@ IDimension* MAREADimension::Copy() const
 //!
 MAREAUnit MAREADimension::BaseUnit() const
 {
-    return UNIT_VOLTAGE_AMPERE_SECONDS;
+    return MAREAUnit::UNIT_VOLTAGE_AMPERE_SECONDS;
 }
 
 
@@ -110,7 +100,7 @@ double MAREADimension::RatioToBaseUnit() const
 {
     switch(m_type)
     {
-    case UNIT_VOLTAGE_AMPERE_SECONDS:
+    case MAREAUnit::UNIT_VOLTAGE_AMPERE_SECONDS:
         return 1.0;
     default:
         throw new std::runtime_error("Unkown Unit");

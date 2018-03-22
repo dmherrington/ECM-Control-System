@@ -63,6 +63,13 @@ public:
      */
     virtual std::string getDescription() const = 0;
 
+    //!
+    //! \brief getLoggingString
+    //! \return
+    //!
+    virtual std::string getLoggingString() const = 0;
+
+
     /*!
      * \brief Assign a data from a sensor to this instance.
      * \param S Sensor to assign to.
@@ -91,6 +98,11 @@ public:
     //! \return typeEnum SensorType enum corresponding to unitString
     //!
     static SensorTypes StringToSensorTypeEnum(const std::string &unitString);
+
+    friend std::ostream& operator<< (std::ostream &stream, const Sensor &data)
+    {
+        return stream<<data.getLoggingString();
+    }
 
 private:
 

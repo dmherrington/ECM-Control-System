@@ -2,6 +2,7 @@
 #define SENSOR_STATE_H
 
 #include <QDataStream>
+#include <QTextStream>
 
 #include "data_global.h"
 
@@ -94,6 +95,11 @@ public:
     SensorTypes getSensorType() const
     {
         return this->sensorData->getType();
+    }
+
+    friend QTextStream& operator <<(QTextStream &outStream, const SensorState &data)
+    {
+        return outStream<<QString::fromStdString(data.getSensorData()->getLoggingString());
     }
 
 protected:

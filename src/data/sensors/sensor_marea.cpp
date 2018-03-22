@@ -15,7 +15,7 @@ SensorMAREA::SensorMAREA(const std::string &name)
 
 double SensorMAREA::GetCurrentArea(const MAREAUnit &unit) const
 {
-    return m_Area * common_data::MAREADimension(unit).RatioToBaseUnit();
+    return m_IArea * common_data::MAREADimension(unit).RatioToBaseUnit();
 }
 
 
@@ -26,7 +26,7 @@ double SensorMAREA::GetCurrentArea(const MAREAUnit &unit) const
  */
 void SensorMAREA::SetCurrentArea(const double &value, const MAREAUnit &unit)
 {
-    m_Area = value / MAREADimension(unit).RatioToBaseUnit();
+    m_IArea = value / MAREADimension(unit).RatioToBaseUnit();
 }
 
 
@@ -49,13 +49,20 @@ std::string SensorMAREA::getDescription() const
     return "This sensor is used to hold the current area measured by an oscilliscope.";
 }
 
+std::string SensorMAREA::getLoggingString() const
+{
+    MAREADimension dimension(MAREAUnit::UNIT_VOLTAGE_AMPERE_SECONDS);
+    std::string rtnStr = std::to_string(m_IArea) + "\t" + dimension.ShortHand();
+    return rtnStr;
+}
+
 /*!
  * \brief Assign a data from a sensor to this instance.
  * \param S Sensor to assign to.
  */
 void SensorMAREA::Assign(const Sensor *S)
 {
-    this->m_Area = ((SensorMAREA*)S)->m_Area;
+    this->m_IArea = ((SensorMAREA*)S)->m_IArea;
 }
 
 }

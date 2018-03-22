@@ -66,6 +66,7 @@ private:
 
 signals:
     void signal_RigolConnectionUpdate(const common::comms::CommunicationConnection &value) const;
+    void signal_RigolNewSensorValue(const common::TupleSensorString &sensorTuple, const common_data::SensorState &data) const;
 
 private:
     std::string deviceName;

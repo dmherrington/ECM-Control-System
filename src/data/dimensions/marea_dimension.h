@@ -8,10 +8,10 @@ namespace common_data {
 //!
 //! \brief Allowed units in voltage dimension
 //!
-enum MAREAUnit
+enum class MAREAUnit
 {
     UNIT_VOLTAGE_AMPERE_SECONDS,
-    UNIT_VOLTAGE_NR
+    UNIT_NR
 };
 
 
@@ -50,13 +50,6 @@ public:
     //! \return Type of dimension.
     //!
     virtual Dimensions getType() const;
-
-
-    //!
-    //! \brief get index of enumeration describing current unit
-    //! \return index of enumeration
-    //!
-    virtual size_t getUnitIndex() const;
 
 
     //!
