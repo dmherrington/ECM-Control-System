@@ -46,7 +46,7 @@
 \*
 \*/
 
-class GMC_SHARED_EXPORT GalilMotionController : public QObject, public GalilStatusUpdate_Interface, public GalilCallback_StateInterface, public Comms::CommsEvents
+class GMC_SHARED_EXPORT GalilMotionController : public QObject, public GalilStatusUpdate_Interface, public GalilCallback_StateInterface, private Comms::CommsEvents
 {
     Q_OBJECT
 
@@ -57,11 +57,12 @@ public:
 
 public:
     void openConnection(const std::string &address);
+
     void closeConnection();
 
-public:
+private:
     //////////////////////////////////////////////////////////////
-    /// Virtual methods allowed from Comms::CommsEvents
+    /// Virtual methods imposed via Comms::CommsEvents
     //////////////////////////////////////////////////////////////
     void LinkConnected() const override;
     void LinkDisconnected() const override;
@@ -75,8 +76,8 @@ public:
     void NewStatusMotorStopCode(const Status_StopCode &status) override;
     void NewStatusVariableList(const Status_VariableList &status) override;
     void NewStatusVariableValue(const Status_VariableValue &status) override;
-public:
 
+public:
     void getSettingsPath(std::string &settingsPath) const;
     bool saveSettings();
     bool saveSettingsAs(const std::string &filePath);

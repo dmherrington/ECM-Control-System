@@ -15,6 +15,12 @@ class ECMLogging
 public:
     ECMLogging();
 
+    void setLoggingRelativeTime(const bool &value);
+
+    bool isLoggingRelativeTime() const;
+
+    void setLoggingStartTime(const common::EnvironmentTime &time);
+
     //!
     //! \brief Write data bout sensor state to log
     //! \param sensorKey Sensor component
@@ -22,7 +28,11 @@ public:
     //!
     void WriteLogSensorState(const common::TupleSensorString &key, const common_data::SensorState &state);
 
-private:
+protected:
+
+    bool logReglativeTime = false;
+
+    common::EnvironmentTime startLogTime;
 
     //! Map of sensors to log
     QMap<common::TupleSensorString, QFile*> m_LogSensorStates;

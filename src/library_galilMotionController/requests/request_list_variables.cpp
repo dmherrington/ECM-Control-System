@@ -42,8 +42,8 @@ std::vector<AbstractStatusPtr> RequestListVariables::getStatus() const
         if(line.size() == 2)
         {
             QString varName = line.at(0).trimmed();
-            QString varValue = line.at(1).trimmed();
-            variableList->addVariable(Status_VariableValue(varName.toStdString(),varValue.toDouble()));
+            QString varLineNumber = line.at(1).trimmed();
+            variableList->addVariable(Status_VariableValue(varName.toStdString(),varLineNumber.toDouble()));
         }
     }
     rtn.push_back(variableList);

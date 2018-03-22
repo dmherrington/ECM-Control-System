@@ -80,8 +80,10 @@ SOURCES += \
     commands/command_variable.cpp \
     requests/request_variable.cpp \
     status/status_variable_value.cpp \
-    status/status_variable_list.cpp
-
+    status/status_variable_list.cpp \
+    programs/program_variable_value_list.cpp \
+    programs/program_variable_list.cpp \
+    programs/program_label_list.cpp
 HEADERS += \
         axis_definitions.h \
         galil_motion_controller.h \
@@ -161,8 +163,10 @@ HEADERS += \
     commands/command_variable.h \
     requests/request_tell_variable.h \
     status/status_variable_value.h \
-    status/status_variable_list.h
-
+    status/status_variable_list.h \
+    programs/program_variable_value_list.h \
+    programs/program_variable_list.h \
+    programs/program_label_list.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

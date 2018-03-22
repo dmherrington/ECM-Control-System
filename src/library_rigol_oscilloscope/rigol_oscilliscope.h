@@ -36,14 +36,24 @@ public:
 
 public:
     void openConnection(const std::string &ipAddress, const int &port);
-    void closeConnection();
+    void initializeRigol() const;
+
+    void saveMeasurements();
+    void loadMeaurements(const std::string &path);
 
     bool addPollingMeasurement(const commands_Rigol::MeasureCommand_Item &command);
     void removePollingMeasurement(const std::string &key);
-    void executeMeasurementPolling(const bool &execute);
     commands_Rigol::RigolMeasurementQueue getCurrentPollingMeasurements() const;
 
-public:
+    void closeConnection();
+
+private:
+    void executeMeasurementPolling(const bool &execute);
+
+    void loadFromQueue(const commands_Rigol::RigolMeasurementQueue &updatedQueue);
+
+    void cbi_RigolMeasurementRequests(const commands_Rigol::MeasureCommand_Item &request) override;
+
     //////////////////////////////////////////////////////////////
     /// Virtual methods allowed from comms::CommsEvents
     //////////////////////////////////////////////////////////////
@@ -51,18 +61,6 @@ public:
     void ConnectionClosed() const override;
     void NewDataReceived(const std::vector<uint8_t> &buffer) const override;
     void NewMeaurementReceived(const commands_Rigol::RigolMeasurementStatus &status) const override;
-
-public:
-    void cbi_RigolMeasurementRequests(const commands_Rigol::MeasureCommand_Item &request) override;
-
-public:
-    void saveMeasurements();
-    void loadMeaurements(const std::string &path);
-
-private:
-    void initializeRigol() const;
-    void loadFromQueue(const commands_Rigol::RigolMeasurementQueue &updatedQueue);
-
 
 signals:
     void signal_RigolConnectionUpdate(const common::comms::CommunicationConnection &value) const;

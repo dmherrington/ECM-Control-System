@@ -31,7 +31,8 @@ SOURCES += common.cpp \
     tuple_ecm_data.cpp \
     tuple_master_string.cpp \
     comms/serial_configuration.cpp \
-    comms/tcp_configuration.cpp
+    comms/tcp_configuration.cpp \
+    tuple_machine_string.cpp
 
 HEADERS += common.h\
         common_global.h \
@@ -52,7 +53,8 @@ HEADERS += common.h\
     comms/serial_configuration.h \
     comms/tcp_configuration.h \
     ecm_devices.h \
-    types_execution_profiles.h
+    types_execution_profiles.h \
+    tuple_machine_string.h
 
 #Header file copy
 headers.path    = $$(ECM_ROOT)/include/common

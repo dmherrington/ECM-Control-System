@@ -8,8 +8,8 @@ GalilCurrentProgram::GalilCurrentProgram()
 GalilCurrentProgram::GalilCurrentProgram(const GalilCurrentProgram &copy)
 {
     this->program = copy.program;
-    this->labels = copy.labels;
-    this->variables = copy.labels;
+    this->labelList = copy.labelList;
+    this->variableList = copy.variableList;
 }
 
 void GalilCurrentProgram::setProgram(const std::string &programString)
@@ -17,28 +17,24 @@ void GalilCurrentProgram::setProgram(const std::string &programString)
     this->program = programString;
 }
 
-void GalilCurrentProgram::setLabels(const std::map<std::string, int> &labelMap)
+void GalilCurrentProgram::setLabelList(const ProgramLabelList &list)
 {
-    this->labels = labelMap;
+    this->labelList = list;
 }
 
-void GalilCurrentProgram::setVariables(const std::map<std::string, int> &variableMap)
+void GalilCurrentProgram::setVariableList(const ProgramVariableList &list)
 {
-    this->variables = variableMap;
+    this->variableList = list;
 }
 
 bool GalilCurrentProgram::doesLabelExist(const std::string &label) const
 {
-    if(this->labels.count(label) > 0)
-        return true;
-    return false;
+    return labelList.doesLabelExist(label);
 }
 
 bool GalilCurrentProgram::doesVariableExist(const std::string &variable) const
 {
-    if(this->variables.count(variable) > 0)
-        return true;
-    return false;
+    return variableList.doesVariableExist(variable);
 }
 
 bool GalilCurrentProgram::getLabelLine(const std::string &label, int &line) const

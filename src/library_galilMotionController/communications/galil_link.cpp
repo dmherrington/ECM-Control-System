@@ -115,7 +115,10 @@ GReturn GalilLink::DownloadProgram(std::string &programText) const
         if(rtnCode == G_NO_ERROR)
             programText = std::string(buf);
         else
+        {
             retries++;
+            bufferSize = bufferSize * (retries + 1);
+        }
         delete[] buf;
     }
     return rtnCode;

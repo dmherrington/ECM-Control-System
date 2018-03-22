@@ -187,7 +187,7 @@ void GalilMotionController::NewStatusMotorInMotion(const Status_AxisInMotion &st
 
 void GalilMotionController::NewStatusVariableValue(const Status_VariableValue &status)
 {
-    if(stateInterface->statusVariables.updateVariable(status))
+    if(stateInterface->statusVariableValues->updateVariable(status))
     {
         stateMachine->UpdateStates();
         stateMachine->ProcessStateTransitions();
@@ -196,7 +196,7 @@ void GalilMotionController::NewStatusVariableValue(const Status_VariableValue &s
 
 void GalilMotionController::NewStatusVariableList(const Status_VariableList &status)
 {
-    stateInterface->statusVariables = status;
+    stateInterface->galilProgram->setVariableList(status);
 }
 
 void GalilMotionController::getProgramPath(std::string &filePath) const

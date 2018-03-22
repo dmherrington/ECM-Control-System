@@ -4,6 +4,9 @@
 #include <string>
 #include <map>
 
+#include "program_label_list.h"
+#include "program_variable_list.h"
+
 class GalilCurrentProgram
 {
 public:
@@ -16,9 +19,9 @@ public:
 public:
     void setProgram(const std::string &programString);
 
-    void setLabels(const std::map<std::string, int> &labelMap);
+    void setLabelList(const ProgramLabelList &list);
 
-    void setVariables(const std::map<std::string, int> &variableMap);
+    void setVariableList(const ProgramVariableList &list);
 
 public:
     bool doesLabelExist(const std::string &label) const;
@@ -37,8 +40,8 @@ public:
 
 private:
     std::string program;
-    std::map<std::string, int> labels;
-    std::map<std::string, int> variables;
+    ProgramLabelList labelList;
+    ProgramVariableList variableList;
 };
 
 #endif // GALIL_CURRENT_PROGRAM_H
