@@ -7,6 +7,11 @@ Window_RigolControl::Window_RigolControl(RigolOscilliscope *obj, QWidget *parent
     m_Rigol(obj)
 {
     ui->setupUi(this);
+
+    ui->comboBox_Channel->addItem(QString::fromStdString(AvailableChannelsToDisplayString(AvailableChannels::CHANNEL_1)));
+    ui->comboBox_Channel->addItem(QString::fromStdString(AvailableChannelsToDisplayString(AvailableChannels::CHANNEL_2)));
+    ui->comboBox_Channel->addItem(QString::fromStdString(AvailableChannelsToDisplayString(AvailableChannels::CHANNEL_3)));
+    ui->comboBox_Channel->addItem(QString::fromStdString(AvailableChannelsToDisplayString(AvailableChannels::CHANNEL_4)));
 }
 
 Window_RigolControl::~Window_RigolControl()

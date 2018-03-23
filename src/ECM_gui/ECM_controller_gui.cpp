@@ -16,7 +16,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     m_API = new ECM_API();
 
-    connect(m_API->m_Rigol, SIGNAL(signal_RigolPlottable(common::TupleSensorString,bool)), this, SLOT());
+    connect(m_API->m_Rigol, SIGNAL(signal_RigolPlottable(common::TupleSensorString,bool)), this, SLOT(slot_NewlyAvailableRigolData(common::TupleSensorString,bool)));
 
     m_WindowMunk = new Window_MunkPowerSupply(m_API->m_Munk);
     m_WindowMunk->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
@@ -47,7 +47,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     m_additionalSensorDisplay = new AdditionalSensorDisplay(&m_PlotCollection);
     m_additionalSensorDisplay->setWindowTitle("ECM Sensors");
-    //m_additionalSensorDisplay->AddUsableSensor(key);
+
     if(m_additionalSensorDisplay->isHidden())
         m_additionalSensorDisplay->show();
 
@@ -325,4 +325,10 @@ void ECMControllerGUI::on_actionPower_Supply_triggered()
 void ECMControllerGUI::on_actionOscilliscope_triggered()
 {
     m_WindowRigol->show();
+}
+
+void ECMControllerGUI::slot_NewlyAvailableRigolData(const common::TupleSensorString &sensor, const bool &val)
+{
+    if(val)
+        m_additionalSensorDisplay->AddUsableSensor(sensor);
 }

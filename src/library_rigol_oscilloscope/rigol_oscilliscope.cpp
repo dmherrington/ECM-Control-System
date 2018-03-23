@@ -61,12 +61,12 @@ bool RigolOscilliscope::addPollingMeasurement(const commands_Rigol::MeasureComma
 
         emit signal_RigolPlottable(sensorTuple, true);
 
-        commsMarshaler->sendSetMeasurementCommand(command);
-        //next we should copy this write command as a read command for the polling object
-        commands_Rigol::MeasureCommand_Item copyCommand(command);
-        copyCommand.setReadOrWrite(data_Rigol::RigolRWType::READ);
-        pollStatus->addPollingMeasurement(copyCommand);
-        saveMeasurements();
+//        commsMarshaler->sendSetMeasurementCommand(command);
+//        //next we should copy this write command as a read command for the polling object
+//        commands_Rigol::MeasureCommand_Item copyCommand(command);
+//        copyCommand.setReadOrWrite(data_Rigol::RigolRWType::READ);
+//        pollStatus->addPollingMeasurement(copyCommand);
+//        saveMeasurements();
     }
     return unique;
 }

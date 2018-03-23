@@ -9,7 +9,7 @@ Window_MunkPowerSupply::Window_MunkPowerSupply(const MunkPowerSupply *obj, QWidg
     ui->setupUi(this);
     ui->widget_connection->setDiameter(6);
 
-    connect(munk,SIGNAL(signal_MunkConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(on_connectionUpdated(bool)));
+    connect(munk,SIGNAL(signal_MunkConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(on_connectionUpdated(common::comms::CommunicationConnection)));
 
     readSettings();
 }

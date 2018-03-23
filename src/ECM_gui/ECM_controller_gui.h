@@ -33,6 +33,9 @@ public:
 
 private:
     bool maybeSave();
+
+private slots:
+    void slot_NewlyAvailableRigolData(const common::TupleSensorString &sensor, const bool &val);
 private slots:
     void slot_NewSensorData(const common::TupleSensorString sensor, const common_data::SensorState state);
 
