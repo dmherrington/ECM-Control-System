@@ -10,7 +10,7 @@ class COMMONSHARED_EXPORT TupleSensorString : public TupleGeneric
 {
 public:
 
-    TupleSensorString(const std::string &source = "", const std::string &sensor = "", const std::string &measure = "");
+    TupleSensorString(const QString &source = "", const QString &sensor = "", const QString &measure = "");
 
     TupleSensorString(const TupleSensorString &copy);
 

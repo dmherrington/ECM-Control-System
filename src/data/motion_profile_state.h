@@ -1,14 +1,23 @@
 #ifndef MOTION_PROFILE_STATE_H
 #define MOTION_PROFILE_STATE_H
 
+#include <stdexcept>
+
 #include "string"
 #include "memory"
 
-#include "common/types_execution_profiles.h"
 #include "common/environment_time.h"
 
 class MotionProfile
 {
+public:
+    enum class ProfileType
+    {
+        HOMING,
+        TOUCHOFF,
+        PROFILE
+    };
+
 public:
     //! Constructor
     /*!

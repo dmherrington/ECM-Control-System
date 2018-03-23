@@ -268,6 +268,50 @@ width:20px;
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
+      <widget class="LED" name="widget_LEDEStop" native="true">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>30</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="LED" name="widget_LEDTouchoff_3" native="true">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>80</y>
+         <width>30</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+      </widget>
      </widget>
     </item>
     <item row="0" column="0" colspan="3">
@@ -322,48 +366,8 @@ width:20px;
        <number>2</number>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <widget class="QSplitter" name="splitter_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <widget class="QLabel" name="label_ManualControl_2">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>120</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>120</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Profile Optons</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </widget>
-       </item>
-       <item row="0" column="1" rowspan="2">
-        <widget class="QPushButton" name="pushButton_RunProfile">
+       <item row="2" column="1">
+        <widget class="QComboBox" name="comboBox_ProgramProfiles">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -375,14 +379,6 @@ width:20px;
            <width>180</width>
            <height>30</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Run Profile</string>
          </property>
         </widget>
        </item>
@@ -926,22 +922,6 @@ width:20px;
          </widget>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="comboBox_ProgramProfiles">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>180</width>
-           <height>30</height>
-          </size>
-         </property>
-        </widget>
-       </item>
        <item row="3" column="1">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
@@ -976,6 +956,94 @@ width:20px;
          </property>
          <property name="text">
           <string>Upload Program</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QPushButton" name="pushButton_DownloadProgram">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>180</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Download Program</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QSplitter" name="splitter_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <widget class="QLabel" name="label_ManualControl_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>120</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>120</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Profile Optons</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </widget>
+       </item>
+       <item row="0" column="1" rowspan="2">
+        <widget class="QPushButton" name="pushButton_RunProfile">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>180</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Run Profile</string>
          </property>
         </widget>
        </item>
@@ -1022,30 +1090,6 @@ width:20px;
           </widget>
          </item>
         </layout>
-       </item>
-       <item row="5" column="1">
-        <widget class="QPushButton" name="pushButton_DownloadProgram">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>180</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Download Program</string>
-         </property>
-        </widget>
        </item>
       </layout>
      </widget>
@@ -1673,7 +1717,7 @@ width:20px;
      <x>0</x>
      <y>0</y>
      <width>1040</width>
-     <height>39</height>
+     <height>40</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

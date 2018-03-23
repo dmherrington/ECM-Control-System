@@ -196,7 +196,7 @@ void GalilMotionController::NewStatusVariableValue(const Status_VariableValue &s
 
 void GalilMotionController::NewStatusVariableList(const Status_VariableList &status)
 {
-    stateInterface->galilProgram->setVariableList(status);
+    stateInterface->galilProgram->setVariableList(status.getVariableList());
 }
 
 void GalilMotionController::getProgramPath(std::string &filePath) const

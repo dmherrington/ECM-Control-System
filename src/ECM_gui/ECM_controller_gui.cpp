@@ -16,6 +16,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     m_API = new ECM_API();
 
+    connect(m_API->m_Rigol, SIGNAL(signal_RigolPlottable(common::TupleSensorString,bool)), this, SLOT());
+
     m_WindowMunk = new Window_MunkPowerSupply(m_API->m_Munk);
     m_WindowMunk->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
 
@@ -45,6 +47,13 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     m_additionalSensorDisplay = new AdditionalSensorDisplay(&m_PlotCollection);
     m_additionalSensorDisplay->setWindowTitle("ECM Sensors");
+    //m_additionalSensorDisplay->AddUsableSensor(key);
+    if(m_additionalSensorDisplay->isHidden())
+        m_additionalSensorDisplay->show();
+
+//    m_additionalSensorDisplay->SetOriginTime();
+//    m_additionalSensorDisplay->UpdateNonPlottedData(); //this actually updates the data
+//    m_additionalSensorDisplay->UpdatePlottedData(); //this actually updates the rendering of the data
 
     //give collection of plots
 //    ui->centralCustomPlot->SupplyPlotCollection(&m_PlotCollection);
@@ -266,7 +275,7 @@ void ECMControllerGUI::on_pushButton_MotorDisable_released()
 
 void ECMControllerGUI::on_pushButton_ResetHome_released()
 {
-    CommandExecuteProfile command(ProfileType::HOMING,"latch");
+    CommandExecuteProfile command(MotionProfile::ProfileType::HOMING,"latch");
     m_API->m_Galil->executeCommand(&command);
 }
 

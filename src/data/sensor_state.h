@@ -11,8 +11,7 @@
 
 #include <memory>
 
-namespace common_data
-{
+namespace common_data {
 
 //! The state of a sensor
 /*!

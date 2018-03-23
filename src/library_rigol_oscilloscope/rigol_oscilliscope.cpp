@@ -1,9 +1,10 @@
 #include "rigol_oscilliscope.h"
 
 RigolOscilliscope::RigolOscilliscope(const std::string &name, QObject *parent):
-    QObject(parent)
+    QObject(parent),
+    deviceName(name)
 {
-    this->deviceName = name;
+    qRegisterMetaType<common_data::SensorState>("SensorState");
 
     pollStatus = new RigolPollMeasurement();
     pollStatus->connectCallback(this);
@@ -53,6 +54,13 @@ bool RigolOscilliscope::addPollingMeasurement(const commands_Rigol::MeasureComma
      */
     if(unique)
     {
+        //alert the plotting interface that new information will be available for plotting
+        common::TupleSensorString sensorTuple(QString::fromStdString(command.getDeviceName()),
+                                              QString::fromStdString(AvailableChannelsToDisplayString(command.getChannel())),
+                                              QString::fromStdString(MeasurementTypeEnumToString(command.getMeasurementType())));
+
+        emit signal_RigolPlottable(sensorTuple, true);
+
         commsMarshaler->sendSetMeasurementCommand(command);
         //next we should copy this write command as a read command for the polling object
         commands_Rigol::MeasureCommand_Item copyCommand(command);
@@ -63,9 +71,16 @@ bool RigolOscilliscope::addPollingMeasurement(const commands_Rigol::MeasureComma
     return unique;
 }
 
-void RigolOscilliscope::removePollingMeasurement(const std::string &key)
+void RigolOscilliscope::removePollingMeasurement(const MeasureCommand_Item &command)
 {
-    pollStatus->removePollingMeasurement(key);
+    //alert the plotting interface that this type of information will no longer be available for plotting
+    common::TupleSensorString sensorTuple(QString::fromStdString(command.getDeviceName()),
+                                          QString::fromStdString(AvailableChannelsToDisplayString(command.getChannel())),
+                                          QString::fromStdString(MeasurementTypeEnumToString(command.getMeasurementType())));
+
+    emit signal_RigolPlottable(sensorTuple, false);
+
+    pollStatus->removePollingMeasurement(command.getCommandKey());
 }
 
 void RigolOscilliscope::executeMeasurementPolling(const bool &execute)
@@ -156,7 +171,9 @@ void RigolOscilliscope::NewMeaurementReceived(const commands_Rigol::RigolMeasure
     std::cout<<"The time of the receive was: "<<status.getReceivedTime().ToString().toStdString()<<std::endl;
 
     //First let us construct the tuple describing the measurement
-    common::TupleSensorString sensorTuple(deviceName,AvailableChannelsToDisplayString(status.getChannel()),MeasurementTypeEnumToString(status.getMeasurementType()));
+    common::TupleSensorString sensorTuple(QString::fromStdString(status.getDeviceName()),
+                                          QString::fromStdString(AvailableChannelsToDisplayString(status.getChannel())),
+                                          QString::fromStdString(MeasurementTypeEnumToString(status.getMeasurementType())));
     common_data::SensorState newSensorMeasurement;
     newSensorMeasurement.setObservationTime(status.getMeasurementTime());
 

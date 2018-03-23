@@ -8,7 +8,6 @@
 
 #include "common.h"
 #include "tuple_master_string.h"
-#include "tuple_measurement_string.h"
 #include "tuple_sensor_string.h"
 
 namespace common {

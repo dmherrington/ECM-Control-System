@@ -1,11 +1,11 @@
 #include "program_variable_value_list.h"
 
-ProgramVariableValueList::ProgramVariableValueList():
+ProgramVariableValueList::ProgramVariableValueList()
 {
 
 }
 
-ProgramVariableValueList::ProgramVariableValueList(const ProgramVariableValueList &copy):
+ProgramVariableValueList::ProgramVariableValueList(const ProgramVariableValueList &copy)
 {
     this->variableMap = copy.variableMap;
 }

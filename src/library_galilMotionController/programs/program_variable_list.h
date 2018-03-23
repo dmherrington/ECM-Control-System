@@ -21,9 +21,13 @@ public:
 
     void updateVariable(const std::string &name, const int &lineNumber);
 
-    bool getVariableLine(const std::string &name, int &lineNumber);
+    bool getVariableLine(const std::string &name, int &lineNumber) const;
 
     void clearVariableList();
+
+    size_t sizeOfVariableList() const;
+
+     std::map<std::string,int> getVariableMap() const;
 
 public:
     ProgramVariableList& operator = (const ProgramVariableList &rhs)

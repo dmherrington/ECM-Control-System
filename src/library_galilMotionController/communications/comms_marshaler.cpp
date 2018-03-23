@@ -180,14 +180,6 @@ void CommsMarshaler::BadCommandResponse(const AbstractStatus &status) const
 void CommsMarshaler::NewProgramUploaded(const ProgramGeneric &program) const
 {
     Emit([&](CommsEvents *ptr){ptr->NewProgramUploaded(program);});
-
-    auto func = [this] () {
-        RequestListLabelsPtr requestLabels = std::make_shared<RequestListLabels>();
-        RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
-        protocol->SendProtocolRequest(link.get(),requestLabels);
-        protocol->SendProtocolRequest(link.get(),requestVariables);
-    };
-    link->MarshalOnThread(func);
 }
 
 void CommsMarshaler::NewProgramDownloaded(const ProgramGeneric &program) const

@@ -10,14 +10,14 @@ Status_VariableValue::Status_VariableValue(const std::string &name, const double
     AbstractStatus(StatusTypes::STATUS_VARIABLEVALUE)
 {
     this->variableName = name;
-    this->variableValue.set(value);
+    this->variableValue = value;
 }
 
 Status_VariableValue::Status_VariableValue(const Status_VariableValue &copy):
     AbstractStatus(StatusTypes::STATUS_VARIABLEVALUE)
 {
     this->variableName = copy.variableName;
-    this->variableValue.set(copy.variableValue.get());
+    this->variableValue = copy.variableValue;
 }
 
 void Status_VariableValue::setVariableName(const std::string &axis)
@@ -27,7 +27,7 @@ void Status_VariableValue::setVariableName(const std::string &axis)
 
 bool Status_VariableValue::setVariableValue(const double &value)
 {
-    return this->variableValue.set(value);
+    return this->variableValue = value ;
 }
 
 std::string Status_VariableValue::getVariableName() const
@@ -37,5 +37,5 @@ std::string Status_VariableValue::getVariableName() const
 
 double Status_VariableValue::getVariableValue() const
 {
-    return variableValue.get();
+    return variableValue;
 }

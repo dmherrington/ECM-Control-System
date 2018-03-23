@@ -29,7 +29,7 @@ protected:
 
 private slots:
     void on_pushButton_AddSegment_released();
-    void on_connectionUpdated(const bool &val);
+    void on_connectionUpdated(const common::comms::CommunicationConnection &connection);
 
     void on_actionClose_triggered();
 

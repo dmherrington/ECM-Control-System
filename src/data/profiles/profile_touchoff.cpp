@@ -12,7 +12,7 @@ ProfileState_Touchoff::ProfileState_Touchoff(const ProfileState_Touchoff &copy):
 
 }
 
-ProfileType ProfileState_Touchoff::getType() const
+MotionProfile::ProfileType ProfileState_Touchoff::getType() const
 {
     return ProfileType::TOUCHOFF;
 }
@@ -22,7 +22,7 @@ void ProfileState_Touchoff::setCurrentCode(const TOUCHOFFProfileCodes &code)
     this->currentCode = code;
 }
 
-TOUCHOFFProfileCodes ProfileState_Touchoff::getCurrentCode() const
+ProfileState_Touchoff::TOUCHOFFProfileCodes ProfileState_Touchoff::getCurrentCode() const
 {
     return this->currentCode;
 }

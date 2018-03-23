@@ -110,21 +110,21 @@ void State_Ready::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
         switch (castCommand->getProfileType()) {
-        case ProfileType::HOMING:
+        case MotionProfile::ProfileType::HOMING:
         {
             //This command will transition the machine to STATE_HOME_POSITIONING
             desiredState = ECMState::STATE_HOME_POSITIONING;
             this->currentCommand = copyCommand;
             break;
         }
-        case ProfileType::PROFILE:
+        case MotionProfile::ProfileType::PROFILE:
         {
             //This command will transition the machine to STATE_SCRIPT_EXECUTION
             desiredState = ECMState::STATE_SCRIPT_EXECUTION;
             this->currentCommand = copyCommand;
             break;
         }
-        case ProfileType::TOUCHOFF:
+        case MotionProfile::ProfileType::TOUCHOFF:
         {
             //This command will transition the machine to STATE_TOUCHOFF
             desiredState = ECMState::STATE_TOUCHOFF;

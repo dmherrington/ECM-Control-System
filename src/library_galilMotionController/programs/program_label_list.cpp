@@ -5,7 +5,7 @@ ProgramLabelList::ProgramLabelList()
 
 }
 
-ProgramLabelList::ProgramLabelList(const ProgramLabelList &copy):
+ProgramLabelList::ProgramLabelList(const ProgramLabelList &copy)
 {
     this->labelMap = copy.labelMap;
 }
@@ -34,10 +34,9 @@ void ProgramLabelList::updateLabel(const std::string &name, const int &lineNumbe
         this->labelMap.at(name) = lineNumber;
     else
         this->labelMap[name] = lineNumber;
-    return true;
 }
 
-bool ProgramLabelList::getLabelLine(const std::string &name, int &lineNumber)
+bool ProgramLabelList::getLabelLine(const std::string &name, int &lineNumber) const
 {
     if(this->labelMap.count(name) > 0)
     {
@@ -50,4 +49,9 @@ bool ProgramLabelList::getLabelLine(const std::string &name, int &lineNumber)
 void ProgramLabelList::clearLabelList()
 {
     labelMap.clear();
+}
+
+std::map<std::string,int> ProgramLabelList::getLabelMap() const
+{
+    return this->labelMap;
 }

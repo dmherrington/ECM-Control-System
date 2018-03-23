@@ -33,9 +33,7 @@ ECM_CLASS_FORWARD(MeasureCommand_Item);
 class MeasureCommand_Item : public AbstractMeasureCommand
 {
 public:
-    MeasureCommand_Item();
-
-    MeasureCommand_Item(const data_Rigol::AvailableChannels &channel, const data_Rigol::MeasurementTypes &type);
+    MeasureCommand_Item(const std::string &name = "Rigol", const data_Rigol::AvailableChannels &channel = AvailableChannels::CHANNEL_1, const data_Rigol::MeasurementTypes &type = MeasurementTypes::MEASURE_VRMS);
 
     MeasureCommand_Item(const MeasureCommand_Item &copy);
 
@@ -60,9 +58,13 @@ public:
     void getClone(AbstractRigolCommand** state) const override;
 
 public:
+    void setDeviceName(const std::string &name);
+
     void setChannel(const data_Rigol::AvailableChannels &measureChannel);
 
     void setMeasurementType(const data_Rigol::MeasurementTypes &type);
+
+    std::string getDeviceName() const;
 
     data_Rigol::AvailableChannels getChannel() const;
 
@@ -131,6 +133,7 @@ public:
     }
 
 private:
+    std::string deviceName = "Rigol";
     data_Rigol::AvailableChannels channel = data_Rigol::AvailableChannels::CHANNEL_1;
     data_Rigol::MeasurementTypes measureType = data_Rigol::MeasurementTypes::MEASURE_VRMS;
 

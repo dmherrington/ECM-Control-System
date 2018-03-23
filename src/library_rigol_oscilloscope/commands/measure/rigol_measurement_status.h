@@ -13,7 +13,7 @@ class RigolMeasurementStatus : public AbstractRigolStatus
 {
 
 public:
-    RigolMeasurementStatus(const data_Rigol::AvailableChannels &measureChannel, const data_Rigol::MeasurementTypes &type);
+    RigolMeasurementStatus(const std::string &name, const data_Rigol::AvailableChannels &measureChannel, const data_Rigol::MeasurementTypes &type);
 
     RigolMeasurementStatus(const RigolMeasurementStatus &copy);
 

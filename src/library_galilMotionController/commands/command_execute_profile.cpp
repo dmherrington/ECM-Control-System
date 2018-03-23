@@ -1,6 +1,6 @@
 #include "command_execute_profile.h"
 
-CommandExecuteProfile::CommandExecuteProfile(const ProfileType &type, const std::string &name):
+CommandExecuteProfile::CommandExecuteProfile(const MotionProfile::ProfileType &type, const std::string &name):
     AbstractCommand(CommandType::EXECUTE_PROGRAM)
 {
     this->profileType = type;
@@ -40,7 +40,7 @@ std::string CommandExecuteProfile::getCommandString() const
 //! \brief getProfileLabel
 //! \return
 //!
-ProfileType CommandExecuteProfile::getProfileType() const
+MotionProfile::ProfileType CommandExecuteProfile::getProfileType() const
 {
     return this->profileType;
 }

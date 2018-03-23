@@ -2,7 +2,7 @@
 #define COMMAND_EXECUTE_PROFILE_H
 
 #include "common/class_forward.h"
-#include "common/types_execution_profiles.h"
+#include "data/motion_profile_state.h"
 
 #include "commands/abstract_command.h"
 
@@ -13,7 +13,7 @@ ECM_CLASS_FORWARD(CommandExecuteProfile);
 class CommandExecuteProfile : public AbstractCommand
 {
 public:
-    CommandExecuteProfile(const ProfileType &type, const std::string &name);
+    CommandExecuteProfile(const MotionProfile::ProfileType &type, const std::string &name);
 
     CommandExecuteProfile(const CommandExecuteProfile &copy);
 
@@ -45,7 +45,7 @@ public:
     //! \brief getProfileLabel
     //! \return
     //!
-    ProfileType getProfileType() const;
+    MotionProfile::ProfileType getProfileType() const;
 
     //!
     //! \brief getProfileLabel
@@ -54,7 +54,7 @@ public:
     std::string getProfileName() const;
 
 private:
-    ProfileType profileType;
+    MotionProfile::ProfileType profileType;
     std::string profileName;
 };
 

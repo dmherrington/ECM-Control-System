@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'ECM_controller_gui.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.1
+** Created by: Qt User Interface Compiler version 5.10.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -52,12 +52,12 @@ public:
     QLineEdit *lineEdit_2;
     QFrame *frame_DIO;
     QLabel *label_ManualControl_5;
+    LED *widget_LEDEStop;
+    LED *widget_LEDTouchoff_3;
     QWidget *widget_2;
     QFrame *frame_ProfileOptions;
     QGridLayout *gridLayout_2;
-    QSplitter *splitter_2;
-    QLabel *label_ManualControl_2;
-    QPushButton *pushButton_RunProfile;
+    QComboBox *comboBox_ProgramProfiles;
     QTabWidget *tabWidget;
     QWidget *tab_linearParams;
     QGridLayout *gridLayout_5;
@@ -81,13 +81,15 @@ public:
     QSpinBox *spinBox_RetractPeriod;
     QLabel *label_Pause;
     QSpinBox *spinBox_Pause;
-    QComboBox *comboBox_ProgramProfiles;
     QSpacerItem *verticalSpacer_2;
     QPushButton *pushButton_UploadProgram;
+    QPushButton *pushButton_DownloadProgram;
+    QSplitter *splitter_2;
+    QLabel *label_ManualControl_2;
+    QPushButton *pushButton_RunProfile;
     QFormLayout *formLayout_3;
     QPushButton *pushButton_EstablishTouchoff;
     LED *widget_LEDTouchoff;
-    QPushButton *pushButton_DownloadProgram;
     QFrame *frame_MotorControl;
     QGridLayout *gridLayout_3;
     QPushButton *pushButton;
@@ -325,6 +327,16 @@ public:
         font1.setWeight(75);
         label_ManualControl_5->setFont(font1);
         label_ManualControl_5->setAlignment(Qt::AlignCenter);
+        widget_LEDEStop = new LED(frame_DIO);
+        widget_LEDEStop->setObjectName(QStringLiteral("widget_LEDEStop"));
+        widget_LEDEStop->setGeometry(QRect(10, 40, 30, 30));
+        widget_LEDEStop->setMinimumSize(QSize(30, 30));
+        widget_LEDEStop->setMaximumSize(QSize(30, 30));
+        widget_LEDTouchoff_3 = new LED(frame_DIO);
+        widget_LEDTouchoff_3->setObjectName(QStringLiteral("widget_LEDTouchoff_3"));
+        widget_LEDTouchoff_3->setGeometry(QRect(10, 80, 30, 30));
+        widget_LEDTouchoff_3->setMinimumSize(QSize(30, 30));
+        widget_LEDTouchoff_3->setMaximumSize(QSize(30, 30));
 
         gridLayout_8->addWidget(frame_DIO, 3, 2, 1, 1);
 
@@ -353,31 +365,13 @@ public:
         gridLayout_2->setSpacing(6);
         gridLayout_2->setContentsMargins(11, 11, 11, 11);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        splitter_2 = new QSplitter(frame_ProfileOptions);
-        splitter_2->setObjectName(QStringLiteral("splitter_2"));
-        splitter_2->setOrientation(Qt::Horizontal);
-        label_ManualControl_2 = new QLabel(splitter_2);
-        label_ManualControl_2->setObjectName(QStringLiteral("label_ManualControl_2"));
-        sizePolicy1.setHeightForWidth(label_ManualControl_2->sizePolicy().hasHeightForWidth());
-        label_ManualControl_2->setSizePolicy(sizePolicy1);
-        label_ManualControl_2->setMinimumSize(QSize(120, 20));
-        label_ManualControl_2->setMaximumSize(QSize(120, 20));
-        label_ManualControl_2->setFont(font1);
-        label_ManualControl_2->setAlignment(Qt::AlignCenter);
-        splitter_2->addWidget(label_ManualControl_2);
+        comboBox_ProgramProfiles = new QComboBox(frame_ProfileOptions);
+        comboBox_ProgramProfiles->setObjectName(QStringLiteral("comboBox_ProgramProfiles"));
+        sizePolicy1.setHeightForWidth(comboBox_ProgramProfiles->sizePolicy().hasHeightForWidth());
+        comboBox_ProgramProfiles->setSizePolicy(sizePolicy1);
+        comboBox_ProgramProfiles->setMinimumSize(QSize(180, 30));
 
-        gridLayout_2->addWidget(splitter_2, 0, 0, 1, 1);
-
-        pushButton_RunProfile = new QPushButton(frame_ProfileOptions);
-        pushButton_RunProfile->setObjectName(QStringLiteral("pushButton_RunProfile"));
-        sizePolicy1.setHeightForWidth(pushButton_RunProfile->sizePolicy().hasHeightForWidth());
-        pushButton_RunProfile->setSizePolicy(sizePolicy1);
-        pushButton_RunProfile->setMinimumSize(QSize(180, 30));
-        QFont font2;
-        font2.setPointSize(12);
-        pushButton_RunProfile->setFont(font2);
-
-        gridLayout_2->addWidget(pushButton_RunProfile, 0, 1, 2, 1);
+        gridLayout_2->addWidget(comboBox_ProgramProfiles, 2, 1, 1, 1);
 
         tabWidget = new QTabWidget(frame_ProfileOptions);
         tabWidget->setObjectName(QStringLiteral("tabWidget"));
@@ -403,11 +397,11 @@ public:
         sizePolicy4.setHeightForWidth(label_CutDepth->sizePolicy().hasHeightForWidth());
         label_CutDepth->setSizePolicy(sizePolicy4);
         label_CutDepth->setMinimumSize(QSize(145, 25));
-        QFont font3;
-        font3.setPointSize(10);
-        font3.setBold(true);
-        font3.setWeight(75);
-        label_CutDepth->setFont(font3);
+        QFont font2;
+        font2.setPointSize(10);
+        font2.setBold(true);
+        font2.setWeight(75);
+        label_CutDepth->setFont(font2);
         label_CutDepth->setAlignment(Qt::AlignCenter);
 
         formLayout_2->setWidget(0, QFormLayout::LabelRole, label_CutDepth);
@@ -417,7 +411,7 @@ public:
         sizePolicy4.setHeightForWidth(label_CutSpeed->sizePolicy().hasHeightForWidth());
         label_CutSpeed->setSizePolicy(sizePolicy4);
         label_CutSpeed->setMinimumSize(QSize(145, 25));
-        label_CutSpeed->setFont(font3);
+        label_CutSpeed->setFont(font2);
         label_CutSpeed->setAlignment(Qt::AlignCenter);
 
         formLayout_2->setWidget(1, QFormLayout::LabelRole, label_CutSpeed);
@@ -465,7 +459,7 @@ public:
         sizePolicy4.setHeightForWidth(label_RetractSpeed->sizePolicy().hasHeightForWidth());
         label_RetractSpeed->setSizePolicy(sizePolicy4);
         label_RetractSpeed->setMinimumSize(QSize(145, 25));
-        label_RetractSpeed->setFont(font3);
+        label_RetractSpeed->setFont(font2);
         label_RetractSpeed->setAlignment(Qt::AlignCenter);
 
         formLayout->setWidget(0, QFormLayout::LabelRole, label_RetractSpeed);
@@ -489,7 +483,7 @@ public:
         sizePolicy4.setHeightForWidth(label_PlungeSpeed->sizePolicy().hasHeightForWidth());
         label_PlungeSpeed->setSizePolicy(sizePolicy4);
         label_PlungeSpeed->setMinimumSize(QSize(145, 25));
-        label_PlungeSpeed->setFont(font3);
+        label_PlungeSpeed->setFont(font2);
         label_PlungeSpeed->setAlignment(Qt::AlignCenter);
 
         formLayout->setWidget(1, QFormLayout::LabelRole, label_PlungeSpeed);
@@ -513,7 +507,7 @@ public:
         sizePolicy4.setHeightForWidth(label_RetractDistance->sizePolicy().hasHeightForWidth());
         label_RetractDistance->setSizePolicy(sizePolicy4);
         label_RetractDistance->setMinimumSize(QSize(145, 25));
-        label_RetractDistance->setFont(font3);
+        label_RetractDistance->setFont(font2);
         label_RetractDistance->setAlignment(Qt::AlignCenter);
 
         formLayout->setWidget(2, QFormLayout::LabelRole, label_RetractDistance);
@@ -533,7 +527,7 @@ public:
         sizePolicy4.setHeightForWidth(label_StepSize->sizePolicy().hasHeightForWidth());
         label_StepSize->setSizePolicy(sizePolicy4);
         label_StepSize->setMinimumSize(QSize(145, 25));
-        label_StepSize->setFont(font3);
+        label_StepSize->setFont(font2);
         label_StepSize->setAlignment(Qt::AlignCenter);
 
         formLayout->setWidget(3, QFormLayout::LabelRole, label_StepSize);
@@ -553,7 +547,7 @@ public:
         sizePolicy4.setHeightForWidth(label_RetractPeriod->sizePolicy().hasHeightForWidth());
         label_RetractPeriod->setSizePolicy(sizePolicy4);
         label_RetractPeriod->setMinimumSize(QSize(145, 25));
-        label_RetractPeriod->setFont(font3);
+        label_RetractPeriod->setFont(font2);
         label_RetractPeriod->setAlignment(Qt::AlignCenter);
 
         formLayout->setWidget(4, QFormLayout::LabelRole, label_RetractPeriod);
@@ -577,7 +571,7 @@ public:
         sizePolicy4.setHeightForWidth(label_Pause->sizePolicy().hasHeightForWidth());
         label_Pause->setSizePolicy(sizePolicy4);
         label_Pause->setMinimumSize(QSize(145, 25));
-        label_Pause->setFont(font3);
+        label_Pause->setFont(font2);
         label_Pause->setAlignment(Qt::AlignCenter);
 
         formLayout->setWidget(5, QFormLayout::LabelRole, label_Pause);
@@ -600,14 +594,6 @@ public:
 
         gridLayout_2->addWidget(tabWidget, 1, 0, 4, 1);
 
-        comboBox_ProgramProfiles = new QComboBox(frame_ProfileOptions);
-        comboBox_ProgramProfiles->setObjectName(QStringLiteral("comboBox_ProgramProfiles"));
-        sizePolicy1.setHeightForWidth(comboBox_ProgramProfiles->sizePolicy().hasHeightForWidth());
-        comboBox_ProgramProfiles->setSizePolicy(sizePolicy1);
-        comboBox_ProgramProfiles->setMinimumSize(QSize(180, 30));
-
-        gridLayout_2->addWidget(comboBox_ProgramProfiles, 2, 1, 1, 1);
-
         verticalSpacer_2 = new QSpacerItem(20, 79, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         gridLayout_2->addItem(verticalSpacer_2, 3, 1, 1, 1);
@@ -617,9 +603,44 @@ public:
         sizePolicy1.setHeightForWidth(pushButton_UploadProgram->sizePolicy().hasHeightForWidth());
         pushButton_UploadProgram->setSizePolicy(sizePolicy1);
         pushButton_UploadProgram->setMinimumSize(QSize(180, 30));
-        pushButton_UploadProgram->setFont(font2);
+        QFont font3;
+        font3.setPointSize(12);
+        pushButton_UploadProgram->setFont(font3);
 
         gridLayout_2->addWidget(pushButton_UploadProgram, 4, 1, 1, 1);
+
+        pushButton_DownloadProgram = new QPushButton(frame_ProfileOptions);
+        pushButton_DownloadProgram->setObjectName(QStringLiteral("pushButton_DownloadProgram"));
+        sizePolicy1.setHeightForWidth(pushButton_DownloadProgram->sizePolicy().hasHeightForWidth());
+        pushButton_DownloadProgram->setSizePolicy(sizePolicy1);
+        pushButton_DownloadProgram->setMinimumSize(QSize(180, 30));
+        pushButton_DownloadProgram->setFont(font3);
+
+        gridLayout_2->addWidget(pushButton_DownloadProgram, 5, 1, 1, 1);
+
+        splitter_2 = new QSplitter(frame_ProfileOptions);
+        splitter_2->setObjectName(QStringLiteral("splitter_2"));
+        splitter_2->setOrientation(Qt::Horizontal);
+        label_ManualControl_2 = new QLabel(splitter_2);
+        label_ManualControl_2->setObjectName(QStringLiteral("label_ManualControl_2"));
+        sizePolicy1.setHeightForWidth(label_ManualControl_2->sizePolicy().hasHeightForWidth());
+        label_ManualControl_2->setSizePolicy(sizePolicy1);
+        label_ManualControl_2->setMinimumSize(QSize(120, 20));
+        label_ManualControl_2->setMaximumSize(QSize(120, 20));
+        label_ManualControl_2->setFont(font1);
+        label_ManualControl_2->setAlignment(Qt::AlignCenter);
+        splitter_2->addWidget(label_ManualControl_2);
+
+        gridLayout_2->addWidget(splitter_2, 0, 0, 1, 1);
+
+        pushButton_RunProfile = new QPushButton(frame_ProfileOptions);
+        pushButton_RunProfile->setObjectName(QStringLiteral("pushButton_RunProfile"));
+        sizePolicy1.setHeightForWidth(pushButton_RunProfile->sizePolicy().hasHeightForWidth());
+        pushButton_RunProfile->setSizePolicy(sizePolicy1);
+        pushButton_RunProfile->setMinimumSize(QSize(180, 30));
+        pushButton_RunProfile->setFont(font3);
+
+        gridLayout_2->addWidget(pushButton_RunProfile, 0, 1, 2, 1);
 
         formLayout_3 = new QFormLayout();
         formLayout_3->setSpacing(6);
@@ -629,7 +650,7 @@ public:
         sizePolicy1.setHeightForWidth(pushButton_EstablishTouchoff->sizePolicy().hasHeightForWidth());
         pushButton_EstablishTouchoff->setSizePolicy(sizePolicy1);
         pushButton_EstablishTouchoff->setMinimumSize(QSize(180, 30));
-        pushButton_EstablishTouchoff->setFont(font2);
+        pushButton_EstablishTouchoff->setFont(font3);
 
         formLayout_3->setWidget(0, QFormLayout::LabelRole, pushButton_EstablishTouchoff);
 
@@ -642,15 +663,6 @@ public:
 
 
         gridLayout_2->addLayout(formLayout_3, 5, 0, 1, 1);
-
-        pushButton_DownloadProgram = new QPushButton(frame_ProfileOptions);
-        pushButton_DownloadProgram->setObjectName(QStringLiteral("pushButton_DownloadProgram"));
-        sizePolicy1.setHeightForWidth(pushButton_DownloadProgram->sizePolicy().hasHeightForWidth());
-        pushButton_DownloadProgram->setSizePolicy(sizePolicy1);
-        pushButton_DownloadProgram->setMinimumSize(QSize(180, 30));
-        pushButton_DownloadProgram->setFont(font2);
-
-        gridLayout_2->addWidget(pushButton_DownloadProgram, 5, 1, 1, 1);
 
 
         gridLayout_8->addWidget(frame_ProfileOptions, 2, 0, 2, 1);
@@ -713,7 +725,7 @@ public:
         sizePolicy1.setHeightForWidth(pushButton_ResetHome->sizePolicy().hasHeightForWidth());
         pushButton_ResetHome->setSizePolicy(sizePolicy1);
         pushButton_ResetHome->setMinimumSize(QSize(112, 30));
-        pushButton_ResetHome->setFont(font2);
+        pushButton_ResetHome->setFont(font3);
 
         gridLayout_4->addWidget(pushButton_ResetHome, 0, 1, 1, 1);
 
@@ -740,7 +752,7 @@ public:
         sizePolicy1.setHeightForWidth(pushButton_MoveHome->sizePolicy().hasHeightForWidth());
         pushButton_MoveHome->setSizePolicy(sizePolicy1);
         pushButton_MoveHome->setMinimumSize(QSize(112, 30));
-        pushButton_MoveHome->setFont(font2);
+        pushButton_MoveHome->setFont(font3);
 
         gridLayout_4->addWidget(pushButton_MoveHome, 1, 1, 1, 1);
 
@@ -812,7 +824,7 @@ public:
         sizePolicy1.setHeightForWidth(pushButton_IncreaseRelativeMove->sizePolicy().hasHeightForWidth());
         pushButton_IncreaseRelativeMove->setSizePolicy(sizePolicy1);
         pushButton_IncreaseRelativeMove->setMinimumSize(QSize(112, 30));
-        pushButton_IncreaseRelativeMove->setFont(font2);
+        pushButton_IncreaseRelativeMove->setFont(font3);
 
         verticalLayout_2->addWidget(pushButton_IncreaseRelativeMove);
 
@@ -821,7 +833,7 @@ public:
         sizePolicy1.setHeightForWidth(spinBox_RelativeMove->sizePolicy().hasHeightForWidth());
         spinBox_RelativeMove->setSizePolicy(sizePolicy1);
         spinBox_RelativeMove->setMinimumSize(QSize(112, 30));
-        spinBox_RelativeMove->setFont(font2);
+        spinBox_RelativeMove->setFont(font3);
         spinBox_RelativeMove->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         spinBox_RelativeMove->setMaximum(100000);
         spinBox_RelativeMove->setSingleStep(100);
@@ -834,7 +846,7 @@ public:
         sizePolicy1.setHeightForWidth(pushButton_DecreaseRelativeMove->sizePolicy().hasHeightForWidth());
         pushButton_DecreaseRelativeMove->setSizePolicy(sizePolicy1);
         pushButton_DecreaseRelativeMove->setMinimumSize(QSize(112, 30));
-        pushButton_DecreaseRelativeMove->setFont(font2);
+        pushButton_DecreaseRelativeMove->setFont(font3);
 
         verticalLayout_2->addWidget(pushButton_DecreaseRelativeMove);
 
@@ -863,7 +875,7 @@ public:
         sizePolicy1.setHeightForWidth(pushButton_IncreaseJog->sizePolicy().hasHeightForWidth());
         pushButton_IncreaseJog->setSizePolicy(sizePolicy1);
         pushButton_IncreaseJog->setMinimumSize(QSize(112, 30));
-        pushButton_IncreaseJog->setFont(font2);
+        pushButton_IncreaseJog->setFont(font3);
 
         verticalLayout->addWidget(pushButton_IncreaseJog);
 
@@ -872,7 +884,7 @@ public:
         sizePolicy1.setHeightForWidth(spinBox_Jog->sizePolicy().hasHeightForWidth());
         spinBox_Jog->setSizePolicy(sizePolicy1);
         spinBox_Jog->setMinimumSize(QSize(112, 30));
-        spinBox_Jog->setFont(font2);
+        spinBox_Jog->setFont(font3);
         spinBox_Jog->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         spinBox_Jog->setMinimum(1);
         spinBox_Jog->setMaximum(10000);
@@ -886,7 +898,7 @@ public:
         sizePolicy1.setHeightForWidth(pushButton_DecreaseJog->sizePolicy().hasHeightForWidth());
         pushButton_DecreaseJog->setSizePolicy(sizePolicy1);
         pushButton_DecreaseJog->setMinimumSize(QSize(112, 30));
-        pushButton_DecreaseJog->setFont(font2);
+        pushButton_DecreaseJog->setFont(font3);
 
         verticalLayout->addWidget(pushButton_DecreaseJog);
 
@@ -908,7 +920,7 @@ public:
         sizePolicy1.setHeightForWidth(pushButton_MotorEnable->sizePolicy().hasHeightForWidth());
         pushButton_MotorEnable->setSizePolicy(sizePolicy1);
         pushButton_MotorEnable->setMinimumSize(QSize(130, 30));
-        pushButton_MotorEnable->setFont(font2);
+        pushButton_MotorEnable->setFont(font3);
 
         gridLayout_6->addWidget(pushButton_MotorEnable, 3, 0, 1, 1);
 
@@ -917,7 +929,7 @@ public:
         sizePolicy1.setHeightForWidth(pushButton_MotorDisable->sizePolicy().hasHeightForWidth());
         pushButton_MotorDisable->setSizePolicy(sizePolicy1);
         pushButton_MotorDisable->setMinimumSize(QSize(130, 30));
-        pushButton_MotorDisable->setFont(font2);
+        pushButton_MotorDisable->setFont(font3);
 
         gridLayout_6->addWidget(pushButton_MotorDisable, 3, 1, 1, 1);
 
@@ -927,7 +939,7 @@ public:
         ECMControllerGUI->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(ECMControllerGUI);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1040, 39));
+        menuBar->setGeometry(QRect(0, 0, 1040, 40));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menuBar);
@@ -966,45 +978,45 @@ public:
 
     void retranslateUi(QMainWindow *ECMControllerGUI)
     {
-        ECMControllerGUI->setWindowTitle(QApplication::translate("ECMControllerGUI", "ECMControllerGUI", Q_NULLPTR));
-        actionConnections->setText(QApplication::translate("ECMControllerGUI", "Connections", Q_NULLPTR));
-        actionPower_Supply->setText(QApplication::translate("ECMControllerGUI", "Power Supply", Q_NULLPTR));
-        actionPump->setText(QApplication::translate("ECMControllerGUI", "Pump", Q_NULLPTR));
-        actionOscilliscope->setText(QApplication::translate("ECMControllerGUI", "Oscilliscope", Q_NULLPTR));
-        actionTouchoff->setText(QApplication::translate("ECMControllerGUI", "Touchoff", Q_NULLPTR));
-        label_ManualControl_5->setText(QApplication::translate("ECMControllerGUI", "DIO Signals", Q_NULLPTR));
-        label_ManualControl_2->setText(QApplication::translate("ECMControllerGUI", "Profile Optons", Q_NULLPTR));
-        pushButton_RunProfile->setText(QApplication::translate("ECMControllerGUI", "Run Profile", Q_NULLPTR));
-        label_CutDepth->setText(QApplication::translate("ECMControllerGUI", "Depth of Cut (um)", Q_NULLPTR));
-        label_CutSpeed->setText(QApplication::translate("ECMControllerGUI", "Cut Speed (um/s)", Q_NULLPTR));
-        tabWidget->setTabText(tabWidget->indexOf(tab_linearParams), QApplication::translate("ECMControllerGUI", "Linear Parameters", Q_NULLPTR));
-        label_RetractSpeed->setText(QApplication::translate("ECMControllerGUI", "Retract Speed (um/s)", Q_NULLPTR));
-        label_PlungeSpeed->setText(QApplication::translate("ECMControllerGUI", "Plunge Speed (um/s)", Q_NULLPTR));
-        label_RetractDistance->setText(QApplication::translate("ECMControllerGUI", "Retract Distance (um)", Q_NULLPTR));
-        label_StepSize->setText(QApplication::translate("ECMControllerGUI", "Step Size (um)", Q_NULLPTR));
-        label_RetractPeriod->setText(QApplication::translate("ECMControllerGUI", "Retract Period (ms)", Q_NULLPTR));
-        label_Pause->setText(QApplication::translate("ECMControllerGUI", "Pause (ms)", Q_NULLPTR));
-        tabWidget->setTabText(tabWidget->indexOf(tab_vibrationParams), QApplication::translate("ECMControllerGUI", "Vibration Parameters", Q_NULLPTR));
-        pushButton_UploadProgram->setText(QApplication::translate("ECMControllerGUI", "Upload Program", Q_NULLPTR));
-        pushButton_EstablishTouchoff->setText(QApplication::translate("ECMControllerGUI", "Establish Touchoff", Q_NULLPTR));
-        pushButton_DownloadProgram->setText(QApplication::translate("ECMControllerGUI", "Download Program", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("ECMControllerGUI", "STOP", Q_NULLPTR));
-        label_ManualControl->setText(QApplication::translate("ECMControllerGUI", "Manual Control", Q_NULLPTR));
-        pushButton_ResetHome->setText(QApplication::translate("ECMControllerGUI", "Reset Home", Q_NULLPTR));
-        pushButton_MoveHome->setText(QApplication::translate("ECMControllerGUI", "Move To Home", Q_NULLPTR));
-        label->setText(QApplication::translate("ECMControllerGUI", "Current Position (um):", Q_NULLPTR));
-        label_ManualControl_4->setText(QApplication::translate("ECMControllerGUI", "Step Control (um)", Q_NULLPTR));
-        label_ManualControl_3->setText(QApplication::translate("ECMControllerGUI", "Jog Control (um/sec)", Q_NULLPTR));
-        pushButton_IncreaseRelativeMove->setText(QApplication::translate("ECMControllerGUI", "INCREASE", Q_NULLPTR));
-        pushButton_DecreaseRelativeMove->setText(QApplication::translate("ECMControllerGUI", "DECREASE", Q_NULLPTR));
-        pushButton_IncreaseJog->setText(QApplication::translate("ECMControllerGUI", "INCREASE", Q_NULLPTR));
-        pushButton_DecreaseJog->setText(QApplication::translate("ECMControllerGUI", "DECREASE", Q_NULLPTR));
-        pushButton_MotorEnable->setText(QApplication::translate("ECMControllerGUI", "ENABLE MOTOR", Q_NULLPTR));
-        pushButton_MotorDisable->setText(QApplication::translate("ECMControllerGUI", "DISABLE MOTOR", Q_NULLPTR));
-        menuFile->setTitle(QApplication::translate("ECMControllerGUI", "File", Q_NULLPTR));
-        menuEdit->setTitle(QApplication::translate("ECMControllerGUI", "Edit", Q_NULLPTR));
-        menuTools->setTitle(QApplication::translate("ECMControllerGUI", "Tools", Q_NULLPTR));
-        menuHelp->setTitle(QApplication::translate("ECMControllerGUI", "Help", Q_NULLPTR));
+        ECMControllerGUI->setWindowTitle(QApplication::translate("ECMControllerGUI", "ECMControllerGUI", nullptr));
+        actionConnections->setText(QApplication::translate("ECMControllerGUI", "Connections", nullptr));
+        actionPower_Supply->setText(QApplication::translate("ECMControllerGUI", "Power Supply", nullptr));
+        actionPump->setText(QApplication::translate("ECMControllerGUI", "Pump", nullptr));
+        actionOscilliscope->setText(QApplication::translate("ECMControllerGUI", "Oscilliscope", nullptr));
+        actionTouchoff->setText(QApplication::translate("ECMControllerGUI", "Touchoff", nullptr));
+        label_ManualControl_5->setText(QApplication::translate("ECMControllerGUI", "DIO Signals", nullptr));
+        label_CutDepth->setText(QApplication::translate("ECMControllerGUI", "Depth of Cut (um)", nullptr));
+        label_CutSpeed->setText(QApplication::translate("ECMControllerGUI", "Cut Speed (um/s)", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_linearParams), QApplication::translate("ECMControllerGUI", "Linear Parameters", nullptr));
+        label_RetractSpeed->setText(QApplication::translate("ECMControllerGUI", "Retract Speed (um/s)", nullptr));
+        label_PlungeSpeed->setText(QApplication::translate("ECMControllerGUI", "Plunge Speed (um/s)", nullptr));
+        label_RetractDistance->setText(QApplication::translate("ECMControllerGUI", "Retract Distance (um)", nullptr));
+        label_StepSize->setText(QApplication::translate("ECMControllerGUI", "Step Size (um)", nullptr));
+        label_RetractPeriod->setText(QApplication::translate("ECMControllerGUI", "Retract Period (ms)", nullptr));
+        label_Pause->setText(QApplication::translate("ECMControllerGUI", "Pause (ms)", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_vibrationParams), QApplication::translate("ECMControllerGUI", "Vibration Parameters", nullptr));
+        pushButton_UploadProgram->setText(QApplication::translate("ECMControllerGUI", "Upload Program", nullptr));
+        pushButton_DownloadProgram->setText(QApplication::translate("ECMControllerGUI", "Download Program", nullptr));
+        label_ManualControl_2->setText(QApplication::translate("ECMControllerGUI", "Profile Optons", nullptr));
+        pushButton_RunProfile->setText(QApplication::translate("ECMControllerGUI", "Run Profile", nullptr));
+        pushButton_EstablishTouchoff->setText(QApplication::translate("ECMControllerGUI", "Establish Touchoff", nullptr));
+        pushButton->setText(QApplication::translate("ECMControllerGUI", "STOP", nullptr));
+        label_ManualControl->setText(QApplication::translate("ECMControllerGUI", "Manual Control", nullptr));
+        pushButton_ResetHome->setText(QApplication::translate("ECMControllerGUI", "Reset Home", nullptr));
+        pushButton_MoveHome->setText(QApplication::translate("ECMControllerGUI", "Move To Home", nullptr));
+        label->setText(QApplication::translate("ECMControllerGUI", "Current Position (um):", nullptr));
+        label_ManualControl_4->setText(QApplication::translate("ECMControllerGUI", "Step Control (um)", nullptr));
+        label_ManualControl_3->setText(QApplication::translate("ECMControllerGUI", "Jog Control (um/sec)", nullptr));
+        pushButton_IncreaseRelativeMove->setText(QApplication::translate("ECMControllerGUI", "INCREASE", nullptr));
+        pushButton_DecreaseRelativeMove->setText(QApplication::translate("ECMControllerGUI", "DECREASE", nullptr));
+        pushButton_IncreaseJog->setText(QApplication::translate("ECMControllerGUI", "INCREASE", nullptr));
+        pushButton_DecreaseJog->setText(QApplication::translate("ECMControllerGUI", "DECREASE", nullptr));
+        pushButton_MotorEnable->setText(QApplication::translate("ECMControllerGUI", "ENABLE MOTOR", nullptr));
+        pushButton_MotorDisable->setText(QApplication::translate("ECMControllerGUI", "DISABLE MOTOR", nullptr));
+        menuFile->setTitle(QApplication::translate("ECMControllerGUI", "File", nullptr));
+        menuEdit->setTitle(QApplication::translate("ECMControllerGUI", "Edit", nullptr));
+        menuTools->setTitle(QApplication::translate("ECMControllerGUI", "Tools", nullptr));
+        menuHelp->setTitle(QApplication::translate("ECMControllerGUI", "Help", nullptr));
     } // retranslateUi
 
 };

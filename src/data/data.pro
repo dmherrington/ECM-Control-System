@@ -37,7 +37,8 @@ SOURCES += \
     profiles/profile_touchoff.cpp \
     profiles/profile_homing.cpp \
     sensors/sensor_marea.cpp \
-    dimensions/marea_dimension.cpp
+    dimensions/marea_dimension.cpp \
+    profiles/profile_state_machining.cpp
 
 HEADERS += \
     data_global.h \
@@ -63,7 +64,8 @@ HEADERS += \
     profiles/profile_state_homing.h \
     profiles/profile_state_touchoff.h \
     sensors/sensor_marea.h \
-    dimensions/marea_dimension.h
+    dimensions/marea_dimension.h \
+    profiles/profile_state_machining.h
 
 # Unix lib Install
 unix:!symbian {

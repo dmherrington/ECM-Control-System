@@ -8,9 +8,8 @@ Window_MunkPowerSupply::Window_MunkPowerSupply(const MunkPowerSupply *obj, QWidg
 {
     ui->setupUi(this);
     ui->widget_connection->setDiameter(6);
-    this->on_connectionUpdated(munk->isConnected());
 
-    connect(munk,SIGNAL(signal_ConnectionStatusUpdated(bool)),this,SLOT(on_connectionUpdated(bool)));
+    connect(munk,SIGNAL(signal_MunkConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(on_connectionUpdated(bool)));
 
     readSettings();
 }
@@ -51,9 +50,9 @@ void Window_MunkPowerSupply::showEvent(QShowEvent *event)
     windowHidden = false;
 }
 
-void Window_MunkPowerSupply::on_connectionUpdated(const bool &val)
+void Window_MunkPowerSupply::on_connectionUpdated(const common::comms::CommunicationConnection &connection)
 {
-    if(val)
+    if(connection.isConnected())
         ui->widget_connection->setColor(QColor(0,255,0));
     else
         ui->widget_connection->setColor(QColor(255,0,0));

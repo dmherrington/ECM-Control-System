@@ -11,6 +11,7 @@
 #include "common/comms/communication_connection.h"
 
 #include "data/type_read_write.h"
+
 #include "data/sensor_state.h"
 #include "data/sensors/sensor_voltage.h"
 
@@ -41,8 +42,8 @@ public:
     void saveMeasurements();
     void loadMeaurements(const std::string &path);
 
-    bool addPollingMeasurement(const commands_Rigol::MeasureCommand_Item &command);
-    void removePollingMeasurement(const std::string &key);
+    bool addPollingMeasurement(const MeasureCommand_Item &command);
+    void removePollingMeasurement(const MeasureCommand_Item &command);
     commands_Rigol::RigolMeasurementQueue getCurrentPollingMeasurements() const;
 
     void closeConnection();
@@ -64,8 +65,8 @@ private:
 
 signals:
     void signal_RigolConnectionUpdate(const common::comms::CommunicationConnection &value) const;
+    void signal_RigolPlottable(const common::TupleSensorString &sensorTuple, const bool &on_off);
     void signal_RigolNewSensorValue(const common::TupleSensorString &sensorTuple, const common_data::SensorState &data) const;
-
 private:
     std::string deviceName;
     comms_Rigol::RigolCommsMarshaler* commsMarshaler;

@@ -53,7 +53,6 @@ HEADERS += common.h\
     comms/serial_configuration.h \
     comms/tcp_configuration.h \
     ecm_devices.h \
-    types_execution_profiles.h \
     tuple_machine_string.h
 
 #Header file copy

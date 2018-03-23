@@ -78,12 +78,12 @@ SOURCES += \
     status/status_motor_enabled.cpp \
     commands/command_motion_start.cpp \
     commands/command_variable.cpp \
-    requests/request_variable.cpp \
     status/status_variable_value.cpp \
     status/status_variable_list.cpp \
     programs/program_variable_value_list.cpp \
     programs/program_variable_list.cpp \
-    programs/program_label_list.cpp
+    programs/program_label_list.cpp \
+    requests/request_tell_variable.cpp
 HEADERS += \
         axis_definitions.h \
         galil_motion_controller.h \

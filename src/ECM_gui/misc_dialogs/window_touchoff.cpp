@@ -54,26 +54,26 @@ void Window_Touchoff::on_actionClose_triggered()
 
 void Window_Touchoff::on_pushButton_ExecuteTouchoff_released()
 {
-    CommandExecuteProfile command(ProfileType::TOUCHOFF,"touchof");
+    CommandExecuteProfile command(MotionProfile::ProfileType::TOUCHOFF,"touchof");
     m_MotionController->executeCommand(&command);
 }
 
 void Window_Touchoff::slot_UpdateMotionProfileState(const MotionProfileState &state)
 {
-    if(state.getProfileState()->getType() == ProfileType::TOUCHOFF)
+    if(state.getProfileState()->getType() == MotionProfile::ProfileType::TOUCHOFF)
     {
         ProfileState_Touchoff* castState = (ProfileState_Touchoff*)state.getProfileState().get();
-        ui->lineEdit_TouchoffCode->setText(QString::fromStdString(TOUCHOFFCodesToString(castState->getCurrentCode())));
+        ui->lineEdit_TouchoffCode->setText(QString::fromStdString(ProfileState_Touchoff::TOUCHOFFCodesToString(castState->getCurrentCode())));
 
         switch (castState->getCurrentCode()) {
-        case TOUCHOFFProfileCodes::INCOMPLETE:
-        case TOUCHOFFProfileCodes::ERROR_INCONSISTENT:
-        case TOUCHOFFProfileCodes::ERROR_TOUCHING:
+        case ProfileState_Touchoff::TOUCHOFFProfileCodes::INCOMPLETE:
+        case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_INCONSISTENT:
+        case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_TOUCHING:
             ui->widget_TouchoffComplete->setColor(QColor(255));
             break;
-        case TOUCHOFFProfileCodes::SEARCHING:
+        case ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING:
             ui->widget_TouchoffComplete->setColor(QColor(255,255,0));
-        case TOUCHOFFProfileCodes::FINISHED:
+        case ProfileState_Touchoff::TOUCHOFFProfileCodes::FINISHED:
             ui->widget_TouchoffComplete->setColor(QColor(0,255,0));
         default:
             break;

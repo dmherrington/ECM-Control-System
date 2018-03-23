@@ -4,7 +4,6 @@
 #include <QMetaType>
 #include <QString>
 #include <typeinfo>
-#include <string>
 
 #include "common_global.h"
 

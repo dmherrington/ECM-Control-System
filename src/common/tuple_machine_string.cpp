@@ -2,11 +2,10 @@
 
 namespace common {
 
-TupleMachineString::TupleMachineString(const string &source, const string &sensor, const string &measure)
+TupleMachineString::TupleMachineString(const QString &source, const QString &state)
 {
     this->sourceName = source;
-    this->sensorName = sensor;
-    this->measurementName = measure;
+    this->stateName = state;
 }
 
 //!
@@ -16,8 +15,7 @@ TupleMachineString::TupleMachineString(const string &source, const string &senso
 TupleMachineString::TupleMachineString(const TupleMachineString &copy)
 {
     this->sourceName = copy.sourceName;
-    this->sensorName = copy.sensorName;
-    this->measurementName = copy.measurementName;
+    this->stateName = copy.stateName;
 }
 
 
@@ -27,7 +25,7 @@ TupleMachineString::TupleMachineString(const TupleMachineString &copy)
 //!
 QString TupleMachineString::Type() const
 {
-    return "Sensor";
+    return "Machine";
 }
 
 
@@ -37,7 +35,7 @@ QString TupleMachineString::Type() const
 //!
 QString TupleMachineString::HumanName() const
 {
-    return this->sensorName;
+    return this->stateName;
 }
 
 
@@ -48,8 +46,7 @@ QString TupleMachineString::HumanName() const
 void TupleMachineString::operator = (const TupleMachineString& rhs)
 {
     this->sourceName = rhs.sourceName;
-    this->sensorName = rhs.sensorName;
-    this->measurementName = rhs.measurementName;
+    this->stateName = rhs.stateName;
 }
 
 
@@ -66,19 +63,12 @@ bool TupleMachineString::operator< (const TupleGeneric& rhs) const
     if(this->Type() != rhs.Type())
         return this->Type() < rhs.Type();
 
-    if(this->sourceName > ((TupleSensorString*)&rhs)->sourceName)
+    if(this->sourceName > ((TupleMachineString*)&rhs)->sourceName)
         return false;
-    if(this->sourceName < ((TupleSensorString*)&rhs)->sourceName)
+    if(this->sourceName < ((TupleMachineString*)&rhs)->sourceName)
         return true;
 
-
-    if(this->sensorName > ((TupleSensorString*)&rhs)->sensorName)
-        return false;
-    if(this->sensorName < ((TupleSensorString*)&rhs)->sensorName)
-        return true;
-
-
-    if(this->measurementName >= ((TupleSensorString*)&rhs)->measurementName)
+    if(this->stateName >= ((TupleMachineString*)&rhs)->stateName)
         return false;
 
     return true;
@@ -95,13 +85,10 @@ bool TupleMachineString::operator==(const TupleGeneric& rhs) const
     if(typeid(*this) != typeid(rhs))
         return false;
 
-    if(this->sourceName != ((TupleSensorString*)&rhs)->sourceName)
+    if(this->sourceName != ((TupleMachineString*)&rhs)->sourceName)
         return false;
 
-    if(this->sensorName != ((TupleSensorString*)&rhs)->sensorName)
-        return false;
-
-    if(this->measurementName != ((TupleSensorString*)&rhs)->measurementName)
+    if(this->stateName != ((TupleMachineString*)&rhs)->stateName)
         return false;
 
     return true;

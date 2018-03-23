@@ -96,15 +96,15 @@ void State_Touchoff::Update()
         desiredState = ECMState::STATE_ESTOP;
     }
 
-    double varValue;
-    if(Owner().statusVariables.getVariableValue("touchof",varValue))
+    double varValue;    
+    if(Owner().statusVariableValues->getVariableValue("touchof",varValue))
     {
         switch ((int)varValue) {
         case 0:
         {
             //continue searching for touchoff position
             ProfileState_Touchoff newState("Touchoff Routine", "touchof");
-            newState.setCurrentCode(TOUCHOFFProfileCodes::SEARCHING);
+            newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING);
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
             Owner().issueUpdatedMotionProfileState(newProfileState);
@@ -114,7 +114,7 @@ void State_Touchoff::Update()
         {
             //we have finished the touchoff routine
             ProfileState_Touchoff newState("Touchoff Routine", "touchof");
-            newState.setCurrentCode(TOUCHOFFProfileCodes::FINISHED);
+            newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::FINISHED);
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
             Owner().issueUpdatedMotionProfileState(newProfileState);
@@ -124,7 +124,7 @@ void State_Touchoff::Update()
         {
             //ERROR: inconsistent or positional limit exceeded
             ProfileState_Touchoff newState("Touchoff Routine", "touchof");
-            newState.setCurrentCode(TOUCHOFFProfileCodes::ERROR_INCONSISTENT);
+            newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_INCONSISTENT);
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
             Owner().issueUpdatedMotionProfileState(newProfileState);
@@ -138,7 +138,7 @@ void State_Touchoff::Update()
         {
             //ERROR: already touch part
             ProfileState_Touchoff newState("Touchoff Routine", "touchof");
-            newState.setCurrentCode(TOUCHOFFProfileCodes::ERROR_TOUCHING);
+            newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_TOUCHING);
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
             Owner().issueUpdatedMotionProfileState(newProfileState);
@@ -171,7 +171,7 @@ void State_Touchoff::OnEnter(const AbstractCommand* command)
 {
     if(command != nullptr)
     {
-        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("touchst");
+        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Touchoff Status","touchst");
         Owner().issueGalilAddPollingRequest(request);
         this->handleCommand(command);
     }

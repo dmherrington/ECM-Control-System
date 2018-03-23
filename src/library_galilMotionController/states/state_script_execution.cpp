@@ -26,6 +26,7 @@ hsm::Transition State_ScriptExecution::GetTransition()
 
     if(currentState != desiredState)
     {
+        Owner().issueGalilRemovePollingRequest("ppos");
         Owner().issueGalilRemovePollingRequest("cutdone");
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
@@ -95,7 +96,7 @@ void State_ScriptExecution::Update()
     }
 
     double varValue;
-    if(Owner().statusVariables.getVariableValue("touchof",varValue))
+    if(Owner().statusVariableValues->getVariableValue("touchof",varValue))
     {
         switch ((int)varValue) {
         case 0:
@@ -106,7 +107,7 @@ void State_ScriptExecution::Update()
         case 1:
         {
             //the part is finished being cut
-            CommandExecuteProfile* command = new CommandExecuteProfile(ProfileType::HOMING,"home");
+            CommandExecuteProfile* command = new CommandExecuteProfile(MotionProfile::ProfileType::HOMING,"home");
             this->currentCommand = command;
             desiredState = ECMState::STATE_MOTION_STOP;
             break;
@@ -134,8 +135,11 @@ void State_ScriptExecution::OnEnter(const AbstractCommand* command)
 {
     if(command != nullptr)
     {
-        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("cutdone");
-        Owner().issueGalilAddPollingRequest(request);
+        Request_TellVariablePtr requestPosition = std::make_shared<Request_TellVariable>("Bottom Position","ppos");
+        Owner().issueGalilAddPollingRequest(requestPosition);
+
+        Request_TellVariablePtr requestCutting = std::make_shared<Request_TellVariable>("Machining Complete","cutdone");
+        Owner().issueGalilAddPollingRequest(requestCutting);
         //The command isnt null so we should handle it
         this->handleCommand(command);
     }

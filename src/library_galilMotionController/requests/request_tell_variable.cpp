@@ -1,7 +1,7 @@
 #include "request_tell_variable.h"
 
-Request_TellVariable::Request_TellVariable(const std::string &name):
-    AbstractRequest(RequestTypes::TELL_VARIABLE), variableName(name)
+Request_TellVariable::Request_TellVariable(const std::string &humName, const std::string &varName):
+    AbstractRequest(RequestTypes::TELL_VARIABLE), humanName(humName), variableName(varName)
 {
 
 }
@@ -23,19 +23,37 @@ void Request_TellVariable::getClone(AbstractRequest** state) const
     *state = new Request_TellVariable(*this);
 }
 
-//!
-//! \brief setAxis
-//! \param axis
-//!
+/*!
+ * \brief Request_TellVariable::setHumanName
+ * \param name
+ */
+void Request_TellVariable::setHumanName(const std::string &name)
+{
+    this->humanName = name;
+}
+
+/*!
+ * \brief Request_TellVariable::setVariableName
+ * \param name
+ */
 void Request_TellVariable::setVariableName(const std::string &name)
 {
     this->variableName = name;
 }
 
-//!
-//! \brief getAxis
-//! \return
-//!
+/*!
+ * \brief Request_TellVariable::getHumanName
+ * \return
+ */
+std::string Request_TellVariable::getHumanName() const
+{
+    return this->humanName;
+}
+
+/*!
+ * \brief getVariableName
+ * \return
+ */
 std::string Request_TellVariable::getVariableName() const
 {
     return this->variableName;

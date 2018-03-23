@@ -5,8 +5,7 @@
 #include <QBuffer>
 #include <stdexcept>
 
-namespace common_data
-{
+namespace common_data {
 
 
 //!

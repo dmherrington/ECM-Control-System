@@ -26,8 +26,10 @@ ECMPlotCollection::~ECMPlotCollection()
 //!
 void ECMPlotCollection::UpdateSensorPlots(const common::TupleSensorString sensor, const common_data::SensorState &state)
 {
-    QDate tmp_Date(state.validityTime->year, state.validityTime->month, state.validityTime->dayOfMonth);
-    QTime tmp_Time(state.validityTime->hour, state.validityTime->minute, state.validityTime->second, state.validityTime->millisecond);
+    common::EnvironmentTime observationTime = state.getObservationTime();
+
+    QDate tmp_Date(observationTime.year, observationTime.month, observationTime.dayOfMonth);
+    QTime tmp_Time(observationTime.hour, observationTime.minute, observationTime.second, observationTime.millisecond);
     QDateTime time = QDateTime(tmp_Date, tmp_Time);
 
     switch(state.getSensorData()->getType())
@@ -35,8 +37,8 @@ void ECMPlotCollection::UpdateSensorPlots(const common::TupleSensorString sensor
     case common_data::SENSOR_VOLTAGE:
     {
         ECMPlotIdentifier ID_S(sensor, "Sensed_Voltage", 14, Sensed_Voltage_Hash);
-        MakePlot(ID_S, common_data::VoltageDimension(common_data::UNIT_VOLTAGE_VOLTS).ShortHand());
-        double value = ((common_data::SensorVoltage*)state.getSensorData().get())->getVoltage(common_data::UNIT_VOLTAGE_VOLTS);
+        MakePlot(ID_S, common_data::VoltageDimension(common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS).ShortHand());
+        double value = ((common_data::SensorVoltage*)state.getSensorData().get())->getVoltage(common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
         InsertData(ID_S, time, value);
         break;
     }

@@ -10,7 +10,7 @@ class COMMONSHARED_EXPORT TupleMachineString : public TupleGeneric
 {
 public:
 
-    TupleMachineString(const std::string &source = "", const std::string &sensor = "", const std::string &measure = "");
+    TupleMachineString(const QString &source = "", const QString &state = "");
 
     TupleMachineString(const TupleMachineString &copy);
 
@@ -32,7 +32,7 @@ public:
     //! \brief Assignment operator
     //! \param rhs Right hand side of assignment
     //!
-    void operator= (const TupleSensorString &rhs);
+    void operator= (const TupleMachineString &rhs);
 
 
     //!
@@ -63,9 +63,6 @@ public:
 
     //! Name of the actual new state of the device
     QString stateName;
-
-    //! Name of the measurement
-    QString measurementName;
 
 };
 

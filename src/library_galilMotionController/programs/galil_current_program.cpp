@@ -39,28 +39,28 @@ bool GalilCurrentProgram::doesVariableExist(const std::string &variable) const
 
 bool GalilCurrentProgram::getLabelLine(const std::string &label, int &line) const
 {
-    if(this->labels.count(label) == 0)
+    if(this->labelList.doesLabelExist(label))
         return false;
-    line = this->labels.at(label);
+    this->labelList.getLabelLine(label,line);
     return true;
 }
 
 bool GalilCurrentProgram::getVariableLine(const std::string &variable, int &line) const
 {
-    if(this->variables.count(variable) == 0)
+    if(this->variableList.doesVariableExist(variable))
         return false;
-    line = this->variables.at(variable);
+    this->variableList.getVariableLine(variable,line);
     return true;
 }
 
 std::map<std::string, int> GalilCurrentProgram::getLablMap() const
 {
-    return this->labels;
+    return this->labelList.getLabelMap();
 }
 
 std::map<std::string, int> GalilCurrentProgram::getVariableMap() const
 {
-    return this->variables;
+    return this->variableList.getVariableMap();
 }
 
 std::string GalilCurrentProgram::getProgram() const

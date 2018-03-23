@@ -21,9 +21,11 @@ public:
 
     void updateLabel(const std::string &name, const int &lineNumber);
 
-    bool getLabelLine(const std::string &name, int &lineNumber);
+    bool getLabelLine(const std::string &name, int &lineNumber) const;
 
     void clearLabelList();
+
+    std::map<std::string,int> getLabelMap() const;
 
 public:
     ProgramLabelList& operator = (const ProgramLabelList &rhs)

@@ -2,7 +2,7 @@
 
 namespace common {
 
-TupleSensorString::TupleSensorString(const string &source, const string &sensor, const string &measure)
+TupleSensorString::TupleSensorString(const QString &source, const QString &sensor, const QString &measure)
 {
     this->sourceName = source;
     this->sensorName = sensor;

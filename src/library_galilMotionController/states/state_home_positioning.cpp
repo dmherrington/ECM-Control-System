@@ -26,6 +26,8 @@ hsm::Transition State_HomePositioning::GetTransition()
 
     if(currentState != desiredState)
     {
+        Owner().issueGalilRemovePollingRequest("homest");
+
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
@@ -89,7 +91,7 @@ void State_HomePositioning::Update()
     }
 
     double varValue;
-    if(Owner().statusVariables.getVariableValue("homest",varValue))
+    if(Owner().statusVariableValues->getVariableValue("homest",varValue))
     {
         switch ((int)varValue) {
         case 0:
@@ -97,7 +99,7 @@ void State_HomePositioning::Update()
             processFlag = true;
             //continue searching for home
             ProfileState_Homing newState("Homing Routine", "homest");
-            newState.setCurrentCode(HOMINGProfileCodes::INCOMPLETE);
+            newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE);
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
             Owner().issueUpdatedMotionProfileState(newProfileState);
@@ -110,7 +112,7 @@ void State_HomePositioning::Update()
                 Owner().setHomeInidcated(true);
                 //a home position has been found
                 ProfileState_Homing newState("Homing Routine", "homest");
-                newState.setCurrentCode(HOMINGProfileCodes::COMPLETE);
+                newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::COMPLETE);
                 MotionProfileState newProfileState;
                 newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
                 Owner().issueUpdatedMotionProfileState(newProfileState);
@@ -139,6 +141,9 @@ void State_HomePositioning::OnEnter(const AbstractCommand* command)
 
     if(command != nullptr)
     {
+        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Home Status","homest");
+        Owner().issueGalilAddPollingRequest(request);
+
         this->handleCommand(command);
     }
     else{
