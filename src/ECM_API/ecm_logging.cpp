@@ -20,6 +20,18 @@ void ECMLogging::setLoggingStartTime(const common::EnvironmentTime &time)
     this->startLogTime = time;
 }
 
+void ECMLogging::WriteLogProfileVariableState(const common::TupleProfileVariableString &key, const common_data::MotionProfileVariableState &state)
+{
+    QString str;
+    QTextStream stringWriter(&str, QIODevice::WriteOnly);
+    stringWriter << "PVS|";
+    stringWriter << state.getObservationTime().ToString() << "\t" << state.getObservationTime().ToString() << "\t" << key.programName << "\t" << key.profileName << "\t" << key.variableName << "|";
+    stringWriter << state;
+    stringWriter.flush();
+
+    QTextStream out(m_LogSensorStates[key]);
+    out << str;
+}
 
 void ECMLogging::WriteLogSensorState(const common::TupleSensorString &key, const common_data::SensorState &state)
 {

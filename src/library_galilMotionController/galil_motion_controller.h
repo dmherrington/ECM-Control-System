@@ -14,6 +14,9 @@
 
 #include "library_galilmotioncontroller_global.h"
 
+#include "common/tuple_profile_variable_string.h"
+#include "data/motion_profile_variable_state.h"
+
 #include "common/comms/communication_connection.h"
 
 #include "commands/command_components.h"
@@ -115,6 +118,8 @@ private:
 
 signals:
     void signal_MotionControllerConnectionUpdate(const common::comms::CommunicationConnection &connection) const;
+
+    void signal_MCNewProfileVariableValue(const common::TupleProfileVariableString &variableTuple, const common_data::MotionProfileVariableState &data) const;
 
     void signal_GalilHomeIndicated(const bool &indicated) const;
 

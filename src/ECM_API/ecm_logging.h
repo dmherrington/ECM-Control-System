@@ -7,8 +7,10 @@
 
 #include "common/environment_time.h"
 #include "common/tuple_sensor_string.h"
+#include "common/tuple_profile_variable_string.h"
 
 #include "data/sensor_state.h"
+#include "data/motion_profile_variable_state.h"
 
 class ECMLogging
 {
@@ -20,6 +22,13 @@ public:
     bool isLoggingRelativeTime() const;
 
     void setLoggingStartTime(const common::EnvironmentTime &time);
+
+    /*!
+     * \brief WriteLogProfileVariableState
+     * \param key
+     * \param state
+     */
+    void WriteLogProfileVariableState(const common::TupleProfileVariableString &key, const common_data::MotionProfileVariableState &state);
 
     //!
     //! \brief Write data bout sensor state to log
@@ -33,6 +42,9 @@ protected:
     bool logReglativeTime = false;
 
     common::EnvironmentTime startLogTime;
+
+    //! Map of sensors to log
+    QMap<common::TupleProfileVariableString, QFile*> m_LogProfileVariableStates;
 
     //! Map of sensors to log
     QMap<common::TupleSensorString, QFile*> m_LogSensorStates;
