@@ -76,9 +76,11 @@ ECMControllerGUI::~ECMControllerGUI()
 
 void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString sensor, const common_data::SensorState state)
 {
-    m_PlotCollection.UpdateSensorPlots(sensor, state);
-    QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(sensor);
-    plots = m_PlotCollection.getPlots(sensor);
+    CreateSensorDisplays(sensor,state.getSensorType());
+
+//    m_PlotCollection.UpdateSensorPlots(sensor, state);
+//    QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(sensor);
+//    plots = m_PlotCollection.getPlots(sensor);
 //    ui->centralCustomPlot->RedrawDataSource(plots);
 }
 
@@ -329,6 +331,43 @@ void ECMControllerGUI::on_actionOscilliscope_triggered()
 
 void ECMControllerGUI::slot_NewlyAvailableRigolData(const common::TupleSensorString &sensor, const bool &val)
 {
-    if(val)
-        m_additionalSensorDisplay->AddUsableSensor(sensor);
+    common_data::SensorState newSensorMeasurement;
+    newSensorMeasurement.ConstructSensor(common_data::SENSOR_VOLTAGE,"Voltage Top");
+    ((common_data::SensorVoltage*)newSensorMeasurement.getSensorData().get())->SetVoltage(5.0,common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
+
+    this->slot_NewSensorData(sensor,newSensorMeasurement);
+//    if(val)
+//        m_additionalSensorDisplay->AddUsableSensor(sensor);
 }
+
+
+//!
+//! \brief Create sensor displays
+//!
+void ECMControllerGUI::CreateSensorDisplays(const common::TupleSensorString &sensor, const common_data::SensorTypes &type)
+{
+    //if already created sensor object, do nothing.
+    if(m_CreatedSensors.contains(sensor) && m_CreatedSensors[sensor] == true)
+        return;
+
+    MarshalCreateSensorDisplay(sensor, type);
+}
+
+void ECMControllerGUI::MarshalCreateSensorDisplay(const common::TupleSensorString &sensor, const common_data::SensorTypes &type)
+{
+    //invoke this method on the thread that owns this object.
+    if (this->thread() != QThread::currentThread())
+    {
+        QMetaObject::invokeMethod(this, "MarshalCreateSensorDisplay", Qt::BlockingQueuedConnection, Q_ARG(const common::TupleSensorString&, sensor), Q_ARG(const common_data::SensorTypes&, type));
+        return;
+    }
+
+    m_additionalSensorDisplay->NewDock(sensor, type);
+//    if(this->m_OperatingMode == LIVE)
+//        m_additionalSensorDisplay->ChangePlotMode(Graphing::PlotHandler::PLOT_WINDOW_ONLY);
+//    else
+//        m_additionalSensorDisplay->ChangePlotMode(Graphing::PlotHandler::PLOT_ENTIRE_SEQUENCE);
+
+    m_CreatedSensors.insert(sensor, true);
+}
+

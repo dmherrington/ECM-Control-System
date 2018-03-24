@@ -175,6 +175,9 @@ width:20px;
       <property name="text">
        <string>MAX</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
     </item>
     <item row="0" column="1">
@@ -200,6 +203,9 @@ width:20px;
       </property>
       <property name="text">
        <string>BASE</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
     </item>
@@ -227,6 +233,9 @@ width:20px;
       <property name="text">
        <string>OVERSHOOT</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
     </item>
     <item row="0" column="3">
@@ -252,6 +261,9 @@ width:20px;
       </property>
       <property name="text">
        <string>PERIOD</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
     </item>
@@ -279,6 +291,9 @@ width:20px;
       <property name="text">
        <string>PWIDTH</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
     </item>
     <item row="0" column="5">
@@ -304,6 +319,9 @@ width:20px;
       </property>
       <property name="text">
        <string>RDELAY</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
     </item>
@@ -331,6 +349,9 @@ width:20px;
       <property name="text">
        <string>MIN</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
     </item>
     <item row="1" column="1">
@@ -356,6 +377,9 @@ width:20px;
       </property>
       <property name="text">
        <string>AMP</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
     </item>
@@ -383,6 +407,9 @@ width:20px;
       <property name="text">
        <string>PRESHOOT</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
     </item>
     <item row="1" column="3">
@@ -408,6 +435,9 @@ width:20px;
       </property>
       <property name="text">
        <string>FREQUENCY</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
     </item>
@@ -435,6 +465,9 @@ width:20px;
       <property name="text">
        <string>NWIDTH</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
     </item>
     <item row="1" column="5">
@@ -460,6 +493,9 @@ width:20px;
       </property>
       <property name="text">
        <string>FDELAY</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
     </item>
@@ -487,6 +523,9 @@ width:20px;
       <property name="text">
        <string>VPP</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
     </item>
     <item row="2" column="1">
@@ -512,6 +551,9 @@ width:20px;
       </property>
       <property name="text">
        <string>AVG</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
     </item>
@@ -539,6 +581,9 @@ width:20px;
       <property name="text">
        <string>MAREA</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
     </item>
     <item row="2" column="3">
@@ -564,6 +609,9 @@ width:20px;
       </property>
       <property name="text">
        <string>RTIME</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
     </item>
@@ -591,6 +639,9 @@ width:20px;
       <property name="text">
        <string>PDUTY</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
     </item>
     <item row="2" column="5">
@@ -616,6 +667,9 @@ width:20px;
       </property>
       <property name="text">
        <string>RPHASE</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
     </item>
@@ -643,6 +697,9 @@ width:20px;
       <property name="text">
        <string>VTOP</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
     </item>
     <item row="3" column="1">
@@ -668,6 +725,9 @@ width:20px;
       </property>
       <property name="text">
        <string>RMS</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
     </item>
@@ -695,6 +755,9 @@ width:20px;
       <property name="text">
        <string>MPAREA</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
     </item>
     <item row="3" column="3">
@@ -720,6 +783,9 @@ width:20px;
       </property>
       <property name="text">
        <string>FTIME</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
     </item>
@@ -747,6 +813,9 @@ width:20px;
       <property name="text">
        <string>NDUTY</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
     </item>
     <item row="3" column="5">
@@ -772,6 +841,9 @@ width:20px;
       </property>
       <property name="text">
        <string>FPHASE</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
     </item>

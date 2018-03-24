@@ -35,6 +35,10 @@ private:
     bool maybeSave();
 
 private slots:
+    void CreateSensorDisplays(const common::TupleSensorString &sensor, const common_data::SensorTypes &type);
+    Q_INVOKABLE void MarshalCreateSensorDisplay(const common::TupleSensorString &sensor, const common_data::SensorTypes &type);
+
+private slots:
     void slot_NewlyAvailableRigolData(const common::TupleSensorString &sensor, const bool &val);
 private slots:
     void slot_NewSensorData(const common::TupleSensorString sensor, const common_data::SensorState state);
@@ -100,13 +104,26 @@ protected:
     void closeEvent(QCloseEvent *event);
 
 private:
+
+    //! Map of sensors whose displays have been created
+    QMap<common::TupleSensorString, bool> m_CreatedSensors;
+
+    //! Additional sensor display form
+    AdditionalSensorDisplay *m_additionalSensorDisplay;
+
+    //! Collection of sensor displays to show in GUI window
+    CollectionDisplays m_SensorDisplays;
+
+    //! Boolean indicating active sensor
+    bool m_DisplaySensor;
+
+    //! Active Sensor TupleString
+    common::TupleSensorString m_ActiveSensor;
+
+
     Ui::ECMControllerGUI *ui;
 
     ECMPlotCollection m_PlotCollection;
-
-    CollectionDisplays m_SensorDisplays;
-
-    AdditionalSensorDisplay *m_additionalSensorDisplay;
 
     ECM_API* m_API;
 

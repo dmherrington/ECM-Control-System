@@ -230,6 +230,7 @@ public:
         font.setBold(true);
         font.setWeight(75);
         radioButton_MAX->setFont(font);
+        radioButton_MAX->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_MAX, 0, 0, 1, 1);
 
@@ -238,6 +239,7 @@ public:
         radioButton_BASE->setMinimumSize(QSize(0, 20));
         radioButton_BASE->setMaximumSize(QSize(16777215, 20));
         radioButton_BASE->setFont(font);
+        radioButton_BASE->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_BASE, 0, 1, 1, 1);
 
@@ -246,6 +248,7 @@ public:
         radioButton_OVERSHOOT->setMinimumSize(QSize(0, 20));
         radioButton_OVERSHOOT->setMaximumSize(QSize(16777215, 20));
         radioButton_OVERSHOOT->setFont(font);
+        radioButton_OVERSHOOT->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_OVERSHOOT, 0, 2, 1, 1);
 
@@ -254,6 +257,7 @@ public:
         radioButton_PERIOD->setMinimumSize(QSize(0, 20));
         radioButton_PERIOD->setMaximumSize(QSize(16777215, 20));
         radioButton_PERIOD->setFont(font);
+        radioButton_PERIOD->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_PERIOD, 0, 3, 1, 1);
 
@@ -262,6 +266,7 @@ public:
         radioButton_PWIDTH->setMinimumSize(QSize(0, 20));
         radioButton_PWIDTH->setMaximumSize(QSize(16777215, 20));
         radioButton_PWIDTH->setFont(font);
+        radioButton_PWIDTH->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_PWIDTH, 0, 4, 1, 1);
 
@@ -270,6 +275,7 @@ public:
         radioButton_RDELAY->setMinimumSize(QSize(0, 20));
         radioButton_RDELAY->setMaximumSize(QSize(16777215, 20));
         radioButton_RDELAY->setFont(font);
+        radioButton_RDELAY->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_RDELAY, 0, 5, 1, 1);
 
@@ -278,6 +284,7 @@ public:
         radioButton_MIN->setMinimumSize(QSize(0, 20));
         radioButton_MIN->setMaximumSize(QSize(16777215, 20));
         radioButton_MIN->setFont(font);
+        radioButton_MIN->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_MIN, 1, 0, 1, 1);
 
@@ -286,6 +293,7 @@ public:
         radioButton_AMP->setMinimumSize(QSize(0, 20));
         radioButton_AMP->setMaximumSize(QSize(16777215, 20));
         radioButton_AMP->setFont(font);
+        radioButton_AMP->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_AMP, 1, 1, 1, 1);
 
@@ -294,6 +302,7 @@ public:
         radioButton_PRESHOOT->setMinimumSize(QSize(0, 20));
         radioButton_PRESHOOT->setMaximumSize(QSize(16777215, 20));
         radioButton_PRESHOOT->setFont(font);
+        radioButton_PRESHOOT->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_PRESHOOT, 1, 2, 1, 1);
 
@@ -302,6 +311,7 @@ public:
         radioButton_FREQUENCY->setMinimumSize(QSize(0, 20));
         radioButton_FREQUENCY->setMaximumSize(QSize(16777215, 20));
         radioButton_FREQUENCY->setFont(font);
+        radioButton_FREQUENCY->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_FREQUENCY, 1, 3, 1, 1);
 
@@ -310,6 +320,7 @@ public:
         radioButton_NWIDTH->setMinimumSize(QSize(0, 20));
         radioButton_NWIDTH->setMaximumSize(QSize(16777215, 20));
         radioButton_NWIDTH->setFont(font);
+        radioButton_NWIDTH->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_NWIDTH, 1, 4, 1, 1);
 
@@ -318,6 +329,7 @@ public:
         radioButton_FDELAY->setMinimumSize(QSize(0, 20));
         radioButton_FDELAY->setMaximumSize(QSize(16777215, 20));
         radioButton_FDELAY->setFont(font);
+        radioButton_FDELAY->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_FDELAY, 1, 5, 1, 1);
 
@@ -326,6 +338,7 @@ public:
         radioButton_VPP->setMinimumSize(QSize(0, 20));
         radioButton_VPP->setMaximumSize(QSize(16777215, 20));
         radioButton_VPP->setFont(font);
+        radioButton_VPP->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_VPP, 2, 0, 1, 1);
 
@@ -334,6 +347,7 @@ public:
         radioButton_AVG->setMinimumSize(QSize(0, 20));
         radioButton_AVG->setMaximumSize(QSize(16777215, 20));
         radioButton_AVG->setFont(font);
+        radioButton_AVG->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_AVG, 2, 1, 1, 1);
 
@@ -342,6 +356,7 @@ public:
         radioButton_MAREA->setMinimumSize(QSize(0, 20));
         radioButton_MAREA->setMaximumSize(QSize(16777215, 20));
         radioButton_MAREA->setFont(font);
+        radioButton_MAREA->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_MAREA, 2, 2, 1, 1);
 
@@ -350,6 +365,7 @@ public:
         radioButton_RTIME->setMinimumSize(QSize(0, 20));
         radioButton_RTIME->setMaximumSize(QSize(16777215, 20));
         radioButton_RTIME->setFont(font);
+        radioButton_RTIME->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_RTIME, 2, 3, 1, 1);
 
@@ -358,6 +374,7 @@ public:
         radioButton_PDUTY->setMinimumSize(QSize(0, 20));
         radioButton_PDUTY->setMaximumSize(QSize(16777215, 20));
         radioButton_PDUTY->setFont(font);
+        radioButton_PDUTY->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_PDUTY, 2, 4, 1, 1);
 
@@ -366,6 +383,7 @@ public:
         radioButton_RPHASE->setMinimumSize(QSize(0, 20));
         radioButton_RPHASE->setMaximumSize(QSize(16777215, 20));
         radioButton_RPHASE->setFont(font);
+        radioButton_RPHASE->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_RPHASE, 2, 5, 1, 1);
 
@@ -374,6 +392,7 @@ public:
         radioButton_VTOP->setMinimumSize(QSize(0, 20));
         radioButton_VTOP->setMaximumSize(QSize(16777215, 20));
         radioButton_VTOP->setFont(font);
+        radioButton_VTOP->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_VTOP, 3, 0, 1, 1);
 
@@ -382,6 +401,7 @@ public:
         radioButton_RMS->setMinimumSize(QSize(0, 20));
         radioButton_RMS->setMaximumSize(QSize(16777215, 20));
         radioButton_RMS->setFont(font);
+        radioButton_RMS->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_RMS, 3, 1, 1, 1);
 
@@ -390,6 +410,7 @@ public:
         radioButton_MPAREA->setMinimumSize(QSize(0, 20));
         radioButton_MPAREA->setMaximumSize(QSize(16777215, 20));
         radioButton_MPAREA->setFont(font);
+        radioButton_MPAREA->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_MPAREA, 3, 2, 1, 1);
 
@@ -398,6 +419,7 @@ public:
         radioButton_FTIME->setMinimumSize(QSize(0, 20));
         radioButton_FTIME->setMaximumSize(QSize(16777215, 20));
         radioButton_FTIME->setFont(font);
+        radioButton_FTIME->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_FTIME, 3, 3, 1, 1);
 
@@ -406,6 +428,7 @@ public:
         radioButton_NDUTY->setMinimumSize(QSize(0, 20));
         radioButton_NDUTY->setMaximumSize(QSize(16777215, 20));
         radioButton_NDUTY->setFont(font);
+        radioButton_NDUTY->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_NDUTY, 3, 4, 1, 1);
 
@@ -414,6 +437,7 @@ public:
         radioButton_FPHASE->setMinimumSize(QSize(0, 20));
         radioButton_FPHASE->setMaximumSize(QSize(16777215, 20));
         radioButton_FPHASE->setFont(font);
+        radioButton_FPHASE->setAutoExclusive(false);
 
         gridLayout->addWidget(radioButton_FPHASE, 3, 5, 1, 1);
 

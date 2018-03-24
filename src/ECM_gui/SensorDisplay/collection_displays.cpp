@@ -15,7 +15,8 @@ ISensorDisplay* CollectionDisplays::CreateNewDisplayObject(const common::TupleSe
     case common_data::SENSOR_VOLTAGE:
     {
         ECMPlotIdentifier A1 = ECMPlotIdentifier(sensor, "Sensed_Voltage");
-        if(plotCollection->SourceExists(A1) == false) return NULL;
+        //This checks to see if the data exists yet
+        //if(plotCollection->SourceExists(A1) == false) return NULL;
 
         sensorFrame = new DisplayVoltage(sensor, plotCollection);
 

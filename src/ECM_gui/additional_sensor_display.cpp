@@ -84,8 +84,6 @@ void AdditionalSensorDisplay::DisplayActionTriggered()
     m_ShownSensors[key] = show;
 
     emit SensorDisplayChanged(key, show);
-
-    NewDock(key,common_data::SensorTypes::SENSOR_VOLTAGE);
 }
 
 
