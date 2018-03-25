@@ -1,7 +1,9 @@
 #ifndef SEGMENT_TIME_DATA_DETAILED_H
 #define SEGMENT_TIME_DATA_DETAILED_H
 
+#include <QFile>
 #include <QJsonObject>
+#include <QTextStream>
 
 #include <math.h>
 
@@ -150,6 +152,31 @@ public:
         json["voltage"] = dataObject.voltage;
         json["current"] = dataObject.current;
         json["time"] = (int)timeValue;
+    }
+
+    void writeToLogFile(QFile* file)
+    {
+        if(file->isOpen())
+        {
+            if(!file->isWritable()) //this will let us know if we can write to the file
+            {
+                return;
+            }
+        }
+        else{
+            //the file is not currently open, and therefore we should open and write our info to it
+            file->open(QIODevice::WriteOnly);
+        }
+        QString str;
+        QTextStream stringWriter(&str, QIODevice::WriteOnly);
+        stringWriter << QString::fromStdString(data_Munk::TypeSupplyOutputToString(supplyOutput)) + ": ";
+        stringWriter << "Segment Mode: " + QString::fromStdString(data_Munk::SegmentModeToString(segmentMode)) + ",";
+        stringWriter << "Segment Voltage: " + QString::number(dataObject.voltage) + ",";
+        stringWriter << "Segment Current: " + QString::number(dataObject.current) + ",";
+        stringWriter << "Segment Time: " + QString::number(timeValue) + "\n";
+        stringWriter.flush();
+        QTextStream out(file);
+        out << str;
     }
 
 public:

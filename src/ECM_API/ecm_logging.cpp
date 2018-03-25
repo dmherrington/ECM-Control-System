@@ -29,8 +29,14 @@ void ECMLogging::WriteLogProfileVariableState(const common::TupleProfileVariable
     stringWriter << state;
     stringWriter.flush();
 
-    QTextStream out(m_LogSensorStates[key]);
+    QTextStream out(m_LogProfileVariableStates[key]);
     out << str;
+}
+
+void ECMLogging::SetSensorLogFile(const common::TupleSensorString &key, QFile *file)
+{
+    file->open(QIODevice::WriteOnly);
+    m_LogSensorStates[key] = file;
 }
 
 void ECMLogging::WriteLogSensorState(const common::TupleSensorString &key, const common_data::SensorState &state)

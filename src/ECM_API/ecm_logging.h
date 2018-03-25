@@ -37,6 +37,8 @@ public:
     //!
     void WriteLogSensorState(const common::TupleSensorString &key, const common_data::SensorState &state);
 
+    void SetSensorLogFile(const common::TupleSensorString &key, QFile* file);
+
 protected:
 
     bool logReglativeTime = false;

@@ -7,4 +7,6 @@
 #include "library_sensoray/sensoray.h"
 #include "library_rigol_oscilloscope/rigol_oscilliscope.h"
 
+#include "ECM_API/ecm_logging.h"
+
 #endif // MAIN_H

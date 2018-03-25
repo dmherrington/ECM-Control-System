@@ -10,11 +10,59 @@
 #include <QStringList>
 #include <QRegExp>
 
+#include "common/environment_time.h"
 #include "main.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
+
+    common::EnvironmentTime currentTime;
+    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK, currentTime);
+
+    char* ECMPath = getenv("ECM_ROOT");
+    std::string loggingPath = "";
+    QFile* sensorLoggingFile;
+
+    if(ECMPath){
+        std::string rootPath(ECMPath);
+        QDir loggingDirectory(QString::fromStdString(rootPath + "/MachiningLogs/Part_Number/" + currentTime.dateString() + "/"));
+
+        std::string finalPath = "Serial_Number.txt";
+
+        loggingDirectory.mkpath(QString::fromStdString(rootPath + "/MachiningLogs/Part_Number/" + currentTime.dateString() + "/"));
+        loggingPath = loggingDirectory.absolutePath().toStdString() + "/" + finalPath;
+        QFileInfo fileInfo(QString::fromStdString(loggingPath));
+        if(fileInfo.exists())
+        {
+            std::cout<<"The file exists"<<std::endl;
+        }
+        else
+        {
+            sensorLoggingFile = new QFile(QString::fromStdString(loggingPath));
+
+        }
+//        while(!loggingDirectory.mkdir(QString::fromStdString(finalPath)))
+//        {
+//            std::cout<<"Let us warn the user that the file already exists"<<std::endl;
+//        }
+    }
+
+
+
+    //First let us construct the tuple describing the measurement
+    common::TupleSensorString sensorTuple("Device Name",
+                                          "Channel Name",
+                                          "Sensor Name");
+
+    common_data::SensorState newSensorMeasurement;
+    newSensorMeasurement.setObservationTime(currentTime);
+    newSensorMeasurement.ConstructSensor(common_data::SENSOR_VOLTAGE,"Voltage Top");
+    ((common_data::SensorVoltage*)newSensorMeasurement.getSensorData().get())->SetVoltage(10.0,common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
+
+    ECMLogging loggingTest;
+    loggingTest.SetSensorLogFile(sensorTuple,sensorLoggingFile);
+    loggingTest.WriteLogSensorState(sensorTuple,newSensorMeasurement);
 
 //    uint8_t byte = 131;
 //    uint8_t exceptionMask = 127<<0;
@@ -30,12 +78,12 @@ int main(int argc, char *argv[])
 //    GalilMotionController* newGalil = new GalilMotionController();
 //    MunkPowerSupply* newMunk = new MunkPowerSupply();
 
-    Sensoray* newInterface = new Sensoray();
-    comms_Sensoray::SensorayTCPConfiguration sensorayConfig;
+//    Sensoray* newInterface = new Sensoray();
+//    comms_Sensoray::SensorayTCPConfiguration sensorayConfig;
 
-    newInterface->openConnection(sensorayConfig);
+//    newInterface->openConnection(sensorayConfig);
 
-    Westinghouse510* pump = new Westinghouse510(newInterface,01);
+//    Westinghouse510* pump = new Westinghouse510(newInterface,01);
 //    registers_WestinghousePump::Register_OperationSignal newOps;
 //    newOps.setSlaveAddress(01);
 //    newOps.shouldReverse(false);
