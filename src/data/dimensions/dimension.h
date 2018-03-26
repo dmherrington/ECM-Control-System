@@ -15,6 +15,7 @@ namespace common_data {
 
 enum Dimensions
 {
+    POSITION,
     TIME,
     VOLTAGE,
     MAREA,

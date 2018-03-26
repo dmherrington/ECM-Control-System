@@ -128,6 +128,7 @@ void State_HomePositioning::Update()
 
 void State_HomePositioning::OnEnter()
 {
+    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_HOME_POSITIONING));
     //this shouldn't really happen as how are we supposed to know the actual home position command
     //we therefore are going to do nothing other than change the state back to State_Ready
     this->desiredState = ECMState::STATE_READY;
@@ -141,6 +142,7 @@ void State_HomePositioning::OnEnter(const AbstractCommand* command)
 
     if(command != nullptr)
     {
+        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_HOME_POSITIONING));
         Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Home Status","homest");
         Owner().issueGalilAddPollingRequest(request);
 

@@ -315,7 +315,7 @@ width:20px;
      </widget>
     </item>
     <item row="0" column="0" colspan="3">
-     <widget class="QWidget" name="widget_2" native="true">
+     <widget class="graphing::PlotHandler" name="widget_primaryPlot" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
         <horstretch>0</horstretch>
@@ -1049,6 +1049,12 @@ width:20px;
              <pointsize>10</pointsize>
             </font>
            </property>
+           <property name="text">
+            <string>DEFAULT PART #</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
           </widget>
          </item>
         </layout>
@@ -1115,6 +1121,12 @@ width:20px;
             <font>
              <pointsize>10</pointsize>
             </font>
+           </property>
+           <property name="text">
+            <string>DEFAULT SERIAL #</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </item>
@@ -1396,6 +1408,9 @@ width:20px;
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -1838,7 +1853,7 @@ width:20px;
      <x>0</x>
      <y>0</y>
      <width>1040</width>
-     <height>39</height>
+     <height>40</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1868,9 +1883,17 @@ width:20px;
      <string>Help</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>Plot</string>
+    </property>
+    <addaction name="actionOpen_Sensors_Window"/>
+    <addaction name="separator"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuTools"/>
+   <addaction name="menuView"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -1883,28 +1906,48 @@ width:20px;
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionConnections">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Connections</string>
    </property>
   </action>
   <action name="actionPower_Supply">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Power Supply</string>
    </property>
   </action>
   <action name="actionPump">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Pump</string>
    </property>
   </action>
   <action name="actionOscilliscope">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Oscilliscope</string>
    </property>
   </action>
   <action name="actionTouchoff">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Touchoff</string>
+   </property>
+  </action>
+  <action name="actionOpen_Sensors_Window">
+   <property name="text">
+    <string>Open Sensors Window</string>
    </property>
   </action>
  </widget>
@@ -1914,6 +1957,12 @@ width:20px;
    <class>LED</class>
    <extends>QWidget</extends>
    <header>LED.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>graphing::PlotHandler</class>
+   <extends>QWidget</extends>
+   <header>plot_handler.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

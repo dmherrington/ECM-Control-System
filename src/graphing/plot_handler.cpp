@@ -551,7 +551,7 @@ bool PlotHandler::ExportToImage(const QString &fileToExportTo)
 
 
 //!
-//! \brief slot to fire when user request a context menue on the plot
+//! \brief slot to fire when user request a context menu on the plot
 //! \param pos Point where user requested context menu
 //!
 void PlotHandler::contextMenuRequest(QPoint pos)
@@ -700,33 +700,33 @@ void PlotHandler::RecalculateAllGraphs()
 //!
 void PlotHandler::removeSelectedGraph()
 {
-//    bool selected = false;
-//    std::string deletedExpr;
-//    //loop through all graphs
-//    for (int i=0 ; i < m_PlotParameters.count() ; i++)
-//    {
-//        if(m_PlotParameters.at(i).Selected == false)
-//            continue;
+    bool selected = false;
+    std::string deletedExpr;
+    //loop through all graphs
+    for (int i=0 ; i < m_PlotParameters.count() ; i++)
+    {
+        if(m_PlotParameters.at(i).Selected == false)
+            continue;
 
-//        m_PlotParametersMutex.lock();
+        m_PlotParametersMutex.lock();
 
 
-//        for(int j = 0 ; j < m_PlotParameters.at(i).g.size() ; j++)
-//        {
-//            //if a graph is selected and has a corresponding plot remove it
-//            //if (m_PlotParameters.at(i).g != NULL && m_PlotParameters[i].Selected == true)
-//            if (m_PlotParameters.at(i).g.at(j) != NULL)
-//                MarshalRemoveGraph(m_PlotParameters[i].g.at(j));
-//        }
+        for(int j = 0 ; j < m_PlotParameters.at(i).g.size() ; j++)
+        {
+            //if a graph is selected and has a corresponding plot remove it
+            //if (m_PlotParameters.at(i).g != NULL && m_PlotParameters[i].Selected == true)
+            if (m_PlotParameters.at(i).g.at(j) != NULL)
+                MarshalRemoveGraph(m_PlotParameters[i].g.at(j));
+        }
 
-//        deletedExpr = m_PlotParameters[i].operation;
-//        selected = true;
-//        m_PlotParameters.removeAt(i);
-//        Draw();
+        //deletedExpr = m_PlotParameters[i].operation;
+        //selected = true;
+        m_PlotParameters.removeAt(i);
+        Draw();
 
-//        m_PlotParametersMutex.unlock();
-//        break;
-//    }
+        m_PlotParametersMutex.unlock();
+        break;
+    }
 
 //    if(selected)
 //        emit PlotDelete(deletedExpr);

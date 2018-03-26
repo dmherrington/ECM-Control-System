@@ -128,8 +128,8 @@ void State_ManualPositioning::Update()
 
 void State_ManualPositioning::OnEnter()
 {
+    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_MANUAL_POSITIONING));
     //For some reason no command was passed to this case. This is an interesting case.
-    std::cout<<"The command is null even though we have been told to enter the manual positioning state."<<std::endl;
     this->desiredState = ECMState::STATE_READY;
 }
 
@@ -137,12 +137,13 @@ void State_ManualPositioning::OnEnter(const AbstractCommand *command)
 {
     if(command != nullptr)
     {
+        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_MANUAL_POSITIONING));
         //This means there is a command for us to handle
         this->handleCommand(command);
     }
     else{
         //For some reason the command was null. This is an interesting case.
-        this->desiredState = ECMState::STATE_READY;
+        this->OnEnter();
     }
 }
 

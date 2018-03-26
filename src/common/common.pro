@@ -29,11 +29,11 @@ SOURCES += common.cpp \
     environment_time.cpp \
     tuple_sensor_string.cpp \
     tuple_ecm_data.cpp \
-    tuple_master_string.cpp \
     comms/serial_configuration.cpp \
     comms/tcp_configuration.cpp \
     tuple_machine_string.cpp \
-    tuple_profile_variable_string.cpp
+    tuple_profile_variable_string.cpp \
+    tuple_positional_string.cpp
 
 HEADERS += common.h\
         common_global.h \
@@ -46,7 +46,6 @@ HEADERS += common.h\
     threaded_scheduler.h \
     tuple_sensor_string.h \
     tuple_ecm_data.h \
-    tuple_master_string.h \
     comms/abstract_communication.h \
     comms/communication_update.h \
     comms/communication_connection.h \
@@ -55,7 +54,8 @@ HEADERS += common.h\
     comms/tcp_configuration.h \
     ecm_devices.h \
     tuple_machine_string.h \
-    tuple_profile_variable_string.h
+    tuple_profile_variable_string.h \
+    tuple_positional_string.h
 
 #Header file copy
 headers.path    = $$(ECM_ROOT)/include/common

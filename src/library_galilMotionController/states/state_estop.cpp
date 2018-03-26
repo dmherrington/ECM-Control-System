@@ -6,7 +6,6 @@ namespace Galil {
 State_EStop::State_EStop():
     AbstractStateGalil()
 {
-    std::cout<<"We are in the constructor of State_EStop"<<std::endl;
     this->currentState = ECMState::STATE_ESTOP;
     this->desiredState = ECMState::STATE_ESTOP;
 }
@@ -66,6 +65,7 @@ void State_EStop::Update()
 
 void State_EStop::OnEnter()
 {
+    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_ESTOP));
     //First check to see if the motor is already disarmed, and if not, disarm it
     if(Owner().isMotorEnabled())
     {

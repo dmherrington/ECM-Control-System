@@ -162,6 +162,7 @@ void State_Touchoff::Update()
 
 void State_Touchoff::OnEnter()
 {
+    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_TOUCHOFF));
     //this shouldn't really happen as how are we supposed to know the actual touchoff command
     //we therefore are going to do nothing other than change the state back to State_Ready
     this->desiredState = ECMState::STATE_READY;
@@ -171,6 +172,7 @@ void State_Touchoff::OnEnter(const AbstractCommand* command)
 {
     if(command != nullptr)
     {
+        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_TOUCHOFF));
         Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Touchoff Status","touchst");
         Owner().issueGalilAddPollingRequest(request);
         this->handleCommand(command);

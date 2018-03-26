@@ -40,8 +40,16 @@ private slots:
 
 private slots:
     void slot_NewlyAvailableRigolData(const common::TupleSensorString &sensor, const bool &val);
+    void slot_AddPlottable(const common::TupleECMData &data);
+    void slot_RemovePlottable(const common::TupleECMData &data);
+    void slot_DisplayActionTriggered();
+
 private slots:
+    void slot_NewProfileVariableData(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state);
+
     void slot_NewSensorData(const common::TupleSensorString sensor, const common_data::SensorState state);
+
+    void slot_MCNewMotionState(const std::string &state);
 
     void slot_UpdateHomeIndicated(const bool &value);
 
@@ -120,6 +128,7 @@ private:
     //! Active Sensor TupleString
     common::TupleSensorString m_ActiveSensor;
 
+    QMap<common::TupleECMData, QAction*> m_PlottingActionMap;
 
     Ui::ECMControllerGUI *ui;
 

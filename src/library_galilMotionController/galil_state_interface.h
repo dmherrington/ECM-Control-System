@@ -30,6 +30,7 @@ public:
     virtual void cbi_GalilControllerGains(const CommandControllerGain &gains) = 0;
     virtual void cbi_GalilHomeIndicated(const bool &indicated) = 0;
     virtual void cbi_NewMotionProfileState(const MotionProfileState &state) = 0;
+    virtual void cbi_GalilNewMachineState(const std::string &state) = 0;
     virtual void cbi_GalilUploadProgram(const AbstractCommandPtr command) = 0;
     virtual void cbi_GalilDownloadProgram(const AbstractCommandPtr command) = 0;
 };
@@ -49,12 +50,20 @@ public:
 
     void issueGalilUploadProgram(const AbstractCommandPtr command)
     {
-
+        if(m_CB)
+            m_CB->cbi_GalilUploadProgram(command);
     }
 
-    void issueGalilDownloadProgram(const AbstractCommandPtr commad)
+    void issueGalilDownloadProgram(const AbstractCommandPtr command)
     {
+        if(m_CB)
+            m_CB->cbi_GalilDownloadProgram(command);
+    }
 
+    void issueNewGalilState(const std::string &state)
+    {
+        if(m_CB)
+            m_CB->cbi_GalilNewMachineState(state);
     }
 
     void issueGalilCommand(const AbstractCommandPtr command)

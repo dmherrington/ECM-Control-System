@@ -126,6 +126,7 @@ void State_ScriptExecution::Update()
 
 void State_ScriptExecution::OnEnter()
 {
+    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_SCRIPT_EXECUTION));
     //this shouldn't really happen as how are we supposed to know the the actual profile to execute
     //we therefore are going to do nothing other than change the state back to State_Ready
     desiredState = ECMState::STATE_READY;
@@ -135,6 +136,8 @@ void State_ScriptExecution::OnEnter(const AbstractCommand* command)
 {
     if(command != nullptr)
     {
+        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_SCRIPT_EXECUTION));
+
         Request_TellVariablePtr requestPosition = std::make_shared<Request_TellVariable>("Bottom Position","ppos");
         Owner().issueGalilAddPollingRequest(requestPosition);
 

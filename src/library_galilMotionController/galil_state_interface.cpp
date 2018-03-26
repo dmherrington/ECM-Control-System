@@ -1,6 +1,7 @@
 #include "galil_state_interface.h"
 
-GalilStateInterface::GalilStateInterface(const std::vector<MotorAxis> &availableAxis)
+GalilStateInterface::GalilStateInterface(const std::vector<MotorAxis> &availableAxis):
+    m_CB(nullptr)
 {
     //we should perform some sort of check to ensure that the vector does not contain all
     //if we see one all, just iterate through all available axis and clear original ones

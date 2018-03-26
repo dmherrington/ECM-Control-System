@@ -63,6 +63,8 @@ public:
 
     void closeConnection();
 
+    std::string getCurrentMCState() const;
+
 private:
     //////////////////////////////////////////////////////////////
     /// Virtual methods imposed via Comms::CommsEvents
@@ -113,6 +115,7 @@ private:
     void cbi_GalilControllerGains(const CommandControllerGain &gains) override;
     void cbi_GalilHomeIndicated(const bool &indicated) override;
     void cbi_NewMotionProfileState(const MotionProfileState &state) override;
+    void cbi_GalilNewMachineState(const std::string &state) override;
     void cbi_GalilUploadProgram(const AbstractCommandPtr command) override;
     void cbi_GalilDownloadProgram(const AbstractCommandPtr command) override;
 
@@ -120,6 +123,8 @@ signals:
     void signal_MotionControllerConnectionUpdate(const common::comms::CommunicationConnection &connection) const;
 
     void signal_MCNewProfileVariableValue(const common::TupleProfileVariableString &variableTuple, const common_data::MotionProfileVariableState &data) const;
+
+    void signal_MCNewMotionState(const std::string &state) const;
 
     void signal_GalilHomeIndicated(const bool &indicated) const;
 

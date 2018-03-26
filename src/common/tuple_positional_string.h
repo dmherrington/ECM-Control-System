@@ -1,5 +1,5 @@
-#ifndef TUPLE_MASTER_STRING_H
-#define TUPLE_MASTER_STRING_H
+#ifndef TUPLE_POSITIONAL_STRING_H
+#define TUPLE_POSITIONAL_STRING_H
 
 #include <QString>
 #include <QMetaType>
@@ -10,23 +10,23 @@
 namespace common {
 
 //!
-//! \brief A tuple to uniquly identify a master state in ECM
+//! \brief A tuple to uniquly identify a positional state in ECM
 //!
-class COMMONSHARED_EXPORT TupleMasterString : public TupleGeneric
+class COMMONSHARED_EXPORT TuplePositionalString : public TupleGeneric
 {
 public:
 
     //!
     //! \brief Default Constructor
     //!
-    TupleMasterString();
+    TuplePositionalString();
 
 
     //!
     //! \brief Copy Constructor
     //! \param that Object to copy from
     //!
-    TupleMasterString(const TupleMasterString& that);
+    TuplePositionalString(const TuplePositionalString& that);
 
 
     //!
@@ -47,7 +47,7 @@ public:
     //! \brief Assignment operator
     //! \param rhs Right hand side of assignment
     //!
-    void operator= (const TupleMasterString& rhs);
+    void operator= (const TuplePositionalString& rhs);
 
 
     //!
@@ -75,12 +75,12 @@ public:
 
 
     //! Unique identifier for a model
-    QString modelName;
+    QString axisName;
 
 };
 
 } // end of namespace ECMCore
 
-Q_DECLARE_METATYPE(common::TupleMasterString)
+Q_DECLARE_METATYPE(common::TuplePositionalString)
 
-#endif // TUPLE_MASTER_STRING_H
+#endif // TUPLE_POSITIONAL_STRING_H

@@ -39,7 +39,9 @@ SOURCES += \
     sensors/sensor_marea.cpp \
     dimensions/marea_dimension.cpp \
     profiles/profile_state_machining.cpp \
-    motion_profile_variable_state.cpp
+    motion_profile_variable_state.cpp \
+    machine_positional_state.cpp \
+    dimensions/position_dimension.cpp
 
 HEADERS += \
     data_global.h \
@@ -67,7 +69,9 @@ HEADERS += \
     sensors/sensor_marea.h \
     dimensions/marea_dimension.h \
     profiles/profile_state_machining.h \
-    motion_profile_variable_state.h
+    motion_profile_variable_state.h \
+    machine_positional_state.h \
+    dimensions/position_dimension.h
 
 # Unix lib Install
 unix:!symbian {

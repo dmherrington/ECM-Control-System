@@ -6,7 +6,6 @@ namespace Galil {
 State_ReadyStop::State_ReadyStop():
     AbstractStateGalil()
 {
-    std::cout<<"We are in the constructor of State_ReadyStop"<<std::endl;
     this->currentState = ECMState::STATE_READY_STOP;
     this->desiredState = ECMState::STATE_READY_STOP;
 }
@@ -74,6 +73,8 @@ void State_ReadyStop::Update()
 
 void State_ReadyStop::OnEnter()
 {
+    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_READY_STOP));
+
     //The first thing we should do when entering this state is to disengage the motor
     //Let us check to see if the motor is already armed, if not, follow through with the command
 

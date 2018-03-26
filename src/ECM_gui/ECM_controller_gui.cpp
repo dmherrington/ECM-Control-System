@@ -17,6 +17,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_API = new ECM_API();
 
     connect(m_API->m_Rigol, SIGNAL(signal_RigolPlottable(common::TupleSensorString,bool)), this, SLOT(slot_NewlyAvailableRigolData(common::TupleSensorString,bool)));
+    connect(m_API->m_Galil, SIGNAL(signal_MCNewMotionState(std::string)), this, SLOT(slot_MCNewMotionState(std::string)));
+    this->slot_MCNewMotionState(m_API->m_Galil->getCurrentMCState());
 
     m_WindowMunk = new Window_MunkPowerSupply(m_API->m_Munk);
     m_WindowMunk->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
@@ -56,14 +58,24 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 //    m_additionalSensorDisplay->UpdatePlottedData(); //this actually updates the rendering of the data
 
     //give collection of plots
-//    ui->centralCustomPlot->SupplyPlotCollection(&m_PlotCollection);
-//    ui->centralCustomPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
+    ui->widget_primaryPlot->SupplyPlotCollection(&m_PlotCollection);
+    ui->widget_primaryPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
 
     common::TupleSensorString tupleSensor;
     tupleSensor.sourceName = "TestSource";
     tupleSensor.sensorName = "TestSensor";
     ECMPlotIdentifierPtr newPlot = std::make_shared<ECMPlotIdentifier>(tupleSensor, "Sensed_Voltage");
-//    ui->centralCustomPlot->AddPlot(newPlot);
+    ui->widget_primaryPlot->AddPlot(newPlot);
+
+    common_data::SensorState newSensorMeasurement;
+    newSensorMeasurement.ConstructSensor(common_data::SENSOR_VOLTAGE,"Voltage Top");
+    ((common_data::SensorVoltage*)newSensorMeasurement.getSensorData().get())->SetVoltage(5.0,common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
+    newSensorMeasurement.setObservationTime(startTime);
+    this->slot_NewSensorData(tupleSensor,newSensorMeasurement);
+
+    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
+    newSensorMeasurement.setObservationTime(startTime);
+    this->slot_NewSensorData(tupleSensor,newSensorMeasurement);
 
 
 
@@ -74,14 +86,84 @@ ECMControllerGUI::~ECMControllerGUI()
     delete ui;
 }
 
+void ECMControllerGUI::slot_AddPlottable(const common::TupleECMData &data)
+{
+    common::TupleGeneric* tuple = data.getData();
+    QAction *newAction = ui->menuView->addAction(tuple->HumanName(),this, SLOT(slot_DisplayActionTriggered()));
+    newAction->setObjectName(tuple->HumanName());
+    newAction->setText(tuple->HumanName());
+    newAction->setCheckable(true);
+    newAction->setChecked(false);
+    m_PlottingActionMap.insert(data, newAction);
+}
+
+void ECMControllerGUI::slot_RemovePlottable(const common::TupleECMData &data)
+{
+    QMap<common::TupleECMData, QAction*>::iterator it = m_PlottingActionMap.find(data);
+    if(it != m_PlottingActionMap.end())
+    {
+        ui->menuView->removeAction(it.value());
+    }
+}
+
+void ECMControllerGUI::slot_DisplayActionTriggered()
+{
+    //find the item that was selected
+    QAction* selectedObject = (QAction*)sender();
+
+    common::TupleECMData key;
+    bool found = false;
+    for(int i = 0 ; i < m_PlottingActionMap.size() ; i++)
+    {
+        if(m_PlottingActionMap.values()[i] == selectedObject)
+        {
+            key = m_PlottingActionMap.keys()[i];
+            found = true;
+            break;
+        }
+    }
+
+    if(found == false) //somehow this got out of sync? Ken determine if this condition is even possible
+    {
+        return;
+    }
+
+    if(selectedObject->isChecked())
+    {
+        ECMPlotIdentifierPtr newPlot = std::make_shared<ECMPlotIdentifier>(key, key.getData()->HumanName().toStdString().c_str());
+        ui->widget_primaryPlot->AddPlot(newPlot);
+        QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(key);
+        ui->widget_primaryPlot->RedrawDataSource(plots);
+    }else{
+        //find a way to remove the graph
+    }
+}
+
+void ECMControllerGUI::slot_NewProfileVariableData(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state)
+{
+    m_PlotCollection.UpdateProfileVariablePlots(variable, state);
+    QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(variable);
+    plots = m_PlotCollection.getPlots(variable);
+    ui->widget_primaryPlot->RedrawDataSource(plots);
+}
+
 void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString sensor, const common_data::SensorState state)
 {
     CreateSensorDisplays(sensor,state.getSensorType());
 
-//    m_PlotCollection.UpdateSensorPlots(sensor, state);
-//    QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(sensor);
-//    plots = m_PlotCollection.getPlots(sensor);
-//    ui->centralCustomPlot->RedrawDataSource(plots);
+    m_PlotCollection.UpdateSensorPlots(sensor, state);
+    m_SensorDisplays.UpdateNonPlottedData(sensor,state);
+    m_additionalSensorDisplay->UpdateNonPlottedData(sensor,state);
+
+    QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(sensor);
+    ui->widget_primaryPlot->RedrawDataSource(plots);
+    m_SensorDisplays.PlottedDataUpdated(sensor); //this seems to be uneeded based on the call after this
+    m_additionalSensorDisplay->UpdatePlottedData(sensor);
+}
+
+void ECMControllerGUI::slot_MCNewMotionState(const std::string &state)
+{
+    ui->lineEdit_GalilState->setText("State: " + QString::fromStdString(state));
 }
 
 void ECMControllerGUI::slot_UpdateHomeIndicated(const bool &value)

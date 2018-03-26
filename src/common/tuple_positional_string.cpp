@@ -1,11 +1,11 @@
-#include "tuple_master_string.h"
+#include "tuple_positional_string.h"
 
 namespace common {
 
 //!
 //! \brief Default Constructor
 //!
-TupleMasterString::TupleMasterString()
+TuplePositionalString::TuplePositionalString()
 {
 
 }
@@ -15,9 +15,9 @@ TupleMasterString::TupleMasterString()
 //! \brief Copy Constructor
 //! \param that Object to copy from
 //!
-TupleMasterString::TupleMasterString(const TupleMasterString &that)
+TuplePositionalString::TuplePositionalString(const TuplePositionalString &that)
 {
-    this->modelName = that.modelName;
+    this->axisName = that.axisName;
 }
 
 
@@ -25,7 +25,7 @@ TupleMasterString::TupleMasterString(const TupleMasterString &that)
 //! \brief Type of tuple object this is
 //! \return String indicating type
 //!
-QString TupleMasterString::Type() const
+QString TuplePositionalString::Type() const
 {
     return "Master";
 }
@@ -35,9 +35,9 @@ QString TupleMasterString::Type() const
 //! \brief method to find human readable name
 //! \return string name
 //!
-QString TupleMasterString::HumanName() const
+QString TuplePositionalString::HumanName() const
 {
-    return this->modelName;
+    return this->axisName;
 }
 
 
@@ -45,9 +45,9 @@ QString TupleMasterString::HumanName() const
 //! \brief Assignment operator
 //! \param rhs Right hand side of assignment
 //!
-void TupleMasterString::operator = (const TupleMasterString& rhs)
+void TuplePositionalString::operator = (const TuplePositionalString& rhs)
 {
-    this->modelName = rhs.modelName;
+    this->axisName = rhs.axisName;
 }
 
 
@@ -56,7 +56,7 @@ void TupleMasterString::operator = (const TupleMasterString& rhs)
 //! \param rhs Right hand side of assignment
 //! \return true is less than, false otherwise
 //!
-bool TupleMasterString::operator< (const TupleGeneric& rhs) const
+bool TuplePositionalString::operator< (const TupleGeneric& rhs) const
 {
     if(*this == rhs)
         return false;
@@ -64,9 +64,9 @@ bool TupleMasterString::operator< (const TupleGeneric& rhs) const
     if(this->Type() != rhs.Type())
         return this->Type() < rhs.Type();
 
-    if(this->modelName > ((TupleMasterString*)&rhs)->modelName)
+    if(this->axisName > ((TuplePositionalString*)&rhs)->axisName)
         return false;
-    if(this->modelName < ((TupleMasterString*)&rhs)->modelName)
+    if(this->axisName < ((TuplePositionalString*)&rhs)->axisName)
         return true;
 
     return true;
@@ -78,12 +78,12 @@ bool TupleMasterString::operator< (const TupleGeneric& rhs) const
 //! \param rhs Right hand side of equivilance
 //! \return true if equivilant
 //!
-bool TupleMasterString::operator==(const TupleGeneric& rhs) const
+bool TuplePositionalString::operator==(const TupleGeneric& rhs) const
 {
     if(typeid(*this) != typeid(rhs))
         return false;
 
-    if(this->modelName != ((TupleMasterString*)&rhs)->modelName)
+    if(this->axisName != ((TuplePositionalString*)&rhs)->axisName)
         return false;
 
     return true;
@@ -95,7 +95,7 @@ bool TupleMasterString::operator==(const TupleGeneric& rhs) const
 //! \param rhs Right hand side of non-equivilance
 //! \return true if not equivilant
 //!
-bool TupleMasterString::operator!=(const TupleGeneric& rhs) const
+bool TuplePositionalString::operator!=(const TupleGeneric& rhs) const
 {
     return !((*this) == rhs);
 }

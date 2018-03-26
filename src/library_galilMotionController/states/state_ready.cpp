@@ -6,7 +6,6 @@ namespace Galil {
 State_Ready::State_Ready():
     AbstractStateGalil()
 {
-    std::cout<<"We are in the constructor of STATE_READY"<<std::endl;
     this->currentState = ECMState::STATE_READY;
     this->desiredState = ECMState::STATE_READY;
 }
@@ -179,7 +178,7 @@ void State_Ready::Update()
 
 void State_Ready::OnEnter()
 {
-    std::cout<<"We are in the state ready enter"<<std::endl;
+    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_READY));
     //The first thing we should do when entering this state is to engage the motor
     //Let us check to see if the motor is already armed, if not, follow through with the command
 

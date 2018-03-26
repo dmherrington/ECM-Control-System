@@ -84,6 +84,13 @@ void GalilMotionController::closeConnection()
     }
 }
 
+std::string GalilMotionController::getCurrentMCState() const
+{
+    ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
+    ECM::Galil::ECMState stateEnum = currentState->getCurrentState();
+    return ECM::Galil::ECMStateToString(stateEnum);
+}
+
 bool GalilMotionController::saveSettings()
 {
     m_Settings.saveSettings(settingsPath);
@@ -343,6 +350,11 @@ void GalilMotionController::cbi_GalilHomeIndicated(const bool &indicated)
 void GalilMotionController::cbi_NewMotionProfileState(const MotionProfileState &state)
 {
     emit signal_GalilUpdatedProfileState(state);
+}
+
+void GalilMotionController::cbi_GalilNewMachineState(const string &state)
+{
+    emit signal_MCNewMotionState(state);
 }
 
 void GalilMotionController::cbi_GalilUploadProgram(const AbstractCommandPtr command)

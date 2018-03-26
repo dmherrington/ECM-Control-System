@@ -42,6 +42,7 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(AdditionalSensorDisplay->sizePolicy().hasHeightForWidth());
         AdditionalSensorDisplay->setSizePolicy(sizePolicy);
+        AdditionalSensorDisplay->setDockNestingEnabled(true);
         centralwidget = new QWidget(AdditionalSensorDisplay);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
@@ -49,7 +50,7 @@ public:
         AdditionalSensorDisplay->setCentralWidget(centralwidget);
         menubar = new QMenuBar(AdditionalSensorDisplay);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 800, 22));
+        menubar->setGeometry(QRect(0, 0, 800, 21));
         menuView = new QMenu(menubar);
         menuView->setObjectName(QStringLiteral("menuView"));
         AdditionalSensorDisplay->setMenuBar(menubar);

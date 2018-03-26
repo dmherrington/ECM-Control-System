@@ -6,7 +6,6 @@ namespace Galil {
 State_Jogging::State_Jogging():
     AbstractStateGalil()
 {
-    std::cout<<"We are in the constructor of State_Jogging"<<std::endl;
     this->currentState = ECMState::STATE_JOGGING;
     this->desiredState = ECMState::STATE_JOGGING;
 }
@@ -98,6 +97,7 @@ void State_Jogging::Update()
 
 void State_Jogging::OnEnter()
 {
+    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_JOGGING));
     //this shouldn't really happen as how are we supposed to know the actual state jogging command
     //we therefore are going to do nothing other than change the state back to State_Ready
     this->desiredState = ECMState::STATE_READY;
@@ -107,6 +107,7 @@ void State_Jogging::OnEnter(const AbstractCommand *command)
 {
     if(command != nullptr)
     {
+        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_JOGGING));
         this->handleCommand(command);
     }
     else{
