@@ -7,13 +7,18 @@
 
 #include "library_rigol_oscilloscope_global.h"
 
+#include "common/tuple_sensor_string.h"
+#include "common/comms/communication_connection.h"
+
 #include "data/type_read_write.h"
+
+#include "data/sensor_state.h"
+#include "data/sensors/sensor_voltage.h"
 
 #include "commands/acquire/acquire_components.h"
 #include "commands/measure/measure_components.h"
 
 #include "communications/rigol_comms_marshaler.h"
-
 #include "rigol_poll_measurements.h"
 
 using namespace commands_Rigol;
@@ -32,14 +37,24 @@ public:
 
 public:
     void openConnection(const std::string &ipAddress, const int &port);
-    void closeConnection();
+    void initializeRigol() const;
 
-    bool addPollingMeasurement(const commands_Rigol::MeasureCommand_Item &command);
-    void removePollingMeasurement(const std::string &key);
-    void executeMeasurementPolling(const bool &execute);
+    void saveMeasurements();
+    void loadMeaurements(const std::string &path);
+
+    bool addPollingMeasurement(const MeasureCommand_Item &command);
+    void removePollingMeasurement(const MeasureCommand_Item &command);
     commands_Rigol::RigolMeasurementQueue getCurrentPollingMeasurements() const;
 
-public:
+    void closeConnection();
+
+private:
+    void executeMeasurementPolling(const bool &execute);
+
+    void loadFromQueue(const commands_Rigol::RigolMeasurementQueue &updatedQueue);
+
+    void cbi_RigolMeasurementRequests(const commands_Rigol::MeasureCommand_Item &request) override;
+
     //////////////////////////////////////////////////////////////
     /// Virtual methods allowed from comms::CommsEvents
     //////////////////////////////////////////////////////////////
@@ -48,28 +63,16 @@ public:
     void NewDataReceived(const std::vector<uint8_t> &buffer) const override;
     void NewMeaurementReceived(const commands_Rigol::RigolMeasurementStatus &status) const override;
 
-public:
-    void cbi_RigolMeasurementRequests(const commands_Rigol::MeasureCommand_Item &request) override;
-
-    void saveMeasurements();
-    void loadMeaurements(const std::string &path);
-
-private:
-    void initializeRigol() const;
-    void loadFromQueue(const commands_Rigol::RigolMeasurementQueue &updatedQueue);
-
-
 signals:
-
-public slots:
-
+    void signal_RigolConnectionUpdate(const common::comms::CommunicationConnection &value) const;
+    void signal_RigolPlottable(const common::TupleSensorString &sensorTuple, const bool &on_off);
+    void signal_RigolNewSensorValue(const common::TupleSensorString &sensorTuple, const common_data::SensorState &data) const;
 private:
-    std::string sensorName;
+    std::string deviceName;
     comms_Rigol::RigolCommsMarshaler* commsMarshaler;
     RigolPollMeasurement* pollStatus;
     commands_Rigol::RigolMeasurementQueue queue;
     QString previousSettingsPath;
-
 
 };
 

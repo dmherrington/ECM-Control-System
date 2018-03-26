@@ -31,7 +31,7 @@ public:
 
     GReturn UploadProgram(const std::string &programText) const override;
 
-    GReturn DownloadProgram(const std::string &programText) const override;
+    GReturn DownloadProgram(std::string &programText) const override;
 
     GReturn WriteCommand(const std::string &command) const override;
 

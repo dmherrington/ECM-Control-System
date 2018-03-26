@@ -6,7 +6,6 @@ namespace Galil {
 State_Idle::State_Idle():
     AbstractStateGalil()
 {
-    std::cout<<"We are in the constructor of State_Idle"<<std::endl;
     this->currentState = ECMState::STATE_IDLE;
     this->desiredState = ECMState::STATE_IDLE;
 }
@@ -73,11 +72,17 @@ void State_Idle::handleCommand(const AbstractCommand* command)
     {
         //we can only download/upload commands in the idle state so this command is valid
         const CommandDownloadProgram* castCommand = copyCommand->as<CommandDownloadProgram>();
+        CommandDownloadProgramPtr command = std::make_shared<CommandDownloadProgram>(*castCommand);
+        //const CommandDownloadProgram* castCommand = copyCommand->as<CommandDownloadProgram>();
+        Owner().issueGalilDownloadProgram(command);
         break;
     }
     case CommandType::UPLOAD_PROGRAM:
     {
         const CommandUploadProgram* castCommand = copyCommand->as<CommandUploadProgram>();
+        CommandUploadProgramPtr command = std::make_shared<CommandUploadProgram>(*castCommand);
+        //const CommandUploadProgram* castCommand = copyCommand->as<CommandUploadProgram>();
+        Owner().issueGalilUploadProgram(command);
         break;
     }
     case CommandType::MOTOR_ON:
@@ -138,13 +143,15 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         break;
     }
     default:
-        std::cout<<"Thie command type of: "<<CommandToString(command->getCommandType())<<" has no explicit support from the idle state."<<std::endl;
+        std::cout<<"The command type of: "<<CommandToString(command->getCommandType())<<" has no explicit support from the idle state."<<std::endl;
         break;
     }
 }
 
 void State_Idle::OnEnter()
 {
+    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_IDLE));
+
     //The first thing we should do when entering this state is to disable the motor
     //To get to this state, it should be noted that we should have already transitioned through
     //the stop state, or motion on the motor has already ceased
@@ -154,6 +161,9 @@ void State_Idle::OnEnter()
         CommandMotorDisablePtr castCommand = std::make_shared<CommandMotorDisable>();
         Owner().issueGalilCommand(castCommand);
     }
+
+    //Update the state to indicate that the previous home indication is no longer valid
+    Owner().setHomeInidcated(false);
 }
 
 void State_Idle::OnEnter(const AbstractCommand *command)

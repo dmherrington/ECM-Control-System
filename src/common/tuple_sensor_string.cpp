@@ -2,9 +2,11 @@
 
 namespace common {
 
-TupleSensorString::TupleSensorString()
+TupleSensorString::TupleSensorString(const QString &source, const QString &sensor, const QString &measure)
 {
-
+    this->sourceName = source;
+    this->sensorName = sensor;
+    this->measurementName = measure;
 }
 
 //!
@@ -15,6 +17,7 @@ TupleSensorString::TupleSensorString(const TupleSensorString &copy)
 {
     this->sourceName = copy.sourceName;
     this->sensorName = copy.sensorName;
+    this->measurementName = copy.measurementName;
 }
 
 
@@ -46,6 +49,7 @@ void TupleSensorString::operator = (const TupleSensorString& rhs)
 {
     this->sourceName = rhs.sourceName;
     this->sensorName = rhs.sensorName;
+    this->measurementName = rhs.measurementName;
 }
 
 
@@ -67,7 +71,14 @@ bool TupleSensorString::operator< (const TupleGeneric& rhs) const
     if(this->sourceName < ((TupleSensorString*)&rhs)->sourceName)
         return true;
 
-    if(this->sensorName >= ((TupleSensorString*)&rhs)->sensorName)
+
+    if(this->sensorName > ((TupleSensorString*)&rhs)->sensorName)
+        return false;
+    if(this->sensorName < ((TupleSensorString*)&rhs)->sensorName)
+        return true;
+
+
+    if(this->measurementName >= ((TupleSensorString*)&rhs)->measurementName)
         return false;
 
     return true;
@@ -88,6 +99,9 @@ bool TupleSensorString::operator==(const TupleGeneric& rhs) const
         return false;
 
     if(this->sensorName != ((TupleSensorString*)&rhs)->sensorName)
+        return false;
+
+    if(this->measurementName != ((TupleSensorString*)&rhs)->measurementName)
         return false;
 
     return true;

@@ -53,17 +53,6 @@ Dimensions VoltageDimension::getType() const
     return VOLTAGE;
 }
 
-
-//!
-//! \brief get index of enumeration describing current unit
-//! \return index of enumeration
-//!
-size_t VoltageDimension::getUnitIndex() const
-{
-    return m_type;
-}
-
-
 //!
 //! \brief Short hand notation of dimension
 //! \return Short hand notation
@@ -72,14 +61,14 @@ std::string VoltageDimension::ShortHand() const
 {
     switch(m_type)
     {
-    case UNIT_VOLTAGE_VOLTS:
+    case VoltageUnit::UNIT_VOLTAGE_VOLTS:
         return "v";
-    case UNIT_VOLTAGE_MILLIVOLT:
+    case VoltageUnit::UNIT_VOLTAGE_MILLIVOLT:
         return "mv";
-    case UNIT_VOLTAGE_MICROVOLT:
+    case VoltageUnit::UNIT_VOLTAGE_MICROVOLT:
         return "uv";
     default:
-        throw new std::runtime_error("Unkown Unit");
+        throw new std::runtime_error("Unknown Unit");
     }
 }
 
@@ -102,7 +91,7 @@ IDimension* VoltageDimension::Copy() const
 //!
 VoltageUnit VoltageDimension::BaseUnit() const
 {
-    return UNIT_VOLTAGE_VOLTS;
+    return VoltageUnit::UNIT_VOLTAGE_VOLTS;
 }
 
 
@@ -114,11 +103,11 @@ double VoltageDimension::RatioToBaseUnit() const
 {
     switch(m_type)
     {
-    case UNIT_VOLTAGE_VOLTS:
+    case VoltageUnit::UNIT_VOLTAGE_VOLTS:
         return 1.0;
-    case UNIT_VOLTAGE_MILLIVOLT:
+    case VoltageUnit::UNIT_VOLTAGE_MILLIVOLT:
         return 1000.0;
-    case UNIT_VOLTAGE_MICROVOLT:
+    case VoltageUnit::UNIT_VOLTAGE_MICROVOLT:
         return 1000.0 * 1000.0;
     default:
         throw new std::runtime_error("Unkown Unit");

@@ -32,7 +32,16 @@ SOURCES += \
     observation/observation_scalar.cpp \
     sensors/sensor.cpp \
     sensors/sensor_voltage.cpp \
-    measurement_state.cpp
+    measurement_state.cpp \
+    motion_profile_state.cpp \
+    profiles/profile_touchoff.cpp \
+    profiles/profile_homing.cpp \
+    sensors/sensor_marea.cpp \
+    dimensions/marea_dimension.cpp \
+    profiles/profile_state_machining.cpp \
+    motion_profile_variable_state.cpp \
+    machine_positional_state.cpp \
+    dimensions/position_dimension.cpp
 
 HEADERS += \
     data_global.h \
@@ -53,7 +62,16 @@ HEADERS += \
     observation/time_data_reference.h \
     sensors/sensor.h \
     sensors/sensor_voltage.h \
-    digital_state.h
+    digital_state.h \
+    motion_profile_state.h \
+    profiles/profile_state_homing.h \
+    profiles/profile_state_touchoff.h \
+    sensors/sensor_marea.h \
+    dimensions/marea_dimension.h \
+    profiles/profile_state_machining.h \
+    motion_profile_variable_state.h \
+    machine_positional_state.h \
+    dimensions/position_dimension.h
 
 # Unix lib Install
 unix:!symbian {

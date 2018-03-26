@@ -17,6 +17,7 @@ namespace common_data
 enum SensorTypes
 {
     SENSOR_VOLTAGE,         //! A Voltage sensor
+    SENSOR_MAREA,           //! A Current Area measurement
     SENSORTYPES_NR_ITEMS    //! The number of sensor types
 };
 
@@ -62,6 +63,13 @@ public:
      */
     virtual std::string getDescription() const = 0;
 
+    //!
+    //! \brief getLoggingString
+    //! \return
+    //!
+    virtual std::string getLoggingString() const = 0;
+
+
     /*!
      * \brief Assign a data from a sensor to this instance.
      * \param S Sensor to assign to.
@@ -91,7 +99,10 @@ public:
     //!
     static SensorTypes StringToSensorTypeEnum(const std::string &unitString);
 
-
+    friend std::ostream& operator<< (std::ostream &stream, const Sensor &data)
+    {
+        return stream<<data.getLoggingString();
+    }
 
 private:
 

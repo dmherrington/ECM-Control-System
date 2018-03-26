@@ -12,7 +12,7 @@ ECM_CLASS_FORWARD(Request_TellVariable);
 class Request_TellVariable : public AbstractRequest
 {
 public:
-    Request_TellVariable(const std::string &name);
+    Request_TellVariable(const std::string &humName, const std::string &varName);
 
     Request_TellVariable(const Request_TellVariable &copy);
 
@@ -36,16 +36,29 @@ public:
     void getClone(AbstractRequest** state) const override;
 
 public:
-    //!
-    //! \brief setAxis
-    //! \param axis
-    //!
-    void setVariableName(const std::string &axis);
 
-    //!
-    //! \brief getAxis
-    //! \return
-    //!
+    /*!
+     * \brief setHumanName
+     * \param name
+     */
+    void setHumanName(const std::string &name);
+
+    /*!
+     * \brief setVariableName
+     * \param name
+     */
+    void setVariableName(const std::string &name);
+
+    /*!
+     * \brief getHumanName
+     * \return
+     */
+    std::string getHumanName() const;
+
+    /*!
+     * \brief getVariableName
+     * \return
+     */
     std::string getVariableName() const;
 
 public:
@@ -58,8 +71,9 @@ public:
     std::vector<AbstractStatusPtr> getStatus() const override;
 
 private:
-    std::string variableName; /**< Value of the axis to be position requested */
+    std::string humanName; /**< A human readable name that describes the variable requested */
 
+    std::string variableName; /**< The variable name explicitly recognized within the galil motion profile */
 };
 
 

@@ -6,7 +6,6 @@ namespace Galil {
 State_Ready::State_Ready():
     AbstractStateGalil()
 {
-    std::cout<<"We are in the constructor of STATE_READY"<<std::endl;
     this->currentState = ECMState::STATE_READY;
     this->desiredState = ECMState::STATE_READY;
 }
@@ -110,21 +109,21 @@ void State_Ready::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
         switch (castCommand->getProfileType()) {
-        case CommandExecuteProfile::ProfileType::HOMING:
+        case MotionProfile::ProfileType::HOMING:
         {
             //This command will transition the machine to STATE_HOME_POSITIONING
             desiredState = ECMState::STATE_HOME_POSITIONING;
             this->currentCommand = copyCommand;
             break;
         }
-        case CommandExecuteProfile::ProfileType::PROFILE:
+        case MotionProfile::ProfileType::PROFILE:
         {
             //This command will transition the machine to STATE_SCRIPT_EXECUTION
             desiredState = ECMState::STATE_SCRIPT_EXECUTION;
             this->currentCommand = copyCommand;
             break;
         }
-        case CommandExecuteProfile::ProfileType::TOUCHOFF:
+        case MotionProfile::ProfileType::TOUCHOFF:
         {
             //This command will transition the machine to STATE_TOUCHOFF
             desiredState = ECMState::STATE_TOUCHOFF;
@@ -179,7 +178,7 @@ void State_Ready::Update()
 
 void State_Ready::OnEnter()
 {
-    std::cout<<"We are in the state ready enter"<<std::endl;
+    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_READY));
     //The first thing we should do when entering this state is to engage the motor
     //Let us check to see if the motor is already armed, if not, follow through with the command
 

@@ -1,0 +1,14 @@
+#ifndef ECM_DEVICES_H
+#define ECM_DEVICES_H
+
+enum class ECMDevice
+{
+    DEVICE_POWERSUPPLY,
+    DEVICE_PUMP,
+    DEVICE_OSCOPE,
+    DEVICE_SENSORAY,
+    DEVICE_MOTIONCONTROL,
+    DEVICE_ALL
+};
+
+#endif // ECM_DEVICES_H

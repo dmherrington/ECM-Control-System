@@ -7,17 +7,18 @@
 #include "ECM_plot_identifier.h"
 
 #include "munk_dialog/window_munk_power_supply.h"
-#include "pump_dialog/dialog_pump_control.h"
-
-#include "library_munk_power_supply/munk_power_supply.h"
-#include "library_galilMotionController/galil_motion_controller.h"
-#include "library_sensoray/sensoray.h"
-#include "library_rigol_oscilloscope/rigol_oscilliscope.h"
-#include "library_westinghouse510/westinghouse_510.h"
+#include "pump_dialog/window_pump_control.h"
+#include "rigol_dialog/window_rigol_control.h"
+#include "misc_dialogs/dialog_connections.h"
+#include "misc_dialogs/dialog_custom_commands.h"
+#include "misc_dialogs/window_touchoff.h"
 
 #include "additional_sensor_display.h"
 #include "common/threadmanager.h"
 #include "common/timer.h"
+
+#include "ECM_API/ecm_api.h"
+
 namespace Ui {
 class ECMControllerGUI;
 }
@@ -32,8 +33,25 @@ public:
 
 private:
     bool maybeSave();
+
 private slots:
+    void CreateSensorDisplays(const common::TupleSensorString &sensor, const common_data::SensorTypes &type);
+    Q_INVOKABLE void MarshalCreateSensorDisplay(const common::TupleSensorString &sensor, const common_data::SensorTypes &type);
+
+private slots:
+    void slot_NewlyAvailableRigolData(const common::TupleSensorString &sensor, const bool &val);
+    void slot_AddPlottable(const common::TupleECMData &data);
+    void slot_RemovePlottable(const common::TupleECMData &data);
+    void slot_DisplayActionTriggered();
+
+private slots:
+    void slot_NewProfileVariableData(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state);
+
     void slot_NewSensorData(const common::TupleSensorString sensor, const common_data::SensorState state);
+
+    void slot_MCNewMotionState(const std::string &state);
+
+    void slot_UpdateHomeIndicated(const bool &value);
 
     void on_pushButton_MotorEnable_released();
 
@@ -65,8 +83,6 @@ private slots:
     void on_pushButton_DecreaseRelativeMove_released();
 
 
-
-
     void on_doubleSpinBox_CutDepth_editingFinished();
 
     void on_doubleSpinBox_RetractDistance_editingFinished();
@@ -83,27 +99,49 @@ private slots:
 
     void on_spinBox_Pause_editingFinished();
 
+    void on_actionConnections_triggered();
+
+    void on_actionPump_triggered();
+
+    void on_actionPower_Supply_triggered();
+
+    void on_actionOscilliscope_triggered();
+
 protected:
     void readSettings();
     void closeEvent(QCloseEvent *event);
 
 private:
+
+    //! Map of sensors whose displays have been created
+    QMap<common::TupleSensorString, bool> m_CreatedSensors;
+
+    //! Additional sensor display form
+    AdditionalSensorDisplay *m_additionalSensorDisplay;
+
+    //! Collection of sensor displays to show in GUI window
+    CollectionDisplays m_SensorDisplays;
+
+    //! Boolean indicating active sensor
+    bool m_DisplaySensor;
+
+    //! Active Sensor TupleString
+    common::TupleSensorString m_ActiveSensor;
+
+    QMap<common::TupleECMData, QAction*> m_PlottingActionMap;
+
     Ui::ECMControllerGUI *ui;
 
     ECMPlotCollection m_PlotCollection;
 
-    CollectionDisplays m_SensorDisplays;
-
-    AdditionalSensorDisplay *m_additionalSensorDisplay;
+    ECM_API* m_API;
 
     Window_MunkPowerSupply* m_WindowMunk;
-
-    MunkPowerSupply* m_Munk;
-    GalilMotionController* m_Galil;
-    Sensoray* m_Sensoray;
-    RigolOscilliscope* m_Rigol;
-    Westinghouse510* m_Pump;
-
+    Window_PumpControl* m_WindowPump;
+    Window_RigolControl* m_WindowRigol;
+    Dialog_Connections* m_DialogConnections;
+    Dialog_CustomCommands* m_DialogCustomCommands;
+    Window_Touchoff* m_WindowTouchoff;
 };
 
 #endif // ECM_CONTROLLER_GUI_H

@@ -78,10 +78,12 @@ SOURCES += \
     status/status_motor_enabled.cpp \
     commands/command_motion_start.cpp \
     commands/command_variable.cpp \
-    requests/request_variable.cpp \
     status/status_variable_value.cpp \
-    status/status_variable_list.cpp
-
+    status/status_variable_list.cpp \
+    programs/program_variable_value_list.cpp \
+    programs/program_variable_list.cpp \
+    programs/program_label_list.cpp \
+    requests/request_tell_variable.cpp
 HEADERS += \
         axis_definitions.h \
         galil_motion_controller.h \
@@ -161,8 +163,10 @@ HEADERS += \
     commands/command_variable.h \
     requests/request_tell_variable.h \
     status/status_variable_value.h \
-    status/status_variable_list.h
-
+    status/status_variable_list.h \
+    programs/program_variable_value_list.h \
+    programs/program_variable_list.h \
+    programs/program_label_list.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib
@@ -301,6 +305,17 @@ INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
 else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
+
+INCLUDEPATH += $$PWD/../common
+DEPENDPATH += $$PWD/../common
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../data/release/ -ldata
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../data/debug/ -ldata
+else:unix:!macx: LIBS += -L$$OUT_PWD/../data/ -ldata
+
+INCLUDEPATH += $$PWD/../data
+DEPENDPATH += $$PWD/../data
+
 
 unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
 unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo

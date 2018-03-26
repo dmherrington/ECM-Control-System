@@ -13,6 +13,12 @@
 #include "gclibo.h"
 
 #include "library_galilmotioncontroller_global.h"
+
+#include "common/tuple_profile_variable_string.h"
+#include "data/motion_profile_variable_state.h"
+
+#include "common/comms/communication_connection.h"
+
 #include "commands/command_components.h"
 #include "requests/request_components.h"
 #include "states/state_components.h"
@@ -43,25 +49,31 @@
 \*
 \*/
 
-class GMC_SHARED_EXPORT GalilMotionController : public QObject, public GalilStatusUpdate_Interface, public GalilCallback_StateInterface, public Comms::CommsEvents
+class GMC_SHARED_EXPORT GalilMotionController : public QObject, public GalilStatusUpdate_Interface, public GalilCallback_StateInterface, private Comms::CommsEvents
 {
     Q_OBJECT
 
 public:
-    GalilMotionController();
+    GalilMotionController(const std::string &name = "Galil Motion Controller");
 
     ~GalilMotionController();
 
 public:
     void openConnection(const std::string &address);
+
     void closeConnection();
 
-public:
+    std::string getCurrentMCState() const;
+
+private:
     //////////////////////////////////////////////////////////////
-    /// Virtual methods allowed from Comms::CommsEvents
+    /// Virtual methods imposed via Comms::CommsEvents
     //////////////////////////////////////////////////////////////
     void LinkConnected() const override;
     void LinkDisconnected() const override;
+    void ErrorBadCommand(const std::string &commandType, const std::string &description) override;
+    void NewProgramUploaded(const ProgramGeneric &program) override;
+    void NewProgramDownloaded(const ProgramGeneric &program) override;
     void NewStatusInputs(const StatusInputs &status) override;
     void NewStatusPosition(const Status_Position &status) override;
     void NewStatusMotorEnabled(const Status_MotorEnabled &status) override;
@@ -69,8 +81,8 @@ public:
     void NewStatusMotorStopCode(const Status_StopCode &status) override;
     void NewStatusVariableList(const Status_VariableList &status) override;
     void NewStatusVariableValue(const Status_VariableValue &status) override;
-public:
 
+public:
     void getSettingsPath(std::string &settingsPath) const;
     bool saveSettings();
     bool saveSettingsAs(const std::string &filePath);
@@ -80,10 +92,6 @@ public:
     bool saveProgram(const std::string &text);
     bool saveProgramAs(const std::string &filePath, const std::string &text);
     bool loadProgram(const std::string &filePath, std::string &programText);
-
-    void uploadProgram(const ProgramGeneric &program) const;
-
-    void downloadProgram() const;
 
     void executeCommand(const AbstractCommand* command);
 
@@ -105,16 +113,29 @@ private:
     void cbi_AbstractGalilAddPolled(const AbstractRequestPtr request) override;
     void cbi_AbstractGalilRemovePolled(const std::string &name) override;
     void cbi_GalilControllerGains(const CommandControllerGain &gains) override;
-    void cbi_ResetHomingLatch() override;
+    void cbi_GalilHomeIndicated(const bool &indicated) override;
+    void cbi_NewMotionProfileState(const MotionProfileState &state) override;
+    void cbi_GalilNewMachineState(const std::string &state) override;
+    void cbi_GalilUploadProgram(const AbstractCommandPtr command) override;
+    void cbi_GalilDownloadProgram(const AbstractCommandPtr command) override;
 
 signals:
-    void commsStatus(const bool &opened);
+    void signal_MotionControllerConnectionUpdate(const common::comms::CommunicationConnection &connection) const;
+
+    void signal_MCNewProfileVariableValue(const common::TupleProfileVariableString &variableTuple, const common_data::MotionProfileVariableState &data) const;
+
+    void signal_MCNewMotionState(const std::string &state) const;
+
+    void signal_GalilHomeIndicated(const bool &indicated) const;
+
+    void signal_GalilUpdatedProfileState(const MotionProfileState &state) const;
+
+    void signal_GalilNewPosition();
 
     void newProgramReceived(const std::string &programText);
 
     void currentErrorCode(const std::string &errorString);
 
-    void signal_GalilResetHomingLatch();
 
 private:
     QString profilesPath;
@@ -126,11 +147,11 @@ public:
 actual Galil unit. This parent class will be subscribing to published events from the marshaller. This
 should drive the event driven structure required to exceite the state machine.*/
 
-private:
-    GCon galil; /**< Member variable containing a pointer to the Galil interface */
-
     GalilStateInterface* stateInterface; /**< Member variable containing the current state
 information, settings, and callback information for the states within the HSM.*/
+
+private:
+    GCon galil; /**< Member variable containing a pointer to the Galil interface */
 
     hsm::StateMachine* stateMachine; /**< Member variable containing a pointer to the state
  machine. This state machine evolves the state per event updates and user commands either via
@@ -142,6 +163,8 @@ uploading and/or downloading from the galil. */
 
 private:
     GalilSettings m_Settings; /**< Value of the axis to be disabled */
+
+    std::string deviceName;
 };
 
 #endif // GALIL_MOTION_CONTROLLER_H

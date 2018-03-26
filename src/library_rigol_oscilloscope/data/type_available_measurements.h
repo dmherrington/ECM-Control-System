@@ -14,7 +14,7 @@ enum class MeasurementTypes
     MEASURE_VPP,
     MEASURE_VTOP,
     MEASURE_VBASE,
-    MESAURE_VAMP,
+    MEASURE_VAMP,
     MEASURE_VAVG,
     MEASURE_VRMS,
     MEASURE_OVERSHOOT,
@@ -57,7 +57,7 @@ inline std::string MeasurementTypeEnumToString(const MeasurementTypes &type) {
     case MeasurementTypes::MEASURE_VBASE:
         return "VBASe";
         break;
-    case MeasurementTypes::MESAURE_VAMP:
+    case MeasurementTypes::MEASURE_VAMP:
         return "VAMP";
         break;
     case MeasurementTypes::MEASURE_VAVG:
@@ -133,7 +133,7 @@ inline MeasurementTypes AvailableMeasurementTypeStringToEnum(const std::string s
     if(str == "VBASe")
         return MeasurementTypes::MEASURE_VBASE;
     if(str == "VAMP")
-        return MeasurementTypes::MESAURE_VAMP;
+        return MeasurementTypes::MEASURE_VAMP;
     if(str == "VAVG")
         return MeasurementTypes::MEASURE_VAVG;
     if(str == "VRMS")
@@ -181,7 +181,7 @@ inline std::vector<std::string> getListOfAvailableMeasurements()
     str.push_back(MeasurementTypeEnumToString(MeasurementTypes::MEASURE_VPP));
     str.push_back(MeasurementTypeEnumToString(MeasurementTypes::MEASURE_VTOP));
     str.push_back(MeasurementTypeEnumToString(MeasurementTypes::MEASURE_VBASE));
-    str.push_back(MeasurementTypeEnumToString(MeasurementTypes::MESAURE_VAMP));
+    str.push_back(MeasurementTypeEnumToString(MeasurementTypes::MEASURE_VAMP));
     str.push_back(MeasurementTypeEnumToString(MeasurementTypes::MEASURE_VAVG));
     str.push_back(MeasurementTypeEnumToString(MeasurementTypes::MEASURE_VRMS));
     str.push_back(MeasurementTypeEnumToString(MeasurementTypes::MEASURE_OVERSHOOT));

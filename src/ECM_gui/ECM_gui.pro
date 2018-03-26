@@ -54,13 +54,14 @@ SOURCES += \
     SensorDisplay/display_voltage.cpp \
     plot_central.cpp \
     misc_dialogs/dialog_custom_commands.cpp \
-    pump_dialog/dialog_pump_control.cpp \
     LED.cpp \
     munk_dialog/widget_segment_time_data.cpp \
     munk_dialog/widget_segment_time_display.cpp \
     munk_dialog/window_munk_power_supply.cpp \
     misc_dialogs/window_touchoff.cpp \
-    misc_dialogs/dialog_connections.cpp
+    misc_dialogs/dialog_connections.cpp \
+    rigol_dialog/window_rigol_control.cpp \
+    pump_dialog/window_pump_control.cpp
 
 HEADERS += \
         ECM_controller_gui.h \
@@ -73,25 +74,28 @@ HEADERS += \
     SensorDisplay/I_sensor_display.h \
     plot_central.h \
     misc_dialogs/dialog_custom_commands.h \
-    pump_dialog/dialog_pump_control.h \
     LED.h \
     munk_dialog/widget_segment_time_data.h \
     munk_dialog/widget_segment_time_display.h \
     munk_dialog/window_munk_power_supply.h \
     misc_dialogs/window_touchoff.h \
-    misc_dialogs/dialog_connections.h
+    misc_dialogs/dialog_connections.h \
+    rigol_dialog/window_pump_control2.h \
+    rigol_dialog/window_rigol_control.h \
+    pump_dialog/window_pump_control.h
 
 FORMS += \
         ECM_controller_gui.ui \
     additional_sensor_display.ui \
     SensorDisplay/display_base_plot_instantaneous.ui \
     misc_dialogs/dialog_custom_commands.ui \
-    pump_dialog/dialog_pump_control.ui \
     munk_dialog/widget_segment_time_data.ui \
     munk_dialog/widget_segment_time_display.ui \
     munk_dialog/window_munk_power_supply.ui \
     misc_dialogs/window_touchoff.ui \
-    misc_dialogs/dialog_connections.ui
+    misc_dialogs/dialog_connections.ui \
+    rigol_dialog/window_rigol_control.ui \
+    pump_dialog/window_pump_control.ui
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include
@@ -142,7 +146,6 @@ INCLUDEPATH += $$PWD/../library_westinghouse510
 DEPENDPATH += $$PWD/../library_westinghouse510
 
 
-
 unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
 unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo
 
@@ -158,11 +161,6 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../library_galilMotionController/ -llibrary
 
 INCLUDEPATH += $$PWD/../library_galilMotionController
 DEPENDPATH += $$PWD/../library_galilMotionController
-
-
-
-
-
 
 
 
@@ -185,3 +183,10 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../library_sensoray/ -llibrary_sensoray
 
 INCLUDEPATH += $$PWD/../library_sensoray
 DEPENDPATH += $$PWD/../library_sensoray
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../ECM_API/release/ -lECM_API
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../ECM_API/debug/ -lECM_API
+else:unix:!macx: LIBS += -L$$OUT_PWD/../ECM_API/ -lECM_API
+
+INCLUDEPATH += $$PWD/../ECM_API
+DEPENDPATH += $$PWD/../ECM_API

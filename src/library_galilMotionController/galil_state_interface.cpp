@@ -1,6 +1,7 @@
 #include "galil_state_interface.h"
 
-GalilStateInterface::GalilStateInterface(const std::vector<MotorAxis> &availableAxis)
+GalilStateInterface::GalilStateInterface(const std::vector<MotorAxis> &availableAxis):
+    m_CB(nullptr)
 {
     //we should perform some sort of check to ensure that the vector does not contain all
     //if we see one all, just iterate through all available axis and clear original ones
@@ -39,9 +40,21 @@ void GalilStateInterface::setConnected(const bool &val)
     this->connected = val;
 }
 
-bool GalilStateInterface::isConnected()
+void GalilStateInterface::setHomeInidcated(const bool &val)
+{
+    this->indicatedHome = val;
+    if(m_CB)
+        m_CB->cbi_GalilHomeIndicated(this->indicatedHome);
+}
+
+bool GalilStateInterface::isConnected() const
 {
     return this->connected;
+}
+
+bool GalilStateInterface::isHomeInidcated() const
+{
+    return this->indicatedHome;
 }
 
 bool GalilStateInterface::isMotorInMotion() const

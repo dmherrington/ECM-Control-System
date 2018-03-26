@@ -1,33 +1,18 @@
-#ifndef TUPLE_MASTER_STRING_H
-#define TUPLE_MASTER_STRING_H
+#ifndef TUPLE_PROFILE_VARIABLE_STRING_H
+#define TUPLE_PROFILE_VARIABLE_STRING_H
 
 #include <QString>
-#include <QMetaType>
-
-#include "common_global.h"
 #include "tuple_generic.h"
 
 namespace common {
 
-//!
-//! \brief A tuple to uniquly identify a master state in ECM
-//!
-class COMMONSHARED_EXPORT TupleMasterString : public TupleGeneric
+class COMMONSHARED_EXPORT TupleProfileVariableString : public TupleGeneric
 {
 public:
 
-    //!
-    //! \brief Default Constructor
-    //!
-    TupleMasterString();
+    TupleProfileVariableString(const QString &program = "Program", const QString &profile = "Profile", const QString &variable = "Variable");
 
-
-    //!
-    //! \brief Copy Constructor
-    //! \param that Object to copy from
-    //!
-    TupleMasterString(const TupleMasterString& that);
-
+    TupleProfileVariableString(const TupleProfileVariableString &copy);
 
     //!
     //! \brief Type of tuple object this is
@@ -47,7 +32,7 @@ public:
     //! \brief Assignment operator
     //! \param rhs Right hand side of assignment
     //!
-    void operator= (const TupleMasterString& rhs);
+    void operator= (const TupleProfileVariableString &rhs);
 
 
     //!
@@ -73,14 +58,19 @@ public:
     //!
     virtual bool operator!=(const TupleGeneric& rhs) const;
 
+    //! Name of the source originating the sensor
+    QString programName;
 
-    //! Unique identifier for a model
-    QString modelName;
+    //! Name of profile in which the variable was contained
+    QString profileName;
+
+    //! Name of the variable
+    QString variableName;
 
 };
 
-} // end of namespace ECMCore
+} //end of namespace common
 
-Q_DECLARE_METATYPE(common::TupleMasterString)
+Q_DECLARE_METATYPE(common::TupleProfileVariableString)
 
-#endif // TUPLE_MASTER_STRING_H
+#endif // TUPLE_PROFILE_VARIABLE_STRING_H

@@ -1,7 +1,9 @@
 #include "sensoray.h"
 
 Sensoray::Sensoray(const std::string &name, QObject *parent):
-    QObject(parent)
+    deviceName(name),
+    QObject(parent),
+    ICommunication()
 {
     qRegisterMetaType<common::comms::CommunicationConnection>("CommunicationConnection");
     qRegisterMetaType<common::comms::CommunicationUpdate>("CommunicationUpdate");
@@ -29,6 +31,11 @@ void Sensoray::closeConnection()
 /// Methods supporting the Connect/Disconnect from accompanying RS485 port
 ///////////////////////////////////////////////////////////////////////////
 
+bool Sensoray::isSerialDeviceReadyToConnect() const
+{
+    return commsMarshaler->isLinkConnected();
+}
+
 void Sensoray::openSerialPortConnection(const common::comms::SerialConfiguration &config) const
 {
     commsMarshaler->ConnectToSerialPort(config);
@@ -55,9 +62,10 @@ bool Sensoray::isSerialPortOpen() const
 //!
 void Sensoray::ConnectionOpened() const
 {
-    std::cout<<"A connection has been opened to the sensoray device."<<std::endl;
     this->initializeSensoray();
-    emit ConnectionStatus();
+    common::comms::CommunicationConnection connection(deviceName,true);
+    emit signal_SensorayConnectionUpdate(connection);
+    emit signal_SerialPortReadyToConnect();
 }
 
 //!
@@ -65,8 +73,8 @@ void Sensoray::ConnectionOpened() const
 //!
 void Sensoray::ConnectionClosed() const
 {
-    std::cout<<"A connection has been closed to the sensoray device."<<std::endl;
-    emit ConnectionStatus();
+    common::comms::CommunicationConnection connection(deviceName,false);
+    emit signal_SensorayConnectionUpdate(connection);
 }
 
 //!
@@ -91,17 +99,21 @@ void Sensoray::CommunicationUpdate(const std::string &name, const std::string &m
 
 void Sensoray::NewDataReceived(const QByteArray &buffer) const
 {
-
+    emit signal_RXNewSerialData(buffer);
 }
 
 void Sensoray::SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const
 {
-    emit signal_SerialPortUpdate(update);
+    common::comms::CommunicationUpdate commsUpdate(update);
+    commsUpdate.setSourceName(this->deviceName);
+    emit signal_SerialPortUpdate(commsUpdate);
 }
 
 void Sensoray::SerialPortConnection(const common::comms::CommunicationConnection &connection) const
 {
-    emit signal_SerialPortConnection(connection);
+    common::comms::CommunicationConnection connectionUpdate(connection);
+    connectionUpdate.setSourceName(this->deviceName);
+    emit signal_SerialPortConnection(connectionUpdate);
 }
 
 void Sensoray::initializeSensoray() const

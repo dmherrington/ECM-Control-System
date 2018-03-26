@@ -57,9 +57,9 @@ public:
 
     void sendGalilControllerGains(const CommandControllerGain &command);
 
-    void uploadProgram(const ProgramGeneric &program) const;
+    void uploadProgram(const AbstractCommandPtr uploadCommand) const;
 
-    void downloadProgram() const;
+    void downloadProgram(const AbstractCommandPtr downloadCommand) const;
 
     //!
     //! \brief Issue a message to a given link
@@ -90,16 +90,15 @@ private:
     /// Virtual methods imposed from IProtocolGalilEvents
     //////////////////////////////////////////////////////////////
 
-    //!
-    //! \brief A Message has been received over Mavlink protocol
-    //! \param linkName Link identifier which generated call
-    //! \param message Message that has been received
-    //!
-    void MessageReceived(const double &message) const override;
+    void NewProgramDownloaded(const ProgramGeneric &program) const override;
 
     void NewPositionReceived(const Status_Position &status) const override;
 
     void NewStatusReceived(const std::vector<AbstractStatusPtr> &status) const override;
+
+    void NewProgramUploaded(const ProgramGeneric &program) const override;
+
+    void ErrorBadCommand(const CommandType &type, const std::string &description) const override;
 
 private:
     void parseStatus(const AbstractStatusPtr &status) const;

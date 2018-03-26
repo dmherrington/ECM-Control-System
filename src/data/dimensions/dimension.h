@@ -15,8 +15,10 @@ namespace common_data {
 
 enum Dimensions
 {
+    POSITION,
     TIME,
     VOLTAGE,
+    MAREA,
     DIMENSIONS_NR
 };
 
@@ -33,12 +35,6 @@ public:
     //!
     virtual Dimensions getType() const = 0;
 
-
-    //!
-    //! \brief get index of enumeration describing current unit
-    //! \return index of enumeration
-    //!
-    virtual size_t getUnitIndex() const = 0;
 
 
     //!

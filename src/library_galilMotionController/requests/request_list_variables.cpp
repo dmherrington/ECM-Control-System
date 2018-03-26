@@ -31,8 +31,8 @@ std::string RequestListVariables::getRequestString() const
 std::vector<AbstractStatusPtr> RequestListVariables::getStatus() const
 {
     std::vector<AbstractStatusPtr> rtn;
-    Status_VariableListPtr variableList = std::make_shared<Status_VariableList>();
-
+    Status_VariableListPtr statusVariableList = std::make_shared<Status_VariableList>();
+    ProgramVariableList variableList;
     //as the galil only currently reports a single axis here, we will make the parse easy for now
     QString result = QString::fromStdString(buffer);
     QStringList list = result.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
@@ -42,10 +42,14 @@ std::vector<AbstractStatusPtr> RequestListVariables::getStatus() const
         if(line.size() == 2)
         {
             QString varName = line.at(0).trimmed();
-            QString varValue = line.at(1).trimmed();
-            variableList->addVariable(Status_VariableValue(varName.toStdString(),varValue.toDouble()));
+            QString varLineNumber = line.at(1).trimmed();
+            variableList.addVariable(varName.toStdString(),varLineNumber.toInt());
         }
     }
-    rtn.push_back(variableList);
+    if(variableList.sizeOfVariableList() > 0)
+        statusVariableList->setVariableList(variableList);
+
+    rtn.push_back(statusVariableList);
+
     return rtn;
 }

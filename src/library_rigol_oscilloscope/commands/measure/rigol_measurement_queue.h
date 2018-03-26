@@ -58,6 +58,8 @@ public:
 
     std::vector<MeasureCommand_Item> getMeasurementItems() const;
 
+    std::vector<data_Rigol::MeasurementTypes> getMeasurementItemsPerChannel(const data_Rigol::AvailableChannels &channel) const;
+
 private:
     std::map<std::string,MeasureCommand_Item> queue;
 };

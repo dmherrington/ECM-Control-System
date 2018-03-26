@@ -1,9 +1,10 @@
 #include "rigol_oscilliscope.h"
 
 RigolOscilliscope::RigolOscilliscope(const std::string &name, QObject *parent):
-    QObject(parent)
+    QObject(parent),
+    deviceName(name)
 {
-    this->sensorName = name;
+    qRegisterMetaType<common_data::SensorState>("SensorState");
 
     pollStatus = new RigolPollMeasurement();
     pollStatus->connectCallback(this);
@@ -53,19 +54,33 @@ bool RigolOscilliscope::addPollingMeasurement(const commands_Rigol::MeasureComma
      */
     if(unique)
     {
-        commsMarshaler->sendSetMeasurementCommand(command);
-        //next we should copy this write command as a read command for the polling object
-        commands_Rigol::MeasureCommand_Item copyCommand(command);
-        copyCommand.setReadOrWrite(data_Rigol::RigolRWType::READ);
-        pollStatus->addPollingMeasurement(copyCommand);
-        saveMeasurements();
+        //alert the plotting interface that new information will be available for plotting
+        common::TupleSensorString sensorTuple(QString::fromStdString(command.getDeviceName()),
+                                              QString::fromStdString(AvailableChannelsToDisplayString(command.getChannel())),
+                                              QString::fromStdString(MeasurementTypeEnumToString(command.getMeasurementType())));
+
+        emit signal_RigolPlottable(sensorTuple, true);
+
+//        commsMarshaler->sendSetMeasurementCommand(command);
+//        //next we should copy this write command as a read command for the polling object
+//        commands_Rigol::MeasureCommand_Item copyCommand(command);
+//        copyCommand.setReadOrWrite(data_Rigol::RigolRWType::READ);
+//        pollStatus->addPollingMeasurement(copyCommand);
+//        saveMeasurements();
     }
     return unique;
 }
 
-void RigolOscilliscope::removePollingMeasurement(const std::string &key)
+void RigolOscilliscope::removePollingMeasurement(const MeasureCommand_Item &command)
 {
-    pollStatus->removePollingMeasurement(key);
+    //alert the plotting interface that this type of information will no longer be available for plotting
+    common::TupleSensorString sensorTuple(QString::fromStdString(command.getDeviceName()),
+                                          QString::fromStdString(AvailableChannelsToDisplayString(command.getChannel())),
+                                          QString::fromStdString(MeasurementTypeEnumToString(command.getMeasurementType())));
+
+    emit signal_RigolPlottable(sensorTuple, false);
+
+    pollStatus->removePollingMeasurement(command.getCommandKey());
 }
 
 void RigolOscilliscope::executeMeasurementPolling(const bool &execute)
@@ -91,13 +106,15 @@ void RigolOscilliscope::cbi_RigolMeasurementRequests(const commands_Rigol::Measu
 //////////////////////////////////////////////////////////////
 void RigolOscilliscope::ConnectionOpened() const
 {
-    std::cout<<"A connection has been opened to the rigol."<<std::endl;
     this->initializeRigol();
+    common::comms::CommunicationConnection connection(deviceName,true);
+    emit signal_RigolConnectionUpdate(connection);
 }
 
 void RigolOscilliscope::ConnectionClosed() const
 {
-    std::cout<<"A connection has been closed to the rigol."<<std::endl;
+    common::comms::CommunicationConnection connection(deviceName,true);
+    emit signal_RigolConnectionUpdate(connection);
 }
 
 void RigolOscilliscope::initializeRigol() const
@@ -152,6 +169,32 @@ void RigolOscilliscope::NewMeaurementReceived(const commands_Rigol::RigolMeasure
     std::cout<<"The data looked like: "<<returnString<<std::endl;
     std::cout<<"The time of the request was: "<<status.getRequestTime().ToString().toStdString()<<std::endl;
     std::cout<<"The time of the receive was: "<<status.getReceivedTime().ToString().toStdString()<<std::endl;
+
+    //First let us construct the tuple describing the measurement
+    common::TupleSensorString sensorTuple(QString::fromStdString(status.getDeviceName()),
+                                          QString::fromStdString(AvailableChannelsToDisplayString(status.getChannel())),
+                                          QString::fromStdString(MeasurementTypeEnumToString(status.getMeasurementType())));
+    common_data::SensorState newSensorMeasurement;
+    newSensorMeasurement.setObservationTime(status.getMeasurementTime());
+
+    switch (status.getMeasurementType()) {
+    case data_Rigol::MeasurementTypes::MEASURE_VTOP:
+    {
+        newSensorMeasurement.ConstructSensor(common_data::SENSOR_VOLTAGE,"Voltage Top");
+        ((common_data::SensorVoltage*)newSensorMeasurement.getSensorData().get())->SetVoltage(status.getMeasurementValue(),common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
+        emit signal_RigolNewSensorValue(sensorTuple,newSensorMeasurement);
+        break;
+    }
+    case data_Rigol::MeasurementTypes::MEASURE_MAREA:
+    {
+        newSensorMeasurement.ConstructSensor(common_data::SENSOR_MAREA,"Current Area");
+        ((common_data::SensorMAREA*)newSensorMeasurement.getSensorData().get())->SetCurrentArea(status.getMeasurementValue(),common_data::MAREAUnit::UNIT_VOLTAGE_AMPERE_SECONDS);
+        emit signal_RigolNewSensorValue(sensorTuple,newSensorMeasurement);
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 void RigolOscilliscope::saveMeasurements()

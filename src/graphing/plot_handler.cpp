@@ -121,7 +121,7 @@ void PlotHandler::ChangeMode(const PlotMode mode)
 //! \brief Graph data on plot instance
 //! \param dataKey Key to indentify data
 //!
-void PlotHandler::AddPlot(const common_data::observation::IPlotComparablePtr expression)
+void PlotHandler::AddPlot(const common_data::observation::IPlotComparablePtr expression, const std::string &name)
 {
     bool found = false;
     for (int i = 0; i < m_PlotParameters.size(); i++)
@@ -140,7 +140,7 @@ void PlotHandler::AddPlot(const common_data::observation::IPlotComparablePtr exp
     User_Data.operation = expression;
     User_Data.observations = m_ObservationCollection;
     User_Data.GraphColor.setRgb(rand() % 255, rand() % 255, rand() % 255);
-    User_Data.DisplayName = "";
+    User_Data.DisplayName = QString::fromStdString(name);
     User_Data.unitVariable = m_TimeUnit;
     User_Data.GraphNumber = m_PlotParameters.size();
     User_Data.Redraw = true;
@@ -551,7 +551,7 @@ bool PlotHandler::ExportToImage(const QString &fileToExportTo)
 
 
 //!
-//! \brief slot to fire when user request a context menue on the plot
+//! \brief slot to fire when user request a context menu on the plot
 //! \param pos Point where user requested context menu
 //!
 void PlotHandler::contextMenuRequest(QPoint pos)
@@ -700,33 +700,33 @@ void PlotHandler::RecalculateAllGraphs()
 //!
 void PlotHandler::removeSelectedGraph()
 {
-//    bool selected = false;
-//    std::string deletedExpr;
-//    //loop through all graphs
-//    for (int i=0 ; i < m_PlotParameters.count() ; i++)
-//    {
-//        if(m_PlotParameters.at(i).Selected == false)
-//            continue;
+    bool selected = false;
+    std::string deletedExpr;
+    //loop through all graphs
+    for (int i=0 ; i < m_PlotParameters.count() ; i++)
+    {
+        if(m_PlotParameters.at(i).Selected == false)
+            continue;
 
-//        m_PlotParametersMutex.lock();
+        m_PlotParametersMutex.lock();
 
 
-//        for(int j = 0 ; j < m_PlotParameters.at(i).g.size() ; j++)
-//        {
-//            //if a graph is selected and has a corresponding plot remove it
-//            //if (m_PlotParameters.at(i).g != NULL && m_PlotParameters[i].Selected == true)
-//            if (m_PlotParameters.at(i).g.at(j) != NULL)
-//                MarshalRemoveGraph(m_PlotParameters[i].g.at(j));
-//        }
+        for(int j = 0 ; j < m_PlotParameters.at(i).g.size() ; j++)
+        {
+            //if a graph is selected and has a corresponding plot remove it
+            //if (m_PlotParameters.at(i).g != NULL && m_PlotParameters[i].Selected == true)
+            if (m_PlotParameters.at(i).g.at(j) != NULL)
+                MarshalRemoveGraph(m_PlotParameters[i].g.at(j));
+        }
 
-//        deletedExpr = m_PlotParameters[i].operation;
-//        selected = true;
-//        m_PlotParameters.removeAt(i);
-//        Draw();
+        //deletedExpr = m_PlotParameters[i].operation;
+        //selected = true;
+        m_PlotParameters.removeAt(i);
+        Draw();
 
-//        m_PlotParametersMutex.unlock();
-//        break;
-//    }
+        m_PlotParametersMutex.unlock();
+        break;
+    }
 
 //    if(selected)
 //        emit PlotDelete(deletedExpr);
@@ -894,7 +894,7 @@ void PlotHandler::DoPlotRecalculate()
             QCPGraph *g = m_PlotParameters[plotIndex].g.at(i);
 
             //Ken Fix Unit Name
-            QString UnitName;// = QString::fromUtf8(dr.getUnit().ToShortHandString().c_str());
+            QString UnitName = QString::fromStdString(dr.getUnit());
             if(UnitName == "")
                 UnitName = "Unitless";
             g->setName(m_PlotParameters.at(plotIndex).DisplayName + " : " + UnitName);

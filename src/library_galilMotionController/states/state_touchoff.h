@@ -1,6 +1,8 @@
 #ifndef STATE_TOUCHOFF_H
 #define STATE_TOUCHOFF_H
 
+#include "data/profiles/profile_state_touchoff.h"
+
 #include "states/state_abstract_galil.h"
 
 namespace ECM{

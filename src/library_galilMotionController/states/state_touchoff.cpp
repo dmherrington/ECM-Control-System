@@ -96,23 +96,39 @@ void State_Touchoff::Update()
         desiredState = ECMState::STATE_ESTOP;
     }
 
-    double varValue;
-    if(Owner().statusVariables.getVariableValue("touchof",varValue))
+    double varValue;    
+    if(Owner().statusVariableValues->getVariableValue("touchof",varValue))
     {
         switch ((int)varValue) {
         case 0:
         {
-            //continue searching for home
+            //continue searching for touchoff position
+            ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+            newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING);
+            MotionProfileState newProfileState;
+            newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
+            Owner().issueUpdatedMotionProfileState(newProfileState);
             break;
         }
         case 1:
         {
             //we have finished the touchoff routine
+            ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+            newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::FINISHED);
+            MotionProfileState newProfileState;
+            newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
+            Owner().issueUpdatedMotionProfileState(newProfileState);
             break;
         }
         case 2:
         {
             //ERROR: inconsistent or positional limit exceeded
+            ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+            newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_INCONSISTENT);
+            MotionProfileState newProfileState;
+            newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
+            Owner().issueUpdatedMotionProfileState(newProfileState);
+
             CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
             this->currentCommand = command;
             desiredState = ECMState::STATE_MOTION_STOP;
@@ -121,6 +137,12 @@ void State_Touchoff::Update()
         case 3:
         {
             //ERROR: already touch part
+            ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+            newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_TOUCHING);
+            MotionProfileState newProfileState;
+            newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
+            Owner().issueUpdatedMotionProfileState(newProfileState);
+
             CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
             this->currentCommand = command;
             desiredState = ECMState::STATE_MOTION_STOP;
@@ -134,12 +156,13 @@ void State_Touchoff::Update()
     else
     {
         //this variable doesnt exist so we should abort the touchoff routine
-        desiredState = ECMState::STATE_MOTION_STOP;
+//        desiredState = ECMState::STATE_MOTION_STOP;
     }
 }
 
 void State_Touchoff::OnEnter()
 {
+    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_TOUCHOFF));
     //this shouldn't really happen as how are we supposed to know the actual touchoff command
     //we therefore are going to do nothing other than change the state back to State_Ready
     this->desiredState = ECMState::STATE_READY;
@@ -149,7 +172,8 @@ void State_Touchoff::OnEnter(const AbstractCommand* command)
 {
     if(command != nullptr)
     {
-        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("touchst");
+        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_TOUCHOFF));
+        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Touchoff Status","touchst");
         Owner().issueGalilAddPollingRequest(request);
         this->handleCommand(command);
     }

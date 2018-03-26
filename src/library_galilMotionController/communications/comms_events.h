@@ -5,6 +5,8 @@
 #include "common/common.h"
 
 #include "status/status_components.h"
+#include "programs/program_components.h"
+#include "commands/command_components.h"
 
 namespace Comms
 {
@@ -25,6 +27,22 @@ public:
     virtual void LinkDisconnected() const
     {
 
+    }
+
+    virtual void ErrorBadCommand(const std::string &commandType, const std::string &text)
+    {
+        UNUSED(commandType);
+        UNUSED(text);
+    }
+
+    virtual void NewProgramDownloaded(const ProgramGeneric &program)
+    {
+        UNUSED(program);
+    }
+
+    virtual void NewProgramUploaded(const ProgramGeneric &program)
+    {
+        UNUSED(program);
     }
 
     virtual void StatusMessage(const std::string &msg)

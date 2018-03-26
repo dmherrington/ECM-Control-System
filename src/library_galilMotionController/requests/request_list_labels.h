@@ -8,6 +8,8 @@
 
 #include "requests/abstract_request.h"
 
+ECM_CLASS_FORWARD(RequestListLabels);
+
 class RequestListLabels : public AbstractRequest
 {
 public:

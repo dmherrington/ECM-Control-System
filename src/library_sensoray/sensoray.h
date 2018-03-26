@@ -49,9 +49,11 @@ public:
 
 public:
     ///////////////////////////////////////////////////////////////////////////
+    /// Imposed virtual methods from common::comms::ICommunication
     /// Methods supporting the Connect/Disconnect from accompanying RS485 port
     ///////////////////////////////////////////////////////////////////////////
 
+    bool isSerialDeviceReadyToConnect() const;
     void openSerialPortConnection(const common::comms::SerialConfiguration &config) const override;
     void closeSerialPortConnection() const override;
     void writeToSerialPort(const QByteArray &msg) const override;
@@ -97,16 +99,18 @@ public:
     void SerialPortConnection(const common::comms::CommunicationConnection &connection) const override;
 
 signals:
+    void signal_SensorayConnectionUpdate(const common::comms::CommunicationConnection &value) const;
+
+    ///////////////////////////////////////////////////////////////////////////
+    /// Imposed virtual signals from common::comms::ICommunication
+    ///////////////////////////////////////////////////////////////////////////
+    void signal_SerialPortReadyToConnect() const override;
+
     void signal_SerialPortConnection(const common::comms::CommunicationConnection update) const override;
 
     void signal_SerialPortUpdate(const common::comms::CommunicationUpdate update) const override;
 
-    void signal_RXNewSerialData(const QByteArray data) override;
-
-    //!
-    //! \brief ConnectionStatus
-    //!
-    void ConnectionStatus() const;
+    void signal_RXNewSerialData(const QByteArray data) const override;
 
 private:
     //!
@@ -118,6 +122,8 @@ private:
     comms_Sensoray::CommsMarshaler* commsMarshaler; /**< Member variable handling the communications with the
 actual Galil unit. This parent class will be subscribing to published events from the marshaller. This
 should drive the event driven structure required to exceite the state machine.*/
+
+    std::string deviceName;
 };
 
 #endif // SENSORAY_H

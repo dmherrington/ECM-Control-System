@@ -3,8 +3,8 @@
 
 namespace commands_Rigol{
 
-RigolMeasurementStatus::RigolMeasurementStatus(const AvailableChannels &measureChannel, const MeasurementTypes &type):
-    AbstractRigolStatus(CommandTypes::COMMAND_MEASURE)
+RigolMeasurementStatus::RigolMeasurementStatus(const std::string &name, const AvailableChannels &measureChannel, const MeasurementTypes &type):
+    AbstractRigolStatus(name, CommandTypes::COMMAND_MEASURE)
 {
     this->channel = measureChannel;
     this->measureType = type;

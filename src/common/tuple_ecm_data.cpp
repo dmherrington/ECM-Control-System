@@ -35,10 +35,17 @@ TupleECMData::TupleECMData(const TupleECMData &that)
         return;
     }
 
-    if(that.m_Type == MASTER)
+    if(that.m_Type == POSITION)
     {
-        this->m_Data = (TupleGeneric*) new TupleMasterString(*((TupleMasterString*)that.m_Data));
-        m_Type = MASTER;
+        this->m_Data = (TupleGeneric*) new TuplePositionalString(*((TuplePositionalString*)that.m_Data));
+        m_Type = POSITION;
+        return;
+    }
+
+    if(that.m_Type == PROFILE_VARIABLE)
+    {
+        this->m_Data = (TupleGeneric*) new TupleProfileVariableString(*((TupleProfileVariableString*)that.m_Data));
+        m_Type = PROFILE_VARIABLE;
         return;
     }
 
@@ -57,12 +64,18 @@ TupleECMData::TupleECMData(const TupleECMData &that)
 //! \brief Contruct from an Master tuple
 //! \param that tuple to key a master state
 //!
-TupleECMData::TupleECMData(const TupleMasterString &that)
+TupleECMData::TupleECMData(const TuplePositionalString &that)
 {
-    m_Data = new TupleMasterString(that);
-    m_Type = MASTER;
+    m_Data = new TuplePositionalString(that);
+    m_Type = POSITION;
 }
 
+
+TupleECMData::TupleECMData(const TupleProfileVariableString &that)
+{
+    m_Data = new TupleProfileVariableString(that);
+    m_Type = PROFILE_VARIABLE;
+}
 
 //!
 //! \brief Contruct from tuple an Entity tuple
@@ -110,10 +123,10 @@ void TupleECMData::operator=(const TupleECMData& rhs)
         return;
     }
 
-    if(rhs.m_Type == MASTER)
+    if(rhs.m_Type == POSITION)
     {
-        this->m_Data = (TupleGeneric*)new TupleMasterString(*((TupleMasterString*)rhs.m_Data));
-        m_Type = MASTER;
+        this->m_Data = (TupleGeneric*)new TuplePositionalString(*((TuplePositionalString*)rhs.m_Data));
+        m_Type = POSITION;
         return;
     }
 
@@ -139,7 +152,7 @@ bool TupleECMData::operator<(TupleECMData const& rhs) const
         return false;
 
     if(this->m_Data->Type() == "Master")
-        return *((TupleMasterString*)this->m_Data) < *rhs.m_Data;
+        return *((TuplePositionalString*)this->m_Data) < *rhs.m_Data;
 
     if(this->m_Data->Type() == "Sensor")
         return *((TupleSensorString*)this->m_Data) < *rhs.m_Data;
@@ -155,8 +168,8 @@ bool TupleECMData::operator<(TupleECMData const& rhs) const
 //!
 bool TupleECMData::operator==(const TupleECMData& rhs) const
 {
-    if(this->m_Type == MASTER)
-        return *((TupleMasterString*)this->m_Data) == *rhs.m_Data;
+    if(this->m_Type == POSITION)
+        return *((TuplePositionalString*)this->m_Data) == *rhs.m_Data;
 
     if(this->m_Type == SENSOR)
         return *((TupleSensorString*)this->m_Data) == *rhs.m_Data;
@@ -184,7 +197,7 @@ bool TupleECMData::operator!=(const TupleECMData& rhs) const
 QString TupleECMData::DelimitData(const QString &delementor) const
 {
     if(this->m_Data->Type() == "Master")
-        return ((TupleMasterString*)this->m_Data)->modelName;
+        return ((TuplePositionalString*)this->m_Data)->axisName;
 
     if(this->m_Data->Type() == "Sensor")
         return ((TupleSensorString*)this->m_Data)->sourceName + delementor + ((TupleSensorString*)this->m_Data)->sensorName;
@@ -195,8 +208,8 @@ QString TupleECMData::DelimitData(const QString &delementor) const
 
 uint TupleECMData::ComputeHash() const
 {
-    if(m_Type == TupleECMData::MASTER)
-        return qHash(((TupleMasterString*)m_Data)->modelName);
+    if(m_Type == TupleECMData::POSITION)
+        return qHash(((TuplePositionalString*)m_Data)->axisName);
 
     else if(m_Type == TupleECMData::SENSOR)
         return qHash(((TupleSensorString*)m_Data)->sensorName);

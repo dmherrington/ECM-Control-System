@@ -1,16 +1,33 @@
-#ifndef TUPLE_MEASUREMENT_STRING_H
-#define TUPLE_MEASUREMENT_STRING_H
+#ifndef TUPLE_POSITIONAL_STRING_H
+#define TUPLE_POSITIONAL_STRING_H
 
+#include <QString>
+#include <QMetaType>
+
+#include "common_global.h"
 #include "tuple_generic.h"
 
 namespace common {
 
-class COMMONSHARED_EXPORT TupleMeasurementString : public TupleGeneric
+//!
+//! \brief A tuple to uniquly identify a positional state in ECM
+//!
+class COMMONSHARED_EXPORT TuplePositionalString : public TupleGeneric
 {
 public:
-    TupleMeasurementString();
 
-    TupleMeasurementString(const TupleMeasurementString &copy);
+    //!
+    //! \brief Default Constructor
+    //!
+    TuplePositionalString();
+
+
+    //!
+    //! \brief Copy Constructor
+    //! \param that Object to copy from
+    //!
+    TuplePositionalString(const TuplePositionalString& that);
+
 
     //!
     //! \brief Type of tuple object this is
@@ -30,7 +47,7 @@ public:
     //! \brief Assignment operator
     //! \param rhs Right hand side of assignment
     //!
-    void operator= (const TupleMeasurementString &rhs);
+    void operator= (const TuplePositionalString& rhs);
 
 
     //!
@@ -56,14 +73,14 @@ public:
     //!
     virtual bool operator!=(const TupleGeneric& rhs) const;
 
-    //! Name of the source originating the measurement
-    QString sourceName;
 
-    //! Name of measurement
-    QString measurementName;
+    //! Unique identifier for a model
+    QString axisName;
 
 };
 
-} //end of namespace common
+} // end of namespace ECMCore
 
-#endif // TUPLE_MEASUREMENT_STRING_H
+Q_DECLARE_METATYPE(common::TuplePositionalString)
+
+#endif // TUPLE_POSITIONAL_STRING_H

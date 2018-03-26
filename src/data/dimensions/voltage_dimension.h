@@ -8,7 +8,7 @@ namespace common_data {
 //!
 //! \brief Allowed units in voltage dimension
 //!
-enum VoltageUnit
+enum class VoltageUnit
 {
     UNIT_VOLTAGE_VOLTS,
     UNIT_VOLTAGE_MILLIVOLT,
@@ -53,12 +53,6 @@ public:
     //!
     virtual Dimensions getType() const;
 
-
-    //!
-    //! \brief get index of enumeration describing current unit
-    //! \return index of enumeration
-    //!
-    virtual size_t getUnitIndex() const;
 
 
     //!

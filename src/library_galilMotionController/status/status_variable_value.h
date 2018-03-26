@@ -2,7 +2,6 @@
 #define STATUS_VARIABLE_VALUE_H
 
 #include "common/class_forward.h"
-#include "common/data_get_set_notifier.h"
 
 #include "status/abstract_status.h"
 
@@ -28,7 +27,7 @@ public:
     {
         AbstractStatus::operator =(rhs);
         this->variableName = rhs.variableName;
-        this->variableValue.set(rhs.variableValue.get());
+        this->variableValue = rhs.variableValue;
         return *this;
     }
 
@@ -39,7 +38,7 @@ public:
         if(this->variableName != rhs.variableName){
             return false;
         }
-        if(this->variableValue.get() != rhs.variableValue.get()){
+        if(this->variableValue != rhs.variableValue){
             return false;
         }
         return true;
@@ -51,7 +50,7 @@ public:
 
 private:
     std::string variableName;
-    DataGetSetNotifier<double> variableValue;
+    double variableValue;
 };
 
 #endif // STATUS_VARIABLE_VALUE_H

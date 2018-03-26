@@ -6,6 +6,8 @@
 #include <QList>
 
 #include "data/sensor_state.h"
+#include "data/motion_profile_variable_state.h"
+#include "data/machine_positional_state.h"
 
 #include "common/threaded_scheduler.h"
 #include "common/tuple_ecm_data.h"
@@ -38,7 +40,6 @@ class ECMPlotCollection : public common_data::observation::ObservationCollection
 {
 Q_OBJECT
 public:
-
     //!
     //! \brief Constructor
     //!
@@ -50,16 +51,20 @@ public:
     //!
     ~ECMPlotCollection();
 
+    void UpdatePositionalStatePlots(const common::TuplePositionalString &position, const common_data::MachinePositionalState &state);
+
+    void UpdateProfileVariablePlots(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state);
+
     //!
     //! \brief Update any plots for an observed sensor state
     //! \param sensor ECM sensor component to update
     //! \param state Observed sensor state
     //!
-    void UpdateSensorPlots(const common::TupleSensorString sensor, const common_data::SensorState &state);
+    void UpdateSensorPlots(const common::TupleSensorString &sensor, const common_data::SensorState &state);
 
 
     //!
-    //! \brief Get list of plotted data that corrispond to specific ECM component
+    //! \brief Get list of plotted data that correspond to specific ECM component
     //! \param element ECM components
     //! \return List of pointers to plot data
     //!
@@ -105,11 +110,11 @@ private:
 
 
     //! Information about TupleECMData data
-    QHash<common::TupleECMData, QList<QPair<QString, std::string> > > m_ExoDynamicDataInformation;
+    QHash<common::TupleECMData, QList<QPair<QString, std::string>>> m_ExoDynamicDataInformation;
 
 
     //! A hash to map a component to the sources it contains
-    QHash<common::TupleECMData, QList<ECMPlotIdentifier> > m_ComponentToIDsHash;
+    QHash<common::TupleECMData, QList<ECMPlotIdentifier>> m_ComponentToIDsHash;
 
     QList<QString> m_PlotReferenceString;
 

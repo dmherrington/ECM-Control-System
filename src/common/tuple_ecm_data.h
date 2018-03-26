@@ -7,8 +7,8 @@
 #include <QHash>
 
 #include "common.h"
-#include "tuple_master_string.h"
-#include "tuple_measurement_string.h"
+#include "tuple_positional_string.h"
+#include "tuple_profile_variable_string.h"
 #include "tuple_sensor_string.h"
 
 namespace common {
@@ -24,7 +24,8 @@ public:
 
     enum DataTypes
     {
-        MASTER,
+        POSITION,
+        PROFILE_VARIABLE,
         SENSOR
     };
 
@@ -52,7 +53,13 @@ public:
     //! \brief Contruct from an Master tuple
     //! \param that tuple to key a master state
     //!
-    TupleECMData(const TupleMasterString &that);
+    TupleECMData(const TuplePositionalString &that);
+
+    //!
+    //! \brief Contruct from an Profile Variable tuple
+    //! \param that tuple to key a Profile Variable state
+    //!
+    TupleECMData(const TupleProfileVariableString &that);
 
     //!
     //! \brief Contruct from tuple an Sensor tuple

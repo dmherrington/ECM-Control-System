@@ -1,8 +1,12 @@
 #include "galil_motion_controller.h"
 
 
-GalilMotionController::GalilMotionController()
+GalilMotionController::GalilMotionController(const std::string &name):
+    deviceName(name)
 {
+    qRegisterMetaType<MotionProfileState>("MotionProfileState");
+
+
     std::vector<MotorAxis> availableAxis;
     availableAxis.push_back(MotorAxis::Z);
 
@@ -80,6 +84,13 @@ void GalilMotionController::closeConnection()
     }
 }
 
+std::string GalilMotionController::getCurrentMCState() const
+{
+    ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
+    ECM::Galil::ECMState stateEnum = currentState->getCurrentState();
+    return ECM::Galil::ECMStateToString(stateEnum);
+}
+
 bool GalilMotionController::saveSettings()
 {
     m_Settings.saveSettings(settingsPath);
@@ -103,6 +114,9 @@ void GalilMotionController::LinkConnected() const
 {
     stateInterface->setConnected(true);
     galilPolling->beginPolling();
+
+    common::comms::CommunicationConnection connectionUpdate(deviceName,true);
+    emit signal_MotionControllerConnectionUpdate(connectionUpdate);
 }
 
 
@@ -112,8 +126,25 @@ void GalilMotionController::LinkDisconnected() const
     {
         galilPolling->pausePolling();
         galilPolling->stop();
-
     }
+    common::comms::CommunicationConnection connectionUpdate(deviceName,true);
+    emit signal_MotionControllerConnectionUpdate(connectionUpdate);
+}
+
+void GalilMotionController::ErrorBadCommand(const std::string &commandType, const std::string &description)
+{
+    UNUSED(commandType);
+    UNUSED(description);
+}
+
+void GalilMotionController::NewProgramUploaded(const ProgramGeneric &program)
+{
+    UNUSED(program);
+}
+
+void GalilMotionController::NewProgramDownloaded(const ProgramGeneric &program)
+{
+    UNUSED(program);
 }
 
 void GalilMotionController::NewStatusInputs(const StatusInputs &status)
@@ -163,7 +194,7 @@ void GalilMotionController::NewStatusMotorInMotion(const Status_AxisInMotion &st
 
 void GalilMotionController::NewStatusVariableValue(const Status_VariableValue &status)
 {
-    if(stateInterface->statusVariables.updateVariable(status))
+    if(stateInterface->statusVariableValues->updateVariable(status))
     {
         stateMachine->UpdateStates();
         stateMachine->ProcessStateTransitions();
@@ -172,7 +203,7 @@ void GalilMotionController::NewStatusVariableValue(const Status_VariableValue &s
 
 void GalilMotionController::NewStatusVariableList(const Status_VariableList &status)
 {
-    stateInterface->statusVariables = status;
+    stateInterface->galilProgram->setVariableList(status.getVariableList());
 }
 
 void GalilMotionController::getProgramPath(std::string &filePath) const
@@ -249,20 +280,6 @@ void GalilMotionController::executeStringCommand(const std::string &stringComman
         std::string testString = result.toStdString();
         std::cout<<"The string seen here is: "<<testString<<std::endl;
     }
-
-    //    QString.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
-
-    //    std::string testString(buf);
-    //    size_t index = testString.find("\r\n");
-    //    if(index != std::string::npos)
-    //    {
-    //        //this means that it was found
-    //        std::string response = testString.substr (0,index);
-    //        std::cout<<"The string seen here is: "<<response<<std::endl;
-    //    }
-    //    std::cout<<"Command Executed."<<std::endl;
-    //    std::cout<<ParseGReturn::getGReturnString(rtn);
-    //    std::cout<<"Returned: "<<std::string(returnOut)<<std::endl;
 }
 
 bool GalilMotionController::saveProgramAs(const std::string &filePath, const std::string &text)
@@ -288,52 +305,6 @@ bool GalilMotionController::loadProgram(const std::string &filePath, std::string
     programText = inStream.readAll().toStdString();
     file.close();
     return true;
-}
-
-
-void GalilMotionController::uploadProgram(const ProgramGeneric &program) const
-{
-    commsMarshaler->uploadProgram(program);
-    //    ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
-    //    //currentState->handleCommand();
-
-    //    //1) Stop the motion of the machine
-    //    CommandStop stop;
-    //    GCmd(galil,stop.getCommandString().c_str());
-    //    //GReturn rtn = GCommand(mConnection,stop.getCommandString().c_str(),returnOut,sizeof(returnOut),&read_bytes);
-    //    //2) Turn off the power supply
-    //    CommandSetBit setBit;
-    //    setBit.appendAddress(2);
-    //    GCmd(galil,setBit.getCommandString().c_str());
-
-    //    //3) Write the program
-    //    GReturn rtnCode = GProgramDownload(galil,programText.c_str(),0);
-    //    std::cout<<"The return code here is "<<std::endl;
-}
-
-void GalilMotionController::downloadProgram() const
-{
-    commsMarshaler->downloadProgram();
-    //    GBufOut returnOut;
-    //    GSize read_bytes = 0; //bytes read in GCommand
-
-    //    //1) Stop the motion of the machine
-    //    CommandStop stop;
-    //    GCmd(galil,stop.getCommandString().c_str());
-    //    //GReturn rtn = GCommand(mConnection,stop.getCommandString().c_str(),returnOut,sizeof(returnOut),&read_bytes);
-    //    //2) Turn off the power supply
-    //    CommandSetBit setBit;
-    //    setBit.appendAddress(2);
-    //    GCmd(galil,setBit.getCommandString().c_str());
-
-    //    //rtn = GCommand(mConnection,setBit.getCommandString().c_str(),returnOut,sizeof(returnOut),&read_bytes);
-    //    //3) Read the program
-    //    char* buf = new char[10]();
-    //    GReturn rtnCode = GProgramUpload(galil,buf,10);
-
-
-    //    programText = std::string(buf);
-    //    delete[] buf;
 }
 
 void GalilMotionController::cbi_GalilStatusRequest(const AbstractRequestPtr request)
@@ -371,8 +342,27 @@ void GalilMotionController::cbi_GalilControllerGains(const CommandControllerGain
     commsMarshaler->sendGalilControllerGains(gains);
 }
 
-void GalilMotionController::cbi_ResetHomingLatch()
+void GalilMotionController::cbi_GalilHomeIndicated(const bool &indicated)
 {
-    emit signal_GalilResetHomingLatch(); //this should be emitted everytime the motor is turned off
+    emit signal_GalilHomeIndicated(indicated);
 }
 
+void GalilMotionController::cbi_NewMotionProfileState(const MotionProfileState &state)
+{
+    emit signal_GalilUpdatedProfileState(state);
+}
+
+void GalilMotionController::cbi_GalilNewMachineState(const string &state)
+{
+    emit signal_MCNewMotionState(state);
+}
+
+void GalilMotionController::cbi_GalilUploadProgram(const AbstractCommandPtr command)
+{
+    commsMarshaler->uploadProgram(command);
+}
+
+void GalilMotionController::cbi_GalilDownloadProgram(const AbstractCommandPtr command)
+{
+    commsMarshaler->downloadProgram(command);
+}

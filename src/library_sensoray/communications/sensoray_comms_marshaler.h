@@ -42,6 +42,8 @@ public:
     //!
     bool DisconnetFromLink();
 
+    bool isLinkConnected() const;
+
     ///////////////////////////////////////////////////////////////////
     /// Methods supporting the Connect/Disconnect from of the Sensory Device
     /// and accompanying RS485 port
@@ -92,7 +94,6 @@ private:
     SensoraySession* m_Session;
     std::shared_ptr<SensorayLink> link;
     std::shared_ptr<SensorayProtocol> protocol;
-
 };
 
 } //end of namespace comms

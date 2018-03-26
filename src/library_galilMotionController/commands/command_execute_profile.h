@@ -2,6 +2,8 @@
 #define COMMAND_EXECUTE_PROFILE_H
 
 #include "common/class_forward.h"
+#include "data/motion_profile_state.h"
+
 #include "commands/abstract_command.h"
 
 #include "programs/program_generic.h"
@@ -11,15 +13,7 @@ ECM_CLASS_FORWARD(CommandExecuteProfile);
 class CommandExecuteProfile : public AbstractCommand
 {
 public:
-    enum class ProfileType
-    {
-        HOMING,
-        TOUCHOFF,
-        PROFILE
-    };
-
-public:
-    CommandExecuteProfile(const ProfileType &type, const std::string &name);
+    CommandExecuteProfile(const MotionProfile::ProfileType &type, const std::string &name);
 
     CommandExecuteProfile(const CommandExecuteProfile &copy);
 
@@ -51,7 +45,7 @@ public:
     //! \brief getProfileLabel
     //! \return
     //!
-    ProfileType getProfileType() const;
+    MotionProfile::ProfileType getProfileType() const;
 
     //!
     //! \brief getProfileLabel
@@ -60,7 +54,7 @@ public:
     std::string getProfileName() const;
 
 private:
-    ProfileType profileType;
+    MotionProfile::ProfileType profileType;
     std::string profileName;
 };
 

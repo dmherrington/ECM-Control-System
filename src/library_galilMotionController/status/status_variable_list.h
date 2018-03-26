@@ -5,7 +5,7 @@
 
 #include "common/class_forward.h"
 #include "status/abstract_status.h"
-#include "status/status_variable_value.h"
+#include "../programs/program_variable_list.h"
 
 ECM_CLASS_FORWARD(Status_VariableList);
 
@@ -16,21 +16,15 @@ public:
 
     Status_VariableList(const Status_VariableList &copy);
 
-    void addVariable(const Status_VariableValue &var);
+    void setVariableList(const ProgramVariableList &list);
 
-    void removeVariable(const std::string &name);
-
-    bool updateVariable(const Status_VariableValue &var);
-
-    bool getVariable(const std::string &name, Status_VariableValue &status);
-
-    bool getVariableValue(const std::string &name, double &value);
+    ProgramVariableList getVariableList() const;
 
 public:
     Status_VariableList& operator = (const Status_VariableList &rhs)
     {
         AbstractStatus::operator =(rhs);
-        this->variableMap = rhs.variableMap;
+        this->variableList = rhs.variableList;
         return *this;
     }
 
@@ -38,9 +32,9 @@ public:
         if(!AbstractStatus::operator ==(rhs)){
             return false;
         }
-//        if(this->variableMap != rhs.variableMap){
-//            return false;
-//        }
+        if(this->variableList != rhs.variableList){
+            return false;
+        }
         return true;
     }
 
@@ -49,7 +43,7 @@ public:
     }
 
 private:
-    std::map<std::string,Status_VariableValue> variableMap;
+    ProgramVariableList variableList;
 };
 
 #endif // STATUS_VARIABLE_LIST_H

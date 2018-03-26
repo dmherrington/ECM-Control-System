@@ -32,6 +32,7 @@ public:
 
 public:
     void setProgram(const ProgramGeneric &desiredProgram);
+
     ProgramGeneric getProgram() const;
 public:
     //!
