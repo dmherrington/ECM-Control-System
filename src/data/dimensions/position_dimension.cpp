@@ -55,7 +55,7 @@ std::string PositionDimension::ShortHand() const
     case UNIT_POSITION_MICRO_METER:
         return "um";
     default:
-        throw new std::runtime_error("Unkown Unit");
+        throw new std::runtime_error("Unknown Unit");
     }
 }
 

@@ -68,7 +68,7 @@ std::string VoltageDimension::ShortHand() const
     case VoltageUnit::UNIT_VOLTAGE_MICROVOLT:
         return "uv";
     default:
-        throw new std::runtime_error("Unkown Unit");
+        throw new std::runtime_error("Unknown Unit");
     }
 }
 

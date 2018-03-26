@@ -88,7 +88,7 @@ public:
     //! \brief Adds a plot to the handler object
     //! \param dataKey Key to indentify data
     //!
-    void AddPlot(const common_data::observation::IPlotComparablePtr expression);
+    void AddPlot(const common_data::observation::IPlotComparablePtr expression, const std::string &name = "");
 
 
     //!

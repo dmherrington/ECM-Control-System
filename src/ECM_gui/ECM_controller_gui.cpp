@@ -61,11 +61,16 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     ui->widget_primaryPlot->SupplyPlotCollection(&m_PlotCollection);
     ui->widget_primaryPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
 
+    common::TuplePositionalString tuplePosition;
+    tuplePosition.axisName = "Z Position";
+    this->slot_AddPlottable(tuplePosition);
+
     common::TupleSensorString tupleSensor;
     tupleSensor.sourceName = "TestSource";
     tupleSensor.sensorName = "TestSensor";
     ECMPlotIdentifierPtr newPlot = std::make_shared<ECMPlotIdentifier>(tupleSensor, "Sensed_Voltage");
     ui->widget_primaryPlot->AddPlot(newPlot);
+    ui->widget_primaryPlot->ToggleLegend();
 
     common_data::SensorState newSensorMeasurement;
     newSensorMeasurement.ConstructSensor(common_data::SENSOR_VOLTAGE,"Voltage Top");
@@ -131,7 +136,7 @@ void ECMControllerGUI::slot_DisplayActionTriggered()
     if(selectedObject->isChecked())
     {
         ECMPlotIdentifierPtr newPlot = std::make_shared<ECMPlotIdentifier>(key, key.getData()->HumanName().toStdString().c_str());
-        ui->widget_primaryPlot->AddPlot(newPlot);
+        ui->widget_primaryPlot->AddPlot(newPlot, key.getData()->HumanName().toStdString());
         QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(key);
         ui->widget_primaryPlot->RedrawDataSource(plots);
     }else{

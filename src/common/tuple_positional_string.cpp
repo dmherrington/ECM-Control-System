@@ -27,7 +27,7 @@ TuplePositionalString::TuplePositionalString(const TuplePositionalString &that)
 //!
 QString TuplePositionalString::Type() const
 {
-    return "Master";
+    return "Position";
 }
 
 
