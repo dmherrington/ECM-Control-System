@@ -893,7 +893,6 @@ void PlotHandler::DoPlotRecalculate()
             mReplotting.lock();
             QCPGraph *g = m_PlotParameters[plotIndex].g.at(i);
 
-            //Ken Fix Unit Name
             QString UnitName = QString::fromStdString(dr.getUnit());
             if(UnitName == "")
                 UnitName = "Unitless";
