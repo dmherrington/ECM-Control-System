@@ -29,6 +29,9 @@ signals:
     void signal_RigolHideWindow();
 
 private slots:
+    void  slot_OscilliscopeConnectionUpdate(const common::comms::CommunicationConnection &value);
+
+private slots:
     void on_pushButton_Done_released();
 
     void on_radioButton_AMP_toggled(bool checked);

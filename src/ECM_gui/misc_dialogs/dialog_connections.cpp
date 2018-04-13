@@ -79,17 +79,17 @@ void Dialog_Connections::on_pushButton_connectPump_released()
 
 void Dialog_Connections::on_pushButton_connect_Rigol_released()
 {
-
+    m_API->m_Rigol->openConnection("192.168.1.17",5555);
 }
 
 void Dialog_Connections::on_pushButton_connectMunk_released()
 {
-
+    m_API->m_Munk->openSerialPort("COM8");
 }
 
 void Dialog_Connections::on_pushButton_connectGalil_released()
 {
-
+    m_API->m_Galil->openConnection("169.254.78.101 -d");
 }
 
 void Dialog_Connections::on_pushButton_Close_released()

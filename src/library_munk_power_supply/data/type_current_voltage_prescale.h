@@ -12,14 +12,11 @@ namespace data_Munk{
 //! \brief The SegmentVIPower enum
 //!
 enum class SegmentVIPower{
-    ONE = 0, /** This value could also be represented as a 3 so be aware of this */
+    ONE = 0,
     ONE_HUNDREDTH = 1, /**< */
     ONE_TENTH = 2, /**< */
-    TEN = 4, /**< */
-    ONE_HUNDRED = 5, /**< */
-    ONE_THOUSAND = 6, /**< */
-    TEN_THOUSAND = 7 /**< */
-
+    TEN = 3, /**< */
+    ONE_HUNDRED = 5 /**< */
 };
 
 //!

@@ -10,5 +10,5 @@ ECM_API::ECM_API()
 
     m_Sensoray = new Sensoray();
 
-    m_Pump = new Westinghouse510(m_Sensoray,01);
+    m_Pump = new Westinghouse510(m_Sensoray,03);
 }

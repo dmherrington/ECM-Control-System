@@ -48,6 +48,7 @@ public:
     QAction *actionOscilliscope;
     QAction *actionTouchoff;
     QAction *actionOpen_Sensors_Window;
+    QAction *actionClose;
     QWidget *centralWidget;
     QGridLayout *gridLayout_8;
     QLineEdit *lineEdit;
@@ -286,6 +287,8 @@ public:
         actionTouchoff->setCheckable(true);
         actionOpen_Sensors_Window = new QAction(ECMControllerGUI);
         actionOpen_Sensors_Window->setObjectName(QStringLiteral("actionOpen_Sensors_Window"));
+        actionClose = new QAction(ECMControllerGUI);
+        actionClose->setObjectName(QStringLiteral("actionClose"));
         centralWidget = new QWidget(ECMControllerGUI);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout_8 = new QGridLayout(centralWidget);
@@ -1036,6 +1039,7 @@ public:
         menuBar->addAction(menuTools->menuAction());
         menuBar->addAction(menuView->menuAction());
         menuBar->addAction(menuHelp->menuAction());
+        menuFile->addAction(actionClose);
         menuTools->addAction(actionConnections);
         menuTools->addSeparator();
         menuTools->addAction(actionPower_Supply);
@@ -1063,6 +1067,7 @@ public:
         actionOscilliscope->setText(QApplication::translate("ECMControllerGUI", "Oscilliscope", nullptr));
         actionTouchoff->setText(QApplication::translate("ECMControllerGUI", "Touchoff", nullptr));
         actionOpen_Sensors_Window->setText(QApplication::translate("ECMControllerGUI", "Open Sensors Window", nullptr));
+        actionClose->setText(QApplication::translate("ECMControllerGUI", "Close", nullptr));
         label_ManualControl_5->setText(QApplication::translate("ECMControllerGUI", "DIO Signals", nullptr));
         label_ManualControl_2->setText(QApplication::translate("ECMControllerGUI", "Profile Optons", nullptr));
         pushButton_RunProfile->setText(QApplication::translate("ECMControllerGUI", "Run Profile", nullptr));

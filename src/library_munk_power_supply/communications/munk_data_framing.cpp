@@ -15,6 +15,7 @@ FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
     case FramingState::WAITING:
     case FramingState::RECEIVED_ENTIRE_MESSAGE:
     {
+        std::cout<<"We are in the state of waiting and/or had previously received an entire message"<<std::endl;
         //we should be looking for a byte equal to the address
         if(byte == munkAddress)
         {
@@ -26,6 +27,8 @@ FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
     }
     case FramingState::RECIEVED_MUNK_ADDRESS:
     {
+        std::cout<<"We are in the state of munk address"<<std::endl;
+
         //once we have first received the munk address, the next byte will be the function code
         currentMessge.appendArray(byte);
 
@@ -52,18 +55,24 @@ FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
     }
     case FramingState::RECEIVED_EXCEPTION_FUNCTION_CODE:
     {
+        std::cout<<"We are in the state of exception function code"<<std::endl;
+
         currentMSGState = FramingState::RECEIVED_EXCEPTION_CODE;
         currentMessge.appendArray(byte);
         break;
     }
     case FramingState::RECEIVED_EXCEPTION_CODE:
     {
+        std::cout<<"We are in the exception code"<<std::endl;
+
         currentMSGState = FramingState::RECEIVED_CRC_LOW;
         currentMessge.appendArray(byte);
         break;
     }
     case FramingState::RECEIVED_STD_FUNCTION_CODE_READ:
     {
+        std::cout<<"We are in the state of function code read"<<std::endl;
+
         //this byte tells us how many bytes are following the message
         currentMSGState = FramingState::RECEIVED_PAYLOAD;
         currentMessge.appendArray(byte);
@@ -72,13 +81,17 @@ FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
     }
     case FramingState::RECEIVED_STD_FUNCTION_CODE_WRITE:
     {
-        currentMSGState = FramingState::RECEIVED_PAYLOAD;
+        std::cout<<"We are in the state of function code write"<<std::endl;
+
+        currentMSGState = FramingState::RECEIVED_LAST_PAYLOAD;
         currentMessge.appendArray(byte);
-        currentMessge.setRemainingPayload(currentMessge.remainingPayloadSize() - 1);
+        currentMessge.setRemainingPayload(0);
         break;
     }
     case FramingState::RECEIVED_PAYLOAD:
     {
+        std::cout<<"We are in the state of receiving payload"<<std::endl;
+
         currentMessge.appendArray(byte);
         currentMessge.setRemainingPayload(currentMessge.remainingPayloadSize() - 1);
         if(currentMessge.remainingPayloadSize() < 1)
@@ -89,12 +102,16 @@ FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
     }
     case FramingState::RECEIVED_LAST_PAYLOAD:
     {
+        std::cout<<"We are in the state of receiving last payload"<<std::endl;
+
         currentMSGState = FramingState::RECEIVED_CRC_LOW;
         currentMessge.appendArray(byte);
         break;
     }
     case FramingState::RECEIVED_CRC_LOW:
     {
+        std::cout<<"We are in the state of receiving crc low"<<std::endl;
+
         //we already had the low byte and therefore we must have received the high byte
         currentMSGState = FramingState::RECEIVED_CRC_HIGH;
         currentMessge.appendArray(byte);
@@ -132,6 +149,10 @@ MunkMessage MunkDataFraming::getCurrentMessage() const
     return this->currentMessge;
 }
 
+FramingState MunkDataFraming::getCurrentMessageState() const
+{
+    return this->currentMSGState;
+}
 
 unsigned int MunkDataFraming::CRC16(const QByteArray &array) const
 {

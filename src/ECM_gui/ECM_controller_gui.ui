@@ -1860,6 +1860,7 @@ width:20px;
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionClose"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -1948,6 +1949,11 @@ width:20px;
   <action name="actionOpen_Sensors_Window">
    <property name="text">
     <string>Open Sensors Window</string>
+   </property>
+  </action>
+  <action name="actionClose">
+   <property name="text">
+    <string>Close</string>
    </property>
   </action>
  </widget>

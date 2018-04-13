@@ -18,7 +18,7 @@ public:
     //!
     //! \brief Constructor
     //! \param thing Model/Entity/Sensor/Whatever being plotted
-    //! \param dimension Dimesnion beign plotted (position, velocity, attitude, etc)
+    //! \param dimension Dimesnion being plotted (position, velocity, attitude, etc)
     //! \param axis Axis plotting
     //!
     ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension, const char *axis);
@@ -27,7 +27,7 @@ public:
     //!
     //! \brief Constructor
     //! \param thing Model/Entity/Sensor/Whatever being plotted
-    //! \param dimension Dimesnion beign plotted (position, velocity, attitude, etc)
+    //! \param dimension Dimesnion being plotted (position, velocity, attitude, etc)
     //!
     ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension);
 

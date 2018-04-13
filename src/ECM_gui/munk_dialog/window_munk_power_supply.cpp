@@ -1,7 +1,7 @@
 #include "window_munk_power_supply.h"
 #include "ui_window_munk_power_supply.h"
 
-Window_MunkPowerSupply::Window_MunkPowerSupply(const MunkPowerSupply *obj, QWidget *parent) :
+Window_MunkPowerSupply::Window_MunkPowerSupply(MunkPowerSupply *obj, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Window_MunkPowerSupply),
     munk(obj)
@@ -66,4 +66,10 @@ void Window_MunkPowerSupply::on_pushButton_AddSegment_released()
 void Window_MunkPowerSupply::on_actionClose_triggered()
 {
     this->hide();
+}
+
+void Window_MunkPowerSupply::on_pushButton_transmit_released()
+{
+    registers_Munk::SegmentTimeDetailed dataSegment = ui->segmentWidget->getRawData();
+    munk->generateAndTransmitMessage(dataSegment);
 }

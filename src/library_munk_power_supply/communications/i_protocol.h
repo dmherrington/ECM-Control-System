@@ -15,9 +15,8 @@ public:
     //!
     //! \brief ReceiveData
     //! \param link
-    //! \param buffer
     //!
-    virtual void ReceiveData(ILink *link, const std::vector<uint8_t> &buffer) = 0;
+    virtual void ReceiveData(const ILink *link) = 0;
 
 };
 

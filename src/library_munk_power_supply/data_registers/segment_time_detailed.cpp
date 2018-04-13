@@ -45,6 +45,7 @@ std::vector<registers_Munk::SegmentTimeDataDetailed> SegmentTimeDetailed::getReg
 
 void SegmentTimeDetailed::initializeData()
 {
+    this->slaveAddress = 01;
     this->detailedRegisterData.clear();
 }
 

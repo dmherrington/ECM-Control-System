@@ -36,10 +36,11 @@ void SensorayProtocol::resetSensorayIO()
 bool SensorayProtocol::openSerialPort(const common::comms::SerialConfiguration &config)
 {
     S24XXERR errorCode = S24XXERR::ERR_NONE;
-    s2426_ComportOpen(m_Session->handle,&errorCode,config.baud(),getSensorayParity(config.parity()),
-                      getSensorayDataBits(config.dataBits()),getSensorayStopBits(config.stopBits()));
+    s2426_ComportOpen(m_Session->handle, &errorCode,19200,PARITY_TYPE_NONE,NDATABITS_8,STOPBITS_1);
+    //s2426_ComportOpen(m_Session->handle,&errorCode,config.baud(),getSensorayParity(config.parity()),getSensorayDataBits(config.dataBits()),getSensorayStopBits(config.stopBits()));
     if(errorCode == S24XXERR::ERR_NONE)
     {
+        m_Session->setSerialPortConnected(true);
         common::comms::CommunicationConnection commsStatus;
         commsStatus.setSourceName("Sensoray");
         commsStatus.setConnection(true);
@@ -59,6 +60,7 @@ bool SensorayProtocol::closeSerialPort ()
     s2426_ComportClose(m_Session->handle,&errorCode);
     if(errorCode == S24XXERR::ERR_NONE)
     {
+        m_Session->setSerialPortConnected(false);
         common::comms::CommunicationConnection commsStatus;
         commsStatus.setSourceName("Sensoray");
         commsStatus.setConnection(false);
@@ -83,6 +85,7 @@ void SensorayProtocol::transmitDataToSerialPort(const QByteArray &msg)
         //will alleviate the headache of trying to coordiate TX/RX across libraries
         QByteArray dataCopy = msg;
         S24XXERR errorCode = S24XXERR::ERR_NONE;
+        std::cout<<"The size of the data being written to the port is: "<<dataCopy.length()<<std::endl;
         //first write the information to the serial port and wait until completed
         s2426_ComportWrite(m_Session->handle,&errorCode, dataCopy.data(), dataCopy.length(),true);
         if(errorCode != S24XXERR::ERR_NONE)
@@ -95,14 +98,15 @@ void SensorayProtocol::transmitDataToSerialPort(const QByteArray &msg)
         //therefore waiting >10ms should be sufficient for the entire message to be ready
         std::this_thread::sleep_for(std::chrono::milliseconds(12));
         //second read whatever information is available from the port
-        char buf[256];
-        int nchars = s2426_ComportRead(m_Session->handle, &errorCode, buf, sizeof(buf)-1, false);
-        if(errorCode != S24XXERR::ERR_NONE)
-        {
+//        char buf[256];
+//        int nchars = s2426_ComportRead(m_Session->handle, &errorCode, buf, sizeof(buf)-1, false);
+//        std::cout<<"The number of characters received is: "<<nchars<<std::endl;
+//        if(errorCode != S24XXERR::ERR_NONE)
+//        {
 
-        }
-        response = QByteArray(reinterpret_cast<char*>(buf), nchars);
-        Emit([&](const IProtocolSensorayEvents* ptr){ptr->ResponseReceived(response);});
+//        }
+//        response = QByteArray(reinterpret_cast<char*>(buf), nchars);
+//        Emit([&](const IProtocolSensorayEvents* ptr){ptr->ResponseReceived(response);});
     }
 }
 

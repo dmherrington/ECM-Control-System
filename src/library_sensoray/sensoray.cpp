@@ -118,5 +118,5 @@ void Sensoray::SerialPortConnection(const common::comms::CommunicationConnection
 
 void Sensoray::initializeSensoray() const
 {
-    commsMarshaler->resetSensorayIO();
+    //commsMarshaler->resetSensorayIO();
 }

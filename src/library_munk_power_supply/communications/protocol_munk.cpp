@@ -26,7 +26,8 @@ void MunkProtocol::sendForwardVoltageSetpoint(const ILink *link, const registers
 {
     if(link->isConnected())
     {
-        link->WriteBytes(setpoint.getFullMessage());
+        if(link->WriteBytes(setpoint.getFullMessage()))
+            this->ReceiveData(link);
     }
 }
 
@@ -34,7 +35,8 @@ void MunkProtocol::sendReverseVoltageSetpoint(const ILink *link, const registers
 {
     if(link->isConnected())
     {
-        link->WriteBytes(setpoint.getFullMessage());
+        if(link->WriteBytes(setpoint.getFullMessage()))
+            this->ReceiveData(link);
     }
 }
 
@@ -46,7 +48,8 @@ void MunkProtocol::sendForwardCurrentSetpoint(const ILink *link, const registers
 {
     if(link->isConnected())
     {
-        link->WriteBytes(setpoint.getFullMessage());
+        if(link->WriteBytes(setpoint.getFullMessage()))
+            this->ReceiveData(link);
     }
 }
 
@@ -54,7 +57,8 @@ void MunkProtocol::sendReverseCurrentSetpoint(const ILink *link, const registers
 {
     if(link->isConnected())
     {
-        link->WriteBytes(setpoint.getFullMessage());
+        if(link->WriteBytes(setpoint.getFullMessage()))
+            this->ReceiveData(link);
     }
 }
 
@@ -66,7 +70,8 @@ void MunkProtocol::sendSegmentTime(const ILink *link, const registers_Munk::Segm
 {
     if(link->isConnected())
     {
-        link->WriteBytes(segment.getFullMessage());
+        if(link->WriteBytes(segment.getFullMessage()))
+            this->ReceiveData(link);
     }
 }
 
@@ -74,7 +79,8 @@ void MunkProtocol::sendCommitToEEPROM(const ILink *link, const registers_Munk::P
 {
     if(link->isConnected())
     {
-        link->WriteBytes(command.getFullMessage());
+        if(link->WriteBytes(command.getFullMessage()))
+            this->ReceiveData(link);
     }
 }
 
@@ -98,26 +104,29 @@ void MunkProtocol::sendFaultStateRequest(const ILink *link, const registers_Munk
 //! \param link Link which data was read from
 //! \param buffer data that was read.
 //!
-void MunkProtocol::ReceiveData(ILink *link, const std::vector<uint8_t> &buffer)
+void MunkProtocol::ReceiveData(const ILink *link)
 {
-    UNUSED(link);
-
-    //This is where data from the munk power supply serial buffer is seen
-    for(uint8_t c: buffer)
+    while(dataParse.getCurrentMessageState() != FramingState::RECEIVED_ENTIRE_MESSAGE)
     {
-        //we should create a structure to succesfully parse it here
-        std::cout<<"We have received data from the serial buffer: "<<c<<std::endl;
-        if(dataParse.additionalByteRecevied(c) == FramingState::RECEIVED_ENTIRE_MESSAGE)
+        std::vector<uint8_t> buffer = link->ReadBytes();
+        //This is where data from the munk power supply serial buffer is seen
+        for(uint8_t c: buffer)
         {
-            MunkMessage completeMessage = dataParse.getCurrentMessage();
-            if(completeMessage.isException() == data_Munk::MunkExceptionType::EXCEPTION)
-                parseForException(link, completeMessage);
-            else if(completeMessage.isReadWriteType() == data_Munk::MunkRWType::READ)
-                parseForReadMessage(link, completeMessage);
-            else if(completeMessage.isReadWriteType() == data_Munk::MunkRWType::WRITE)
-                parseForAck(link, completeMessage);
+            //we should create a structure to succesfully parse it here
+            std::cout<<"We have received data from the serial buffer and the message thus far is: "<<dataParse.getCurrentMessage().getDataArray().toHex().toStdString()<<std::endl;
+            if(dataParse.additionalByteRecevied(c) == FramingState::RECEIVED_ENTIRE_MESSAGE)
+            {
+                break;
+            }
         }
     }
+    MunkMessage completeMessage = dataParse.getCurrentMessage();
+    if(completeMessage.isException() == data_Munk::MunkExceptionType::EXCEPTION)
+        parseForException(link, completeMessage);
+    else if(completeMessage.isReadWriteType() == data_Munk::MunkRWType::READ)
+        parseForReadMessage(link, completeMessage);
+    else if(completeMessage.isReadWriteType() == data_Munk::MunkRWType::WRITE)
+        parseForAck(link, completeMessage);
 }
 
 void MunkProtocol::parseForReadMessage(const ILink *link, const MunkMessage &msg)

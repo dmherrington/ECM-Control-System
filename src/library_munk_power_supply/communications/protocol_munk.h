@@ -79,7 +79,7 @@ public:
     //! \param link Link which data was read from
     //! \param buffer data that was read.
     //!
-    void ReceiveData(ILink *link, const std::vector<uint8_t> &buffer) override;
+    void ReceiveData(const ILink *link) override;
 
     void parseForException(const ILink *link, const MunkMessage &msg);
 

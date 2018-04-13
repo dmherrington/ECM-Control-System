@@ -28,6 +28,7 @@ MunkPowerSupply::~MunkPowerSupply()
 void MunkPowerSupply::openSerialPort(const QString &name)
 {
     SerialConfiguration config(name.toStdString());
+    config.setBaud(19200);
     commsMarshaler->ConnectToLink(config);
 }
 
@@ -52,45 +53,45 @@ void MunkPowerSupply::generateAndTransmitMessage(const SegmentTimeDetailed &deta
     if(fwdVArray.size() > 0)
     {
         commsMarshaler->sendForwardVoltageSetpoint(m_fwdVSetpoint);
-        messages.push_back(MunkMessageType::FWDVolt);
+        //messages.push_back(MunkMessageType::FWDVolt);
     }
 
-    QByteArray fwdIArray = m_fwdISetpoint.getFullMessage();
-    if(fwdIArray.size() > 0)
-    {
-        commsMarshaler->sendForwardCurrentSetpoint(m_fwdISetpoint);
-        messages.push_back(MunkMessageType::REVVolt);
-    }
+//    QByteArray fwdIArray = m_fwdISetpoint.getFullMessage();
+//    if(fwdIArray.size() > 0)
+//    {
+//        commsMarshaler->sendForwardCurrentSetpoint(m_fwdISetpoint);
+//        messages.push_back(MunkMessageType::REVVolt);
+//    }
 
-    QByteArray revVArray = m_revVSetpoint.getFullMessage();
-    if(revVArray.size() > 0)
-    {
-        commsMarshaler->sendReverseVoltageSetpoint(m_revVSetpoint);
-        messages.push_back(MunkMessageType::FWDCur);
-    }
+//    QByteArray revVArray = m_revVSetpoint.getFullMessage();
+//    if(revVArray.size() > 0)
+//    {
+//        commsMarshaler->sendReverseVoltageSetpoint(m_revVSetpoint);
+//        messages.push_back(MunkMessageType::FWDCur);
+//    }
 
-    QByteArray revIArray = m_revISetpoint.getFullMessage();
-    if(revIArray.size() > 0)
-    {
-        commsMarshaler->sendReverseCurrentSetpoint(m_revISetpoint);
-        messages.push_back(MunkMessageType::REVCur);
-    }
+//    QByteArray revIArray = m_revISetpoint.getFullMessage();
+//    if(revIArray.size() > 0)
+//    {
+//        commsMarshaler->sendReverseCurrentSetpoint(m_revISetpoint);
+//        messages.push_back(MunkMessageType::REVCur);
+//    }
 
-    QByteArray dataArray = m_segmentTimeGeneral.getFullMessage();
-    if(dataArray.size() > 0)
-    {
-        commsMarshaler->sendSegmentTime(m_segmentTimeGeneral);
-        messages.push_back(MunkMessageType::SEGTime);
-    }
+//    QByteArray dataArray = m_segmentTimeGeneral.getFullMessage();
+//    if(dataArray.size() > 0)
+//    {
+//        commsMarshaler->sendSegmentTime(m_segmentTimeGeneral);
+//        messages.push_back(MunkMessageType::SEGTime);
+//    }
 
-    commsMarshaler->sendCommitToEEPROM();
-    messages.push_back(MunkMessageType::Mem);
-    commsProgress.transmittingNewSegment(messages);
+//    commsMarshaler->sendCommitToEEPROM();
+//    messages.push_back(MunkMessageType::Mem);
+//    commsProgress.transmittingNewSegment(messages);
 
-    int needed = 0;
-    int required = 0;
-    commsProgress.currentProgress(needed,required);
-    emit signal_SegmentWriteProgress(needed,required);
+//    int needed = 0;
+//    int required = 0;
+//    commsProgress.currentProgress(needed,required);
+//    emit signal_SegmentWriteProgress(needed,required);
 }
 
 void MunkPowerSupply::generateMessages(const SegmentTimeDetailed &detailedSegmentData)

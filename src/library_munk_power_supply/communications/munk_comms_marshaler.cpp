@@ -155,7 +155,7 @@ void MunkCommsMarshaler::ConnectionClosed() const
 
 void MunkCommsMarshaler::ReceiveData(const std::vector<uint8_t> &buffer) const
 {
-    protocol->ReceiveData(link.get(),buffer);
+    //protocol->ReceiveData(link.get(),buffer);
 }
 
 void MunkCommsMarshaler::CommunicationError(const std::string &type, const std::string &msg) const

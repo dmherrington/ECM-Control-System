@@ -107,6 +107,8 @@ private slots:
 
     void on_actionOscilliscope_triggered();
 
+    void on_actionClose_triggered();
+
 protected:
     void readSettings();
     void closeEvent(QCloseEvent *event);
