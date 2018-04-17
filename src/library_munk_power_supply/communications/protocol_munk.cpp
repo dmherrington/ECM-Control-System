@@ -13,6 +13,7 @@ MunkProtocol::MunkProtocol():
 
 }
 
+
 void MunkProtocol::AddListner(const IProtocolMunkEvents* listener)
 {
     m_Listners.push_back(listener);
@@ -26,8 +27,25 @@ void MunkProtocol::sendForwardVoltageSetpoint(const ILink *link, const registers
 {
     if(link->isConnected())
     {
+        MunkMessage receivedMSG;
         if(link->WriteBytes(setpoint.getFullMessage()))
-            this->ReceiveData(link);
+        {
+            if(this->ReceiveData(link,receivedMSG))
+            {
+                if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
+                    parseForException(link, receivedMSG);
+                else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::WRITE)
+                {
+                    if(setpoint.getFullExpectedResonse() == receivedMSG.getDataArray())
+                    {
+                        uint8_t highREG = receivedMSG.getDataByte(4);
+                        uint8_t lowREG = receivedMSG.getDataByte(5);
+                        int numberOfRegisters = lowREG | (highREG<<8);
+                        Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentVoltageSetpointAcknowledged(link,data_Munk::SegmentMode::FORWARD,numberOfRegisters);});
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -35,8 +53,25 @@ void MunkProtocol::sendReverseVoltageSetpoint(const ILink *link, const registers
 {
     if(link->isConnected())
     {
+        MunkMessage receivedMSG;
         if(link->WriteBytes(setpoint.getFullMessage()))
-            this->ReceiveData(link);
+        {
+            if(this->ReceiveData(link,receivedMSG))
+            {
+                if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
+                    parseForException(link, receivedMSG);
+                else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::WRITE)
+                {
+                    if(setpoint.getFullExpectedResonse() == receivedMSG.getDataArray())
+                    {
+                        uint8_t highREG = receivedMSG.getDataByte(4);
+                        uint8_t lowREG = receivedMSG.getDataByte(5);
+                        int numberOfRegisters = lowREG | (highREG<<8);
+                        Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentVoltageSetpointAcknowledged(link,data_Munk::SegmentMode::REVERSE,numberOfRegisters);});
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -48,8 +83,25 @@ void MunkProtocol::sendForwardCurrentSetpoint(const ILink *link, const registers
 {
     if(link->isConnected())
     {
+        MunkMessage receivedMSG;
         if(link->WriteBytes(setpoint.getFullMessage()))
-            this->ReceiveData(link);
+        {
+            if(this->ReceiveData(link,receivedMSG))
+            {
+                if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
+                    parseForException(link, receivedMSG);
+                else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::WRITE)
+                {
+                    if(setpoint.getFullExpectedResonse() == receivedMSG.getDataArray())
+                    {
+                        uint8_t highREG = receivedMSG.getDataByte(4);
+                        uint8_t lowREG = receivedMSG.getDataByte(5);
+                        int numberOfRegisters = lowREG | (highREG<<8);
+                        Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentCurrentSetpointAcknowledged(link,data_Munk::SegmentMode::FORWARD,numberOfRegisters);});
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -57,8 +109,25 @@ void MunkProtocol::sendReverseCurrentSetpoint(const ILink *link, const registers
 {
     if(link->isConnected())
     {
+        MunkMessage receivedMSG;
         if(link->WriteBytes(setpoint.getFullMessage()))
-            this->ReceiveData(link);
+        {
+            if(this->ReceiveData(link,receivedMSG))
+            {
+                if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
+                    parseForException(link, receivedMSG);
+                else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::WRITE)
+                {
+                    if(setpoint.getFullExpectedResonse() == receivedMSG.getDataArray())
+                    {
+                        uint8_t highREG = receivedMSG.getDataByte(4);
+                        uint8_t lowREG = receivedMSG.getDataByte(5);
+                        int numberOfRegisters = lowREG | (highREG<<8);
+                        Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentCurrentSetpointAcknowledged(link,data_Munk::SegmentMode::REVERSE,numberOfRegisters);});
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -70,8 +139,25 @@ void MunkProtocol::sendSegmentTime(const ILink *link, const registers_Munk::Segm
 {
     if(link->isConnected())
     {
+        MunkMessage receivedMSG;
         if(link->WriteBytes(segment.getFullMessage()))
-            this->ReceiveData(link);
+        {
+            if(this->ReceiveData(link,receivedMSG))
+            {
+                if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
+                    parseForException(link, receivedMSG);
+                else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::WRITE)
+                {
+                    if(segment.getFullExpectedResonse() == receivedMSG.getDataArray())
+                    {
+                        uint8_t highREG = receivedMSG.getDataByte(4);
+                        uint8_t lowREG = receivedMSG.getDataByte(5);
+                        int numberOfRegisters = lowREG | (highREG<<8);
+                        Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentVoltageSetpointAcknowledged(link,data_Munk::SegmentMode::FORWARD,numberOfRegisters);});
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -79,8 +165,22 @@ void MunkProtocol::sendCommitToEEPROM(const ILink *link, const registers_Munk::P
 {
     if(link->isConnected())
     {
+        MunkMessage receivedMSG;
         if(link->WriteBytes(command.getFullMessage()))
-            this->ReceiveData(link);
+        {
+            if(this->ReceiveData(link,receivedMSG))
+            {
+                if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
+                    parseForException(link, receivedMSG);
+                else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::WRITE)
+                {
+                    if(command.getFullExpectedResonse() == receivedMSG.getDataArray())
+                    {
+                        Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentCommittedToMemory(link);});
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -92,6 +192,7 @@ void MunkProtocol::sendFaultStateRequest(const ILink *link, const registers_Munk
 {
     if(link->isConnected())
     {
+        MunkMessage receivedMSG;
         link->WriteBytes(request.getFullMessage());
         this->readVector.push_back(request.getClone());
     }
@@ -104,7 +205,7 @@ void MunkProtocol::sendFaultStateRequest(const ILink *link, const registers_Munk
 //! \param link Link which data was read from
 //! \param buffer data that was read.
 //!
-void MunkProtocol::ReceiveData(const ILink *link)
+bool MunkProtocol::ReceiveData(const ILink *link, MunkMessage &returnMessage)
 {
     while(dataParse.getCurrentMessageState() != FramingState::RECEIVED_ENTIRE_MESSAGE)
     {
@@ -120,13 +221,8 @@ void MunkProtocol::ReceiveData(const ILink *link)
             }
         }
     }
-    MunkMessage completeMessage = dataParse.getCurrentMessage();
-    if(completeMessage.isException() == data_Munk::MunkExceptionType::EXCEPTION)
-        parseForException(link, completeMessage);
-    else if(completeMessage.isReadWriteType() == data_Munk::MunkRWType::READ)
-        parseForReadMessage(link, completeMessage);
-    else if(completeMessage.isReadWriteType() == data_Munk::MunkRWType::WRITE)
-        parseForAck(link, completeMessage);
+    returnMessage = dataParse.getCurrentMessage();
+    return true;
 }
 
 void MunkProtocol::parseForReadMessage(const ILink *link, const MunkMessage &msg)
@@ -176,44 +272,6 @@ void MunkProtocol::parseForFaultStateCode(const ILink *link, const registers_Mun
     }
     delete parameter;
     parameter = nullptr;
-}
-
-void MunkProtocol::parseForAck(const ILink *link, const MunkMessage &msg)
-{
-    uint8_t highPC = msg.getDataByte(2);
-    uint8_t lowPC = msg.getDataByte(3);
-    int parameterCode = lowPC | (highPC<<8);
-
-    uint8_t highREG = msg.getDataByte(4);
-    uint8_t lowREG = msg.getDataByte(5);
-    int numberOfRegisters = lowREG | (highREG<<8);
-
-    if(data_Munk::isOfVoltageSegmentType(parameterCode))
-    {
-        if(data_Munk::isForwardVoltageType(parameterCode))
-            Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentVoltageSetpointAcknowledged(link,data_Munk::SegmentMode::FORWARD,numberOfRegisters);});
-        else
-            Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentVoltageSetpointAcknowledged(link,data_Munk::SegmentMode::REVERSE,numberOfRegisters);});
-    }
-    else if(data_Munk::isOfCurrentSegmentType(parameterCode))
-    {
-        if(data_Munk::isForwardCurrentType(parameterCode))
-            Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentCurrentSetpointAcknowledged(link,data_Munk::SegmentMode::FORWARD,numberOfRegisters);});
-        else
-            Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentCurrentSetpointAcknowledged(link,data_Munk::SegmentMode::REVERSE,numberOfRegisters);});
-    }
-    else if(data_Munk::isOfTimeSegmentType(parameterCode))
-    {
-        Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentTimeSetpointAcknowledged(link,numberOfRegisters);});
-    }
-    else if(parameterCode == registers_Munk::ParameterTypeToInt(registers_Munk::ParameterType::MEMORYWRITE))
-    {
-        Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentCommittedToMemory(link);});
-    }
-    else
-    {
-        std::cout<<"We have received an ack for a type that I am not currently aware of."<<std::endl;
-    }
 }
 
 } //end of namespace comms_Munk

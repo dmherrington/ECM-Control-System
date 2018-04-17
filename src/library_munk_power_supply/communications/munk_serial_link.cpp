@@ -195,14 +195,21 @@ std::vector<uint8_t> MunkSerialLink::ReadBytes(void) const
 {
     std::vector<uint8_t> vec_buffer;
 
-    qint64 byteCount = m_port->bytesAvailable();
-    if (byteCount) {
-        QByteArray buffer;
-        buffer.resize(byteCount);
-        m_port->read(buffer.data(), buffer.size());
+    if(m_port->waitForReadyRead(10))
+    {
+        qint64 byteCount = m_port->bytesAvailable();
+        std::cout<<"The size of the buffer: "<<byteCount<<std::endl;
+        if (byteCount > 0) {
+            QByteArray buffer;
+            buffer.resize(byteCount);
+            m_port->read(buffer.data(), buffer.size());
 
-        vec_buffer = std::vector<uint8_t>(buffer.begin(), buffer.end());
-        //EmitEvent([this,&vec_buffer](const ILinkEvents *ptr){ptr->ReceiveData(vec_buffer);});
+            vec_buffer = std::vector<uint8_t>(buffer.begin(), buffer.end());
+        }
+    }
+    else
+    {
+
     }
     return vec_buffer;
 }
@@ -245,15 +252,11 @@ void MunkSerialLink::linkError(QSerialPort::SerialPortError error)
 
 void MunkSerialLink::PortEventLoop()
 {
-    //std::cout<<"Are there bytes available at the port: "<<m_port->bytesAvailable()<<std::endl;
-
     if(m_port->bytesAvailable())
-        //this->_readBytes();
+        this->ReadBytes();
 
     if(m_port->errorString() != "")
-    {
         linkError(m_port->error());
-    }
 }
 
 std::string MunkSerialLink::getPortName() const

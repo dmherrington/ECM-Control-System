@@ -28,7 +28,7 @@ MunkPowerSupply::~MunkPowerSupply()
 void MunkPowerSupply::openSerialPort(const QString &name)
 {
     SerialConfiguration config(name.toStdString());
-    config.setBaud(19200);
+    config.setBaud(57600);
     commsMarshaler->ConnectToLink(config);
 }
 

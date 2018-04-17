@@ -42,7 +42,7 @@ void SegmentVoltageData::updatePrescalePower(const data_Munk::SegmentVIPower &va
 
 data_Munk::DataFaultCodes SegmentVoltageData::updateVoltageSetpoint(const double &value)
 {
-    int newValue = value * 1;
+    int newValue = value * 100;
     this->updatePrescalePower(data_Munk::SegmentVIPower::ONE);
 
     if(newValue > 4095)

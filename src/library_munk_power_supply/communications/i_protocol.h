@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "munk_message.h"
 
 namespace comms_Munk{
 
@@ -16,7 +17,7 @@ public:
     //! \brief ReceiveData
     //! \param link
     //!
-    virtual void ReceiveData(const ILink *link) = 0;
+    virtual bool ReceiveData(const ILink *link, MunkMessage &returnMessage) = 0;
 
 };
 

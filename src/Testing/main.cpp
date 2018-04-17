@@ -17,14 +17,14 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    MunkPowerSupply powerSupply;
-    powerSupply.openSerialPort("COM3");
-    registers_Munk::SegmentTimeDetailed detailedMSG;
-    registers_Munk::SegmentTimeDataDetailed firstRegister(10.2,50,data_Munk::SegmentMode::FORWARD,200);
-    registers_Munk::SegmentTimeDataDetailed secondRegister(10.2,102,data_Munk::SegmentMode::DEAD,77);
-    detailedMSG.appendRegisterData(firstRegister);
-    detailedMSG.appendRegisterData(secondRegister);
-    powerSupply.generateAndTransmitMessage(detailedMSG);
+//    MunkPowerSupply powerSupply;
+//    powerSupply.openSerialPort("COM9");
+//    registers_Munk::SegmentTimeDetailed detailedMSG;
+//    registers_Munk::SegmentTimeDataDetailed firstRegister(10.2,50,data_Munk::SegmentMode::FORWARD,200);
+//    registers_Munk::SegmentTimeDataDetailed secondRegister(10.2,102,data_Munk::SegmentMode::DEAD,100);
+//    detailedMSG.appendRegisterData(firstRegister);
+//    detailedMSG.appendRegisterData(secondRegister);
+//    powerSupply.generateAndTransmitMessage(detailedMSG);
 
 
 //    common::EnvironmentTime currentTime;
@@ -72,16 +72,17 @@ int main(int argc, char *argv[])
 //    loggingTest.SetSensorLogFile(sensorTuple,sensorLoggingFile);
 //    loggingTest.WriteLogSensorState(sensorTuple,newSensorMeasurement);
 
-//    uint8_t byte = 131;
-//    uint8_t exceptionMask = 127<<0;
-//    uint8_t exceptionValue = (byte & (~exceptionMask));
-//    if(exceptionValue == 128)
-//    {
-//        //we have a problem
-//    }
-//    std::cout<<"The exception value is: "<<exceptionValue<<std::endl;
-//    uint8_t RWMask = 240<<0;
-//    uint8_t RWValue = (byte & (~RWMask));
+    uint8_t byte = 131;
+    uint8_t exceptionMask = 127<<0;
+    uint8_t exceptionValue = (byte & (~exceptionMask));
+    if(exceptionValue == 128)
+    {
+        //we have a problem
+    }
+    std::cout<<"The exception value is: "<<exceptionValue<<std::endl;
+    uint8_t RWMask = 128<<0;
+    uint8_t RWValue = (byte & (~RWMask));
+    std::cout<<"The read write value is: "<<RWValue<<std::endl;
 
 //    GalilMotionController* newGalil = new GalilMotionController();
 //    MunkPowerSupply* newMunk = new MunkPowerSupply();

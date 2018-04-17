@@ -79,15 +79,13 @@ public:
     //! \param link Link which data was read from
     //! \param buffer data that was read.
     //!
-    void ReceiveData(const ILink *link) override;
+    bool ReceiveData(const ILink *link, MunkMessage &returnMessage) override;
 
     void parseForException(const ILink *link, const MunkMessage &msg);
 
     void parseForReadMessage(const ILink *link, const MunkMessage &msg);
 
     void parseForFaultStateCode(const ILink *link, const registers_Munk::AbstractParameter *parameter, const MunkMessage &msg);
-
-    void parseForAck(const ILink *link, const MunkMessage &msg);
 
 private:
 
