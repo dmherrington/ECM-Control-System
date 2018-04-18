@@ -5,7 +5,8 @@ namespace comms{
 
 static QStringList kSupportedBaudRates;
 
-SerialConfiguration::SerialConfiguration(const std::string& name)
+SerialConfiguration::SerialConfiguration(const std::string& name):
+    LinkConfiguration()
 {
     _portName = name;
     _baud       = QSerialPort::Baud19200;
@@ -16,7 +17,8 @@ SerialConfiguration::SerialConfiguration(const std::string& name)
     _usbDirect  = false;
 }
 
-SerialConfiguration::SerialConfiguration(SerialConfiguration* copy)
+SerialConfiguration::SerialConfiguration(SerialConfiguration* copy):
+    LinkConfiguration()
 {
     _portName           = copy->portName();
     _baud               = copy->baud();

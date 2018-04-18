@@ -11,11 +11,94 @@
 #include <QRegExp>
 
 #include "common/environment_time.h"
+#include "common/comms/serial_configuration.h"
+
 #include "main.h"
+
+// Configuration constants.
+#define DEFAULT_TIMEOUT 		1000		// Transaction timeout in milliseconds. Increase this if connected via WAN.
+#define TELNET_PORTNUM			23			// Use standard telnet port number.
+
+static void IoLoop( HSESSION *sess )
+{
+    S2426_ADC_SAMPLE samp[8];
+    int	iters;
+    S24XXERR err = ERR_NONE;
+    u8	dioChan;
+    u32	EncoderCounts;			// Snapshot of encoder counts and acquisition time.
+    u32	EncoderTimestamp;
+    u8	dinDebounced;			// Snapshot of debounced dins.
+
+    // Set session timeout to 5 seconds. Don't reset i/o upon timeout.
+//	s24xx_SetTimeout( sess, &err, 5, UNITS_SECONDS, ACTION_NONE );
+
+    // Set encoder mode.
+    s2426_WriteEncoderMode( sess, &err, QUADRATURE_X4, ENC_PRELOAD_DISABLE );
+
+    // Activate pwm mode for dout channels 12-15, using arbitrary timing values.
+    for ( dioChan = 12; dioChan < 16; dioChan++ )
+    {
+        s2426_SetDoutMode( sess, &err, dioChan, DOUT2426_MODE_PWM );
+        s2426_WritePwm( sess, &err, dioChan, (u16)( ( 23 * ( dioChan + 1 ) ) & 255 ), (u16)( ( 39 * ( dioChan + 1 ) ) & 511 ) );
+    }
+
+    // Execute the i/o processing loop a few times, approximately ten times per second.
+    for (iters = 0; iters < 10000; iters++)
+    {
+        // Read encoder counts.
+        s2426_ReadEncoderCounts( sess, &err, &EncoderCounts, &EncoderTimestamp );
+
+        // Write counts to digital outputs.
+        s2426_WriteDout( sess, &err, (u16)iters );
+
+        // Read a/d converter.
+        s2426_ReadAdc( sess, &err, samp, TRUE );
+
+        // Write counts to dac.
+        s2426_WriteAout( sess, &err, (s16)iters, TRUE );
+
+        // Read debounced digital inputs.
+        s2426_ReadDin( sess, &err, &dinDebounced, NULL );
+
+        // Abort if error detected.
+        if ( err != ERR_NONE )
+        {
+            printf( "Error: %s\n", s24xx_ErrorText( err ) );
+            break;
+        }
+
+        // Wait one "tick" time. In a realtime application this should use an ipc mechanism with realtime behavior.
+#ifdef OSTYPE_WINDOWS
+        _sleep(1);
+#else
+        usleep(1000*1000);
+#endif
+
+    }
+}
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
+
+    std::cout<<"Program is running"<<std::endl;
+    HSESSION sess;
+    S24XXERR err = ERR_NONE;
+
+    // Open the api.
+    if ( !s24xx_ApiOpen() )
+        printf( "Error: Failed to open session interface\n" );
+
+    // Create session object and open the telnet session.
+    else if ( !s24xx_SessionOpen( &sess, &err, 2426, argv[1], TELNET_PORTNUM, 2000 ) )
+        s24xx_ErrorText( err ) ;
+
+    // Run i/o loop and then close the api.
+    else
+    {
+        s24xx_SessionClose( sess );		// Terminate telnet connection.
+        s24xx_ApiClose();				// Free API resources.
+    }
 
 //    MunkPowerSupply powerSupply;
 //    powerSupply.openSerialPort("COM3");
@@ -88,9 +171,9 @@ int main(int argc, char *argv[])
 //    MunkPowerSupply* newMunk = new MunkPowerSupply();
 
     Sensoray* newInterface = new Sensoray();
-    comms_Sensoray::SensorayTCPConfiguration sensorayConfig;
+//    comms_Sensoray::SensorayTCPConfiguration sensorayConfig;
 
-    newInterface->openConnection(sensorayConfig);
+//    newInterface->openConnection(sensorayConfig);
 
 //    Westinghouse510* pump = new Westinghouse510(newInterface,03);
 //    registers_WestinghousePump::Register_OperationSignal newOps;

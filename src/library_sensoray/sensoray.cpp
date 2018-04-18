@@ -40,6 +40,7 @@ void Sensoray::openSerialPortConnection(const common::comms::SerialConfiguration
 {
     commsMarshaler->ConnectToSerialPort(config);
 }
+
 void Sensoray::closeSerialPortConnection() const
 {
     commsMarshaler->DisconnetFromSerialPort();

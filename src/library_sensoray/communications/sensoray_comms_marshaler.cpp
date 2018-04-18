@@ -73,10 +73,10 @@ bool CommsMarshaler::isLinkConnected() const
 //!
 void CommsMarshaler::ConnectToSerialPort(const common::comms::SerialConfiguration &config)
 {
-    auto func = [this, config]() {
-        protocol->openSerialPort(config);
-    };
-    link->MarshalOnThread(func);
+//    auto func = [this, config]() {
+//        protocol->openSerialPort(config);
+//    };
+//    link->MarshalOnThread(func);
 }
 
 //!
