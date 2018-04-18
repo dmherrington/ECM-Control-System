@@ -98,13 +98,13 @@ void SensorayProtocol::transmitDataToSerialPort(const QByteArray &msg)
         //therefore waiting >10ms should be sufficient for the entire message to be ready
         std::this_thread::sleep_for(std::chrono::milliseconds(12));
         //second read whatever information is available from the port
-//        char buf[256];
-//        int nchars = s2426_ComportRead(m_Session->handle, &errorCode, buf, sizeof(buf)-1, false);
-//        std::cout<<"The number of characters received is: "<<nchars<<std::endl;
-//        if(errorCode != S24XXERR::ERR_NONE)
-//        {
+        char buf[256];
+        int nchars = s2426_ComportRead(m_Session->handle, &errorCode, buf, sizeof(buf)-1, false);
+        std::cout<<"The number of characters received is: "<<nchars<<std::endl;
+        if(errorCode != S24XXERR::ERR_NONE)
+        {
 
-//        }
+        }
 //        response = QByteArray(reinterpret_cast<char*>(buf), nchars);
 //        Emit([&](const IProtocolSensorayEvents* ptr){ptr->ResponseReceived(response);});
     }

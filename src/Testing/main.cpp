@@ -17,14 +17,14 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    MunkPowerSupply powerSupply;
-    powerSupply.openSerialPort("COM9");
-    registers_Munk::SegmentTimeDetailed detailedMSG;
-    registers_Munk::SegmentTimeDataDetailed firstRegister(10.2,50,data_Munk::SegmentMode::FORWARD,200*1000);
-    registers_Munk::SegmentTimeDataDetailed secondRegister(10.2,102,data_Munk::SegmentMode::DEAD,100*1000);
-    detailedMSG.appendRegisterData(firstRegister);
-    detailedMSG.appendRegisterData(secondRegister);
-    powerSupply.generateAndTransmitMessage(detailedMSG);
+//    MunkPowerSupply powerSupply;
+//    powerSupply.openSerialPort("COM3");
+//    registers_Munk::SegmentTimeDetailed detailedMSG;
+//    registers_Munk::SegmentTimeDataDetailed firstRegister(11.6,50,data_Munk::SegmentMode::FORWARD,200);
+//    registers_Munk::SegmentTimeDataDetailed secondRegister(11.6,102,data_Munk::SegmentMode::DEAD,100);
+//    detailedMSG.appendRegisterData(firstRegister);
+//    detailedMSG.appendRegisterData(secondRegister);
+//    powerSupply.generateAndTransmitMessage(detailedMSG);
 
 
 //    common::EnvironmentTime currentTime;
@@ -87,10 +87,10 @@ int main(int argc, char *argv[])
 //    GalilMotionController* newGalil = new GalilMotionController();
 //    MunkPowerSupply* newMunk = new MunkPowerSupply();
 
-//    Sensoray* newInterface = new Sensoray();
-//    comms_Sensoray::SensorayTCPConfiguration sensorayConfig;
+    Sensoray* newInterface = new Sensoray();
+    comms_Sensoray::SensorayTCPConfiguration sensorayConfig;
 
-//    newInterface->openConnection(sensorayConfig);
+    newInterface->openConnection(sensorayConfig);
 
 //    Westinghouse510* pump = new Westinghouse510(newInterface,03);
 //    registers_WestinghousePump::Register_OperationSignal newOps;
@@ -99,28 +99,17 @@ int main(int argc, char *argv[])
 //    newOps.setReadorWrite(data_WestinghousePump::RWType::WRITE);
 //    common::comms::SerialConfiguration newSerialConfig;
 //    newInterface->openSerialPortConnection(newSerialConfig);
-//    QByteArray array;
-//    array.append(0x03);
-//    array.append(0x03);
-//    array.append(0x0C);
-//    array.append(0x10);
-//    array.append(0x00);
-//    array.append(0x01);
-//    array.append(0x86);
-//    array.append(0x9F);
-
-//    newInterface->writeToSerialPort(array);
 
 //    while(true)
 //    {
-//        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-
-//        newOps.shouldRun(false);
+//        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+//        std::cout<<"Should be turning the pump on...."<<std::endl;
+//        newOps.shouldRun(true);
 //        newInterface->writeToSerialPort(newOps.getFullMessage());
 
-//        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-
-//        newOps.shouldRun(true);
+//        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+//        std::cout<<"Should be turning the pump off...."<<std::endl;
+//        newOps.shouldRun(false);
 //        newInterface->writeToSerialPort(newOps.getFullMessage());
 //    }
 

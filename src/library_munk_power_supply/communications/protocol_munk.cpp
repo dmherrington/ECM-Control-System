@@ -30,14 +30,17 @@ void MunkProtocol::sendForwardVoltageSetpoint(const ILink *link, const registers
         MunkMessage receivedMSG;
         if(link->WriteBytes(setpoint.getFullMessage()))
         {
+            std::cout<<"We have finished transmitting info"<<std::endl;
             if(this->ReceiveData(link,receivedMSG))
             {
+                std::cout<<"We have finished receiving info"<<std::endl;
                 if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
                     parseForException(link, receivedMSG);
                 else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::WRITE)
                 {
                     if(setpoint.getFullExpectedResonse() == receivedMSG.getDataArray())
                     {
+                        std::cout<<"We have received and confirmed the message."<<std::endl;
                         uint8_t highREG = receivedMSG.getDataByte(4);
                         uint8_t lowREG = receivedMSG.getDataByte(5);
                         int numberOfRegisters = lowREG | (highREG<<8);
@@ -168,8 +171,10 @@ void MunkProtocol::sendCommitToEEPROM(const ILink *link, const registers_Munk::P
         MunkMessage receivedMSG;
         if(link->WriteBytes(command.getFullMessage()))
         {
+            std::cout<<"We have finished transmitting info"<<std::endl;
             if(this->ReceiveData(link,receivedMSG))
             {
+                std::cout<<"We have finished receiving info"<<std::endl;
                 if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
                     parseForException(link, receivedMSG);
                 else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::WRITE)

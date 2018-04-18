@@ -117,7 +117,7 @@ void MunkCommsMarshaler::sendSegmentTime(const registers_Munk::SegmentTimeGenera
 void MunkCommsMarshaler::sendCommitToEEPROM()
 {
     registers_Munk::ParameterMemoryWrite command;
-
+    command.setSlaveAddress(01);
     std::cout<<"Lets send a commit to EEPROM of the munk."<<std::endl;
     auto func = [this, command]() {
             protocol->sendCommitToEEPROM(link.get(), command);

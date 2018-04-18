@@ -28,7 +28,7 @@ MunkPowerSupply::~MunkPowerSupply()
 void MunkPowerSupply::openSerialPort(const QString &name)
 {
     SerialConfiguration config(name.toStdString());
-    config.setBaud(57600);
+    config.setBaud(19200);
     commsMarshaler->ConnectToLink(config);
 }
 
@@ -47,14 +47,14 @@ void MunkPowerSupply::generateAndTransmitMessage(const SegmentTimeDetailed &deta
 {
     generateMessages(detailedSegmentData);
     commsProgress.clearCurrentProgress();
-    std::vector<MunkMessageType> messages;
+    std::vector<AbstractParameter*> parameters;
 
-    QByteArray fwdVArray = m_fwdVSetpoint.getFullMessage();
-    if(fwdVArray.size() > 0)
-    {
-        commsMarshaler->sendForwardVoltageSetpoint(m_fwdVSetpoint);
+//    QByteArray fwdVArray = m_fwdVSetpoint.getFullMessage();
+//    if(fwdVArray.size() > 0)
+//    {
+        //commsMarshaler->sendForwardVoltageSetpoint(m_fwdVSetpoint);
         //messages.push_back(MunkMessageType::FWDVolt);
-    }
+//    }
 
 //    QByteArray fwdIArray = m_fwdISetpoint.getFullMessage();
 //    if(fwdIArray.size() > 0)
@@ -84,7 +84,7 @@ void MunkPowerSupply::generateAndTransmitMessage(const SegmentTimeDetailed &deta
 //        messages.push_back(MunkMessageType::SEGTime);
 //    }
 
-//    commsMarshaler->sendCommitToEEPROM();
+    commsMarshaler->sendCommitToEEPROM();
 //    messages.push_back(MunkMessageType::Mem);
 //    commsProgress.transmittingNewSegment(messages);
 
