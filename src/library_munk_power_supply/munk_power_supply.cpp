@@ -48,43 +48,13 @@ void MunkPowerSupply::generateAndTransmitMessage(const SegmentTimeDetailed &deta
     generateMessages(detailedSegmentData);
     commsProgress.clearCurrentProgress();
     std::vector<AbstractParameter*> parameters;
+    parameters.push_back(&m_fwdVSetpoint);
+    parameters.push_back(&m_revVSetpoint);
+    parameters.push_back(&m_fwdISetpoint);
+    parameters.push_back(&m_revISetpoint);
+    parameters.push_back(&m_segmentTimeGeneral);
 
-//    QByteArray fwdVArray = m_fwdVSetpoint.getFullMessage();
-//    if(fwdVArray.size() > 0)
-//    {
-        //commsMarshaler->sendForwardVoltageSetpoint(m_fwdVSetpoint);
-        //messages.push_back(MunkMessageType::FWDVolt);
-//    }
-
-//    QByteArray fwdIArray = m_fwdISetpoint.getFullMessage();
-//    if(fwdIArray.size() > 0)
-//    {
-//        commsMarshaler->sendForwardCurrentSetpoint(m_fwdISetpoint);
-//        messages.push_back(MunkMessageType::REVVolt);
-//    }
-
-//    QByteArray revVArray = m_revVSetpoint.getFullMessage();
-//    if(revVArray.size() > 0)
-//    {
-//        commsMarshaler->sendReverseVoltageSetpoint(m_revVSetpoint);
-//        messages.push_back(MunkMessageType::FWDCur);
-//    }
-
-//    QByteArray revIArray = m_revISetpoint.getFullMessage();
-//    if(revIArray.size() > 0)
-//    {
-//        commsMarshaler->sendReverseCurrentSetpoint(m_revISetpoint);
-//        messages.push_back(MunkMessageType::REVCur);
-//    }
-
-//    QByteArray dataArray = m_segmentTimeGeneral.getFullMessage();
-//    if(dataArray.size() > 0)
-//    {
-//        commsMarshaler->sendSegmentTime(m_segmentTimeGeneral);
-//        messages.push_back(MunkMessageType::SEGTime);
-//    }
-
-    commsMarshaler->sendCommitToEEPROM();
+    commsMarshaler->sendCompleteMunkParameters(parameters);
 //    messages.push_back(MunkMessageType::Mem);
 //    commsProgress.transmittingNewSegment(messages);
 

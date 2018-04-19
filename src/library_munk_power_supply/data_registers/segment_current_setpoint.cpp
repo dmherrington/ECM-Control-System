@@ -11,10 +11,12 @@ SegmentCurrentSetpoint::SegmentCurrentSetpoint(const data_Munk::TypeSupplyOutput
     if(levelMode == data_Munk::SegmentMode::FORWARD)
     {
         this->parameterCode = (int)data_Munk::getFWDCurrentIndex((int)outputNum);
+        this->parameterType = registers_Munk::ParameterType::CURRENTSETPOINT_FORWARD;
     }
     else if(levelMode == data_Munk::SegmentMode::REVERSE)
     {
         this->parameterCode = (int)data_Munk::getREVCurrentIndex((int)outputNum);
+        this->parameterType = registers_Munk::ParameterType::CURRENTSETPOINT_REVERSE;
     }
     else{
 
@@ -27,11 +29,6 @@ SegmentCurrentSetpoint::SegmentCurrentSetpoint(const SegmentCurrentSetpoint &cop
     this->supplyOutput = copy.supplyOutput;
     this->mode = copy.mode;
     this->data = copy.data;
-}
-
-ParameterType SegmentCurrentSetpoint::getParameterType() const
-{
-    return ParameterType::CURRENTSETPOINT;
 }
 
 std::string SegmentCurrentSetpoint::getDescription() const

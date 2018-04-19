@@ -19,6 +19,57 @@ void MunkProtocol::AddListner(const IProtocolMunkEvents* listener)
     m_Listners.push_back(listener);
 }
 
+void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const std::vector<registers_Munk::AbstractParameter*> parameters)
+{
+    for(unsigned int i = 0; i < parameters.size(); i++)
+    {
+        switch (parameters.at(i)->getParameterType()) {
+        case registers_Munk::ParameterType::CURRENTSETPOINT_FORWARD:
+        case registers_Munk::ParameterType::CURRENTSETPOINT_REVERSE:
+        case registers_Munk::ParameterType::VOLTAGESETPOINT_FORWARD:
+        case registers_Munk::ParameterType::VOLTAGESETPOINT_REVERSE:
+        {
+            sendAbstractSetpoint(link,parameters.at(i));
+            break;
+        }
+        case registers_Munk::ParameterType::PATTERNWRITECOMMAND:
+        {
+            break;
+        }
+        default:
+            break;
+        }
+    }
+}
+
+void MunkProtocol::sendAbstractSetpoint(const ILink *link, const registers_Munk::AbstractParameter *parameter)
+{
+    if(link->isConnected())
+    {
+        MunkMessage receivedMSG;
+        if(link->WriteBytes(parameter->getFullMessage()))
+        {
+            std::cout<<"We have finished transmitting info"<<std::endl;
+            if(this->ReceiveData(link,receivedMSG))
+            {
+                std::cout<<"We have finished receiving info"<<std::endl;
+                if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
+                    parseForException(link, receivedMSG);
+                else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::WRITE)
+                {
+                    if(parameter->getFullExpectedResonse() == receivedMSG.getDataArray())
+                    {
+                        std::cout<<"We have received and confirmed the message."<<std::endl;
+                        uint8_t highREG = receivedMSG.getDataByte(4);
+                        uint8_t lowREG = receivedMSG.getDataByte(5);
+                        int numberOfRegisters = lowREG | (highREG<<8);
+                        Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentVoltageSetpointAcknowledged(link,data_Munk::SegmentMode::FORWARD,numberOfRegisters);});
+                    }
+                }
+            }
+        }
+    }
+}
 /////////////////////////////////////////////////////////////////////
 /// Methods issuing voltage setpoints relevant to the munk program
 /////////////////////////////////////////////////////////////////////

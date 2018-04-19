@@ -157,7 +157,7 @@ private:
     //!
     //! \brief voltage
     //!
-    int voltage;
+    unsigned int voltage;
 };
 
 } //end of namepsace registers_Munk

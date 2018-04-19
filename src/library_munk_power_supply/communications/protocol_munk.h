@@ -39,6 +39,11 @@ public:
     void AddListner(const IProtocolMunkEvents* listener);
 
 public:
+
+    void updateCompleteMunkParameters(const ILink *link, const std::vector<registers_Munk::AbstractParameter*> parameters);
+
+    void sendAbstractSetpoint(const ILink *link, const registers_Munk::AbstractParameter* parameter);
+
     /////////////////////////////////////////////////////////////////////
     /// Methods issuing voltage setpoints relevant to the munk program
     /////////////////////////////////////////////////////////////////////

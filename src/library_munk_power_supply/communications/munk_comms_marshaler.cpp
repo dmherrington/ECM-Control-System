@@ -53,6 +53,17 @@ bool MunkCommsMarshaler::isConnected() const
     return link->isConnected();
 }
 
+void MunkCommsMarshaler::sendCompleteMunkParameters(std::vector<registers_Munk::AbstractParameter*> parameters)
+{
+    std::cout<<"We will send a complete update to the munk"<<std::endl;
+    auto func = [this, parameters]() {
+            protocol->updateCompleteMunkParameters(link.get(), parameters);
+    };
+
+    link->MarshalOnThread(func);
+
+}
+
 ///////////////////////////////////////////////////////////////////
 /// Methods issuing voltage setpoints relevant to the munk program
 ///////////////////////////////////////////////////////////////////

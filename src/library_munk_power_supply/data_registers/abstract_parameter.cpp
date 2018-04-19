@@ -17,6 +17,7 @@ AbstractParameter::AbstractParameter(const int &code):
 
 AbstractParameter::AbstractParameter(const AbstractParameter &copy)
 {
+    this->parameterType = copy.parameterType;
     this->parameterCode = copy.parameterCode;
     this->slaveAddress = copy.slaveAddress;
     this->readOrwrite = copy.readOrwrite;

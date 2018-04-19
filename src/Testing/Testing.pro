@@ -73,14 +73,21 @@ DEPENDPATH += $$PWD/../data
 #INCLUDEPATH += $$PWD/../../tools/sensoray/lib
 #DEPENDPATH += $$PWD/../../tools/sensoray/lib
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/release/ -llibrary_sensoray
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/debug/ -llibrary_sensoray
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_sensoray/ -llibrary_sensoray
+#win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/release/ -llibrary_sensoray
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/debug/ -llibrary_sensoray
+#else:unix:!macx: LIBS += -L$$OUT_PWD/../library_sensoray/ -llibrary_sensoray
 
-INCLUDEPATH += $$PWD/../library_sensoray
-DEPENDPATH += $$PWD/../library_sensoray
+#INCLUDEPATH += $$PWD/../library_sensoray
+#DEPENDPATH += $$PWD/../library_sensoray
 
-unix:!macx|win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
+#unix:!macx|win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
 
-INCLUDEPATH += $$PWD/../../tools/sensoray/include
-DEPENDPATH += $$PWD/../../tools/sensoray/include
+#INCLUDEPATH += $$PWD/../../tools/sensoray/include
+#DEPENDPATH += $$PWD/../../tools/sensoray/include
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_munk_power_supply/release/ -llibrary_munk_power_supply
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_munk_power_supply/debug/ -llibrary_munk_power_supply
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_sensoray/ -llibrary_munk_power_supply
+
+INCLUDEPATH += $$PWD/../library_munk_power_supply
+DEPENDPATH += $$PWD/../library_munk_power_supply
