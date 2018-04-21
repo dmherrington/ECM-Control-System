@@ -41,13 +41,16 @@ int main(int argc, char *argv[])
     MunkPowerSupply powerSupply;
     powerSupply.openSerialPort("COM3");
     registers_Munk::SegmentTimeDetailed detailedMSG;
-    registers_Munk::SegmentTimeDataDetailed firstRegister(11.6,50,data_Munk::SegmentMode::FORWARD,200);
-    registers_Munk::SegmentTimeDataDetailed secondRegister(11.6,102,data_Munk::SegmentMode::DEAD,100);
+    registers_Munk::SegmentTimeDataDetailed firstRegister(11.6,50,data_Munk::SegmentMode::FORWARD,2000);
+    registers_Munk::SegmentTimeDataDetailed secondRegister(11.6,102,data_Munk::SegmentMode::DEAD,1000);
     detailedMSG.appendRegisterData(firstRegister);
     detailedMSG.appendRegisterData(secondRegister);
     powerSupply.generateAndTransmitMessage(detailedMSG);
 
-
+    //$01 $10 $19 $64 $00 $01 $47 $4A
+    //$01 $10 $17 $70 $00 $01 $05 $A6
+    //$01 $10 $10 $4A $00 $02 $64 $DE
+    //$01 $10 $10 $5F $00 $01 $35 $1B
 //    common::EnvironmentTime currentTime;
 //    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK, currentTime);
 

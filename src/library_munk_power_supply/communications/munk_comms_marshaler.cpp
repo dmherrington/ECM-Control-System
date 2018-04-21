@@ -53,7 +53,7 @@ bool MunkCommsMarshaler::isConnected() const
     return link->isConnected();
 }
 
-void MunkCommsMarshaler::sendCompleteMunkParameters(std::vector<registers_Munk::AbstractParameter*> parameters)
+void MunkCommsMarshaler::sendCompleteMunkParameters(std::vector<registers_Munk::AbstractParameterPtr> parameters)
 {
     std::cout<<"We will send a complete update to the munk"<<std::endl;
     auto func = [this, parameters]() {

@@ -22,6 +22,7 @@ public:
     FramingState additionalByteRecevied(const uint8_t &byte);
     MunkMessage getCurrentMessage() const;
     FramingState getCurrentMessageState() const;
+    void resetMessageState();
 
 private:
     unsigned int CRC16(const QByteArray &array) const;

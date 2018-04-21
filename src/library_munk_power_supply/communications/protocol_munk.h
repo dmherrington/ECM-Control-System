@@ -40,9 +40,9 @@ public:
 
 public:
 
-    void updateCompleteMunkParameters(const ILink *link, const std::vector<registers_Munk::AbstractParameter*> parameters);
+    void updateCompleteMunkParameters(const ILink *link, const std::vector<registers_Munk::AbstractParameterPtr> parameters);
 
-    void sendAbstractSetpoint(const ILink *link, const registers_Munk::AbstractParameter* parameter);
+    bool sendAbstractSetpoint(const ILink *link, const registers_Munk::AbstractParameterPtr parameter);
 
     /////////////////////////////////////////////////////////////////////
     /// Methods issuing voltage setpoints relevant to the munk program
@@ -66,7 +66,7 @@ public:
 
     void sendSegmentTime(const ILink *link, const registers_Munk::SegmentTimeGeneral &segment);
 
-    void sendCommitToEEPROM(const ILink *link, const registers_Munk::ParameterMemoryWrite &command);
+    bool sendCommitToEEPROM(const ILink *link, const registers_Munk::ParameterMemoryWrite &command);
 
     /////////////////////////////////////////////////////////////////////
     /// Methods issuing general fault & status requests

@@ -7,11 +7,15 @@
 
 #include "type_definition.h"
 #include "common/common.h"
+#include "common/class_forward.h"
 
 #include "data/type_read_write.h"
 
 
 namespace registers_Munk{
+
+ECM_CLASS_FORWARD(AbstractParameter);
+
 //!
 //! \brief The AbstractParameter class
 //!

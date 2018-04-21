@@ -46,7 +46,7 @@ public:
 
     bool isConnected() const;
 
-    void sendCompleteMunkParameters(std::vector<registers_Munk::AbstractParameter*> parameters);
+    void sendCompleteMunkParameters(std::vector<registers_Munk::AbstractParameterPtr> parameters);
 
     ///////////////////////////////////////////////////////////////////
     /// Methods issuing voltage setpoints relevant to the munk program

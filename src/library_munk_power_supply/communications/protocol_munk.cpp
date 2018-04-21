@@ -19,36 +19,70 @@ void MunkProtocol::AddListner(const IProtocolMunkEvents* listener)
     m_Listners.push_back(listener);
 }
 
-void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const std::vector<registers_Munk::AbstractParameter*> parameters)
+void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const std::vector<registers_Munk::AbstractParameterPtr> parameters)
 {
     for(unsigned int i = 0; i < parameters.size(); i++)
     {
+        bool validParameter = true;
         switch (parameters.at(i)->getParameterType()) {
         case registers_Munk::ParameterType::CURRENTSETPOINT_FORWARD:
+        {
+            std::cout<<"Uploading current setpoint forward...."<<std::endl;
+            if(parameters.at(i)->getFullMessage().size() > 0)
+                validParameter = sendAbstractSetpoint(link,parameters.at(i));
+            break;
+        }
         case registers_Munk::ParameterType::CURRENTSETPOINT_REVERSE:
+        {
+            std::cout<<"Uploading current setpoint reverse...."<<std::endl;
+            if(parameters.at(i)->getFullMessage().size() > 0)
+                validParameter = sendAbstractSetpoint(link,parameters.at(i));
+            break;
+        }
         case registers_Munk::ParameterType::VOLTAGESETPOINT_FORWARD:
+        {
+            std::cout<<"Uploading voltage setpoint forward...."<<std::endl;
+            if(parameters.at(i)->getFullMessage().size() > 0)
+                validParameter = sendAbstractSetpoint(link,parameters.at(i));
+            break;
+        }
         case registers_Munk::ParameterType::VOLTAGESETPOINT_REVERSE:
         {
-            sendAbstractSetpoint(link,parameters.at(i));
+            std::cout<<"Uploading voltage setpoint reverse...."<<std::endl;
+            if(parameters.at(i)->getFullMessage().size() > 0)
+                validParameter = sendAbstractSetpoint(link,parameters.at(i));
             break;
         }
         case registers_Munk::ParameterType::PATTERNWRITECOMMAND:
         {
+            std::cout<<"Uploading segment setpoint times...."<<std::endl;
+            if(parameters.at(i)->getFullMessage().size() > 0)
+                validParameter = sendAbstractSetpoint(link,parameters.at(i));
+            break;
+        }
+        case registers_Munk::ParameterType::MEMORYWRITE:
+        {
+            std::cout<<"Uploading commit to memory...."<<std::endl;
+            validParameter = sendCommitToEEPROM(link,*parameters.at(i)->as<registers_Munk::ParameterMemoryWrite>());
             break;
         }
         default:
             break;
         }
+        if(validParameter == false)
+            break;
     }
+    std::cout<<"We have uploaded a complete set of munk parameters."<<std::endl;
 }
 
-void MunkProtocol::sendAbstractSetpoint(const ILink *link, const registers_Munk::AbstractParameter *parameter)
+bool MunkProtocol::sendAbstractSetpoint(const ILink *link, const registers_Munk::AbstractParameterPtr parameter)
 {
     if(link->isConnected())
     {
         MunkMessage receivedMSG;
         if(link->WriteBytes(parameter->getFullMessage()))
         {
+            std::this_thread::sleep_for(std::chrono::milliseconds(20));
             std::cout<<"We have finished transmitting info"<<std::endl;
             if(this->ReceiveData(link,receivedMSG))
             {
@@ -64,11 +98,13 @@ void MunkProtocol::sendAbstractSetpoint(const ILink *link, const registers_Munk:
                         uint8_t lowREG = receivedMSG.getDataByte(5);
                         int numberOfRegisters = lowREG | (highREG<<8);
                         Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentVoltageSetpointAcknowledged(link,data_Munk::SegmentMode::FORWARD,numberOfRegisters);});
+                        return true;
                     }
                 }
             }
         }
     }
+    return false;
 }
 /////////////////////////////////////////////////////////////////////
 /// Methods issuing voltage setpoints relevant to the munk program
@@ -215,7 +251,7 @@ void MunkProtocol::sendSegmentTime(const ILink *link, const registers_Munk::Segm
     }
 }
 
-void MunkProtocol::sendCommitToEEPROM(const ILink *link, const registers_Munk::ParameterMemoryWrite &command)
+bool MunkProtocol::sendCommitToEEPROM(const ILink *link, const registers_Munk::ParameterMemoryWrite &command)
 {
     if(link->isConnected())
     {
@@ -233,11 +269,13 @@ void MunkProtocol::sendCommitToEEPROM(const ILink *link, const registers_Munk::P
                     if(command.getFullExpectedResonse() == receivedMSG.getDataArray())
                     {
                         Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentCommittedToMemory(link);});
+                        return true;
                     }
                 }
             }
         }
     }
+    return false;
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -270,14 +308,15 @@ bool MunkProtocol::ReceiveData(const ILink *link, MunkMessage &returnMessage)
         for(uint8_t c: buffer)
         {
             //we should create a structure to succesfully parse it here
-            std::cout<<"We have received data from the serial buffer and the message thus far is: "<<dataParse.getCurrentMessage().getDataArray().toHex().toStdString()<<std::endl;
             if(dataParse.additionalByteRecevied(c) == FramingState::RECEIVED_ENTIRE_MESSAGE)
             {
                 break;
             }
         }
     }
+    std::cout<<"We have received data from the serial buffer and the message is: "<<dataParse.getCurrentMessage().getDataArray().toHex().toStdString()<<std::endl;
     returnMessage = dataParse.getCurrentMessage();
+    dataParse.resetMessageState();
     return true;
 }
 

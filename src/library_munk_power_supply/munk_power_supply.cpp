@@ -47,13 +47,15 @@ void MunkPowerSupply::generateAndTransmitMessage(const SegmentTimeDetailed &deta
 {
     generateMessages(detailedSegmentData);
     commsProgress.clearCurrentProgress();
-    std::vector<AbstractParameter*> parameters;
-    parameters.push_back(&m_fwdVSetpoint);
-    parameters.push_back(&m_revVSetpoint);
-    parameters.push_back(&m_fwdISetpoint);
-    parameters.push_back(&m_revISetpoint);
-    parameters.push_back(&m_segmentTimeGeneral);
-
+    std::vector<AbstractParameterPtr> parameters;
+//    parameters.push_back(std::make_shared<SegmentVoltageSetpoint>(m_fwdVSetpoint));
+//    parameters.push_back(std::make_shared<SegmentVoltageSetpoint>(m_revVSetpoint));
+    parameters.push_back(std::make_shared<SegmentCurrentSetpoint>(m_fwdISetpoint));
+//    parameters.push_back(std::make_shared<SegmentCurrentSetpoint>(m_revISetpoint));
+//    parameters.push_back(std::make_shared<SegmentTimeGeneral>(m_segmentTimeGeneral));
+//    registers_Munk::ParameterMemoryWritePtr memoryWrite = std::make_shared<ParameterMemoryWrite>();
+//    memoryWrite->setSlaveAddress(01);
+//    parameters.push_back(memoryWrite);
     commsMarshaler->sendCompleteMunkParameters(parameters);
 //    messages.push_back(MunkMessageType::Mem);
 //    commsProgress.transmittingNewSegment(messages);
