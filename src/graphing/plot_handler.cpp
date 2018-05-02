@@ -225,7 +225,7 @@ void PlotHandler::RedrawDataSource(const QList<std::shared_ptr<common_data::obse
         for(int j = 0 ; j < sources.size() ; j++)
         {
 
-            if(m_PlotParameters.at(i).operation == sources.at(i)->CreateSharedPtr())
+            if(m_PlotParameters.at(i).operation == sources.at(j)->CreateSharedPtr())
                 m_PlotParameters[i].Redraw = true;
         }
     }

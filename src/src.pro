@@ -2,8 +2,13 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     common \
-    Testing \
-    library_sensoray \
-    library_munk_power_supply \
+    data \
+    ECM_API \
+    ECM_GUI \
+    graphing \
     library_galilMotionController \
-    data
+    library_munk_power_supply \
+    library_rigol_oscilloscope \
+    library_sensoray \
+    library_westinghouse510 \
+    Testing

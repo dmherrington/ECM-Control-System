@@ -47,7 +47,9 @@ private slots:
 private slots:
     void slot_NewProfileVariableData(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state);
 
-    void slot_NewSensorData(const common::TupleSensorString sensor, const common_data::SensorState state);
+    void slot_NewSensorData(const common::TupleSensorString &sensor, const common_data::SensorState &state);
+
+    void slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state);
 
     void slot_MCNewMotionState(const std::string &state);
 

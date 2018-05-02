@@ -15,9 +15,12 @@
 #include "library_galilmotioncontroller_global.h"
 
 #include "common/tuple_profile_variable_string.h"
-#include "data/motion_profile_variable_state.h"
-
+#include "common/tuple_positional_string.h"
 #include "common/comms/communication_connection.h"
+
+#include "data/motion_profile_variable_state.h"
+#include "data/machine_positional_state.h"
+
 
 #include "commands/command_components.h"
 #include "requests/request_components.h"
@@ -120,6 +123,9 @@ private:
     void cbi_GalilDownloadProgram(const AbstractCommandPtr command) override;
 
 signals:
+    void signal_MCNewPoition(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &data) const;
+
+
     void signal_MotionControllerConnectionUpdate(const common::comms::CommunicationConnection &connection) const;
 
     void signal_MCNewProfileVariableValue(const common::TupleProfileVariableString &variableTuple, const common_data::MotionProfileVariableState &data) const;
@@ -130,7 +136,6 @@ signals:
 
     void signal_GalilUpdatedProfileState(const MotionProfileState &state) const;
 
-    void signal_GalilNewPosition();
 
     void newProgramReceived(const std::string &programText);
 

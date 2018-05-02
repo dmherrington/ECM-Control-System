@@ -5,7 +5,7 @@
 #include <map>
 #include <vector>
 
-#include "axis_definitions.h"
+#include "common/axis_definitions.h"
 
 #include "common/data_get_set_notifier.h"
 

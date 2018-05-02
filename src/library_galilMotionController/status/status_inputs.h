@@ -6,7 +6,7 @@
 #include <map>
 
 #include "requests/abstract_request.h"
-#include "axis_definitions.h"
+#include "common/axis_definitions.h"
 #include "status/abstract_status.h"
 
 ECM_CLASS_FORWARD(StatusInputs);

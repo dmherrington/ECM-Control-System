@@ -2,7 +2,7 @@
 #define REQUEST_TELL_POSITION_H
 #include <string>
 
-#include "axis_definitions.h"
+#include "common/axis_definitions.h"
 
 #include "requests/abstract_request.h"
 #include "status/status_position.h"

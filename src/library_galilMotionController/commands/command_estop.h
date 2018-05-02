@@ -4,7 +4,7 @@
 #include <string>
 
 #include "commands/abstract_command.h"
-#include "axis_definitions.h"
+#include "common/axis_definitions.h"
 
 class CommandEStop : public AbstractCommand
 {

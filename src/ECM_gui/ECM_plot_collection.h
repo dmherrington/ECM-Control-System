@@ -9,6 +9,7 @@
 #include "data/motion_profile_variable_state.h"
 #include "data/machine_positional_state.h"
 
+#include "common/hash_keys.h"
 #include "common/threaded_scheduler.h"
 #include "common/tuple_ecm_data.h"
 

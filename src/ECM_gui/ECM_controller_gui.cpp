@@ -9,6 +9,10 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     ui(new Ui::ECMControllerGUI),
     m_SensorDisplays(&m_PlotCollection)
 {
+    //Required registration of MetaTyples from the MotionController interface
+    qRegisterMetaType<common::TuplePositionalString>("TuplePositionalString");
+    qRegisterMetaType<common_data::MachinePositionalState>("MachinePositionalState");
+
     qRegisterMetaType<common::TupleSensorString>("TupleSensorString");
     qRegisterMetaType<common_data::SensorState>("SensorState");
 
@@ -68,23 +72,23 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 //    tuplePosition.axisName = "Z Position";
 //    this->slot_AddPlottable(tuplePosition);
 
-    common::TupleSensorString tupleSensor;
-    tupleSensor.sourceName = "TestSource";
-    tupleSensor.sensorName = "TestSensor";
-    ECMPlotIdentifierPtr newPlot = std::make_shared<ECMPlotIdentifier>(tupleSensor, "Sensed_Voltage");
-    ui->widget_primaryPlot->AddPlot(newPlot);
-    ui->widget_primaryPlot->ToggleLegend();
+//    common::TupleSensorString tupleSensor;
+//    tupleSensor.sourceName = "TestSource";
+//    tupleSensor.sensorName = "TestSensor";
+//    ECMPlotIdentifierPtr newPlot = std::make_shared<ECMPlotIdentifier>(tupleSensor, "Sensed_Voltage");
+//    ui->widget_primaryPlot->AddPlot(newPlot);
+//    ui->widget_primaryPlot->ToggleLegend();
 
-    common_data::SensorState newSensorMeasurement;
-    newSensorMeasurement.ConstructSensor(common_data::SENSOR_VOLTAGE,"Voltage Top");
-    ((common_data::SensorVoltage*)newSensorMeasurement.getSensorData().get())->SetVoltage(5.0,common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
-    newSensorMeasurement.setObservationTime(startTime);
-    this->slot_NewSensorData(tupleSensor,newSensorMeasurement);
+//    common_data::SensorState newSensorMeasurement;
+//    newSensorMeasurement.ConstructSensor(common_data::SENSOR_VOLTAGE,"Voltage Top");
+//    ((common_data::SensorVoltage*)newSensorMeasurement.getSensorData().get())->SetVoltage(5.0,common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
+//    newSensorMeasurement.setObservationTime(startTime);
+//    this->slot_NewSensorData(tupleSensor,newSensorMeasurement);
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
-    newSensorMeasurement.setObservationTime(startTime);
-    this->slot_NewSensorData(tupleSensor,newSensorMeasurement);
+//    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+//    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
+//    newSensorMeasurement.setObservationTime(startTime);
+//    this->slot_NewSensorData(tupleSensor,newSensorMeasurement);
 
 
 
@@ -139,7 +143,7 @@ void ECMControllerGUI::slot_DisplayActionTriggered()
 
     if(selectedObject->isChecked())
     {
-        ECMPlotIdentifierPtr newPlot = std::make_shared<ECMPlotIdentifier>(key, key.getData()->HumanName().toStdString().c_str());
+        ECMPlotIdentifierPtr newPlot = std::make_shared<ECMPlotIdentifier>(key, "Sensed_Voltage");
         ui->widget_primaryPlot->AddPlot(newPlot, key.getData()->HumanName().toStdString());
         QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(key);
         ui->widget_primaryPlot->RedrawDataSource(plots);
@@ -156,7 +160,30 @@ void ECMControllerGUI::slot_NewProfileVariableData(const common::TupleProfileVar
     ui->widget_primaryPlot->RedrawDataSource(plots);
 }
 
-void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString sensor, const common_data::SensorState state)
+void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &sensor, const common_data::SensorState &state)
+{
+//    common::TupleSensorString tupleSensor;
+//    tupleSensor.sourceName = "TestSource";
+//    tupleSensor.sensorName = "TestSensor";
+
+//    common_data::SensorState newSensorMeasurement;
+//    newSensorMeasurement.ConstructSensor(common_data::SENSOR_VOLTAGE,"Voltage Top");
+//    ((common_data::SensorVoltage*)newSensorMeasurement.getSensorData().get())->SetVoltage(rand()%100,common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
+//    newSensorMeasurement.setObservationTime(state.getObservationTime());
+
+    CreateSensorDisplays(sensor,state.getSensorType());
+
+    m_PlotCollection.UpdateSensorPlots(sensor, state);
+    m_SensorDisplays.UpdateNonPlottedData(sensor,state);
+    m_additionalSensorDisplay->UpdateNonPlottedData(sensor,state);
+
+    QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(sensor);
+    ui->widget_primaryPlot->RedrawDataSource(plots);
+    m_SensorDisplays.PlottedDataUpdated(sensor); //this seems to be uneeded based on the call after this
+    m_additionalSensorDisplay->UpdatePlottedData(sensor);
+}
+
+void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state)
 {
     common::TupleSensorString tupleSensor;
     tupleSensor.sourceName = "TestSource";
@@ -177,8 +204,6 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString sensor
     ui->widget_primaryPlot->RedrawDataSource(plots);
     m_SensorDisplays.PlottedDataUpdated(tupleSensor); //this seems to be uneeded based on the call after this
     m_additionalSensorDisplay->UpdatePlottedData(tupleSensor);
-
-
 }
 
 void ECMControllerGUI::slot_MCNewMotionState(const std::string &state)

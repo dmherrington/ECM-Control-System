@@ -13,6 +13,7 @@
 
 #include "common/class_forward.h"
 #include "common/environment_time.h"
+#include "common/axis_definitions.h"
 
 namespace common_data {
 
@@ -23,31 +24,31 @@ class PositionalState
 public:
     PositionalState();
 
-    PositionalState(const std::string &name, const double &value);
+    PositionalState(const  MotorAxis &axis, const unsigned int &position);
 
     PositionalState(const PositionalState &copy);
 
-    void setVariableName(const std::string &name);
-    void setVariableValue(const double &value);
+    void setStateAxis(const MotorAxis &axis);
+    void setAxisPosition(const unsigned int &position);
 
-    std::string getVariableName() const;
-    double getVariableValue() const;
+    MotorAxis getAxis() const;
+    unsigned int getAxisPosition() const;
 
     std::string getLoggingString() const;
 
 public:
     PositionalState& operator = (const PositionalState &rhs)
     {
-        this->variableName = rhs.variableName;
-        this->variableValue = rhs.variableValue;
+        this->axis = rhs.axis;
+        this->position = rhs.position;
         return *this;
     }
 
     bool operator == (const PositionalState &rhs) {
-        if(this->variableName != rhs.variableName){
+        if(this->axis != rhs.axis){
             return false;
         }
-        if(this->variableValue != rhs.variableValue){
+        if(this->position != rhs.position){
             return false;
         }
         return true;
@@ -58,8 +59,8 @@ public:
     }
 
 private:
-    std::string variableName;
-    double variableValue;
+    MotorAxis axis;
+    unsigned int position;
 };
 
 

@@ -5,7 +5,7 @@
 
 #include "requests/abstract_request.h"
 #include "status/status_stop_code.h"
-#include "axis_definitions.h"
+#include "common/axis_definitions.h"
 #include "common/class_forward.h"
 
 ECM_CLASS_FORWARD(RequestStopCode);

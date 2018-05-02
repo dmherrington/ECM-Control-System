@@ -89,8 +89,8 @@ void RigolOscilliscope::executeMeasurementPolling(const bool &execute)
 {
     if(!pollStatus->isThreadActive())
         pollStatus->beginPolling();
-//    else
-//        pollStatus->pausePolling();
+    else
+        pollStatus->pausePolling();
 }
 
 commands_Rigol::RigolMeasurementQueue RigolOscilliscope::getCurrentPollingMeasurements() const

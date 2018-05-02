@@ -4,8 +4,10 @@
 GalilMotionController::GalilMotionController(const std::string &name):
     deviceName(name)
 {
-    qRegisterMetaType<MotionProfileState>("MotionProfileState");
+    qRegisterMetaType<common::TuplePositionalString>("TuplePositionalString");
+    qRegisterMetaType<common_data::MachinePositionalState>("MachinePositionalState");
 
+    qRegisterMetaType<MotionProfileState>("MotionProfileState");
 
     std::vector<MotorAxis> availableAxis;
     availableAxis.push_back(MotorAxis::Z);
@@ -158,7 +160,16 @@ void GalilMotionController::NewStatusInputs(const StatusInputs &status)
 
 void GalilMotionController::NewStatusPosition(const Status_Position &status)
 {
-    //std::cout<<"A new position status has been received: "<<status.getPosition()<<std::endl;
+    common::TuplePositionalString tuple;
+    tuple.axisName = QString::fromStdString(AxisToString(status.getAxis()));
+    common_data::PositionalStatePtr position = std::make_shared<common_data::PositionalState>();
+    position->setStateAxis(status.getAxis());
+    position->setAxisPosition(status.getPosition());
+    common_data::MachinePositionalState state;
+    state.setObservationTime(status.getTime());
+    state.setPositionalState(position);
+
+    emit signal_MCNewPoition(tuple,state);
 }
 
 void GalilMotionController::NewStatusMotorEnabled(const Status_MotorEnabled &status)

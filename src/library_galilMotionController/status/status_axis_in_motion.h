@@ -1,7 +1,7 @@
 #ifndef STATUS_AXIS_IN_MOTION_H
 #define STATUS_AXIS_IN_MOTION_H
 
-#include <axis_definitions.h>
+#include <common/axis_definitions.h>
 #include "status/abstract_status.h"
 #include "common/class_forward.h"
 

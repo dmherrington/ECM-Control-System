@@ -7,7 +7,7 @@
 
 #include "requests/abstract_request.h"
 #include "status/status_inputs.h"
-#include "axis_definitions.h"
+#include "common/axis_definitions.h"
 
 ECM_CLASS_FORWARD(RequestTellInputs);
 
