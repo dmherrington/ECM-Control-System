@@ -219,23 +219,7 @@ void ECMControllerGUI::slot_UpdateHomeIndicated(const bool &value)
         ui->widget_LEDHomeIndicated->setColor(QColor(255,0,0));
 }
 
-//void ECMControllerGUI::on_pushButton_released()
-//{
-//    common::TupleSensorString tupleSensor;
-//    tupleSensor.sourceName = "TestSource";
-//    tupleSensor.sensorName = "TestSensor";
 
-//    common::EnvironmentTime time;
-//    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,time);
-
-//    data::SensorState stateSensor;
-//    stateSensor.ConstructSensor(data::SENSOR_VOLTAGE , "Sensor_Voltage");
-
-//    stateSensor.validityTime->setTime(time);
-//    double r = ((double) rand() / (RAND_MAX));
-//    ((data::SensorVoltage*)stateSensor.getSensorData().get())->SetVoltage(r*10.0,data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
-//    slot_NewSensorData(tupleSensor,stateSensor);
-//}
 void ECMControllerGUI::readSettings()
 {
     QSettings settings("Trolltech", "Application Example");

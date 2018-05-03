@@ -59,9 +59,9 @@ int main(int argc, char * argv[])
 		cout << "Connecting to hardware\n";
 
 		//Basic connections
-		x_e(GOpen("192.168.0.42 --subscribe ALL", &g)); //connect and assign a value to g. 
+		//x_e(GOpen("192.168.0.42 --subscribe ALL", &g)); //connect and assign a value to g. 
 		//x_e(GOpen("/dev/galilpci0 --subscribe ALL", &g)); 
-		//x_e(GOpen("COM2 --baud 115200 --subscribe ALL --direct", &g));
+		x_e(GOpen("COM1 --baud 115200 --subscribe ALL", &g));
 		
 		x_e(GInfo(g, buf, sizeof(buf))); //grab connection string
 		cout << buf << '\n';
@@ -115,8 +115,13 @@ int main(int argc, char * argv[])
 			GError(gr, buf, sizeof(buf));
 			cout << buf << '\n';
 			GSize size = sizeof(buf);
-			GUtility(g, G_UTIL_ERROR_CONTEXT, buf, &size);
-			cout << buf << '\n'; //further context
+			
+			if (g)
+			{
+				GUtility(g, G_UTIL_ERROR_CONTEXT, buf, &size);
+				cout << buf << '\n'; //further context
+			}
+			
 		}
 		rc = GALIL_EXAMPLE_ERROR;
 		if (g) GClose(g); g = 0; //close g

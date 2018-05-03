@@ -4,11 +4,11 @@
 set -x
 
 # Build API for Sensoray 24xx Ethernet I/O product family as a static library
-gcc -Wall -O2 -m32 -fPIC -c -D OSTYPE_WINDOWS -I ./ -o session.o session.c
-gcc -Wall -O2 -m32 -fPIC -c -D OSTYPE_WINDOWS -I ./ -o s24xx.o s24xx.c
-gcc -Wall -O2 -m32 -fPIC -c -D OSTYPE_WINDOWS -I ./ -o s2410.o s2410.c
-gcc -Wall -O2 -m32 -fPIC -c -D OSTYPE_WINDOWS -I ./ -o s2426.o s2426.c
-gcc -Wall -O2 -m32 -fPIC -c -D OSTYPE_WINDOWS -I ./ -o osd_implementation.o osd_implementation.c
+gcc -Wall -O2 -m32 -fPIC -c -D OSTYPE_LINUX -I ./ -o session.o session.c
+gcc -Wall -O2 -m32 -fPIC -c -D OSTYPE_LINUX -I ./ -o s24xx.o s24xx.c
+gcc -Wall -O2 -m32 -fPIC -c -D OSTYPE_LINUX -I ./ -o s2410.o s2410.c
+gcc -Wall -O2 -m32 -fPIC -c -D OSTYPE_LINUX -I ./ -o s2426.o s2426.c
+gcc -Wall -O2 -m32 -fPIC -c -D OSTYPE_LINUX -I ./ -o osd_implementation.o osd_implementation.c
 
 # Create the library, lib24xx.a
 #gcc session.o s24xx.o s2410.o s2426.o osd_implementation.o -shared -o lib24xx.so -Wl,-soname,lib24xx.so -lpthread
