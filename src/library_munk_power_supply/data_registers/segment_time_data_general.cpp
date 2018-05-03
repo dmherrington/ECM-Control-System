@@ -60,7 +60,7 @@ void SegmentTimeDataGeneral::setTimeValue(const uint32_t &time)
     }
     else{
         int result = 1;
-        while((result * 10) <= 10000)
+        while(((result * 10) <= 10000) && ((result * 10) <= time))
             result *= 10;
 
         this->setSegmentPower(data_Munk::ValueToEquivalentSegmentPower(result));

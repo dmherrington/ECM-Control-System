@@ -37,14 +37,17 @@ int main(int argc, char *argv[])
 //        s24xx_SessionClose( sess );		// Terminate telnet connection.
 //        s24xx_ApiClose();				// Free API resources.
 //    }
-
+//reset fault register 201
     MunkPowerSupply powerSupply;
-    powerSupply.openSerialPort("COM3");
+    powerSupply.openSerialPort("COM4");
     registers_Munk::SegmentTimeDetailed detailedMSG;
-    registers_Munk::SegmentTimeDataDetailed firstRegister(11.6,50,data_Munk::SegmentMode::FORWARD,2000);
-    registers_Munk::SegmentTimeDataDetailed secondRegister(11.6,102,data_Munk::SegmentMode::DEAD,1000);
+    registers_Munk::SegmentTimeDataDetailed firstRegister(20,3000,data_Munk::SegmentMode::FORWARD,100);
+    //registers_Munk::SegmentTimeDataDetailed secondRegister(20,400,data_Munk::SegmentMode::DEAD,200);
+    //registers_Munk::SegmentTimeDataDetailed thirdRegister(5,50,data_Munk::SegmentMode::REVERSE,300);
+
     detailedMSG.appendRegisterData(firstRegister);
-    detailedMSG.appendRegisterData(secondRegister);
+    //detailedMSG.appendRegisterData(secondRegister);
+    //detailedMSG.appendRegisterData(thirdRegister);
     powerSupply.generateAndTransmitMessage(detailedMSG);
 
     //$01 $10 $19 $64 $00 $01 $47 $4A
