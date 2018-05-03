@@ -25,8 +25,6 @@ protected:
     void showEvent(QShowEvent *event);
     void hideEvent(QHideEvent *event);
 
-signals:
-    void signal_RigolHideWindow();
 
 private slots:
     void on_pushButton_Done_released();

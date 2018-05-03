@@ -52,7 +52,8 @@ void Window_RigolControl::showEvent(QShowEvent *event)
 
 void Window_RigolControl::on_pushButton_Done_released()
 {
-    emit signal_RigolHideWindow();
+    windowHidden = true;
+    this->hide();
 }
 
 void Window_RigolControl::on_comboBox_Channel_currentIndexChanged(const QString &arg1)
