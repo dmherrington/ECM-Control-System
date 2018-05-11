@@ -161,10 +161,6 @@ private slots:
 private:
 
 private:
-
-    // GUI Actions
-    QAction *m_newAct;
-
     Ui::AdditionalSensorDisplay *ui;
 
     //! Graph collection in ECM, needed to create new sensor displays

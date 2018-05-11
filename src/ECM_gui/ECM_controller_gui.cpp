@@ -143,12 +143,13 @@ void ECMControllerGUI::slot_DisplayActionTriggered()
 
     if(selectedObject->isChecked())
     {
-        ECMPlotIdentifierPtr newPlot = std::make_shared<ECMPlotIdentifier>(key, "Sensed_Voltage");
+        ECMPlotIdentifierPtr newPlot = std::make_shared<ECMPlotIdentifier>(key);
         ui->widget_primaryPlot->AddPlot(newPlot, key.getData()->HumanName().toStdString());
         QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(key);
         ui->widget_primaryPlot->RedrawDataSource(plots);
     }else{
         //find a way to remove the graph
+        //ui->widget_primaryPlot->RemoveGraphData();
     }
 }
 
@@ -470,12 +471,24 @@ void ECMControllerGUI::MarshalCreateSensorDisplay(const common::TupleSensorStrin
         QMetaObject::invokeMethod(this, "MarshalCreateSensorDisplay", Qt::BlockingQueuedConnection, Q_ARG(const common::TupleSensorString&, sensor), Q_ARG(const common_data::SensorTypes&, type));
         return;
     }
+    if(m_SensorDisplays.CreateSensor(sensor,type) != NULL)
+    {
+        //set sensor display frame to created sensor
+        if(m_DisplaySensor == true)
+        {
+            if(m_ActiveSensor == sensor)
+            {
+
+            }
+        }
+    }
+    else
+    {
+        return;
+    }
 
     m_additionalSensorDisplay->NewDock(sensor, type);
-//    if(this->m_OperatingMode == LIVE)
-//        m_additionalSensorDisplay->ChangePlotMode(Graphing::PlotHandler::PLOT_WINDOW_ONLY);
-//    else
-//        m_additionalSensorDisplay->ChangePlotMode(Graphing::PlotHandler::PLOT_ENTIRE_SEQUENCE);
+    m_additionalSensorDisplay->ChangePlotMode(graphing::PlotHandler::PLOT_WINDOW_ONLY);
 
     m_CreatedSensors.insert(sensor, true);
 }

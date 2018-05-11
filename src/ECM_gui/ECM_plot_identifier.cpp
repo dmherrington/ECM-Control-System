@@ -6,117 +6,11 @@
 //! \param dimension Dimension being plotted (position, velocity, attitude, etc)
 //! \param axis Axis plotting
 //!
-ECMPlotIdentifier::ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension, const char *axis) :
-    m_thing(thing),
-    m_AxisProvided(true)
+ECMPlotIdentifier::ECMPlotIdentifier(const common::TupleECMData &thing) :
+    m_thing(thing)
 {
-    strncpy(m_dimension, dimension, strlen(dimension));
-    strncpy(m_axis, axis, strlen(axis));
 
-    m_dimension[strlen(dimension)] = 0;
-    m_axis[strlen(axis)] = 0;
-
-    copied = false;
-
-
-    uint dimHash = 0;
-    for(size_t i = 0 ; i < strlen(dimension) ; i++)
-    {
-        dimHash ^= qHash(dimension[i]);
-    }
-    m_DimHash = dimHash;
-
-    uint axisHash = 0;
-    for(size_t i = 0 ; i < strlen(axis) ; i++)
-    {
-        axisHash ^= qHash(axis[i]);
-    }
-    m_AxisHash = axisHash;
 }
-
-
-//!
-//! \brief Constructor
-//! \param thing Model/Entity/Sensor/Whatever being plotted
-//! \param dimension Dimesnion beign plotted (position, velocity, attitude, etc)
-//!
-ECMPlotIdentifier::ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension) :
-    m_thing(thing),
-    m_AxisProvided(false)
-{
-    strncpy(m_dimension, dimension, strlen(dimension));
-
-    m_dimension[strlen(dimension)] = 0;
-
-    copied = false;
-
-
-    uint dimHash = 0;
-    for(size_t i = 0 ; i < strlen(dimension) ; i++)
-    {
-        dimHash ^= qHash(dimension[i]);
-    }
-    m_DimHash = dimHash;
-}
-
-
-//!
-//! \brief Alternate constructor for quicker construction
-//! In this constructor the hash for identifier is provided, negating to spend time time computing.
-//! This is usefull if you have a hardcodded value here.
-//!
-//! The hash should be computed as qHash(str[1]) + qHash(str[2]) + ... + qHash(str[N])
-//!
-//! \param thing Model/Entity/Sensor being plotted
-//! \param dimension Name of dimension being plotted
-//! \param dimStrLen Length of name
-//! \param dimHash Provided hash for name
-//! \param axis String of axis being plotted
-//! \param axisStrLen Length of axis string
-//! \param axisHash Provided hash for axis string
-//!
-ECMPlotIdentifier::ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension, const uint dimStrLen, const uint dimHash, const char *axis, const uint axisStrLen, const uint axisHash) :
-    m_thing(thing),
-    m_AxisProvided(true)
-{
-    strncpy(m_dimension, dimension, dimStrLen);
-    strncpy(m_axis, axis, axisStrLen);
-
-    m_dimension[dimStrLen] = 0;
-    m_axis[axisStrLen] = 0;
-
-    copied = false;
-
-    m_DimHash = dimHash;
-    m_AxisHash = axisHash;
-}
-
-
-//!
-//! \brief Alternate constructor for quicker construction
-//! In this constructor the hash for identifier is provided, negating to spend time time computing.
-//! This is usefull if you have a hardcodded value here.
-//!
-//! The hash should be computed as qHash(str[1]) + qHash(str[2]) + ... + qHash(str[N])
-//!
-//! \param thing Model/Entity/Sensor being plotted
-//! \param dimension Name of dimension being plotted
-//! \param dimStrLen Length of name
-//! \param dimHash Provided hash for name
-//!
-ECMPlotIdentifier::ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension, const uint dimStrLen, const uint dimHash) :
-    m_thing(thing),
-    m_AxisProvided(false)
-{
-    strncpy(m_dimension, dimension, dimStrLen);
-
-    m_dimension[dimStrLen] = 0;
-
-    copied = false;
-
-    m_DimHash = dimHash;
-}
-
 
 //!
 //! \brief Destructor
@@ -140,17 +34,6 @@ bool ECMPlotIdentifier::operator==(const common_data::observation::IPlotComparab
     if(this->m_thing != rhs_c->m_thing)
         return false;
 
-    if(this->m_DimHash != rhs_c->m_DimHash)
-        return false;
-
-    if(m_AxisProvided != m_AxisProvided)
-        return false;
-
-    if(m_AxisProvided == true)
-    {
-        if(this->m_AxisHash != rhs_c->m_AxisHash)
-            return false;
-    }
 
     return true;
 }
@@ -179,15 +62,9 @@ bool ECMPlotIdentifier::operator!=(const common_data::observation::IPlotComparab
 //!
 std::shared_ptr<common_data::observation::IPlotComparable> ECMPlotIdentifier::CreateSharedPtr() const
 {
-    ECMPlotIdentifier *Copy;
-    if(m_AxisProvided == true)
-        Copy = new ECMPlotIdentifier(m_thing, m_dimension, m_axis);
-    else
-        Copy = new ECMPlotIdentifier(m_thing, m_dimension);
+    ECMPlotIdentifier* copy = new ECMPlotIdentifier(m_thing);
 
-    Copy->copied = true;
-
-    std::shared_ptr<common_data::observation::IPlotComparable> rtnPtr(Copy);
+    std::shared_ptr<common_data::observation::IPlotComparable> rtnPtr(copy);
 
     return rtnPtr;
 }
@@ -195,10 +72,8 @@ std::shared_ptr<common_data::observation::IPlotComparable> ECMPlotIdentifier::Cr
 
 uint ECMPlotIdentifier::hash() const
 {
-    if(m_AxisProvided)
-        return typeid(*this).hash_code() ^ qHash(m_thing) ^ m_DimHash ^ m_AxisHash;
-    else
-        return typeid(*this).hash_code() ^ qHash(m_thing) ^ m_DimHash;
+    return typeid(*this).hash_code() ^ qHash(m_thing);
+    //return typeid(*this).hash_code() ^ qHash(m_thing) ^ m_DimHash;
 }
 
 
@@ -230,22 +105,6 @@ bool ECMPlotIdentifier::IsECMElement(const common::TupleECMData &thing)
 common::TupleECMData ECMPlotIdentifier::ECMComponent() const
 {
     return m_thing;
-}
-
-
-//!
-//! \brief Delimit the identifier
-//! \param dataInterDelimiter
-//! \param dataParamDelimiter
-//! \param paramInterDelimiter
-//! \return
-//!
-QString ECMPlotIdentifier::DelimitPlotIdentifier(const QString &dataInterDelimiter, const QString &dataParamDelimiter, const QString &paramInterDelimiter) const
-{
-    if(m_AxisProvided)
-        return m_thing.DelimitData(dataInterDelimiter) + dataParamDelimiter + QString(m_dimension) + paramInterDelimiter + QString(m_axis);
-    else
-        return m_thing.DelimitData(dataInterDelimiter) + dataParamDelimiter + QString(m_dimension);
 }
 
 

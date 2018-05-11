@@ -10,13 +10,14 @@ DisplayVoltage::~DisplayVoltage()
 }
 
 
-void DisplayVoltage::setPlotData(const QList<std::shared_ptr<common_data::observation::IPlotComparable>> &plotList)
+void DisplayVoltage::setPlotData(const ECMPlotIdentifierPtr &plot)
 {
+    QList<std::shared_ptr<common_data::observation::IPlotComparable>> plotList;
+    plotList.append(plot);
     DisplayBasePlotInstantaneous::setPlotData(plotList);
-    //common_data::observation::TimeDataReference tdr_x(plotList.at(0), "x");
-    //m_Expression = plotList.at(0);
-    m_Expression = "";
-    AddExpressionPlot(m_Expression, Qt::blue);
+    common_data::observation::TimeDataReference tdr_x(plot, "x");
+    m_Expression = plot;
+    AddExpressionPlot(plot, Qt::blue);
 
     ChangeInstantaniousName(0, "Voltage");
 

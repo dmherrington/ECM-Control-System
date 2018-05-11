@@ -14,15 +14,12 @@ ISensorDisplay* CollectionDisplays::CreateNewDisplayObject(const common::TupleSe
     {
     case common_data::SENSOR_VOLTAGE:
     {
-        ECMPlotIdentifier A1 = ECMPlotIdentifier(sensor, "Sensed_Voltage");
+        ECMPlotIdentifierPtr A1 = std::make_shared<ECMPlotIdentifier>(sensor);
         //This checks to see if the data exists yet
         //if(plotCollection->SourceExists(A1) == false) return NULL;
 
         sensorFrame = new DisplayVoltage(sensor, plotCollection);
-
-        QList<std::shared_ptr<common_data::observation::IPlotComparable>> plots;
-        plots.append(A1.CreateSharedPtr());
-        ((DisplayVoltage*)sensorFrame)->setPlotData(plots);
+        ((DisplayVoltage*)sensorFrame)->setPlotData(A1);
 
         break;
     }

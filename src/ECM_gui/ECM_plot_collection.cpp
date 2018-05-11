@@ -25,7 +25,7 @@ void ECMPlotCollection::UpdatePositionalStatePlots(const common::TuplePositional
     QTime tmp_Time(observationTime.hour, observationTime.minute, observationTime.second, observationTime.millisecond);
     QDateTime time = QDateTime(tmp_Date, tmp_Time);
 
-    ECMPlotIdentifier ID_S(position, "Position", 8, Profile_Variable_Value_Hash);
+    ECMPlotIdentifier ID_S(position);
     MakePlot(ID_S, common_data::PositionDimension(common_data::PositionUnit::UNIT_POSITION_MICRO_METER).ShortHand());
     double value = ((common_data::PositionalState*)state.getPositionalState().get())->getAxisPosition();
     InsertData(ID_S, time, value);
@@ -39,7 +39,7 @@ void ECMPlotCollection::UpdateProfileVariablePlots(const common::TupleProfileVar
     QTime tmp_Time(observationTime.hour, observationTime.minute, observationTime.second, observationTime.millisecond);
     QDateTime time = QDateTime(tmp_Date, tmp_Time);
 
-    ECMPlotIdentifier ID_S(variable, "Profile_Variable_Value", 22, Profile_Variable_Value_Hash);
+    ECMPlotIdentifier ID_S(variable);
     MakePlot(ID_S, "unitless");
     double value = ((common_data::ProfileVariableState*)state.getProfileStateVariable().get())->getVariableValue();
     InsertData(ID_S, time, value);
@@ -62,7 +62,7 @@ void ECMPlotCollection::UpdateSensorPlots(const common::TupleSensorString &senso
     {
     case common_data::SENSOR_VOLTAGE:
     {
-        ECMPlotIdentifier ID_S(sensor, "Sensed_Voltage", 14, Sensed_Voltage_Hash);
+        ECMPlotIdentifier ID_S(sensor);
         MakePlot(ID_S, common_data::VoltageDimension(common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS).ShortHand());
         double value = ((common_data::SensorVoltage*)state.getSensorData().get())->getVoltage(common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
         InsertData(ID_S, time, value);
@@ -144,7 +144,7 @@ bool ECMPlotCollection::MakePlot(const ECMPlotIdentifier &ID, const std::string 
             m_ComponentToIDsHash.insert(ID.ECMComponent(), QList<ECMPlotIdentifier>());
         m_ComponentToIDsHash[ID.ECMComponent()].append(ID);
 
-        m_PlotReferenceString.append(ID.DelimitPlotIdentifier(".", ":", "."));
+        //m_PlotReferenceString.append(ID.DelimitPlotIdentifier(".", ":", "."));
         return true;
     }
     return false;

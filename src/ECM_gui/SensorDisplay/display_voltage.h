@@ -20,10 +20,10 @@ public:
     ~DisplayVoltage();
 
 
-     virtual void setPlotData(const QList<std::shared_ptr<common_data::observation::IPlotComparable>> &plotList);
+     void setPlotData(const ECMPlotIdentifierPtr &plot);
 
 private:
-    std::string m_Expression;
+    std::shared_ptr<common_data::observation::IPlotComparable> m_Expression;
 };
 
 #endif // DISPLAY_VOLTAGE_H

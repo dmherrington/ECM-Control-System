@@ -21,48 +21,7 @@ public:
     //! \param dimension Dimesnion being plotted (position, velocity, attitude, etc)
     //! \param axis Axis plotting
     //!
-    ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension, const char *axis);
-
-
-    //!
-    //! \brief Constructor
-    //! \param thing Model/Entity/Sensor/Whatever being plotted
-    //! \param dimension Dimesnion being plotted (position, velocity, attitude, etc)
-    //!
-    ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension);
-
-
-    //!
-    //! \brief Alternate constructor for quicker construction
-    //! In this constructor the hash for identifier is provided, negating to spend time time computing.
-    //! This is usefull if you have a hardcodded value here.
-    //!
-    //! The hash should be computed as qHash(str[1]) + qHash(str[2]) + ... + qHash(str[N])
-    //!
-    //! \param thing Model/Entity/Sensor being plotted
-    //! \param dimension Name of dimension being plotted
-    //! \param dimStrLen Length of name
-    //! \param dimHash Provided hash for name
-    //! \param axis String of axis being plotted
-    //! \param axisStrLen Length of axis string
-    //! \param axisHash Provided hash for axis string
-    //!
-    ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension, const uint dimStrLen, const uint dimHash, const char *axis, const uint axisStrLen, const uint axisHash);
-
-
-    //!
-    //! \brief Alternate constructor for quicker construction
-    //! In this constructor the hash for identifier is provided, negating to spend time time computing.
-    //! This is usefull if you have a hardcodded value here.
-    //!
-    //! The hash should be computed as qHash(str[1]) + qHash(str[2]) + ... + qHash(str[N])
-    //!
-    //! \param thing Model/Entity/Sensor being plotted
-    //! \param dimension Name of dimension being plotted
-    //! \param dimStrLen Length of name
-    //! \param dimHash Provided hash for name
-    //!
-    ECMPlotIdentifier(const common::TupleECMData &thing, const char *dimension, const uint dimStrLen, const uint dimHash);
+    ECMPlotIdentifier(const common::TupleECMData &thing);
 
     //!
     //! \brief Destructor
@@ -117,16 +76,6 @@ public:
     //!
     common::TupleECMData ECMComponent() const;
 
-
-    //!
-    //! \brief Delimit the identifier
-    //! \param dataInterDelimiter
-    //! \param dataParamDelimiter
-    //! \param paramInterDelimiter
-    //! \return
-    //!
-    QString DelimitPlotIdentifier(const QString &dataInterDelimiter, const QString &dataParamDelimiter, const QString &paramInterDelimiter) const;
-
     //!
     //! \brief Hash function
     //! \param key key to hash
@@ -139,17 +88,6 @@ public:
 private:
 
     common::TupleECMData m_thing;
-    char m_dimension[100]; //TODO change this to GraphableDimensions
-    char m_axis[100];
-
-    uint m_DimHash;
-    uint m_AxisHash;
-
-    bool m_AxisProvided;
-
-    //debug stuff
-    bool copied;
-
 
 };
 

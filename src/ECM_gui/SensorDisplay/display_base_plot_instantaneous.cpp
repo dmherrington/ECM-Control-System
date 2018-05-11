@@ -9,6 +9,7 @@ DisplayBasePlotInstantaneous::DisplayBasePlotInstantaneous(const common::TupleSe
     ui->setupUi(this);
     this->m_Measurement = measurementType;
     ui->instantReadings->setColumnCount(2);
+    ui->customPlot->SupplyPlotCollection(m_sourceCollection);
 }
 
 DisplayBasePlotInstantaneous::~DisplayBasePlotInstantaneous()
@@ -113,23 +114,19 @@ void DisplayBasePlotInstantaneous::setPlotData(const QList<std::shared_ptr<commo
     int plotCount = 0;
     for(int i = 0 ; i < plotList.size() ; i++)
     {
-//        ExpressionEngine::NumberSystems::StorableDimensions numSystem = m_sourceCollection->getNumberSystem(*plotList.at(i));
-//        size_t numDimensions = ExpressionEngine::NumberSystems::NumElements(numSystem);
-//        std::vector<std::string> dimStrings = ExpressionEngine::NumberSystems::ElementNames(numSystem);
-//        for(int j = 0 ; j < numDimensions ; j++)
-//        {
-//            if(numDimensions == 1)
-//                AddInstantaneousRow(plotCount, "V");
-//            else
-//            {
-//                AddInstantaneousRow(plotCount, QString(dimStrings.at(j).c_str()));
-//            }
-//            plotCount++;
-//        }
+        //        ExpressionEngine::NumberSystems::StorableDimensions numSystem = m_sourceCollection->getNumberSystem(*plotList.at(i));
+        size_t numDimensions = 1;// ExpressionEngine::NumberSystems::NumElements(numSystem);
+        //        std::vector<std::string> dimStrings = ExpressionEngine::NumberSystems::ElementNames(numSystem);
+        for(int j = 0 ; j < numDimensions ; j++)
+        {
+            if(numDimensions == 1)
+                AddInstantaneousRow(plotCount, "V");
+            plotCount++;
+        }
 
     }
 
-    ui->customPlot->ChangeMode(graphing::PlotHandler::PLOT_WINDOW_ONLY);
+    ui->customPlot->ChangeMode(graphing::PlotHandler::PLOT_ENTIRE_SEQUENCE);
 }
 
 QWidget* DisplayBasePlotInstantaneous::getWidget()
@@ -143,9 +140,9 @@ QWidget* DisplayBasePlotInstantaneous::getWidget()
 //! \param expr Expression to plot
 //! \param color Color to plot
 //!
-void DisplayBasePlotInstantaneous::AddExpressionPlot(const  std::string &expr, const QColor &color)
+void DisplayBasePlotInstantaneous::AddExpressionPlot(const ECMPlotIdentifierPtr &expr, const QColor &color)
 {
-    //ui->customPlot->AddPlot(expr);
+    ui->customPlot->AddPlot(expr);
     //ui->customPlot->ChangeColor(expr, color);
 }
 
@@ -163,25 +160,25 @@ void DisplayBasePlotInstantaneous::CurrentTime(const QDateTime &currentTime)
 {
     ui->customPlot->CurrentTime(currentTime);
 
-//    int plotCount = 0;
-//    for(int i = 0 ; i < m_PlotData.size() ; i++)
-//    {
-//        ExpressionEngine::NumberSystems::StorableDimensions numSystem = m_sourceCollection->getNumberSystem(*m_PlotData.at(i));
+    //    int plotCount = 0;
+    //    for(int i = 0 ; i < m_PlotData.size() ; i++)
+    //    {
+    //        ExpressionEngine::NumberSystems::StorableDimensions numSystem = m_sourceCollection->getNumberSystem(*m_PlotData.at(i));
 
-//        switch (numSystem) {
-//        case ExpressionEngine::NumberSystems::SCALAR:
-//        {
-//            double value;
-//            m_sourceCollection->getInstantaniousValue(*m_PlotData[i], value);
-//            ChangeInstantaniousReading(plotCount + 0, QString::number(value));
-//            plotCount += 1;
-//            break;
-//        }
-//        default:
-//            throw new std::runtime_error("unknown number system");
-//            break;
-//        }
-//    }
+    //        switch (numSystem) {
+    //        case ExpressionEngine::NumberSystems::SCALAR:
+    //        {
+    //            double value;
+    //            m_sourceCollection->getInstantaniousValue(*m_PlotData[i], value);
+    //            ChangeInstantaniousReading(plotCount + 0, QString::number(value));
+    //            plotCount += 1;
+    //            break;
+    //        }
+    //        default:
+    //            throw new std::runtime_error("unknown number system");
+    //            break;
+    //        }
+    //    }
 }
 
 
@@ -190,6 +187,15 @@ void DisplayBasePlotInstantaneous::CurrentTime(const QDateTime &currentTime)
 //!
 void DisplayBasePlotInstantaneous::PlottedDataUpdated()
 {
+    int plotCount = 0;
+    for(int i = 0 ; i < m_PlotData.size() ; i++)
+    {
+
+        double value;
+        m_sourceCollection->getInstantaniousValue(*m_PlotData[i], value);
+        ChangeInstantaniousReading(plotCount + 0, QString::number(value));
+        plotCount += 1;
+    }
     ui->customPlot->RecalculateAllGraphs();
     ui->customPlot->Draw();
 }

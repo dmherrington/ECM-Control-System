@@ -33,7 +33,7 @@ PlotHandler::PlotHandler(QWidget *parent) :
     m_OriginTime.setMSecsSinceEpoch(0);
     m_OriginTime_msSinceEpoch = 0;
 
-    m_FigureProperties.legend = false;
+    m_FigureProperties.legend = true;
 
     m_FigureProperties.window_custom = false;
     m_FigureProperties.yWindow_max = 20.000;
@@ -59,6 +59,7 @@ PlotHandler::PlotHandler(QWidget *parent) :
     m_CurrTimeGraph->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, Qt::red, Qt::red, 10));
 
     this->legend->clear();
+    this->legend->setVisible(true);
     this->setContextMenuPolicy(Qt::CustomContextMenu);
 
 
@@ -225,7 +226,7 @@ void PlotHandler::RedrawDataSource(const QList<std::shared_ptr<common_data::obse
         for(int j = 0 ; j < sources.size() ; j++)
         {
 
-            if(m_PlotParameters.at(i).operation == sources.at(j)->CreateSharedPtr())
+            if(m_PlotParameters.at(i).operation == sources.at(j))
                 m_PlotParameters[i].Redraw = true;
         }
     }
@@ -459,8 +460,8 @@ bool PlotHandler::YAxisRange(double lowWindow, double highWindow)
 }
 
 //!
-//! \brief Toggle the legend on or off
-//! \return true if legend is now on
+//! \brief Toggle the grid on or off
+//! \return true if grid is now on
 //!
 bool PlotHandler::ToggleGrid()
 {
@@ -860,12 +861,14 @@ void PlotHandler::DoPlotRecalculate()
 
         if(m_PlotMode == PLOT_ENTIRE_SEQUENCE)
         {
-            bool valid = m_PlotParameters[plotIndex].observations->Evaluate(*m_PlotParameters[plotIndex].operation.get(),dr,CartesianEvaluationParameters(m_OriginTime, m_OriginTime, msInTimeUnit));
+            bool valid = m_PlotParameters[plotIndex].observations->Evaluate(*m_PlotParameters[plotIndex].operation.get(),dr,CartesianEvaluationParameters(QDateTime(), m_OriginTime, msInTimeUnit));
             //Ken Fix: This needs to determine how long the vector of data should be
             //dr = m_PlotParameters[plotIndex].operation.Evaluate(QDateTime(), m_OriginTime, msInTimeUnit);
         }
         if(m_PlotMode == PlotHandler::PLOT_WINDOW_ONLY)
         {
+            bool valid = m_PlotParameters[plotIndex].observations->Evaluate(*m_PlotParameters[plotIndex].operation.get(),dr,CartesianEvaluationParameters(m_LeftWindow, m_OriginTime, msInTimeUnit));
+
             //Ken Fix: This needs to determine how long the vector of data should be
             //dr = m_PlotParameters[plotIndex].operation.Evaluate(m_LeftWindow, m_OriginTime, msInTimeUnit);
         }

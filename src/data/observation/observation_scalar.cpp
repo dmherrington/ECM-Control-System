@@ -65,7 +65,6 @@ namespace observation {
 
         m_Domain.append(domain);
         m_Range.append(range);
-
         m_DataMutex.unlock();
     }
 
