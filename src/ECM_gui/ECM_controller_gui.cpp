@@ -56,6 +56,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     m_additionalSensorDisplay = new AdditionalSensorDisplay(&m_PlotCollection);
     m_additionalSensorDisplay->setWindowTitle("ECM Sensors");
+    m_additionalSensorDisplay->SetOriginTime(QDateTime(tmp_Date, tmp_Time));
 
     if(m_additionalSensorDisplay->isHidden())
         m_additionalSensorDisplay->show();
