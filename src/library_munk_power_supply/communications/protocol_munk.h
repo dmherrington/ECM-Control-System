@@ -39,6 +39,11 @@ public:
     void AddListner(const IProtocolMunkEvents* listener);
 
 public:
+
+    void updateCompleteMunkParameters(const ILink *link, const std::vector<registers_Munk::AbstractParameterPtr> parameters);
+
+    bool sendAbstractSetpoint(const ILink *link, const registers_Munk::AbstractParameterPtr parameter);
+
     /////////////////////////////////////////////////////////////////////
     /// Methods issuing voltage setpoints relevant to the munk program
     /////////////////////////////////////////////////////////////////////
@@ -61,7 +66,7 @@ public:
 
     void sendSegmentTime(const ILink *link, const registers_Munk::SegmentTimeGeneral &segment);
 
-    void sendCommitToEEPROM(const ILink *link, const registers_Munk::ParameterMemoryWrite &command);
+    bool sendCommitToEEPROM(const ILink *link, const registers_Munk::ParameterMemoryWrite &command);
 
     /////////////////////////////////////////////////////////////////////
     /// Methods issuing general fault & status requests
@@ -79,15 +84,13 @@ public:
     //! \param link Link which data was read from
     //! \param buffer data that was read.
     //!
-    void ReceiveData(ILink *link, const std::vector<uint8_t> &buffer) override;
+    bool ReceiveData(const ILink *link, MunkMessage &returnMessage) override;
 
     void parseForException(const ILink *link, const MunkMessage &msg);
 
     void parseForReadMessage(const ILink *link, const MunkMessage &msg);
 
     void parseForFaultStateCode(const ILink *link, const registers_Munk::AbstractParameter *parameter, const MunkMessage &msg);
-
-    void parseForAck(const ILink *link, const MunkMessage &msg);
 
 private:
 

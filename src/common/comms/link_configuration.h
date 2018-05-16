@@ -9,6 +9,9 @@ namespace comms{
 class LinkConfiguration
 {
 public:
+    LinkConfiguration() = default;
+
+    virtual ~LinkConfiguration() = default;
 
     virtual void copyFrom(LinkConfiguration* source)
     {

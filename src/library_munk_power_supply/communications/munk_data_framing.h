@@ -2,6 +2,7 @@
 #define MUNK_DATA_FRAMING_H
 
 #include <QByteArray>
+#include <iostream>
 
 #include "common/common.h"
 #include "common/class_forward.h"
@@ -20,6 +21,9 @@ public:
     MunkDataFraming(const int &munkAddress);
     FramingState additionalByteRecevied(const uint8_t &byte);
     MunkMessage getCurrentMessage() const;
+    FramingState getCurrentMessageState() const;
+    void resetMessageState();
+
 private:
     unsigned int CRC16(const QByteArray &array) const;
 

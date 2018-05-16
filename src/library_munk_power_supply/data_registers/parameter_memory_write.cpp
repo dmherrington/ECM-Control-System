@@ -6,17 +6,13 @@ namespace registers_Munk {
 ParameterMemoryWrite::ParameterMemoryWrite()
 {
     this->parameterCode = ParameterTypeToInt(ParameterType::MEMORYWRITE);
+    this->parameterType = ParameterType::MEMORYWRITE;
 }
 
 ParameterMemoryWrite::ParameterMemoryWrite(const ParameterMemoryWrite &copy):
     AbstractParameter(copy)
 {
 
-}
-
-ParameterType ParameterMemoryWrite::getParameterType() const
-{
-    return ParameterType::MEMORYWRITE;
 }
 
 std::string ParameterMemoryWrite::getDescription() const

@@ -1,7 +1,7 @@
 #ifndef STATUS_MOTOR_ENABLED_H
 #define STATUS_MOTOR_ENABLED_H
 
-#include <axis_definitions.h>
+#include <common/axis_definitions.h>
 #include "status/abstract_status.h"
 #include "common/class_forward.h"
 

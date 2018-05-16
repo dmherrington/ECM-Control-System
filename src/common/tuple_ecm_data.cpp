@@ -151,7 +151,7 @@ bool TupleECMData::operator<(TupleECMData const& rhs) const
     if(this->m_Data == NULL)
         return false;
 
-    if(this->m_Data->Type() == "Master")
+    if(this->m_Data->Type() == "Position")
         return *((TuplePositionalString*)this->m_Data) < *rhs.m_Data;
 
     if(this->m_Data->Type() == "Sensor")
@@ -196,7 +196,7 @@ bool TupleECMData::operator!=(const TupleECMData& rhs) const
 //!
 QString TupleECMData::DelimitData(const QString &delementor) const
 {
-    if(this->m_Data->Type() == "Master")
+    if(this->m_Data->Type() == "Position")
         return ((TuplePositionalString*)this->m_Data)->axisName;
 
     if(this->m_Data->Type() == "Sensor")

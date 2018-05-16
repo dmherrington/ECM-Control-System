@@ -1,5 +1,6 @@
 #include "observation_scalar.h"
 
+#include <iostream>
 #include <limits>
 #include <exception>
 #include <stdexcept>
@@ -65,7 +66,6 @@ namespace observation {
 
         m_Domain.append(domain);
         m_Range.append(range);
-
         m_DataMutex.unlock();
     }
 
@@ -99,7 +99,7 @@ namespace observation {
 
         m_DataMutex.unlock();
 
-        double currentRangeTime;
+        double currentRangeTime = 0.0;
         qint64 min = std::numeric_limits<qint64>::max();
 
         CartesianData v(NumPoint - MinPoint, NumberSystems::SCALAR);
@@ -107,11 +107,11 @@ namespace observation {
         for(int j = 0 ; j < NumPoint - MinPoint ; j++)
         {
             qint64 domain_ms = m_Domain.at(j + MinPoint).toMSecsSinceEpoch();
-//            if(std::abs(currTime_ms - domain_ms) < min)
-//            {
-//                currentRangeTime = m_Range.at(j + MinPoint);
-//                min = std::abs(currTime_ms - domain_ms);
-//            }
+            if(std::abs(currTime_ms - domain_ms) < min)
+            {
+                currentRangeTime = m_Range.at(j + MinPoint);
+                min = std::abs(currTime_ms - domain_ms);
+            }
 
             v.InsertData(j, (domain_ms - OriginTime_ms) / parameters.msInTimeUnit, m_Range.at(j + MinPoint));
         }
@@ -194,6 +194,7 @@ namespace observation {
 
         m_DataMutex.unlock();
 
+        std::cout<<"The range is: "<<currentRangeTime<<std::endl;
         m_CurrTimeRange = currentRangeTime;
     }
 

@@ -88,7 +88,7 @@ protected:
     //! \param expr Expression to plot
     //! \param color Color to plot
     //!
-    void AddExpressionPlot(const std::string &expr, const QColor &color);
+    void AddExpressionPlot(const ECMPlotIdentifierPtr &expr, const QColor &color);
 
 public slots:
 

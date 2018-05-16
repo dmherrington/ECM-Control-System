@@ -9,6 +9,7 @@
 #include "data/motion_profile_variable_state.h"
 #include "data/machine_positional_state.h"
 
+#include "common/hash_keys.h"
 #include "common/threaded_scheduler.h"
 #include "common/tuple_ecm_data.h"
 
@@ -23,7 +24,7 @@
 
 
 //!
-//! \brief This object serves as a centeral organizer for all time series data that is to be used by the ECM Gui.
+//! \brief This object serves as a central organizer for all time series data that is to be used by the ECM Gui.
 //!
 //!
 //! When a new ECM dynamic state is introduced UpdateDynamicPlots is called to update all assosiated underlaying plots.

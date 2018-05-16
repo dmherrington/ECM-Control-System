@@ -17,7 +17,7 @@ class Window_MunkPowerSupply : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit Window_MunkPowerSupply(const MunkPowerSupply* obj, QWidget *parent = 0);
+    explicit Window_MunkPowerSupply(MunkPowerSupply* obj, QWidget *parent = 0);
     ~Window_MunkPowerSupply();
 
     bool isWindowHidden() const;
@@ -33,8 +33,10 @@ private slots:
 
     void on_actionClose_triggered();
 
+    void on_pushButton_transmit_released();
+
 private:
-    const MunkPowerSupply* munk;
+    MunkPowerSupply* munk;
 
     Ui::Window_MunkPowerSupply *ui;
     bool windowHidden = true;

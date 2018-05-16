@@ -55,7 +55,9 @@ HEADERS += common.h\
     ecm_devices.h \
     tuple_machine_string.h \
     tuple_profile_variable_string.h \
-    tuple_positional_string.h
+    tuple_positional_string.h \
+    axis_definitions.h \
+    hash_keys.h
 
 #Header file copy
 headers.path    = $$(ECM_ROOT)/include/common
@@ -77,6 +79,7 @@ INSTALLS += lib
 #Header file copy
 headers_common.path    = $$(ECM_ROOT)/include/common
 headers_common.files   += \
+    axis_definitions.h \
     class_forward.h \
     common.h\
     common_global.h \

@@ -16,7 +16,7 @@ class SerialConfiguration : public LinkConfiguration
 public:
     SerialConfiguration(const std::string& name = "");
     SerialConfiguration(SerialConfiguration* copy);
-
+    ~SerialConfiguration() = default;
 
     QSerialPort::BaudRate  baud() const         { return _baud; }
     QSerialPort::DataBits  dataBits() const     { return _dataBits; }

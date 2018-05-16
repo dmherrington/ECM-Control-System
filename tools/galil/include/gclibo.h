@@ -92,7 +92,6 @@ extern "C" {
 	*      10.1.3.91, DMC4020 Rev 1.2e, LAN, 10.1.3.10
 	*      192.168.0.63, DMC4040 Rev 1.2f, Static, 192.168.0.41
 	*      (192.0.0.42), RIO47102 Rev 1.1j, Static, 192.168.0.41
-	*      10.1., RIO47102 Rev 1.1j, Static, 192.168.0.41
 	*      GALILPCI1
 	*      COM1
 	*      COM2

@@ -4,13 +4,13 @@
 namespace registers_WestinghousePump{
 
 AbstractWestinghouseRegister::AbstractWestinghouseRegister():
-    parameterCode(0),slaveAddress(0),readOrwrite(data_WestinghousePump::RWType::WRITE),highChecksum(0),lowChecksum(0)
+    parameterCode(0),slaveAddress(3),readOrwrite(data_WestinghousePump::RWType::WRITE),highChecksum(0),lowChecksum(0)
 {
 
 }
 
 AbstractWestinghouseRegister::AbstractWestinghouseRegister(const int &code):
-    parameterCode(code),slaveAddress(0),readOrwrite(data_WestinghousePump::RWType::WRITE),highChecksum(0),lowChecksum(0)
+    parameterCode(code),slaveAddress(3),readOrwrite(data_WestinghousePump::RWType::WRITE),highChecksum(0),lowChecksum(0)
 {
 
 }

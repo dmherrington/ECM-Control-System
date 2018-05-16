@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'dialog_connections.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.1
+** Created by: Qt User Interface Compiler version 5.10.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -361,18 +361,18 @@ public:
 
     void retranslateUi(QDialog *Dialog_Connections)
     {
-        Dialog_Connections->setWindowTitle(QApplication::translate("Dialog_Connections", "Dialog", Q_NULLPTR));
-        label_GalilConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Galil Motion Controller", Q_NULLPTR));
-        pushButton_connectGalil->setText(QApplication::translate("Dialog_Connections", "Connect", Q_NULLPTR));
-        label_MunkConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Munk Power Supply", Q_NULLPTR));
-        pushButton_connectMunk->setText(QApplication::translate("Dialog_Connections", "Connect", Q_NULLPTR));
-        label_RigolConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Rigol Oscilliscope", Q_NULLPTR));
-        pushButton_connect_Rigol->setText(QApplication::translate("Dialog_Connections", "Connect", Q_NULLPTR));
-        label_SensorayConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Sensoray ", Q_NULLPTR));
-        pushButton_connectSensoray->setText(QApplication::translate("Dialog_Connections", "Connect", Q_NULLPTR));
-        label_WestinghouseConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Westinghouse Pump", Q_NULLPTR));
-        pushButton_connectPump->setText(QApplication::translate("Dialog_Connections", "Connect", Q_NULLPTR));
-        pushButton_Close->setText(QApplication::translate("Dialog_Connections", "CLOSE", Q_NULLPTR));
+        Dialog_Connections->setWindowTitle(QApplication::translate("Dialog_Connections", "Dialog", nullptr));
+        label_GalilConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Galil Motion Controller", nullptr));
+        pushButton_connectGalil->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
+        label_MunkConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Munk Power Supply", nullptr));
+        pushButton_connectMunk->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
+        label_RigolConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Rigol Oscilliscope", nullptr));
+        pushButton_connect_Rigol->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
+        label_SensorayConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Sensoray ", nullptr));
+        pushButton_connectSensoray->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
+        label_WestinghouseConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Westinghouse Pump", nullptr));
+        pushButton_connectPump->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
+        pushButton_Close->setText(QApplication::translate("Dialog_Connections", "CLOSE", nullptr));
     } // retranslateUi
 
 };

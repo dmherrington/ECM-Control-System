@@ -8,6 +8,7 @@ SegmentTimeGeneral::SegmentTimeGeneral():
 {
     initializeData();
     parameterCode = 4170;
+    this->parameterType = registers_Munk::ParameterType::PATTERNWRITECOMMAND;
 }
 
 
@@ -15,6 +16,7 @@ SegmentTimeGeneral::SegmentTimeGeneral(const SegmentTimeGeneral &obj):
     AbstractParameter()
 {
     this->operator =(obj);
+    this->parameterType = registers_Munk::ParameterType::PATTERNWRITECOMMAND;
 }
 
 QByteArray SegmentTimeGeneral::getByteArray() const
@@ -61,12 +63,6 @@ std::string SegmentTimeGeneral::getDescription() const
     std::string str = "";
     return str;
 }
-
-ParameterType SegmentTimeGeneral::getParameterType() const
-{
-    return ParameterType::PATTERNWRITECOMMAND;
-}
-
 
 void SegmentTimeGeneral::updateRegisterData(const int &registerIndex, const SegmentTimeDataGeneral &data)
 {

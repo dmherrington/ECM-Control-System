@@ -4,7 +4,7 @@
 #include <map>
 
 #include "common/class_forward.h"
-#include <axis_definitions.h>
+#include <common/axis_definitions.h>
 #include "status/abstract_status.h"
 
 ECM_CLASS_FORWARD(Status_StopCode);

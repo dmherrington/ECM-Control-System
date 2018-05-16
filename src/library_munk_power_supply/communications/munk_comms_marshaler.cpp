@@ -53,6 +53,17 @@ bool MunkCommsMarshaler::isConnected() const
     return link->isConnected();
 }
 
+void MunkCommsMarshaler::sendCompleteMunkParameters(std::vector<registers_Munk::AbstractParameterPtr> parameters)
+{
+    std::cout<<"We will send a complete update to the munk"<<std::endl;
+    auto func = [this, parameters]() {
+            protocol->updateCompleteMunkParameters(link.get(), parameters);
+    };
+
+    link->MarshalOnThread(func);
+
+}
+
 ///////////////////////////////////////////////////////////////////
 /// Methods issuing voltage setpoints relevant to the munk program
 ///////////////////////////////////////////////////////////////////
@@ -117,7 +128,7 @@ void MunkCommsMarshaler::sendSegmentTime(const registers_Munk::SegmentTimeGenera
 void MunkCommsMarshaler::sendCommitToEEPROM()
 {
     registers_Munk::ParameterMemoryWrite command;
-
+    command.setSlaveAddress(01);
     std::cout<<"Lets send a commit to EEPROM of the munk."<<std::endl;
     auto func = [this, command]() {
             protocol->sendCommitToEEPROM(link.get(), command);
@@ -155,7 +166,7 @@ void MunkCommsMarshaler::ConnectionClosed() const
 
 void MunkCommsMarshaler::ReceiveData(const std::vector<uint8_t> &buffer) const
 {
-    protocol->ReceiveData(link.get(),buffer);
+    //protocol->ReceiveData(link.get(),buffer);
 }
 
 void MunkCommsMarshaler::CommunicationError(const std::string &type, const std::string &msg) const

@@ -27,7 +27,7 @@ public:
     uint8_t getDataByte(const int &index) const;
     int getDataSize() const;
 
-    FramingState setReadWriteType(const uint8_t &RWType);
+    void setReadWriteType(const uint8_t &RWType);
 
     void setExceptionType(const data_Munk::MunkExceptionType &EXType);
 

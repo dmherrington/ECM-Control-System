@@ -14,8 +14,6 @@ win32 {
 DEFINES += OSTYPE_WINDOWS
 }
 
-
-
 TARGET = library_sensoray
 TEMPLATE = lib
 
@@ -108,19 +106,24 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../data/ -ldata
 INCLUDEPATH += $$PWD/../data
 DEPENDPATH += $$PWD/../data
 
+#win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../tools/sensoray/lib/ -ls24xx
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../tools/sensoray/lib/ -ls24xx
+#else:unix:!macx: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
 
-win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
+#INCLUDEPATH += $$PWD/../../tools/sensoray/lib
+#DEPENDPATH += $$PWD/../../tools/sensoray/lib
 
-INCLUDEPATH += $$PWD/../../tools/sensoray
-DEPENDPATH += $$PWD/../../tools/sensoray
-
-
-unix:!macx: LIBS += -L$$PWD/../../tools/sensoray/lib/linux/x64/ -l24xx
-
-INCLUDEPATH += $$PWD/../../tools/sensoray/lib/linux/x64
-DEPENDPATH += $$PWD/../../tools/sensoray/lib/linux/x64
-
-unix:!macx: PRE_TARGETDEPS += $$PWD/../../tools/sensoray/lib/linux/x64/lib24xx.a
+#win32: LIBS += -L$$PWD/../../tools/sensoray/lib/s24xx.lib
+#INCLUDEPATH += $$PWD/../../tools/sensoray
+#DEPENDPATH += $$PWD/../../tools/sensoray
 
 
+#INCLUDEPATH += $$PWD/../../tools/sensoray
+#DEPENDPATH += $$PWD/../../tools/sensoray
+#win32: LIBS += -ls24xx
 
+
+unix:!macx|win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
+
+INCLUDEPATH += $$PWD/../../tools/sensoray/include
+DEPENDPATH += $$PWD/../../tools/sensoray/include

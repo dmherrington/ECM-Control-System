@@ -8,8 +8,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     ui->progressBar->setValue(0);
-    ui->pushButton_transmit->setEnabled(false);
-    ui->actionTransmit_To_Munk->setEnabled(false);
+    //ui->pushButton_transmit->setEnabled(false);
+    //ui->actionTransmit_To_Munk->setEnabled(false);
 
     ui->pushButton_transmit->setToolTip("Connect to the munk in order to transmit the segments.");
     ui->pushButton_AddSegment->setToolTip("Add an additional segment for the munk power supply to process.");
@@ -36,8 +36,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_PowerSupply,SIGNAL(signal_FaultCodeRecieved(int,std::string)), this, SLOT(slot_FaultCodeRecieved(int,std::string)));
     connect(m_PowerSupply,SIGNAL(signal_SegmentException(std::string,std::string)),this,SLOT(slot_SegmentException(std::string,std::string)));
 
-    connect(m_PowerSupply,SIGNAL(signal_SegmentWriteProgress(int,int)),this,SLOT(slot_WriteProgressUpdated(int,int)));
-    connect(m_PowerSupply,SIGNAL(signal_SegmentSetAck(std::string)),this,SLOT(slot_SegmentSetAck(std::string)));
+    //connect(m_PowerSupply,SIGNAL(signal_SegmentWriteProgress(int,int)),this,SLOT(slot_WriteProgressUpdated(int,int)));
+    //connect(m_PowerSupply,SIGNAL(signal_SegmentSetAck(std::string)),this,SLOT(slot_SegmentSetAck(std::string)));
 
     char* ECMPath = getenv("ECM_ROOT");
     if(ECMPath){
@@ -62,10 +62,6 @@ void MainWindow::slot_ConnectionStatusUpdate(const bool &open_close)
     ui->pushButton_transmit->setEnabled(open_close);
     ui->actionTransmit_To_Munk->setEnabled(open_close);
 
-    if(open_close)
-        statusBar()->showMessage(tr("Connection Opened"),2500);
-    else
-        statusBar()->showMessage(tr("Connection Closed"),2500);
 }
 
 void MainWindow::slot_CommunicationError(const std::string &type, const std::string &msg)
@@ -88,7 +84,7 @@ void MainWindow::slot_CommunicationUpdate(const std::string &name, const std::st
 
 void MainWindow::slot_SegmentSetAck(const std::string &msg)
 {
-    statusBar()->showMessage(QString::fromStdString(msg),1000);
+
 }
 
 void MainWindow::slot_SegmentException(const std::string &RW, const std::string &meaning)
@@ -225,36 +221,12 @@ void MainWindow::on_pushButton_AddSegment_released()
 QString MainWindow::saveAsFileDialog(const std::string &filePath, const std::string &suffix)
 {
     QString fullFilePath;
-    QFileDialog fileDialog(this, "Save profile as:");
-    QDir galilProgramDirectory(QString::fromStdString(filePath));
-    fileDialog.setDirectory(galilProgramDirectory);
-    fileDialog.setFileMode(QFileDialog::AnyFile);
-    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
-    QString nameFilter = "Save Files (*.";
-    nameFilter += QString::fromStdString(suffix) + ")";
-    fileDialog.setNameFilter(nameFilter);
-    fileDialog.setDefaultSuffix(QString::fromStdString(suffix));
-    fileDialog.exec();
-    if(fileDialog.selectedFiles().size() > 0)
-        fullFilePath = fileDialog.selectedFiles().first();
     return fullFilePath;
 }
 
 QString MainWindow::loadFileDialog(const std::string &filePath, const std::string &suffix)
 {
     QString fullFilePath;
-    QFileDialog fileDialog(this, "Choose profile to open");
-    QDir galilProgramDirectory(QString::fromStdString(filePath));
-    fileDialog.setDirectory(galilProgramDirectory);
-    fileDialog.setFileMode(QFileDialog::AnyFile);
-    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
-    QString nameFilter = "Open Files (*.";
-    nameFilter += QString::fromStdString(suffix) + ")";
-    fileDialog.setNameFilter(nameFilter);
-    fileDialog.setDefaultSuffix(QString::fromStdString(suffix));
-    fileDialog.exec();
-    if(fileDialog.selectedFiles().size() > 0)
-        fullFilePath = fileDialog.selectedFiles().first();
     return fullFilePath;
 }
 

@@ -106,7 +106,7 @@ private:
     //!
     //! \brief slaveAddress
     //!
-    int slaveAddress;
+    int slaveAddress = 01;
 
     //!
     //! \brief detailedRegisterData

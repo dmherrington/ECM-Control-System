@@ -10,7 +10,7 @@
 #include "common/data_get_set_notifier.h"
 #include "data/motion_profile_state.h"
 
-#include "axis_definitions.h"
+#include "common/axis_definitions.h"
 
 #include "programs/galil_current_program.h"
 #include "programs/program_variable_value_list.h"

@@ -2,11 +2,7 @@
     "Measurements At Channel": [
         {
             "channel": "CHANNEL 1",
-            "measurement": "MARea",
-            "r_w": "Read"
-        },
-        {
-            "channel": "CHANNEL 2",
+            "device": "Rigol",
             "measurement": "VTOP",
             "r_w": "Read"
         }

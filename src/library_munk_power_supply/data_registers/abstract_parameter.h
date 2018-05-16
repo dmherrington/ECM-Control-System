@@ -7,11 +7,15 @@
 
 #include "type_definition.h"
 #include "common/common.h"
+#include "common/class_forward.h"
 
 #include "data/type_read_write.h"
 
 
 namespace registers_Munk{
+
+ECM_CLASS_FORWARD(AbstractParameter);
+
 //!
 //! \brief The AbstractParameter class
 //!
@@ -41,7 +45,10 @@ public:
     //! \brief getParameterType
     //! \return
     //!
-    virtual registers_Munk::ParameterType getParameterType() const = 0;
+    virtual registers_Munk::ParameterType getParameterType() const
+    {
+        return this->parameterType;
+    }
 
     virtual int getParameterCode() const
     {
@@ -137,6 +144,7 @@ public:
     //!
     AbstractParameter& operator = (const AbstractParameter &rhs)
     {
+        this->parameterType = rhs.parameterType;
         this->parameterCode = rhs.parameterCode;
         this->slaveAddress = rhs.slaveAddress;
         this->readOrwrite = rhs.readOrwrite;
@@ -152,6 +160,9 @@ public:
     //!
     bool operator == (const AbstractParameter &rhs)
     {
+        if(this->parameterType != rhs.parameterType){
+            return false;
+        }
         if(this->parameterCode != rhs.parameterCode){
             return false;
         }
@@ -188,6 +199,12 @@ private:
     unsigned int CRC16(const QByteArray &array) const;
 
 protected:
+
+    //!
+    //! \brief parameterType
+    //!
+    registers_Munk::ParameterType parameterType;
+
     //!
     //! \brief parameterCode
     //!

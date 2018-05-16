@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'ECM_controller_gui.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.0
+** Created by: Qt User Interface Compiler version 5.10.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -48,6 +48,7 @@ public:
     QAction *actionOscilliscope;
     QAction *actionTouchoff;
     QAction *actionOpen_Sensors_Window;
+    QAction *actionClose;
     QWidget *centralWidget;
     QGridLayout *gridLayout_8;
     QLineEdit *lineEdit;
@@ -144,7 +145,7 @@ public:
     {
         if (ECMControllerGUI->objectName().isEmpty())
             ECMControllerGUI->setObjectName(QStringLiteral("ECMControllerGUI"));
-        ECMControllerGUI->resize(1040, 733);
+        ECMControllerGUI->resize(1040, 746);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -286,6 +287,8 @@ public:
         actionTouchoff->setCheckable(true);
         actionOpen_Sensors_Window = new QAction(ECMControllerGUI);
         actionOpen_Sensors_Window->setObjectName(QStringLiteral("actionOpen_Sensors_Window"));
+        actionClose = new QAction(ECMControllerGUI);
+        actionClose->setObjectName(QStringLiteral("actionClose"));
         centralWidget = new QWidget(ECMControllerGUI);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout_8 = new QGridLayout(centralWidget);
@@ -481,7 +484,7 @@ public:
         tab_vibrationParams->setObjectName(QStringLiteral("tab_vibrationParams"));
         layoutWidget = new QWidget(tab_vibrationParams);
         layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
-        layoutWidget->setGeometry(QRect(9, 9, 253, 182));
+        layoutWidget->setGeometry(QRect(9, 9, 254, 187));
         formLayout = new QFormLayout(layoutWidget);
         formLayout->setSpacing(6);
         formLayout->setContentsMargins(11, 11, 11, 11);
@@ -1012,7 +1015,7 @@ public:
         ECMControllerGUI->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(ECMControllerGUI);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1040, 40));
+        menuBar->setGeometry(QRect(0, 0, 1040, 45));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menuBar);
@@ -1036,6 +1039,7 @@ public:
         menuBar->addAction(menuTools->menuAction());
         menuBar->addAction(menuView->menuAction());
         menuBar->addAction(menuHelp->menuAction());
+        menuFile->addAction(actionClose);
         menuTools->addAction(actionConnections);
         menuTools->addSeparator();
         menuTools->addAction(actionPower_Supply);
@@ -1063,6 +1067,7 @@ public:
         actionOscilliscope->setText(QApplication::translate("ECMControllerGUI", "Oscilliscope", nullptr));
         actionTouchoff->setText(QApplication::translate("ECMControllerGUI", "Touchoff", nullptr));
         actionOpen_Sensors_Window->setText(QApplication::translate("ECMControllerGUI", "Open Sensors Window", nullptr));
+        actionClose->setText(QApplication::translate("ECMControllerGUI", "Close", nullptr));
         label_ManualControl_5->setText(QApplication::translate("ECMControllerGUI", "DIO Signals", nullptr));
         label_ManualControl_2->setText(QApplication::translate("ECMControllerGUI", "Profile Optons", nullptr));
         pushButton_RunProfile->setText(QApplication::translate("ECMControllerGUI", "Run Profile", nullptr));

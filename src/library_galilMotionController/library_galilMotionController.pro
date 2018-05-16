@@ -85,7 +85,6 @@ SOURCES += \
     programs/program_label_list.cpp \
     requests/request_tell_variable.cpp
 HEADERS += \
-        axis_definitions.h \
         galil_motion_controller.h \
         galil_parse_greturn.h \
         galil_poll_status.h \

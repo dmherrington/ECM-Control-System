@@ -33,13 +33,6 @@ public:
     SegmentTimeGeneral(const SegmentTimeGeneral &obj);
 
 public:
-
-    //!
-    //! \brief getParameterType
-    //! \return
-    //!
-    virtual registers_Munk::ParameterType getParameterType() const;
-
     //!
     //! \brief getByteArray
     //! \return

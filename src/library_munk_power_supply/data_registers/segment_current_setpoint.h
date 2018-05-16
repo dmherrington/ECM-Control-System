@@ -36,11 +36,6 @@ public:
     //!
     SegmentCurrentSetpoint(const SegmentCurrentSetpoint &copy);
 public:
-    //!
-    //! \brief getParameterType
-    //! \return
-    //!
-    virtual registers_Munk::ParameterType getParameterType() const;
 
     //!
     //! \brief getByteArray

@@ -183,7 +183,7 @@ bool MunkSerialLink::_hardwareConnect(QSerialPort::SerialPortError& error, QStri
              << _config.baud() << " " << _config.dataBits() << " " << _config.parity() << " " << _config.stopBits() << std::endl;
 
     m_ListenThread = new AppThread(10, [&](){
-        this->PortEventLoop();
+        //this->PortEventLoop();
     });
     m_port->moveToThread(m_ListenThread);
     m_ListenThread->start();
@@ -191,32 +191,50 @@ bool MunkSerialLink::_hardwareConnect(QSerialPort::SerialPortError& error, QStri
     return true; // successful connection
 }
 
-void MunkSerialLink::_readBytes(void)
+std::vector<uint8_t> MunkSerialLink::ReadBytes(void) const
 {
-    qint64 byteCount = m_port->bytesAvailable();
-    if (byteCount) {
-        QByteArray buffer;
-        buffer.resize(byteCount);
-        m_port->read(buffer.data(), buffer.size());
+    std::vector<uint8_t> vec_buffer;
 
-        std::vector<uint8_t> vec_buffer = std::vector<uint8_t>(buffer.begin(), buffer.end());
+    if(m_port->waitForReadyRead(10))
+    {
+        qint64 byteCount = m_port->bytesAvailable();
+        std::cout<<"The size of the buffer: "<<byteCount<<std::endl;
+        if (byteCount > 0) {
+            QByteArray buffer;
+            buffer.resize(byteCount);
+            m_port->read(buffer.data(), buffer.size());
 
-        EmitEvent([this,&vec_buffer](const ILinkEvents *ptr){ptr->ReceiveData(vec_buffer);});
+            vec_buffer = std::vector<uint8_t>(buffer.begin(), buffer.end());
+        }
     }
+    else
+    {
+
+    }
+    return vec_buffer;
 }
 
-void MunkSerialLink::WriteBytes(const QByteArray &data) const
+bool MunkSerialLink::WriteBytes(const QByteArray &data) const
 {
+    std::cout<<"The exact message we are trying to write looks like: "<<data.toHex().toStdString()<<std::endl;
     if(m_port && m_port->isOpen()) {
-        m_port->write(data);
-        if(m_port->waitForBytesWritten(30000))
+        qint64 byteWritten = m_port->write(data);
+        if(!m_port->waitForBytesWritten())
         {
-            std::cout<<"The port has timed out."<<std::endl;
+            //if the above function is false and thus enters here we have timed out on sending the data
+            std::cout<<"For some reason I have timed out sending data to the munk."<<std::endl;
+        }
+        else
+        {
+            std::cout<<"I wrote how many bytes: "<<byteWritten<<std::endl;
+            std::cout<<"We are now finished writing and we are going to wait for something ready to be read"<<std::endl;
+            return true;
         }
     } else {
         // Error occured
         _emitLinkError("Could not send data to link. Most likely port is disconnected");
     }
+    return false;
 }
 
 void MunkSerialLink::linkError(QSerialPort::SerialPortError error)
@@ -235,12 +253,10 @@ void MunkSerialLink::linkError(QSerialPort::SerialPortError error)
 void MunkSerialLink::PortEventLoop()
 {
     if(m_port->bytesAvailable())
-        this->_readBytes();
+        this->ReadBytes();
 
     if(m_port->errorString() != "")
-    {
         linkError(m_port->error());
-    }
 }
 
 std::string MunkSerialLink::getPortName() const

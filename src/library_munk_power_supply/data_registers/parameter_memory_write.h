@@ -9,6 +9,9 @@
 
 
 namespace registers_Munk{
+
+ECM_CLASS_FORWARD(ParameterMemoryWrite);
+
 //!
 //! \brief The ParameterMemoryWrite class
 //!
@@ -23,12 +26,6 @@ public:
     ParameterMemoryWrite(const ParameterMemoryWrite &copy);
 
 public:
-    //!
-    //! \brief getParameterType
-    //! \return
-    //!
-    virtual registers_Munk::ParameterType getParameterType() const;
-
     //!
     //! \brief getByteArray
     //! \return

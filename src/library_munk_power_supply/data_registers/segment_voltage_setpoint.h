@@ -38,12 +38,6 @@ public:
 
 public:
     //!
-    //! \brief getParameterType
-    //! \return
-    //!
-    virtual registers_Munk::ParameterType getParameterType() const;
-
-    //!
     //! \brief getDescription
     //! \return
     //!

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <map>
 
-#include <axis_definitions.h>
+#include <common/axis_definitions.h>
 #include "status/abstract_status.h"
 
 enum class SwitchStatus{

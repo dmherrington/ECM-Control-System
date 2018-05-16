@@ -39,18 +39,16 @@ int MunkMessage::getDataSize() const
     return this->currentArray.size();
 }
 
-FramingState MunkMessage::setReadWriteType(const uint8_t &RWType)
+void MunkMessage::setReadWriteType(const uint8_t &RWType)
 {
     if(RWType == static_cast<uint8_t>(data_Munk::MunkRWType::WRITE))
     {
         this->rwType = data_Munk::MunkRWType::WRITE;
-        return FramingState::RECEIVED_STD_FUNCTION_CODE_WRITE;
         remainingPayload = 4;
     }
     else
     {
         this->rwType = data_Munk::MunkRWType::READ;
-        return FramingState::RECEIVED_STD_FUNCTION_CODE_READ;
     }
 }
 

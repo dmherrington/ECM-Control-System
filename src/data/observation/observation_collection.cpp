@@ -147,6 +147,7 @@ void ObservationCollection::InsertData(const IPlotComparable& ID, const QDateTim
     if(m_DataScalar.contains(ID) == false)
         throw new std::runtime_error("Unknown Scalar Identifier");
     m_DataScalar[ID]->AddData(time, value);
+    m_DataScalar[ID]->setCurrentTime(time);
 }
 
 //!

@@ -5,7 +5,7 @@
 #include "common/class_forward.h"
 
 #include "abstract_command.h"
-#include "axis_definitions.h"
+#include "common/axis_definitions.h"
 
 /**
 \* @file  command_motor_disable.h

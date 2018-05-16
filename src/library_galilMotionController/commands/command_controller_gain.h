@@ -1,7 +1,7 @@
 #ifndef COMMAND_CONTROLLER_GAIN_H
 #define COMMAND_CONTROLLER_GAIN_H
 
-#include "axis_definitions.h"
+#include "common/axis_definitions.h"
 #include "common/class_forward.h"
 #include "commands/command_components.h"
 

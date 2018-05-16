@@ -42,9 +42,6 @@
     <ClCompile Include="x_programs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="x_nonblocking.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="x_examples.h">

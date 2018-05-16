@@ -42,6 +42,8 @@ inline std::string ECMStateToString(const ECMState &type) {
         return "Manual";
     case ECMState::STATE_READY:
         return "Ready";
+    case ECMState::STATE_READY_STOP:
+        return "Ready Stop";
     case ECMState::STATE_SCRIPT_EXECUTION:
         return "Script Execution";
     case ECMState::STATE_MOTION_STOP:

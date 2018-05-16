@@ -18,10 +18,12 @@ SegmentVoltageSetpoint::SegmentVoltageSetpoint(const data_Munk::TypeSupplyOutput
     if(levelMode == data_Munk::SegmentMode::FORWARD)
     {
         this->parameterCode = (int)data_Munk::getFWDVoltageIndex((int)outputNum);
+        this->parameterType = registers_Munk::ParameterType::VOLTAGESETPOINT_FORWARD;
     }
     else if(levelMode == data_Munk::SegmentMode::REVERSE)
     {
         this->parameterCode = (int)data_Munk::getREVVoltageIndex((int)outputNum);
+        this->parameterType = registers_Munk::ParameterType::VOLTAGESETPOINT_REVERSE;
     }
     else{
 
@@ -34,12 +36,6 @@ SegmentVoltageSetpoint::SegmentVoltageSetpoint(const SegmentVoltageSetpoint &cop
     this->supplyOutput = copy.supplyOutput;
     this->mode = copy.mode;
     this->data = copy.data;
-}
-
-
-ParameterType SegmentVoltageSetpoint::getParameterType() const
-{
-    return ParameterType::VOLTAGESETPOINT;
 }
 
 std::string SegmentVoltageSetpoint::getDescription() const

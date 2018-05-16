@@ -7,41 +7,41 @@ PositionalState::PositionalState()
 
 }
 
-PositionalState::PositionalState(const std::string &name, const double &value)
+PositionalState::PositionalState(const  MotorAxis &axis, const unsigned int &position)
 {
-    this->variableName = name;
-    this->variableValue = value;
+    this->axis = axis;
+    this->position = position;
 }
 
 PositionalState::PositionalState(const PositionalState &copy)
 {
-    this->variableName = copy.variableName;
-    this->variableValue = copy.variableValue;
+    this->axis = copy.axis;
+    this->position = copy.position;
 }
 
-void PositionalState::setVariableName(const std::string &name)
+void PositionalState::setStateAxis(const MotorAxis &axis)
 {
-    this->variableName = name;
+    this->axis = axis;
 }
 
-void PositionalState::setVariableValue(const double &value)
+void PositionalState::setAxisPosition(const unsigned int &position)
 {
-    this->variableValue = value ;
+    this->position = position ;
 }
 
-std::string PositionalState::getVariableName() const
+MotorAxis PositionalState::getAxis() const
 {
-    return this->variableName;
+    return axis;
 }
 
-double PositionalState::getVariableValue() const
+unsigned int PositionalState::getAxisPosition() const
 {
-    return variableValue;
+    return position;
 }
 
 std::string PositionalState::getLoggingString() const
 {
-    std::string rtnStr = variableName + "\t" + std::to_string(variableValue);
+    std::string rtnStr = AxisToString(axis) + "\t" + std::to_string(position);
     return rtnStr;
 }
 

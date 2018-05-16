@@ -57,7 +57,13 @@ public:
     //! \param bytes
     //! \param length
     //!
-    virtual void WriteBytes(const QByteArray &data) const = 0;
+    virtual bool WriteBytes(const QByteArray &data) const = 0;
+
+    //!
+    //! \brief ReadBytes
+    //! \return
+    //!
+    virtual std::vector<uint8_t> ReadBytes(void) const = 0;
 
     //!
     //! \brief setSerialConfiguration

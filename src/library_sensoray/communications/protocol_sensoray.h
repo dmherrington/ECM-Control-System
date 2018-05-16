@@ -19,6 +19,7 @@
 #include "i_protocol_sensoray_events.h"
 #include "i_protocol.h"
 
+#include "s24xx.h"
 
 namespace comms_Sensoray{
 

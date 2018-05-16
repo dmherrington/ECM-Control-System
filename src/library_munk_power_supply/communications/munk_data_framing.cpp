@@ -32,7 +32,7 @@ FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
         uint8_t exceptionMask = 127<<0;
         uint8_t exceptionValue = (byte & (~exceptionMask));
 
-        uint8_t RWMask = 240<<0;
+        uint8_t RWMask = 128<<0;
         uint8_t RWValue = (byte & (~RWMask));
 
         if(exceptionValue == 128)
@@ -45,9 +45,57 @@ FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
         }
         else
         {
-            currentMSGState = currentMessge.setReadWriteType(RWValue);
+            currentMSGState = FramingState::RECEIVED_STD_FUNCTION_CODE;
+            currentMessge.setReadWriteType(RWValue);
             currentMessge.setExceptionType(data_Munk::MunkExceptionType::NO_EXCEPTION);
         }
+        break;
+    }
+    case FramingState::RECEIVED_STD_FUNCTION_CODE:
+    {
+        currentMSGState = FramingState::RECEIVED_STARTING_REGISTER_HI;
+        currentMessge.appendArray(byte);
+
+        break;
+    }
+    case FramingState::RECEIVED_STARTING_REGISTER_HI:
+    {
+        currentMSGState = FramingState::RECEIVED_STARTING_REGISTER_LO;
+        currentMessge.appendArray(byte);
+
+        break;
+    }
+    case FramingState::RECEIVED_STARTING_REGISTER_LO:
+    {
+        currentMSGState = FramingState::RECEIVED_LENGTH_HI;
+        currentMessge.appendArray(byte);
+
+        break;
+    }
+    case FramingState::RECEIVED_LENGTH_HI:
+    {
+        currentMSGState = FramingState::RECEIVED_LENGTH_LO; //this implies the byte we had seen
+        currentMessge.appendArray(byte);
+
+        break;
+    }
+    case FramingState::RECEIVED_LENGTH_LO:
+    {
+        //if we are in a read then this is the first byte of the payload
+        if(currentMessge.isReadWriteType() == data_Munk::MunkRWType::WRITE)
+        {
+            currentMSGState = FramingState::RECEIVED_CRC_LOW;
+        }
+        else{
+
+            uint8_t hi = currentMessge.getDataByte(currentMessge.getDataSize() - 2);
+            uint8_t lo = currentMessge.getDataByte(currentMessge.getDataSize() - 2);
+            int payload = lo | (hi<<8);
+            currentMessge.setRemainingPayload(payload - 1);
+            currentMSGState = FramingState::RECEIVED_PAYLOAD;
+
+        }
+        currentMessge.appendArray(byte);
         break;
     }
     case FramingState::RECEIVED_EXCEPTION_FUNCTION_CODE:
@@ -60,21 +108,6 @@ FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
     {
         currentMSGState = FramingState::RECEIVED_CRC_LOW;
         currentMessge.appendArray(byte);
-        break;
-    }
-    case FramingState::RECEIVED_STD_FUNCTION_CODE_READ:
-    {
-        //this byte tells us how many bytes are following the message
-        currentMSGState = FramingState::RECEIVED_PAYLOAD;
-        currentMessge.appendArray(byte);
-        currentMessge.setRemainingPayload(byte);
-        break;
-    }
-    case FramingState::RECEIVED_STD_FUNCTION_CODE_WRITE:
-    {
-        currentMSGState = FramingState::RECEIVED_PAYLOAD;
-        currentMessge.appendArray(byte);
-        currentMessge.setRemainingPayload(currentMessge.remainingPayloadSize() - 1);
         break;
     }
     case FramingState::RECEIVED_PAYLOAD:
@@ -132,6 +165,16 @@ MunkMessage MunkDataFraming::getCurrentMessage() const
     return this->currentMessge;
 }
 
+FramingState MunkDataFraming::getCurrentMessageState() const
+{
+    return this->currentMSGState;
+}
+
+void MunkDataFraming::resetMessageState()
+{
+    this->currentMSGState = FramingState::WAITING;
+    currentMessge.resetData();
+}
 
 unsigned int MunkDataFraming::CRC16(const QByteArray &array) const
 {

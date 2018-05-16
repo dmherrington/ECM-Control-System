@@ -1,3 +1,5 @@
+message($$PWD)
+
 QT -= gui
 QT += core serialport
 QT += network
@@ -35,6 +37,10 @@ HEADERS += \
     clock_testing.h \
     main.h
 
+# Copy Files
+target.path = $$(ECM_ROOT)/bin
+target.files += $$PWD/../../tools/sensoray/lib/s24xx.dll
+INSTALLS += target
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include
@@ -56,77 +62,32 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../data/ -ldata
 INCLUDEPATH += $$PWD/../data
 DEPENDPATH += $$PWD/../data
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../graphing/release/ -lgraphing
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../graphing/debug/ -lgraphing
-else:unix:!macx: LIBS += -L$$OUT_PWD/../graphing/ -lgraphing
+#win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
+#INCLUDEPATH += $$PWD/../../tools/sensoray
+#DEPENDPATH += $$PWD/../../tools/sensoray
 
-INCLUDEPATH += $$PWD/../graphing
-DEPENDPATH += $$PWD/../graphing
+#win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../tools/sensoray/lib/ -ls24xx
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../tools/sensoray/lib/ -ls24xx
+#else:unix:!macx: LIBS += -L$$OUT_PWD/../../tools/sensoray/lib/ -ls24xx
+
+#INCLUDEPATH += $$PWD/../../tools/sensoray/lib
+#DEPENDPATH += $$PWD/../../tools/sensoray/lib
+
+#win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/release/ -llibrary_sensoray
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/debug/ -llibrary_sensoray
+#else:unix:!macx: LIBS += -L$$OUT_PWD/../library_sensoray/ -llibrary_sensoray
+
+#INCLUDEPATH += $$PWD/../library_sensoray
+#DEPENDPATH += $$PWD/../library_sensoray
+
+#unix:!macx|win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
+
+#INCLUDEPATH += $$PWD/../../tools/sensoray/include
+#DEPENDPATH += $$PWD/../../tools/sensoray/include
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_munk_power_supply/release/ -llibrary_munk_power_supply
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_munk_power_supply/debug/ -llibrary_munk_power_supply
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_munk_power_supply/ -llibrary_munk_power_supply
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_sensoray/ -llibrary_munk_power_supply
 
 INCLUDEPATH += $$PWD/../library_munk_power_supply
 DEPENDPATH += $$PWD/../library_munk_power_supply
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_rigol_oscilloscope/release/ -llibrary_rigol_oscilloscope
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_rigol_oscilloscope/debug/ -llibrary_rigol_oscilloscope
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_rigol_oscilloscope/ -llibrary_rigol_oscilloscope
-
-INCLUDEPATH += $$PWD/../library_rigol_oscilloscope
-DEPENDPATH += $$PWD/../library_rigol_oscilloscope
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/release/ -llibrary_westinghouse510
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/debug/ -llibrary_westinghouse510
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_westinghouse510/ -llibrary_westinghouse510
-
-INCLUDEPATH += $$PWD/../library_westinghouse510
-DEPENDPATH += $$PWD/../library_westinghouse510
-
-
-
-unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
-unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo
-
-INCLUDEPATH += $$PWD/../../tools/galil/lib/dynamic/x86
-DEPENDPATH += $$PWD/../../tools/galil/lib/dynamic/x86
-
-win32: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
-else:unix: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/release/ -llibrary_galilMotionController
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/debug/ -llibrary_galilMotionController
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_galilMotionController/ -llibrary_galilMotionController
-
-INCLUDEPATH += $$PWD/../library_galilMotionController
-DEPENDPATH += $$PWD/../library_galilMotionController
-
-
-
-win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
-
-INCLUDEPATH += $$PWD/../../tools/sensoray
-DEPENDPATH += $$PWD/../../tools/sensoray
-
-
-unix:!macx: LIBS += -L$$PWD/../../tools/sensoray/lib/linux/x64/ -l24xx
-
-INCLUDEPATH += $$PWD/../../tools/sensoray/lib/linux/x64
-DEPENDPATH += $$PWD/../../tools/sensoray/lib/linux/x64
-
-unix:!macx: PRE_TARGETDEPS += $$PWD/../../tools/sensoray/lib/linux/x64/lib24xx.a
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/release/ -llibrary_sensoray
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/debug/ -llibrary_sensoray
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_sensoray/ -llibrary_sensoray
-
-INCLUDEPATH += $$PWD/../library_sensoray
-DEPENDPATH += $$PWD/../library_sensoray
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../ECM_API/release/ -lECM_API
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../ECM_API/debug/ -lECM_API
-else:unix:!macx: LIBS += -L$$OUT_PWD/../ECM_API/ -lECM_API
-
-INCLUDEPATH += $$PWD/../ECM_API
-DEPENDPATH += $$PWD/../ECM_API

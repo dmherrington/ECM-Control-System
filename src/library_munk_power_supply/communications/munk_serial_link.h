@@ -28,7 +28,9 @@ public:
 public:
     virtual void RequestReset();
 
-    virtual void WriteBytes(const QByteArray &data) const;
+    virtual bool WriteBytes(const QByteArray &data) const;
+
+    virtual std::vector<uint8_t> ReadBytes(void) const;
 
     void _emitLinkError(const std::string& errorMsg) const;
 
@@ -79,7 +81,6 @@ private:
     bool _hardwareConnect(QSerialPort::SerialPortError& error, QString& errorString);
 
 private:
-    void _readBytes(void);
     void linkError(QSerialPort::SerialPortError error);
 
 private:

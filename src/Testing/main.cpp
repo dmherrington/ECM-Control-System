@@ -11,58 +11,93 @@
 #include <QRegExp>
 
 #include "common/environment_time.h"
+#include "common/comms/serial_configuration.h"
+
 #include "main.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    common::EnvironmentTime currentTime;
-    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK, currentTime);
+//    std::cout<<"Program is running"<<std::endl;
+//    HSESSION sess;
+//    S24XXERR err = ERR_NONE;
 
-    char* ECMPath = getenv("ECM_ROOT");
-    std::string loggingPath = "";
-    QFile* sensorLoggingFile;
+//    // Open the api.
+//    if ( !s24xx_ApiOpen() )
+//        printf( "Error: Failed to open session interface\n" );
 
-    if(ECMPath){
-        std::string rootPath(ECMPath);
-        QDir loggingDirectory(QString::fromStdString(rootPath + "/MachiningLogs/Part_Number/" + currentTime.dateString() + "/"));
+//    // Create session object and open the telnet session.
+//    else if ( !s24xx_SessionOpen( &sess, &err, 2426, argv[1], TELNET_PORTNUM, 2000 ) )
+//        s24xx_ErrorText( err ) ;
 
-        std::string finalPath = "Serial_Number.txt";
+//    // Run i/o loop and then close the api.
+//    else
+//    {
+//        s24xx_SessionClose( sess );		// Terminate telnet connection.
+//        s24xx_ApiClose();				// Free API resources.
+//    }
+//reset fault register 201
+    MunkPowerSupply powerSupply;
+    powerSupply.openSerialPort("COM4");
+    registers_Munk::SegmentTimeDetailed detailedMSG;
+    registers_Munk::SegmentTimeDataDetailed firstRegister(20,3000,data_Munk::SegmentMode::FORWARD,100);
+    //registers_Munk::SegmentTimeDataDetailed secondRegister(20,400,data_Munk::SegmentMode::DEAD,200);
+    //registers_Munk::SegmentTimeDataDetailed thirdRegister(5,50,data_Munk::SegmentMode::REVERSE,300);
 
-        loggingDirectory.mkpath(QString::fromStdString(rootPath + "/MachiningLogs/Part_Number/" + currentTime.dateString() + "/"));
-        loggingPath = loggingDirectory.absolutePath().toStdString() + "/" + finalPath;
-        QFileInfo fileInfo(QString::fromStdString(loggingPath));
-        if(fileInfo.exists())
-        {
-            std::cout<<"The file exists"<<std::endl;
-        }
-        else
-        {
-            sensorLoggingFile = new QFile(QString::fromStdString(loggingPath));
+    detailedMSG.appendRegisterData(firstRegister);
+    //detailedMSG.appendRegisterData(secondRegister);
+    //detailedMSG.appendRegisterData(thirdRegister);
+    powerSupply.generateAndTransmitMessage(detailedMSG);
 
-        }
-//        while(!loggingDirectory.mkdir(QString::fromStdString(finalPath)))
+    //$01 $10 $19 $64 $00 $01 $47 $4A
+    //$01 $10 $17 $70 $00 $01 $05 $A6
+    //$01 $10 $10 $4A $00 $02 $64 $DE
+    //$01 $10 $10 $5F $00 $01 $35 $1B
+//    common::EnvironmentTime currentTime;
+//    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK, currentTime);
+
+//    char* ECMPath = getenv("ECM_ROOT");
+//    std::string loggingPath = "";
+//    QFile* sensorLoggingFile;
+
+//    if(ECMPath){
+//        std::string rootPath(ECMPath);
+//        QDir loggingDirectory(QString::fromStdString(rootPath + "/MachiningLogs/Part_Number/" + currentTime.dateString() + "/"));
+
+//        std::string finalPath = "Serial_Number.txt";
+
+//        loggingDirectory.mkpath(QString::fromStdString(rootPath + "/MachiningLogs/Part_Number/" + currentTime.dateString() + "/"));
+//        loggingPath = loggingDirectory.absolutePath().toStdString() + "/" + finalPath;
+//        QFileInfo fileInfo(QString::fromStdString(loggingPath));
+//        if(fileInfo.exists())
 //        {
-//            std::cout<<"Let us warn the user that the file already exists"<<std::endl;
+//            std::cout<<"The file exists"<<std::endl;
 //        }
-    }
+//        else
+//        {
+//            sensorLoggingFile = new QFile(QString::fromStdString(loggingPath));
 
-
+//        }
+////        while(!loggingDirectory.mkdir(QString::fromStdString(finalPath)))
+////        {
+////            std::cout<<"Let us warn the user that the file already exists"<<std::endl;
+////        }
+//    }
 
     //First let us construct the tuple describing the measurement
-    common::TupleSensorString sensorTuple("Device Name",
-                                          "Channel Name",
-                                          "Sensor Name");
+//    common::TupleSensorString sensorTuple("Device Name",
+//                                          "Channel Name",
+//                                          "Sensor Name");
 
-    common_data::SensorState newSensorMeasurement;
-    newSensorMeasurement.setObservationTime(currentTime);
-    newSensorMeasurement.ConstructSensor(common_data::SENSOR_VOLTAGE,"Voltage Top");
-    ((common_data::SensorVoltage*)newSensorMeasurement.getSensorData().get())->SetVoltage(10.0,common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
+//    common_data::SensorState newSensorMeasurement;
+//    newSensorMeasurement.setObservationTime(currentTime);
+//    newSensorMeasurement.ConstructSensor(common_data::SENSOR_VOLTAGE,"Voltage Top");
+//    ((common_data::SensorVoltage*)newSensorMeasurement.getSensorData().get())->SetVoltage(10.0,common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
 
-    ECMLogging loggingTest;
-    loggingTest.SetSensorLogFile(sensorTuple,sensorLoggingFile);
-    loggingTest.WriteLogSensorState(sensorTuple,newSensorMeasurement);
+//    ECMLogging loggingTest;
+//    loggingTest.SetSensorLogFile(sensorTuple,sensorLoggingFile);
+//    loggingTest.WriteLogSensorState(sensorTuple,newSensorMeasurement);
 
 //    uint8_t byte = 131;
 //    uint8_t exceptionMask = 127<<0;
@@ -72,8 +107,9 @@ int main(int argc, char *argv[])
 //        //we have a problem
 //    }
 //    std::cout<<"The exception value is: "<<exceptionValue<<std::endl;
-//    uint8_t RWMask = 240<<0;
+//    uint8_t RWMask = 128<<0;
 //    uint8_t RWValue = (byte & (~RWMask));
+//    std::cout<<"The read write value is: "<<RWValue<<std::endl;
 
 //    GalilMotionController* newGalil = new GalilMotionController();
 //    MunkPowerSupply* newMunk = new MunkPowerSupply();
@@ -83,15 +119,26 @@ int main(int argc, char *argv[])
 
 //    newInterface->openConnection(sensorayConfig);
 
-//    Westinghouse510* pump = new Westinghouse510(newInterface,01);
+//    Westinghouse510* pump = new Westinghouse510(newInterface,03);
 //    registers_WestinghousePump::Register_OperationSignal newOps;
-//    newOps.setSlaveAddress(01);
+//    newOps.setSlaveAddress(03);
 //    newOps.shouldReverse(false);
-//    newOps.shouldRun(true);
-//    newOps.setReadorWrite(data_WestinghousePump::ReadWriteType::WRITE);
-//    pump->slot_SerialPortReceivedData(newOps.getFullMessage());
+//    newOps.setReadorWrite(data_WestinghousePump::RWType::WRITE);
 //    common::comms::SerialConfiguration newSerialConfig;
 //    newInterface->openSerialPortConnection(newSerialConfig);
+
+//    while(true)
+//    {
+//        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+//        std::cout<<"Should be turning the pump on...."<<std::endl;
+//        newOps.shouldRun(true);
+//        newInterface->writeToSerialPort(newOps.getFullMessage());
+
+//        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+//        std::cout<<"Should be turning the pump off...."<<std::endl;
+//        newOps.shouldRun(false);
+//        newInterface->writeToSerialPort(newOps.getFullMessage());
+//    }
 
     // Testing of the Sensoray device
 //    HSESSION sess;

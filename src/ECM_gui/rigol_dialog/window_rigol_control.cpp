@@ -7,6 +7,7 @@ Window_RigolControl::Window_RigolControl(RigolOscilliscope *obj, QWidget *parent
     m_Rigol(obj)
 {
     ui->setupUi(this);
+    connect(m_Rigol,SIGNAL(signal_RigolConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(slot_OscilliscopeConnectionUpdate(common::comms::CommunicationConnection)));
 
     ui->comboBox_Channel->addItem(QString::fromStdString(AvailableChannelsToDisplayString(AvailableChannels::CHANNEL_1)));
     ui->comboBox_Channel->addItem(QString::fromStdString(AvailableChannelsToDisplayString(AvailableChannels::CHANNEL_2)));
@@ -54,6 +55,14 @@ void Window_RigolControl::on_pushButton_Done_released()
 {
     windowHidden = true;
     this->hide();
+}
+
+void Window_RigolControl::slot_OscilliscopeConnectionUpdate(const common::comms::CommunicationConnection &value)
+{
+    if(value.isConnected())
+        ui->widget_PumpOn->setColor(QColor(0,255,0));
+    else
+        ui->widget_PumpOn->setColor(QColor(255,0,0));
 }
 
 void Window_RigolControl::on_comboBox_Channel_currentIndexChanged(const QString &arg1)
