@@ -61,7 +61,8 @@ SOURCES += \
     misc_dialogs/window_touchoff.cpp \
     misc_dialogs/dialog_connections.cpp \
     rigol_dialog/window_rigol_control.cpp \
-    pump_dialog/window_pump_control.cpp
+    pump_dialog/window_pump_control.cpp \
+    SensorDisplay/display_ampere_area.cpp
 
 HEADERS += \
         ECM_controller_gui.h \
@@ -82,7 +83,8 @@ HEADERS += \
     misc_dialogs/dialog_connections.h \
     rigol_dialog/window_pump_control2.h \
     rigol_dialog/window_rigol_control.h \
-    pump_dialog/window_pump_control.h
+    pump_dialog/window_pump_control.h \
+    SensorDisplay/display_ampere_area.h
 
 FORMS += \
         ECM_controller_gui.ui \

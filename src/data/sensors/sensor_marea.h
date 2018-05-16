@@ -24,7 +24,7 @@ public:
     SensorMAREA(const std::string &name);
 
 
-    double GetCurrentArea(const common_data::MAREAUnit &unit) const;
+    double getCurrentArea(const common_data::MAREAUnit &unit) const;
 
 
     /*!

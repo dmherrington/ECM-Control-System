@@ -68,6 +68,14 @@ void ECMPlotCollection::UpdateSensorPlots(const common::TupleSensorString &senso
         InsertData(ID_S, time, value);
         break;
     }
+    case common_data::SENSOR_MAREA:
+    {
+        ECMPlotIdentifier ID_S(sensor);
+        MakePlot(ID_S, common_data::MAREADimension(common_data::MAREAUnit::UNIT_VOLTAGE_AMPERE_SECONDS).ShortHand());
+        double value = ((common_data::SensorMAREA*)state.getSensorData().get())->getCurrentArea(common_data::MAREAUnit::UNIT_VOLTAGE_AMPERE_SECONDS);
+        InsertData(ID_S, time, value);
+        break;
+    }
     default:
     {
         //do nothing

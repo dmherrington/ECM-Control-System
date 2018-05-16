@@ -3,6 +3,7 @@
 
 #include "I_sensor_display.h"
 #include "display_voltage.h"
+#include "display_ampere_area.h"
 
 #include "../ECM_plot_collection.h"
 

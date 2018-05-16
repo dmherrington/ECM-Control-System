@@ -2,6 +2,7 @@
 #define ECM_LOGGING_H
 
 #include <QFile>
+#include <QDir>
 #include <QMap>
 #include <QTextStream>
 
@@ -11,6 +12,8 @@
 
 #include "data/sensor_state.h"
 #include "data/motion_profile_variable_state.h"
+
+#include <iostream>
 
 class ECMLogging
 {
@@ -37,7 +40,7 @@ public:
     //!
     void WriteLogSensorState(const common::TupleSensorString &key, const common_data::SensorState &state);
 
-    void SetSensorLogFile(const common::TupleSensorString &key, QFile* file);
+    void SetSensorLogFile(const common::TupleSensorString &key);
 
 protected:
 
@@ -54,7 +57,8 @@ protected:
     //! Map indicating if logging the sensor state is enabled
     QMap<common::TupleSensorString, bool> m_LogSensorStatesEnabled;
 
-
+private:
+    std::string loggingPath;
 };
 
 #endif // ECM_LOGGING_H

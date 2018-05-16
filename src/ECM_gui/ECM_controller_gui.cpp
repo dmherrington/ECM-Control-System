@@ -48,9 +48,10 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     common::EnvironmentTime startTime;
     common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
+    m_API->m_Log->setLoggingStartTime(startTime);
 
     QDate tmp_Date(startTime.year, startTime.month, startTime.dayOfMonth);
-    QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond );
+    QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond);
 
     qRegisterMetaType<QCustomPlot::RefreshPriority>("QCustomPlot::RefreshPriority");
 
@@ -164,15 +165,6 @@ void ECMControllerGUI::slot_NewProfileVariableData(const common::TupleProfileVar
 
 void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &sensor, const common_data::SensorState &state)
 {
-//    common::TupleSensorString tupleSensor;
-//    tupleSensor.sourceName = "TestSource";
-//    tupleSensor.sensorName = "TestSensor";
-
-//    common_data::SensorState newSensorMeasurement;
-//    newSensorMeasurement.ConstructSensor(common_data::SENSOR_VOLTAGE,"Voltage Top");
-//    ((common_data::SensorVoltage*)newSensorMeasurement.getSensorData().get())->SetVoltage(rand()%100,common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
-//    newSensorMeasurement.setObservationTime(state.getObservationTime());
-
     CreateSensorDisplays(sensor,state.getSensorType());
 
     m_PlotCollection.UpdateSensorPlots(sensor, state);
@@ -183,6 +175,8 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &senso
     ui->widget_primaryPlot->RedrawDataSource(plots);
     m_SensorDisplays.PlottedDataUpdated(sensor); //this seems to be uneeded based on the call after this
     m_additionalSensorDisplay->UpdatePlottedData(sensor);
+
+    m_API->m_Log->WriteLogSensorState(sensor,state);
 }
 
 void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state)
@@ -460,7 +454,7 @@ void ECMControllerGUI::CreateSensorDisplays(const common::TupleSensorString &sen
     //if already created sensor object, do nothing.
     if(m_CreatedSensors.contains(sensor) && m_CreatedSensors[sensor] == true)
         return;
-
+    m_API->m_Log->SetSensorLogFile(sensor);
     MarshalCreateSensorDisplay(sensor, type);
 }
 

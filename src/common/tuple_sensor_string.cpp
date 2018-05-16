@@ -37,7 +37,7 @@ QString TupleSensorString::Type() const
 //!
 QString TupleSensorString::HumanName() const
 {
-    return this->sensorName;
+    return this->sourceName + this->sensorName + this->measurementName;
 }
 
 

@@ -12,6 +12,8 @@
 #include "library_rigol_oscilloscope/rigol_oscilliscope.h"
 #include "library_westinghouse510/westinghouse_510.h"
 
+#include "ecm_logging.h"
+
 class ECM_APISHARED_EXPORT ECM_API: public QObject
 {
     Q_OBJECT
@@ -32,6 +34,9 @@ public:
     Sensoray* m_Sensoray;
 
     Westinghouse510* m_Pump;
+
+    ECMLogging* m_Log;
+
 };
 
 #endif // ECM_API_H

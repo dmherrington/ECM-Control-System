@@ -401,6 +401,20 @@ QDateTime EnvironmentTime::ToQTDateTime() const
     return datetime;
 }
 
+void EnvironmentTime::FromQTDateTime(const QDateTime &desTime)
+{
+    QDate date = desTime.date();
+    this->year = date.year();
+    this->month = date.month();
+    this->dayOfMonth = date.day();
+
+    QTime time = desTime.time();
+    this->hour = time.hour();
+    this->minute = time.minute();
+    this->second = time.second();
+    this->millisecond = time.msec();
+}
+
 QString EnvironmentTime::ToString() const
 {
     QString str = "";

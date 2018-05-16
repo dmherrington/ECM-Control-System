@@ -51,6 +51,12 @@ public:
      */
     EnvironmentTime(const tm &t, const int &microseconds);
 
+    //!
+    //! \brief FromQTDateTime
+    //! \param desTime
+    //!
+    void FromQTDateTime(const QDateTime &desTime);
+
 
     /*!
      * \brief Assignment operator

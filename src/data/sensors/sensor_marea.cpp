@@ -13,7 +13,7 @@ SensorMAREA::SensorMAREA(const std::string &name)
 }
 
 
-double SensorMAREA::GetCurrentArea(const MAREAUnit &unit) const
+double SensorMAREA::getCurrentArea(const MAREAUnit &unit) const
 {
     return m_IArea * common_data::MAREADimension(unit).RatioToBaseUnit();
 }

@@ -23,6 +23,18 @@ ISensorDisplay* CollectionDisplays::CreateNewDisplayObject(const common::TupleSe
 
         break;
     }
+    case common_data::SENSOR_MAREA:
+    {
+        ECMPlotIdentifierPtr A1 = std::make_shared<ECMPlotIdentifier>(sensor);
+        //This checks to see if the data exists yet
+        //if(plotCollection->SourceExists(A1) == false) return NULL;
+
+        sensorFrame = new DisplayAmpereArea(sensor, plotCollection);
+        ((DisplayAmpereArea*)sensorFrame)->setPlotData(A1);
+
+        break;
+    }
+
     default:
         throw new std::runtime_error("Unknown sensor type");
     }
