@@ -40,6 +40,7 @@ public:
     void initializeRigol() const;
 
     void saveMeasurements();
+    void saveMeasurementsToFile(const std::string &filePath);
     void loadMeaurements(const std::string &path);
 
     bool addPollingMeasurement(const MeasureCommand_Item &command);

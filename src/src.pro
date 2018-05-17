@@ -11,4 +11,8 @@ SUBDIRS += \
     library_rigol_oscilloscope \
     library_sensoray \
     library_westinghouse510 \
-    Testing
+    Testing \
+    window_rigol_oscilliscope \
+    window_munk_power_supply \
+    Window_GalilMotionController
+

@@ -20,8 +20,8 @@ RigolOscilliscope::RigolOscilliscope(const std::string &name, QObject *parent):
         QDir measurmentDirectory(QString::fromStdString(rootPath + "/Rigol"));
         measurmentDirectory.mkpath(QString::fromStdString(rootPath + "/Rigol"));
         previousSettingsPath = measurmentDirectory.absolutePath() + "/previousMeasurements.json";
+        loadMeaurements(previousSettingsPath.toStdString());
     }
-    //loadMeaurements(previousSettingsPath.toStdString());
 }
 
 RigolOscilliscope::~RigolOscilliscope()
@@ -199,10 +199,9 @@ void RigolOscilliscope::NewMeaurementReceived(const commands_Rigol::RigolMeasure
     }
 }
 
-void RigolOscilliscope::saveMeasurements()
+void RigolOscilliscope::saveMeasurementsToFile(const std::string &filePath)
 {
-    QFile saveFile(previousSettingsPath);
-
+    QFile saveFile(QString::fromStdString(filePath));
     if (!saveFile.open(QIODevice::WriteOnly)) {
         qWarning("Couldn't open save file.");
     }
@@ -213,6 +212,10 @@ void RigolOscilliscope::saveMeasurements()
     QJsonDocument saveDoc(saveObject);
     saveFile.write(saveDoc.toJson());
     saveFile.close();
+}
+void RigolOscilliscope::saveMeasurements()
+{
+    this->saveMeasurementsToFile(previousSettingsPath.toStdString());
 }
 
 void RigolOscilliscope::loadMeaurements(const std::string &path)
