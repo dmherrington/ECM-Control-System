@@ -1,6 +1,5 @@
 #include "segment_voltage_setpoint.h"
 
-
 namespace registers_Munk {
 
 //!

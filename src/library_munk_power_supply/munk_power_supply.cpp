@@ -38,6 +38,13 @@ void MunkPowerSupply::closeSerialPort()
     commsMarshaler->DisconnetFromLink();
 }
 
+void MunkPowerSupply::resetFaultState()
+{
+    registers_Munk::Register_FaultReset resetFault;
+    resetFault.setSlaveAddress(01);
+    commsMarshaler->sendRegisterFaultStateClear(resetFault);
+}
+
 bool MunkPowerSupply::isConnected() const
 {
     return commsMarshaler->isConnected();
@@ -219,25 +226,23 @@ void MunkPowerSupply::FaultCodeRegister3Received(const std::string &msg)
 {
     emit signal_FaultCodeRecieved(3,msg);
 }
-
-void MunkPowerSupply::ForwardVoltageSetpointAcknowledged(const int &numberOfRegisters)
+void MunkPowerSupply::FaultStateCleared()
 {
-    std::string msg = "The forward voltage setpoints have been set for ";
-    msg += std::to_string(numberOfRegisters);
-    msg += " registers.";
+    emit signal_FaultStateCleared();
+}
+void MunkPowerSupply::ForwardVoltageSetpointAcknowledged()
+{
+    std::string msg = "The forward voltage setpoints have been set.";
     emit signal_SegmentSetAck(msg);
-
     int completed = 0;
     int required = 0;
     commsProgress.receivedAckProgress(MunkMessageType::FWDVolt,completed,required);
     emit signal_SegmentWriteProgress(completed,required);
 }
 
-void MunkPowerSupply::ReverseVoltageSetpointAcknowledged(const int &numberOfRegisters)
+void MunkPowerSupply::ReverseVoltageSetpointAcknowledged()
 {
-    std::string msg = "The reverse voltage setpoints have been set for ";
-    msg += std::to_string(numberOfRegisters);
-    msg += " registers.";
+    std::string msg = "The reverse voltage setpoints have been set.";
     emit signal_SegmentSetAck(msg);
     int completed = 0;
     int required = 0;
@@ -245,11 +250,9 @@ void MunkPowerSupply::ReverseVoltageSetpointAcknowledged(const int &numberOfRegi
     emit signal_SegmentWriteProgress(completed,required);
 }
 
-void MunkPowerSupply::ForwardCurrentSetpointAcknowledged(const int &numberOfRegisters)
+void MunkPowerSupply::ForwardCurrentSetpointAcknowledged()
 {
-    std::string msg = "The forward current setpoints have been set for ";
-    msg += std::to_string(numberOfRegisters);
-    msg += " registers.";
+    std::string msg = "The forward current setpoints have been set.";
     emit signal_SegmentSetAck(msg);
     int completed = 0;
     int required = 0;
@@ -257,11 +260,9 @@ void MunkPowerSupply::ForwardCurrentSetpointAcknowledged(const int &numberOfRegi
     emit signal_SegmentWriteProgress(completed,required);
 }
 
-void MunkPowerSupply::ReverseCurrentSetpointAcknowledged(const int &numberOfRegisters)
+void MunkPowerSupply::ReverseCurrentSetpointAcknowledged()
 {
-    std::string msg = "The reverse current setpoints have been set for ";
-    msg += std::to_string(numberOfRegisters);
-    msg += " registers.";
+    std::string msg = "The reverse current setpoints have been set.";
     emit signal_SegmentSetAck(msg);
     int completed = 0;
     int required = 0;
@@ -269,11 +270,9 @@ void MunkPowerSupply::ReverseCurrentSetpointAcknowledged(const int &numberOfRegi
     emit signal_SegmentWriteProgress(completed,required);
 }
 
-void MunkPowerSupply::SegmentTimeAcknowledged(const int &numberOfRegisters)
+void MunkPowerSupply::SegmentTimeAcknowledged()
 {
-    std::string msg = "The segment times have been set for ";
-    msg += std::to_string(numberOfRegisters);
-    msg += " registers.";
+    std::string msg = "The segment times have been set.";
     emit signal_SegmentSetAck(msg);
     int completed = 0;
     int required = 0;
@@ -304,5 +303,6 @@ void MunkPowerSupply::cbi_MunkFaultStateRequest(const RegisterFaultState &reques
 {
     commsMarshaler->sendRegisterFaultStateRequest(request);
 }
+
 
 

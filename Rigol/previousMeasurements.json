@@ -3,7 +3,7 @@
         {
             "channel": "CHANNEL 1",
             "device": "Rigol",
-            "measurement": "VTOP",
+            "measurement": "MARea",
             "r_w": "Read"
         }
     ]

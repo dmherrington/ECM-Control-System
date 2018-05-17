@@ -28,6 +28,8 @@
 #include "data_registers/segment_current_setpoint.h"
 #include "data_registers/parameter_memory_write.h"
 
+#include "data_registers/register_fault_reset.h"
+
 #include "munk_poll_status.h"
 
 using namespace registers_Munk;
@@ -46,6 +48,8 @@ public:
     MunkPowerSupply(const std::string &name = "Munk_PowerSupply");
 
     ~MunkPowerSupply();
+
+    void resetFaultState();
 
     //!
     //! \brief generateAndTransmitMessage
@@ -74,6 +78,8 @@ signals:
     void signal_CommunicationUpdate(const std::string &name, const std::string &msg) const;
 
     void signal_FaultCodeRecieved(const int &regNum, const std::string &msg) const;
+
+    void signal_FaultStateCleared();
 
     void signal_SegmentSetAck(const std::string &msg) const;
 
@@ -108,15 +114,17 @@ private:
 
     void FaultCodeRegister3Received(const std::string &msg) override;
 
-    void ForwardVoltageSetpointAcknowledged(const int &numberOfRegisters) override;
+    void FaultStateCleared() override;
 
-    void ReverseVoltageSetpointAcknowledged(const int &numberOfRegisters) override;
+    void ForwardVoltageSetpointAcknowledged() override;
 
-    void ForwardCurrentSetpointAcknowledged(const int &numberOfRegisters) override;
+    void ReverseVoltageSetpointAcknowledged() override;
 
-    void ReverseCurrentSetpointAcknowledged(const int &numberOfRegisters) override;
+    void ForwardCurrentSetpointAcknowledged() override;
 
-    void SegmentTimeAcknowledged(const int &numberOfRegisters) override;
+    void ReverseCurrentSetpointAcknowledged() override;
+
+    void SegmentTimeAcknowledged() override;
 
     void SegmentCommitedToMemoryAcknowledged() override;
 

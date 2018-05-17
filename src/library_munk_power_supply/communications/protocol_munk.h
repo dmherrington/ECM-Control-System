@@ -16,6 +16,7 @@
 #include "data_registers/segment_current_setpoint.h"
 #include "data_registers/parameter_memory_write.h"
 #include "data_registers/register_fault_state.h"
+#include "data_registers/register_fault_reset.h"
 #include "data_registers/type_definition.h"
 
 #include "munk_data_framing.h"
@@ -73,6 +74,8 @@ public:
     /////////////////////////////////////////////////////////////////////
 
     void sendFaultStateRequest(const ILink *link, const registers_Munk::RegisterFaultState &request);
+
+    void sendFaultStateReset(const ILink *link, const registers_Munk::Register_FaultReset &request);
 
 
 public:

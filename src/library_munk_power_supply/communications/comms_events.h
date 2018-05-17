@@ -63,29 +63,34 @@ public:
         UNUSED(msg);
     }
 
-    virtual void ForwardVoltageSetpointAcknowledged(const int &numberOfRegisters)
+    virtual void FaultStateCleared()
     {
-        UNUSED(numberOfRegisters);
+
     }
 
-    virtual void ReverseVoltageSetpointAcknowledged(const int &numberOfRegisters)
+    virtual void ForwardVoltageSetpointAcknowledged()
     {
-        UNUSED(numberOfRegisters);
+
     }
 
-    virtual void ForwardCurrentSetpointAcknowledged(const int &numberOfRegisters)
+    virtual void ReverseVoltageSetpointAcknowledged()
     {
-        UNUSED(numberOfRegisters);
+
     }
 
-    virtual void ReverseCurrentSetpointAcknowledged(const int &numberOfRegisters)
+    virtual void ForwardCurrentSetpointAcknowledged()
     {
-        UNUSED(numberOfRegisters);
+
     }
 
-    virtual void SegmentTimeAcknowledged(const int &numberOfRegisters)
+    virtual void ReverseCurrentSetpointAcknowledged()
     {
-        UNUSED(numberOfRegisters);
+
+    }
+
+    virtual void SegmentTimeAcknowledged()
+    {
+
     }
 
     virtual void SegmentCommitedToMemoryAcknowledged()

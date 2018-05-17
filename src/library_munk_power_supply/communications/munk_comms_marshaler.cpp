@@ -150,6 +150,15 @@ void MunkCommsMarshaler::sendRegisterFaultStateRequest(const registers_Munk::Reg
     link->MarshalOnThread(func);
 }
 
+void MunkCommsMarshaler::sendRegisterFaultStateClear(const registers_Munk::Register_FaultReset &request)
+{
+    auto func = [this, request]() {
+            protocol->sendFaultStateReset(link.get(), request);
+    };
+
+    link->MarshalOnThread(func);
+}
+
 //////////////////////////////////////////////////////////////
 /// React to Link Events
 //////////////////////////////////////////////////////////////
@@ -201,28 +210,34 @@ void MunkCommsMarshaler::FaultCodeRegister3Received(const ILink* link_ptr,  cons
     Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister3Received(data_Munk::FaultCodesRegister3ToString(code));});
 }
 
-void MunkCommsMarshaler::SegmentVoltageSetpointAcknowledged(const ILink* link_ptr, const data_Munk::SegmentMode &mode, const int &numberRegisters) const
+void MunkCommsMarshaler::FaultStateCleared(const ILink *link_ptr) const
+{
+    UNUSED(link_ptr);
+    Emit([&](CommsEvents *ptr){ptr->FaultStateCleared();});
+}
+
+void MunkCommsMarshaler::SegmentVoltageSetpointAcknowledged(const ILink* link_ptr, const data_Munk::SegmentMode &mode) const
 {
     UNUSED(link_ptr);
     if(mode == data_Munk::SegmentMode::FORWARD)
-        Emit([&](CommsEvents *ptr){ptr->ForwardVoltageSetpointAcknowledged(numberRegisters);});
+        Emit([&](CommsEvents *ptr){ptr->ForwardVoltageSetpointAcknowledged();});
     else
-        Emit([&](CommsEvents *ptr){ptr->ReverseVoltageSetpointAcknowledged(numberRegisters);});
+        Emit([&](CommsEvents *ptr){ptr->ReverseVoltageSetpointAcknowledged();});
 }
 
-void MunkCommsMarshaler::SegmentCurrentSetpointAcknowledged(const ILink* link_ptr , const data_Munk::SegmentMode &mode, const int &numberRegisters) const
+void MunkCommsMarshaler::SegmentCurrentSetpointAcknowledged(const ILink* link_ptr , const data_Munk::SegmentMode &mode) const
 {
     UNUSED(link_ptr);
     if(mode == data_Munk::SegmentMode::FORWARD)
-        Emit([&](CommsEvents *ptr){ptr->ForwardCurrentSetpointAcknowledged(numberRegisters);});
+        Emit([&](CommsEvents *ptr){ptr->ForwardCurrentSetpointAcknowledged();});
     else
-        Emit([&](CommsEvents *ptr){ptr->ReverseCurrentSetpointAcknowledged(numberRegisters);});
+        Emit([&](CommsEvents *ptr){ptr->ReverseCurrentSetpointAcknowledged();});
 }
 
-void MunkCommsMarshaler::SegmentTimeSetpointAcknowledged(const ILink* link_ptr , const int &numberRegisters) const
+void MunkCommsMarshaler::SegmentTimeSetpointAcknowledged(const ILink* link_ptr) const
 {
     UNUSED(link_ptr);
-    Emit([&](CommsEvents *ptr){ptr->SegmentTimeAcknowledged(numberRegisters);});
+    Emit([&](CommsEvents *ptr){ptr->SegmentTimeAcknowledged();});
 }
 
 void MunkCommsMarshaler::SegmentCommittedToMemory(const ILink* link_ptr) const
