@@ -22,12 +22,12 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include "LED.h"
+#include "rigol_dialog/widget_rigol_radio.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -40,30 +40,7 @@ public:
     QAction *actionClose;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
-    QRadioButton *radioButton_MAX;
-    QRadioButton *radioButton_BASE;
-    QRadioButton *radioButton_OVERSHOOT;
-    QRadioButton *radioButton_PERIOD;
-    QRadioButton *radioButton_PWIDTH;
-    QRadioButton *radioButton_RDELAY;
-    QRadioButton *radioButton_MIN;
-    QRadioButton *radioButton_AMP;
-    QRadioButton *radioButton_PRESHOOT;
-    QRadioButton *radioButton_FREQUENCY;
-    QRadioButton *radioButton_NWIDTH;
-    QRadioButton *radioButton_FDELAY;
-    QRadioButton *radioButton_VPP;
-    QRadioButton *radioButton_AVG;
-    QRadioButton *radioButton_MAREA;
-    QRadioButton *radioButton_RTIME;
-    QRadioButton *radioButton_PDUTY;
-    QRadioButton *radioButton_RPHASE;
-    QRadioButton *radioButton_VTOP;
-    QRadioButton *radioButton_RMS;
-    QRadioButton *radioButton_MPAREA;
-    QRadioButton *radioButton_FTIME;
-    QRadioButton *radioButton_NDUTY;
-    QRadioButton *radioButton_FPHASE;
+    Widget_RigolRadio *widget_RadioButtons;
     QHBoxLayout *horizontalLayout;
     QVBoxLayout *verticalLayout_2;
     QLabel *label_Connection;
@@ -221,225 +198,12 @@ public:
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        radioButton_MAX = new QRadioButton(centralwidget);
-        radioButton_MAX->setObjectName(QStringLiteral("radioButton_MAX"));
-        radioButton_MAX->setMinimumSize(QSize(0, 20));
-        radioButton_MAX->setMaximumSize(QSize(16777215, 20));
-        QFont font;
-        font.setPointSize(10);
-        font.setBold(true);
-        font.setWeight(75);
-        radioButton_MAX->setFont(font);
-        radioButton_MAX->setAutoExclusive(false);
+        widget_RadioButtons = new Widget_RigolRadio(centralwidget);
+        widget_RadioButtons->setObjectName(QStringLiteral("widget_RadioButtons"));
+        widget_RadioButtons->setMinimumSize(QSize(482, 100));
+        widget_RadioButtons->setMaximumSize(QSize(482, 100));
 
-        gridLayout->addWidget(radioButton_MAX, 0, 0, 1, 1);
-
-        radioButton_BASE = new QRadioButton(centralwidget);
-        radioButton_BASE->setObjectName(QStringLiteral("radioButton_BASE"));
-        radioButton_BASE->setMinimumSize(QSize(0, 20));
-        radioButton_BASE->setMaximumSize(QSize(16777215, 20));
-        radioButton_BASE->setFont(font);
-        radioButton_BASE->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_BASE, 0, 1, 1, 1);
-
-        radioButton_OVERSHOOT = new QRadioButton(centralwidget);
-        radioButton_OVERSHOOT->setObjectName(QStringLiteral("radioButton_OVERSHOOT"));
-        radioButton_OVERSHOOT->setMinimumSize(QSize(0, 20));
-        radioButton_OVERSHOOT->setMaximumSize(QSize(16777215, 20));
-        radioButton_OVERSHOOT->setFont(font);
-        radioButton_OVERSHOOT->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_OVERSHOOT, 0, 2, 1, 1);
-
-        radioButton_PERIOD = new QRadioButton(centralwidget);
-        radioButton_PERIOD->setObjectName(QStringLiteral("radioButton_PERIOD"));
-        radioButton_PERIOD->setMinimumSize(QSize(0, 20));
-        radioButton_PERIOD->setMaximumSize(QSize(16777215, 20));
-        radioButton_PERIOD->setFont(font);
-        radioButton_PERIOD->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_PERIOD, 0, 3, 1, 1);
-
-        radioButton_PWIDTH = new QRadioButton(centralwidget);
-        radioButton_PWIDTH->setObjectName(QStringLiteral("radioButton_PWIDTH"));
-        radioButton_PWIDTH->setMinimumSize(QSize(0, 20));
-        radioButton_PWIDTH->setMaximumSize(QSize(16777215, 20));
-        radioButton_PWIDTH->setFont(font);
-        radioButton_PWIDTH->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_PWIDTH, 0, 4, 1, 1);
-
-        radioButton_RDELAY = new QRadioButton(centralwidget);
-        radioButton_RDELAY->setObjectName(QStringLiteral("radioButton_RDELAY"));
-        radioButton_RDELAY->setMinimumSize(QSize(0, 20));
-        radioButton_RDELAY->setMaximumSize(QSize(16777215, 20));
-        radioButton_RDELAY->setFont(font);
-        radioButton_RDELAY->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_RDELAY, 0, 5, 1, 1);
-
-        radioButton_MIN = new QRadioButton(centralwidget);
-        radioButton_MIN->setObjectName(QStringLiteral("radioButton_MIN"));
-        radioButton_MIN->setMinimumSize(QSize(0, 20));
-        radioButton_MIN->setMaximumSize(QSize(16777215, 20));
-        radioButton_MIN->setFont(font);
-        radioButton_MIN->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_MIN, 1, 0, 1, 1);
-
-        radioButton_AMP = new QRadioButton(centralwidget);
-        radioButton_AMP->setObjectName(QStringLiteral("radioButton_AMP"));
-        radioButton_AMP->setMinimumSize(QSize(0, 20));
-        radioButton_AMP->setMaximumSize(QSize(16777215, 20));
-        radioButton_AMP->setFont(font);
-        radioButton_AMP->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_AMP, 1, 1, 1, 1);
-
-        radioButton_PRESHOOT = new QRadioButton(centralwidget);
-        radioButton_PRESHOOT->setObjectName(QStringLiteral("radioButton_PRESHOOT"));
-        radioButton_PRESHOOT->setMinimumSize(QSize(0, 20));
-        radioButton_PRESHOOT->setMaximumSize(QSize(16777215, 20));
-        radioButton_PRESHOOT->setFont(font);
-        radioButton_PRESHOOT->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_PRESHOOT, 1, 2, 1, 1);
-
-        radioButton_FREQUENCY = new QRadioButton(centralwidget);
-        radioButton_FREQUENCY->setObjectName(QStringLiteral("radioButton_FREQUENCY"));
-        radioButton_FREQUENCY->setMinimumSize(QSize(0, 20));
-        radioButton_FREQUENCY->setMaximumSize(QSize(16777215, 20));
-        radioButton_FREQUENCY->setFont(font);
-        radioButton_FREQUENCY->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_FREQUENCY, 1, 3, 1, 1);
-
-        radioButton_NWIDTH = new QRadioButton(centralwidget);
-        radioButton_NWIDTH->setObjectName(QStringLiteral("radioButton_NWIDTH"));
-        radioButton_NWIDTH->setMinimumSize(QSize(0, 20));
-        radioButton_NWIDTH->setMaximumSize(QSize(16777215, 20));
-        radioButton_NWIDTH->setFont(font);
-        radioButton_NWIDTH->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_NWIDTH, 1, 4, 1, 1);
-
-        radioButton_FDELAY = new QRadioButton(centralwidget);
-        radioButton_FDELAY->setObjectName(QStringLiteral("radioButton_FDELAY"));
-        radioButton_FDELAY->setMinimumSize(QSize(0, 20));
-        radioButton_FDELAY->setMaximumSize(QSize(16777215, 20));
-        radioButton_FDELAY->setFont(font);
-        radioButton_FDELAY->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_FDELAY, 1, 5, 1, 1);
-
-        radioButton_VPP = new QRadioButton(centralwidget);
-        radioButton_VPP->setObjectName(QStringLiteral("radioButton_VPP"));
-        radioButton_VPP->setMinimumSize(QSize(0, 20));
-        radioButton_VPP->setMaximumSize(QSize(16777215, 20));
-        radioButton_VPP->setFont(font);
-        radioButton_VPP->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_VPP, 2, 0, 1, 1);
-
-        radioButton_AVG = new QRadioButton(centralwidget);
-        radioButton_AVG->setObjectName(QStringLiteral("radioButton_AVG"));
-        radioButton_AVG->setMinimumSize(QSize(0, 20));
-        radioButton_AVG->setMaximumSize(QSize(16777215, 20));
-        radioButton_AVG->setFont(font);
-        radioButton_AVG->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_AVG, 2, 1, 1, 1);
-
-        radioButton_MAREA = new QRadioButton(centralwidget);
-        radioButton_MAREA->setObjectName(QStringLiteral("radioButton_MAREA"));
-        radioButton_MAREA->setMinimumSize(QSize(0, 20));
-        radioButton_MAREA->setMaximumSize(QSize(16777215, 20));
-        radioButton_MAREA->setFont(font);
-        radioButton_MAREA->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_MAREA, 2, 2, 1, 1);
-
-        radioButton_RTIME = new QRadioButton(centralwidget);
-        radioButton_RTIME->setObjectName(QStringLiteral("radioButton_RTIME"));
-        radioButton_RTIME->setMinimumSize(QSize(0, 20));
-        radioButton_RTIME->setMaximumSize(QSize(16777215, 20));
-        radioButton_RTIME->setFont(font);
-        radioButton_RTIME->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_RTIME, 2, 3, 1, 1);
-
-        radioButton_PDUTY = new QRadioButton(centralwidget);
-        radioButton_PDUTY->setObjectName(QStringLiteral("radioButton_PDUTY"));
-        radioButton_PDUTY->setMinimumSize(QSize(0, 20));
-        radioButton_PDUTY->setMaximumSize(QSize(16777215, 20));
-        radioButton_PDUTY->setFont(font);
-        radioButton_PDUTY->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_PDUTY, 2, 4, 1, 1);
-
-        radioButton_RPHASE = new QRadioButton(centralwidget);
-        radioButton_RPHASE->setObjectName(QStringLiteral("radioButton_RPHASE"));
-        radioButton_RPHASE->setMinimumSize(QSize(0, 20));
-        radioButton_RPHASE->setMaximumSize(QSize(16777215, 20));
-        radioButton_RPHASE->setFont(font);
-        radioButton_RPHASE->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_RPHASE, 2, 5, 1, 1);
-
-        radioButton_VTOP = new QRadioButton(centralwidget);
-        radioButton_VTOP->setObjectName(QStringLiteral("radioButton_VTOP"));
-        radioButton_VTOP->setMinimumSize(QSize(0, 20));
-        radioButton_VTOP->setMaximumSize(QSize(16777215, 20));
-        radioButton_VTOP->setFont(font);
-        radioButton_VTOP->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_VTOP, 3, 0, 1, 1);
-
-        radioButton_RMS = new QRadioButton(centralwidget);
-        radioButton_RMS->setObjectName(QStringLiteral("radioButton_RMS"));
-        radioButton_RMS->setMinimumSize(QSize(0, 20));
-        radioButton_RMS->setMaximumSize(QSize(16777215, 20));
-        radioButton_RMS->setFont(font);
-        radioButton_RMS->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_RMS, 3, 1, 1, 1);
-
-        radioButton_MPAREA = new QRadioButton(centralwidget);
-        radioButton_MPAREA->setObjectName(QStringLiteral("radioButton_MPAREA"));
-        radioButton_MPAREA->setMinimumSize(QSize(0, 20));
-        radioButton_MPAREA->setMaximumSize(QSize(16777215, 20));
-        radioButton_MPAREA->setFont(font);
-        radioButton_MPAREA->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_MPAREA, 3, 2, 1, 1);
-
-        radioButton_FTIME = new QRadioButton(centralwidget);
-        radioButton_FTIME->setObjectName(QStringLiteral("radioButton_FTIME"));
-        radioButton_FTIME->setMinimumSize(QSize(0, 20));
-        radioButton_FTIME->setMaximumSize(QSize(16777215, 20));
-        radioButton_FTIME->setFont(font);
-        radioButton_FTIME->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_FTIME, 3, 3, 1, 1);
-
-        radioButton_NDUTY = new QRadioButton(centralwidget);
-        radioButton_NDUTY->setObjectName(QStringLiteral("radioButton_NDUTY"));
-        radioButton_NDUTY->setMinimumSize(QSize(0, 20));
-        radioButton_NDUTY->setMaximumSize(QSize(16777215, 20));
-        radioButton_NDUTY->setFont(font);
-        radioButton_NDUTY->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_NDUTY, 3, 4, 1, 1);
-
-        radioButton_FPHASE = new QRadioButton(centralwidget);
-        radioButton_FPHASE->setObjectName(QStringLiteral("radioButton_FPHASE"));
-        radioButton_FPHASE->setMinimumSize(QSize(0, 20));
-        radioButton_FPHASE->setMaximumSize(QSize(16777215, 20));
-        radioButton_FPHASE->setFont(font);
-        radioButton_FPHASE->setAutoExclusive(false);
-
-        gridLayout->addWidget(radioButton_FPHASE, 3, 5, 1, 1);
+        gridLayout->addWidget(widget_RadioButtons, 0, 0, 1, 1);
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
@@ -454,9 +218,9 @@ public:
         label_Connection->setSizePolicy(sizePolicy1);
         label_Connection->setMinimumSize(QSize(80, 18));
         label_Connection->setMaximumSize(QSize(80, 18));
-        QFont font1;
-        font1.setPointSize(10);
-        label_Connection->setFont(font1);
+        QFont font;
+        font.setPointSize(10);
+        label_Connection->setFont(font);
         label_Connection->setAlignment(Qt::AlignCenter);
 
         verticalLayout_2->addWidget(label_Connection);
@@ -483,7 +247,7 @@ public:
         comboBox_Channel->setSizePolicy(sizePolicy1);
         comboBox_Channel->setMinimumSize(QSize(200, 25));
         comboBox_Channel->setMaximumSize(QSize(200, 25));
-        comboBox_Channel->setFont(font1);
+        comboBox_Channel->setFont(font);
 
         horizontalLayout->addWidget(comboBox_Channel);
 
@@ -497,14 +261,14 @@ public:
         pushButton_Done->setSizePolicy(sizePolicy1);
         pushButton_Done->setMinimumSize(QSize(100, 40));
         pushButton_Done->setMaximumSize(QSize(100, 40));
-        QFont font2;
-        font2.setPointSize(12);
-        pushButton_Done->setFont(font2);
+        QFont font1;
+        font1.setPointSize(12);
+        pushButton_Done->setFont(font1);
 
         horizontalLayout->addWidget(pushButton_Done);
 
 
-        gridLayout->addLayout(horizontalLayout, 4, 0, 1, 6);
+        gridLayout->addLayout(horizontalLayout, 1, 0, 1, 1);
 
         Window_RigolControl->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Window_RigolControl);
@@ -546,30 +310,6 @@ public:
         actionSave->setText(QApplication::translate("Window_RigolControl", "Save", nullptr));
         actionSave_As->setText(QApplication::translate("Window_RigolControl", "Save As", nullptr));
         actionClose->setText(QApplication::translate("Window_RigolControl", "Close", nullptr));
-        radioButton_MAX->setText(QApplication::translate("Window_RigolControl", "MAX", nullptr));
-        radioButton_BASE->setText(QApplication::translate("Window_RigolControl", "BASE", nullptr));
-        radioButton_OVERSHOOT->setText(QApplication::translate("Window_RigolControl", "OVERSHOOT", nullptr));
-        radioButton_PERIOD->setText(QApplication::translate("Window_RigolControl", "PERIOD", nullptr));
-        radioButton_PWIDTH->setText(QApplication::translate("Window_RigolControl", "PWIDTH", nullptr));
-        radioButton_RDELAY->setText(QApplication::translate("Window_RigolControl", "RDELAY", nullptr));
-        radioButton_MIN->setText(QApplication::translate("Window_RigolControl", "MIN", nullptr));
-        radioButton_AMP->setText(QApplication::translate("Window_RigolControl", "AMP", nullptr));
-        radioButton_PRESHOOT->setText(QApplication::translate("Window_RigolControl", "PRESHOOT", nullptr));
-        radioButton_FREQUENCY->setText(QApplication::translate("Window_RigolControl", "FREQUENCY", nullptr));
-        radioButton_NWIDTH->setText(QApplication::translate("Window_RigolControl", "NWIDTH", nullptr));
-        radioButton_FDELAY->setText(QApplication::translate("Window_RigolControl", "FDELAY", nullptr));
-        radioButton_VPP->setText(QApplication::translate("Window_RigolControl", "VPP", nullptr));
-        radioButton_AVG->setText(QApplication::translate("Window_RigolControl", "AVG", nullptr));
-        radioButton_MAREA->setText(QApplication::translate("Window_RigolControl", "MAREA", nullptr));
-        radioButton_RTIME->setText(QApplication::translate("Window_RigolControl", "RTIME", nullptr));
-        radioButton_PDUTY->setText(QApplication::translate("Window_RigolControl", "PDUTY", nullptr));
-        radioButton_RPHASE->setText(QApplication::translate("Window_RigolControl", "RPHASE", nullptr));
-        radioButton_VTOP->setText(QApplication::translate("Window_RigolControl", "VTOP", nullptr));
-        radioButton_RMS->setText(QApplication::translate("Window_RigolControl", "RMS", nullptr));
-        radioButton_MPAREA->setText(QApplication::translate("Window_RigolControl", "MPAREA", nullptr));
-        radioButton_FTIME->setText(QApplication::translate("Window_RigolControl", "FTIME", nullptr));
-        radioButton_NDUTY->setText(QApplication::translate("Window_RigolControl", "NDUTY", nullptr));
-        radioButton_FPHASE->setText(QApplication::translate("Window_RigolControl", "FPHASE", nullptr));
         label_Connection->setText(QApplication::translate("Window_RigolControl", "Connection:", nullptr));
         pushButton_Done->setText(QApplication::translate("Window_RigolControl", "DONE", nullptr));
         menuFile->setTitle(QApplication::translate("Window_RigolControl", "File", nullptr));

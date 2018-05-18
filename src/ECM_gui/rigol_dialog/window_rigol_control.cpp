@@ -8,11 +8,43 @@ Window_RigolControl::Window_RigolControl(RigolOscilliscope *obj, QWidget *parent
 {
     ui->setupUi(this);
     connect(m_Rigol,SIGNAL(signal_RigolConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(slot_OscilliscopeConnectionUpdate(common::comms::CommunicationConnection)));
+    connect(m_Rigol,SIGNAL(signal_RigolLoadComplete()),this,SLOT(slot_onLoadComplete()));
+
+    connect(ui->widget_RadioButtons,SIGNAL(signal_onRadioButtonChange(data_Rigol::MeasurementTypes,bool)),this,SLOT(slot_onRadioButtonChange(data_Rigol::MeasurementTypes,bool)));
 
     ui->comboBox_Channel->addItem(QString::fromStdString(AvailableChannelsToDisplayString(AvailableChannels::CHANNEL_1)));
     ui->comboBox_Channel->addItem(QString::fromStdString(AvailableChannelsToDisplayString(AvailableChannels::CHANNEL_2)));
     ui->comboBox_Channel->addItem(QString::fromStdString(AvailableChannelsToDisplayString(AvailableChannels::CHANNEL_3)));
     ui->comboBox_Channel->addItem(QString::fromStdString(AvailableChannelsToDisplayString(AvailableChannels::CHANNEL_4)));
+
+    //Setting up the proper directory paths for all of the stuff
+    char* ECMPath = getenv("ECM_ROOT");
+    if(ECMPath){
+        std::string rootPath(ECMPath);
+        QDir loggingDirectory(QString::fromStdString(rootPath + "/Rigol/logs"));
+        QDir setupDirectory(QString::fromStdString(rootPath + "/Rigol/setup"));
+        QDir settingsDirectory(QString::fromStdString(rootPath + "/Rigol/settings"));
+
+        loggingDirectory.mkpath(QString::fromStdString(rootPath + "/Rigol/logs"));
+        setupDirectory.mkpath(QString::fromStdString(rootPath + "/Rigol/setup"));
+        settingsDirectory.mkpath(QString::fromStdString(rootPath + "/Rigol/settings"));
+
+        loggingPath = loggingDirectory.absolutePath() + "/";
+        previousSettingsPath = setupDirectory.absolutePath() + "/previousSettings.json";
+        currentSettingsPath = "";
+    }
+
+}
+
+void Window_RigolControl::getSettingsPath(std::string &filePath) const
+{
+    char* ECMPath = getenv("ECM_ROOT");
+    if(ECMPath){
+        std::string rootPath(ECMPath);
+        QFile settingsDirectory(QString::fromStdString(rootPath + "/Rigol/settings"));
+        QFileInfo fileInfo(settingsDirectory);
+        filePath = fileInfo.absolutePath().toStdString();
+    }
 }
 
 Window_RigolControl::~Window_RigolControl()
@@ -36,18 +68,23 @@ void Window_RigolControl::readSettings()
 
 void Window_RigolControl::closeEvent(QCloseEvent *event)
 {
+    UNUSED(event);
     QSettings settings("Rigol Window", "ECM Application");
     settings.setValue("pos", pos());
     settings.setValue("size", size());
+    m_Rigol->saveMeasurementsToFile(previousSettingsPath.toStdString());
 }
 
 void Window_RigolControl::hideEvent(QHideEvent *event)
 {
+    UNUSED(event);
     windowHidden = true;
+    emit signal_onRigolWindowChanged(false);
 }
 
 void Window_RigolControl::showEvent(QShowEvent *event)
 {
+    UNUSED(event);
     windowHidden = false;
 }
 
@@ -65,392 +102,110 @@ void Window_RigolControl::slot_OscilliscopeConnectionUpdate(const common::comms:
         ui->widget_PumpOn->setColor(QColor(255,0,0));
 }
 
+void Window_RigolControl::slot_onRadioButtonChange(const MeasurementTypes &measurement, const bool &checked)
+{
+    QString comboboxText = ui->comboBox_Channel->currentText();
+    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
+    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,measurement);
+    if(checked)
+        m_Rigol->addPollingMeasurement(newMeasurement);
+    else
+        m_Rigol->removePollingMeasurement(newMeasurement);
+}
+
+void Window_RigolControl::slot_onLoadComplete()
+{
+    const bool wasBlocked = ui->widget_RadioButtons->blockSignals(true);
+    ui->widget_RadioButtons->resetRadioButtons();
+    QString comboText = ui->comboBox_Channel->currentText();
+    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboText.toStdString());
+    commands_Rigol::RigolMeasurementQueue currentQueue = m_Rigol->getCurrentPollingMeasurements();
+    std::vector<data_Rigol::MeasurementTypes> currentMeasurements = currentQueue.getMeasurementItemsPerChannel(currentChannel);
+    for(unsigned int i = 0; i < currentMeasurements.size(); i++)
+        ui->widget_RadioButtons->setRadioButton(currentMeasurements.at(i),true);
+    ui->widget_RadioButtons->blockSignals(wasBlocked);
+}
+
 void Window_RigolControl::on_comboBox_Channel_currentIndexChanged(const QString &arg1)
 {
-    this->resetRadioButtons();
+    const bool wasBlocked = ui->widget_RadioButtons->blockSignals(true);
+    ui->widget_RadioButtons->resetRadioButtons();
     data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(arg1.toStdString());
     commands_Rigol::RigolMeasurementQueue currentQueue = m_Rigol->getCurrentPollingMeasurements();
     std::vector<data_Rigol::MeasurementTypes> currentMeasurements = currentQueue.getMeasurementItemsPerChannel(currentChannel);
-    for(int i = 0; i < currentMeasurements.size(); i++)
-        setRadioButton(currentMeasurements.at(i),true);
+    for(unsigned int i = 0; i < currentMeasurements.size(); i++)
+        ui->widget_RadioButtons->setRadioButton(currentMeasurements.at(i),true);
+    ui->widget_RadioButtons->blockSignals(wasBlocked);
 }
 
-void Window_RigolControl::setRadioButton(const data_Rigol::MeasurementTypes &measurement, const bool &value)
-{
-    switch (measurement) {
-    case data_Rigol::MeasurementTypes::MEASURE_VAMP:
-        ui->radioButton_AMP->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_VAVG:
-        ui->radioButton_AVG->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_VBASE:
-        ui->radioButton_BASE->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_FDELAY:
-        ui->radioButton_FDELAY->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_FPHASE:
-        ui->radioButton_FPHASE->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_FREQUENCY:
-        ui->radioButton_FREQUENCY->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_FTIME:
-        ui->radioButton_FTIME->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_MAREA:
-        ui->radioButton_MAREA->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_VMAX:
-        ui->radioButton_MAX->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_VMIN:
-        ui->radioButton_MIN->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_MPAREA:
-        ui->radioButton_MPAREA->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_NDUTY:
-        ui->radioButton_NDUTY->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_NWIDTH:
-        ui->radioButton_NWIDTH->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_OVERSHOOT:
-        ui->radioButton_OVERSHOOT->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_PDUTY:
-        ui->radioButton_PDUTY->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_PERIOD:
-        ui->radioButton_PERIOD->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_PRESHOOT:
-        ui->radioButton_PRESHOOT->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_PWIDTH:
-        ui->radioButton_PWIDTH->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_RDELAY:
-        ui->radioButton_RDELAY->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_VRMS:
-        ui->radioButton_RMS->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_RPHASE:
-        ui->radioButton_RPHASE->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_RTIME:
-        ui->radioButton_RTIME->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_VPP:
-        ui->radioButton_VPP->setChecked(value);
-        break;
-    case data_Rigol::MeasurementTypes::MEASURE_VTOP:
-        ui->radioButton_VTOP->setChecked(value);
-        break;
-    default:
-        break;
-    }
-}
 
-void Window_RigolControl::resetRadioButtons()
-{
-    QObject::blockSignals(true);
-    ui->radioButton_AMP->setChecked(false);
-    ui->radioButton_AVG->setChecked(false);
-    ui->radioButton_BASE->setChecked(false);
-    ui->radioButton_FDELAY->setChecked(false);
-    ui->radioButton_FPHASE->setChecked(false);
-    ui->radioButton_FREQUENCY->setChecked(false);
-    ui->radioButton_FTIME->setChecked(false);
-    ui->radioButton_MAREA->setChecked(false);
-    ui->radioButton_MAX->setChecked(false);
-    ui->radioButton_MIN->setChecked(false);
-    ui->radioButton_MPAREA->setChecked(false);
-    ui->radioButton_NDUTY->setChecked(false);
-    ui->radioButton_NWIDTH->setChecked(false);
-    ui->radioButton_OVERSHOOT->setChecked(false);
-    ui->radioButton_PDUTY->setChecked(false);
-    ui->radioButton_PERIOD->setChecked(false);
-    ui->radioButton_PRESHOOT->setChecked(false);
-    ui->radioButton_PWIDTH->setChecked(false);
-    ui->radioButton_RDELAY->setChecked(false);
-    ui->radioButton_RMS->setChecked(false);
-    ui->radioButton_RPHASE->setChecked(false);
-    ui->radioButton_RTIME->setChecked(false);
-    ui->radioButton_VPP->setChecked(false);
-    ui->radioButton_VTOP->setChecked(false);
-    QObject::blockSignals(false);
-}
-
-void Window_RigolControl::on_radioButton_AMP_toggled(bool checked)
-{
-
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_VAMP);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_AVG_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_VAVG);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_BASE_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_VBASE);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_FDELAY_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_FDELAY);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_FPHASE_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_FPHASE);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_FREQUENCY_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_FREQUENCY);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_FTIME_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_FTIME);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_MAREA_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_MAREA);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_MAX_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_VMAX);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_MIN_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_VMIN);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_MPAREA_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_MPAREA);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_NDUTY_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_NDUTY);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_NWIDTH_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_NWIDTH);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_OVERSHOOT_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_OVERSHOOT);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_PDUTY_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_PDUTY);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_PERIOD_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_PERIOD);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_PRESHOOT_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_PRESHOOT);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_PWIDTH_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_PWIDTH);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_RDELAY_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_RDELAY);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_RMS_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_VRMS);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_RPHASE_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_RPHASE);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_RTIME_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_RTIME);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_VPP_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_VPP);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
-
-void Window_RigolControl::on_radioButton_VTOP_toggled(bool checked)
-{
-    QString comboboxText = ui->comboBox_Channel->currentText();
-    data_Rigol::AvailableChannels currentChannel = data_Rigol::AvailableChannelsDisplayToEnum(comboboxText.toStdString());
-    commands_Rigol::MeasureCommand_Item newMeasurement("Rigol",currentChannel,data_Rigol::MeasurementTypes::MEASURE_VTOP);
-    if(checked)
-        m_Rigol->addPollingMeasurement(newMeasurement);
-    else
-        m_Rigol->removePollingMeasurement(newMeasurement);
-}
+/////////////////////////////////////////////////////////////////////////
+/// USER HAS INTERACTED WITH PARAMETERS MENU BAR
+/////////////////////////////////////////////////////////////////////////
 
 void Window_RigolControl::on_actionClose_triggered()
 {
     this->hide();
+}
+
+void Window_RigolControl::on_actionSave_triggered()
+{
+    if(currentSettingsPath == "")
+        this->on_actionSave_As_triggered();
+    else
+        m_Rigol->saveMeasurementsToFile(currentSettingsPath.toStdString());
+}
+
+void Window_RigolControl::on_actionSave_As_triggered()
+{
+    std::string settingsPath = "";
+    this->getSettingsPath(settingsPath);
+    QString fullFile = saveAsFileDialog(settingsPath,"json");
+    if(!fullFile.isEmpty() && !fullFile.isNull()){
+        m_Rigol->saveMeasurementsToFile(fullFile.toStdString());
+    }
+}
+
+void Window_RigolControl::on_actionOpen_triggered()
+{
+    std::string settingsPath = "";
+    this->getSettingsPath(settingsPath);
+    QString filePath = loadFileDialog(settingsPath,"json");
+
+    if(!filePath.isEmpty()&& !filePath.isNull()){
+        currentSettingsPath = filePath;
+        m_Rigol->loadMeaurements(currentSettingsPath.toStdString());
+    }
+}
+
+QString Window_RigolControl::saveAsFileDialog(const std::string &filePath, const std::string &suffix)
+{
+    QFileDialog fileDialog(this, "Save program as:");
+    QDir galilProgramDirectory(QString::fromStdString(filePath));
+    fileDialog.setDirectory(galilProgramDirectory);
+    fileDialog.setFileMode(QFileDialog::AnyFile);
+    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+    QString nameFilter = "Open Files (*.";
+    nameFilter += QString::fromStdString(suffix) + ")";
+    fileDialog.setNameFilter(nameFilter);
+    fileDialog.setDefaultSuffix(QString::fromStdString(suffix));
+    fileDialog.exec();
+    QString fullFilePath = fileDialog.selectedFiles().first();
+    return fullFilePath;
+}
+
+QString Window_RigolControl::loadFileDialog(const std::string &filePath, const std::string &suffix)
+{
+    QFileDialog fileDialog(this, "Choose profile to open");
+    QDir galilProgramDirectory(QString::fromStdString(filePath));
+    fileDialog.setDirectory(galilProgramDirectory);
+    fileDialog.setFileMode(QFileDialog::AnyFile);
+    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
+    QString nameFilter = "Open Files (*.";
+    nameFilter += QString::fromStdString(suffix) + ")";
+    fileDialog.setNameFilter(nameFilter);
+    fileDialog.setDefaultSuffix(QString::fromStdString(suffix));
+    fileDialog.exec();
+    QString fullFilePath = fileDialog.selectedFiles().first();
+    return fullFilePath;
 }

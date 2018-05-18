@@ -12,21 +12,11 @@ RigolOscilliscope::RigolOscilliscope(const std::string &name, QObject *parent):
 
     commsMarshaler = new comms_Rigol::RigolCommsMarshaler();
     commsMarshaler->AddSubscriber(this);
-
-    //Setting up the proper directory paths for all of the stuff
-    char* ECMPath = getenv("ECM_ROOT");
-    if(ECMPath){
-        std::string rootPath(ECMPath);
-        QDir measurmentDirectory(QString::fromStdString(rootPath + "/Rigol"));
-        measurmentDirectory.mkpath(QString::fromStdString(rootPath + "/Rigol"));
-        previousSettingsPath = measurmentDirectory.absolutePath() + "/previousMeasurements.json";
-        loadMeaurements(previousSettingsPath.toStdString());
-    }
 }
 
 RigolOscilliscope::~RigolOscilliscope()
 {
-    this->saveMeasurements();
+
 }
 
 void RigolOscilliscope::openConnection(const std::string &ipAddress, const int &port)
@@ -67,14 +57,15 @@ bool RigolOscilliscope::addPollingMeasurement(const commands_Rigol::MeasureComma
         commands_Rigol::MeasureCommand_Item copyCommand(command);
         copyCommand.setReadOrWrite(data_Rigol::RigolRWType::READ);
         pollStatus->addPollingMeasurement(copyCommand);
-        saveMeasurements();
-        executeMeasurementPolling(true);
+        //executeMeasurementPolling(true);
     }
     return unique;
 }
 
 void RigolOscilliscope::removePollingMeasurement(const MeasureCommand_Item &command)
 {
+    this->queue.removeFromQueue(command.getCommandKey());
+
     //alert the plotting interface that this type of information will no longer be available for plotting
     common::TupleSensorString sensorTuple(QString::fromStdString(command.getDeviceName()),
                                           QString::fromStdString(AvailableChannelsToDisplayString(command.getChannel())),
@@ -153,6 +144,7 @@ void RigolOscilliscope::loadFromQueue(const commands_Rigol::RigolMeasurementQueu
     {
         this->addPollingMeasurement(measurementItems.at(i));
     }
+    emit signal_RigolLoadComplete();
 }
 
 void RigolOscilliscope::NewDataReceived(const std::vector<uint8_t> &buffer) const
@@ -212,10 +204,6 @@ void RigolOscilliscope::saveMeasurementsToFile(const std::string &filePath)
     QJsonDocument saveDoc(saveObject);
     saveFile.write(saveDoc.toJson());
     saveFile.close();
-}
-void RigolOscilliscope::saveMeasurements()
-{
-    this->saveMeasurementsToFile(previousSettingsPath.toStdString());
 }
 
 void RigolOscilliscope::loadMeaurements(const std::string &path)

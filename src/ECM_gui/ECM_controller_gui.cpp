@@ -23,7 +23,6 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_Rigol, SIGNAL(signal_RigolPlottable(common::TupleSensorString,bool)), this, SLOT(slot_NewlyAvailableRigolData(common::TupleSensorString,bool)));
     connect(m_API->m_Rigol, SIGNAL(signal_RigolNewSensorValue(common::TupleSensorString,common_data::SensorState)), this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
 
-
     connect(m_API->m_Galil, SIGNAL(signal_MCNewMotionState(std::string)), this, SLOT(slot_MCNewMotionState(std::string)));
     this->slot_MCNewMotionState(m_API->m_Galil->getCurrentMCState());
 
@@ -35,6 +34,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     m_WindowRigol = new Window_RigolControl(m_API->m_Rigol);
     m_WindowRigol->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
+    connect(m_WindowRigol,SIGNAL(signal_onRigolWindowChanged(bool)),this,SLOT());
 
     m_WindowTouchoff = new Window_Touchoff(m_API->m_Galil);
     m_WindowTouchoff->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
@@ -416,26 +416,6 @@ void ECMControllerGUI::on_pushButton_EstablishTouchoff_released()
     m_WindowTouchoff->show();
 }
 
-void ECMControllerGUI::on_actionConnections_triggered()
-{
-    m_DialogConnections->show();
-}
-
-void ECMControllerGUI::on_actionPump_triggered()
-{
-    m_WindowPump->show();
-}
-
-void ECMControllerGUI::on_actionPower_Supply_triggered()
-{
-    m_WindowMunk->show();
-}
-
-void ECMControllerGUI::on_actionOscilliscope_triggered()
-{
-    m_WindowRigol->show();
-}
-
 void ECMControllerGUI::slot_NewlyAvailableRigolData(const common::TupleSensorString &sensor, const bool &val)
 {
     if(val)
@@ -493,3 +473,57 @@ void ECMControllerGUI::on_actionClose_triggered()
 {
 
 }
+
+void ECMControllerGUI::on_actionConnections_triggered(bool checked)
+{
+    if(checked)
+        m_DialogConnections->show();
+    else
+        m_DialogConnections->hide();
+}
+
+void ECMControllerGUI::on_actionPump_triggered(bool checked)
+{
+    if(checked)
+        m_WindowPump->show();
+    else
+        m_WindowPump->hide();
+}
+
+void ECMControllerGUI::on_actionPower_Supply_triggered(bool checked)
+{
+    if(checked)
+        m_WindowMunk->show();
+    else
+        m_WindowMunk->hide();
+}
+
+void ECMControllerGUI::on_actionOscilliscope_triggered(bool checked)
+{
+    if(checked)
+        m_WindowRigol->show();
+    else
+        m_WindowRigol->hide();
+}
+
+void ECMControllerGUI::slot_onConnectionWindowVisibilityChanged(const bool &visible)
+{
+    ui->actionConnections->setChecked(visible);
+}
+
+void ECMControllerGUI::slot_onOscilliscopeWindowVisibilityChanged(const bool &visible)
+{
+    ui->actionOscilliscope->setChecked(visible);
+}
+
+void ECMControllerGUI::slot_onPumpWindowVisibilityChanged(const bool &visible)
+{
+    ui->actionPump->setChecked(visible);
+}
+
+void ECMControllerGUI::slot_onPowerSupplyVisibilityWindowChanged(const bool &visible)
+{
+    ui->actionPower_Supply->setChecked(visible);
+}
+
+

@@ -39,7 +39,6 @@ public:
     void openConnection(const std::string &ipAddress, const int &port);
     void initializeRigol() const;
 
-    void saveMeasurements();
     void saveMeasurementsToFile(const std::string &filePath);
     void loadMeaurements(const std::string &path);
 
@@ -68,6 +67,8 @@ signals:
     void signal_RigolConnectionUpdate(const common::comms::CommunicationConnection &value) const;
     void signal_RigolPlottable(const common::TupleSensorString &sensorTuple, const bool &on_off);
     void signal_RigolNewSensorValue(const common::TupleSensorString &sensorTuple, const common_data::SensorState &data) const;
+    void signal_RigolLoadComplete();
+
 private:
     std::string deviceName;
     comms_Rigol::RigolCommsMarshaler* commsMarshaler;

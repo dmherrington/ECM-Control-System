@@ -19,6 +19,8 @@
 
 #include "ECM_API/ecm_api.h"
 
+#include "ui_ECM_controller_gui.h"
+
 namespace Ui {
 class ECMControllerGUI;
 }
@@ -101,15 +103,25 @@ private slots:
 
     void on_spinBox_Pause_editingFinished();
 
-    void on_actionConnections_triggered();
-
-    void on_actionPump_triggered();
-
-    void on_actionPower_Supply_triggered();
-
-    void on_actionOscilliscope_triggered();
-
     void on_actionClose_triggered();
+
+    void slot_onConnectionWindowVisibilityChanged(const bool &visible);
+
+    void slot_onOscilliscopeWindowVisibilityChanged(const bool &visible);
+
+    void slot_onPumpWindowVisibilityChanged(const bool &visible);
+
+    void slot_onPowerSupplyVisibilityWindowChanged(const bool &visible);
+
+
+    void on_actionConnections_triggered(bool checked);
+
+    void on_actionPump_triggered(bool checked);
+
+    void on_actionPower_Supply_triggered(bool checked);
+
+    void on_actionOscilliscope_triggered(bool checked);
+
 
 protected:
     void readSettings();
