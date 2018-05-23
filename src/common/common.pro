@@ -77,31 +77,6 @@ else:win32:CONFIG(debug, debug|release):    lib.files   += debug/common.lib debu
 INSTALLS += lib
 
 #Header file copy
-headers_common.path    = $$(ECM_ROOT)/include/common
-headers_common.files   += \
-    axis_definitions.h \
-    class_forward.h \
-    common.h\
-    common_global.h \
-    data_get_set_notifier.h \
-    environment_time.h \
-    threaded_scheduler.h \
-    threadmanager.h \
-    timer.h \
-    tuple_ecm_data.h \
-    tuple_generic.h \
-    tuple_master_string.h \
-    tuple_measurement_string.h \
-    tuple_sensor_string.h
-INSTALLS       += headers_common
-
-#Header file copy
-headers_common_comms.path    = $$(ECM_ROOT)/include/common/comms
-headers_common_comms.files   += \
-    comms/abstract_communication.h \
-    comms/communication_connection.h \
-    comms/communication_update.h \
-    comms/link_configuration.h \
-    comms/serial_configuration.h \
-    comms/tcp_configuration.h
-INSTALLS       += headers_common_comms
+INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET
+INSTALL_HEADERS = $$HEADERS
+include(../headerinstall.pri)

@@ -86,43 +86,9 @@ else:win32:CONFIG(debug, debug|release):    lib.files   += debug/data.lib debug/
 INSTALLS += lib
 
 #Header file copy
-headers_common_data.path    = $$(ECM_ROOT)/include/data
-headers_common_data.files   += \
-        data_global.h \
-        measurement_state.h \
-        sensor_collection.h \
-        sensor_state.h
-INSTALLS       += headers_common_data
-
-#Header file copy
-headers_data_dimensions.path    = $$(ECM_ROOT)/include/data/dimensions
-headers_data_dimensions.files   += \
-    dimensions/dimension.h \
-    dimensions/time_dimension.h \
-    dimensions/voltage_dimension.h
-INSTALLS       += headers_data_dimensions
-
-#Header file copy
-headers_data_observations.path    = $$(ECM_ROOT)/include/data/observation
-headers_data_observations.files   += \
-    observation/cartesian_data.h \
-    observation/cartesian_evaluation_parameters.h \
-    observation/I_observation.h \
-    observation/I_plot_comparable.h \
-    observation/I_time_data.h \
-    observation/number_systems.h \
-    observation/observation_collection.h \
-    observation/observation_ID_reference.h \
-    observation/observation_scalar.h \
-    observation/time_data_reference.h
-INSTALLS       += headers_data_observations
-
-#Header file copy
-headers_data_sensors.path    = $$(ECM_ROOT)/include/data/sensors
-headers_data_sensors.files   += \
-    sensors/sensor.h \
-    sensors/sensor_voltage.h
-INSTALLS       += headers_data_sensors
+INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET
+INSTALL_HEADERS = $$HEADERS
+include(../headerinstall.pri)
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include

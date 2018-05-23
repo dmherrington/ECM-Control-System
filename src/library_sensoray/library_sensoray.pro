@@ -65,27 +65,9 @@ else:win32:CONFIG(debug, debug|release):    lib.files   += debug/library_sensora
 INSTALLS += lib
 
 #Header file copy
-headers_base.path    = $$(ECM_ROOT)/include/library_sensoray
-headers_base.files   += \
-        sensoray.h \
-        library_sensoray_global.h
-INSTALLS       += headers_base
-
-#Header file copy
-headers_communications.path    = $$(ECM_ROOT)/include/library_sensoray/communications
-headers_communications.files   += \
-    communications/comms_events.h \
-    communications/i_link.h \
-    communications/i_link_events.h \
-    communications/i_protocol.h \
-    communications/i_protocol_sensoray_events.h \
-    communications/protocol_sensoray.h \
-    communications/sensoray_comms_marshaler.h \
-    communications/sensoray_link.h \
-    communications/serial_configuration.h \
-    communications/sensoray_session.h \
-    communications/sensoray_tcp_configuration.h \
-INSTALLS       += headers_communications
+INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET
+INSTALL_HEADERS = $$HEADERS
+include(../headerinstall.pri)
 
 
 INCLUDEPATH += $$PWD/../

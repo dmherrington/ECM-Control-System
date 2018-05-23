@@ -1,0 +1,72 @@
+#ifndef GENERAL_DIALOG_WINDOW_H
+#define GENERAL_DIALOG_WINDOW_H
+
+#include <QMainWindow>
+#include <QFileDialog>
+#include <QObject>
+#include <QString>
+#include <QSettings>
+#include <QDir>
+
+#include "common/common.h"
+
+class GeneralDialogWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    enum class DialogWindowTypes
+    {
+        WINDOW_PUMP,
+        WINDOW_OSCILLISCOPE,
+        WINDOW_POWERSUPPLY,
+    };
+
+    GeneralDialogWindow(const DialogWindowTypes &type, const QString &name, QWidget *parent);
+
+public:
+    bool isWindowHidden() const;
+
+signals:
+    void signal_DialogWindowHidden(const DialogWindowTypes &type);
+
+protected:
+    virtual void onCloseAction();
+
+    virtual QString onSaveAction();
+
+    virtual QString onSaveAsAction();
+
+    virtual QString onOpenAction();
+
+protected:
+    virtual void saveWindowSettings();
+
+    virtual void readWindowSettings();
+
+protected:
+
+    virtual void closeEvent(QCloseEvent *event);
+
+    void hideEvent(QHideEvent *event);
+
+    void showEvent(QShowEvent *event);
+
+protected:
+    QString loadFileDialog(const std::string &filePath, const std::string &suffix);
+    QString saveAsFileDialog(const std::string &filePath, const std::string &suffix);
+    void getSettingsPath(std::string &filePath) const;
+
+
+protected:
+    DialogWindowTypes windowType;
+    QString windowName;
+
+    bool windowHidden = true;
+
+    QString loggingPath;
+    QString previousSettingsPath;
+    QString currentSettingsPath;
+};
+
+#endif // GENERAL_DIALOG_WINDOW_H

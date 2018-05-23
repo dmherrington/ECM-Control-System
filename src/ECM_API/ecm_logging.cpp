@@ -35,6 +35,21 @@ void ECMLogging::setLoggingStartTime(const common::EnvironmentTime &time)
     this->startLogTime = time;
 }
 
+void ECMLogging::WriteLogMachinePositionalState(const common::TuplePositionalString &key, const common_data::MachinePositionalState &state)
+{
+    QString str;
+    QTextStream stringWriter(&str, QIODevice::WriteOnly);
+    uint64_t elapsedTime = (state.getObservationTime() - this->startLogTime)/1000.0; // this value is in milliseconds
+    stringWriter << "POS|";
+    stringWriter << state.getObservationTime().ToString() << "\t" << QString::number(elapsedTime) << "\t" << key.axisName << "|";
+    stringWriter << state;
+    stringWriter << "\r\n";
+    stringWriter.flush();
+
+    //QTextStream out(m_LogProfileVariableStates[key]);
+    //out << str;
+}
+
 void ECMLogging::WriteLogProfileVariableState(const common::TupleProfileVariableString &key, const common_data::MotionProfileVariableState &state)
 {
     QString str;

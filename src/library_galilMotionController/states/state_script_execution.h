@@ -36,6 +36,8 @@ public:
 
     void OnEnter() override;
 
+    void OnExit() override;
+
     void OnEnter(const AbstractCommand *command);
 };
 

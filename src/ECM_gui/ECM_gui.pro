@@ -63,7 +63,8 @@ SOURCES += \
     rigol_dialog/window_rigol_control.cpp \
     pump_dialog/window_pump_control.cpp \
     SensorDisplay/display_ampere_area.cpp \
-    rigol_dialog/widget_rigol_radio.cpp
+    rigol_dialog/widget_rigol_radio.cpp \
+    general_dialog_window.cpp
 
 HEADERS += \
         ECM_controller_gui.h \
@@ -85,7 +86,8 @@ HEADERS += \
     rigol_dialog/window_rigol_control.h \
     pump_dialog/window_pump_control.h \
     SensorDisplay/display_ampere_area.h \
-    rigol_dialog/widget_rigol_radio.h
+    rigol_dialog/widget_rigol_radio.h \
+    general_dialog_window.h
 
 FORMS += \
         ECM_controller_gui.ui \

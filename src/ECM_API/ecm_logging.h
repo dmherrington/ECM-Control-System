@@ -9,9 +9,11 @@
 #include "common/environment_time.h"
 #include "common/tuple_sensor_string.h"
 #include "common/tuple_profile_variable_string.h"
+#include "common/tuple_positional_string.h"
 
 #include "data/sensor_state.h"
 #include "data/motion_profile_variable_state.h"
+#include "data/machine_positional_state.h"
 
 #include <iostream>
 
@@ -25,6 +27,13 @@ public:
     bool isLoggingRelativeTime() const;
 
     void setLoggingStartTime(const common::EnvironmentTime &time);
+
+    //!
+    //! \brief WriteLogProfileVariableState
+    //! \param key
+    //! \param state
+    //!
+    void WriteLogMachinePositionalState(const common::TuplePositionalString &key, const common_data::MachinePositionalState &state);
 
     /*!
      * \brief WriteLogProfileVariableState

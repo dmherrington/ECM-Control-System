@@ -118,82 +118,9 @@ else:win32:CONFIG(debug, debug|release):    lib.files   += debug/library_munk_po
 INSTALLS += lib
 
 #Header file copy
-headers.path    = $$(ECM_ROOT)/include/library_munk_power_supply
-headers.files   += \
-    library_munk_power_supply_global.h \
-    munk_poll_status.h \
-    munk_power_supply.h
-INSTALLS       += headers
-
-#Header file copy
-headers_communications.path    = $$(ECM_ROOT)/include/library_munk_power_supply/communications
-headers_communications.files   += \
-    communications/comms_events.h \
-    communications/i_link.h \
-    communications/i_link_events.h \
-    communications/i_protocol.h \
-    communications/i_protocol_munk_events.h \
-    communications/link_configuration.h \
-    communications/message_framing_state.h \
-    communications/munk_comms_marshaler.h \
-    communications/data_framing.h \
-    communications/munk_message.h \
-    communications/munk_serial_link.h \
-    communications/protocol_munk.h \
-    communications/serial_configuration.h \
-INSTALLS       += headers_communications
-
-#Header file copy
-headers_data.path    = $$(ECM_ROOT)/include/library_munk_power_supply/data
-headers_data.files   += \
-    data/fault_codes_register_one.h \
-    data/fault_codes_register_two.h \
-    data/fault_codes_register_three.h \
-    data/register_data_object.h \
-    data/type_current_factor.h \
-    data/type_current_set.h \
-    data/type_current_voltage_prescale.h \
-    data/type_exception_message.h \
-    data/type_fault_codes_general.h \
-    data/type_fault_status_registers.h \
-    data/type_prescalar_power.h \
-    data/type_read_write.h \
-    data/type_response_exception.h \
-    data/type_segment_level.h \
-    data/type_segment_mode.h \
-    data/type_segment_parameter.h \
-    data/type_supply_output.h \
-    data/type_voltage_set.h
-INSTALLS       += headers_data
-
-#Header file copy
-headers_data_registers.path    = $$(ECM_ROOT)/include/library_munk_power_supply/data_registers
-headers_data_registers.files   += \
-    data_registers/abstract_parameter.h \
-    data_registers/parameter_memory_write.h \
-    data_registers/register_fault_state.h \
-    data_registers/segment_current_data.h \
-    data_registers/segment_current_setpoint.h \
-    data_registers/segment_time_data_detailed.h \
-    data_registers/segment_time_data_general.h \
-    data_registers/segment_time_detailed.h \
-    data_registers/segment_time_general.h \
-    data_registers/segment_voltage_data.h \
-    data_registers/segment_voltage_setpoint.h \
-    data_registers/type_definition.h
-INSTALLS       += headers_data_registers
-
-
-#Header file copy
-headers_data_response.path    = $$(ECM_ROOT)/include/library_munk_power_supply/data_response
-headers_data_response.files   += \
-    data_response/exception_response.h \
-    data_response/fault_register_one.h \
-    data_response/fault_register_three.h \
-    data_response/fault_register_two.h \
-    data_response/valid_response.h
-INSTALLS       += headers_data_response
-
+INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET
+INSTALL_HEADERS = $$HEADERS
+include(../headerinstall.pri)
 INCLUDEPATH += $$PWD/../
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon

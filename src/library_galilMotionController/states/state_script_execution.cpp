@@ -124,6 +124,11 @@ void State_ScriptExecution::Update()
     }
 }
 
+void State_ScriptExecution::OnExit()
+{
+    //Ken we need to remove the polling measurements here
+}
+
 void State_ScriptExecution::OnEnter()
 {
     Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_SCRIPT_EXECUTION));
