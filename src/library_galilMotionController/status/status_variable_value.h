@@ -2,7 +2,7 @@
 #define STATUS_VARIABLE_VALUE_H
 
 #include "common/class_forward.h"
-
+#include "data/motion_profile_variable_state.h"
 #include "status/abstract_status.h"
 
 ECM_CLASS_FORWARD(Status_VariableValue);
@@ -22,6 +22,7 @@ public:
     std::string getVariableName() const;
     double getVariableValue() const;
 
+    common_data::MotionProfileVariableState getVariableState() const;
 public:
     Status_VariableValue& operator = (const Status_VariableValue &rhs)
     {

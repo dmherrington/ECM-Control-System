@@ -11,6 +11,18 @@ class DataGetSetNotifier
 {
 public:
 
+    DataGetSetNotifier() = default;
+
+    DataGetSetNotifier(const DataGetSetNotifier<T> &copy)
+    {
+        this->set(copy.get());
+    }
+
+    ~DataGetSetNotifier()
+    {
+        this->ClearNotifiers();
+    }
+
     void AddNotifier(void* obj, const std::function<void()> func) {
         std::lock_guard<std::mutex> guardData(m_NotifierListMutex);
 
@@ -28,6 +40,12 @@ public:
         if(m_Funcs.find(obj) != m_Funcs.cend()) {
             m_Funcs.erase(obj);
         }
+    }
+
+    void ClearNotifiers()
+    {
+        std::lock_guard<std::mutex> guardNotifier(m_NotifierListMutex);
+        m_Funcs.clear();
     }
 
     bool set(const T &data) {

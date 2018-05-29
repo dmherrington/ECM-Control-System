@@ -128,7 +128,7 @@ public:
     //! \brief Remove a graph from plot
     //! \param dataKey Key of data to remove
     //!
-    void RemoveGraphData(const common::TupleECMData &tuple);
+    void RemoveGraphData(const common_data::observation::IPlotComparablePtr object);
 
 
     //!

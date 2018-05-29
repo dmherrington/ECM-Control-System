@@ -62,32 +62,33 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../data/ -ldata
 INCLUDEPATH += $$PWD/../data
 DEPENDPATH += $$PWD/../data
 
-#win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
-#INCLUDEPATH += $$PWD/../../tools/sensoray
-#DEPENDPATH += $$PWD/../../tools/sensoray
+win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
+INCLUDEPATH += $$PWD/../../tools/sensoray
+DEPENDPATH += $$PWD/../../tools/sensoray
 
-#win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../tools/sensoray/lib/ -ls24xx
-#else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../tools/sensoray/lib/ -ls24xx
-#else:unix:!macx: LIBS += -L$$OUT_PWD/../../tools/sensoray/lib/ -ls24xx
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../tools/sensoray/lib/ -ls24xx
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../tools/sensoray/lib/ -ls24xx
+else:unix:!macx: LIBS += -L$$OUT_PWD/../../tools/sensoray/lib/ -ls24xx
 
-#INCLUDEPATH += $$PWD/../../tools/sensoray/lib
-#DEPENDPATH += $$PWD/../../tools/sensoray/lib
+INCLUDEPATH += $$PWD/../../tools/sensoray/lib
+DEPENDPATH += $$PWD/../../tools/sensoray/lib
 
-#win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/release/ -llibrary_sensoray
-#else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/debug/ -llibrary_sensoray
-#else:unix:!macx: LIBS += -L$$OUT_PWD/../library_sensoray/ -llibrary_sensoray
+unix:!macx|win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
 
-#INCLUDEPATH += $$PWD/../library_sensoray
-#DEPENDPATH += $$PWD/../library_sensoray
+INCLUDEPATH += $$PWD/../../tools/sensoray/include
+DEPENDPATH += $$PWD/../../tools/sensoray/include
 
-#unix:!macx|win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
 
-#INCLUDEPATH += $$PWD/../../tools/sensoray/include
-#DEPENDPATH += $$PWD/../../tools/sensoray/include
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/release/ -llibrary_sensoray
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/debug/ -llibrary_sensoray
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_sensoray/ -llibrary_sensoray
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_munk_power_supply/release/ -llibrary_munk_power_supply
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_munk_power_supply/debug/ -llibrary_munk_power_supply
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_sensoray/ -llibrary_munk_power_supply
+INCLUDEPATH += $$PWD/../library_sensoray
+DEPENDPATH += $$PWD/../library_sensoray
 
-INCLUDEPATH += $$PWD/../library_munk_power_supply
-DEPENDPATH += $$PWD/../library_munk_power_supply
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/release/ -llibrary_westinghouse510
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/debug/ -llibrary_westinghouse510
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_westinghouse510/ -llibrary_westinghouse510
+
+INCLUDEPATH += $$PWD/../library_westinghouse510
+DEPENDPATH += $$PWD/../library_westinghouse510

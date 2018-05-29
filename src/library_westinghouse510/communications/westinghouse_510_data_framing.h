@@ -7,7 +7,7 @@
 #include "common/class_forward.h"
 
 #include "../data/type_read_write.h"
-#include "data/westinghouse_exception_message.h"
+#include "../data/westinghouse_exception_message.h"
 
 #include "westinghouse_message.h"
 #include "westinghouse_510_message_framing.h"

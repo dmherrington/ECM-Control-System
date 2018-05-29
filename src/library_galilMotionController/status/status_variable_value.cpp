@@ -27,7 +27,7 @@ void Status_VariableValue::setVariableName(const std::string &axis)
 
 bool Status_VariableValue::setVariableValue(const double &value)
 {
-    return this->variableValue = value ;
+    return this->variableValue = value ; //Ken this needs to be handled if the data has changed
 }
 
 std::string Status_VariableValue::getVariableName() const
@@ -38,4 +38,13 @@ std::string Status_VariableValue::getVariableName() const
 double Status_VariableValue::getVariableValue() const
 {
     return variableValue;
+}
+
+common_data::MotionProfileVariableState Status_VariableValue::getVariableState() const
+{
+    common_data::MotionProfileVariableState newState;
+    newState.setObservationTime(this->getTime());
+    common_data::ProfileVariableStatePtr ptr = std::make_shared<common_data::ProfileVariableState>(variableName,variableValue);
+    newState.setProfileStateVariable(ptr);
+    return newState;
 }

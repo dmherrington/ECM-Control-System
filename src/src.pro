@@ -10,7 +10,8 @@ SUBDIRS += \
     library_munk_power_supply \
     library_rigol_oscilloscope \
     library_sensoray \
-    library_westinghouse510
+    library_westinghouse510 \
+    Testing
 
 data.depends = common
 graphing.depends = data

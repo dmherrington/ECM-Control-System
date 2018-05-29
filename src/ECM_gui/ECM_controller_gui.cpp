@@ -16,6 +16,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     qRegisterMetaType<common::TupleSensorString>("TupleSensorString");
     qRegisterMetaType<common_data::SensorState>("SensorState");
 
+    qRegisterMetaType<QCustomPlot::RefreshPriority>("QCustomPlot::RefreshPriority");
+
     ui->setupUi(this);
 
     common::EnvironmentTime startTime;
@@ -24,7 +26,6 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     QDate tmp_Date(startTime.year, startTime.month, startTime.dayOfMonth);
     QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond);
 
-    qRegisterMetaType<QCustomPlot::RefreshPriority>("QCustomPlot::RefreshPriority");
 
     m_additionalSensorDisplay = new AdditionalSensorDisplay(&m_PlotCollection);
     m_additionalSensorDisplay->setWindowTitle("ECM Sensors");
@@ -147,13 +148,13 @@ void ECMControllerGUI::slot_DisplayActionTriggered()
 
     if(selectedObject->isChecked())
     {
-        ECMPlotIdentifierPtr newPlot = std::make_shared<ECMPlotIdentifier>(key);
-        ui->widget_primaryPlot->AddPlot(newPlot, key.getData()->HumanName().toStdString());
+        ECMPlotIdentifierPtr addPlot = std::make_shared<ECMPlotIdentifier>(key);
+        ui->widget_primaryPlot->AddPlot(addPlot, key.getData()->HumanName().toStdString());
         QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(key);
         ui->widget_primaryPlot->RedrawDataSource(plots);
     }else{
-        //find a way to remove the graph
-        //ui->widget_primaryPlot->RemoveGraphData();
+        ECMPlotIdentifierPtr removePlot = std::make_shared<ECMPlotIdentifier>(key);
+        ui->widget_primaryPlot->RemoveGraphData(removePlot);
     }
 }
 

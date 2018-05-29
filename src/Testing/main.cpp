@@ -38,17 +38,17 @@ int main(int argc, char *argv[])
 //        s24xx_ApiClose();				// Free API resources.
 //    }
 //reset fault register 201
-    MunkPowerSupply powerSupply;
-    powerSupply.openSerialPort("COM4");
-    registers_Munk::SegmentTimeDetailed detailedMSG;
-    registers_Munk::SegmentTimeDataDetailed firstRegister(20,3000,data_Munk::SegmentMode::FORWARD,100);
+//    MunkPowerSupply powerSupply;
+//    powerSupply.openSerialPort("COM4");
+//    registers_Munk::SegmentTimeDetailed detailedMSG;
+//    registers_Munk::SegmentTimeDataDetailed firstRegister(20,3000,data_Munk::SegmentMode::FORWARD,100);
     //registers_Munk::SegmentTimeDataDetailed secondRegister(20,400,data_Munk::SegmentMode::DEAD,200);
     //registers_Munk::SegmentTimeDataDetailed thirdRegister(5,50,data_Munk::SegmentMode::REVERSE,300);
 
-    detailedMSG.appendRegisterData(firstRegister);
+//    detailedMSG.appendRegisterData(firstRegister);
     //detailedMSG.appendRegisterData(secondRegister);
     //detailedMSG.appendRegisterData(thirdRegister);
-    powerSupply.generateAndTransmitMessage(detailedMSG);
+//    powerSupply.generateAndTransmitMessage(detailedMSG);
 
     //$01 $10 $19 $64 $00 $01 $47 $4A
     //$01 $10 $17 $70 $00 $01 $05 $A6
@@ -239,5 +239,6 @@ int main(int argc, char *argv[])
 //       stateMachine.UpdateStates();
 
 */
+
     return a.exec();
 }

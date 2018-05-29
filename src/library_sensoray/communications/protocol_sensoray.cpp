@@ -35,22 +35,22 @@ void SensorayProtocol::resetSensorayIO()
 
 bool SensorayProtocol::openSerialPort(const common::comms::SerialConfiguration &config)
 {
-//    S24XXERR errorCode = S24XXERR::ERR_NONE;
-//    s2426_ComportOpen(m_Session->handle, &errorCode,19200,PARITY_TYPE_NONE,NDATABITS_8,STOPBITS_1);
-//    //s2426_ComportOpen(m_Session->handle,&errorCode,config.baud(),getSensorayParity(config.parity()),getSensorayDataBits(config.dataBits()),getSensorayStopBits(config.stopBits()));
-//    if(errorCode == S24XXERR::ERR_NONE)
-//    {
-//        m_Session->setSerialPortConnected(true);
-//        common::comms::CommunicationConnection commsStatus;
-//        commsStatus.setSourceName("Sensoray");
-//        commsStatus.setConnection(true);
-//        Emit([&](const IProtocolSensorayEvents* ptr){ptr->SerialPortConnectionUpdate(commsStatus);});
-//        return true;
-//    }
+    S24XXERR errorCode = S24XXERR::ERR_NONE;
+    s2426_ComportOpen(m_Session->handle, &errorCode,19200,PARITY_TYPE_NONE,NDATABITS_8,STOPBITS_1);
+    //s2426_ComportOpen(m_Session->handle,&errorCode,config.baud(),getSensorayParity(config.parity()),getSensorayDataBits(config.dataBits()),getSensorayStopBits(config.stopBits()));
+    if(errorCode == S24XXERR::ERR_NONE)
+    {
+        m_Session->setSerialPortConnected(true);
+        common::comms::CommunicationConnection commsStatus;
+        commsStatus.setSourceName("Sensoray");
+        commsStatus.setConnection(true);
+        Emit([&](const IProtocolSensorayEvents* ptr){ptr->SerialPortConnectionUpdate(commsStatus);});
+        return true;
+    }
 
-//    common::comms::CommunicationUpdate commsError("Senosoray",common::comms::CommunicationUpdate::UpdateTypes::ERROR,
-//                                                  std::string(s24xx_ErrorText(errorCode)));
-//    Emit([&](const IProtocolSensorayEvents* ptr){ptr->SerialPortStatusUpdate(commsError);});
+    common::comms::CommunicationUpdate commsError("Senosoray",common::comms::CommunicationUpdate::UpdateTypes::ERROR,
+                                                  std::string(s24xx_ErrorText(errorCode)));
+    Emit([&](const IProtocolSensorayEvents* ptr){ptr->SerialPortStatusUpdate(commsError);});
     return false;
 }
 
@@ -105,8 +105,8 @@ void SensorayProtocol::transmitDataToSerialPort(const QByteArray &msg)
         {
 
         }
-//        response = QByteArray(reinterpret_cast<char*>(buf), nchars);
-//        Emit([&](const IProtocolSensorayEvents* ptr){ptr->ResponseReceived(response);});
+        response = QByteArray(reinterpret_cast<char*>(buf), nchars);
+        Emit([&](const IProtocolSensorayEvents* ptr){ptr->ResponseReceived(response);});
     }
 }
 

@@ -123,12 +123,27 @@ private:
     void cbi_GalilDownloadProgram(const AbstractCommandPtr command) override;
 
 signals:
+    /**<
+     * The following signals are pertinent to handling events that may have interest in logging.
+     */
+
+    //!
+    //! \brief signal_MCNewPoition
+    //! \param tuple
+    //! \param data
+    //!
     void signal_MCNewPoition(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &data) const;
+
+    //!
+    //! \brief signal_MCNewProfileVariableValue
+    //! \param variableTuple
+    //! \param data
+    //!
+    void signal_MCNewProfileVariableValue(const common::TupleProfileVariableString &variableTuple, const common_data::MotionProfileVariableState &data) const;
 
 
     void signal_MotionControllerConnectionUpdate(const common::comms::CommunicationConnection &connection) const;
 
-    void signal_MCNewProfileVariableValue(const common::TupleProfileVariableString &variableTuple, const common_data::MotionProfileVariableState &data) const;
 
     void signal_MCNewMotionState(const std::string &state) const;
 

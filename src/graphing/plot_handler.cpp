@@ -277,19 +277,19 @@ void PlotHandler::AddEvent(const QDateTime &time, const QString &name, const QSt
 //! \brief Remove a graph from plot
 //! \param dataKey Key of data to remove
 //!
-void PlotHandler::RemoveGraphData(const common::TupleECMData &tuple)
+void PlotHandler::RemoveGraphData(const common_data::observation::IPlotComparablePtr object)
 {
-//    for (int i = 0; i < m_PlotParameters.size(); i++)
-//    {
-//        if (m_PlotParameters.at(i).operation == operation)
-//        {
-//            for(int j = 0 ; j < m_PlotParameters[i].g.size() ; j++)
-//                MarshalRemoveGraph(m_PlotParameters[i].g.at(j));
-//            m_PlotParameters.removeAt(i);
-//            Draw();
-//            break;
-//        }
-//    }
+    for (int i = 0; i < m_PlotParameters.size(); i++)
+    {
+        if (m_PlotParameters.at(i).operation == object)
+        {
+            for(int j = 0 ; j < m_PlotParameters[i].g.size() ; j++)
+                MarshalRemoveGraph(m_PlotParameters[i].g.at(j));
+            m_PlotParameters.removeAt(i);
+            Draw();
+            break;
+        }
+    }
 }
 
 

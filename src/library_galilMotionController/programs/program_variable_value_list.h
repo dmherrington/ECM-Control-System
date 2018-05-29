@@ -4,6 +4,8 @@
 #include <map>
 
 #include "common/class_forward.h"
+#include "common/data_get_set_notifier.h"
+
 #include "../status/abstract_status.h"
 #include "../status/status_variable_value.h"
 
@@ -16,9 +18,15 @@ public:
 
     ProgramVariableValueList(const ProgramVariableValueList &copy);
 
+    ~ProgramVariableValueList();
+
     void addVariable(const Status_VariableValue &var);
 
+    bool addVariableNotifier(const std::string &name, void* obj, const std::function<void()> func);
+
     void removeVariable(const std::string &name);
+
+    bool removeVariableNotifier(const std::string &name, void* obj);
 
     bool updateVariable(const Status_VariableValue &var);
 
@@ -47,7 +55,7 @@ public:
     }
 
 private:
-    std::map<std::string,Status_VariableValue> variableMap;
+    std::map<std::string,DataGetSetNotifier<Status_VariableValue>*> variableMap;
 };
 
 #endif // PROGRAM_VARIABLE_VALUE_LIST_H
