@@ -39,8 +39,7 @@ public:
     void openConnection(const std::string &ipAddress, const int &port);
     void initializeRigol() const;
 
-    void saveMeasurementsToFile(const std::string &filePath);
-    void loadMeaurements(const std::string &path);
+    void loadFromQueue(const commands_Rigol::RigolMeasurementQueue &updatedQueue);
 
     bool addPollingMeasurement(const MeasureCommand_Item &command);
     void removePollingMeasurement(const MeasureCommand_Item &command);
@@ -51,7 +50,6 @@ public:
 private:
     void executeMeasurementPolling(const bool &execute);
 
-    void loadFromQueue(const commands_Rigol::RigolMeasurementQueue &updatedQueue);
 
     void cbi_RigolMeasurementRequests(const commands_Rigol::MeasureCommand_Item &request) override;
 

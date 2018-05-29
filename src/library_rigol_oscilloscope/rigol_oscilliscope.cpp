@@ -191,35 +191,5 @@ void RigolOscilliscope::NewMeaurementReceived(const commands_Rigol::RigolMeasure
     }
 }
 
-void RigolOscilliscope::saveMeasurementsToFile(const std::string &filePath)
-{
-    QFile saveFile(QString::fromStdString(filePath));
-    if (!saveFile.open(QIODevice::WriteOnly)) {
-        qWarning("Couldn't open save file.");
-    }
-
-    QJsonObject saveObject;
-    commands_Rigol::RigolMeasurementQueue currentQueue = pollStatus->getCurrentPollingMeasurements();
-    currentQueue.write(saveObject);
-    QJsonDocument saveDoc(saveObject);
-    saveFile.write(saveDoc.toJson());
-    saveFile.close();
-}
-
-void RigolOscilliscope::loadMeaurements(const std::string &path)
-{
-    QFile loadFile(QString::fromStdString(path));
-     if (!loadFile.open(QIODevice::ReadOnly)) return;
-
-    QByteArray loadData = loadFile.readAll();
-    loadFile.close();
-
-    QJsonDocument loadDoc(QJsonDocument::fromJson(loadData));
-    QJsonObject jsonObject = loadDoc.object();
-    commands_Rigol::RigolMeasurementQueue loadQueue;
-    loadQueue.read(jsonObject);
-    this->loadFromQueue(loadQueue);
-}
-
 
 

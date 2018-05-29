@@ -18,37 +18,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     ui->setupUi(this);
 
-    m_API = new ECM_API();
-
-    connect(m_API->m_Rigol, SIGNAL(signal_RigolPlottable(common::TupleSensorString,bool)), this, SLOT(slot_NewlyAvailableRigolData(common::TupleSensorString,bool)));
-    connect(m_API->m_Rigol, SIGNAL(signal_RigolNewSensorValue(common::TupleSensorString,common_data::SensorState)), this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
-
-    connect(m_API->m_Galil, SIGNAL(signal_MCNewMotionState(std::string)), this, SLOT(slot_MCNewMotionState(std::string)));
-    this->slot_MCNewMotionState(m_API->m_Galil->getCurrentMCState());
-
-    m_WindowMunk = new Window_MunkPowerSupply(m_API->m_Munk);
-    m_WindowMunk->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
-
-    m_WindowPump = new Window_PumpControl(m_API->m_Pump);
-    m_WindowPump->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
-
-    m_WindowRigol = new Window_RigolControl(m_API->m_Rigol);
-    m_WindowRigol->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
-    //connect(m_WindowRigol,SIGNAL(signal_onRigolWindowChanged(bool)),this,SLOT());
-
-    m_WindowTouchoff = new Window_Touchoff(m_API->m_Galil);
-    m_WindowTouchoff->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
-
-    m_DialogConnections = new Dialog_Connections(m_API);
-    m_DialogConnections->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowCloseButtonHint);
-
-    connect(m_API->m_Galil,SIGNAL(signal_GalilHomeIndicated(bool)),this,SLOT(slot_UpdateHomeIndicated(bool)));
-
-    //readSettings();
-
     common::EnvironmentTime startTime;
     common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
-    m_API->m_Log->setLoggingStartTime(startTime);
 
     QDate tmp_Date(startTime.year, startTime.month, startTime.dayOfMonth);
     QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond);
@@ -69,6 +40,37 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     //give collection of plots
     ui->widget_primaryPlot->SupplyPlotCollection(&m_PlotCollection);
     ui->widget_primaryPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
+
+
+    m_API = new ECM_API();
+    m_API->m_Log->setLoggingStartTime(startTime);
+
+    connect(m_API->m_Rigol, SIGNAL(signal_RigolPlottable(common::TupleSensorString,bool)), this, SLOT(slot_NewlyAvailableRigolData(common::TupleSensorString,bool)));
+    connect(m_API->m_Rigol, SIGNAL(signal_RigolNewSensorValue(common::TupleSensorString,common_data::SensorState)), this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
+
+    connect(m_API->m_Galil, SIGNAL(signal_MCNewMotionState(std::string)), this, SLOT(slot_MCNewMotionState(std::string)));
+    this->slot_MCNewMotionState(m_API->m_Galil->getCurrentMCState());
+
+    m_WindowMunk = new Window_MunkPowerSupply(m_API->m_Munk);
+    m_WindowMunk->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
+    //connect(m_WindowMunk,SIGNAL(GeneralDialogWindow::signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
+
+    m_WindowPump = new Window_PumpControl(m_API->m_Pump);
+    m_WindowPump->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
+
+    m_WindowRigol = new Window_RigolControl(m_API->m_Rigol);
+    m_WindowRigol->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
+    //connect(m_WindowRigol,SIGNAL(signal_onRigolWindowChanged(bool)),this,SLOT());
+
+    m_WindowTouchoff = new Window_Touchoff(m_API->m_Galil);
+    m_WindowTouchoff->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
+
+    m_DialogConnections = new Dialog_Connections(m_API);
+    m_DialogConnections->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowCloseButtonHint);
+
+    connect(m_API->m_Galil,SIGNAL(signal_GalilHomeIndicated(bool)),this,SLOT(slot_UpdateHomeIndicated(bool)));
+
+    //readSettings();
 
 //    common::TuplePositionalString tuplePosition;
 //    tuplePosition.axisName = "Z Position";
@@ -256,6 +258,9 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
     m_WindowPump->close();
     m_WindowRigol->close();
     m_WindowTouchoff->close();
+
+    m_additionalSensorDisplay->close();
+
     event->accept();
 }
 
@@ -526,4 +531,21 @@ void ECMControllerGUI::slot_onPowerSupplyVisibilityWindowChanged(const bool &vis
     ui->actionPower_Supply->setChecked(visible);
 }
 
+void ECMControllerGUI::slot_ChangedWindowVisibility(const GeneralDialogWindow::DialogWindowTypes &type, const bool visibility)
+{
+    switch (type) {
+    case GeneralDialogWindow::DialogWindowTypes::WINDOW_OSCILLISCOPE:
+        ui->actionOscilliscope->setChecked(visibility);
+        break;
+    case GeneralDialogWindow::DialogWindowTypes::WINDOW_POWERSUPPLY:
+        ui->actionOscilliscope->setChecked(visibility);
+        break;
+    case GeneralDialogWindow::DialogWindowTypes::WINDOW_PUMP:
+        ui->actionOscilliscope->setChecked(visibility);
+        break;
+    default:
+        std::cout<<"On slot_ChangedWindowVisibility called with unrecognized dialog window type."<<std::endl;
+        break;
+    }
+}
 

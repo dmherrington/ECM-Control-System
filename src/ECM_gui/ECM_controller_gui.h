@@ -21,6 +21,8 @@
 
 #include "ui_ECM_controller_gui.h"
 
+#include "general_dialog_window.h"
+
 namespace Ui {
 class ECMControllerGUI;
 }
@@ -47,6 +49,9 @@ private slots:
     void slot_DisplayActionTriggered();
 
 private slots:
+
+    void slot_ChangedWindowVisibility(const GeneralDialogWindow::DialogWindowTypes &type, const bool visibility);
+
     void slot_NewProfileVariableData(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state);
 
     void slot_NewSensorData(const common::TupleSensorString &sensor, const common_data::SensorState &state);

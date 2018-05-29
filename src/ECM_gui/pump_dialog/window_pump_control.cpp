@@ -2,22 +2,11 @@
 #include "ui_window_pump_control.h"
 
 Window_PumpControl::Window_PumpControl(Westinghouse510* obj, QWidget *parent) :
-    QMainWindow(parent),
+    GeneralDialogWindow(DialogWindowTypes::WINDOW_PUMP,"WestinghouseP",parent),
     ui(new Ui::Window_PumpControl),
     m_Pump(obj)
 {
     ui->setupUi(this);
-
-    readSettings();
-
-    if(m_Pump->m_State->pumpON.get())
-        ui->pushButton_PumpRunning->setText("OFF");
-    else
-        ui->pushButton_PumpRunning->setText("ON");
-
-    ui->doubleSpinBox_flowRate->setValue(m_Pump->m_State->flowRate.get());
-
-    ui->doubleSpinBox_delayTime->setValue(m_Pump->m_State->delayTime.get());
 
     connect(m_Pump,SIGNAL(signal_PumpConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(slot_PumpConnectionUpdate(common::comms::CommunicationConnection)));
 
@@ -30,6 +19,10 @@ Window_PumpControl::Window_PumpControl(Westinghouse510* obj, QWidget *parent) :
     {
         this->slot_updatedPumpOn(m_Pump->m_State->pumpON.get());
     });
+
+    GeneralDialogWindow::readWindowSettings();
+
+    openFromFile(GeneralDialogWindow::getPreviousSettingsPath());
 }
 
 Window_PumpControl::~Window_PumpControl()
@@ -37,36 +30,10 @@ Window_PumpControl::~Window_PumpControl()
     delete ui;
 }
 
-
-bool Window_PumpControl::isWindowHidden() const
-{
-    return windowHidden;
-}
-
-void Window_PumpControl::readSettings()
-{
-    QSettings settings("Pump Window", "ECM Application");
-    QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
-    QSize size = settings.value("size", QSize(400, 400)).toSize();
-    resize(size);
-    move(pos);
-}
-
 void Window_PumpControl::closeEvent(QCloseEvent *event)
 {
-    QSettings settings("Pump Window", "ECM Application");
-    settings.setValue("pos", pos());
-    settings.setValue("size", size());
-}
-
-void Window_PumpControl::hideEvent(QHideEvent *event)
-{
-    windowHidden = true;
-}
-
-void Window_PumpControl::showEvent(QShowEvent *event)
-{
-    windowHidden = false;
+    saveToFile(getPreviousSettingsPath());
+    GeneralDialogWindow::closeEvent(event);
 }
 
 void Window_PumpControl::slot_PumpConnectionUpdate(const common::comms::CommunicationConnection &value)
@@ -131,7 +98,56 @@ void Window_PumpControl::on_doubleSpinBox_delayTime_valueChanged(double arg1)
 
 }
 
+void Window_PumpControl::on_actionOpen_triggered()
+{
+    QString filePath = GeneralDialogWindow::onOpenAction();
+    if(!filePath.isEmpty() && !filePath.isNull()){
+        openFromFile(filePath);
+    }
+}
+
+void Window_PumpControl::on_actionSave_triggered()
+{
+    QString settingsPath = GeneralDialogWindow::onSaveAction();
+    saveToFile(settingsPath);
+}
+
+void Window_PumpControl::on_actionSave_As_triggered()
+{
+    QString settingsPath = GeneralDialogWindow::onSaveAsAction();
+    saveToFile(settingsPath);
+}
+
 void Window_PumpControl::on_actionClose_triggered()
 {
-    this->hide();
+    GeneralDialogWindow::onCloseAction();
+}
+
+void Window_PumpControl::saveToFile(const QString &filePath)
+{
+    QFile saveFile(filePath);
+
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        qWarning("Couldn't open save file.");
+    }
+    QJsonObject saveObject;
+//    ui->segmentWidget->write(saveObject);
+    QJsonDocument saveDoc(saveObject);
+    saveFile.write(saveDoc.toJson());
+    saveFile.close();
+}
+
+void Window_PumpControl::openFromFile(const QString &filePath)
+{
+    QFile openFile(filePath);
+
+    if (!openFile.open(QIODevice::ReadOnly)) {
+        qWarning("Couldn't open read file.");
+    }
+
+    QByteArray loadData = openFile.readAll();
+    openFile.close();
+
+    QJsonDocument loadDoc(QJsonDocument::fromJson(loadData));
+//    ui->segmentWidget->read(loadDoc.object());
 }

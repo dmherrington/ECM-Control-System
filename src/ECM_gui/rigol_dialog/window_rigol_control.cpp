@@ -2,7 +2,7 @@
 #include "ui_window_rigol_control.h"
 
 Window_RigolControl::Window_RigolControl(RigolOscilliscope *obj, QWidget *parent) :
-    QMainWindow(parent),
+    GeneralDialogWindow(DialogWindowTypes::WINDOW_OSCILLISCOPE,"RigolOS",parent),
     ui(new Ui::Window_RigolControl),
     m_Rigol(obj)
 {
@@ -17,34 +17,9 @@ Window_RigolControl::Window_RigolControl(RigolOscilliscope *obj, QWidget *parent
     ui->comboBox_Channel->addItem(QString::fromStdString(AvailableChannelsToDisplayString(AvailableChannels::CHANNEL_3)));
     ui->comboBox_Channel->addItem(QString::fromStdString(AvailableChannelsToDisplayString(AvailableChannels::CHANNEL_4)));
 
-    //Setting up the proper directory paths for all of the stuff
-    char* ECMPath = getenv("ECM_ROOT");
-    if(ECMPath){
-        std::string rootPath(ECMPath);
-        QDir loggingDirectory(QString::fromStdString(rootPath + "/Rigol/logs"));
-        QDir setupDirectory(QString::fromStdString(rootPath + "/Rigol/setup"));
-        QDir settingsDirectory(QString::fromStdString(rootPath + "/Rigol/settings"));
+    GeneralDialogWindow::readWindowSettings();
 
-        loggingDirectory.mkpath(QString::fromStdString(rootPath + "/Rigol/logs"));
-        setupDirectory.mkpath(QString::fromStdString(rootPath + "/Rigol/setup"));
-        settingsDirectory.mkpath(QString::fromStdString(rootPath + "/Rigol/settings"));
-
-        loggingPath = loggingDirectory.absolutePath() + "/";
-        previousSettingsPath = setupDirectory.absolutePath() + "/previousSettings.json";
-        currentSettingsPath = "";
-    }
-
-}
-
-void Window_RigolControl::getSettingsPath(std::string &filePath) const
-{
-    char* ECMPath = getenv("ECM_ROOT");
-    if(ECMPath){
-        std::string rootPath(ECMPath);
-        QFile settingsDirectory(QString::fromStdString(rootPath + "/Rigol/settings"));
-        QFileInfo fileInfo(settingsDirectory);
-        filePath = fileInfo.absolutePath().toStdString();
-    }
+    openFromFile(GeneralDialogWindow::getPreviousSettingsPath());
 }
 
 Window_RigolControl::~Window_RigolControl()
@@ -52,40 +27,10 @@ Window_RigolControl::~Window_RigolControl()
     delete ui;
 }
 
-bool Window_RigolControl::isWindowHidden() const
-{
-    return windowHidden;
-}
-
-void Window_RigolControl::readSettings()
-{
-    QSettings settings("Rigol Window", "ECM Application");
-    QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
-    QSize size = settings.value("size", QSize(400, 400)).toSize();
-    resize(size);
-    move(pos);
-}
-
 void Window_RigolControl::closeEvent(QCloseEvent *event)
 {
-    UNUSED(event);
-    QSettings settings("Rigol Window", "ECM Application");
-    settings.setValue("pos", pos());
-    settings.setValue("size", size());
-    m_Rigol->saveMeasurementsToFile(previousSettingsPath.toStdString());
-}
-
-void Window_RigolControl::hideEvent(QHideEvent *event)
-{
-    UNUSED(event);
-    windowHidden = true;
-    emit signal_onRigolWindowChanged(false);
-}
-
-void Window_RigolControl::showEvent(QShowEvent *event)
-{
-    UNUSED(event);
-    windowHidden = false;
+    saveToFile(getPreviousSettingsPath());
+    GeneralDialogWindow::closeEvent(event);
 }
 
 void Window_RigolControl::on_pushButton_Done_released()
@@ -139,73 +84,62 @@ void Window_RigolControl::on_comboBox_Channel_currentIndexChanged(const QString 
 }
 
 
-/////////////////////////////////////////////////////////////////////////
-/// USER HAS INTERACTED WITH PARAMETERS MENU BAR
-/////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+/// Action events triggered from the menu bar
+///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Window_RigolControl::on_actionClose_triggered()
+void Window_RigolControl::on_actionOpen_triggered()
 {
-    this->hide();
+    QString filePath = GeneralDialogWindow::onOpenAction();
+    if(!filePath.isEmpty() && !filePath.isNull()){
+        openFromFile(filePath);
+    }
 }
 
 void Window_RigolControl::on_actionSave_triggered()
 {
-    if(currentSettingsPath == "")
-        this->on_actionSave_As_triggered();
-    else
-        m_Rigol->saveMeasurementsToFile(currentSettingsPath.toStdString());
+    QString settingsPath = GeneralDialogWindow::onSaveAction();
+    saveToFile(settingsPath);
 }
 
 void Window_RigolControl::on_actionSave_As_triggered()
 {
-    std::string settingsPath = "";
-    this->getSettingsPath(settingsPath);
-    QString fullFile = saveAsFileDialog(settingsPath,"json");
-    if(!fullFile.isEmpty() && !fullFile.isNull()){
-        m_Rigol->saveMeasurementsToFile(fullFile.toStdString());
+    QString settingsPath = GeneralDialogWindow::onSaveAsAction();
+    saveToFile(settingsPath);
+}
+
+void Window_RigolControl::on_actionClose_triggered()
+{
+    GeneralDialogWindow::onCloseAction();
+}
+
+void Window_RigolControl::saveToFile(const QString &filePath)
+{
+    QFile saveFile(filePath);
+
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        qWarning("Couldn't open save file.");
     }
+
+    QJsonObject saveObject;
+    commands_Rigol::RigolMeasurementQueue currentQueue = m_Rigol->getCurrentPollingMeasurements();
+    currentQueue.write(saveObject);
+    QJsonDocument saveDoc(saveObject);
+    saveFile.write(saveDoc.toJson());
+    saveFile.close();
 }
 
-void Window_RigolControl::on_actionOpen_triggered()
+void Window_RigolControl::openFromFile(const QString &filePath)
 {
-    std::string settingsPath = "";
-    this->getSettingsPath(settingsPath);
-    QString filePath = loadFileDialog(settingsPath,"json");
+    QFile loadFile(filePath);
+     if (!loadFile.open(QIODevice::ReadOnly)) return;
 
-    if(!filePath.isEmpty()&& !filePath.isNull()){
-        currentSettingsPath = filePath;
-        m_Rigol->loadMeaurements(currentSettingsPath.toStdString());
-    }
-}
+    QByteArray loadData = loadFile.readAll();
+    loadFile.close();
 
-QString Window_RigolControl::saveAsFileDialog(const std::string &filePath, const std::string &suffix)
-{
-    QFileDialog fileDialog(this, "Save program as:");
-    QDir galilProgramDirectory(QString::fromStdString(filePath));
-    fileDialog.setDirectory(galilProgramDirectory);
-    fileDialog.setFileMode(QFileDialog::AnyFile);
-    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
-    QString nameFilter = "Open Files (*.";
-    nameFilter += QString::fromStdString(suffix) + ")";
-    fileDialog.setNameFilter(nameFilter);
-    fileDialog.setDefaultSuffix(QString::fromStdString(suffix));
-    fileDialog.exec();
-    QString fullFilePath = fileDialog.selectedFiles().first();
-    return fullFilePath;
-}
-
-QString Window_RigolControl::loadFileDialog(const std::string &filePath, const std::string &suffix)
-{
-    QFileDialog fileDialog(this, "Choose profile to open");
-    QDir galilProgramDirectory(QString::fromStdString(filePath));
-    fileDialog.setDirectory(galilProgramDirectory);
-    fileDialog.setFileMode(QFileDialog::AnyFile);
-    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
-    QString nameFilter = "Open Files (*.";
-    nameFilter += QString::fromStdString(suffix) + ")";
-    fileDialog.setNameFilter(nameFilter);
-    fileDialog.setDefaultSuffix(QString::fromStdString(suffix));
-    fileDialog.exec();
-    QString fullFilePath = fileDialog.selectedFiles().first();
-    return fullFilePath;
+    QJsonDocument loadDoc(QJsonDocument::fromJson(loadData));
+    QJsonObject jsonObject = loadDoc.object();
+    commands_Rigol::RigolMeasurementQueue loadQueue;
+    loadQueue.read(jsonObject);
+    m_Rigol->loadFromQueue(loadQueue);
 }

@@ -28,7 +28,7 @@ public:
     bool isWindowHidden() const;
 
 signals:
-    void signal_DialogWindowHidden(const DialogWindowTypes &type);
+    virtual void signal_DialogWindowVisibilty(const DialogWindowTypes &type, const bool &visibility) = 0;
 
 protected:
     virtual void onCloseAction();
@@ -56,6 +56,8 @@ protected:
     QString loadFileDialog(const std::string &filePath, const std::string &suffix);
     QString saveAsFileDialog(const std::string &filePath, const std::string &suffix);
     void getSettingsPath(std::string &filePath) const;
+    QString getPreviousSettingsPath() const;
+
 
 
 protected:

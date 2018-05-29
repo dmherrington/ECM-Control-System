@@ -9,12 +9,12 @@ GeneralDialogWindow::GeneralDialogWindow(const DialogWindowTypes &type, const QS
     if(ECMPath){
         std::string rootPath(ECMPath);
         QDir loggingDirectory(QString::fromStdString(rootPath + "/" + name.toStdString() + "/logs"));
-        QDir setupDirectory(QString::fromStdString(rootPath + "/" + name.toStdString() + "setup"));
-        QDir settingsDirectory(QString::fromStdString(rootPath + "/" + name.toStdString() + "settings"));
+        QDir setupDirectory(QString::fromStdString(rootPath + "/" + name.toStdString() + "/setup"));
+        QDir settingsDirectory(QString::fromStdString(rootPath + "/" + name.toStdString() + "/settings"));
 
-        loggingDirectory.mkpath(QString::fromStdString(rootPath + "/" + name.toStdString() + "logs"));
-        setupDirectory.mkpath(QString::fromStdString(rootPath + "/" + name.toStdString() + "setup"));
-        settingsDirectory.mkpath(QString::fromStdString(rootPath + "/" + name.toStdString() + "settings"));
+        loggingDirectory.mkpath(QString::fromStdString(rootPath + "/" + name.toStdString() + "/logs"));
+        setupDirectory.mkpath(QString::fromStdString(rootPath + "/" + name.toStdString() + "/setup"));
+        settingsDirectory.mkpath(QString::fromStdString(rootPath + "/" + name.toStdString() + "/settings"));
 
         loggingPath = loggingDirectory.absolutePath() + "/";
         previousSettingsPath = setupDirectory.absolutePath() + "/previousSettings.json";
@@ -32,14 +32,14 @@ bool GeneralDialogWindow::isWindowHidden() const
 /////////////////////////////////////////////////////////////////////////
 void GeneralDialogWindow::saveWindowSettings()
 {
-    QSettings settings(windowName +" Window", "ECM Application");
+    QSettings settings(windowName +"_Window", "ECM Application");
     settings.setValue("pos", pos());
     settings.setValue("size", size());
 }
 
 void GeneralDialogWindow::readWindowSettings()
 {
-    QSettings settings(windowName +" Window", "ECM Application");
+    QSettings settings(windowName +"_Window", "ECM Application");
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
     QSize size = settings.value("size", QSize(400, 400)).toSize();
     resize(size);
@@ -60,13 +60,15 @@ void GeneralDialogWindow::hideEvent(QHideEvent *event)
 {
     UNUSED(event);
     windowHidden = true;
-    emit signal_DialogWindowHidden(this->windowType);
+    emit signal_DialogWindowVisibilty(this->windowType,false);
 }
 
 void GeneralDialogWindow::showEvent(QShowEvent *event)
 {
     UNUSED(event);
     windowHidden = false;
+    emit signal_DialogWindowVisibilty(this->windowType,true);
+
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -75,7 +77,8 @@ void GeneralDialogWindow::showEvent(QShowEvent *event)
 
 void GeneralDialogWindow::onCloseAction()
 {
-
+    this->hide();
+    emit signal_DialogWindowVisibilty(this->windowType,false);
 }
 
 QString GeneralDialogWindow::onSaveAction()
@@ -90,8 +93,8 @@ QString GeneralDialogWindow::onSaveAsAction()
 {
     std::string settingsPath = "";
     this->getSettingsPath(settingsPath);
-    QString fullFile = saveAsFileDialog(settingsPath,"json");
-    return fullFile;
+    currentSettingsPath = saveAsFileDialog(settingsPath,"json");
+    return currentSettingsPath;
 }
 
 QString GeneralDialogWindow::onOpenAction()
@@ -112,30 +115,40 @@ void GeneralDialogWindow::getSettingsPath(std::string &filePath) const
     char* ECMPath = getenv("ECM_ROOT");
     if(ECMPath){
         std::string rootPath(ECMPath);
-        QFile settingsDirectory(QString::fromStdString(rootPath + "/" + this->windowName.toStdString() + "settings"));
+        QFile settingsDirectory(QString::fromStdString(rootPath + "/" + this->windowName.toStdString() + "/settings/"));
         QFileInfo fileInfo(settingsDirectory);
         filePath = fileInfo.absolutePath().toStdString();
     }
 }
 
+QString GeneralDialogWindow::getPreviousSettingsPath() const
+{
+    return previousSettingsPath;
+}
+
 QString GeneralDialogWindow::saveAsFileDialog(const std::string &filePath, const std::string &suffix)
 {
+    QString fullFilePath = "";
     QFileDialog fileDialog(this, "Save program as:");
     QDir galilProgramDirectory(QString::fromStdString(filePath));
     fileDialog.setDirectory(galilProgramDirectory);
     fileDialog.setFileMode(QFileDialog::AnyFile);
     fileDialog.setAcceptMode(QFileDialog::AcceptSave);
-    QString nameFilter = "Open Files (*.";
+    QString nameFilter = "Save Files (*.";
     nameFilter += QString::fromStdString(suffix) + ")";
     fileDialog.setNameFilter(nameFilter);
     fileDialog.setDefaultSuffix(QString::fromStdString(suffix));
     fileDialog.exec();
-    QString fullFilePath = fileDialog.selectedFiles().first();
+    if(fileDialog.selectedFiles().size() > 0)
+    {
+        fullFilePath = fileDialog.selectedFiles().first();
+    }
     return fullFilePath;
 }
 
 QString GeneralDialogWindow::loadFileDialog(const std::string &filePath, const std::string &suffix)
 {
+    QString fullFilePath = "";
     QFileDialog fileDialog(this, "Choose profile to open");
     QDir galilProgramDirectory(QString::fromStdString(filePath));
     fileDialog.setDirectory(galilProgramDirectory);
@@ -146,6 +159,9 @@ QString GeneralDialogWindow::loadFileDialog(const std::string &filePath, const s
     fileDialog.setNameFilter(nameFilter);
     fileDialog.setDefaultSuffix(QString::fromStdString(suffix));
     fileDialog.exec();
-    QString fullFilePath = fileDialog.selectedFiles().first();
+    if(fileDialog.selectedFiles().size() > 0)
+    {
+        fullFilePath = fileDialog.selectedFiles().first();
+    }
     return fullFilePath;
 }
