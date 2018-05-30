@@ -1,6 +1,12 @@
 #include "ecm_logging.h"
 
-ECMLogging::ECMLogging()
+ECMLogging::ECMLogging():
+    masterLog(nullptr)
+{
+
+}
+
+void ECMLogging::initializeLogging(const string &logName, const common::EnvironmentTime &time)
 {
     loggingPath = "";
     char* ECMPath = getenv("ECM_ROOT");
@@ -18,6 +24,15 @@ ECMLogging::ECMLogging()
 
         loggingPath = loggingDirectory.absolutePath().toStdString() + "/" + finalPath;
     }
+
+    QString fileName = QString::fromStdString(loggingPath) + QString::fromStdString(logName) + ".out";
+    masterLog = new QFile(fileName);
+    masterLog->open(QIODevice::WriteOnly);
+    masterLog->resize(0);
+
+    this->setLoggingStartTime(time);
+
+    loggingInitialized = true;
 }
 
 void ECMLogging::setLoggingRelativeTime(const bool &value)
@@ -37,6 +52,9 @@ void ECMLogging::setLoggingStartTime(const common::EnvironmentTime &time)
 
 void ECMLogging::WriteLogMachinePositionalState(const common::TuplePositionalString &key, const common_data::MachinePositionalState &state)
 {
+    if(!loggingInitialized)
+        return;
+
     QString str;
     QTextStream stringWriter(&str, QIODevice::WriteOnly);
     uint64_t elapsedTime = (state.getObservationTime() - this->startLogTime)/1000.0; // this value is in milliseconds
@@ -47,11 +65,15 @@ void ECMLogging::WriteLogMachinePositionalState(const common::TuplePositionalStr
     stringWriter.flush();
 
     //QTextStream out(m_LogProfileVariableStates[key]);
-    //out << str;
+    QTextStream out(masterLog);
+    out << str;
 }
 
 void ECMLogging::WriteLogProfileVariableState(const common::TupleProfileVariableString &key, const common_data::MotionProfileVariableState &state)
 {
+    if(!loggingInitialized)
+        return;
+
     QString str;
     QTextStream stringWriter(&str, QIODevice::WriteOnly);
     uint64_t elapsedTime = (state.getObservationTime() - this->startLogTime)/1000.0; // this value is in milliseconds
@@ -61,7 +83,26 @@ void ECMLogging::WriteLogProfileVariableState(const common::TupleProfileVariable
     stringWriter << "\r\n";
     stringWriter.flush();
 
-    QTextStream out(m_LogProfileVariableStates[key]);
+    QTextStream out(masterLog);
+    out << str;
+}
+
+void ECMLogging::WriteLogSensorState(const common::TupleSensorString &key, const common_data::SensorState &state)
+{
+
+    if(!loggingInitialized)
+        return;
+
+    QString str;
+    QTextStream stringWriter(&str, QIODevice::WriteOnly);
+    uint64_t elapsedTime = (state.getObservationTime() - this->startLogTime)/1000.0; // this value is in milliseconds
+    stringWriter << "S|";
+    stringWriter << state.getObservationTime().ToString() << "\t" << QString::number(elapsedTime) << "\t" << key.sourceName << "\t" << key.sensorName << "\t" << key.measurementName << "|";
+    stringWriter << state;
+    stringWriter << "\r\n";
+    stringWriter.flush();
+
+    QTextStream out(masterLog);
     out << str;
 }
 
@@ -72,20 +113,4 @@ void ECMLogging::SetSensorLogFile(const common::TupleSensorString &key)
     outFile->open(QIODevice::WriteOnly);
     outFile->resize(0);
     m_LogSensorStates[key] = outFile;
-}
-
-void ECMLogging::WriteLogSensorState(const common::TupleSensorString &key, const common_data::SensorState &state)
-{
-    uint64_t elapsedTime = (state.getObservationTime() - this->startLogTime)/1000.0; // this value is in milliseconds
-
-    QString str;
-    QTextStream stringWriter(&str, QIODevice::WriteOnly);
-    stringWriter << "S|";
-    stringWriter << state.getObservationTime().ToString() << "\t" << QString::number(elapsedTime) << "\t" << key.sourceName << "\t" << key.sensorName << "\t" << key.measurementName << "|";
-    stringWriter << state;
-    stringWriter << "\r\n";
-    stringWriter.flush();
-
-    QTextStream out(m_LogSensorStates[key]);
-    out << str;
 }

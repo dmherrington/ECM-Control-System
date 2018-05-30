@@ -12,23 +12,48 @@ void GalilPollState::beginPolling()
     this->start();
 }
 
-void GalilPollState::addRequest(const AbstractRequestPtr request)
+void GalilPollState::addRequestToQueue(const AbstractRequestPtr request, const int &period)
 {
-    m_LambdasToRun.push_back([this,request]{
-        std::pair<std::map<common::TupleECMData,AbstractRequestPtr>::iterator,bool> ret;
-        ret = requests.insert ( std::pair<common::TupleECMData,AbstractRequestPtr>(request->getTupleDescription(),request));
-        if (ret.second==false) {
-            requests[request->getTupleDescription()] = request;
+    std::pair<std::map<common::TupleECMData,AbstractRequestPtr>::iterator,bool> ret;
+    auto dataPair = std::make_pair(0.0,period);
+    ret = requestMap.insert ( std::pair<common::TupleECMData,AbstractRequestPtr>(request->getTupleDescription(),request));
+    if (ret.second==false) {
+        requestMap[request->getTupleDescription()] = request;
+        timeoutMap[request->getTupleDescription()] = dataPair;
+        std::map<common::TupleECMData,pollingTimeout>::iterator it = timeoutMap.begin();
+        int currentTimeout = it->second.second;
+        std::advance(it,1);
+        for (; it!=timeoutMap.end(); ++it)
+        {
+            currentTimeout = greatestCommonDenominator(currentTimeout, it->second.second);
         }
-    });
+        timeout = currentTimeout;
+    }
+}
+
+void GalilPollState::addRequest(const AbstractRequestPtr request, const int &period)
+{
+    if(isThreadActive())
+    {
+        m_LambdasToRun.push_back([this,request,period]{
+            addRequestToQueue(request,period);
+        });
+    }
+    else
+    {
+        addRequestToQueue(request,period);
+    }
 }
 
 void GalilPollState::removeRequest(const common::TupleECMData &tuple)
 {
     m_LambdasToRun.push_back([this,tuple]
     {
-        if(requests.count(tuple) > 0)
-            requests.erase(tuple);
+        if(requestMap.count(tuple) > 0)
+        {
+            requestMap.erase(tuple);
+            timeoutMap.erase(tuple);
+        }
     });
 }
 
@@ -58,32 +83,27 @@ void GalilPollState::run()
         //be reset right at the end, thus making this value small and
         //improbable the next function will fire
         double timeElapsed = m_Timeout.elapsedMilliseconds();
-
         if(timeElapsed > timeout)
         {
             //this means we should request the state of all the standard IO/Errors/Pos of the galil unit
             //these functions will update the actual stored information of the galil unit in the state
             //interface class contained at the callback location
 
-            // 1: Request the position of the galil unit
             if(m_CB)
             {
-//                RequestTellPositionPtr requestTP = std::make_shared<RequestTellPosition>();
-//                m_CB->cbi_GalilStatusRequest(requestTP);
-                // 2: Request the stop codes
-//                RequestStopCodePtr requestSC = std::make_shared<RequestStopCode>();
-//                m_CB->cbi_GalilStatusRequest(requestSC);
-                // 3: Request the tell switches
-                RequestTellSwitchesPtr requestTS = std::make_shared<RequestTellSwitches>();;
-                m_CB->cbi_GalilStatusRequest(requestTS);
-                // 4: Request the current inputs
-                RequestTellInputsPtr requestTI = std::make_shared<RequestTellInputs>();
-                m_CB->cbi_GalilStatusRequest(requestTI);
-
-                //Iterate through any remaining requests
-                std::map<common::TupleECMData,AbstractRequestPtr>::iterator it;
-                for (it=requests.begin(); it!=requests.end(); ++it)
-                    m_CB->cbi_GalilStatusRequest(it->second);
+                //Iterate through the requests
+                std::map<common::TupleECMData,pollingTimeout>::iterator it;
+                for (it=timeoutMap.begin(); it!=timeoutMap.end(); ++it)
+                {
+                    it->second.first += timeElapsed;
+                    if(it->second.first >= it->second.second)
+                    {
+                        //we have therefore timed out
+                        //1. Let us reset the current timer associated with this request
+                        it->second.first = 0;
+                        m_CB->cbi_GalilStatusRequest(requestMap.at(it->first));
+                    }
+                }
             }
             m_Timeout.reset();
         }

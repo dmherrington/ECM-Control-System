@@ -31,7 +31,7 @@ public:
     void beginPolling();
     void pausePolling();
 
-    void addRequest(const AbstractRequestPtr request);
+    void addRequest(const AbstractRequestPtr request, const int &period = 100);
     void removeRequest(const common::TupleECMData &tuple);
 
     void run();
@@ -42,12 +42,29 @@ public:
     }
 
 private:
+    void addRequestToQueue(const AbstractRequestPtr request, const int &period = 100);
+
+    int greatestCommonDenominator(int a,int b) {
+        int temp;
+        while(b > 0) {
+            temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
+private:
+    typedef pair<double, double> pollingTimeout;
+
+private:
     Timer m_Timeout;
     int timeout;
 
 private:
     GalilStatusUpdate_Interface *m_CB;
-    std::map<common::TupleECMData,AbstractRequestPtr> requests;
+    std::map<common::TupleECMData,AbstractRequestPtr> requestMap;
+    std::map<common::TupleECMData,pollingTimeout> timeoutMap;
 
 protected:
     std::list<std::function<void()>> m_LambdasToRun;

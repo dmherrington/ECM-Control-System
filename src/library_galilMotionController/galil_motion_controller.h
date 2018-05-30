@@ -68,6 +68,8 @@ public:
 
     std::string getCurrentMCState() const;
 
+    std::vector<common::TupleECMData> getAvailablePlottables() const;
+
 private:
     //////////////////////////////////////////////////////////////
     /// Virtual methods imposed via Comms::CommsEvents
@@ -127,12 +129,17 @@ signals:
      * The following signals are pertinent to handling events that may have interest in logging.
      */
 
+    void signal_MCNewPlottable(const common::TupleProfileVariableString &variableTuple, const bool &on_off);
+
+
+    void signal_MCNewDigitalInput();
+
     //!
     //! \brief signal_MCNewPoition
     //! \param tuple
     //! \param data
     //!
-    void signal_MCNewPoition(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &data) const;
+    void signal_MCNewPosition(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &data) const;
 
     //!
     //! \brief signal_MCNewProfileVariableValue
@@ -145,8 +152,16 @@ signals:
     void signal_MotionControllerConnectionUpdate(const common::comms::CommunicationConnection &connection) const;
 
 
+    //!
+    //! \brief signal_MCNewMotionState signal emitted when the state machine has progressed to a new state
+    //! \param state string descriptor describing the state the galil motion controller is in
+    //!
     void signal_MCNewMotionState(const std::string &state) const;
 
+    //!
+    //! \brief signal_GalilHomeIndicated
+    //! \param indicated
+    //!
     void signal_GalilHomeIndicated(const bool &indicated) const;
 
     void signal_GalilUpdatedProfileState(const MotionProfileState &state) const;

@@ -1,6 +1,7 @@
 #ifndef STATE_SCRIPT_EXECUTION_H
 #define STATE_SCRIPT_EXECUTION_H
 
+#include "data/profiles/profile_state_machining.h"
 #include "states/state_abstract_galil.h"
 
 namespace ECM{

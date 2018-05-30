@@ -28,6 +28,18 @@ GalilMotionController::GalilMotionController(const std::string &name):
     galilPolling = new GalilPollState();
     galilPolling->connectCallback(this);
 
+    // 1: Request the position of the galil unit
+    RequestTellPositionPtr requestTP = std::make_shared<RequestTellPosition>();
+    galilPolling->addRequest(requestTP,20);
+    // 2: Request the stop codes
+    RequestStopCodePtr requestSC = std::make_shared<RequestStopCode>();
+    galilPolling->addRequest(requestTP,200);
+    // 3: Request the tell switches
+    RequestTellSwitchesPtr requestTS = std::make_shared<RequestTellSwitches>();
+    galilPolling->addRequest(requestTP,200);
+    // 4: Request the current inputs
+    RequestTellInputsPtr requestTI = std::make_shared<RequestTellInputs>();
+    galilPolling->addRequest(requestTP,50);
 
     //    GReturn rtnCode = GOpen("169.254.78.101",&mConnection);
 
@@ -93,6 +105,14 @@ std::string GalilMotionController::getCurrentMCState() const
     return ECM::Galil::ECMStateToString(stateEnum);
 }
 
+std::vector<common::TupleECMData> GalilMotionController::getAvailablePlottables() const
+{
+    std::vector<common::TupleECMData> rtn;
+    common::TupleECMData bottomPositionECM(common::TupleProfileVariableString("","","ppos"));
+    rtn.push_back(bottomPositionECM);
+    return rtn;
+}
+
 bool GalilMotionController::saveSettings()
 {
     m_Settings.saveSettings(settingsPath);
@@ -110,8 +130,6 @@ bool GalilMotionController::loadSettings(const std::string &filePath)
     m_Settings.loadSettings(settingsPath);
 }
 
-
-
 void GalilMotionController::LinkConnected() const
 {
     stateInterface->setConnected(true);
@@ -120,7 +138,6 @@ void GalilMotionController::LinkConnected() const
     common::comms::CommunicationConnection connectionUpdate(deviceName,true);
     emit signal_MotionControllerConnectionUpdate(connectionUpdate);
 }
-
 
 void GalilMotionController::LinkDisconnected() const
 {
@@ -169,7 +186,7 @@ void GalilMotionController::NewStatusPosition(const Status_Position &status)
     state.setObservationTime(status.getTime());
     state.setPositionalState(position);
 
-    emit signal_MCNewPoition(tuple,state);
+    emit signal_MCNewPosition(tuple,state);
 }
 
 void GalilMotionController::NewStatusMotorEnabled(const Status_MotorEnabled &status)
@@ -363,7 +380,7 @@ void GalilMotionController::cbi_NewMotionProfileState(const MotionProfileState &
     emit signal_GalilUpdatedProfileState(state);
 }
 
-void GalilMotionController::cbi_GalilNewMachineState(const string &state)
+void GalilMotionController::cbi_GalilNewMachineState(const std::string &state)
 {
     emit signal_MCNewMotionState(state);
 }

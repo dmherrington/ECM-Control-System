@@ -29,7 +29,7 @@ std::string CommandExecuteProfile::getCommandString() const
     std::string str;
 
     str.append("XQ");
-    //this means there is a specific locaiton to start
+    //this means there is a specific location to start
     str.append(" #");
     str.append(profileName);
 

@@ -95,8 +95,6 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 //    newSensorMeasurement.setObservationTime(startTime);
 //    this->slot_NewSensorData(tupleSensor,newSensorMeasurement);
 
-
-
 }
 
 ECMControllerGUI::~ECMControllerGUI()
@@ -428,7 +426,6 @@ void ECMControllerGUI::slot_NewlyAvailableRigolData(const common::TupleSensorStr
     {
         this->slot_AddPlottable(sensor);
         m_additionalSensorDisplay->AddUsableSensor(sensor);
-
     }
 }
 
@@ -440,7 +437,7 @@ void ECMControllerGUI::CreateSensorDisplays(const common::TupleSensorString &sen
     //if already created sensor object, do nothing.
     if(m_CreatedSensors.contains(sensor) && m_CreatedSensors[sensor] == true)
         return;
-    m_API->m_Log->SetSensorLogFile(sensor);
+    //m_API->m_Log->SetSensorLogFile(sensor);
     MarshalCreateSensorDisplay(sensor, type);
 }
 

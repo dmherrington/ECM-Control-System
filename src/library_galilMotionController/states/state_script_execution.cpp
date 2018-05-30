@@ -26,8 +26,6 @@ hsm::Transition State_ScriptExecution::GetTransition()
 
     if(currentState != desiredState)
     {
-        //Owner().issueGalilRemovePollingRequest("ppos");
-        //Owner().issueGalilRemovePollingRequest("cutdone");
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
@@ -94,34 +92,6 @@ void State_ScriptExecution::Update()
         //we should therefore transition to the idle state
         desiredState = ECMState::STATE_ESTOP;
     }
-
-    double varValue;
-    if(Owner().statusVariableValues->getVariableValue("cutdone",varValue))
-    {
-        switch ((int)varValue) {
-        case 0:
-        {
-            //the part is still being cut
-            break;
-        }
-        case 1:
-        {
-            //the part is finished being cut
-            CommandExecuteProfile* command = new CommandExecuteProfile(MotionProfile::ProfileType::HOMING,"home");
-            this->currentCommand = command;
-            desiredState = ECMState::STATE_MOTION_STOP;
-            break;
-        }
-        default:
-            //there is a case condition that does not follow the flow chart
-            break;
-        }
-    }
-    else
-    {
-        //this variable doesnt exist so we should abort the touchoff routine
-        desiredState = ECMState::STATE_MOTION_STOP;
-    }
 }
 
 void State_ScriptExecution::OnExit()
@@ -160,6 +130,30 @@ void State_ScriptExecution::OnEnter(const AbstractCommand* command)
         Owner().issueGalilAddPollingRequest(requestCutting);
         //The command isnt null so we should handle it
         this->handleCommand(command);
+
+        Owner().statusVariableValues->addVariableNotifier("cutdone",this,[this]
+        {
+            double value = 0;
+            Owner().statusVariableValues->getVariableValue("cutdone",value);
+            switch ((ProfileState_Machining::MACHININGProfileCodes)value) {
+            case ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE:
+            {
+                //the part is still being cut
+                break;
+            }
+            case ProfileState_Machining::MACHININGProfileCodes::COMPLETE:
+            {
+                //the part is finished being cut
+                CommandExecuteProfile* command = new CommandExecuteProfile(MotionProfile::ProfileType::HOMING,"home");
+                this->currentCommand = command;
+                desiredState = ECMState::STATE_MOTION_STOP;
+                break;
+            }
+            default:
+                //there is a case condition that does not follow the flow chart
+                break;
+            }
+        });
     }
     else{
         this->OnEnter();

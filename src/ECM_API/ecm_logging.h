@@ -22,6 +22,8 @@ class ECMLogging
 public:
     ECMLogging();
 
+    void initializeLogging(const std::string &logName, const common::EnvironmentTime &time);
+
     void setLoggingRelativeTime(const bool &value);
 
     bool isLoggingRelativeTime() const;
@@ -53,7 +55,11 @@ public:
 
 protected:
 
+    QFile* masterLog;
+
     bool logReglativeTime = false;
+
+    bool loggingInitialized = false;
 
     common::EnvironmentTime startLogTime;
 
