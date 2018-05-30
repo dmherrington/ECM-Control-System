@@ -343,9 +343,9 @@ void GalilMotionController::cbi_AbstractGalilAddPolled(const AbstractRequestPtr 
     galilPolling->addRequest(request);
 }
 
-void GalilMotionController::cbi_AbstractGalilRemovePolled(const std::string &name)
+void GalilMotionController::cbi_AbstractGalilRemovePolled(const common::TupleECMData &tuple)
 {
-    galilPolling->removeRequest(name);
+    galilPolling->removeRequest(tuple);
 }
 
 void GalilMotionController::cbi_GalilControllerGains(const CommandControllerGain &gains)

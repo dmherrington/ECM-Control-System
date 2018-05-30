@@ -6,6 +6,16 @@ AbstractRequest::AbstractRequest(const RequestTypes &type, const unsigned int &r
     this->bufferSize = respSize;
 }
 
+void AbstractRequest::setTupleDescription(const common::TupleECMData &tuple)
+{
+    this->descriptor = tuple;
+}
+
+common::TupleECMData AbstractRequest::getTupleDescription() const
+{
+    return this->descriptor;
+}
+
 
 void AbstractRequest::setBufferSize(const unsigned int &size)
 {

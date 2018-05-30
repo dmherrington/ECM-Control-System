@@ -26,7 +26,7 @@ hsm::Transition State_Touchoff::GetTransition()
 
     if(currentState != desiredState)
     {
-        Owner().issueGalilRemovePollingRequest("touchst");
+        //Owner().issueGalilRemovePollingRequest("touchst"); this should be done onExit
 
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class

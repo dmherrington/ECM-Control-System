@@ -114,7 +114,7 @@ private:
     void cbi_AbstractGalilMotionCommand(const AbstractCommandPtr command) override;
     void cbi_AbstractGalilRequest(const AbstractRequestPtr request) override;
     void cbi_AbstractGalilAddPolled(const AbstractRequestPtr request) override;
-    void cbi_AbstractGalilRemovePolled(const std::string &name) override;
+    void cbi_AbstractGalilRemovePolled(const common::TupleECMData &tuple) override;
     void cbi_GalilControllerGains(const CommandControllerGain &gains) override;
     void cbi_GalilHomeIndicated(const bool &indicated) override;
     void cbi_NewMotionProfileState(const MotionProfileState &state) override;

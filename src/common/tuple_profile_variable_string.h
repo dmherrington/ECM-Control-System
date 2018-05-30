@@ -10,7 +10,7 @@ class COMMONSHARED_EXPORT TupleProfileVariableString : public TupleGeneric
 {
 public:
 
-    TupleProfileVariableString(const QString &program = "Program", const QString &profile = "Profile", const QString &variable = "Variable");
+    TupleProfileVariableString(const QString &program = "", const QString &profile = "", const QString &variable = "");
 
     TupleProfileVariableString(const TupleProfileVariableString &copy);
 

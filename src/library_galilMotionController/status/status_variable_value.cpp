@@ -6,33 +6,28 @@ Status_VariableValue::Status_VariableValue():
 
 }
 
-Status_VariableValue::Status_VariableValue(const std::string &name, const double &value):
+Status_VariableValue::Status_VariableValue(const common::TupleECMData &description, const double &value):
     AbstractStatus(StatusTypes::STATUS_VARIABLEVALUE)
 {
-    this->variableName = name;
+    this->descriptor = description;
     this->variableValue = value;
 }
 
 Status_VariableValue::Status_VariableValue(const Status_VariableValue &copy):
     AbstractStatus(StatusTypes::STATUS_VARIABLEVALUE)
 {
-    this->variableName = copy.variableName;
     this->variableValue = copy.variableValue;
 }
 
-void Status_VariableValue::setVariableName(const std::string &axis)
+std::string Status_VariableValue::getVariableName() const
 {
-    this->variableName = axis;
+    QString variableName = static_cast<common::TupleProfileVariableString*>(this->descriptor.getData())->variableName;
+    return variableName.toStdString();
 }
 
 bool Status_VariableValue::setVariableValue(const double &value)
 {
     return this->variableValue = value ; //Ken this needs to be handled if the data has changed
-}
-
-std::string Status_VariableValue::getVariableName() const
-{
-    return this->variableName;
 }
 
 double Status_VariableValue::getVariableValue() const
@@ -44,7 +39,7 @@ common_data::MotionProfileVariableState Status_VariableValue::getVariableState()
 {
     common_data::MotionProfileVariableState newState;
     newState.setObservationTime(this->getTime());
-    common_data::ProfileVariableStatePtr ptr = std::make_shared<common_data::ProfileVariableState>(variableName,variableValue);
+    common_data::ProfileVariableStatePtr ptr = std::make_shared<common_data::ProfileVariableState>(getVariableName(),variableValue);
     newState.setProfileStateVariable(ptr);
     return newState;
 }

@@ -32,7 +32,7 @@ public:
     void pausePolling();
 
     void addRequest(const AbstractRequestPtr request);
-    void removeRequest(const std::string &name);
+    void removeRequest(const common::TupleECMData &tuple);
 
     void run();
 
@@ -47,7 +47,7 @@ private:
 
 private:
     GalilStatusUpdate_Interface *m_CB;
-    std::map<std::string,AbstractRequestPtr> requests;
+    std::map<common::TupleECMData,AbstractRequestPtr> requests;
 
 protected:
     std::list<std::function<void()>> m_LambdasToRun;

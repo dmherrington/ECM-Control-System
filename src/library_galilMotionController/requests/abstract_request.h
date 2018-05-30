@@ -37,6 +37,12 @@ public:
 
     virtual ~AbstractRequest() = default;
 
+public:
+    virtual void setTupleDescription(const common::TupleECMData &tuple);
+
+    virtual common::TupleECMData getTupleDescription() const;
+
+public:
     /**
      *
      */
@@ -68,17 +74,6 @@ public:
      * @param state
      */
     virtual void getClone(AbstractRequest** state) const = 0;
-
-public:
-    virtual void setRequestName(const std::string &name)
-    {
-        this->requestName = name;
-    }
-
-    virtual std::string getRequestName() const
-    {
-        return requestName;
-    }
 
 public:
     virtual RequestTypes getRequestType() const
@@ -120,7 +115,7 @@ public:
     }
 
 protected:
-    std::string requestName = "";
+    common::TupleECMData descriptor;
     RequestTypes requestType;
     unsigned int bufferSize;
     std::string buffer;

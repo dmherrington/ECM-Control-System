@@ -15,20 +15,20 @@ void GalilPollState::beginPolling()
 void GalilPollState::addRequest(const AbstractRequestPtr request)
 {
     m_LambdasToRun.push_back([this,request]{
-        std::pair<std::map<std::string,AbstractRequestPtr>::iterator,bool> ret;
-        ret = requests.insert ( std::pair<std::string,AbstractRequestPtr>(request->getRequestName(),request));
+        std::pair<std::map<common::TupleECMData,AbstractRequestPtr>::iterator,bool> ret;
+        ret = requests.insert ( std::pair<common::TupleECMData,AbstractRequestPtr>(request->getTupleDescription(),request));
         if (ret.second==false) {
-            requests[request->getRequestName()] = request;
+            requests[request->getTupleDescription()] = request;
         }
     });
 }
 
-void GalilPollState::removeRequest(const std::string &name)
+void GalilPollState::removeRequest(const common::TupleECMData &tuple)
 {
-    m_LambdasToRun.push_back([this,name]
+    m_LambdasToRun.push_back([this,tuple]
     {
-        if(requests.count(name) > 0)
-            requests.erase(name);
+        if(requests.count(tuple) > 0)
+            requests.erase(tuple);
     });
 }
 
@@ -81,7 +81,7 @@ void GalilPollState::run()
                 m_CB->cbi_GalilStatusRequest(requestTI);
 
                 //Iterate through any remaining requests
-                std::map<std::string,AbstractRequestPtr>::iterator it;
+                std::map<common::TupleECMData,AbstractRequestPtr>::iterator it;
                 for (it=requests.begin(); it!=requests.end(); ++it)
                     m_CB->cbi_GalilStatusRequest(it->second);
             }

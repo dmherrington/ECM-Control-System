@@ -8,7 +8,7 @@ namespace common {
 //! \brief Default Constructor
 //!
 TupleECMData::TupleECMData()
-    :m_Data(NULL)
+    :m_Data(NULL), m_Type(NOT_DEFINED)
 {
 }
 

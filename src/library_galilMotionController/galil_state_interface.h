@@ -26,7 +26,7 @@ public:
     virtual void cbi_AbstractGalilMotionCommand(const AbstractCommandPtr command) = 0;
     virtual void cbi_AbstractGalilRequest(const AbstractRequestPtr request) = 0;
     virtual void cbi_AbstractGalilAddPolled(const AbstractRequestPtr request) = 0;
-    virtual void cbi_AbstractGalilRemovePolled(const std::string &name) = 0;
+    virtual void cbi_AbstractGalilRemovePolled(const common::TupleECMData &tuple) = 0;
     virtual void cbi_GalilControllerGains(const CommandControllerGain &gains) = 0;
     virtual void cbi_GalilHomeIndicated(const bool &indicated) = 0;
     virtual void cbi_NewMotionProfileState(const MotionProfileState &state) = 0;
@@ -90,10 +90,10 @@ public:
             m_CB->cbi_AbstractGalilAddPolled(request);
     }
 
-    void issueGalilRemovePollingRequest(const std::string &name)
+    void issueGalilRemovePollingRequest(const common::TupleECMData &tuple)
     {
         if(m_CB)
-            m_CB->cbi_AbstractGalilRemovePolled(name);
+            m_CB->cbi_AbstractGalilRemovePolled(tuple);
     }
 
     void issueUpdatedMotionProfileState(const MotionProfileState &state)

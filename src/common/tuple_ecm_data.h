@@ -26,7 +26,8 @@ public:
     {
         POSITION,
         PROFILE_VARIABLE,
-        SENSOR
+        SENSOR,
+        NOT_DEFINED
     };
 
 

@@ -44,9 +44,9 @@ public:
     }
 
     bool operator == (const ProgramVariableValueList &rhs) {
-//        if(this->variableMap != rhs.variableMap){
-//            return false;
-//        }
+        if(this->variableMap != rhs.variableMap){
+            return false;
+        }
         return true;
     }
 

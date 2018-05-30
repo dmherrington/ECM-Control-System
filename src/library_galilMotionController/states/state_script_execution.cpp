@@ -26,8 +26,8 @@ hsm::Transition State_ScriptExecution::GetTransition()
 
     if(currentState != desiredState)
     {
-        Owner().issueGalilRemovePollingRequest("ppos");
-        Owner().issueGalilRemovePollingRequest("cutdone");
+        //Owner().issueGalilRemovePollingRequest("ppos");
+        //Owner().issueGalilRemovePollingRequest("cutdone");
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
@@ -127,9 +127,9 @@ void State_ScriptExecution::Update()
 void State_ScriptExecution::OnExit()
 {
     //Ken we need to remove the polling measurements here
-    Owner().issueGalilRemovePollingRequest("ppos");
+    //Owner().issueGalilRemovePollingRequest("ppos");
     Owner().statusVariableValues->removeVariable("ppos");
-    Owner().issueGalilRemovePollingRequest("cutdone");
+    //Owner().issueGalilRemovePollingRequest("cutdone");
     Owner().statusVariableValues->removeVariable("cutdone");
 }
 
@@ -148,12 +148,14 @@ void State_ScriptExecution::OnEnter(const AbstractCommand* command)
         Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_SCRIPT_EXECUTION));
 
         Request_TellVariablePtr requestPosition = std::make_shared<Request_TellVariable>("Bottom Position","ppos");
-        Status_VariableValue newPPOS("ppos",0.0);
+        common::TupleProfileVariableString tuplePPOS("","","ppos");
+        Status_VariableValue newPPOS(tuplePPOS,0.0);
         Owner().statusVariableValues->addVariable(newPPOS);
         Owner().issueGalilAddPollingRequest(requestPosition);
 
         Request_TellVariablePtr requestCutting = std::make_shared<Request_TellVariable>("Machining Complete","cutdone");
-        Status_VariableValue newCUTDONE("cutdone",0.0);
+        common::TupleProfileVariableString tupleCUTDONE("","","cutdone");
+        Status_VariableValue newCUTDONE(tupleCUTDONE,0.0);
         Owner().statusVariableValues->addVariable(newCUTDONE);
         Owner().issueGalilAddPollingRequest(requestCutting);
         //The command isnt null so we should handle it
