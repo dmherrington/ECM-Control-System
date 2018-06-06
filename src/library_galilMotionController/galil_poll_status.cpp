@@ -16,19 +16,18 @@ void GalilPollState::addRequestToQueue(const AbstractRequestPtr request, const i
 {
     std::pair<std::map<common::TupleECMData,AbstractRequestPtr>::iterator,bool> ret;
     auto dataPair = std::make_pair(0.0,period);
-    ret = requestMap.insert ( std::pair<common::TupleECMData,AbstractRequestPtr>(request->getTupleDescription(),request));
-    if (ret.second==false) {
-        requestMap[request->getTupleDescription()] = request;
-        timeoutMap[request->getTupleDescription()] = dataPair;
-        std::map<common::TupleECMData,pollingTimeout>::iterator it = timeoutMap.begin();
-        int currentTimeout = it->second.second;
-        std::advance(it,1);
-        for (; it!=timeoutMap.end(); ++it)
-        {
-            currentTimeout = greatestCommonDenominator(currentTimeout, it->second.second);
-        }
-        timeout = currentTimeout;
+    requestMap[request->getTupleDescription()] = request;
+    timeoutMap[request->getTupleDescription()] = dataPair;
+
+    std::map<common::TupleECMData,pollingTimeout>::iterator it = timeoutMap.begin();
+    int currentTimeout = it->second.second;
+    std::advance(it,1);
+    for (; it!=timeoutMap.end(); ++it)
+    {
+        currentTimeout = greatestCommonDenominator(currentTimeout, it->second.second);
     }
+    timeout = currentTimeout;
+
 }
 
 void GalilPollState::addRequest(const AbstractRequestPtr request, const int &period)
@@ -82,8 +81,8 @@ void GalilPollState::run()
         //If one of the lambda expressions has fired the clock should
         //be reset right at the end, thus making this value small and
         //improbable the next function will fire
-        double timeElapsed = m_Timeout.elapsedMilliseconds();
-        if(timeElapsed > timeout)
+        unsigned int timeElapsed = m_Timeout.elapsedMilliseconds();
+        if(timeElapsed >= timeout)
         {
             //this means we should request the state of all the standard IO/Errors/Pos of the galil unit
             //these functions will update the actual stored information of the galil unit in the state
@@ -101,6 +100,7 @@ void GalilPollState::run()
                         //we have therefore timed out
                         //1. Let us reset the current timer associated with this request
                         it->second.first = 0;
+                        requestMap.at(it->first)->updateTime();
                         m_CB->cbi_GalilStatusRequest(requestMap.at(it->first));
                     }
                 }

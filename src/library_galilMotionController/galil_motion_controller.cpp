@@ -28,19 +28,6 @@ GalilMotionController::GalilMotionController(const std::string &name):
     galilPolling = new GalilPollState();
     galilPolling->connectCallback(this);
 
-    // 1: Request the position of the galil unit
-    RequestTellPositionPtr requestTP = std::make_shared<RequestTellPosition>();
-    galilPolling->addRequest(requestTP,20);
-    // 2: Request the stop codes
-    RequestStopCodePtr requestSC = std::make_shared<RequestStopCode>();
-    galilPolling->addRequest(requestTP,200);
-    // 3: Request the tell switches
-    RequestTellSwitchesPtr requestTS = std::make_shared<RequestTellSwitches>();
-    galilPolling->addRequest(requestTP,200);
-    // 4: Request the current inputs
-    RequestTellInputsPtr requestTI = std::make_shared<RequestTellInputs>();
-    galilPolling->addRequest(requestTP,50);
-
     //    GReturn rtnCode = GOpen("169.254.78.101",&mConnection);
 
     //Setting up the proper directory paths for all of the stuff
@@ -59,6 +46,9 @@ GalilMotionController::GalilMotionController(const std::string &name):
         programPath = programsDirectory.absolutePath() + "/";
         settingsPath = settingsDirectory.absolutePath() + "/generalSettings.json";
     }
+
+    initializeMotionController();
+    galilPolling->beginPolling();
 }
 
 GalilMotionController::~GalilMotionController()
@@ -81,7 +71,31 @@ GalilMotionController::~GalilMotionController()
         delete galilPolling;
         galilPolling = nullptr;
     }
+}
 
+void GalilMotionController::initializeMotionController() const
+{
+    // 1: Request the position of the galil unit
+    RequestTellPositionPtr requestTP = std::make_shared<RequestTellPosition>();
+    common::TuplePositionalString tuplePos;
+    tuplePos.axisName = "XAxis";
+    requestTP->setTupleDescription(common::TupleECMData(tuplePos));
+    galilPolling->addRequest(requestTP,1000);
+    // 2: Request the stop codes
+    RequestStopCodePtr requestSC = std::make_shared<RequestStopCode>();
+    common::TupleGeneralDescriptorString tupleSC("StopCodes");
+    requestSC->setTupleDescription(common::TupleECMData(tupleSC));
+    galilPolling->addRequest(requestSC,1500);
+    // 3: Request the tell switches
+    RequestTellSwitchesPtr requestTS = std::make_shared<RequestTellSwitches>();
+    common::TupleGeneralDescriptorString tupleTS("TellSwitches");
+    requestTS->setTupleDescription(common::TupleECMData(tupleTS));
+    galilPolling->addRequest(requestTS,2000);
+    // 4: Request the current inputs
+    RequestTellInputsPtr requestTI = std::make_shared<RequestTellInputs>();
+    common::TupleGeneralDescriptorString tupleTI("TellInputs");
+    requestTI->setTupleDescription(common::TupleECMData(tupleTI));
+    galilPolling->addRequest(requestTI,2500);
 }
 
 void GalilMotionController::openConnection(const std::string &address)
@@ -133,6 +147,9 @@ bool GalilMotionController::loadSettings(const std::string &filePath)
 void GalilMotionController::LinkConnected() const
 {
     stateInterface->setConnected(true);
+
+    initializeMotionController();
+
     galilPolling->beginPolling();
 
     common::comms::CommunicationConnection connectionUpdate(deviceName,true);
@@ -337,7 +354,8 @@ bool GalilMotionController::loadProgram(const std::string &filePath, std::string
 
 void GalilMotionController::cbi_GalilStatusRequest(const AbstractRequestPtr request)
 {
-    commsMarshaler->sendAbstractGalilRequest(request);
+    std::cout<<"I am making a request for :"<<RequestToString(request->getRequestType())<<" at "<<request->getTime().ToString().toStdString()<<std::endl;
+    //commsMarshaler->sendAbstractGalilRequest(request);
 }
 
 void GalilMotionController::cbi_AbstractGalilCommand(const AbstractCommandPtr command)

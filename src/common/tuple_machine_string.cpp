@@ -25,7 +25,7 @@ TupleMachineString::TupleMachineString(const TupleMachineString &copy)
 //!
 QString TupleMachineString::Type() const
 {
-    return "Machine";
+    return "Machine String";
 }
 
 

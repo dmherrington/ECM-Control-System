@@ -1,23 +1,27 @@
-#include "tuple_positional_string.h"
+#include "tuple_general_descriptor.h"
 
 namespace common {
 
 //!
 //! \brief Default Constructor
 //!
-TuplePositionalString::TuplePositionalString()
+TupleGeneralDescriptorString::TupleGeneralDescriptorString()
 {
 
 }
 
+TupleGeneralDescriptorString::TupleGeneralDescriptorString(const std::string &descriptor)
+{
+    this->description = QString::fromStdString(descriptor);
+}
 
 //!
 //! \brief Copy Constructor
 //! \param that Object to copy from
 //!
-TuplePositionalString::TuplePositionalString(const TuplePositionalString &that)
+TupleGeneralDescriptorString::TupleGeneralDescriptorString(const TupleGeneralDescriptorString &that)
 {
-    this->axisName = that.axisName;
+    this->description = that.description;
 }
 
 
@@ -25,9 +29,9 @@ TuplePositionalString::TuplePositionalString(const TuplePositionalString &that)
 //! \brief Type of tuple object this is
 //! \return String indicating type
 //!
-QString TuplePositionalString::Type() const
+QString TupleGeneralDescriptorString::Type() const
 {
-    return "Positional String";
+    return "General Description String";
 }
 
 
@@ -35,9 +39,9 @@ QString TuplePositionalString::Type() const
 //! \brief method to find human readable name
 //! \return string name
 //!
-QString TuplePositionalString::HumanName() const
+QString TupleGeneralDescriptorString::HumanName() const
 {
-    return this->axisName;
+    return this->description;
 }
 
 
@@ -45,9 +49,9 @@ QString TuplePositionalString::HumanName() const
 //! \brief Assignment operator
 //! \param rhs Right hand side of assignment
 //!
-void TuplePositionalString::operator = (const TuplePositionalString& rhs)
+void TupleGeneralDescriptorString::operator = (const TupleGeneralDescriptorString& rhs)
 {
-    this->axisName = rhs.axisName;
+    this->description = rhs.description;
 }
 
 
@@ -56,7 +60,7 @@ void TuplePositionalString::operator = (const TuplePositionalString& rhs)
 //! \param rhs Right hand side of assignment
 //! \return true is less than, false otherwise
 //!
-bool TuplePositionalString::operator< (const TupleGeneric& rhs) const
+bool TupleGeneralDescriptorString::operator< (const TupleGeneric& rhs) const
 {
     if(*this == rhs)
         return false;
@@ -64,9 +68,9 @@ bool TuplePositionalString::operator< (const TupleGeneric& rhs) const
     if(this->Type() != rhs.Type())
         return this->Type() < rhs.Type();
 
-    if(this->axisName > ((TuplePositionalString*)&rhs)->axisName)
+    if(this->description > ((TupleGeneralDescriptorString*)&rhs)->description)
         return false;
-    if(this->axisName < ((TuplePositionalString*)&rhs)->axisName)
+    if(this->description < ((TupleGeneralDescriptorString*)&rhs)->description)
         return true;
 
     return true;
@@ -78,12 +82,12 @@ bool TuplePositionalString::operator< (const TupleGeneric& rhs) const
 //! \param rhs Right hand side of equivilance
 //! \return true if equivilant
 //!
-bool TuplePositionalString::operator==(const TupleGeneric& rhs) const
+bool TupleGeneralDescriptorString::operator==(const TupleGeneric& rhs) const
 {
     if(typeid(*this) != typeid(rhs))
         return false;
 
-    if(this->axisName != ((TuplePositionalString*)&rhs)->axisName)
+    if(this->description != ((TupleGeneralDescriptorString*)&rhs)->description)
         return false;
 
     return true;
@@ -95,7 +99,7 @@ bool TuplePositionalString::operator==(const TupleGeneric& rhs) const
 //! \param rhs Right hand side of non-equivilance
 //! \return true if not equivilant
 //!
-bool TuplePositionalString::operator!=(const TupleGeneric& rhs) const
+bool TupleGeneralDescriptorString::operator!=(const TupleGeneric& rhs) const
 {
     return !((*this) == rhs);
 }

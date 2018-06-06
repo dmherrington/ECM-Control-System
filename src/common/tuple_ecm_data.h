@@ -7,6 +7,7 @@
 #include <QHash>
 
 #include "common.h"
+#include "tuple_general_descriptor.h"
 #include "tuple_positional_string.h"
 #include "tuple_profile_variable_string.h"
 #include "tuple_sensor_string.h"
@@ -24,6 +25,7 @@ public:
 
     enum DataTypes
     {
+        GENERAL,
         POSITION,
         PROFILE_VARIABLE,
         SENSOR,
@@ -48,6 +50,13 @@ public:
     //! \param that object to copy from
     //!
     TupleECMData(const TupleECMData &that);
+
+
+    //!
+    //! \brief TupleECMData
+    //! \param that
+    //!
+    TupleECMData(const TupleGeneralDescriptorString &that);
 
 
     //!
