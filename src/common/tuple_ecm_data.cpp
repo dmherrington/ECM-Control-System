@@ -34,31 +34,42 @@ TupleECMData::TupleECMData(const TupleECMData &that)
         this->m_Data = NULL;
         return;
     }
-
-    if(that.m_Type == POSITION)
+    else if(that.m_Type == GENERAL)
+    {
+        this->m_Data = (TupleGeneric*) new TupleGeneralDescriptorString(*((TupleGeneralDescriptorString*)that.m_Data));
+        m_Type = GENERAL;
+        return;
+    }
+    else if(that.m_Type == POSITION)
     {
         this->m_Data = (TupleGeneric*) new TuplePositionalString(*((TuplePositionalString*)that.m_Data));
         m_Type = POSITION;
         return;
     }
-
-    if(that.m_Type == PROFILE_VARIABLE)
+    else if(that.m_Type == PROFILE_VARIABLE)
     {
         this->m_Data = (TupleGeneric*) new TupleProfileVariableString(*((TupleProfileVariableString*)that.m_Data));
         m_Type = PROFILE_VARIABLE;
         return;
     }
-
-    if(that.m_Type == SENSOR)
+    else if(that.m_Type == SENSOR)
     {
         this->m_Data = (TupleGeneric*) new TupleSensorString(*((TupleSensorString*)that.m_Data));
         m_Type = SENSOR;
         return;
     }
-
-    throw new std::runtime_error("Unknown Tuple Seen");
+    else
+    {
+        throw new std::runtime_error("Unknown Tuple Seen");
+    }
 }
 
+
+TupleECMData::TupleECMData(const TupleGeneralDescriptorString &that)
+{
+    m_Data = new TupleGeneralDescriptorString(that);
+    m_Type = GENERAL;
+}
 
 //!
 //! \brief Contruct from an Master tuple
@@ -123,10 +134,24 @@ void TupleECMData::operator=(const TupleECMData& rhs)
         return;
     }
 
+    if(rhs.m_Type == GENERAL)
+    {
+        this->m_Data = (TupleGeneric*)new TupleGeneralDescriptorString(*((TupleGeneralDescriptorString*)rhs.m_Data));
+        m_Type = GENERAL;
+        return;
+    }
+
     if(rhs.m_Type == POSITION)
     {
         this->m_Data = (TupleGeneric*)new TuplePositionalString(*((TuplePositionalString*)rhs.m_Data));
         m_Type = POSITION;
+        return;
+    }
+
+    if(rhs.m_Type == PROFILE_VARIABLE)
+    {
+        this->m_Data = (TupleGeneric*)new TupleProfileVariableString(*((TupleProfileVariableString*)rhs.m_Data));
+        m_Type = PROFILE_VARIABLE;
         return;
     }
 
@@ -151,10 +176,16 @@ bool TupleECMData::operator<(TupleECMData const& rhs) const
     if(this->m_Data == NULL)
         return false;
 
-    if(this->m_Data->Type() == "Position")
+    if(this->m_Data->Type() == "General Description String")
+        return *((TupleGeneralDescriptorString*)this->m_Data) < *rhs.m_Data;
+
+    if(this->m_Data->Type() == "Positional String")
         return *((TuplePositionalString*)this->m_Data) < *rhs.m_Data;
 
-    if(this->m_Data->Type() == "Sensor")
+    if(this->m_Data->Type() == "Profile Variable String")
+        return *((TuplePositionalString*)this->m_Data) < *rhs.m_Data;
+
+    if(this->m_Data->Type() == "Sensor String")
         return *((TupleSensorString*)this->m_Data) < *rhs.m_Data;
 
     throw new std::runtime_error("Unknown Tuple Seen");
@@ -168,13 +199,17 @@ bool TupleECMData::operator<(TupleECMData const& rhs) const
 //!
 bool TupleECMData::operator==(const TupleECMData& rhs) const
 {
-    if(this->m_Type == POSITION)
+
+    if(this->m_Type == GENERAL)
+        return *((TupleGeneralDescriptorString*)this->m_Data) == *rhs.m_Data;
+    else if(this->m_Type == POSITION)
         return *((TuplePositionalString*)this->m_Data) == *rhs.m_Data;
-
-    if(this->m_Type == SENSOR)
+    else if(this->m_Type == PROFILE_VARIABLE)
+        return *((TupleProfileVariableString*)this->m_Data) == *rhs.m_Data;
+    else if(this->m_Type == SENSOR)
         return *((TupleSensorString*)this->m_Data) == *rhs.m_Data;
-
-    throw new std::runtime_error("Unknown Tuple Seen");
+    else
+        throw new std::runtime_error("Unknown Tuple Seen");
 }
 
 
@@ -196,21 +231,27 @@ bool TupleECMData::operator!=(const TupleECMData& rhs) const
 //!
 QString TupleECMData::DelimitData(const QString &delementor) const
 {
-    if(this->m_Data->Type() == "Position")
+    if(this->m_Data->Type() == "General Description String")
+        return ((TupleGeneralDescriptorString*)this->m_Data)->description;
+    else if(this->m_Data->Type() == "Positional String")
         return ((TuplePositionalString*)this->m_Data)->axisName;
-
-    if(this->m_Data->Type() == "Sensor")
+    else if(this->m_Data->Type() == "Profile Variable String")
+        return ((TupleProfileVariableString*)this->m_Data)->variableName;
+    else if(this->m_Data->Type() == "Sensor String")
         return ((TupleSensorString*)this->m_Data)->sourceName + delementor + ((TupleSensorString*)this->m_Data)->sensorName;
-
-    throw new std::runtime_error("Unknown Tuple Seen");
+    else
+        throw new std::runtime_error("Unknown Tuple Seen");
 }
 
 
 uint TupleECMData::ComputeHash() const
 {
-    if(m_Type == TupleECMData::POSITION)
+    if(m_Type == TupleECMData::GENERAL)
+        return qHash(((TupleGeneralDescriptorString*)m_Data)->description);
+    else if(m_Type == TupleECMData::POSITION)
         return qHash(((TuplePositionalString*)m_Data)->axisName);
-
+    else if(m_Type == TupleECMData::PROFILE_VARIABLE)
+        return qHash(((TupleProfileVariableString*)m_Data)->variableName);
     else if(m_Type == TupleECMData::SENSOR)
         return qHash(((TupleSensorString*)m_Data)->sensorName);
     else

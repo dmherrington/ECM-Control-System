@@ -27,7 +27,7 @@ TupleSensorString::TupleSensorString(const TupleSensorString &copy)
 //!
 QString TupleSensorString::Type() const
 {
-    return "Sensor";
+    return "Sensor String";
 }
 
 

@@ -33,7 +33,8 @@ SOURCES += common.cpp \
     comms/tcp_configuration.cpp \
     tuple_machine_string.cpp \
     tuple_profile_variable_string.cpp \
-    tuple_positional_string.cpp
+    tuple_positional_string.cpp \
+    tuple_general_descriptor.cpp
 
 HEADERS += common.h\
         common_global.h \
@@ -57,7 +58,8 @@ HEADERS += common.h\
     tuple_profile_variable_string.h \
     tuple_positional_string.h \
     axis_definitions.h \
-    hash_keys.h
+    hash_keys.h \
+    tuple_general_descriptor.h
 
 #Header file copy
 headers.path    = $$(ECM_ROOT)/include/common
