@@ -18,7 +18,7 @@ public:
     GalilStatus(const MotorAxis &axis);
 
 public:
-    void setPosition(const Status_Position &pos);
+    bool setPosition(const Status_Position &pos);
 
     bool setMotorEnabled(const bool &isRunning);
 

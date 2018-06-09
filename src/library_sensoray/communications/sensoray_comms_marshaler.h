@@ -14,7 +14,20 @@
 #include "i_protocol_sensoray_events.h"
 #include "comms_events.h"
 
-
+/**
+\* @file  sensoray_comms_marshaler.h
+\*
+\* @author Kenneth Kroeger
+\*
+\* @date
+\*
+\* @section PROJECT
+\*   This is a part of the Voxel Innovation's ECM Control System. The containing libraray is interact with the sensoray.
+\*
+\* @section DESCRIPTION
+\*
+\*
+\*/
 
 namespace comms_Sensoray{
 
@@ -72,23 +85,17 @@ public:
 
 private:
     //////////////////////////////////////////////////////////////
-    /// React to Link Events
+    /// React to ILinkEvents
     //////////////////////////////////////////////////////////////
 
-    void ConnectionOpened() const override;
-
-    void ConnectionClosed() const override;
-
-    void CommunicationError(const std::string &type, const std::string &msg) const override;
-
-    void CommunicationUpdate(const std::string &name, const std::string &msg) const override;
+    void CommunicationUpdate(const common::comms::CommunicationUpdate &update) const override;
 
     //////////////////////////////////////////////////////////////
     /// Virtual methods imposed from IProtocolSensorayEvents
     //////////////////////////////////////////////////////////////
-    void ResponseReceived(const QByteArray &buffer) const override;
-    void SerialPortConnectionUpdate(const common::comms::CommunicationConnection &connection) const override;
     void SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const override;
+
+    void ResponseReceived(const QByteArray &buffer) const override;
 
 private:
     SensoraySession* m_Session;

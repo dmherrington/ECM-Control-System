@@ -65,28 +65,16 @@ public:
     //////////////////////////////////////////////////////////////
 
     //!
-    //! \brief ConnectionOpened
+    //! \brief ConnectionStatusUpdated
+    //! \param update
     //!
-    void ConnectionOpened() const override;
+    void ConnectionStatusUpdated(const common::comms::CommunicationUpdate &update) const override;
 
     //!
-    //! \brief ConnectionClosed
+    //! \brief SerialPortStatusUpdate
+    //! \param update
     //!
-    void ConnectionClosed() const override;
-
-    //!
-    //! \brief CommunicationError
-    //! \param type
-    //! \param msg
-    //!
-    void CommunicationError(const std::string &type, const std::string &msg) const override;
-
-    //!
-    //! \brief CommunicationUpdate
-    //! \param name
-    //! \param msg
-    //!
-    void CommunicationUpdate(const std::string &name, const std::string &msg) const override;
+    void SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const override;
 
     //!
     //! \brief NewDataReceived
@@ -94,19 +82,13 @@ public:
     //!
     void NewDataReceived(const QByteArray &buffer) const override;
 
-    void SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const override;
-
-    void SerialPortConnection(const common::comms::CommunicationConnection &connection) const override;
-
 signals:
-    void signal_SensorayConnectionUpdate(const common::comms::CommunicationConnection &value) const;
+    void signal_SensorayConnectionUpdate(const common::comms::CommunicationUpdate &update) const;
 
     ///////////////////////////////////////////////////////////////////////////
     /// Imposed virtual signals from common::comms::ICommunication
     ///////////////////////////////////////////////////////////////////////////
     void signal_SerialPortReadyToConnect() const override;
-
-    void signal_SerialPortConnection(const common::comms::CommunicationConnection update) const override;
 
     void signal_SerialPortUpdate(const common::comms::CommunicationUpdate update) const override;
 

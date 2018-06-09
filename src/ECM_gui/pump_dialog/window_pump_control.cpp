@@ -2,13 +2,13 @@
 #include "ui_window_pump_control.h"
 
 Window_PumpControl::Window_PumpControl(Westinghouse510* obj, QWidget *parent) :
-    GeneralDialogWindow(DialogWindowTypes::WINDOW_PUMP,"WestinghouseP",parent),
+    GeneralDialogWindow(DialogWindowTypes::WINDOW_PUMP,"WestinghousePump",parent),
     ui(new Ui::Window_PumpControl),
     m_Pump(obj)
 {
     ui->setupUi(this);
 
-    connect(m_Pump,SIGNAL(signal_PumpConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(slot_PumpConnectionUpdate(common::comms::CommunicationConnection)));
+    connect(m_Pump,SIGNAL(signal_PumpConnectionUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_PumpConnectionUpdate(common::comms::CommunicationUpdate)));
 
     this->m_Pump->m_State->flowRate.AddNotifier(this,[this]
     {
@@ -36,12 +36,27 @@ void Window_PumpControl::closeEvent(QCloseEvent *event)
     GeneralDialogWindow::closeEvent(event);
 }
 
-void Window_PumpControl::slot_PumpConnectionUpdate(const common::comms::CommunicationConnection &value)
+void Window_PumpControl::setPumpFlowRate(const double &rate)
 {
-    if(value.isConnected())
+    ui->doubleSpinBox_flowRate->setStyleSheet("background-color: red");
+    ui->doubleSpinBox_flowRate->setValue(rate);
+}
+
+void Window_PumpControl::setPumpDelayTime(const double &time)
+{
+    ui->doubleSpinBox_delayTime->setValue(time);
+}
+
+void Window_PumpControl::slot_PumpConnectionUpdate(const common::comms::CommunicationUpdate &update)
+{
+    if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
+    {
         ui->widget_PumpConnected->setColor(QColor(0,255,0));
-    else
+    }
+    else if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED)
+    {
         ui->widget_PumpConnected->setColor(QColor(255,0,0));
+    }
 }
 
 void Window_PumpControl::slot_updatedPumpOn(const bool &value)
@@ -62,7 +77,13 @@ void Window_PumpControl::slot_updatedPumpOn(const bool &value)
 
 void Window_PumpControl::slot_updatedFlowRate(const double &value)
 {
-    ui->doubleSpinBox_flowRate->setValue(value);
+    if(value == ui->doubleSpinBox_flowRate->value())
+    {
+        ui->doubleSpinBox_flowRate->setStyleSheet("background-color: green");
+    }
+    else{
+        //for some reason there was a discrepency
+    }
     statusBar()->showMessage(tr("Flow rate has been updated."),2500);
 }
 
@@ -87,7 +108,7 @@ void Window_PumpControl::on_pushButton_PumpRunning_released()
 
 void Window_PumpControl::on_doubleSpinBox_flowRate_valueChanged(double arg1)
 {
-    //m_Pump->m_State->flowRate.set(flowRate); // I dont know if I should do it like this
+    ui->doubleSpinBox_flowRate->setStyleSheet("background-color: red");
     registers_WestinghousePump::Register_FlowRate newFlowRate;
     newFlowRate.setVolumetricFlow(arg1);
     m_Pump->setPumpFlowRate(newFlowRate);
@@ -131,7 +152,7 @@ void Window_PumpControl::saveToFile(const QString &filePath)
         qWarning("Couldn't open save file.");
     }
     QJsonObject saveObject;
-//    ui->segmentWidget->write(saveObject);
+    this->write(saveObject);
     QJsonDocument saveDoc(saveObject);
     saveFile.write(saveDoc.toJson());
     saveFile.close();
@@ -149,5 +170,17 @@ void Window_PumpControl::openFromFile(const QString &filePath)
     openFile.close();
 
     QJsonDocument loadDoc(QJsonDocument::fromJson(loadData));
-//    ui->segmentWidget->read(loadDoc.object());
+    this->read(loadDoc.object());
+}
+
+void Window_PumpControl::read(const QJsonObject &json)
+{
+    setPumpDelayTime(json["pumpDelayTime"].toDouble());
+    setPumpFlowRate(json["pumpFlowRate"].toDouble());
+}
+
+void Window_PumpControl::write(QJsonObject &json) const
+{
+    json["pumpDelayTime"] = this->ui->doubleSpinBox_delayTime->value();
+    json["pumpFlowRate"] = this->ui->doubleSpinBox_flowRate->value();
 }

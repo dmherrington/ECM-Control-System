@@ -1,2 +1,4 @@
 {
+    "pumpDelayTime": 12,
+    "pumpFlowRate": 3
 }

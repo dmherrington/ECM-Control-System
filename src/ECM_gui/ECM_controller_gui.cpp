@@ -152,7 +152,7 @@ void ECMControllerGUI::slot_DisplayActionTriggered()
         ui->widget_primaryPlot->RedrawDataSource(plots);
     }else{
         ECMPlotIdentifierPtr removePlot = std::make_shared<ECMPlotIdentifier>(key);
-        ui->widget_primaryPlot->RemoveGraphData(removePlot);
+        //ui->widget_primaryPlot->RemoveGraphData(removePlot);
     }
 }
 

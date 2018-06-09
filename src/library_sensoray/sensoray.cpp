@@ -1,12 +1,15 @@
 #include "sensoray.h"
 
 Sensoray::Sensoray(const std::string &name, QObject *parent):
-    deviceName(name),
     QObject(parent),
-    ICommunication()
+    ICommunication(),
+    commsMarshaler(nullptr),
+    deviceName(name)
 {
     qRegisterMetaType<common::comms::CommunicationConnection>("CommunicationConnection");
     qRegisterMetaType<common::comms::CommunicationUpdate>("CommunicationUpdate");
+
+    deviceName = name;
 
     commsMarshaler = new comms_Sensoray::CommsMarshaler();
     commsMarshaler->AddSubscriber(this);
@@ -59,62 +62,31 @@ bool Sensoray::isSerialPortOpen() const
 //////////////////////////////////////////////////////////////
 
 //!
-//! \brief Sensoray::ConnectionOpened
+//! \brief Sensoray::ConnectionStatusUpdated
+//! \param update
 //!
-void Sensoray::ConnectionOpened() const
+void Sensoray::ConnectionStatusUpdated(const common::comms::CommunicationUpdate &update) const
 {
-    this->initializeSensoray();
-    common::comms::CommunicationConnection connection(deviceName,true);
-    emit signal_SensorayConnectionUpdate(connection);
-    emit signal_SerialPortReadyToConnect();
+    if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
+    {
+        this->initializeSensoray();
+        emit signal_SensorayConnectionUpdate(update);
+        emit signal_SerialPortReadyToConnect();
+    }
+    else
+    {
+        emit signal_SensorayConnectionUpdate(update);
+    }
 }
 
-//!
-//! \brief Sensoray::ConnectionClosed
-//!
-void Sensoray::ConnectionClosed() const
+void Sensoray::SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const
 {
-    common::comms::CommunicationConnection connection(deviceName,false);
-    emit signal_SensorayConnectionUpdate(connection);
-}
-
-//!
-//! \brief CommunicationError
-//! \param type
-//! \param msg
-//!
-void Sensoray::CommunicationError(const std::string &type, const std::string &msg) const
-{
-
-}
-
-//!
-//! \brief CommunicationUpdate
-//! \param name
-//! \param msg
-//!
-void Sensoray::CommunicationUpdate(const std::string &name, const std::string &msg) const
-{
-
+    emit signal_SerialPortUpdate(update);
 }
 
 void Sensoray::NewDataReceived(const QByteArray &buffer) const
 {
     emit signal_RXNewSerialData(buffer);
-}
-
-void Sensoray::SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const
-{
-    common::comms::CommunicationUpdate commsUpdate(update);
-    commsUpdate.setSourceName(this->deviceName);
-    emit signal_SerialPortUpdate(commsUpdate);
-}
-
-void Sensoray::SerialPortConnection(const common::comms::CommunicationConnection &connection) const
-{
-    common::comms::CommunicationConnection connectionUpdate(connection);
-    connectionUpdate.setSourceName(this->deviceName);
-    emit signal_SerialPortConnection(connectionUpdate);
 }
 
 void Sensoray::initializeSensoray() const

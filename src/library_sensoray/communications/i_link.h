@@ -11,6 +11,21 @@
 #include "i_link_events.h"
 #include "sensoray_tcp_configuration.h"
 
+/**
+\* @file  i_link.h
+\*
+\* @author Kenneth Kroeger
+\*
+\* @date
+\*
+\* @section PROJECT
+\*   This is a part of the Voxel Innovation's ECM Control System. The containing libraray is interact with the sensoray.
+\*
+\* @section DESCRIPTION
+\*
+\*
+\*/
+
 namespace comms_Sensoray{
 
 class ILink

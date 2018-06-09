@@ -16,12 +16,16 @@ namespace comms{
 class COMMONSHARED_EXPORT ICommunication
 {
 public:
+    //!
+    //! \brief ICommunication default constructor of the abstract ICommunication class
+    //!
     ICommunication() = default;
 
-    virtual ~ICommunication()
-    {
+    //!
+    //! \brief ~ICommunication default destructor of the abstract ICommunication class
+    //!
+    virtual ~ICommunication() = default;
 
-    }
 public:
     virtual bool isSerialDeviceReadyToConnect() const = 0;
     virtual void openSerialPortConnection(const SerialConfiguration &config) const  = 0;
@@ -30,9 +34,21 @@ public:
     virtual bool isSerialPortOpen() const = 0;
 
 signals:
+    //!
+    //! \brief signal_SerialPortReadyToConnect
+    //!
     virtual void signal_SerialPortReadyToConnect() const = 0;
-    virtual void signal_SerialPortConnection(const CommunicationConnection update) const = 0;
+
+    //!
+    //! \brief signal_SerialPortUpdate
+    //! \param update
+    //!
     virtual void signal_SerialPortUpdate(const CommunicationUpdate update) const = 0;
+
+    //!
+    //! \brief signal_RXNewSerialData
+    //! \param data
+    //!
     virtual void signal_RXNewSerialData(const QByteArray data) const = 0;
 };
 

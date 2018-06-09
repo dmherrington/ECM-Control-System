@@ -32,7 +32,7 @@ Status_Position GalilStatus::getPosition() const
     return this->position.get();
 }
 
-void GalilStatus::setPosition(const Status_Position &pos)
+bool GalilStatus::setPosition(const Status_Position &pos)
 {
     this->position.set(pos);
 }

@@ -21,6 +21,21 @@
 
 #include "s24xx.h"
 
+/**
+\* @file  protocol_sensoray.h
+\*
+\* @author Kenneth Kroeger
+\*
+\* @date
+\*
+\* @section PROJECT
+\*   This is a part of the Voxel Innovation's ECM Control System. The containing libraray is interact with the sensoray.
+\*
+\* @section DESCRIPTION
+\*
+\*
+\*/
+
 namespace comms_Sensoray{
 
 class SensorayProtocol : public IProtocol

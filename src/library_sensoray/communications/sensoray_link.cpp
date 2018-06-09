@@ -1,6 +1,5 @@
 #include "sensoray_link.h"
 
-
 namespace comms_Sensoray {
 
 //!
@@ -126,9 +125,14 @@ bool SensorayLink::_hardwareConnect()
     m_Session->moveToThread(m_ListenThread);
     m_ListenThread->start();
 
+    EmitEvent([this](const ILinkEvents *ptr){
+        common::comms::CommunicationUpdate commsUpdate;
+        commsUpdate.setSourceName("Sensoray_"+getDeviceAddress());
+        commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
+        commsUpdate.setPeripheralMessage("Sensoray communication port has been opened.");
 
-    EmitEvent([this](const ILinkEvents *ptr){ptr->CommunicationUpdate(getDeviceAddress(), "Opened port!");});
-    EmitEvent([this](const ILinkEvents *ptr){ptr->ConnectionOpened();});
+        ptr->CommunicationUpdate(commsUpdate);
+    });
 
     return true; // successful connection
 }
@@ -150,8 +154,18 @@ void SensorayLink::updateCurrentSession(SensoraySession* session)
 
 void SensorayLink::_emitLinkError(const std::string& errorMsg) const
 {
-    std::string msg = "Error on link " + getDeviceAddress() + ":" + std::to_string(getTelnetPortNumber()) + " - " + errorMsg;
-    EmitEvent([&](const ILinkEvents *ptr){ptr->CommunicationError("Link Error", msg);});
+
+    EmitEvent([this,errorMsg](const ILinkEvents *ptr){
+        common::comms::CommunicationUpdate commsUpdate;
+        commsUpdate.setSourceName("Sensoray_"+getDeviceAddress());
+        commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::ERROR);
+        std::string msg = "Error on link " + getDeviceAddress() + ":" + std::to_string(getTelnetPortNumber()) + " - " + errorMsg;
+        commsUpdate.setPeripheralMessage(msg);
+
+        ptr->CommunicationUpdate(commsUpdate);
+    });
+
+    //EmitEvent([&](const ILinkEvents *ptr){ptr->CommunicationError("Link Error", msg);});
 }
 
 common::comms::LinkConfiguration SensorayLink::getLinkConfiguration()

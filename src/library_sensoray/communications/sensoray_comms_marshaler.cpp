@@ -112,42 +112,23 @@ void CommsMarshaler::resetSensorayIO()
 /// React to Link Events
 //////////////////////////////////////////////////////////////
 
-void CommsMarshaler::ConnectionOpened() const
+void CommsMarshaler::CommunicationUpdate(const common::comms::CommunicationUpdate &update) const
 {
-    Emit([&](CommsEvents *ptr){ptr->ConnectionOpened();});
-}
-
-void CommsMarshaler::ConnectionClosed() const
-{
-    Emit([&](CommsEvents *ptr){ptr->ConnectionClosed();});
-}
-
-void CommsMarshaler::CommunicationError(const std::string &type, const std::string &msg) const
-{
-    Emit([&](CommsEvents *ptr){ptr->CommunicationError(type,msg);});
-}
-
-void CommsMarshaler::CommunicationUpdate(const std::string &name, const std::string &msg) const
-{
-    Emit([&](CommsEvents *ptr){ptr->CommunicationUpdate(name,msg);});
+    Emit([&](CommsEvents *ptr){ptr->ConnectionStatusUpdated(update);});
 }
 
 //////////////////////////////////////////////////////////////
 /// IProtocolSensorayEvents
 //////////////////////////////////////////////////////////////
-void CommsMarshaler::ResponseReceived(const QByteArray &buffer) const
-{
-    Emit([&](CommsEvents *ptr){ptr->NewDataReceived(buffer);});
-}
-
-void CommsMarshaler::SerialPortConnectionUpdate(const common::comms::CommunicationConnection &connection) const
-{
-    Emit([&](CommsEvents *ptr){ptr->SerialPortConnection(connection);});
-}
 
 void CommsMarshaler::SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const
 {
     Emit([&](CommsEvents *ptr){ptr->SerialPortStatusUpdate(update);});
+}
+
+void CommsMarshaler::ResponseReceived(const QByteArray &buffer) const
+{
+    Emit([&](CommsEvents *ptr){ptr->NewDataReceived(buffer);});
 }
 
 } //end of namespace comms

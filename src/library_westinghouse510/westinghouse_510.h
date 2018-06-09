@@ -18,25 +18,86 @@ class LIBRARY_WESTINGHOUSE510SHARED_EXPORT Westinghouse510 : public QObject
 {
     Q_OBJECT
 public:
+
+    //!
+    //! \brief Westinghouse510 constructor of the westinghouse library object. This class has no way of explicitly
+    //! \param commsObject the abstract communication object that handles/marshals commands/objects that communicate
+    //! the commands/data from this class to the pump. Also, this class receives updates from this object reflecting
+    //! the current status/state of the pump.
+    //! \param pumpAddress numeric address of the pump
+    //! \param name class name used when communicating out objects reflected in the tuple state
+    //!
     Westinghouse510(const common::comms::ICommunication* commsObject, const int &pumpAddress, const std::string &name = "Westinghouse Pump");
 
+    //! \brief ~Wetsinghouse510 default destructor of the westinghouse library object
     ~Westinghouse510() = default;
 
+    //!
+    //! \brief setPumpFlowRate function transmitting the desired flow rate to the communication object.
+    //! It is the role of the communication object to then transmit the desired flow rate to the appropriate
+    //! device.
+    //! \param desRate object reflecting the desired flow rate of the pump
+    //!
     void setPumpFlowRate(const registers_WestinghousePump::Register_FlowRate &desRate);
+
+    //!
+    //! \brief setPumpOperations function transmitting the desired operational procedures of the pump.
+    //! Controls operations such as run/reverse/fault/reset.
+    //! \param desOps object reflecting the desired operations of the pump
+    //!
     void setPumpOperations(const registers_WestinghousePump::Register_OperationSignal &desOps);
 
+    //!
+    //! \brief isPumpConnected
+    //! \return
+    //!
+    bool isPumpConnected() const;
+
 private:
+
+    //!
+    //! \brief parseReceivedMessage function that shall parse the msg object to determine what feedback
+    //! was received from the pump.
+    //! \param msg generic message data type containing the byte array of the received data from the pump
+    //!
     void parseReceivedMessage(const comms_WestinghousePump::WestinghouseMessage &msg);
 
 signals:
-    void signal_PumpConnectionUpdate(const common::comms::CommunicationConnection &value) const;
+    //!
+    //! \brief signal_PumpConnectionUpdate signal emitted when something about the connection has changed and/or been modified
+    //! \param obj generic data type containing the status of the resulting connection update
+    //!
+    void signal_PumpConnectionUpdate(const common::comms::CommunicationUpdate &obj) const;
+
+    //!
+    //! \brief signal_PumpFlowUpdated signal emitted when the pump has acknowledged that the pump flow rate has been changed
+    //! \param value the explicit flow rate of the pump
+    //!
     void signal_PumpFlowUpdated(const double &value);
+
+    //!
+    //! \brief signal_PumpOperating signal emitted when the pump has acknowledged that the pump is in operation
+    //! \param value explicit condition acknowledging true when the pump is running
+    //!
     void signal_PumpOperating(const bool &value);
 
 private slots:
+    //!
+    //! \brief slot_SerialPortReadyToConnect slot that catches the ICommunication callback denoting when the device is ready to
+    //! accept requests to open connections to the pump.
+    //!
     void slot_SerialPortReadyToConnect();
-    void slot_SerialPortConnectionUpdate(const common::comms::CommunicationConnection &update);
-    void slot_SerialPortStatusUpdate(const common::comms::CommunicationUpdate &connection);
+
+    //!
+    //! \brief slot_SerialPortUpdate
+    //! \param update
+    //!
+    void slot_SerialPortUpdate(const common::comms::CommunicationUpdate &update);
+
+    //!
+    //! \brief slot_SerialPortReceivedData
+    //! \param data
+    //!
     void slot_SerialPortReceivedData(const QByteArray &data);
 
 

@@ -159,15 +159,18 @@ signals:
     void signal_MCNewMotionState(const std::string &state) const;
 
     //!
+    //! \brief signal_MCNewProgramReceived
+    //! \param programText
+    //!
+    void signal_MCNewProgramReceived(const std::string &programText);
+
+    //!
     //! \brief signal_GalilHomeIndicated
     //! \param indicated
     //!
     void signal_GalilHomeIndicated(const bool &indicated) const;
 
     void signal_GalilUpdatedProfileState(const MotionProfileState &state) const;
-
-
-    void newProgramReceived(const std::string &programText);
 
     void currentErrorCode(const std::string &errorString);
 

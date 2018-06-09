@@ -21,16 +21,25 @@ private:
     void closeEvent(QCloseEvent *event) override;
 
 private:
+    void setPumpFlowRate(const double &rate);
+
+    void setPumpDelayTime(const double &time);
+
+private:
     void saveToFile(const QString &filePath);
 
     void openFromFile(const QString &filePath);
+
+    void read(const QJsonObject &json);
+
+    void write(QJsonObject &json) const;
 
 signals:
     void signal_DialogWindowVisibilty(const DialogWindowTypes &type, const bool &visibility) override;
 
 private slots:
 
-    void slot_PumpConnectionUpdate(const common::comms::CommunicationConnection &value);
+    void slot_PumpConnectionUpdate(const common::comms::CommunicationUpdate &update);
 
     void slot_updatedDelayTime(const double &value);
 

@@ -12,6 +12,8 @@ class CommunicationUpdate
 public:
     enum class UpdateTypes
     {
+        CONNECTED,
+        DISCONNECTED,
         UPDATE,
         ALERT,
         ERROR

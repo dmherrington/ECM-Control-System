@@ -8,8 +8,8 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
     qRegisterMetaType<common::comms::CommunicationUpdate>("CommunicationUpdate");
 
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortReadyToConnect()),this,SLOT(slot_SerialPortReadyToConnect()));
-    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortConnection(common::comms::CommunicationConnection)),this,SLOT(slot_SerialPortConnectionUpdate(common::comms::CommunicationConnection)));
-    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_SerialPortStatusUpdate(common::comms::CommunicationUpdate)));
+    //connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortConnection(common::comms::CommunicationConnection)),this,SLOT(slot_SerialPortConnectionUpdate(common::comms::CommunicationConnection)));
+    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_SerialPortUpdate(common::comms::CommunicationUpdate)));
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_RXNewSerialData(QByteArray)),this,SLOT(slot_SerialPortReceivedData(QByteArray)));
 
     this->m_State = new Westinghouse510_State();
@@ -28,14 +28,30 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
 
 }
 
+//!
+//! \brief setPumpFlowRate function transmitting the desired flow rate to the communication object.
+//! It is the role of the communication object to then transmit the desired flow rate to the appropriate
+//! device.
+//! \param desRate object reflecting the desired flow rate of the pump
+//!
 void Westinghouse510::setPumpFlowRate(const registers_WestinghousePump::Register_FlowRate &desRate)
 {
     this->m_Comms->writeToSerialPort(desRate.getFullMessage());
 }
 
+//!
+//! \brief setPumpOperations function transmitting the desired operational procedures of the pump.
+//! Controls operations such as run/reverse/fault/reset.
+//! \param desOps object reflecting the desired operations of the pump
+//!
 void Westinghouse510::setPumpOperations(const registers_WestinghousePump::Register_OperationSignal &desOps)
 {
     this->m_Comms->writeToSerialPort(desOps.getFullMessage());
+}
+
+bool Westinghouse510::isPumpConnected() const
+{
+    return this->m_Comms->isSerialPortOpen();
 }
 
 void Westinghouse510::slot_SerialPortReadyToConnect()
@@ -44,15 +60,10 @@ void Westinghouse510::slot_SerialPortReadyToConnect()
     this->m_Comms->openSerialPortConnection(config);
 }
 
-void Westinghouse510::slot_SerialPortConnectionUpdate(const common::comms::CommunicationConnection &connection)
+void Westinghouse510::slot_SerialPortUpdate(const common::comms::CommunicationUpdate &update)
 {
-    this->m_State->pumpConnected = connection.isConnected();
-    emit signal_PumpConnectionUpdate(connection);
-}
-
-void Westinghouse510::slot_SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update)
-{
-
+//    this->m_State->pumpConnected = connection.isConnected();
+//    emit signal_PumpConnectionUpdate(connection);
 }
 
 void Westinghouse510::slot_SerialPortReceivedData(const QByteArray &data)

@@ -1,6 +1,21 @@
 #ifndef I_PROTOCOL_SENSORARY_EVENTS_H
 #define I_PROTOCOL_SENSORARY_EVENTS_H
 
+/**
+\* @file  i_protocol_sensoray_events.h
+\*
+\* @author Kenneth Kroeger
+\*
+\* @date
+\*
+\* @section PROJECT
+\*   This is a part of the Voxel Innovation's ECM Control System. The containing libraray is interact with the sensoray.
+\*
+\* @section DESCRIPTION
+\*
+\*
+\*/
+
 #include <string>
 #include <memory>
 
@@ -17,8 +32,17 @@ namespace comms_Sensoray{
 class IProtocolSensorayEvents
 {
 public:
-    virtual void SerialPortConnectionUpdate(const common::comms::CommunicationConnection &connection) const = 0;
+    //!
+    //! \brief SerialPortStatusUpdate signal to be emitted when the explicit serial port of the sensoray
+    //! has a change in status.
+    //! \param update object containing information related to the status of the serial port
+    //!
     virtual void SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const = 0;
+
+    //!
+    //! \brief ResponseReceived signal to be emitted when information has been received by the serial port
+    //! \param buffer byte array containing the received message at the port
+    //!
     virtual void ResponseReceived(const QByteArray &buffer) const = 0;
 };
 

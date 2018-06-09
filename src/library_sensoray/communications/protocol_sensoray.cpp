@@ -36,43 +36,53 @@ void SensorayProtocol::resetSensorayIO()
 bool SensorayProtocol::openSerialPort(const common::comms::SerialConfiguration &config)
 {
     S24XXERR errorCode = S24XXERR::ERR_NONE;
+    bool comPortOpened = false;
+    common::comms::CommunicationUpdate commsStatus;
+    commsStatus.setSourceName("Sensoray");
+
+    //This was to just test explicit for the sensoray when the pump was not functioing. The default configuration should function fully.
     s2426_ComportOpen(m_Session->handle, &errorCode,19200,PARITY_TYPE_NONE,NDATABITS_8,STOPBITS_1);
     //s2426_ComportOpen(m_Session->handle,&errorCode,config.baud(),getSensorayParity(config.parity()),getSensorayDataBits(config.dataBits()),getSensorayStopBits(config.stopBits()));
     if(errorCode == S24XXERR::ERR_NONE)
     {
         m_Session->setSerialPortConnected(true);
-        common::comms::CommunicationConnection commsStatus;
-        commsStatus.setSourceName("Sensoray");
-        commsStatus.setConnection(true);
-        Emit([&](const IProtocolSensorayEvents* ptr){ptr->SerialPortConnectionUpdate(commsStatus);});
-        return true;
+        commsStatus.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
+        commsStatus.setPeripheralMessage("Serial Port connection has been opened.");
+        comPortOpened = true;
     }
+    else
+    {
+        commsStatus.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::ERROR);
+        commsStatus.setPeripheralMessage(std::string(s24xx_ErrorText(errorCode)));
+        comPortOpened = false;
 
-    common::comms::CommunicationUpdate commsError("Senosoray",common::comms::CommunicationUpdate::UpdateTypes::ERROR,
-                                                  std::string(s24xx_ErrorText(errorCode)));
-    Emit([&](const IProtocolSensorayEvents* ptr){ptr->SerialPortStatusUpdate(commsError);});
-    return false;
+    }
+    Emit([&](const IProtocolSensorayEvents* ptr){ptr->SerialPortStatusUpdate(commsStatus);});
+    return comPortOpened;
 }
 
 bool SensorayProtocol::closeSerialPort ()
 {
     S24XXERR errorCode = S24XXERR::ERR_NONE;
+    bool comPortClosed = true;
+    common::comms::CommunicationUpdate commsStatus;
+    commsStatus.setSourceName("Sensoray");
+
     s2426_ComportClose(m_Session->handle,&errorCode);
     if(errorCode == S24XXERR::ERR_NONE)
     {
         m_Session->setSerialPortConnected(false);
-        common::comms::CommunicationConnection commsStatus;
-        commsStatus.setSourceName("Sensoray");
-        commsStatus.setConnection(false);
-        Emit([&](const IProtocolSensorayEvents* ptr){ptr->SerialPortConnectionUpdate(commsStatus);});
-        return true;
+        comPortClosed = true;
+        commsStatus.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED);
     }
-
-    common::comms::CommunicationUpdate commsError("Senosoray",common::comms::CommunicationUpdate::UpdateTypes::ERROR,
-                                                  std::string(s24xx_ErrorText(errorCode)));
-    Emit([&](const IProtocolSensorayEvents* ptr){ptr->SerialPortStatusUpdate(commsError);});
-
-    return false;
+    else
+    {
+        commsStatus.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::ERROR);
+        commsStatus.setPeripheralMessage(std::string(s24xx_ErrorText(errorCode)));
+        comPortClosed = false;
+    }
+    Emit([&](const IProtocolSensorayEvents* ptr){ptr->SerialPortStatusUpdate(commsStatus);});
+    return comPortClosed;
 }
 
 void SensorayProtocol::transmitDataToSerialPort(const QByteArray &msg)
