@@ -60,6 +60,8 @@ private slots:
 
     void slot_MCNewMotionState(const std::string &state);
 
+    void slot_MCNewDigitalInput(const StatusInputs &status);
+
     void slot_UpdateHomeIndicated(const bool &value);
 
     void on_pushButton_MotorEnable_released();
@@ -126,7 +128,6 @@ private slots:
     void on_actionPower_Supply_triggered(bool checked);
 
     void on_actionOscilliscope_triggered(bool checked);
-
 
 protected:
     void readSettings();

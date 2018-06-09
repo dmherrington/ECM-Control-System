@@ -48,7 +48,6 @@ GalilMotionController::GalilMotionController(const std::string &name):
     }
 
     initializeMotionController();
-    galilPolling->beginPolling();
 }
 
 GalilMotionController::~GalilMotionController()
@@ -71,6 +70,20 @@ GalilMotionController::~GalilMotionController()
         delete galilPolling;
         galilPolling = nullptr;
     }
+}
+
+std::vector<common::TupleECMData> GalilMotionController::getPlottables() const
+{
+    std::vector<common::TupleECMData> rtn;
+
+    common::TuplePositionalString tpString;
+    tpString.axisName = QString::fromStdString(AxisToString(MotorAxis::Z));
+    rtn.push_back(tpString);
+
+    common::TupleProfileVariableString varString("","","ppos");
+    rtn.push_back(varString);
+
+    return rtn;
 }
 
 void GalilMotionController::initializeMotionController() const
@@ -117,6 +130,11 @@ std::string GalilMotionController::getCurrentMCState() const
     ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
     ECM::Galil::ECMState stateEnum = currentState->getCurrentState();
     return ECM::Galil::ECMStateToString(stateEnum);
+}
+
+StatusInputs GalilMotionController::getCurrent_MCDIO() const
+{
+    return this->stateInterface->statusInputs.get();
 }
 
 std::vector<common::TupleECMData> GalilMotionController::getAvailablePlottables() const
@@ -189,6 +207,8 @@ void GalilMotionController::NewStatusInputs(const StatusInputs &status)
     {
         stateMachine->UpdateStates();
         stateMachine->ProcessStateTransitions();
+
+        emit signal_MCNewDigitalInput(status);
     }
 }
 

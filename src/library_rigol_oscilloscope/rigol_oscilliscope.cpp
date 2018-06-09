@@ -57,7 +57,7 @@ bool RigolOscilliscope::addPollingMeasurement(const commands_Rigol::MeasureComma
         commands_Rigol::MeasureCommand_Item copyCommand(command);
         copyCommand.setReadOrWrite(data_Rigol::RigolRWType::READ);
         pollStatus->addPollingMeasurement(copyCommand);
-        //executeMeasurementPolling(true);
+        executeMeasurementPolling(true);
     }
     return unique;
 }

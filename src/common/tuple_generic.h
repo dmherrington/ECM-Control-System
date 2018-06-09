@@ -15,6 +15,10 @@ class TupleGeneric
 {
 public:
 
+    //!
+    //! \brief virtual destructor of the TupleGeneric class
+    //!
+    virtual ~TupleGeneric() = default;
 
     //!
     //! \brief pure virtual method giving the name of tuple

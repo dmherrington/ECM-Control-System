@@ -88,7 +88,7 @@ public:
     //! \brief Adds a plot to the handler object
     //! \param dataKey Key to indentify data
     //!
-    void AddPlot(const common_data::observation::IPlotComparablePtr expression, const std::string &name = "");
+    void AddPlot(const common_data::observation::IPlotComparablePtr expression, const std::string &name = "", const bool &useSecondayYAxis = false);
 
 
     //!
@@ -366,7 +366,7 @@ private:
     //! \brief Marshals adding a graph to QCustomPlot object to the main thread
     //! \return Graph added
     //!
-    Q_INVOKABLE QCPGraph* MarshalAddGraph();
+    Q_INVOKABLE QCPGraph* MarshalAddGraph(const bool &useSecondaryAxis = false);
 
 
 private:
@@ -392,6 +392,7 @@ private:
         int GraphNumber;
         bool Redraw;
         bool Selected;
+        bool yAxis2;
 
         //! Graph to display plot
         QVector<QCPGraph *> g;

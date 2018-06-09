@@ -27,7 +27,7 @@ TupleProfileVariableString::TupleProfileVariableString(const TupleProfileVariabl
 //!
 QString TupleProfileVariableString::Type() const
 {
-    return "Profile Variable";
+    return "Profile Variable String";
 }
 
 

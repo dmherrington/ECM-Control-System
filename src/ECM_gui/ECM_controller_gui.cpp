@@ -42,6 +42,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     ui->widget_primaryPlot->SupplyPlotCollection(&m_PlotCollection);
     ui->widget_primaryPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
 
+    ui->widget_LEDEStop_DIO->setDiameter(5);
+    ui->widget_LEDTouchoff_DIO->setDiameter(5);
 
     m_API = new ECM_API();
     m_API->m_Log->setLoggingStartTime(startTime);
@@ -51,6 +53,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     connect(m_API->m_Galil, SIGNAL(signal_MCNewMotionState(std::string)), this, SLOT(slot_MCNewMotionState(std::string)));
     this->slot_MCNewMotionState(m_API->m_Galil->getCurrentMCState());
+    slot_MCNewDigitalInput(m_API->m_Galil->getCurrent_MCDIO());
+    connect(m_API->m_Galil,SIGNAL(signal_MCNewDigitalInput(StatusInputs)),this,SLOT(slot_MCNewDigitalInput(StatusInputs)));
 
     m_WindowMunk = new Window_MunkPowerSupply(m_API->m_Munk);
     m_WindowMunk->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
@@ -71,6 +75,12 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     connect(m_API->m_Galil,SIGNAL(signal_GalilHomeIndicated(bool)),this,SLOT(slot_UpdateHomeIndicated(bool)));
 
+
+    std::vector<common::TupleECMData> plottables = m_API->m_Galil->getPlottables();
+    for(unsigned int i = 0; i < plottables.size(); i++)
+    {
+        slot_AddPlottable(plottables.at(i));
+    }
     //readSettings();
 
 //    common::TuplePositionalString tuplePosition;
@@ -147,7 +157,7 @@ void ECMControllerGUI::slot_DisplayActionTriggered()
     if(selectedObject->isChecked())
     {
         ECMPlotIdentifierPtr addPlot = std::make_shared<ECMPlotIdentifier>(key);
-        ui->widget_primaryPlot->AddPlot(addPlot, key.getData()->HumanName().toStdString());
+        ui->widget_primaryPlot->AddPlot(addPlot, key.getData()->HumanName().toStdString(),true);
         QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(key);
         ui->widget_primaryPlot->RedrawDataSource(plots);
     }else{
@@ -203,9 +213,23 @@ void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalStrin
     m_additionalSensorDisplay->UpdatePlottedData(tupleSensor);
 }
 
+
 void ECMControllerGUI::slot_MCNewMotionState(const std::string &state)
 {
     ui->lineEdit_GalilState->setText("State: " + QString::fromStdString(state));
+}
+
+void ECMControllerGUI::slot_MCNewDigitalInput(const StatusInputs &status)
+{
+    if(status.getResult(GalilPins::GALIL_PIN_ESTOP))
+        ui->widget_LEDEStop_DIO->setColor(QColor(255,0,0));
+    else
+        ui->widget_LEDEStop_DIO->setColor(QColor(0,0,0));
+
+    if(status.getResult(GalilPins::GALIL_PIN_TOUCHOFF))
+        ui->widget_LEDTouchoff_DIO->setColor(QColor(255,0,0));
+    else
+        ui->widget_LEDTouchoff_DIO->setColor(QColor(0,0,0));
 }
 
 void ECMControllerGUI::slot_UpdateHomeIndicated(const bool &value)

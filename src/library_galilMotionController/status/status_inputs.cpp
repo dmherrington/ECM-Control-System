@@ -4,7 +4,7 @@ StatusInputs::StatusInputs():
     AbstractStatus(StatusTypes::STATUS_TELLINPUTS)
 {
     for(int i=1;i<9;i++)
-        this->mapInputs[i] = true;
+        this->mapInputs[i] = false;
 }
 
 StatusInputs::StatusInputs(const StatusInputs &copy):

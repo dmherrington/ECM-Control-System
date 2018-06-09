@@ -64,7 +64,9 @@ PlotHandler::PlotHandler(QWidget *parent) :
 
 
     setInteractions(QCP::iRangeDrag | QCP::iSelectLegend | QCP::iRangeZoom | QCP::iSelectPlottables | QCP::iSelectAxes | QCP::iSelectOther);
-    yAxis->setLabel("Response");
+    yAxis->setLabel("Response");    
+    yAxis2->setLabel("Response");
+    yAxis2->setVisible(true);
 
     connect(&m_RecalculateScheduler, SIGNAL(PerformWork()), this, SLOT(DoPlotRecalculate()), Qt::DirectConnection);
 
@@ -122,7 +124,7 @@ void PlotHandler::ChangeMode(const PlotMode mode)
 //! \brief Graph data on plot instance
 //! \param dataKey Key to indentify data
 //!
-void PlotHandler::AddPlot(const common_data::observation::IPlotComparablePtr expression, const std::string &name)
+void PlotHandler::AddPlot(const common_data::observation::IPlotComparablePtr expression, const std::string &name, const bool &useSecondayYAxis)
 {
     bool found = false;
     for (int i = 0; i < m_PlotParameters.size(); i++)
@@ -147,7 +149,7 @@ void PlotHandler::AddPlot(const common_data::observation::IPlotComparablePtr exp
     User_Data.Redraw = true;
     User_Data.Selected = false;
     User_Data.g = QVector<QCPGraph*>();
-
+    User_Data.yAxis2 = useSecondayYAxis;
 
     m_PlotParameters.append(User_Data);
     RecalculatePlots();
@@ -879,7 +881,7 @@ void PlotHandler::DoPlotRecalculate()
             //add plot and set parameters
             if(m_PlotParameters.at(plotIndex).g.size() <= i ||  m_PlotParameters.at(plotIndex).g.at(i) == NULL)
             {
-                m_PlotParameters[plotIndex].g.insert(i, MarshalAddGraph());
+                m_PlotParameters[plotIndex].g.insert(i, MarshalAddGraph(m_PlotParameters[plotIndex].yAxis2));
                 QCPGraph *g = m_PlotParameters[plotIndex].g.at(i);
                 g->setAntialiasedFill(false);
                 this->plotLayout()->updateLayout();
@@ -963,17 +965,21 @@ void PlotHandler::MarshalRemoveGraph(QCPGraph *g)
 //! \brief Marshals adding a graph to QCustomPlot object to the main thread
 //! \return Graph added
 //!
-QCPGraph* PlotHandler::MarshalAddGraph()
+QCPGraph* PlotHandler::MarshalAddGraph(const bool &useSecondaryAxis)
 {
     //invoke this method on the thread that owns this object.
     if (this->thread() != QThread::currentThread())
     {
         QCPGraph* result;
-        QMetaObject::invokeMethod(this, "MarshalAddGraph", Qt::BlockingQueuedConnection, Q_RETURN_ARG(QCPGraph*, result));
+        QMetaObject::invokeMethod(this, "MarshalAddGraph", Qt::BlockingQueuedConnection, Q_RETURN_ARG(QCPGraph*, result), Q_ARG(bool,useSecondaryAxis));
         return result;
     }
+    QCPGraph* g;
+    if(useSecondaryAxis)
+        g = this->addGraph(this->xAxis,this->yAxis2);
+    else
+        g = this->addGraph(this->xAxis,this->yAxis);
 
-    QCPGraph* g = this->addGraph();
     g->addToLegend();
     return g;
 }

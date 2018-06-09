@@ -63,12 +63,16 @@ public:
 
     ~GalilMotionController();
 
+    std::vector<common::TupleECMData> getPlottables() const;
+
 public:
     void openConnection(const std::string &address);
 
     void closeConnection();
 
     std::string getCurrentMCState() const;
+
+    StatusInputs getCurrent_MCDIO() const;
 
     std::vector<common::TupleECMData> getAvailablePlottables() const;
 
@@ -134,10 +138,15 @@ signals:
      * The following signals are pertinent to handling events that may have interest in logging.
      */
 
-    void signal_MCNewPlottable(const common::TupleProfileVariableString &variableTuple, const bool &on_off);
+    void signal_MCNewPositionalPlottable(const common::TuplePositionalString &variableTuple, const bool &on_off);
 
+    void signal_MCNewVariablePlottable(const common::TupleProfileVariableString &variableTuple, const bool &on_off);
 
-    void signal_MCNewDigitalInput();
+    //!
+    //! \brief signal_MCNewDigitalInput
+    //! \param input
+    //!
+    void signal_MCNewDigitalInput(const StatusInputs &input);
 
     //!
     //! \brief signal_MCNewPoition
