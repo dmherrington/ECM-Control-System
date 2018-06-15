@@ -1,6 +1,8 @@
 #ifndef WINDOW_PUMP_CONTROL_H
 #define WINDOW_PUMP_CONTROL_H
 
+#include "common/environment_time.h"
+
 #include "../general_dialog_window.h"
 
 #include "library_westinghouse510/westinghouse_510.h"

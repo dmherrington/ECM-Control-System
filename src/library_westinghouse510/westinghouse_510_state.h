@@ -10,12 +10,15 @@ public:
     Westinghouse510_State();
 
 public:
-    bool pumpConnected = false;
+    DataGetSetNotifier<bool> pumpConnected;
+
+public:
+    DataGetSetNotifier<bool> pumpInitialized;
 
 public:
     DataGetSetNotifier<bool> pumpON;
     DataGetSetNotifier<double> flowRate;
-    DataGetSetNotifier<double> delayTime;
+    DataGetSetNotifier<unsigned int> delayTime;
 };    
 
 #endif // WESTINGHOUSE_510_STATE_H

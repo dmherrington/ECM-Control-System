@@ -40,6 +40,11 @@ signals:
     virtual void signal_SerialPortReadyToConnect() const = 0;
 
     //!
+    //! \brief signal_SerialPortNotReady
+    //!
+    virtual void signal_SerialPortNotReady() const = 0;
+
+    //!
     //! \brief signal_SerialPortUpdate
     //! \param update
     //!

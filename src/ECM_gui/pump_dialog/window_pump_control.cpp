@@ -49,13 +49,25 @@ void Window_PumpControl::setPumpDelayTime(const double &time)
 
 void Window_PumpControl::slot_PumpConnectionUpdate(const common::comms::CommunicationUpdate &update)
 {
-    if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
-    {
+    using namespace common::comms;
+    switch (update.getUpdateType()) {
+    case CommunicationUpdate::UpdateTypes::ALERT:
+
+        break;
+    case CommunicationUpdate::UpdateTypes::CONNECTED:
         ui->widget_PumpConnected->setColor(QColor(0,255,0));
-    }
-    else if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED)
-    {
+        break;
+    case CommunicationUpdate::UpdateTypes::DISCONNECTED:
         ui->widget_PumpConnected->setColor(QColor(255,0,0));
+        break;
+//    case CommunicationUpdate::UpdateTypes::ERROR:
+//        statusBar()->showMessage(tr("The pump has been turned on."),2500);
+//        break;
+//    case CommunicationUpdate::UpdateTypes::UPDATE:
+//        statusBar()->showMessage(tr("The pump has been turned on."),2500);
+//        break;
+    default:
+        break;
     }
 }
 
@@ -65,12 +77,17 @@ void Window_PumpControl::slot_updatedPumpOn(const bool &value)
     {
         ui->widget_PumpRunning->setColor(QColor(0,255,0));
         ui->pushButton_PumpRunning->setText("OFF");
+
+        common::EnvironmentTime startTime;
+        common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
+        ui->lineEdit_OnTime->setText(QString::fromStdString(startTime.timeString()));
         statusBar()->showMessage(tr("The pump has been turned on."),2500);
     }
     else
     {
         ui->widget_PumpRunning->setColor(QColor(255,0,0));
         ui->pushButton_PumpRunning->setText("ON");
+        ui->lineEdit_OnTime->setText("");
         statusBar()->showMessage(tr("The pump has been turned off."),2500);
     }
 }

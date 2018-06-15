@@ -88,6 +88,13 @@ std::vector<common::TupleECMData> GalilMotionController::getPlottables() const
 
 void GalilMotionController::initializeMotionController() const
 {
+    // 1: Request the current program aboard the galil motion control unit
+
+    // 2: Request the current profiles that are apart of the program
+
+    // 3: Request the current variables that are apart of the script
+
+    //Add items to the galil polling queue so that we can stay up to date
     // 1: Request the position of the galil unit
     RequestTellPositionPtr requestTP = std::make_shared<RequestTellPosition>();
     common::TuplePositionalString tuplePos;

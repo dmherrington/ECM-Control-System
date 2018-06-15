@@ -12,17 +12,11 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_SerialPortUpdate(common::comms::CommunicationUpdate)));
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_RXNewSerialData(QByteArray)),this,SLOT(slot_SerialPortReceivedData(QByteArray)));
 
+    initializationTimer = new QTimer(this);
+    initializationTimer->setSingleShot(true);
+    connect(initializationTimer,SIGNAL(timeout()),this,SLOT(slot_PumpInitializationComplete()));
+
     this->m_State = new Westinghouse510_State();
-
-//    this->m_State->flowRate.AddNotifier(this,[this]
-//    {
-//        emit signal_PumpFlowUpdated(m_State->flowRate.get());
-//    });
-
-//    this->m_State->pumpON.AddNotifier(this,[this]
-//    {
-//        emit signal_PumpOperating(m_State->pumpON.get());
-//    });
 
     m_DataFraming = new comms_WestinghousePump::WestinghouseDataFraming(pumpAddress);
 
@@ -46,7 +40,21 @@ void Westinghouse510::setPumpFlowRate(const registers_WestinghousePump::Register
 //!
 void Westinghouse510::setPumpOperations(const registers_WestinghousePump::Register_OperationSignal &desOps)
 {
+    if(!desOps.isRun())
+    {
+        //if we were trying to turn off the pump and it had yet been initialized,
+        //let us stop the initialization timer in the event it was running
+        if(initializationTimer->isActive())
+            initializationTimer->stop();
+    }
+
     this->m_Comms->writeToSerialPort(desOps.getFullMessage());
+}
+
+void Westinghouse510::setInitializationTime(const unsigned int &interval)
+{
+    this->m_State->delayTime.set(interval);
+    initializationTimer->setInterval(interval);
 }
 
 bool Westinghouse510::isPumpConnected() const
@@ -62,8 +70,27 @@ void Westinghouse510::slot_SerialPortReadyToConnect()
 
 void Westinghouse510::slot_SerialPortUpdate(const common::comms::CommunicationUpdate &update)
 {
-//    this->m_State->pumpConnected = connection.isConnected();
-//    emit signal_PumpConnectionUpdate(connection);
+    using namespace common::comms;
+    switch (update.getUpdateType()) {
+    case CommunicationUpdate::UpdateTypes::ALERT:
+
+        break;
+    case CommunicationUpdate::UpdateTypes::CONNECTED:
+        m_State->pumpConnected.set(true);
+        break;
+    case CommunicationUpdate::UpdateTypes::DISCONNECTED:
+        m_State->pumpConnected.set(false);
+        break;
+    case CommunicationUpdate::UpdateTypes::ERROR:
+
+        break;
+    case CommunicationUpdate::UpdateTypes::UPDATE:
+
+        break;
+    default:
+        break;
+    }
+    emit signal_PumpCommunicationUpdate(update);
 }
 
 void Westinghouse510::slot_SerialPortReceivedData(const QByteArray &data)
@@ -77,6 +104,11 @@ void Westinghouse510::slot_SerialPortReceivedData(const QByteArray &data)
             this->parseReceivedMessage(rxMSG);
         }
     }
+}
+
+void Westinghouse510::slot_PumpInitializationComplete()
+{
+    emit signal_PumpInitialized();
 }
 
 void Westinghouse510::parseReceivedMessage(const comms_WestinghousePump::WestinghouseMessage &msg)
@@ -109,6 +141,16 @@ void Westinghouse510::parseReceivedMessage(const comms_WestinghousePump::Westing
                 writeOps.parseFromArray(msg.getDataArray());
                 if(m_State->pumpON.set(writeOps.isRun()))
                 {
+                    if(m_State->pumpON.get()) //if the pump has turned on
+                    {
+                        //begin the initialization countdown
+                        initializationTimer->start();
+                    }
+                    else{
+                        if(initializationTimer->isActive())
+                            initializationTimer->stop();
+                    }
+
                     emit signal_PumpOperating(writeOps.isRun());
                 }
                 break;

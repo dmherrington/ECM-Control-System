@@ -2,6 +2,9 @@
 #define WESTINGHOUSE_510_H
 
 #include <QObject>
+#include <QTimer>
+#include <QFile>
+
 #include <iostream>
 
 #include "library_westinghouse510_global.h"
@@ -30,7 +33,11 @@ public:
     Westinghouse510(const common::comms::ICommunication* commsObject, const int &pumpAddress, const std::string &name = "Westinghouse Pump");
 
     //! \brief ~Wetsinghouse510 default destructor of the westinghouse library object
-    ~Westinghouse510() = default;
+    ~Westinghouse510()
+    {
+        delete initializationTimer;
+        initializationTimer = nullptr;
+    }
 
     //!
     //! \brief setPumpFlowRate function transmitting the desired flow rate to the communication object.
@@ -46,6 +53,12 @@ public:
     //! \param desOps object reflecting the desired operations of the pump
     //!
     void setPumpOperations(const registers_WestinghousePump::Register_OperationSignal &desOps);
+
+    //!
+    //! \brief setInitializationTime
+    //! \param period
+    //!
+    void setInitializationTime(const unsigned int &interval);
 
     //!
     //! \brief isPumpConnected
@@ -67,7 +80,7 @@ signals:
     //! \brief signal_PumpConnectionUpdate signal emitted when something about the connection has changed and/or been modified
     //! \param obj generic data type containing the status of the resulting connection update
     //!
-    void signal_PumpConnectionUpdate(const common::comms::CommunicationUpdate &obj) const;
+    void signal_PumpCommunicationUpdate(const common::comms::CommunicationUpdate &obj) const;
 
     //!
     //! \brief signal_PumpFlowUpdated signal emitted when the pump has acknowledged that the pump flow rate has been changed
@@ -80,6 +93,12 @@ signals:
     //! \param value explicit condition acknowledging true when the pump is running
     //!
     void signal_PumpOperating(const bool &value);
+
+    //!
+    //! \brief signal_PumpInitialized signal emitted indicating the pump has initialized past the establised period
+    //!
+    void signal_PumpInitialized();
+
 
 private slots:
     //!
@@ -100,6 +119,12 @@ private slots:
     //!
     void slot_SerialPortReceivedData(const QByteArray &data);
 
+    //!
+    //! \brief slot_PumpInitializationComplete slot that catches the initialization timeout
+    //! signal to indicate there has been sufficient time passed since the pump has turned on
+    //! to pass fluids and begin operation.
+    //!
+    void slot_PumpInitializationComplete();
 
 public:
     Westinghouse510_State* m_State;
@@ -108,6 +133,8 @@ private:
     const common::comms::ICommunication* m_Comms;
     comms_WestinghousePump::WestinghouseDataFraming* m_DataFraming;
     std::string deviceName;
+
+    QTimer* initializationTimer;
 };
 
 #endif // WESTINGHOUSE_510_H

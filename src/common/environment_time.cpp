@@ -432,5 +432,12 @@ std::string EnvironmentTime::dateString() const
     return str;
 }
 
+std::string EnvironmentTime::timeString() const
+{
+    std::string str = "";
+    str += std::to_string(this->hour) + "." + std::to_string(this->minute) + "." + std::to_string(this->second) + "." + std::to_string(this->millisecond) + "." + std::to_string(this->microsecond);
+    return str;
+}
+
 } //end of namespace common
 

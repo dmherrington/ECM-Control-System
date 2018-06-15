@@ -161,6 +161,12 @@ public:
     //!
     std::string dateString() const;
 
+    //!
+    //! \brief timeString
+    //! \return
+    //!
+    std::string timeString() const;
+
     /*!
      * \brief Returns the number of seconds from epoch
      * \return Number of seconds from epoch
