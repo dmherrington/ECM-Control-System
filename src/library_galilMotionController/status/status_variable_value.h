@@ -14,10 +14,16 @@ class Status_VariableValue : public AbstractStatus
 public:
     Status_VariableValue();
 
-    Status_VariableValue(const common::TupleECMData &description, const double &value);
+    Status_VariableValue(const double &value);
 
     Status_VariableValue(const Status_VariableValue &copy);
 
+    void setProgramName(const std::string &program);
+    void setProfileName(const std::string &profile);
+    void setVariableName(const std::string &variable);
+
+    std::string getProgramName() const;
+    std::string getProfileName() const;
     std::string getVariableName() const;
 
     bool setVariableValue(const double &value);
@@ -29,12 +35,24 @@ public:
     Status_VariableValue& operator = (const Status_VariableValue &rhs)
     {
         AbstractStatus::operator =(rhs);
+        this->programName = rhs.programName;
+        this->profileName = rhs.profileName;
+        this->variableName = rhs.variableName;
         this->variableValue = rhs.variableValue;
         return *this;
     }
 
     bool operator == (const Status_VariableValue &rhs) {
         if(!AbstractStatus::operator ==(rhs)){
+            return false;
+        }
+        if(this->programName != rhs.programName){
+            return false;
+        }
+        if(this->profileName != rhs.profileName){
+            return false;
+        }
+        if(this->variableName != rhs.variableName){
             return false;
         }
         if(this->variableValue != rhs.variableValue){
@@ -48,7 +66,11 @@ public:
     }
 
 private:
-    double variableValue;
+    std::string programName = "";
+    std::string profileName = "";
+    std::string variableName = "";
+
+    double variableValue = 0.0;
 };
 
 #endif // STATUS_VARIABLE_VALUE_H

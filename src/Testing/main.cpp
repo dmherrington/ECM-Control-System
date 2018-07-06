@@ -19,6 +19,11 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
+    uint16_t bitArray = 0;
+    uint16_t ba = 0;
+    uint32_t mask = 1<<7;
+    ba = (bitArray & (~mask)) | ((int)1<<7);
+
 //    std::cout<<"Program is running"<<std::endl;
 //    HSESSION sess;
 //    S24XXERR err = ERR_NONE;

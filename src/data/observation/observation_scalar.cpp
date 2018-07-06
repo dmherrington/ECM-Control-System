@@ -193,8 +193,6 @@ namespace observation {
         }
 
         m_DataMutex.unlock();
-
-        std::cout<<"The range is: "<<currentRangeTime<<std::endl;
         m_CurrTimeRange = currentRangeTime;
     }
 

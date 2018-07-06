@@ -10,7 +10,7 @@ Window_MunkPowerSupply::Window_MunkPowerSupply(MunkPowerSupply *obj, QWidget *pa
     ui->setupUi(this);
     ui->widget_connection->setDiameter(6);
 
-    connect(munk,SIGNAL(signal_MunkConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(on_connectionUpdated(common::comms::CommunicationConnection)));
+    connect(munk,SIGNAL(signal_MunkCommunicationUpdate(common::comms::CommunicationConnection)),this,SLOT(on_connectionUpdated(common::comms::CommunicationConnection)));
 
     GeneralDialogWindow::readWindowSettings();
 

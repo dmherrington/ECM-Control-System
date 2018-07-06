@@ -18,6 +18,7 @@
 #include "common/tuple_positional_string.h"
 #include "common/tuple_general_descriptor.h"
 
+#include "common/comms/communication_update.h"
 #include "common/comms/communication_connection.h"
 
 #include "data/motion_profile_variable_state.h"
@@ -163,7 +164,7 @@ signals:
     void signal_MCNewProfileVariableValue(const common::TupleProfileVariableString &variableTuple, const common_data::MotionProfileVariableState &data) const;
 
 
-    void signal_MotionControllerConnectionUpdate(const common::comms::CommunicationConnection &connection) const;
+    void signal_MotionControllerCommunicationUpdate(const common::comms::CommunicationUpdate &connection) const;
 
 
     //!

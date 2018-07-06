@@ -75,7 +75,8 @@ std::vector<AbstractStatusPtr> Request_TellVariable::getStatus() const
     result = list.at(0);
     result = result.trimmed();
 
-    Status_VariableValuePtr status = std::make_shared<Status_VariableValue>(this->getTupleDescription(),result.toDouble());
+    Status_VariableValuePtr status = std::make_shared<Status_VariableValue>(result.toDouble());
+    status->setVariableName(this->variableName);
     status->setTime(latestUpdate);
     rtn.push_back(status);
     return rtn;

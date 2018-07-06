@@ -34,5 +34,5 @@ Status_Position GalilStatus::getPosition() const
 
 bool GalilStatus::setPosition(const Status_Position &pos)
 {
-    this->position.set(pos);
+    return this->position.set(pos);
 }

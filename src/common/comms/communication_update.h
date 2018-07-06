@@ -15,9 +15,9 @@ public:
         CONNECTED,
         DISCONNECTED,
         UPDATE,
-        ALERT,
-        ERROR
+        ALERT
     };
+
 public:
     CommunicationUpdate(const std::string &source = "", const UpdateTypes &status = UpdateTypes::UPDATE, const std::string &msg = "")
     {
@@ -76,6 +76,7 @@ private:
     std::string sourceName;
     UpdateTypes type;
     std::string message;
+
 };
 
 } //end of namespace comms

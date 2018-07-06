@@ -8,6 +8,7 @@
 #include "library_rigol_oscilloscope_global.h"
 
 #include "common/tuple_sensor_string.h"
+#include "common/comms/communication_update.h"
 #include "common/comms/communication_connection.h"
 
 #include "data/type_read_write.h"
@@ -62,7 +63,8 @@ private:
     void NewMeaurementReceived(const commands_Rigol::RigolMeasurementStatus &status) const override;
 
 signals:
-    void signal_RigolConnectionUpdate(const common::comms::CommunicationConnection &value) const;
+
+    void signal_RigolCommunicationUpdate(const common::comms::CommunicationUpdate &value) const;
     void signal_RigolPlottable(const common::TupleSensorString &sensorTuple, const bool &on_off);
     void signal_RigolNewSensorValue(const common::TupleSensorString &sensorTuple, const common_data::SensorState &data) const;
     void signal_RigolLoadComplete();

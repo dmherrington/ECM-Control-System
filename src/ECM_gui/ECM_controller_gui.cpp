@@ -54,7 +54,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_Galil, SIGNAL(signal_MCNewMotionState(std::string)), this, SLOT(slot_MCNewMotionState(std::string)));
     this->slot_MCNewMotionState(m_API->m_Galil->getCurrentMCState());
     slot_MCNewDigitalInput(m_API->m_Galil->getCurrent_MCDIO());
-    connect(m_API->m_Galil,SIGNAL(signal_MCNewDigitalInput(StatusInputs)),this,SLOT(slot_MCNewDigitalInput(StatusInputs)));
+    connect(m_API->m_Galil, SIGNAL(signal_MCNewDigitalInput(StatusInputs)), this, SLOT(slot_MCNewDigitalInput(StatusInputs)));
+    connect(m_API->m_Galil, SIGNAL(signal_MCNewPosition(common::TuplePositionalString,common_data::MachinePositionalState)), this, SLOT(slot_NewPositionalData(common::TuplePositionalString,common_data::MachinePositionalState)));
 
     m_WindowMunk = new Window_MunkPowerSupply(m_API->m_Munk);
     m_WindowMunk->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
@@ -157,7 +158,7 @@ void ECMControllerGUI::slot_DisplayActionTriggered()
     if(selectedObject->isChecked())
     {
         ECMPlotIdentifierPtr addPlot = std::make_shared<ECMPlotIdentifier>(key);
-        ui->widget_primaryPlot->AddPlot(addPlot, key.getData()->HumanName().toStdString(),true);
+        ui->widget_primaryPlot->AddPlot(addPlot, key.getData()->HumanName().toStdString(),false);
         QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(key);
         ui->widget_primaryPlot->RedrawDataSource(plots);
     }else{
@@ -192,25 +193,32 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &senso
 
 void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state)
 {
-    common::TupleSensorString tupleSensor;
-    tupleSensor.sourceName = "TestSource";
-    tupleSensor.sensorName = "TestSensor";
 
-    common_data::SensorState newSensorMeasurement;
-    newSensorMeasurement.ConstructSensor(common_data::SENSOR_VOLTAGE,"Voltage Top");
-    ((common_data::SensorVoltage*)newSensorMeasurement.getSensorData().get())->SetVoltage(rand()%100,common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
-    newSensorMeasurement.setObservationTime(state.getObservationTime());
-
-    CreateSensorDisplays(tupleSensor,newSensorMeasurement.getSensorType());
-
-    m_PlotCollection.UpdateSensorPlots(tupleSensor, newSensorMeasurement);
-    m_SensorDisplays.UpdateNonPlottedData(tupleSensor,newSensorMeasurement);
-    m_additionalSensorDisplay->UpdateNonPlottedData(tupleSensor,newSensorMeasurement);
-
-    QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(tupleSensor);
+    m_PlotCollection.UpdatePositionalStatePlots(tuple,state);
+    QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(tuple);
     ui->widget_primaryPlot->RedrawDataSource(plots);
-    m_SensorDisplays.PlottedDataUpdated(tupleSensor); //this seems to be uneeded based on the call after this
-    m_additionalSensorDisplay->UpdatePlottedData(tupleSensor);
+
+
+    //The OLD way of storing the data is here
+//    common::TupleSensorString tupleSensor;
+//    tupleSensor.sourceName = "TestSource";
+//    tupleSensor.sensorName = "TestSensor";
+
+//    common_data::SensorState newSensorMeasurement;
+//    newSensorMeasurement.ConstructSensor(common_data::SENSOR_VOLTAGE,"Voltage Top");
+//    ((common_data::SensorVoltage*)newSensorMeasurement.getSensorData().get())->SetVoltage(rand()%100,common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
+//    newSensorMeasurement.setObservationTime(state.getObservationTime());
+
+//    CreateSensorDisplays(tupleSensor,newSensorMeasurement.getSensorType());
+
+//    m_PlotCollection.UpdateSensorPlots(tupleSensor, newSensorMeasurement);
+//    m_SensorDisplays.UpdateNonPlottedData(tupleSensor,newSensorMeasurement);
+//    m_additionalSensorDisplay->UpdateNonPlottedData(tupleSensor,newSensorMeasurement);
+
+//    QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(tupleSensor);
+//    ui->widget_primaryPlot->RedrawDataSource(plots);
+//    m_SensorDisplays.PlottedDataUpdated(tupleSensor); //this seems to be uneeded based on the call after this
+//    m_additionalSensorDisplay->UpdatePlottedData(tupleSensor);
 }
 
 

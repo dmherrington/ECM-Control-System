@@ -20,11 +20,11 @@ Dialog_Connections::Dialog_Connections(ECM_API *obj, QWidget *parent) :
     ui->widget_WestinghouseConnection->setColor(QColor(255,0,0));
     //let us check all of the device connections
 
-    connect(m_API->m_Sensoray,SIGNAL(signal_SensorayConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(slot_SensorayConnectionUpdate(common::comms::CommunicationConnection)));
-    connect(m_API->m_Pump,SIGNAL(signal_PumpConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(slot_PumpConnectionUpdate(common::comms::CommunicationConnection)));
-    connect(m_API->m_Galil,SIGNAL(signal_MotionControllerConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(slot_GalilConnectionUpdate(common::comms::CommunicationConnection)));
-    connect(m_API->m_Munk,SIGNAL(signal_MunkConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(slot_MunkConnectionUpdate(common::comms::CommunicationConnection)));
-    connect(m_API->m_Rigol,SIGNAL(signal_RigolConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(slot_RigolConnectionUpdate(common::comms::CommunicationConnection)));
+    connect(m_API->m_Sensoray,SIGNAL(signal_SensorayCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_SensorayConnectionUpdate(common::comms::CommunicationUpdate)));
+    connect(m_API->m_Pump,SIGNAL(signal_PumpCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_PumpConnectionUpdate(common::comms::CommunicationUpdate)));
+    connect(m_API->m_Galil,SIGNAL(signal_MotionControllerCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_GalilConnectionUpdate(common::comms::CommunicationUpdate)));
+    connect(m_API->m_Munk,SIGNAL(signal_MunkCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_MunkConnectionUpdate(common::comms::CommunicationUpdate)));
+    connect(m_API->m_Rigol,SIGNAL(signal_RigolCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_RigolConnectionUpdate(common::comms::CommunicationUpdate)));
 
 }
 
@@ -33,37 +33,37 @@ Dialog_Connections::~Dialog_Connections()
     delete ui;
 }
 
-void Dialog_Connections::updateLEDConnectionColor(LED *ledWidget, const bool &connected)
+void Dialog_Connections::updateLEDConnectionColor(LED *ledWidget, const common::comms::CommunicationUpdate &connected)
 {
-    if(connected)
+    if(connected.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
         ledWidget->setColor(QColor(0,255,0));
-    else
+    else if(connected.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED)
         ledWidget->setColor(QColor(255,0,0));
 }
 
-void Dialog_Connections::slot_SensorayConnectionUpdate(const common::comms::CommunicationConnection &update)
+void Dialog_Connections::slot_SensorayConnectionUpdate(const common::comms::CommunicationUpdate &update)
 {
-    this->updateLEDConnectionColor(ui->widget_SensorayConnection,update.isConnected());
+    this->updateLEDConnectionColor(ui->widget_SensorayConnection,update);
 }
 
-void Dialog_Connections::slot_PumpConnectionUpdate(const common::comms::CommunicationConnection &update)
+void Dialog_Connections::slot_PumpConnectionUpdate(const common::comms::CommunicationUpdate &update)
 {
-    this->updateLEDConnectionColor(ui->widget_WestinghouseConnection,update.isConnected());
+    this->updateLEDConnectionColor(ui->widget_SensorayConnection,update);
 }
 
-void Dialog_Connections::slot_RigolConnectionUpdate(const common::comms::CommunicationConnection &update)
+void Dialog_Connections::slot_RigolConnectionUpdate(const common::comms::CommunicationUpdate &update)
 {
-    this->updateLEDConnectionColor(ui->widget_RigolConnection,update.isConnected());
+    this->updateLEDConnectionColor(ui->widget_SensorayConnection,update);
 }
 
-void Dialog_Connections::slot_MunkConnectionUpdate(const common::comms::CommunicationConnection &update)
+void Dialog_Connections::slot_MunkConnectionUpdate(const common::comms::CommunicationUpdate &update)
 {
-    this->updateLEDConnectionColor(ui->widget_MunkConnection,update.isConnected());
+    this->updateLEDConnectionColor(ui->widget_SensorayConnection,update);
 }
 
-void Dialog_Connections::slot_GalilConnectionUpdate(const common::comms::CommunicationConnection &update)
+void Dialog_Connections::slot_GalilConnectionUpdate(const common::comms::CommunicationUpdate &update)
 {
-    this->updateLEDConnectionColor(ui->widget_GalilConnection,update.isConnected());
+    this->updateLEDConnectionColor(ui->widget_SensorayConnection,update);
 }
 
 void Dialog_Connections::on_pushButton_connectSensoray_released()

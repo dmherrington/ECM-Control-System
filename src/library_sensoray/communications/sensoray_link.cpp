@@ -158,7 +158,7 @@ void SensorayLink::_emitLinkError(const std::string& errorMsg) const
     EmitEvent([this,errorMsg](const ILinkEvents *ptr){
         common::comms::CommunicationUpdate commsUpdate;
         commsUpdate.setSourceName("Sensoray_"+getDeviceAddress());
-        commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::ERROR);
+        //commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::ERROR);
         std::string msg = "Error on link " + getDeviceAddress() + ":" + std::to_string(getTelnetPortNumber()) + " - " + errorMsg;
         commsUpdate.setPeripheralMessage(msg);
 

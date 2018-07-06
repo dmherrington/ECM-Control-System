@@ -81,9 +81,9 @@ void Westinghouse510::slot_SerialPortUpdate(const common::comms::CommunicationUp
     case CommunicationUpdate::UpdateTypes::DISCONNECTED:
         m_State->pumpConnected.set(false);
         break;
-    case CommunicationUpdate::UpdateTypes::ERROR:
+//    case CommunicationUpdate::UpdateTypes::ERROR:
 
-        break;
+//        break;
     case CommunicationUpdate::UpdateTypes::UPDATE:
 
         break;

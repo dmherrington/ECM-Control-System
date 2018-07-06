@@ -6,6 +6,7 @@
 #include <QObject>
 
 #include "library_munk_power_supply_global.h"
+#include "common/comms/communication_update.h"
 #include "common/comms/communication_connection.h"
 
 #include "data/type_read_write.h"
@@ -71,7 +72,7 @@ public:
 
 signals:
 
-    void signal_MunkConnectionUpdate(const common::comms::CommunicationConnection &value) const;
+    void signal_MunkCommunicationUpdate(const common::comms::CommunicationUpdate &value) const;
 
     void signal_CommunicationError(const std::string &type, const std::string &msg) const;
 

@@ -136,7 +136,7 @@ void Westinghouse510::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            typedef void (Westinghouse510::*_t)(const common::comms::CommunicationUpdate & ) const;
+            typedef void (Westinghouse510::*_t)(const common::comms::CommunicationUpdate & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Westinghouse510::signal_PumpCommunicationUpdate)) {
                 *result = 0;
                 return;
@@ -203,10 +203,10 @@ int Westinghouse510::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void Westinghouse510::signal_PumpCommunicationUpdate(const common::comms::CommunicationUpdate & _t1)const
+void Westinghouse510::signal_PumpCommunicationUpdate(const common::comms::CommunicationUpdate & _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(const_cast< Westinghouse510 *>(this), &staticMetaObject, 0, _a);
+    QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 
 // SIGNAL 1

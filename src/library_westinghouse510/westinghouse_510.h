@@ -80,7 +80,7 @@ signals:
     //! \brief signal_PumpConnectionUpdate signal emitted when something about the connection has changed and/or been modified
     //! \param obj generic data type containing the status of the resulting connection update
     //!
-    void signal_PumpCommunicationUpdate(const common::comms::CommunicationUpdate &obj) const;
+    void signal_PumpCommunicationUpdate(const common::comms::CommunicationUpdate &obj);
 
     //!
     //! \brief signal_PumpFlowUpdated signal emitted when the pump has acknowledged that the pump flow rate has been changed

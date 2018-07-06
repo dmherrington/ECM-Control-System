@@ -6,10 +6,9 @@ Status_VariableValue::Status_VariableValue():
 
 }
 
-Status_VariableValue::Status_VariableValue(const common::TupleECMData &description, const double &value):
+Status_VariableValue::Status_VariableValue(const double &value):
     AbstractStatus(StatusTypes::STATUS_VARIABLEVALUE)
 {
-    this->descriptor = description;
     this->variableValue = value;
 }
 
@@ -19,11 +18,31 @@ Status_VariableValue::Status_VariableValue(const Status_VariableValue &copy):
     this->variableValue = copy.variableValue;
 }
 
+void Status_VariableValue::setProgramName(const std::string &program)
+{
+    this->programName = program;
+}
+void Status_VariableValue::setProfileName(const std::string &profile)
+{
+    this->profileName = profile;
+}
+void Status_VariableValue::setVariableName(const std::string &variable)
+{
+    this->variableName = variable;
+}
+std::string Status_VariableValue::getProgramName() const
+{
+    return this->programName;
+}
+std::string Status_VariableValue::getProfileName() const
+{
+    return this->profileName;
+}
 std::string Status_VariableValue::getVariableName() const
 {
-    QString variableName = static_cast<common::TupleProfileVariableString*>(this->descriptor.getData())->variableName;
-    return variableName.toStdString();
+    return this->variableName;
 }
+
 
 bool Status_VariableValue::setVariableValue(const double &value)
 {

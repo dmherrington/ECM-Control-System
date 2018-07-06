@@ -48,6 +48,7 @@ GalilMotionController::GalilMotionController(const std::string &name):
     }
 
     initializeMotionController();
+    galilPolling->beginPolling();
 }
 
 GalilMotionController::~GalilMotionController()
@@ -177,8 +178,9 @@ void GalilMotionController::LinkConnected() const
 
     galilPolling->beginPolling();
 
-    common::comms::CommunicationConnection connectionUpdate(deviceName,true);
-    emit signal_MotionControllerConnectionUpdate(connectionUpdate);
+    common::comms::CommunicationUpdate connection;
+    connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
+    emit signal_MotionControllerCommunicationUpdate(connection);
 }
 
 void GalilMotionController::LinkDisconnected() const
@@ -188,8 +190,10 @@ void GalilMotionController::LinkDisconnected() const
         galilPolling->pausePolling();
         galilPolling->stop();
     }
-    common::comms::CommunicationConnection connectionUpdate(deviceName,true);
-    emit signal_MotionControllerConnectionUpdate(connectionUpdate);
+
+    common::comms::CommunicationUpdate connection;
+    connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED);
+    emit signal_MotionControllerCommunicationUpdate(connection);
 }
 
 void GalilMotionController::ErrorBadCommand(const std::string &commandType, const std::string &description)
@@ -221,7 +225,8 @@ void GalilMotionController::NewStatusInputs(const StatusInputs &status)
 
 void GalilMotionController::NewStatusPosition(const Status_Position &status)
 {
-    if(stateInterface->getAxisStatus(status.getAxis())->setPosition(status))
+    GalilStatus* ptr = stateInterface->getAxisStatus(status.getAxis());
+    if(ptr->setPosition(status))
     {
         common::TuplePositionalString tuple;
         tuple.axisName = QString::fromStdString(AxisToString(status.getAxis()));
@@ -384,7 +389,9 @@ bool GalilMotionController::loadProgram(const std::string &filePath, std::string
 
 void GalilMotionController::cbi_GalilStatusRequest(const AbstractRequestPtr request)
 {
-    std::cout<<"I am making a request for :"<<RequestToString(request->getRequestType())<<" at "<<request->getTime().ToString().toStdString()<<std::endl;
+    Status_Position newPosition;
+    newPosition.setPosition((rand() % 100));
+    NewStatusPosition(newPosition);
     //commsMarshaler->sendAbstractGalilRequest(request);
 }
 

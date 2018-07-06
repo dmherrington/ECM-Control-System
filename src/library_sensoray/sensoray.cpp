@@ -70,12 +70,12 @@ void Sensoray::ConnectionStatusUpdated(const common::comms::CommunicationUpdate 
     if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
     {
         this->initializeSensoray();
-        emit signal_SensorayConnectionUpdate(update);
+        emit signal_SensorayCommunicationUpdate(update);
         emit signal_SerialPortReadyToConnect();
     }
     else
     {
-        emit signal_SensorayConnectionUpdate(update);
+        emit signal_SensorayCommunicationUpdate(update);
     }
 }
 

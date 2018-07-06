@@ -100,14 +100,16 @@ void RigolOscilliscope::cbi_RigolMeasurementRequests(const commands_Rigol::Measu
 void RigolOscilliscope::ConnectionOpened() const
 {
     this->initializeRigol();
-    common::comms::CommunicationConnection connection(deviceName,true);
-    emit signal_RigolConnectionUpdate(connection);
+    common::comms::CommunicationUpdate connection;
+    connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
+    emit signal_RigolCommunicationUpdate(connection);
 }
 
 void RigolOscilliscope::ConnectionClosed() const
 {
-    common::comms::CommunicationConnection connection(deviceName,true);
-    emit signal_RigolConnectionUpdate(connection);
+    common::comms::CommunicationUpdate connection;
+    connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED);
+    emit signal_RigolCommunicationUpdate(connection);
 }
 
 void RigolOscilliscope::initializeRigol() const

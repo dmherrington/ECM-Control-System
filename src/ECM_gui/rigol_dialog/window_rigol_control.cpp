@@ -7,7 +7,7 @@ Window_RigolControl::Window_RigolControl(RigolOscilliscope *obj, QWidget *parent
     m_Rigol(obj)
 {
     ui->setupUi(this);
-    connect(m_Rigol,SIGNAL(signal_RigolConnectionUpdate(common::comms::CommunicationConnection)),this,SLOT(slot_OscilliscopeConnectionUpdate(common::comms::CommunicationConnection)));
+    connect(m_Rigol,SIGNAL(signal_RigolCommunicationUpdate(common::comms::CommunicationConnection)),this,SLOT(slot_OscilliscopeConnectionUpdate(common::comms::CommunicationConnection)));
     connect(m_Rigol,SIGNAL(signal_RigolLoadComplete()),this,SLOT(slot_onLoadComplete()));
 
     connect(ui->widget_RadioButtons,SIGNAL(signal_onRadioButtonChange(data_Rigol::MeasurementTypes,bool)),this,SLOT(slot_onRadioButtonChange(data_Rigol::MeasurementTypes,bool)));

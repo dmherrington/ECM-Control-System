@@ -64,7 +64,8 @@ SOURCES += \
     pump_dialog/window_pump_control.cpp \
     SensorDisplay/display_ampere_area.cpp \
     rigol_dialog/widget_rigol_radio.cpp \
-    general_dialog_window.cpp
+    general_dialog_window.cpp \
+    misc_dialogs/window_motion_profile.cpp
 
 HEADERS += \
         ECM_controller_gui.h \
@@ -87,7 +88,8 @@ HEADERS += \
     pump_dialog/window_pump_control.h \
     SensorDisplay/display_ampere_area.h \
     rigol_dialog/widget_rigol_radio.h \
-    general_dialog_window.h
+    general_dialog_window.h \
+    misc_dialogs/window_motion_profile.h
 
 FORMS += \
         ECM_controller_gui.ui \
@@ -101,7 +103,8 @@ FORMS += \
     misc_dialogs/dialog_connections.ui \
     rigol_dialog/window_rigol_control.ui \
     pump_dialog/window_pump_control.ui \
-    rigol_dialog/widget_rigol_radio.ui
+    rigol_dialog/widget_rigol_radio.ui \
+    misc_dialogs/window_motion_profile.ui
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include

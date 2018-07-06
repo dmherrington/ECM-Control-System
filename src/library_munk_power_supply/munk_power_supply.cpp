@@ -191,15 +191,17 @@ void MunkPowerSupply::generateMessages(const SegmentTimeDetailed &detailedSegmen
 
 void MunkPowerSupply::ConnectionOpened() const
 {
-    common::comms::CommunicationConnection connectionUpdate(deviceName,true);
-    emit signal_MunkConnectionUpdate(connectionUpdate);
+    common::comms::CommunicationUpdate connection;
+    connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
+    emit signal_MunkCommunicationUpdate(connection);
     //pollStatus->beginPolling();
 }
 
 void MunkPowerSupply::ConnectionClosed() const
 {
-    common::comms::CommunicationConnection connectionUpdate(deviceName,false);
-    emit signal_MunkConnectionUpdate(connectionUpdate);
+    common::comms::CommunicationUpdate connection;
+    connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED);
+    emit signal_MunkCommunicationUpdate(connection);
 }
 
 void MunkPowerSupply::CommunicationError(const std::string &type, const std::string &msg) const

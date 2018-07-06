@@ -8,7 +8,7 @@ Window_PumpControl::Window_PumpControl(Westinghouse510* obj, QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(m_Pump,SIGNAL(signal_PumpConnectionUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_PumpConnectionUpdate(common::comms::CommunicationUpdate)));
+    connect(m_Pump,SIGNAL(signal_PumpCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_PumpConnectionUpdate(common::comms::CommunicationUpdate)));
 
     this->m_Pump->m_State->flowRate.AddNotifier(this,[this]
     {

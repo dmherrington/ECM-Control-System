@@ -83,12 +83,14 @@ public:
     void NewDataReceived(const QByteArray &buffer) const override;
 
 signals:
-    void signal_SensorayConnectionUpdate(const common::comms::CommunicationUpdate &update) const;
+    void signal_SensorayCommunicationUpdate(const common::comms::CommunicationUpdate &update) const;
 
     ///////////////////////////////////////////////////////////////////////////
     /// Imposed virtual signals from common::comms::ICommunication
     ///////////////////////////////////////////////////////////////////////////
     void signal_SerialPortReadyToConnect() const override;
+
+    void signal_SerialPortNotReady() const override;
 
     void signal_SerialPortUpdate(const common::comms::CommunicationUpdate update) const override;
 

@@ -118,14 +118,14 @@ void State_ScriptExecution::OnEnter(const AbstractCommand* command)
         Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_SCRIPT_EXECUTION));
 
         Request_TellVariablePtr requestPosition = std::make_shared<Request_TellVariable>("Bottom Position","ppos");
-        common::TupleProfileVariableString tuplePPOS("","","ppos");
-        Status_VariableValue newPPOS(tuplePPOS,0.0);
+        Status_VariableValue newPPOS;
+        newPPOS.setVariableName("ppos");
         Owner().statusVariableValues->addVariable(newPPOS);
         Owner().issueGalilAddPollingRequest(requestPosition);
 
         Request_TellVariablePtr requestCutting = std::make_shared<Request_TellVariable>("Machining Complete","cutdone");
-        common::TupleProfileVariableString tupleCUTDONE("","","cutdone");
-        Status_VariableValue newCUTDONE(tupleCUTDONE,0.0);
+        Status_VariableValue newCUTDONE;
+        newCUTDONE.setVariableName("cutdone");
         Owner().statusVariableValues->addVariable(newCUTDONE);
         Owner().issueGalilAddPollingRequest(requestCutting);
         //The command isnt null so we should handle it

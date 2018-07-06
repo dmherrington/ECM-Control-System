@@ -52,9 +52,9 @@ bool SensorayProtocol::openSerialPort(const common::comms::SerialConfiguration &
     }
     else
     {
-        commsStatus.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::ERROR);
-        commsStatus.setPeripheralMessage(std::string(s24xx_ErrorText(errorCode)));
-        comPortOpened = false;
+//        commsStatus.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::ERROR);
+//        commsStatus.setPeripheralMessage(std::string(s24xx_ErrorText(errorCode)));
+//        comPortOpened = false;
 
     }
     Emit([&](const IProtocolSensorayEvents* ptr){ptr->SerialPortStatusUpdate(commsStatus);});
@@ -77,9 +77,9 @@ bool SensorayProtocol::closeSerialPort ()
     }
     else
     {
-        commsStatus.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::ERROR);
-        commsStatus.setPeripheralMessage(std::string(s24xx_ErrorText(errorCode)));
-        comPortClosed = false;
+//        commsStatus.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::ERROR);
+//        commsStatus.setPeripheralMessage(std::string(s24xx_ErrorText(errorCode)));
+//        comPortClosed = false;
     }
     Emit([&](const IProtocolSensorayEvents* ptr){ptr->SerialPortStatusUpdate(commsStatus);});
     return comPortClosed;

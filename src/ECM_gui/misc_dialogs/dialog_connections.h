@@ -23,11 +23,11 @@ public:
     ~Dialog_Connections();
 
 public slots:
-    void slot_SensorayConnectionUpdate(const common::comms::CommunicationConnection &update);
-    void slot_PumpConnectionUpdate(const common::comms::CommunicationConnection &update);
-    void slot_RigolConnectionUpdate(const common::comms::CommunicationConnection &update);
-    void slot_MunkConnectionUpdate(const common::comms::CommunicationConnection &update);
-    void slot_GalilConnectionUpdate(const common::comms::CommunicationConnection &update);
+    void slot_SensorayConnectionUpdate(const common::comms::CommunicationUpdate &update);
+    void slot_PumpConnectionUpdate(const common::comms::CommunicationUpdate &update);
+    void slot_RigolConnectionUpdate(const common::comms::CommunicationUpdate &update);
+    void slot_MunkConnectionUpdate(const common::comms::CommunicationUpdate &update);
+    void slot_GalilConnectionUpdate(const common::comms::CommunicationUpdate &update);
 
 private slots:
 
@@ -44,7 +44,7 @@ private slots:
     void on_pushButton_Close_released();
 
 private:
-    void updateLEDConnectionColor(LED* ledWidget, const bool &connected);
+    void updateLEDConnectionColor(LED* ledWidget, const common::comms::CommunicationUpdate &connected);
 
 private:
     Ui::Dialog_Connections *ui;
