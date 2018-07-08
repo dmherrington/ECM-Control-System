@@ -106,12 +106,12 @@ GReturn GalilLink::UploadProgram(const std::string &programText) const
 GReturn GalilLink::DownloadProgram(std::string &programText) const
 {
     GReturn rtnCode = G_BAD_LOST_DATA;
-    int bufferSize = 1000;
+    unsigned int bufferSize = 1000;
     int retries = 0;
     while ((rtnCode == G_BAD_LOST_DATA) && (retries < 10))
     {
         char* buf = new char[bufferSize]();
-        rtnCode = GProgramUpload(galil,buf,sizeof(buf));
+        rtnCode = GProgramUpload(galil,buf,bufferSize);
         if(rtnCode == G_NO_ERROR)
             programText = std::string(buf);
         else
@@ -124,11 +124,22 @@ GReturn GalilLink::DownloadProgram(std::string &programText) const
     return rtnCode;
 }
 
-GReturn GalilLink::WriteTellErrorCode(char *errorDescription) const
+GReturn GalilLink::WriteTellErrorCode(unsigned int &errorCode, std::string &description) const
 {
     GSize read_bytes = 0; //bytes read in GCommand
-    std::string newCommand = "TC 1";
-    GReturn rtn = GCommand(galil,newCommand.c_str(),errorDescription,sizeof(errorDescription),&read_bytes);
+
+    std::string newCommand = "TC 0";
+    char* buf = new char[4]();
+    GReturn rtn = GCommand(galil,newCommand.c_str(),buf,4,&read_bytes);
+    errorCode = stoi(std::string(buf));
+    delete buf;
+
+    newCommand = "TC 1";
+    buf = new char[100]();
+    rtn = GCommand(galil,newCommand.c_str(),buf,100,&read_bytes);
+    description = std::string(buf);
+    delete buf;
+
     return rtn;
 }
 

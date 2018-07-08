@@ -21,7 +21,7 @@ CommandAbsoluteMove::CommandAbsoluteMove(const MotorAxis &axis, const int &posit
 CommandAbsoluteMove::CommandAbsoluteMove(const CommandAbsoluteMove &copy):
     AbstractMoveCommand(copy)
 {
-
+    this->absoluteMove = copy.absoluteMove;
 }
 
 

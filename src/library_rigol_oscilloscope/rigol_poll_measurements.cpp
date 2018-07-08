@@ -14,11 +14,12 @@ void RigolPollMeasurement::beginPolling()
 
 void RigolPollMeasurement::pausePolling()
 {
-    m_LambdasToRun.push_back([this]{
-        m_Timeout.stop();
-        clearPendingTasks();
-        mToExit = true;
-    });
+    if(isThreadActive())
+        m_LambdasToRun.push_back([this]{
+            m_Timeout.stop();
+            clearPendingTasks();
+            mToExit = true;
+        });
 }
 
 void RigolPollMeasurement::addPollingMeasurement(const commands_Rigol::MeasureCommand_Item &command)

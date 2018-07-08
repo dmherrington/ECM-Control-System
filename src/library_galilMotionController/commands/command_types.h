@@ -73,6 +73,8 @@ inline std::string CommandToString(const CommandType &type) {
         return "KI";
     case CommandType::SET_DGAIN:
         return "KD";
+    case CommandType::SET_VARIABLE:
+        return "SET VARIABLE";
     default:
         throw std::runtime_error("Unknown command type seen");
     }

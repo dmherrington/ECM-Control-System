@@ -76,8 +76,8 @@ public:
     QFormLayout *formLayout_2;
     QLabel *label_CutDepth;
     QLabel *label_CutSpeed;
-    QSpinBox *spinBox_CutSpeed;
     QDoubleSpinBox *doubleSpinBox_CutDepth;
+    QDoubleSpinBox *doubleSpinBox_CutSpeed;
     QWidget *tab_vibrationParams;
     QWidget *layoutWidget;
     QFormLayout *formLayout;
@@ -529,20 +529,6 @@ public:
 
         formLayout_2->setWidget(1, QFormLayout::LabelRole, label_CutSpeed);
 
-        spinBox_CutSpeed = new QSpinBox(tab_linearParams);
-        spinBox_CutSpeed->setObjectName(QStringLiteral("spinBox_CutSpeed"));
-        sizePolicy1.setHeightForWidth(spinBox_CutSpeed->sizePolicy().hasHeightForWidth());
-        spinBox_CutSpeed->setSizePolicy(sizePolicy1);
-        spinBox_CutSpeed->setMinimumSize(QSize(100, 25));
-        spinBox_CutSpeed->setFont(font);
-        spinBox_CutSpeed->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        spinBox_CutSpeed->setMinimum(1);
-        spinBox_CutSpeed->setMaximum(10000);
-        spinBox_CutSpeed->setSingleStep(10);
-        spinBox_CutSpeed->setValue(100);
-
-        formLayout_2->setWidget(1, QFormLayout::FieldRole, spinBox_CutSpeed);
-
         doubleSpinBox_CutDepth = new QDoubleSpinBox(tab_linearParams);
         doubleSpinBox_CutDepth->setObjectName(QStringLiteral("doubleSpinBox_CutDepth"));
         sizePolicy1.setHeightForWidth(doubleSpinBox_CutDepth->sizePolicy().hasHeightForWidth());
@@ -550,8 +536,21 @@ public:
         doubleSpinBox_CutDepth->setMinimumSize(QSize(100, 25));
         doubleSpinBox_CutDepth->setFont(font);
         doubleSpinBox_CutDepth->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        doubleSpinBox_CutDepth->setValue(40);
 
         formLayout_2->setWidget(0, QFormLayout::FieldRole, doubleSpinBox_CutDepth);
+
+        doubleSpinBox_CutSpeed = new QDoubleSpinBox(tab_linearParams);
+        doubleSpinBox_CutSpeed->setObjectName(QStringLiteral("doubleSpinBox_CutSpeed"));
+        sizePolicy1.setHeightForWidth(doubleSpinBox_CutSpeed->sizePolicy().hasHeightForWidth());
+        doubleSpinBox_CutSpeed->setSizePolicy(sizePolicy1);
+        doubleSpinBox_CutSpeed->setMinimumSize(QSize(100, 25));
+        doubleSpinBox_CutSpeed->setFont(font);
+        doubleSpinBox_CutSpeed->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        doubleSpinBox_CutSpeed->setMinimum(0.01);
+        doubleSpinBox_CutSpeed->setValue(0.4);
+
+        formLayout_2->setWidget(1, QFormLayout::FieldRole, doubleSpinBox_CutSpeed);
 
 
         gridLayout_5->addLayout(formLayout_2, 0, 0, 1, 1);
@@ -632,6 +631,8 @@ public:
         doubleSpinBox_RetractDistance->setMinimumSize(QSize(100, 25));
         doubleSpinBox_RetractDistance->setFont(font);
         doubleSpinBox_RetractDistance->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        doubleSpinBox_RetractDistance->setMaximum(1000);
+        doubleSpinBox_RetractDistance->setValue(100);
 
         formLayout->setWidget(2, QFormLayout::FieldRole, doubleSpinBox_RetractDistance);
 
@@ -652,6 +653,7 @@ public:
         doubleSpinBox_StepSize->setMinimumSize(QSize(100, 25));
         doubleSpinBox_StepSize->setFont(font);
         doubleSpinBox_StepSize->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        doubleSpinBox_StepSize->setValue(0.02);
 
         formLayout->setWidget(3, QFormLayout::FieldRole, doubleSpinBox_StepSize);
 
@@ -674,8 +676,8 @@ public:
         spinBox_RetractPeriod->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         spinBox_RetractPeriod->setMinimum(0);
         spinBox_RetractPeriod->setMaximum(10000);
-        spinBox_RetractPeriod->setSingleStep(10);
-        spinBox_RetractPeriod->setValue(0);
+        spinBox_RetractPeriod->setSingleStep(1);
+        spinBox_RetractPeriod->setValue(10);
 
         formLayout->setWidget(4, QFormLayout::FieldRole, spinBox_RetractPeriod);
 
@@ -698,8 +700,8 @@ public:
         spinBox_Pause->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         spinBox_Pause->setMinimum(0);
         spinBox_Pause->setMaximum(10000);
-        spinBox_Pause->setSingleStep(10);
-        spinBox_Pause->setValue(0);
+        spinBox_Pause->setSingleStep(1);
+        spinBox_Pause->setValue(8);
 
         formLayout->setWidget(5, QFormLayout::FieldRole, spinBox_Pause);
 

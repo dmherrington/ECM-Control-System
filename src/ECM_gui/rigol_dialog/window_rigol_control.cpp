@@ -7,7 +7,7 @@ Window_RigolControl::Window_RigolControl(RigolOscilliscope *obj, QWidget *parent
     m_Rigol(obj)
 {
     ui->setupUi(this);
-    connect(m_Rigol,SIGNAL(signal_RigolCommunicationUpdate(common::comms::CommunicationConnection)),this,SLOT(slot_OscilliscopeConnectionUpdate(common::comms::CommunicationConnection)));
+    connect(m_Rigol,SIGNAL(signal_RigolCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_OscilliscopeConnectionUpdate(common::comms::CommunicationUpdate)));
     connect(m_Rigol,SIGNAL(signal_RigolLoadComplete()),this,SLOT(slot_onLoadComplete()));
 
     connect(ui->widget_RadioButtons,SIGNAL(signal_onRadioButtonChange(data_Rigol::MeasurementTypes,bool)),this,SLOT(slot_onRadioButtonChange(data_Rigol::MeasurementTypes,bool)));
@@ -39,11 +39,11 @@ void Window_RigolControl::on_pushButton_Done_released()
     this->hide();
 }
 
-void Window_RigolControl::slot_OscilliscopeConnectionUpdate(const common::comms::CommunicationConnection &value)
+void Window_RigolControl::slot_OscilliscopeConnectionUpdate(const common::comms::CommunicationUpdate &value)
 {
-    if(value.isConnected())
+    if(value.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
         ui->widget_PumpOn->setColor(QColor(0,255,0));
-    else
+    else if(value.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED)
         ui->widget_PumpOn->setColor(QColor(255,0,0));
 }
 

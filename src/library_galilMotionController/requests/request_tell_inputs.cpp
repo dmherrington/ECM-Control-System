@@ -37,12 +37,15 @@ std::vector<AbstractStatusPtr> RequestTellInputs::getStatus() const
     //as the galil only currently reports a single axis here, we will make the parse easy for now
     QString result = QString::fromStdString(buffer);
     QStringList list = result.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
-    result = list.at(0);
-    result = result.trimmed();
-    StatusInputsPtr inputs = std::make_shared<StatusInputs>();
-    inputs->setInputCode(result.toInt());
-    inputs->setTime(latestUpdate);
-    rtn.push_back(inputs);
+    if(list.size() > 0)
+    {
+        result = list.at(0);
+        result = result.trimmed();
+        StatusInputsPtr inputs = std::make_shared<StatusInputs>();
+        inputs->setInputCode(result.toInt());
+        inputs->setTime(latestUpdate);
+        rtn.push_back(inputs);
+    }
     return rtn;
 }
 

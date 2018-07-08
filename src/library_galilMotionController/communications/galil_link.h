@@ -37,7 +37,7 @@ public:
 
     GReturn WriteRequest(AbstractRequestPtr request) const override;
 
-    GReturn WriteTellErrorCode(char* errorDescription) const override;
+    GReturn WriteTellErrorCode(unsigned int &errorCode, std::string &description) const override;
 
     //!
     //! \brief Determine the connection status

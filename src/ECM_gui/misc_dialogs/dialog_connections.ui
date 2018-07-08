@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>335</width>
-    <height>228</height>
+    <width>337</width>
+    <height>238</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -185,7 +185,7 @@ width:20px;
         </font>
        </property>
        <property name="text">
-        <string>Conncetion Galil Motion Controller</string>
+        <string>Connection Galil Motion Controller</string>
        </property>
       </widget>
      </item>
@@ -260,7 +260,7 @@ width:20px;
         </font>
        </property>
        <property name="text">
-        <string>Conncetion Munk Power Supply</string>
+        <string>Connection Munk Power Supply</string>
        </property>
       </widget>
      </item>
@@ -335,7 +335,7 @@ width:20px;
         </font>
        </property>
        <property name="text">
-        <string>Conncetion Rigol Oscilliscope</string>
+        <string>Connection Rigol Oscilliscope</string>
        </property>
       </widget>
      </item>
@@ -410,7 +410,7 @@ width:20px;
         </font>
        </property>
        <property name="text">
-        <string>Conncetion Sensoray </string>
+        <string>Connection Sensoray </string>
        </property>
       </widget>
      </item>
@@ -485,7 +485,7 @@ width:20px;
         </font>
        </property>
        <property name="text">
-        <string>Conncetion Westinghouse Pump</string>
+        <string>Connection Westinghouse Pump</string>
        </property>
       </widget>
      </item>

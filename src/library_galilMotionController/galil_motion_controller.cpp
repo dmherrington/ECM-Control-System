@@ -47,8 +47,15 @@ GalilMotionController::GalilMotionController(const std::string &name):
         settingsPath = settingsDirectory.absolutePath() + "/generalSettings.json";
     }
 
-    initializeMotionController();
-    galilPolling->beginPolling();
+    programPath += "DefaultGalilScript.txt";
+    QFile openFile(programPath);
+
+    if (!openFile.open(QIODevice::ReadOnly | QFile::Text)) {
+        qWarning("Couldn't open default galil script file.");
+    }
+    QTextStream in(&openFile);
+    defaultProgram.setProgramString(in.readAll().toStdString());
+    openFile.close();
 }
 
 GalilMotionController::~GalilMotionController()
@@ -87,8 +94,15 @@ std::vector<common::TupleECMData> GalilMotionController::getPlottables() const
     return rtn;
 }
 
-void GalilMotionController::initializeMotionController() const
+void GalilMotionController::initializeMotionController()
 {
+    //write the default galil script to the Galil
+    CommandUploadProgramPtr commandUploadDefault = std::make_shared<CommandUploadProgram>();
+    commandUploadDefault->setProgram(defaultProgram);
+    this->executeCommand(commandUploadDefault.get());
+
+    CommandExecuteProfilePtr commandExecuteSetup = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::SETUP,"setup");
+    this->executeCommand(commandExecuteSetup.get());
     // 1: Request the current program aboard the galil motion control unit
 
     // 2: Request the current profiles that are apart of the program
@@ -101,22 +115,25 @@ void GalilMotionController::initializeMotionController() const
     common::TuplePositionalString tuplePos;
     tuplePos.axisName = "XAxis";
     requestTP->setTupleDescription(common::TupleECMData(tuplePos));
-    galilPolling->addRequest(requestTP,1000);
+    galilPolling->addRequest(requestTP,200);
     // 2: Request the stop codes
     RequestStopCodePtr requestSC = std::make_shared<RequestStopCode>();
     common::TupleGeneralDescriptorString tupleSC("StopCodes");
     requestSC->setTupleDescription(common::TupleECMData(tupleSC));
-    galilPolling->addRequest(requestSC,1500);
+    galilPolling->addRequest(requestSC,1000);
     // 3: Request the tell switches
     RequestTellSwitchesPtr requestTS = std::make_shared<RequestTellSwitches>();
     common::TupleGeneralDescriptorString tupleTS("TellSwitches");
     requestTS->setTupleDescription(common::TupleECMData(tupleTS));
-    galilPolling->addRequest(requestTS,2000);
+    galilPolling->addRequest(requestTS,200);
     // 4: Request the current inputs
     RequestTellInputsPtr requestTI = std::make_shared<RequestTellInputs>();
     common::TupleGeneralDescriptorString tupleTI("TellInputs");
     requestTI->setTupleDescription(common::TupleECMData(tupleTI));
-    galilPolling->addRequest(requestTI,2500);
+    galilPolling->addRequest(requestTI,1000);
+
+    galilPolling->beginPolling();
+
 }
 
 void GalilMotionController::openConnection(const std::string &address)
@@ -174,10 +191,6 @@ void GalilMotionController::LinkConnected() const
 {
     stateInterface->setConnected(true);
 
-    initializeMotionController();
-
-    galilPolling->beginPolling();
-
     common::comms::CommunicationUpdate connection;
     connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
     emit signal_MotionControllerCommunicationUpdate(connection);
@@ -196,14 +209,25 @@ void GalilMotionController::LinkDisconnected() const
     emit signal_MotionControllerCommunicationUpdate(connection);
 }
 
+void GalilMotionController::StatusMessage(const string &msg) const
+{
+    UNUSED(msg);
+}
+
 void GalilMotionController::ErrorBadCommand(const std::string &commandType, const std::string &description)
 {
-    UNUSED(commandType);
-    UNUSED(description);
+    std::cout<<"There was a bad command when issuing: "<<commandType<<" and the response was: "<<description<<std::endl;
+    emit signal_ErrorCode(description);
 }
 
 void GalilMotionController::NewProgramUploaded(const ProgramGeneric &program)
 {
+    stateInterface->galilProgram->setProgram(program.getProgramString());
+
+    //We now have a new program, let us query for the available labels and variables
+    RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
+    commsMarshaler->sendAbstractGalilRequest(requestVariables);
+
     UNUSED(program);
 }
 
@@ -253,6 +277,7 @@ void GalilMotionController::NewStatusMotorStopCode(const Status_StopCode &status
 {
     if(stateInterface->getAxisStatus(status.getAxis())->stopCode.set(status))
     {
+        std::cout<<"I have seen a new status motor stop code and the value is: "<<status.getCode()<<std::endl;
         stateMachine->UpdateStates();
         stateMachine->ProcessStateTransitions();
     }
@@ -284,6 +309,7 @@ void GalilMotionController::NewStatusVariableValue(const Status_VariableValue &s
 void GalilMotionController::NewStatusVariableList(const Status_VariableList &status)
 {
     stateInterface->galilProgram->setVariableList(status.getVariableList());
+    stateInterface->statusVariableValues->fromVariableList(status.getVariableList());
 }
 
 void GalilMotionController::getProgramPath(std::string &filePath) const
@@ -319,6 +345,7 @@ void GalilMotionController::executeCommand(const AbstractCommand *command)
     ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
     currentState->handleCommand(command);
     stateMachine->ProcessStateTransitions();
+
     /*
     std::string commandString = command->getCommandString();
     std::cout<<"The command string seen here is: "<<commandString<<std::endl;
@@ -389,10 +416,7 @@ bool GalilMotionController::loadProgram(const std::string &filePath, std::string
 
 void GalilMotionController::cbi_GalilStatusRequest(const AbstractRequestPtr request)
 {
-    Status_Position newPosition;
-    newPosition.setPosition((rand() % 100));
-    NewStatusPosition(newPosition);
-    //commsMarshaler->sendAbstractGalilRequest(request);
+    commsMarshaler->sendAbstractGalilRequest(request);
 }
 
 void GalilMotionController::cbi_AbstractGalilCommand(const AbstractCommandPtr command)

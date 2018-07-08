@@ -9,6 +9,8 @@
 #include "../status/abstract_status.h"
 #include "../status/status_variable_value.h"
 
+#include "program_variable_list.h"
+
 ECM_CLASS_FORWARD(ProgramVariableValueList);
 
 class ProgramVariableValueList
@@ -19,6 +21,8 @@ public:
     ProgramVariableValueList(const ProgramVariableValueList &copy);
 
     ~ProgramVariableValueList();
+
+    void fromVariableList(const ProgramVariableList &list);
 
     void addVariable(const Status_VariableValue &var);
 

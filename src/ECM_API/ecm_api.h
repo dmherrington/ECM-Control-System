@@ -23,6 +23,9 @@ public:
 
     ~ECM_API() = default;
 
+private slots:
+    void slot_MotionControllerCommunicationUpdate(const common::comms::CommunicationUpdate &update);
+
 public:
 
     RigolOscilliscope* m_Rigol;

@@ -45,7 +45,7 @@ public:
         UNUSED(program);
     }
 
-    virtual void StatusMessage(const std::string &msg)
+    virtual void StatusMessage(const std::string &msg) const
     {
         UNUSED(msg);
     }

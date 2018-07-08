@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
@@ -22,7 +23,6 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -41,14 +41,14 @@ public:
     QGridLayout *gridLayout;
     QHBoxLayout *horizontalLayout;
     QPushButton *pushButton_TouchoffRef;
-    QSpinBox *spinBox_TouchoffRef;
+    QDoubleSpinBox *doubleSpinBox_TouchoffRef;
     QLabel *label;
     QVBoxLayout *verticalLayout_2;
     QLabel *label_Connection;
     LED *widget_TouchoffComplete;
     QHBoxLayout *horizontalLayout_2;
     QPushButton *pushButton_RunTouchoff;
-    QSpinBox *spinBox_InitialGap;
+    QDoubleSpinBox *doubleSpinBox_InitialGap;
     QLabel *label_2;
     QPushButton *pushButton_ExecuteTouchoff;
     QLineEdit *lineEdit_TouchoffCode;
@@ -214,23 +214,21 @@ public:
 
         horizontalLayout->addWidget(pushButton_TouchoffRef);
 
-        spinBox_TouchoffRef = new QSpinBox(centralwidget);
-        spinBox_TouchoffRef->setObjectName(QStringLiteral("spinBox_TouchoffRef"));
-        sizePolicy.setHeightForWidth(spinBox_TouchoffRef->sizePolicy().hasHeightForWidth());
-        spinBox_TouchoffRef->setSizePolicy(sizePolicy);
-        spinBox_TouchoffRef->setMinimumSize(QSize(120, 25));
-        spinBox_TouchoffRef->setMaximumSize(QSize(120, 25));
+        doubleSpinBox_TouchoffRef = new QDoubleSpinBox(centralwidget);
+        doubleSpinBox_TouchoffRef->setObjectName(QStringLiteral("doubleSpinBox_TouchoffRef"));
+        sizePolicy.setHeightForWidth(doubleSpinBox_TouchoffRef->sizePolicy().hasHeightForWidth());
+        doubleSpinBox_TouchoffRef->setSizePolicy(sizePolicy);
+        doubleSpinBox_TouchoffRef->setMinimumSize(QSize(120, 25));
+        doubleSpinBox_TouchoffRef->setMaximumSize(QSize(120, 25));
         QFont font1;
-        font1.setFamily(QStringLiteral("Abyssinica SIL"));
+        font1.setFamily(QStringLiteral("MS Shell Dlg 2"));
         font1.setPointSize(11);
-        spinBox_TouchoffRef->setFont(font1);
-        spinBox_TouchoffRef->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        spinBox_TouchoffRef->setMinimum(0);
-        spinBox_TouchoffRef->setMaximum(10000);
-        spinBox_TouchoffRef->setSingleStep(10);
-        spinBox_TouchoffRef->setValue(0);
+        doubleSpinBox_TouchoffRef->setFont(font1);
+        doubleSpinBox_TouchoffRef->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        doubleSpinBox_TouchoffRef->setDecimals(1);
+        doubleSpinBox_TouchoffRef->setMaximum(100000);
 
-        horizontalLayout->addWidget(spinBox_TouchoffRef);
+        horizontalLayout->addWidget(doubleSpinBox_TouchoffRef);
 
         label = new QLabel(centralwidget);
         label->setObjectName(QStringLiteral("label"));
@@ -281,14 +279,18 @@ public:
 
         horizontalLayout_2->addWidget(pushButton_RunTouchoff);
 
-        spinBox_InitialGap = new QSpinBox(centralwidget);
-        spinBox_InitialGap->setObjectName(QStringLiteral("spinBox_InitialGap"));
-        spinBox_InitialGap->setMinimumSize(QSize(120, 25));
-        spinBox_InitialGap->setMaximumSize(QSize(120, 25));
-        spinBox_InitialGap->setFont(font2);
-        spinBox_InitialGap->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        doubleSpinBox_InitialGap = new QDoubleSpinBox(centralwidget);
+        doubleSpinBox_InitialGap->setObjectName(QStringLiteral("doubleSpinBox_InitialGap"));
+        doubleSpinBox_InitialGap->setMinimumSize(QSize(120, 25));
+        doubleSpinBox_InitialGap->setMaximumSize(QSize(120, 25));
+        QFont font3;
+        font3.setPointSize(11);
+        doubleSpinBox_InitialGap->setFont(font3);
+        doubleSpinBox_InitialGap->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        doubleSpinBox_InitialGap->setDecimals(1);
+        doubleSpinBox_InitialGap->setMaximum(100000);
 
-        horizontalLayout_2->addWidget(spinBox_InitialGap);
+        horizontalLayout_2->addWidget(doubleSpinBox_InitialGap);
 
         label_2 = new QLabel(centralwidget);
         label_2->setObjectName(QStringLiteral("label_2"));

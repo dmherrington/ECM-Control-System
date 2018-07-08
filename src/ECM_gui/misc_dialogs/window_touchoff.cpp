@@ -83,10 +83,14 @@ void Window_Touchoff::slot_UpdateMotionProfileState(const MotionProfileState &st
 
 void Window_Touchoff::on_pushButton_TouchoffRef_released()
 {
-
+    uint64_t position = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->position.get().getPosition();
+    ui->doubleSpinBox_TouchoffRef->setValue(position/10.0);
+    Command_Variable command("touchref",position);
+    m_MotionController->executeCommand(&command);
 }
 
 void Window_Touchoff::on_pushButton_RunTouchoff_released()
 {
-
+    CommandExecuteProfile command(MotionProfile::ProfileType::TOUCHOFF,"touchof");
+    m_MotionController->executeCommand(&command);
 }

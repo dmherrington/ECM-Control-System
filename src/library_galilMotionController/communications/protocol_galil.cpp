@@ -89,7 +89,10 @@ void GalilProtocol::SendProtocolCommand(const ILink *link, const AbstractCommand
 
 void GalilProtocol::SendProtocolMotionCommand(const ILink *link, const AbstractCommandPtr command)
 {
-    GReturn rtn = link->WriteCommand(command->getCommandString());
+    std::string commandString = command->getCommandString();
+    if(commandString.empty())
+        return;
+    GReturn rtn = link->WriteCommand(commandString);
     handleCommandResponse(link,command,rtn);
 
     if(rtn == G_NO_ERROR)
@@ -97,6 +100,10 @@ void GalilProtocol::SendProtocolMotionCommand(const ILink *link, const AbstractC
         CommandMotionStartPtr motionPTR = std::make_shared<CommandMotionStart>();
         rtn = link->WriteCommand(motionPTR->getCommandString());
         handleCommandResponse(link,motionPTR,rtn);
+    }
+    else
+    {
+        std::cout<<"There was an error sending the command."<<std::endl;
     }
 }
 
@@ -113,15 +120,17 @@ void GalilProtocol::handleCommandResponse(const ILink *link, const AbstractComma
             break;
         }
         default:
+            std::cout<<"There is another bad command response"<<std::endl;
             break;
         }
 }
 
 void GalilProtocol::handleBadCommand_ResponseQuestionMark(const ILink* link, const CommandType &type)
 {
-    char error[100];
-    link->WriteTellErrorCode(error);
-    Emit([&](const IProtocolGalilEvents* ptr){ptr->ErrorBadCommand(type,std::string(error));});
+    unsigned int code;
+    std::string description;
+    link->WriteTellErrorCode(code,description);
+    Emit([&](const IProtocolGalilEvents* ptr){ptr->ErrorBadCommand(type,std::string(description));});
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -163,8 +172,9 @@ void GalilProtocol::generateNewStatus(const AbstractRequestPtr request, char *&b
 }
 void GalilProtocol::handleBadRequestResponse(const ILink* link, const AbstractRequestPtr request) const
 {
-    char error[100];
-    link->WriteTellErrorCode(error);
+    unsigned int code;
+    std::string description;
+    link->WriteTellErrorCode(code,description);
 }
 
 //void GalilProtocol::SendProtocolMessage(const ILink *link, const double &message)

@@ -15,6 +15,19 @@ ProgramVariableValueList::ProgramVariableValueList(const ProgramVariableValueLis
     this->variableMap = copy.variableMap;
 }
 
+void ProgramVariableValueList::fromVariableList(const ProgramVariableList &list)
+{
+   std::map<std::string,int> mapVariables = list.getVariableMap();
+   std::map<std::string,int>::iterator it = mapVariables.begin();
+
+   for(;it!=mapVariables.end();++it)
+   {
+       Status_VariableValue newVar;
+       newVar.setVariableName(it->first);
+       this->addVariable(newVar);
+   }
+}
+
 void ProgramVariableValueList::addVariable(const Status_VariableValue &var)
 {
 
@@ -69,11 +82,13 @@ bool ProgramVariableValueList::updateVariable(const Status_VariableValue &var)
 
 bool ProgramVariableValueList::getVariable(const std::string &name, Status_VariableValue &status)
 {
-    if(this->variableMap.count(name) > 0)
-    {
+    try{
         status = this->variableMap.at(name)->get();
+        return true;
+    }catch(const std::out_of_range &error)
+    {
+        return false;
     }
-    return false;
 }
 
 bool ProgramVariableValueList::getVariableValue(const std::string &name, double &value)
@@ -82,6 +97,7 @@ bool ProgramVariableValueList::getVariableValue(const std::string &name, double 
     if(this->getVariable(name,obj))
     {
         value = obj.getVariableValue();
+        return true;
     }
     return false;
 }

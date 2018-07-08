@@ -16,7 +16,7 @@ public:
     /// Link Events
     /////////////////////////////////////////////////////////
 
-    virtual void ConnectionOpened() const
+    virtual void ConnectionOpened()
     {
 
     }

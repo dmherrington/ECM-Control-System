@@ -82,7 +82,7 @@ public:
     //!
     bool operator == (const CommandJog &rhs)
     {
-        if(!AbstractCommand::operator ==(rhs)){
+        if(!AbstractMoveCommand::operator ==(rhs)){
             return false;
         }
         if(this->jogResolution != rhs.jogResolution){

@@ -96,12 +96,29 @@ void State_Idle::handleCommand(const AbstractCommand* command)
     case CommandType::ABSOLUTE_MOVE:
     case CommandType::RELATIVE_MOVE:
     case CommandType::JOG_MOVE:
-    case CommandType::EXECUTE_PROGRAM:
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to STATE_READY
         desiredState = ECMState::STATE_READY;
         this->currentCommand = copyCommand;
+        break;
+    }
+    case CommandType::EXECUTE_PROGRAM:
+    {
+        //This is a tricky case to handle, for now we will handle in this manner
+        const CommandExecuteProfile* castCommand = copyCommand->as<CommandExecuteProfile>();
+        if(castCommand->getProfileType() == MotionProfile::ProfileType::SETUP)
+        {
+            //This means we can handle this in this state
+            CommandExecuteProfilePtr commandPtr = std::make_shared<CommandExecuteProfile>(*castCommand);
+            Owner().issueGalilCommand(commandPtr); //this will call the setup routine
+        }
+        else{
+            //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
+            //This command will transition the machine to STATE_READY
+            desiredState = ECMState::STATE_READY;
+            this->currentCommand = copyCommand;
+        }
         break;
     }
     case CommandType::CLEAR_BIT:
@@ -140,6 +157,13 @@ void State_Idle::handleCommand(const AbstractCommand* command)
     {
         desiredState = ECMState::STATE_ESTOP;
         delete copyCommand;
+        break;
+    }
+    case CommandType::SET_VARIABLE:
+    {
+        const Command_Variable* castCommand = copyCommand->as<Command_Variable>();
+        Command_VariablePtr command = std::make_shared<Command_Variable>(*castCommand);
+        Owner().issueGalilCommand(command);
         break;
     }
     default:

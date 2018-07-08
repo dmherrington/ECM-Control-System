@@ -4,7 +4,13 @@
             "channel": "CHANNEL 1",
             "device": "Rigol",
             "measurement": "MARea",
-            "r_w": "Read"
+            "r_w": "Write"
+        },
+        {
+            "channel": "CHANNEL 2",
+            "device": "Rigol",
+            "measurement": "VTOP",
+            "r_w": "Write"
         }
     ]
 }

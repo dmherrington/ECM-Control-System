@@ -19,6 +19,8 @@ class State_Touchoff : public AbstractStateGalil
 public:
     State_Touchoff();
 
+    void OnExit() override;
+
 public:
     AbstractStateGalil* getClone() const override;
 
@@ -35,6 +37,10 @@ public:
     void OnEnter() override;
 
     void OnEnter(const AbstractCommand *command);
+
+private:
+    void stateSetup();
+
 };
 
 } //end of namespace Galil

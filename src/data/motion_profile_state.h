@@ -13,6 +13,7 @@ class MotionProfile
 public:
     enum class ProfileType
     {
+        SETUP,
         HOMING,
         TOUCHOFF,
         PROFILE

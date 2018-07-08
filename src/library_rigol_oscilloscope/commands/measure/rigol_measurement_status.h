@@ -22,6 +22,7 @@ public:
     void setMeasurementString(const std::string &newString)
     {
         this->str = newString;
+        this->setMeasurementValue(std::stof(newString));
     }
 
 public:

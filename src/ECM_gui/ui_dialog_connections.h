@@ -55,7 +55,7 @@ public:
     {
         if (Dialog_Connections->objectName().isEmpty())
             Dialog_Connections->setObjectName(QStringLiteral("Dialog_Connections"));
-        Dialog_Connections->resize(335, 228);
+        Dialog_Connections->resize(337, 238);
         Dialog_Connections->setStyleSheet(QLatin1String("QMainWindow{\n"
 "background-color:#1d1d1d;\n"
 "}\n"
@@ -362,15 +362,15 @@ public:
     void retranslateUi(QDialog *Dialog_Connections)
     {
         Dialog_Connections->setWindowTitle(QApplication::translate("Dialog_Connections", "Dialog", nullptr));
-        label_GalilConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Galil Motion Controller", nullptr));
+        label_GalilConnection->setText(QApplication::translate("Dialog_Connections", "Connection Galil Motion Controller", nullptr));
         pushButton_connectGalil->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
-        label_MunkConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Munk Power Supply", nullptr));
+        label_MunkConnection->setText(QApplication::translate("Dialog_Connections", "Connection Munk Power Supply", nullptr));
         pushButton_connectMunk->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
-        label_RigolConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Rigol Oscilliscope", nullptr));
+        label_RigolConnection->setText(QApplication::translate("Dialog_Connections", "Connection Rigol Oscilliscope", nullptr));
         pushButton_connect_Rigol->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
-        label_SensorayConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Sensoray ", nullptr));
+        label_SensorayConnection->setText(QApplication::translate("Dialog_Connections", "Connection Sensoray ", nullptr));
         pushButton_connectSensoray->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
-        label_WestinghouseConnection->setText(QApplication::translate("Dialog_Connections", "Conncetion Westinghouse Pump", nullptr));
+        label_WestinghouseConnection->setText(QApplication::translate("Dialog_Connections", "Connection Westinghouse Pump", nullptr));
         pushButton_connectPump->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
         pushButton_Close->setText(QApplication::translate("Dialog_Connections", "CLOSE", nullptr));
     } // retranslateUi

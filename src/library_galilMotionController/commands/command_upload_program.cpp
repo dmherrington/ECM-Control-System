@@ -9,7 +9,7 @@ CommandUploadProgram::CommandUploadProgram():
 CommandUploadProgram::CommandUploadProgram(const CommandUploadProgram &copy):
     AbstractCommand(copy)
 {
-
+    this->program = copy.program;
 }
 
 AbstractCommand* CommandUploadProgram::getClone() const

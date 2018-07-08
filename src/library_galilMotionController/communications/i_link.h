@@ -59,7 +59,7 @@ public:
 
     virtual GReturn WriteRequest(const AbstractRequestPtr request) const = 0;
 
-    virtual GReturn WriteTellErrorCode(char* errorDescription) const = 0;
+    virtual GReturn WriteTellErrorCode(unsigned int &errorCode, std::string &description) const = 0;
 
     //!
     //! \brief Determine the connection status

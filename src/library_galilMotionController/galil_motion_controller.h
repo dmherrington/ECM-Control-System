@@ -83,6 +83,7 @@ private:
     //////////////////////////////////////////////////////////////
     void LinkConnected() const override;
     void LinkDisconnected() const override;
+    void StatusMessage(const std::string &msg) const override;
     void ErrorBadCommand(const std::string &commandType, const std::string &description) override;
     void NewProgramUploaded(const ProgramGeneric &program) override;
     void NewProgramDownloaded(const ProgramGeneric &program) override;
@@ -109,8 +110,8 @@ public:
 
     void executeStringCommand(const std::string &stringCommand);
 
-private:
-    void initializeMotionController() const;
+public:
+    void initializeMotionController();
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     /// Callback Interfafce as required from inheritance of GalilStatusUpdate_Interface
@@ -187,13 +188,13 @@ signals:
 
     void signal_GalilUpdatedProfileState(const MotionProfileState &state) const;
 
-    void currentErrorCode(const std::string &errorString);
-
+    void signal_ErrorCode(const std::string &errorString);
 
 private:
     QString profilesPath;
     QString programPath;
     QString settingsPath;
+    ProgramGeneric defaultProgram;
 
 public:
     Comms::CommsMarshaler* commsMarshaler; /**< Member variable handling the communications with the

@@ -104,7 +104,7 @@ private slots:
 
     void on_spinBox_PlungeSpeed_editingFinished();
 
-    void on_spinBox_CutSpeed_editingFinished();
+    void on_doubleSpinBox_CutSpeed_editingFinished();
 
     void on_spinBox_RetractPeriod_editingFinished();
 
@@ -128,6 +128,8 @@ private slots:
     void on_actionPower_Supply_triggered(bool checked);
 
     void on_actionOscilliscope_triggered(bool checked);
+
+    void on_actionTouchoff_triggered(bool checked);
 
 protected:
     void readSettings();

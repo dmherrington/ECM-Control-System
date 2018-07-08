@@ -34,6 +34,7 @@ public:
       */
     virtual ~AbstractStateGalil() = default;
 
+    virtual void OnExit();
 public:
     /**
      *

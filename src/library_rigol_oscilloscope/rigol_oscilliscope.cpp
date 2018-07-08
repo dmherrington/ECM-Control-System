@@ -52,12 +52,12 @@ bool RigolOscilliscope::addPollingMeasurement(const commands_Rigol::MeasureComma
 
         emit signal_RigolPlottable(sensorTuple, true);
 
-        //commsMarshaler->sendSetMeasurementCommand(command);
+        commsMarshaler->sendSetMeasurementCommand(command);
         //next we should copy this write command as a read command for the polling object
         commands_Rigol::MeasureCommand_Item copyCommand(command);
         copyCommand.setReadOrWrite(data_Rigol::RigolRWType::READ);
         pollStatus->addPollingMeasurement(copyCommand);
-        executeMeasurementPolling(true);
+        //executeMeasurementPolling(true); //we are not going to start polling until explicitly connected
     }
     return unique;
 }
@@ -86,7 +86,7 @@ void RigolOscilliscope::executeMeasurementPolling(const bool &execute)
 
 commands_Rigol::RigolMeasurementQueue RigolOscilliscope::getCurrentPollingMeasurements() const
 {
-    return pollStatus->getCurrentPollingMeasurements();
+    return this->queue;
 }
 
 void RigolOscilliscope::cbi_RigolMeasurementRequests(const commands_Rigol::MeasureCommand_Item &request)
@@ -97,7 +97,7 @@ void RigolOscilliscope::cbi_RigolMeasurementRequests(const commands_Rigol::Measu
 //////////////////////////////////////////////////////////////
 /// Virtual methods allowed from comms::CommsEvents
 //////////////////////////////////////////////////////////////
-void RigolOscilliscope::ConnectionOpened() const
+void RigolOscilliscope::ConnectionOpened()
 {
     this->initializeRigol();
     common::comms::CommunicationUpdate connection;
@@ -112,7 +112,7 @@ void RigolOscilliscope::ConnectionClosed() const
     emit signal_RigolCommunicationUpdate(connection);
 }
 
-void RigolOscilliscope::initializeRigol() const
+void RigolOscilliscope::initializeRigol()
 {
     //In this case we need to initialize the oscilliscope to the desired settings
     commands_Rigol::AcquireCommand_TypePtr acquisitionType = std::make_shared<commands_Rigol::AcquireCommand_Type>();
@@ -133,6 +133,17 @@ void RigolOscilliscope::initializeRigol() const
      * :WAVeform:FORMat BYTE - setting the format to bytes currently, not necessary and up to you
      * on which data type you want to handle
      */
+
+    //Next, we need to tell the Rigol which ones from the load to expect to read from
+    std::vector<MeasureCommand_Item> writeQueue = this->queue.getMeasurementItems();
+    for(size_t i = 0; i < this->queue.getQueueSize(); i++)
+    {
+        MeasureCommand_Item writeCommand = writeQueue.at(i);
+        writeCommand.setReadOrWrite(data_Rigol::RigolRWType::WRITE);
+        commsMarshaler->sendSetMeasurementCommand(writeCommand);
+    }
+
+    executeMeasurementPolling(true);
 }
 
 void RigolOscilliscope::loadFromQueue(const commands_Rigol::RigolMeasurementQueue &updatedQueue)
@@ -151,7 +162,6 @@ void RigolOscilliscope::loadFromQueue(const commands_Rigol::RigolMeasurementQueu
 
 void RigolOscilliscope::NewDataReceived(const std::vector<uint8_t> &buffer) const
 {
-    std::cout<<"I have received some data that looks like this."<<std::endl;
     for(size_t i = 0; i < buffer.size(); i++)
     {
         std::cout<<buffer.at(i);
@@ -160,12 +170,6 @@ void RigolOscilliscope::NewDataReceived(const std::vector<uint8_t> &buffer) cons
 
 void RigolOscilliscope::NewMeaurementReceived(const commands_Rigol::RigolMeasurementStatus &status) const
 {
-    std::cout<<"I have received some data from the command:"<<data_Rigol::MeasurementTypeEnumToString(status.getMeasurementType())<<std::endl;
-    std::string returnString = status.getMeasurementString();
-    std::cout<<"The data looked like: "<<returnString<<std::endl;
-    std::cout<<"The time of the request was: "<<status.getRequestTime().ToString().toStdString()<<std::endl;
-    std::cout<<"The time of the receive was: "<<status.getReceivedTime().ToString().toStdString()<<std::endl;
-
     //First let us construct the tuple describing the measurement
     common::TupleSensorString sensorTuple(QString::fromStdString(status.getDeviceName()),
                                           QString::fromStdString(AvailableChannelsToDisplayString(status.getChannel())),

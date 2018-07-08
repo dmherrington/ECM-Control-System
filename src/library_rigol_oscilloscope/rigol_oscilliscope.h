@@ -22,6 +22,7 @@
 #include "communications/rigol_comms_marshaler.h"
 #include "rigol_poll_measurements.h"
 
+//channe 1 is area channel 2 is vtop
 using namespace commands_Rigol;
 using namespace comms_Rigol;
 using namespace data_Rigol;
@@ -38,7 +39,7 @@ public:
 
 public:
     void openConnection(const std::string &ipAddress, const int &port);
-    void initializeRigol() const;
+    void initializeRigol();
 
     void loadFromQueue(const commands_Rigol::RigolMeasurementQueue &updatedQueue);
 
@@ -57,7 +58,7 @@ private:
     //////////////////////////////////////////////////////////////
     /// Virtual methods allowed from comms::CommsEvents
     //////////////////////////////////////////////////////////////
-    void ConnectionOpened() const override;
+    void ConnectionOpened() override;
     void ConnectionClosed() const override;
     void NewDataReceived(const std::vector<uint8_t> &buffer) const override;
     void NewMeaurementReceived(const commands_Rigol::RigolMeasurementStatus &status) const override;

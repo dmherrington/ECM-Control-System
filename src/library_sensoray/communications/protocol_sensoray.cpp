@@ -106,7 +106,7 @@ void SensorayProtocol::transmitDataToSerialPort(const QByteArray &msg)
 
         //according to the westinghouse manual the pump needs approximatley 10ms to respond
         //therefore waiting >10ms should be sufficient for the entire message to be ready
-        std::this_thread::sleep_for(std::chrono::milliseconds(12));
+        std::this_thread::sleep_for(std::chrono::milliseconds(15));
         //second read whatever information is available from the port
         char buf[256];
         int nchars = s2426_ComportRead(m_Session->handle, &errorCode, buf, sizeof(buf)-1, false);

@@ -15,6 +15,11 @@ AbstractStateGalil::AbstractStateGalil(const AbstractStateGalil &copy)
     this->desiredState = copy.desiredState;
 }
 
+void AbstractStateGalil::OnExit()
+{
+
+}
+
 ECMState AbstractStateGalil::getCurrentState() const
 {
     return currentState;

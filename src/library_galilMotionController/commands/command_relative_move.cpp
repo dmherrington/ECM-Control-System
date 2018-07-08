@@ -17,7 +17,7 @@ CommandRelativeMove::CommandRelativeMove(const MotorAxis &axis, const int &dista
 CommandRelativeMove::CommandRelativeMove(const CommandRelativeMove &copy):
     AbstractMoveCommand(copy)
 {
-
+    this->relativeMove = copy.relativeMove;
 }
 
 AbstractCommand* CommandRelativeMove::getClone() const

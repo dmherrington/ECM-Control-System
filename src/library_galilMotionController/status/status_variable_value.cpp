@@ -15,6 +15,9 @@ Status_VariableValue::Status_VariableValue(const double &value):
 Status_VariableValue::Status_VariableValue(const Status_VariableValue &copy):
     AbstractStatus(StatusTypes::STATUS_VARIABLEVALUE)
 {
+    this->programName = copy.programName;
+    this->profileName = copy.profileName;
+    this->variableName = copy.variableName;
     this->variableValue = copy.variableValue;
 }
 

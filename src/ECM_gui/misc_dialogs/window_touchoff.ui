@@ -183,7 +183,7 @@ width:20px;
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_TouchoffRef">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_TouchoffRef">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -204,24 +204,18 @@ width:20px;
         </property>
         <property name="font">
          <font>
-          <family>Abyssinica SIL</family>
+          <family>MS Shell Dlg 2</family>
           <pointsize>11</pointsize>
          </font>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
-        <property name="minimum">
-         <number>0</number>
+        <property name="decimals">
+         <number>1</number>
         </property>
         <property name="maximum">
-         <number>10000</number>
-        </property>
-        <property name="singleStep">
-         <number>10</number>
-        </property>
-        <property name="value">
-         <number>0</number>
+         <double>100000.000000000000000</double>
         </property>
        </widget>
       </item>
@@ -338,7 +332,7 @@ width:20px;
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_InitialGap">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_InitialGap">
         <property name="minimumSize">
          <size>
           <width>120</width>
@@ -353,11 +347,17 @@ width:20px;
         </property>
         <property name="font">
          <font>
-          <pointsize>10</pointsize>
+          <pointsize>11</pointsize>
          </font>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="decimals">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <double>100000.000000000000000</double>
         </property>
        </widget>
       </item>

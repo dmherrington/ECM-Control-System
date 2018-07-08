@@ -10,6 +10,11 @@ State_ManualPositioning::State_ManualPositioning():
     this->desiredState = ECMState::STATE_MANUAL_POSITIONING;
 }
 
+void State_ManualPositioning::OnExit()
+{
+    Owner().getAxisStatus(MotorAxis::Z)->stopCode.RemoveNotifier(this);
+}
+
 AbstractStateGalil* State_ManualPositioning::getClone() const
 {
     return (new State_ManualPositioning(*this));
@@ -58,11 +63,11 @@ void State_ManualPositioning::handleCommand(const AbstractCommand* command)
     switch (currentCommand) {
     case CommandType::ABSOLUTE_MOVE:
     {
-        Owner().getAxisStatus(MotorAxis::Z)->axisMoving.AddNotifier(this,[this]
-        {
-            if(Owner().getAxisStatus(MotorAxis::Z)->axisMoving.get())
-                motionFlag = true;
-        });
+//        Owner().getAxisStatus(MotorAxis::Z)->axisMoving.AddNotifier(this,[this]
+//        {
+//            if(Owner().getAxisStatus(MotorAxis::Z)->axisMoving.get())
+//                motionFlag = true;
+//        });
 
         CommandAbsoluteMovePtr castCommand = std::make_shared<CommandAbsoluteMove>(*copyCommand->as<CommandAbsoluteMove>());
         this->clearCommand();
@@ -71,15 +76,20 @@ void State_ManualPositioning::handleCommand(const AbstractCommand* command)
     }
     case CommandType::RELATIVE_MOVE:
     {
-        Owner().getAxisStatus(MotorAxis::Z)->axisMoving.AddNotifier(this,[this]
-        {
-            if(Owner().getAxisStatus(MotorAxis::Z)->axisMoving.get())
-                motionFlag = true;
-        });
+//        Owner().getAxisStatus(MotorAxis::Z)->axisMoving.AddNotifier(this,[this]
+//        {
+//            if(Owner().getAxisStatus(MotorAxis::Z)->axisMoving.get())
+//                motionFlag = true;
+//        });
         CommandRelativeMovePtr castCommand = std::make_shared<CommandRelativeMove>(*copyCommand->as<CommandRelativeMove>());
         this->clearCommand();
         Owner().issueGalilMotionCommand(castCommand);
         break;
+    }
+    case CommandType::MOTOR_OFF:
+    {
+        this->desiredState = ECMState::STATE_MOTION_STOP;
+        this->currentCommand = copyCommand;
     }
     case CommandType::STOP:
     {
@@ -108,22 +118,6 @@ void State_ManualPositioning::Update()
         desiredState = ECMState::STATE_ESTOP;
         return;
     }
-    else if(!Owner().getAxisStatus(MotorAxis::Z)->isAxisinMotion())
-    {
-        //this may get checked to fast and therefore needs a flag to conditionally enable this check once motion has started
-        if(motionFlag)
-        {
-            //the motor is no longer moving, now let us determine why it is no longer moving
-            if(Owner().getAxisStatus(MotorAxis::Z)->stopCode.get().getCode() == 1)
-            {
-                //the motor has come to a stop because it has reached the desired position
-            }
-        }
-    }
-    else
-    {
-        motionFlag = true;
-    }
 }
 
 void State_ManualPositioning::OnEnter()
@@ -135,15 +129,43 @@ void State_ManualPositioning::OnEnter()
 
 void State_ManualPositioning::OnEnter(const AbstractCommand *command)
 {
+    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_MANUAL_POSITIONING));
+
     if(command != nullptr)
     {
-        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_MANUAL_POSITIONING));
+        //Let us establish the callback notification to when the stop code has changed
+        Owner().getAxisStatus(MotorAxis::Z)->stopCode.AddNotifier(this,[this]
+        {
+            int currentStopCode = Owner().getAxisStatus(MotorAxis::Z)->stopCode.get().getCode();
+            switch (currentStopCode) {
+            case 0:
+            {
+                //the machine is still in motion
+                break;
+            }
+            case 1:
+            {
+                //the machine has reached its commanded position
+                desiredState = ECMState::STATE_MOTION_STOP;
+                break;
+            }
+            case 2:
+            case 3:
+            {
+                //the machine has reached a limit switch
+                break;
+            }
+            default:
+                break;
+            }
+        });
+
         //This means there is a command for us to handle
         this->handleCommand(command);
     }
     else{
         //For some reason the command was null. This is an interesting case.
-        this->OnEnter();
+        this->desiredState = ECMState::STATE_READY;
     }
 }
 

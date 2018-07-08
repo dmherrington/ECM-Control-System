@@ -32,7 +32,7 @@ signals:
     void signal_DialogWindowVisibilty(const DialogWindowTypes &type, const bool &visibility) override;
 
 private slots:
-    void slot_OscilliscopeConnectionUpdate(const common::comms::CommunicationConnection &value);
+    void slot_OscilliscopeConnectionUpdate(const common::comms::CommunicationUpdate &value);
 
     void slot_onRadioButtonChange(const data_Rigol::MeasurementTypes &measurement, const bool &checked);
 

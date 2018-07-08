@@ -63,18 +63,22 @@ std::vector<AbstractStatusPtr> RequestTellPosition::getStatus() const
     //as the galil only currently reports a single axis here, we will make the parse easy for now
     QString result = QString::fromStdString(buffer);
     QStringList list = result.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
-    result = list.at(0);
-    result = result.trimmed();
-    if(tellAxis == MotorAxis::ALL)
+
+    if(list.size() > 0)
     {
-        //we will not currently support this
-    }
-    else{
-        Status_PositionPtr position = std::make_shared<Status_Position>();
-        position->setAxis(tellAxis);
-        position->setTime(latestUpdate);
-        position->setPosition(result.toInt());
-       rtn.push_back(position);
+        result = list.at(0);
+        result = result.trimmed();
+        if(tellAxis == MotorAxis::ALL)
+        {
+            //we will not currently support this
+        }
+        else{
+            Status_PositionPtr position = std::make_shared<Status_Position>();
+            position->setAxis(tellAxis);
+            position->setTime(latestUpdate);
+            position->setPosition(result.toInt());
+           rtn.push_back(position);
+        }
     }
 
     return rtn;

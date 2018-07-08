@@ -52,6 +52,7 @@ void SegmentTimeDataGeneral::setSegmentPower(const data_Munk::SegmentPower &powe
 
 void SegmentTimeDataGeneral::setTimeValue(const uint32_t &time)
 {
+    uint32_t resultingTime = time;
     if(time <= 127)
     {
         this->setSegmentPower(data_Munk::SegmentPower::ONE);
@@ -60,11 +61,16 @@ void SegmentTimeDataGeneral::setTimeValue(const uint32_t &time)
     }
     else{
         int result = 1;
-        while(((result * 10) <= 10000) && ((result * 10) <= time))
+        resultingTime = time / result;
+
+        while((((result * 10) <= 10000) && ((result * 10) <= time)) && (resultingTime > 127))
+        {
             result *= 10;
+            resultingTime = time / result;
+        }
 
         this->setSegmentPower(data_Munk::ValueToEquivalentSegmentPower(result));
-        uint32_t resultingTime = time / result;
+        resultingTime = time / result;
 
         if(resultingTime > 127)
         {

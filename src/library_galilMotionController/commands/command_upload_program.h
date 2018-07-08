@@ -41,6 +41,43 @@ public:
     //!
     virtual std::string getCommandString() const override;
 
+
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    CommandUploadProgram& operator = (const CommandUploadProgram &rhs)
+    {
+        AbstractCommand::operator =(rhs);
+        this->program = rhs.program;
+        return *this;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const CommandUploadProgram &rhs)
+    {
+        if(!AbstractCommand::operator ==(rhs)){
+            return false;
+        }
+        if(this->program != rhs.program){
+            return false;
+        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const CommandUploadProgram &rhs) {
+        return !(*this == rhs);
+    }
 private:
     ProgramGeneric program;
 };

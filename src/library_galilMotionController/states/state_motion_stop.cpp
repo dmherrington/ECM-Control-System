@@ -80,9 +80,17 @@ void State_MotionStop::OnEnter()
 {
     Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_MOTION_STOP));
 
-    //The first thing we should do when entering this state is to stop motion of the motor
-    CommandStopPtr castCommand = std::make_shared<CommandStop>(); //the axis is defaulted to Z with no args
-    Owner().issueGalilCommand(castCommand);
+    if(!Owner().isMotorInMotion()) //the exit condition for this state is that the machine motion has stopped on all axis
+    {
+        //If we get into this condition this implies that the machine had already stopped motion
+        //This could be caused by a limit switch being reached, in either case, we should move to the next state
+        desiredState = ECMState::STATE_READY;
+    }else
+    {
+        //The first thing we should do when entering this state is to stop motion of the motor
+        CommandStopPtr castCommand = std::make_shared<CommandStop>(); //the axis is defaulted to Z with no args
+        Owner().issueGalilCommand(castCommand);
+    }
 }
 
 void State_MotionStop::OnEnter(const AbstractCommand* command)

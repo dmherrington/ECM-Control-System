@@ -38,6 +38,47 @@ public:
 
     std::string getProgram() const;
 
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    GalilCurrentProgram& operator = (const GalilCurrentProgram &rhs)
+    {
+        this->program = rhs.program;
+        this->labelList = rhs.labelList;
+        this->variableList = rhs.variableList;
+        return *this;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const GalilCurrentProgram &rhs)
+    {
+        if(this->program != rhs.program){
+            return false;
+        }
+        if(this->labelList != rhs.labelList){
+            return false;
+        }
+        if(this->variableList != rhs.variableList){
+            return false;
+        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const GalilCurrentProgram &rhs) {
+        return !(*this == rhs);
+    }
+
 private:
     std::string program;
     ProgramLabelList labelList;

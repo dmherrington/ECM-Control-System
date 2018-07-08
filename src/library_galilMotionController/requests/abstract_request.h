@@ -32,7 +32,7 @@ ECM_CLASS_FORWARD(AbstractRequest);
 class AbstractRequest
 {
 public:
-    AbstractRequest(const RequestTypes &type, const unsigned int &respSize = 10);
+    AbstractRequest(const RequestTypes &type, const unsigned int &respSize = 12);
 
 
     virtual ~AbstractRequest() = default;

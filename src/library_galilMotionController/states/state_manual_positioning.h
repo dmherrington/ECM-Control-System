@@ -17,6 +17,8 @@ class State_ManualPositioning : public AbstractStateGalil
 public:
     State_ManualPositioning();
 
+    void OnExit() override;
+
 public:
     AbstractStateGalil* getClone() const override;
 
@@ -35,7 +37,7 @@ public:
     void OnEnter(const AbstractCommand *command);
 
 private:
-    bool motionFlag = false;
+
 };
 
 } //end of namespace Galil

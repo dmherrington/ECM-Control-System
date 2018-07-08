@@ -10,6 +10,11 @@ State_Touchoff::State_Touchoff():
     this->desiredState = ECMState::STATE_TOUCHOFF;
 }
 
+void State_Touchoff::OnExit()
+{
+    Owner().statusVariableValues->removeVariableNotifier("touchst",this);
+}
+
 AbstractStateGalil* State_Touchoff::getClone() const
 {
     return (new State_Touchoff(*this));
@@ -55,7 +60,7 @@ hsm::Transition State_Touchoff::GetTransition()
     return rtn;
 }
 
-void State_Touchoff::handleCommand(const AbstractCommand* command)
+void State_Touchoff::]handleCommand(const AbstractCommand* command)
 {
     const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
     this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
@@ -95,10 +100,36 @@ void State_Touchoff::Update()
         //we should therefore transition to the idle state
         desiredState = ECMState::STATE_ESTOP;
     }
+}
 
-    double varValue;    
-    if(Owner().statusVariableValues->getVariableValue("touchof",varValue))
+void State_Touchoff::OnEnter()
+{
+    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_TOUCHOFF));
+    //this shouldn't really happen as how are we supposed to know the actual touchoff command
+    //we therefore are going to do nothing other than change the state back to State_Ready
+    this->desiredState = ECMState::STATE_READY;
+}
+
+void State_Touchoff::OnEnter(const AbstractCommand* command)
+{
+    if(command != nullptr)
     {
+        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_TOUCHOFF));
+
+        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Touchoff Status","touchst");
+        Owner().issueGalilAddPollingRequest(request);
+        this->handleCommand(command);
+    }
+    else{
+        this->OnEnter();
+    }
+}
+
+void State_Touchoff::stateSetup()
+{
+    Owner().statusVariableValues->addVariableNotifier("touchst",this,[this]{
+        double varValue = 0.0;
+        bool valid = Owner().statusVariableValues->getVariableValue("touchst",varValue);
         switch ((int)varValue) {
         case 0:
         {
@@ -118,6 +149,7 @@ void State_Touchoff::Update()
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
             Owner().issueUpdatedMotionProfileState(newProfileState);
+            desiredState = ECMState::STATE_MOTION_STOP;
             break;
         }
         case 2:
@@ -151,35 +183,8 @@ void State_Touchoff::Update()
         default:
             //there is a case condition that does not follow the flow chart
             break;
-        }
-    }
-    else
-    {
-        //this variable doesnt exist so we should abort the touchoff routine
-//        desiredState = ECMState::STATE_MOTION_STOP;
-    }
-}
-
-void State_Touchoff::OnEnter()
-{
-    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_TOUCHOFF));
-    //this shouldn't really happen as how are we supposed to know the actual touchoff command
-    //we therefore are going to do nothing other than change the state back to State_Ready
-    this->desiredState = ECMState::STATE_READY;
-}
-
-void State_Touchoff::OnEnter(const AbstractCommand* command)
-{
-    if(command != nullptr)
-    {
-        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_TOUCHOFF));
-        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Touchoff Status","touchst");
-        Owner().issueGalilAddPollingRequest(request);
-        this->handleCommand(command);
-    }
-    else{
-        this->OnEnter();
-    }
+        } //end of switch statement
+    });
 }
 
 } //end of namespace Galil

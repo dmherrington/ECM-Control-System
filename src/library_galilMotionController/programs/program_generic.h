@@ -25,9 +25,39 @@ public:
 
     std::string buildProgram() const;
 
-private:
-    std::map<std::string, ProgramGenericProfile> profileMap;
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    ProgramGeneric& operator = (const ProgramGeneric &rhs)
+    {
+        this->programString = rhs.programString;
+        return *this;
+    }
 
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const ProgramGeneric &rhs)
+    {
+        if(this->programString != rhs.programString){
+            return false;
+        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const ProgramGeneric &rhs) {
+        return !(*this == rhs);
+    }
+private:
     std::string programString;
 
 };

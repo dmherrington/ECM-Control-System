@@ -1,8 +1,11 @@
 #include "galil_state_interface.h"
 
 GalilStateInterface::GalilStateInterface(const std::vector<MotorAxis> &availableAxis):
-    m_CB(nullptr)
+    m_CB(nullptr), statusVariableValues(nullptr)
 {
+    galilProgram = new GalilCurrentProgram();
+    statusVariableValues = new ProgramVariableValueList();
+
     //we should perform some sort of check to ensure that the vector does not contain all
     //if we see one all, just iterate through all available axis and clear original ones
     //leading up to it
@@ -28,10 +31,13 @@ GalilStateInterface::~GalilStateInterface()
 
 GalilStatus* GalilStateInterface::getAxisStatus(const MotorAxis &axis)
 {
-    if(mStatus.count(axis))
+    try{
         return mStatus.at(axis);
-    else
+    }catch(std::out_of_range &oor)
+    {
+        std::cout<<"We tried to get an Axis Status that does not exist yet."<<std::endl;
         return nullptr;
+    }
 }
 
 

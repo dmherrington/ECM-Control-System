@@ -52,6 +52,12 @@ void CommsMarshaler::sendAbstractGalilCommand(const AbstractCommandPtr command)
 {
     std::cout<<"Lets send an abstract galil command"<<std::endl;
 
+//    if(!isConnected)
+//    {
+//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot execute command.");});
+//        return;
+//    }
+
     auto func = [this, command]() {
             protocol->SendProtocolCommand(link.get(), command);
     };
@@ -63,6 +69,12 @@ void CommsMarshaler::sendAbstractGalilMotionCommand(const AbstractCommandPtr com
 {
     std::cout<<"Lets send an abstract galil motion command"<<std::endl;
 
+//    if(!isConnected)
+//    {
+//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot execute motion command.");});
+//        return;
+//    }
+
     auto func = [this, command]() {
             protocol->SendProtocolMotionCommand(link.get(), command);
     };
@@ -72,6 +84,12 @@ void CommsMarshaler::sendAbstractGalilMotionCommand(const AbstractCommandPtr com
 
 void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request)
 {
+//    if(!isConnected)
+//    {
+//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot send request.");});
+//        return;
+//    }
+
     auto func = [this, request]() {
             protocol->SendProtocolRequest(link.get(), request);
     };
@@ -83,6 +101,13 @@ void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request)
 void CommsMarshaler::sendGalilProfileExecution(const AbstractCommandPtr &command)
 {
     std::cout<<"Lets send an request to execute a specific galil profile."<<std::endl;
+
+//    if(!isConnected)
+//    {
+//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot execute profile.");});
+//        return;
+//    }
+
     auto func = [this, command]() {
         protocol->ExecuteProfile(link.get(), command);
     };
@@ -93,6 +118,13 @@ void CommsMarshaler::sendGalilProfileExecution(const AbstractCommandPtr &command
 void CommsMarshaler::sendGalilControllerGains(const CommandControllerGain &command)
 {
     std::cout<<"Lets send an request to to update the controller gains."<<std::endl;
+
+//    if(!isConnected)
+//    {
+//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot update controller gains.");});
+//        return;
+//    }
+
     auto func = [this, command]() {
         protocol->SendProtocolGainCommand(link.get(),command);
     };
@@ -101,6 +133,12 @@ void CommsMarshaler::sendGalilControllerGains(const CommandControllerGain &comma
 
 void CommsMarshaler::uploadProgram(const AbstractCommandPtr uploadCommand) const
 {
+//    if(!isConnected)
+//    {
+//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot upload program.");});
+//        return;
+//    }
+
     auto func = [this, uploadCommand] () {
         protocol->UploadNewProgram(link.get(), uploadCommand);
     };
@@ -109,6 +147,12 @@ void CommsMarshaler::uploadProgram(const AbstractCommandPtr uploadCommand) const
 
 void CommsMarshaler::downloadProgram(const AbstractCommandPtr downloadCommand) const
 {
+//    if(!isConnected)
+//    {
+//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot download program.");});
+//        return;
+//    }
+
     auto func = [this, downloadCommand] () {
         protocol->DownloadCurrentProgram(link.get(), downloadCommand);
     };

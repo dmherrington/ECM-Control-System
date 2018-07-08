@@ -56,6 +56,43 @@ public:
 public:
     std::string getCommandString() const override;
 
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    CommandAbsoluteMove& operator = (const CommandAbsoluteMove &rhs)
+    {
+        AbstractMoveCommand::operator =(rhs);
+        this->absoluteMove = rhs.absoluteMove;
+        return *this;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const CommandAbsoluteMove &rhs)
+    {
+        if(!AbstractMoveCommand::operator ==(rhs)){
+            return false;
+        }
+        if(this->absoluteMove != rhs.absoluteMove){
+            return false;
+        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const CommandAbsoluteMove &rhs) {
+        return !(*this == rhs);
+    }
+
 private:
     std::map<MotorAxis, int> absoluteMove; /**< Value of the relative move */
 };

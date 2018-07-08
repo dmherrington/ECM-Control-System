@@ -42,8 +42,10 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     ui->widget_primaryPlot->SupplyPlotCollection(&m_PlotCollection);
     ui->widget_primaryPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
 
+    ui->widget_LEDHomeIndicated->setDiameter(5);
     ui->widget_LEDEStop_DIO->setDiameter(5);
     ui->widget_LEDTouchoff_DIO->setDiameter(5);
+    ui->widget_LEDTouchoffEstablished->setDiameter(5);
 
     m_API = new ECM_API();
     m_API->m_Log->setLoggingStartTime(startTime);
@@ -59,14 +61,14 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     m_WindowMunk = new Window_MunkPowerSupply(m_API->m_Munk);
     m_WindowMunk->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
-    //connect(m_WindowMunk,SIGNAL(GeneralDialogWindow::signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
+    connect(m_WindowMunk,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
     m_WindowPump = new Window_PumpControl(m_API->m_Pump);
     m_WindowPump->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
 
     m_WindowRigol = new Window_RigolControl(m_API->m_Rigol);
     m_WindowRigol->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
-    //connect(m_WindowRigol,SIGNAL(signal_onRigolWindowChanged(bool)),this,SLOT());
+    connect(m_WindowRigol,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
     m_WindowTouchoff = new Window_Touchoff(m_API->m_Galil);
     m_WindowTouchoff->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
@@ -193,11 +195,16 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &senso
 
 void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state)
 {
+    ui->lineEdit_MachinePosition->setText(QString::number(state.getPositionalState()->getAxisPosition()));
 
     m_PlotCollection.UpdatePositionalStatePlots(tuple,state);
+//    m_SensorDisplays.UpdateNonPlottedData(tuple,state);
+//    m_additionalSensorDisplay->UpdateNonPlottedData(tuple,state);
+
     QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(tuple);
     ui->widget_primaryPlot->RedrawDataSource(plots);
-
+//    m_SensorDisplays.PlottedDataUpdated(state); //this seems to be uneeded based on the call after this
+//    m_additionalSensorDisplay->UpdatePlottedData(state);
 
     //The OLD way of storing the data is here
 //    common::TupleSensorString tupleSensor;
@@ -290,6 +297,7 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
     m_WindowRigol->close();
     m_WindowTouchoff->close();
 
+    m_DialogConnections->close();
     m_additionalSensorDisplay->close();
 
     event->accept();
@@ -338,19 +346,19 @@ void ECMControllerGUI::on_doubleSpinBox_StepSize_editingFinished()
 
 void ECMControllerGUI::on_spinBox_RetractSpeed_editingFinished()
 {
-    Command_Variable command("backsp",ui->spinBox_CutSpeed->value());
+    Command_Variable command("backsp",ui->spinBox_RetractSpeed->value());
     m_API->m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_spinBox_PlungeSpeed_editingFinished()
 {
-    Command_Variable command("forsp",ui->spinBox_CutSpeed->value());
+    Command_Variable command("forsp",ui->spinBox_PlungeSpeed->value());
     m_API->m_Galil->executeCommand(&command);
 }
 
-void ECMControllerGUI::on_spinBox_CutSpeed_editingFinished()
+void ECMControllerGUI::on_doubleSpinBox_CutSpeed_editingFinished()
 {
-    Command_Variable command("speed",ui->spinBox_CutSpeed->value());
+    Command_Variable command("speed",ui->doubleSpinBox_CutSpeed->value());
     m_API->m_Galil->executeCommand(&command);
 }
 
@@ -372,6 +380,7 @@ void ECMControllerGUI::on_spinBox_Pause_editingFinished()
 
 void ECMControllerGUI::on_pushButton_IncreaseJog_pressed()
 {
+    std::cout<<"Pushbutton increase jog pressed."<<std::endl;
     int jogRate = abs(ui->spinBox_Jog->value()) * (-1);
     CommandJog beginJog(MotorAxis::Z,jogRate);
     m_API->m_Galil->executeCommand(&beginJog);
@@ -379,12 +388,14 @@ void ECMControllerGUI::on_pushButton_IncreaseJog_pressed()
 
 void ECMControllerGUI::on_pushButton_IncreaseJog_released()
 {
+    std::cout<<"Pushbutton increase jog released."<<std::endl;
     CommandStop stop(MotorAxis::Z);
     m_API->m_Galil->executeCommand(&stop);
 }
 
 void ECMControllerGUI::on_pushButton_DecreaseJog_pressed()
 {
+    std::cout<<"Pushbutton decrease jog released pressed."<<std::endl;
     int jogRate = abs(ui->spinBox_Jog->value());
     CommandJog beginJog(MotorAxis::Z,jogRate);
     m_API->m_Galil->executeCommand(&beginJog);
@@ -392,6 +403,7 @@ void ECMControllerGUI::on_pushButton_DecreaseJog_pressed()
 
 void ECMControllerGUI::on_pushButton_DecreaseJog_released()
 {
+    std::cout<<"Pushbutton decrease jog released."<<std::endl;
     CommandStop stop(MotorAxis::Z);
     m_API->m_Galil->executeCommand(&stop);
 }
@@ -579,3 +591,11 @@ void ECMControllerGUI::slot_ChangedWindowVisibility(const GeneralDialogWindow::D
     }
 }
 
+
+void ECMControllerGUI::on_actionTouchoff_triggered(bool checked)
+{
+    if(checked)
+        m_WindowTouchoff->show();
+    else
+        m_WindowTouchoff->hide();
+}

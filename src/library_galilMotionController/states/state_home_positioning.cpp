@@ -10,6 +10,11 @@ State_HomePositioning::State_HomePositioning():
     this->desiredState = ECMState::STATE_HOME_POSITIONING;
 }
 
+void State_HomePositioning::OnExit()
+{
+    Owner().statusVariableValues->removeVariableNotifier("homest",this);
+}
+
 AbstractStateGalil* State_HomePositioning::getClone() const
 {
     return (new State_HomePositioning(*this));
@@ -26,11 +31,16 @@ hsm::Transition State_HomePositioning::GetTransition()
 
     if(currentState != desiredState)
     {
-//        Owner().issueGalilRemovePollingRequest("homest"); This should be completed onExit
+        //        Owner().issueGalilRemovePollingRequest("homest"); This should be completed onExit
 
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
+        case ECMState::STATE_READY:
+        {
+            rtn = hsm::SiblingTransition<State_Ready>();
+            break;
+        }
         case ECMState::STATE_MOTION_STOP:
         {
             rtn = hsm::SiblingTransition<State_MotionStop>();
@@ -58,8 +68,36 @@ void State_HomePositioning::handleCommand(const AbstractCommand* command)
     switch (currentCommand) {
     case CommandType::EXECUTE_PROGRAM:
     {
+        Owner().statusVariableValues->addVariableNotifier("homest",this,[this]{
+            double varValue = 0.0;
+            bool valid = Owner().statusVariableValues->getVariableValue("homest",varValue);
+            switch ((int)varValue) {
+            case 0:
+            {
+                //continue searching for home
+                ProfileState_Homing newState("Homing Routine", "homest");
+                newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE);
+                MotionProfileState newProfileState;
+                newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
+                Owner().issueUpdatedMotionProfileState(newProfileState);
+                break;
+            }
+            case 1:
+            {
+                Owner().setHomeInidcated(true);
+                //a home position has been found
+                ProfileState_Homing newState("Homing Routine", "homest");
+                newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::COMPLETE);
+                MotionProfileState newProfileState;
+                newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
+                Owner().issueUpdatedMotionProfileState(newProfileState);
+                desiredState = ECMState::STATE_READY;
+                break;
+            }
+            } //end of switch statement
+        });
         CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*copyCommand->as<CommandExecuteProfile>());
-        Owner().issueGalilMotionCommand(castCommand);
+        Owner().issueGalilCommand(castCommand); //this will not be considered a motion command as the profile contains the BG parameters
         break;
     }
     case CommandType::STOP:
@@ -89,41 +127,6 @@ void State_HomePositioning::Update()
         //we should therefore transition to the idle state
         desiredState = ECMState::STATE_ESTOP;
     }
-
-    double varValue;
-    if(Owner().statusVariableValues->getVariableValue("homest",varValue))
-    {
-        switch ((int)varValue) {
-        case 0:
-        {
-            processFlag = true;
-            //continue searching for home
-            ProfileState_Homing newState("Homing Routine", "homest");
-            newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE);
-            MotionProfileState newProfileState;
-            newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
-            Owner().issueUpdatedMotionProfileState(newProfileState);
-            break;
-        }
-        case 1:
-        {
-            if(processFlag)
-            {
-                Owner().setHomeInidcated(true);
-                //a home position has been found
-                ProfileState_Homing newState("Homing Routine", "homest");
-                newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::COMPLETE);
-                MotionProfileState newProfileState;
-                newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
-                Owner().issueUpdatedMotionProfileState(newProfileState);
-            }
-            break;
-        }
-        default:
-            //there is a case condition that does not follow the flow chart
-            break;
-        }
-    }
 }
 
 void State_HomePositioning::OnEnter()
@@ -144,6 +147,8 @@ void State_HomePositioning::OnEnter(const AbstractCommand* command)
     {
         Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_HOME_POSITIONING));
         Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Home Status","homest");
+        common::TupleProfileVariableString tupleVariable("Default","Homing","homest");
+        request->setTupleDescription(tupleVariable);
         Owner().issueGalilAddPollingRequest(request);
 
         this->handleCommand(command);

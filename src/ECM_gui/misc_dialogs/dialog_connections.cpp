@@ -7,7 +7,7 @@ Dialog_Connections::Dialog_Connections(ECM_API *obj, QWidget *parent) :
     ui(new Ui::Dialog_Connections)
 {
     ui->setupUi(this);
-    double ledDiameter = 6;
+    double ledDiameter = 4;
     ui->widget_GalilConnection->setDiameter(ledDiameter);
     ui->widget_GalilConnection->setColor(QColor(255,0,0));
     ui->widget_MunkConnection->setDiameter(ledDiameter);
@@ -48,22 +48,22 @@ void Dialog_Connections::slot_SensorayConnectionUpdate(const common::comms::Comm
 
 void Dialog_Connections::slot_PumpConnectionUpdate(const common::comms::CommunicationUpdate &update)
 {
-    this->updateLEDConnectionColor(ui->widget_SensorayConnection,update);
+    this->updateLEDConnectionColor(ui->widget_WestinghouseConnection,update);
 }
 
 void Dialog_Connections::slot_RigolConnectionUpdate(const common::comms::CommunicationUpdate &update)
 {
-    this->updateLEDConnectionColor(ui->widget_SensorayConnection,update);
+    this->updateLEDConnectionColor(ui->widget_RigolConnection,update);
 }
 
 void Dialog_Connections::slot_MunkConnectionUpdate(const common::comms::CommunicationUpdate &update)
 {
-    this->updateLEDConnectionColor(ui->widget_SensorayConnection,update);
+    this->updateLEDConnectionColor(ui->widget_MunkConnection,update);
 }
 
 void Dialog_Connections::slot_GalilConnectionUpdate(const common::comms::CommunicationUpdate &update)
 {
-    this->updateLEDConnectionColor(ui->widget_SensorayConnection,update);
+    this->updateLEDConnectionColor(ui->widget_GalilConnection,update);
 }
 
 void Dialog_Connections::on_pushButton_connectSensoray_released()
@@ -84,7 +84,7 @@ void Dialog_Connections::on_pushButton_connect_Rigol_released()
 
 void Dialog_Connections::on_pushButton_connectMunk_released()
 {
-    m_API->m_Munk->openSerialPort("COM8");
+    m_API->m_Munk->openSerialPort("COM15");
 }
 
 void Dialog_Connections::on_pushButton_connectGalil_released()

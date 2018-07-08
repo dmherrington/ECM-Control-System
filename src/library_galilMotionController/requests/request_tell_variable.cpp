@@ -72,12 +72,17 @@ std::vector<AbstractStatusPtr> Request_TellVariable::getStatus() const
     std::vector<AbstractStatusPtr> rtn;
     QString result = QString::fromStdString(buffer);
     QStringList list = result.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
-    result = list.at(0);
-    result = result.trimmed();
 
-    Status_VariableValuePtr status = std::make_shared<Status_VariableValue>(result.toDouble());
-    status->setVariableName(this->variableName);
-    status->setTime(latestUpdate);
-    rtn.push_back(status);
+    if(list.size() > 0)
+    {
+        result = list.at(0);
+        result = result.trimmed();
+
+        Status_VariableValuePtr status = std::make_shared<Status_VariableValue>(result.toDouble());
+        status->setVariableName(this->variableName);
+        status->setTime(latestUpdate);
+        rtn.push_back(status);
+    }
+
     return rtn;
 }

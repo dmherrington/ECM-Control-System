@@ -10,21 +10,17 @@ template <typename T>
 class DataGetSetNotifier
 {
 public:
-
-    DataGetSetNotifier() = default;
-
-    DataGetSetNotifier(const DataGetSetNotifier<T> &copy)
+    DataGetSetNotifier()  :
+        m_BeenSet(false)
     {
-        this->set(copy.get());
-    }
 
-    ~DataGetSetNotifier()
-    {
-        this->ClearNotifiers();
     }
 
     void AddNotifier(void* obj, const std::function<void()> func) {
         std::lock_guard<std::mutex> guardData(m_NotifierListMutex);
+
+        //m_NotifierListMutex.lock();
+        //std::lock lock(m_NotifierListMutex);
 
         if(m_Funcs.find(obj) == m_Funcs.cend()) {
             m_Funcs.insert({obj, func});
@@ -32,9 +28,12 @@ public:
         else {
             m_Funcs[obj] = func;
         }
+
+        //m_NotifierListMutex.unlock();
     }
 
     void RemoveNotifier(void* obj) {
+        //std::lock lock(m_NotifierListMutex);
         std::lock_guard<std::mutex> guardNotifier(m_NotifierListMutex);
 
         if(m_Funcs.find(obj) != m_Funcs.cend()) {
@@ -42,20 +41,23 @@ public:
         }
     }
 
-    void ClearNotifiers()
+    bool hasBeenSet() const
     {
-        std::lock_guard<std::mutex> guardNotifier(m_NotifierListMutex);
-        m_Funcs.clear();
+        return m_BeenSet;
     }
 
     bool set(const T &data) {
-        std::lock_guard<std::mutex> guardData(m_AccessMutex);
-
-        if(m_Data == data) {
+        //std::lock_guard<std::mutex> guardData(m_AccessMutex);
+        m_AccessMutex.lock();
+        if(m_BeenSet == true && m_Data == data) {
+            m_AccessMutex.unlock();
             return false;
         }
 
         m_Data = data;
+        m_BeenSet = true;
+        m_AccessMutex.unlock();
+
 
         std::lock_guard<std::mutex> guardNotifier(m_NotifierListMutex);
         for(auto it = m_Funcs.cbegin() ; it != m_Funcs.cend() ; ++it) {
@@ -67,6 +69,7 @@ public:
 
     T get() const {
         std::lock_guard<std::mutex> guardData(m_AccessMutex);
+        //std::lock lock(m_AccessMutex);
         return m_Data;
     }
 
@@ -77,9 +80,9 @@ public:
 private:
     std::unordered_map<void*, std::function<void()>> m_Funcs;
     T m_Data;
+    bool m_BeenSet;
     mutable std::mutex m_AccessMutex;
     mutable std::mutex m_NotifierListMutex;
 };
-
 
 #endif // DATA_NOTIFIER_H
