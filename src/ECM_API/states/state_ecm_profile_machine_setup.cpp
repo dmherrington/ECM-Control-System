@@ -45,7 +45,7 @@ hsm::Transition ECMState_MachineSetup::GetTransition()
             break;
         }
         default:
-            std::cout<<"I dont know how we eneded up in this transition state from state script execution."<<std::endl;
+            std::cout<<"I dont know how we eneded up in this transition state from "<<ECMStateToString(this->currentState)<<"."<<std::endl;
             break;
         }
     }
@@ -54,31 +54,17 @@ hsm::Transition ECMState_MachineSetup::GetTransition()
 
 void ECMState_MachineSetup::Update()
 {
-    //Check the status of the estop state
-    bool eStopState = this->checkEStop();
-    if(eStopState == true)
-    {
-        //this means that the estop button has been cleared
-        //we should therefore transition to the idle state
-        desiredState = ECMState::STATE_ESTOP;
-    }
+
 }
 
 void ECMState_MachineSetup::OnExit()
 {
-    //Ken we need to remove the polling measurements here
-    //Owner().issueGalilRemovePollingRequest("ppos");
-    Owner().statusVariableValues->removeVariable("ppos");
-    //Owner().issueGalilRemovePollingRequest("cutdone");
-    Owner().statusVariableValues->removeVariable("cutdone");
+
 }
 
 void ECMState_MachineSetup::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_SCRIPT_EXECUTION));
-    //this shouldn't really happen as how are we supposed to know the the actual profile to execute
-    //we therefore are going to do nothing other than change the state back to State_Ready
-    desiredState = ECMState::STATE_READY;
+
 }
 
 } //end of namespace Galil

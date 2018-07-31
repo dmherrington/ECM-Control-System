@@ -45,7 +45,7 @@ hsm::Transition ECMState_TouchoffExecute::GetTransition()
             break;
         }
         default:
-            std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
+            std::cout<<"I dont know how we eneded up in this transition state from "<<ECMStateToString(this->currentState)<<"."<<std::endl;
             break;
         }
     }
@@ -55,22 +55,12 @@ hsm::Transition ECMState_TouchoffExecute::GetTransition()
 
 void ECMState_TouchoffExecute::Update()
 {
-    //Check the status of the estop state
-    bool eStopState = this->checkEStop();
-    if(eStopState == true)
-    {
-        //this means that the estop button has been cleared
-        //we should therefore transition to the idle state
-        desiredState = ECMState::STATE_ESTOP;
-        return;
-    }
+
 }
 
 void ECMState_TouchoffExecute::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_MANUAL_POSITIONING));
-    //For some reason no command was passed to this case. This is an interesting case.
-    this->desiredState = ECMState::STATE_READY;
+
 }
 
 } //end of namespace Galil

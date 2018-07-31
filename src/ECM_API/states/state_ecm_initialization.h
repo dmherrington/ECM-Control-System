@@ -1,5 +1,5 @@
-#ifndef STATE_ECM_SETUP_H
-#define STATE_ECM_SETUP_H
+#ifndef STATE_ECM_INITIALIZATION_H
+#define STATE_ECM_INITIALIZATION_H
 
 #include "states/state_abstract_ecm_process.h"
 
@@ -28,10 +28,10 @@ ECM_CLASS_FORWARD(ECMState_Setup);
 class ECMState_Idle;
 class ECMState_PowerSupplySetup;
 
-class ECMState_Setup : public AbstractStateECMProcess
+class ECMState_Initialization : public AbstractStateECMProcess
 {
 public:
-    ECMState_Setup();
+    ECMState_Initialization();
 
 public:
     AbstractStateECMProcess* getClone() const override;
@@ -51,4 +51,4 @@ public:
 } //end of namespace API
 } //end of namespace ECM
 
-#endif // STATE_ECM_SETUP_H
+#endif // STATE_ECM_INITIALIZATION_H

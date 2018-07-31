@@ -42,12 +42,12 @@ SOURCES += \
     states/state_ecm_profile_machine_process.cpp \
     states/state_ecm_profile_machine_setup.cpp \
     states/state_ecm_pump_setup.cpp \
-    states/state_ecm_setup.cpp \
     states/state_ecm_touchoff.cpp \
     states/state_ecm_touchoff_disable.cpp \
     states/state_ecm_touchoff_enable.cpp \
     states/state_ecm_touchoff_execute.cpp \
-    states/state_ecm_idle.cpp
+    states/state_ecm_idle.cpp \
+    states/state_ecm_initialization.cpp
 
 HEADERS += \
         ecm_api.h \
@@ -62,13 +62,13 @@ HEADERS += \
     states/state_ecm_profile_machine_process.h \
     states/state_ecm_profile_machine_setup.h \
     states/state_ecm_pump_setup.h \
-    states/state_ecm_setup.h \
     states/state_ecm_touchoff.h \
     states/state_ecm_touchoff_disable.h \
     states/state_ecm_touchoff_enable.h \
     states/state_ecm_touchoff_execute.h \
     states/state_ecm_types.h \
-    states/state_ecm_idle.h
+    states/state_ecm_idle.h \
+    states/state_ecm_initialization.h
 
 # Unix lib Install
 unix:!symbian {

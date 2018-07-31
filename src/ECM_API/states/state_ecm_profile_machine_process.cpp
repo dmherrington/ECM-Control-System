@@ -52,7 +52,7 @@ hsm::Transition ECMState_ProfileMachineProcess::GetTransition()
             break;
         }
         default:
-            std::cout<<"I dont know how we eneded up in this transition state from STATE_TOUCHOFF."<<std::endl;
+            std::cout<<"I dont know how we eneded up in this transition state from "<<ECMStateToString(this->currentState)<<"."<<std::endl;
             break;
         }
     }
@@ -62,38 +62,14 @@ hsm::Transition ECMState_ProfileMachineProcess::GetTransition()
 
 void ECMState_ProfileMachineProcess::Update()
 {
-    //Check the status of the estop state
-    bool eStopState = this->checkEStop();
-    if(eStopState == true)
-    {
-        //this means that the estop button has been cleared
-        //we should therefore transition to the idle state
-        desiredState = ECMState::STATE_ESTOP;
-    }
+
 }
 
 void ECMState_ProfileMachineProcess::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_TOUCHOFF));
-    //this shouldn't really happen as how are we supposed to know the actual touchoff command
-    //we therefore are going to do nothing other than change the state back to State_Ready
-    this->desiredState = ECMState::STATE_READY;
+
 }
 
-void ECMState_ProfileMachineProcess::OnEnter(const AbstractCommand* command)
-{
-    if(command != nullptr)
-    {
-        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_TOUCHOFF));
-
-        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Touchoff Status","touchst");
-        Owner().issueGalilAddPollingRequest(request);
-        this->handleCommand(command);
-    }
-    else{
-        this->OnEnter();
-    }
-}
 
 } //end of namespace Galil
 } //end of namespace ECM

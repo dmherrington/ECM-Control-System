@@ -75,41 +75,16 @@ hsm::Transition ECMState_PumpSetup::GetTransition()
 
 void ECMState_PumpSetup::Update()
 {
-    //Check the status of the estop state
-    bool eStopState = this->checkEStop();
-    if(eStopState == true)
-    {
-        //this means that the estop button has been cleared
-        //we should therefore transition to the idle state
-        desiredState = ECMState::STATE_ESTOP;
-    }
+
 }
 
 void ECMState_PumpSetup::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_READY));
-    //The first thing we should do when entering this state is to engage the motor
-    //Let us check to see if the motor is already armed, if not, follow through with the command
 
-    if(!Owner().isMotorEnabled())
-    {
-        CommandMotorEnablePtr command = std::make_shared<CommandMotorEnable>();
-        command->setEnableAxis(MotorAxis::Z);
-        Owner().issueGalilCommand(command);
-    }
-
-    //Next we should establish the necessary gains for motion within this state
-    CommandControllerGain command;
-    Owner().issueGalilControllerGains(command);
 }
 
 } //end of namespace Galil
 } //end of namespace ECM
 
-#include "states/state_home_positioning.h"
-#include "states/state_jogging.h"
-#include "states/state_manual_positioning.h"
-#include "states/state_script_execution.h"
-#include "states/state_touchoff.h"
-#include "states/state_estop.h"
-#include "states/state_ready_stop.h"
+#include "states/state_ecm_idle.h"
+#include "states/state_ecm_profile_machine.h"

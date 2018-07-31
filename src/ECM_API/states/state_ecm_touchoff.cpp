@@ -26,23 +26,44 @@ hsm::Transition ECMState_Touchoff::GetTransition()
 
     if(currentState != desiredState)
     {
-        //this means we want to chage the state for some reason
-        //now initiate the state transition to the correct class
-        switch (desiredState) {
-        case ECMState::STATE_READY:
+        if(IsInInnerState<State_TakeoffComplete>())
         {
-            rtn = hsm::SiblingTransition<ECMState_PumpSetup>(this->currentCommand);
-            break;
+            rtn = hsm::SiblingTransition<State_Flight>();
         }
-        case ECMState::STATE_ESTOP:
+        else if()
         {
-            rtn = hsm::SiblingTransition<ECMState_Setup>();
-            break;
+
         }
-        default:
-            std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
-            break;
-        }
+        else
+        {
+            //this means we want to chage the state for some reason
+            //now initiate the state transition to the correct class
+            switch (desiredState) {
+            case ECMState::STATE_ECM_IDLE:
+            {
+                rtn = hsm::InnerEntryTransition<ECMState_Idle>();
+                break;
+            }
+            case ECMState::STATE_ECM_TOUCHOFF_ENABLE:
+            {
+                rtn = hsm::InnerEntryTransition<ECMState_TouchoffEnable>();
+                break;
+            }
+            case ECMState::STATE_ECM_TOUCHOFF_EXECUTE:
+            {
+                rtn = hsm::InnerEntryTransition<ECMState_TouchoffExecute>();
+                break;
+            }
+            case ECMState::STATE_ECM_TOUCHOFF_DISABLE:
+            {
+                rtn = hsm::InnerEntryTransition<ECMState_TouchoffDisable>();
+                break;
+            }
+            default:
+                std::cout<<"I dont know how we eneded up in this transition state from "<<ECMStateToString(this->currentState)<<"."<<std::endl;
+                break;
+            }
+        } //end of else statement
     }
 
     return rtn;
@@ -50,37 +71,19 @@ hsm::Transition ECMState_Touchoff::GetTransition()
 
 void ECMState_Touchoff::Update()
 {
-    //Check the status of the estop state
-    if(this->checkEStop())
-    {
-        //this means that the estop button has been cleared
-        //we should therefore transition to STATE_ESTOP
-        desiredState = ECMState::STATE_ESTOP;
-    }
-    else if(Owner().isMotorEnabled() || Owner().isMotorInMotion())
-        desiredState = ECMState::STATE_READY;
+
 }
 
 void ECMState_Touchoff::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_IDLE));
 
-    //The first thing we should do when entering this state is to disable the motor
-    //To get to this state, it should be noted that we should have already transitioned through
-    //the stop state, or motion on the motor has already ceased
-    //Let us check to see if the motor is already disabled, if not, follow through with the command
-    if(Owner().isMotorEnabled())
-    {
-        CommandMotorDisablePtr castCommand = std::make_shared<CommandMotorDisable>();
-        Owner().issueGalilCommand(castCommand);
-    }
-
-    //Update the state to indicate that the previous home indication is no longer valid
-    Owner().setHomeInidcated(false);
 }
 
 } //end of namespace Galil
 } //end of namespace ECM
 
-#include "states/state_ready.h"
-#include "states/state_estop.h"
+#include "states/state_ecm_idle.h"
+#include "states/state_ecm_touchoff_disable.h"
+#include "states/state_ecm_touchoff_enable.h"
+#include "states/state_ecm_touchoff_execute.h"
+#include "states/state_ecm_pump_setup.h"

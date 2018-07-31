@@ -26,7 +26,7 @@ namespace API {
 
 ECM_CLASS_FORWARD(ECMState_Idle);
 
-class ECMState_Setup;
+class ECMState_Initialization;
 
 class ECMState_Idle : public AbstractStateECMProcess
 {
@@ -47,8 +47,6 @@ public:
     void Update() override;
 
     void OnEnter() override;
-
-private:
 
 };
 

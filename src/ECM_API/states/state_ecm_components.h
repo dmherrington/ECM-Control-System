@@ -24,7 +24,7 @@
 #include "ECM_API/states/state_ecm_profile_machine_cease.h"
 #include "ECM_API/states/state_ecm_profile_machine_process.h"
 #include "ECM_API/states/state_ecm_profile_machine_setup.h"
-#include "ECM_API/states/state_ecm_setup.h"
+#include "ECM_API/states/state_ecm_initialization.h"
 #include "ECM_API/states/state_ecm_touchoff.h"
 #include "ECM_API/states/state_ecm_touchoff_disable.h"
 #include "ECM_API/states/state_ecm_touchoff_enable.h"

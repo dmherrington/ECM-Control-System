@@ -31,27 +31,21 @@ hsm::Transition ECMState_PowerSupplySetup::GetTransition()
 
     if(currentState != desiredState)
     {
-        //        Owner().issueGalilRemovePollingRequest("homest"); This should be completed onExit
-
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_READY:
+        case ECMState::STATE_ECM_IDLE:
         {
-            rtn = hsm::SiblingTransition<ECMState_PumpSetup>();
+            rtn = hsm::SiblingTransition<ECMState_Idle>();
             break;
         }
-        case ECMState::STATE_MOTION_STOP:
+        case ECMState::STATE_ECM_TOUCHOFF:
         {
-            rtn = hsm::SiblingTransition<ECMState_TouchoffDisable>();
+            rtn = hsm::SiblingTransition<ECMState_Touchoff>();
             break;
-        }
-        case ECMState::STATE_ESTOP:
-        {
-            rtn = hsm::SiblingTransition<ECMState_Setup>();
         }
         default:
-            std::cout<<"I dont know how we eneded up in this transition state from State_HomePositioning."<<std::endl;
+            std::cout<<"I dont know how we eneded up in this transition state from "<<ECMStateToString(this->currentState)<<"."<<std::endl;
             break;
         }
     }
@@ -61,27 +55,16 @@ hsm::Transition ECMState_PowerSupplySetup::GetTransition()
 
 void ECMState_PowerSupplySetup::Update()
 {
-    //Check the status of the estop state
-    bool eStopState = this->checkEStop();
-    if(eStopState == true)
-    {
-        //this means that the estop button has been cleared
-        //we should therefore transition to the idle state
-        desiredState = ECMState::STATE_ESTOP;
-    }
+
 }
 
 void ECMState_PowerSupplySetup::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_HOME_POSITIONING));
-    //this shouldn't really happen as how are we supposed to know the actual home position command
-    //we therefore are going to do nothing other than change the state back to State_Ready
-    this->desiredState = ECMState::STATE_READY;
+
 }
 
 } //end of namespace Galil
 } //end of namespace ECM
 
-#include "states/state_ready.h"
-#include "states/state_motion_stop.h"
-#include "states/state_estop.h"
+#include "states/state_ecm_idle.h"
+#include "states/state_ecm_touchoff.h"
