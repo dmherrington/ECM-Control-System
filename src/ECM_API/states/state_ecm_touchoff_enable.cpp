@@ -1,26 +1,26 @@
-#include "state_jogging.h"
+#include "state_ecm_touchoff_enable.h"
 
 namespace ECM{
-namespace Galil {
+namespace API {
 
-State_Jogging::State_Jogging():
-    AbstractStateGalil()
+ECMState_TouchoffEnable::ECMState_TouchoffEnable():
+    AbstractStateECMProcess()
 {
-    this->currentState = GalilState::STATE_JOGGING;
-    this->desiredState = GalilState::STATE_JOGGING;
+    this->currentState = ECMState::STATE_ECM_TOUCHOFF_DISABLE;
+    this->desiredState = ECMState::STATE_ECM_TOUCHOFF_DISABLE;
 }
 
-AbstractStateGalil* State_Jogging::getClone() const
+AbstractStateECMProcess* ECMState_TouchoffEnable::getClone() const
 {
-    return (new State_Jogging(*this));
+    return (new ECMState_TouchoffEnable(*this));
 }
 
-void State_Jogging::getClone(AbstractStateGalil** state) const
+void ECMState_TouchoffEnable::getClone(AbstractStateECMProcess** state) const
 {
-    *state = new State_Jogging(*this);
+    *state = new ECMState_TouchoffEnable(*this);
 }
 
-hsm::Transition State_Jogging::GetTransition()
+hsm::Transition ECMState_TouchoffEnable::GetTransition()
 {
     hsm::Transition rtn = hsm::NoTransition();
 
@@ -29,14 +29,14 @@ hsm::Transition State_Jogging::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case GalilState::STATE_MOTION_STOP:
+        case ECMState::STATE_MOTION_STOP:
         {
-            rtn = hsm::SiblingTransition<State_MotionStop>();
+            rtn = hsm::SiblingTransition<ECMState_TouchoffDisable>();
             break;
         }
-        case GalilState::STATE_ESTOP:
+        case ECMState::STATE_ESTOP:
         {
-            rtn = hsm::SiblingTransition<State_EStop>();
+            rtn = hsm::SiblingTransition<ECMState_Setup>();
             break;
         }
         default:
@@ -48,7 +48,7 @@ hsm::Transition State_Jogging::GetTransition()
     return rtn;
 }
 
-void State_Jogging::handleCommand(const AbstractCommand* command)
+void ECMState_TouchoffEnable::handleCommand(const AbstractCommand* command)
 {
     const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
     this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
@@ -69,12 +69,12 @@ void State_Jogging::handleCommand(const AbstractCommand* command)
     }
     case CommandType::STOP:
     {
-        this->desiredState = GalilState::STATE_MOTION_STOP;
+        this->desiredState = ECMState::STATE_MOTION_STOP;
         break;
     }
     case CommandType::ESTOP:
     {
-        this->desiredState = GalilState::STATE_ESTOP;
+        this->desiredState = ECMState::STATE_ESTOP;
         break;
     }
     default:
@@ -83,7 +83,7 @@ void State_Jogging::handleCommand(const AbstractCommand* command)
     }
 }
 
-void State_Jogging::Update()
+void ECMState_TouchoffEnable::Update()
 {
     //Check the status of the estop state
     bool eStopState = this->checkEStop();
@@ -91,23 +91,23 @@ void State_Jogging::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = GalilState::STATE_ESTOP;
+        desiredState = ECMState::STATE_ESTOP;
     }
 }
 
-void State_Jogging::OnEnter()
+void ECMState_TouchoffEnable::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_JOGGING));
+    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_JOGGING));
     //this shouldn't really happen as how are we supposed to know the actual state jogging command
     //we therefore are going to do nothing other than change the state back to State_Ready
-    this->desiredState = GalilState::STATE_READY;
+    this->desiredState = ECMState::STATE_READY;
 }
 
-void State_Jogging::OnEnter(const AbstractCommand *command)
+void ECMState_TouchoffEnable::OnEnter(const AbstractCommand *command)
 {
     if(command != nullptr)
     {
-        Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_JOGGING));
+        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_JOGGING));
         this->handleCommand(command);
     }
     else{

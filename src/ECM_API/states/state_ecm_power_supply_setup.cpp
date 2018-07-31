@@ -1,31 +1,31 @@
-#include "state_home_positioning.h"
+#include "state_ecm_power_supply_setup.h"
 
 namespace ECM{
-namespace Galil {
+namespace API {
 
-State_HomePositioning::State_HomePositioning():
-    AbstractStateGalil()
+ECMState_PowerSupplySetup::ECMState_PowerSupplySetup():
+    AbstractStateECMProcess()
 {
-    this->currentState = GalilState::STATE_HOME_POSITIONING;
-    this->desiredState = GalilState::STATE_HOME_POSITIONING;
+    this->currentState = ECMState::STATE_ECM_POWERSUPPLY_SETUP;
+    this->desiredState = ECMState::STATE_ECM_POWERSUPPLY_SETUP;
 }
 
-void State_HomePositioning::OnExit()
+void ECMState_PowerSupplySetup::OnExit()
 {
     Owner().statusVariableValues->removeVariableNotifier("homest",this);
 }
 
-AbstractStateGalil* State_HomePositioning::getClone() const
+AbstractStateECMProcess* ECMState_PowerSupplySetup::getClone() const
 {
-    return (new State_HomePositioning(*this));
+    return (new ECMState_PowerSupplySetup(*this));
 }
 
-void State_HomePositioning::getClone(AbstractStateGalil** state) const
+void ECMState_PowerSupplySetup::getClone(AbstractStateECMProcess** state) const
 {
-    *state = new State_HomePositioning(*this);
+    *state = new ECMState_PowerSupplySetup(*this);
 }
 
-hsm::Transition State_HomePositioning::GetTransition()
+hsm::Transition ECMState_PowerSupplySetup::GetTransition()
 {
     hsm::Transition rtn = hsm::NoTransition();
 
@@ -36,19 +36,19 @@ hsm::Transition State_HomePositioning::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case GalilState::STATE_READY:
+        case ECMState::STATE_READY:
         {
-            rtn = hsm::SiblingTransition<State_Ready>();
+            rtn = hsm::SiblingTransition<ECMState_PumpSetup>();
             break;
         }
-        case GalilState::STATE_MOTION_STOP:
+        case ECMState::STATE_MOTION_STOP:
         {
-            rtn = hsm::SiblingTransition<State_MotionStop>();
+            rtn = hsm::SiblingTransition<ECMState_TouchoffDisable>();
             break;
         }
-        case GalilState::STATE_ESTOP:
+        case ECMState::STATE_ESTOP:
         {
-            rtn = hsm::SiblingTransition<State_EStop>();
+            rtn = hsm::SiblingTransition<ECMState_Setup>();
         }
         default:
             std::cout<<"I dont know how we eneded up in this transition state from State_HomePositioning."<<std::endl;
@@ -59,7 +59,7 @@ hsm::Transition State_HomePositioning::GetTransition()
     return rtn;
 }
 
-void State_HomePositioning::handleCommand(const AbstractCommand* command)
+void ECMState_PowerSupplySetup::handleCommand(const AbstractCommand* command)
 {
     const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
     this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
@@ -91,7 +91,7 @@ void State_HomePositioning::handleCommand(const AbstractCommand* command)
                 MotionProfileState newProfileState;
                 newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
                 Owner().issueUpdatedMotionProfileState(newProfileState);
-                desiredState = GalilState::STATE_READY;
+                desiredState = ECMState::STATE_READY;
                 break;
             }
             } //end of switch statement
@@ -102,13 +102,13 @@ void State_HomePositioning::handleCommand(const AbstractCommand* command)
     }
     case CommandType::STOP:
     {
-        desiredState = GalilState::STATE_MOTION_STOP;
+        desiredState = ECMState::STATE_MOTION_STOP;
         delete copyCommand;
         break;
     }
     case CommandType::ESTOP:
     {
-        desiredState = GalilState::STATE_ESTOP;
+        desiredState = ECMState::STATE_ESTOP;
         delete copyCommand;
         break;
     }
@@ -117,7 +117,7 @@ void State_HomePositioning::handleCommand(const AbstractCommand* command)
     }
 }
 
-void State_HomePositioning::Update()
+void ECMState_PowerSupplySetup::Update()
 {
     //Check the status of the estop state
     bool eStopState = this->checkEStop();
@@ -125,19 +125,19 @@ void State_HomePositioning::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = GalilState::STATE_ESTOP;
+        desiredState = ECMState::STATE_ESTOP;
     }
 }
 
-void State_HomePositioning::OnEnter()
+void ECMState_PowerSupplySetup::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_HOME_POSITIONING));
+    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_HOME_POSITIONING));
     //this shouldn't really happen as how are we supposed to know the actual home position command
     //we therefore are going to do nothing other than change the state back to State_Ready
-    this->desiredState = GalilState::STATE_READY;
+    this->desiredState = ECMState::STATE_READY;
 }
 
-void State_HomePositioning::OnEnter(const AbstractCommand* command)
+void ECMState_PowerSupplySetup::OnEnter(const AbstractCommand* command)
 {
     this->processFlag = false;
 
@@ -145,7 +145,7 @@ void State_HomePositioning::OnEnter(const AbstractCommand* command)
 
     if(command != nullptr)
     {
-        Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_HOME_POSITIONING));
+        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_HOME_POSITIONING));
         Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Home Status","homest");
         common::TupleProfileVariableString tupleVariable("Default","Homing","homest");
         request->setTupleDescription(tupleVariable);

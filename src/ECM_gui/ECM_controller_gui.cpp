@@ -444,6 +444,7 @@ void ECMControllerGUI::on_pushButton_MoveHome_released()
 
 void ECMControllerGUI::on_pushButton_RunProfile_released()
 {
+    //While executing this type of command
     //get the profile name from the GUI
     //CommandExecuteProfile command(CommandExecuteProfile::ProfileType::PROFILE,"touchof");
     //m_API->m_Galil->executeCommand(&command);

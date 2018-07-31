@@ -153,7 +153,7 @@ void GalilMotionController::closeConnection()
 std::string GalilMotionController::getCurrentMCState() const
 {
     ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
-    ECM::Galil::ECMState stateEnum = currentState->getCurrentState();
+    ECM::Galil::GalilState stateEnum = currentState->getCurrentState();
     return ECM::Galil::ECMStateToString(stateEnum);
 }
 
@@ -227,13 +227,16 @@ void GalilMotionController::NewProgramUploaded(const ProgramGeneric &program)
     //We now have a new program, let us query for the available labels and variables
     RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
     commsMarshaler->sendAbstractGalilRequest(requestVariables);
-
-    UNUSED(program);
 }
 
 void GalilMotionController::NewProgramDownloaded(const ProgramGeneric &program)
 {
     UNUSED(program);
+//    stateInterface->galilProgram->setProgram(program.getProgramString());
+
+//    //We now have a new program, let us query for the available labels and variables
+//    RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
+//    commsMarshaler->sendAbstractGalilRequest(requestVariables);
 }
 
 void GalilMotionController::NewStatusInputs(const StatusInputs &status)

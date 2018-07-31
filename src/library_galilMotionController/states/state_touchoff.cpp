@@ -6,8 +6,8 @@ namespace Galil {
 State_Touchoff::State_Touchoff():
     AbstractStateGalil()
 {
-    this->currentState = ECMState::STATE_TOUCHOFF;
-    this->desiredState = ECMState::STATE_TOUCHOFF;
+    this->currentState = GalilState::STATE_TOUCHOFF;
+    this->desiredState = GalilState::STATE_TOUCHOFF;
 }
 
 void State_Touchoff::OnExit()
@@ -36,17 +36,17 @@ hsm::Transition State_Touchoff::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_READY:
+        case GalilState::STATE_READY:
         {
             return hsm::SiblingTransition<State_Ready>();
             break;
         }
-        case ECMState::STATE_MOTION_STOP:
+        case GalilState::STATE_MOTION_STOP:
         {
             rtn = hsm::SiblingTransition<State_MotionStop>(currentCommand);
             break;
         }
-        case ECMState::STATE_ESTOP:
+        case GalilState::STATE_ESTOP:
         {
             rtn = hsm::SiblingTransition<State_EStop>();
             break;
@@ -60,7 +60,7 @@ hsm::Transition State_Touchoff::GetTransition()
     return rtn;
 }
 
-void State_Touchoff::]handleCommand(const AbstractCommand* command)
+void State_Touchoff::handleCommand(const AbstractCommand* command)
 {
     const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
     this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
@@ -75,13 +75,13 @@ void State_Touchoff::]handleCommand(const AbstractCommand* command)
     }
     case CommandType::STOP:
     {
-        desiredState = ECMState::STATE_MOTION_STOP;
+        desiredState = GalilState::STATE_MOTION_STOP;
         delete copyCommand;
         break;
     }
     case CommandType::ESTOP:
     {
-        desiredState = ECMState::STATE_ESTOP;
+        desiredState = GalilState::STATE_ESTOP;
         delete copyCommand;
         break;
     }
@@ -98,23 +98,23 @@ void State_Touchoff::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = ECMState::STATE_ESTOP;
+        desiredState = GalilState::STATE_ESTOP;
     }
 }
 
 void State_Touchoff::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_TOUCHOFF));
+    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_TOUCHOFF));
     //this shouldn't really happen as how are we supposed to know the actual touchoff command
     //we therefore are going to do nothing other than change the state back to State_Ready
-    this->desiredState = ECMState::STATE_READY;
+    this->desiredState = GalilState::STATE_READY;
 }
 
 void State_Touchoff::OnEnter(const AbstractCommand* command)
 {
     if(command != nullptr)
     {
-        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_TOUCHOFF));
+        Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_TOUCHOFF));
 
         Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Touchoff Status","touchst");
         Owner().issueGalilAddPollingRequest(request);
@@ -149,7 +149,7 @@ void State_Touchoff::stateSetup()
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
             Owner().issueUpdatedMotionProfileState(newProfileState);
-            desiredState = ECMState::STATE_MOTION_STOP;
+            desiredState = GalilState::STATE_MOTION_STOP;
             break;
         }
         case 2:
@@ -163,7 +163,7 @@ void State_Touchoff::stateSetup()
 
             CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
             this->currentCommand = command;
-            desiredState = ECMState::STATE_MOTION_STOP;
+            desiredState = GalilState::STATE_MOTION_STOP;
             break;
         }
         case 3:
@@ -177,7 +177,7 @@ void State_Touchoff::stateSetup()
 
             CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
             this->currentCommand = command;
-            desiredState = ECMState::STATE_MOTION_STOP;
+            desiredState = GalilState::STATE_MOTION_STOP;
             break;
         }
         default:

@@ -1,26 +1,26 @@
-#include "state_script_execution.h"
+#include "state_ecm_profile_machine_setup.h"
 
 namespace ECM{
-namespace Galil {
+namespace API {
 
-State_ScriptExecution::State_ScriptExecution():
-    AbstractStateGalil()
+ECMState_MachineSetup::ECMState_MachineSetup():
+    AbstractStateECMProcess()
 {
-    this->currentState = GalilState::STATE_SCRIPT_EXECUTION;
-    this->desiredState = GalilState::STATE_SCRIPT_EXECUTION;
+    this->currentState = ECMState::STATE_ECM_PROFILE_MACHINE_SETUP;
+    this->desiredState = ECMState::STATE_SCRIPT_EXECUTION;
 }
 
-AbstractStateGalil* State_ScriptExecution::getClone() const
+AbstractStateECMProcess* ECMState_MachineSetup::getClone() const
 {
-    return (new State_ScriptExecution(*this));
+    return (new ECMState_MachineSetup(*this));
 }
 
-void State_ScriptExecution::getClone(AbstractStateGalil** state) const
+void ECMState_MachineSetup::getClone(AbstractStateECMProcess** state) const
 {
-    *state = new State_ScriptExecution(*this);
+    *state = new ECMState_MachineSetup(*this);
 }
 
-hsm::Transition State_ScriptExecution::GetTransition()
+hsm::Transition ECMState_MachineSetup::GetTransition()
 {
     hsm::Transition rtn = hsm::NoTransition();
 
@@ -29,19 +29,19 @@ hsm::Transition State_ScriptExecution::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case GalilState::STATE_READY:
+        case ECMState::STATE_READY:
         {
-            return hsm::SiblingTransition<State_Ready>();
+            return hsm::SiblingTransition<ECMState_PumpSetup>();
             break;
         }
-        case GalilState::STATE_MOTION_STOP:
+        case ECMState::STATE_MOTION_STOP:
         {
-            return hsm::SiblingTransition<State_MotionStop>();
+            return hsm::SiblingTransition<ECMState_TouchoffDisable>();
             break;
         }
-        case GalilState::STATE_ESTOP:
+        case ECMState::STATE_ESTOP:
         {
-            rtn = hsm::SiblingTransition<State_EStop>();
+            rtn = hsm::SiblingTransition<ECMState_Setup>();
             break;
         }
         default:
@@ -52,7 +52,7 @@ hsm::Transition State_ScriptExecution::GetTransition()
     return rtn;
 }
 
-void State_ScriptExecution::handleCommand(const AbstractCommand* command)
+void ECMState_MachineSetup::handleCommand(const AbstractCommand* command)
 {
     CommandType currentCommand = command->getCommandType();
 
@@ -66,13 +66,13 @@ void State_ScriptExecution::handleCommand(const AbstractCommand* command)
     }
     case CommandType::STOP:
     {
-        desiredState = GalilState::STATE_MOTION_STOP;
+        desiredState = ECMState::STATE_MOTION_STOP;
         this->clearCommand();
         break;
     }
     case CommandType::ESTOP:
     {
-        desiredState = GalilState::STATE_ESTOP;
+        desiredState = ECMState::STATE_ESTOP;
         this->clearCommand();
         break;
     }
@@ -82,7 +82,7 @@ void State_ScriptExecution::handleCommand(const AbstractCommand* command)
     }
 }
 
-void State_ScriptExecution::Update()
+void ECMState_MachineSetup::Update()
 {
     //Check the status of the estop state
     bool eStopState = this->checkEStop();
@@ -90,11 +90,11 @@ void State_ScriptExecution::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = GalilState::STATE_ESTOP;
+        desiredState = ECMState::STATE_ESTOP;
     }
 }
 
-void State_ScriptExecution::OnExit()
+void ECMState_MachineSetup::OnExit()
 {
     //Ken we need to remove the polling measurements here
     //Owner().issueGalilRemovePollingRequest("ppos");
@@ -103,19 +103,19 @@ void State_ScriptExecution::OnExit()
     Owner().statusVariableValues->removeVariable("cutdone");
 }
 
-void State_ScriptExecution::OnEnter()
+void ECMState_MachineSetup::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_SCRIPT_EXECUTION));
+    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_SCRIPT_EXECUTION));
     //this shouldn't really happen as how are we supposed to know the the actual profile to execute
     //we therefore are going to do nothing other than change the state back to State_Ready
-    desiredState = GalilState::STATE_READY;
+    desiredState = ECMState::STATE_READY;
 }
 
-void State_ScriptExecution::OnEnter(const AbstractCommand* command)
+void ECMState_MachineSetup::OnEnter(const AbstractCommand* command)
 {
     if(command != nullptr)
     {
-        Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_SCRIPT_EXECUTION));
+        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_SCRIPT_EXECUTION));
 
         Request_TellVariablePtr requestPosition = std::make_shared<Request_TellVariable>("Bottom Position","ppos");
         Status_VariableValue newPPOS;
@@ -146,7 +146,7 @@ void State_ScriptExecution::OnEnter(const AbstractCommand* command)
                 //the part is finished being cut
                 CommandExecuteProfile* command = new CommandExecuteProfile(MotionProfile::ProfileType::HOMING,"home");
                 this->currentCommand = command;
-                desiredState = GalilState::STATE_MOTION_STOP;
+                desiredState = ECMState::STATE_MOTION_STOP;
                 break;
             }
             default:

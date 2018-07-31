@@ -1,26 +1,26 @@
-#include "state_ready_stop.h"
+#include "state_ecm_profile_machine.h"
 
 namespace ECM{
-namespace Galil {
+namespace API {
 
-State_ReadyStop::State_ReadyStop():
-    AbstractStateGalil()
+ECMState_ProfileMachine::ECMState_ProfileMachine():
+    AbstractStateECMProcess()
 {
-    this->currentState = GalilState::STATE_READY_STOP;
-    this->desiredState = GalilState::STATE_READY_STOP;
+    this->currentState = ECMState::STATE_ECM_PROFILE_MACHINE;
+    this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE;
 }
 
-AbstractStateGalil* State_ReadyStop::getClone() const
+AbstractStateECMProcess* ECMState_ProfileMachine::getClone() const
 {
-    return (new State_ReadyStop(*this));
+    return (new ECMState_ProfileMachine(*this));
 }
 
-void State_ReadyStop::getClone(AbstractStateGalil** state) const
+void ECMState_ProfileMachine::getClone(AbstractStateECMProcess** state) const
 {
-    *state = new State_ReadyStop(*this);
+    *state = new ECMState_ProfileMachine(*this);
 }
 
-hsm::Transition State_ReadyStop::GetTransition()
+hsm::Transition ECMState_ProfileMachine::GetTransition()
 {
     hsm::Transition rtn = hsm::NoTransition();
     if(currentState != desiredState)
@@ -28,14 +28,14 @@ hsm::Transition State_ReadyStop::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case GalilState::STATE_IDLE:
+        case ECMState::STATE_IDLE:
         {
-            rtn = hsm::SiblingTransition<State_Idle>(currentCommand);
+            rtn = hsm::SiblingTransition<ECMState_Touchoff>(currentCommand);
             break;
         }
-        case GalilState::STATE_ESTOP:
+        case ECMState::STATE_ESTOP:
         {
-            rtn = hsm::SiblingTransition<State_EStop>(currentCommand);
+            rtn = hsm::SiblingTransition<ECMState_Setup>(currentCommand);
         }
         default:
             std::cout<<"I dont know how we eneded up in this transition state from state idle."<<std::endl;
@@ -46,18 +46,7 @@ hsm::Transition State_ReadyStop::GetTransition()
     return rtn;
 }
 
-void State_ReadyStop::handleCommand(const AbstractCommand* command)
-{
-    CommandType currentCommand = command->getCommandType();
-
-    switch (currentCommand) {
-    default:
-        //We shouldn't have any commands in this state to handle
-        break;
-    }
-}
-
-void State_ReadyStop::Update()
+void ECMState_ProfileMachine::Update()
 {
     //Check the status of the estop state
     bool eStopState = this->checkEStop();
@@ -65,15 +54,15 @@ void State_ReadyStop::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = GalilState::STATE_ESTOP;
+        desiredState = ECMState::STATE_ESTOP;
     }
     else if(!Owner().isMotorEnabled())
-        desiredState = GalilState::STATE_IDLE;
+        desiredState = ECMState::STATE_IDLE;
 }
 
-void State_ReadyStop::OnEnter()
+void ECMState_ProfileMachine::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_READY_STOP));
+    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_READY_STOP));
 
     //The first thing we should do when entering this state is to disengage the motor
     //Let us check to see if the motor is already armed, if not, follow through with the command
@@ -87,28 +76,13 @@ void State_ReadyStop::OnEnter()
     }
     else{
         //since the motor was already disarmed this implies that we can safely transition to idle state
-        this->desiredState = GalilState::STATE_IDLE;
+        this->desiredState = ECMState::STATE_IDLE;
     }
 
     //Lastly, send a command to make sure the airbrake has been engaged
     CommandSetBitPtr command = std::make_shared<CommandSetBit>();
     command->appendAddress(2); //Ken: be careful in the event that this changes. This should be handled by settings or something
     Owner().issueGalilCommand(command);
-}
-
-void State_ReadyStop::OnEnter(const AbstractCommand* command)
-{
-    this->OnEnter();
-
-    //The reason we got here is because we have a command that needs us to transition to the idle state
-    //Therefore we should not clear the current command and have it transtion on to the idle state
-    if(command != nullptr)
-    {
-        this->currentCommand = command;
-    }
-    else{
-        //There was no actual command, therefore, there is nothing else to do at this point
-    }
 }
 
 } //end of namespace Galil

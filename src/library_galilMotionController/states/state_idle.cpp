@@ -6,8 +6,8 @@ namespace Galil {
 State_Idle::State_Idle():
     AbstractStateGalil()
 {
-    this->currentState = ECMState::STATE_IDLE;
-    this->desiredState = ECMState::STATE_IDLE;
+    this->currentState = GalilState::STATE_IDLE;
+    this->desiredState = GalilState::STATE_IDLE;
 }
 
 AbstractStateGalil* State_Idle::getClone() const
@@ -29,12 +29,12 @@ hsm::Transition State_Idle::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_READY:
+        case GalilState::STATE_READY:
         {
             rtn = hsm::SiblingTransition<State_Ready>(this->currentCommand);
             break;
         }
-        case ECMState::STATE_ESTOP:
+        case GalilState::STATE_ESTOP:
         {
             rtn = hsm::SiblingTransition<State_EStop>();
             break;
@@ -55,10 +55,10 @@ void State_Idle::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to STATE_ESTOP
-        desiredState = ECMState::STATE_ESTOP;
+        desiredState = GalilState::STATE_ESTOP;
     }
     else if(Owner().isMotorEnabled() || Owner().isMotorInMotion())
-        desiredState = ECMState::STATE_READY;
+        desiredState = GalilState::STATE_READY;
 }
 
 void State_Idle::handleCommand(const AbstractCommand* command)
@@ -89,7 +89,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to the Ready State and we no longer need the command
-        desiredState = ECMState::STATE_READY;
+        desiredState = GalilState::STATE_READY;
         delete copyCommand;
         break;
     }
@@ -99,7 +99,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to STATE_READY
-        desiredState = ECMState::STATE_READY;
+        desiredState = GalilState::STATE_READY;
         this->currentCommand = copyCommand;
         break;
     }
@@ -116,7 +116,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         else{
             //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
             //This command will transition the machine to STATE_READY
-            desiredState = ECMState::STATE_READY;
+            desiredState = GalilState::STATE_READY;
             this->currentCommand = copyCommand;
         }
         break;
@@ -143,7 +143,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         }
         else{
             //since the motor was already disarmed this implies that we can safely transition to idle state
-            this->desiredState = ECMState::STATE_IDLE;
+            this->desiredState = GalilState::STATE_IDLE;
         }
 
         //Lastly, send a command to make sure the airbrake has been engaged
@@ -155,7 +155,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
     }
     case CommandType::ESTOP:
     {
-        desiredState = ECMState::STATE_ESTOP;
+        desiredState = GalilState::STATE_ESTOP;
         delete copyCommand;
         break;
     }
@@ -174,7 +174,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
 
 void State_Idle::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_IDLE));
+    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_IDLE));
 
     //The first thing we should do when entering this state is to disable the motor
     //To get to this state, it should be noted that we should have already transitioned through

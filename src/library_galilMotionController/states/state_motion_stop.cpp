@@ -6,8 +6,8 @@ namespace Galil {
 State_MotionStop::State_MotionStop():
     AbstractStateGalil()
 {
-    this->currentState = ECMState::STATE_MOTION_STOP;
-    this->desiredState = ECMState::STATE_MOTION_STOP;
+    this->currentState = GalilState::STATE_MOTION_STOP;
+    this->desiredState = GalilState::STATE_MOTION_STOP;
 }
 
 AbstractStateGalil* State_MotionStop::getClone() const
@@ -29,12 +29,12 @@ hsm::Transition State_MotionStop::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_READY:
+        case GalilState::STATE_READY:
         {
             rtn = hsm::SiblingTransition<State_Ready>(this->currentCommand);
             break;
         }
-        case ECMState::STATE_ESTOP:
+        case GalilState::STATE_ESTOP:
         {
             rtn = hsm::SiblingTransition<State_EStop>(this->currentCommand);
         }
@@ -68,23 +68,23 @@ void State_MotionStop::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = ECMState::STATE_ESTOP;
+        desiredState = GalilState::STATE_ESTOP;
     }
     else if(!Owner().isMotorInMotion()) //the exit condition for this state is that the machine motion has stopped on all axis
     {
-        desiredState = ECMState::STATE_READY;
+        desiredState = GalilState::STATE_READY;
     }
 }
 
 void State_MotionStop::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_MOTION_STOP));
+    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_MOTION_STOP));
 
     if(!Owner().isMotorInMotion()) //the exit condition for this state is that the machine motion has stopped on all axis
     {
         //If we get into this condition this implies that the machine had already stopped motion
         //This could be caused by a limit switch being reached, in either case, we should move to the next state
-        desiredState = ECMState::STATE_READY;
+        desiredState = GalilState::STATE_READY;
     }else
     {
         //The first thing we should do when entering this state is to stop motion of the motor

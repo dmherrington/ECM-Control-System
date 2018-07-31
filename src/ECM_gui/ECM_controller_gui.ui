@@ -374,6 +374,9 @@ width:20px;
            <property name="text">
             <string>ESTOP</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
           </widget>
          </item>
          <item row="1" column="0">
@@ -425,6 +428,9 @@ width:20px;
            </property>
            <property name="text">
             <string>TOUCHOFF</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </item>

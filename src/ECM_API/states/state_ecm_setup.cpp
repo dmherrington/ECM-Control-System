@@ -1,26 +1,26 @@
-#include "state_estop.h"
+#include "state_ecm_setup.h"
 
 namespace ECM{
-namespace Galil {
+namespace API {
 
-State_EStop::State_EStop():
-    AbstractStateGalil()
+ECMState_Setup::ECMState_Setup():
+    AbstractStateECMProcess()
 {
-    this->currentState = GalilState::STATE_ESTOP;
-    this->desiredState = GalilState::STATE_ESTOP;
+    this->currentState = ECMState::State;
+    this->desiredState = ECMState::STATE_ESTOP;
 }
 
-AbstractStateGalil* State_EStop::getClone() const
+AbstractStateECMProcess* ECMState_Setup::getClone() const
 {
-    return (new State_EStop(*this));
+    return (new ECMState_Setup(*this));
 }
 
-void State_EStop::getClone(AbstractStateGalil** state) const
+void ECMState_Setup::getClone(AbstractStateECMProcess** state) const
 {
-    *state = new State_EStop(*this);
+    *state = new ECMState_Setup(*this);
 }
 
-hsm::Transition State_EStop::GetTransition()
+hsm::Transition ECMState_Setup::GetTransition()
 {
     hsm::Transition rtn = hsm::NoTransition();
 
@@ -28,9 +28,9 @@ hsm::Transition State_EStop::GetTransition()
     {
         //this means we want to chage the state for some reason
         switch (desiredState) {
-        case GalilState::STATE_IDLE:
+        case ECMState::STATE_IDLE:
         {
-            rtn = hsm::SiblingTransition<State_Idle>();
+            rtn = hsm::SiblingTransition<ECMState_Touchoff>();
             break;
         }
         default:
@@ -41,31 +41,20 @@ hsm::Transition State_EStop::GetTransition()
     return rtn;
 }
 
-void State_EStop::handleCommand(const AbstractCommand* command)
-{
-    CommandType currentCommand = command->getCommandType();
-
-    switch (currentCommand) {
-    default:
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-}
-
-void State_EStop::Update()
+void ECMState_Setup::Update()
 {
     //Check the status of the estop state
     if(!this->checkEStop())
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = GalilState::STATE_IDLE;
+        desiredState = ECMState::STATE_IDLE;
     }
 }
 
-void State_EStop::OnEnter()
+void ECMState_Setup::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_ESTOP));
+    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_ESTOP));
     //First check to see if the motor is already disarmed, and if not, disarm it
     if(Owner().isMotorEnabled())
     {
@@ -79,15 +68,6 @@ void State_EStop::OnEnter()
     Owner().issueGalilCommand(command);
 }
 
-void State_EStop::OnEnter(const AbstractCommand *command)
-{
-    this->OnEnter();
-
-    if(command != nullptr)
-    {
-
-    }
-}
 
 } //end of namespace Galil
 } //end of namespace ECM

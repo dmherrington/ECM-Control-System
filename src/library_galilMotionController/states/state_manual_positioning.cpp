@@ -6,8 +6,8 @@ namespace Galil {
 State_ManualPositioning::State_ManualPositioning():
     AbstractStateGalil()
 {
-    this->currentState = ECMState::STATE_MANUAL_POSITIONING;
-    this->desiredState = ECMState::STATE_MANUAL_POSITIONING;
+    this->currentState = GalilState::STATE_MANUAL_POSITIONING;
+    this->desiredState = GalilState::STATE_MANUAL_POSITIONING;
 }
 
 void State_ManualPositioning::OnExit()
@@ -34,12 +34,12 @@ hsm::Transition State_ManualPositioning::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_MOTION_STOP:
+        case GalilState::STATE_MOTION_STOP:
         {
             rtn = hsm::SiblingTransition<State_MotionStop>();
             break;
         }
-        case ECMState::STATE_ESTOP:
+        case GalilState::STATE_ESTOP:
         {
             rtn = hsm::SiblingTransition<State_EStop>();
             break;
@@ -88,17 +88,17 @@ void State_ManualPositioning::handleCommand(const AbstractCommand* command)
     }
     case CommandType::MOTOR_OFF:
     {
-        this->desiredState = ECMState::STATE_MOTION_STOP;
+        this->desiredState = GalilState::STATE_MOTION_STOP;
         this->currentCommand = copyCommand;
     }
     case CommandType::STOP:
     {
-        this->desiredState = ECMState::STATE_MOTION_STOP;
+        this->desiredState = GalilState::STATE_MOTION_STOP;
         break;
     }
     case CommandType::ESTOP:
     {
-        this->desiredState = ECMState::STATE_ESTOP;
+        this->desiredState = GalilState::STATE_ESTOP;
         break;
     }
     default:
@@ -115,21 +115,21 @@ void State_ManualPositioning::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = ECMState::STATE_ESTOP;
+        desiredState = GalilState::STATE_ESTOP;
         return;
     }
 }
 
 void State_ManualPositioning::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_MANUAL_POSITIONING));
+    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_MANUAL_POSITIONING));
     //For some reason no command was passed to this case. This is an interesting case.
-    this->desiredState = ECMState::STATE_READY;
+    this->desiredState = GalilState::STATE_READY;
 }
 
 void State_ManualPositioning::OnEnter(const AbstractCommand *command)
 {
-    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_MANUAL_POSITIONING));
+    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_MANUAL_POSITIONING));
 
     if(command != nullptr)
     {
@@ -146,7 +146,7 @@ void State_ManualPositioning::OnEnter(const AbstractCommand *command)
             case 1:
             {
                 //the machine has reached its commanded position
-                desiredState = ECMState::STATE_MOTION_STOP;
+                desiredState = GalilState::STATE_MOTION_STOP;
                 break;
             }
             case 2:
@@ -165,7 +165,7 @@ void State_ManualPositioning::OnEnter(const AbstractCommand *command)
     }
     else{
         //For some reason the command was null. This is an interesting case.
-        this->desiredState = ECMState::STATE_READY;
+        this->desiredState = GalilState::STATE_READY;
     }
 }
 

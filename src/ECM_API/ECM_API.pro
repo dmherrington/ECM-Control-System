@@ -34,13 +34,41 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         ecm_api.cpp \
     ecm_logging.cpp \
-    ecm_process.cpp
+    ecm_process.cpp \
+    states/state_abstract_ecm_process.cpp \
+    states/state_ecm_power_supply_setup.cpp \
+    states/state_ecm_profile_machine.cpp \
+    states/state_ecm_profile_machine_cease.cpp \
+    states/state_ecm_profile_machine_process.cpp \
+    states/state_ecm_profile_machine_setup.cpp \
+    states/state_ecm_pump_setup.cpp \
+    states/state_ecm_setup.cpp \
+    states/state_ecm_touchoff.cpp \
+    states/state_ecm_touchoff_disable.cpp \
+    states/state_ecm_touchoff_enable.cpp \
+    states/state_ecm_touchoff_execute.cpp \
+    states/state_ecm_idle.cpp
 
 HEADERS += \
         ecm_api.h \
         ecm_api_global.h \  
     ecm_logging.h \
-    ecm_process.h
+    ecm_process.h \
+    states/state_abstract_ecm_process.h \
+    states/state_ecm_components.h \
+    states/state_ecm_power_supply_setup.h \
+    states/state_ecm_profile_machine.h \
+    states/state_ecm_profile_machine_cease.h \
+    states/state_ecm_profile_machine_process.h \
+    states/state_ecm_profile_machine_setup.h \
+    states/state_ecm_pump_setup.h \
+    states/state_ecm_setup.h \
+    states/state_ecm_touchoff.h \
+    states/state_ecm_touchoff_disable.h \
+    states/state_ecm_touchoff_enable.h \
+    states/state_ecm_touchoff_execute.h \
+    states/state_ecm_types.h \
+    states/state_ecm_idle.h
 
 # Unix lib Install
 unix:!symbian {

@@ -20,12 +20,12 @@ void AbstractStateGalil::OnExit()
 
 }
 
-ECMState AbstractStateGalil::getCurrentState() const
+GalilState AbstractStateGalil::getCurrentState() const
 {
     return currentState;
 }
 
-ECMState AbstractStateGalil::getDesiredState() const
+GalilState AbstractStateGalil::getDesiredState() const
 {
     return desiredState;
 }

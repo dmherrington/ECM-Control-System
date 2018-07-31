@@ -6,8 +6,8 @@ namespace Galil {
 State_Ready::State_Ready():
     AbstractStateGalil()
 {
-    this->currentState = ECMState::STATE_READY;
-    this->desiredState = ECMState::STATE_READY;
+    this->currentState = GalilState::STATE_READY;
+    this->desiredState = GalilState::STATE_READY;
 }
 
 AbstractStateGalil* State_Ready::getClone() const
@@ -29,37 +29,37 @@ hsm::Transition State_Ready::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_MANUAL_POSITIONING:
+        case GalilState::STATE_MANUAL_POSITIONING:
         {
             rtn = hsm::SiblingTransition<State_ManualPositioning>(currentCommand);
             break;
         }
-        case ECMState::STATE_JOGGING:
+        case GalilState::STATE_JOGGING:
         {
             rtn = hsm::SiblingTransition<State_Jogging>(currentCommand);
             break;
         }
-        case ECMState::STATE_HOME_POSITIONING:
+        case GalilState::STATE_HOME_POSITIONING:
         {
             rtn = hsm::SiblingTransition<State_HomePositioning>(currentCommand);
             break;
         }
-        case ECMState::STATE_SCRIPT_EXECUTION:
+        case GalilState::STATE_SCRIPT_EXECUTION:
         {
             rtn = hsm::SiblingTransition<State_ScriptExecution>(currentCommand);
             break;
         }
-        case ECMState::STATE_TOUCHOFF:
+        case GalilState::STATE_TOUCHOFF:
         {
             rtn = hsm::SiblingTransition<State_Touchoff>(currentCommand);
             break;
         }
-        case ECMState::STATE_READY_STOP:
+        case GalilState::STATE_READY_STOP:
         {
             rtn = hsm::SiblingTransition<State_ReadyStop>();
             break;
         }
-        case ECMState::STATE_ESTOP:
+        case GalilState::STATE_ESTOP:
         {
             rtn = hsm::SiblingTransition<State_EStop>();
             break;
@@ -83,7 +83,7 @@ void State_Ready::handleCommand(const AbstractCommand* command)
     case CommandType::DOWNLOAD_PROGRAM:
     case CommandType::UPLOAD_PROGRAM:
     {
-        desiredState = ECMState::STATE_READY_STOP;
+        desiredState = GalilState::STATE_READY_STOP;
         this->currentCommand = copyCommand;
         break;
     }
@@ -92,7 +92,7 @@ void State_Ready::handleCommand(const AbstractCommand* command)
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to STATE_MANUAL_POSITIONING
-        desiredState = ECMState::STATE_MANUAL_POSITIONING;
+        desiredState = GalilState::STATE_MANUAL_POSITIONING;
         this->currentCommand = copyCommand;
         break;
     }
@@ -100,7 +100,7 @@ void State_Ready::handleCommand(const AbstractCommand* command)
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to STATE_JOGGING
-        desiredState = ECMState::STATE_JOGGING;
+        desiredState = GalilState::STATE_JOGGING;
         this->currentCommand = copyCommand;
         break;
     }
@@ -112,21 +112,21 @@ void State_Ready::handleCommand(const AbstractCommand* command)
         case MotionProfile::ProfileType::HOMING:
         {
             //This command will transition the machine to STATE_HOME_POSITIONING
-            desiredState = ECMState::STATE_HOME_POSITIONING;
+            desiredState = GalilState::STATE_HOME_POSITIONING;
             this->currentCommand = copyCommand;
             break;
         }
         case MotionProfile::ProfileType::PROFILE:
         {
             //This command will transition the machine to STATE_SCRIPT_EXECUTION
-            desiredState = ECMState::STATE_SCRIPT_EXECUTION;
+            desiredState = GalilState::STATE_SCRIPT_EXECUTION;
             this->currentCommand = copyCommand;
             break;
         }
         case MotionProfile::ProfileType::TOUCHOFF:
         {
             //This command will transition the machine to STATE_TOUCHOFF
-            desiredState = ECMState::STATE_TOUCHOFF;
+            desiredState = GalilState::STATE_TOUCHOFF;
             this->currentCommand = copyCommand;
             break;
         }
@@ -138,7 +138,7 @@ void State_Ready::handleCommand(const AbstractCommand* command)
     case CommandType::MOTOR_OFF:
     case CommandType::STOP:
     {
-        desiredState = ECMState::STATE_READY_STOP;
+        desiredState = GalilState::STATE_READY_STOP;
         break;
     }
     case CommandType::MOTOR_ON:
@@ -172,13 +172,13 @@ void State_Ready::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = ECMState::STATE_ESTOP;
+        desiredState = GalilState::STATE_ESTOP;
     }
 }
 
 void State_Ready::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_READY));
+    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_READY));
     //The first thing we should do when entering this state is to engage the motor
     //Let us check to see if the motor is already armed, if not, follow through with the command
 
