@@ -48,41 +48,6 @@ hsm::Transition ECMState_TouchoffEnable::GetTransition()
     return rtn;
 }
 
-void ECMState_TouchoffEnable::handleCommand(const AbstractCommand* command)
-{
-    const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
-    this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
-
-    CommandType currentCommand = copyCommand->getCommandType();
-    switch (currentCommand) {
-    case CommandType::JOG_MOVE:
-    {
-        //This is the command that brought us into this state
-        CommandJogPtr castCommand = std::make_shared<CommandJog>(*command->as<CommandJog>());
-        this->clearCommand();
-        Owner().issueGalilMotionCommand(castCommand);
-//        Owner().issueGalilCommand(castCommand); //KEN Fix this to differentiate a motion command so we can auto begin motion upon ack
-
-//        CommandMotionStartPtr motionStartCommand = std::make_shared<CommandMotionStart>();
-//        Owner().issueGalilCommand(motionStartCommand);
-        break;
-    }
-    case CommandType::STOP:
-    {
-        this->desiredState = ECMState::STATE_MOTION_STOP;
-        break;
-    }
-    case CommandType::ESTOP:
-    {
-        this->desiredState = ECMState::STATE_ESTOP;
-        break;
-    }
-    default:
-        std::cout<<"Thie command type of: "<<CommandToString(command->getCommandType())<<" has no explicit support from the idle state."<<std::endl;
-        break;
-    }
-}
-
 void ECMState_TouchoffEnable::Update()
 {
     //Check the status of the estop state
@@ -101,18 +66,6 @@ void ECMState_TouchoffEnable::OnEnter()
     //this shouldn't really happen as how are we supposed to know the actual state jogging command
     //we therefore are going to do nothing other than change the state back to State_Ready
     this->desiredState = ECMState::STATE_READY;
-}
-
-void ECMState_TouchoffEnable::OnEnter(const AbstractCommand *command)
-{
-    if(command != nullptr)
-    {
-        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_JOGGING));
-        this->handleCommand(command);
-    }
-    else{
-        this->OnEnter();
-    }
 }
 
 } //end of namespace Galil

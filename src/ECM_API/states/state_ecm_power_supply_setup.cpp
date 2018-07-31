@@ -59,64 +59,6 @@ hsm::Transition ECMState_PowerSupplySetup::GetTransition()
     return rtn;
 }
 
-void ECMState_PowerSupplySetup::handleCommand(const AbstractCommand* command)
-{
-    const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
-    this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
-
-    CommandType currentCommand = copyCommand->getCommandType();
-    switch (currentCommand) {
-    case CommandType::EXECUTE_PROGRAM:
-    {
-        Owner().statusVariableValues->addVariableNotifier("homest",this,[this]{
-            double varValue = 0.0;
-            bool valid = Owner().statusVariableValues->getVariableValue("homest",varValue);
-            switch ((int)varValue) {
-            case 0:
-            {
-                //continue searching for home
-                ProfileState_Homing newState("Homing Routine", "homest");
-                newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE);
-                MotionProfileState newProfileState;
-                newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
-                Owner().issueUpdatedMotionProfileState(newProfileState);
-                break;
-            }
-            case 1:
-            {
-                Owner().setHomeInidcated(true);
-                //a home position has been found
-                ProfileState_Homing newState("Homing Routine", "homest");
-                newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::COMPLETE);
-                MotionProfileState newProfileState;
-                newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
-                Owner().issueUpdatedMotionProfileState(newProfileState);
-                desiredState = ECMState::STATE_READY;
-                break;
-            }
-            } //end of switch statement
-        });
-        CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*copyCommand->as<CommandExecuteProfile>());
-        Owner().issueGalilCommand(castCommand); //this will not be considered a motion command as the profile contains the BG parameters
-        break;
-    }
-    case CommandType::STOP:
-    {
-        desiredState = ECMState::STATE_MOTION_STOP;
-        delete copyCommand;
-        break;
-    }
-    case CommandType::ESTOP:
-    {
-        desiredState = ECMState::STATE_ESTOP;
-        delete copyCommand;
-        break;
-    }
-    default:
-        break;
-    }
-}
-
 void ECMState_PowerSupplySetup::Update()
 {
     //Check the status of the estop state
@@ -135,27 +77,6 @@ void ECMState_PowerSupplySetup::OnEnter()
     //this shouldn't really happen as how are we supposed to know the actual home position command
     //we therefore are going to do nothing other than change the state back to State_Ready
     this->desiredState = ECMState::STATE_READY;
-}
-
-void ECMState_PowerSupplySetup::OnEnter(const AbstractCommand* command)
-{
-    this->processFlag = false;
-
-    Owner().setHomeInidcated(false);
-
-    if(command != nullptr)
-    {
-        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_HOME_POSITIONING));
-        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Home Status","homest");
-        common::TupleProfileVariableString tupleVariable("Default","Homing","homest");
-        request->setTupleDescription(tupleVariable);
-        Owner().issueGalilAddPollingRequest(request);
-
-        this->handleCommand(command);
-    }
-    else{
-        this->OnEnter();
-    }
 }
 
 } //end of namespace Galil

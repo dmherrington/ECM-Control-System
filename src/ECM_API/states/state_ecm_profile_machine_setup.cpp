@@ -7,7 +7,7 @@ ECMState_MachineSetup::ECMState_MachineSetup():
     AbstractStateECMProcess()
 {
     this->currentState = ECMState::STATE_ECM_PROFILE_MACHINE_SETUP;
-    this->desiredState = ECMState::STATE_SCRIPT_EXECUTION;
+    this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_SETUP;
 }
 
 AbstractStateECMProcess* ECMState_MachineSetup::getClone() const
@@ -52,36 +52,6 @@ hsm::Transition ECMState_MachineSetup::GetTransition()
     return rtn;
 }
 
-void ECMState_MachineSetup::handleCommand(const AbstractCommand* command)
-{
-    CommandType currentCommand = command->getCommandType();
-
-    switch (currentCommand) {
-    case CommandType::EXECUTE_PROGRAM:
-    {
-        CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
-        Owner().issueGalilCommand(castCommand);
-        this->clearCommand();
-        break;
-    }
-    case CommandType::STOP:
-    {
-        desiredState = ECMState::STATE_MOTION_STOP;
-        this->clearCommand();
-        break;
-    }
-    case CommandType::ESTOP:
-    {
-        desiredState = ECMState::STATE_ESTOP;
-        this->clearCommand();
-        break;
-    }
-    default:
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
-}
-
 void ECMState_MachineSetup::Update()
 {
     //Check the status of the estop state
@@ -109,55 +79,6 @@ void ECMState_MachineSetup::OnEnter()
     //this shouldn't really happen as how are we supposed to know the the actual profile to execute
     //we therefore are going to do nothing other than change the state back to State_Ready
     desiredState = ECMState::STATE_READY;
-}
-
-void ECMState_MachineSetup::OnEnter(const AbstractCommand* command)
-{
-    if(command != nullptr)
-    {
-        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_SCRIPT_EXECUTION));
-
-        Request_TellVariablePtr requestPosition = std::make_shared<Request_TellVariable>("Bottom Position","ppos");
-        Status_VariableValue newPPOS;
-        newPPOS.setVariableName("ppos");
-        Owner().statusVariableValues->addVariable(newPPOS);
-        Owner().issueGalilAddPollingRequest(requestPosition);
-
-        Request_TellVariablePtr requestCutting = std::make_shared<Request_TellVariable>("Machining Complete","cutdone");
-        Status_VariableValue newCUTDONE;
-        newCUTDONE.setVariableName("cutdone");
-        Owner().statusVariableValues->addVariable(newCUTDONE);
-        Owner().issueGalilAddPollingRequest(requestCutting);
-        //The command isnt null so we should handle it
-        this->handleCommand(command);
-
-        Owner().statusVariableValues->addVariableNotifier("cutdone",this,[this]
-        {
-            double value = 0;
-            Owner().statusVariableValues->getVariableValue("cutdone",value);
-            switch ((ProfileState_Machining::MACHININGProfileCodes)value) {
-            case ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE:
-            {
-                //the part is still being cut
-                break;
-            }
-            case ProfileState_Machining::MACHININGProfileCodes::COMPLETE:
-            {
-                //the part is finished being cut
-                CommandExecuteProfile* command = new CommandExecuteProfile(MotionProfile::ProfileType::HOMING,"home");
-                this->currentCommand = command;
-                desiredState = ECMState::STATE_MOTION_STOP;
-                break;
-            }
-            default:
-                //there is a case condition that does not follow the flow chart
-                break;
-            }
-        });
-    }
-    else{
-        this->OnEnter();
-    }
 }
 
 } //end of namespace Galil

@@ -7,7 +7,7 @@ ECMState_ProfileMachineCease::ECMState_ProfileMachineCease():
     AbstractStateECMProcess()
 {
     this->currentState = ECMState::STATE_ECM_PROFILE_MACHINE_CEASE;
-    this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE;
+    this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_CEASE;
 }
 
 AbstractStateECMProcess* ECMState_ProfileMachineCease::getClone() const
