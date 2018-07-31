@@ -4,7 +4,7 @@
 #include "states/state_abstract_ecm_process.h"
 
 /**
-\* @file  state_idle.h
+\* @file  state_ecm_touchoff.h
 \*
 \* @author Kenneth Kroeger
 \*
@@ -19,7 +19,6 @@
 \*  While in this state, we can accept commands to download/upload programs from galil, load parameters and settigns from files,
 \* save files, etc.
 \*/
-
 
 namespace ECM{
 namespace API {
