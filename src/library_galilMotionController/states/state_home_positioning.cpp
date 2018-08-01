@@ -149,7 +149,7 @@ void State_HomePositioning::OnEnter(const AbstractCommand* command)
         Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Home Status","homest");
         common::TupleProfileVariableString tupleVariable("Default","Homing","homest");
         request->setTupleDescription(tupleVariable);
-        Owner().issueGalilAddPollingRequest(request);
+        Owner().issueGalilAddPollingRequest(request,1000);
 
         this->handleCommand(command);
     }

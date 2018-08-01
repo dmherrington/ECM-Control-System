@@ -25,7 +25,7 @@ public:
     virtual void cbi_AbstractGalilCommand(const AbstractCommandPtr command) = 0;
     virtual void cbi_AbstractGalilMotionCommand(const AbstractCommandPtr command) = 0;
     virtual void cbi_AbstractGalilRequest(const AbstractRequestPtr request) = 0;
-    virtual void cbi_AbstractGalilAddPolled(const AbstractRequestPtr request) = 0;
+    virtual void cbi_AbstractGalilAddPolled(const AbstractRequestPtr request, const int &period) = 0;
     virtual void cbi_AbstractGalilRemovePolled(const common::TupleECMData &tuple) = 0;
     virtual void cbi_GalilControllerGains(const CommandControllerGain &gains) = 0;
     virtual void cbi_GalilHomeIndicated(const bool &indicated) = 0;
@@ -84,10 +84,10 @@ public:
             m_CB->cbi_GalilControllerGains(gains);
     }
 
-    void issueGalilAddPollingRequest(const AbstractRequestPtr request)
+    void issueGalilAddPollingRequest(const AbstractRequestPtr request, const int &period = 1000)
     {
         if(m_CB)
-            m_CB->cbi_AbstractGalilAddPolled(request);
+            m_CB->cbi_AbstractGalilAddPolled(request, period);
     }
 
     void issueGalilRemovePollingRequest(const common::TupleECMData &tuple)

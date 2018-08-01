@@ -49,7 +49,7 @@ hsm::Transition State_Touchoff::GetTransition()
             rtn = hsm::SiblingTransition<State_MotionStop>(currentCommand);
             break;
         }
-        case GalilState::STATE_ESTOP:
+        case GalilState::STATE_ESTOP:   
         {
             rtn = hsm::SiblingTransition<State_EStop>();
             break;

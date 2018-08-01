@@ -437,9 +437,9 @@ void GalilMotionController::cbi_AbstractGalilRequest(const AbstractRequestPtr re
     commsMarshaler->sendAbstractGalilRequest(request);
 }
 
-void GalilMotionController::cbi_AbstractGalilAddPolled(const AbstractRequestPtr request)
+void GalilMotionController::cbi_AbstractGalilAddPolled(const AbstractRequestPtr request, const int &period)
 {
-    galilPolling->addRequest(request);
+    galilPolling->addRequest(request, period);
 }
 
 void GalilMotionController::cbi_AbstractGalilRemovePolled(const common::TupleECMData &tuple)

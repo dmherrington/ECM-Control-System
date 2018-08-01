@@ -97,10 +97,13 @@ void State_ScriptExecution::Update()
 void State_ScriptExecution::OnExit()
 {
     //Ken we need to remove the polling measurements here
-    //Owner().issueGalilRemovePollingRequest("ppos");
-    Owner().statusVariableValues->removeVariable("ppos");
-    //Owner().issueGalilRemovePollingRequest("cutdone");
-    Owner().statusVariableValues->removeVariable("cutdone");
+    Request_TellVariable requestPosition("Bottom Position","ppos");
+    Owner().issueGalilRemovePollingRequest(requestPosition.getTupleDescription());
+    Request_TellVariable requestCutting("Machining Complete","cutdone");
+    Owner().issueGalilRemovePollingRequest(requestCutting.getTupleDescription());
+
+    Owner().statusVariableValues->removeVariableNotifier("ppos",this);
+    Owner().statusVariableValues->removeVariableNotifier("cutdone",this);
 }
 
 void State_ScriptExecution::OnEnter()

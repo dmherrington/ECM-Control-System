@@ -46,14 +46,25 @@ void GalilPollState::addRequest(const AbstractRequestPtr request, const int &per
 
 void GalilPollState::removeRequest(const common::TupleECMData &tuple)
 {
-    m_LambdasToRun.push_back([this,tuple]
+    if(isThreadActive())
+    {
+        m_LambdasToRun.push_back([this,tuple]
+        {
+            if(requestMap.count(tuple) > 0)
+            {
+                requestMap.erase(tuple);
+                timeoutMap.erase(tuple);
+            }
+        });
+    }
+    else
     {
         if(requestMap.count(tuple) > 0)
         {
             requestMap.erase(tuple);
             timeoutMap.erase(tuple);
         }
-    });
+    }
 }
 
 void GalilPollState::pausePolling()
