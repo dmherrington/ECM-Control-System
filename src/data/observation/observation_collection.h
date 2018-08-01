@@ -118,6 +118,14 @@ public:
 
 
     //!
+    //! \brief Remove all data associated with the identifier from the collection
+    //!
+    //! Data will be inserted into the collection in the same thread that method is called in.
+    //! \param ID Identifier of source
+    //!
+    void ClearData(const IPlotComparable& ID);
+
+    //!
     //! \brief Schedule the application of any queued data to be inserted on seperate thread
     //!
     void ApplyDataInsertion();

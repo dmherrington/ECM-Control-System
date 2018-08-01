@@ -72,6 +72,11 @@ public:
 
 
     //!
+    //! \brief Remove all existing data from the graph being plotted by this object
+    //!
+    void ClearData();
+
+    //!
     //! \brief Prepare data contained in this object for display on a plot.
     //! \param [in] parameters Parameters for cartesian time conversion
     //! \return A time seires object that can be plotted
