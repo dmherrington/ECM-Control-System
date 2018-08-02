@@ -9,25 +9,18 @@ namespace comms_QModBus{
 
 CommsMarshaler::CommsMarshaler()
 {
-    m_Session = new SensoraySession();
-
     //let us simplify this and do this upon constuction as there will only be one link
     link = std::make_shared<QModBusLink>();
     link->AddListener(this);
-    link->updateCurrentSession(m_Session);
 
     //let us simplify this and do this upon constuction as there will only be one protocol
     protocol = std::make_shared<QModBusProtocol>();
     protocol->AddListner(this);
-    protocol->updateCurrentSession(m_Session);
 }
 
 CommsMarshaler::~CommsMarshaler()
 {
-    protocol->closeSerialPort();
     link->DisconnectFromDevice();
-    if(m_Session) delete m_Session;
-    m_Session = nullptr;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /// Methods supporting the Connect/Disconnect from the RS485 port
@@ -38,14 +31,14 @@ CommsMarshaler::~CommsMarshaler()
 //! \param linkName Name of link to connect to
 //! \return True if connection succesfull, false otherwise
 //!
-bool CommsMarshaler::ConnectToLink(const common::comms::SerialConfiguration &linkConfig)
+bool CommsMarshaler::ConnectToSerialPort(const common::comms::SerialConfiguration &linkConfig)
 {
     link->setSerialConfiguration(linkConfig);
     link->ConnectToDevice();
     return link->isConnected();
 }
 
-bool CommsMarshaler::DisconnetFromLink()
+bool CommsMarshaler::DisconnetFromSerialPort()
 {
     auto func = [this]() {
         link->DisconnectFromDevice();
@@ -55,30 +48,15 @@ bool CommsMarshaler::DisconnetFromLink()
     return link->isConnected();
 }
 
-bool CommsMarshaler::isLinkConnected() const
+bool CommsMarshaler::isSerialPortConnected() const
 {
     return link->isConnected();
 }
 
-void CommsMarshaler::WriteToSerialPort(const QByteArray &data) const
+void CommsMarshaler::WriteToSingleRegister(const ModbusRegister &regMsg) const
 {
-
-    auto func = [this, command]() {
-            protocol->SendProtocolCommand(link.get(), command);
-    };
-
-    link->MarshalOnThread(func);
-
-    auto func = [this, data]() {
-        protocol->transmitDataToSerialPort(data);
-    };
-    link->MarshalOnThread(func);
-}
-
-void CommsMarshaler::resetSensorayIO()
-{
-    auto func = [this]() {
-        protocol->resetSensorayIO();
+    auto func = [this, regMsg]() {
+        protocol->writeDataToSingleRegister(link.get(),regMsg);
     };
 
     link->MarshalOnThread(func);
@@ -99,7 +77,8 @@ void CommsMarshaler::CommunicationUpdate(const common::comms::CommunicationUpdat
 
 void CommsMarshaler::SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const
 {
-    Emit([&](CommsEvents *ptr){ptr->SerialPortStatusUpdate(update);});
+    //this is basically a duplicate of the communication update in this case
+    UNUSED(update);
 }
 
 void CommsMarshaler::ResponseReceived(const QByteArray &buffer) const

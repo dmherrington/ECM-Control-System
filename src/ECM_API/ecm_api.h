@@ -11,6 +11,7 @@
 #include "library_sensoray/sensoray.h"
 #include "library_rigol_oscilloscope/rigol_oscilliscope.h"
 #include "library_westinghouse510/westinghouse_510.h"
+#include "library_qModBus/library_qmodbus.h"
 
 #include "ecm_logging.h"
 
@@ -39,6 +40,8 @@ public:
     Westinghouse510* m_Pump;
 
     ECMLogging* m_Log;
+
+    Library_QModBus* m_Modbus485;
 
 };
 

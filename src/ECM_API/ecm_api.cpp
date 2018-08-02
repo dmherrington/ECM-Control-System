@@ -15,6 +15,8 @@ ECM_API::ECM_API()
     m_Pump = new Westinghouse510(m_Sensoray,03);
 
     m_Log = new ECMLogging();
+
+    m_Modbus485 = new Library_QModBus();
 }
 
 void ECM_API::slot_MotionControllerCommunicationUpdate(const common::comms::CommunicationUpdate &update)

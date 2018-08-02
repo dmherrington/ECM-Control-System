@@ -27,15 +27,6 @@ hsm::Transition ECMState_ProfileMachineCease::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_READY:
-        {
-            //return hsm::SiblingTransition<State_Ready>();
-            break;
-        }
-        case ECMState::STATE_ESTOP:
-        {
-
-        }
         default:
             std::cout<<"I dont know how we eneded up in this transition state from "<<ECMStateToString(this->currentState)<<"."<<std::endl;
             break;
@@ -45,6 +36,17 @@ hsm::Transition ECMState_ProfileMachineCease::GetTransition()
         return hsm::NoTransition();
     }
 }
+
+void ECMState_ProfileMachineCease::Update()
+{
+
+}
+
+void ECMState_ProfileMachineCease::OnEnter()
+{
+
+}
+
 
 } //end of namespace Galil
 } //end of namespace ECM

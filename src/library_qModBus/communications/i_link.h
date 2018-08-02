@@ -67,11 +67,23 @@ public:
     virtual void RequestReset() = 0;
 
     //!
+    //! \brief GetSlaveAddress
+    //! \return
+    //!
+    virtual unsigned int GetSlaveAddress() const = 0;
+
+    //!
+    //! \brief SetSlaveAddress
+    //! \param slaveAddress
+    //!
+    virtual void SetSlaveAddress(const unsigned int &slaveAddress) = 0;
+
+    //!
     //! \brief WriteBytes
     //! \param bytes
     //! \param length
     //!
-    virtual bool WriteSingleRegister(const unsigned int &slaveAddress, const int &data) const = 0;
+    virtual bool WriteSingleRegister(const unsigned long &data) const = 0;
 
     //!
     //! \brief setSerialConfiguration

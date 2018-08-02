@@ -38,6 +38,8 @@ class ECMState_MachineSetup : public AbstractStateECMProcess
 public:
     ECMState_MachineSetup();
 
+    void OnExit() override;
+
 public:
     AbstractStateECMProcess* getClone() const override;
 

@@ -5,6 +5,8 @@
 #-------------------------------------------------
 
 QT       -= gui
+QT += core
+QT += serialport
 
 TARGET = library_qModBus
 TEMPLATE = lib
@@ -24,9 +26,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         library_qmodbus.cpp \
-    ../../tools/libmodbus/src/modbus.c \
-    ../../tools/libmodbus/src/modbus-data.c \
-    ../../tools/libmodbus/src/modbus-rtu.c \
     communications/protocol_qmodbus.cpp \
     communications/qmodbus_link.cpp \
     communications/qmodbus_comms_marshaler.cpp \
@@ -35,8 +34,6 @@ SOURCES += \
 HEADERS += \
         library_qmodbus.h \
         library_qmodbus_global.h \ 
-    ../../tools/libmodbus/src/modbus.h \
-    ../../tools/libmodbus/src/modbus-rtu.h \
     communications/comms_events.h \
     communications/i_link.h \
     communications/i_link_events.h \
@@ -66,6 +63,9 @@ include(../headerinstall.pri)
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include
+
+INCLUDEPATH += $$(ECM_ROOT)/tools/libmodbus
+INCLUDEPATH += $$(ECM_ROOT)/tools/libmodbus/src
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon

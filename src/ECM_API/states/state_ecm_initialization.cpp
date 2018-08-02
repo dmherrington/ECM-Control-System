@@ -12,12 +12,12 @@ ECMState_Initialization::ECMState_Initialization():
 
 AbstractStateECMProcess* ECMState_Initialization::getClone() const
 {
-    return (new ECMState_Setup(*this));
+    return (new ECMState_Initialization(*this));
 }
 
 void ECMState_Initialization::getClone(AbstractStateECMProcess** state) const
 {
-    *state = new ECMState_Setup(*this);
+    *state = new ECMState_Initialization(*this);
 }
 
 hsm::Transition ECMState_Initialization::GetTransition()

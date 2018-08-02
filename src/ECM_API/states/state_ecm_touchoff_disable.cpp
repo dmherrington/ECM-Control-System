@@ -29,15 +29,6 @@ hsm::Transition ECMState_TouchoffDisable::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_READY:
-        {
-            rtn = hsm::SiblingTransition<ECMState_PumpSetup>(this->currentCommand);
-            break;
-        }
-        case ECMState::STATE_ESTOP:
-        {
-            rtn = hsm::SiblingTransition<ECMState_Setup>(this->currentCommand);
-        }
         default:
             std::cout<<"I dont know how we eneded up in this transition state from "<<ECMStateToString(this->currentState)<<"."<<std::endl;
             break;

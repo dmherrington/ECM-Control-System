@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-#include "../../tools/libmodbus/src/modbus.h"
+#include "modbus.h"
 
 /**
 \* @file  qmodbus_session.h
@@ -40,10 +40,9 @@ public:
 public:
     modbus_t* m_serialModbus;
 
-    void setDeviceConnected(const bool &status) { connectedDevice = status;}
+    void setSerialPortConnected(const bool &status) { connectedDevice = status;}
+    bool isSerialPortConnected() { return connectedDevice; }
 
-    bool isDeviceConnected() { return connectedDevice;}
-    bool isSerialPortConnected() { return connectedAPI && connectedDevice && connectedComms; }
 private:
     bool connectedDevice = false; /**< Boolean member variable capturing the status of the device connection*/
 };

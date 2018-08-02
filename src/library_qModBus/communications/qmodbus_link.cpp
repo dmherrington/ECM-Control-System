@@ -88,7 +88,7 @@ bool QModBusLink::DisconnectFromDevice(void)
         modbus_close(m_Session->m_serialModbus);
         modbus_free(m_Session->m_serialModbus);
         m_Session->m_serialModbus = nullptr;
-        m_Session->setDeviceConnected(false);
+        m_Session->setSerialPortConnected(false);
     }
 
     EmitEvent([this](const ILinkEvents *ptr){
@@ -109,7 +109,6 @@ bool QModBusLink::DisconnectFromDevice(void)
 /// @return success/fail
 bool QModBusLink::_hardwareConnect()
 {
-    bool comPortOpened = false;
     common::comms::CommunicationUpdate commsStatus;
     commsStatus.setSourceName("QModBus");
 
@@ -121,7 +120,7 @@ bool QModBusLink::_hardwareConnect()
         return false;
     }
 
-    m_Session->setDeviceConnected(true);
+    m_Session->setSerialPortConnected(true);
 
     m_ListenThread = new AppThread(10, [&](){
         //this->PortEventLoop();
@@ -132,7 +131,7 @@ bool QModBusLink::_hardwareConnect()
 
     EmitEvent([this](const ILinkEvents *ptr){
         common::comms::CommunicationUpdate commsUpdate;
-        commsUpdate.setSourceName("Sensoray_"+getDeviceAddress());
+        commsUpdate.setSourceName("QModBus");
         commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
         commsUpdate.setPeripheralMessage("Serial Port connection for QModbus has been opened.");
 
@@ -142,10 +141,21 @@ bool QModBusLink::_hardwareConnect()
     return true; // successful connection
 }
 
-bool QModBusLink::WriteSingleRegister(const unsigned int &slaveAddress, const int &data) const
+unsigned int QModBusLink::GetSlaveAddress() const
+{
+    return this->slaveID;
+}
+
+void QModBusLink::SetSlaveAddress(const unsigned int &slaveAddress)
+{
+    this->slaveID = slaveAddress;
+    modbus_set_slave(m_Session->m_serialModbus,slaveAddress);
+}
+
+bool QModBusLink::WriteSingleRegister(const unsigned long &data) const
 {
     int returned = -1;
-    returned = modbus_write_register(m_Session->m_serialModbus,slaveAddress,data);
+    returned = modbus_write_register(m_Session->m_serialModbus,this->slaveID,data);
     if( returned == 1  )
         return true;
     return false;
@@ -157,7 +167,7 @@ bool QModBusLink::WriteSingleRegister(const unsigned int &slaveAddress, const in
 //!
 bool QModBusLink::isConnected() const
 {
-    return m_Session->isDeviceConnected();
+    return m_Session->isSerialPortConnected();
 }
 
 void QModBusLink::_emitLinkError(const std::string& errorMsg) const

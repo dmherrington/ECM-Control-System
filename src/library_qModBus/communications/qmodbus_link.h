@@ -1,5 +1,5 @@
-#ifndef SENSORAY_TCP_LINK_H
-#define SENSORAY_TCP_LINK_H
+#ifndef QMODBUS_LINK_H
+#define QMODBUS_LINK_H
 
 #include <mutex>
 #include <iostream>
@@ -12,6 +12,7 @@
 #include "common/comms/serial_configuration.h"
 
 #include "i_link.h"
+#include "modbus.h"
 #include "qmodbus_session.h"
 
 /**
@@ -53,7 +54,12 @@ public:
 
     bool isConnected() const override;
 
-    bool WriteSingleRegister(const unsigned int &slaveAddress, const int &data) const override;
+    void SetSlaveAddress(const unsigned int &slaveAddress) override;
+
+    bool WriteSingleRegister(const unsigned long &data) const override;
+
+public:
+    unsigned int GetSlaveAddress() const override;
 
 public:
     common::comms::LinkConfiguration getLinkConfiguration();
@@ -98,6 +104,8 @@ private:
 
 
 private:
+    unsigned int slaveID;
+
     QModBusSession* m_Session; /**< Member variable containing a pointer to the current QModBus API session*/
     QThread *m_ListenThread;
     common::comms::SerialConfiguration _config;
@@ -105,4 +113,4 @@ private:
 
 } //end of namepsace comms_QModBus
 
-#endif // SENSORAY_TCP_LINK_H
+#endif // QMODBUS_LINK_H

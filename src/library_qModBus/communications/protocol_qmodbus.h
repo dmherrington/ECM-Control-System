@@ -12,8 +12,9 @@
 
 #include "common/common.h"
 #include "common/comms/serial_configuration.h"
+#include "common/modbus_register.h"
 
-#include "../../tools/libmodbus/src/modbus.h"
+#include "modbus.h"
 
 #include "i_link.h"
 #include "qmodbus_link.h"
@@ -47,12 +48,9 @@ public:
     void AddListner(const IProtocolQModBusEvents* listener);
 
 public:
+    void setSlaveAddress(ILink* link, const unsigned int &slaveAddress);
 
-    unsigned int getSlaveID() const;
-
-    void setSlaveAddress(const unsigned int &slaveAddress);
-
-    void writeDataToSingleRegister(const unsigned int &slaveAddress, const int &data);
+    void writeDataToSingleRegister(const ILink *link, const ModbusRegister &regMsg);
 private:
 
     void Emit(const std::function<void(const IProtocolQModBusEvents*)> func)
@@ -63,9 +61,6 @@ private:
 
 
 private:
-
-    unsigned int slaveID;
-
     std::vector<const IProtocolQModBusEvents*> m_Listners;
 };
 

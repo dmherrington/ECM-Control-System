@@ -12,7 +12,12 @@
 namespace ECM{
 namespace API {
 
-class AbstractStateECMProcess : public hsm::StateWithOwner<GalilStateInterface>
+class Empty
+{
+    Empty() = default;
+};
+
+class AbstractStateECMProcess : public hsm::StateWithOwner<Empty>
 {
 public:
     AbstractStateECMProcess() = default;

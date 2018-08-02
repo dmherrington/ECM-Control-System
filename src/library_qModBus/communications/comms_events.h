@@ -48,15 +48,6 @@ public:
     //////////////////////////////////////////////////////////////
 
     //!
-    //! \brief SerialPortStatusUpdate
-    //! \param update
-    //!
-    virtual void SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const
-    {
-        UNUSED(update);
-    }
-
-    //!
     //! \brief NewDataReceived
     //! \param buffer
     //!

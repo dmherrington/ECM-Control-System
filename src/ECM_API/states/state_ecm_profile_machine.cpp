@@ -28,15 +28,7 @@ hsm::Transition ECMState_ProfileMachine::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_IDLE:
-        {
-            rtn = hsm::SiblingTransition<ECMState_Touchoff>(currentCommand);
-            break;
-        }
-        case ECMState::STATE_ESTOP:
-        {
-            rtn = hsm::SiblingTransition<ECMState_Setup>(currentCommand);
-        }
+
         default:
             std::cout<<"I dont know how we eneded up in this transition state from "<<ECMStateToString(this->currentState)<<"."<<std::endl;
             break;

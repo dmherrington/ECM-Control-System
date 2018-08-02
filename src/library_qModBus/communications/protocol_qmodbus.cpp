@@ -12,19 +12,22 @@ void QModBusProtocol::AddListner(const IProtocolQModBusEvents *listener)
     m_Listners.push_back(listener);
 }
 
-unsigned int QModBusProtocol::getSlaveID() const
+void QModBusProtocol::setSlaveAddress(ILink* link, const unsigned int &slaveAddress)
 {
-    return this->slaveID;
+    link->SetSlaveAddress(slaveAddress);
 }
 
-void QModBusProtocol::setSlaveAddress(const unsigned int &slaveAddress)
+void QModBusProtocol::writeDataToSingleRegister(const ILink *link, const ModbusRegister &regMsg)
 {
-    this->slaveID = slaveAddress;
-}
+    unsigned int data = regMsg.getByteArray().toInt();
+    if(link->WriteSingleRegister(data))
+    {
+        Emit([&](const IProtocolQModBusEvents* ptr){ptr->ResponseReceived(regMsg.getFullMessage());});
+    }
+    else
+    {
 
-void QModBusProtocol::writeDataToRegister()
-{
-
+    }
 }
 
 } //end of namespace comms_QModBus

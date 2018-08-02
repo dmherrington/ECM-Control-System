@@ -12,7 +12,7 @@ ECMState_PowerSupplySetup::ECMState_PowerSupplySetup():
 
 void ECMState_PowerSupplySetup::OnExit()
 {
-    Owner().statusVariableValues->removeVariableNotifier("homest",this);
+
 }
 
 AbstractStateECMProcess* ECMState_PowerSupplySetup::getClone() const

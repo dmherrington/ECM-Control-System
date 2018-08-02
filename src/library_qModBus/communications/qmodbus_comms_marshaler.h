@@ -37,25 +37,7 @@ public:
     CommsMarshaler();
 
     virtual ~CommsMarshaler();
-    ///////////////////////////////////////////////////////////////////
-    /// Methods supporting the Connect/Disconnect from of the QModBus Device
-    /// and accompanying RS485 port
-    ///////////////////////////////////////////////////////////////////
 
-    //!
-    //! \brief Connect to an already created link
-    //! \param linkName Name of link to connect to
-    //! \return True if connection successful, false otherwise
-    //!
-    bool ConnectToLink(const common::comms::SerialConfiguration &linkConfig);
-
-    //!
-    //! \brief DisconnetFromLink
-    //! \return
-    //!
-    bool DisconnetFromLink();
-
-    bool isLinkConnected() const;
 
     ///////////////////////////////////////////////////////////////////
     /// Methods supporting the Connect/Disconnect from of the QModBus Device
@@ -67,16 +49,17 @@ public:
     //! \param linkConfig
     //! \return
     //!
-    void ConnectToSerialPort(const common::comms::SerialConfiguration &config);
+    bool ConnectToSerialPort(const common::comms::SerialConfiguration &config);
 
     //!
     //! \brief DisconnetFromSerialPort
     //! \return
     //!
-    void DisconnetFromSerialPort();
+    bool DisconnetFromSerialPort();
 
+    bool isSerialPortConnected() const;
 
-    void WriteToSerialPort(const QByteArray &data) const;
+    void WriteToSingleRegister(const ModbusRegister &regMsg) const;
 
 private:
     //////////////////////////////////////////////////////////////

@@ -1,16 +1,16 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'sensoray.h'
+** Meta object code from reading C++ file 'library_qmodbus.h'
 **
 ** Created by: The Qt Meta Object Compiler version 67 (Qt 5.10.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../sensoray.h"
+#include "../library_qmodbus.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'sensoray.h' doesn't include <QObject>."
+#error "The header file 'library_qmodbus.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
 #error "This file was generated using the moc from 5.10.1. It"
 #error "cannot be used with the include files from this version of Qt."
@@ -20,30 +20,30 @@
 QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
-struct qt_meta_stringdata_Sensoray_t {
+struct qt_meta_stringdata_Library_QModBus_t {
     QByteArrayData data[10];
-    char stringdata0[197];
+    char stringdata0[196];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Sensoray_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Library_QModBus_t, stringdata0) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
-static const qt_meta_stringdata_Sensoray_t qt_meta_stringdata_Sensoray = {
+static const qt_meta_stringdata_Library_QModBus_t qt_meta_stringdata_Library_QModBus = {
     {
-QT_MOC_LITERAL(0, 0, 8), // "Sensoray"
-QT_MOC_LITERAL(1, 9, 34), // "signal_SensorayCommunicationU..."
-QT_MOC_LITERAL(2, 44, 0), // ""
-QT_MOC_LITERAL(3, 45, 34), // "common::comms::CommunicationU..."
-QT_MOC_LITERAL(4, 80, 6), // "update"
-QT_MOC_LITERAL(5, 87, 31), // "signal_SerialPortReadyToConnect"
-QT_MOC_LITERAL(6, 119, 25), // "signal_SerialPortNotReady"
-QT_MOC_LITERAL(7, 145, 23), // "signal_SerialPortUpdate"
-QT_MOC_LITERAL(8, 169, 22), // "signal_RXNewSerialData"
-QT_MOC_LITERAL(9, 192, 4) // "data"
+QT_MOC_LITERAL(0, 0, 15), // "Library_QModBus"
+QT_MOC_LITERAL(1, 16, 26), // "signal_CommunicationUpdate"
+QT_MOC_LITERAL(2, 43, 0), // ""
+QT_MOC_LITERAL(3, 44, 34), // "common::comms::CommunicationU..."
+QT_MOC_LITERAL(4, 79, 6), // "update"
+QT_MOC_LITERAL(5, 86, 31), // "signal_SerialPortReadyToConnect"
+QT_MOC_LITERAL(6, 118, 25), // "signal_SerialPortNotReady"
+QT_MOC_LITERAL(7, 144, 23), // "signal_SerialPortUpdate"
+QT_MOC_LITERAL(8, 168, 22), // "signal_RXNewSerialData"
+QT_MOC_LITERAL(9, 191, 4) // "data"
 
     },
-    "Sensoray\0signal_SensorayCommunicationUpdate\0"
+    "Library_QModBus\0signal_CommunicationUpdate\0"
     "\0common::comms::CommunicationUpdate\0"
     "update\0signal_SerialPortReadyToConnect\0"
     "signal_SerialPortNotReady\0"
@@ -52,7 +52,7 @@ QT_MOC_LITERAL(9, 192, 4) // "data"
 };
 #undef QT_MOC_LITERAL
 
-static const uint qt_meta_data_Sensoray[] = {
+static const uint qt_meta_data_Library_QModBus[] = {
 
  // content:
        7,       // revision
@@ -82,13 +82,13 @@ static const uint qt_meta_data_Sensoray[] = {
        0        // eod
 };
 
-void Sensoray::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void Library_QModBus::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        Sensoray *_t = static_cast<Sensoray *>(_o);
+        Library_QModBus *_t = static_cast<Library_QModBus *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->signal_SensorayCommunicationUpdate((*reinterpret_cast< const common::comms::CommunicationUpdate(*)>(_a[1]))); break;
+        case 0: _t->signal_CommunicationUpdate((*reinterpret_cast< const common::comms::CommunicationUpdate(*)>(_a[1]))); break;
         case 1: _t->signal_SerialPortReadyToConnect(); break;
         case 2: _t->signal_SerialPortNotReady(); break;
         case 3: _t->signal_SerialPortUpdate((*reinterpret_cast< const common::comms::CommunicationUpdate(*)>(_a[1]))); break;
@@ -116,36 +116,36 @@ void Sensoray::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            typedef void (Sensoray::*_t)(const common::comms::CommunicationUpdate & ) const;
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Sensoray::signal_SensorayCommunicationUpdate)) {
+            typedef void (Library_QModBus::*_t)(const common::comms::CommunicationUpdate & ) const;
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Library_QModBus::signal_CommunicationUpdate)) {
                 *result = 0;
                 return;
             }
         }
         {
-            typedef void (Sensoray::*_t)() const;
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Sensoray::signal_SerialPortReadyToConnect)) {
+            typedef void (Library_QModBus::*_t)() const;
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Library_QModBus::signal_SerialPortReadyToConnect)) {
                 *result = 1;
                 return;
             }
         }
         {
-            typedef void (Sensoray::*_t)() const;
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Sensoray::signal_SerialPortNotReady)) {
+            typedef void (Library_QModBus::*_t)() const;
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Library_QModBus::signal_SerialPortNotReady)) {
                 *result = 2;
                 return;
             }
         }
         {
-            typedef void (Sensoray::*_t)(const common::comms::CommunicationUpdate ) const;
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Sensoray::signal_SerialPortUpdate)) {
+            typedef void (Library_QModBus::*_t)(const common::comms::CommunicationUpdate ) const;
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Library_QModBus::signal_SerialPortUpdate)) {
                 *result = 3;
                 return;
             }
         }
         {
-            typedef void (Sensoray::*_t)(const QByteArray ) const;
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Sensoray::signal_RXNewSerialData)) {
+            typedef void (Library_QModBus::*_t)(const QByteArray ) const;
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Library_QModBus::signal_RXNewSerialData)) {
                 *result = 4;
                 return;
             }
@@ -153,32 +153,32 @@ void Sensoray::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
     }
 }
 
-QT_INIT_METAOBJECT const QMetaObject Sensoray::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_Sensoray.data,
-      qt_meta_data_Sensoray,  qt_static_metacall, nullptr, nullptr}
+QT_INIT_METAOBJECT const QMetaObject Library_QModBus::staticMetaObject = {
+    { &QObject::staticMetaObject, qt_meta_stringdata_Library_QModBus.data,
+      qt_meta_data_Library_QModBus,  qt_static_metacall, nullptr, nullptr}
 };
 
 
-const QMetaObject *Sensoray::metaObject() const
+const QMetaObject *Library_QModBus::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *Sensoray::qt_metacast(const char *_clname)
+void *Library_QModBus::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_Sensoray.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Library_QModBus.stringdata0))
         return static_cast<void*>(this);
     if (!strcmp(_clname, "common::comms::ICommunication"))
         return static_cast< common::comms::ICommunication*>(this);
-    if (!strcmp(_clname, "comms_Sensoray::CommsEvents"))
-        return static_cast< comms_Sensoray::CommsEvents*>(this);
+    if (!strcmp(_clname, "comms_QModBus::CommsEvents"))
+        return static_cast< comms_QModBus::CommsEvents*>(this);
     if (!strcmp(_clname, "ICommunication"))
         return static_cast< common::comms::ICommunication*>(this);
     return QObject::qt_metacast(_clname);
 }
 
-int Sensoray::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int Library_QModBus::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QObject::qt_metacall(_c, _id, _a);
     if (_id < 0)
@@ -196,36 +196,36 @@ int Sensoray::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void Sensoray::signal_SensorayCommunicationUpdate(const common::comms::CommunicationUpdate & _t1)const
+void Library_QModBus::signal_CommunicationUpdate(const common::comms::CommunicationUpdate & _t1)const
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(const_cast< Sensoray *>(this), &staticMetaObject, 0, _a);
+    QMetaObject::activate(const_cast< Library_QModBus *>(this), &staticMetaObject, 0, _a);
 }
 
 // SIGNAL 1
-void Sensoray::signal_SerialPortReadyToConnect()const
+void Library_QModBus::signal_SerialPortReadyToConnect()const
 {
-    QMetaObject::activate(const_cast< Sensoray *>(this), &staticMetaObject, 1, nullptr);
+    QMetaObject::activate(const_cast< Library_QModBus *>(this), &staticMetaObject, 1, nullptr);
 }
 
 // SIGNAL 2
-void Sensoray::signal_SerialPortNotReady()const
+void Library_QModBus::signal_SerialPortNotReady()const
 {
-    QMetaObject::activate(const_cast< Sensoray *>(this), &staticMetaObject, 2, nullptr);
+    QMetaObject::activate(const_cast< Library_QModBus *>(this), &staticMetaObject, 2, nullptr);
 }
 
 // SIGNAL 3
-void Sensoray::signal_SerialPortUpdate(const common::comms::CommunicationUpdate _t1)const
+void Library_QModBus::signal_SerialPortUpdate(const common::comms::CommunicationUpdate _t1)const
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(const_cast< Sensoray *>(this), &staticMetaObject, 3, _a);
+    QMetaObject::activate(const_cast< Library_QModBus *>(this), &staticMetaObject, 3, _a);
 }
 
 // SIGNAL 4
-void Sensoray::signal_RXNewSerialData(const QByteArray _t1)const
+void Library_QModBus::signal_RXNewSerialData(const QByteArray _t1)const
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(const_cast< Sensoray *>(this), &staticMetaObject, 4, _a);
+    QMetaObject::activate(const_cast< Library_QModBus *>(this), &staticMetaObject, 4, _a);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

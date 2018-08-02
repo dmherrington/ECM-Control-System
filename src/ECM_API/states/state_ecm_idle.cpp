@@ -36,7 +36,7 @@ hsm::Transition ECMState_Idle::GetTransition()
         switch (desiredState) {
         case ECMState::STATE_ECM_INITIALIZATION:
         {
-            rtn = hsm::SiblingTransition<ECMState_Setup>();
+            //rtn = hsm::SiblingTransition<ECMState_Setup>();
             break;
         }
         default:

@@ -11,6 +11,7 @@ Library_QModBus::Library_QModBus(const std::string &name, QObject *parent):
 
     deviceName = name;
 
+    commsMarshaler = new comms_QModBus::CommsMarshaler();
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -31,11 +32,11 @@ void Library_QModBus::openSerialPortConnection(const common::comms::SerialConfig
 
 void Library_QModBus::closeSerialPortConnection() const
 {
-
+    commsMarshaler->DisconnetFromSerialPort();
 }
-void Library_QModBus::writeToSerialPort(const QByteArray &msg) const
+void Library_QModBus::writeToSerialPort(const ModbusRegister &regMsg) const
 {
-    commsMarshaler->WriteToSerialPort(msg);
+    commsMarshaler->WriteToSingleRegister(regMsg);
 }
 bool Library_QModBus::isSerialPortOpen() const
 {
@@ -54,18 +55,14 @@ void Library_QModBus::ConnectionStatusUpdated(const common::comms::Communication
 {
     if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
     {
-        emit signal_SensorayCommunicationUpdate(update);
+        emit signal_CommunicationUpdate(update);
+        emit signal_SerialPortUpdate(update);
         emit signal_SerialPortReadyToConnect();
     }
     else
     {
-        emit signal_SensorayCommunicationUpdate(update);
+        emit signal_CommunicationUpdate(update);
     }
-}
-
-void Library_QModBus::SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const
-{
-    emit signal_SerialPortUpdate(update);
 }
 
 void Library_QModBus::NewDataReceived(const QByteArray &buffer) const

@@ -26,44 +26,44 @@ hsm::Transition ECMState_Touchoff::GetTransition()
 
     if(currentState != desiredState)
     {
-        if(IsInInnerState<State_TakeoffComplete>())
-        {
-            rtn = hsm::SiblingTransition<State_Flight>();
-        }
-        else if()
-        {
+//        if(IsInInnerState<S>())
+//        {
 
-        }
-        else
-        {
-            //this means we want to chage the state for some reason
-            //now initiate the state transition to the correct class
-            switch (desiredState) {
-            case ECMState::STATE_ECM_IDLE:
-            {
-                rtn = hsm::InnerEntryTransition<ECMState_Idle>();
-                break;
-            }
-            case ECMState::STATE_ECM_TOUCHOFF_ENABLE:
-            {
-                rtn = hsm::InnerEntryTransition<ECMState_TouchoffEnable>();
-                break;
-            }
-            case ECMState::STATE_ECM_TOUCHOFF_EXECUTE:
-            {
-                rtn = hsm::InnerEntryTransition<ECMState_TouchoffExecute>();
-                break;
-            }
-            case ECMState::STATE_ECM_TOUCHOFF_DISABLE:
-            {
-                rtn = hsm::InnerEntryTransition<ECMState_TouchoffDisable>();
-                break;
-            }
-            default:
-                std::cout<<"I dont know how we eneded up in this transition state from "<<ECMStateToString(this->currentState)<<"."<<std::endl;
-                break;
-            }
-        } //end of else statement
+//        }
+//        else if()
+//        {
+
+//        }
+//        else
+//        {
+//            //this means we want to chage the state for some reason
+//            //now initiate the state transition to the correct class
+//            switch (desiredState) {
+//            case ECMState::STATE_ECM_IDLE:
+//            {
+//                rtn = hsm::InnerEntryTransition<ECMState_Idle>();
+//                break;
+//            }
+//            case ECMState::STATE_ECM_TOUCHOFF_ENABLE:
+//            {
+//                rtn = hsm::InnerEntryTransition<ECMState_TouchoffEnable>();
+//                break;
+//            }
+//            case ECMState::STATE_ECM_TOUCHOFF_EXECUTE:
+//            {
+//                rtn = hsm::InnerEntryTransition<ECMState_TouchoffExecute>();
+//                break;
+//            }
+//            case ECMState::STATE_ECM_TOUCHOFF_DISABLE:
+//            {
+//                rtn = hsm::InnerEntryTransition<ECMState_TouchoffDisable>();
+//                break;
+//            }
+//            default:
+//                std::cout<<"I dont know how we eneded up in this transition state from "<<ECMStateToString(this->currentState)<<"."<<std::endl;
+//                break;
+//            }
+//        } //end of else statement
     }
 
     return rtn;

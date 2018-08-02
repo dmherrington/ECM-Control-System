@@ -6,11 +6,12 @@
 #include <QDir>
 #include <QObject>
 
-#include "../../tools/libmodbus/src/modbus.h"
+#include "modbus.h"
 
 #include "common/common.h"
 #include "common/comms/abstract_communication.h"
 #include "common/comms/serial_configuration.h"
+#include "common/modbus_register.h"
 
 #include "communications/qmodbus_comms_marshaler.h"
 
@@ -38,7 +39,7 @@ public:
     bool isSerialDeviceReadyToConnect() const;
     void openSerialPortConnection(const common::comms::SerialConfiguration &config) const override;
     void closeSerialPortConnection() const override;
-    void writeToSerialPort(const QByteArray &msg) const override;
+    void writeToSerialPort(const ModbusRegister &regMsg) const override;
     bool isSerialPortOpen() const override;
 
 public:
@@ -53,19 +54,13 @@ public:
     void ConnectionStatusUpdated(const common::comms::CommunicationUpdate &update) const override;
 
     //!
-    //! \brief SerialPortStatusUpdate
-    //! \param update
-    //!
-    void SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const override;
-
-    //!
     //! \brief NewDataReceived
     //! \param buffer
     //!
     void NewDataReceived(const QByteArray &buffer) const override;
 
 signals:
-    void signal_SensorayCommunicationUpdate(const common::comms::CommunicationUpdate &update) const;
+    void signal_CommunicationUpdate(const common::comms::CommunicationUpdate &update) const;
 
     ///////////////////////////////////////////////////////////////////////////
     /// Imposed virtual signals from common::comms::ICommunication

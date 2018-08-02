@@ -30,7 +30,7 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
 //!
 void Westinghouse510::setPumpFlowRate(const registers_WestinghousePump::Register_FlowRate &desRate)
 {
-    this->m_Comms->writeToSerialPort(desRate.getFullMessage());
+    //this->m_Comms->writeToSerialPort(desRate.getFullMessage());
 }
 
 //!
@@ -48,7 +48,7 @@ void Westinghouse510::setPumpOperations(const registers_WestinghousePump::Regist
             initializationTimer->stop();
     }
 
-    this->m_Comms->writeToSerialPort(desOps.getFullMessage());
+    //this->m_Comms->writeToSerialPort(desOps.getFullMessage());
 }
 
 void Westinghouse510::setInitializationTime(const unsigned int &interval)

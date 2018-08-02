@@ -12,7 +12,7 @@ ECMState_ProfileMachineProcess::ECMState_ProfileMachineProcess():
 
 void ECMState_ProfileMachineProcess::OnExit()
 {
-    Owner().statusVariableValues->removeVariableNotifier("touchst",this);
+
 }
 
 AbstractStateECMProcess* ECMState_ProfileMachineProcess::getClone() const
@@ -36,21 +36,6 @@ hsm::Transition ECMState_ProfileMachineProcess::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_READY:
-        {
-            return hsm::SiblingTransition<ECMState_PumpSetup>();
-            break;
-        }
-        case ECMState::STATE_MOTION_STOP:
-        {
-            rtn = hsm::SiblingTransition<ECMState_TouchoffDisable>(currentCommand);
-            break;
-        }
-        case ECMState::STATE_ESTOP:
-        {
-            rtn = hsm::SiblingTransition<ECMState_Setup>();
-            break;
-        }
         default:
             std::cout<<"I dont know how we eneded up in this transition state from "<<ECMStateToString(this->currentState)<<"."<<std::endl;
             break;

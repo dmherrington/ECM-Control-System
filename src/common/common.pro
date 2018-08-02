@@ -34,7 +34,8 @@ SOURCES += common.cpp \
     tuple_machine_string.cpp \
     tuple_profile_variable_string.cpp \
     tuple_positional_string.cpp \
-    tuple_general_descriptor.cpp
+    tuple_general_descriptor.cpp \
+    modbus_register.cpp
 
 HEADERS += common.h\
         common_global.h \
@@ -59,7 +60,8 @@ HEADERS += common.h\
     tuple_positional_string.h \
     axis_definitions.h \
     hash_keys.h \
-    tuple_general_descriptor.h
+    tuple_general_descriptor.h \
+    modbus_register.h
 
 #Header file copy
 headers.path    = $$(ECM_ROOT)/include/common
