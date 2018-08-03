@@ -194,19 +194,19 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &senso
     m_additionalSensorDisplay->UpdateNonPlottedData(sensor,state);
 
     QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(sensor);
-    counter++;
+//    counter++;
 
-    if(counter >20)
-    {
-        m_PlotCollection.ClearAllData();
-        counter = 0;
-    }
+//    if(counter >20)
+//    {
+//        m_PlotCollection.ClearAllData();
+//        counter = 0;
+//    }
 
     ui->widget_primaryPlot->RedrawDataSource(plots);
     m_SensorDisplays.PlottedDataUpdated(sensor); //this seems to be uneeded based on the call after this
     m_additionalSensorDisplay->UpdatePlottedData(sensor);
 
-    //m_API->m_Log->WriteLogSensorState(sensor,state);
+    m_API->m_Log->WriteLogSensorState(sensor,state);
 
 }
 

@@ -305,8 +305,11 @@ void GalilMotionController::NewStatusVariableValue(const Status_VariableValue &s
 {
     if(stateInterface->statusVariableValues->updateVariable(status))
     {
+
         stateMachine->UpdateStates();
         stateMachine->ProcessStateTransitions();
+        common::TupleProfileVariableString varTuple("","",QString::fromStdString(status.getVariableName()));
+        emit signal_MCNewProfileVariableValue(varTuple,status.getVariableState());
     }
 }
 
