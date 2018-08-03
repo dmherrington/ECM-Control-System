@@ -7,6 +7,7 @@
 QT       += core gui
 QT       += serialport
 QT       += network
+QT       += widgets
 
 unix {
 DEFINES += OSTYPE_LINUX
@@ -65,7 +66,8 @@ SOURCES += \
     SensorDisplay/display_ampere_area.cpp \
     rigol_dialog/widget_rigol_radio.cpp \
     general_dialog_window.cpp \
-    misc_dialogs/window_motion_profile.cpp
+    misc_dialogs/window_motion_profile.cpp \
+    misc_dialogs/code_edit_widget.cpp
 
 HEADERS += \
         ECM_controller_gui.h \
@@ -89,7 +91,8 @@ HEADERS += \
     SensorDisplay/display_ampere_area.h \
     rigol_dialog/widget_rigol_radio.h \
     general_dialog_window.h \
-    misc_dialogs/window_motion_profile.h
+    misc_dialogs/window_motion_profile.h \
+    misc_dialogs/code_edit_widget.h
 
 FORMS += \
         ECM_controller_gui.ui \
@@ -110,7 +113,8 @@ INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include
 INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
 INCLUDEPATH += $$(ECM_ROOT)/tools/sensoray/lib/
-
+INCLUDEPATH += $$(ECM_ROOT)/tools/libmodbus
+INCLUDEPATH += $$(ECM_ROOT)/tools/libmodbus/src
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
@@ -146,6 +150,13 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../library_rigol_oscilloscope/ -llibrary_ri
 
 INCLUDEPATH += $$PWD/../library_rigol_oscilloscope
 DEPENDPATH += $$PWD/../library_rigol_oscilloscope
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_qModBus/release/ -llibrary_qModBus
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_qModBus/debug/ -llibrary_qModBus
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_qModBus/ -llibrary_qModBus
+
+INCLUDEPATH += $$PWD/../library_qModBus
+DEPENDPATH += $$PWD/../library_qModBus
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/release/ -llibrary_westinghouse510
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/debug/ -llibrary_westinghouse510

@@ -17,9 +17,12 @@ class GeneralDialogWindow : public QMainWindow
 public:
     enum class DialogWindowTypes
     {
+        WINDOW_CONNECTIONS,
         WINDOW_PUMP,
         WINDOW_OSCILLISCOPE,
         WINDOW_POWERSUPPLY,
+        WINDOW_TOUCHOFF,
+        WINDOW_MOTION_PROFILE
     };
 
     GeneralDialogWindow(const DialogWindowTypes &type, const QString &name, QWidget *parent);
@@ -28,7 +31,7 @@ public:
     bool isWindowHidden() const;
 
 signals:
-    virtual void signal_DialogWindowVisibilty(const DialogWindowTypes &type, const bool &visibility) = 0;
+     virtual void signal_DialogWindowVisibilty(const DialogWindowTypes &type, const bool &visibility) = 0;
 
 protected:
     virtual void onCloseAction();

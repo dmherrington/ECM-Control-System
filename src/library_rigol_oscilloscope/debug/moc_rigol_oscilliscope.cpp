@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_RigolOscilliscope_t {
     QByteArrayData data[13];
-    char stringdata0[242];
+    char stringdata0[241];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,22 +32,22 @@ struct qt_meta_stringdata_RigolOscilliscope_t {
 static const qt_meta_stringdata_RigolOscilliscope_t qt_meta_stringdata_RigolOscilliscope = {
     {
 QT_MOC_LITERAL(0, 0, 17), // "RigolOscilliscope"
-QT_MOC_LITERAL(1, 18, 28), // "signal_RigolConnectionUpdate"
-QT_MOC_LITERAL(2, 47, 0), // ""
-QT_MOC_LITERAL(3, 48, 38), // "common::comms::CommunicationC..."
-QT_MOC_LITERAL(4, 87, 5), // "value"
-QT_MOC_LITERAL(5, 93, 21), // "signal_RigolPlottable"
-QT_MOC_LITERAL(6, 115, 25), // "common::TupleSensorString"
-QT_MOC_LITERAL(7, 141, 11), // "sensorTuple"
-QT_MOC_LITERAL(8, 153, 6), // "on_off"
-QT_MOC_LITERAL(9, 160, 26), // "signal_RigolNewSensorValue"
-QT_MOC_LITERAL(10, 187, 24), // "common_data::SensorState"
-QT_MOC_LITERAL(11, 212, 4), // "data"
-QT_MOC_LITERAL(12, 217, 24) // "signal_RigolLoadComplete"
+QT_MOC_LITERAL(1, 18, 31), // "signal_RigolCommunicationUpdate"
+QT_MOC_LITERAL(2, 50, 0), // ""
+QT_MOC_LITERAL(3, 51, 34), // "common::comms::CommunicationU..."
+QT_MOC_LITERAL(4, 86, 5), // "value"
+QT_MOC_LITERAL(5, 92, 21), // "signal_RigolPlottable"
+QT_MOC_LITERAL(6, 114, 25), // "common::TupleSensorString"
+QT_MOC_LITERAL(7, 140, 11), // "sensorTuple"
+QT_MOC_LITERAL(8, 152, 6), // "on_off"
+QT_MOC_LITERAL(9, 159, 26), // "signal_RigolNewSensorValue"
+QT_MOC_LITERAL(10, 186, 24), // "common_data::SensorState"
+QT_MOC_LITERAL(11, 211, 4), // "data"
+QT_MOC_LITERAL(12, 216, 24) // "signal_RigolLoadComplete"
 
     },
-    "RigolOscilliscope\0signal_RigolConnectionUpdate\0"
-    "\0common::comms::CommunicationConnection\0"
+    "RigolOscilliscope\0signal_RigolCommunicationUpdate\0"
+    "\0common::comms::CommunicationUpdate\0"
     "value\0signal_RigolPlottable\0"
     "common::TupleSensorString\0sensorTuple\0"
     "on_off\0signal_RigolNewSensorValue\0"
@@ -90,7 +90,7 @@ void RigolOscilliscope::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
         RigolOscilliscope *_t = static_cast<RigolOscilliscope *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->signal_RigolConnectionUpdate((*reinterpret_cast< const common::comms::CommunicationConnection(*)>(_a[1]))); break;
+        case 0: _t->signal_RigolCommunicationUpdate((*reinterpret_cast< const common::comms::CommunicationUpdate(*)>(_a[1]))); break;
         case 1: _t->signal_RigolPlottable((*reinterpret_cast< const common::TupleSensorString(*)>(_a[1])),(*reinterpret_cast< const bool(*)>(_a[2]))); break;
         case 2: _t->signal_RigolNewSensorValue((*reinterpret_cast< const common::TupleSensorString(*)>(_a[1])),(*reinterpret_cast< const common_data::SensorState(*)>(_a[2]))); break;
         case 3: _t->signal_RigolLoadComplete(); break;
@@ -103,7 +103,7 @@ void RigolOscilliscope::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
-                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< common::comms::CommunicationConnection >(); break;
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< common::comms::CommunicationUpdate >(); break;
             }
             break;
         case 1:
@@ -126,8 +126,8 @@ void RigolOscilliscope::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            typedef void (RigolOscilliscope::*_t)(const common::comms::CommunicationConnection & ) const;
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&RigolOscilliscope::signal_RigolConnectionUpdate)) {
+            typedef void (RigolOscilliscope::*_t)(const common::comms::CommunicationUpdate & ) const;
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&RigolOscilliscope::signal_RigolCommunicationUpdate)) {
                 *result = 0;
                 return;
             }
@@ -197,7 +197,7 @@ int RigolOscilliscope::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void RigolOscilliscope::signal_RigolConnectionUpdate(const common::comms::CommunicationConnection & _t1)const
+void RigolOscilliscope::signal_RigolCommunicationUpdate(const common::comms::CommunicationUpdate & _t1)const
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(const_cast< RigolOscilliscope *>(this), &staticMetaObject, 0, _a);

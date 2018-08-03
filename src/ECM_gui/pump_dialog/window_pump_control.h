@@ -37,7 +37,7 @@ private:
     void write(QJsonObject &json) const;
 
 signals:
-    void signal_DialogWindowVisibilty(const DialogWindowTypes &type, const bool &visibility) override;
+    void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility);
 
 private slots:
 

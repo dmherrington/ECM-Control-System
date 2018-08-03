@@ -85,6 +85,11 @@ public:
     //!
     QList<ECMPlotIdentifier> AllSubPlots(const common::TupleECMData &component) const;
 
+    //!
+    //! \brief AllSubPlots
+    //! \return
+    //!
+    QList<ECMPlotIdentifier> AllSubPlots() const;
 
 private slots:
 

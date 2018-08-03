@@ -87,9 +87,8 @@ INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include
 INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
 INCLUDEPATH += $$(ECM_ROOT)/tools/sensoray/lib/
-
-INCLUDEPATH += $$(ECM_ROOT)/tools/libmodbus \
-               $$(ECM_ROOT)/tools/libmodbus/src
+INCLUDEPATH += $$(ECM_ROOT)/tools/libmodbus
+INCLUDEPATH += $$(ECM_ROOT)/tools/libmodbus/src
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon

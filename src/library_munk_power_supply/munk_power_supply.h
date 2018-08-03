@@ -39,7 +39,6 @@ using namespace comms_Munk;
 
 class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply :  public QObject, CommsEvents, MunkStatusCallback_Interface
 {
-
     Q_OBJECT
 
 public:

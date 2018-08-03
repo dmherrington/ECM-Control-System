@@ -2024,6 +2024,7 @@ width:20px;
     <addaction name="actionOscilliscope"/>
     <addaction name="separator"/>
     <addaction name="actionTouchoff"/>
+    <addaction name="actionMotion_Profile"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -2093,6 +2094,9 @@ width:20px;
    </property>
   </action>
   <action name="actionOpen_Sensors_Window">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Open Sensors Window</string>
    </property>
@@ -2100,6 +2104,14 @@ width:20px;
   <action name="actionClose">
    <property name="text">
     <string>Close</string>
+   </property>
+  </action>
+  <action name="actionMotion_Profile">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Motion Profile</string>
    </property>
   </action>
  </widget>

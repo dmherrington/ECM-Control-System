@@ -302,7 +302,7 @@ width:20px;
     <item row="1" column="0" colspan="2">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QPushButton" name="pushButton_RunTouchoff">
+       <widget class="QPushButton" name="pushButton_TouchoffGap">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>

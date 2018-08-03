@@ -22,7 +22,9 @@ class ECMLogging
 public:
     ECMLogging();
 
-    void initializeLogging(const std::string &logName, const common::EnvironmentTime &time);
+    bool checkLoggingPath(const string &partNumber, const string &serialNumber);
+
+    void initializeLogging(const string &partNumber, const string &serialNumber, const common::EnvironmentTime &time, bool clearContents = true);
 
     void setLoggingRelativeTime(const bool &value);
 

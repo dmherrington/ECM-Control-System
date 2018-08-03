@@ -90,7 +90,7 @@ void ECMPlotCollection::UpdateSensorPlots(const common::TupleSensorString &senso
 //! \param element ECM components
 //! \return List of pointers to plot data
 //!
-QList<std::shared_ptr<common_data::observation::IPlotComparable> > ECMPlotCollection::getPlots(const common::TupleECMData &element) const
+QList<std::shared_ptr<common_data::observation::IPlotComparable>> ECMPlotCollection::getPlots(const common::TupleECMData &element) const
 {
     QList<std::shared_ptr<common_data::observation::IPlotComparable>> rtnList;
 
@@ -124,6 +124,17 @@ QList<ECMPlotIdentifier> ECMPlotCollection::AllSubPlots(const common::TupleECMDa
 {
     return m_ComponentToIDsHash[component];
 }
+
+QList<ECMPlotIdentifier> ECMPlotCollection::AllSubPlots() const
+{
+    QList<ECMPlotIdentifier> rtnList;
+
+    for (auto it = m_ComponentToIDsHash.begin(); it != m_ComponentToIDsHash.end(); ++it)
+        rtnList.append(it.value());
+
+    return rtnList;
+}
+
 
 
 //!

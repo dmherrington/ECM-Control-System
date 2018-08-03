@@ -22,9 +22,9 @@ public:
 
     virtual void NewPositionReceived(const Status_Position &status) const = 0;
 
-    virtual void NewProgramDownloaded(const ProgramGeneric &program) const = 0;
-
     virtual void NewProgramUploaded(const ProgramGeneric &program) const = 0;
+
+    virtual void NewProgramDownloaded(const ProgramGeneric &program) const = 0;
 
     virtual void ErrorBadCommand(const CommandType &type, const std::string &description) const = 0;
 };

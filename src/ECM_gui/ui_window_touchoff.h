@@ -47,7 +47,7 @@ public:
     QLabel *label_Connection;
     LED *widget_TouchoffComplete;
     QHBoxLayout *horizontalLayout_2;
-    QPushButton *pushButton_RunTouchoff;
+    QPushButton *pushButton_TouchoffGap;
     QDoubleSpinBox *doubleSpinBox_InitialGap;
     QLabel *label_2;
     QPushButton *pushButton_ExecuteTouchoff;
@@ -269,15 +269,15 @@ public:
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        pushButton_RunTouchoff = new QPushButton(centralwidget);
-        pushButton_RunTouchoff->setObjectName(QStringLiteral("pushButton_RunTouchoff"));
-        sizePolicy.setHeightForWidth(pushButton_RunTouchoff->sizePolicy().hasHeightForWidth());
-        pushButton_RunTouchoff->setSizePolicy(sizePolicy);
-        pushButton_RunTouchoff->setMinimumSize(QSize(180, 25));
-        pushButton_RunTouchoff->setMaximumSize(QSize(16777215, 25));
-        pushButton_RunTouchoff->setFont(font);
+        pushButton_TouchoffGap = new QPushButton(centralwidget);
+        pushButton_TouchoffGap->setObjectName(QStringLiteral("pushButton_TouchoffGap"));
+        sizePolicy.setHeightForWidth(pushButton_TouchoffGap->sizePolicy().hasHeightForWidth());
+        pushButton_TouchoffGap->setSizePolicy(sizePolicy);
+        pushButton_TouchoffGap->setMinimumSize(QSize(180, 25));
+        pushButton_TouchoffGap->setMaximumSize(QSize(16777215, 25));
+        pushButton_TouchoffGap->setFont(font);
 
-        horizontalLayout_2->addWidget(pushButton_RunTouchoff);
+        horizontalLayout_2->addWidget(pushButton_TouchoffGap);
 
         doubleSpinBox_InitialGap = new QDoubleSpinBox(centralwidget);
         doubleSpinBox_InitialGap->setObjectName(QStringLiteral("doubleSpinBox_InitialGap"));
@@ -366,7 +366,7 @@ public:
         pushButton_TouchoffRef->setText(QApplication::translate("Window_Touchoff", "Set Touchoff Ref", nullptr));
         label->setText(QApplication::translate("Window_Touchoff", "um", nullptr));
         label_Connection->setText(QApplication::translate("Window_Touchoff", "Completed:", nullptr));
-        pushButton_RunTouchoff->setText(QApplication::translate("Window_Touchoff", "Set Initial Gap", nullptr));
+        pushButton_TouchoffGap->setText(QApplication::translate("Window_Touchoff", "Set Initial Gap", nullptr));
         label_2->setText(QApplication::translate("Window_Touchoff", "um", nullptr));
         pushButton_ExecuteTouchoff->setText(QApplication::translate("Window_Touchoff", "Execute", nullptr));
         menuFile->setTitle(QApplication::translate("Window_Touchoff", "File", nullptr));

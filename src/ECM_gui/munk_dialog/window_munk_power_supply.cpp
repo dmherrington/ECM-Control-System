@@ -8,9 +8,9 @@ Window_MunkPowerSupply::Window_MunkPowerSupply(MunkPowerSupply *obj, QWidget *pa
     munk(obj)
 {
     ui->setupUi(this);
-    ui->widget_connection->setDiameter(6);
+    ui->widget_connection->setDiameter(5);
 
-    connect(munk,SIGNAL(signal_MunkCommunicationUpdate(common::comms::CommunicationConnection)),this,SLOT(on_connectionUpdated(common::comms::CommunicationConnection)));
+    connect(munk,SIGNAL(signal_MunkCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(on_connectionUpdated(common::comms::CommunicationUpdate)));
 
     GeneralDialogWindow::readWindowSettings();
 
@@ -28,11 +28,11 @@ void Window_MunkPowerSupply::closeEvent(QCloseEvent *event)
     GeneralDialogWindow::closeEvent(event);
 }
 
-void Window_MunkPowerSupply::on_connectionUpdated(const common::comms::CommunicationConnection &connection)
+void Window_MunkPowerSupply::on_connectionUpdated(const common::comms::CommunicationUpdate &connection)
 {
-    if(connection.isConnected())
+    if(connection.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
         ui->widget_connection->setColor(QColor(0,255,0));
-    else
+    else if(connection.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED)
         ui->widget_connection->setColor(QColor(255,0,0));
 }
 void Window_MunkPowerSupply::on_pushButton_AddSegment_released()

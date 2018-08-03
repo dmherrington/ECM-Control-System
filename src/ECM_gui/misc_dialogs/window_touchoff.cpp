@@ -2,13 +2,15 @@
 #include "ui_window_touchoff.h"
 
 Window_Touchoff::Window_Touchoff(GalilMotionController *obj, QWidget *parent) :
-    QMainWindow(parent),
+    GeneralDialogWindow(DialogWindowTypes::WINDOW_TOUCHOFF,"Touchoff",parent),
     m_MotionController(obj),
     ui(new Ui::Window_Touchoff)
 {
     ui->setupUi(this);
 
     connect(m_MotionController,SIGNAL(signal_GalilUpdatedProfileState(MotionProfileState)),this,SLOT(slot_UpdateMotionProfileState(MotionProfileState)));
+
+    GeneralDialogWindow::readWindowSettings();
 }
 
 Window_Touchoff::~Window_Touchoff()
@@ -16,40 +18,10 @@ Window_Touchoff::~Window_Touchoff()
     delete ui;
 }
 
-bool Window_Touchoff::isWindowHidden() const
-{
-    return windowHidden;
-}
-
-void Window_Touchoff::readSettings()
-{
-    QSettings settings("Touchoff Window", "ECM Application");
-    QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
-    QSize size = settings.value("size", QSize(400, 400)).toSize();
-    resize(size);
-    move(pos);
-}
-
 void Window_Touchoff::closeEvent(QCloseEvent *event)
 {
-    QSettings settings("Touchoff Window", "ECM Application");
-    settings.setValue("pos", pos());
-    settings.setValue("size", size());
-}
-
-void Window_Touchoff::hideEvent(QHideEvent *event)
-{
-    windowHidden = true;
-}
-
-void Window_Touchoff::showEvent(QShowEvent *event)
-{
-    windowHidden = false;
-}
-
-void Window_Touchoff::on_actionClose_triggered()
-{
-    this->hide();
+    saveToFile(getPreviousSettingsPath());
+    GeneralDialogWindow::closeEvent(event);
 }
 
 void Window_Touchoff::on_pushButton_ExecuteTouchoff_released()
@@ -89,8 +61,24 @@ void Window_Touchoff::on_pushButton_TouchoffRef_released()
     m_MotionController->executeCommand(&command);
 }
 
-void Window_Touchoff::on_pushButton_RunTouchoff_released()
+void Window_Touchoff::on_pushButton_TouchoffGap_released()
 {
-    CommandExecuteProfile command(MotionProfile::ProfileType::TOUCHOFF,"touchof");
+    int desiredGap = ui->doubleSpinBox_InitialGap->value() * 10.0;
+    Command_Variable command("initGap",desiredGap);
     m_MotionController->executeCommand(&command);
+}
+
+void Window_Touchoff::on_actionClose_triggered()
+{
+    GeneralDialogWindow::onCloseAction();
+}
+
+void Window_Touchoff::saveToFile(const QString &filePath)
+{
+    UNUSED(filePath);
+}
+
+void Window_Touchoff::openFromFile(const QString &filePath)
+{
+    UNUSED(filePath);
 }

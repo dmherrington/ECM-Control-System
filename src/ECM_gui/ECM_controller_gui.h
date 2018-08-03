@@ -12,6 +12,7 @@
 #include "misc_dialogs/dialog_connections.h"
 #include "misc_dialogs/dialog_custom_commands.h"
 #include "misc_dialogs/window_touchoff.h"
+#include "misc_dialogs/window_motion_profile.h"
 
 #include "additional_sensor_display.h"
 #include "common/threadmanager.h"
@@ -61,6 +62,8 @@ private slots:
     void slot_MCNewMotionState(const std::string &state);
 
     void slot_MCNewDigitalInput(const StatusInputs &status);
+
+    void slot_MCNewProgramLabels(const ProgramLabelList &labels);
 
     void slot_UpdateHomeIndicated(const bool &value);
 
@@ -112,13 +115,19 @@ private slots:
 
     void on_actionClose_triggered();
 
+
+
     void slot_onConnectionWindowVisibilityChanged(const bool &visible);
+
+    void slot_onPumpVisibilityWindowChanged(const bool &visible);
+
+    void slot_onPowerSupplyVisibilityWindowChanged(const bool &visible);
 
     void slot_onOscilliscopeWindowVisibilityChanged(const bool &visible);
 
-    void slot_onPumpWindowVisibilityChanged(const bool &visible);
+    void slot_onTouchoffWindowVisibilityChanged(const bool &visible);
 
-    void slot_onPowerSupplyVisibilityWindowChanged(const bool &visible);
+    void slot_onMotionProfileWindowVisibilityChanged(const bool &visible);
 
 
     void on_actionConnections_triggered(bool checked);
@@ -130,6 +139,8 @@ private slots:
     void on_actionOscilliscope_triggered(bool checked);
 
     void on_actionTouchoff_triggered(bool checked);
+
+    void on_actionMotion_Profile_triggered(bool checked);
 
 protected:
     void readSettings();
@@ -157,7 +168,7 @@ private:
     Ui::ECMControllerGUI *ui;
 
     ECMPlotCollection m_PlotCollection;
-
+    int counter = 0;
     ECM_API* m_API;
 
     Window_MunkPowerSupply* m_WindowMunk;
@@ -166,6 +177,7 @@ private:
     Dialog_Connections* m_DialogConnections;
     Dialog_CustomCommands* m_DialogCustomCommands;
     Window_Touchoff* m_WindowTouchoff;
+    Window_MotionProfile* m_WindowMotionProfile;
 };
 
 #endif // ECM_CONTROLLER_GUI_H

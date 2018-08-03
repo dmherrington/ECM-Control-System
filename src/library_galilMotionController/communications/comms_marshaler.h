@@ -51,7 +51,7 @@ public:
 
     void sendAbstractGalilMotionCommand(const AbstractCommandPtr command);
 
-    void sendAbstractGalilRequest(const AbstractRequestPtr request);
+    void sendAbstractGalilRequest(const AbstractRequestPtr request) const;
 
     void sendGalilProfileExecution(const AbstractCommandPtr &command);
 
@@ -90,13 +90,13 @@ private:
     /// Virtual methods imposed from IProtocolGalilEvents
     //////////////////////////////////////////////////////////////
 
+    void NewProgramUploaded(const ProgramGeneric &program) const override;
+
     void NewProgramDownloaded(const ProgramGeneric &program) const override;
 
     void NewPositionReceived(const Status_Position &status) const override;
 
     void NewStatusReceived(const std::vector<AbstractStatusPtr> &status) const override;
-
-    void NewProgramUploaded(const ProgramGeneric &program) const override;
 
     void ErrorBadCommand(const CommandType &type, const std::string &description) const override;
 

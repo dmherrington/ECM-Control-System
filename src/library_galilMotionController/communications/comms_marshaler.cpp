@@ -82,7 +82,7 @@ void CommsMarshaler::sendAbstractGalilMotionCommand(const AbstractCommandPtr com
     link->MarshalOnThread(func);
 }
 
-void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request)
+void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request) const
 {
 //    if(!isConnected)
 //    {
@@ -218,12 +218,19 @@ void CommsMarshaler::BadCommandResponse(const AbstractStatus &status) const
 }
 
 //////////////////////////////////////////////////////////////
-/// MAVLINK Protocol Events
+/// Galil Protocol Events
 //////////////////////////////////////////////////////////////
 
 void CommsMarshaler::NewProgramUploaded(const ProgramGeneric &program) const
 {
     Emit([&](CommsEvents *ptr){ptr->NewProgramUploaded(program);});
+
+    //We now have a new program, let us query for the available labels and variables
+    RequestListLabelsPtr requestLabels = std::make_shared<RequestListLabels>();
+    sendAbstractGalilRequest(requestLabels);
+
+    RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
+    sendAbstractGalilRequest(requestVariables);
 }
 
 void CommsMarshaler::NewProgramDownloaded(const ProgramGeneric &program) const
@@ -281,6 +288,12 @@ void CommsMarshaler::parseStatus(const AbstractStatusPtr &status) const
     {
         Status_StopCode castStatus(*status.get()->as<Status_StopCode>());
         Emit([&](CommsEvents *ptr){ptr->NewStatusMotorStopCode(castStatus);});
+        break;
+    }
+    case StatusTypes::STATUS_LABELLIST:
+    {
+        Status_LabelList castStatus(*status.get()->as<Status_LabelList>());
+        Emit([&](CommsEvents *ptr){ptr->NewStatusLabelList(castStatus);});
         break;
     }
     case StatusTypes::STATUS_VARIABLELIST:

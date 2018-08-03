@@ -223,6 +223,7 @@ void GalilMotionController::ErrorBadCommand(const std::string &commandType, cons
 void GalilMotionController::NewProgramUploaded(const ProgramGeneric &program)
 {
     stateInterface->galilProgram->setProgram(program.getProgramString());
+    emit signal_MCNewProgramReceived(program);
 
     //We now have a new program, let us query for the available labels and variables
     RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
@@ -231,12 +232,12 @@ void GalilMotionController::NewProgramUploaded(const ProgramGeneric &program)
 
 void GalilMotionController::NewProgramDownloaded(const ProgramGeneric &program)
 {
-    UNUSED(program);
-//    stateInterface->galilProgram->setProgram(program.getProgramString());
+    stateInterface->galilProgram->setProgram(program.getProgramString());
+    emit signal_MCNewProgramReceived(program);
 
 //    //We now have a new program, let us query for the available labels and variables
-//    RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
-//    commsMarshaler->sendAbstractGalilRequest(requestVariables);
+    RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
+    commsMarshaler->sendAbstractGalilRequest(requestVariables);
 }
 
 void GalilMotionController::NewStatusInputs(const StatusInputs &status)
@@ -307,6 +308,12 @@ void GalilMotionController::NewStatusVariableValue(const Status_VariableValue &s
         stateMachine->UpdateStates();
         stateMachine->ProcessStateTransitions();
     }
+}
+
+void GalilMotionController::NewStatusLabelList(const Status_LabelList &status)
+{
+    stateInterface->galilProgram->setLabelList(status.getLabelList());
+    emit signal_MCNewProgramLabelList(status.getLabelList());
 }
 
 void GalilMotionController::NewStatusVariableList(const Status_VariableList &status)

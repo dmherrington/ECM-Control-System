@@ -48,6 +48,7 @@ public:
     QAction *actionTouchoff;
     QAction *actionOpen_Sensors_Window;
     QAction *actionClose;
+    QAction *actionMotion_Profile;
     QWidget *centralWidget;
     QGridLayout *gridLayout_8;
     QLineEdit *lineEdit;
@@ -290,8 +291,12 @@ public:
         actionTouchoff->setCheckable(true);
         actionOpen_Sensors_Window = new QAction(ECMControllerGUI);
         actionOpen_Sensors_Window->setObjectName(QStringLiteral("actionOpen_Sensors_Window"));
+        actionOpen_Sensors_Window->setCheckable(true);
         actionClose = new QAction(ECMControllerGUI);
         actionClose->setObjectName(QStringLiteral("actionClose"));
+        actionMotion_Profile = new QAction(ECMControllerGUI);
+        actionMotion_Profile->setObjectName(QStringLiteral("actionMotion_Profile"));
+        actionMotion_Profile->setCheckable(true);
         centralWidget = new QWidget(ECMControllerGUI);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout_8 = new QGridLayout(centralWidget);
@@ -401,6 +406,7 @@ public:
         label_2->setMinimumSize(QSize(110, 32));
         label_2->setMaximumSize(QSize(110, 32));
         label_2->setFont(font);
+        label_2->setAlignment(Qt::AlignCenter);
 
         gridLayout_7->addWidget(label_2, 0, 1, 1, 1);
 
@@ -420,6 +426,7 @@ public:
         label_3->setMinimumSize(QSize(110, 32));
         label_3->setMaximumSize(QSize(110, 32));
         label_3->setFont(font);
+        label_3->setAlignment(Qt::AlignCenter);
 
         gridLayout_7->addWidget(label_3, 1, 1, 1, 1);
 
@@ -1105,6 +1112,7 @@ public:
         menuTools->addAction(actionOscilliscope);
         menuTools->addSeparator();
         menuTools->addAction(actionTouchoff);
+        menuTools->addAction(actionMotion_Profile);
         menuView->addAction(actionOpen_Sensors_Window);
         menuView->addSeparator();
 
@@ -1126,6 +1134,7 @@ public:
         actionTouchoff->setText(QApplication::translate("ECMControllerGUI", "Touchoff", nullptr));
         actionOpen_Sensors_Window->setText(QApplication::translate("ECMControllerGUI", "Open Sensors Window", nullptr));
         actionClose->setText(QApplication::translate("ECMControllerGUI", "Close", nullptr));
+        actionMotion_Profile->setText(QApplication::translate("ECMControllerGUI", "Motion Profile", nullptr));
         pushButton->setText(QApplication::translate("ECMControllerGUI", "STOP", nullptr));
         label_ManualControl_5->setText(QApplication::translate("ECMControllerGUI", "DIO Signals", nullptr));
         label_2->setText(QApplication::translate("ECMControllerGUI", "ESTOP", nullptr));

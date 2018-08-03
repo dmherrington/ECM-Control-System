@@ -1,7 +1,9 @@
 #include "ecm_api.h"
 
 ECM_API::ECM_API()
-{
+{    
+    m_Log = new ECMLogging();
+
     m_Rigol = new RigolOscilliscope();
 
     m_Munk = new MunkPowerSupply();
@@ -12,11 +14,10 @@ ECM_API::ECM_API()
 
     m_Sensoray = new Sensoray();
 
-    m_Pump = new Westinghouse510(m_Sensoray,03);
-
-    m_Log = new ECMLogging();
-
     m_Modbus485 = new Library_QModBus();
+
+    m_Pump = new Westinghouse510(m_Modbus485,03);
+
 }
 
 void ECM_API::slot_MotionControllerCommunicationUpdate(const common::comms::CommunicationUpdate &update)

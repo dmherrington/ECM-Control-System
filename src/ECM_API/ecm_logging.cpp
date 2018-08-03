@@ -1,28 +1,54 @@
 #include "ecm_logging.h"
 
 ECMLogging::ECMLogging():
-    masterLog(nullptr)
+    masterLog(nullptr), loggingInitialized(false)
 {
 
 }
 
-void ECMLogging::initializeLogging(const string &logName, const common::EnvironmentTime &time)
+bool ECMLogging::checkLoggingPath(const string &partNumber, const string &serialNumber)
 {
-    loggingPath = "";
     char* ECMPath = getenv("ECM_ROOT");
     if(ECMPath){
         std::string rootPath(ECMPath);
-        QDir loggingDirectory(QString::fromStdString(rootPath + "/logs/PartNumber/"));
+        //set up the root folder directory based on the part number
+
+        QDir partDirectory(QString::fromStdString(rootPath + "/logs/PartNumber_" + partNumber + "/"));
+        if(!partDirectory.exists() || partDirectory.isEmpty())
+            return true;
 
         std::string newPath = "SerialNumber_";
-        int testIndex = 0;
-        std::string finalPath = newPath + std::to_string(testIndex);
+        std::string finalPath = newPath + serialNumber;
 
-        loggingDirectory.mkpath(QString::fromStdString(rootPath + "/logs/PartNumber/"));
+        QDir serialDirectory(QString::fromStdString(rootPath + "/logs/PartNumber_" + partNumber + "/" + finalPath));
+        if(!serialDirectory.exists() || serialDirectory.isEmpty())
+            return true;
+    }
+
+    return false;
+}
+
+void ECMLogging::initializeLogging(const string &partNumber, const string &serialNumber, const common::EnvironmentTime &time, bool clearContents)
+{
+    std::string logName = "machiningLogs";
+    loggingPath = "";
+    char* ECMPath = getenv("ECM_ROOT");
+
+    if(ECMPath){
+        std::string rootPath(ECMPath);
+        //set up the root folder directory based on the part number
+
+        QDir loggingDirectory(QString::fromStdString(rootPath + "/logs/PartNumber_" + partNumber + "/"));
+
+        std::string newPath = "SerialNumber_";
+        std::string finalPath = newPath + serialNumber;
+
+        loggingDirectory.mkpath(QString::fromStdString(rootPath + "/logs/PartNumber_" + partNumber + "/"));
+
         if(!loggingDirectory.mkdir(QString::fromStdString(finalPath)))
-            std::cout<<"The file already exists."<<std::endl;
+            std::cout<<"The folder already exists."<<std::endl;
 
-        loggingPath = loggingDirectory.absolutePath().toStdString() + "/" + finalPath;
+        loggingPath = loggingDirectory.absolutePath().toStdString() + "/" + finalPath + "/";
     }
 
     QString fileName = QString::fromStdString(loggingPath) + QString::fromStdString(logName) + ".out";

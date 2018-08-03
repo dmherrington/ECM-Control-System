@@ -158,6 +158,16 @@ void ObservationCollection::ClearData(const IPlotComparable &ID)
 }
 
 //!
+//! \brief ObservationCollection::ClearAllData
+//!
+void ObservationCollection::ClearAllData()
+{
+    QHash<ObservationIDReference, ObservationScalar*>::iterator it;
+    for (it = m_DataScalar.begin(); it != m_DataScalar.end(); ++it)
+        it.value()->ClearData();
+}
+
+//!
 //! \brief Schedule the application of any queued data to be inserted on seperate thread
 //!
 void ObservationCollection::ApplyDataInsertion()

@@ -92,6 +92,7 @@ private:
     void NewStatusMotorEnabled(const Status_MotorEnabled &status) override;
     void NewStatusMotorInMotion(const Status_AxisInMotion &status) override;
     void NewStatusMotorStopCode(const Status_StopCode &status) override;
+    void NewStatusLabelList(const Status_LabelList &status) override;
     void NewStatusVariableList(const Status_VariableList &status) override;
     void NewStatusVariableValue(const Status_VariableValue &status) override;
 
@@ -178,7 +179,13 @@ signals:
     //! \brief signal_MCNewProgramReceived
     //! \param programText
     //!
-    void signal_MCNewProgramReceived(const std::string &programText);
+    void signal_MCNewProgramReceived(const ProgramGeneric &program);
+
+    //!
+    //! \brief signal_MCNewProgramLabelList
+    //! \param labels
+    //!
+    void signal_MCNewProgramLabelList(const ProgramLabelList &labels);
 
     //!
     //! \brief signal_GalilHomeIndicated

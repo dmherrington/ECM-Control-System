@@ -23,7 +23,7 @@ public:
 class RigolPollMeasurement : public Thread
 {
 public:
-    RigolPollMeasurement(const int &msTimeout = 3000);
+    RigolPollMeasurement(const int &msTimeout = 500);
 
     ~RigolPollMeasurement() {
         std::cout << "Destructor on the galil timeout state machine" << std::endl;

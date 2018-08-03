@@ -46,7 +46,8 @@ INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include
 INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
 INCLUDEPATH += $$(ECM_ROOT)/tools/sensoray/lib/
-
+INCLUDEPATH += $$(ECM_ROOT)/tools/libmodbus
+INCLUDEPATH += $$(ECM_ROOT)/tools/libmodbus/src
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
@@ -62,33 +63,9 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../data/ -ldata
 INCLUDEPATH += $$PWD/../data
 DEPENDPATH += $$PWD/../data
 
-win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
-INCLUDEPATH += $$PWD/../../tools/sensoray
-DEPENDPATH += $$PWD/../../tools/sensoray
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_qModBus/release/ -llibrary_qModBus
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_qModBus/debug/ -llibrary_qModBus
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_qModBus/ -llibrary_qModBus
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../tools/sensoray/lib/ -ls24xx
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../tools/sensoray/lib/ -ls24xx
-else:unix:!macx: LIBS += -L$$OUT_PWD/../../tools/sensoray/lib/ -ls24xx
-
-INCLUDEPATH += $$PWD/../../tools/sensoray/lib
-DEPENDPATH += $$PWD/../../tools/sensoray/lib
-
-unix:!macx|win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
-
-INCLUDEPATH += $$PWD/../../tools/sensoray/include
-DEPENDPATH += $$PWD/../../tools/sensoray/include
-
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/release/ -llibrary_sensoray
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/debug/ -llibrary_sensoray
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_sensoray/ -llibrary_sensoray
-
-INCLUDEPATH += $$PWD/../library_sensoray
-DEPENDPATH += $$PWD/../library_sensoray
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/release/ -llibrary_westinghouse510
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/debug/ -llibrary_westinghouse510
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_westinghouse510/ -llibrary_westinghouse510
-
-INCLUDEPATH += $$PWD/../library_westinghouse510
-DEPENDPATH += $$PWD/../library_westinghouse510
+INCLUDEPATH += $$PWD/../library_qModBus
+DEPENDPATH += $$PWD/../library_qModBus

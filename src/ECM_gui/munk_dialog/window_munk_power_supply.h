@@ -21,9 +21,13 @@ public:
 
 private:
     void closeEvent(QCloseEvent *event) override;
+
+signals:
+    void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility);
+
 private slots:
     void on_pushButton_AddSegment_released();
-    void on_connectionUpdated(const common::comms::CommunicationConnection &connection);
+    void on_connectionUpdated(const common::comms::CommunicationUpdate &connection);
 
     void on_pushButton_transmit_released();
 
@@ -38,12 +42,6 @@ private slots:
     void on_actionSave_As_triggered();
 
     void on_actionClose_triggered();
-
-signals:
-    ///////////////////////////////////////////////////////////////////////////
-    /// Imposed virtual signals from GeneralDialogWindow
-    ///////////////////////////////////////////////////////////////////////////
-    void signal_DialogWindowVisibilty(const DialogWindowTypes &type, const bool &visibility) override;
 
 private:
     void saveToFile(const QString &filePath);

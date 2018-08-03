@@ -36,6 +36,7 @@ void RigolProtocol::sendMeasurementRequest(const ILink *link, const commands_Rig
     std::vector<uint8_t> rcvBuffer = link->WriteBytesRequest(byteArray);
     measurementStatus.updateReceivedTime();
     measurementStatus.setMeasurementString(std::string(rcvBuffer.begin(), rcvBuffer.end()));
+
 //    double value = rand() % 100;
 //    measurementStatus.setMeasurementString(std::to_string(value));
 //    measurementStatus.setMeasurementValue(value);

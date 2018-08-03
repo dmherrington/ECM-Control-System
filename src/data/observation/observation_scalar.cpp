@@ -68,6 +68,15 @@ namespace observation {
         m_DataMutex.unlock();
     }
 
+    void ObservationScalar::ClearPreviousData()
+    {
+        m_DataMutex.lock();
+        m_Domain.clear();
+        m_Range.clear();
+        m_DataMutex.unlock();
+
+        AddData(m_CurrTime,m_CurrTimeRange);
+    }
 
     void ObservationScalar::ClearData()
     {
