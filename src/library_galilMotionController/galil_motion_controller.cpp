@@ -143,6 +143,10 @@ void GalilMotionController::openConnection(const std::string &address)
 
 void GalilMotionController::closeConnection()
 {
+    CommandMotorDisable command;
+    command.setDisableAxis(MotorAxis::Z);
+    this->executeCommand(&command);
+
     if(commsMarshaler->DisconnetLink()) //if true this means we have disconnected from the galil unit
     {
         //since we have now disconnected from the galil we should stop collecting information

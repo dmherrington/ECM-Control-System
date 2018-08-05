@@ -38,15 +38,17 @@ void Window_Touchoff::slot_UpdateMotionProfileState(const MotionProfileState &st
         ui->lineEdit_TouchoffCode->setText(QString::fromStdString(ProfileState_Touchoff::TOUCHOFFCodesToString(castState->getCurrentCode())));
 
         switch (castState->getCurrentCode()) {
-        case ProfileState_Touchoff::TOUCHOFFProfileCodes::INCOMPLETE:
+        case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_POSITIONAL:
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_INCONSISTENT:
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_TOUCHING:
-            ui->widget_TouchoffComplete->setColor(QColor(255));
+            ui->widget_TouchoffComplete->setColor(QColor(255,0,0));
             break;
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING:
             ui->widget_TouchoffComplete->setColor(QColor(255,255,0));
+            break;
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::FINISHED:
             ui->widget_TouchoffComplete->setColor(QColor(0,255,0));
+            break;
         default:
             break;
         }
@@ -64,7 +66,7 @@ void Window_Touchoff::on_pushButton_TouchoffRef_released()
 void Window_Touchoff::on_pushButton_TouchoffGap_released()
 {
     int desiredGap = ui->doubleSpinBox_InitialGap->value() * 10.0;
-    Command_Variable command("initGap",desiredGap);
+    Command_Variable command("initgap",desiredGap);
     m_MotionController->executeCommand(&command);
 }
 

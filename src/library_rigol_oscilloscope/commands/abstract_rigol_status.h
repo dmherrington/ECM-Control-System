@@ -36,6 +36,8 @@ public:
     common::EnvironmentTime getRequestTime() const;
     common::EnvironmentTime getReceivedTime() const;
 
+    virtual bool isStatusValid() const;
+
 
 public:
     /**

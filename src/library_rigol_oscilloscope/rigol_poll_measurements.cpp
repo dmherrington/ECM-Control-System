@@ -89,7 +89,7 @@ void RigolPollMeasurement::run()
             }
             m_Timeout.reset();
         }
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(timeout));
+        int sleepValue = timeout / 2.0;
+        std::this_thread::sleep_for(std::chrono::milliseconds(sleepValue));
     }
 }

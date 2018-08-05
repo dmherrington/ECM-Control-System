@@ -45,7 +45,7 @@ private slots:
 
 private slots:
     void slot_NewlyAvailableRigolData(const common::TupleSensorString &sensor, const bool &val);
-    void slot_AddPlottable(const common::TupleECMData &data);
+    void slot_AddPlottable(const common::TupleECMData &data, const bool &plot = false);
     void slot_RemovePlottable(const common::TupleECMData &data);
     void slot_DisplayActionTriggered();
 
@@ -141,6 +141,8 @@ private slots:
     void on_actionTouchoff_triggered(bool checked);
 
     void on_actionMotion_Profile_triggered(bool checked);
+
+    void on_pushButton_released();
 
 protected:
     void readSettings();

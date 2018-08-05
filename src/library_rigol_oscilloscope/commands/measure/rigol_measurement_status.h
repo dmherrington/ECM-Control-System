@@ -37,6 +37,8 @@ public:
         return this->str;
     }
 
+    bool isStatusValid() const override;
+
 public:
     //!
     //! \brief operator =

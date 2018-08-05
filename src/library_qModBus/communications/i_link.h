@@ -83,7 +83,7 @@ public:
     //! \param bytes
     //! \param length
     //!
-    virtual bool WriteSingleRegister(const unsigned long &data) const = 0;
+    virtual bool WriteSingleRegister(const unsigned long &dataRegister, const unsigned long &data) const = 0;
 
     //!
     //! \brief setSerialConfiguration

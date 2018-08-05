@@ -58,7 +58,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     slot_MCNewDigitalInput(m_API->m_Galil->getCurrent_MCDIO());
     connect(m_API->m_Galil, SIGNAL(signal_MCNewDigitalInput(StatusInputs)), this, SLOT(slot_MCNewDigitalInput(StatusInputs)));
     connect(m_API->m_Galil, SIGNAL(signal_MCNewPosition(common::TuplePositionalString,common_data::MachinePositionalState)), this, SLOT(slot_NewPositionalData(common::TuplePositionalString,common_data::MachinePositionalState)));
-
+    connect(m_API->m_Galil, SIGNAL(signal_MCNewProgramLabelList(ProgramLabelList)), this, SLOT(slot_MCNewProgramLabels(ProgramLabelList)));
 
     m_WindowMotionProfile = new Window_MotionProfile(m_API->m_Galil);
     m_WindowMotionProfile->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
@@ -89,7 +89,17 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     std::vector<common::TupleECMData> plottables = m_API->m_Galil->getPlottables();
     for(unsigned int i = 0; i < plottables.size(); i++)
     {
-        slot_AddPlottable(plottables.at(i));
+        if(plottables.at(i).getType() == common::TupleECMData::DataTypes::POSITION) //if it is a position object we want to default plot this
+        {
+            ECMPlotIdentifierPtr addPlot = std::make_shared<ECMPlotIdentifier>(plottables.at(i));
+            ui->widget_primaryPlot->AddPlot(addPlot, plottables.at(i).getData()->HumanName().toStdString(),false, true);
+            QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(plottables.at(i));
+            ui->widget_primaryPlot->RedrawDataSource(plots);
+
+            //slot_AddPlottable(plottables.at(i),true);
+        }
+        else
+            slot_AddPlottable(plottables.at(i));
     }
 
     readSettings();
@@ -123,7 +133,7 @@ ECMControllerGUI::~ECMControllerGUI()
     delete ui;
 }
 
-void ECMControllerGUI::slot_AddPlottable(const common::TupleECMData &data)
+void ECMControllerGUI::slot_AddPlottable(const common::TupleECMData &data, const bool &plot)
 {
     common::TupleGeneric* tuple = data.getData();
     QAction *newAction = ui->menuView->addAction(tuple->HumanName(),this, SLOT(slot_DisplayActionTriggered()));
@@ -132,6 +142,9 @@ void ECMControllerGUI::slot_AddPlottable(const common::TupleECMData &data)
     newAction->setCheckable(true);
     newAction->setChecked(false);
     m_PlottingActionMap.insert(data, newAction);
+
+    if(plot)
+        newAction->trigger();
 }
 
 void ECMControllerGUI::slot_RemovePlottable(const common::TupleECMData &data)
@@ -168,7 +181,7 @@ void ECMControllerGUI::slot_DisplayActionTriggered()
     if(selectedObject->isChecked())
     {
         ECMPlotIdentifierPtr addPlot = std::make_shared<ECMPlotIdentifier>(key);
-        ui->widget_primaryPlot->AddPlot(addPlot, key.getData()->HumanName().toStdString(),false);
+        ui->widget_primaryPlot->AddPlot(addPlot, key.getData()->HumanName().toStdString(),false, false);
         QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(key);
         ui->widget_primaryPlot->RedrawDataSource(plots);
     }else{
@@ -212,7 +225,7 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &senso
 
 void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state)
 {
-    ui->lineEdit_MachinePosition->setText(QString::number(state.getPositionalState()->getAxisPosition()));
+    ui->lineEdit_MachinePosition->setText(QString::number(state.getPositionalState()->getAxisPosition() / 10.0));
 
     m_PlotCollection.UpdatePositionalStatePlots(tuple,state);
     //    m_SensorDisplays.UpdateNonPlottedData(tuple,state);
@@ -313,23 +326,37 @@ void ECMControllerGUI::readSettings()
 
 void ECMControllerGUI::closeEvent(QCloseEvent *event)
 {
-    QSettings settings("Trolltech", "Application Example");
-    settings.setValue("pos", pos());
-    settings.setValue("size", size());
-    settings.setValue("munkDisplayed",m_WindowMunk->isWindowHidden());
-    settings.setValue("pumpDisplayed",m_WindowPump->isWindowHidden());
-    settings.setValue("rigolDisplayed",m_WindowRigol->isWindowHidden());
-    settings.setValue("touchoffDisplayed",m_WindowTouchoff->isWindowHidden());
+    if(!m_API->m_Galil->stateInterface->isMotorEnabled())
+    {
+        QSettings settings("Trolltech", "Application Example");
+        settings.setValue("pos", pos());
+        settings.setValue("size", size());
+        settings.setValue("munkDisplayed",m_WindowMunk->isWindowHidden());
+        settings.setValue("pumpDisplayed",m_WindowPump->isWindowHidden());
+        settings.setValue("rigolDisplayed",m_WindowRigol->isWindowHidden());
+        settings.setValue("touchoffDisplayed",m_WindowTouchoff->isWindowHidden());
 
-    m_WindowMunk->close();
-    m_WindowPump->close();
-    m_WindowRigol->close();
-    m_WindowTouchoff->close();
+        m_WindowMunk->close();
+        m_WindowPump->close();
+        m_WindowRigol->close();
+        m_WindowTouchoff->close();
 
-    m_DialogConnections->close();
-    m_additionalSensorDisplay->close();
+        m_DialogConnections->close();
+        m_additionalSensorDisplay->close();
 
-    event->accept();
+        event->accept();
+    }
+    else //the motor is not currently disabled, and therefore we will block the application from closing
+    {
+        QMessageBox msgBox;
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.setText("The motor is still currently enabled.");
+        msgBox.setInformativeText("Please disable the motor properly before shutting down the program.");
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        int ret = msgBox.exec();
+        UNUSED(ret);
+    }
 }
 
 bool ECMControllerGUI::maybeSave()
@@ -357,37 +384,37 @@ void ECMControllerGUI::on_pushButton_MotorEnable_released()
 
 void ECMControllerGUI::on_doubleSpinBox_CutDepth_editingFinished()
 {
-    Command_Variable command("maxdepth",ui->doubleSpinBox_CutDepth->value());
+    Command_Variable command("maxdepth",ui->doubleSpinBox_CutDepth->value() * 10);
     m_API->m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_doubleSpinBox_RetractDistance_editingFinished()
 {
-    Command_Variable command("rtdist",ui->doubleSpinBox_RetractDistance->value());
+    Command_Variable command("rtdist",ui->doubleSpinBox_RetractDistance->value() * 10);
     m_API->m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_doubleSpinBox_StepSize_editingFinished()
 {
-    Command_Variable command("step",ui->doubleSpinBox_StepSize->value());
+    Command_Variable command("step",ui->doubleSpinBox_StepSize->value() * 10);
     m_API->m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_spinBox_RetractSpeed_editingFinished()
 {
-    Command_Variable command("backsp",ui->spinBox_RetractSpeed->value());
+    Command_Variable command("backsp",ui->spinBox_RetractSpeed->value() * 10);
     m_API->m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_spinBox_PlungeSpeed_editingFinished()
 {
-    Command_Variable command("forsp",ui->spinBox_PlungeSpeed->value());
+    Command_Variable command("forsp",ui->spinBox_PlungeSpeed->value() * 10);
     m_API->m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_doubleSpinBox_CutSpeed_editingFinished()
 {
-    Command_Variable command("speed",ui->doubleSpinBox_CutSpeed->value());
+    Command_Variable command("speed",ui->doubleSpinBox_CutSpeed->value() * 10);
     m_API->m_Galil->executeCommand(&command);
 }
 
@@ -507,8 +534,9 @@ void ECMControllerGUI::on_pushButton_RunProfile_released()
 
     //While executing this type of command
     //get the profile name from the GUI
-    //CommandExecuteProfile command(CommandExecuteProfile::ProfileType::PROFILE,"touchof");
-    //m_API->m_Galil->executeCommand(&command);
+
+    CommandExecuteProfile command(MotionProfile::ProfileType::PROFILE,ui->comboBox_ProgramProfiles->currentText().toStdString());
+    m_API->m_Galil->executeCommand(&command);
 }
 
 void ECMControllerGUI::on_pushButton_UploadProgram_released()
@@ -580,7 +608,8 @@ void ECMControllerGUI::MarshalCreateSensorDisplay(const common::TupleSensorStrin
 
 void ECMControllerGUI::on_actionClose_triggered()
 {
-
+    QCloseEvent event;
+    this->closeEvent(&event);
 }
 
 void ECMControllerGUI::on_actionConnections_triggered(bool checked)
@@ -689,3 +718,8 @@ void ECMControllerGUI::slot_ChangedWindowVisibility(const GeneralDialogWindow::D
     }
 }
 
+
+void ECMControllerGUI::on_pushButton_released()
+{
+    m_API->action_StopMachine();
+}

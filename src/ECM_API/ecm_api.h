@@ -24,6 +24,10 @@ public:
 
     ~ECM_API() = default;
 
+public:
+
+    void action_StopMachine();
+
 private slots:
     void slot_MotionControllerCommunicationUpdate(const common::comms::CommunicationUpdate &update);
 

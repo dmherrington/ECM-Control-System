@@ -113,12 +113,15 @@ bool QModBusLink::_hardwareConnect()
     commsStatus.setSourceName("QModBus");
 
     char parity('N');
+
     m_Session->m_serialModbus = modbus_new_rtu(_config.portName().c_str(),_config.baud(),parity,_config.dataBits(),_config.stopBits());
     if(modbus_connect(m_Session->m_serialModbus) == -1) //unable to open the port for some reason
     {
         _emitLinkError("Unable to open serial connection for QModBus.");
         return false;
     }
+
+    this->SetSlaveAddress(3);
 
     m_Session->setSerialPortConnected(true);
 
@@ -152,10 +155,10 @@ void QModBusLink::SetSlaveAddress(const unsigned int &slaveAddress)
     modbus_set_slave(m_Session->m_serialModbus,slaveAddress);
 }
 
-bool QModBusLink::WriteSingleRegister(const unsigned long &data) const
+bool QModBusLink::WriteSingleRegister(const unsigned long &dataRegister, const unsigned long &data) const
 {
     int returned = -1;
-    returned = modbus_write_register(m_Session->m_serialModbus,this->slaveID,data);
+    returned = modbus_write_register(m_Session->m_serialModbus,dataRegister,data);
     if( returned == 1  )
         return true;
     return false;

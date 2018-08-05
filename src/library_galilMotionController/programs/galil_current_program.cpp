@@ -45,20 +45,20 @@ bool GalilCurrentProgram::getLabelLine(const std::string &label, int &line) cons
     return true;
 }
 
-bool GalilCurrentProgram::getVariableLine(const std::string &variable, int &line) const
-{
-    if(this->variableList.doesVariableExist(variable))
-        return false;
-    this->variableList.getVariableLine(variable,line);
-    return true;
-}
+//bool GalilCurrentProgram::getVariableLine(const std::string &variable, int &line) const
+//{
+//    if(this->variableList.doesVariableExist(variable))
+//        return false;
+//    this->variableList.getVariableLine(variable,line);
+//    return true;
+//}
 
 std::map<std::string, int> GalilCurrentProgram::getLablMap() const
 {
     return this->labelList.getLabelMap();
 }
 
-std::map<std::string, int> GalilCurrentProgram::getVariableMap() const
+std::map<std::string, double> GalilCurrentProgram::getVariableMap() const
 {
     return this->variableList.getVariableMap();
 }

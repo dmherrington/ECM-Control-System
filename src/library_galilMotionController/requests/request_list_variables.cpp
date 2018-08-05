@@ -1,7 +1,7 @@
 #include "request_list_variables.h"
 
 RequestListVariables::RequestListVariables():
-    AbstractRequest(RequestTypes::LIST_VARIABLES,500)
+    AbstractRequest(RequestTypes::LIST_VARIABLES,1000)
 {
 
 }
@@ -43,7 +43,7 @@ std::vector<AbstractStatusPtr> RequestListVariables::getStatus() const
         {
             QString varName = line.at(0).trimmed();
             QString varLineNumber = line.at(1).trimmed();
-            variableList.addVariable(varName.toStdString(),varLineNumber.toInt());
+            variableList.addVariable(varName.toStdString(),varLineNumber.toDouble());
         }
     }
     if(variableList.sizeOfVariableList() > 0)

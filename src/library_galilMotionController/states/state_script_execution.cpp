@@ -96,14 +96,14 @@ void State_ScriptExecution::Update()
 
 void State_ScriptExecution::OnExit()
 {
-    //Ken we need to remove the polling measurements here
-    Request_TellVariable requestPosition("Bottom Position","ppos");
-    Owner().issueGalilRemovePollingRequest(requestPosition.getTupleDescription());
-    Request_TellVariable requestCutting("Machining Complete","cutdone");
-    Owner().issueGalilRemovePollingRequest(requestCutting.getTupleDescription());
-
     Owner().statusVariableValues->removeVariableNotifier("ppos",this);
     Owner().statusVariableValues->removeVariableNotifier("cutdone",this);
+
+    //Ken we need to remove the polling measurements here
+    common::TupleProfileVariableString tupleVariablePPOS("Default","Profile","ppos");
+    Owner().issueGalilRemovePollingRequest(tupleVariablePPOS);
+    common::TupleProfileVariableString tupleVariableCUTTING("Default","Profile","cutdone");
+    Owner().issueGalilRemovePollingRequest(tupleVariableCUTTING);
 }
 
 void State_ScriptExecution::OnEnter()
@@ -121,24 +121,22 @@ void State_ScriptExecution::OnEnter(const AbstractCommand* command)
         Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_SCRIPT_EXECUTION));
 
         Request_TellVariablePtr requestPosition = std::make_shared<Request_TellVariable>("Bottom Position","ppos");
-        Status_VariableValue newPPOS;
-        newPPOS.setVariableName("ppos");
-        Owner().statusVariableValues->addVariable(newPPOS);
+        common::TupleProfileVariableString tupleVariablePPOS("Default","Profile","ppos");
+        requestPosition->setTupleDescription(tupleVariablePPOS);
         Owner().issueGalilAddPollingRequest(requestPosition);
 
         Request_TellVariablePtr requestCutting = std::make_shared<Request_TellVariable>("Machining Complete","cutdone");
-        Status_VariableValue newCUTDONE;
-        newCUTDONE.setVariableName("cutdone");
-        Owner().statusVariableValues->addVariable(newCUTDONE);
+        common::TupleProfileVariableString tupleVariableCUTTING("Default","Profile","cutdone");
+        requestCutting->setTupleDescription(tupleVariableCUTTING);
         Owner().issueGalilAddPollingRequest(requestCutting);
         //The command isnt null so we should handle it
         this->handleCommand(command);
 
         Owner().statusVariableValues->addVariableNotifier("cutdone",this,[this]
         {
-            double value = 0;
-            Owner().statusVariableValues->getVariableValue("cutdone",value);
-            switch ((ProfileState_Machining::MACHININGProfileCodes)value) {
+            double varValue = 0.0;
+            bool valid = Owner().statusVariableValues->getVariableValue("cutdone",varValue);
+            switch ((ProfileState_Machining::MACHININGProfileCodes)varValue) {
             case ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE:
             {
                 //the part is still being cut
@@ -147,9 +145,7 @@ void State_ScriptExecution::OnEnter(const AbstractCommand* command)
             case ProfileState_Machining::MACHININGProfileCodes::COMPLETE:
             {
                 //the part is finished being cut
-                CommandExecuteProfile* command = new CommandExecuteProfile(MotionProfile::ProfileType::HOMING,"home");
-                this->currentCommand = command;
-                desiredState = GalilState::STATE_MOTION_STOP;
+                desiredState = GalilState::STATE_READY;
                 break;
             }
             default:

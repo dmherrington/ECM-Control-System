@@ -151,16 +151,31 @@ GReturn GalilLink::WriteCommand(const std::string &command) const
 
 GReturn GalilLink::WriteRequest(AbstractRequestPtr request) const
 {
-    GSize read_bytes = 0; //bytes read in GCommand
-    char buf[request->getAllocatedBufferSize()];
 
-    //char* buf = request->getBuffer(); //buffer to be allocated for the response
+    GReturn rtnCode = G_BAD_LOST_DATA;
     std::string commandString = request->getRequestString();
 
-    GReturn rtn = GCommand(galil,commandString.c_str(),buf,sizeof(buf),&read_bytes);
-    request->setBuffer(std::string(buf));
-    request->updateTime();
-    return rtn;
+    int retries = 0;
+    while ((rtnCode == G_BAD_LOST_DATA) && (retries < 10))
+    {
+        GSize read_bytes = 0; //bytes read in GCommand
+        char buf[request->getAllocatedBufferSize()];
+        rtnCode = GCommand(galil,commandString.c_str(),buf,sizeof(buf),&read_bytes);
+
+        if(rtnCode == G_NO_ERROR)
+        {
+            request->setBuffer(std::string(buf));
+            request->updateTime();
+        }
+        else
+        {
+            retries++;
+            request->increaseBufferSize();
+        }
+        delete[] buf;
+    }
+
+    return rtnCode;
 }
 
 } //END MAVLINKComms

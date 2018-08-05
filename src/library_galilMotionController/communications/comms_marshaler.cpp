@@ -262,13 +262,15 @@ void CommsMarshaler::parseStatus(const AbstractStatusPtr &status) const
     case StatusTypes::STATUS_POSITION:
     {
         Status_Position castStatus(*status.get()->as<Status_Position>());
-        Emit([&](CommsEvents *ptr){ptr->NewStatusPosition(castStatus);});
+        if(castStatus.isStatusValid())
+            Emit([&](CommsEvents *ptr){ptr->NewStatusPosition(castStatus);});
         break;
     }
     case StatusTypes::STATUS_TELLINPUTS:
     {
         StatusInputs castStatus(*status.get()->as<StatusInputs>());
-        Emit([&](CommsEvents *ptr){ptr->NewStatusInputs(castStatus);});
+        if(castStatus.isStatusValid())
+            Emit([&](CommsEvents *ptr){ptr->NewStatusInputs(castStatus);});
         break;
     }
     case StatusTypes::STATUS_SWITCH:
@@ -277,35 +279,41 @@ void CommsMarshaler::parseStatus(const AbstractStatusPtr &status) const
 
         Status_MotorEnabled motorEnabled;
         motorEnabled.setMotorEnabled(!castStatus.getSwitchStatus(SwitchStatus::MOTOR_OFF));
-        Emit([&](CommsEvents *ptr){ptr->NewStatusMotorEnabled(motorEnabled);});
+        if(castStatus.isStatusValid())
+            Emit([&](CommsEvents *ptr){ptr->NewStatusMotorEnabled(motorEnabled);});
 
         Status_AxisInMotion axisMotion;
         axisMotion.setMotorMoving(castStatus.getSwitchStatus(SwitchStatus::AXIS_IN_MOTION));
-        Emit([&](CommsEvents *ptr){ptr->NewStatusMotorInMotion(axisMotion);});
+        if(castStatus.isStatusValid())
+            Emit([&](CommsEvents *ptr){ptr->NewStatusMotorInMotion(axisMotion);});
         break;
     }
     case StatusTypes::STATUS_STOPCODE:
     {
         Status_StopCode castStatus(*status.get()->as<Status_StopCode>());
-        Emit([&](CommsEvents *ptr){ptr->NewStatusMotorStopCode(castStatus);});
+        if(castStatus.isStatusValid())
+            Emit([&](CommsEvents *ptr){ptr->NewStatusMotorStopCode(castStatus);});
         break;
     }
     case StatusTypes::STATUS_LABELLIST:
     {
         Status_LabelList castStatus(*status.get()->as<Status_LabelList>());
-        Emit([&](CommsEvents *ptr){ptr->NewStatusLabelList(castStatus);});
+        if(castStatus.isStatusValid())
+            Emit([&](CommsEvents *ptr){ptr->NewStatusLabelList(castStatus);});
         break;
     }
     case StatusTypes::STATUS_VARIABLELIST:
     {
         Status_VariableList castStatus(*status.get()->as<Status_VariableList>());
-        Emit([&](CommsEvents *ptr){ptr->NewStatusVariableList(castStatus);});
+        if(castStatus.isStatusValid())
+            Emit([&](CommsEvents *ptr){ptr->NewStatusVariableList(castStatus);});
         break;
     }
     case StatusTypes::STATUS_VARIABLEVALUE:
     {
         Status_VariableValue castStatus(*status.get()->as<Status_VariableValue>());
-        Emit([&](CommsEvents *ptr){ptr->NewStatusVariableValue(castStatus);});
+        if(castStatus.isStatusValid())
+            Emit([&](CommsEvents *ptr){ptr->NewStatusVariableValue(castStatus);});
         break;
     }
     default:

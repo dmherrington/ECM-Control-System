@@ -20,6 +20,12 @@ ECM_API::ECM_API()
 
 }
 
+void ECM_API::action_StopMachine()
+{
+    CommandStopPtr commandGalilStop = std::make_shared<CommandStop>();
+    m_Galil->executeCommand(commandGalilStop.get());
+}
+
 void ECM_API::slot_MotionControllerCommunicationUpdate(const common::comms::CommunicationUpdate &update)
 {
     if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)

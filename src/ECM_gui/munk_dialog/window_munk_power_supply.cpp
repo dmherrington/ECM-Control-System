@@ -9,8 +9,11 @@ Window_MunkPowerSupply::Window_MunkPowerSupply(MunkPowerSupply *obj, QWidget *pa
 {
     ui->setupUi(this);
     ui->widget_connection->setDiameter(5);
+    ui->progressBar->setValue(0);
 
     connect(munk,SIGNAL(signal_MunkCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(on_connectionUpdated(common::comms::CommunicationUpdate)));
+    connect(munk,SIGNAL(signal_SegmentWriteProgress(int,int)), this, SLOT(slot_ParameterTransmissionUpdate(int,int)));
+    connect(ui->segmentWidget, SIGNAL(signal_SegmentDataModified()), this, SLOT(slot_SegmentDataModified()));
 
     GeneralDialogWindow::readWindowSettings();
 
@@ -46,6 +49,17 @@ void Window_MunkPowerSupply::on_pushButton_transmit_released()
 {
     registers_Munk::SegmentTimeDetailed dataSegment = ui->segmentWidget->getRawData();
     munk->generateAndTransmitMessage(dataSegment);
+}
+
+void Window_MunkPowerSupply::slot_ParameterTransmissionUpdate(const int &transmitted, const int &required)
+{
+    double percentage = (transmitted/required) * 100.0;
+    ui->progressBar->setValue(percentage);
+}
+
+void Window_MunkPowerSupply::slot_SegmentDataModified()
+{
+    ui->progressBar->setValue(0);
 }
 
 void Window_MunkPowerSupply::on_actionOpen_triggered()

@@ -64,5 +64,10 @@ common::EnvironmentTime AbstractRigolStatus::getRequestTime() const
     return this->requestTime;
 }
 
+bool AbstractRigolStatus::isStatusValid() const
+{
+    return true;
+}
+
 } //end of namespace commands
 

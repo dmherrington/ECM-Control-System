@@ -567,7 +567,7 @@ public:
         tab_vibrationParams->setObjectName(QStringLiteral("tab_vibrationParams"));
         layoutWidget = new QWidget(tab_vibrationParams);
         layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
-        layoutWidget->setGeometry(QRect(9, 9, 254, 187));
+        layoutWidget->setGeometry(QRect(9, 9, 254, 201));
         formLayout = new QFormLayout(layoutWidget);
         formLayout->setSpacing(6);
         formLayout->setContentsMargins(11, 11, 11, 11);

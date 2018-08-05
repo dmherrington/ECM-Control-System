@@ -29,7 +29,10 @@ SOURCES += \
     communications/protocol_qmodbus.cpp \
     communications/qmodbus_link.cpp \
     communications/qmodbus_comms_marshaler.cpp \
-    communications/qmodbus_session.cpp
+    communications/qmodbus_session.cpp \
+    ../../tools/libmodbus/src/modbus.c \
+    ../../tools/libmodbus/src/modbus-data.c \
+    ../../tools/libmodbus/src/modbus-rtu.c
 
 HEADERS += \
         library_qmodbus.h \
@@ -43,7 +46,6 @@ HEADERS += \
     communications/qmodbus_comms_marshaler.h \
     communications/qmodbus_link.h \
     communications/qmodbus_session.h
-
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib
@@ -80,3 +82,8 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../data/ -ldata
 
 INCLUDEPATH += $$PWD/../data
 DEPENDPATH += $$PWD/../data
+
+win32 {
+    DEFINES += _TTY_WIN_  WINVER=0x0501
+    LIBS += -lsetupapi -lws2_32
+}

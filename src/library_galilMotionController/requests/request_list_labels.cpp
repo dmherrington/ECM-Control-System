@@ -43,6 +43,7 @@ std::vector<AbstractStatusPtr> RequestListLabels::getStatus() const
         if(line.size() == 2)
         {
             QString lblName = line.at(0).trimmed();
+            lblName = lblName.remove(0,1);
             QString lblLineNumber = line.at(1).trimmed();
             programLabelList.addLabel(lblName.toStdString(),lblLineNumber.toInt());
         }

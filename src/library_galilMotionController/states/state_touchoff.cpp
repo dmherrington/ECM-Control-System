@@ -12,10 +12,9 @@ State_Touchoff::State_Touchoff():
 
 void State_Touchoff::OnExit()
 {
-    Request_TellVariable request("Touchoff Status","touchst");
-    Owner().issueGalilRemovePollingRequest(request.getTupleDescription());
-
     Owner().statusVariableValues->removeVariableNotifier("touchst",this);
+    common::TupleProfileVariableString tupleVariable("Default","Touchoff","touchst");
+    Owner().issueGalilRemovePollingRequest(tupleVariable);
 }
 
 AbstractStateGalil* State_Touchoff::getClone() const
@@ -72,8 +71,9 @@ void State_Touchoff::handleCommand(const AbstractCommand* command)
     switch (currentCommand) {
     case CommandType::EXECUTE_PROGRAM:
     {
+        this->stateSetup();
         CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*copyCommand->as<CommandExecuteProfile>());
-        Owner().issueGalilMotionCommand(castCommand);
+        Owner().issueGalilCommand(castCommand); //this will not be considered a motion command as the profile contains the BG parameters
         break;
     }
     case CommandType::STOP:
@@ -118,9 +118,11 @@ void State_Touchoff::OnEnter(const AbstractCommand* command)
     if(command != nullptr)
     {
         Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_TOUCHOFF));
-
         Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Touchoff Status","touchst");
-        Owner().issueGalilAddPollingRequest(request);
+        common::TupleProfileVariableString tupleVariable("Default","Touchoff","touchst");
+        request->setTupleDescription(tupleVariable);
+        Owner().issueGalilAddPollingRequest(request,1000);
+
         this->handleCommand(command);
     }
     else{
@@ -130,11 +132,18 @@ void State_Touchoff::OnEnter(const AbstractCommand* command)
 
 void State_Touchoff::stateSetup()
 {
+    //Issue the current command based on what we are doing
+    ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+    newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING);
+    MotionProfileState newProfileState;
+    newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
+    Owner().issueUpdatedMotionProfileState(newProfileState);
+
     Owner().statusVariableValues->addVariableNotifier("touchst",this,[this]{
         double varValue = 0.0;
         bool valid = Owner().statusVariableValues->getVariableValue("touchst",varValue);
         switch ((int)varValue) {
-        case 0:
+        case (int)ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING:
         {
             //continue searching for touchoff position
             ProfileState_Touchoff newState("Touchoff Routine", "touchof");
@@ -144,7 +153,7 @@ void State_Touchoff::stateSetup()
             Owner().issueUpdatedMotionProfileState(newProfileState);
             break;
         }
-        case 1:
+        case (int)ProfileState_Touchoff::TOUCHOFFProfileCodes::FINISHED:
         {
             //we have finished the touchoff routine
             ProfileState_Touchoff newState("Touchoff Routine", "touchof");
@@ -152,10 +161,24 @@ void State_Touchoff::stateSetup()
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
             Owner().issueUpdatedMotionProfileState(newProfileState);
+            desiredState = GalilState::STATE_READY;
+            break;
+        }
+        case (int)ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_POSITIONAL:
+        {
+            //ERROR: inconsistent or positional limit exceeded
+            ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+            newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_POSITIONAL);
+            MotionProfileState newProfileState;
+            newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
+            Owner().issueUpdatedMotionProfileState(newProfileState);
+
+//            CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
+//            this->currentCommand = command;
             desiredState = GalilState::STATE_MOTION_STOP;
             break;
         }
-        case 2:
+        case (int)ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_INCONSISTENT:
         {
             //ERROR: inconsistent or positional limit exceeded
             ProfileState_Touchoff newState("Touchoff Routine", "touchof");
@@ -164,12 +187,12 @@ void State_Touchoff::stateSetup()
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
             Owner().issueUpdatedMotionProfileState(newProfileState);
 
-            CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
-            this->currentCommand = command;
+//            CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
+//            this->currentCommand = command;
             desiredState = GalilState::STATE_MOTION_STOP;
             break;
         }
-        case 3:
+        case (int)ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_TOUCHING:
         {
             //ERROR: already touch part
             ProfileState_Touchoff newState("Touchoff Routine", "touchof");
@@ -178,8 +201,8 @@ void State_Touchoff::stateSetup()
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
             Owner().issueUpdatedMotionProfileState(newProfileState);
 
-            CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
-            this->currentCommand = command;
+//            CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
+//            this->currentCommand = command;
             desiredState = GalilState::STATE_MOTION_STOP;
             break;
         }

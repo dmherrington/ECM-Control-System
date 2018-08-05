@@ -19,8 +19,18 @@ void QModBusProtocol::setSlaveAddress(ILink* link, const unsigned int &slaveAddr
 
 void QModBusProtocol::writeDataToSingleRegister(const ILink *link, const ModbusRegister &regMsg)
 {
-    unsigned int data = regMsg.getByteArray().toInt();
-    if(link->WriteSingleRegister(data))
+    QByteArray dataArray = regMsg.getByteArray();
+
+    QDataStream in(dataArray); //< Attach a read-only stream to it
+    in.setByteOrder(QDataStream::BigEndian); //< Set the proper byte order
+
+    qint16 result; //< The result you want
+    in >> result; //< Just read it from the stream
+
+//    int value = (static_cast<unsigned int>(dataArray[0]) & 0xFF) << 8
+//             + (static_cast<unsigned int>(dataArray[1]) & 0xFF);
+
+    if(link->WriteSingleRegister(regMsg.getRegisterCode(), (int)result))
     {
         Emit([&](const IProtocolQModBusEvents* ptr){ptr->ResponseReceived(regMsg.getFullMessage());});
     }

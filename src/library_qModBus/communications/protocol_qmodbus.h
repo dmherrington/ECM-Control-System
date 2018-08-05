@@ -1,6 +1,7 @@
 #ifndef PROTOCOL_QMODBUS_H
 #define PROTOCOL_QMODBUS_H
 
+#include <QDataStream>
 #include <memory>
 #include <vector>
 #include <functional>

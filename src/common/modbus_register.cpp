@@ -3,7 +3,7 @@
 ModbusRegister::ModbusRegister():
     registerAddress(0),slaveAddress(0),readOrwrite(ModbusRegister_RWType::WRITE),highChecksum(0),lowChecksum(0)
 {
-
+    data.clear();
 }
 
 ModbusRegister::ModbusRegister(const ModbusRegister &copy)

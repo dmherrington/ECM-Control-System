@@ -1,6 +1,9 @@
 #ifndef WESTINGHOUSE_510_H
 #define WESTINGHOUSE_510_H
 
+#include <QSerialPort>
+#include <QSerialPortInfo>
+
 #include <QObject>
 #include <QTimer>
 #include <QFile>
@@ -65,6 +68,12 @@ public:
     //! \return
     //!
     bool isPumpConnected() const;
+
+    //!
+    //! \brief openPumpConnection
+    //!
+    void openPumpConnection();
+
 
 private:
 

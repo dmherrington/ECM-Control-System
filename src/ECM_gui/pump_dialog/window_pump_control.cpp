@@ -7,6 +7,9 @@ Window_PumpControl::Window_PumpControl(Westinghouse510* obj, QWidget *parent) :
     m_Pump(obj)
 {
     ui->setupUi(this);
+    ui->widget_PumpConnected->setDiameter(6);
+    ui->widget_PumpInitialized->setDiameter(6);
+    ui->widget_PumpRunning->setDiameter(6);
 
     connect(m_Pump,SIGNAL(signal_PumpCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_PumpConnectionUpdate(common::comms::CommunicationUpdate)));
 
@@ -82,24 +85,30 @@ void Window_PumpControl::slot_updatedPumpOn(const bool &value)
         common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
         ui->lineEdit_OnTime->setText(QString::fromStdString(startTime.timeString()));
         statusBar()->showMessage(tr("The pump has been turned on."),2500);
-    }
+
+        QTimer::singleShot(ui->doubleSpinBox_delayTime->value() * 1000, [=] {
+            ui->widget_PumpInitialized->setColor(QColor(0,255,0));
+        });    }
     else
     {
         ui->widget_PumpRunning->setColor(QColor(255,0,0));
+        ui->widget_PumpInitialized->setColor(QColor(255,0,0));
+        ui->doubleSpinBox_flowRate->setStyleSheet("background-color: red");
         ui->pushButton_PumpRunning->setText("ON");
         ui->lineEdit_OnTime->setText("");
+        ui->lineEdit_OnTime->clear();
         statusBar()->showMessage(tr("The pump has been turned off."),2500);
     }
 }
 
 void Window_PumpControl::slot_updatedFlowRate(const double &value)
 {
-    if(value == ui->doubleSpinBox_flowRate->value())
+    if(abs(value - ui->doubleSpinBox_flowRate->value()) < 0.05)
     {
         ui->doubleSpinBox_flowRate->setStyleSheet("background-color: green");
     }
     else{
-        //for some reason there was a discrepency
+        ui->doubleSpinBox_flowRate->setStyleSheet("background-color: red");
     }
     statusBar()->showMessage(tr("Flow rate has been updated."),2500);
 }

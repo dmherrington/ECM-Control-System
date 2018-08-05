@@ -54,15 +54,27 @@ void MunkPowerSupply::generateAndTransmitMessage(const SegmentTimeDetailed &deta
 {
     generateMessages(detailedSegmentData);
     commsProgress.clearCurrentProgress();
+
+    std::vector<registers_Munk::ParameterType> currentRegisters;
+    currentRegisters.push_back(registers_Munk::ParameterType::VOLTAGESETPOINT_FORWARD);
+    currentRegisters.push_back(registers_Munk::ParameterType::VOLTAGESETPOINT_REVERSE);
+    currentRegisters.push_back(registers_Munk::ParameterType::CURRENTSETPOINT_FORWARD);
+    currentRegisters.push_back(registers_Munk::ParameterType::CURRENTSETPOINT_REVERSE);
+    currentRegisters.push_back(registers_Munk::ParameterType::SEGMENTTIMES);
+    currentRegisters.push_back(registers_Munk::ParameterType::MEMORYWRITE);
+
+    commsProgress.transmittingNewSegment(currentRegisters);
+
     std::vector<AbstractParameterPtr> parameters;
     parameters.push_back(std::make_shared<SegmentVoltageSetpoint>(m_fwdVSetpoint));
-    //parameters.push_back(std::make_shared<SegmentVoltageSetpoint>(m_revVSetpoint));
+    parameters.push_back(std::make_shared<SegmentVoltageSetpoint>(m_revVSetpoint));
     parameters.push_back(std::make_shared<SegmentCurrentSetpoint>(m_fwdISetpoint));
-    //parameters.push_back(std::make_shared<SegmentCurrentSetpoint>(m_revISetpoint));
+    parameters.push_back(std::make_shared<SegmentCurrentSetpoint>(m_revISetpoint));
     parameters.push_back(std::make_shared<SegmentTimeGeneral>(m_segmentTimeGeneral));
     registers_Munk::ParameterMemoryWritePtr memoryWrite = std::make_shared<ParameterMemoryWrite>();
     memoryWrite->setSlaveAddress(01);
     parameters.push_back(memoryWrite);
+
     commsMarshaler->sendCompleteMunkParameters(parameters);
 //    messages.push_back(MunkMessageType::Mem);
 //    commsProgress.transmittingNewSegment(messages);
@@ -238,7 +250,7 @@ void MunkPowerSupply::ForwardVoltageSetpointAcknowledged()
     emit signal_SegmentSetAck(msg);
     int completed = 0;
     int required = 0;
-    commsProgress.receivedAckProgress(MunkMessageType::FWDVolt,completed,required);
+    commsProgress.receivedAckProgress(registers_Munk::ParameterType::VOLTAGESETPOINT_FORWARD,completed,required);
     emit signal_SegmentWriteProgress(completed,required);
 }
 
@@ -248,7 +260,7 @@ void MunkPowerSupply::ReverseVoltageSetpointAcknowledged()
     emit signal_SegmentSetAck(msg);
     int completed = 0;
     int required = 0;
-    commsProgress.receivedAckProgress(MunkMessageType::REVVolt,completed,required);
+    commsProgress.receivedAckProgress(registers_Munk::ParameterType::VOLTAGESETPOINT_REVERSE,completed,required);
     emit signal_SegmentWriteProgress(completed,required);
 }
 
@@ -258,7 +270,7 @@ void MunkPowerSupply::ForwardCurrentSetpointAcknowledged()
     emit signal_SegmentSetAck(msg);
     int completed = 0;
     int required = 0;
-    commsProgress.receivedAckProgress(MunkMessageType::FWDCur,completed,required);
+    commsProgress.receivedAckProgress(registers_Munk::ParameterType::CURRENTSETPOINT_FORWARD,completed,required);
     emit signal_SegmentWriteProgress(completed,required);
 }
 
@@ -268,7 +280,7 @@ void MunkPowerSupply::ReverseCurrentSetpointAcknowledged()
     emit signal_SegmentSetAck(msg);
     int completed = 0;
     int required = 0;
-    commsProgress.receivedAckProgress(MunkMessageType::REVCur,completed,required);
+    commsProgress.receivedAckProgress(registers_Munk::ParameterType::CURRENTSETPOINT_REVERSE,completed,required);
     emit signal_SegmentWriteProgress(completed,required);
 }
 
@@ -278,7 +290,7 @@ void MunkPowerSupply::SegmentTimeAcknowledged()
     emit signal_SegmentSetAck(msg);
     int completed = 0;
     int required = 0;
-    commsProgress.receivedAckProgress(MunkMessageType::SEGTime,completed,required);
+    commsProgress.receivedAckProgress(registers_Munk::ParameterType::SEGMENTTIMES,completed,required);
     emit signal_SegmentWriteProgress(completed,required);
 }
 
@@ -288,7 +300,7 @@ void MunkPowerSupply::SegmentCommitedToMemoryAcknowledged()
     emit signal_SegmentSetAck(msg);
     int completed = 0;
     int required = 0;
-    commsProgress.receivedAckProgress(MunkMessageType::Mem,completed,required);
+    commsProgress.receivedAckProgress(registers_Munk::ParameterType::MEMORYWRITE,completed,required);
     emit signal_SegmentWriteProgress(completed,required);
 }
 

@@ -15,7 +15,7 @@ CodeEditWidget::CodeEditWidget(QWidget *parent) : QPlainTextEdit(parent)
 
 int CodeEditWidget::lineNumberAreaWidth()
 {
-    int space = 15;
+    int space = 30;
 
     //Ken Fix This: We need to advance to QT 5.11 in order to do this process
     /*

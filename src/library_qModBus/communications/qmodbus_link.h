@@ -56,7 +56,7 @@ public:
 
     void SetSlaveAddress(const unsigned int &slaveAddress) override;
 
-    bool WriteSingleRegister(const unsigned long &data) const override;
+    bool WriteSingleRegister(const unsigned long &dataRegister, const unsigned long &data) const override;
 
 public:
     unsigned int GetSlaveAddress() const override;

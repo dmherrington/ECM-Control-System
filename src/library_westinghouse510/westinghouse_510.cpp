@@ -7,7 +7,7 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
     qRegisterMetaType<common::comms::CommunicationConnection>("CommunicationConnection");
     qRegisterMetaType<common::comms::CommunicationUpdate>("CommunicationUpdate");
 
-    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortReadyToConnect()),this,SLOT(slot_SerialPortReadyToConnect()));
+    //connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortReadyToConnect()),this,SLOT(slot_SerialPortReadyToConnect()));
     //connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortConnection(common::comms::CommunicationConnection)),this,SLOT(slot_SerialPortConnectionUpdate(common::comms::CommunicationConnection)));
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_SerialPortUpdate(common::comms::CommunicationUpdate)));
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_RXNewSerialData(QByteArray)),this,SLOT(slot_SerialPortReceivedData(QByteArray)));
@@ -30,7 +30,7 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
 //!
 void Westinghouse510::setPumpFlowRate(const registers_WestinghousePump::Register_FlowRate &desRate)
 {
-    //this->m_Comms->writeToSerialPort(desRate.getFullMessage());
+    this->m_Comms->writeToSerialPort(desRate.getModbusRegister());
 }
 
 //!
@@ -48,7 +48,7 @@ void Westinghouse510::setPumpOperations(const registers_WestinghousePump::Regist
             initializationTimer->stop();
     }
 
-    //this->m_Comms->writeToSerialPort(desOps.getFullMessage());
+    this->m_Comms->writeToSerialPort(desOps.getModbusRegister());
 }
 
 void Westinghouse510::setInitializationTime(const unsigned int &interval)
@@ -62,10 +62,24 @@ bool Westinghouse510::isPumpConnected() const
     return this->m_Comms->isSerialPortOpen();
 }
 
+void Westinghouse510::openPumpConnection()
+{
+    this->slot_SerialPortReadyToConnect();
+}
+
 void Westinghouse510::slot_SerialPortReadyToConnect()
 {
     common::comms::SerialConfiguration config("WestinghousePort");
-    this->m_Comms->openSerialPortConnection(config);
+    const auto infos = QSerialPortInfo::availablePorts();
+    for (const QSerialPortInfo &info : infos)
+    {
+        if(info.portName() == "COM14")
+        {
+            config.setPortName("\\\\.\\COM14");
+            this->m_Comms->openSerialPortConnection(config);
+        }
+    }
+
 }
 
 void Westinghouse510::slot_SerialPortUpdate(const common::comms::CommunicationUpdate &update)

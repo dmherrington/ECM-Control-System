@@ -12,6 +12,7 @@ Library_QModBus::Library_QModBus(const std::string &name, QObject *parent):
     deviceName = name;
 
     commsMarshaler = new comms_QModBus::CommsMarshaler();
+    commsMarshaler->AddSubscriber(this);
 }
 
 ///////////////////////////////////////////////////////////////////////////

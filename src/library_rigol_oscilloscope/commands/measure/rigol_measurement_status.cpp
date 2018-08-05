@@ -39,5 +39,12 @@ double RigolMeasurementStatus::getMeasurementValue() const
     return this->value;
 }
 
+bool RigolMeasurementStatus::isStatusValid() const
+{
+    if(this->value > 1000) //Ken Fix: This is an arbritrary check to see if the data is garbage
+        return false;
+    return true;
+}
+
 } //end of namespace commands
 

@@ -732,7 +732,7 @@ width:20px;
              <x>9</x>
              <y>9</y>
              <width>254</width>
-             <height>187</height>
+             <height>201</height>
             </rect>
            </property>
            <layout class="QFormLayout" name="formLayout">

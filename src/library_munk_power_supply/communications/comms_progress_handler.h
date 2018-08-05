@@ -4,34 +4,25 @@
 #include <map>
 #include <vector>
 
+#include "data_registers/type_definition.h"
 
 namespace comms_Munk{
-
-enum class MunkMessageType
-{
-    FWDVolt,
-    REVVolt,
-    FWDCur,
-    REVCur,
-    SEGTime,
-    Mem
-};
 
 class CommsProgressHandler
 {
 public:
     CommsProgressHandler();
 
-    void transmittingNewSegment(const std::vector<MunkMessageType> &msgsRequired);
+    void transmittingNewSegment(const std::vector<registers_Munk::ParameterType> &msgsRequired);
 
     void currentProgress(int &complete, int &needed);
 
-    void receivedAckProgress(const MunkMessageType &type, int &complete, int &needed);
+    void receivedAckProgress(const registers_Munk::ParameterType &type, int &complete, int &needed);
 
     void clearCurrentProgress();
 
 private:
-    std::map<MunkMessageType,bool> progressMap;
+    std::map<registers_Munk::ParameterType,bool> progressMap;
 };
 
 } //end of namespace comms_Munk

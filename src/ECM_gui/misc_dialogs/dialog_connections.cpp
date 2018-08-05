@@ -74,7 +74,7 @@ void Dialog_Connections::on_pushButton_connectSensoray_released()
 
 void Dialog_Connections::on_pushButton_connectPump_released()
 {
-
+    m_API->m_Pump->openPumpConnection();
 }
 
 void Dialog_Connections::on_pushButton_connect_Rigol_released()
@@ -84,7 +84,7 @@ void Dialog_Connections::on_pushButton_connect_Rigol_released()
 
 void Dialog_Connections::on_pushButton_connectMunk_released()
 {
-    m_API->m_Munk->openSerialPort("COM15");
+    m_API->m_Munk->openSerialPort("COM4");
 }
 
 void Dialog_Connections::on_pushButton_connectGalil_released()

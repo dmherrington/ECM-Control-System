@@ -124,7 +124,7 @@ void PlotHandler::ChangeMode(const PlotMode mode)
 //! \brief Graph data on plot instance
 //! \param dataKey Key to indentify data
 //!
-void PlotHandler::AddPlot(const common_data::observation::IPlotComparablePtr expression, const std::string &name, const bool &useSecondayYAxis)
+void PlotHandler::AddPlot(const common_data::observation::IPlotComparablePtr expression, const std::string &name, const bool &useSecondayYAxis, const bool &invertYAxis)
 {
     bool found = false;
     for (int i = 0; i < m_PlotParameters.size(); i++)
@@ -150,6 +150,7 @@ void PlotHandler::AddPlot(const common_data::observation::IPlotComparablePtr exp
     User_Data.Selected = false;
     User_Data.g = QVector<QCPGraph*>();
     User_Data.yAxis2 = useSecondayYAxis;
+    User_Data.invertYAxis = invertYAxis;
 
     m_PlotParameters.append(User_Data);
     RecalculatePlots();
@@ -881,7 +882,7 @@ void PlotHandler::DoPlotRecalculate()
             //add plot and set parameters
             if(m_PlotParameters.at(plotIndex).g.size() <= i ||  m_PlotParameters.at(plotIndex).g.at(i) == NULL)
             {
-                m_PlotParameters[plotIndex].g.insert(i, MarshalAddGraph(m_PlotParameters[plotIndex].yAxis2));
+                m_PlotParameters[plotIndex].g.insert(i, MarshalAddGraph(m_PlotParameters[plotIndex].yAxis2,m_PlotParameters[plotIndex].invertYAxis));
                 QCPGraph *g = m_PlotParameters[plotIndex].g.at(i);
                 g->setAntialiasedFill(false);
                 this->plotLayout()->updateLayout();
@@ -965,20 +966,27 @@ void PlotHandler::MarshalRemoveGraph(QCPGraph *g)
 //! \brief Marshals adding a graph to QCustomPlot object to the main thread
 //! \return Graph added
 //!
-QCPGraph* PlotHandler::MarshalAddGraph(const bool &useSecondaryAxis)
+QCPGraph* PlotHandler::MarshalAddGraph(const bool &useSecondaryAxis, const bool &invertYAxis)
 {
     //invoke this method on the thread that owns this object.
     if (this->thread() != QThread::currentThread())
     {
         QCPGraph* result;
-        QMetaObject::invokeMethod(this, "MarshalAddGraph", Qt::BlockingQueuedConnection, Q_RETURN_ARG(QCPGraph*, result), Q_ARG(bool,useSecondaryAxis));
+        QMetaObject::invokeMethod(this, "MarshalAddGraph", Qt::BlockingQueuedConnection, Q_RETURN_ARG(QCPGraph*, result), Q_ARG(bool,useSecondaryAxis), Q_ARG(bool,invertYAxis));
         return result;
     }
     QCPGraph* g;
+
     if(useSecondaryAxis)
+    {
         g = this->addGraph(this->xAxis,this->yAxis2);
+        this->yAxis2->setRangeReversed(invertYAxis);
+    }
     else
+    {
         g = this->addGraph(this->xAxis,this->yAxis);
+        this->yAxis->setRangeReversed(invertYAxis);
+    }
 
     g->addToLegend();
     return g;

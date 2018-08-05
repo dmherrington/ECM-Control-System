@@ -198,7 +198,7 @@ std::vector<uint8_t> MunkSerialLink::ReadBytes(void) const
     if(m_port->waitForReadyRead(10))
     {
         qint64 byteCount = m_port->bytesAvailable();
-        std::cout<<"The size of the buffer: "<<byteCount<<std::endl;
+        //std::cout<<"The size of the buffer: "<<byteCount<<std::endl;
         if (byteCount > 0) {
             QByteArray buffer;
             buffer.resize(byteCount);
@@ -216,7 +216,7 @@ std::vector<uint8_t> MunkSerialLink::ReadBytes(void) const
 
 bool MunkSerialLink::WriteBytes(const QByteArray &data) const
 {
-    std::cout<<"The exact message we are trying to write looks like: "<<data.toHex().toStdString()<<std::endl;
+    //std::cout<<"The exact message we are trying to write looks like: "<<data.toHex().toStdString()<<std::endl;
     if(m_port && m_port->isOpen()) {
         qint64 byteWritten = m_port->write(data);
         if(!m_port->waitForBytesWritten())
@@ -226,8 +226,8 @@ bool MunkSerialLink::WriteBytes(const QByteArray &data) const
         }
         else
         {
-            std::cout<<"I wrote how many bytes: "<<byteWritten<<std::endl;
-            std::cout<<"We are now finished writing and we are going to wait for something ready to be read"<<std::endl;
+            //std::cout<<"I wrote how many bytes: "<<byteWritten<<std::endl;
+            //std::cout<<"We are now finished writing and we are going to wait for something ready to be read"<<std::endl;
             return true;
         }
     } else {

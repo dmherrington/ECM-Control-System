@@ -13,6 +13,9 @@ State_HomePositioning::State_HomePositioning():
 void State_HomePositioning::OnExit()
 {
     Owner().statusVariableValues->removeVariableNotifier("homest",this);
+
+    common::TupleProfileVariableString tupleVariable("Default","Homing","homest");
+    Owner().issueGalilRemovePollingRequest(tupleVariable);
 }
 
 AbstractStateGalil* State_HomePositioning::getClone() const

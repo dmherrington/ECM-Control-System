@@ -9,7 +9,7 @@ ProfileState_Touchoff::ProfileState_Touchoff(const std::string &name, const std:
 ProfileState_Touchoff::ProfileState_Touchoff(const ProfileState_Touchoff &copy):
     MotionProfile(copy)
 {
-
+    this->currentCode = copy.currentCode;
 }
 
 MotionProfile::ProfileType ProfileState_Touchoff::getType() const

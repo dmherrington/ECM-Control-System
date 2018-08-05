@@ -159,6 +159,13 @@ void State_Ready::handleCommand(const AbstractCommand* command)
         std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
+    case CommandType::SET_VARIABLE:
+    {
+        const Command_Variable* castCommand = copyCommand->as<Command_Variable>();
+        Command_VariablePtr command = std::make_shared<Command_Variable>(*castCommand);
+        Owner().issueGalilCommand(command);
+        break;
+    }
     default:
         break;
     }
