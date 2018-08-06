@@ -26,8 +26,8 @@ void Window_Touchoff::closeEvent(QCloseEvent *event)
 
 void Window_Touchoff::on_pushButton_ExecuteTouchoff_released()
 {
-    CommandExecuteProfile command(MotionProfile::ProfileType::TOUCHOFF,"touchof");
-    m_MotionController->executeCommand(&command);
+    CommandExecuteProfilePtr commandTouchoffExecute = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::TOUCHOFF,"touchof");
+    m_MotionController->executeCommand(commandTouchoffExecute);
 }
 
 void Window_Touchoff::slot_UpdateMotionProfileState(const MotionProfileState &state)
@@ -59,15 +59,15 @@ void Window_Touchoff::on_pushButton_TouchoffRef_released()
 {
     uint64_t position = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->position.get().getPosition();
     ui->doubleSpinBox_TouchoffRef->setValue(position/10.0);
-    Command_Variable command("touchref",position);
-    m_MotionController->executeCommand(&command);
+    Command_VariablePtr commandTouchoffRef = std::make_shared<Command_Variable>("touchref",position);
+    m_MotionController->executeCommand(commandTouchoffRef);
 }
 
 void Window_Touchoff::on_pushButton_TouchoffGap_released()
 {
     int desiredGap = ui->doubleSpinBox_InitialGap->value() * 10.0;
-    Command_Variable command("initgap",desiredGap);
-    m_MotionController->executeCommand(&command);
+    Command_VariablePtr commandTouchoffGap = std::make_shared<Command_Variable>("initgap",desiredGap);
+    m_MotionController->executeCommand(commandTouchoffGap);
 }
 
 void Window_Touchoff::on_actionClose_triggered()

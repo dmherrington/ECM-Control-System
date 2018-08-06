@@ -41,7 +41,7 @@ hsm::Transition State_EStop::GetTransition()
     return rtn;
 }
 
-void State_EStop::handleCommand(const AbstractCommand* command)
+void State_EStop::handleCommand(const AbstractCommandPtr command)
 {
     CommandType currentCommand = command->getCommandType();
 
@@ -79,7 +79,7 @@ void State_EStop::OnEnter()
     Owner().issueGalilCommand(command);
 }
 
-void State_EStop::OnEnter(const AbstractCommand *command)
+void State_EStop::OnEnter(const AbstractCommandPtr command)
 {
     this->OnEnter();
 

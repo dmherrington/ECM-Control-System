@@ -52,32 +52,34 @@ hsm::Transition State_ScriptExecution::GetTransition()
     return rtn;
 }
 
-void State_ScriptExecution::handleCommand(const AbstractCommand* command)
+void State_ScriptExecution::handleCommand(const AbstractCommandPtr command)
 {
-    CommandType currentCommand = command->getCommandType();
+    //const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
+    //CommandType currentCommand = copyCommand->getCommandType();
 
-    switch (currentCommand) {
+    switch (command->getCommandType()) {
     case CommandType::EXECUTE_PROGRAM:
     {
         CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
         Owner().issueGalilCommand(castCommand);
-        this->clearCommand();
+        //this->clearCommand();
         break;
     }
     case CommandType::STOP:
     {
         desiredState = GalilState::STATE_MOTION_STOP;
-        this->clearCommand();
+        //this->clearCommand();
         break;
     }
     case CommandType::ESTOP:
     {
         desiredState = GalilState::STATE_ESTOP;
-        this->clearCommand();
+        //this->clearCommand();
         break;
     }
     default:
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        std::cout<<"The current command: "<<CommandToString(command->getCommandType())<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
 }
@@ -114,7 +116,7 @@ void State_ScriptExecution::OnEnter()
     desiredState = GalilState::STATE_READY;
 }
 
-void State_ScriptExecution::OnEnter(const AbstractCommand* command)
+void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
 {
     if(command != nullptr)
     {

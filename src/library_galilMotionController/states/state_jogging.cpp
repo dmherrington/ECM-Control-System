@@ -48,19 +48,18 @@ hsm::Transition State_Jogging::GetTransition()
     return rtn;
 }
 
-void State_Jogging::handleCommand(const AbstractCommand* command)
+void State_Jogging::handleCommand(const AbstractCommandPtr command)
 {
-    const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    //const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
     this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
+    //CommandType currentCommand = copyCommand->getCommandType();
 
-    CommandType currentCommand = copyCommand->getCommandType();
-    switch (currentCommand) {
+    switch (command->getCommandType()) {
     case CommandType::JOG_MOVE:
     {
         //This is the command that brought us into this state
-        CommandJogPtr castCommand = std::make_shared<CommandJog>(*command->as<CommandJog>());
-        this->clearCommand();
-        Owner().issueGalilMotionCommand(castCommand);
+        //CommandJogPtr castCommand = std::make_shared<CommandJog>(*command->as<CommandJog>());
+        Owner().issueGalilMotionCommand(command);
 //        Owner().issueGalilCommand(castCommand); //KEN Fix this to differentiate a motion command so we can auto begin motion upon ack
 
 //        CommandMotionStartPtr motionStartCommand = std::make_shared<CommandMotionStart>();
@@ -103,7 +102,7 @@ void State_Jogging::OnEnter()
     this->desiredState = GalilState::STATE_READY;
 }
 
-void State_Jogging::OnEnter(const AbstractCommand *command)
+void State_Jogging::OnEnter(const AbstractCommandPtr command)
 {
     if(command != nullptr)
     {

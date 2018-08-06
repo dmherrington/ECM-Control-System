@@ -99,10 +99,10 @@ void GalilMotionController::initializeMotionController()
     //write the default galil script to the Galil
     CommandUploadProgramPtr commandUploadDefault = std::make_shared<CommandUploadProgram>();
     commandUploadDefault->setProgram(defaultProgram);
-    this->executeCommand(commandUploadDefault.get());
+    this->executeCommand(commandUploadDefault);
 
     CommandExecuteProfilePtr commandExecuteSetup = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::SETUP,"setup");
-    this->executeCommand(commandExecuteSetup.get());
+    this->executeCommand(commandExecuteSetup);
     // 1: Request the current program aboard the galil motion control unit
 
     // 2: Request the current profiles that are apart of the program
@@ -143,9 +143,9 @@ void GalilMotionController::openConnection(const std::string &address)
 
 void GalilMotionController::closeConnection()
 {
-    CommandMotorDisable command;
-    command.setDisableAxis(MotorAxis::Z);
-    this->executeCommand(&command);
+    CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();
+    command->setDisableAxis(MotorAxis::Z);
+    this->executeCommand(command);
 
     if(commsMarshaler->DisconnetLink()) //if true this means we have disconnected from the galil unit
     {
@@ -357,7 +357,7 @@ bool GalilMotionController::saveProgram(const std::string &text)
     return true;
 }
 
-void GalilMotionController::executeCommand(const AbstractCommand *command)
+void GalilMotionController::executeCommand(const AbstractCommandPtr command)
 {
     ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
     currentState->handleCommand(command);

@@ -69,7 +69,7 @@ public:
     virtual void getClone(AbstractStateGalil** state) const = 0;
 
 public:
-    virtual void handleCommand(const AbstractCommand* command) = 0;
+    virtual void handleCommand(const AbstractCommandPtr command) = 0;
 
     virtual GalilState getCurrentState() const;
 
@@ -80,7 +80,7 @@ protected:
     void clearCommand();
 protected:
     GalilSettings mSettings;
-    const AbstractCommand* currentCommand;
+    AbstractCommandPtr currentCommand;
 
     GalilState currentState;
     GalilState desiredState;

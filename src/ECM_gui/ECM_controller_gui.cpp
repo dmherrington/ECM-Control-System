@@ -377,57 +377,65 @@ bool ECMControllerGUI::maybeSave()
 
 void ECMControllerGUI::on_pushButton_MotorEnable_released()
 {
-    CommandMotorEnable command;
-    command.setEnableAxis(MotorAxis::Z);
-    m_API->m_Galil->executeCommand(&command);
+    CommandMotorEnablePtr command = std::make_shared<CommandMotorEnable>();
+    command->setEnableAxis(MotorAxis::Z);
+    m_API->m_Galil->executeCommand(command);
 }
 
 void ECMControllerGUI::on_doubleSpinBox_CutDepth_editingFinished()
 {
-    Command_Variable command("maxdepth",ui->doubleSpinBox_CutDepth->value() * 10);
-    m_API->m_Galil->executeCommand(&command);
+    //Command_Variable command("maxdepth",ui->doubleSpinBox_CutDepth->value() * 10);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("maxdepth",ui->doubleSpinBox_CutDepth->value() * 10);
+    m_API->m_Galil->executeCommand(command);
 }
 
 void ECMControllerGUI::on_doubleSpinBox_RetractDistance_editingFinished()
 {
-    Command_Variable command("rtdist",ui->doubleSpinBox_RetractDistance->value() * 10);
-    m_API->m_Galil->executeCommand(&command);
+    //Command_Variable command("rtdist",ui->doubleSpinBox_RetractDistance->value() * 10);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("rtdist",ui->doubleSpinBox_RetractDistance->value() * 10);
+    m_API->m_Galil->executeCommand(command);
 }
 
 void ECMControllerGUI::on_doubleSpinBox_StepSize_editingFinished()
 {
-    Command_Variable command("step",ui->doubleSpinBox_StepSize->value() * 10);
-    m_API->m_Galil->executeCommand(&command);
+    //Command_Variable command("step",ui->doubleSpinBox_StepSize->value() * 10);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("step",ui->doubleSpinBox_StepSize->value() * 10);
+    m_API->m_Galil->executeCommand(command);
 }
 
 void ECMControllerGUI::on_spinBox_RetractSpeed_editingFinished()
 {
-    Command_Variable command("backsp",ui->spinBox_RetractSpeed->value() * 10);
-    m_API->m_Galil->executeCommand(&command);
+    //Command_Variable command("backsp",ui->spinBox_RetractSpeed->value() * 10);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("backsp",ui->spinBox_RetractSpeed->value() * 10);
+    m_API->m_Galil->executeCommand(command);
 }
 
 void ECMControllerGUI::on_spinBox_PlungeSpeed_editingFinished()
 {
-    Command_Variable command("forsp",ui->spinBox_PlungeSpeed->value() * 10);
-    m_API->m_Galil->executeCommand(&command);
+    //Command_Variable command("forsp",ui->spinBox_PlungeSpeed->value() * 10);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("forsp",ui->spinBox_PlungeSpeed->value() * 10);
+    m_API->m_Galil->executeCommand(command);
 }
 
 void ECMControllerGUI::on_doubleSpinBox_CutSpeed_editingFinished()
 {
-    Command_Variable command("speed",ui->doubleSpinBox_CutSpeed->value() * 10);
-    m_API->m_Galil->executeCommand(&command);
+    //Command_Variable command("speed",ui->doubleSpinBox_CutSpeed->value() * 10);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("speed",ui->doubleSpinBox_CutSpeed->value() * 10);
+    m_API->m_Galil->executeCommand(command);
 }
 
 void ECMControllerGUI::on_spinBox_RetractPeriod_editingFinished()
 {
-    Command_Variable command("rtfq",ui->spinBox_RetractPeriod->value());
-    m_API->m_Galil->executeCommand(&command);
+    //Command_Variable command("rtfq",ui->spinBox_RetractPeriod->value());
+    Command_VariablePtr command = std::make_shared<Command_Variable>("rtfq",ui->spinBox_RetractPeriod->value());
+    m_API->m_Galil->executeCommand(command);
 }
 
 void ECMControllerGUI::on_spinBox_Pause_editingFinished()
 {
-    Command_Variable command("rtpause",ui->spinBox_Pause->value());
-    m_API->m_Galil->executeCommand(&command);
+    //Command_Variable command("rtpause",ui->spinBox_Pause->value());
+    Command_VariablePtr command = std::make_shared<Command_Variable>("rtpause",ui->spinBox_Pause->value());
+    m_API->m_Galil->executeCommand(command);
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -438,64 +446,66 @@ void ECMControllerGUI::on_pushButton_IncreaseJog_pressed()
 {
     std::cout<<"Pushbutton increase jog pressed."<<std::endl;
     int jogRate = abs(ui->spinBox_Jog->value()) * (-1);
-    CommandJog beginJog(MotorAxis::Z,jogRate);
-    m_API->m_Galil->executeCommand(&beginJog);
+    CommandJogPtr beginJog = std::make_shared<CommandJog>(MotorAxis::Z,jogRate);
+    //CommandJog beginJog(MotorAxis::Z,jogRate);
+    m_API->m_Galil->executeCommand(beginJog);
 }
 
 void ECMControllerGUI::on_pushButton_IncreaseJog_released()
 {
     std::cout<<"Pushbutton increase jog released."<<std::endl;
-    CommandStop stop(MotorAxis::Z);
-    m_API->m_Galil->executeCommand(&stop);
+    CommandStopPtr stopJog = std::make_shared<CommandStop>(MotorAxis::Z);
+    //CommandStop stop(MotorAxis::Z);
+    m_API->m_Galil->executeCommand(stopJog);
 }
 
 void ECMControllerGUI::on_pushButton_DecreaseJog_pressed()
 {
     std::cout<<"Pushbutton decrease jog released pressed."<<std::endl;
     int jogRate = abs(ui->spinBox_Jog->value());
-    CommandJog beginJog(MotorAxis::Z,jogRate);
-    m_API->m_Galil->executeCommand(&beginJog);
+    CommandJogPtr beginJog = std::make_shared<CommandJog>(MotorAxis::Z,jogRate);
+    //CommandJog beginJog(MotorAxis::Z,jogRate);
+    m_API->m_Galil->executeCommand(beginJog);
 }
 
 void ECMControllerGUI::on_pushButton_DecreaseJog_released()
 {
     std::cout<<"Pushbutton decrease jog released."<<std::endl;
-    CommandStop stop(MotorAxis::Z);
-    m_API->m_Galil->executeCommand(&stop);
+    CommandStopPtr stopJog = std::make_shared<CommandStop>(MotorAxis::Z);
+    m_API->m_Galil->executeCommand(stopJog);
 }
 
 
 void ECMControllerGUI::on_pushButton_IncreaseRelativeMove_released()
 {
     int relativeDistance = abs(ui->spinBox_RelativeMove->value()) * (-1);
-    CommandRelativeMove move(MotorAxis::Z, relativeDistance);
-    m_API->m_Galil->executeCommand(&move);
+    CommandRelativeMovePtr startIncreaseRelativeMove = std::make_shared<CommandRelativeMove>(MotorAxis::Z, relativeDistance);
+    m_API->m_Galil->executeCommand(startIncreaseRelativeMove);
 }
 
 void ECMControllerGUI::on_pushButton_DecreaseRelativeMove_released()
 {
     int relativeDistance = abs(ui->spinBox_RelativeMove->value());
-    CommandRelativeMove move(MotorAxis::Z, relativeDistance);
-    m_API->m_Galil->executeCommand(&move);
+    CommandRelativeMovePtr startDecreaseRelativeMove = std::make_shared<CommandRelativeMove>(MotorAxis::Z, relativeDistance);
+    m_API->m_Galil->executeCommand(startDecreaseRelativeMove);
 }
 
 void ECMControllerGUI::on_pushButton_MotorDisable_released()
 {
-    CommandMotorDisable command;
-    command.setDisableAxis(MotorAxis::Z);
-    m_API->m_Galil->executeCommand(&command);
+    CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();
+    m_API->m_Galil->executeCommand(command);
 }
 
 void ECMControllerGUI::on_pushButton_ResetHome_released()
 {
-    CommandExecuteProfile command(MotionProfile::ProfileType::HOMING,"latch");
-    m_API->m_Galil->executeCommand(&command);
+    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::HOMING,"latch");
+    m_API->m_Galil->executeCommand(command);
 }
 
 void ECMControllerGUI::on_pushButton_MoveHome_released()
 {
-    CommandAbsoluteMove command(MotorAxis::Z,0);
-    m_API->m_Galil->executeCommand(&command);
+    CommandAbsoluteMovePtr command = std::make_shared<CommandAbsoluteMove>(MotorAxis::Z,0);
+    m_API->m_Galil->executeCommand(command);
 }
 
 void ECMControllerGUI::on_pushButton_RunProfile_released()
@@ -531,12 +541,11 @@ void ECMControllerGUI::on_pushButton_RunProfile_released()
     m_API->m_Log->initializeLogging(partNumber.toStdString(),serialNumber.toStdString(),startTime,true);
 
 
-
     //While executing this type of command
     //get the profile name from the GUI
 
-    CommandExecuteProfile command(MotionProfile::ProfileType::PROFILE,ui->comboBox_ProgramProfiles->currentText().toStdString());
-    m_API->m_Galil->executeCommand(&command);
+    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,ui->comboBox_ProgramProfiles->currentText().toStdString());
+    m_API->m_Galil->executeCommand(command);
 }
 
 void ECMControllerGUI::on_pushButton_UploadProgram_released()

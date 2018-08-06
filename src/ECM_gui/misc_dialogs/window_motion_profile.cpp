@@ -61,11 +61,11 @@ void Window_MotionProfile::on_pushButton_UploadProgram_released()
 
     CommandUploadProgramPtr commandUploadDefault = std::make_shared<CommandUploadProgram>();
     commandUploadDefault->setProgram(newProgram);
-    m_MotionController->executeCommand(commandUploadDefault.get());
+    m_MotionController->executeCommand(commandUploadDefault);
 }
 
 void Window_MotionProfile::on_pushButton_DownloadProgram_released()
 {
     CommandDownloadProgramPtr commandDownloadDefault = std::make_shared<CommandDownloadProgram>();
-    m_MotionController->executeCommand(commandDownloadDefault.get());
+    m_MotionController->executeCommand(commandDownloadDefault);
 }

@@ -107,7 +107,7 @@ public:
     bool saveProgramAs(const std::string &filePath, const std::string &text);
     bool loadProgram(const std::string &filePath, std::string &programText);
 
-    void executeCommand(const AbstractCommand* command);
+    void executeCommand(const AbstractCommandPtr command);
 
     void executeStringCommand(const std::string &stringCommand);
 

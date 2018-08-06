@@ -62,13 +62,13 @@ hsm::Transition State_HomePositioning::GetTransition()
     return rtn;
 }
 
-void State_HomePositioning::handleCommand(const AbstractCommand* command)
+void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
 {
-    const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    //const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
     this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
+    //CommandType currentCommand = copyCommand->getCommandType();
 
-    CommandType currentCommand = copyCommand->getCommandType();
-    switch (currentCommand) {
+    switch (command->getCommandType()) {
     case CommandType::EXECUTE_PROGRAM:
     {
         Owner().statusVariableValues->addVariableNotifier("homest",this,[this]{
@@ -99,20 +99,20 @@ void State_HomePositioning::handleCommand(const AbstractCommand* command)
             }
             } //end of switch statement
         });
-        CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*copyCommand->as<CommandExecuteProfile>());
-        Owner().issueGalilCommand(castCommand); //this will not be considered a motion command as the profile contains the BG parameters
+        //CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*copyCommand->as<CommandExecuteProfile>());
+        Owner().issueGalilCommand(command); //this will not be considered a motion command as the profile contains the BG parameters
         break;
     }
     case CommandType::STOP:
     {
         desiredState = GalilState::STATE_MOTION_STOP;
-        delete copyCommand;
+        //delete copyCommand;
         break;
     }
     case CommandType::ESTOP:
     {
         desiredState = GalilState::STATE_ESTOP;
-        delete copyCommand;
+        //delete copyCommand;
         break;
     }
     default:
@@ -140,7 +140,7 @@ void State_HomePositioning::OnEnter()
     this->desiredState = GalilState::STATE_READY;
 }
 
-void State_HomePositioning::OnEnter(const AbstractCommand* command)
+void State_HomePositioning::OnEnter(const AbstractCommandPtr command)
 {
     this->processFlag = false;
 

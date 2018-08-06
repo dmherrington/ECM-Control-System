@@ -61,26 +61,26 @@ void State_Idle::Update()
         desiredState = GalilState::STATE_READY;
 }
 
-void State_Idle::handleCommand(const AbstractCommand* command)
+void State_Idle::handleCommand(const AbstractCommandPtr command)
 {
-    const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    //const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
     this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
+    //CommandType currentCommand = copyCommand->getCommandType();
 
-    CommandType currentCommand = copyCommand->getCommandType();
-    switch (currentCommand) {
+    switch (command->getCommandType()) {
     case CommandType::DOWNLOAD_PROGRAM:
     {
         //we can only download/upload commands in the idle state so this command is valid
-        const CommandDownloadProgram* castCommand = copyCommand->as<CommandDownloadProgram>();
-        CommandDownloadProgramPtr command = std::make_shared<CommandDownloadProgram>(*castCommand);
+        //const CommandDownloadProgram* castCommand = copyCommand->as<CommandDownloadProgram>();
+        //CommandDownloadProgramPtr command = std::make_shared<CommandDownloadProgram>(*castCommand);
         //const CommandDownloadProgram* castCommand = copyCommand->as<CommandDownloadProgram>();
         Owner().issueGalilDownloadProgram(command);
         break;
     }
     case CommandType::UPLOAD_PROGRAM:
     {
-        const CommandUploadProgram* castCommand = copyCommand->as<CommandUploadProgram>();
-        CommandUploadProgramPtr command = std::make_shared<CommandUploadProgram>(*castCommand);
+        //const CommandUploadProgram* castCommand = copyCommand->as<CommandUploadProgram>();
+        //CommandUploadProgramPtr command = std::make_shared<CommandUploadProgram>(*castCommand);
         //const CommandUploadProgram* castCommand = copyCommand->as<CommandUploadProgram>();
         Owner().issueGalilUploadProgram(command);
         break;
@@ -90,7 +90,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to the Ready State and we no longer need the command
         desiredState = GalilState::STATE_READY;
-        delete copyCommand;
+        //delete copyCommand;
         break;
     }
     case CommandType::ABSOLUTE_MOVE:
@@ -100,31 +100,31 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to STATE_READY
         desiredState = GalilState::STATE_READY;
-        this->currentCommand = copyCommand;
+        this->currentCommand = command;
         break;
     }
     case CommandType::EXECUTE_PROGRAM:
     {
         //This is a tricky case to handle, for now we will handle in this manner
-        const CommandExecuteProfile* castCommand = copyCommand->as<CommandExecuteProfile>();
+        const CommandExecuteProfile* castCommand = command->as<CommandExecuteProfile>();
         if(castCommand->getProfileType() == MotionProfile::ProfileType::SETUP)
         {
             //This means we can handle this in this state
-            CommandExecuteProfilePtr commandPtr = std::make_shared<CommandExecuteProfile>(*castCommand);
-            Owner().issueGalilCommand(commandPtr); //this will call the setup routine
+            //CommandExecuteProfilePtr commandPtr = std::make_shared<CommandExecuteProfile>(*castCommand);
+            Owner().issueGalilCommand(command); //this will call the setup routine
         }
         else{
             //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
             //This command will transition the machine to STATE_READY
             desiredState = GalilState::STATE_READY;
-            this->currentCommand = copyCommand;
+            this->currentCommand = command;
         }
         break;
     }
     case CommandType::CLEAR_BIT:
     case CommandType::SET_BIT:
     {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        std::cout<<"The current command: "<<CommandToString(command->getCommandType())<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
     case CommandType::MOTOR_OFF:
@@ -138,7 +138,7 @@ void State_Idle::handleCommand(const AbstractCommand* command)
         if(Owner().getAxisStatus(MotorAxis::Z)->isMotorEnabled())
         {
             //If the motor is not currently armed, issue the command to arm it
-            CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();
+            //CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();
             Owner().issueGalilCommand(command);
         }
         else{
@@ -156,13 +156,13 @@ void State_Idle::handleCommand(const AbstractCommand* command)
     case CommandType::ESTOP:
     {
         desiredState = GalilState::STATE_ESTOP;
-        delete copyCommand;
+        //delete copyCommand;
         break;
     }
     case CommandType::SET_VARIABLE:
     {
-        const Command_Variable* castCommand = copyCommand->as<Command_Variable>();
-        Command_VariablePtr command = std::make_shared<Command_Variable>(*castCommand);
+        //const Command_Variable* castCommand = copyCommand->as<Command_Variable>();
+        //Command_VariablePtr command = std::make_shared<Command_Variable>(*castCommand);
         Owner().issueGalilCommand(command);
         break;
     }
@@ -190,7 +190,7 @@ void State_Idle::OnEnter()
     Owner().setHomeInidcated(false);
 }
 
-void State_Idle::OnEnter(const AbstractCommand *command)
+void State_Idle::OnEnter(const AbstractCommandPtr command)
 {
     this->OnEnter();
 

@@ -32,11 +32,12 @@ GalilState AbstractStateGalil::getDesiredState() const
 
 void AbstractStateGalil::clearCommand()
 {
-    if(this->currentCommand)
-    {
-        delete currentCommand;
-        currentCommand = nullptr;
-    }
+//Since the current command is now a smart pointer, we do not have to directly manage this
+//    if(this->currentCommand)
+//    {
+//        delete currentCommand;
+//        currentCommand = nullptr;
+//    }
 }
 
 bool AbstractStateGalil::checkEStop() const

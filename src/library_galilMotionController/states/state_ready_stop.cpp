@@ -46,11 +46,13 @@ hsm::Transition State_ReadyStop::GetTransition()
     return rtn;
 }
 
-void State_ReadyStop::handleCommand(const AbstractCommand* command)
+void State_ReadyStop::handleCommand(const AbstractCommandPtr command)
 {
-    CommandType currentCommand = command->getCommandType();
+    //const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
+    //CommandType currentCommand = copyCommand->getCommandType();
 
-    switch (currentCommand) {
+    switch (command->getCommandType()) {
     default:
         //We shouldn't have any commands in this state to handle
         break;
@@ -96,7 +98,7 @@ void State_ReadyStop::OnEnter()
     Owner().issueGalilCommand(command);
 }
 
-void State_ReadyStop::OnEnter(const AbstractCommand* command)
+void State_ReadyStop::OnEnter(const AbstractCommandPtr command)
 {
     this->OnEnter();
 

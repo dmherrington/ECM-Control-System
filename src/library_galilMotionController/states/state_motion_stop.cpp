@@ -47,11 +47,13 @@ hsm::Transition State_MotionStop::GetTransition()
     return rtn;
 }
 
-void State_MotionStop::handleCommand(const AbstractCommand* command)
+void State_MotionStop::handleCommand(const AbstractCommandPtr command)
 {
-    CommandType currentCommand = command->getCommandType();
+    //const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
+    //CommandType currentCommand = copyCommand->getCommandType();
 
-    switch (currentCommand) {
+    switch (command->getCommandType()) {
     default:
         //During this state we really dont handle any commands
         //This state should only allow transitions back to the ready state
@@ -93,7 +95,7 @@ void State_MotionStop::OnEnter()
     }
 }
 
-void State_MotionStop::OnEnter(const AbstractCommand* command)
+void State_MotionStop::OnEnter(const AbstractCommandPtr command)
 {
     this->OnEnter();
 

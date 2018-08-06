@@ -31,7 +31,7 @@ public:
     hsm::Transition GetTransition() override;
 
 public:
-    void handleCommand(const AbstractCommand* command) override;
+    void handleCommand(const AbstractCommandPtr command) override;
 
     void Update() override;
 
@@ -39,7 +39,7 @@ public:
 
     void OnExit() override;
 
-    void OnEnter(const AbstractCommand *command);
+    void OnEnter(const AbstractCommandPtr command);
 };
 
 } //end of namespace Galil

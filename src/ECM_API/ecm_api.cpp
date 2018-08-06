@@ -23,7 +23,7 @@ ECM_API::ECM_API()
 void ECM_API::action_StopMachine()
 {
     CommandStopPtr commandGalilStop = std::make_shared<CommandStop>();
-    m_Galil->executeCommand(commandGalilStop.get());
+    m_Galil->executeCommand(commandGalilStop);
 }
 
 void ECM_API::slot_MotionControllerCommunicationUpdate(const common::comms::CommunicationUpdate &update)

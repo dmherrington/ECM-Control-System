@@ -53,14 +53,13 @@ hsm::Transition State_ManualPositioning::GetTransition()
     return rtn;
 }
 
-void State_ManualPositioning::handleCommand(const AbstractCommand* command)
+void State_ManualPositioning::handleCommand(const AbstractCommandPtr command)
 {
-    const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    //const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
     this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
+    //CommandType currentCommand = copyCommand->getCommandType();
 
-    CommandType currentCommand = copyCommand->getCommandType();
-
-    switch (currentCommand) {
+    switch (command->getCommandType()) {
     case CommandType::ABSOLUTE_MOVE:
     {
 //        Owner().getAxisStatus(MotorAxis::Z)->axisMoving.AddNotifier(this,[this]
@@ -69,9 +68,9 @@ void State_ManualPositioning::handleCommand(const AbstractCommand* command)
 //                motionFlag = true;
 //        });
 
-        CommandAbsoluteMovePtr castCommand = std::make_shared<CommandAbsoluteMove>(*copyCommand->as<CommandAbsoluteMove>());
-        this->clearCommand();
-        Owner().issueGalilMotionCommand(castCommand);
+        //CommandAbsoluteMovePtr castCommand = std::make_shared<CommandAbsoluteMove>(*copyCommand->as<CommandAbsoluteMove>());
+        //this->clearCommand();
+        Owner().issueGalilMotionCommand(command);
         break;
     }
     case CommandType::RELATIVE_MOVE:
@@ -81,15 +80,15 @@ void State_ManualPositioning::handleCommand(const AbstractCommand* command)
 //            if(Owner().getAxisStatus(MotorAxis::Z)->axisMoving.get())
 //                motionFlag = true;
 //        });
-        CommandRelativeMovePtr castCommand = std::make_shared<CommandRelativeMove>(*copyCommand->as<CommandRelativeMove>());
-        this->clearCommand();
-        Owner().issueGalilMotionCommand(castCommand);
+        //CommandRelativeMovePtr castCommand = std::make_shared<CommandRelativeMove>(*copyCommand->as<CommandRelativeMove>());
+        //this->clearCommand();
+        Owner().issueGalilMotionCommand(command);
         break;
     }
     case CommandType::MOTOR_OFF:
     {
         this->desiredState = GalilState::STATE_MOTION_STOP;
-        this->currentCommand = copyCommand;
+        this->currentCommand = command;
     }
     case CommandType::STOP:
     {
@@ -127,7 +126,7 @@ void State_ManualPositioning::OnEnter()
     this->desiredState = GalilState::STATE_READY;
 }
 
-void State_ManualPositioning::OnEnter(const AbstractCommand *command)
+void State_ManualPositioning::OnEnter(const AbstractCommandPtr command)
 {
     Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_MANUAL_POSITIONING));
 

@@ -62,30 +62,30 @@ hsm::Transition State_Touchoff::GetTransition()
     return rtn;
 }
 
-void State_Touchoff::handleCommand(const AbstractCommand* command)
+void State_Touchoff::handleCommand(const AbstractCommandPtr command)
 {
-    const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    //const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
     this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
+    //CommandType currentCommand = copyCommand->getCommandType();
 
-    CommandType currentCommand = copyCommand->getCommandType();
-    switch (currentCommand) {
+    switch (command->getCommandType()) {
     case CommandType::EXECUTE_PROGRAM:
     {
         this->stateSetup();
-        CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*copyCommand->as<CommandExecuteProfile>());
-        Owner().issueGalilCommand(castCommand); //this will not be considered a motion command as the profile contains the BG parameters
+        //CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*copyCommand->as<CommandExecuteProfile>());
+        Owner().issueGalilCommand(command); //this will not be considered a motion command as the profile contains the BG parameters
         break;
     }
     case CommandType::STOP:
     {
         desiredState = GalilState::STATE_MOTION_STOP;
-        delete copyCommand;
+        //delete copyCommand;
         break;
     }
     case CommandType::ESTOP:
     {
         desiredState = GalilState::STATE_ESTOP;
-        delete copyCommand;
+        //delete copyCommand;
         break;
     }
     default:
@@ -113,7 +113,7 @@ void State_Touchoff::OnEnter()
     this->desiredState = GalilState::STATE_READY;
 }
 
-void State_Touchoff::OnEnter(const AbstractCommand* command)
+void State_Touchoff::OnEnter(const AbstractCommandPtr command)
 {
     if(command != nullptr)
     {

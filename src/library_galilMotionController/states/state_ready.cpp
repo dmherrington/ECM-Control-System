@@ -73,18 +73,18 @@ hsm::Transition State_Ready::GetTransition()
     return rtn;
 }
 
-void State_Ready::handleCommand(const AbstractCommand* command)
+void State_Ready::handleCommand(const AbstractCommandPtr command)
 {
-    const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    //const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
     this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
+    //CommandType currentCommand = copyCommand->getCommandType();
 
-    CommandType currentCommand = copyCommand->getCommandType();
-    switch (currentCommand) {
+    switch (command->getCommandType()) {
     case CommandType::DOWNLOAD_PROGRAM:
     case CommandType::UPLOAD_PROGRAM:
     {
         desiredState = GalilState::STATE_READY_STOP;
-        this->currentCommand = copyCommand;
+        this->currentCommand = command;
         break;
     }
     case CommandType::ABSOLUTE_MOVE:
@@ -93,7 +93,7 @@ void State_Ready::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to STATE_MANUAL_POSITIONING
         desiredState = GalilState::STATE_MANUAL_POSITIONING;
-        this->currentCommand = copyCommand;
+        this->currentCommand = command;
         break;
     }
     case CommandType::JOG_MOVE:
@@ -101,7 +101,7 @@ void State_Ready::handleCommand(const AbstractCommand* command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to STATE_JOGGING
         desiredState = GalilState::STATE_JOGGING;
-        this->currentCommand = copyCommand;
+        this->currentCommand = command;
         break;
     }
     case CommandType::EXECUTE_PROGRAM:
@@ -113,21 +113,21 @@ void State_Ready::handleCommand(const AbstractCommand* command)
         {
             //This command will transition the machine to STATE_HOME_POSITIONING
             desiredState = GalilState::STATE_HOME_POSITIONING;
-            this->currentCommand = copyCommand;
+            this->currentCommand = command;
             break;
         }
         case MotionProfile::ProfileType::PROFILE:
         {
             //This command will transition the machine to STATE_SCRIPT_EXECUTION
             desiredState = GalilState::STATE_SCRIPT_EXECUTION;
-            this->currentCommand = copyCommand;
+            this->currentCommand = command;
             break;
         }
         case MotionProfile::ProfileType::TOUCHOFF:
         {
             //This command will transition the machine to STATE_TOUCHOFF
             desiredState = GalilState::STATE_TOUCHOFF;
-            this->currentCommand = copyCommand;
+            this->currentCommand = command;
             break;
         }
         default:
@@ -148,21 +148,21 @@ void State_Ready::handleCommand(const AbstractCommand* command)
         if(!Owner().isMotorEnabled())
         {
             //If the motor is not currently armed, issue the command to arm it
-            CommandMotorEnablePtr castCommand = std::make_shared<CommandMotorEnable>(*command->as<CommandMotorEnable>());
-            Owner().issueGalilCommand(castCommand);
+            //CommandMotorEnablePtr castCommand = std::make_shared<CommandMotorEnable>(*command->as<CommandMotorEnable>());
+            Owner().issueGalilCommand(command);
         }
         break;
     }
     case CommandType::CLEAR_BIT:
     case CommandType::SET_BIT:
     {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        std::cout<<"The current command: "<<CommandToString(command->getCommandType())<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
     case CommandType::SET_VARIABLE:
     {
-        const Command_Variable* castCommand = copyCommand->as<Command_Variable>();
-        Command_VariablePtr command = std::make_shared<Command_Variable>(*castCommand);
+        //const Command_Variable* castCommand = copyCommand->as<Command_Variable>();
+        //Command_VariablePtr command = std::make_shared<Command_Variable>(*castCommand);
         Owner().issueGalilCommand(command);
         break;
     }
@@ -201,7 +201,7 @@ void State_Ready::OnEnter()
     Owner().issueGalilControllerGains(command);
 }
 
-void State_Ready::OnEnter(const AbstractCommand* command)
+void State_Ready::OnEnter(const AbstractCommandPtr command)
 {
     this->OnEnter();
 
