@@ -70,6 +70,19 @@ inline std::string FaultCodesRegister3ToString(const FaultCodesRegister3 &type) 
     }
 }
 
+inline std::vector<FaultCodesRegister3> getFaultCodesRegister3Vector()
+{
+   std::vector<FaultCodesRegister3> rtn;
+    rtn.push_back(FaultCodesRegister3::ERR_FR3_EXTERNAL_TRIP1);
+    rtn.push_back(FaultCodesRegister3::ERR_FR3_EXTERNAL_TRIP2);
+    rtn.push_back(FaultCodesRegister3::ERR_FR3_PLD_PWM_GENERATOR1);
+    rtn.push_back(FaultCodesRegister3::ERR_FR3_PLD_PWM_GENERATOR2);
+    rtn.push_back(FaultCodesRegister3::ERR_FR3_LOST_FIELDBUS);
+    rtn.push_back(FaultCodesRegister3::ERR_FR3_DYNAMIC_OVERCURRENT);
+
+    return rtn;
+}
+
 
 } //end of namespace data_Munk
 

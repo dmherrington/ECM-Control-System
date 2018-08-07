@@ -8,6 +8,7 @@
 
 #include "data/type_read_write.h"
 #include "data/type_segment_mode.h"
+#include "data/type_fault_status_registers.h"
 
 #include "data/fault_codes_register_one.h"
 #include "data/fault_codes_register_two.h"
@@ -23,9 +24,7 @@ class IProtocolMunkEvents
 {
 public:
 
-    virtual void FaultCodeRegister1Received(const ILink* link_ptr, const data_Munk::FaultCodesRegister1 &code) const = 0;
-    virtual void FaultCodeRegister2Received(const ILink* link_ptr, const data_Munk::FaultCodesRegister2 &code) const = 0;
-    virtual void FaultCodeRegister3Received(const ILink* link_ptr, const data_Munk::FaultCodesRegister3 &code) const = 0;
+    virtual void FaultCodeReceived(const ILink* link_ptr, const data_Munk::FaultRegisterType &faultRegister, const unsigned int &code) const = 0;
     virtual void FaultStateCleared(const ILink* link_ptr) const = 0;
 
     virtual void SegmentVoltageSetpointAcknowledged(const ILink* link_ptr, const data_Munk::SegmentMode &mode) const = 0;

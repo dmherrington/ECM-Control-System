@@ -548,16 +548,6 @@ void ECMControllerGUI::on_pushButton_RunProfile_released()
     m_API->m_Galil->executeCommand(command);
 }
 
-void ECMControllerGUI::on_pushButton_UploadProgram_released()
-{
-
-}
-
-void ECMControllerGUI::on_pushButton_DownloadProgram_released()
-{
-
-}
-
 void ECMControllerGUI::on_pushButton_EstablishTouchoff_released()
 {
     m_WindowTouchoff->show();

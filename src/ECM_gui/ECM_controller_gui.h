@@ -77,10 +77,6 @@ private slots:
 
     void on_pushButton_RunProfile_released();
 
-    void on_pushButton_UploadProgram_released();
-
-    void on_pushButton_DownloadProgram_released();
-
     void on_pushButton_EstablishTouchoff_released();
 
 

@@ -76,13 +76,6 @@ void MunkPowerSupply::generateAndTransmitMessage(const SegmentTimeDetailed &deta
     parameters.push_back(memoryWrite);
 
     commsMarshaler->sendCompleteMunkParameters(parameters);
-//    messages.push_back(MunkMessageType::Mem);
-//    commsProgress.transmittingNewSegment(messages);
-
-//    int needed = 0;
-//    int required = 0;
-//    commsProgress.currentProgress(needed,required);
-//    emit signal_SegmentWriteProgress(needed,required);
 }
 
 void MunkPowerSupply::generateMessages(const SegmentTimeDetailed &detailedSegmentData)

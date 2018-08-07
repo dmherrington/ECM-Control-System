@@ -90,7 +90,6 @@ void ECMLogging::WriteLogMachinePositionalState(const common::TuplePositionalStr
     stringWriter << "\r\n";
     stringWriter.flush();
 
-    //QTextStream out(m_LogProfileVariableStates[key]);
     QTextStream out(masterLog);
     out << str;
 }

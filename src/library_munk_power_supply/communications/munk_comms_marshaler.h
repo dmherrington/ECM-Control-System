@@ -98,9 +98,8 @@ private:
     /// IProtocolMunkEvents
     //////////////////////////////////////////////////////////////
 
-    void FaultCodeRegister1Received(const ILink* link_ptr, const data_Munk::FaultCodesRegister1 &code) const override;
-    void FaultCodeRegister2Received(const ILink* link_ptr, const data_Munk::FaultCodesRegister2 &code) const override;
-    void FaultCodeRegister3Received(const ILink* link_ptr, const data_Munk::FaultCodesRegister3 &code) const override;
+    void FaultCodeReceived(const ILink* link_ptr, const data_Munk::FaultRegisterType &faultRegister, const unsigned int &code) const override;
+
     void FaultStateCleared(const ILink* link_ptr) const override;
 
     void SegmentVoltageSetpointAcknowledged(const ILink* link_ptr, const data_Munk::SegmentMode &mode) const override;

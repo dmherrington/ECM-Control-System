@@ -1,6 +1,9 @@
 #ifndef PROTOCOL_MUNK_H
 #define PROTOCOL_MUNK_H
 
+#include <QtEndian>
+#include <QDataStream>
+
 #include <memory>
 #include <vector>
 #include <functional>

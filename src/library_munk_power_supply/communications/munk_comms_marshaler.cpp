@@ -192,22 +192,12 @@ void MunkCommsMarshaler::CommunicationUpdate(const std::string &name, const std:
 /// IProtocolMunkEvents
 //////////////////////////////////////////////////////////////
 
-void MunkCommsMarshaler::FaultCodeRegister1Received(const ILink* link_ptr, const data_Munk::FaultCodesRegister1 &code) const
+void MunkCommsMarshaler::FaultCodeReceived(const ILink* link_ptr, const data_Munk::FaultRegisterType &faultRegister, const unsigned int &code) const
 {
     UNUSED(link_ptr);
-    Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister1Received(data_Munk::FaultCodesRegister1ToString(code));});
-}
-
-void MunkCommsMarshaler::FaultCodeRegister2Received(const ILink* link_ptr,  const data_Munk::FaultCodesRegister2 &code) const
-{
-    UNUSED(link_ptr);
-    Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister2Received(data_Munk::FaultCodesRegister2ToString(code));});
-}
-
-void MunkCommsMarshaler::FaultCodeRegister3Received(const ILink* link_ptr,  const data_Munk::FaultCodesRegister3 &code) const
-{
-    UNUSED(link_ptr);
-    Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister3Received(data_Munk::FaultCodesRegister3ToString(code));});
+    UNUSED(faultRegister);
+    UNUSED(code);
+    //Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister1Received(data_Munk::FaultCodesRegister1ToString(code));});
 }
 
 void MunkCommsMarshaler::FaultStateCleared(const ILink *link_ptr) const

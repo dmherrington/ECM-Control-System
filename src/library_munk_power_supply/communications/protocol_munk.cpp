@@ -307,6 +307,7 @@ void MunkProtocol::sendFaultStateRequest(const ILink *link, const registers_Munk
                 else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::READ)
                 {
                     std::cout<<"We have read the fault state request."<<std::endl;
+                    parseForFaultStateCode(link,&request,receivedMSG);
                 }
             }
         }
@@ -390,30 +391,7 @@ void MunkProtocol::parseForFaultStateCode(const ILink *link, const registers_Mun
     uint8_t dataLo = msg.getDataByte(4);
     int faultCode = dataLo | (dataHi<<8);
 
-    switch (type) {
-    case data_Munk::FaultRegisterType::FAULT_REGISTER_1:
-    {
-        data_Munk::FaultCodesRegister1 castCode = static_cast<data_Munk::FaultCodesRegister1>(faultCode);
-        Emit([&](const IProtocolMunkEvents* ptr){ptr->FaultCodeRegister1Received(link,castCode);});
-        break;
-    }
-    case data_Munk::FaultRegisterType::FAULT_REGISTER_2:
-    {
-        data_Munk::FaultCodesRegister2 castCode = static_cast<data_Munk::FaultCodesRegister2>(faultCode);
-        Emit([&](const IProtocolMunkEvents* ptr){ptr->FaultCodeRegister2Received(link,castCode);});
-        break;
-    }
-    case data_Munk::FaultRegisterType::FAULT_REGISTER_3:
-    {
-        data_Munk::FaultCodesRegister3 castCode = static_cast<data_Munk::FaultCodesRegister3>(faultCode);
-        Emit([&](const IProtocolMunkEvents* ptr){ptr->FaultCodeRegister3Received(link,castCode);});
-        break;
-    }
-    default:
-        break;
-    }
-    delete parameter;
-    parameter = nullptr;
+    Emit([&](const IProtocolMunkEvents* ptr){ptr->FaultCodeReceived(link,type,faultCode);});
 }
 
 } //end of namespace comms_Munk
