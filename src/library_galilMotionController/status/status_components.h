@@ -4,6 +4,7 @@
 #include "status/abstract_status.h"
 #include "status/galil_status.h"
 #include "status/status_axis_in_motion.h"
+#include "status/status_custom_request.h"
 #include "status/status_inputs.h"
 #include "status/status_label_list.h"
 #include "status/status_motor_enabled.h"

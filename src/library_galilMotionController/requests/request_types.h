@@ -21,13 +21,14 @@
 \*/
 
 enum class RequestTypes{
-    LIST_LABELS = 0,
-    LIST_VARIABLES = 1,
-    STOP_CODE = 2,
-    TELL_INPUTS = 3,
-    TELL_POSITION = 4,
-    TELL_SWITCHES = 5,
-    TELL_VARIABLE = 6
+    CUSTOM_STRING = 0,
+    LIST_LABELS = 1,
+    LIST_VARIABLES = 2,
+    STOP_CODE = 3,
+    TELL_INPUTS = 4,
+    TELL_POSITION = 5,
+    TELL_SWITCHES = 6,
+    TELL_VARIABLE = 7
 };
 
 //!

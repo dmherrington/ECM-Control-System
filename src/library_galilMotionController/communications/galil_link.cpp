@@ -45,18 +45,28 @@ private:
     size_t m_Interval;
 };
 
+//!
+//! \brief GalilLink::GalilLink
+//!
 GalilLink::GalilLink()
 {
     connected = false;
     std::cout << "Create GalilLink " <<std::endl;
 }
 
+//!
+//! \brief GalilLink::~GalilLink
+//!
 GalilLink::~GalilLink()
 {
     Disconnect();
 
 }
 
+//!
+//! \brief GalilLink::Connect
+//! \return
+//!
 bool GalilLink::Connect(void)
 {
     if(connected)
@@ -77,6 +87,10 @@ bool GalilLink::Connect(void)
     return this->connected;
 }
 
+//!
+//! \brief GalilLink::Disconnect
+//! \return
+//!
 bool GalilLink::Disconnect(void)
 {
     if(connected)
@@ -92,17 +106,31 @@ bool GalilLink::Disconnect(void)
     return this->connected;
 }
 
+//!
+//! \brief GalilLink::isConnected
+//! \return
+//!
 bool GalilLink::isConnected() const
 {
     return this->connected;
 }
 
+//!
+//! \brief GalilLink::UploadProgram
+//! \param programText
+//! \return
+//!
 GReturn GalilLink::UploadProgram(const std::string &programText) const
 {
     GReturn rtn = GProgramDownload(galil,programText.c_str(),0);
     return rtn;
 }
 
+//!
+//! \brief GalilLink::DownloadProgram
+//! \param programText
+//! \return
+//!
 GReturn GalilLink::DownloadProgram(std::string &programText) const
 {
     GReturn rtnCode = G_BAD_LOST_DATA;
@@ -124,6 +152,12 @@ GReturn GalilLink::DownloadProgram(std::string &programText) const
     return rtnCode;
 }
 
+//!
+//! \brief GalilLink::WriteTellErrorCode
+//! \param errorCode
+//! \param description
+//! \return
+//!
 GReturn GalilLink::WriteTellErrorCode(unsigned int &errorCode, std::string &description) const
 {
     GSize read_bytes = 0; //bytes read in GCommand
@@ -143,12 +177,61 @@ GReturn GalilLink::WriteTellErrorCode(unsigned int &errorCode, std::string &desc
     return rtn;
 }
 
+//!
+//! \brief GalilLink::WriteCommand
+//! \param command
+//! \return
+//!
 GReturn GalilLink::WriteCommand(const std::string &command) const
 {
     GReturn rtn = GCmd(galil,command.c_str());
     return rtn;
 }
 
+//!
+//! \brief GalilLink::WriteCustomCommand
+//! \param command
+//! \return
+//!
+GReturn GalilLink::WriteCustomCommand(const std::vector<std::string> &command) const
+{
+    for(size_t i = 0; i < command.size(); i++)
+    {
+        GReturn rtnCode = G_BAD_LOST_DATA;
+        std::string commandString = command.at(i);
+
+        int retries = 0;
+        while ((rtnCode == G_BAD_LOST_DATA) && (retries < 10))
+        {
+            GSize read_bytes = 0; //bytes read in GCommand
+            char buf[request->getAllocatedBufferSize()];
+            rtnCode = GCommand(galil,commandString.c_str(),buf,sizeof(buf),&read_bytes);
+
+            if(rtnCode == G_NO_ERROR)
+            {
+                delete[] buf;
+
+            }
+            else if(rtnCode == G_BAD_RESPONSE_QUESTION_MARK)
+            {
+                delete[] buf;
+                return rtnCode;
+            }
+            else
+            {
+                delete[] buf;
+                retries++;
+                request->increaseBufferSize();
+            }
+        }
+    }
+}
+
+//!
+//! \brief GalilLink::WriteRequest
+//! \param request
+//! \return
+//!
 GReturn GalilLink::WriteRequest(AbstractRequestPtr request) const
 {
 

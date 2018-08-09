@@ -109,7 +109,7 @@ public:
 
     void executeCommand(const AbstractCommandPtr command);
 
-    void executeStringCommand(const std::string &stringCommand);
+    void executeCustomCommands(const std::vector<std::string> &stringCommand);
 
 public:
     void initializeMotionController();

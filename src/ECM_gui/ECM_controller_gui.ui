@@ -241,7 +241,7 @@ width:20px;
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0">
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="pushButton_Stop">
          <property name="minimumSize">
           <size>
            <width>120</width>

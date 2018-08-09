@@ -48,10 +48,23 @@ bool CommsMarshaler::DisconnetLink()
 /// Methods issuing Galil commands, requests, programs
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+void CommsMarshaler::sendCustomGalilCommands(const std::vector<string> &stringCommands)
+{
+    //    if(!isConnected)
+    //    {
+    //        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot execute command.");});
+    //        return;
+    //    }
+
+    auto func = [this, stringCommands]() {
+            protocol->SendProtocolCommand(link.get(), stringCommands);
+    };
+
+    link->MarshalOnThread(func);
+}
+
 void CommsMarshaler::sendAbstractGalilCommand(const AbstractCommandPtr command)
 {
-    std::cout<<"Lets send an abstract galil command"<<std::endl;
-
 //    if(!isConnected)
 //    {
 //        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot execute command.");});
@@ -67,8 +80,6 @@ void CommsMarshaler::sendAbstractGalilCommand(const AbstractCommandPtr command)
 
 void CommsMarshaler::sendAbstractGalilMotionCommand(const AbstractCommandPtr command)
 {
-    std::cout<<"Lets send an abstract galil motion command"<<std::endl;
-
 //    if(!isConnected)
 //    {
 //        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot execute motion command.");});
@@ -100,8 +111,6 @@ void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request) 
 //I do not think this method is called
 void CommsMarshaler::sendGalilProfileExecution(const AbstractCommandPtr &command)
 {
-    std::cout<<"Lets send an request to execute a specific galil profile."<<std::endl;
-
 //    if(!isConnected)
 //    {
 //        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot execute profile.");});
@@ -117,8 +126,6 @@ void CommsMarshaler::sendGalilProfileExecution(const AbstractCommandPtr &command
 
 void CommsMarshaler::sendGalilControllerGains(const CommandControllerGain &command)
 {
-    std::cout<<"Lets send an request to to update the controller gains."<<std::endl;
-
 //    if(!isConnected)
 //    {
 //        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot update controller gains.");});

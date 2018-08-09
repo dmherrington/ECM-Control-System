@@ -57,6 +57,8 @@ public:
 
     virtual GReturn WriteCommand(const std::string &command) const = 0;
 
+    virtual GReturn WriteCustomCommand(const std::vector<std::string> &command) const = 0;
+
     virtual GReturn WriteRequest(const AbstractRequestPtr request) const = 0;
 
     virtual GReturn WriteTellErrorCode(unsigned int &errorCode, std::string &description) const = 0;

@@ -75,8 +75,6 @@ private slots:
 
     void on_pushButton_MoveHome_released();
 
-    void on_pushButton_RunProfile_released();
-
     void on_pushButton_EstablishTouchoff_released();
 
 
@@ -138,7 +136,13 @@ private slots:
 
     void on_actionMotion_Profile_triggered(bool checked);
 
-    void on_pushButton_released();
+
+
+    void on_pushButton_RunExplicitProfile_released();
+
+    void on_pushButton_RunAutomatedProfile_released();
+
+    void on_pushButton_Stop_released();
 
 protected:
     void readSettings();

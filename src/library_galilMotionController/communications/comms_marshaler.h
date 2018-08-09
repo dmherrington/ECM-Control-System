@@ -47,6 +47,9 @@ public:
     //////////////////////////////////////////////////////////////
     /// Methods issuing Galil commands, requests, programs
     //////////////////////////////////////////////////////////////
+
+    void sendCustomGalilCommands(const std::vector<std::string> &stringCommands);
+
     void sendAbstractGalilCommand(const AbstractCommandPtr command);
 
     void sendAbstractGalilMotionCommand(const AbstractCommandPtr command);

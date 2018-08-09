@@ -508,46 +508,6 @@ void ECMControllerGUI::on_pushButton_MoveHome_released()
     m_API->m_Galil->executeCommand(command);
 }
 
-void ECMControllerGUI::on_pushButton_RunProfile_released()
-{
-    //first check that we can log where we want to
-    QString partNumber = ui->lineEdit_PartNumber->text();
-    QString serialNumber = ui->lineEdit_SerialNumber->text();
-
-    bool validPath = m_API->m_Log->checkLoggingPath(partNumber.toStdString(),serialNumber.toStdString());
-
-    if(!validPath)
-    {
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Question);
-        msgBox.setText("The provided Part/Serial number combination already exists.");
-        msgBox.setInformativeText("Do you want to overwrite the existing contents?");
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        msgBox.setDefaultButton(QMessageBox::Yes);
-        int ret = msgBox.exec();
-        if(ret == QMessageBox::No)
-        {
-            /*
-             * There is nothing to do at this point with the profile and we should wait
-             * for user to update the appropriate part and serial numbers and wait for
-             * them to try again.
-             */
-            return;
-        }
-    }
-
-    common::EnvironmentTime startTime;
-    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
-    m_API->m_Log->initializeLogging(partNumber.toStdString(),serialNumber.toStdString(),startTime,true);
-
-
-    //While executing this type of command
-    //get the profile name from the GUI
-
-    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,ui->comboBox_ProgramProfiles->currentText().toStdString());
-    m_API->m_Galil->executeCommand(command);
-}
-
 void ECMControllerGUI::on_pushButton_EstablishTouchoff_released()
 {
     m_WindowTouchoff->show();
@@ -718,7 +678,52 @@ void ECMControllerGUI::slot_ChangedWindowVisibility(const GeneralDialogWindow::D
 }
 
 
-void ECMControllerGUI::on_pushButton_released()
+void ECMControllerGUI::on_pushButton_RunExplicitProfile_released()
+{
+    //first check that we can log where we want to
+    QString partNumber = ui->lineEdit_PartNumber->text();
+    QString serialNumber = ui->lineEdit_SerialNumber->text();
+
+    bool validPath = m_API->m_Log->checkLoggingPath(partNumber.toStdString(),serialNumber.toStdString());
+
+    if(!validPath)
+    {
+        QMessageBox msgBox;
+        msgBox.setIcon(QMessageBox::Question);
+        msgBox.setText("The provided Part/Serial number combination already exists.");
+        msgBox.setInformativeText("Do you want to overwrite the existing contents?");
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::Yes);
+        int ret = msgBox.exec();
+        if(ret == QMessageBox::No)
+        {
+            /*
+             * There is nothing to do at this point with the profile and we should wait
+             * for user to update the appropriate part and serial numbers and wait for
+             * them to try again.
+             */
+            return;
+        }
+    }
+
+    common::EnvironmentTime startTime;
+    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
+    m_API->m_Log->initializeLogging(partNumber.toStdString(),serialNumber.toStdString(),startTime,true);
+
+
+    //While executing this type of command
+    //get the profile name from the GUI
+
+    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,ui->comboBox_ProgramProfiles->currentText().toStdString());
+    m_API->m_Galil->executeCommand(command);
+}
+
+void ECMControllerGUI::on_pushButton_RunAutomatedProfile_released()
+{
+
+}
+
+void ECMControllerGUI::on_pushButton_Stop_released()
 {
     m_API->action_StopMachine();
 }

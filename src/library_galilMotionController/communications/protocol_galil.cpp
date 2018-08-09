@@ -158,7 +158,7 @@ void GalilProtocol::handleRequestResponse(const ILink *link, const AbstractReque
         }
         case G_BAD_RESPONSE_QUESTION_MARK:
         {
-            handleBadRequestResponse(link, request);
+            handleBadRequest_ResponseQuestionMark(link, request);
             break;
         }
         default:
@@ -166,15 +166,13 @@ void GalilProtocol::handleRequestResponse(const ILink *link, const AbstractReque
         }
 }
 
-void GalilProtocol::generateNewStatus(const AbstractRequestPtr request, char *&buf)
-{
-
-}
-void GalilProtocol::handleBadRequestResponse(const ILink* link, const AbstractRequestPtr request) const
+void GalilProtocol::handleBadRequest_ResponseQuestionMark(const ILink* link, const AbstractRequestPtr request) const
 {
     unsigned int code;
     std::string description;
     link->WriteTellErrorCode(code,description);
+    Emit([&](const IProtocolGalilEvents* ptr){ptr->ErrorBadRequest(request->getRequestType(),description);});
+
 }
 
 //!
@@ -187,6 +185,73 @@ void GalilProtocol::handleBadRequestResponse(const ILink* link, const AbstractRe
 void GalilProtocol::ReceiveData(ILink *link, const std::vector<uint8_t> &buffer)
 {
     //where the response is seen
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Methods issuing a custom protocol command provided via string inputs from the user
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//!
+//! \brief GalilProtocol::SendCustomProtocolCommand
+//! \param link
+//! \param stringCommands
+//!
+void GalilProtocol::SendCustomProtocolCommand(const ILink *link, const std::vector<std::vector> &stringCommands)
+{
+    GReturn rtn = G_NO_ERROR;
+    RequestCustomStringPtr request;
+
+
+    for (size_t i = 0; i < stringCommands.size(); i++)
+    {
+        request = std::make_shared<RequestCustomString>();
+        request->setRequestString(stringCommands.at(i));
+        rtn = link->WriteRequest(request);
+        if(rtn != G_NO_ERROR)
+            break;
+    }
+
+     = link->WriteRequest(request);
+    handleRequestResponse(link,request,rtn);
+}
+
+//!
+//! \brief GalilProtocol::handleCustomRequestResponse
+//! \param link
+//! \param request
+//! \param code
+//!
+void GalilProtocol::handleCustomRequestResponse(const ILink* link, const std::string &request, const GReturn &code)
+{
+    switch (code) {
+    case G_NO_ERROR:
+    {
+        std::vector<AbstractStatusPtr> status = request->getStatus();
+        Emit([&](const IProtocolGalilEvents* ptr){ptr->NewStatusReceived(status);});
+        break;
+    }
+    case G_BAD_LOST_DATA:
+    {
+        break;
+    }
+    case G_BAD_RESPONSE_QUESTION_MARK:
+    {
+        handleBadRequest_ResponseQuestionMark(link, request);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+//!
+//! \brief GalilProtocol::handleBadCustomRequestResponse
+//! \param link
+//! \param request
+//!
+void GalilProtocol::handleBadCustomRequestResponse(const ILink* link, const std::string &request)
+{
+
 }
 
 } //END MAVLINKComms

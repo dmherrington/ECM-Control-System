@@ -383,9 +383,10 @@ void GalilMotionController::executeCommand(const AbstractCommandPtr command)
     */
 }
 
-void GalilMotionController::executeStringCommand(const std::string &stringCommand)
+void GalilMotionController::executeCustomCommands(const std::vector<std::string> &stringCommand)
 {
-    std::cout<<"The command string seen here is: "<<stringCommand<<std::endl;
+
+
     char buf[1024];
     GSize read_bytes = 0; //bytes read in GCommand
     //GCmd(mConnection,stringCommand.c_str());

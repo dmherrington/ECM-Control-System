@@ -22,7 +22,8 @@ public:
         WINDOW_OSCILLISCOPE,
         WINDOW_POWERSUPPLY,
         WINDOW_TOUCHOFF,
-        WINDOW_MOTION_PROFILE
+        WINDOW_MOTION_PROFILE,
+        WINDOW_CUSTOM_MOTION_COMMANDS
     };
 
     GeneralDialogWindow(const DialogWindowTypes &type, const QString &name, QWidget *parent);
