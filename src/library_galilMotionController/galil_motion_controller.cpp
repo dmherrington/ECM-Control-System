@@ -96,13 +96,25 @@ std::vector<common::TupleECMData> GalilMotionController::getPlottables() const
 
 void GalilMotionController::initializeMotionController()
 {
-    //write the default galil script to the Galil
+
+    // 1: Stop all motion that may exist
+    CommandStopPtr commandStop = std::make_shared<CommandStop>();
+    this->executeCommand(commandStop);
+
+    // 2: Enable the air brake
+    CommandMotorDisablePtr commandMotorDisable = std::make_shared<CommandMotorDisable>();
+    this->executeCommand(commandMotorDisable);
+
+    // 3: Write the default galil script to the Galil
     CommandUploadProgramPtr commandUploadDefault = std::make_shared<CommandUploadProgram>();
     commandUploadDefault->setProgram(defaultProgram);
     this->executeCommand(commandUploadDefault);
 
+    // 4: Execute the initial setup routine within the default script to establish variables etc
     CommandExecuteProfilePtr commandExecuteSetup = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::SETUP,"setup");
     this->executeCommand(commandExecuteSetup);
+
+
     // 1: Request the current program aboard the galil motion control unit
 
     // 2: Request the current profiles that are apart of the program
@@ -383,28 +395,9 @@ void GalilMotionController::executeCommand(const AbstractCommandPtr command)
     */
 }
 
-void GalilMotionController::executeCustomCommands(const std::vector<std::string> &stringCommand)
+void GalilMotionController::executeCustomCommands(const std::vector<std::string> &stringCommands)
 {
-
-
-    char buf[1024];
-    GSize read_bytes = 0; //bytes read in GCommand
-    //GCmd(mConnection,stringCommand.c_str());
-    GReturn rtn = GCommand(galil,stringCommand.c_str(),buf,sizeof(buf),&read_bytes);
-    if(rtn == G_BAD_RESPONSE_QUESTION_MARK)
-    {
-        std::string newCommand = "TC 1";
-        GReturn rtn = GCommand(galil,newCommand.c_str(),buf,sizeof(buf),&read_bytes);
-        std::cout<<"Trying to figure out why there is an error"<<std::endl;
-    }
-    else{
-        QString result = QString::fromUtf8(buf);
-        QStringList list = result.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
-        result = list.at(0);
-        result = result.trimmed();
-        std::string testString = result.toStdString();
-        std::cout<<"The string seen here is: "<<testString<<std::endl;
-    }
+    this->commsMarshaler->sendCustomGalilCommands(stringCommands);
 }
 
 bool GalilMotionController::saveProgramAs(const std::string &filePath, const std::string &text)

@@ -93,6 +93,8 @@ private:
     /// Virtual methods imposed from IProtocolGalilEvents
     //////////////////////////////////////////////////////////////
 
+    void NewCustomStatusReceived(const std::string &initialCommand, const std::string &newStatus) const override;
+
     void NewProgramUploaded(const ProgramGeneric &program) const override;
 
     void NewProgramDownloaded(const ProgramGeneric &program) const override;
@@ -102,6 +104,8 @@ private:
     void NewStatusReceived(const std::vector<AbstractStatusPtr> &status) const override;
 
     void ErrorBadCommand(const CommandType &type, const std::string &description) const override;
+
+    void ErrorBadRequest(const RequestTypes &type, const std::string &description) const override;
 
 private:
     void parseStatus(const AbstractStatusPtr &status) const;

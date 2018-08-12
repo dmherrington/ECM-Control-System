@@ -29,6 +29,12 @@ public:
 
     }
 
+    virtual void CustomUserRequestReceived(const std::string &request, const std::string &response)
+    {
+        UNUSED(request);
+        UNUSED(response);
+    }
+
     virtual void ErrorBadCommand(const std::string &commandType, const std::string &text)
     {
         UNUSED(commandType);

@@ -166,7 +166,7 @@ void GalilProtocol::handleRequestResponse(const ILink *link, const AbstractReque
         }
 }
 
-void GalilProtocol::handleBadRequest_ResponseQuestionMark(const ILink* link, const AbstractRequestPtr request) const
+void GalilProtocol::handleBadRequest_ResponseQuestionMark(const ILink* link, const AbstractRequestPtr request)
 {
     unsigned int code;
     std::string description;
@@ -196,7 +196,7 @@ void GalilProtocol::ReceiveData(ILink *link, const std::vector<uint8_t> &buffer)
 //! \param link
 //! \param stringCommands
 //!
-void GalilProtocol::SendCustomProtocolCommand(const ILink *link, const std::vector<std::vector> &stringCommands)
+void GalilProtocol::SendCustomProtocolCommand(const ILink *link, const std::vector<string> &stringCommands)
 {
     GReturn rtn = G_NO_ERROR;
     RequestCustomStringPtr request;
@@ -207,12 +207,12 @@ void GalilProtocol::SendCustomProtocolCommand(const ILink *link, const std::vect
         request = std::make_shared<RequestCustomString>();
         request->setRequestString(stringCommands.at(i));
         rtn = link->WriteRequest(request);
+
         if(rtn != G_NO_ERROR)
             break;
     }
 
-     = link->WriteRequest(request);
-    handleRequestResponse(link,request,rtn);
+    handleCustomRequestResponse(link,request,rtn);
 }
 
 //!
@@ -221,13 +221,14 @@ void GalilProtocol::SendCustomProtocolCommand(const ILink *link, const std::vect
 //! \param request
 //! \param code
 //!
-void GalilProtocol::handleCustomRequestResponse(const ILink* link, const std::string &request, const GReturn &code)
+void GalilProtocol::handleCustomRequestResponse(const ILink* link, const RequestCustomStringPtr request, const GReturn &code)
 {
     switch (code) {
-    case G_NO_ERROR:
+    case G_NO_ERROR: //this case should not need to be handled here
     {
-        std::vector<AbstractStatusPtr> status = request->getStatus();
-        Emit([&](const IProtocolGalilEvents* ptr){ptr->NewStatusReceived(status);});
+        //since there was no error we can send it back to the request window
+        Status_CustomRequest castResponse(*request->getStatus().at(0).get()->as<Status_CustomRequest>());
+        Emit([&](const IProtocolGalilEvents* ptr){ptr->NewCustomStatusReceived(request->getRequestString(),castResponse.getResponseReceived());});
         break;
     }
     case G_BAD_LOST_DATA:
@@ -249,9 +250,13 @@ void GalilProtocol::handleCustomRequestResponse(const ILink* link, const std::st
 //! \param link
 //! \param request
 //!
-void GalilProtocol::handleBadCustomRequestResponse(const ILink* link, const std::string &request)
+void GalilProtocol::handleBadCustomRequest_ResponseQuestionMark(const ILink* link, const RequestCustomStringPtr request)
 {
-
+    unsigned int code;
+    std::string description;
+    link->WriteTellErrorCode(code,description);
+    Status_CustomRequest castResponse(*request->getStatus().at(0).get()->as<Status_CustomRequest>());
+    Emit([&](const IProtocolGalilEvents* ptr){ptr->NewCustomStatusReceived(request->getRequestString(),description);});
 }
 
 } //END MAVLINKComms

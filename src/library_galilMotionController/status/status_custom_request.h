@@ -1,12 +1,6 @@
 #ifndef STATUS_CUSTOM_REQUEST_H
 #define STATUS_CUSTOM_REQUEST_H
 
-
-class Status_CustomRequest
-{
-public:
-    Status_CustomRequest();
-};
 #include "status/abstract_status.h"
 #include "common/class_forward.h"
 

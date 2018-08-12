@@ -61,7 +61,7 @@ public:
 
 private:
     void handleRequestResponse(const ILink* link, const AbstractRequestPtr request, const GReturn &code);
-    void handleBadRequest_ResponseQuestionMark(const ILink* link, const AbstractRequestPtr request) const;
+    void handleBadRequest_ResponseQuestionMark(const ILink* link, const AbstractRequestPtr request);
 
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -73,7 +73,7 @@ public:
     //! \param link
     //! \param stringCommands
     //!
-    void SendCustomProtocolCommand(const ILink *link, const std::vector<std::vector> &stringCommands);
+    void SendCustomProtocolCommand(const ILink *link, const std::vector<std::string> &stringCommands);
 
 private:
 
@@ -83,14 +83,14 @@ private:
     //! \param request
     //! \param code
     //!
-    void handleCustomRequestResponse(const ILink* link, const std::string &request, const GReturn &code);
+    void handleCustomRequestResponse(const ILink* link, const RequestCustomStringPtr request, const GReturn &code);
 
     //!
     //! \brief handleBadCustomRequestResponse
     //! \param link
     //! \param request
     //!
-    void handleBadCustomRequestResponse(const ILink* link, const std::string &request);
+    void handleBadCustomRequest_ResponseQuestionMark(const ILink* link, const RequestCustomStringPtr request);
 
 public:
 

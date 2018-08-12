@@ -189,45 +189,6 @@ GReturn GalilLink::WriteCommand(const std::string &command) const
 }
 
 //!
-//! \brief GalilLink::WriteCustomCommand
-//! \param command
-//! \return
-//!
-GReturn GalilLink::WriteCustomCommand(const std::vector<std::string> &command) const
-{
-    for(size_t i = 0; i < command.size(); i++)
-    {
-        GReturn rtnCode = G_BAD_LOST_DATA;
-        std::string commandString = command.at(i);
-
-        int retries = 0;
-        while ((rtnCode == G_BAD_LOST_DATA) && (retries < 10))
-        {
-            GSize read_bytes = 0; //bytes read in GCommand
-            char buf[request->getAllocatedBufferSize()];
-            rtnCode = GCommand(galil,commandString.c_str(),buf,sizeof(buf),&read_bytes);
-
-            if(rtnCode == G_NO_ERROR)
-            {
-                delete[] buf;
-
-            }
-            else if(rtnCode == G_BAD_RESPONSE_QUESTION_MARK)
-            {
-                delete[] buf;
-                return rtnCode;
-            }
-            else
-            {
-                delete[] buf;
-                retries++;
-                request->increaseBufferSize();
-            }
-        }
-    }
-}
-
-//!
 //! \brief GalilLink::WriteRequest
 //! \param request
 //! \return

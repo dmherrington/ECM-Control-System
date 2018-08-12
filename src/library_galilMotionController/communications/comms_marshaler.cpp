@@ -57,7 +57,7 @@ void CommsMarshaler::sendCustomGalilCommands(const std::vector<string> &stringCo
     //    }
 
     auto func = [this, stringCommands]() {
-            protocol->SendProtocolCommand(link.get(), stringCommands);
+            protocol->SendCustomProtocolCommand(link.get(), stringCommands);
     };
 
     link->MarshalOnThread(func);
@@ -228,6 +228,11 @@ void CommsMarshaler::BadCommandResponse(const AbstractStatus &status) const
 /// Galil Protocol Events
 //////////////////////////////////////////////////////////////
 
+void CommsMarshaler::NewCustomStatusReceived(const string &initialCommand, const string &newStatus) const
+{
+    Emit([&](CommsEvents *ptr){ptr->CustomUserRequestReceived(initialCommand,newStatus);});
+}
+
 void CommsMarshaler::NewProgramUploaded(const ProgramGeneric &program) const
 {
     Emit([&](CommsEvents *ptr){ptr->NewProgramUploaded(program);});
@@ -248,6 +253,11 @@ void CommsMarshaler::NewProgramDownloaded(const ProgramGeneric &program) const
 void CommsMarshaler::ErrorBadCommand(const CommandType &type, const std::string &description) const
 {
     Emit([&](CommsEvents *ptr){ptr->ErrorBadCommand(CommandToString(type),description);});
+}
+
+void CommsMarshaler::ErrorBadRequest(const RequestTypes &type, const string &description) const
+{
+    Emit([&](CommsEvents *ptr){ptr->ErrorBadCommand(RequestToString(type),description);});
 }
 
 void CommsMarshaler::NewPositionReceived(const Status_Position &status) const
