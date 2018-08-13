@@ -186,23 +186,6 @@ std::vector<common::TupleECMData> GalilMotionController::getAvailablePlottables(
     return rtn;
 }
 
-bool GalilMotionController::saveSettings()
-{
-    m_Settings.saveSettings(settingsPath);
-}
-
-bool GalilMotionController::saveSettingsAs(const std::string &filePath)
-{
-    settingsPath = QString::fromStdString(filePath);
-    m_Settings.saveSettings(settingsPath);
-}
-
-bool GalilMotionController::loadSettings(const std::string &filePath)
-{
-    settingsPath = QString::fromStdString(filePath);
-    m_Settings.loadSettings(settingsPath);
-}
-
 void GalilMotionController::LinkConnected() const
 {
     stateInterface->setConnected(true);
@@ -341,34 +324,6 @@ void GalilMotionController::NewStatusVariableList(const Status_VariableList &sta
     stateInterface->statusVariableValues->fromVariableList(status.getVariableList());
 }
 
-void GalilMotionController::getProgramPath(std::string &filePath) const
-{
-    QFile file(programPath);
-    QFileInfo fileInfo(file);
-    filePath = fileInfo.absolutePath().toStdString();
-}
-
-void GalilMotionController::getSettingsPath(std::string &filePath) const
-{
-    QFile file(settingsPath);
-    QFileInfo fileInfo(file);
-    filePath = fileInfo.absolutePath().toStdString();
-}
-
-bool GalilMotionController::saveProgram(const std::string &text)
-{
-    QFile file(programPath);
-
-    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-    {
-        return false;
-    }
-    QTextStream outStream(&file);
-    outStream << QString::fromStdString(text);
-    file.close();
-    return true;
-}
-
 void GalilMotionController::executeCommand(const AbstractCommandPtr command)
 {
     ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
@@ -398,31 +353,6 @@ void GalilMotionController::executeCommand(const AbstractCommandPtr command)
 void GalilMotionController::executeCustomCommands(const std::vector<std::string> &stringCommands)
 {
     this->commsMarshaler->sendCustomGalilCommands(stringCommands);
-}
-
-bool GalilMotionController::saveProgramAs(const std::string &filePath, const std::string &text)
-{
-    //this sets the current program file path
-    programPath = QString::fromStdString(filePath);
-    bool saved = this->saveProgram(text);
-    return saved;
-}
-
-bool GalilMotionController::loadProgram(const std::string &filePath, std::string &programText)
-{
-    //this sets the current program file path
-    programPath = QString::fromStdString(filePath);
-
-    QFile file(programPath);
-
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        return false;
-    }
-    QTextStream inStream(&file);
-    programText = inStream.readAll().toStdString();
-    file.close();
-    return true;
 }
 
 void GalilMotionController::cbi_GalilStatusRequest(const AbstractRequestPtr request)
@@ -483,4 +413,75 @@ void GalilMotionController::cbi_GalilUploadProgram(const AbstractCommandPtr comm
 void GalilMotionController::cbi_GalilDownloadProgram(const AbstractCommandPtr command)
 {
     commsMarshaler->downloadProgram(command);
+}
+
+
+void GalilMotionController::getProgramPath(std::string &filePath) const
+{
+    QFile file(programPath);
+    QFileInfo fileInfo(file);
+    filePath = fileInfo.absolutePath().toStdString();
+}
+
+bool GalilMotionController::saveProgram(const std::string &text)
+{
+    QFile file(programPath);
+
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        return false;
+    }
+    QTextStream outStream(&file);
+    outStream << QString::fromStdString(text);
+    file.close();
+    return true;
+}
+
+bool GalilMotionController::saveProgramAs(const std::string &filePath, const std::string &text)
+{
+    //this sets the current program file path
+    programPath = QString::fromStdString(filePath);
+    bool saved = this->saveProgram(text);
+    return saved;
+}
+
+bool GalilMotionController::loadProgram(const std::string &filePath, std::string &programText)
+{
+    //this sets the current program file path
+    programPath = QString::fromStdString(filePath);
+
+    QFile file(programPath);
+
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        return false;
+    }
+    QTextStream inStream(&file);
+    programText = inStream.readAll().toStdString();
+    file.close();
+    return true;
+}
+
+void GalilMotionController::getSettingsPath(std::string &filePath) const
+{
+    QFile file(settingsPath);
+    QFileInfo fileInfo(file);
+    filePath = fileInfo.absolutePath().toStdString();
+}
+
+bool GalilMotionController::saveSettings()
+{
+    m_Settings.saveSettings(settingsPath);
+}
+
+bool GalilMotionController::saveSettingsAs(const std::string &filePath)
+{
+    settingsPath = QString::fromStdString(filePath);
+    m_Settings.saveSettings(settingsPath);
+}
+
+bool GalilMotionController::loadSettings(const std::string &filePath)
+{
+    settingsPath = QString::fromStdString(filePath);
+    m_Settings.loadSettings(settingsPath);
 }
