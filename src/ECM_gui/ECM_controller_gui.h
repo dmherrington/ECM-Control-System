@@ -10,7 +10,7 @@
 #include "pump_dialog/window_pump_control.h"
 #include "rigol_dialog/window_rigol_control.h"
 #include "misc_dialogs/dialog_connections.h"
-#include "misc_dialogs/dialog_custom_commands.h"
+#include "misc_dialogs/window_custom_motion_commands.h"
 #include "misc_dialogs/window_touchoff.h"
 #include "misc_dialogs/window_motion_profile.h"
 
@@ -36,9 +36,6 @@ public:
     explicit ECMControllerGUI(QWidget *parent = 0);
     ~ECMControllerGUI();
 
-private:
-    bool maybeSave();
-
 private slots:
     void CreateSensorDisplays(const common::TupleSensorString &sensor, const common_data::SensorTypes &type);
     Q_INVOKABLE void MarshalCreateSensorDisplay(const common::TupleSensorString &sensor, const common_data::SensorTypes &type);
@@ -50,9 +47,6 @@ private slots:
     void slot_DisplayActionTriggered();
 
 private slots:
-
-    void slot_ChangedWindowVisibility(const GeneralDialogWindow::DialogWindowTypes &type, const bool visibility);
-
     void slot_NewProfileVariableData(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state);
 
     void slot_NewSensorData(const common::TupleSensorString &sensor, const common_data::SensorState &state);
@@ -111,18 +105,7 @@ private slots:
 
 
 
-    void slot_onConnectionWindowVisibilityChanged(const bool &visible);
-
-    void slot_onPumpVisibilityWindowChanged(const bool &visible);
-
-    void slot_onPowerSupplyVisibilityWindowChanged(const bool &visible);
-
-    void slot_onOscilliscopeWindowVisibilityChanged(const bool &visible);
-
-    void slot_onTouchoffWindowVisibilityChanged(const bool &visible);
-
-    void slot_onMotionProfileWindowVisibilityChanged(const bool &visible);
-
+    void slot_ChangedWindowVisibility(const GeneralDialogWindow::DialogWindowTypes &type, const bool visibility);
 
     void on_actionConnections_triggered(bool checked);
 
@@ -136,6 +119,12 @@ private slots:
 
     void on_actionMotion_Profile_triggered(bool checked);
 
+    void on_actionCustom_Motion_Commands_triggered(bool checked);
+
+    void on_actionOpen_Sensors_Window_triggered(bool checked);
+
+    void on_actionClear_All_Data_triggered();
+
 
 
     void on_pushButton_RunExplicitProfile_released();
@@ -143,6 +132,8 @@ private slots:
     void on_pushButton_RunAutomatedProfile_released();
 
     void on_pushButton_Stop_released();
+
+
 
 protected:
     void readSettings();
@@ -177,7 +168,7 @@ private:
     Window_PumpControl* m_WindowPump;
     Window_RigolControl* m_WindowRigol;
     Dialog_Connections* m_DialogConnections;
-    Dialog_CustomCommands* m_DialogCustomCommands;
+    Window_CustomMotionCommands* m_WindowCustomMotionCommands;
     Window_Touchoff* m_WindowTouchoff;
     Window_MotionProfile* m_WindowMotionProfile;
 };

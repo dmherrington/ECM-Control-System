@@ -565,6 +565,15 @@ width:20px;
            <bold>false</bold>
           </font>
          </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Execute a profile while performing appropriate setup checks autonomously.&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="toolTipDuration">
+          <number>-1</number>
+         </property>
+         <property name="whatsThis">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;What does this actually do?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
          <property name="text">
           <string>Run Automated Profile</string>
          </property>
@@ -1195,6 +1204,12 @@ width:20px;
              <pointsize>10</pointsize>
             </font>
            </property>
+           <property name="toolTip">
+            <string extracomment="Number associated with the part and accompanying logging directory."/>
+           </property>
+           <property name="statusTip">
+            <string extracomment="Number associated with the part and accompanying logging directory."/>
+           </property>
            <property name="text">
             <string>DEFAULT PART #</string>
            </property>
@@ -1296,6 +1311,9 @@ width:20px;
           <font>
            <pointsize>12</pointsize>
           </font>
+         </property>
+         <property name="toolTip">
+          <string extracomment="Run an explicit profile with no autonomous checks."/>
          </property>
          <property name="text">
           <string>Run Explicit Profile</string>
@@ -2025,6 +2043,8 @@ width:20px;
     <addaction name="separator"/>
     <addaction name="actionTouchoff"/>
     <addaction name="actionMotion_Profile"/>
+    <addaction name="separator"/>
+    <addaction name="actionCustom_Motion_Commands"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -2036,6 +2056,8 @@ width:20px;
      <string>Plot</string>
     </property>
     <addaction name="actionOpen_Sensors_Window"/>
+    <addaction name="separator"/>
+    <addaction name="actionClear_All_Data"/>
     <addaction name="separator"/>
    </widget>
    <addaction name="menuFile"/>
@@ -2112,6 +2134,19 @@ width:20px;
    </property>
    <property name="text">
     <string>Motion Profile</string>
+   </property>
+  </action>
+  <action name="actionCustom_Motion_Commands">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Custom Motion Commands</string>
+   </property>
+  </action>
+  <action name="actionClear_All_Data">
+   <property name="text">
+    <string>Clear All Data</string>
    </property>
   </action>
  </widget>

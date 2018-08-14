@@ -203,10 +203,15 @@ bool GalilMotionController::loadSettings(const std::string &filePath)
     m_Settings.loadSettings(settingsPath);
 }
 
-void GalilMotionController::LinkConnected() const
+void GalilMotionController::LinkConnected()
 {
+    //update the connection interface
     stateInterface->setConnected(true);
 
+    //initialize the device
+    this->initializeMotionController();
+
+    //notify all listeners that we have connected
     common::comms::CommunicationUpdate connection;
     connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
     emit signal_MotionControllerCommunicationUpdate(connection);
@@ -241,9 +246,10 @@ void GalilMotionController::NewProgramUploaded(const ProgramGeneric &program)
     stateInterface->galilProgram->setProgram(program.getProgramString());
     emit signal_MCNewProgramReceived(program);
 
-    //We now have a new program, let us query for the available labels and variables
-    RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
-    commsMarshaler->sendAbstractGalilRequest(requestVariables);
+    //This process is actually automated in the comms marshaler
+//We now have a new program, let us query for the available labels and variables
+//    RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
+//    commsMarshaler->sendAbstractGalilRequest(requestVariables);
 }
 
 void GalilMotionController::NewProgramDownloaded(const ProgramGeneric &program)
@@ -251,9 +257,10 @@ void GalilMotionController::NewProgramDownloaded(const ProgramGeneric &program)
     stateInterface->galilProgram->setProgram(program.getProgramString());
     emit signal_MCNewProgramReceived(program);
 
+    //This process is actually automated in the comms marshaler
 //    //We now have a new program, let us query for the available labels and variables
-    RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
-    commsMarshaler->sendAbstractGalilRequest(requestVariables);
+//    RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
+//    commsMarshaler->sendAbstractGalilRequest(requestVariables);
 }
 
 void GalilMotionController::NewStatusInputs(const StatusInputs &status)
@@ -355,17 +362,50 @@ void GalilMotionController::getSettingsPath(std::string &filePath) const
     filePath = fileInfo.absolutePath().toStdString();
 }
 
-bool GalilMotionController::saveProgram(const std::string &text)
+bool GalilMotionController::saveProgram()
 {
-    QFile file(programPath);
+    QFile saveFile(programPath);
 
-    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-    {
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        qWarning("Couldn't open save file.");
+    }
+
+    QJsonObject saveObject;
+    this->stateInterface->galilProgram->writeJSONData(saveObject);
+    QJsonDocument saveDoc(saveObject);
+    saveFile.write(saveDoc.toJson());
+    saveFile.close();
+    return true;
+}
+
+bool GalilMotionController::saveProgramAs(const std::string &filePath)
+{
+    //this sets the current program file path
+    programPath = QString::fromStdString(filePath);
+    bool saved = this->saveProgram();
+    return saved;
+}
+
+bool GalilMotionController::loadProgram(const std::string &filePath, std::string &programText)
+{
+    QFile openFile(QString::fromStdString(filePath));
+
+    if (!openFile.open(QIODevice::ReadOnly)) {
+        qWarning("Couldn't open read file.");
         return false;
     }
-    QTextStream outStream(&file);
-    outStream << QString::fromStdString(text);
-    file.close();
+
+    QByteArray loadData = openFile.readAll();
+    openFile.close();
+
+    QJsonDocument loadDoc(QJsonDocument::fromJson(loadData));
+
+    ProgramGeneric genericProgram;
+    genericProgram.readFromJSON(loadDoc.object());
+    programText = genericProgram.getProgramString();
+
+    //this sets the current program file path
+    programPath = QString::fromStdString(filePath);
     return true;
 }
 
@@ -398,31 +438,6 @@ void GalilMotionController::executeCommand(const AbstractCommandPtr command)
 void GalilMotionController::executeCustomCommands(const std::vector<std::string> &stringCommands)
 {
     this->commsMarshaler->sendCustomGalilCommands(stringCommands);
-}
-
-bool GalilMotionController::saveProgramAs(const std::string &filePath, const std::string &text)
-{
-    //this sets the current program file path
-    programPath = QString::fromStdString(filePath);
-    bool saved = this->saveProgram(text);
-    return saved;
-}
-
-bool GalilMotionController::loadProgram(const std::string &filePath, std::string &programText)
-{
-    //this sets the current program file path
-    programPath = QString::fromStdString(filePath);
-
-    QFile file(programPath);
-
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        return false;
-    }
-    QTextStream inStream(&file);
-    programText = inStream.readAll().toStdString();
-    file.close();
-    return true;
 }
 
 void GalilMotionController::cbi_GalilStatusRequest(const AbstractRequestPtr request)

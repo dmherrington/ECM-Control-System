@@ -219,20 +219,39 @@ void MunkPowerSupply::CommunicationUpdate(const std::string &name, const std::st
     emit signal_CommunicationUpdate(name,msg);
 }
 
-void MunkPowerSupply::FaultCodeRegister1Received(const std::string &msg)
+void MunkPowerSupply::FaultCodeReceived(const data_Munk::FaultRegisterType &faultRegister, const unsigned int &code)
 {
-    emit signal_FaultCodeRecieved(1,msg);
+    uint16_t mask = 0;
+    std::vector<std::string> errorCodes;
+    for(int i = 0; i < 16; i++)
+    {
+        mask = 1<<i;
+        if(code & (mask) != 0)
+        {
+            uint16_t currentCode = std::pow(2,i);
+
+            switch (faultRegister) {
+            case data_Munk::FaultRegisterType::FAULT_REGISTER_1:
+                errorCodes.push_back(FaultCodesRegister1ToString(static_cast<FaultCodesRegister1>(currentCode)));
+                break;
+            case data_Munk::FaultRegisterType::FAULT_REGISTER_2:
+                errorCodes.push_back(FaultCodesRegister2ToString(static_cast<FaultCodesRegister2>(currentCode)));
+                break;
+            case data_Munk::FaultRegisterType::FAULT_REGISTER_3:
+                errorCodes.push_back(FaultCodesRegister3ToString(static_cast<FaultCodesRegister3>(currentCode)));
+                break;
+            default:
+                throw std::runtime_error("FaultRegisterType seen in MunkPowerSupply::FaultCodeReceived.");
+                break;
+            }
+        }
+    }
+    if(errorCodes.size() > 0)
+    {
+        emit signal_FaultCodeRecieved(errorCodes);
+    }
 }
 
-void MunkPowerSupply::FaultCodeRegister2Received(const std::string &msg)
-{
-    emit signal_FaultCodeRecieved(2,msg);
-}
-
-void MunkPowerSupply::FaultCodeRegister3Received(const std::string &msg)
-{
-    emit signal_FaultCodeRecieved(3,msg);
-}
 void MunkPowerSupply::FaultStateCleared()
 {
     emit signal_FaultStateCleared();

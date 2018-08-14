@@ -26,17 +26,11 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     QDate tmp_Date(startTime.year, startTime.month, startTime.dayOfMonth);
     QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond);
 
-
     m_additionalSensorDisplay = new AdditionalSensorDisplay(&m_PlotCollection);
     m_additionalSensorDisplay->setWindowTitle("ECM Sensors");
     m_additionalSensorDisplay->SetOriginTime(QDateTime(tmp_Date, tmp_Time));
+    connect(m_additionalSensorDisplay,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
-    if(m_additionalSensorDisplay->isHidden())
-        m_additionalSensorDisplay->show();
-
-    //    m_additionalSensorDisplay->SetOriginTime();
-    //    m_additionalSensorDisplay->UpdateNonPlottedData(); //this actually updates the data
-    //    m_additionalSensorDisplay->UpdatePlottedData(); //this actually updates the rendering of the data
 
     //give collection of plots
     ui->widget_primaryPlot->SupplyPlotCollection(&m_PlotCollection);
@@ -59,6 +53,9 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_Galil, SIGNAL(signal_MCNewDigitalInput(StatusInputs)), this, SLOT(slot_MCNewDigitalInput(StatusInputs)));
     connect(m_API->m_Galil, SIGNAL(signal_MCNewPosition(common::TuplePositionalString,common_data::MachinePositionalState)), this, SLOT(slot_NewPositionalData(common::TuplePositionalString,common_data::MachinePositionalState)));
     connect(m_API->m_Galil, SIGNAL(signal_MCNewProgramLabelList(ProgramLabelList)), this, SLOT(slot_MCNewProgramLabels(ProgramLabelList)));
+
+    m_WindowCustomMotionCommands = new Window_CustomMotionCommands(m_API->m_Galil);
+    m_WindowCustomMotionCommands->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
 
     m_WindowMotionProfile = new Window_MotionProfile(m_API->m_Galil);
     m_WindowMotionProfile->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
@@ -103,29 +100,6 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     }
 
     readSettings();
-
-    //    common::TuplePositionalString tuplePosition;
-    //    tuplePosition.axisName = "Z Position";
-    //    this->slot_AddPlottable(tuplePosition);
-
-    //    common::TupleSensorString tupleSensor;
-    //    tupleSensor.sourceName = "TestSource";
-    //    tupleSensor.sensorName = "TestSensor";
-    //    ECMPlotIdentifierPtr newPlot = std::make_shared<ECMPlotIdentifier>(tupleSensor, "Sensed_Voltage");
-    //    ui->widget_primaryPlot->AddPlot(newPlot);
-    //    ui->widget_primaryPlot->ToggleLegend();
-
-    //    common_data::SensorState newSensorMeasurement;
-    //    newSensorMeasurement.ConstructSensor(common_data::SENSOR_VOLTAGE,"Voltage Top");
-    //    ((common_data::SensorVoltage*)newSensorMeasurement.getSensorData().get())->SetVoltage(5.0,common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
-    //    newSensorMeasurement.setObservationTime(startTime);
-    //    this->slot_NewSensorData(tupleSensor,newSensorMeasurement);
-
-    //    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-    //    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
-    //    newSensorMeasurement.setObservationTime(startTime);
-    //    this->slot_NewSensorData(tupleSensor,newSensorMeasurement);
-
 }
 
 ECMControllerGUI::~ECMControllerGUI()
@@ -162,31 +136,37 @@ void ECMControllerGUI::slot_DisplayActionTriggered()
     QAction* selectedObject = (QAction*)sender();
 
     common::TupleECMData key;
-    bool found = false;
+
     for(int i = 0 ; i < m_PlottingActionMap.size() ; i++)
     {
-        if(m_PlottingActionMap.values()[i] == selectedObject)
+        if((m_PlottingActionMap.values()[i]->isChecked()) && (m_PlottingActionMap.values()[i] != selectedObject))
+        {
+            //if the item is checked, and not the one that had the current action
+            bool oldState = m_PlottingActionMap.values()[i]->blockSignals(true);
+            m_PlottingActionMap.values()[i]->setChecked(false);
+            key = m_PlottingActionMap.keys()[i];
+            ECMPlotIdentifierPtr removePlot = std::make_shared<ECMPlotIdentifier>(key);
+            ui->widget_primaryPlot->RemoveGraphData(removePlot);
+            m_PlottingActionMap.values()[i]->blockSignals(oldState);
+        }
+        else if(m_PlottingActionMap.values()[i] == selectedObject)
         {
             key = m_PlottingActionMap.keys()[i];
-            found = true;
-            break;
+            ECMPlotIdentifierPtr plot = std::make_shared<ECMPlotIdentifier>(key);
+            if(selectedObject->isChecked())
+            {
+                bool invertAxis = false;
+                if(key.getData()->HumanName().toStdString() == "ppos")
+                    invertAxis = true;
+                ui->widget_primaryPlot->AddPlot(plot, key.getData()->HumanName().toStdString(),true, invertAxis);
+                QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(key);
+                ui->widget_primaryPlot->RedrawDataSource(plots);
+            }
+            else
+            {
+                ui->widget_primaryPlot->RemoveGraphData(plot);
+            }
         }
-    }
-
-    if(found == false) //somehow this got out of sync? Ken determine if this condition is even possible
-    {
-        return;
-    }
-
-    if(selectedObject->isChecked())
-    {
-        ECMPlotIdentifierPtr addPlot = std::make_shared<ECMPlotIdentifier>(key);
-        ui->widget_primaryPlot->AddPlot(addPlot, key.getData()->HumanName().toStdString(),false, false);
-        QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(key);
-        ui->widget_primaryPlot->RedrawDataSource(plots);
-    }else{
-        ECMPlotIdentifierPtr removePlot = std::make_shared<ECMPlotIdentifier>(key);
-        //ui->widget_primaryPlot->RemoveGraphData(removePlot);
     }
 }
 
@@ -207,7 +187,6 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &senso
     m_additionalSensorDisplay->UpdateNonPlottedData(sensor,state);
 
     QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(sensor);
-//    counter++;
 
 //    if(counter >20)
 //    {
@@ -225,37 +204,18 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &senso
 
 void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state)
 {
-    ui->lineEdit_MachinePosition->setText(QString::number(state.getPositionalState()->getAxisPosition() / 10.0));
+    ui->lineEdit_MachinePosition->setText(QString::number(state.getPositionalState()->getAxisPosition(common_data::PositionUnit::UNIT_POSITION_MICRO_METER)));
 
     m_PlotCollection.UpdatePositionalStatePlots(tuple,state);
-    //    m_SensorDisplays.UpdateNonPlottedData(tuple,state);
-    //    m_additionalSensorDisplay->UpdateNonPlottedData(tuple,state);
+//    m_SensorDisplays.UpdateNonPlottedData(tuple,state);
+//    m_additionalSensorDisplay->UpdateNonPlottedData(tuple,state);
 
     QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(tuple);
     ui->widget_primaryPlot->RedrawDataSource(plots);
-    //    m_SensorDisplays.PlottedDataUpdated(state); //this seems to be uneeded based on the call after this
-    //    m_additionalSensorDisplay->UpdatePlottedData(state);
+//    m_SensorDisplays.PlottedDataUpdated(state); //this seems to be uneeded based on the call after this
+//    m_additionalSensorDisplay->UpdatePlottedData(state);
 
-    //The OLD way of storing the data is here
-    //    common::TupleSensorString tupleSensor;
-    //    tupleSensor.sourceName = "TestSource";
-    //    tupleSensor.sensorName = "TestSensor";
-
-    //    common_data::SensorState newSensorMeasurement;
-    //    newSensorMeasurement.ConstructSensor(common_data::SENSOR_VOLTAGE,"Voltage Top");
-    //    ((common_data::SensorVoltage*)newSensorMeasurement.getSensorData().get())->SetVoltage(rand()%100,common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
-    //    newSensorMeasurement.setObservationTime(state.getObservationTime());
-
-    //    CreateSensorDisplays(tupleSensor,newSensorMeasurement.getSensorType());
-
-    //    m_PlotCollection.UpdateSensorPlots(tupleSensor, newSensorMeasurement);
-    //    m_SensorDisplays.UpdateNonPlottedData(tupleSensor,newSensorMeasurement);
-    //    m_additionalSensorDisplay->UpdateNonPlottedData(tupleSensor,newSensorMeasurement);
-
-    //    QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(tupleSensor);
-    //    ui->widget_primaryPlot->RedrawDataSource(plots);
-    //    m_SensorDisplays.PlottedDataUpdated(tupleSensor); //this seems to be uneeded based on the call after this
-    //    m_additionalSensorDisplay->UpdatePlottedData(tupleSensor);
+    m_API->m_Log->WriteLogMachinePositionalState(tuple,state);
 }
 
 
@@ -303,10 +263,16 @@ void ECMControllerGUI::readSettings()
     QSettings settings("Trolltech", "Application Example");
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
     QSize size = settings.value("size", QSize(400, 400)).toSize();
+
+    bool sensorHidden = settings.value("sensorDisplayed", false).toBool();
     bool munkHidden = settings.value("munkDisplayed", false).toBool();
     bool pumpHidden = settings.value("pumpDisplayed", false).toBool();
     bool rigolHidden = settings.value("rigolDisplayed", false).toBool();
     bool touchoffHidden = settings.value("touchoffDisplayed", false).toBool();
+    bool customMotionCommands = settings.value("customMotionDisplayed", false).toBool();
+
+    if(!sensorHidden)
+        m_additionalSensorDisplay->show();
 
     if(!munkHidden)
         m_WindowMunk->show();
@@ -320,6 +286,9 @@ void ECMControllerGUI::readSettings()
     if(!touchoffHidden)
         m_WindowTouchoff->show();
 
+    if(!customMotionCommands)
+        m_WindowCustomMotionCommands->show();
+
     resize(size);
     move(pos);
 }
@@ -331,16 +300,19 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
         QSettings settings("Trolltech", "Application Example");
         settings.setValue("pos", pos());
         settings.setValue("size", size());
+
+        settings.setValue("sensorDisplayed",m_additionalSensorDisplay->isWindowHidden());
         settings.setValue("munkDisplayed",m_WindowMunk->isWindowHidden());
         settings.setValue("pumpDisplayed",m_WindowPump->isWindowHidden());
         settings.setValue("rigolDisplayed",m_WindowRigol->isWindowHidden());
         settings.setValue("touchoffDisplayed",m_WindowTouchoff->isWindowHidden());
+        settings.setValue("customMotionDisplayed",m_WindowCustomMotionCommands->isWindowHidden());
 
         m_WindowMunk->close();
         m_WindowPump->close();
         m_WindowRigol->close();
         m_WindowTouchoff->close();
-
+        m_WindowCustomMotionCommands->close();
         m_DialogConnections->close();
         m_additionalSensorDisplay->close();
 
@@ -356,23 +328,8 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
         msgBox.setDefaultButton(QMessageBox::Ok);
         int ret = msgBox.exec();
         UNUSED(ret);
+        event->ignore();
     }
-}
-
-bool ECMControllerGUI::maybeSave()
-{
-    //    if (textEdit->document()->isModified()) {
-    //        QMessageBox::StandardButton ret;
-    //        ret = QMessageBox::warning(this, tr("Application"),
-    //                     tr("The document has been modified.\n"
-    //                        "Do you want to save your changes?"),
-    //                     QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
-    //        if (ret == QMessageBox::Save)
-    //            return save();
-    //        else if (ret == QMessageBox::Cancel)
-    //            return false;
-    //    }
-    //    return true;
 }
 
 void ECMControllerGUI::on_pushButton_MotorEnable_released()
@@ -619,35 +576,20 @@ void ECMControllerGUI::on_actionMotion_Profile_triggered(bool checked)
         m_WindowMotionProfile->hide();
 }
 
-
-void ECMControllerGUI::slot_onConnectionWindowVisibilityChanged(const bool &visible)
+void ECMControllerGUI::on_actionCustom_Motion_Commands_triggered(bool checked)
 {
-    ui->actionConnections->setChecked(visible);
+    if(checked)
+        m_WindowCustomMotionCommands->show();
+    else
+        m_WindowCustomMotionCommands->hide();
 }
 
-void ECMControllerGUI::slot_onPumpVisibilityWindowChanged(const bool &visible)
+void ECMControllerGUI::on_actionOpen_Sensors_Window_triggered(bool checked)
 {
-    ui->actionPump->setChecked(visible);
-}
-
-void ECMControllerGUI::slot_onPowerSupplyVisibilityWindowChanged(const bool &visible)
-{
-    ui->actionPower_Supply->setChecked(visible);
-}
-
-void ECMControllerGUI::slot_onOscilliscopeWindowVisibilityChanged(const bool &visible)
-{
-    ui->actionOscilliscope->setChecked(visible);
-}
-
-void ECMControllerGUI::slot_onTouchoffWindowVisibilityChanged(const bool &visible)
-{
-    ui->actionTouchoff->setChecked(visible);
-}
-
-void ECMControllerGUI::slot_onMotionProfileWindowVisibilityChanged(const bool &visible)
-{
-    ui->actionMotion_Profile->setChecked(visible);
+    if(checked)
+        m_additionalSensorDisplay->show();
+    else
+        m_additionalSensorDisplay->hide();
 }
 
 void ECMControllerGUI::slot_ChangedWindowVisibility(const GeneralDialogWindow::DialogWindowTypes &type, const bool visibility)
@@ -670,6 +612,12 @@ void ECMControllerGUI::slot_ChangedWindowVisibility(const GeneralDialogWindow::D
         break;
     case GeneralDialogWindow::DialogWindowTypes::WINDOW_MOTION_PROFILE:
         ui->actionMotion_Profile->setChecked(visibility);
+        break;
+    case GeneralDialogWindow::DialogWindowTypes::WINDOW_CUSTOM_MOTION_COMMANDS:
+        ui->actionCustom_Motion_Commands->setChecked(visibility);
+        break;
+    case GeneralDialogWindow::DialogWindowTypes::WINDOW_SENSOR_DISPLAY:
+        ui->actionOpen_Sensors_Window->setChecked(visibility);
         break;
     default:
         std::cout<<"On slot_ChangedWindowVisibility called with unrecognized dialog window type."<<std::endl;
@@ -706,9 +654,23 @@ void ECMControllerGUI::on_pushButton_RunExplicitProfile_released()
         }
     }
 
+    //grab the current time and update all of the sources
     common::EnvironmentTime startTime;
     common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
+
     m_API->m_Log->initializeLogging(partNumber.toStdString(),serialNumber.toStdString(),startTime,true);
+
+    QDate tmp_Date(startTime.year, startTime.month, startTime.dayOfMonth);
+    QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond);
+
+    //Update plot properties of the current start time
+    ui->widget_primaryPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
+    m_additionalSensorDisplay->SetOriginTime(QDateTime(tmp_Date, tmp_Time));
+
+    //Clear all of the exisitng data that may be on the plots
+    m_PlotCollection.ClearAllData();
+
+    m_API->m_Log->enableLogging(true);
 
 
     //While executing this type of command
@@ -726,4 +688,9 @@ void ECMControllerGUI::on_pushButton_RunAutomatedProfile_released()
 void ECMControllerGUI::on_pushButton_Stop_released()
 {
     m_API->action_StopMachine();
+}
+
+void ECMControllerGUI::on_actionClear_All_Data_triggered()
+{
+    m_PlotCollection.ClearAllData();
 }

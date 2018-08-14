@@ -6,6 +6,8 @@
 
 #include "common/class_forward.h"
 
+#include "../ecm_api.h"
+
 #include "ECM_API/states/state_ecm_types.h"
 #include "library_galilMotionController/states/hsm.h"
 
@@ -17,7 +19,7 @@ class Empty
     Empty() = default;
 };
 
-class AbstractStateECMProcess : public hsm::StateWithOwner<Empty>
+class AbstractStateECMProcess : public hsm::StateWithOwner<ECM_API>
 {
 public:
     AbstractStateECMProcess() = default;

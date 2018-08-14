@@ -25,8 +25,6 @@ private:
 signals:
     void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility);
 
-private:
-
 private slots:
     void on_actionClose_triggered();
 

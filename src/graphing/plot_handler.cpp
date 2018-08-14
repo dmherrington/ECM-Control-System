@@ -41,6 +41,8 @@ PlotHandler::PlotHandler(QWidget *parent) :
 
 
     m_TimeUnit = SECONDS;
+    QString SelectedString = TimeUnitToString(m_TimeUnit);
+    this->xAxis->setLabel(SelectedString);
 
     //connect user interface signals
     connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextMenuRequest(QPoint)));
@@ -65,8 +67,8 @@ PlotHandler::PlotHandler(QWidget *parent) :
 
     setInteractions(QCP::iRangeDrag | QCP::iSelectLegend | QCP::iRangeZoom | QCP::iSelectPlottables | QCP::iSelectAxes | QCP::iSelectOther);
     yAxis->setLabel("Response");    
-    yAxis2->setLabel("Response");
-    yAxis2->setVisible(true);
+//    yAxis2->setLabel("Response");
+//    yAxis2->setVisible(true);
 
     connect(&m_RecalculateScheduler, SIGNAL(PerformWork()), this, SLOT(DoPlotRecalculate()), Qt::DirectConnection);
 
@@ -296,6 +298,8 @@ void PlotHandler::RemoveGraphData(const common_data::observation::IPlotComparabl
 }
 
 
+
+
 //!
 //! \brief set the origin time of the plot
 //!
@@ -376,6 +380,8 @@ void PlotHandler::ChangeColorScheme(bool scheme)
     xAxis->setLabelColor(m_FigureProperties.text_color);
     yAxis->setTickLabelColor(m_FigureProperties.text_color);
     yAxis->setLabelColor(m_FigureProperties.text_color);
+    yAxis2->setTickLabelColor(m_FigureProperties.text_color);
+    yAxis2->setLabelColor(m_FigureProperties.text_color);
 
 
     // X-Axis Grid colors/properties
@@ -387,7 +393,7 @@ void PlotHandler::ChangeColorScheme(bool scheme)
     xAxis->grid()->setAntialiasedSubGrid(false);
     xAxis->grid()->setAntialiasedZeroLine(false);
 
-    // Y-Axis Grid colors/properties
+    // Y-Axis2 Grid colors/properties
     yAxis->grid()->setPen(m_FigureProperties.grid_penColor);
     yAxis->grid()->setSubGridPen(m_FigureProperties.grid_subPenColor);
     yAxis->grid()->setZeroLinePen(m_FigureProperties.grid_zeroLineColor);
@@ -396,6 +402,14 @@ void PlotHandler::ChangeColorScheme(bool scheme)
     yAxis->grid()->setAntialiasedSubGrid(false);
     yAxis->grid()->setAntialiasedZeroLine(false);
 
+
+//    yAxis2->grid()->setPen(m_FigureProperties.grid_penColor);
+//    yAxis2->grid()->setSubGridPen(m_FigureProperties.grid_subPenColor);
+//    yAxis2->grid()->setZeroLinePen(m_FigureProperties.grid_zeroLineColor);
+//    yAxis2->grid()->setSubGridVisible(false);
+//    yAxis2->grid()->setAntialiased(false);
+//    yAxis2->grid()->setAntialiasedSubGrid(false);
+//    yAxis2->grid()->setAntialiasedZeroLine(false);
 
     // Replot so colors take effect
     Replot(rpHint);
@@ -416,9 +430,12 @@ bool PlotHandler::UpdateGrid(const double xSpacing, const double ySpacing)
     {
         this->xAxis->setAutoTickStep(false);
         this->yAxis->setAutoTickStep(false);
+        this->yAxis2->setAutoTickStep(false);
+
 
         this->xAxis->setTickStep(xSpacing);
         this->yAxis->setTickStep(ySpacing);
+        //this->yAxis2->setAutoTickStep(false);
 
         Replot(rpHint);
     }
@@ -426,6 +443,7 @@ bool PlotHandler::UpdateGrid(const double xSpacing, const double ySpacing)
     {
         this->xAxis->setAutoTickStep(true);
         this->yAxis->setAutoTickStep(true);
+        //this->yAxis2->setAutoTickStep(true);
 
         Replot(rpHint);
     }
@@ -471,6 +489,8 @@ bool PlotHandler::ToggleGrid()
     m_FigureProperties.grid = !m_FigureProperties.grid;
     this->xAxis->grid()->setVisible(m_FigureProperties.grid);
     this->yAxis->grid()->setVisible(m_FigureProperties.grid);
+    //this->yAxis2->grid()->setVisible(m_FigureProperties.grid);
+
     Replot(rpHint);
     return(m_FigureProperties.grid);
 }
@@ -577,7 +597,7 @@ void PlotHandler::contextMenuRequest(QPoint pos)
             menu->addAction("Remove selected graph", this, SLOT(removeSelectedGraph()));
         if (this->graphCount() > 0)
         {
-            menu->addAction("Remove all graphs", this, SLOT(removeAllGraphs()));
+            menu->addAction("Hide all graphs", this, SLOT(hideAllGraphs()));
             menu->addAction("Display all graphs", this, SLOT(RecalculateAllGraphs()));
         }
     }
@@ -705,7 +725,7 @@ void PlotHandler::RecalculateAllGraphs()
 void PlotHandler::removeSelectedGraph()
 {
     bool selected = false;
-    std::string deletedExpr;
+    common_data::observation::IPlotComparablePtr deletedExpr;
     //loop through all graphs
     for (int i=0 ; i < m_PlotParameters.count() ; i++)
     {
@@ -723,8 +743,8 @@ void PlotHandler::removeSelectedGraph()
                 MarshalRemoveGraph(m_PlotParameters[i].g.at(j));
         }
 
-        //deletedExpr = m_PlotParameters[i].operation;
-        //selected = true;
+        deletedExpr = m_PlotParameters[i].operation;
+        selected = true;
         m_PlotParameters.removeAt(i);
         Draw();
 
@@ -740,24 +760,24 @@ void PlotHandler::removeSelectedGraph()
 //!
 //! \brief Remove all graphs from the plot instance
 //!
-void PlotHandler::removeAllGraphs()
+void PlotHandler::hideAllGraphs()
 {
-//    QList<std::shared_ptr<common_data::observation::IPlotComparable>> removedExpressions;
-//    m_PlotParametersMutex.lock();
-//    for (int i=0 ; i < m_PlotParameters.count() ; i++)
-//    {
-//        for(int j = 0 ; j < m_PlotParameters[i].g.size() ; j++)
-//        {
-//            MarshalRemoveGraph(m_PlotParameters[i].g.at(j));
-//        }
-//        removedExpressions.append(m_PlotParameters[i].operation);
-//    }
-//    m_PlotParameters.clear();
-//    m_PlotParametersMutex.unlock();
-//    Draw();
+    QList<std::shared_ptr<common_data::observation::IPlotComparable>> removedExpressions;
+    m_PlotParametersMutex.lock();
+    for (int i=0 ; i < m_PlotParameters.count() ; i++)
+    {
+        for(int j = 0 ; j < m_PlotParameters[i].g.size() ; j++)
+        {
+            MarshalRemoveGraph(m_PlotParameters[i].g.at(j));
+        }
+        removedExpressions.append(m_PlotParameters[i].operation);
+    }
+    m_PlotParameters.clear();
+    m_PlotParametersMutex.unlock();
+    Draw();
 
 
-//    //emit signal that we deleted
+    //emit signal that we deleted
 //    for (int i = 0 ; i < removedExpressions.size() ; i++)
 //    {
 //        emit PlotDelete(removedExpressions.at(i));
@@ -882,7 +902,8 @@ void PlotHandler::DoPlotRecalculate()
             //add plot and set parameters
             if(m_PlotParameters.at(plotIndex).g.size() <= i ||  m_PlotParameters.at(plotIndex).g.at(i) == NULL)
             {
-                m_PlotParameters[plotIndex].g.insert(i, MarshalAddGraph(m_PlotParameters[plotIndex].yAxis2,m_PlotParameters[plotIndex].invertYAxis));
+                std::string axisName = "Response: " + dr.getUnit();
+                m_PlotParameters[plotIndex].g.insert(i, MarshalAddGraph(axisName, m_PlotParameters[plotIndex].yAxis2, m_PlotParameters[plotIndex].invertYAxis));
                 QCPGraph *g = m_PlotParameters[plotIndex].g.at(i);
                 g->setAntialiasedFill(false);
                 this->plotLayout()->updateLayout();
@@ -966,13 +987,13 @@ void PlotHandler::MarshalRemoveGraph(QCPGraph *g)
 //! \brief Marshals adding a graph to QCustomPlot object to the main thread
 //! \return Graph added
 //!
-QCPGraph* PlotHandler::MarshalAddGraph(const bool &useSecondaryAxis, const bool &invertYAxis)
+QCPGraph* PlotHandler::MarshalAddGraph(const std::string &axisName, const bool &useSecondaryAxis, const bool &invertYAxis)
 {
     //invoke this method on the thread that owns this object.
     if (this->thread() != QThread::currentThread())
     {
         QCPGraph* result;
-        QMetaObject::invokeMethod(this, "MarshalAddGraph", Qt::BlockingQueuedConnection, Q_RETURN_ARG(QCPGraph*, result), Q_ARG(bool,useSecondaryAxis), Q_ARG(bool,invertYAxis));
+        QMetaObject::invokeMethod(this, "MarshalAddGraph", Qt::BlockingQueuedConnection, Q_RETURN_ARG(QCPGraph*, result), Q_ARG(std::string,axisName), Q_ARG(bool,useSecondaryAxis), Q_ARG(bool,invertYAxis));
         return result;
     }
     QCPGraph* g;
@@ -981,11 +1002,15 @@ QCPGraph* PlotHandler::MarshalAddGraph(const bool &useSecondaryAxis, const bool 
     {
         g = this->addGraph(this->xAxis,this->yAxis2);
         this->yAxis2->setRangeReversed(invertYAxis);
+        yAxis2->setLabel(QString::fromStdString(axisName));
+        yAxis2->setVisible(true);
     }
     else
     {
         g = this->addGraph(this->xAxis,this->yAxis);
         this->yAxis->setRangeReversed(invertYAxis);
+        yAxis->setLabel(QString::fromStdString(axisName));
+        yAxis->setVisible(true);
     }
 
     g->addToLegend();

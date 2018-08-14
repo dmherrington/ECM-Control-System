@@ -29,11 +29,21 @@ void Window_CustomMotionCommands::on_actionClose_triggered()
 
 void Window_CustomMotionCommands::on_pushButton_TransmitMotionCommand_released()
 {
-    QString commandText = ui->lineEdit_MotionCommand->text();
+    QString commandText = ui->plainTextEdit_MotionCommand->document()->toPlainText();
+    QRegExp rx("[;]");// match a semi-colon
+    QStringList list = commandText.split(rx, QString::SkipEmptyParts);
 
-    ui->lineEdit_MotionCommand->clear();
+    std::vector<std::string> commands;
+    for(size_t i = 0; i < list.size(); i++)
+    {
+        commands.push_back(list.at(i).toStdString());
+    }
+    if(commands.size() > 0)
+    {
+        ui->plainTextEdit_MotionCommand->clear();
+        m_MotionController->executeCustomCommands(commands);
 
-    m_MotionController->executeStringCommand(commandText);
+    }
 }
 
 void Window_CustomMotionCommands::slot_onMotionResponseReceived(const string &commandText, const string &text)

@@ -1,6 +1,8 @@
 #ifndef GALIL_CURRENT_PROGRAM_H
 #define GALIL_CURRENT_PROGRAM_H
 
+#include <QJsonObject>
+
 #include <string>
 #include <map>
 
@@ -37,6 +39,9 @@ public:
     std::map<std::string, double> getVariableMap() const;
 
     std::string getProgram() const;
+
+public:
+    void writeJSONData(QJsonObject &json) const;
 
 public:
     //!

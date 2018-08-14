@@ -259,7 +259,7 @@ public slots:
     //!
     //! \brief Remove all graphs from the plot instance
     //!
-    void removeAllGraphs();
+    void hideAllGraphs();
 
     //!
     //! \brief Force all graphs to be replotted
@@ -366,7 +366,7 @@ private:
     //! \brief Marshals adding a graph to QCustomPlot object to the main thread
     //! \return Graph added
     //!
-    Q_INVOKABLE QCPGraph* MarshalAddGraph(const bool &useSecondaryAxis = false, const bool &invertYAxis = false);
+    Q_INVOKABLE QCPGraph* MarshalAddGraph(const std::string &axisName = "Response", const bool &useSecondaryAxis = false, const bool &invertYAxis = false);
 
 
 private:

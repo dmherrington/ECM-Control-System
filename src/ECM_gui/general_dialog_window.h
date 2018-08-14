@@ -17,6 +17,7 @@ class GeneralDialogWindow : public QMainWindow
 public:
     enum class DialogWindowTypes
     {
+        WINDOW_SENSOR_DISPLAY,
         WINDOW_CONNECTIONS,
         WINDOW_PUMP,
         WINDOW_OSCILLISCOPE,

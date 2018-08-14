@@ -9,6 +9,8 @@
 #include <QList>
 #include <QMenu>
 
+#include "general_dialog_window.h"
+
 #include "common/tuple_sensor_string.h"
 #include "ECM_plot_collection.h"
 
@@ -27,7 +29,7 @@ class AdditionalSensorDisplay;
 //! The QDockWidget allows for multiple displays to be shown at one time.
 //! While also allowing the user to break out the display for individual display.
 //!
-class AdditionalSensorDisplay : public QMainWindow
+class AdditionalSensorDisplay : public GeneralDialogWindow
 {
     Q_OBJECT
 
@@ -115,7 +117,17 @@ public slots:
     //!
     void ChangeColorScheme(bool scheme);
 
+private:
+    void closeEvent(QCloseEvent *event) override;
+
 signals:
+
+    //!
+    //! \brief signal_DialogWindowVisibilty
+    //! \param type
+    //! \param visibility
+    //!
+    void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility);
 
     //!
     //! \brief Signal to emit when a new dock is to be created
@@ -148,9 +160,6 @@ private slots:
     void CustomContextMenuRequested(const QPoint &pos);
 
     void DisplayActionTriggered();
-
-
-
 
     //!
     //! \brief Slot fired when a dock becomes visible or unvible

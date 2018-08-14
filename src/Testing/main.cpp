@@ -19,11 +19,11 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    Library_QModBus* md = new Library_QModBus();
-//    uint16_t bitArray = 0;
-//    uint16_t ba = 0;
-//    uint32_t mask = 1<<7;
-//    ba = (bitArray & (~mask)) | ((int)1<<7);
+    //Library_QModBus* md = new Library_QModBus();
+    uint16_t bitArray = 7;
+    uint16_t ba = 0;
+    uint32_t mask = 1<<3;
+    ba = (bitArray & (mask));
 
 //    std::cout<<"Program is running"<<std::endl;
 //    HSESSION sess;

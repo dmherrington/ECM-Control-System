@@ -11,6 +11,7 @@ namespace common_data
 //!
 enum PositionUnit
 {
+    UNIT_POSITION_COUNTS,
     UNIT_POSITION_MICRO_METER,
     UNIT_POSITION_NR
 };

@@ -49,13 +49,15 @@ public:
     QAction *actionOpen_Sensors_Window;
     QAction *actionClose;
     QAction *actionMotion_Profile;
+    QAction *actionCustom_Motion_Commands;
+    QAction *actionClear_All_Data;
     QWidget *centralWidget;
     QGridLayout *gridLayout_8;
     QLineEdit *lineEdit;
     QLineEdit *lineEdit_2;
     QFrame *frame_MotorControl;
     QGridLayout *gridLayout_3;
-    QPushButton *pushButton;
+    QPushButton *pushButton_Stop;
     QFrame *frame_DIO;
     QGridLayout *gridLayout_9;
     QLabel *label_ManualControl_5;
@@ -70,7 +72,7 @@ public:
     QGridLayout *gridLayout_2;
     QSplitter *splitter_2;
     QLabel *label_ManualControl_2;
-    QPushButton *pushButton_RunProfile;
+    QPushButton *pushButton_RunAutomatedProfile;
     QTabWidget *tabWidget;
     QWidget *tab_linearParams;
     QGridLayout *gridLayout_5;
@@ -101,11 +103,11 @@ public:
     QVBoxLayout *verticalLayout_3;
     QLabel *label_PartNumber_2;
     QLineEdit *lineEdit_SerialNumber;
-    QPushButton *pushButton_UploadProgram;
+    QPushButton *pushButton_RunExplicitProfile;
     QFormLayout *formLayout_3;
     QPushButton *pushButton_EstablishTouchoff;
     LED *widget_LEDTouchoffEstablished;
-    QPushButton *pushButton_DownloadProgram;
+    QPushButton *pushButton_Empty;
     QFrame *frame_MaunalControl;
     QGridLayout *gridLayout_10;
     QGridLayout *gridLayout_4;
@@ -297,6 +299,11 @@ public:
         actionMotion_Profile = new QAction(ECMControllerGUI);
         actionMotion_Profile->setObjectName(QStringLiteral("actionMotion_Profile"));
         actionMotion_Profile->setCheckable(true);
+        actionCustom_Motion_Commands = new QAction(ECMControllerGUI);
+        actionCustom_Motion_Commands->setObjectName(QStringLiteral("actionCustom_Motion_Commands"));
+        actionCustom_Motion_Commands->setCheckable(true);
+        actionClear_All_Data = new QAction(ECMControllerGUI);
+        actionClear_All_Data->setObjectName(QStringLiteral("actionClear_All_Data"));
         centralWidget = new QWidget(ECMControllerGUI);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout_8 = new QGridLayout(centralWidget);
@@ -343,17 +350,17 @@ public:
         gridLayout_3->setSpacing(6);
         gridLayout_3->setContentsMargins(11, 11, 11, 11);
         gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
-        pushButton = new QPushButton(frame_MotorControl);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setMinimumSize(QSize(120, 50));
-        pushButton->setMaximumSize(QSize(120, 50));
+        pushButton_Stop = new QPushButton(frame_MotorControl);
+        pushButton_Stop->setObjectName(QStringLiteral("pushButton_Stop"));
+        pushButton_Stop->setMinimumSize(QSize(120, 50));
+        pushButton_Stop->setMaximumSize(QSize(120, 50));
         QFont font1;
         font1.setPointSize(18);
         font1.setBold(true);
         font1.setWeight(75);
-        pushButton->setFont(font1);
+        pushButton_Stop->setFont(font1);
 
-        gridLayout_3->addWidget(pushButton, 0, 0, 1, 1);
+        gridLayout_3->addWidget(pushButton_Stop, 0, 0, 1, 1);
 
 
         gridLayout_8->addWidget(frame_MotorControl, 2, 2, 1, 1);
@@ -480,18 +487,19 @@ public:
 
         gridLayout_2->addWidget(splitter_2, 0, 0, 1, 1);
 
-        pushButton_RunProfile = new QPushButton(frame_ProfileOptions);
-        pushButton_RunProfile->setObjectName(QStringLiteral("pushButton_RunProfile"));
-        sizePolicy1.setHeightForWidth(pushButton_RunProfile->sizePolicy().hasHeightForWidth());
-        pushButton_RunProfile->setSizePolicy(sizePolicy1);
-        pushButton_RunProfile->setMinimumSize(QSize(180, 30));
+        pushButton_RunAutomatedProfile = new QPushButton(frame_ProfileOptions);
+        pushButton_RunAutomatedProfile->setObjectName(QStringLiteral("pushButton_RunAutomatedProfile"));
+        sizePolicy1.setHeightForWidth(pushButton_RunAutomatedProfile->sizePolicy().hasHeightForWidth());
+        pushButton_RunAutomatedProfile->setSizePolicy(sizePolicy1);
+        pushButton_RunAutomatedProfile->setMinimumSize(QSize(180, 30));
         QFont font3;
         font3.setPointSize(12);
         font3.setBold(false);
         font3.setWeight(50);
-        pushButton_RunProfile->setFont(font3);
+        pushButton_RunAutomatedProfile->setFont(font3);
+        pushButton_RunAutomatedProfile->setToolTipDuration(-1);
 
-        gridLayout_2->addWidget(pushButton_RunProfile, 0, 1, 2, 1);
+        gridLayout_2->addWidget(pushButton_RunAutomatedProfile, 0, 1, 2, 1);
 
         tabWidget = new QTabWidget(frame_ProfileOptions);
         tabWidget->setObjectName(QStringLiteral("tabWidget"));
@@ -785,16 +793,16 @@ public:
 
         gridLayout_2->addLayout(verticalLayout_3, 4, 1, 1, 1);
 
-        pushButton_UploadProgram = new QPushButton(frame_ProfileOptions);
-        pushButton_UploadProgram->setObjectName(QStringLiteral("pushButton_UploadProgram"));
-        sizePolicy1.setHeightForWidth(pushButton_UploadProgram->sizePolicy().hasHeightForWidth());
-        pushButton_UploadProgram->setSizePolicy(sizePolicy1);
-        pushButton_UploadProgram->setMinimumSize(QSize(180, 30));
+        pushButton_RunExplicitProfile = new QPushButton(frame_ProfileOptions);
+        pushButton_RunExplicitProfile->setObjectName(QStringLiteral("pushButton_RunExplicitProfile"));
+        sizePolicy1.setHeightForWidth(pushButton_RunExplicitProfile->sizePolicy().hasHeightForWidth());
+        pushButton_RunExplicitProfile->setSizePolicy(sizePolicy1);
+        pushButton_RunExplicitProfile->setMinimumSize(QSize(180, 30));
         QFont font6;
         font6.setPointSize(12);
-        pushButton_UploadProgram->setFont(font6);
+        pushButton_RunExplicitProfile->setFont(font6);
 
-        gridLayout_2->addWidget(pushButton_UploadProgram, 5, 1, 1, 1);
+        gridLayout_2->addWidget(pushButton_RunExplicitProfile, 5, 1, 1, 1);
 
         formLayout_3 = new QFormLayout();
         formLayout_3->setSpacing(6);
@@ -819,14 +827,14 @@ public:
 
         gridLayout_2->addLayout(formLayout_3, 6, 0, 1, 1);
 
-        pushButton_DownloadProgram = new QPushButton(frame_ProfileOptions);
-        pushButton_DownloadProgram->setObjectName(QStringLiteral("pushButton_DownloadProgram"));
-        sizePolicy1.setHeightForWidth(pushButton_DownloadProgram->sizePolicy().hasHeightForWidth());
-        pushButton_DownloadProgram->setSizePolicy(sizePolicy1);
-        pushButton_DownloadProgram->setMinimumSize(QSize(180, 30));
-        pushButton_DownloadProgram->setFont(font6);
+        pushButton_Empty = new QPushButton(frame_ProfileOptions);
+        pushButton_Empty->setObjectName(QStringLiteral("pushButton_Empty"));
+        sizePolicy1.setHeightForWidth(pushButton_Empty->sizePolicy().hasHeightForWidth());
+        pushButton_Empty->setSizePolicy(sizePolicy1);
+        pushButton_Empty->setMinimumSize(QSize(180, 30));
+        pushButton_Empty->setFont(font6);
 
-        gridLayout_2->addWidget(pushButton_DownloadProgram, 6, 1, 1, 1);
+        gridLayout_2->addWidget(pushButton_Empty, 6, 1, 1, 1);
 
 
         gridLayout_8->addWidget(frame_ProfileOptions, 2, 0, 2, 1);
@@ -1113,7 +1121,11 @@ public:
         menuTools->addSeparator();
         menuTools->addAction(actionTouchoff);
         menuTools->addAction(actionMotion_Profile);
+        menuTools->addSeparator();
+        menuTools->addAction(actionCustom_Motion_Commands);
         menuView->addAction(actionOpen_Sensors_Window);
+        menuView->addSeparator();
+        menuView->addAction(actionClear_All_Data);
         menuView->addSeparator();
 
         retranslateUi(ECMControllerGUI);
@@ -1135,12 +1147,20 @@ public:
         actionOpen_Sensors_Window->setText(QApplication::translate("ECMControllerGUI", "Open Sensors Window", nullptr));
         actionClose->setText(QApplication::translate("ECMControllerGUI", "Close", nullptr));
         actionMotion_Profile->setText(QApplication::translate("ECMControllerGUI", "Motion Profile", nullptr));
-        pushButton->setText(QApplication::translate("ECMControllerGUI", "STOP", nullptr));
+        actionCustom_Motion_Commands->setText(QApplication::translate("ECMControllerGUI", "Custom Motion Commands", nullptr));
+        actionClear_All_Data->setText(QApplication::translate("ECMControllerGUI", "Clear All Data", nullptr));
+        pushButton_Stop->setText(QApplication::translate("ECMControllerGUI", "STOP", nullptr));
         label_ManualControl_5->setText(QApplication::translate("ECMControllerGUI", "DIO Signals", nullptr));
         label_2->setText(QApplication::translate("ECMControllerGUI", "ESTOP", nullptr));
         label_3->setText(QApplication::translate("ECMControllerGUI", "TOUCHOFF", nullptr));
         label_ManualControl_2->setText(QApplication::translate("ECMControllerGUI", "Profile Optons", nullptr));
-        pushButton_RunProfile->setText(QApplication::translate("ECMControllerGUI", "Run Profile", nullptr));
+#ifndef QT_NO_TOOLTIP
+        pushButton_RunAutomatedProfile->setToolTip(QApplication::translate("ECMControllerGUI", "<html><head/><body><p align=\"center\"><span style=\" font-size:10pt;\">Execute a profile while performing appropriate setup checks autonomously.<br/></span></p></body></html>", nullptr));
+#endif // QT_NO_TOOLTIP
+#ifndef QT_NO_WHATSTHIS
+        pushButton_RunAutomatedProfile->setWhatsThis(QApplication::translate("ECMControllerGUI", "<html><head/><body><p>What does this actually do?</p></body></html>", nullptr));
+#endif // QT_NO_WHATSTHIS
+        pushButton_RunAutomatedProfile->setText(QApplication::translate("ECMControllerGUI", "Run Automated Profile", nullptr));
         label_CutDepth->setText(QApplication::translate("ECMControllerGUI", "Depth of Cut (um)", nullptr));
         label_CutSpeed->setText(QApplication::translate("ECMControllerGUI", "Cut Speed (um/s)", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_linearParams), QApplication::translate("ECMControllerGUI", "Linear Parameters", nullptr));
@@ -1152,12 +1172,21 @@ public:
         label_Pause->setText(QApplication::translate("ECMControllerGUI", "Pause (ms)", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_vibrationParams), QApplication::translate("ECMControllerGUI", "Vibration Parameters", nullptr));
         label_PartNumber->setText(QApplication::translate("ECMControllerGUI", "Part Number:", nullptr));
+#ifndef QT_NO_TOOLTIP
+        lineEdit_PartNumber->setToolTip(QString());
+#endif // QT_NO_TOOLTIP
+#ifndef QT_NO_STATUSTIP
+        lineEdit_PartNumber->setStatusTip(QString());
+#endif // QT_NO_STATUSTIP
         lineEdit_PartNumber->setText(QApplication::translate("ECMControllerGUI", "DEFAULT PART #", nullptr));
         label_PartNumber_2->setText(QApplication::translate("ECMControllerGUI", "Serial Number:", nullptr));
         lineEdit_SerialNumber->setText(QApplication::translate("ECMControllerGUI", "DEFAULT SERIAL #", nullptr));
-        pushButton_UploadProgram->setText(QApplication::translate("ECMControllerGUI", "Upload Program", nullptr));
+#ifndef QT_NO_TOOLTIP
+        pushButton_RunExplicitProfile->setToolTip(QString());
+#endif // QT_NO_TOOLTIP
+        pushButton_RunExplicitProfile->setText(QApplication::translate("ECMControllerGUI", "Run Explicit Profile", nullptr));
         pushButton_EstablishTouchoff->setText(QApplication::translate("ECMControllerGUI", "Establish Touchoff", nullptr));
-        pushButton_DownloadProgram->setText(QApplication::translate("ECMControllerGUI", "Download Program", nullptr));
+        pushButton_Empty->setText(QString());
         label_ManualControl->setText(QApplication::translate("ECMControllerGUI", "Manual Control", nullptr));
         pushButton_ResetHome->setText(QApplication::translate("ECMControllerGUI", "Reset Home", nullptr));
         pushButton_MoveHome->setText(QApplication::translate("ECMControllerGUI", "Move To Home", nullptr));

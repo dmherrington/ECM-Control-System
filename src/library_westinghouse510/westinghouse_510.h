@@ -57,6 +57,12 @@ public:
     //!
     void setPumpOperations(const registers_WestinghousePump::Register_OperationSignal &desOps);
 
+
+    //!
+    //! \brief ceasePumpOperations
+    //!
+    void ceasePumpOperations();
+
     //!
     //! \brief setInitializationTime
     //! \param period

@@ -54,7 +54,6 @@ SOURCES += \
     SensorDisplay/display_base_plot_instantaneous.cpp \
     SensorDisplay/display_voltage.cpp \
     plot_central.cpp \
-    misc_dialogs/dialog_custom_commands.cpp \
     LED.cpp \
     munk_dialog/widget_segment_time_data.cpp \
     munk_dialog/widget_segment_time_display.cpp \
@@ -68,7 +67,8 @@ SOURCES += \
     general_dialog_window.cpp \
     misc_dialogs/window_motion_profile.cpp \
     misc_dialogs/code_edit_widget.cpp \
-    misc_dialogs/window_custom_motion_commands.cpp
+    misc_dialogs/window_custom_motion_commands.cpp \
+    misc_dialogs/widget_device_fault.cpp
 
 HEADERS += \
         ECM_controller_gui.h \
@@ -80,7 +80,6 @@ HEADERS += \
     SensorDisplay/display_voltage.h \
     SensorDisplay/I_sensor_display.h \
     plot_central.h \
-    misc_dialogs/dialog_custom_commands.h \
     LED.h \
     munk_dialog/widget_segment_time_data.h \
     munk_dialog/widget_segment_time_display.h \
@@ -94,13 +93,13 @@ HEADERS += \
     general_dialog_window.h \
     misc_dialogs/window_motion_profile.h \
     misc_dialogs/code_edit_widget.h \
-    misc_dialogs/window_custom_motion_commands.h
+    misc_dialogs/window_custom_motion_commands.h \
+    misc_dialogs/widget_device_fault.h
 
 FORMS += \
         ECM_controller_gui.ui \
     additional_sensor_display.ui \
     SensorDisplay/display_base_plot_instantaneous.ui \
-    misc_dialogs/dialog_custom_commands.ui \
     munk_dialog/widget_segment_time_data.ui \
     munk_dialog/widget_segment_time_display.ui \
     munk_dialog/window_munk_power_supply.ui \
@@ -110,8 +109,8 @@ FORMS += \
     pump_dialog/window_pump_control.ui \
     rigol_dialog/widget_rigol_radio.ui \
     misc_dialogs/window_motion_profile.ui \
-    misc_dialogs/window_custom_commands.ui \
-    misc_dialogs/window_custom_motion_commands.ui
+    misc_dialogs/window_custom_motion_commands.ui \
+    misc_dialogs/widget_device_fault.ui
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include

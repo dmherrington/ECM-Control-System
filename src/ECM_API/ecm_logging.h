@@ -24,6 +24,8 @@ public:
 
     bool checkLoggingPath(const string &partNumber, const string &serialNumber);
 
+    void enableLogging(const bool &enable);
+
     void initializeLogging(const string &partNumber, const string &serialNumber, const common::EnvironmentTime &time, bool clearContents = true);
 
     void setLoggingRelativeTime(const bool &value);
@@ -55,6 +57,9 @@ public:
 
     void SetSensorLogFile(const common::TupleSensorString &key);
 
+private:
+    bool isComponentLogging() const;
+
 protected:
 
     QFile* masterLog;
@@ -62,6 +67,8 @@ protected:
     bool logReglativeTime = false;
 
     bool loggingInitialized = false;
+
+    bool loggingEnabled = false;
 
     common::EnvironmentTime startLogTime;
 

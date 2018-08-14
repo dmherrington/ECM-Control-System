@@ -61,7 +61,7 @@ public:
     {
         if (Window_MotionProfile->objectName().isEmpty())
             Window_MotionProfile->setObjectName(QStringLiteral("Window_MotionProfile"));
-        Window_MotionProfile->resize(480, 251);
+        Window_MotionProfile->resize(480, 225);
         Window_MotionProfile->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"

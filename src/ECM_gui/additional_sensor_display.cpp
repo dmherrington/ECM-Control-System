@@ -1,8 +1,8 @@
 #include "additional_sensor_display.h"
 #include "ui_additional_sensor_display.h"
 
-AdditionalSensorDisplay::AdditionalSensorDisplay(ECMPlotCollection *plotCollection, QWidget *parent) :
-    QMainWindow(parent),
+AdditionalSensorDisplay::AdditionalSensorDisplay(ECMPlotCollection *plotCollection,  QWidget *parent) :
+    GeneralDialogWindow(DialogWindowTypes::WINDOW_SENSOR_DISPLAY,"Sensor Display",parent),
     ui(new Ui::AdditionalSensorDisplay),
     m_PlotCollection(plotCollection),
     m_SensorDisplays(plotCollection),
@@ -32,6 +32,11 @@ AdditionalSensorDisplay::~AdditionalSensorDisplay()
     delete ui;
 }
 
+
+void AdditionalSensorDisplay::closeEvent(QCloseEvent *event)
+{
+    GeneralDialogWindow::closeEvent(event);
+}
 
 void AdditionalSensorDisplay::CustomContextMenuRequested(const QPoint &pos)
 {

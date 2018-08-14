@@ -9,12 +9,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>524</width>
+    <width>575</width>
     <height>330</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+   <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -28,7 +28,7 @@
   <property name="maximumSize">
    <size>
     <width>16777215</width>
-    <height>330</height>
+    <height>450</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -296,7 +296,7 @@ width:20px;
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
+    <item row="1" column="0" rowspan="2">
      <layout class="QFormLayout" name="formLayout">
       <item row="0" column="0">
        <widget class="QLabel" name="label">
@@ -352,7 +352,14 @@ width:20px;
       </item>
      </layout>
     </item>
-    <item row="1" column="1">
+    <item row="1" column="3" rowspan="2">
+     <widget class="QProgressBar" name="progressBar">
+      <property name="value">
+       <number>24</number>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
      <widget class="QPushButton" name="pushButton_AddSegment">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -382,7 +389,7 @@ width:20px;
       </property>
      </widget>
     </item>
-    <item row="1" column="2">
+    <item row="2" column="2">
      <widget class="QPushButton" name="pushButton_transmit">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -412,10 +419,13 @@ width:20px;
       </property>
      </widget>
     </item>
-    <item row="1" column="3">
-     <widget class="QProgressBar" name="progressBar">
-      <property name="value">
-       <number>24</number>
+    <item row="3" column="0" colspan="4">
+     <widget class="Widget_DeviceFault" name="widget_DeviceFault" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
      </widget>
     </item>
@@ -426,7 +436,7 @@ width:20px;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>524</width>
+     <width>575</width>
      <height>40</height>
     </rect>
    </property>
@@ -510,15 +520,21 @@ width:20px;
  </widget>
  <customwidgets>
   <customwidget>
+   <class>LED</class>
+   <extends>QWidget</extends>
+   <header>LED.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
    <class>WidgetSegmentTimeDisplay</class>
    <extends>QWidget</extends>
    <header>munk_dialog/widget_segment_time_display.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>LED</class>
+   <class>Widget_DeviceFault</class>
    <extends>QWidget</extends>
-   <header>LED.h</header>
+   <header>misc_dialogs/widget_device_fault.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

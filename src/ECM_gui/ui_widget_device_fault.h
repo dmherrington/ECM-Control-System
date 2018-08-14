@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'additional_sensor_display.ui'
+** Form generated from reading UI file 'widget_device_fault.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.10.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef UI_ADDITIONAL_SENSOR_DISPLAY_H
-#define UI_ADDITIONAL_SENSOR_DISPLAY_H
+#ifndef UI_WIDGET_DEVICE_FAULT_H
+#define UI_WIDGET_DEVICE_FAULT_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
@@ -15,34 +15,27 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QMainWindow>
-#include <QtWidgets/QMenu>
-#include <QtWidgets/QMenuBar>
-#include <QtWidgets/QStatusBar>
+#include <QtWidgets/QPlainTextEdit>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
 
-class Ui_AdditionalSensorDisplay
+class Ui_Widget_DeviceFault
 {
 public:
-    QWidget *centralwidget;
     QGridLayout *gridLayout;
-    QMenuBar *menubar;
-    QMenu *menuView;
-    QStatusBar *statusbar;
+    QPushButton *pushButton_ClearFault;
+    QPlainTextEdit *plainTextEdit_ErrorMessage;
 
-    void setupUi(QMainWindow *AdditionalSensorDisplay)
+    void setupUi(QWidget *Widget_DeviceFault)
     {
-        if (AdditionalSensorDisplay->objectName().isEmpty())
-            AdditionalSensorDisplay->setObjectName(QStringLiteral("AdditionalSensorDisplay"));
-        AdditionalSensorDisplay->resize(800, 600);
-        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(AdditionalSensorDisplay->sizePolicy().hasHeightForWidth());
-        AdditionalSensorDisplay->setSizePolicy(sizePolicy);
-        AdditionalSensorDisplay->setStyleSheet(QLatin1String("QMenuBar{\n"
+        if (Widget_DeviceFault->objectName().isEmpty())
+            Widget_DeviceFault->setObjectName(QStringLiteral("Widget_DeviceFault"));
+        Widget_DeviceFault->resize(641, 50);
+        Widget_DeviceFault->setMinimumSize(QSize(0, 50));
+        Widget_DeviceFault->setMaximumSize(QSize(16777215, 100));
+        Widget_DeviceFault->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
 "	font: 12pt \"MS Shell Dlg 2\";\n"
@@ -141,8 +134,7 @@ public:
 "}\n"
 "\n"
 "QLineEdit{\n"
-"border-radius:1px solid red;\n"
-"background-color:#c4c4c4;\n"
+"border-radius:0;\n"
 "}\n"
 "\n"
 "QProgressBar{\n"
@@ -160,41 +152,55 @@ public:
 "background-color:#2d89ef;\n"
 "width:20px;\n"
 "}"));
-        AdditionalSensorDisplay->setDockNestingEnabled(true);
-        centralwidget = new QWidget(AdditionalSensorDisplay);
-        centralwidget->setObjectName(QStringLiteral("centralwidget"));
-        gridLayout = new QGridLayout(centralwidget);
+        gridLayout = new QGridLayout(Widget_DeviceFault);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        AdditionalSensorDisplay->setCentralWidget(centralwidget);
-        menubar = new QMenuBar(AdditionalSensorDisplay);
-        menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 800, 40));
-        menuView = new QMenu(menubar);
-        menuView->setObjectName(QStringLiteral("menuView"));
-        AdditionalSensorDisplay->setMenuBar(menubar);
-        statusbar = new QStatusBar(AdditionalSensorDisplay);
-        statusbar->setObjectName(QStringLiteral("statusbar"));
-        AdditionalSensorDisplay->setStatusBar(statusbar);
+        pushButton_ClearFault = new QPushButton(Widget_DeviceFault);
+        pushButton_ClearFault->setObjectName(QStringLiteral("pushButton_ClearFault"));
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(pushButton_ClearFault->sizePolicy().hasHeightForWidth());
+        pushButton_ClearFault->setSizePolicy(sizePolicy);
+        pushButton_ClearFault->setMinimumSize(QSize(180, 30));
+        QFont font;
+        font.setPointSize(12);
+        pushButton_ClearFault->setFont(font);
 
-        menubar->addAction(menuView->menuAction());
+        gridLayout->addWidget(pushButton_ClearFault, 0, 0, 1, 1);
 
-        retranslateUi(AdditionalSensorDisplay);
+        plainTextEdit_ErrorMessage = new QPlainTextEdit(Widget_DeviceFault);
+        plainTextEdit_ErrorMessage->setObjectName(QStringLiteral("plainTextEdit_ErrorMessage"));
+        QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(plainTextEdit_ErrorMessage->sizePolicy().hasHeightForWidth());
+        plainTextEdit_ErrorMessage->setSizePolicy(sizePolicy1);
+        plainTextEdit_ErrorMessage->setMinimumSize(QSize(0, 30));
+        plainTextEdit_ErrorMessage->setReadOnly(true);
 
-        QMetaObject::connectSlotsByName(AdditionalSensorDisplay);
+        gridLayout->addWidget(plainTextEdit_ErrorMessage, 0, 1, 1, 1);
+
+
+        retranslateUi(Widget_DeviceFault);
+
+        pushButton_ClearFault->setDefault(true);
+
+
+        QMetaObject::connectSlotsByName(Widget_DeviceFault);
     } // setupUi
 
-    void retranslateUi(QMainWindow *AdditionalSensorDisplay)
+    void retranslateUi(QWidget *Widget_DeviceFault)
     {
-        AdditionalSensorDisplay->setWindowTitle(QApplication::translate("AdditionalSensorDisplay", "MainWindow", nullptr));
-        menuView->setTitle(QApplication::translate("AdditionalSensorDisplay", "View", nullptr));
+        Widget_DeviceFault->setWindowTitle(QApplication::translate("Widget_DeviceFault", "Form", nullptr));
+        pushButton_ClearFault->setText(QApplication::translate("Widget_DeviceFault", "Clear Fault", nullptr));
     } // retranslateUi
 
 };
 
 namespace Ui {
-    class AdditionalSensorDisplay: public Ui_AdditionalSensorDisplay {};
+    class Widget_DeviceFault: public Ui_Widget_DeviceFault {};
 } // namespace Ui
 
 QT_END_NAMESPACE
 
-#endif // UI_ADDITIONAL_SENSOR_DISPLAY_H
+#endif // UI_WIDGET_DEVICE_FAULT_H
