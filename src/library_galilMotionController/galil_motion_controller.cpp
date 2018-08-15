@@ -186,23 +186,6 @@ std::vector<common::TupleECMData> GalilMotionController::getAvailablePlottables(
     return rtn;
 }
 
-bool GalilMotionController::saveSettings()
-{
-    m_Settings.saveSettings(settingsPath);
-}
-
-bool GalilMotionController::saveSettingsAs(const std::string &filePath)
-{
-    settingsPath = QString::fromStdString(filePath);
-    m_Settings.saveSettings(settingsPath);
-}
-
-bool GalilMotionController::loadSettings(const std::string &filePath)
-{
-    settingsPath = QString::fromStdString(filePath);
-    m_Settings.loadSettings(settingsPath);
-}
-
 void GalilMotionController::LinkConnected()
 {
     //update the connection interface
@@ -439,8 +422,6 @@ void GalilMotionController::cbi_GalilDownloadProgram(const AbstractCommandPtr co
     commsMarshaler->downloadProgram(command);
 }
 
-
-/*
 void GalilMotionController::getProgramPath(std::string &filePath) const
 {
     QFile file(programPath);
@@ -457,7 +438,7 @@ bool GalilMotionController::saveProgram()
         return false;
     }
     QTextStream outStream(&file);
-    outStream << QString::fromStdString(text);
+    outStream << QString::fromStdString(stateInterface->galilProgram->getProgram());
     file.close();
     return true;
 }
@@ -466,7 +447,7 @@ bool GalilMotionController::saveProgramAs(const std::string &filePath)
 {
     //this sets the current program file path
     programPath = QString::fromStdString(filePath);
-    bool saved = this->saveProgram(text);
+    bool saved = this->saveProgram();
     return saved;
 }
 
@@ -510,4 +491,3 @@ bool GalilMotionController::loadSettings(const std::string &filePath)
     settingsPath = QString::fromStdString(filePath);
     m_Settings.loadSettings(settingsPath);
 }
-*/
