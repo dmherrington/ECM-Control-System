@@ -67,3 +67,8 @@ std::string GalilCurrentProgram::getProgram() const
 {
     return this->program;
 }
+
+void GalilCurrentProgram::writeJSONData(QJsonObject &json) const
+{
+    json["Program"] = QString::fromStdString(this->program);
+}

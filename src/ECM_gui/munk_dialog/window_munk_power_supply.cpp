@@ -11,8 +11,16 @@ Window_MunkPowerSupply::Window_MunkPowerSupply(MunkPowerSupply *obj, QWidget *pa
     ui->widget_connection->setDiameter(5);
     ui->progressBar->setValue(0);
 
-    connect(munk,SIGNAL(signal_MunkCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(on_connectionUpdated(common::comms::CommunicationUpdate)));
-    connect(munk,SIGNAL(signal_SegmentWriteProgress(int,int)), this, SLOT(slot_ParameterTransmissionUpdate(int,int)));
+    ui->widget_DeviceFault->hide();
+    connect(ui->widget_DeviceFault, SIGNAL(signal_TransmitClearFault()), this, SLOT(slot_ClearFaultRequested()));
+    connect(munk, SIGNAL(signal_FaultStateCleared()), this, SLOT(slot_FaultStateCleared()));
+
+    connect(munk, SIGNAL(signal_MunkCommunicationUpdate(common::comms::CommunicationUpdate)), this, SLOT(on_connectionUpdated(common::comms::CommunicationUpdate)));
+    connect(munk, SIGNAL(signal_SegmentWriteProgress(int,int)), this, SLOT(slot_ParameterTransmissionUpdate(int,int)));
+    connect(munk, SIGNAL(signal_FaultCodeRecieved(std::vector<std::string>)), this, SLOT(slot_FaultCodeReceived(std::vector<std::string>)));
+
+    connect(munk, SIGNAL(signal_SegmentException(std::string,std::string)), this, SLOT(slot_SegmentExceptionReceived(std::string,std::string)));
+
     connect(ui->segmentWidget, SIGNAL(signal_SegmentDataModified()), this, SLOT(slot_SegmentDataModified()));
 
     GeneralDialogWindow::readWindowSettings();
@@ -60,6 +68,30 @@ void Window_MunkPowerSupply::slot_ParameterTransmissionUpdate(const int &transmi
 void Window_MunkPowerSupply::slot_SegmentDataModified()
 {
     ui->progressBar->setValue(0);
+}
+
+
+void Window_MunkPowerSupply::slot_FaultCodeReceived(const std::vector<std::string> &msg)
+{
+    ui->widget_DeviceFault->receivedFaultMessage(msg);
+    ui->widget_DeviceFault->show();
+}
+
+void Window_MunkPowerSupply::slot_ClearFaultRequested()
+{
+    munk->resetFaultState();
+}
+
+void Window_MunkPowerSupply::slot_FaultStateCleared()
+{
+    ui->widget_DeviceFault->clearFaultMessage();
+    ui->widget_DeviceFault->hide();
+}
+
+void Window_MunkPowerSupply::slot_SegmentExceptionReceived(const std::string &RW, const std::string &meaning)
+{
+    std::string display = "An exception has been raised while " + RW + ": " + meaning;
+    ui->statusbar->showMessage(QString::fromStdString(display),2000);
 }
 
 void Window_MunkPowerSupply::on_actionOpen_triggered()

@@ -186,10 +186,32 @@ std::vector<common::TupleECMData> GalilMotionController::getAvailablePlottables(
     return rtn;
 }
 
-void GalilMotionController::LinkConnected() const
+bool GalilMotionController::saveSettings()
 {
+    m_Settings.saveSettings(settingsPath);
+}
+
+bool GalilMotionController::saveSettingsAs(const std::string &filePath)
+{
+    settingsPath = QString::fromStdString(filePath);
+    m_Settings.saveSettings(settingsPath);
+}
+
+bool GalilMotionController::loadSettings(const std::string &filePath)
+{
+    settingsPath = QString::fromStdString(filePath);
+    m_Settings.loadSettings(settingsPath);
+}
+
+void GalilMotionController::LinkConnected()
+{
+    //update the connection interface
     stateInterface->setConnected(true);
 
+    //initialize the device
+    this->initializeMotionController();
+
+    //notify all listeners that we have connected
     common::comms::CommunicationUpdate connection;
     connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
     emit signal_MotionControllerCommunicationUpdate(connection);
@@ -224,9 +246,10 @@ void GalilMotionController::NewProgramUploaded(const ProgramGeneric &program)
     stateInterface->galilProgram->setProgram(program.getProgramString());
     emit signal_MCNewProgramReceived(program);
 
-    //We now have a new program, let us query for the available labels and variables
-    RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
-    commsMarshaler->sendAbstractGalilRequest(requestVariables);
+    //This process is actually automated in the comms marshaler
+//We now have a new program, let us query for the available labels and variables
+//    RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
+//    commsMarshaler->sendAbstractGalilRequest(requestVariables);
 }
 
 void GalilMotionController::NewProgramDownloaded(const ProgramGeneric &program)
@@ -234,9 +257,10 @@ void GalilMotionController::NewProgramDownloaded(const ProgramGeneric &program)
     stateInterface->galilProgram->setProgram(program.getProgramString());
     emit signal_MCNewProgramReceived(program);
 
+    //This process is actually automated in the comms marshaler
 //    //We now have a new program, let us query for the available labels and variables
-    RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
-    commsMarshaler->sendAbstractGalilRequest(requestVariables);
+//    RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
+//    commsMarshaler->sendAbstractGalilRequest(requestVariables);
 }
 
 void GalilMotionController::NewStatusInputs(const StatusInputs &status)
@@ -416,6 +440,7 @@ void GalilMotionController::cbi_GalilDownloadProgram(const AbstractCommandPtr co
 }
 
 
+/*
 void GalilMotionController::getProgramPath(std::string &filePath) const
 {
     QFile file(programPath);
@@ -423,7 +448,7 @@ void GalilMotionController::getProgramPath(std::string &filePath) const
     filePath = fileInfo.absolutePath().toStdString();
 }
 
-bool GalilMotionController::saveProgram(const std::string &text)
+bool GalilMotionController::saveProgram()
 {
     QFile file(programPath);
 
@@ -437,7 +462,7 @@ bool GalilMotionController::saveProgram(const std::string &text)
     return true;
 }
 
-bool GalilMotionController::saveProgramAs(const std::string &filePath, const std::string &text)
+bool GalilMotionController::saveProgramAs(const std::string &filePath)
 {
     //this sets the current program file path
     programPath = QString::fromStdString(filePath);
@@ -485,3 +510,4 @@ bool GalilMotionController::loadSettings(const std::string &filePath)
     settingsPath = QString::fromStdString(filePath);
     m_Settings.loadSettings(settingsPath);
 }
+*/

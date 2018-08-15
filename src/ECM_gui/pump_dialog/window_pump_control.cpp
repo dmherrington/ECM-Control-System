@@ -55,20 +55,16 @@ void Window_PumpControl::slot_PumpConnectionUpdate(const common::comms::Communic
     using namespace common::comms;
     switch (update.getUpdateType()) {
     case CommunicationUpdate::UpdateTypes::ALERT:
-
+        ui->statusbar->showMessage(QString::fromStdString(update.getPeripheralMessage()),2000);
         break;
     case CommunicationUpdate::UpdateTypes::CONNECTED:
         ui->widget_PumpConnected->setColor(QColor(0,255,0));
+        ui->statusbar->showMessage(QString::fromStdString(update.getPeripheralMessage()),2000);
         break;
     case CommunicationUpdate::UpdateTypes::DISCONNECTED:
         ui->widget_PumpConnected->setColor(QColor(255,0,0));
+        ui->statusbar->showMessage(QString::fromStdString(update.getPeripheralMessage()),2000);
         break;
-//    case CommunicationUpdate::UpdateTypes::ERROR:
-//        statusBar()->showMessage(tr("The pump has been turned on."),2500);
-//        break;
-//    case CommunicationUpdate::UpdateTypes::UPDATE:
-//        statusBar()->showMessage(tr("The pump has been turned on."),2500);
-//        break;
     default:
         break;
     }

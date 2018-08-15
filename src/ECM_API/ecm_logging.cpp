@@ -1,7 +1,7 @@
 #include "ecm_logging.h"
 
 ECMLogging::ECMLogging():
-    masterLog(nullptr), loggingInitialized(false)
+    masterLog(nullptr), loggingInitialized(false), loggingEnabled(false)
 {
 
 }
@@ -26,6 +26,11 @@ bool ECMLogging::checkLoggingPath(const string &partNumber, const string &serial
     }
 
     return false;
+}
+
+void ECMLogging::enableLogging(const bool &enable)
+{
+    this->loggingEnabled = enable;
 }
 
 void ECMLogging::initializeLogging(const string &partNumber, const string &serialNumber, const common::EnvironmentTime &time, bool clearContents)
@@ -78,7 +83,7 @@ void ECMLogging::setLoggingStartTime(const common::EnvironmentTime &time)
 
 void ECMLogging::WriteLogMachinePositionalState(const common::TuplePositionalString &key, const common_data::MachinePositionalState &state)
 {
-    if(!loggingInitialized)
+    if(!isComponentLogging())
         return;
 
     QString str;
@@ -96,7 +101,7 @@ void ECMLogging::WriteLogMachinePositionalState(const common::TuplePositionalStr
 
 void ECMLogging::WriteLogProfileVariableState(const common::TupleProfileVariableString &key, const common_data::MotionProfileVariableState &state)
 {
-    if(!loggingInitialized)
+    if(!isComponentLogging())
         return;
 
     QString str;
@@ -115,7 +120,7 @@ void ECMLogging::WriteLogProfileVariableState(const common::TupleProfileVariable
 void ECMLogging::WriteLogSensorState(const common::TupleSensorString &key, const common_data::SensorState &state)
 {
 
-    if(!loggingInitialized)
+    if(!isComponentLogging())
         return;
 
     QString str;
@@ -138,4 +143,9 @@ void ECMLogging::SetSensorLogFile(const common::TupleSensorString &key)
     outFile->open(QIODevice::WriteOnly);
     outFile->resize(0);
     m_LogSensorStates[key] = outFile;
+}
+
+bool ECMLogging::isComponentLogging() const
+{
+    return loggingEnabled && loggingInitialized;
 }

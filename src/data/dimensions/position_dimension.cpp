@@ -52,6 +52,8 @@ std::string PositionDimension::ShortHand() const
 {
     switch(m_type)
     {
+    case UNIT_POSITION_COUNTS:
+        return "counts";
     case UNIT_POSITION_MICRO_METER:
         return "um";
     default:
@@ -95,7 +97,7 @@ IDimension* PositionDimension::Copy() const
 //!
 PositionUnit PositionDimension::BaseUnit() const
 {
-    return UNIT_POSITION_MICRO_METER;
+    return UNIT_POSITION_COUNTS;
 }
 
 
@@ -107,8 +109,10 @@ double PositionDimension::RatioToBaseUnit() const
 {
     switch(m_type)
     {
-    case UNIT_POSITION_MICRO_METER:
+    case UNIT_POSITION_COUNTS:
         return 1.0;
+    case UNIT_POSITION_MICRO_METER:
+        return 0.1;
     default:
         throw;
     }

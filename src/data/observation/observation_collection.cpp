@@ -99,7 +99,6 @@ bool ObservationCollection::getInstantaniousValue(const IPlotComparable &ID, dou
     return false;
 }
 
-
 //!
 //! \brief Evaluate a member of the collection and retreive its cartesian data
 //! \param [in] ID Identifier ot observation in component

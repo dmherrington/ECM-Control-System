@@ -201,7 +201,7 @@ void CommsMarshaler::SendGalilMessage(const T& message)
 
 void CommsMarshaler::ConnectionOpened() const
 {
-    Emit([&](const CommsEvents *ptr){ptr->LinkConnected();});
+    Emit([&](CommsEvents *ptr){ptr->LinkConnected();});
 }
 
 void CommsMarshaler::ConnectionClosed() const

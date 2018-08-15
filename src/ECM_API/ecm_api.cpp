@@ -24,10 +24,12 @@ void ECM_API::action_StopMachine()
 {
     CommandStopPtr commandGalilStop = std::make_shared<CommandStop>();
     m_Galil->executeCommand(commandGalilStop);
+
+    m_Pump->ceasePumpOperations();
 }
 
 void ECM_API::slot_MotionControllerCommunicationUpdate(const common::comms::CommunicationUpdate &update)
 {
-    if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
-        m_Galil->initializeMotionController();
+//    if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
+//        m_Galil->initializeMotionController();
 }

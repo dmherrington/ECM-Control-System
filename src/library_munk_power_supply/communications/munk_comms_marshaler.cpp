@@ -195,9 +195,7 @@ void MunkCommsMarshaler::CommunicationUpdate(const std::string &name, const std:
 void MunkCommsMarshaler::FaultCodeReceived(const ILink* link_ptr, const data_Munk::FaultRegisterType &faultRegister, const unsigned int &code) const
 {
     UNUSED(link_ptr);
-    UNUSED(faultRegister);
-    UNUSED(code);
-    //Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister1Received(data_Munk::FaultCodesRegister1ToString(code));});
+    Emit([&](CommsEvents *ptr){ptr->FaultCodeReceived(faultRegister,code);});
 }
 
 void MunkCommsMarshaler::FaultStateCleared(const ILink *link_ptr) const

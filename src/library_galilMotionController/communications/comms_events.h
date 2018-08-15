@@ -19,7 +19,7 @@ public:
     /// Link Events
     /////////////////////////////////////////////////////////
 
-    virtual void LinkConnected() const
+    virtual void LinkConnected()
     {
 
     }

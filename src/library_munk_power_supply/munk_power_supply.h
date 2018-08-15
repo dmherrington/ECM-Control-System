@@ -19,6 +19,8 @@
 #include "communications/serial_configuration.h"
 #include "communications/comms_progress_handler.h"
 
+#include "data/type_fault_status_registers.h"
+
 #include "data_registers/abstract_parameter.h"
 #include "data_registers/segment_time_general.h"
 
@@ -77,7 +79,7 @@ signals:
 
     void signal_CommunicationUpdate(const std::string &name, const std::string &msg) const;
 
-    void signal_FaultCodeRecieved(const int &regNum, const std::string &msg) const;
+    void signal_FaultCodeRecieved(const std::vector<std::string> &msg) const;
 
     void signal_FaultStateCleared();
 
@@ -108,11 +110,7 @@ private:
 
     void CommunicationUpdate(const std::string &name, const std::string &msg) const override;
 
-    void FaultCodeRegister1Received(const std::string &msg) override;
-
-    void FaultCodeRegister2Received(const std::string &msg) override;
-
-    void FaultCodeRegister3Received(const std::string &msg) override;
+    void FaultCodeReceived(const data_Munk::FaultRegisterType &faultRegister, const unsigned int &code) override;
 
     void FaultStateCleared() override;
 

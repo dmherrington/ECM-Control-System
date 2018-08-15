@@ -27,8 +27,8 @@ void ECMPlotCollection::UpdatePositionalStatePlots(const common::TuplePositional
 
     ECMPlotIdentifier ID_S(position);
     MakePlot(ID_S, common_data::PositionDimension(common_data::PositionUnit::UNIT_POSITION_MICRO_METER).ShortHand());
-    double value = ((common_data::PositionalState*)state.getPositionalState().get())->getAxisPosition();
-    InsertData(ID_S, time, value / 10.0); //we need to divide this by 10 as the units performed with this object refer to counts
+    double value = ((common_data::PositionalState*)state.getPositionalState().get())->getAxisPosition(common_data::PositionUnit::UNIT_POSITION_MICRO_METER);
+    InsertData(ID_S, time, value); //we need to divide this by 10 as the units performed with this object refer to counts
 }
 
 void ECMPlotCollection::UpdateProfileVariablePlots(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state)

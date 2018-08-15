@@ -51,6 +51,13 @@ void Westinghouse510::setPumpOperations(const registers_WestinghousePump::Regist
     this->m_Comms->writeToSerialPort(desOps.getModbusRegister());
 }
 
+void Westinghouse510::ceasePumpOperations()
+{
+    registers_WestinghousePump::Register_OperationSignal newOps;
+    newOps.shouldRun(false);
+    this->setPumpOperations(newOps);
+}
+
 void Westinghouse510::setInitializationTime(const unsigned int &interval)
 {
     this->m_State->delayTime.set(interval);

@@ -71,6 +71,9 @@ public:
 
     void closeConnection();
 
+    void initializeMotionController();
+
+public:
     std::string getCurrentMCState() const;
 
     StatusInputs getCurrent_MCDIO() const;
@@ -81,7 +84,7 @@ private:
     //////////////////////////////////////////////////////////////
     /// Virtual methods imposed via Comms::CommsEvents
     //////////////////////////////////////////////////////////////
-    void LinkConnected() const override;
+    void LinkConnected() override;
     void LinkDisconnected() const override;
     void StatusMessage(const std::string &msg) const override;
     void ErrorBadCommand(const std::string &commandType, const std::string &description) override;
@@ -102,17 +105,15 @@ public:
     bool saveSettingsAs(const std::string &filePath);
     bool loadSettings(const std::string &filePath);
 
-    void getProgramPath(std::string &filePath) const;
-    bool saveProgram(const std::string &text);
-    bool saveProgramAs(const std::string &filePath, const std::string &text);
+    bool saveProgram();
+    bool saveProgramAs(const std::string &filePath);
     bool loadProgram(const std::string &filePath, std::string &programText);
+    void getProgramPath(std::string &filePath) const;
 
-    void executeCommand(const AbstractCommandPtr command);
-
-    void executeCustomCommands(const std::vector<std::string> &stringCommands);
 
 public:
-    void initializeMotionController();
+    void executeCommand(const AbstractCommandPtr command);
+    void executeCustomCommands(const std::vector<std::string> &stringCommands);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     /// Callback Interfafce as required from inheritance of GalilStatusUpdate_Interface
