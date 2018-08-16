@@ -16,6 +16,7 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -35,7 +36,7 @@ public:
     QWidget *centralwidget;
     QGridLayout *gridLayout;
     QHBoxLayout *horizontalLayout;
-    QPlainTextEdit *plainTextEdit_MotionCommand;
+    QLineEdit *lineEdit_MotionCommand;
     QPushButton *pushButton_TransmitMotionCommand;
     QSpacerItem *horizontalSpacer;
     QPlainTextEdit *plainTextEdit_MotionResponse;
@@ -50,7 +51,7 @@ public:
     {
         if (Window_CustomMotionCommands->objectName().isEmpty())
             Window_CustomMotionCommands->setObjectName(QStringLiteral("Window_CustomMotionCommands"));
-        Window_CustomMotionCommands->resize(531, 166);
+        Window_CustomMotionCommands->resize(480, 166);
         Window_CustomMotionCommands->setMinimumSize(QSize(480, 0));
         Window_CustomMotionCommands->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
@@ -179,19 +180,19 @@ public:
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        plainTextEdit_MotionCommand = new QPlainTextEdit(centralwidget);
-        plainTextEdit_MotionCommand->setObjectName(QStringLiteral("plainTextEdit_MotionCommand"));
-        QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        lineEdit_MotionCommand = new QLineEdit(centralwidget);
+        lineEdit_MotionCommand->setObjectName(QStringLiteral("lineEdit_MotionCommand"));
+        QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(plainTextEdit_MotionCommand->sizePolicy().hasHeightForWidth());
-        plainTextEdit_MotionCommand->setSizePolicy(sizePolicy);
-        plainTextEdit_MotionCommand->setMinimumSize(QSize(100, 20));
+        sizePolicy.setHeightForWidth(lineEdit_MotionCommand->sizePolicy().hasHeightForWidth());
+        lineEdit_MotionCommand->setSizePolicy(sizePolicy);
+        lineEdit_MotionCommand->setMinimumSize(QSize(250, 20));
         QFont font;
         font.setPointSize(12);
-        plainTextEdit_MotionCommand->setFont(font);
+        lineEdit_MotionCommand->setFont(font);
 
-        horizontalLayout->addWidget(plainTextEdit_MotionCommand);
+        horizontalLayout->addWidget(lineEdit_MotionCommand);
 
         pushButton_TransmitMotionCommand = new QPushButton(centralwidget);
         pushButton_TransmitMotionCommand->setObjectName(QStringLiteral("pushButton_TransmitMotionCommand"));
@@ -202,6 +203,7 @@ public:
         pushButton_TransmitMotionCommand->setSizePolicy(sizePolicy1);
         pushButton_TransmitMotionCommand->setMinimumSize(QSize(180, 30));
         pushButton_TransmitMotionCommand->setFont(font);
+        pushButton_TransmitMotionCommand->setAutoDefault(true);
 
         horizontalLayout->addWidget(pushButton_TransmitMotionCommand);
 
@@ -224,7 +226,7 @@ public:
         Window_CustomMotionCommands->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Window_CustomMotionCommands);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 531, 40));
+        menubar->setGeometry(QRect(0, 0, 480, 40));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menubar);
@@ -237,6 +239,7 @@ public:
         statusbar = new QStatusBar(Window_CustomMotionCommands);
         statusbar->setObjectName(QStringLiteral("statusbar"));
         Window_CustomMotionCommands->setStatusBar(statusbar);
+        QWidget::setTabOrder(pushButton_TransmitMotionCommand, plainTextEdit_MotionResponse);
 
         menubar->addAction(menuFile->menuAction());
         menubar->addAction(menuEdit->menuAction());

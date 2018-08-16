@@ -13,8 +13,8 @@ Window_CustomMotionCommands::Window_CustomMotionCommands(GalilMotionController *
     connect(ui->plainTextEdit_MotionResponse, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slot_ShowRepsonseTextEditContextMenu(const QPoint &)));
 
     connect(m_MotionController, SIGNAL(signal_CustomUserRequestReceived(std::string,std::string)), this, SLOT(slot_onMotionResponseReceived(std::string,std::string)));
-    slot_onMotionResponseReceived("test","hello");
 
+    connect(ui->lineEdit_MotionCommand, SIGNAL(returnPressed()), this, SLOT(on_pushButton_TransmitMotionCommand_released()));
 }
 
 Window_CustomMotionCommands::~Window_CustomMotionCommands()
@@ -35,7 +35,7 @@ void Window_CustomMotionCommands::on_actionClose_triggered()
 
 void Window_CustomMotionCommands::on_pushButton_TransmitMotionCommand_released()
 {
-    QString commandText = ui->plainTextEdit_MotionCommand->document()->toPlainText();
+    QString commandText = ui->lineEdit_MotionCommand->text();
     QRegExp rx("[;]");// match a semi-colon
     QStringList list = commandText.split(rx, QString::SkipEmptyParts);
 
@@ -46,9 +46,8 @@ void Window_CustomMotionCommands::on_pushButton_TransmitMotionCommand_released()
     }
     if(commands.size() > 0)
     {
-        ui->plainTextEdit_MotionCommand->clear();
+        ui->lineEdit_MotionCommand->clear();
         m_MotionController->executeCustomCommands(commands);
-
     }
 }
 

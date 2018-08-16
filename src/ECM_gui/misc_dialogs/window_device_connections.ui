@@ -660,6 +660,15 @@ width:20px;
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>pushButton_ConnectAll</tabstop>
+  <tabstop>pushButton_connectGalil</tabstop>
+  <tabstop>pushButton_connectPump</tabstop>
+  <tabstop>pushButton_connectMunk</tabstop>
+  <tabstop>pushButton_connect_Rigol</tabstop>
+  <tabstop>pushButton_connectSensoray</tabstop>
+  <tabstop>pushButton_Close</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -126,7 +126,7 @@ void GalilProtocol::handleCommandResponse(const ILink *link, const AbstractComma
             break;
         }
         default:
-            std::cout<<"There is another bad command response"<<std::endl;
+            std::cout<<"There is another bad command response that is not currently supported of value: "<<std::to_string(response)<<std::endl;
             break;
         }
 }
@@ -214,11 +214,12 @@ void GalilProtocol::SendCustomProtocolCommand(const ILink *link, const std::vect
         request->setRequestString(stringCommands.at(i));
         rtn = link->WriteRequest(request);
 
+        handleCustomRequestResponse(link,request,rtn);
+
         if(rtn != G_NO_ERROR)
             break;
     }
 
-    handleCustomRequestResponse(link,request,rtn);
 }
 
 //!
@@ -243,7 +244,7 @@ void GalilProtocol::handleCustomRequestResponse(const ILink* link, const Request
     }
     case G_BAD_RESPONSE_QUESTION_MARK:
     {
-        handleBadRequest_ResponseQuestionMark(link, request);
+        handleBadCustomRequest_ResponseQuestionMark(link, request);
         break;
     }
     default:
@@ -261,7 +262,6 @@ void GalilProtocol::handleBadCustomRequest_ResponseQuestionMark(const ILink* lin
     unsigned int code;
     std::string description;
     link->WriteTellErrorCode(code,description);
-    Status_CustomRequest castResponse(*request->getStatus().at(0).get()->as<Status_CustomRequest>());
     Emit([&](const IProtocolGalilEvents* ptr){ptr->NewCustomStatusReceived(request->getRequestString(),description);});
 }
 

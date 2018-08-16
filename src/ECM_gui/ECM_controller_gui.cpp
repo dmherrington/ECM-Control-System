@@ -650,7 +650,6 @@ void ECMControllerGUI::slot_ChangedWindowVisibility(const GeneralDialogWindow::D
     }
 }
 
-
 void ECMControllerGUI::on_pushButton_RunExplicitProfile_released()
 {
     //first check that we can log where we want to
@@ -696,7 +695,6 @@ void ECMControllerGUI::on_pushButton_RunExplicitProfile_released()
     m_PlotCollection.ClearAllData();
 
     m_API->m_Log->enableLogging(true);
-
 
     //While executing this type of command
     //get the profile name from the GUI

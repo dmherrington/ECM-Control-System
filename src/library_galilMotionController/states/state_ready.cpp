@@ -29,6 +29,11 @@ hsm::Transition State_Ready::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
+        case GalilState::STATE_IDLE:
+        {
+            rtn = hsm::SiblingTransition<State_Idle>(currentCommand);
+            break;
+        }
         case GalilState::STATE_MANUAL_POSITIONING:
         {
             rtn = hsm::SiblingTransition<State_ManualPositioning>(currentCommand);
@@ -226,6 +231,7 @@ void State_Ready::OnEnter(const AbstractCommandPtr command)
 } //end of namespace Galil
 } //end of namespace ECM
 
+#include "states/state_idle.h"
 #include "states/state_home_positioning.h"
 #include "states/state_jogging.h"
 #include "states/state_manual_positioning.h"

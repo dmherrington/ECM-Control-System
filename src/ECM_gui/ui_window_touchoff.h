@@ -339,6 +339,11 @@ public:
         statusbar = new QStatusBar(Window_Touchoff);
         statusbar->setObjectName(QStringLiteral("statusbar"));
         Window_Touchoff->setStatusBar(statusbar);
+        QWidget::setTabOrder(doubleSpinBox_TouchoffRef, pushButton_TouchoffRef);
+        QWidget::setTabOrder(pushButton_TouchoffRef, doubleSpinBox_InitialGap);
+        QWidget::setTabOrder(doubleSpinBox_InitialGap, pushButton_TouchoffGap);
+        QWidget::setTabOrder(pushButton_TouchoffGap, pushButton_ExecuteTouchoff);
+        QWidget::setTabOrder(pushButton_ExecuteTouchoff, lineEdit_TouchoffCode);
 
         menubar->addAction(menuFile->menuAction());
         menubar->addAction(menuEdit->menuAction());

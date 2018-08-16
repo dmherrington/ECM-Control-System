@@ -514,6 +514,14 @@ width:20px;
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>doubleSpinBox_TouchoffRef</tabstop>
+  <tabstop>pushButton_TouchoffRef</tabstop>
+  <tabstop>doubleSpinBox_InitialGap</tabstop>
+  <tabstop>pushButton_TouchoffGap</tabstop>
+  <tabstop>pushButton_ExecuteTouchoff</tabstop>
+  <tabstop>lineEdit_TouchoffCode</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -121,7 +121,13 @@ void AdditionalSensorDisplay::NewDock(const common::TupleSensorString &sensor, c
     dock->setAllowedAreas(Qt::AllDockWidgetAreas);
     dock->setMinimumSize(400,400);
     dock->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    dock->setVisible(false);
+    try{
+        dock->setVisible(m_ShownSensors[sensor]);
+
+    }catch(std::out_of_range &oor)
+    {
+        dock->setVisible(false);
+    }
 
     connect(dock , SIGNAL(visibilityChanged(bool)), this, SLOT(OnDockVisibilitiy(bool)));
 

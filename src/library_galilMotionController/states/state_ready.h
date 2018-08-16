@@ -6,6 +6,7 @@
 namespace ECM{
 namespace Galil {
 
+class State_Idle;
 class State_EStop;
 class State_HomePositioning;
 class State_Jogging;

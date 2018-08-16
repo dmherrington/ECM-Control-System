@@ -51,7 +51,7 @@ inline std::string RequestToString(const RequestTypes &type) {
     case RequestTypes::TELL_SWITCHES:
         return "TS";
     default:
-        throw std::runtime_error("Unknown command type seen");
+        throw std::runtime_error("Unknown RequestTypes seen in RequestToString");
     }
 }
 

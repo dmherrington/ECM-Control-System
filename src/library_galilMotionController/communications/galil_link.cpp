@@ -188,6 +188,9 @@ GReturn GalilLink::WriteTellErrorCode(unsigned int &errorCode, std::string &desc
     buf = new char[100]();
     rtn = GCommand(galil,newCommand.c_str(),buf,100,&read_bytes);
     description = std::string(buf);
+    QString returnString = QString::fromStdString(std::string(buf));
+    returnString.remove(QRegExp("[:\\n\\r]"));
+    description = returnString.toStdString();
     delete buf;
 
     return rtn;
