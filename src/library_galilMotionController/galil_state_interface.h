@@ -72,6 +72,12 @@ public:
             m_CB->cbi_AbstractGalilCommand(command);
     }
 
+    void issueGalilRequest(const AbstractRequestPtr request)
+    {
+        if(m_CB)
+            m_CB->cbi_AbstractGalilRequest(request);
+    }
+
     void issueGalilMotionCommand(const AbstractCommandPtr command)
     {
         if(m_CB)

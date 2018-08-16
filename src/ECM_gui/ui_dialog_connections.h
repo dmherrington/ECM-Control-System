@@ -48,6 +48,7 @@ public:
     LED *widget_WestinghouseConnection;
     QLabel *label_WestinghouseConnection;
     QPushButton *pushButton_connectPump;
+    QPushButton *pushButton_ConnectAll;
     QSpacerItem *horizontalSpacer_2;
     QPushButton *pushButton_Close;
 
@@ -213,7 +214,7 @@ public:
         horizontalLayout->addWidget(pushButton_connectGalil);
 
 
-        gridLayout->addLayout(horizontalLayout, 0, 0, 1, 2);
+        gridLayout->addLayout(horizontalLayout, 0, 0, 1, 3);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
@@ -244,7 +245,7 @@ public:
         horizontalLayout_2->addWidget(pushButton_connectMunk);
 
 
-        gridLayout->addLayout(horizontalLayout_2, 1, 0, 1, 2);
+        gridLayout->addLayout(horizontalLayout_2, 1, 0, 1, 3);
 
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
@@ -275,7 +276,7 @@ public:
         horizontalLayout_3->addWidget(pushButton_connect_Rigol);
 
 
-        gridLayout->addLayout(horizontalLayout_3, 2, 0, 1, 2);
+        gridLayout->addLayout(horizontalLayout_3, 2, 0, 1, 3);
 
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
@@ -306,7 +307,7 @@ public:
         horizontalLayout_4->addWidget(pushButton_connectSensoray);
 
 
-        gridLayout->addLayout(horizontalLayout_4, 3, 0, 1, 2);
+        gridLayout->addLayout(horizontalLayout_4, 3, 0, 1, 3);
 
         horizontalLayout_5 = new QHBoxLayout();
         horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
@@ -337,21 +338,29 @@ public:
         horizontalLayout_5->addWidget(pushButton_connectPump);
 
 
-        gridLayout->addLayout(horizontalLayout_5, 4, 0, 1, 2);
+        gridLayout->addLayout(horizontalLayout_5, 4, 0, 1, 3);
+
+        pushButton_ConnectAll = new QPushButton(Dialog_Connections);
+        pushButton_ConnectAll->setObjectName(QStringLiteral("pushButton_ConnectAll"));
+        pushButton_ConnectAll->setMinimumSize(QSize(120, 30));
+        pushButton_ConnectAll->setMaximumSize(QSize(100, 30));
+        QFont font1;
+        font1.setPointSize(12);
+        pushButton_ConnectAll->setFont(font1);
+
+        gridLayout->addWidget(pushButton_ConnectAll, 5, 0, 1, 1);
 
         horizontalSpacer_2 = new QSpacerItem(208, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout->addItem(horizontalSpacer_2, 5, 0, 1, 1);
+        gridLayout->addItem(horizontalSpacer_2, 5, 1, 1, 1);
 
         pushButton_Close = new QPushButton(Dialog_Connections);
         pushButton_Close->setObjectName(QStringLiteral("pushButton_Close"));
         pushButton_Close->setMinimumSize(QSize(100, 30));
         pushButton_Close->setMaximumSize(QSize(100, 30));
-        QFont font1;
-        font1.setPointSize(12);
         pushButton_Close->setFont(font1);
 
-        gridLayout->addWidget(pushButton_Close, 5, 1, 1, 1);
+        gridLayout->addWidget(pushButton_Close, 5, 2, 1, 1);
 
 
         retranslateUi(Dialog_Connections);
@@ -372,6 +381,7 @@ public:
         pushButton_connectSensoray->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
         label_WestinghouseConnection->setText(QApplication::translate("Dialog_Connections", "Connection Westinghouse Pump", nullptr));
         pushButton_connectPump->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
+        pushButton_ConnectAll->setText(QApplication::translate("Dialog_Connections", "CONNECT ALL", nullptr));
         pushButton_Close->setText(QApplication::translate("Dialog_Connections", "CLOSE", nullptr));
     } // retranslateUi
 

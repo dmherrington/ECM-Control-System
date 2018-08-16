@@ -8,6 +8,7 @@ Window_MotionProfile::Window_MotionProfile(GalilMotionController *obj, QWidget *
 {
     ui->setupUi(this);
     ui->led_ProgramCurrent->setDiameter(5);
+    ui->led_ProgramCurrent->setColor(QColor(255,0,0));
 
     GeneralDialogWindow::readWindowSettings();
 

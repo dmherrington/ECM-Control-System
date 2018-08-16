@@ -84,8 +84,10 @@ private:
     //////////////////////////////////////////////////////////////
     /// Virtual methods imposed via Comms::CommsEvents
     //////////////////////////////////////////////////////////////
+    void LinkConnectionUpdate(const common::comms::CommunicationUpdate &update) override;
     void LinkConnected() override;
     void LinkDisconnected() const override;
+    void CustomUserRequestReceived(const std::string &request, const std::string &response) override;
     void StatusMessage(const std::string &msg) const override;
     void ErrorBadCommand(const std::string &commandType, const std::string &description) override;
     void NewProgramUploaded(const ProgramGeneric &program) override;
@@ -167,6 +169,10 @@ signals:
     void signal_MCNewProfileVariableValue(const common::TupleProfileVariableString &variableTuple, const common_data::MotionProfileVariableState &data) const;
 
 
+    //!
+    //! \brief signal_MotionControllerCommunicationUpdate
+    //! \param connection
+    //!
     void signal_MotionControllerCommunicationUpdate(const common::comms::CommunicationUpdate &connection) const;
 
 
@@ -189,6 +195,12 @@ signals:
     void signal_MCNewProgramLabelList(const ProgramLabelList &labels);
 
     //!
+    //! \brief signal_MCNewProgramVariableList
+    //! \param variableList
+    //!
+    void signal_MCNewProgramVariableList(const ProgramVariableList &variableList);
+
+    //!
     //! \brief signal_GalilHomeIndicated
     //! \param indicated
     //!
@@ -197,6 +209,8 @@ signals:
     void signal_GalilUpdatedProfileState(const MotionProfileState &state) const;
 
     void signal_ErrorCode(const std::string &errorString);
+
+    void signal_CustomUserRequestReceived(const std::string &request, const std::string &response);
 
 private:
     QString profilesPath;

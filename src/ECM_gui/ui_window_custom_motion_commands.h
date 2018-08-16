@@ -216,6 +216,7 @@ public:
         plainTextEdit_MotionResponse->setObjectName(QStringLiteral("plainTextEdit_MotionResponse"));
         plainTextEdit_MotionResponse->setMinimumSize(QSize(0, 50));
         plainTextEdit_MotionResponse->setFont(font);
+        plainTextEdit_MotionResponse->setContextMenuPolicy(Qt::CustomContextMenu);
         plainTextEdit_MotionResponse->setReadOnly(true);
 
         gridLayout->addWidget(plainTextEdit_MotionResponse, 1, 0, 1, 1);
@@ -253,7 +254,7 @@ public:
 
     void retranslateUi(QMainWindow *Window_CustomMotionCommands)
     {
-        Window_CustomMotionCommands->setWindowTitle(QApplication::translate("Window_CustomMotionCommands", "MainWindow", nullptr));
+        Window_CustomMotionCommands->setWindowTitle(QApplication::translate("Window_CustomMotionCommands", "Custom Galil Commands", nullptr));
         actionTools->setText(QApplication::translate("Window_CustomMotionCommands", "Tools", nullptr));
         actionClose->setText(QApplication::translate("Window_CustomMotionCommands", "Close", nullptr));
         pushButton_TransmitMotionCommand->setText(QApplication::translate("Window_CustomMotionCommands", "Transmit Command", nullptr));

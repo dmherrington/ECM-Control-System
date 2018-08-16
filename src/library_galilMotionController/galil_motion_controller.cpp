@@ -203,6 +203,11 @@ bool GalilMotionController::loadSettings(const std::string &filePath)
     m_Settings.loadSettings(settingsPath);
 }
 
+void GalilMotionController::LinkConnectionUpdate(const common::comms::CommunicationUpdate &update)
+{
+    emit signal_MotionControllerCommunicationUpdate(update);
+}
+
 void GalilMotionController::LinkConnected()
 {
     //update the connection interface
@@ -230,7 +235,12 @@ void GalilMotionController::LinkDisconnected() const
     emit signal_MotionControllerCommunicationUpdate(connection);
 }
 
-void GalilMotionController::StatusMessage(const string &msg) const
+void GalilMotionController::CustomUserRequestReceived(const string &request, const string &response)
+{
+    emit signal_CustomUserRequestReceived(request, response);
+}
+
+void GalilMotionController::StatusMessage(const std::string &msg) const
 {
     UNUSED(msg);
 }
@@ -346,6 +356,8 @@ void GalilMotionController::NewStatusVariableList(const Status_VariableList &sta
 {
     stateInterface->galilProgram->setVariableList(status.getVariableList());
     stateInterface->statusVariableValues->fromVariableList(status.getVariableList());
+
+    emit signal_MCNewProgramVariableList(status.getVariableList());
 }
 
 void GalilMotionController::getProgramPath(std::string &filePath) const

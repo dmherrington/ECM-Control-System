@@ -124,7 +124,8 @@ void Window_MunkPowerSupply::saveToFile(const QString &filePath)
     QFile saveFile(filePath);
 
     if (!saveFile.open(QIODevice::WriteOnly)) {
-        qWarning("Couldn't open save file.");
+        ui->statusbar->showMessage("Couldn't open file for saving.",2000);
+        return;
     }
     QJsonObject saveObject;
     ui->segmentWidget->write(saveObject);
@@ -138,7 +139,7 @@ void Window_MunkPowerSupply::openFromFile(const QString &filePath)
     QFile openFile(filePath);
 
     if (!openFile.open(QIODevice::ReadOnly)) {
-        qWarning("Couldn't open read file.");
+        ui->statusbar->showMessage("Couldn't open file for reading.",2000);
     }
 
     QByteArray loadData = openFile.readAll();

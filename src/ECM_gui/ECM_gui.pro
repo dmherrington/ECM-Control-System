@@ -68,7 +68,8 @@ SOURCES += \
     misc_dialogs/window_motion_profile.cpp \
     misc_dialogs/code_edit_widget.cpp \
     misc_dialogs/window_custom_motion_commands.cpp \
-    misc_dialogs/widget_device_fault.cpp
+    misc_dialogs/widget_device_fault.cpp \
+    misc_dialogs/window_device_connections.cpp
 
 HEADERS += \
         ECM_controller_gui.h \
@@ -94,7 +95,8 @@ HEADERS += \
     misc_dialogs/window_motion_profile.h \
     misc_dialogs/code_edit_widget.h \
     misc_dialogs/window_custom_motion_commands.h \
-    misc_dialogs/widget_device_fault.h
+    misc_dialogs/widget_device_fault.h \
+    misc_dialogs/window_device_connections.h
 
 FORMS += \
         ECM_controller_gui.ui \
@@ -110,7 +112,8 @@ FORMS += \
     rigol_dialog/widget_rigol_radio.ui \
     misc_dialogs/window_motion_profile.ui \
     misc_dialogs/window_custom_motion_commands.ui \
-    misc_dialogs/widget_device_fault.ui
+    misc_dialogs/widget_device_fault.ui \
+    misc_dialogs/window_device_connections.ui
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include

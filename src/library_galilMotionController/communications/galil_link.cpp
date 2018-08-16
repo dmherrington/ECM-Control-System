@@ -84,6 +84,15 @@ bool GalilLink::Connect(void)
         EmitEvent([](const ILinkEvents *ptr){ptr->ConnectionOpened();});
     }
 
+    unsigned int bufferSize = 100;
+    char* buf = new char[bufferSize]();
+    GError(rtnCode,buf,bufferSize);
+    std::string bufString(buf);
+    delete[] buf;
+    std::string errorString = "Error while connecting to galil motion controller: " + bufString;
+    common::comms::CommunicationUpdate update("Galil Link",common::comms::CommunicationUpdate::UpdateTypes::ALERT,errorString);
+    EmitEvent([update](const ILinkEvents *ptr){ptr->ConnectionUpdate(update);});
+
     return this->connected;
 }
 

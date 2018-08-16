@@ -9,7 +9,7 @@
 #include "munk_dialog/window_munk_power_supply.h"
 #include "pump_dialog/window_pump_control.h"
 #include "rigol_dialog/window_rigol_control.h"
-#include "misc_dialogs/dialog_connections.h"
+#include "misc_dialogs/window_device_connections.h"
 #include "misc_dialogs/window_custom_motion_commands.h"
 #include "misc_dialogs/window_touchoff.h"
 #include "misc_dialogs/window_motion_profile.h"
@@ -167,7 +167,7 @@ private:
     Window_MunkPowerSupply* m_WindowMunk;
     Window_PumpControl* m_WindowPump;
     Window_RigolControl* m_WindowRigol;
-    Dialog_Connections* m_DialogConnections;
+    Window_DeviceConnections* m_WindowConnections;
     Window_CustomMotionCommands* m_WindowCustomMotionCommands;
     Window_Touchoff* m_WindowTouchoff;
     Window_MotionProfile* m_WindowMotionProfile;

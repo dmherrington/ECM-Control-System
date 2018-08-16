@@ -4,6 +4,8 @@
 #include <string>
 #include "common/common.h"
 
+#include "common/comms/communication_update.h"
+
 #include "status/status_components.h"
 #include "programs/program_components.h"
 #include "commands/command_components.h"
@@ -18,6 +20,11 @@ public:
     /////////////////////////////////////////////////////////
     /// Link Events
     /////////////////////////////////////////////////////////
+
+    virtual void LinkConnectionUpdate(const common::comms::CommunicationUpdate &update)
+    {
+        UNUSED(update);
+    }
 
     virtual void LinkConnected()
     {

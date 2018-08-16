@@ -135,7 +135,7 @@ width:20px;
 }</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="2">
+   <item row="0" column="0" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="LED" name="widget_GalilConnection" native="true">
@@ -210,7 +210,7 @@ width:20px;
      </item>
     </layout>
    </item>
-   <item row="1" column="0" colspan="2">
+   <item row="1" column="0" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="LED" name="widget_MunkConnection" native="true">
@@ -285,7 +285,7 @@ width:20px;
      </item>
     </layout>
    </item>
-   <item row="2" column="0" colspan="2">
+   <item row="2" column="0" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <widget class="LED" name="widget_RigolConnection" native="true">
@@ -360,7 +360,7 @@ width:20px;
      </item>
     </layout>
    </item>
-   <item row="3" column="0" colspan="2">
+   <item row="3" column="0" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
       <widget class="LED" name="widget_SensorayConnection" native="true">
@@ -435,7 +435,7 @@ width:20px;
      </item>
     </layout>
    </item>
-   <item row="4" column="0" colspan="2">
+   <item row="4" column="0" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
       <widget class="LED" name="widget_WestinghouseConnection" native="true">
@@ -511,6 +511,30 @@ width:20px;
     </layout>
    </item>
    <item row="5" column="0">
+    <widget class="QPushButton" name="pushButton_ConnectAll">
+     <property name="minimumSize">
+      <size>
+       <width>120</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>100</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>CONNECT ALL</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
     <spacer name="horizontalSpacer_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -523,7 +547,7 @@ width:20px;
      </property>
     </spacer>
    </item>
-   <item row="5" column="1">
+   <item row="5" column="2">
     <widget class="QPushButton" name="pushButton_Close">
      <property name="minimumSize">
       <size>

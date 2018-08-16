@@ -55,19 +55,17 @@ void Window_PumpControl::slot_PumpConnectionUpdate(const common::comms::Communic
     using namespace common::comms;
     switch (update.getUpdateType()) {
     case CommunicationUpdate::UpdateTypes::ALERT:
-        ui->statusbar->showMessage(QString::fromStdString(update.getPeripheralMessage()),2000);
         break;
     case CommunicationUpdate::UpdateTypes::CONNECTED:
         ui->widget_PumpConnected->setColor(QColor(0,255,0));
-        ui->statusbar->showMessage(QString::fromStdString(update.getPeripheralMessage()),2000);
         break;
     case CommunicationUpdate::UpdateTypes::DISCONNECTED:
         ui->widget_PumpConnected->setColor(QColor(255,0,0));
-        ui->statusbar->showMessage(QString::fromStdString(update.getPeripheralMessage()),2000);
         break;
     default:
         break;
     }
+    ui->statusbar->showMessage(QString::fromStdString(update.getPeripheralMessage()),2000);
 }
 
 void Window_PumpControl::slot_updatedPumpOn(const bool &value)
@@ -80,7 +78,7 @@ void Window_PumpControl::slot_updatedPumpOn(const bool &value)
         common::EnvironmentTime startTime;
         common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
         ui->lineEdit_OnTime->setText(QString::fromStdString(startTime.timeString()));
-        statusBar()->showMessage(tr("The pump has been turned on."),2500);
+        ui->statusbar->showMessage("The pump has been turned on.",2500);
 
         QTimer::singleShot(ui->doubleSpinBox_delayTime->value() * 1000, [=] {
             ui->widget_PumpInitialized->setColor(QColor(0,255,0));
@@ -93,7 +91,7 @@ void Window_PumpControl::slot_updatedPumpOn(const bool &value)
         ui->pushButton_PumpRunning->setText("ON");
         ui->lineEdit_OnTime->setText("");
         ui->lineEdit_OnTime->clear();
-        statusBar()->showMessage(tr("The pump has been turned off."),2500);
+        ui->statusbar->showMessage(tr("The pump has been turned off."),2500);
     }
 }
 
@@ -106,18 +104,13 @@ void Window_PumpControl::slot_updatedFlowRate(const double &value)
     else{
         ui->doubleSpinBox_flowRate->setStyleSheet("background-color: red");
     }
-    statusBar()->showMessage(tr("Flow rate has been updated."),2500);
+    ui->statusbar->showMessage(tr("Flow rate has been updated."),2500);
 }
 
 void Window_PumpControl::slot_updatedDelayTime(const double &value)
 {
     ui->doubleSpinBox_delayTime->setValue(value);
-    statusBar()->showMessage(tr("Delay time has been updated."),2500);
-}
-
-void Window_PumpControl::slot_updatedStartTime()
-{
-
+    ui->statusbar->showMessage(tr("Delay time has been updated."),2500);
 }
 
 void Window_PumpControl::on_pushButton_PumpRunning_released()
@@ -171,7 +164,7 @@ void Window_PumpControl::saveToFile(const QString &filePath)
     QFile saveFile(filePath);
 
     if (!saveFile.open(QIODevice::WriteOnly)) {
-        qWarning("Couldn't open save file.");
+        ui->statusbar->showMessage(tr("Could not save pump settings to file."),2500);
     }
     QJsonObject saveObject;
     this->write(saveObject);
@@ -185,7 +178,7 @@ void Window_PumpControl::openFromFile(const QString &filePath)
     QFile openFile(filePath);
 
     if (!openFile.open(QIODevice::ReadOnly)) {
-        qWarning("Couldn't open read file.");
+        ui->statusbar->showMessage(tr("Could not open pump settings from file."),2500);
     }
 
     QByteArray loadData = openFile.readAll();

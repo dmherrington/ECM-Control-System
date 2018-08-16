@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Custom Galil Commands</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QMenuBar{
@@ -215,6 +215,9 @@ width:20px;
        <font>
         <pointsize>12</pointsize>
        </font>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::CustomContextMenu</enum>
       </property>
       <property name="readOnly">
        <bool>true</bool>

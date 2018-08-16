@@ -199,6 +199,11 @@ void CommsMarshaler::SendGalilMessage(const T& message)
 /// React to Link Events
 //////////////////////////////////////////////////////////////
 
+void CommsMarshaler::ConnectionUpdate(const common::comms::CommunicationUpdate &update) const
+{
+    Emit([&](CommsEvents *ptr){ptr->LinkConnectionUpdate(update);});
+}
+
 void CommsMarshaler::ConnectionOpened() const
 {
     Emit([&](CommsEvents *ptr){ptr->LinkConnected();});

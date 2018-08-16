@@ -9,6 +9,12 @@ Window_CustomMotionCommands::Window_CustomMotionCommands(GalilMotionController *
     ui->setupUi(this);
 
     GeneralDialogWindow::readWindowSettings();
+
+    connect(ui->plainTextEdit_MotionResponse, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slot_ShowRepsonseTextEditContextMenu(const QPoint &)));
+
+    connect(m_MotionController, SIGNAL(signal_CustomUserRequestReceived(std::string,std::string)), this, SLOT(slot_onMotionResponseReceived(std::string,std::string)));
+    slot_onMotionResponseReceived("test","hello");
+
 }
 
 Window_CustomMotionCommands::~Window_CustomMotionCommands()
@@ -50,5 +56,21 @@ void Window_CustomMotionCommands::slot_onMotionResponseReceived(const string &co
 {
     std::string displayCommand = "Command: " + commandText + "\r\n";
     std::string displayResponse = "Response: " + text;
-    ui->plainTextEdit_MotionResponse->document()->setPlainText(QString::fromStdString(displayCommand + displayResponse));
+    ui->plainTextEdit_MotionResponse->appendPlainText(QString::fromStdString(displayCommand + displayResponse));
+}
+
+void Window_CustomMotionCommands::slot_ShowRepsonseTextEditContextMenu(const QPoint &pos)
+{
+    QMenu contextMenu(tr("Context menu"), this);
+
+    QAction action1("Clear Text Field", this);
+    connect(&action1, SIGNAL(triggered()), this, SLOT(slot_ClearResponseTextEdit()));
+    contextMenu.addAction(&action1);
+
+    contextMenu.exec(mapToGlobal(pos));
+}
+
+void Window_CustomMotionCommands::slot_ClearResponseTextEdit()
+{
+    ui->plainTextEdit_MotionResponse->clear();
 }

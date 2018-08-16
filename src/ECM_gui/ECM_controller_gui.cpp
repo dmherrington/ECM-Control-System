@@ -56,6 +56,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     m_WindowCustomMotionCommands = new Window_CustomMotionCommands(m_API->m_Galil);
     m_WindowCustomMotionCommands->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
+    connect(m_WindowCustomMotionCommands,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
     m_WindowMotionProfile = new Window_MotionProfile(m_API->m_Galil);
     m_WindowMotionProfile->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
@@ -77,8 +78,9 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_WindowTouchoff->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
     connect(m_WindowTouchoff,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
-    m_DialogConnections = new Dialog_Connections(m_API);
-    m_DialogConnections->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowCloseButtonHint);
+    m_WindowConnections = new Window_DeviceConnections(m_API);
+    m_WindowConnections->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowCloseButtonHint);
+    connect(m_WindowConnections,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
     connect(m_API->m_Galil,SIGNAL(signal_GalilHomeIndicated(bool)),this,SLOT(slot_UpdateHomeIndicated(bool)));
 
@@ -313,7 +315,7 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
         m_WindowRigol->close();
         m_WindowTouchoff->close();
         m_WindowCustomMotionCommands->close();
-        m_DialogConnections->close();
+        m_WindowConnections->close();
         m_additionalSensorDisplay->close();
 
         event->accept();
@@ -531,9 +533,9 @@ void ECMControllerGUI::on_actionClose_triggered()
 void ECMControllerGUI::on_actionConnections_triggered(bool checked)
 {
     if(checked)
-        m_DialogConnections->show();
+        m_WindowConnections->show();
     else
-        m_DialogConnections->hide();
+        m_WindowConnections->hide();
 }
 
 void ECMControllerGUI::on_actionPump_triggered(bool checked)

@@ -32,6 +32,10 @@ private slots:
 
     void slot_onMotionResponseReceived(const std::string &commandText, const std::string &text);
 
+    void slot_ShowRepsonseTextEditContextMenu(const QPoint &pos);
+
+    void slot_ClearResponseTextEdit();
+
 private:
     Ui::Window_CustomMotionCommands *ui;
     GalilMotionController* m_MotionController;
