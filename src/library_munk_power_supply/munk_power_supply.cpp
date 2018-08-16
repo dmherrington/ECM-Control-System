@@ -16,6 +16,8 @@ MunkPowerSupply::MunkPowerSupply(const std::string &name):
 
     pollStatus = new MunkPollStatus();
     pollStatus->connectCallback(this);
+
+    machineState = new Munk_MachineState();
 }
 
 MunkPowerSupply::~MunkPowerSupply()
@@ -199,7 +201,8 @@ void MunkPowerSupply::ConnectionOpened() const
     common::comms::CommunicationUpdate connection;
     connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
     emit signal_MunkCommunicationUpdate(connection);
-    //pollStatus->beginPolling();
+
+    pollStatus->beginPolling();
 }
 
 void MunkPowerSupply::ConnectionClosed() const
@@ -221,34 +224,10 @@ void MunkPowerSupply::CommunicationUpdate(const std::string &name, const std::st
 
 void MunkPowerSupply::FaultCodeReceived(const data_Munk::FaultRegisterType &faultRegister, const unsigned int &code)
 {
-    uint16_t mask = 0;
-    std::vector<std::string> errorCodes;
-    for(int i = 0; i < 16; i++)
+    response_Munk::FaultRegisterState newFaultState(faultRegister,code);
+    if(machineState->updateRegisterFaults(newFaultState))
     {
-        mask = 1<<i;
-        if(code & (mask) != 0)
-        {
-            uint16_t currentCode = std::pow(2,i);
-
-            switch (faultRegister) {
-            case data_Munk::FaultRegisterType::FAULT_REGISTER_1:
-                errorCodes.push_back(FaultCodesRegister1ToString(static_cast<FaultCodesRegister1>(currentCode)));
-                break;
-            case data_Munk::FaultRegisterType::FAULT_REGISTER_2:
-                errorCodes.push_back(FaultCodesRegister2ToString(static_cast<FaultCodesRegister2>(currentCode)));
-                break;
-            case data_Munk::FaultRegisterType::FAULT_REGISTER_3:
-                errorCodes.push_back(FaultCodesRegister3ToString(static_cast<FaultCodesRegister3>(currentCode)));
-                break;
-            default:
-                throw std::runtime_error("FaultRegisterType seen in MunkPowerSupply::FaultCodeReceived.");
-                break;
-            }
-        }
-    }
-    if(errorCodes.size() > 0)
-    {
-        emit signal_FaultCodeRecieved(errorCodes);
+        emit signal_FaultCodeRecieved();
     }
 }
 
@@ -256,6 +235,7 @@ void MunkPowerSupply::FaultStateCleared()
 {
     emit signal_FaultStateCleared();
 }
+
 void MunkPowerSupply::ForwardVoltageSetpointAcknowledged()
 {
     std::string msg = "The forward voltage setpoints have been set.";

@@ -40,6 +40,11 @@ public:
     void OnExit() override;
 
     void OnEnter(const AbstractCommandPtr command);
+
+private:
+
+    std::vector<common::TupleProfileVariableString> currentScriptRequests;
+
 };
 
 } //end of namespace Galil

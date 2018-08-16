@@ -11,6 +11,7 @@ RegisterFaultState::RegisterFaultState(const data_Munk::FaultRegisterType &type)
     AbstractParameter()
 {
     this->parameterCode = static_cast<int>(type);
+    this->parameterType = ParameterType::FAULT_STATE;
     this->setReadorWrite(data_Munk::MunkRWType::READ);
 }
 
@@ -39,6 +40,12 @@ std::string RegisterFaultState::getDescription() const
 QByteArray RegisterFaultState::getByteArray() const
 {
     QByteArray ba;
+
+    uint8_t HIGHSeqType = (uint8_t)((01 & 0xFF00) >> 8);
+    uint8_t LOWSeqType = (uint8_t)(01 & 0x00FF);
+    ba.append(HIGHSeqType);
+    ba.append(LOWSeqType);
+
     return ba;
 }
 

@@ -603,7 +603,7 @@ width:20px;
           <enum>QTabWidget::Triangular</enum>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab_linearParams">
           <attribute name="title">
@@ -692,6 +692,9 @@ width:20px;
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
+               <property name="maximum">
+                <double>1000.000000000000000</double>
+               </property>
                <property name="value">
                 <double>40.000000000000000</double>
                </property>
@@ -721,6 +724,9 @@ width:20px;
                </property>
                <property name="minimum">
                 <double>0.010000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>1000.000000000000000</double>
                </property>
                <property name="value">
                 <double>0.400000000000000</double>

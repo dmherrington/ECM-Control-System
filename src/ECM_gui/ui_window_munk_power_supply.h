@@ -64,7 +64,7 @@ public:
             Window_MunkPowerSupply->setObjectName(QStringLiteral("Window_MunkPowerSupply"));
         Window_MunkPowerSupply->setWindowModality(Qt::NonModal);
         Window_MunkPowerSupply->resize(575, 330);
-        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
+        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Window_MunkPowerSupply->sizePolicy().hasHeightForWidth());

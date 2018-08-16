@@ -42,10 +42,9 @@ void Westinghouse510::setPumpOperations(const registers_WestinghousePump::Regist
 {
     if(!desOps.isRun())
     {
-        //if we were trying to turn off the pump and it had yet been initialized,
+        //if we were trying to turn off the pump,
         //let us stop the initialization timer in the event it was running
-        if(initializationTimer->isActive())
-            initializationTimer->stop();
+        initializationTimer->stop();
     }
 
     this->m_Comms->writeToSerialPort(desOps.getModbusRegister());

@@ -99,20 +99,23 @@ void GalilMotionController::initializeMotionController()
 
     // 1: Stop all motion that may exist
     CommandStopPtr commandStop = std::make_shared<CommandStop>();
-    this->executeCommand(commandStop);
+    this->commsMarshaler->sendAbstractGalilCommand(commandStop);
+    //this->executeCommand(commandStop);
 
     // 2: Enable the air brake
     CommandMotorDisablePtr commandMotorDisable = std::make_shared<CommandMotorDisable>();
-    this->executeCommand(commandMotorDisable);
+    //this->executeCommand(commandMotorDisable);
+    this->commsMarshaler->sendAbstractGalilCommand(commandMotorDisable);
 
     // 3: Write the default galil script to the Galil
     CommandUploadProgramPtr commandUploadDefault = std::make_shared<CommandUploadProgram>();
     commandUploadDefault->setProgram(defaultProgram);
     this->executeCommand(commandUploadDefault);
 
+    //This is no longer needed here as it is performed in the protocol
     // 4: Execute the initial setup routine within the default script to establish variables etc
-    CommandExecuteProfilePtr commandExecuteSetup = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::SETUP,"setup");
-    this->executeCommand(commandExecuteSetup);
+    // CommandExecuteProfilePtr commandExecuteSetup = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::SETUP,"setup");
+    // this->executeCommand(commandExecuteSetup);
 
 
     // 1: Request the current program aboard the galil motion control unit
@@ -324,7 +327,10 @@ void GalilMotionController::NewStatusVariableValue(const Status_VariableValue &s
 
         stateMachine->UpdateStates();
         stateMachine->ProcessStateTransitions();
-        common::TupleProfileVariableString varTuple("","",QString::fromStdString(status.getVariableName()));
+
+        common::TupleProfileVariableString varTuple(QString::fromStdString(status.getProgramName()),
+                                                    QString::fromStdString(status.getProfileName()),
+                                                    QString::fromStdString(status.getVariableName()));
         emit signal_MCNewProfileVariableValue(varTuple,status.getVariableState());
     }
 }

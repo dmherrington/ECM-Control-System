@@ -77,7 +77,7 @@ void State_Jogging::handleCommand(const AbstractCommandPtr command)
         break;
     }
     default:
-        std::cout<<"Thie command type of: "<<CommandToString(command->getCommandType())<<" has no explicit support from the idle state."<<std::endl;
+        std::cout<<"The command type of: "<<CommandToString(command->getCommandType())<<" has no explicit support from the idle state."<<std::endl;
         break;
     }
 }

@@ -36,6 +36,7 @@ public:
     virtual bool isSerialPortOpen() const = 0;
 
 signals:
+
     //!
     //! \brief signal_SerialPortReadyToConnect
     //!

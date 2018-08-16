@@ -184,6 +184,11 @@ void State_Ready::Update()
         //we should therefore transition to the idle state
         desiredState = GalilState::STATE_ESTOP;
     }
+    else
+    {
+        if(!Owner().isMotorEnabled())
+            desiredState = GalilState::STATE_IDLE;
+    }
 }
 
 void State_Ready::OnEnter()

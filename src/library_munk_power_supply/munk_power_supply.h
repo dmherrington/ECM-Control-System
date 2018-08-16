@@ -33,6 +33,9 @@
 
 #include "data_registers/register_fault_reset.h"
 
+#include "data_response/fault_register_state.h"
+
+#include "munk_machine_state.h"
 #include "munk_poll_status.h"
 
 using namespace registers_Munk;
@@ -79,7 +82,7 @@ signals:
 
     void signal_CommunicationUpdate(const std::string &name, const std::string &msg) const;
 
-    void signal_FaultCodeRecieved(const std::vector<std::string> &msg) const;
+    void signal_FaultCodeRecieved() const;
 
     void signal_FaultStateCleared();
 
@@ -144,6 +147,11 @@ private:
 
     SegmentVoltageSetpoint m_fwdVSetpoint;
     SegmentVoltageSetpoint m_revVSetpoint;
+
+
+public:
+    Munk_MachineState* machineState;
+
 
 private:
     MunkCommsMarshaler* commsMarshaler;

@@ -53,6 +53,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_Galil, SIGNAL(signal_MCNewDigitalInput(StatusInputs)), this, SLOT(slot_MCNewDigitalInput(StatusInputs)));
     connect(m_API->m_Galil, SIGNAL(signal_MCNewPosition(common::TuplePositionalString,common_data::MachinePositionalState)), this, SLOT(slot_NewPositionalData(common::TuplePositionalString,common_data::MachinePositionalState)));
     connect(m_API->m_Galil, SIGNAL(signal_MCNewProgramLabelList(ProgramLabelList)), this, SLOT(slot_MCNewProgramLabels(ProgramLabelList)));
+    connect(m_API->m_Galil, SIGNAL(signal_MCNewProgramVariableList(ProgramVariableList)), this, SLOT(slot_MCNEWProgramVariableList(ProgramVariableList)));
+    connect(m_API->m_Galil, SIGNAL(signal_MCNewProfileVariableValue(common::TupleProfileVariableString,common_data::MotionProfileVariableState)), this, SLOT(slot_NewProfileVariableData(common::TupleProfileVariableString,common_data::MotionProfileVariableState)));
 
     m_WindowCustomMotionCommands = new Window_CustomMotionCommands(m_API->m_Galil);
     m_WindowCustomMotionCommands->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
@@ -178,6 +180,8 @@ void ECMControllerGUI::slot_NewProfileVariableData(const common::TupleProfileVar
     QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(variable);
     plots = m_PlotCollection.getPlots(variable);
     ui->widget_primaryPlot->RedrawDataSource(plots);
+
+    m_API->m_Log->WriteLogProfileVariableState(variable,state);
 }
 
 void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &sensor, const common_data::SensorState &state)
@@ -201,7 +205,6 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &senso
     m_additionalSensorDisplay->UpdatePlottedData(sensor);
 
     m_API->m_Log->WriteLogSensorState(sensor,state);
-
 }
 
 void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state)
@@ -219,7 +222,6 @@ void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalStrin
 
     m_API->m_Log->WriteLogMachinePositionalState(tuple,state);
 }
-
 
 void ECMControllerGUI::slot_MCNewMotionState(const std::string &state)
 {
@@ -249,6 +251,27 @@ void ECMControllerGUI::slot_MCNewProgramLabels(const ProgramLabelList &labels)
     {
         ui->comboBox_ProgramProfiles->addItem(QString::fromStdString(it->first));
     }
+}
+
+void ECMControllerGUI::slot_MCNEWProgramVariableList(const ProgramVariableList &variables)
+{
+    double value = 0;
+    if(variables.getVariableValue("maxdepth",value))
+        ui->doubleSpinBox_CutDepth->setValue(value / 10.0);
+    if(variables.getVariableValue("rtdist",value))
+        ui->doubleSpinBox_RetractDistance->setValue(value / 10.0);
+    if(variables.getVariableValue("step",value))
+        ui->doubleSpinBox_StepSize->setValue(value / 10.0);
+    if(variables.getVariableValue("backsp",value))
+        ui->spinBox_RetractSpeed->setValue(value / 10.0);
+    if(variables.getVariableValue("forsp",value))
+        ui->spinBox_PlungeSpeed->setValue(value / 10.0);
+    if(variables.getVariableValue("speed",value))
+        ui->doubleSpinBox_CutSpeed->setValue(value / 10.0);
+    if(variables.getVariableValue("rtfq",value))
+        ui->spinBox_RetractPeriod->setValue(value);
+    if(variables.getVariableValue("rtpause",value))
+        ui->spinBox_Pause->setValue(value);
 }
 
 void ECMControllerGUI::slot_UpdateHomeIndicated(const bool &value)

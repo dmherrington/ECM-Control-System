@@ -25,6 +25,10 @@ void Widget_DeviceFault::clearFaultMessage()
 
 void Widget_DeviceFault::receivedFaultMessage(const std::vector<std::string> &msg)
 {
+    ui->plainTextEdit_ErrorMessage->clear();
     //We will need a better way to do this
-    ui->plainTextEdit_ErrorMessage->document()->setPlainText(QString::fromStdString(msg.at(0)));
+    for(size_t i = 0; i < msg.size(); i++)
+    {
+        ui->plainTextEdit_ErrorMessage->appendPlainText(QString::fromStdString(msg.at(0)));
+    }
 }

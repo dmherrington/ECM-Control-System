@@ -551,6 +551,7 @@ public:
         doubleSpinBox_CutDepth->setMinimumSize(QSize(100, 25));
         doubleSpinBox_CutDepth->setFont(font);
         doubleSpinBox_CutDepth->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        doubleSpinBox_CutDepth->setMaximum(1000);
         doubleSpinBox_CutDepth->setValue(40);
 
         formLayout_2->setWidget(0, QFormLayout::FieldRole, doubleSpinBox_CutDepth);
@@ -563,6 +564,7 @@ public:
         doubleSpinBox_CutSpeed->setFont(font);
         doubleSpinBox_CutSpeed->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         doubleSpinBox_CutSpeed->setMinimum(0.01);
+        doubleSpinBox_CutSpeed->setMaximum(1000);
         doubleSpinBox_CutSpeed->setValue(0.4);
 
         formLayout_2->setWidget(1, QFormLayout::FieldRole, doubleSpinBox_CutSpeed);
@@ -1130,7 +1132,7 @@ public:
 
         retranslateUi(ECMControllerGUI);
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(ECMControllerGUI);

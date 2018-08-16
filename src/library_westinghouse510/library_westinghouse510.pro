@@ -32,7 +32,8 @@ SOURCES += \
     data_registers/register_flow_rate.cpp \
     westinghouse_510_state.cpp \
     communications/westinghouse_510_data_framing.cpp \
-    communications/westinghouse_message.cpp
+    communications/westinghouse_message.cpp \
+    data_registers/register_run_source.cpp
 
 HEADERS += \
     library_westinghouse510_global.h \
@@ -47,7 +48,8 @@ HEADERS += \
     communications/westinghouse_510_message_framing.h \
     communications/westinghouse_message.h \
     data/westinghouse_exception_message.h \
-    data/type_read_write.h
+    data/type_read_write.h \
+    data_registers/register_run_source.h
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

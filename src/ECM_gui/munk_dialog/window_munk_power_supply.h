@@ -35,7 +35,7 @@ private slots:
 
     void slot_SegmentDataModified();
 
-    void slot_FaultCodeReceived(const std::vector<std::string> &msg);
+    void slot_FaultCodeReceived();
 
     void slot_ClearFaultRequested();
 

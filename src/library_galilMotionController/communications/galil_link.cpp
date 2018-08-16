@@ -76,23 +76,30 @@ bool GalilLink::Connect(void)
         this->Disconnect();
     }
 
+    common::comms::CommunicationUpdate update("Galil Link");
+    std::string errorString = "";
+
     //We should attempt connecting to the Galil unit at the prescribed address
     GReturn rtnCode = GOpen(address.c_str(),&galil);
     if(rtnCode == G_NO_ERROR)
     {
         this->connected = true;
         EmitEvent([](const ILinkEvents *ptr){ptr->ConnectionOpened();});
+        update.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
+        errorString = "Galil has been connected.";
+    }
+    else{
+        unsigned int bufferSize = 100;
+        char* buf = new char[bufferSize]();
+        GError(rtnCode,buf,bufferSize);
+        std::string bufString(buf);
+        delete[] buf;
+        errorString = "Error connecting to galil: " + bufString;
+        update.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::ALERT);
     }
 
-    unsigned int bufferSize = 100;
-    char* buf = new char[bufferSize]();
-    GError(rtnCode,buf,bufferSize);
-    std::string bufString(buf);
-    delete[] buf;
-    std::string errorString = "Error while connecting to galil motion controller: " + bufString;
-    common::comms::CommunicationUpdate update("Galil Link",common::comms::CommunicationUpdate::UpdateTypes::ALERT,errorString);
+    update.setPeripheralMessage(errorString);
     EmitEvent([update](const ILinkEvents *ptr){ptr->ConnectionUpdate(update);});
-
     return this->connected;
 }
 

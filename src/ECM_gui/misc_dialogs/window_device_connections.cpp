@@ -3,8 +3,8 @@
 
 Window_DeviceConnections::Window_DeviceConnections(ECM_API *obj, QWidget *parent) :
     GeneralDialogWindow(DialogWindowTypes::WINDOW_CONNECTIONS,"Device Connections",parent),
-    m_API(obj),
-    ui(new Ui::Window_DeviceConnections)
+    ui(new Ui::Window_DeviceConnections),
+    m_API(obj)
 {
     ui->setupUi(this);
     double ledDiameter = 4;
@@ -25,7 +25,6 @@ Window_DeviceConnections::Window_DeviceConnections(ECM_API *obj, QWidget *parent
     connect(m_API->m_Galil,SIGNAL(signal_MotionControllerCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_GalilConnectionUpdate(common::comms::CommunicationUpdate)));
     connect(m_API->m_Munk,SIGNAL(signal_MunkCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_MunkConnectionUpdate(common::comms::CommunicationUpdate)));
     connect(m_API->m_Rigol,SIGNAL(signal_RigolCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_RigolConnectionUpdate(common::comms::CommunicationUpdate)));
-
 }
 
 Window_DeviceConnections::~Window_DeviceConnections()
@@ -102,7 +101,7 @@ void Window_DeviceConnections::on_pushButton_connect_Rigol_released()
 
 void Window_DeviceConnections::on_pushButton_connectMunk_released()
 {
-    m_API->m_Munk->openSerialPort("COM4");
+    m_API->m_Munk->openSerialPort("COM17");
 }
 
 void Window_DeviceConnections::on_pushButton_connectGalil_released()

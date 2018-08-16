@@ -64,9 +64,9 @@ void QModBusLink::setSerialConfiguration(const common::comms::SerialConfiguratio
     _config = config;
     _config.setDynamic();
 
-    std::cout << "Create QModBusLink " << config.portName() << config.baud() << config.flowControl()
-             << config.parity() << config.dataBits() << config.stopBits() << std::endl;
-    std::cout <<  "portName: " << config.portName() << std::endl;
+//    std::cout << "Create QModBusLink " << config.portName() << config.baud() << config.flowControl()
+//             << config.parity() << config.dataBits() << config.stopBits() << std::endl;
+//    std::cout <<  "portName: " << config.portName() << std::endl;
 }
 
 

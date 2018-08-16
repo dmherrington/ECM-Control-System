@@ -102,10 +102,14 @@ void State_ScriptExecution::OnExit()
     Owner().statusVariableValues->removeVariableNotifier("cutdone",this);
 
     //Ken we need to remove the polling measurements here
-    common::TupleProfileVariableString tupleVariablePPOS("Default","Profile","ppos");
-    Owner().issueGalilRemovePollingRequest(tupleVariablePPOS);
-    common::TupleProfileVariableString tupleVariableCUTTING("Default","Profile","cutdone");
-    Owner().issueGalilRemovePollingRequest(tupleVariableCUTTING);
+    for(size_t i = 0; i < currentScriptRequests.size(); i++)
+    {
+        Owner().issueGalilRemovePollingRequest(currentScriptRequests.at(i));
+    }
+//    common::TupleProfileVariableString tupleVariablePPOS("Default","Profile","ppos");
+//    Owner().issueGalilRemovePollingRequest(tupleVariablePPOS);
+//    common::TupleProfileVariableString tupleVariableCUTTING("Default","Profile","cutdone");
+//    Owner().issueGalilRemovePollingRequest(tupleVariableCUTTING);
 }
 
 void State_ScriptExecution::OnEnter()
@@ -118,19 +122,26 @@ void State_ScriptExecution::OnEnter()
 
 void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
 {
-    if(command != nullptr)
+    if((command != nullptr) && (command.get()->getCommandType()==CommandType::EXECUTE_PROGRAM))
     {
+        CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
+        QString profileName = QString::fromStdString(castCommand->getProfileName());
+
         Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_SCRIPT_EXECUTION));
 
         Request_TellVariablePtr requestPosition = std::make_shared<Request_TellVariable>("Bottom Position","ppos");
-        common::TupleProfileVariableString tupleVariablePPOS("Default","Profile","ppos");
+        common::TupleProfileVariableString tupleVariablePPOS("", "", "ppos");
         requestPosition->setTupleDescription(tupleVariablePPOS);
-        Owner().issueGalilAddPollingRequest(requestPosition);
+        Owner().issueGalilAddPollingRequest(requestPosition);        
+        currentScriptRequests.push_back(tupleVariablePPOS);
+
 
         Request_TellVariablePtr requestCutting = std::make_shared<Request_TellVariable>("Machining Complete","cutdone");
-        common::TupleProfileVariableString tupleVariableCUTTING("Default","Profile","cutdone");
+        common::TupleProfileVariableString tupleVariableCUTTING("",profileName,"cutdone");
         requestCutting->setTupleDescription(tupleVariableCUTTING);
         Owner().issueGalilAddPollingRequest(requestCutting);
+        currentScriptRequests.push_back(tupleVariableCUTTING);
+
         //The command isnt null so we should handle it
         this->handleCommand(command);
 

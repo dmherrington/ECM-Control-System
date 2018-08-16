@@ -267,6 +267,7 @@ bool MunkProtocol::sendCommitToEEPROM(const ILink *link, const registers_Munk::P
         if(link->WriteBytes(command.getFullMessage()))
         {
             std::cout<<"We have finished transmitting info"<<std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(20));
             if(this->ReceiveData(link,receivedMSG))
             {
                 std::cout<<"We have finished receiving info"<<std::endl;
@@ -298,15 +299,12 @@ void MunkProtocol::sendFaultStateRequest(const ILink *link, const registers_Munk
         if(link->WriteBytes(request.getFullMessage()))
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(20));
-            std::cout<<"We have finished transmitting info"<<std::endl;
             if(this->ReceiveData(link,receivedMSG))
             {
-                std::cout<<"We have finished receiving info"<<std::endl;
                 if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
                     parseForException(link, receivedMSG);
                 else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::READ)
                 {
-                    std::cout<<"We have read the fault state request."<<std::endl;
                     parseForFaultStateCode(link,&request,receivedMSG);
                 }
             }
@@ -349,9 +347,10 @@ void MunkProtocol::sendFaultStateReset(const ILink *link, const registers_Munk::
 //!
 bool MunkProtocol::ReceiveData(const ILink *link, MunkMessage &returnMessage)
 {
-    while(dataParse.getCurrentMessageState() != FramingState::RECEIVED_ENTIRE_MESSAGE)
+    std::vector<uint8_t> buffer = link->ReadBytes();
+
+    while((dataParse.getCurrentMessageState() != FramingState::RECEIVED_ENTIRE_MESSAGE) && (buffer.size() > 0))
     {
-        std::vector<uint8_t> buffer = link->ReadBytes();
         //This is where data from the munk power supply serial buffer is seen
         for(uint8_t c: buffer)
         {
@@ -361,8 +360,8 @@ bool MunkProtocol::ReceiveData(const ILink *link, MunkMessage &returnMessage)
                 break;
             }
         }
+        buffer = link->ReadBytes();
     }
-    std::cout<<"We have received data from the serial buffer and the message is: "<<dataParse.getCurrentMessage().getDataArray().toHex().toStdString()<<std::endl;
     returnMessage = dataParse.getCurrentMessage();
     dataParse.resetMessageState();
     return true;

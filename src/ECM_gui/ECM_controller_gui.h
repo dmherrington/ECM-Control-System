@@ -59,6 +59,8 @@ private slots:
 
     void slot_MCNewProgramLabels(const ProgramLabelList &labels);
 
+    void slot_MCNEWProgramVariableList(const ProgramVariableList &variables);
+
     void slot_UpdateHomeIndicated(const bool &value);
 
     void on_pushButton_MotorEnable_released();

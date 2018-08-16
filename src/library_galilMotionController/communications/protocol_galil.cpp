@@ -29,7 +29,13 @@ void GalilProtocol::UploadNewProgram(const ILink *link, const AbstractCommandPtr
     ProgramGeneric uploadProgram = command.get()->as<CommandUploadProgram>()->getProgram();
     GReturn rtn = link->UploadProgram(uploadProgram.getProgramString());
     if(rtn == G_NO_ERROR)
+    {
+        //We had no error and therefore need to call the setup
+        CommandExecuteProfilePtr commandExecuteSetup = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::SETUP,"setup");
+        this->SendProtocolCommand(link,commandExecuteSetup);
+
         Emit([&](const IProtocolGalilEvents* ptr){ptr->NewProgramUploaded(uploadProgram);});
+    }
     else
         handleCommandResponse(link,command,rtn);
 }

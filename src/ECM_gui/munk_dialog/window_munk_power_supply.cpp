@@ -7,6 +7,7 @@ Window_MunkPowerSupply::Window_MunkPowerSupply(MunkPowerSupply *obj, QWidget *pa
     windowHidden(true),
     munk(obj)
 {
+    //Required registration of MetaTyples from the Munk interface
     ui->setupUi(this);
     ui->widget_connection->setDiameter(5);
     ui->progressBar->setValue(0);
@@ -17,7 +18,7 @@ Window_MunkPowerSupply::Window_MunkPowerSupply(MunkPowerSupply *obj, QWidget *pa
 
     connect(munk, SIGNAL(signal_MunkCommunicationUpdate(common::comms::CommunicationUpdate)), this, SLOT(on_connectionUpdated(common::comms::CommunicationUpdate)));
     connect(munk, SIGNAL(signal_SegmentWriteProgress(int,int)), this, SLOT(slot_ParameterTransmissionUpdate(int,int)));
-    connect(munk, SIGNAL(signal_FaultCodeRecieved(std::vector<std::string>)), this, SLOT(slot_FaultCodeReceived(std::vector<std::string>)));
+    connect(munk, SIGNAL(signal_FaultCodeRecieved()), this, SLOT(slot_FaultCodeReceived()));
 
     connect(munk, SIGNAL(signal_SegmentException(std::string,std::string)), this, SLOT(slot_SegmentExceptionReceived(std::string,std::string)));
 
@@ -61,7 +62,7 @@ void Window_MunkPowerSupply::on_pushButton_transmit_released()
 
 void Window_MunkPowerSupply::slot_ParameterTransmissionUpdate(const int &transmitted, const int &required)
 {
-    double percentage = (transmitted/required) * 100.0;
+    double percentage = ((double)transmitted/(double)required) * 100.0;
     ui->progressBar->setValue(percentage);
 }
 
@@ -71,10 +72,16 @@ void Window_MunkPowerSupply::slot_SegmentDataModified()
 }
 
 
-void Window_MunkPowerSupply::slot_FaultCodeReceived(const std::vector<std::string> &msg)
+void Window_MunkPowerSupply::slot_FaultCodeReceived()
 {
-    ui->widget_DeviceFault->receivedFaultMessage(msg);
-    ui->widget_DeviceFault->show();
+    std::vector<std::string> currentFaultCodes;
+    if(munk->machineState->getCurrentFaultCodes(currentFaultCodes))
+    {
+        ui->widget_DeviceFault->receivedFaultMessage(currentFaultCodes);
+        ui->widget_DeviceFault->show();
+    }
+    else
+        ui->widget_DeviceFault->hide();
 }
 
 void Window_MunkPowerSupply::slot_ClearFaultRequested()
