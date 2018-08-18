@@ -66,6 +66,18 @@ void ECMLogging::initializeLogging(const string &partNumber, const string &seria
     loggingInitialized = true;
 }
 
+void ECMLogging::writeLoggingHeader()
+{
+    if(!loggingInitialized)
+        return;
+
+    //Write logging header information
+    for(size_t i = 0; i < 100; i++)
+    {
+
+    }
+}
+
 void ECMLogging::setLoggingRelativeTime(const bool &value)
 {
     this->logReglativeTime = value;

@@ -171,7 +171,8 @@ HEADERS += \
     programs/program_label_list.h \
     status/status_label_list.h \
     requests/request_custom_string.h \
-    status/status_custom_request.h
+    status/status_custom_request.h \
+    galil_version.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

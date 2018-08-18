@@ -22,6 +22,8 @@ class ECMLogging
 public:
     ECMLogging();
 
+    void writeLoggingHeader();
+
     bool checkLoggingPath(const string &partNumber, const string &serialNumber);
 
     void enableLogging(const bool &enable);

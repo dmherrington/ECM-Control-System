@@ -68,7 +68,8 @@ HEADERS += \
     states/state_ecm_touchoff_execute.h \
     states/state_ecm_types.h \
     states/state_ecm_idle.h \
-    states/state_ecm_initialization.h
+    states/state_ecm_initialization.h \
+    ecm_api_version.h
 
 # Unix lib Install
 unix:!symbian {

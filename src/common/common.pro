@@ -61,7 +61,8 @@ HEADERS += common.h\
     axis_definitions.h \
     hash_keys.h \
     tuple_general_descriptor.h \
-    modbus_register.h
+    modbus_register.h \
+    common_version.h
 
 #Header file copy
 headers.path    = $$(ECM_ROOT)/include/common

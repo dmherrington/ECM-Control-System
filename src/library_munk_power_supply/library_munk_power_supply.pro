@@ -102,7 +102,8 @@ HEADERS += \
     communications/comms_progress_handler.h \
     data_registers/register_fault_reset.h \
     munk_machine_state.h \
-    data_response/fault_register_state.h
+    data_response/fault_register_state.h \
+    munk_version.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

@@ -45,7 +45,8 @@ HEADERS += \
     communications/protocol_qmodbus.h \
     communications/qmodbus_comms_marshaler.h \
     communications/qmodbus_link.h \
-    communications/qmodbus_session.h
+    communications/qmodbus_session.h \
+    qmodbus_version.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

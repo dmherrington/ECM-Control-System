@@ -49,7 +49,8 @@ HEADERS += \
     communications/westinghouse_message.h \
     data/westinghouse_exception_message.h \
     data/type_read_write.h \
-    data_registers/register_run_source.h
+    data_registers/register_run_source.h \
+    westinghouse_version.h
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

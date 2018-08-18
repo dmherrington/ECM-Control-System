@@ -96,7 +96,8 @@ HEADERS += \
     misc_dialogs/code_edit_widget.h \
     misc_dialogs/window_custom_motion_commands.h \
     misc_dialogs/widget_device_fault.h \
-    misc_dialogs/window_device_connections.h
+    misc_dialogs/window_device_connections.h \
+    gui_verison.h
 
 FORMS += \
         ECM_controller_gui.ui \

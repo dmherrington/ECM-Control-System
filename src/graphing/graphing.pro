@@ -39,7 +39,8 @@ HEADERS +=\
     plot_handler.h \
     qcustomplot.h \
     time_plot.h \
-    number_systems.h
+    number_systems.h \
+    graphing_version.h
 
 FORMS += \
     display_base_plot_instantaneous.ui

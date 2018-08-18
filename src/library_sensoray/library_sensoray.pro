@@ -50,7 +50,8 @@ HEADERS += \
     communications/sensoray_tcp_configuration.h \
     communications/sensoray_session.h \
     communications/sensoray_serial_configuration.h \
-    communications/sensoray_link.h
+    communications/sensoray_link.h \
+    sensoray_version.h
 
 # Unix lib Install
 unix:!symbian {
