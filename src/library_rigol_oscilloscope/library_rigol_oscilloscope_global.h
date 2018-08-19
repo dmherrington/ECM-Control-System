@@ -1,6 +1,8 @@
 #ifndef LIBRARY_RIGOL_OSCILLOSCOPE_GLOBAL_H
 #define LIBRARY_RIGOL_OSCILLOSCOPE_GLOBAL_H
 
+#include "rigol_version.h"
+
 #ifdef _MSC_VER
 #  if defined(LIBRARY_RIGOL_OSCILLOSCOPE_LIBRARY)
 #    define LIBRARY_RIGOL_OSCILLOSCOPESHARED_EXPORT __declspec(dllexport)

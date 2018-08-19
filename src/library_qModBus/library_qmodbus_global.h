@@ -2,6 +2,7 @@
 #define LIBRARY_QMODBUS_GLOBAL_H
 
 #include <QtCore/qglobal.h>
+#include "qmodbus_version.h"
 
 #if defined(LIBRARY_QMODBUS_LIBRARY)
 #  define LIBRARY_QMODBUSSHARED_EXPORT Q_DECL_EXPORT

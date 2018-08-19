@@ -24,7 +24,6 @@ bool ECMLogging::checkLoggingPath(const string &partNumber, const string &serial
         if(!serialDirectory.exists() || serialDirectory.isEmpty())
             return true;
     }
-
     return false;
 }
 
@@ -71,11 +70,29 @@ void ECMLogging::writeLoggingHeader()
     if(!loggingInitialized)
         return;
 
-    //Write logging header information
+    QString str;
+    QTextStream stringWriter(&str, QIODevice::WriteOnly);
+
+    //Write header breaker line at the top
     for(size_t i = 0; i < 100; i++)
     {
-
+        stringWriter << "*";
     }
+    //bump the header to the next line
+    stringWriter << "\r\n";
+
+    //Let us write the header contents
+
+    //Write header breaker line at the conclusion of establishing the header
+    for(size_t i = 0; i < 100; i++)
+    {
+        stringWriter << "*";
+    }
+
+    stringWriter.flush();
+
+    QTextStream out(masterLog);
+    out << str;
 }
 
 void ECMLogging::setLoggingRelativeTime(const bool &value)

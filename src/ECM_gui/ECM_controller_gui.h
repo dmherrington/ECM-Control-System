@@ -1,6 +1,8 @@
 #ifndef ECM_CONTROLLER_GUI_H
 #define ECM_CONTROLLER_GUI_H
 
+#include "gui_verison.h"
+
 #include <QMainWindow>
 
 #include "ECM_plot_collection.h"

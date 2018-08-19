@@ -1,6 +1,8 @@
 #ifndef DATA_GLOBAL_H
 #define DATA_GLOBAL_H
 
+#include "data_version.h"
+
 #ifdef _MSC_VER
 #  if defined(DATA_LIBRARY)
 #    define DATASHARED_EXPORT __declspec(dllexport)

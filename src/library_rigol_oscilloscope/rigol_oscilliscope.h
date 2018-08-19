@@ -1,5 +1,6 @@
 #ifndef RIGOL_OSCILLISCOPE_H
 #define RIGOL_OSCILLISCOPE_H
+
 #include <QDir>
 #include <QObject>
 

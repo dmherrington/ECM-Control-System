@@ -25,8 +25,10 @@ public:
     ~ECM_API() = default;
 
 public:
-
     void action_StopMachine();
+
+public:
+    void initializeECMLogs(const string &partNumber, const string &serialNumber, const common::EnvironmentTime &time, bool clearContents = true);
 
 private slots:
     void slot_MotionControllerCommunicationUpdate(const common::comms::CommunicationUpdate &update);
