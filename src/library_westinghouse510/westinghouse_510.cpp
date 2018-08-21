@@ -7,8 +7,6 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
     qRegisterMetaType<common::comms::CommunicationConnection>("CommunicationConnection");
     qRegisterMetaType<common::comms::CommunicationUpdate>("CommunicationUpdate");
 
-    //connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortReadyToConnect()),this,SLOT(slot_SerialPortReadyToConnect()));
-    //connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortConnection(common::comms::CommunicationConnection)),this,SLOT(slot_SerialPortConnectionUpdate(common::comms::CommunicationConnection)));
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_SerialPortUpdate(common::comms::CommunicationUpdate)));
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_RXNewSerialData(QByteArray)),this,SLOT(slot_SerialPortReceivedData(QByteArray)));
 
@@ -185,3 +183,59 @@ void Westinghouse510::parseReceivedMessage(const comms_WestinghousePump::Westing
         }
     }
 }
+
+void Westinghouse510::logOperationalSettings(QFile* filePath) const
+{
+    QString str;
+    QTextStream stringWriter(&str, QIODevice::WriteOnly);
+
+    //Write header breaker line at the top
+    for(size_t i = 0; i < 100; i++)
+    {
+        stringWriter << "*";
+    }
+    //bump the header to the next line
+    stringWriter << "\r\n";
+
+    //Let us write the header contents
+    stringWriter<<"Volumetric Flow: "<<QString::number(m_State->flowRate.get())<<" lpm. \r\n";
+    //Write header breaker line at the conclusion of establishing the header
+    for(size_t i = 0; i < 100; i++)
+    {
+        stringWriter << "*";
+    }
+
+    stringWriter.flush();
+
+    QTextStream out(filePath);
+    out << str;
+}
+
+void Westinghouse510::saveToFile(const QString &filePath)
+{
+//    QFile saveFile(filePath);
+
+//    QJsonObject saveObject;
+
+//    ui->segmentWidget->write(saveObject);
+
+//    QJsonDocument saveDoc(saveObject);
+//    saveFile.write(saveDoc.toJson());
+//    saveFile.close();
+}
+
+void Westinghouse510::openFromFile(const QString &filePath)
+{
+//    QFile openFile(filePath);
+
+//    if (!openFile.open(QIODevice::ReadOnly)) {
+//        ui->statusbar->showMessage("Couldn't open file for reading.",2000);
+//    }
+
+//    QByteArray loadData = openFile.readAll();
+//    openFile.close();
+
+//    QJsonDocument loadDoc(QJsonDocument::fromJson(loadData));
+//    ui->segmentWidget->read(loadDoc.object());
+}
+

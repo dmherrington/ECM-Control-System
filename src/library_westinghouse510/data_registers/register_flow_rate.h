@@ -99,7 +99,7 @@ public:
     }
 
 private:
-    double flowRate = 0.0;
+    double flowRate = 0.0; //stored in a volumetric flow of lpm
 };
 
 } //end of namespace registers_WestinghousePump

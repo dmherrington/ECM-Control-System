@@ -11,7 +11,6 @@ SUBDIRS += \
     library_rigol_oscilloscope \
     library_sensoray \
     library_westinghouse510 \
-    Testing \
     library_qModBus
 
 data.depends = common

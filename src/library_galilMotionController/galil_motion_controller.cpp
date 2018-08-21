@@ -354,25 +354,6 @@ void GalilMotionController::executeCommand(const AbstractCommandPtr command)
     ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
     currentState->handleCommand(command);
     stateMachine->ProcessStateTransitions();
-
-    /*
-    std::string commandString = command->getCommandString();
-    std::cout<<"The command string seen here is: "<<commandString<<std::endl;
-    GBufOut returnOut;
-    GSize read_bytes = 0; //bytes read in GCommand
-    //We should be checking that the connection is defined
-    GReturn rtn = GCmd(galil,commandString.c_str());
-    //GReturn rtn = GCommand(mConnection,commandString.c_str(),returnOut,sizeof(returnOut),&read_bytes);
-    std::cout<<"Command Executed: "<<CommandToString(command->getCommandType())<<std::endl;
-    std::cout<<ParseGReturn::getGReturnString(rtn)<<std::endl;
-    //std::cout<<"Returned: "<<std::string(returnOut)<<std::endl;
-    if((command->getCommandType() == CommandType::JOG_MOVE) || (command->getCommandType() == CommandType::RELATIVE_MOVE))
-    {
-        GCmd(galil,"BG A");
-        //we need to begin the command in these cases
-        //GCommand(mConnection,"BG A",returnOut,sizeof(returnOut),&read_bytes);
-    }
-    */
 }
 
 void GalilMotionController::executeCustomCommands(const std::vector<std::string> &stringCommands)

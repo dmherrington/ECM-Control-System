@@ -1,6 +1,7 @@
 #ifndef WESTINGHOUSE_510_H
 #define WESTINGHOUSE_510_H
 
+#include <QTextStream>
 #include <QSerialPort>
 #include <QSerialPortInfo>
 
@@ -42,6 +43,7 @@ public:
         initializationTimer = nullptr;
     }
 
+public:
     //!
     //! \brief setPumpFlowRate function transmitting the desired flow rate to the communication object.
     //! It is the role of the communication object to then transmit the desired flow rate to the appropriate
@@ -80,6 +82,14 @@ public:
     //!
     void openPumpConnection();
 
+
+public:
+
+    void logOperationalSettings(QFile* filePath) const;
+
+    void saveToFile(const QString &filePath);
+
+    void openFromFile(const QString &filePath);
 
 private:
 
