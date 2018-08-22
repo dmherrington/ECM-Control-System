@@ -12,6 +12,9 @@ ECM_API::ECM_API()
     connect(m_Galil,SIGNAL(signal_MotionControllerCommunicationUpdate(common::comms::CommunicationUpdate)),
             this,SLOT(slot_MotionControllerCommunicationUpdate(common::comms::CommunicationUpdate)));
 
+    connect(m_Galil, SIGNAL(signal_GalilUpdatedProfileState(MotionProfileState)),
+            this, SLOT(slot_UpdateMotionProfileState(MotionProfileState)));
+
     m_Sensoray = new Sensoray();
 
     m_Modbus485 = new Library_QModBus();
@@ -51,5 +54,41 @@ void ECM_API::slot_MotionControllerCommunicationUpdate(const common::comms::Comm
 {
 //    if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
 //        m_Galil->initializeMotionController();
+}
+
+void ECM_API::slot_UpdateMotionProfileState(const MotionProfileState &state)
+{
+    switch (state.getProfileState()->getType()) {
+    case MotionProfile::ProfileType::SETUP:
+        break;
+    case MotionProfile::ProfileType::HOMING:
+        break;
+    case MotionProfile::ProfileType::TOUCHOFF:
+        break;
+    case MotionProfile::ProfileType::PROFILE:
+        //implement a better way to cast the state in this condition
+        ProfileState_Machining* castState = (ProfileState_Machining*)state.getProfileState().get();
+        ProfileState_Machining::MACHININGProfileCodes currentCode = castState->getCurrentCode();
+        switch (currentCode) {
+        case ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE:
+
+            break;
+        case ProfileState_Machining::MACHININGProfileCodes::COMPLETE:
+            //conclude writing to the logs with any wrap up data that we need
+            m_Log->enableLogging(false); //let us stop the logs
+
+            break;
+        case ProfileState_Machining::MACHININGProfileCodes::ABORTED:
+            //conclude writing to the logs with any wrap up data that we need
+            m_Log->enableLogging(false); //let us stop the logs
+
+            break;
+        default:
+            break;
+        }
+        break;
+    default:
+        break;
+    }
 }
 

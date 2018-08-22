@@ -3,6 +3,9 @@
 
 #include <math.h>
 
+#include <QString>
+#include <QTextStream>
+
 #include <data/type_prescalar_power.h>
 #include <data/type_segment_level.h>
 #include <data/type_segment_mode.h>
@@ -73,6 +76,9 @@ public:
     //!
     uint32_t getConstructedBitArray() const;
 
+private:
+    std::string getLoggingString() const;
+
 public:
     //!
     //! \brief operator =
@@ -116,6 +122,19 @@ public:
     //!
     bool operator != (const SegmentTimeDataGeneral &rhs) const {
         return !(*this == rhs);
+    }
+
+
+public:
+
+    friend QTextStream& operator <<(QTextStream &outStream, const SegmentTimeDataGeneral &data)
+    {
+        return outStream<<QString::fromStdString(data.getLoggingString());
+    }
+
+    friend std::ostream& operator<< (std::ostream &stream, const SegmentTimeDataGeneral &data)
+    {
+        return stream<<data.getLoggingString();
     }
 
 private:

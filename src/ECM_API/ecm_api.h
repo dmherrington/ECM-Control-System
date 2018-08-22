@@ -31,7 +31,18 @@ public:
     void initializeECMLogs(const string &partNumber, const string &serialNumber, const common::EnvironmentTime &time, bool clearContents = true);
 
 private slots:
+
+    //!
+    //! \brief slot_MotionControllerCommunicationUpdate
+    //! \param update
+    //!
     void slot_MotionControllerCommunicationUpdate(const common::comms::CommunicationUpdate &update);
+
+    //!
+    //! \brief slot_UpdateMotionProfileState
+    //! \param state
+    //!
+    void slot_UpdateMotionProfileState(const MotionProfileState &state);
 
 public:
 

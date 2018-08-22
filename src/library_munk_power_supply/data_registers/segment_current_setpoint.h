@@ -1,6 +1,9 @@
 #ifndef SEGMENT_CURRENT_SETPOINT_H
 #define SEGMENT_CURRENT_SETPOINT_H
 
+#include <QString>
+#include <QTextStream>
+
 #include <string>
 #include <vector>
 #include <iostream>
@@ -71,6 +74,9 @@ public:
 
     void initializeData();
 
+private:
+    std::string getLoggingData() const;
+
 public:
     //!
     //! \brief operator =
@@ -101,9 +107,9 @@ public:
         if(this->mode != rhs.mode){
             return false;
         }
-//        if(this->data != rhs.data){
-//            return false;
-//        }
+        //        if(this->data != rhs.data){
+        //            return false;
+        //        }
         return true;
     }
 
@@ -114,6 +120,18 @@ public:
     //!
     bool operator != (const SegmentCurrentSetpoint &rhs) {
         return !(*this == rhs);
+    }
+
+public:
+
+    friend QTextStream& operator <<(QTextStream &outStream, const SegmentCurrentSetpoint &data)
+    {
+        return outStream<<QString::fromStdString(data.getLoggingString());
+    }
+
+    friend std::ostream& operator<< (std::ostream &stream, const SegmentCurrentSetpoint &data)
+    {
+        return stream<<data.getLoggingString();
     }
 
 private:

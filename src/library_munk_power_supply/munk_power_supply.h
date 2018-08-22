@@ -2,6 +2,7 @@
 #define MUNK_POWER_SUPPLY_H
 
 #include <iostream>
+#include <QTextStream>
 #include <QDebug>
 #include <QObject>
 
@@ -136,6 +137,9 @@ private:
     ///////////////////////////////////////////////////////////////
 
     void cbi_MunkFaultStateRequest(const RegisterFaultState &request) const override;
+
+public:
+    void logOperationalSettings(QFile* filePath) const;
 
 private:
     std::string deviceName;

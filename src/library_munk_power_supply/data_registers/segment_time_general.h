@@ -82,6 +82,10 @@ public:
     void initializeData();
 
 public:
+
+    std::string getLoggingString() const;
+
+public:
     //!
     //! \brief operator =
     //! \param rhs
@@ -116,6 +120,18 @@ public:
     //!
     bool operator != (const SegmentTimeGeneral &rhs) {
         return !(*this == rhs);
+    }
+
+public:
+
+    friend QTextStream& operator <<(QTextStream &outStream, const SegmentTimeGeneral &data)
+    {
+        return outStream<<QString::fromStdString(data.getLoggingString());
+    }
+
+    friend std::ostream& operator<< (std::ostream &stream, const SegmentTimeGeneral &data)
+    {
+        return stream<<data.getLoggingString();
     }
 
 private:
