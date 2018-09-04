@@ -15,6 +15,9 @@ ECM_API::ECM_API()
     connect(m_Galil, SIGNAL(signal_GalilUpdatedProfileState(MotionProfileState)),
             this, SLOT(slot_UpdateMotionProfileState(MotionProfileState)));
 
+    connect(m_Galil, SIGNAL(signal_MCNewMotionState(ECM::Galil::GalilState,std::string)), this, SLOT());
+
+
     m_Sensoray = new Sensoray();
 
     m_Modbus485 = new Library_QModBus();
@@ -52,8 +55,8 @@ void ECM_API::action_StopMachine()
 
 void ECM_API::slot_MotionControllerCommunicationUpdate(const common::comms::CommunicationUpdate &update)
 {
-//    if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
-//        m_Galil->initializeMotionController();
+    //    if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
+    //        m_Galil->initializeMotionController();
 }
 
 void ECM_API::slot_UpdateMotionProfileState(const MotionProfileState &state)
@@ -66,6 +69,7 @@ void ECM_API::slot_UpdateMotionProfileState(const MotionProfileState &state)
     case MotionProfile::ProfileType::TOUCHOFF:
         break;
     case MotionProfile::ProfileType::PROFILE:
+    {
         //implement a better way to cast the state in this condition
         ProfileState_Machining* castState = (ProfileState_Machining*)state.getProfileState().get();
         ProfileState_Machining::MACHININGProfileCodes currentCode = castState->getCurrentCode();
@@ -86,9 +90,47 @@ void ECM_API::slot_UpdateMotionProfileState(const MotionProfileState &state)
         default:
             break;
         }
-        break;
+    }
     default:
         break;
     }
+}
+
+void ECM_API::slot_UpdateMachineState(const ECM::Galil::GalilState &state, const string &stateString)
+{
+    switch (state) {
+    case ECM::Galil::GalilState::STATE_ESTOP:
+    case ECM::Galil::GalilState::STATE_HOME_POSITIONING:
+    case ECM::Galil::GalilState::STATE_MOTION_STOP:
+    case ECM::Galil::GalilState::STATE_READY_STOP:
+    case ECM::Galil::GalilState::STATE_SCRIPT_EXECUTION:
+    case ECM::Galil::GalilState::STATE_TOUCHOFF:
+    case ECM::Galil::GalilState::STATE_UNKNOWN:
+    {
+        //In all of the above cases we want to disable the buttons that could potentially have adverse conditions
+        //Although all of the checks are handled in the state machine of the galil library, it is preferred to have
+        //a secondary check within the API. This was primarily noted when the user could potentially double click.
+        emit signal_LockMotionButtons(true);
+        break;
+    }
+    case ECM::Galil::GalilState::STATE_IDLE:
+    case ECM::Galil::GalilState::STATE_READY:
+    {
+        emit signal_LockMotionButtons(false);
+        break;
+    }
+    case ECM::Galil::GalilState::STATE_JOGGING:
+    case ECM::Galil::GalilState::STATE_MANUAL_POSITIONING:
+    {
+        //We do not want to change the state condition of the button in this state
+        //This is because if we go to lock the buttons the release event will either
+        //trigger immediately or never be emitted.
+        break;
+    }
+    default:
+        break;
+    }
+
+    emit signal_MCNewMotionState(stateString);
 }
 

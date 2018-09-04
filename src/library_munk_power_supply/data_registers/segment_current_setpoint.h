@@ -126,12 +126,12 @@ public:
 
     friend QTextStream& operator <<(QTextStream &outStream, const SegmentCurrentSetpoint &data)
     {
-        return outStream<<QString::fromStdString(data.getLoggingString());
+        return outStream<<QString::fromStdString(data.getLoggingData());
     }
 
     friend std::ostream& operator<< (std::ostream &stream, const SegmentCurrentSetpoint &data)
     {
-        return stream<<data.getLoggingString();
+        return stream<<data.getLoggingData();
     }
 
 private:

@@ -107,7 +107,7 @@ void State_Touchoff::Update()
 
 void State_Touchoff::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_TOUCHOFF));
+    Owner().issueNewGalilState(GalilState::STATE_TOUCHOFF);
     //this shouldn't really happen as how are we supposed to know the actual touchoff command
     //we therefore are going to do nothing other than change the state back to State_Ready
     this->desiredState = GalilState::STATE_READY;
@@ -117,7 +117,7 @@ void State_Touchoff::OnEnter(const AbstractCommandPtr command)
 {
     if(command != nullptr)
     {
-        Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_TOUCHOFF));
+        Owner().issueNewGalilState(GalilState::STATE_TOUCHOFF);
         Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Touchoff Status","touchst");
         common::TupleProfileVariableString tupleVariable("Default","Touchoff","touchst");
         request->setTupleDescription(tupleVariable);

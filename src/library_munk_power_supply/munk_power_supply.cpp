@@ -312,6 +312,7 @@ void MunkPowerSupply::cbi_MunkFaultStateRequest(const RegisterFaultState &reques
 
 void MunkPowerSupply::logOperationalSettings(QFile* filePath) const
 {
+    /*
     QString str;
     QTextStream stringWriter(&str, QIODevice::WriteOnly);
 
@@ -351,4 +352,5 @@ void MunkPowerSupply::logOperationalSettings(QFile* filePath) const
 
     QTextStream out(filePath);
     out << str;
+    */
 }

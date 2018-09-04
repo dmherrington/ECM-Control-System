@@ -139,6 +139,8 @@ private slots:
 
 
 
+    void slot_LockMotionButtons(const bool &lock);
+
 protected:
     void readSettings();
     void closeEvent(QCloseEvent *event);

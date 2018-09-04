@@ -30,6 +30,11 @@ public:
 public:
     void initializeECMLogs(const string &partNumber, const string &serialNumber, const common::EnvironmentTime &time, bool clearContents = true);
 
+signals:
+    void signal_LockMotionButtons(const bool &lock);
+
+    void signal_MCNewMotionState(const std::string &stateString);
+
 private slots:
 
     //!
@@ -43,6 +48,13 @@ private slots:
     //! \param state
     //!
     void slot_UpdateMotionProfileState(const MotionProfileState &state);
+
+    //!
+    //! \brief slot_UpdateMachineState
+    //! \param state
+    //! \param stateString
+    //!
+    void slot_UpdateMachineState(const ECM::Galil::GalilState &state, const std::string &stateString);
 
 public:
 

@@ -46,8 +46,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     connect(m_API->m_Rigol, SIGNAL(signal_RigolPlottable(common::TupleSensorString,bool)), this, SLOT(slot_NewlyAvailableRigolData(common::TupleSensorString,bool)));
     connect(m_API->m_Rigol, SIGNAL(signal_RigolNewSensorValue(common::TupleSensorString,common_data::SensorState)), this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
-
-    connect(m_API->m_Galil, SIGNAL(signal_MCNewMotionState(std::string)), this, SLOT(slot_MCNewMotionState(std::string)));
+    //Ken Fix This connection
+    //connect(m_API->m_Galil, SIGNAL(signal_MCNewMotionState(std::string)), this, SLOT(slot_MCNewMotionState(std::string)));
     this->slot_MCNewMotionState(m_API->m_Galil->getCurrentMCState());
     slot_MCNewDigitalInput(m_API->m_Galil->getCurrent_MCDIO());
     connect(m_API->m_Galil, SIGNAL(signal_MCNewDigitalInput(StatusInputs)), this, SLOT(slot_MCNewDigitalInput(StatusInputs)));
@@ -716,4 +716,13 @@ void ECMControllerGUI::on_pushButton_Stop_released()
 void ECMControllerGUI::on_actionClear_All_Data_triggered()
 {
     m_PlotCollection.ClearAllData();
+}
+
+void ECMControllerGUI::slot_LockMotionButtons(const bool &lock)
+{
+    ui->pushButton_DecreaseJog->setDisabled(lock);
+    ui->pushButton_IncreaseJog->setDisabled(lock);
+
+    ui->pushButton_IncreaseRelativeMove->setDisabled(lock);
+    ui->pushButton_DecreaseRelativeMove->setDisabled(lock);
 }

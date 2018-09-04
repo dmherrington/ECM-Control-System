@@ -174,7 +174,7 @@ void State_Idle::handleCommand(const AbstractCommandPtr command)
 
 void State_Idle::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_IDLE));
+    Owner().issueNewGalilState(GalilState::STATE_IDLE);
 
     //The first thing we should do when entering this state is to disable the motor
     //To get to this state, it should be noted that we should have already transitioned through

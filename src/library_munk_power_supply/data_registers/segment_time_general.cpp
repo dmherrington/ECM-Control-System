@@ -84,8 +84,8 @@ std::string SegmentTimeGeneral::getLoggingString() const
     std::string returnString = "";
     for(size_t i = 0; i < registerData.size(); i++)
     {
-        returnString += "Segment " + QString::number(i) + ": ";
-        returnString += QString::fromStdString(data.getLoggingString());
+        returnString += "Segment " + std::to_string(i) + ": ";
+        returnString += registerData.at(i).getLoggingString();
         returnString += "\r\n";
     }
 

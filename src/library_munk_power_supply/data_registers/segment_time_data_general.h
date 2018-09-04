@@ -76,7 +76,7 @@ public:
     //!
     uint32_t getConstructedBitArray() const;
 
-private:
+public:
     std::string getLoggingString() const;
 
 public:
