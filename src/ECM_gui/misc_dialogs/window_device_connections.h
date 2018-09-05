@@ -59,6 +59,10 @@ private slots:
 private:
     void updateLEDConnectionColor(LED* ledWidget, const common::comms::CommunicationUpdate &connected);
 
+    void saveCommunicationSettings();
+
+    void readCommunicationSettings();
+
 private:
     Ui::Window_DeviceConnections *ui;
     ECM_API* m_API;

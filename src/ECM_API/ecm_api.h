@@ -50,11 +50,11 @@ private slots:
     void slot_UpdateMotionProfileState(const MotionProfileState &state);
 
     //!
-    //! \brief slot_UpdateMachineState
+    //! \brief slot_MCNewMotionState
     //! \param state
     //! \param stateString
     //!
-    void slot_UpdateMachineState(const ECM::Galil::GalilState &state, const std::string &stateString);
+    void slot_MCNewMotionState(const ECM::Galil::GalilState &state, const std::string &stateString);
 
 public:
 

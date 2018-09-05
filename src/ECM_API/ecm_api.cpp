@@ -15,7 +15,8 @@ ECM_API::ECM_API()
     connect(m_Galil, SIGNAL(signal_GalilUpdatedProfileState(MotionProfileState)),
             this, SLOT(slot_UpdateMotionProfileState(MotionProfileState)));
 
-    connect(m_Galil, SIGNAL(signal_MCNewMotionState(ECM::Galil::GalilState,std::string)), this, SLOT());
+    connect(m_Galil, SIGNAL(signal_MCNewMotionState(ECM::Galil::GalilState,std::string)),
+            this, SLOT(slot_MCNewMotionState(ECM::Galil::GalilState,std::string)));
 
 
     m_Sensoray = new Sensoray();
@@ -96,7 +97,7 @@ void ECM_API::slot_UpdateMotionProfileState(const MotionProfileState &state)
     }
 }
 
-void ECM_API::slot_UpdateMachineState(const ECM::Galil::GalilState &state, const string &stateString)
+void ECM_API::slot_MCNewMotionState(const ECM::Galil::GalilState &state, const string &stateString)
 {
     switch (state) {
     case ECM::Galil::GalilState::STATE_ESTOP:
