@@ -1,7 +1,7 @@
 #include "ecm_logging.h"
 
-ECMLogging::ECMLogging():
-    masterLog(nullptr), loggingInitialized(false), loggingEnabled(false)
+ECMLogging::ECMLogging(const std::map<string, string> &softwareVersions):
+    masterLog(nullptr), loggingInitialized(false), loggingEnabled(false), softwareVersioningMap(softwareVersions)
 {
 
 }
@@ -65,7 +65,7 @@ void ECMLogging::initializeLogging(const string &partNumber, const string &seria
     loggingInitialized = true;
 }
 
-void ECMLogging::writeLoggingHeader()
+void ECMLogging::writeLoggingHeader(std::string &munkText, std::string &pumpText, std::string &mtnCtrlText)
 {
     if(!loggingInitialized)
         return;
@@ -73,26 +73,37 @@ void ECMLogging::writeLoggingHeader()
     QString str;
     QTextStream stringWriter(&str, QIODevice::WriteOnly);
 
-    //Write header breaker line at the top
-    for(size_t i = 0; i < 100; i++)
-    {
-        stringWriter << "*";
-    }
-    //bump the header to the next line
-    stringWriter << "\r\n";
-
     //Let us write the header contents
 
-    //Write header breaker line at the conclusion of establishing the header
-    for(size_t i = 0; i < 100; i++)
-    {
-        stringWriter << "*";
-    }
+    //Let us write the software versions here
+    this->WriteHeaderBreaker(100);
+    stringWriter<<"SOFTWARE VERSIONS \r\n";
+    this->WriteLogSoftwareVersions(stringWriter);
+    this->WriteHeaderBreaker(100);
+
+    //Let us write the power supply settings here
+    this->WriteHeaderBreaker(100);
+    stringWriter<<"POWER SUPPLY SETTINGS \r\n";
+    stringWriter<<QString::fromStdString(munkText);
+    this->WriteHeaderBreaker(100);
+
+    //Let us write the pump settings here
+    this->WriteHeaderBreaker(100);
+    stringWriter<<"PUMP SETTINGS \r\n";
+    stringWriter<<QString::fromStdString(pumpText);
+    this->WriteHeaderBreaker(100);
+
+    //Let us write the motion controller settings here
+    this->WriteHeaderBreaker(100);
+    stringWriter<<"MOTION CONTROL SETTINGS \r\n";
+    stringWriter<<QString::fromStdString(mtnCtrlText);
+    this->WriteHeaderBreaker(100);
 
     stringWriter.flush();
 
-    QTextStream out(masterLog);
-    out << str;
+    QTextStream outFile(masterLog);
+    outFile << str;
+
 }
 
 void ECMLogging::setLoggingRelativeTime(const bool &value)
@@ -174,7 +185,40 @@ void ECMLogging::SetSensorLogFile(const common::TupleSensorString &key)
     m_LogSensorStates[key] = outFile;
 }
 
+void ECMLogging::WriteLogSoftwareVersions(QTextStream &stringWriter)
+{
+    std::map<std::string,std::string>::iterator it = this->softwareVersioningMap.begin();
+
+    for(; it != this->softwareVersioningMap.end(); ++it)
+    {
+        stringWriter<<QString::fromStdString(it->first)<<":"<<QString::fromStdString(it->second)<<"\r\n";
+    }
+
+    stringWriter<<"\r\n";
+}
+
+void ECMLogging::WriteHeaderBreaker(const unsigned int &size)
+{
+    QString str;
+    QTextStream stringWriter(&str, QIODevice::WriteOnly);
+
+    //Write header breaker line at the top
+    for(size_t i = 0; i < size; i++)
+    {
+        stringWriter << "*";
+    }
+    //bump the header to the next line
+    stringWriter << "\r\n";
+
+    stringWriter.flush();
+
+    QTextStream out(masterLog);
+    out << str;
+}
+
 bool ECMLogging::isComponentLogging() const
 {
     return loggingEnabled && loggingInitialized;
 }
+
+

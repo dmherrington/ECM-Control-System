@@ -20,9 +20,9 @@
 class ECMLogging
 {
 public:
-    ECMLogging();
+    ECMLogging(const std::map<std::string, std::string> &softwareVersions);
 
-    void writeLoggingHeader();
+    void writeLoggingHeader(std::string &munkText, std::string &pumpText, std::string &mtnCtrlText);
 
     bool checkLoggingPath(const string &partNumber, const string &serialNumber);
 
@@ -60,6 +60,11 @@ public:
     void SetSensorLogFile(const common::TupleSensorString &key);
 
 private:
+    void WriteLogSoftwareVersions(QTextStream &stringWriter);
+
+    void WriteHeaderBreaker(const unsigned int &size);
+
+private:
     bool isComponentLogging() const;
 
 protected:
@@ -85,6 +90,9 @@ protected:
 
 private:
     std::string loggingPath;
+
+    std::map<std::string, std::string> softwareVersioningMap;
+
 };
 
 #endif // ECM_LOGGING_H

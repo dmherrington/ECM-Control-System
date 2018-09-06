@@ -29,7 +29,10 @@ public:
     void action_StopMachine();
 
 public:
-    void initializeECMLogs(const string &partNumber, const string &serialNumber, const common::EnvironmentTime &time, bool clearContents = true);
+    void initializeECMLogs();
+
+private:
+    std::map<std::string, std::string> getSoftwareVersions() const;
 
 signals:
     void signal_LockMotionButtons(const bool &lock);
