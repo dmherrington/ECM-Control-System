@@ -490,3 +490,42 @@ bool GalilMotionController::loadSettings(const std::string &filePath)
     settingsPath = QString::fromStdString(filePath);
     m_Settings.loadSettings(settingsPath);
 }
+
+void GalilMotionController::logOperationalSettings(QFile* filePath) const
+{
+    QString str;
+    QTextStream stringWriter(&str, QIODevice::WriteOnly);
+
+    //Write header breaker line at the top
+    for(size_t i = 0; i < 100; i++)
+    {
+        stringWriter << "*";
+    }
+    //bump the header to the next line
+    stringWriter << "\r\n";
+
+    stringWriter<<" Munk Power Supply Operational Settings \r\n";
+
+    for(size_t i = 0; i < 30; i++)
+    {
+        stringWriter << "*";
+    }
+    //bump the header to the next line
+    stringWriter << "\r\n";
+
+    //Let us write the header contents
+
+
+    //Write header breaker line at the conclusion of establishing the header
+    for(size_t i = 0; i < 100; i++)
+    {
+        stringWriter << "*";
+    }
+    //bump the header to the next line
+    stringWriter << "\r\n";
+
+    stringWriter.flush();
+
+    QTextStream out(filePath);
+    out << str;
+}

@@ -102,6 +102,8 @@ private:
     void NewStatusVariableValue(const Status_VariableValue &status) override;
 
 public:
+    void logOperationalSettings(QFile* filePath) const;
+
     void getSettingsPath(std::string &settingsPath) const;
     bool saveSettings();
     bool saveSettingsAs(const std::string &filePath);

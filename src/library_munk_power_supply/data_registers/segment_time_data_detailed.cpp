@@ -122,5 +122,16 @@ uint32_t SegmentTimeDataDetailed::getTimeValue() const
     return this->timeValue;
 }
 
+std::string SegmentTimeDataDetailed::getLoggingString() const
+{
+    std::string rtnStr = data_Munk::TypeSupplyOutputToString(supplyOutput) + ": " +
+            "Segment Mode: " + data_Munk::SegmentModeToString(segmentMode) + "," +
+            "Segment Voltage: " + std::to_string(dataObject.voltage) + "," +
+            "Segment Current: " + std::to_string(dataObject.current) + "," +
+            "Segment Time: " + std::to_string(timeValue) + "\n";
+
+    return rtnStr;
+}
+
 } //end of namespace registers_Munk
 

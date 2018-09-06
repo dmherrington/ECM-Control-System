@@ -2,6 +2,7 @@
 #define GALIL_CURRENT_PROGRAM_H
 
 #include <QJsonObject>
+#include <QTextStream>
 
 #include <string>
 #include <map>
@@ -40,8 +41,21 @@ public:
 
     std::string getProgram() const;
 
+    std::string getLoggingString() const;
+
 public:
     void writeJSONData(QJsonObject &json) const;
+
+public:
+    friend QTextStream& operator <<(QTextStream &outStream, const GalilCurrentProgram &data)
+    {
+        return outStream<<QString::fromStdString(data.getLoggingString());
+    }
+
+    friend std::ostream& operator<< (std::ostream &stream, const GalilCurrentProgram &data)
+    {
+        return stream<<data.getLoggingString();
+    }
 
 public:
     //!

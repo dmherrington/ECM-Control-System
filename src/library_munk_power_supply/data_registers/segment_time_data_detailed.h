@@ -154,30 +154,7 @@ public:
         json["time"] = (int)timeValue;
     }
 
-    void writeToLogFile(QFile* file)
-    {
-        if(file->isOpen())
-        {
-            if(!file->isWritable()) //this will let us know if we can write to the file
-            {
-                return;
-            }
-        }
-        else{
-            //the file is not currently open, and therefore we should open and write our info to it
-            file->open(QIODevice::WriteOnly);
-        }
-        QString str;
-        QTextStream stringWriter(&str, QIODevice::WriteOnly);
-        stringWriter << QString::fromStdString(data_Munk::TypeSupplyOutputToString(supplyOutput)) + ": ";
-        stringWriter << "Segment Mode: " + QString::fromStdString(data_Munk::SegmentModeToString(segmentMode)) + ",";
-        stringWriter << "Segment Voltage: " + QString::number(dataObject.voltage) + ",";
-        stringWriter << "Segment Current: " + QString::number(dataObject.current) + ",";
-        stringWriter << "Segment Time: " + QString::number(timeValue) + "\n";
-        stringWriter.flush();
-        QTextStream out(file);
-        out << str;
-    }
+    std::string getLoggingString() const;
 
 public:
     //!
@@ -222,6 +199,17 @@ public:
     //!
     bool operator != (const SegmentTimeDataDetailed &rhs) const {
         return !(*this == rhs);
+    }
+
+public:
+    friend QTextStream& operator <<(QTextStream &outStream, const SegmentTimeDataDetailed &data)
+    {
+        return outStream<<QString::fromStdString(data.getLoggingString());
+    }
+
+    friend std::ostream& operator<< (std::ostream &stream, const SegmentTimeDataDetailed &data)
+    {
+        return stream<<data.getLoggingString();
     }
 
     //Private member variables of the class

@@ -5,6 +5,7 @@
 
 #include "ecm_api_global.h"
 #include "common/ecm_devices.h"
+#include "graphing/graphing_global.h"
 
 #include "library_munk_power_supply/munk_power_supply.h"
 #include "library_galilMotionController/galil_motion_controller.h"

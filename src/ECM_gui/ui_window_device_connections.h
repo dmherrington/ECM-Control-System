@@ -477,11 +477,16 @@ public:
         statusbar = new QStatusBar(Window_DeviceConnections);
         statusbar->setObjectName(QStringLiteral("statusbar"));
         Window_DeviceConnections->setStatusBar(statusbar);
-        QWidget::setTabOrder(pushButton_ConnectAll, pushButton_connectGalil);
-        QWidget::setTabOrder(pushButton_connectGalil, pushButton_connectPump);
-        QWidget::setTabOrder(pushButton_connectPump, pushButton_connectMunk);
-        QWidget::setTabOrder(pushButton_connectMunk, pushButton_connect_Rigol);
-        QWidget::setTabOrder(pushButton_connect_Rigol, pushButton_connectSensoray);
+        QWidget::setTabOrder(pushButton_ConnectAll, lineEdit_IPGalil);
+        QWidget::setTabOrder(lineEdit_IPGalil, pushButton_connectGalil);
+        QWidget::setTabOrder(pushButton_connectGalil, comboBox_PortPump);
+        QWidget::setTabOrder(comboBox_PortPump, pushButton_connectPump);
+        QWidget::setTabOrder(pushButton_connectPump, comboBox_PortMunk);
+        QWidget::setTabOrder(comboBox_PortMunk, pushButton_connectMunk);
+        QWidget::setTabOrder(pushButton_connectMunk, lineEdit_IPRigol);
+        QWidget::setTabOrder(lineEdit_IPRigol, pushButton_connect_Rigol);
+        QWidget::setTabOrder(pushButton_connect_Rigol, lineEdit_IPSensoray);
+        QWidget::setTabOrder(lineEdit_IPSensoray, pushButton_connectSensoray);
         QWidget::setTabOrder(pushButton_connectSensoray, pushButton_Close);
 
         menubar->addAction(menuFile->menuAction());

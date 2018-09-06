@@ -312,7 +312,6 @@ void MunkPowerSupply::cbi_MunkFaultStateRequest(const RegisterFaultState &reques
 
 void MunkPowerSupply::logOperationalSettings(QFile* filePath) const
 {
-    /*
     QString str;
     QTextStream stringWriter(&str, QIODevice::WriteOnly);
 
@@ -324,12 +323,7 @@ void MunkPowerSupply::logOperationalSettings(QFile* filePath) const
     //bump the header to the next line
     stringWriter << "\r\n";
 
-    for(size_t i = 0; i < 30; i++)
-    {
-        stringWriter << "*";
-    }
-
-    stringWriter<<" Westinghouse Pump Operational Settings ";
+    stringWriter<<" Munk Power Supply Operational Settings \r\n";
 
     for(size_t i = 0; i < 30; i++)
     {
@@ -339,18 +333,18 @@ void MunkPowerSupply::logOperationalSettings(QFile* filePath) const
     stringWriter << "\r\n";
 
     //Let us write the header contents
-    stringWriter<<"Volumetric Flow: "<<QString::number(m_State->flowRate.get())<<" lpm. \r\n";
-    stringWriter<<"Initialization Time: "<<QString::number(m_State->delayTime.get())<<" milliseconds. \r\n";
+
 
     //Write header breaker line at the conclusion of establishing the header
     for(size_t i = 0; i < 100; i++)
     {
         stringWriter << "*";
     }
+    //bump the header to the next line
+    stringWriter << "\r\n";
 
     stringWriter.flush();
 
     QTextStream out(filePath);
     out << str;
-    */
 }
