@@ -14,6 +14,7 @@
 #include "data/fault_codes_register_two.h"
 #include "data/fault_codes_register_three.h"
 
+#include "data_registers/segment_time_detailed.h"
 
 namespace comms_Munk{
 
@@ -31,8 +32,10 @@ public:
     virtual void SegmentCurrentSetpointAcknowledged(const ILink* link_ptr , const data_Munk::SegmentMode &mode) const = 0;
     virtual void SegmentTimeSetpointAcknowledged(const ILink* link_ptr) const = 0;
     virtual void SegmentCommittedToMemory(const ILink* link_ptr) const = 0;
+    virtual void SegmentUploadComplete(const ILink* link_ptr, const registers_Munk::SegmentTimeDetailed &segmentData) const = 0;
 
     virtual void ExceptionResponseReceived(const ILink* link_ptr, const data_Munk::MunkRWType &type, const uint8_t &code) const = 0;
+
 };
 
 

@@ -6,7 +6,12 @@ ECMLogging::ECMLogging(const std::map<string, string> &softwareVersions):
 
 }
 
-bool ECMLogging::checkLoggingPath(const string &partNumber, const string &serialNumber)
+std::string ECMLogging::getLoggingPath() const
+{
+    return this->loggingPath;
+}
+
+bool ECMLogging::checkLoggingPath(const string &partNumber, const string &serialNumber) const
 {
     char* ECMPath = getenv("ECM_ROOT");
     if(ECMPath){
@@ -32,7 +37,7 @@ void ECMLogging::enableLogging(const bool &enable)
     this->loggingEnabled = enable;
 }
 
-void ECMLogging::initializeLogging(const string &partNumber, const string &serialNumber, const common::EnvironmentTime &time, bool clearContents)
+void ECMLogging::initializeLogging(const std::string &partNumber, const std::string &serialNumber, bool clearContents)
 {
     std::string logName = "machiningLogs";
     loggingPath = "";
@@ -57,52 +62,39 @@ void ECMLogging::initializeLogging(const string &partNumber, const string &seria
 
     QString fileName = QString::fromStdString(loggingPath) + QString::fromStdString(logName) + ".out";
     masterLog = new QFile(fileName);
-    masterLog->open(QIODevice::WriteOnly);
-    masterLog->resize(0);
+    if(clearContents)
+    {
+        masterLog->open(QFile::WriteOnly);
+        masterLog->resize(0);
+    }
+    else{
+        masterLog->open(QFile::WriteOnly | QFile::Append);
+    }
 
-    this->setLoggingStartTime(time);
 
     loggingInitialized = true;
 }
 
-void ECMLogging::writeLoggingHeader(std::string &munkText, std::string &pumpText, std::string &mtnCtrlText)
+void ECMLogging::writeLoggingHeader(const std::string &partNumber, const std::string &serialNumber,const std::string &profileString,
+                                    const std::string &operationalSettings, const std::string &descriptor,
+                                    const common::EnvironmentTime &time)
 {
     if(!loggingInitialized)
         return;
 
+    this->setLoggingStartTime(time);
+
     QString str;
     QTextStream stringWriter(&str, QIODevice::WriteOnly);
-
-    //Let us write the header contents
-
-    //Let us write the software versions here
-    this->WriteHeaderBreaker(100);
-    stringWriter<<"SOFTWARE VERSIONS \r\n";
+    stringWriter << "Part Number #: " << QString::fromStdString(partNumber) << "\t" << "Serial Number #: " << QString::fromStdString(serialNumber) << "\t" <<"Machining Profile : " << QString::fromStdString(profileString) <<"\r\n";
+    stringWriter << "Operation Time : " << time <<"\r\n";
+    stringWriter << "Descriptor (Optional): " << QString::fromStdString(descriptor) <<"\r\n";
     this->WriteLogSoftwareVersions(stringWriter);
-    this->WriteHeaderBreaker(100);
-
-    //Let us write the power supply settings here
-    this->WriteHeaderBreaker(100);
-    stringWriter<<"POWER SUPPLY SETTINGS \r\n";
-    stringWriter<<QString::fromStdString(munkText);
-    this->WriteHeaderBreaker(100);
-
-    //Let us write the pump settings here
-    this->WriteHeaderBreaker(100);
-    stringWriter<<"PUMP SETTINGS \r\n";
-    stringWriter<<QString::fromStdString(pumpText);
-    this->WriteHeaderBreaker(100);
-
-    //Let us write the motion controller settings here
-    this->WriteHeaderBreaker(100);
-    stringWriter<<"MOTION CONTROL SETTINGS \r\n";
-    stringWriter<<QString::fromStdString(mtnCtrlText);
-    this->WriteHeaderBreaker(100);
+    stringWriter << QString::fromStdString(operationalSettings);
 
     stringWriter.flush();
-
-    QTextStream outFile(masterLog);
-    outFile << str;
+    QTextStream out(masterLog);
+    out << str;
 
 }
 
@@ -197,23 +189,19 @@ void ECMLogging::WriteLogSoftwareVersions(QTextStream &stringWriter)
     stringWriter<<"\r\n";
 }
 
-void ECMLogging::WriteHeaderBreaker(const unsigned int &size)
+std::string ECMLogging::WriteHeaderBreaker(const unsigned int &size)
 {
-    QString str;
-    QTextStream stringWriter(&str, QIODevice::WriteOnly);
+    std::string str;
 
     //Write header breaker line at the top
     for(size_t i = 0; i < size; i++)
     {
-        stringWriter << "*";
+        str += "*";
     }
+
     //bump the header to the next line
-    stringWriter << "\r\n";
-
-    stringWriter.flush();
-
-    QTextStream out(masterLog);
-    out << str;
+    str += "\r\n";
+    return str;
 }
 
 bool ECMLogging::isComponentLogging() const

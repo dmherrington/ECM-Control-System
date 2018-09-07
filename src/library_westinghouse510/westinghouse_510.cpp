@@ -66,23 +66,26 @@ bool Westinghouse510::isPumpConnected() const
     return this->m_Comms->isSerialPortOpen();
 }
 
-void Westinghouse510::openPumpConnection()
+void Westinghouse510::openPumpConnection(const std::string &portNumber)
 {
-    this->slot_SerialPortReadyToConnect();
+    common::comms::SerialConfiguration config("WestinghousePort");
+    config.setPortName(portNumber);
+    this->m_Comms->openSerialPortConnection(config);
+
+    //this->slot_SerialPortReadyToConnect();
 }
 
 void Westinghouse510::slot_SerialPortReadyToConnect()
 {
-    common::comms::SerialConfiguration config("WestinghousePort");
-    const auto infos = QSerialPortInfo::availablePorts();
-    for (const QSerialPortInfo &info : infos)
-    {
-        if(info.portName() == "COM14")
-        {
-            config.setPortName("\\\\.\\COM14");
-            this->m_Comms->openSerialPortConnection(config);
-        }
-    }
+//    const auto infos = QSerialPortInfo::availablePorts();
+//    for (const QSerialPortInfo &info : infos)
+//    {
+//        if(info.portName() == "COM14")
+//        {
+//            config.setPortName("\\\\.\\COM14");
+//            this->m_Comms->openSerialPortConnection(config);
+//        }
+//    }
 
 }
 
@@ -184,74 +187,35 @@ void Westinghouse510::parseReceivedMessage(const comms_WestinghousePump::Westing
     }
 }
 
-void Westinghouse510::logOperationalSettings(QFile* filePath) const
+std::string Westinghouse510::getLogOfOperationalSettings() const
 {
-    QString str;
-    QTextStream stringWriter(&str, QIODevice::WriteOnly);
-
-    //Write header breaker line at the top
-    for(size_t i = 0; i < 100; i++)
-    {
-        stringWriter << "*";
-    }
-    //bump the header to the next line
-    stringWriter << "\r\n";
-
-    for(size_t i = 0; i < 30; i++)
-    {
-        stringWriter << "*";
-    }
-
-    stringWriter<<" Westinghouse Pump Operational Settings ";
-
-    for(size_t i = 0; i < 30; i++)
-    {
-        stringWriter << "*";
-    }
-    //bump the header to the next line
-    stringWriter << "\r\n";
-
+    std::string str;
     //Let us write the header contents
-    stringWriter<<"Volumetric Flow: "<<QString::number(m_State->flowRate.get())<<" lpm. \r\n";
-    stringWriter<<"Initialization Time: "<<QString::number(m_State->delayTime.get())<<" milliseconds. \r\n";
-
-    //Write header breaker line at the conclusion of establishing the header
-    for(size_t i = 0; i < 100; i++)
-    {
-        stringWriter << "*";
-    }
-
-    stringWriter.flush();
-
-    QTextStream out(filePath);
-    out << str;
+    str += "Volumetric Flow: " + std::to_string(m_State->flowRate.get()) + " lpm. \r\n";
+    str += "Initialization Time: " + std::to_string(m_State->delayTime.get()) +" milliseconds. \r\n";
+    return str;
 }
+
 
 void Westinghouse510::saveToFile(const QString &filePath)
 {
-//    QFile saveFile(filePath);
+    QFile saveFile(filePath);
 
-//    QJsonObject saveObject;
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        return;
+    }
 
-//    ui->segmentWidget->write(saveObject);
-
-//    QJsonDocument saveDoc(saveObject);
-//    saveFile.write(saveDoc.toJson());
-//    saveFile.close();
+    QJsonObject saveObject;
+    this->write(saveObject);
+    QJsonDocument saveDoc(saveObject);
+    saveFile.write(saveDoc.toJson());
+    saveFile.close();
 }
 
-void Westinghouse510::openFromFile(const QString &filePath)
+void Westinghouse510::write(QJsonObject &json) const
 {
-//    QFile openFile(filePath);
-
-//    if (!openFile.open(QIODevice::ReadOnly)) {
-//        ui->statusbar->showMessage("Couldn't open file for reading.",2000);
-//    }
-
-//    QByteArray loadData = openFile.readAll();
-//    openFile.close();
-
-//    QJsonDocument loadDoc(QJsonDocument::fromJson(loadData));
-//    ui->segmentWidget->read(loadDoc.object());
+    json["pumpDelayTime"] = (int)this->m_State->delayTime.get();
+    json["pumpFlowRate"] = this->m_State->flowRate.get();
 }
+
 

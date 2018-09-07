@@ -44,6 +44,7 @@ Window_DeviceConnections::~Window_DeviceConnections()
 
 void Window_DeviceConnections::closeEvent(QCloseEvent *event)
 {
+    this->saveCommunicationSettings();
     GeneralDialogWindow::closeEvent(event);
 }
 
@@ -131,22 +132,41 @@ void Window_DeviceConnections::on_pushButton_connectSensoray_released()
 
 void Window_DeviceConnections::on_pushButton_connectPump_released()
 {
-    m_API->m_Pump->openPumpConnection();
+    QString portNumber = ui->comboBox_PortPump->currentText();
+    portNumber.remove(0,3);
+
+    if(portNumber.toInt() > 9)
+    {
+        portNumber = "\\\\.\\COM" + portNumber;
+    }
+
+    m_API->m_Pump->openPumpConnection(portNumber.toStdString());
 }
 
 void Window_DeviceConnections::on_pushButton_connect_Rigol_released()
 {
-    m_API->m_Rigol->openConnection("192.168.1.17",5555);
+    QString ipAddress = ui->lineEdit_IPRigol->text();
+    m_API->m_Rigol->openConnection(ipAddress.toStdString() , 5555);
 }
 
 void Window_DeviceConnections::on_pushButton_connectMunk_released()
 {
-    m_API->m_Munk->openSerialPort("COM17");
+    QString portNumber = ui->comboBox_PortMunk->currentText();
+    portNumber.remove(0,3);
+
+    if(portNumber.toInt() > 9)
+    {
+        portNumber = "\\\\.\\COM" + portNumber;
+    }
+
+    m_API->m_Munk->openSerialPort(portNumber.toStdString());
 }
 
 void Window_DeviceConnections::on_pushButton_connectGalil_released()
 {
-    m_API->m_Galil->openConnection("169.254.78.101 -d");
+    QString ipAddress = ui->lineEdit_IPGalil->text();
+    ipAddress += " -d";
+    m_API->m_Galil->openConnection(ipAddress.toStdString());
 }
 
 void Window_DeviceConnections::on_pushButton_ConnectAll_released()

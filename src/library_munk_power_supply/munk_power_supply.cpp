@@ -27,9 +27,40 @@ MunkPowerSupply::~MunkPowerSupply()
     commsMarshaler = nullptr;
 }
 
-void MunkPowerSupply::openSerialPort(const QString &name)
+void MunkPowerSupply::saveToFile(const QString &filePath)
 {
-    SerialConfiguration config(name.toStdString());
+    QFile saveFile(filePath);
+
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        return;
+    }
+
+    QJsonObject saveObject;
+    this->write(saveObject);
+    QJsonDocument saveDoc(saveObject);
+    saveFile.write(saveDoc.toJson());
+    saveFile.close();
+}
+
+void MunkPowerSupply::write(QJsonObject &json) const
+{
+    QJsonArray segmentDataArray;
+    std::vector<registers_Munk::SegmentTimeDataDetailed> segmentData =
+            this->machineState->getCurrentSegmentData().getRegisterData();
+
+    for(size_t i = 0; i < segmentData.size(); i++)
+    {
+        QJsonObject segmentObject;
+        segmentData.at(i).write(segmentObject);
+        segmentDataArray.append(segmentObject);
+    }
+
+    json["segmentData"] = segmentDataArray;
+}
+
+void MunkPowerSupply::openSerialPort(const std::string &name)
+{
+    SerialConfiguration config(name);
     config.setBaud(19200);
     commsMarshaler->ConnectToLink(config);
 }
@@ -77,7 +108,7 @@ void MunkPowerSupply::generateAndTransmitMessage(const SegmentTimeDetailed &deta
     memoryWrite->setSlaveAddress(01);
     parameters.push_back(memoryWrite);
 
-    commsMarshaler->sendCompleteMunkParameters(parameters);
+    commsMarshaler->sendCompleteMunkParameters(detailedSegmentData, parameters);
 }
 
 void MunkPowerSupply::generateMessages(const SegmentTimeDetailed &detailedSegmentData)
@@ -296,6 +327,10 @@ void MunkPowerSupply::SegmentCommitedToMemoryAcknowledged()
     emit signal_SegmentWriteProgress(completed,required);
 }
 
+void MunkPowerSupply::NewSegmentSequence(const SegmentTimeDetailed &segmentData)
+{
+    this->machineState->updateCurrentSegmentData(segmentData);
+}
 
 void MunkPowerSupply::ExceptionResponseReceived(const MunkRWType &RWType, const std::string &meaning) const
 {
@@ -310,41 +345,11 @@ void MunkPowerSupply::cbi_MunkFaultStateRequest(const RegisterFaultState &reques
     commsMarshaler->sendRegisterFaultStateRequest(request);
 }
 
-void MunkPowerSupply::logOperationalSettings(QFile* filePath) const
+std::string MunkPowerSupply::getLogOfOperationalSettings() const
 {
-    QString str;
-    QTextStream stringWriter(&str, QIODevice::WriteOnly);
-
-    //Write header breaker line at the top
-    for(size_t i = 0; i < 100; i++)
-    {
-        stringWriter << "*";
-    }
-    //bump the header to the next line
-    stringWriter << "\r\n";
-
-    stringWriter<<" Munk Power Supply Operational Settings \r\n";
-
-    for(size_t i = 0; i < 30; i++)
-    {
-        stringWriter << "*";
-    }
-    //bump the header to the next line
-    stringWriter << "\r\n";
-
-    //Let us write the header contents
-
-
-    //Write header breaker line at the conclusion of establishing the header
-    for(size_t i = 0; i < 100; i++)
-    {
-        stringWriter << "*";
-    }
-    //bump the header to the next line
-    stringWriter << "\r\n";
-
-    stringWriter.flush();
-
-    QTextStream out(filePath);
-    out << str;
+    QTextStream stream;
+    stream << this->machineState->getCurrentSegmentData();
+    return stream.readAll().toStdString();
 }
+
+

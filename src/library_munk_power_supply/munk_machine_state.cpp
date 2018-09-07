@@ -64,3 +64,14 @@ bool Munk_MachineState::getCurrentFaultCodes(std::vector<std::string> &rtnFaults
     }
     return faultExists;
 }
+
+void Munk_MachineState::updateCurrentSegmentData(const registers_Munk::SegmentTimeDetailed &data)
+{
+    this->segmentData = data;
+}
+
+registers_Munk::SegmentTimeDetailed Munk_MachineState::getCurrentSegmentData() const
+{
+    return this->segmentData;
+}
+

@@ -53,11 +53,11 @@ bool MunkCommsMarshaler::isConnected() const
     return link->isConnected();
 }
 
-void MunkCommsMarshaler::sendCompleteMunkParameters(std::vector<registers_Munk::AbstractParameterPtr> parameters)
+void MunkCommsMarshaler::sendCompleteMunkParameters(const registers_Munk::SegmentTimeDetailed &segmentData, std::vector<registers_Munk::AbstractParameterPtr> parameters)
 {
     std::cout<<"We will send a complete update to the munk"<<std::endl;
-    auto func = [this, parameters]() {
-            protocol->updateCompleteMunkParameters(link.get(), parameters);
+    auto func = [this, segmentData, parameters]() {
+            protocol->updateCompleteMunkParameters(link.get(), segmentData, parameters);
     };
 
     link->MarshalOnThread(func);
@@ -234,6 +234,11 @@ void MunkCommsMarshaler::SegmentCommittedToMemory(const ILink* link_ptr) const
     Emit([&](CommsEvents *ptr){ptr->SegmentCommitedToMemoryAcknowledged();});
 }
 
+void MunkCommsMarshaler::SegmentUploadComplete(const ILink *link_ptr, const registers_Munk::SegmentTimeDetailed &segmentData) const
+{
+    UNUSED(link_ptr);
+
+}
 
 void MunkCommsMarshaler::ExceptionResponseReceived(const ILink* link_ptr, const data_Munk::MunkRWType &type, const uint8_t &code) const
 {

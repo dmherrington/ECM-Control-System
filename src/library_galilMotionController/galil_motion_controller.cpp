@@ -117,13 +117,6 @@ void GalilMotionController::initializeMotionController()
     // CommandExecuteProfilePtr commandExecuteSetup = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::SETUP,"setup");
     // this->executeCommand(commandExecuteSetup);
 
-
-    // 1: Request the current program aboard the galil motion control unit
-
-    // 2: Request the current profiles that are apart of the program
-
-    // 3: Request the current variables that are apart of the script
-
     //Add items to the galil polling queue so that we can stay up to date
     // 1: Request the position of the galil unit
     RequestTellPositionPtr requestTP = std::make_shared<RequestTellPosition>();
@@ -491,41 +484,9 @@ bool GalilMotionController::loadSettings(const std::string &filePath)
     m_Settings.loadSettings(settingsPath);
 }
 
-void GalilMotionController::logOperationalSettings(QFile* filePath) const
+std::string GalilMotionController::getLogOfOperationalSettings() const
 {
-    QString str;
-    QTextStream stringWriter(&str, QIODevice::WriteOnly);
-
-    //Write header breaker line at the top
-    for(size_t i = 0; i < 100; i++)
-    {
-        stringWriter << "*";
-    }
-    //bump the header to the next line
-    stringWriter << "\r\n";
-
-    stringWriter<<" Munk Power Supply Operational Settings \r\n";
-
-    for(size_t i = 0; i < 30; i++)
-    {
-        stringWriter << "*";
-    }
-    //bump the header to the next line
-    stringWriter << "\r\n";
-
-    //Let us write the header contents
-
-
-    //Write header breaker line at the conclusion of establishing the header
-    for(size_t i = 0; i < 100; i++)
-    {
-        stringWriter << "*";
-    }
-    //bump the header to the next line
-    stringWriter << "\r\n";
-
-    stringWriter.flush();
-
-    QTextStream out(filePath);
-    out << str;
+    std::string str;
+    str += stateInterface->galilProgram->getLoggingString();
+    return str;
 }

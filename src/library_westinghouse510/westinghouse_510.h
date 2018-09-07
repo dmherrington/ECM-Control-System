@@ -4,6 +4,8 @@
 #include <QTextStream>
 #include <QSerialPort>
 #include <QSerialPortInfo>
+#include <QJsonObject>
+#include <QJsonDocument>
 
 #include <QObject>
 #include <QTimer>
@@ -80,16 +82,17 @@ public:
     //!
     //! \brief openPumpConnection
     //!
-    void openPumpConnection();
+    void openPumpConnection(const std::string &portNumber);
 
 
 public:
 
-    void logOperationalSettings(QFile* filePath) const;
+    std::string getLogOfOperationalSettings() const;
 
     void saveToFile(const QString &filePath);
 
-    void openFromFile(const QString &filePath);
+private:
+    void write(QJsonObject &json) const;
 
 private:
 

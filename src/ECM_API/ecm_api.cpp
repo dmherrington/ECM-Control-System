@@ -46,9 +46,53 @@ std::map<std::string, std::string> ECM_API::getSoftwareVersions() const
     return softwareVersionMap;
 }
 
-void ECM_API::initializeECMLogs()
+bool ECM_API::checkLoggingPathValidity(const string &partNumber, const string &serialNumber) const
 {
-    m_Log->writeLoggingHeader();
+    return m_Log->checkLoggingPath(partNumber, serialNumber);
+}
+
+void ECM_API::initializeECMLogs(const std::string &partNumber, const std::string &serialNumber, const std::string &profile,
+                                const common::EnvironmentTime &time, const std::string &descriptor, const bool &clearContents)
+{
+    m_Log->initializeLogging(partNumber, serialNumber, clearContents); //gets the file and directory structure ready for us
+
+    if(clearContents) //if its true means we have new stuff to write
+    {
+        std::string loggingPath = m_Log->getLoggingPath();
+
+        //Write the Munk Profile Parameters
+        std::string munkPath = loggingPath + "PowerSupplySettings.json";
+        m_Munk->saveToFile(QString::fromStdString(munkPath));
+
+        std::string galilPath = loggingPath + "MotionControllerSettings.txt";
+        m_Galil->saveProgramAs(galilPath);
+
+        std::string pumpPath = loggingPath + "PumpSettings.json";
+        m_Pump->saveToFile(QString::fromStdString(pumpPath));
+    }
+
+    std::string operationsString;
+    this->writeHeaderBreaker(operationsString, 100);
+    operationsString += "PUMP OPERATIONAL SETTTINGS \r\n";
+    operationsString += m_Pump->getLogOfOperationalSettings();
+    this->writeHeaderBreaker(operationsString, 100);
+    operationsString += "\r\n";
+
+    this->writeHeaderBreaker(operationsString, 100);
+    operationsString += "POWER SUPPLY OPERATIONAL SETTTINGS \r\n";
+    operationsString += m_Munk->getLogOfOperationalSettings();
+    this->writeHeaderBreaker(operationsString, 100);
+    operationsString += "\r\n";
+
+    this->writeHeaderBreaker(operationsString, 100);
+    operationsString += "MOTION CONTROLLER OPERATIONAL SETTTINGS \r\n";
+    operationsString += m_Galil->getLogOfOperationalSettings();
+    this->writeHeaderBreaker(operationsString, 100);
+    operationsString += "\r\n";
+
+    this->writeHeaderBreaker(operationsString, 100);
+    m_Log->writeLoggingHeader(partNumber, serialNumber, profile,
+                              operationsString, descriptor, time);
 }
 
 void ECM_API::action_StopMachine()
@@ -140,3 +184,13 @@ void ECM_API::slot_MCNewMotionState(const ECM::Galil::GalilState &state, const s
     emit signal_MCNewMotionState(stateString);
 }
 
+void ECM_API::writeHeaderBreaker(std::string &logString, const unsigned int &size) const
+{
+    //Write header breaker line at the top
+    for(size_t i = 0; i < size; i++)
+    {
+        logString = logString + "*";
+    }
+    //bump the header to the next line
+    logString = logString + "\r\n";
+}

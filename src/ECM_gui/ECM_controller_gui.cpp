@@ -658,19 +658,27 @@ void ECMControllerGUI::on_pushButton_RunExplicitProfile_released()
     //first check that we can log where we want to
     QString partNumber = ui->lineEdit_PartNumber->text();
     QString serialNumber = ui->lineEdit_SerialNumber->text();
+    QString profileName = ui->comboBox_ProgramProfiles->currentText();
 
     bool validPath = m_API->m_Log->checkLoggingPath(partNumber.toStdString(),serialNumber.toStdString());
+
+    bool clearContents = true;
 
     if(!validPath)
     {
         QMessageBox msgBox;
         msgBox.setIcon(QMessageBox::Question);
         msgBox.setText("The provided Part/Serial number combination already exists.");
-        msgBox.setInformativeText("Do you want to overwrite the existing contents?");
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        msgBox.setDefaultButton(QMessageBox::Yes);
-        int ret = msgBox.exec();
-        if(ret == QMessageBox::No)
+        msgBox.setInformativeText("Do you want to overwrite or append the existing contents?");
+        QAbstractButton* pButtonAppend = msgBox.addButton(tr("Append"), QMessageBox::AcceptRole);
+        QAbstractButton* pButtonOverwrite = msgBox.addButton(tr("Append"), QMessageBox::AcceptRole);
+        QAbstractButton* pButtonCancel = msgBox.addButton(tr("Append"), QMessageBox::AcceptRole);
+
+//        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+//        msgBox.setDefaultButton(QMessageBox::Yes);
+//        int ret = msgBox.exec();
+
+        if(msgBox.clickedButton() == pButtonCancel)
         {
             /*
              * There is nothing to do at this point with the profile and we should wait
@@ -679,13 +687,24 @@ void ECMControllerGUI::on_pushButton_RunExplicitProfile_released()
              */
             return;
         }
+        else if(msgBox.clickedButton() == pButtonOverwrite)
+        {
+
+        }
+        else if(msgBox.clickedButton() == pButtonAppend)
+        {
+            clearContents = false;
+        }
+        else
+            return;
     }
 
     //grab the current time and update all of the sources
     common::EnvironmentTime startTime;
     common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
 
-    m_API->m_Log->initializeLogging(partNumber.toStdString(),serialNumber.toStdString(),startTime,true);
+    m_API->initializeECMLogs(partNumber.toStdString(),serialNumber.toStdString(),
+                             profileName.toStdString(),startTime,"",clearContents);
 
     QDate tmp_Date(startTime.year, startTime.month, startTime.dayOfMonth);
     QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond);
@@ -702,7 +721,7 @@ void ECMControllerGUI::on_pushButton_RunExplicitProfile_released()
     //While executing this type of command
     //get the profile name from the GUI
 
-    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,ui->comboBox_ProgramProfiles->currentText().toStdString());
+    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,profileName.toStdString());
     m_API->m_Galil->executeCommand(command);
 }
 

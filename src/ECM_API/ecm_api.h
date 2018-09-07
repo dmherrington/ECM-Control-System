@@ -29,9 +29,15 @@ public:
     void action_StopMachine();
 
 public:
-    void initializeECMLogs();
+
+    bool checkLoggingPathValidity(const string &partNumber, const string &serialNumber) const;
+
+    void initializeECMLogs(const string &partNumber, const string &serialNumber, const std::string &profile,
+                           const common::EnvironmentTime &time, const std::string &descriptor = "", const bool &clearContents = false);
 
 private:
+    void writeHeaderBreaker(std::string &logString, const unsigned int &size) const;
+
     std::map<std::string, std::string> getSoftwareVersions() const;
 
 signals:

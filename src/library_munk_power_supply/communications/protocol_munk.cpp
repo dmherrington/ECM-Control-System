@@ -19,7 +19,7 @@ void MunkProtocol::AddListner(const IProtocolMunkEvents* listener)
     m_Listners.push_back(listener);
 }
 
-void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const std::vector<registers_Munk::AbstractParameterPtr> parameters)
+void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registers_Munk::SegmentTimeDetailed &segmentData, const std::vector<registers_Munk::AbstractParameterPtr> parameters)
 {
     for(unsigned int i = 0; i < parameters.size(); i++)
     {
@@ -84,6 +84,7 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const std::ve
         if(validParameter == false)
             break;
     }
+    Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentUploadComplete(link, segmentData);});
     std::cout<<"We have uploaded a complete set of munk parameters."<<std::endl;
 }
 
