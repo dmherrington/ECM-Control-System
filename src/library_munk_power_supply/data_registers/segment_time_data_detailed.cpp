@@ -128,7 +128,7 @@ std::string SegmentTimeDataDetailed::getLoggingString() const
             "Segment Mode: " + data_Munk::SegmentModeToString(segmentMode) + "," +
             "Segment Voltage: " + std::to_string(dataObject.voltage) + "," +
             "Segment Current: " + std::to_string(dataObject.current) + "," +
-            "Segment Time: " + std::to_string(timeValue) + "\n";
+            "Segment Time: " + std::to_string(timeValue);
 
     return rtnStr;
 }

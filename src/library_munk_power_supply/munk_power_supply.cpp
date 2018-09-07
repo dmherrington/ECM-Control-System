@@ -347,9 +347,17 @@ void MunkPowerSupply::cbi_MunkFaultStateRequest(const RegisterFaultState &reques
 
 std::string MunkPowerSupply::getLogOfOperationalSettings() const
 {
-    QTextStream stream;
-    stream << this->machineState->getCurrentSegmentData();
-    return stream.readAll().toStdString();
+    std::string str;
+
+    SegmentTimeDetailed segmentData = this->machineState->getCurrentSegmentData();
+    std::vector<registers_Munk::SegmentTimeDataDetailed> registerData = segmentData.getRegisterData();
+    for(size_t i = 0; i < registerData.size(); i++)
+    {
+
+        str += registerData.at(i).getLoggingString() + "\r\n";
+    }
+
+    return str;
 }
 
 
