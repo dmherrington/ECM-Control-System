@@ -2,8 +2,11 @@
 #define MUNK_POWER_SUPPLY_H
 
 #include <iostream>
+#include <QTextStream>
 #include <QDebug>
 #include <QObject>
+#include <QJsonArray>
+#include <QJsonDocument>
 
 #include "library_munk_power_supply_global.h"
 #include "common/comms/communication_update.h"
@@ -65,7 +68,7 @@ public:
     //!
     //! \brief openSerialPort
     //!
-    void openSerialPort(const QString &name);
+    void openSerialPort(const std::string &name);
 
     //!
     //! \brief closeSerialPort
@@ -73,6 +76,12 @@ public:
     void closeSerialPort();
 
     bool isConnected() const;
+
+public:
+    void saveToFile(const QString &filePath);
+
+private:
+    void write(QJsonObject &json) const;
 
 signals:
 
@@ -129,6 +138,8 @@ private:
 
     void SegmentCommitedToMemoryAcknowledged() override;
 
+    void NewSegmentSequence(const registers_Munk::SegmentTimeDetailed &segmentData) override;
+
     void ExceptionResponseReceived(const MunkRWType &RWType, const std::string &meaning) const override;
 
     ///////////////////////////////////////////////////////////////
@@ -136,6 +147,9 @@ private:
     ///////////////////////////////////////////////////////////////
 
     void cbi_MunkFaultStateRequest(const RegisterFaultState &request) const override;
+
+public:
+    std::string getLogOfOperationalSettings() const;
 
 private:
     std::string deviceName;

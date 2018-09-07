@@ -114,7 +114,7 @@ void State_ScriptExecution::OnExit()
 
 void State_ScriptExecution::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_SCRIPT_EXECUTION));
+    Owner().issueNewGalilState(GalilState::STATE_SCRIPT_EXECUTION);
     //this shouldn't really happen as how are we supposed to know the the actual profile to execute
     //we therefore are going to do nothing other than change the state back to State_Ready
     desiredState = GalilState::STATE_READY;
@@ -127,7 +127,7 @@ void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
         CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
         QString profileName = QString::fromStdString(castCommand->getProfileName());
 
-        Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_SCRIPT_EXECUTION));
+        Owner().issueNewGalilState(GalilState::STATE_SCRIPT_EXECUTION);
 
         Request_TellVariablePtr requestPosition = std::make_shared<Request_TellVariable>("Bottom Position","ppos");
         common::TupleProfileVariableString tupleVariablePPOS("", "", "ppos");

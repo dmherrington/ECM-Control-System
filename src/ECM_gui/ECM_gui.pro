@@ -59,7 +59,6 @@ SOURCES += \
     munk_dialog/widget_segment_time_display.cpp \
     munk_dialog/window_munk_power_supply.cpp \
     misc_dialogs/window_touchoff.cpp \
-    misc_dialogs/dialog_connections.cpp \
     rigol_dialog/window_rigol_control.cpp \
     pump_dialog/window_pump_control.cpp \
     SensorDisplay/display_ampere_area.cpp \
@@ -86,7 +85,6 @@ HEADERS += \
     munk_dialog/widget_segment_time_display.h \
     munk_dialog/window_munk_power_supply.h \
     misc_dialogs/window_touchoff.h \
-    misc_dialogs/dialog_connections.h \
     rigol_dialog/window_rigol_control.h \
     pump_dialog/window_pump_control.h \
     SensorDisplay/display_ampere_area.h \
@@ -107,7 +105,6 @@ FORMS += \
     munk_dialog/widget_segment_time_display.ui \
     munk_dialog/window_munk_power_supply.ui \
     misc_dialogs/window_touchoff.ui \
-    misc_dialogs/dialog_connections.ui \
     rigol_dialog/window_rigol_control.ui \
     pump_dialog/window_pump_control.ui \
     rigol_dialog/widget_rigol_radio.ui \

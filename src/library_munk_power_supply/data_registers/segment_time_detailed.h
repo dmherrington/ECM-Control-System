@@ -65,6 +65,24 @@ public:
     void initializeData();
 
 public:
+    friend QTextStream& operator <<(QTextStream &outStream, const SegmentTimeDetailed &data)
+    {
+        for(size_t i = 0; i < data.detailedRegisterData.size(); i++)
+        {
+            outStream << data.detailedRegisterData.at(i) << "\r\n";
+        }
+
+    }
+
+    friend std::ostream& operator<< (std::ostream &stream, const SegmentTimeDetailed &data)
+    {
+        for(size_t i = 0; i < data.detailedRegisterData.size(); i++)
+        {
+            stream << data.detailedRegisterData.at(i) << "\r\n";
+        }
+    }
+
+public:
 
     //!
     //! \brief operator =

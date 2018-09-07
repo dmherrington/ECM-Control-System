@@ -96,7 +96,7 @@ void State_Jogging::Update()
 
 void State_Jogging::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_JOGGING));
+    Owner().issueNewGalilState(GalilState::STATE_JOGGING);
     //this shouldn't really happen as how are we supposed to know the actual state jogging command
     //we therefore are going to do nothing other than change the state back to State_Ready
     this->desiredState = GalilState::STATE_READY;
@@ -106,7 +106,7 @@ void State_Jogging::OnEnter(const AbstractCommandPtr command)
 {
     if(command != nullptr)
     {
-        Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_JOGGING));
+        Owner().issueNewGalilState(GalilState::STATE_JOGGING);
         this->handleCommand(command);
     }
     else{

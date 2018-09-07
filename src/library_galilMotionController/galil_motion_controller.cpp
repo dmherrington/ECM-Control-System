@@ -117,13 +117,6 @@ void GalilMotionController::initializeMotionController()
     // CommandExecuteProfilePtr commandExecuteSetup = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::SETUP,"setup");
     // this->executeCommand(commandExecuteSetup);
 
-
-    // 1: Request the current program aboard the galil motion control unit
-
-    // 2: Request the current profiles that are apart of the program
-
-    // 3: Request the current variables that are apart of the script
-
     //Add items to the galil polling queue so that we can stay up to date
     // 1: Request the position of the galil unit
     RequestTellPositionPtr requestTP = std::make_shared<RequestTellPosition>();
@@ -354,25 +347,6 @@ void GalilMotionController::executeCommand(const AbstractCommandPtr command)
     ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
     currentState->handleCommand(command);
     stateMachine->ProcessStateTransitions();
-
-    /*
-    std::string commandString = command->getCommandString();
-    std::cout<<"The command string seen here is: "<<commandString<<std::endl;
-    GBufOut returnOut;
-    GSize read_bytes = 0; //bytes read in GCommand
-    //We should be checking that the connection is defined
-    GReturn rtn = GCmd(galil,commandString.c_str());
-    //GReturn rtn = GCommand(mConnection,commandString.c_str(),returnOut,sizeof(returnOut),&read_bytes);
-    std::cout<<"Command Executed: "<<CommandToString(command->getCommandType())<<std::endl;
-    std::cout<<ParseGReturn::getGReturnString(rtn)<<std::endl;
-    //std::cout<<"Returned: "<<std::string(returnOut)<<std::endl;
-    if((command->getCommandType() == CommandType::JOG_MOVE) || (command->getCommandType() == CommandType::RELATIVE_MOVE))
-    {
-        GCmd(galil,"BG A");
-        //we need to begin the command in these cases
-        //GCommand(mConnection,"BG A",returnOut,sizeof(returnOut),&read_bytes);
-    }
-    */
 }
 
 void GalilMotionController::executeCustomCommands(const std::vector<std::string> &stringCommands)
@@ -425,9 +399,9 @@ void GalilMotionController::cbi_NewMotionProfileState(const MotionProfileState &
     emit signal_GalilUpdatedProfileState(state);
 }
 
-void GalilMotionController::cbi_GalilNewMachineState(const std::string &state)
+void GalilMotionController::cbi_GalilNewMachineState(const ECM::Galil::GalilState &state)
 {
-    emit signal_MCNewMotionState(state);
+    emit signal_MCNewMotionState(state,ECM::Galil::ECMStateToString(state));
 }
 
 void GalilMotionController::cbi_GalilUploadProgram(const AbstractCommandPtr command)
@@ -508,4 +482,11 @@ bool GalilMotionController::loadSettings(const std::string &filePath)
 {
     settingsPath = QString::fromStdString(filePath);
     m_Settings.loadSettings(settingsPath);
+}
+
+std::string GalilMotionController::getLogOfOperationalSettings() const
+{
+    std::string str;
+    str += stateInterface->galilProgram->getLoggingString();
+    return str;
 }

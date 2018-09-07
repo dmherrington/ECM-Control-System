@@ -6,6 +6,9 @@ Window_DeviceConnections::Window_DeviceConnections(ECM_API *obj, QWidget *parent
     ui(new Ui::Window_DeviceConnections),
     m_API(obj)
 {
+
+    GeneralDialogWindow::readWindowSettings();
+
     ui->setupUi(this);
     double ledDiameter = 4;
     ui->widget_GalilConnection->setDiameter(ledDiameter);
@@ -25,6 +28,13 @@ Window_DeviceConnections::Window_DeviceConnections(ECM_API *obj, QWidget *parent
     connect(m_API->m_Galil,SIGNAL(signal_MotionControllerCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_GalilConnectionUpdate(common::comms::CommunicationUpdate)));
     connect(m_API->m_Munk,SIGNAL(signal_MunkCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_MunkConnectionUpdate(common::comms::CommunicationUpdate)));
     connect(m_API->m_Rigol,SIGNAL(signal_RigolCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_RigolConnectionUpdate(common::comms::CommunicationUpdate)));
+
+    Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()) {
+        ui->comboBox_PortMunk->addItem(port.portName());
+        ui->comboBox_PortPump->addItem(port.portName());
+    }
+
+    readCommunicationSettings();
 }
 
 Window_DeviceConnections::~Window_DeviceConnections()
@@ -34,6 +44,7 @@ Window_DeviceConnections::~Window_DeviceConnections()
 
 void Window_DeviceConnections::closeEvent(QCloseEvent *event)
 {
+    this->saveCommunicationSettings();
     GeneralDialogWindow::closeEvent(event);
 }
 
@@ -45,6 +56,36 @@ void Window_DeviceConnections::on_actionClose_triggered()
 void Window_DeviceConnections::on_pushButton_Close_released()
 {
     GeneralDialogWindow::onCloseAction();
+}
+
+void Window_DeviceConnections::saveCommunicationSettings()
+{
+    QSettings settings("Communication Settings", "ECM Application");
+    settings.setValue("IPGalil", ui->lineEdit_IPGalil->text());
+    settings.setValue("IPRigol", ui->lineEdit_IPRigol->text());
+    settings.setValue("IPSensoray", ui->lineEdit_IPSensoray->text());
+    settings.setValue("PortMunk", ui->comboBox_PortMunk->currentText());
+    settings.setValue("PortPump", ui->comboBox_PortPump->currentText());
+}
+
+void Window_DeviceConnections::readCommunicationSettings()
+{
+    QSettings settings("Communication Settings", "ECM Application");
+    ui->lineEdit_IPGalil->setText(settings.value("IPGalil").toString());
+    ui->lineEdit_IPGalil->setText(settings.value("IPRigol").toString());
+    ui->lineEdit_IPGalil->setText(settings.value("IPSensoray").toString());
+
+    QString portMunk = settings.value("PortMunk").toString();
+    int munkIndex = ui->comboBox_PortMunk->findData(portMunk);
+    if ( munkIndex != -1 ) { // -1 for not found
+        ui->comboBox_PortMunk->setCurrentIndex(munkIndex);
+    }
+
+    QString portPump = settings.value("PortPump").toString();
+    int pumpIndex = ui->comboBox_PortMunk->findData(portPump);
+    if ( pumpIndex != -1 ) { // -1 for not found
+        ui->comboBox_PortMunk->setCurrentIndex(pumpIndex);
+    }
 }
 
 void Window_DeviceConnections::updateLEDConnectionColor(LED *ledWidget, const common::comms::CommunicationUpdate &connected)
@@ -91,22 +132,41 @@ void Window_DeviceConnections::on_pushButton_connectSensoray_released()
 
 void Window_DeviceConnections::on_pushButton_connectPump_released()
 {
-    m_API->m_Pump->openPumpConnection();
+    QString portNumber = ui->comboBox_PortPump->currentText();
+    portNumber.remove(0,3);
+
+    if(portNumber.toInt() > 9)
+    {
+        portNumber = "\\\\.\\COM" + portNumber;
+    }
+
+    m_API->m_Pump->openPumpConnection(portNumber.toStdString());
 }
 
 void Window_DeviceConnections::on_pushButton_connect_Rigol_released()
 {
-    m_API->m_Rigol->openConnection("192.168.1.17",5555);
+    QString ipAddress = ui->lineEdit_IPRigol->text();
+    m_API->m_Rigol->openConnection(ipAddress.toStdString() , 5555);
 }
 
 void Window_DeviceConnections::on_pushButton_connectMunk_released()
 {
-    m_API->m_Munk->openSerialPort("COM17");
+    QString portNumber = ui->comboBox_PortMunk->currentText();
+    portNumber.remove(0,3);
+
+    if(portNumber.toInt() > 9)
+    {
+        portNumber = "\\\\.\\COM" + portNumber;
+    }
+
+    m_API->m_Munk->openSerialPort(portNumber.toStdString());
 }
 
 void Window_DeviceConnections::on_pushButton_connectGalil_released()
 {
-    m_API->m_Galil->openConnection("169.254.78.101 -d");
+    QString ipAddress = ui->lineEdit_IPGalil->text();
+    ipAddress += " -d";
+    m_API->m_Galil->openConnection(ipAddress.toStdString());
 }
 
 void Window_DeviceConnections::on_pushButton_ConnectAll_released()

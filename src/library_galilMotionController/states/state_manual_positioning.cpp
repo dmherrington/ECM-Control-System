@@ -121,14 +121,14 @@ void State_ManualPositioning::Update()
 
 void State_ManualPositioning::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_MANUAL_POSITIONING));
+    Owner().issueNewGalilState(GalilState::STATE_MANUAL_POSITIONING);
     //For some reason no command was passed to this case. This is an interesting case.
     this->desiredState = GalilState::STATE_READY;
 }
 
 void State_ManualPositioning::OnEnter(const AbstractCommandPtr command)
 {
-    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_MANUAL_POSITIONING));
+    Owner().issueNewGalilState(GalilState::STATE_MANUAL_POSITIONING);
 
     if(command != nullptr)
     {

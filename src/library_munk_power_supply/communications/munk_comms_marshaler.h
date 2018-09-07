@@ -14,6 +14,7 @@
 #include "i_link_events.h"
 #include "comms_events.h"
 
+#include "data_registers/segment_time_detailed.h"
 #include "data_registers/segment_time_general.h"
 #include "data_registers/segment_voltage_setpoint.h"
 #include "data_registers/segment_current_setpoint.h"
@@ -46,7 +47,7 @@ public:
 
     bool isConnected() const;
 
-    void sendCompleteMunkParameters(std::vector<registers_Munk::AbstractParameterPtr> parameters);
+    void sendCompleteMunkParameters(const registers_Munk::SegmentTimeDetailed &segmentData, std::vector<registers_Munk::AbstractParameterPtr> parameters);
 
     ///////////////////////////////////////////////////////////////////
     /// Methods issuing voltage setpoints relevant to the munk program
@@ -106,6 +107,8 @@ private:
     void SegmentCurrentSetpointAcknowledged(const ILink* link_ptr , const data_Munk::SegmentMode &mode) const override;
     void SegmentTimeSetpointAcknowledged(const ILink* link_ptr) const override;
     void SegmentCommittedToMemory(const ILink* link_ptr) const override;
+    void SegmentUploadComplete(const ILink* link_ptr, const registers_Munk::SegmentTimeDetailed &segmentData) const override;
+
 
     void ExceptionResponseReceived(const ILink* link_ptr, const data_Munk::MunkRWType &type, const uint8_t &code) const override;
 

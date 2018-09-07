@@ -80,7 +80,7 @@ void State_MotionStop::Update()
 
 void State_MotionStop::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_MOTION_STOP));
+    Owner().issueNewGalilState(GalilState::STATE_MOTION_STOP);
 
     if(!Owner().isMotorInMotion()) //the exit condition for this state is that the machine motion has stopped on all axis
     {

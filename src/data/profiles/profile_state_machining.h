@@ -9,7 +9,8 @@ public:
     enum class MACHININGProfileCodes
     {
         INCOMPLETE = 0,
-        COMPLETE = 1
+        COMPLETE = 1,
+        ABORTED = 2
     };
 
     //!
@@ -23,6 +24,8 @@ public:
             return "Machining Routine Incomplete.";
         case MACHININGProfileCodes::COMPLETE:
             return "Machining Routine Finished.";
+        case MACHININGProfileCodes::ABORTED:
+            return "Machining Routine has been Aborted.";
         default:
             throw std::runtime_error("Unknown machining profile code seen");
         }

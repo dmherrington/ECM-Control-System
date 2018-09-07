@@ -13,11 +13,13 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include "LED.h"
@@ -31,22 +33,27 @@ public:
     QHBoxLayout *horizontalLayout;
     LED *widget_GalilConnection;
     QLabel *label_GalilConnection;
+    QLineEdit *lineEdit_IPGalil;
     QPushButton *pushButton_connectGalil;
     QHBoxLayout *horizontalLayout_2;
     LED *widget_MunkConnection;
     QLabel *label_MunkConnection;
+    QComboBox *comboBox_PortMunk;
     QPushButton *pushButton_connectMunk;
     QHBoxLayout *horizontalLayout_3;
     LED *widget_RigolConnection;
     QLabel *label_RigolConnection;
+    QLineEdit *lineEdit_IPRigol;
     QPushButton *pushButton_connect_Rigol;
     QHBoxLayout *horizontalLayout_4;
     LED *widget_SensorayConnection;
     QLabel *label_SensorayConnection;
+    QLineEdit *lineEdit_IPSensoray;
     QPushButton *pushButton_connectSensoray;
     QHBoxLayout *horizontalLayout_5;
     LED *widget_WestinghouseConnection;
     QLabel *label_WestinghouseConnection;
+    QComboBox *comboBox_PortPump;
     QPushButton *pushButton_connectPump;
     QPushButton *pushButton_ConnectAll;
     QSpacerItem *horizontalSpacer_2;
@@ -56,7 +63,7 @@ public:
     {
         if (Dialog_Connections->objectName().isEmpty())
             Dialog_Connections->setObjectName(QStringLiteral("Dialog_Connections"));
-        Dialog_Connections->resize(337, 238);
+        Dialog_Connections->resize(443, 238);
         Dialog_Connections->setStyleSheet(QLatin1String("QMainWindow{\n"
 "background-color:#1d1d1d;\n"
 "}\n"
@@ -203,8 +210,20 @@ public:
         QFont font;
         font.setPointSize(10);
         label_GalilConnection->setFont(font);
+        label_GalilConnection->setAlignment(Qt::AlignCenter);
 
         horizontalLayout->addWidget(label_GalilConnection);
+
+        lineEdit_IPGalil = new QLineEdit(Dialog_Connections);
+        lineEdit_IPGalil->setObjectName(QStringLiteral("lineEdit_IPGalil"));
+        sizePolicy.setHeightForWidth(lineEdit_IPGalil->sizePolicy().hasHeightForWidth());
+        lineEdit_IPGalil->setSizePolicy(sizePolicy);
+        lineEdit_IPGalil->setMinimumSize(QSize(100, 0));
+        lineEdit_IPGalil->setMaximumSize(QSize(100, 16777215));
+        lineEdit_IPGalil->setFont(font);
+        lineEdit_IPGalil->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout->addWidget(lineEdit_IPGalil);
 
         pushButton_connectGalil = new QPushButton(Dialog_Connections);
         pushButton_connectGalil->setObjectName(QStringLiteral("pushButton_connectGalil"));
@@ -234,8 +253,18 @@ public:
         label_MunkConnection->setMinimumSize(QSize(200, 30));
         label_MunkConnection->setMaximumSize(QSize(200, 30));
         label_MunkConnection->setFont(font);
+        label_MunkConnection->setAlignment(Qt::AlignCenter);
 
         horizontalLayout_2->addWidget(label_MunkConnection);
+
+        comboBox_PortMunk = new QComboBox(Dialog_Connections);
+        comboBox_PortMunk->setObjectName(QStringLiteral("comboBox_PortMunk"));
+        sizePolicy.setHeightForWidth(comboBox_PortMunk->sizePolicy().hasHeightForWidth());
+        comboBox_PortMunk->setSizePolicy(sizePolicy);
+        comboBox_PortMunk->setMinimumSize(QSize(100, 0));
+        comboBox_PortMunk->setMaximumSize(QSize(100, 16777215));
+
+        horizontalLayout_2->addWidget(comboBox_PortMunk);
 
         pushButton_connectMunk = new QPushButton(Dialog_Connections);
         pushButton_connectMunk->setObjectName(QStringLiteral("pushButton_connectMunk"));
@@ -265,8 +294,20 @@ public:
         label_RigolConnection->setMinimumSize(QSize(200, 30));
         label_RigolConnection->setMaximumSize(QSize(200, 30));
         label_RigolConnection->setFont(font);
+        label_RigolConnection->setAlignment(Qt::AlignCenter);
 
         horizontalLayout_3->addWidget(label_RigolConnection);
+
+        lineEdit_IPRigol = new QLineEdit(Dialog_Connections);
+        lineEdit_IPRigol->setObjectName(QStringLiteral("lineEdit_IPRigol"));
+        sizePolicy.setHeightForWidth(lineEdit_IPRigol->sizePolicy().hasHeightForWidth());
+        lineEdit_IPRigol->setSizePolicy(sizePolicy);
+        lineEdit_IPRigol->setMinimumSize(QSize(100, 0));
+        lineEdit_IPRigol->setMaximumSize(QSize(100, 16777215));
+        lineEdit_IPRigol->setFont(font);
+        lineEdit_IPRigol->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_3->addWidget(lineEdit_IPRigol);
 
         pushButton_connect_Rigol = new QPushButton(Dialog_Connections);
         pushButton_connect_Rigol->setObjectName(QStringLiteral("pushButton_connect_Rigol"));
@@ -296,8 +337,20 @@ public:
         label_SensorayConnection->setMinimumSize(QSize(200, 30));
         label_SensorayConnection->setMaximumSize(QSize(200, 30));
         label_SensorayConnection->setFont(font);
+        label_SensorayConnection->setAlignment(Qt::AlignCenter);
 
         horizontalLayout_4->addWidget(label_SensorayConnection);
+
+        lineEdit_IPSensoray = new QLineEdit(Dialog_Connections);
+        lineEdit_IPSensoray->setObjectName(QStringLiteral("lineEdit_IPSensoray"));
+        sizePolicy.setHeightForWidth(lineEdit_IPSensoray->sizePolicy().hasHeightForWidth());
+        lineEdit_IPSensoray->setSizePolicy(sizePolicy);
+        lineEdit_IPSensoray->setMinimumSize(QSize(100, 0));
+        lineEdit_IPSensoray->setMaximumSize(QSize(100, 16777215));
+        lineEdit_IPSensoray->setFont(font);
+        lineEdit_IPSensoray->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_4->addWidget(lineEdit_IPSensoray);
 
         pushButton_connectSensoray = new QPushButton(Dialog_Connections);
         pushButton_connectSensoray->setObjectName(QStringLiteral("pushButton_connectSensoray"));
@@ -327,8 +380,18 @@ public:
         label_WestinghouseConnection->setMinimumSize(QSize(200, 30));
         label_WestinghouseConnection->setMaximumSize(QSize(200, 30));
         label_WestinghouseConnection->setFont(font);
+        label_WestinghouseConnection->setAlignment(Qt::AlignCenter);
 
         horizontalLayout_5->addWidget(label_WestinghouseConnection);
+
+        comboBox_PortPump = new QComboBox(Dialog_Connections);
+        comboBox_PortPump->setObjectName(QStringLiteral("comboBox_PortPump"));
+        sizePolicy.setHeightForWidth(comboBox_PortPump->sizePolicy().hasHeightForWidth());
+        comboBox_PortPump->setSizePolicy(sizePolicy);
+        comboBox_PortPump->setMinimumSize(QSize(100, 0));
+        comboBox_PortPump->setMaximumSize(QSize(100, 16777215));
+
+        horizontalLayout_5->addWidget(comboBox_PortPump);
 
         pushButton_connectPump = new QPushButton(Dialog_Connections);
         pushButton_connectPump->setObjectName(QStringLiteral("pushButton_connectPump"));
@@ -372,12 +435,15 @@ public:
     {
         Dialog_Connections->setWindowTitle(QApplication::translate("Dialog_Connections", "Dialog", nullptr));
         label_GalilConnection->setText(QApplication::translate("Dialog_Connections", "Connection Galil Motion Controller", nullptr));
+        lineEdit_IPGalil->setText(QApplication::translate("Dialog_Connections", "192.168.1.10", nullptr));
         pushButton_connectGalil->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
         label_MunkConnection->setText(QApplication::translate("Dialog_Connections", "Connection Munk Power Supply", nullptr));
         pushButton_connectMunk->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
         label_RigolConnection->setText(QApplication::translate("Dialog_Connections", "Connection Rigol Oscilliscope", nullptr));
+        lineEdit_IPRigol->setText(QApplication::translate("Dialog_Connections", "192.168.1.10", nullptr));
         pushButton_connect_Rigol->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
         label_SensorayConnection->setText(QApplication::translate("Dialog_Connections", "Connection Sensoray ", nullptr));
+        lineEdit_IPSensoray->setText(QApplication::translate("Dialog_Connections", "192.168.1.10", nullptr));
         pushButton_connectSensoray->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));
         label_WestinghouseConnection->setText(QApplication::translate("Dialog_Connections", "Connection Westinghouse Pump", nullptr));
         pushButton_connectPump->setText(QApplication::translate("Dialog_Connections", "Connect", nullptr));

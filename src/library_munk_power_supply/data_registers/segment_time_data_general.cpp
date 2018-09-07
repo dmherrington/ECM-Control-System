@@ -109,5 +109,15 @@ void SegmentTimeDataGeneral::updateData(const SegmentTimeDataGeneral &data)
     this->operator =(data);
 }
 
+std::string SegmentTimeDataGeneral::getLoggingString() const
+{
+    std::string rtnStr = "Segment Power: " + data_Munk::SegmentLevelToString(this->segmentLevel) + ", " +
+                                            "Segment Mode: " + data_Munk::SegmentModeToString(this->segmentMode) + ", "+
+                                            "Segment Power: " + data_Munk::SegmentPowerToString(this->segmentPower) + ", "+
+                                            "Segment Time: " + std::to_string(this->timeValue) + ".";
+
+    return rtnStr;
+}
+
 } //end of namespace registers_Munk
 

@@ -75,7 +75,7 @@ void State_ReadyStop::Update()
 
 void State_ReadyStop::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_READY_STOP));
+    Owner().issueNewGalilState(GalilState::STATE_READY_STOP);
 
     //The first thing we should do when entering this state is to disengage the motor
     //Let us check to see if the motor is already armed, if not, follow through with the command

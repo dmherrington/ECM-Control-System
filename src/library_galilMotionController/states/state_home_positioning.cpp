@@ -74,6 +74,13 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
         Owner().statusVariableValues->addVariableNotifier("homest",this,[this]{
             double varValue = 0.0;
             bool valid = Owner().statusVariableValues->getVariableValue("homest",varValue);
+            if(!valid)
+            {
+                std::cout<<"The variable homest does not exist and therefore we do not know how to handle this case."<<std::endl;
+                desiredState = GalilState::STATE_MOTION_STOP;
+                return;
+            }
+
             switch ((int)varValue) {
             case 0:
             {
@@ -134,7 +141,7 @@ void State_HomePositioning::Update()
 
 void State_HomePositioning::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_HOME_POSITIONING));
+    Owner().issueNewGalilState(GalilState::STATE_HOME_POSITIONING);
     //this shouldn't really happen as how are we supposed to know the actual home position command
     //we therefore are going to do nothing other than change the state back to State_Ready
     this->desiredState = GalilState::STATE_READY;
@@ -148,7 +155,7 @@ void State_HomePositioning::OnEnter(const AbstractCommandPtr command)
 
     if(command != nullptr)
     {
-        Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_HOME_POSITIONING));
+        Owner().issueNewGalilState(GalilState::STATE_HOME_POSITIONING);
         Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Home Status","homest");
         common::TupleProfileVariableString tupleVariable("Default","Homing","homest");
         request->setTupleDescription(tupleVariable);

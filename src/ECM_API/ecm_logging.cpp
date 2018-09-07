@@ -1,12 +1,17 @@
 #include "ecm_logging.h"
 
-ECMLogging::ECMLogging():
-    masterLog(nullptr), loggingInitialized(false), loggingEnabled(false)
+ECMLogging::ECMLogging(const std::map<string, string> &softwareVersions):
+    masterLog(nullptr), loggingInitialized(false), loggingEnabled(false), softwareVersioningMap(softwareVersions)
 {
 
 }
 
-bool ECMLogging::checkLoggingPath(const string &partNumber, const string &serialNumber)
+std::string ECMLogging::getLoggingPath() const
+{
+    return this->loggingPath;
+}
+
+bool ECMLogging::checkLoggingPath(const string &partNumber, const string &serialNumber) const
 {
     char* ECMPath = getenv("ECM_ROOT");
     if(ECMPath){
@@ -32,7 +37,7 @@ void ECMLogging::enableLogging(const bool &enable)
     this->loggingEnabled = enable;
 }
 
-void ECMLogging::initializeLogging(const string &partNumber, const string &serialNumber, const common::EnvironmentTime &time, bool clearContents)
+void ECMLogging::initializeLogging(const std::string &partNumber, const std::string &serialNumber, bool clearContents)
 {
     std::string logName = "machiningLogs";
     loggingPath = "";
@@ -57,42 +62,40 @@ void ECMLogging::initializeLogging(const string &partNumber, const string &seria
 
     QString fileName = QString::fromStdString(loggingPath) + QString::fromStdString(logName) + ".out";
     masterLog = new QFile(fileName);
-    masterLog->open(QIODevice::WriteOnly);
-    masterLog->resize(0);
+    if(clearContents)
+    {
+        masterLog->open(QFile::WriteOnly);
+        masterLog->resize(0);
+    }
+    else{
+        masterLog->open(QFile::WriteOnly | QFile::Append);
+    }
 
-    this->setLoggingStartTime(time);
 
     loggingInitialized = true;
 }
 
-void ECMLogging::writeLoggingHeader()
+void ECMLogging::writeLoggingHeader(const std::string &partNumber, const std::string &serialNumber,const std::string &profileString,
+                                    const std::string &operationalSettings, const std::string &descriptor,
+                                    const common::EnvironmentTime &time)
 {
     if(!loggingInitialized)
         return;
 
+    this->setLoggingStartTime(time);
+
     QString str;
     QTextStream stringWriter(&str, QIODevice::WriteOnly);
-
-    //Write header breaker line at the top
-    for(size_t i = 0; i < 100; i++)
-    {
-        stringWriter << "*";
-    }
-    //bump the header to the next line
-    stringWriter << "\r\n";
-
-    //Let us write the header contents
-
-    //Write header breaker line at the conclusion of establishing the header
-    for(size_t i = 0; i < 100; i++)
-    {
-        stringWriter << "*";
-    }
+    stringWriter << "Part Number #: " << QString::fromStdString(partNumber) << "\t" << "Serial Number #: " << QString::fromStdString(serialNumber) << "\t" <<"Machining Profile : " << QString::fromStdString(profileString) <<"\r\n";
+    stringWriter << "Operation Time : " << time <<"\r\n";
+    stringWriter << "Descriptor (Optional): " << QString::fromStdString(descriptor) <<"\r\n";
+    this->WriteLogSoftwareVersions(stringWriter);
+    stringWriter << QString::fromStdString(operationalSettings);
 
     stringWriter.flush();
-
     QTextStream out(masterLog);
     out << str;
+
 }
 
 void ECMLogging::setLoggingRelativeTime(const bool &value)
@@ -174,7 +177,36 @@ void ECMLogging::SetSensorLogFile(const common::TupleSensorString &key)
     m_LogSensorStates[key] = outFile;
 }
 
+void ECMLogging::WriteLogSoftwareVersions(QTextStream &stringWriter)
+{
+    std::map<std::string,std::string>::iterator it = this->softwareVersioningMap.begin();
+
+    for(; it != this->softwareVersioningMap.end(); ++it)
+    {
+        stringWriter<<QString::fromStdString(it->first)<<":"<<QString::fromStdString(it->second)<<"\r\n";
+    }
+
+    stringWriter<<"\r\n";
+}
+
+std::string ECMLogging::WriteHeaderBreaker(const unsigned int &size)
+{
+    std::string str;
+
+    //Write header breaker line at the top
+    for(size_t i = 0; i < size; i++)
+    {
+        str += "*";
+    }
+
+    //bump the header to the next line
+    str += "\r\n";
+    return str;
+}
+
 bool ECMLogging::isComponentLogging() const
 {
     return loggingEnabled && loggingInitialized;
 }
+
+

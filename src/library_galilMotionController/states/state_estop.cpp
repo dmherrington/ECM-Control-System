@@ -65,7 +65,7 @@ void State_EStop::Update()
 
 void State_EStop::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_ESTOP));
+    Owner().issueNewGalilState(GalilState::STATE_ESTOP);
     //First check to see if the motor is already disarmed, and if not, disarm it
     if(Owner().isMotorEnabled())
     {

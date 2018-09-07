@@ -5,6 +5,7 @@
 
 #include "ecm_api_global.h"
 #include "common/ecm_devices.h"
+#include "graphing/graphing_global.h"
 
 #include "library_munk_power_supply/munk_power_supply.h"
 #include "library_galilMotionController/galil_motion_controller.h"
@@ -28,10 +29,42 @@ public:
     void action_StopMachine();
 
 public:
-    void initializeECMLogs(const string &partNumber, const string &serialNumber, const common::EnvironmentTime &time, bool clearContents = true);
+
+    bool checkLoggingPathValidity(const string &partNumber, const string &serialNumber) const;
+
+    void initializeECMLogs(const string &partNumber, const string &serialNumber, const std::string &profile,
+                           const common::EnvironmentTime &time, const std::string &descriptor = "", const bool &clearContents = false);
+
+private:
+    void writeHeaderBreaker(std::string &logString, const unsigned int &size) const;
+
+    std::map<std::string, std::string> getSoftwareVersions() const;
+
+signals:
+    void signal_LockMotionButtons(const bool &lock);
+
+    void signal_MCNewMotionState(const std::string &stateString);
 
 private slots:
+
+    //!
+    //! \brief slot_MotionControllerCommunicationUpdate
+    //! \param update
+    //!
     void slot_MotionControllerCommunicationUpdate(const common::comms::CommunicationUpdate &update);
+
+    //!
+    //! \brief slot_UpdateMotionProfileState
+    //! \param state
+    //!
+    void slot_UpdateMotionProfileState(const MotionProfileState &state);
+
+    //!
+    //! \brief slot_MCNewMotionState
+    //! \param state
+    //! \param stateString
+    //!
+    void slot_MCNewMotionState(const ECM::Galil::GalilState &state, const std::string &stateString);
 
 public:
 

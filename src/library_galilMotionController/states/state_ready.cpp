@@ -141,9 +141,13 @@ void State_Ready::handleCommand(const AbstractCommandPtr command)
         break;
     }
     case CommandType::MOTOR_OFF:
-    case CommandType::STOP:
     {
         desiredState = GalilState::STATE_READY_STOP;
+        break;
+    }
+    case CommandType::STOP:
+    {
+        //at the moment we only have this transitioning to the ready state
         break;
     }
     case CommandType::MOTOR_ON:
@@ -198,7 +202,7 @@ void State_Ready::Update()
 
 void State_Ready::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(GalilState::STATE_READY));
+    Owner().issueNewGalilState(GalilState::STATE_READY);
     //The first thing we should do when entering this state is to engage the motor
     //Let us check to see if the motor is already armed, if not, follow through with the command
 

@@ -102,6 +102,8 @@ private:
     void NewStatusVariableValue(const Status_VariableValue &status) override;
 
 public:
+    std::string getLogOfOperationalSettings() const;
+
     void getSettingsPath(std::string &settingsPath) const;
     bool saveSettings();
     bool saveSettingsAs(const std::string &filePath);
@@ -135,7 +137,7 @@ private:
     void cbi_GalilControllerGains(const CommandControllerGain &gains) override;
     void cbi_GalilHomeIndicated(const bool &indicated) override;
     void cbi_NewMotionProfileState(const MotionProfileState &state) override;
-    void cbi_GalilNewMachineState(const std::string &state) override;
+    void cbi_GalilNewMachineState(const ECM::Galil::GalilState &state) override;
     void cbi_GalilUploadProgram(const AbstractCommandPtr command) override;
     void cbi_GalilDownloadProgram(const AbstractCommandPtr command) override;
 
@@ -180,7 +182,7 @@ signals:
     //! \brief signal_MCNewMotionState signal emitted when the state machine has progressed to a new state
     //! \param state string descriptor describing the state the galil motion controller is in
     //!
-    void signal_MCNewMotionState(const std::string &state) const;
+    void signal_MCNewMotionState(const ECM::Galil::GalilState &state, const std::string &stateString) const;
 
     //!
     //! \brief signal_MCNewProgramReceived

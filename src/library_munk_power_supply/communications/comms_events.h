@@ -7,6 +7,8 @@
 #include "data/type_read_write.h"
 #include "data/type_fault_status_registers.h"
 
+#include "data_registers/segment_time_detailed.h"
+
 namespace comms_Munk{
 
 class CommsEvents
@@ -85,6 +87,12 @@ public:
     {
 
     }
+
+    virtual void NewSegmentSequence(const registers_Munk::SegmentTimeDetailed &segmentData)
+    {
+        UNUSED(segmentData);
+    }
+
 
     virtual void ExceptionResponseReceived(const data_Munk::MunkRWType &RWType, const std::string &meaning) const
     {

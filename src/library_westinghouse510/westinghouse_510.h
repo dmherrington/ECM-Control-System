@@ -1,8 +1,11 @@
 #ifndef WESTINGHOUSE_510_H
 #define WESTINGHOUSE_510_H
 
+#include <QTextStream>
 #include <QSerialPort>
 #include <QSerialPortInfo>
+#include <QJsonObject>
+#include <QJsonDocument>
 
 #include <QObject>
 #include <QTimer>
@@ -42,6 +45,7 @@ public:
         initializationTimer = nullptr;
     }
 
+public:
     //!
     //! \brief setPumpFlowRate function transmitting the desired flow rate to the communication object.
     //! It is the role of the communication object to then transmit the desired flow rate to the appropriate
@@ -78,8 +82,17 @@ public:
     //!
     //! \brief openPumpConnection
     //!
-    void openPumpConnection();
+    void openPumpConnection(const std::string &portNumber);
 
+
+public:
+
+    std::string getLogOfOperationalSettings() const;
+
+    void saveToFile(const QString &filePath);
+
+private:
+    void write(QJsonObject &json) const;
 
 private:
 

@@ -7,8 +7,6 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
     qRegisterMetaType<common::comms::CommunicationConnection>("CommunicationConnection");
     qRegisterMetaType<common::comms::CommunicationUpdate>("CommunicationUpdate");
 
-    //connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortReadyToConnect()),this,SLOT(slot_SerialPortReadyToConnect()));
-    //connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortConnection(common::comms::CommunicationConnection)),this,SLOT(slot_SerialPortConnectionUpdate(common::comms::CommunicationConnection)));
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_SerialPortUpdate(common::comms::CommunicationUpdate)));
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_RXNewSerialData(QByteArray)),this,SLOT(slot_SerialPortReceivedData(QByteArray)));
 
@@ -68,23 +66,26 @@ bool Westinghouse510::isPumpConnected() const
     return this->m_Comms->isSerialPortOpen();
 }
 
-void Westinghouse510::openPumpConnection()
+void Westinghouse510::openPumpConnection(const std::string &portNumber)
 {
-    this->slot_SerialPortReadyToConnect();
+    common::comms::SerialConfiguration config("WestinghousePort");
+    config.setPortName(portNumber);
+    this->m_Comms->openSerialPortConnection(config);
+
+    //this->slot_SerialPortReadyToConnect();
 }
 
 void Westinghouse510::slot_SerialPortReadyToConnect()
 {
-    common::comms::SerialConfiguration config("WestinghousePort");
-    const auto infos = QSerialPortInfo::availablePorts();
-    for (const QSerialPortInfo &info : infos)
-    {
-        if(info.portName() == "COM14")
-        {
-            config.setPortName("\\\\.\\COM14");
-            this->m_Comms->openSerialPortConnection(config);
-        }
-    }
+//    const auto infos = QSerialPortInfo::availablePorts();
+//    for (const QSerialPortInfo &info : infos)
+//    {
+//        if(info.portName() == "COM14")
+//        {
+//            config.setPortName("\\\\.\\COM14");
+//            this->m_Comms->openSerialPortConnection(config);
+//        }
+//    }
 
 }
 
@@ -185,3 +186,36 @@ void Westinghouse510::parseReceivedMessage(const comms_WestinghousePump::Westing
         }
     }
 }
+
+std::string Westinghouse510::getLogOfOperationalSettings() const
+{
+    std::string str;
+    //Let us write the header contents
+    str += "Volumetric Flow: " + std::to_string(m_State->flowRate.get()) + " lpm. \r\n";
+    str += "Initialization Time: " + std::to_string(m_State->delayTime.get()) +" milliseconds. \r\n";
+    return str;
+}
+
+
+void Westinghouse510::saveToFile(const QString &filePath)
+{
+    QFile saveFile(filePath);
+
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        return;
+    }
+
+    QJsonObject saveObject;
+    this->write(saveObject);
+    QJsonDocument saveDoc(saveObject);
+    saveFile.write(saveDoc.toJson());
+    saveFile.close();
+}
+
+void Westinghouse510::write(QJsonObject &json) const
+{
+    json["pumpDelayTime"] = (int)this->m_State->delayTime.get();
+    json["pumpFlowRate"] = this->m_State->flowRate.get();
+}
+
+

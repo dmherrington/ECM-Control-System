@@ -80,5 +80,10 @@ void SegmentCurrentSetpoint::initializeData()
     this->data.clear();
 }
 
+std::string SegmentCurrentSetpoint::getLoggingData() const
+{
+
+}
+
 } //end of namespace registers_Munk
 

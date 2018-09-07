@@ -34,6 +34,7 @@ std::string Sensor::getName() const
 //! Assignment operator
 Sensor& Sensor::operator =(const Sensor &that)
 {
+    this->m_Name = that.m_Name;
     return *this;
 }
 

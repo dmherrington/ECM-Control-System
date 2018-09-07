@@ -44,7 +44,7 @@ public:
 
 public:
 
-    void updateCompleteMunkParameters(const ILink *link, const std::vector<registers_Munk::AbstractParameterPtr> parameters);
+    void updateCompleteMunkParameters(const ILink *link, const registers_Munk::SegmentTimeDetailed &segmentData, const std::vector<registers_Munk::AbstractParameterPtr> parameters);
 
     bool sendAbstractSetpoint(const ILink *link, const registers_Munk::AbstractParameterPtr parameter);
 
