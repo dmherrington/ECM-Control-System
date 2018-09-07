@@ -63,19 +63,31 @@ void State_ScriptExecution::handleCommand(const AbstractCommandPtr command)
     {
         CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
         Owner().issueGalilCommand(castCommand);
-        //this->clearCommand();
+
         break;
     }
     case CommandType::STOP:
     {
+        ProfileState_Machining newState("Machining Profile", scriptProfileName);
+        newState.setCurrentCode(ProfileState_Machining::MACHININGProfileCodes::ABORTED);
+        MotionProfileState newProfileState;
+        newProfileState.setProfileState(std::make_shared<ProfileState_Machining>(newState));
+        Owner().issueUpdatedMotionProfileState(newProfileState);
+
         desiredState = GalilState::STATE_MOTION_STOP;
-        //this->clearCommand();
+
         break;
     }
     case CommandType::ESTOP:
     {
+        ProfileState_Machining newState("Machining Profile", scriptProfileName);
+        newState.setCurrentCode(ProfileState_Machining::MACHININGProfileCodes::ABORTED);
+        MotionProfileState newProfileState;
+        newProfileState.setProfileState(std::make_shared<ProfileState_Machining>(newState));
+        Owner().issueUpdatedMotionProfileState(newProfileState);
+
         desiredState = GalilState::STATE_ESTOP;
-        //this->clearCommand();
+
         break;
     }
     default:
@@ -126,6 +138,7 @@ void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
     {
         CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
         QString profileName = QString::fromStdString(castCommand->getProfileName());
+        this->scriptProfileName = profileName.toStdString();
 
         Owner().issueNewGalilState(GalilState::STATE_SCRIPT_EXECUTION);
 
@@ -153,11 +166,23 @@ void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
             case ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE:
             {
                 //the part is still being cut
+                ProfileState_Machining newState("Machining Profile", scriptProfileName);
+                newState.setCurrentCode(ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE);
+                MotionProfileState newProfileState;
+                newProfileState.setProfileState(std::make_shared<ProfileState_Machining>(newState));
+                Owner().issueUpdatedMotionProfileState(newProfileState);
+
                 break;
             }
             case ProfileState_Machining::MACHININGProfileCodes::COMPLETE:
             {
                 //the part is finished being cut
+                ProfileState_Machining newState("Machining Profile", scriptProfileName);
+                newState.setCurrentCode(ProfileState_Machining::MACHININGProfileCodes::COMPLETE);
+                MotionProfileState newProfileState;
+                newProfileState.setProfileState(std::make_shared<ProfileState_Machining>(newState));
+                Owner().issueUpdatedMotionProfileState(newProfileState);
+
                 desiredState = GalilState::STATE_READY;
                 break;
             }

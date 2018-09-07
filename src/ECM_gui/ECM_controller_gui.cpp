@@ -20,6 +20,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     ui->setupUi(this);
 
+    ui->verticalLayout_SetpControlInner->setAlignment(Qt::AlignHCenter);
+
     common::EnvironmentTime startTime;
     common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
 
@@ -58,6 +60,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_Galil, SIGNAL(signal_MCNewProgramLabelList(ProgramLabelList)), this, SLOT(slot_MCNewProgramLabels(ProgramLabelList)));
     connect(m_API->m_Galil, SIGNAL(signal_MCNewProgramVariableList(ProgramVariableList)), this, SLOT(slot_MCNEWProgramVariableList(ProgramVariableList)));
     connect(m_API->m_Galil, SIGNAL(signal_MCNewProfileVariableValue(common::TupleProfileVariableString,common_data::MotionProfileVariableState)), this, SLOT(slot_NewProfileVariableData(common::TupleProfileVariableString,common_data::MotionProfileVariableState)));
+    connect(m_API->m_Galil, SIGNAL(signal_GalilUpdatedProfileState(MotionProfileState)), this, SLOT(slot_UpdatedMotionProfileState(MotionProfileState)));
 
     m_WindowCustomMotionCommands = new Window_CustomMotionCommands(m_API->m_Galil);
     m_WindowCustomMotionCommands->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
@@ -84,7 +87,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_WindowTouchoff,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
     m_WindowConnections = new Window_DeviceConnections(m_API);
-    m_WindowConnections->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowCloseButtonHint);
+    m_WindowConnections->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
     connect(m_WindowConnections,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
     connect(m_API->m_Galil,SIGNAL(signal_GalilHomeIndicated(bool)),this,SLOT(slot_UpdateHomeIndicated(bool)));
@@ -107,6 +110,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     }
 
     readSettings();
+
+    m_WindowConnections->connectToAllDevices();
 }
 
 ECMControllerGUI::~ECMControllerGUI()
@@ -463,6 +468,10 @@ void ECMControllerGUI::on_pushButton_DecreaseJog_released()
 
 void ECMControllerGUI::on_pushButton_IncreaseRelativeMove_released()
 {
+    int relativeMoveSpeed = ui->spinBox_RelativeMoveSpeed->value();
+    CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(MotorAxis::Z, relativeMoveSpeed);
+    m_API->m_Galil->executeCommand(commandSpeed);
+
     int relativeDistance = abs(ui->spinBox_RelativeMove->value()) * (-1);
     CommandRelativeMovePtr startIncreaseRelativeMove = std::make_shared<CommandRelativeMove>(MotorAxis::Z, relativeDistance);
     m_API->m_Galil->executeCommand(startIncreaseRelativeMove);
@@ -470,6 +479,10 @@ void ECMControllerGUI::on_pushButton_IncreaseRelativeMove_released()
 
 void ECMControllerGUI::on_pushButton_DecreaseRelativeMove_released()
 {
+    int relativeMoveSpeed = ui->spinBox_RelativeMoveSpeed->value();
+    CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(MotorAxis::Z, relativeMoveSpeed);
+    m_API->m_Galil->executeCommand(commandSpeed);
+
     int relativeDistance = abs(ui->spinBox_RelativeMove->value());
     CommandRelativeMovePtr startDecreaseRelativeMove = std::make_shared<CommandRelativeMove>(MotorAxis::Z, relativeDistance);
     m_API->m_Galil->executeCommand(startDecreaseRelativeMove);
@@ -671,12 +684,12 @@ void ECMControllerGUI::on_pushButton_RunExplicitProfile_released()
         msgBox.setText("The provided Part/Serial number combination already exists.");
         msgBox.setInformativeText("Do you want to overwrite or append the existing contents?");
         QAbstractButton* pButtonAppend = msgBox.addButton(tr("Append"), QMessageBox::AcceptRole);
-        QAbstractButton* pButtonOverwrite = msgBox.addButton(tr("Append"), QMessageBox::AcceptRole);
-        QAbstractButton* pButtonCancel = msgBox.addButton(tr("Append"), QMessageBox::AcceptRole);
+        QAbstractButton* pButtonOverwrite = msgBox.addButton(tr("Overwrite"), QMessageBox::AcceptRole);
+        QAbstractButton* pButtonCancel = msgBox.addButton(tr("Cancel"), QMessageBox::AcceptRole);
 
 //        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
 //        msgBox.setDefaultButton(QMessageBox::Yes);
-//        int ret = msgBox.exec();
+        msgBox.exec();
 
         if(msgBox.clickedButton() == pButtonCancel)
         {
@@ -747,4 +760,9 @@ void ECMControllerGUI::slot_LockMotionButtons(const bool &lock)
 
     ui->pushButton_IncreaseRelativeMove->setDisabled(lock);
     ui->pushButton_DecreaseRelativeMove->setDisabled(lock);
+}
+
+void ECMControllerGUI::slot_UpdatedMotionProfileState(const MotionProfileState &state)
+{
+
 }

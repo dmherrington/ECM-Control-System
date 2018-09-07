@@ -123,11 +123,13 @@ void RigolCommsMarshaler::CommunicationUpdate(const std::string &name, const std
 //////////////////////////////////////////////////////////////
 void RigolCommsMarshaler::ResponseReceived(const ILink* link_ptr, const std::vector<uint8_t> &buffer) const
 {
+    UNUSED(link_ptr);
     Emit([&](CommsEvents *ptr){ptr->NewDataReceived(buffer);});
 }
 
 void RigolCommsMarshaler::NewMeaurementReceived(const ILink* link_ptr, const commands_Rigol::RigolMeasurementStatus &status) const
 {
+    UNUSED(link_ptr);
     Emit([&](CommsEvents *ptr){ptr->NewMeaurementReceived(status);});
 }
 

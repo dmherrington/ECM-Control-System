@@ -176,6 +176,7 @@ void MunkCommsMarshaler::ConnectionClosed() const
 void MunkCommsMarshaler::ReceiveData(const std::vector<uint8_t> &buffer) const
 {
     //protocol->ReceiveData(link.get(),buffer);
+    UNUSED(buffer);
 }
 
 void MunkCommsMarshaler::CommunicationError(const std::string &type, const std::string &msg) const
@@ -237,7 +238,7 @@ void MunkCommsMarshaler::SegmentCommittedToMemory(const ILink* link_ptr) const
 void MunkCommsMarshaler::SegmentUploadComplete(const ILink *link_ptr, const registers_Munk::SegmentTimeDetailed &segmentData) const
 {
     UNUSED(link_ptr);
-
+    Emit([&](CommsEvents *ptr){ptr->NewSegmentSequence(segmentData);});
 }
 
 void MunkCommsMarshaler::ExceptionResponseReceived(const ILink* link_ptr, const data_Munk::MunkRWType &type, const uint8_t &code) const

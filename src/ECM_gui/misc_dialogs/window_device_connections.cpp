@@ -42,6 +42,14 @@ Window_DeviceConnections::~Window_DeviceConnections()
     delete ui;
 }
 
+void Window_DeviceConnections::connectToAllDevices()
+{
+    this->on_pushButton_connectGalil_released();
+    this->on_pushButton_connectPump_released();
+    this->on_pushButton_connectMunk_released();
+    this->on_pushButton_connect_Rigol_released();
+}
+
 void Window_DeviceConnections::closeEvent(QCloseEvent *event)
 {
     this->saveCommunicationSettings();
@@ -72,19 +80,19 @@ void Window_DeviceConnections::readCommunicationSettings()
 {
     QSettings settings("Communication Settings", "ECM Application");
     ui->lineEdit_IPGalil->setText(settings.value("IPGalil").toString());
-    ui->lineEdit_IPGalil->setText(settings.value("IPRigol").toString());
-    ui->lineEdit_IPGalil->setText(settings.value("IPSensoray").toString());
+    ui->lineEdit_IPRigol->setText(settings.value("IPRigol").toString());
+    ui->lineEdit_IPSensoray->setText(settings.value("IPSensoray").toString());
 
     QString portMunk = settings.value("PortMunk").toString();
-    int munkIndex = ui->comboBox_PortMunk->findData(portMunk);
+    int munkIndex = ui->comboBox_PortMunk->findText(portMunk);
     if ( munkIndex != -1 ) { // -1 for not found
         ui->comboBox_PortMunk->setCurrentIndex(munkIndex);
     }
 
     QString portPump = settings.value("PortPump").toString();
-    int pumpIndex = ui->comboBox_PortMunk->findData(portPump);
+    int pumpIndex = ui->comboBox_PortPump->findText(portPump);
     if ( pumpIndex != -1 ) { // -1 for not found
-        ui->comboBox_PortMunk->setCurrentIndex(pumpIndex);
+        ui->comboBox_PortPump->setCurrentIndex(pumpIndex);
     }
 }
 
@@ -139,6 +147,10 @@ void Window_DeviceConnections::on_pushButton_connectPump_released()
     {
         portNumber = "\\\\.\\COM" + portNumber;
     }
+    else
+    {
+        portNumber = "COM" + portNumber;
+    }
 
     m_API->m_Pump->openPumpConnection(portNumber.toStdString());
 }
@@ -158,6 +170,10 @@ void Window_DeviceConnections::on_pushButton_connectMunk_released()
     {
         portNumber = "\\\\.\\COM" + portNumber;
     }
+    else
+    {
+        portNumber = "COM" + portNumber;
+    }
 
     m_API->m_Munk->openSerialPort(portNumber.toStdString());
 }
@@ -171,8 +187,5 @@ void Window_DeviceConnections::on_pushButton_connectGalil_released()
 
 void Window_DeviceConnections::on_pushButton_ConnectAll_released()
 {
-    this->on_pushButton_connectGalil_released();
-    this->on_pushButton_connectPump_released();
-    this->on_pushButton_connectMunk_released();
-    this->on_pushButton_connect_Rigol_released();
+    this->connectToAllDevices();
 }

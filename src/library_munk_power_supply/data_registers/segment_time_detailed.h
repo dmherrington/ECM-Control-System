@@ -71,7 +71,7 @@ public:
         {
             outStream << data.detailedRegisterData.at(i) << "\r\n";
         }
-
+        return outStream;
     }
 
     friend std::ostream& operator<< (std::ostream &stream, const SegmentTimeDetailed &data)
@@ -80,6 +80,7 @@ public:
         {
             stream << data.detailedRegisterData.at(i) << "\r\n";
         }
+        return stream;
     }
 
 public:

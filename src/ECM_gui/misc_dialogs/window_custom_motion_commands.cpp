@@ -40,7 +40,7 @@ void Window_CustomMotionCommands::on_pushButton_TransmitMotionCommand_released()
     QStringList list = commandText.split(rx, QString::SkipEmptyParts);
 
     std::vector<std::string> commands;
-    for(size_t i = 0; i < list.size(); i++)
+    for(int i = 0; i < list.size(); i++)
     {
         commands.push_back(list.at(i).toStdString());
     }

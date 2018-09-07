@@ -97,8 +97,12 @@ void Westinghouse510::slot_SerialPortUpdate(const common::comms::CommunicationUp
 
         break;
     case CommunicationUpdate::UpdateTypes::CONNECTED:
+    {
         m_State->pumpConnected.set(true);
+        registers_WestinghousePump::Register_RunSource updateRunSource(registers_WestinghousePump::Register_RunSource::SourceSetting::SOURCE_RS485);
+        this->m_Comms->writeToSerialPort(updateRunSource.getModbusRegister());
         break;
+    }
     case CommunicationUpdate::UpdateTypes::DISCONNECTED:
         m_State->pumpConnected.set(false);
         break;

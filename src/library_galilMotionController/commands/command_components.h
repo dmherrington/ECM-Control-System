@@ -15,6 +15,7 @@
 #include "commands/command_motor_enable.h"
 #include "commands/command_relative_move.h"
 #include "commands/command_set_bit.h"
+#include "commands/command_speed.h"
 #include "commands/command_stop.h"
 #include "commands/command_types.h"
 #include "commands/command_upload_program.h"

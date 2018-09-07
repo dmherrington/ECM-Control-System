@@ -15,6 +15,8 @@
 #include "data/motion_profile_variable_state.h"
 #include "data/machine_positional_state.h"
 
+#include "data/profiles/profile_state_machining.h"
+
 #include <iostream>
 
 class ECMLogging
@@ -63,6 +65,9 @@ public:
     void WriteLogSensorState(const common::TupleSensorString &key, const common_data::SensorState &state);
 
     void SetSensorLogFile(const common::TupleSensorString &key);
+
+
+    void CloseMachiningLog(const common::EnvironmentTime &time, const ProfileState_Machining::MACHININGProfileCodes &completionCode);
 
 private:
     void WriteLogSoftwareVersions(QTextStream &stringWriter);

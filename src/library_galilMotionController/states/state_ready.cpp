@@ -92,6 +92,11 @@ void State_Ready::handleCommand(const AbstractCommandPtr command)
         this->currentCommand = command;
         break;
     }
+    case CommandType::SPEED:
+    {
+        Owner().issueGalilCommand(command);
+        break;
+    }
     case CommandType::ABSOLUTE_MOVE:
     case CommandType::RELATIVE_MOVE:
     {

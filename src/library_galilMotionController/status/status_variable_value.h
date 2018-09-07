@@ -26,7 +26,7 @@ public:
     std::string getProfileName() const;
     std::string getVariableName() const;
 
-    bool setVariableValue(const double &value);
+    void setVariableValue(const double &value);
 
     double getVariableValue() const;
 

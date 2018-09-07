@@ -25,7 +25,7 @@ private:
     void closeEvent(QCloseEvent *event) override;
 
 signals:
-    void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility);
+    void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility) override;
 
 private:
     void saveToFile(const QString &filePath);

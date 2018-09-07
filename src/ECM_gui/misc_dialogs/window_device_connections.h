@@ -24,6 +24,8 @@ public:
     explicit Window_DeviceConnections(ECM_API* obj, QWidget *parent = 0);
     ~Window_DeviceConnections();
 
+    void connectToAllDevices();
+
 private:
     void closeEvent(QCloseEvent *event) override;
 

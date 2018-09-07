@@ -47,6 +47,7 @@ private slots:
     void slot_AddPlottable(const common::TupleECMData &data, const bool &plot = false);
     void slot_RemovePlottable(const common::TupleECMData &data);
     void slot_DisplayActionTriggered();
+    void slot_UpdatedMotionProfileState(const MotionProfileState &state);
 
 private slots:
     void slot_NewProfileVariableData(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state);
@@ -146,6 +147,7 @@ protected:
     void closeEvent(QCloseEvent *event);
 
 private:
+    Ui::ECMControllerGUI *ui;
 
     //! Map of sensors whose displays have been created
     QMap<common::TupleSensorString, bool> m_CreatedSensors;
@@ -163,8 +165,6 @@ private:
     common::TupleSensorString m_ActiveSensor;
 
     QMap<common::TupleECMData, QAction*> m_PlottingActionMap;
-
-    Ui::ECMControllerGUI *ui;
 
     ECMPlotCollection m_PlotCollection;
     int counter = 0;

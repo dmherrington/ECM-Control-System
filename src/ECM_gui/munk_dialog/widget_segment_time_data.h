@@ -80,9 +80,9 @@ private:
     }
 
 private:
-    WidgetTimeDataInterface* m_CB;
-
     Ui::WidgetSegmentTimeData* ui;
+
+    WidgetTimeDataInterface* m_CB;
 
     registers_Munk::SegmentTimeDataDetailed* data;
 

@@ -188,8 +188,9 @@ private:
     QMap<common::TupleSensorString, QAction*> m_SensorActionMap;
 
     // Map of a sensor tuple and the corresponding dock widget (with SensorDisplay widget) pointer
-    QMap<common::TupleSensorString, QDockWidget *> m_SensorDockMap;
+    QMap<common::TupleSensorString, QDockWidget*> m_SensorDockMap;
 
+    std::vector<common::TupleSensorString> sensorDockOrdering;
 
     //! Collection of display objects
     CollectionDisplays m_SensorDisplays;

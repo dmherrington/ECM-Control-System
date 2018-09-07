@@ -42,9 +42,8 @@ public:
     void OnEnter(const AbstractCommandPtr command);
 
 private:
-
     std::vector<common::TupleProfileVariableString> currentScriptRequests;
-
+    std::string scriptProfileName = "";
 };
 
 } //end of namespace Galil

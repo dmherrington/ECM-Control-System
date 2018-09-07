@@ -73,24 +73,23 @@ void ECM_API::initializeECMLogs(const std::string &partNumber, const std::string
 
     std::string operationsString;
     this->writeHeaderBreaker(operationsString, 100);
-    operationsString += "PUMP OPERATIONAL SETTTINGS \r\n";
+    operationsString += "PUMP OPERATIONAL SETTTINGS: \r\n";
     operationsString += m_Pump->getLogOfOperationalSettings();
     this->writeHeaderBreaker(operationsString, 100);
     operationsString += "\r\n";
 
     this->writeHeaderBreaker(operationsString, 100);
-    operationsString += "POWER SUPPLY OPERATIONAL SETTTINGS \r\n";
+    operationsString += "POWER SUPPLY OPERATIONAL SETTTINGS: \r\n";
     operationsString += m_Munk->getLogOfOperationalSettings();
     this->writeHeaderBreaker(operationsString, 100);
     operationsString += "\r\n";
 
     this->writeHeaderBreaker(operationsString, 100);
-    operationsString += "MOTION CONTROLLER OPERATIONAL SETTTINGS \r\n";
+    operationsString += "MOTION CONTROLLER OPERATIONAL SETTTINGS: \r\n";
     operationsString += m_Galil->getLogOfOperationalSettings();
     this->writeHeaderBreaker(operationsString, 100);
     operationsString += "\r\n";
 
-    this->writeHeaderBreaker(operationsString, 100);
     m_Log->writeLoggingHeader(partNumber, serialNumber, profile,
                               operationsString, descriptor, time);
 }
@@ -128,15 +127,27 @@ void ECM_API::slot_UpdateMotionProfileState(const MotionProfileState &state)
 
             break;
         case ProfileState_Machining::MACHININGProfileCodes::COMPLETE:
-            //conclude writing to the logs with any wrap up data that we need
-            m_Log->enableLogging(false); //let us stop the logs
+        {
+            //grab the current time and update all of the sources
+            common::EnvironmentTime endTime;
+            common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,endTime);
 
+            //conclude writing to the logs with any wrap up data that we need
+            m_Log->CloseMachiningLog(endTime, currentCode);
             break;
+        }
         case ProfileState_Machining::MACHININGProfileCodes::ABORTED:
-            //conclude writing to the logs with any wrap up data that we need
-            m_Log->enableLogging(false); //let us stop the logs
+        {
+            //grab the current time and update all of the sources
+            common::EnvironmentTime endTime;
+            common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,endTime);
 
+            //conclude writing to the logs with any wrap up data that we need
+            m_Log->CloseMachiningLog(endTime, currentCode);
+
+            //m_Rigol->executeMeasurementPolling(false);
             break;
+        }
         default:
             break;
         }

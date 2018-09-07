@@ -86,7 +86,8 @@ SOURCES += \
     requests/request_tell_variable.cpp \
     status/status_label_list.cpp \
     requests/request_custom_string.cpp \
-    status/status_custom_request.cpp
+    status/status_custom_request.cpp \
+    commands/command_speed.cpp
 HEADERS += \
         galil_motion_controller.h \
         galil_parse_greturn.h \
@@ -172,7 +173,8 @@ HEADERS += \
     status/status_label_list.h \
     requests/request_custom_string.h \
     status/status_custom_request.h \
-    galil_version.h
+    galil_version.h \
+    commands/command_speed.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

@@ -3,8 +3,8 @@
 
 Window_Touchoff::Window_Touchoff(GalilMotionController *obj, QWidget *parent) :
     GeneralDialogWindow(DialogWindowTypes::WINDOW_TOUCHOFF,"Touchoff",parent),
-    m_MotionController(obj),
-    ui(new Ui::Window_Touchoff)
+    ui(new Ui::Window_Touchoff),
+    m_MotionController(obj)
 {
     ui->setupUi(this);
 

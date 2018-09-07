@@ -44,7 +44,6 @@ private slots:
 private:
     Ui::Window_Touchoff *ui;
     GalilMotionController* m_MotionController;
-    bool windowHidden = true;
 };
 
 #endif // WINDOW_TOUCHOFF_H

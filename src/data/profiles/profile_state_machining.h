@@ -21,11 +21,11 @@ public:
     static std::string MACHININGCodesToString(const MACHININGProfileCodes &code) {
         switch (code) {
         case MACHININGProfileCodes::INCOMPLETE:
-            return "Machining Routine Incomplete.";
+            return "MACHINING OPERATION INCOMPLETE.";
         case MACHININGProfileCodes::COMPLETE:
-            return "Machining Routine Finished.";
+            return "MACHINING OPERATION COMPLETED.";
         case MACHININGProfileCodes::ABORTED:
-            return "Machining Routine has been Aborted.";
+            return "MACHINING OPERATION ABORTED.";
         default:
             throw std::runtime_error("Unknown machining profile code seen");
         }

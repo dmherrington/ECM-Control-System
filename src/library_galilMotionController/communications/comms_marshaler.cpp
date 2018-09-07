@@ -181,6 +181,8 @@ void CommsMarshaler::downloadProgram(const AbstractCommandPtr downloadCommand) c
 template <typename T>
 void CommsMarshaler::SendGalilMessage(const T& message)
 {
+    UNUSED(message);
+
     ///////////////////
     /// Define function that sends the given message
     ///////////////////
@@ -216,17 +218,17 @@ void CommsMarshaler::ConnectionClosed() const
 
 void CommsMarshaler::StatusReceived(const AbstractStatus &status) const
 {
-
+    UNUSED(status);
 }
 
 void CommsMarshaler::BadRequestResponse(const AbstractStatus &status) const
 {
-
+    UNUSED(status);
 }
 
 void CommsMarshaler::BadCommandResponse(const AbstractStatus &status) const
 {
-
+    UNUSED(status);
 }
 
 //////////////////////////////////////////////////////////////
@@ -267,12 +269,12 @@ void CommsMarshaler::ErrorBadRequest(const RequestTypes &type, const string &des
 
 void CommsMarshaler::NewPositionReceived(const Status_Position &status) const
 {
-
+    UNUSED(status);
 }
 
 void CommsMarshaler::NewStatusReceived(const std::vector<AbstractStatusPtr> &status) const
 {
-    for(int i = 0; i < status.size(); i++)
+    for(size_t i = 0; i < status.size(); i++)
     {
         parseStatus(status.at(i));
     }

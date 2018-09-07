@@ -9,12 +9,12 @@ ProfileState_Machining::ProfileState_Machining(const std::string &name, const st
 ProfileState_Machining::ProfileState_Machining(const ProfileState_Machining &copy):
     MotionProfile(copy)
 {
-
+    this->currentCode = copy.currentCode;
 }
 
 MotionProfile::ProfileType ProfileState_Machining::getType() const
 {
-    return ProfileType::TOUCHOFF;
+    return ProfileType::PROFILE;
 }
 
 void ProfileState_Machining::setCurrentCode(const MACHININGProfileCodes &code)

@@ -149,9 +149,15 @@ void State_ManualPositioning::OnEnter(const AbstractCommandPtr command)
                 break;
             }
             case 2:
+            {
+                //Decelerating or stopped by FWD limit switch or soft limit FL
+                desiredState = GalilState::STATE_MOTION_STOP;
+                break;
+            }
             case 3:
             {
-                //the machine has reached a limit switch
+                //Decelerating or stopped by REV limit switch or soft limit BL
+                desiredState = GalilState::STATE_MOTION_STOP;
                 break;
             }
             default:

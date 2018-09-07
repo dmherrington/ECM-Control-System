@@ -29,6 +29,8 @@ public:
 
     GeneralDialogWindow(const DialogWindowTypes &type, const QString &name, QWidget *parent);
 
+    virtual ~GeneralDialogWindow() = default;
+
 public:
     bool isWindowHidden() const;
 
