@@ -27,8 +27,8 @@ void ECMPlotCollection::UpdatePositionalStatePlots(const common::TuplePositional
 
     ECMPlotIdentifier ID_S(position);
     MakePlot(ID_S, common_data::PositionDimension(common_data::PositionUnit::UNIT_POSITION_MICRO_METER).ShortHand());
-    double value = ((common_data::PositionalState*)state.getPositionalState().get())->getAxisPosition();
-    InsertData(ID_S, time, value);
+    double value = ((common_data::PositionalState*)state.getPositionalState().get())->getAxisPosition(common_data::PositionUnit::UNIT_POSITION_MICRO_METER);
+    InsertData(ID_S, time, value); //we need to divide this by 10 as the units performed with this object refer to counts
 }
 
 void ECMPlotCollection::UpdateProfileVariablePlots(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state)
@@ -90,7 +90,7 @@ void ECMPlotCollection::UpdateSensorPlots(const common::TupleSensorString &senso
 //! \param element ECM components
 //! \return List of pointers to plot data
 //!
-QList<std::shared_ptr<common_data::observation::IPlotComparable> > ECMPlotCollection::getPlots(const common::TupleECMData &element) const
+QList<std::shared_ptr<common_data::observation::IPlotComparable>> ECMPlotCollection::getPlots(const common::TupleECMData &element) const
 {
     QList<std::shared_ptr<common_data::observation::IPlotComparable>> rtnList;
 
@@ -124,6 +124,17 @@ QList<ECMPlotIdentifier> ECMPlotCollection::AllSubPlots(const common::TupleECMDa
 {
     return m_ComponentToIDsHash[component];
 }
+
+QList<ECMPlotIdentifier> ECMPlotCollection::AllSubPlots() const
+{
+    QList<ECMPlotIdentifier> rtnList;
+
+    for (auto it = m_ComponentToIDsHash.begin(); it != m_ComponentToIDsHash.end(); ++it)
+        rtnList.append(it.value());
+
+    return rtnList;
+}
+
 
 
 //!

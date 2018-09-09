@@ -68,6 +68,29 @@ inline std::string FaultCodesRegister1ToString(const FaultCodesRegister1 &type) 
     }
 }
 
+inline std::vector<FaultCodesRegister1> getFaultCodesRegister1Vector()
+{
+    std::vector<FaultCodesRegister1> rtn;
+    rtn.push_back(FaultCodesRegister1::ERR_FR1_DCLINK_OFF);
+    rtn.push_back(FaultCodesRegister1::ERR_FR1_DSP_PWM1_GENERATOR);
+    rtn.push_back(FaultCodesRegister1::ERR_FR1_DSP_PWM2_GENERATOR);
+    rtn.push_back(FaultCodesRegister1::ERR_FR1_DSP_ERROR);
+    rtn.push_back(FaultCodesRegister1::ERR_FR1_DSP_PIC_DEAD);
+    rtn.push_back(FaultCodesRegister1::ERR_FR1_DSP_TICKCOUNT_ERROR);
+    rtn.push_back(FaultCodesRegister1::ERR_FR1_INTERNAL_ERROR);
+    rtn.push_back(FaultCodesRegister1::ERR_FR1_EXTCOMM2);
+    rtn.push_back(FaultCodesRegister1::ERR_FR1_CHARGING);
+    rtn.push_back(FaultCodesRegister1::ERR_FR1_TEMP_POWERBOARD);
+    rtn.push_back(FaultCodesRegister1::ERR_FR1_EXTCOMM1);
+    rtn.push_back(FaultCodesRegister1::ERR_FR1_SYNCHRO);
+    rtn.push_back(FaultCodesRegister1::ERR_FR1_TEMP_MAINSCONTROLLER);
+    rtn.push_back(FaultCodesRegister1::ERR_FR1_ZEROBATCH);
+    rtn.push_back(FaultCodesRegister1::ERR_FR1_GENERAL_OVERCURRENT);
+    rtn.push_back(FaultCodesRegister1::ERR_FR1_GENERAL_OVERVOLTAGE);
+
+    return rtn;
+}
+
 } //end of namespace data_Munk
 
 #endif // FAULT_CODES_REGISTER_ONE_H

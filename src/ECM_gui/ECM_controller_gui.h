@@ -1,6 +1,8 @@
 #ifndef ECM_CONTROLLER_GUI_H
 #define ECM_CONTROLLER_GUI_H
 
+#include "gui_verison.h"
+
 #include <QMainWindow>
 
 #include "ECM_plot_collection.h"
@@ -9,9 +11,10 @@
 #include "munk_dialog/window_munk_power_supply.h"
 #include "pump_dialog/window_pump_control.h"
 #include "rigol_dialog/window_rigol_control.h"
-#include "misc_dialogs/dialog_connections.h"
-#include "misc_dialogs/dialog_custom_commands.h"
+#include "misc_dialogs/window_device_connections.h"
+#include "misc_dialogs/window_custom_motion_commands.h"
 #include "misc_dialogs/window_touchoff.h"
+#include "misc_dialogs/window_motion_profile.h"
 
 #include "additional_sensor_display.h"
 #include "common/threadmanager.h"
@@ -35,23 +38,18 @@ public:
     explicit ECMControllerGUI(QWidget *parent = 0);
     ~ECMControllerGUI();
 
-private:
-    bool maybeSave();
-
 private slots:
     void CreateSensorDisplays(const common::TupleSensorString &sensor, const common_data::SensorTypes &type);
     Q_INVOKABLE void MarshalCreateSensorDisplay(const common::TupleSensorString &sensor, const common_data::SensorTypes &type);
 
 private slots:
     void slot_NewlyAvailableRigolData(const common::TupleSensorString &sensor, const bool &val);
-    void slot_AddPlottable(const common::TupleECMData &data);
+    void slot_AddPlottable(const common::TupleECMData &data, const bool &plot = false);
     void slot_RemovePlottable(const common::TupleECMData &data);
     void slot_DisplayActionTriggered();
+    void slot_UpdatedMotionProfileState(const MotionProfileState &state);
 
 private slots:
-
-    void slot_ChangedWindowVisibility(const GeneralDialogWindow::DialogWindowTypes &type, const bool visibility);
-
     void slot_NewProfileVariableData(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state);
 
     void slot_NewSensorData(const common::TupleSensorString &sensor, const common_data::SensorState &state);
@@ -62,6 +60,10 @@ private slots:
 
     void slot_MCNewDigitalInput(const StatusInputs &status);
 
+    void slot_MCNewProgramLabels(const ProgramLabelList &labels);
+
+    void slot_MCNEWProgramVariableList(const ProgramVariableList &variables);
+
     void slot_UpdateHomeIndicated(const bool &value);
 
     void on_pushButton_MotorEnable_released();
@@ -71,12 +73,6 @@ private slots:
     void on_pushButton_ResetHome_released();
 
     void on_pushButton_MoveHome_released();
-
-    void on_pushButton_RunProfile_released();
-
-    void on_pushButton_UploadProgram_released();
-
-    void on_pushButton_DownloadProgram_released();
 
     void on_pushButton_EstablishTouchoff_released();
 
@@ -112,14 +108,9 @@ private slots:
 
     void on_actionClose_triggered();
 
-    void slot_onConnectionWindowVisibilityChanged(const bool &visible);
 
-    void slot_onOscilliscopeWindowVisibilityChanged(const bool &visible);
 
-    void slot_onPumpWindowVisibilityChanged(const bool &visible);
-
-    void slot_onPowerSupplyVisibilityWindowChanged(const bool &visible);
-
+    void slot_ChangedWindowVisibility(const GeneralDialogWindow::DialogWindowTypes &type, const bool visibility);
 
     void on_actionConnections_triggered(bool checked);
 
@@ -131,11 +122,32 @@ private slots:
 
     void on_actionTouchoff_triggered(bool checked);
 
+    void on_actionMotion_Profile_triggered(bool checked);
+
+    void on_actionCustom_Motion_Commands_triggered(bool checked);
+
+    void on_actionOpen_Sensors_Window_triggered(bool checked);
+
+    void on_actionClear_All_Data_triggered();
+
+
+
+    void on_pushButton_RunExplicitProfile_released();
+
+    void on_pushButton_RunAutomatedProfile_released();
+
+    void on_pushButton_Stop_released();
+
+
+
+    void slot_LockMotionButtons(const bool &lock);
+
 protected:
     void readSettings();
     void closeEvent(QCloseEvent *event);
 
 private:
+    Ui::ECMControllerGUI *ui;
 
     //! Map of sensors whose displays have been created
     QMap<common::TupleSensorString, bool> m_CreatedSensors;
@@ -154,18 +166,17 @@ private:
 
     QMap<common::TupleECMData, QAction*> m_PlottingActionMap;
 
-    Ui::ECMControllerGUI *ui;
-
     ECMPlotCollection m_PlotCollection;
-
+    int counter = 0;
     ECM_API* m_API;
 
     Window_MunkPowerSupply* m_WindowMunk;
     Window_PumpControl* m_WindowPump;
     Window_RigolControl* m_WindowRigol;
-    Dialog_Connections* m_DialogConnections;
-    Dialog_CustomCommands* m_DialogCustomCommands;
+    Window_DeviceConnections* m_WindowConnections;
+    Window_CustomMotionCommands* m_WindowCustomMotionCommands;
     Window_Touchoff* m_WindowTouchoff;
+    Window_MotionProfile* m_WindowMotionProfile;
 };
 
 #endif // ECM_CONTROLLER_GUI_H

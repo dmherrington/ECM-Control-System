@@ -5,10 +5,9 @@
 #include "common/common.h"
 
 #include "data/type_read_write.h"
+#include "data/type_fault_status_registers.h"
 
-#include "data/fault_codes_register_one.h"
-#include "data/fault_codes_register_two.h"
-#include "data/fault_codes_register_three.h"
+#include "data_registers/segment_time_detailed.h"
 
 namespace comms_Munk{
 
@@ -48,19 +47,10 @@ public:
     /// Munk Protocol Events
     /////////////////////////////////////////////////////////
 
-    virtual void FaultCodeRegister1Received(const std::string &msg)
+    virtual void FaultCodeReceived(const data_Munk::FaultRegisterType &faultRegister, const unsigned int &code)
     {
-        UNUSED(msg);
-    }
-
-    virtual void FaultCodeRegister2Received(const std::string &msg)
-    {
-        UNUSED(msg);
-    }
-
-    virtual void FaultCodeRegister3Received(const std::string &msg)
-    {
-        UNUSED(msg);
+        UNUSED(faultRegister);
+        UNUSED(code);
     }
 
     virtual void FaultStateCleared()
@@ -97,6 +87,12 @@ public:
     {
 
     }
+
+    virtual void NewSegmentSequence(const registers_Munk::SegmentTimeDetailed &segmentData)
+    {
+        UNUSED(segmentData);
+    }
+
 
     virtual void ExceptionResponseReceived(const data_Munk::MunkRWType &RWType, const std::string &meaning) const
     {

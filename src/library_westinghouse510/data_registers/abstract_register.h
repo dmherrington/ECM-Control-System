@@ -9,6 +9,8 @@
 #include "../data/type_read_write.h"
 #include "available_registers.h"
 
+#include "common/modbus_register.h"
+
 namespace registers_WestinghousePump{
 
 //typedef unsigned int WORD;
@@ -116,6 +118,12 @@ public:
     //! \param msg
     //!
     virtual void parseFromArray(const QByteArray &msg) = 0;
+
+    //!
+    //! \brief getModbusRegister
+    //! \return
+    //!
+    ModbusRegister getModbusRegister() const;
 
 private:
     //!

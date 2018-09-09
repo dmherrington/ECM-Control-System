@@ -7,6 +7,7 @@
 QT       += core gui
 QT       += serialport
 QT       += network
+QT       += widgets
 
 unix {
 DEFINES += OSTYPE_LINUX
@@ -53,19 +54,21 @@ SOURCES += \
     SensorDisplay/display_base_plot_instantaneous.cpp \
     SensorDisplay/display_voltage.cpp \
     plot_central.cpp \
-    misc_dialogs/dialog_custom_commands.cpp \
     LED.cpp \
     munk_dialog/widget_segment_time_data.cpp \
     munk_dialog/widget_segment_time_display.cpp \
     munk_dialog/window_munk_power_supply.cpp \
     misc_dialogs/window_touchoff.cpp \
-    misc_dialogs/dialog_connections.cpp \
     rigol_dialog/window_rigol_control.cpp \
     pump_dialog/window_pump_control.cpp \
     SensorDisplay/display_ampere_area.cpp \
     rigol_dialog/widget_rigol_radio.cpp \
     general_dialog_window.cpp \
-    misc_dialogs/window_motion_profile.cpp
+    misc_dialogs/window_motion_profile.cpp \
+    misc_dialogs/code_edit_widget.cpp \
+    misc_dialogs/window_custom_motion_commands.cpp \
+    misc_dialogs/widget_device_fault.cpp \
+    misc_dialogs/window_device_connections.cpp
 
 HEADERS += \
         ECM_controller_gui.h \
@@ -77,40 +80,45 @@ HEADERS += \
     SensorDisplay/display_voltage.h \
     SensorDisplay/I_sensor_display.h \
     plot_central.h \
-    misc_dialogs/dialog_custom_commands.h \
     LED.h \
     munk_dialog/widget_segment_time_data.h \
     munk_dialog/widget_segment_time_display.h \
     munk_dialog/window_munk_power_supply.h \
     misc_dialogs/window_touchoff.h \
-    misc_dialogs/dialog_connections.h \
     rigol_dialog/window_rigol_control.h \
     pump_dialog/window_pump_control.h \
     SensorDisplay/display_ampere_area.h \
     rigol_dialog/widget_rigol_radio.h \
     general_dialog_window.h \
-    misc_dialogs/window_motion_profile.h
+    misc_dialogs/window_motion_profile.h \
+    misc_dialogs/code_edit_widget.h \
+    misc_dialogs/window_custom_motion_commands.h \
+    misc_dialogs/widget_device_fault.h \
+    misc_dialogs/window_device_connections.h \
+    gui_verison.h
 
 FORMS += \
         ECM_controller_gui.ui \
     additional_sensor_display.ui \
     SensorDisplay/display_base_plot_instantaneous.ui \
-    misc_dialogs/dialog_custom_commands.ui \
     munk_dialog/widget_segment_time_data.ui \
     munk_dialog/widget_segment_time_display.ui \
     munk_dialog/window_munk_power_supply.ui \
     misc_dialogs/window_touchoff.ui \
-    misc_dialogs/dialog_connections.ui \
     rigol_dialog/window_rigol_control.ui \
     pump_dialog/window_pump_control.ui \
     rigol_dialog/widget_rigol_radio.ui \
-    misc_dialogs/window_motion_profile.ui
+    misc_dialogs/window_motion_profile.ui \
+    misc_dialogs/window_custom_motion_commands.ui \
+    misc_dialogs/widget_device_fault.ui \
+    misc_dialogs/window_device_connections.ui
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include
 INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
 INCLUDEPATH += $$(ECM_ROOT)/tools/sensoray/lib/
-
+INCLUDEPATH += $$(ECM_ROOT)/tools/libmodbus
+INCLUDEPATH += $$(ECM_ROOT)/tools/libmodbus/src
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
@@ -146,6 +154,13 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../library_rigol_oscilloscope/ -llibrary_ri
 
 INCLUDEPATH += $$PWD/../library_rigol_oscilloscope
 DEPENDPATH += $$PWD/../library_rigol_oscilloscope
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_qModBus/release/ -llibrary_qModBus
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_qModBus/debug/ -llibrary_qModBus
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_qModBus/ -llibrary_qModBus
+
+INCLUDEPATH += $$PWD/../library_qModBus
+DEPENDPATH += $$PWD/../library_qModBus
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/release/ -llibrary_westinghouse510
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/debug/ -llibrary_westinghouse510

@@ -6,8 +6,11 @@
 #include <iostream>
 #include <map>
 
+#include "common/class_forward.h"
+
 #include "requests/abstract_request.h"
 
+#include "status/status_label_list.h"
 ECM_CLASS_FORWARD(RequestListLabels);
 
 class RequestListLabels : public AbstractRequest
@@ -23,9 +26,18 @@ public:
 
 
 public:
-    void updateLabels(const std::string &labels);
+    /**
+     * @brief getClone
+     * @return
+     */
+    AbstractRequest* getClone() const override;
 
-    std::map<std::string, int> getLabels() const;
+    /**
+     * @brief getClone
+     * @param state
+     */
+    void getClone(AbstractRequest** state) const override;
+
 
 
 public:
@@ -35,9 +47,7 @@ public:
     //!
     std::string getRequestString() const override;
 
-
-private:
-    std::map<std::string, int> mapLabels; /**< Value of the axis stop code is requested for*/
+    std::vector<AbstractStatusPtr> getStatus() const;
 
 };
 

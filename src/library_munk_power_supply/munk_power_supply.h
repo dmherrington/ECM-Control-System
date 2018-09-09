@@ -2,8 +2,11 @@
 #define MUNK_POWER_SUPPLY_H
 
 #include <iostream>
+#include <QTextStream>
 #include <QDebug>
 #include <QObject>
+#include <QJsonArray>
+#include <QJsonDocument>
 
 #include "library_munk_power_supply_global.h"
 #include "common/comms/communication_update.h"
@@ -19,6 +22,8 @@
 #include "communications/serial_configuration.h"
 #include "communications/comms_progress_handler.h"
 
+#include "data/type_fault_status_registers.h"
+
 #include "data_registers/abstract_parameter.h"
 #include "data_registers/segment_time_general.h"
 
@@ -31,6 +36,9 @@
 
 #include "data_registers/register_fault_reset.h"
 
+#include "data_response/fault_register_state.h"
+
+#include "munk_machine_state.h"
 #include "munk_poll_status.h"
 
 using namespace registers_Munk;
@@ -39,7 +47,6 @@ using namespace comms_Munk;
 
 class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply :  public QObject, CommsEvents, MunkStatusCallback_Interface
 {
-
     Q_OBJECT
 
 public:
@@ -61,7 +68,7 @@ public:
     //!
     //! \brief openSerialPort
     //!
-    void openSerialPort(const QString &name);
+    void openSerialPort(const std::string &name);
 
     //!
     //! \brief closeSerialPort
@@ -69,6 +76,12 @@ public:
     void closeSerialPort();
 
     bool isConnected() const;
+
+public:
+    void saveToFile(const QString &filePath);
+
+private:
+    void write(QJsonObject &json) const;
 
 signals:
 
@@ -78,7 +91,7 @@ signals:
 
     void signal_CommunicationUpdate(const std::string &name, const std::string &msg) const;
 
-    void signal_FaultCodeRecieved(const int &regNum, const std::string &msg) const;
+    void signal_FaultCodeRecieved() const;
 
     void signal_FaultStateCleared();
 
@@ -109,11 +122,7 @@ private:
 
     void CommunicationUpdate(const std::string &name, const std::string &msg) const override;
 
-    void FaultCodeRegister1Received(const std::string &msg) override;
-
-    void FaultCodeRegister2Received(const std::string &msg) override;
-
-    void FaultCodeRegister3Received(const std::string &msg) override;
+    void FaultCodeReceived(const data_Munk::FaultRegisterType &faultRegister, const unsigned int &code) override;
 
     void FaultStateCleared() override;
 
@@ -129,6 +138,8 @@ private:
 
     void SegmentCommitedToMemoryAcknowledged() override;
 
+    void NewSegmentSequence(const registers_Munk::SegmentTimeDetailed &segmentData) override;
+
     void ExceptionResponseReceived(const MunkRWType &RWType, const std::string &meaning) const override;
 
     ///////////////////////////////////////////////////////////////
@@ -136,6 +147,9 @@ private:
     ///////////////////////////////////////////////////////////////
 
     void cbi_MunkFaultStateRequest(const RegisterFaultState &request) const override;
+
+public:
+    std::string getLogOfOperationalSettings() const;
 
 private:
     std::string deviceName;
@@ -147,6 +161,11 @@ private:
 
     SegmentVoltageSetpoint m_fwdVSetpoint;
     SegmentVoltageSetpoint m_revVSetpoint;
+
+
+public:
+    Munk_MachineState* machineState;
+
 
 private:
     MunkCommsMarshaler* commsMarshaler;

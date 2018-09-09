@@ -71,7 +71,8 @@ HEADERS += \
     profiles/profile_state_machining.h \
     motion_profile_variable_state.h \
     machine_positional_state.h \
-    dimensions/position_dimension.h
+    dimensions/position_dimension.h \
+    data_version.h
 
 # Unix lib Install
 unix:!symbian {

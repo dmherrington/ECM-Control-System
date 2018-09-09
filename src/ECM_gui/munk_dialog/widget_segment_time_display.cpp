@@ -40,7 +40,8 @@ void WidgetSegmentTimeDisplay::cbiSegmentDataInterface_UpdatedData()
         WidgetSegmentTimeData* newData = *iterator;
         dataList.push_back(registers_Munk::SegmentTimeDataDetailed(*newData->getData()));
     }
-    updatedData(dataList);
+    emit updatedData(dataList);
+    emit signal_SegmentDataModified();
 }
 
 void WidgetSegmentTimeDisplay::cbiSegmentDataInterface_RemoveData(WidgetSegmentTimeData* obj)

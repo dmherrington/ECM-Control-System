@@ -4,6 +4,7 @@
 #include <QDateTime>
 #include <QDataStream>
 #include <QMetaType>
+#include <QTextStream>
 
 #include "common_global.h"
 
@@ -189,6 +190,20 @@ public:
     //! \return Resulting QDateTime object
     //!
     QDateTime ToQTDateTime() const;
+
+
+public:
+    friend QTextStream& operator <<(QTextStream &outStream, const EnvironmentTime &data)
+    {
+        outStream << data.ToString() << "\r\n";
+        return outStream;
+    }
+
+    friend std::ostream& operator<< (std::ostream &stream, const EnvironmentTime &data)
+    {
+        stream << data.ToString().toStdString() << "\r\n";
+        return stream;
+    }
 
 public:
 

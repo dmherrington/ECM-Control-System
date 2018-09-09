@@ -35,6 +35,7 @@ enum class CommandType{
     SET_PGAIN,
     SET_IGAIN,
     SET_DGAIN,
+    SPEED,
     STOP,
     UPLOAD_PROGRAM,
     SET_VARIABLE
@@ -73,6 +74,8 @@ inline std::string CommandToString(const CommandType &type) {
         return "KI";
     case CommandType::SET_DGAIN:
         return "KD";
+    case CommandType::SPEED:
+        return "SP";
     case CommandType::SET_VARIABLE:
         return "SET VARIABLE";
     default:
@@ -112,6 +115,8 @@ inline CommandType CommandFromString(const std::string &str) {
         return CommandType::SET_IGAIN;
     if(str == "KD")
         return CommandType::SET_DGAIN;
+    if(str == "SP")
+        return CommandType::SPEED;
     throw std::runtime_error("Unknown command type seen");
 }
 

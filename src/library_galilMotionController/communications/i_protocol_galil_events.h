@@ -18,15 +18,50 @@ namespace Comms
 class IProtocolGalilEvents
 {
 public:
+    //!
+    //! \brief NewCustomStatusReceived
+    //! \param initialCommand
+    //! \param newStatus
+    //!
+    virtual void NewCustomStatusReceived(const std::string &initialCommand, const std::string &newStatus) const = 0;
+
+    //!
+    //! \brief NewStatusReceived
+    //! \param status
+    //!
     virtual void NewStatusReceived(const std::vector<AbstractStatusPtr> &status) const = 0;
 
+    //!
+    //! \brief NewPositionReceived
+    //! \param status
+    //!
     virtual void NewPositionReceived(const Status_Position &status) const = 0;
 
-    virtual void NewProgramDownloaded(const ProgramGeneric &program) const = 0;
-
+    //!
+    //! \brief NewProgramUploaded
+    //! \param program
+    //!
     virtual void NewProgramUploaded(const ProgramGeneric &program) const = 0;
 
+    //!
+    //! \brief NewProgramDownloaded
+    //! \param program
+    //!
+    virtual void NewProgramDownloaded(const ProgramGeneric &program) const = 0;
+
+    //!
+    //! \brief ErrorBadCommand
+    //! \param type
+    //! \param description
+    //!
     virtual void ErrorBadCommand(const CommandType &type, const std::string &description) const = 0;
+
+    //!
+    //! \brief ErrorBadRequest
+    //! \param type
+    //! \param description
+    //!
+    virtual void ErrorBadRequest(const RequestTypes &type, const std::string &description) const = 0;
 };
 
 

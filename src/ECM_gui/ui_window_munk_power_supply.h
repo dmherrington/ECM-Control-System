@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'window_munk_power_supply.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.1
+** Created by: Qt User Interface Compiler version 5.11.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -12,10 +12,8 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGridLayout>
-#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
@@ -25,6 +23,7 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QWidget>
 #include "LED.h"
+#include "misc_dialogs/widget_device_fault.h"
 #include "munk_dialog/widget_segment_time_display.h"
 
 QT_BEGIN_NAMESPACE
@@ -46,9 +45,10 @@ public:
     QFormLayout *formLayout;
     QLabel *label;
     LED *widget_connection;
+    QProgressBar *progressBar;
     QPushButton *pushButton_AddSegment;
     QPushButton *pushButton_transmit;
-    QProgressBar *progressBar;
+    Widget_DeviceFault *widget_DeviceFault;
     QMenuBar *menubar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -61,14 +61,14 @@ public:
         if (Window_MunkPowerSupply->objectName().isEmpty())
             Window_MunkPowerSupply->setObjectName(QStringLiteral("Window_MunkPowerSupply"));
         Window_MunkPowerSupply->setWindowModality(Qt::NonModal);
-        Window_MunkPowerSupply->resize(524, 330);
-        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        Window_MunkPowerSupply->resize(575, 330);
+        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Window_MunkPowerSupply->sizePolicy().hasHeightForWidth());
         Window_MunkPowerSupply->setSizePolicy(sizePolicy);
         Window_MunkPowerSupply->setMinimumSize(QSize(524, 330));
-        Window_MunkPowerSupply->setMaximumSize(QSize(16777215, 330));
+        Window_MunkPowerSupply->setMaximumSize(QSize(16777215, 450));
         Window_MunkPowerSupply->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
@@ -367,7 +367,13 @@ public:
         formLayout->setWidget(0, QFormLayout::FieldRole, widget_connection);
 
 
-        gridLayout->addLayout(formLayout, 1, 0, 1, 1);
+        gridLayout->addLayout(formLayout, 1, 0, 2, 1);
+
+        progressBar = new QProgressBar(centralwidget);
+        progressBar->setObjectName(QStringLiteral("progressBar"));
+        progressBar->setValue(24);
+
+        gridLayout->addWidget(progressBar, 1, 3, 2, 1);
 
         pushButton_AddSegment = new QPushButton(centralwidget);
         pushButton_AddSegment->setObjectName(QStringLiteral("pushButton_AddSegment"));
@@ -377,7 +383,7 @@ public:
         pushButton_AddSegment->setFont(font);
         pushButton_AddSegment->setFlat(false);
 
-        gridLayout->addWidget(pushButton_AddSegment, 1, 1, 1, 1);
+        gridLayout->addWidget(pushButton_AddSegment, 2, 1, 1, 1);
 
         pushButton_transmit = new QPushButton(centralwidget);
         pushButton_transmit->setObjectName(QStringLiteral("pushButton_transmit"));
@@ -387,18 +393,22 @@ public:
         pushButton_transmit->setFont(font);
         pushButton_transmit->setToolTipDuration(-1);
 
-        gridLayout->addWidget(pushButton_transmit, 1, 2, 1, 1);
+        gridLayout->addWidget(pushButton_transmit, 2, 2, 1, 1);
 
-        progressBar = new QProgressBar(centralwidget);
-        progressBar->setObjectName(QStringLiteral("progressBar"));
-        progressBar->setValue(24);
+        widget_DeviceFault = new Widget_DeviceFault(centralwidget);
+        widget_DeviceFault->setObjectName(QStringLiteral("widget_DeviceFault"));
+        QSizePolicy sizePolicy3(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(widget_DeviceFault->sizePolicy().hasHeightForWidth());
+        widget_DeviceFault->setSizePolicy(sizePolicy3);
 
-        gridLayout->addWidget(progressBar, 1, 3, 1, 1);
+        gridLayout->addWidget(widget_DeviceFault, 3, 0, 1, 4);
 
         Window_MunkPowerSupply->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Window_MunkPowerSupply);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 524, 40));
+        menubar->setGeometry(QRect(0, 0, 575, 40));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menubar);

@@ -28,19 +28,19 @@ void ProgramVariableList::removeVariable(const std::string &name)
         this->variableMap.erase(name);
 }
 
-void ProgramVariableList::updateVariable(const std::string &name, const int &lineNumber)
+void ProgramVariableList::updateVariable(const std::string &name, const double &value)
 {
     if(this->variableMap.count(name) > 0)
-        this->variableMap.at(name) = lineNumber;
+        this->variableMap.at(name) = value;
     else
-        this->variableMap[name] = lineNumber;
+        this->variableMap[name] = value;
 }
 
-bool ProgramVariableList::getVariableLine(const std::string &name, int &lineNumber) const
+bool ProgramVariableList::getVariableValue(const std::string &name, double &value) const
 {
     if(this->variableMap.count(name) > 0)
     {
-        lineNumber = this->variableMap.at(name);
+        value = this->variableMap.at(name);
         return true;
     }
     return false;
@@ -56,7 +56,7 @@ size_t ProgramVariableList::sizeOfVariableList() const
     return variableMap.size();
 }
 
- std::map<std::string,int> ProgramVariableList::getVariableMap() const
+ std::map<std::string, double> ProgramVariableList::getVariableMap() const
  {
      return this->variableMap;
  }

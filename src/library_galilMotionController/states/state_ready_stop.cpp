@@ -6,8 +6,8 @@ namespace Galil {
 State_ReadyStop::State_ReadyStop():
     AbstractStateGalil()
 {
-    this->currentState = ECMState::STATE_READY_STOP;
-    this->desiredState = ECMState::STATE_READY_STOP;
+    this->currentState = GalilState::STATE_READY_STOP;
+    this->desiredState = GalilState::STATE_READY_STOP;
 }
 
 AbstractStateGalil* State_ReadyStop::getClone() const
@@ -28,12 +28,12 @@ hsm::Transition State_ReadyStop::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_IDLE:
+        case GalilState::STATE_IDLE:
         {
             rtn = hsm::SiblingTransition<State_Idle>(currentCommand);
             break;
         }
-        case ECMState::STATE_ESTOP:
+        case GalilState::STATE_ESTOP:
         {
             rtn = hsm::SiblingTransition<State_EStop>(currentCommand);
         }
@@ -46,11 +46,13 @@ hsm::Transition State_ReadyStop::GetTransition()
     return rtn;
 }
 
-void State_ReadyStop::handleCommand(const AbstractCommand* command)
+void State_ReadyStop::handleCommand(const AbstractCommandPtr command)
 {
-    CommandType currentCommand = command->getCommandType();
+    //const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
+    //CommandType currentCommand = copyCommand->getCommandType();
 
-    switch (currentCommand) {
+    switch (command->getCommandType()) {
     default:
         //We shouldn't have any commands in this state to handle
         break;
@@ -65,15 +67,15 @@ void State_ReadyStop::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = ECMState::STATE_ESTOP;
+        desiredState = GalilState::STATE_ESTOP;
     }
     else if(!Owner().isMotorEnabled())
-        desiredState = ECMState::STATE_IDLE;
+        desiredState = GalilState::STATE_IDLE;
 }
 
 void State_ReadyStop::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_READY_STOP));
+    Owner().issueNewGalilState(GalilState::STATE_READY_STOP);
 
     //The first thing we should do when entering this state is to disengage the motor
     //Let us check to see if the motor is already armed, if not, follow through with the command
@@ -87,7 +89,7 @@ void State_ReadyStop::OnEnter()
     }
     else{
         //since the motor was already disarmed this implies that we can safely transition to idle state
-        this->desiredState = ECMState::STATE_IDLE;
+        this->desiredState = GalilState::STATE_IDLE;
     }
 
     //Lastly, send a command to make sure the airbrake has been engaged
@@ -96,7 +98,7 @@ void State_ReadyStop::OnEnter()
     Owner().issueGalilCommand(command);
 }
 
-void State_ReadyStop::OnEnter(const AbstractCommand* command)
+void State_ReadyStop::OnEnter(const AbstractCommandPtr command)
 {
     this->OnEnter();
 

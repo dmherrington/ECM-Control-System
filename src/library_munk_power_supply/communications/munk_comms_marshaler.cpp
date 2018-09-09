@@ -53,11 +53,11 @@ bool MunkCommsMarshaler::isConnected() const
     return link->isConnected();
 }
 
-void MunkCommsMarshaler::sendCompleteMunkParameters(std::vector<registers_Munk::AbstractParameterPtr> parameters)
+void MunkCommsMarshaler::sendCompleteMunkParameters(const registers_Munk::SegmentTimeDetailed &segmentData, std::vector<registers_Munk::AbstractParameterPtr> parameters)
 {
     std::cout<<"We will send a complete update to the munk"<<std::endl;
-    auto func = [this, parameters]() {
-            protocol->updateCompleteMunkParameters(link.get(), parameters);
+    auto func = [this, segmentData, parameters]() {
+            protocol->updateCompleteMunkParameters(link.get(), segmentData, parameters);
     };
 
     link->MarshalOnThread(func);
@@ -176,6 +176,7 @@ void MunkCommsMarshaler::ConnectionClosed() const
 void MunkCommsMarshaler::ReceiveData(const std::vector<uint8_t> &buffer) const
 {
     //protocol->ReceiveData(link.get(),buffer);
+    UNUSED(buffer);
 }
 
 void MunkCommsMarshaler::CommunicationError(const std::string &type, const std::string &msg) const
@@ -192,22 +193,10 @@ void MunkCommsMarshaler::CommunicationUpdate(const std::string &name, const std:
 /// IProtocolMunkEvents
 //////////////////////////////////////////////////////////////
 
-void MunkCommsMarshaler::FaultCodeRegister1Received(const ILink* link_ptr, const data_Munk::FaultCodesRegister1 &code) const
+void MunkCommsMarshaler::FaultCodeReceived(const ILink* link_ptr, const data_Munk::FaultRegisterType &faultRegister, const unsigned int &code) const
 {
     UNUSED(link_ptr);
-    Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister1Received(data_Munk::FaultCodesRegister1ToString(code));});
-}
-
-void MunkCommsMarshaler::FaultCodeRegister2Received(const ILink* link_ptr,  const data_Munk::FaultCodesRegister2 &code) const
-{
-    UNUSED(link_ptr);
-    Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister2Received(data_Munk::FaultCodesRegister2ToString(code));});
-}
-
-void MunkCommsMarshaler::FaultCodeRegister3Received(const ILink* link_ptr,  const data_Munk::FaultCodesRegister3 &code) const
-{
-    UNUSED(link_ptr);
-    Emit([&](CommsEvents *ptr){ptr->FaultCodeRegister3Received(data_Munk::FaultCodesRegister3ToString(code));});
+    Emit([&](CommsEvents *ptr){ptr->FaultCodeReceived(faultRegister,code);});
 }
 
 void MunkCommsMarshaler::FaultStateCleared(const ILink *link_ptr) const
@@ -246,6 +235,11 @@ void MunkCommsMarshaler::SegmentCommittedToMemory(const ILink* link_ptr) const
     Emit([&](CommsEvents *ptr){ptr->SegmentCommitedToMemoryAcknowledged();});
 }
 
+void MunkCommsMarshaler::SegmentUploadComplete(const ILink *link_ptr, const registers_Munk::SegmentTimeDetailed &segmentData) const
+{
+    UNUSED(link_ptr);
+    Emit([&](CommsEvents *ptr){ptr->NewSegmentSequence(segmentData);});
+}
 
 void MunkCommsMarshaler::ExceptionResponseReceived(const ILink* link_ptr, const data_Munk::MunkRWType &type, const uint8_t &code) const
 {

@@ -48,10 +48,12 @@ void Sensoray::closeSerialPortConnection() const
 {
     commsMarshaler->DisconnetFromSerialPort();
 }
-void Sensoray::writeToSerialPort(const QByteArray &msg) const
+
+void Sensoray::writeToSerialPort(const ModbusRegister &regMsg) const
 {
-    commsMarshaler->WriteToSerialPort(msg);
+    //commsMarshaler->WriteToSerialPort(msg);
 }
+
 bool Sensoray::isSerialPortOpen() const
 {
     return false;

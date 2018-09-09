@@ -19,7 +19,7 @@ void MunkProtocol::AddListner(const IProtocolMunkEvents* listener)
     m_Listners.push_back(listener);
 }
 
-void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const std::vector<registers_Munk::AbstractParameterPtr> parameters)
+void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registers_Munk::SegmentTimeDetailed &segmentData, const std::vector<registers_Munk::AbstractParameterPtr> parameters)
 {
     for(unsigned int i = 0; i < parameters.size(); i++)
     {
@@ -84,6 +84,7 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const std::ve
         if(validParameter == false)
             break;
     }
+    Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentUploadComplete(link, segmentData);});
     std::cout<<"We have uploaded a complete set of munk parameters."<<std::endl;
 }
 
@@ -267,6 +268,7 @@ bool MunkProtocol::sendCommitToEEPROM(const ILink *link, const registers_Munk::P
         if(link->WriteBytes(command.getFullMessage()))
         {
             std::cout<<"We have finished transmitting info"<<std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(20));
             if(this->ReceiveData(link,receivedMSG))
             {
                 std::cout<<"We have finished receiving info"<<std::endl;
@@ -298,15 +300,13 @@ void MunkProtocol::sendFaultStateRequest(const ILink *link, const registers_Munk
         if(link->WriteBytes(request.getFullMessage()))
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(20));
-            std::cout<<"We have finished transmitting info"<<std::endl;
             if(this->ReceiveData(link,receivedMSG))
             {
-                std::cout<<"We have finished receiving info"<<std::endl;
                 if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
                     parseForException(link, receivedMSG);
                 else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::READ)
                 {
-                    std::cout<<"We have read the fault state request."<<std::endl;
+                    parseForFaultStateCode(link,&request,receivedMSG);
                 }
             }
         }
@@ -348,9 +348,10 @@ void MunkProtocol::sendFaultStateReset(const ILink *link, const registers_Munk::
 //!
 bool MunkProtocol::ReceiveData(const ILink *link, MunkMessage &returnMessage)
 {
-    while(dataParse.getCurrentMessageState() != FramingState::RECEIVED_ENTIRE_MESSAGE)
+    std::vector<uint8_t> buffer = link->ReadBytes();
+
+    while((dataParse.getCurrentMessageState() != FramingState::RECEIVED_ENTIRE_MESSAGE) && (buffer.size() > 0))
     {
-        std::vector<uint8_t> buffer = link->ReadBytes();
         //This is where data from the munk power supply serial buffer is seen
         for(uint8_t c: buffer)
         {
@@ -360,8 +361,8 @@ bool MunkProtocol::ReceiveData(const ILink *link, MunkMessage &returnMessage)
                 break;
             }
         }
+        buffer = link->ReadBytes();
     }
-    std::cout<<"We have received data from the serial buffer and the message is: "<<dataParse.getCurrentMessage().getDataArray().toHex().toStdString()<<std::endl;
     returnMessage = dataParse.getCurrentMessage();
     dataParse.resetMessageState();
     return true;
@@ -390,30 +391,7 @@ void MunkProtocol::parseForFaultStateCode(const ILink *link, const registers_Mun
     uint8_t dataLo = msg.getDataByte(4);
     int faultCode = dataLo | (dataHi<<8);
 
-    switch (type) {
-    case data_Munk::FaultRegisterType::FAULT_REGISTER_1:
-    {
-        data_Munk::FaultCodesRegister1 castCode = static_cast<data_Munk::FaultCodesRegister1>(faultCode);
-        Emit([&](const IProtocolMunkEvents* ptr){ptr->FaultCodeRegister1Received(link,castCode);});
-        break;
-    }
-    case data_Munk::FaultRegisterType::FAULT_REGISTER_2:
-    {
-        data_Munk::FaultCodesRegister2 castCode = static_cast<data_Munk::FaultCodesRegister2>(faultCode);
-        Emit([&](const IProtocolMunkEvents* ptr){ptr->FaultCodeRegister2Received(link,castCode);});
-        break;
-    }
-    case data_Munk::FaultRegisterType::FAULT_REGISTER_3:
-    {
-        data_Munk::FaultCodesRegister3 castCode = static_cast<data_Munk::FaultCodesRegister3>(faultCode);
-        Emit([&](const IProtocolMunkEvents* ptr){ptr->FaultCodeRegister3Received(link,castCode);});
-        break;
-    }
-    default:
-        break;
-    }
-    delete parameter;
-    parameter = nullptr;
+    Emit([&](const IProtocolMunkEvents* ptr){ptr->FaultCodeReceived(link,type,faultCode);});
 }
 
 } //end of namespace comms_Munk

@@ -41,6 +41,8 @@ public:
 signals:
     void updatedData(const std::list<registers_Munk::SegmentTimeDataDetailed> &newData);
 
+    void signal_SegmentDataModified();
+
 protected:
         WidgetSegmentTimeData tempObject;
         QSize tempSize = tempObject.sizeHint();

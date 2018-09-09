@@ -9,7 +9,8 @@ public:
     enum class MACHININGProfileCodes
     {
         INCOMPLETE = 0,
-        COMPLETE = 1
+        COMPLETE = 1,
+        ABORTED = 2
     };
 
     //!
@@ -20,9 +21,11 @@ public:
     static std::string MACHININGCodesToString(const MACHININGProfileCodes &code) {
         switch (code) {
         case MACHININGProfileCodes::INCOMPLETE:
-            return "Machining Routine Incomplete.";
+            return "MACHINING OPERATION INCOMPLETE.";
         case MACHININGProfileCodes::COMPLETE:
-            return "Machining Routine Finished.";
+            return "MACHINING OPERATION COMPLETED.";
+        case MACHININGProfileCodes::ABORTED:
+            return "MACHINING OPERATION ABORTED.";
         default:
             throw std::runtime_error("Unknown machining profile code seen");
         }

@@ -7,6 +7,9 @@ Window_PumpControl::Window_PumpControl(Westinghouse510* obj, QWidget *parent) :
     m_Pump(obj)
 {
     ui->setupUi(this);
+    ui->widget_PumpConnected->setDiameter(6);
+    ui->widget_PumpInitialized->setDiameter(6);
+    ui->widget_PumpRunning->setDiameter(6);
 
     connect(m_Pump,SIGNAL(signal_PumpCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_PumpConnectionUpdate(common::comms::CommunicationUpdate)));
 
@@ -52,7 +55,6 @@ void Window_PumpControl::slot_PumpConnectionUpdate(const common::comms::Communic
     using namespace common::comms;
     switch (update.getUpdateType()) {
     case CommunicationUpdate::UpdateTypes::ALERT:
-
         break;
     case CommunicationUpdate::UpdateTypes::CONNECTED:
         ui->widget_PumpConnected->setColor(QColor(0,255,0));
@@ -60,15 +62,10 @@ void Window_PumpControl::slot_PumpConnectionUpdate(const common::comms::Communic
     case CommunicationUpdate::UpdateTypes::DISCONNECTED:
         ui->widget_PumpConnected->setColor(QColor(255,0,0));
         break;
-//    case CommunicationUpdate::UpdateTypes::ERROR:
-//        statusBar()->showMessage(tr("The pump has been turned on."),2500);
-//        break;
-//    case CommunicationUpdate::UpdateTypes::UPDATE:
-//        statusBar()->showMessage(tr("The pump has been turned on."),2500);
-//        break;
     default:
         break;
     }
+    ui->statusbar->showMessage(QString::fromStdString(update.getPeripheralMessage()),2000);
 }
 
 void Window_PumpControl::slot_updatedPumpOn(const bool &value)
@@ -81,38 +78,39 @@ void Window_PumpControl::slot_updatedPumpOn(const bool &value)
         common::EnvironmentTime startTime;
         common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
         ui->lineEdit_OnTime->setText(QString::fromStdString(startTime.timeString()));
-        statusBar()->showMessage(tr("The pump has been turned on."),2500);
-    }
+        ui->statusbar->showMessage("The pump has been turned on.",2500);
+
+        QTimer::singleShot(ui->doubleSpinBox_delayTime->value() * 1000, [=] {
+            ui->widget_PumpInitialized->setColor(QColor(0,255,0));
+        });    }
     else
     {
         ui->widget_PumpRunning->setColor(QColor(255,0,0));
+        ui->widget_PumpInitialized->setColor(QColor(255,0,0));
+        ui->doubleSpinBox_flowRate->setStyleSheet("background-color: red");
         ui->pushButton_PumpRunning->setText("ON");
         ui->lineEdit_OnTime->setText("");
-        statusBar()->showMessage(tr("The pump has been turned off."),2500);
+        ui->lineEdit_OnTime->clear();
+        ui->statusbar->showMessage(tr("The pump has been turned off."),2500);
     }
 }
 
 void Window_PumpControl::slot_updatedFlowRate(const double &value)
 {
-    if(value == ui->doubleSpinBox_flowRate->value())
+    if(abs(value - ui->doubleSpinBox_flowRate->value()) < 0.05)
     {
         ui->doubleSpinBox_flowRate->setStyleSheet("background-color: green");
     }
     else{
-        //for some reason there was a discrepency
+        ui->doubleSpinBox_flowRate->setStyleSheet("background-color: red");
     }
-    statusBar()->showMessage(tr("Flow rate has been updated."),2500);
+    ui->statusbar->showMessage(tr("Flow rate has been updated."),2500);
 }
 
 void Window_PumpControl::slot_updatedDelayTime(const double &value)
 {
     ui->doubleSpinBox_delayTime->setValue(value);
-    statusBar()->showMessage(tr("Delay time has been updated."),2500);
-}
-
-void Window_PumpControl::slot_updatedStartTime()
-{
-
+    ui->statusbar->showMessage(tr("Delay time has been updated."),2500);
 }
 
 void Window_PumpControl::on_pushButton_PumpRunning_released()
@@ -166,7 +164,7 @@ void Window_PumpControl::saveToFile(const QString &filePath)
     QFile saveFile(filePath);
 
     if (!saveFile.open(QIODevice::WriteOnly)) {
-        qWarning("Couldn't open save file.");
+        ui->statusbar->showMessage(tr("Could not save pump settings to file."),2500);
     }
     QJsonObject saveObject;
     this->write(saveObject);
@@ -180,7 +178,7 @@ void Window_PumpControl::openFromFile(const QString &filePath)
     QFile openFile(filePath);
 
     if (!openFile.open(QIODevice::ReadOnly)) {
-        qWarning("Couldn't open read file.");
+        ui->statusbar->showMessage(tr("Could not open pump settings from file."),2500);
     }
 
     QByteArray loadData = openFile.readAll();

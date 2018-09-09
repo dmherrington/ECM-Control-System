@@ -6,6 +6,7 @@
 #include <iostream>
 #include <thread>
 
+#include <QString>
 #include <QCoreApplication>
 #include <QThread>
 

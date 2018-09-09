@@ -1,8 +1,8 @@
 #include "additional_sensor_display.h"
 #include "ui_additional_sensor_display.h"
 
-AdditionalSensorDisplay::AdditionalSensorDisplay(ECMPlotCollection *plotCollection, QWidget *parent) :
-    QMainWindow(parent),
+AdditionalSensorDisplay::AdditionalSensorDisplay(ECMPlotCollection *plotCollection,  QWidget *parent) :
+    GeneralDialogWindow(DialogWindowTypes::WINDOW_SENSOR_DISPLAY,"Sensor Display",parent),
     ui(new Ui::AdditionalSensorDisplay),
     m_PlotCollection(plotCollection),
     m_SensorDisplays(plotCollection),
@@ -21,6 +21,10 @@ AdditionalSensorDisplay::AdditionalSensorDisplay(ECMPlotCollection *plotCollecti
     m_contextMenu = new QMenu(this);
 
     m_SensorDocksCreated = false;
+
+    this->setDockOptions(DockOption::AllowNestedDocks | DockOption::AllowTabbedDocks);
+//    setDockNestingEnabled(true);
+
 }
 
 
@@ -32,6 +36,11 @@ AdditionalSensorDisplay::~AdditionalSensorDisplay()
     delete ui;
 }
 
+
+void AdditionalSensorDisplay::closeEvent(QCloseEvent *event)
+{
+    GeneralDialogWindow::closeEvent(event);
+}
 
 void AdditionalSensorDisplay::CustomContextMenuRequested(const QPoint &pos)
 {
@@ -110,29 +119,54 @@ void AdditionalSensorDisplay::NewDock(const common::TupleSensorString &sensor, c
     AddUsableSensor(sensor);
 
 
-    QDockWidget *dock = new QDockWidget(this);
+    QDockWidget *dock = new QDockWidget(this);    
     dock->setObjectName(sensorDispName);
     dock->setWindowTitle(sensorDispName);
     dock->setAllowedAreas(Qt::AllDockWidgetAreas);
-    dock->setMinimumSize(400,400);
+    dock->setMinimumSize(400,200);
     dock->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    dock->setVisible(false);
+    dock->setVisible(true);
+    QMap<common::TupleSensorString, QAction*>::iterator i = this->m_SensorActionMap.find(sensor);
+
+    if(i != this->m_SensorActionMap.end())
+    {
+        i.value()->setChecked(true);
+    }
+//    try{
+//        dock->setVisible(m_ShownSensors[sensor]);
+
+//    }catch(std::out_of_range &oor)
+//    {
+//        dock->setVisible(false);
+//    }
 
     connect(dock , SIGNAL(visibilityChanged(bool)), this, SLOT(OnDockVisibilitiy(bool)));
 
     // if the number of widgets is even, add into the second column
-    if(m_SensorDockMap.size() <= 1)
+    if(m_SensorDockMap.size() == 0)
     {
-        this->addDockWidget(Qt::LeftDockWidgetArea, dock);
+        this->sensorDockOrdering.push_back(sensor);
+        this->addDockWidget(Qt::TopDockWidgetArea, dock);
     }
-    else if(m_SensorDockMap.size() % 2 != 0) // odd number of widgets
+    else if(m_SensorDockMap.size() == 1)
     {
-        this->addDockWidget(Qt::LeftDockWidgetArea, dock);
+        this->sensorDockOrdering.push_back(sensor);
+        this->addDockWidget(Qt::TopDockWidgetArea, dock);
+
+//        common::TupleSensorString previousDock = this->sensorDockOrdering.at(this->sensorDockOrdering.size());
+//        this->sensorDockOrdering.push_back(sensor);
+
+
+        //this->addDockWidget(Qt::TopDockWidgetArea, dock);
     }
-    else // even number of widgets
-    {
-        this->addDockWidget(Qt::RightDockWidgetArea, dock);
-    }
+//    else if(m_SensorDockMap.size() % 2 != 0) // odd number of widgets
+//    {
+//        this->addDockWidget(Qt::LeftDockWidgetArea, dock);
+//    }
+//    else // even number of widgets
+//    {
+//        this->addDockWidget(Qt::RightDockWidgetArea, dock);
+//    }
 
     //now create sensor display
     m_SensorDisplays.CreateSensor(sensor, type);

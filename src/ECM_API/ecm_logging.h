@@ -15,14 +15,27 @@
 #include "data/motion_profile_variable_state.h"
 #include "data/machine_positional_state.h"
 
+#include "data/profiles/profile_state_machining.h"
+
 #include <iostream>
 
 class ECMLogging
 {
 public:
-    ECMLogging();
+    ECMLogging(const std::map<std::string, std::string> &softwareVersions);
 
-    void initializeLogging(const std::string &logName, const common::EnvironmentTime &time);
+    bool checkLoggingPath(const string &partNumber, const std::string &serialNumber) const;
+
+    void initializeLogging(const string &partNumber, const std::string &serialNumber, bool clearContents = true);
+
+    void writeLoggingHeader(const string &partNumber, const string &serialNumber, const string &profileString,
+                            const std::string &operationalSettings,const std::string &descriptor,
+                            const common::EnvironmentTime &time);
+
+
+    void enableLogging(const bool &enable);
+
+    std::string getLoggingPath() const;
 
     void setLoggingRelativeTime(const bool &value);
 
@@ -53,6 +66,17 @@ public:
 
     void SetSensorLogFile(const common::TupleSensorString &key);
 
+
+    void CloseMachiningLog(const common::EnvironmentTime &time, const ProfileState_Machining::MACHININGProfileCodes &completionCode);
+
+private:
+    void WriteLogSoftwareVersions(QTextStream &stringWriter);
+
+    std::string WriteHeaderBreaker(const unsigned int &size);
+
+private:
+    bool isComponentLogging() const;
+
 protected:
 
     QFile* masterLog;
@@ -60,6 +84,8 @@ protected:
     bool logReglativeTime = false;
 
     bool loggingInitialized = false;
+
+    bool loggingEnabled = false;
 
     common::EnvironmentTime startLogTime;
 
@@ -74,6 +100,9 @@ protected:
 
 private:
     std::string loggingPath;
+
+    std::map<std::string, std::string> softwareVersioningMap;
+
 };
 
 #endif // ECM_LOGGING_H

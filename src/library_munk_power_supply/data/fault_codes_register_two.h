@@ -69,6 +69,29 @@ inline std::string FaultCodesRegister2ToString(const FaultCodesRegister2 &type) 
     }
 }
 
+inline std::vector<FaultCodesRegister2> getFaultCodesRegister2Vector()
+{
+    std::vector<FaultCodesRegister2> rtn;
+    rtn.push_back(FaultCodesRegister2::ERR_FR2_AMPHOURCHECKSUM);
+    rtn.push_back(FaultCodesRegister2::ERR_FR2_INT_EEPROM);
+    rtn.push_back(FaultCodesRegister2::ERR_FR2_EXT_EEPROM);
+    rtn.push_back(FaultCodesRegister2::ERR_FR2_EEPROM_FORMAT);
+    rtn.push_back(FaultCodesRegister2::ERR_FR2_BATCH_READ);
+    rtn.push_back(FaultCodesRegister2::ERR_FR2_BATCH_WRITE);
+    rtn.push_back(FaultCodesRegister2::ERR_FR2_PATTERN_READ);
+    rtn.push_back(FaultCodesRegister2::ERR_FR2_PATTERN_WRITE);
+    rtn.push_back(FaultCodesRegister2::ERR_FR2_IDCLINK_IXT_TRIP1);
+    rtn.push_back(FaultCodesRegister2::ERR_FR2_CONTROLSUPPLY);
+    rtn.push_back(FaultCodesRegister2::ERR_FR2_DCLINK1);
+    rtn.push_back(FaultCodesRegister2::ERR_FR2_PLD_1_5_SUPPLY);
+    rtn.push_back(FaultCodesRegister2::ERR_FR2_IDCLINK_IXT_TRIP2);
+    rtn.push_back(FaultCodesRegister2::ERR_FR2_DCLINK2);
+    rtn.push_back(FaultCodesRegister2::ERR_FR2_RESERVED);
+    rtn.push_back(FaultCodesRegister2::ERR_FR2_SET_CURRENT_EXCEEDED);
+
+    return rtn;
+}
+
 } //end of namespace data_Munk
 
 

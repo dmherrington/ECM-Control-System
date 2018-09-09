@@ -6,8 +6,8 @@ namespace Galil {
 State_Jogging::State_Jogging():
     AbstractStateGalil()
 {
-    this->currentState = ECMState::STATE_JOGGING;
-    this->desiredState = ECMState::STATE_JOGGING;
+    this->currentState = GalilState::STATE_JOGGING;
+    this->desiredState = GalilState::STATE_JOGGING;
 }
 
 AbstractStateGalil* State_Jogging::getClone() const
@@ -29,12 +29,12 @@ hsm::Transition State_Jogging::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_MOTION_STOP:
+        case GalilState::STATE_MOTION_STOP:
         {
             rtn = hsm::SiblingTransition<State_MotionStop>();
             break;
         }
-        case ECMState::STATE_ESTOP:
+        case GalilState::STATE_ESTOP:
         {
             rtn = hsm::SiblingTransition<State_EStop>();
             break;
@@ -48,19 +48,18 @@ hsm::Transition State_Jogging::GetTransition()
     return rtn;
 }
 
-void State_Jogging::handleCommand(const AbstractCommand* command)
+void State_Jogging::handleCommand(const AbstractCommandPtr command)
 {
-    const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    //const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
     this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
+    //CommandType currentCommand = copyCommand->getCommandType();
 
-    CommandType currentCommand = copyCommand->getCommandType();
-    switch (currentCommand) {
+    switch (command->getCommandType()) {
     case CommandType::JOG_MOVE:
     {
         //This is the command that brought us into this state
-        CommandJogPtr castCommand = std::make_shared<CommandJog>(*command->as<CommandJog>());
-        this->clearCommand();
-        Owner().issueGalilMotionCommand(castCommand);
+        //CommandJogPtr castCommand = std::make_shared<CommandJog>(*command->as<CommandJog>());
+        Owner().issueGalilMotionCommand(command);
 //        Owner().issueGalilCommand(castCommand); //KEN Fix this to differentiate a motion command so we can auto begin motion upon ack
 
 //        CommandMotionStartPtr motionStartCommand = std::make_shared<CommandMotionStart>();
@@ -69,16 +68,16 @@ void State_Jogging::handleCommand(const AbstractCommand* command)
     }
     case CommandType::STOP:
     {
-        this->desiredState = ECMState::STATE_MOTION_STOP;
+        this->desiredState = GalilState::STATE_MOTION_STOP;
         break;
     }
     case CommandType::ESTOP:
     {
-        this->desiredState = ECMState::STATE_ESTOP;
+        this->desiredState = GalilState::STATE_ESTOP;
         break;
     }
     default:
-        std::cout<<"Thie command type of: "<<CommandToString(command->getCommandType())<<" has no explicit support from the idle state."<<std::endl;
+        std::cout<<"The command type of: "<<CommandToString(command->getCommandType())<<" has no explicit support from the idle state."<<std::endl;
         break;
     }
 }
@@ -91,23 +90,23 @@ void State_Jogging::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = ECMState::STATE_ESTOP;
+        desiredState = GalilState::STATE_ESTOP;
     }
 }
 
 void State_Jogging::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_JOGGING));
+    Owner().issueNewGalilState(GalilState::STATE_JOGGING);
     //this shouldn't really happen as how are we supposed to know the actual state jogging command
     //we therefore are going to do nothing other than change the state back to State_Ready
-    this->desiredState = ECMState::STATE_READY;
+    this->desiredState = GalilState::STATE_READY;
 }
 
-void State_Jogging::OnEnter(const AbstractCommand *command)
+void State_Jogging::OnEnter(const AbstractCommandPtr command)
 {
     if(command != nullptr)
     {
-        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_JOGGING));
+        Owner().issueNewGalilState(GalilState::STATE_JOGGING);
         this->handleCommand(command);
     }
     else{

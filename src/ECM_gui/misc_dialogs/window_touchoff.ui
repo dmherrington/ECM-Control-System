@@ -302,7 +302,7 @@ width:20px;
     <item row="1" column="0" colspan="2">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QPushButton" name="pushButton_RunTouchoff">
+       <widget class="QPushButton" name="pushButton_TouchoffGap">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -514,6 +514,14 @@ width:20px;
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>doubleSpinBox_TouchoffRef</tabstop>
+  <tabstop>pushButton_TouchoffRef</tabstop>
+  <tabstop>doubleSpinBox_InitialGap</tabstop>
+  <tabstop>pushButton_TouchoffGap</tabstop>
+  <tabstop>pushButton_ExecuteTouchoff</tabstop>
+  <tabstop>lineEdit_TouchoffCode</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

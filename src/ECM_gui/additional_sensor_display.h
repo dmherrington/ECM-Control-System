@@ -9,6 +9,8 @@
 #include <QList>
 #include <QMenu>
 
+#include "general_dialog_window.h"
+
 #include "common/tuple_sensor_string.h"
 #include "ECM_plot_collection.h"
 
@@ -27,7 +29,7 @@ class AdditionalSensorDisplay;
 //! The QDockWidget allows for multiple displays to be shown at one time.
 //! While also allowing the user to break out the display for individual display.
 //!
-class AdditionalSensorDisplay : public QMainWindow
+class AdditionalSensorDisplay : public GeneralDialogWindow
 {
     Q_OBJECT
 
@@ -115,7 +117,17 @@ public slots:
     //!
     void ChangeColorScheme(bool scheme);
 
+private:
+    void closeEvent(QCloseEvent *event) override;
+
 signals:
+
+    //!
+    //! \brief signal_DialogWindowVisibilty
+    //! \param type
+    //! \param visibility
+    //!
+    void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility);
 
     //!
     //! \brief Signal to emit when a new dock is to be created
@@ -149,9 +161,6 @@ private slots:
 
     void DisplayActionTriggered();
 
-
-
-
     //!
     //! \brief Slot fired when a dock becomes visible or unvible
     //! \param visible true if dock is now visible, false otherwise
@@ -179,8 +188,9 @@ private:
     QMap<common::TupleSensorString, QAction*> m_SensorActionMap;
 
     // Map of a sensor tuple and the corresponding dock widget (with SensorDisplay widget) pointer
-    QMap<common::TupleSensorString, QDockWidget *> m_SensorDockMap;
+    QMap<common::TupleSensorString, QDockWidget*> m_SensorDockMap;
 
+    std::vector<common::TupleSensorString> sensorDockOrdering;
 
     //! Collection of display objects
     CollectionDisplays m_SensorDisplays;

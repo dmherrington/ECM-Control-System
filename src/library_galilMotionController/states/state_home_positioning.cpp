@@ -6,13 +6,16 @@ namespace Galil {
 State_HomePositioning::State_HomePositioning():
     AbstractStateGalil()
 {
-    this->currentState = ECMState::STATE_HOME_POSITIONING;
-    this->desiredState = ECMState::STATE_HOME_POSITIONING;
+    this->currentState = GalilState::STATE_HOME_POSITIONING;
+    this->desiredState = GalilState::STATE_HOME_POSITIONING;
 }
 
 void State_HomePositioning::OnExit()
 {
     Owner().statusVariableValues->removeVariableNotifier("homest",this);
+
+    common::TupleProfileVariableString tupleVariable("Default","Homing","homest");
+    Owner().issueGalilRemovePollingRequest(tupleVariable);
 }
 
 AbstractStateGalil* State_HomePositioning::getClone() const
@@ -36,17 +39,17 @@ hsm::Transition State_HomePositioning::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_READY:
+        case GalilState::STATE_READY:
         {
             rtn = hsm::SiblingTransition<State_Ready>();
             break;
         }
-        case ECMState::STATE_MOTION_STOP:
+        case GalilState::STATE_MOTION_STOP:
         {
             rtn = hsm::SiblingTransition<State_MotionStop>();
             break;
         }
-        case ECMState::STATE_ESTOP:
+        case GalilState::STATE_ESTOP:
         {
             rtn = hsm::SiblingTransition<State_EStop>();
         }
@@ -59,18 +62,25 @@ hsm::Transition State_HomePositioning::GetTransition()
     return rtn;
 }
 
-void State_HomePositioning::handleCommand(const AbstractCommand* command)
+void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
 {
-    const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    //const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
     this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
+    //CommandType currentCommand = copyCommand->getCommandType();
 
-    CommandType currentCommand = copyCommand->getCommandType();
-    switch (currentCommand) {
+    switch (command->getCommandType()) {
     case CommandType::EXECUTE_PROGRAM:
     {
         Owner().statusVariableValues->addVariableNotifier("homest",this,[this]{
             double varValue = 0.0;
             bool valid = Owner().statusVariableValues->getVariableValue("homest",varValue);
+            if(!valid)
+            {
+                std::cout<<"The variable homest does not exist and therefore we do not know how to handle this case."<<std::endl;
+                desiredState = GalilState::STATE_MOTION_STOP;
+                return;
+            }
+
             switch ((int)varValue) {
             case 0:
             {
@@ -91,25 +101,25 @@ void State_HomePositioning::handleCommand(const AbstractCommand* command)
                 MotionProfileState newProfileState;
                 newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
                 Owner().issueUpdatedMotionProfileState(newProfileState);
-                desiredState = ECMState::STATE_READY;
+                desiredState = GalilState::STATE_READY;
                 break;
             }
             } //end of switch statement
         });
-        CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*copyCommand->as<CommandExecuteProfile>());
-        Owner().issueGalilCommand(castCommand); //this will not be considered a motion command as the profile contains the BG parameters
+        //CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*copyCommand->as<CommandExecuteProfile>());
+        Owner().issueGalilCommand(command); //this will not be considered a motion command as the profile contains the BG parameters
         break;
     }
     case CommandType::STOP:
     {
-        desiredState = ECMState::STATE_MOTION_STOP;
-        delete copyCommand;
+        desiredState = GalilState::STATE_MOTION_STOP;
+        //delete copyCommand;
         break;
     }
     case CommandType::ESTOP:
     {
-        desiredState = ECMState::STATE_ESTOP;
-        delete copyCommand;
+        desiredState = GalilState::STATE_ESTOP;
+        //delete copyCommand;
         break;
     }
     default:
@@ -125,19 +135,19 @@ void State_HomePositioning::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = ECMState::STATE_ESTOP;
+        desiredState = GalilState::STATE_ESTOP;
     }
 }
 
 void State_HomePositioning::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_HOME_POSITIONING));
+    Owner().issueNewGalilState(GalilState::STATE_HOME_POSITIONING);
     //this shouldn't really happen as how are we supposed to know the actual home position command
     //we therefore are going to do nothing other than change the state back to State_Ready
-    this->desiredState = ECMState::STATE_READY;
+    this->desiredState = GalilState::STATE_READY;
 }
 
-void State_HomePositioning::OnEnter(const AbstractCommand* command)
+void State_HomePositioning::OnEnter(const AbstractCommandPtr command)
 {
     this->processFlag = false;
 
@@ -145,11 +155,11 @@ void State_HomePositioning::OnEnter(const AbstractCommand* command)
 
     if(command != nullptr)
     {
-        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_HOME_POSITIONING));
+        Owner().issueNewGalilState(GalilState::STATE_HOME_POSITIONING);
         Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Home Status","homest");
         common::TupleProfileVariableString tupleVariable("Default","Homing","homest");
         request->setTupleDescription(tupleVariable);
-        Owner().issueGalilAddPollingRequest(request);
+        Owner().issueGalilAddPollingRequest(request,1000);
 
         this->handleCommand(command);
     }

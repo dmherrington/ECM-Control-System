@@ -1,5 +1,6 @@
 #ifndef RIGOL_OSCILLISCOPE_H
 #define RIGOL_OSCILLISCOPE_H
+
 #include <QDir>
 #include <QObject>
 
@@ -49,10 +50,9 @@ public:
 
     void closeConnection();
 
-private:
     void executeMeasurementPolling(const bool &execute);
 
-
+private:
     void cbi_RigolMeasurementRequests(const commands_Rigol::MeasureCommand_Item &request) override;
 
     //////////////////////////////////////////////////////////////

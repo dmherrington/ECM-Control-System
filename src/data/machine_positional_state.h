@@ -32,7 +32,7 @@ public:
     void setAxisPosition(const unsigned int &position);
 
     MotorAxis getAxis() const;
-    unsigned int getAxisPosition() const;
+    unsigned int getAxisPosition(const PositionUnit &unit) const;
 
     std::string getLoggingString() const;
 

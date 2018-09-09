@@ -6,8 +6,8 @@ namespace Galil {
 State_ScriptExecution::State_ScriptExecution():
     AbstractStateGalil()
 {
-    this->currentState = ECMState::STATE_SCRIPT_EXECUTION;
-    this->desiredState = ECMState::STATE_SCRIPT_EXECUTION;
+    this->currentState = GalilState::STATE_SCRIPT_EXECUTION;
+    this->desiredState = GalilState::STATE_SCRIPT_EXECUTION;
 }
 
 AbstractStateGalil* State_ScriptExecution::getClone() const
@@ -29,17 +29,17 @@ hsm::Transition State_ScriptExecution::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_READY:
+        case GalilState::STATE_READY:
         {
             return hsm::SiblingTransition<State_Ready>();
             break;
         }
-        case ECMState::STATE_MOTION_STOP:
+        case GalilState::STATE_MOTION_STOP:
         {
             return hsm::SiblingTransition<State_MotionStop>();
             break;
         }
-        case ECMState::STATE_ESTOP:
+        case GalilState::STATE_ESTOP:
         {
             rtn = hsm::SiblingTransition<State_EStop>();
             break;
@@ -52,32 +52,46 @@ hsm::Transition State_ScriptExecution::GetTransition()
     return rtn;
 }
 
-void State_ScriptExecution::handleCommand(const AbstractCommand* command)
+void State_ScriptExecution::handleCommand(const AbstractCommandPtr command)
 {
-    CommandType currentCommand = command->getCommandType();
+    //const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
+    this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
+    //CommandType currentCommand = copyCommand->getCommandType();
 
-    switch (currentCommand) {
+    switch (command->getCommandType()) {
     case CommandType::EXECUTE_PROGRAM:
     {
         CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
         Owner().issueGalilCommand(castCommand);
-        this->clearCommand();
+
         break;
     }
     case CommandType::STOP:
     {
-        desiredState = ECMState::STATE_MOTION_STOP;
-        this->clearCommand();
+        ProfileState_Machining newState("Machining Profile", scriptProfileName);
+        newState.setCurrentCode(ProfileState_Machining::MACHININGProfileCodes::ABORTED);
+        MotionProfileState newProfileState;
+        newProfileState.setProfileState(std::make_shared<ProfileState_Machining>(newState));
+        Owner().issueUpdatedMotionProfileState(newProfileState);
+
+        desiredState = GalilState::STATE_MOTION_STOP;
+
         break;
     }
     case CommandType::ESTOP:
     {
-        desiredState = ECMState::STATE_ESTOP;
-        this->clearCommand();
+        ProfileState_Machining newState("Machining Profile", scriptProfileName);
+        newState.setCurrentCode(ProfileState_Machining::MACHININGProfileCodes::ABORTED);
+        MotionProfileState newProfileState;
+        newProfileState.setProfileState(std::make_shared<ProfileState_Machining>(newState));
+        Owner().issueUpdatedMotionProfileState(newProfileState);
+
+        desiredState = GalilState::STATE_ESTOP;
+
         break;
     }
     default:
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        std::cout<<"The current command: "<<CommandToString(command->getCommandType())<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
 }
@@ -90,63 +104,86 @@ void State_ScriptExecution::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = ECMState::STATE_ESTOP;
+        desiredState = GalilState::STATE_ESTOP;
     }
 }
 
 void State_ScriptExecution::OnExit()
 {
+    Owner().statusVariableValues->removeVariableNotifier("ppos",this);
+    Owner().statusVariableValues->removeVariableNotifier("cutdone",this);
+
     //Ken we need to remove the polling measurements here
-    //Owner().issueGalilRemovePollingRequest("ppos");
-    Owner().statusVariableValues->removeVariable("ppos");
-    //Owner().issueGalilRemovePollingRequest("cutdone");
-    Owner().statusVariableValues->removeVariable("cutdone");
+    for(size_t i = 0; i < currentScriptRequests.size(); i++)
+    {
+        Owner().issueGalilRemovePollingRequest(currentScriptRequests.at(i));
+    }
+//    common::TupleProfileVariableString tupleVariablePPOS("Default","Profile","ppos");
+//    Owner().issueGalilRemovePollingRequest(tupleVariablePPOS);
+//    common::TupleProfileVariableString tupleVariableCUTTING("Default","Profile","cutdone");
+//    Owner().issueGalilRemovePollingRequest(tupleVariableCUTTING);
 }
 
 void State_ScriptExecution::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_SCRIPT_EXECUTION));
+    Owner().issueNewGalilState(GalilState::STATE_SCRIPT_EXECUTION);
     //this shouldn't really happen as how are we supposed to know the the actual profile to execute
     //we therefore are going to do nothing other than change the state back to State_Ready
-    desiredState = ECMState::STATE_READY;
+    desiredState = GalilState::STATE_READY;
 }
 
-void State_ScriptExecution::OnEnter(const AbstractCommand* command)
+void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
 {
-    if(command != nullptr)
+    if((command != nullptr) && (command.get()->getCommandType()==CommandType::EXECUTE_PROGRAM))
     {
-        Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_SCRIPT_EXECUTION));
+        CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
+        QString profileName = QString::fromStdString(castCommand->getProfileName());
+        this->scriptProfileName = profileName.toStdString();
+
+        Owner().issueNewGalilState(GalilState::STATE_SCRIPT_EXECUTION);
 
         Request_TellVariablePtr requestPosition = std::make_shared<Request_TellVariable>("Bottom Position","ppos");
-        Status_VariableValue newPPOS;
-        newPPOS.setVariableName("ppos");
-        Owner().statusVariableValues->addVariable(newPPOS);
-        Owner().issueGalilAddPollingRequest(requestPosition);
+        common::TupleProfileVariableString tupleVariablePPOS("", "", "ppos");
+        requestPosition->setTupleDescription(tupleVariablePPOS);
+        Owner().issueGalilAddPollingRequest(requestPosition);        
+        currentScriptRequests.push_back(tupleVariablePPOS);
+
 
         Request_TellVariablePtr requestCutting = std::make_shared<Request_TellVariable>("Machining Complete","cutdone");
-        Status_VariableValue newCUTDONE;
-        newCUTDONE.setVariableName("cutdone");
-        Owner().statusVariableValues->addVariable(newCUTDONE);
+        common::TupleProfileVariableString tupleVariableCUTTING("",profileName,"cutdone");
+        requestCutting->setTupleDescription(tupleVariableCUTTING);
         Owner().issueGalilAddPollingRequest(requestCutting);
+        currentScriptRequests.push_back(tupleVariableCUTTING);
+
         //The command isnt null so we should handle it
         this->handleCommand(command);
 
         Owner().statusVariableValues->addVariableNotifier("cutdone",this,[this]
         {
-            double value = 0;
-            Owner().statusVariableValues->getVariableValue("cutdone",value);
-            switch ((ProfileState_Machining::MACHININGProfileCodes)value) {
+            double varValue = 0.0;
+            bool valid = Owner().statusVariableValues->getVariableValue("cutdone",varValue);
+            switch ((ProfileState_Machining::MACHININGProfileCodes)varValue) {
             case ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE:
             {
                 //the part is still being cut
+                ProfileState_Machining newState("Machining Profile", scriptProfileName);
+                newState.setCurrentCode(ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE);
+                MotionProfileState newProfileState;
+                newProfileState.setProfileState(std::make_shared<ProfileState_Machining>(newState));
+                Owner().issueUpdatedMotionProfileState(newProfileState);
+
                 break;
             }
             case ProfileState_Machining::MACHININGProfileCodes::COMPLETE:
             {
                 //the part is finished being cut
-                CommandExecuteProfile* command = new CommandExecuteProfile(MotionProfile::ProfileType::HOMING,"home");
-                this->currentCommand = command;
-                desiredState = ECMState::STATE_MOTION_STOP;
+                ProfileState_Machining newState("Machining Profile", scriptProfileName);
+                newState.setCurrentCode(ProfileState_Machining::MACHININGProfileCodes::COMPLETE);
+                MotionProfileState newProfileState;
+                newProfileState.setProfileState(std::make_shared<ProfileState_Machining>(newState));
+                Owner().issueUpdatedMotionProfileState(newProfileState);
+
+                desiredState = GalilState::STATE_READY;
                 break;
             }
             default:

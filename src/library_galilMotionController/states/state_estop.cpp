@@ -6,8 +6,8 @@ namespace Galil {
 State_EStop::State_EStop():
     AbstractStateGalil()
 {
-    this->currentState = ECMState::STATE_ESTOP;
-    this->desiredState = ECMState::STATE_ESTOP;
+    this->currentState = GalilState::STATE_ESTOP;
+    this->desiredState = GalilState::STATE_ESTOP;
 }
 
 AbstractStateGalil* State_EStop::getClone() const
@@ -28,7 +28,7 @@ hsm::Transition State_EStop::GetTransition()
     {
         //this means we want to chage the state for some reason
         switch (desiredState) {
-        case ECMState::STATE_IDLE:
+        case GalilState::STATE_IDLE:
         {
             rtn = hsm::SiblingTransition<State_Idle>();
             break;
@@ -41,7 +41,7 @@ hsm::Transition State_EStop::GetTransition()
     return rtn;
 }
 
-void State_EStop::handleCommand(const AbstractCommand* command)
+void State_EStop::handleCommand(const AbstractCommandPtr command)
 {
     CommandType currentCommand = command->getCommandType();
 
@@ -59,13 +59,13 @@ void State_EStop::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = ECMState::STATE_IDLE;
+        desiredState = GalilState::STATE_IDLE;
     }
 }
 
 void State_EStop::OnEnter()
 {
-    Owner().issueNewGalilState(ECMStateToString(ECMState::STATE_ESTOP));
+    Owner().issueNewGalilState(GalilState::STATE_ESTOP);
     //First check to see if the motor is already disarmed, and if not, disarm it
     if(Owner().isMotorEnabled())
     {
@@ -79,7 +79,7 @@ void State_EStop::OnEnter()
     Owner().issueGalilCommand(command);
 }
 
-void State_EStop::OnEnter(const AbstractCommand *command)
+void State_EStop::OnEnter(const AbstractCommandPtr command)
 {
     this->OnEnter();
 

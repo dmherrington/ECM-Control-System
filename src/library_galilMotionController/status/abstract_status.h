@@ -17,11 +17,31 @@ public:
 
     AbstractStatus(const AbstractStatus &copy);
 
+    //!
+    //! \brief setStatusType
+    //! \param type
+    //!
     void setStatusType(const StatusTypes &type);
+
+    //!
+    //! \brief getStatusType
+    //! \return
+    //!
     StatusTypes getStatusType() const;
 
+    //!
+    //! \brief setTime
+    //! \param time
+    //!
     void setTime(const common::EnvironmentTime &time);
+
+    //!
+    //! \brief getTime
+    //! \return
+    //!
     common::EnvironmentTime getTime() const;
+
+    virtual bool isStatusValid() const;
 
 //    virtual void setTupleDescription(const common::TupleECMData &tuple);
 

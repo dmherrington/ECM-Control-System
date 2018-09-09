@@ -45,20 +45,20 @@ bool GalilCurrentProgram::getLabelLine(const std::string &label, int &line) cons
     return true;
 }
 
-bool GalilCurrentProgram::getVariableLine(const std::string &variable, int &line) const
-{
-    if(this->variableList.doesVariableExist(variable))
-        return false;
-    this->variableList.getVariableLine(variable,line);
-    return true;
-}
+//bool GalilCurrentProgram::getVariableLine(const std::string &variable, int &line) const
+//{
+//    if(this->variableList.doesVariableExist(variable))
+//        return false;
+//    this->variableList.getVariableLine(variable,line);
+//    return true;
+//}
 
 std::map<std::string, int> GalilCurrentProgram::getLablMap() const
 {
     return this->labelList.getLabelMap();
 }
 
-std::map<std::string, int> GalilCurrentProgram::getVariableMap() const
+std::map<std::string, double> GalilCurrentProgram::getVariableMap() const
 {
     return this->variableList.getVariableMap();
 }
@@ -66,4 +66,14 @@ std::map<std::string, int> GalilCurrentProgram::getVariableMap() const
 std::string GalilCurrentProgram::getProgram() const
 {
     return this->program;
+}
+
+std::string GalilCurrentProgram::getLoggingString() const
+{
+    return this->getProgram();
+}
+
+void GalilCurrentProgram::writeJSONData(QJsonObject &json) const
+{
+    json["Program"] = QString::fromStdString(this->program);
 }

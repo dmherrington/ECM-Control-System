@@ -3,13 +3,15 @@
 
 #include <QMainWindow>
 
+#include "../general_dialog_window.h"
+
 #include "library_galilMotionController/galil_motion_controller.h"
 
 namespace Ui {
 class Window_Touchoff;
 }
 
-class Window_Touchoff : public QMainWindow
+class Window_Touchoff : public GeneralDialogWindow
 {
     Q_OBJECT
 
@@ -17,29 +19,31 @@ public:
     explicit Window_Touchoff(GalilMotionController* obj, QWidget *parent = 0);
     ~Window_Touchoff();
 
-    bool isWindowHidden() const;
+private:
+    void closeEvent(QCloseEvent *event) override;
 
-protected:
-    void readSettings();
-    void closeEvent(QCloseEvent *event);
-    void showEvent(QShowEvent *event);
-    void hideEvent(QHideEvent *event);
+signals:
+    void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility);
+
+private:
+    void saveToFile(const QString &filePath);
+
+    void openFromFile(const QString &filePath);
 
 private slots:
     void on_actionClose_triggered();
 
     void on_pushButton_ExecuteTouchoff_released();
 
-    void slot_UpdateMotionProfileState(const MotionProfileState &state);
-
     void on_pushButton_TouchoffRef_released();
 
-    void on_pushButton_RunTouchoff_released();
+    void slot_UpdateMotionProfileState(const MotionProfileState &state);
+
+    void on_pushButton_TouchoffGap_released();
 
 private:
     Ui::Window_Touchoff *ui;
     GalilMotionController* m_MotionController;
-    bool windowHidden = true;
 };
 
 #endif // WINDOW_TOUCHOFF_H

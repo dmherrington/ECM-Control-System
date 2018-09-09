@@ -1,38 +1,123 @@
 #include "ecm_logging.h"
 
-ECMLogging::ECMLogging():
-    masterLog(nullptr)
+ECMLogging::ECMLogging(const std::map<string, string> &softwareVersions):
+    masterLog(nullptr), loggingInitialized(false), loggingEnabled(false), softwareVersioningMap(softwareVersions)
 {
 
 }
 
-void ECMLogging::initializeLogging(const string &logName, const common::EnvironmentTime &time)
+std::string ECMLogging::getLoggingPath() const
 {
-    loggingPath = "";
+    return this->loggingPath;
+}
+
+bool ECMLogging::checkLoggingPath(const string &partNumber, const string &serialNumber) const
+{
     char* ECMPath = getenv("ECM_ROOT");
     if(ECMPath){
         std::string rootPath(ECMPath);
-        QDir loggingDirectory(QString::fromStdString(rootPath + "/logs/PartNumber/"));
+        //set up the root folder directory based on the part number
+
+        QDir partDirectory(QString::fromStdString(rootPath + "/logs/PartNumber_" + partNumber + "/"));
+        if(!partDirectory.exists() || partDirectory.isEmpty())
+            return true;
 
         std::string newPath = "SerialNumber_";
-        int testIndex = 0;
-        std::string finalPath = newPath + std::to_string(testIndex);
+        std::string finalPath = newPath + serialNumber;
 
-        loggingDirectory.mkpath(QString::fromStdString(rootPath + "/logs/PartNumber/"));
+        QDir serialDirectory(QString::fromStdString(rootPath + "/logs/PartNumber_" + partNumber + "/" + finalPath));
+        if(!serialDirectory.exists() || serialDirectory.isEmpty())
+            return true;
+    }
+    return false;
+}
+
+void ECMLogging::enableLogging(const bool &enable)
+{
+    this->loggingEnabled = enable;
+}
+
+void ECMLogging::initializeLogging(const std::string &partNumber, const std::string &serialNumber, bool clearContents)
+{
+    std::string logName = "machiningLogs";
+    loggingPath = "";
+    char* ECMPath = getenv("ECM_ROOT");
+
+    if(ECMPath){
+        std::string rootPath(ECMPath);
+        //set up the root folder directory based on the part number
+
+        QDir loggingDirectory(QString::fromStdString(rootPath + "/logs/PartNumber_" + partNumber + "/"));
+
+        std::string newPath = "SerialNumber_";
+        std::string finalPath = newPath + serialNumber;
+
+        loggingDirectory.mkpath(QString::fromStdString(rootPath + "/logs/PartNumber_" + partNumber + "/"));
+
         if(!loggingDirectory.mkdir(QString::fromStdString(finalPath)))
-            std::cout<<"The file already exists."<<std::endl;
+            std::cout<<"The folder already exists."<<std::endl;
 
-        loggingPath = loggingDirectory.absolutePath().toStdString() + "/" + finalPath;
+        loggingPath = loggingDirectory.absolutePath().toStdString() + "/" + finalPath + "/";
     }
 
     QString fileName = QString::fromStdString(loggingPath) + QString::fromStdString(logName) + ".out";
     masterLog = new QFile(fileName);
-    masterLog->open(QIODevice::WriteOnly);
-    masterLog->resize(0);
+    if(clearContents)
+    {
+        masterLog->open(QFile::WriteOnly | QIODevice::Text);
+        masterLog->resize(0);
+    }
+    else{
+        masterLog->open(QFile::WriteOnly | QFile::Append | QIODevice::Text);
+    }
+
+
+    loggingInitialized = true;
+}
+
+void ECMLogging::writeLoggingHeader(const std::string &partNumber, const std::string &serialNumber,const std::string &profileString,
+                                    const std::string &operationalSettings, const std::string &descriptor,
+                                    const common::EnvironmentTime &time)
+{
+    if(!loggingInitialized)
+        return;
 
     this->setLoggingStartTime(time);
 
-    loggingInitialized = true;
+    QString str;
+    QTextStream stringWriter(&str, QIODevice::WriteOnly);
+
+    stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
+    stringWriter << "Part Number #: " << QString::fromStdString(partNumber) << "\t" << "Serial Number #: " << QString::fromStdString(serialNumber) << "\t" <<"Machining Profile : " << QString::fromStdString(profileString) <<"\r\n";
+    stringWriter << "Operation Time : " << time <<"\r\n";
+    stringWriter << "Descriptor (Optional): " << QString::fromStdString(descriptor) <<"\r\n" <<"\r\n";
+
+    stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
+    this->WriteLogSoftwareVersions(stringWriter);
+    stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
+
+    stringWriter << QString::fromStdString(operationalSettings);
+
+    stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
+    stringWriter<<"OPERATIONAL DATA: \r\n";
+
+    stringWriter.flush();
+    QTextStream out(masterLog);
+    out << str;
+
+}
+
+void ECMLogging::WriteLogSoftwareVersions(QTextStream &stringWriter)
+{
+    stringWriter<<"SOFTWARE VERSION INFORMATION: \r\n";
+    std::map<std::string,std::string>::iterator it = this->softwareVersioningMap.begin();
+
+    for(; it != this->softwareVersioningMap.end(); ++it)
+    {
+        stringWriter<<QString::fromStdString(it->first)<<":"<<QString::fromStdString(it->second)<<"\r\n";
+    }
+
+    stringWriter<<"\r\n";
 }
 
 void ECMLogging::setLoggingRelativeTime(const bool &value)
@@ -52,7 +137,7 @@ void ECMLogging::setLoggingStartTime(const common::EnvironmentTime &time)
 
 void ECMLogging::WriteLogMachinePositionalState(const common::TuplePositionalString &key, const common_data::MachinePositionalState &state)
 {
-    if(!loggingInitialized)
+    if(!isComponentLogging())
         return;
 
     QString str;
@@ -64,14 +149,13 @@ void ECMLogging::WriteLogMachinePositionalState(const common::TuplePositionalStr
     stringWriter << "\r\n";
     stringWriter.flush();
 
-    //QTextStream out(m_LogProfileVariableStates[key]);
     QTextStream out(masterLog);
     out << str;
 }
 
 void ECMLogging::WriteLogProfileVariableState(const common::TupleProfileVariableString &key, const common_data::MotionProfileVariableState &state)
 {
-    if(!loggingInitialized)
+    if(!isComponentLogging())
         return;
 
     QString str;
@@ -90,7 +174,7 @@ void ECMLogging::WriteLogProfileVariableState(const common::TupleProfileVariable
 void ECMLogging::WriteLogSensorState(const common::TupleSensorString &key, const common_data::SensorState &state)
 {
 
-    if(!loggingInitialized)
+    if(!isComponentLogging())
         return;
 
     QString str;
@@ -114,3 +198,49 @@ void ECMLogging::SetSensorLogFile(const common::TupleSensorString &key)
     outFile->resize(0);
     m_LogSensorStates[key] = outFile;
 }
+
+
+void ECMLogging::CloseMachiningLog(const common::EnvironmentTime &time, const ProfileState_Machining::MACHININGProfileCodes &completionCode)
+{
+    if(!isComponentLogging())
+        return;
+
+    this->enableLogging(false);
+
+    unsigned int operationalTime = (time - this->startLogTime) / (1000 * 1000);
+    QString str;
+    QTextStream stringWriter(&str, QIODevice::WriteOnly);
+
+    stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
+    stringWriter<<QString::fromStdString(ProfileState_Machining::MACHININGCodesToString(completionCode)) << "\r\n";
+    stringWriter<<"Elapsed Seconds: " << QString::number(operationalTime);
+    stringWriter << "\r\n";
+    stringWriter.flush();
+
+    QTextStream out(masterLog);
+    out << str;
+
+    masterLog->close();
+}
+
+std::string ECMLogging::WriteHeaderBreaker(const unsigned int &size)
+{
+    std::string str;
+
+    //Write header breaker line at the top
+    for(size_t i = 0; i < size; i++)
+    {
+        str += "*";
+    }
+
+    //bump the header to the next line
+    str += "\r\n";
+    return str;
+}
+
+bool ECMLogging::isComponentLogging() const
+{
+    return loggingEnabled && loggingInitialized;
+}
+
+

@@ -24,7 +24,7 @@ public:
         case HOMINGProfileCodes::COMPLETE:
             return "Home Routine Finished.";
         default:
-            throw std::runtime_error("Unknown touchoff profile code seen");
+            throw std::runtime_error("Unknown homing profile code seen");
         }
     }
 

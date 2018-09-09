@@ -20,23 +20,24 @@ void AbstractStateGalil::OnExit()
 
 }
 
-ECMState AbstractStateGalil::getCurrentState() const
+GalilState AbstractStateGalil::getCurrentState() const
 {
     return currentState;
 }
 
-ECMState AbstractStateGalil::getDesiredState() const
+GalilState AbstractStateGalil::getDesiredState() const
 {
     return desiredState;
 }
 
 void AbstractStateGalil::clearCommand()
 {
-    if(this->currentCommand)
-    {
-        delete currentCommand;
-        currentCommand = nullptr;
-    }
+//Since the current command is now a smart pointer, we do not have to directly manage this
+//    if(this->currentCommand)
+//    {
+//        delete currentCommand;
+//        currentCommand = nullptr;
+//    }
 }
 
 bool AbstractStateGalil::checkEStop() const

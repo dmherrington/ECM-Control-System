@@ -29,7 +29,7 @@ private:
     void openFromFile(const QString &filePath);
 
 signals:
-    void signal_DialogWindowVisibilty(const DialogWindowTypes &type, const bool &visibility) override;
+    void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility);
 
 private slots:
     void slot_OscilliscopeConnectionUpdate(const common::comms::CommunicationUpdate &value);

@@ -16,6 +16,8 @@ MunkPowerSupply::MunkPowerSupply(const std::string &name):
 
     pollStatus = new MunkPollStatus();
     pollStatus->connectCallback(this);
+
+    machineState = new Munk_MachineState();
 }
 
 MunkPowerSupply::~MunkPowerSupply()
@@ -25,9 +27,40 @@ MunkPowerSupply::~MunkPowerSupply()
     commsMarshaler = nullptr;
 }
 
-void MunkPowerSupply::openSerialPort(const QString &name)
+void MunkPowerSupply::saveToFile(const QString &filePath)
 {
-    SerialConfiguration config(name.toStdString());
+    QFile saveFile(filePath);
+
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        return;
+    }
+
+    QJsonObject saveObject;
+    this->write(saveObject);
+    QJsonDocument saveDoc(saveObject);
+    saveFile.write(saveDoc.toJson());
+    saveFile.close();
+}
+
+void MunkPowerSupply::write(QJsonObject &json) const
+{
+    QJsonArray segmentDataArray;
+    std::vector<registers_Munk::SegmentTimeDataDetailed> segmentData =
+            this->machineState->getCurrentSegmentData().getRegisterData();
+
+    for(size_t i = 0; i < segmentData.size(); i++)
+    {
+        QJsonObject segmentObject;
+        segmentData.at(i).write(segmentObject);
+        segmentDataArray.append(segmentObject);
+    }
+
+    json["segmentData"] = segmentDataArray;
+}
+
+void MunkPowerSupply::openSerialPort(const std::string &name)
+{
+    SerialConfiguration config(name);
     config.setBaud(19200);
     commsMarshaler->ConnectToLink(config);
 }
@@ -54,23 +87,28 @@ void MunkPowerSupply::generateAndTransmitMessage(const SegmentTimeDetailed &deta
 {
     generateMessages(detailedSegmentData);
     commsProgress.clearCurrentProgress();
+
+    std::vector<registers_Munk::ParameterType> currentRegisters;
+    currentRegisters.push_back(registers_Munk::ParameterType::VOLTAGESETPOINT_FORWARD);
+    currentRegisters.push_back(registers_Munk::ParameterType::VOLTAGESETPOINT_REVERSE);
+    currentRegisters.push_back(registers_Munk::ParameterType::CURRENTSETPOINT_FORWARD);
+    currentRegisters.push_back(registers_Munk::ParameterType::CURRENTSETPOINT_REVERSE);
+    currentRegisters.push_back(registers_Munk::ParameterType::SEGMENTTIMES);
+    currentRegisters.push_back(registers_Munk::ParameterType::MEMORYWRITE);
+
+    commsProgress.transmittingNewSegment(currentRegisters);
+
     std::vector<AbstractParameterPtr> parameters;
     parameters.push_back(std::make_shared<SegmentVoltageSetpoint>(m_fwdVSetpoint));
-    //parameters.push_back(std::make_shared<SegmentVoltageSetpoint>(m_revVSetpoint));
+    parameters.push_back(std::make_shared<SegmentVoltageSetpoint>(m_revVSetpoint));
     parameters.push_back(std::make_shared<SegmentCurrentSetpoint>(m_fwdISetpoint));
-    //parameters.push_back(std::make_shared<SegmentCurrentSetpoint>(m_revISetpoint));
+    parameters.push_back(std::make_shared<SegmentCurrentSetpoint>(m_revISetpoint));
     parameters.push_back(std::make_shared<SegmentTimeGeneral>(m_segmentTimeGeneral));
     registers_Munk::ParameterMemoryWritePtr memoryWrite = std::make_shared<ParameterMemoryWrite>();
     memoryWrite->setSlaveAddress(01);
     parameters.push_back(memoryWrite);
-    commsMarshaler->sendCompleteMunkParameters(parameters);
-//    messages.push_back(MunkMessageType::Mem);
-//    commsProgress.transmittingNewSegment(messages);
 
-//    int needed = 0;
-//    int required = 0;
-//    commsProgress.currentProgress(needed,required);
-//    emit signal_SegmentWriteProgress(needed,required);
+    commsMarshaler->sendCompleteMunkParameters(detailedSegmentData, parameters);
 }
 
 void MunkPowerSupply::generateMessages(const SegmentTimeDetailed &detailedSegmentData)
@@ -194,7 +232,8 @@ void MunkPowerSupply::ConnectionOpened() const
     common::comms::CommunicationUpdate connection;
     connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
     emit signal_MunkCommunicationUpdate(connection);
-    //pollStatus->beginPolling();
+
+    pollStatus->beginPolling();
 }
 
 void MunkPowerSupply::ConnectionClosed() const
@@ -214,31 +253,27 @@ void MunkPowerSupply::CommunicationUpdate(const std::string &name, const std::st
     emit signal_CommunicationUpdate(name,msg);
 }
 
-void MunkPowerSupply::FaultCodeRegister1Received(const std::string &msg)
+void MunkPowerSupply::FaultCodeReceived(const data_Munk::FaultRegisterType &faultRegister, const unsigned int &code)
 {
-    emit signal_FaultCodeRecieved(1,msg);
+    response_Munk::FaultRegisterState newFaultState(faultRegister,code);
+    if(machineState->updateRegisterFaults(newFaultState))
+    {
+        emit signal_FaultCodeRecieved();
+    }
 }
 
-void MunkPowerSupply::FaultCodeRegister2Received(const std::string &msg)
-{
-    emit signal_FaultCodeRecieved(2,msg);
-}
-
-void MunkPowerSupply::FaultCodeRegister3Received(const std::string &msg)
-{
-    emit signal_FaultCodeRecieved(3,msg);
-}
 void MunkPowerSupply::FaultStateCleared()
 {
     emit signal_FaultStateCleared();
 }
+
 void MunkPowerSupply::ForwardVoltageSetpointAcknowledged()
 {
     std::string msg = "The forward voltage setpoints have been set.";
     emit signal_SegmentSetAck(msg);
     int completed = 0;
     int required = 0;
-    commsProgress.receivedAckProgress(MunkMessageType::FWDVolt,completed,required);
+    commsProgress.receivedAckProgress(registers_Munk::ParameterType::VOLTAGESETPOINT_FORWARD,completed,required);
     emit signal_SegmentWriteProgress(completed,required);
 }
 
@@ -248,7 +283,7 @@ void MunkPowerSupply::ReverseVoltageSetpointAcknowledged()
     emit signal_SegmentSetAck(msg);
     int completed = 0;
     int required = 0;
-    commsProgress.receivedAckProgress(MunkMessageType::REVVolt,completed,required);
+    commsProgress.receivedAckProgress(registers_Munk::ParameterType::VOLTAGESETPOINT_REVERSE,completed,required);
     emit signal_SegmentWriteProgress(completed,required);
 }
 
@@ -258,7 +293,7 @@ void MunkPowerSupply::ForwardCurrentSetpointAcknowledged()
     emit signal_SegmentSetAck(msg);
     int completed = 0;
     int required = 0;
-    commsProgress.receivedAckProgress(MunkMessageType::FWDCur,completed,required);
+    commsProgress.receivedAckProgress(registers_Munk::ParameterType::CURRENTSETPOINT_FORWARD,completed,required);
     emit signal_SegmentWriteProgress(completed,required);
 }
 
@@ -268,7 +303,7 @@ void MunkPowerSupply::ReverseCurrentSetpointAcknowledged()
     emit signal_SegmentSetAck(msg);
     int completed = 0;
     int required = 0;
-    commsProgress.receivedAckProgress(MunkMessageType::REVCur,completed,required);
+    commsProgress.receivedAckProgress(registers_Munk::ParameterType::CURRENTSETPOINT_REVERSE,completed,required);
     emit signal_SegmentWriteProgress(completed,required);
 }
 
@@ -278,7 +313,7 @@ void MunkPowerSupply::SegmentTimeAcknowledged()
     emit signal_SegmentSetAck(msg);
     int completed = 0;
     int required = 0;
-    commsProgress.receivedAckProgress(MunkMessageType::SEGTime,completed,required);
+    commsProgress.receivedAckProgress(registers_Munk::ParameterType::SEGMENTTIMES,completed,required);
     emit signal_SegmentWriteProgress(completed,required);
 }
 
@@ -288,10 +323,14 @@ void MunkPowerSupply::SegmentCommitedToMemoryAcknowledged()
     emit signal_SegmentSetAck(msg);
     int completed = 0;
     int required = 0;
-    commsProgress.receivedAckProgress(MunkMessageType::Mem,completed,required);
+    commsProgress.receivedAckProgress(registers_Munk::ParameterType::MEMORYWRITE,completed,required);
     emit signal_SegmentWriteProgress(completed,required);
 }
 
+void MunkPowerSupply::NewSegmentSequence(const SegmentTimeDetailed &segmentData)
+{
+    this->machineState->updateCurrentSegmentData(segmentData);
+}
 
 void MunkPowerSupply::ExceptionResponseReceived(const MunkRWType &RWType, const std::string &meaning) const
 {
@@ -306,5 +345,19 @@ void MunkPowerSupply::cbi_MunkFaultStateRequest(const RegisterFaultState &reques
     commsMarshaler->sendRegisterFaultStateRequest(request);
 }
 
+std::string MunkPowerSupply::getLogOfOperationalSettings() const
+{
+    std::string str;
+
+    SegmentTimeDetailed segmentData = this->machineState->getCurrentSegmentData();
+    std::vector<registers_Munk::SegmentTimeDataDetailed> registerData = segmentData.getRegisterData();
+    for(size_t i = 0; i < registerData.size(); i++)
+    {
+
+        str += registerData.at(i).getLoggingString() + "\r\n";
+    }
+
+    return str;
+}
 
 

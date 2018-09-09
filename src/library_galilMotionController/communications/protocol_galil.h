@@ -61,10 +61,36 @@ public:
 
 private:
     void handleRequestResponse(const ILink* link, const AbstractRequestPtr request, const GReturn &code);
-    void generateNewStatus(const AbstractRequestPtr request, char* &buf);
-    void handleBadRequestResponse(const ILink* link, const AbstractRequestPtr request) const;
+    void handleBadRequest_ResponseQuestionMark(const ILink* link, const AbstractRequestPtr request);
 
-    //void SendProtocolMessage(const ILink *link, const double &message);
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    /// Methods handling an explicit galil command that has been customized by the user
+    ////////////////////////////////////////////////////////////////////////////////////
+public:
+    //!
+    //! \brief SendCustomProtocolCommand
+    //! \param link
+    //! \param stringCommands
+    //!
+    void SendCustomProtocolCommand(const ILink *link, const std::vector<std::string> &stringCommands);
+
+private:
+
+    //!
+    //! \brief handleCustomRequestResponse
+    //! \param link
+    //! \param request
+    //! \param code
+    //!
+    void handleCustomRequestResponse(const ILink* link, const RequestCustomStringPtr request, const GReturn &code);
+
+    //!
+    //! \brief handleBadCustomRequestResponse
+    //! \param link
+    //! \param request
+    //!
+    void handleBadCustomRequest_ResponseQuestionMark(const ILink* link, const RequestCustomStringPtr request);
 
 public:
 

@@ -51,6 +51,11 @@ void ProgramLabelList::clearLabelList()
     labelMap.clear();
 }
 
+size_t ProgramLabelList::sizeOfLabelList() const
+{
+    return this->labelMap.size();
+}
+
 std::map<std::string,int> ProgramLabelList::getLabelMap() const
 {
     return this->labelMap;

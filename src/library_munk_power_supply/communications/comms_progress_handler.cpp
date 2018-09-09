@@ -9,14 +9,15 @@ CommsProgressHandler::CommsProgressHandler()
 }
 
 
-void CommsProgressHandler::transmittingNewSegment(const std::vector<MunkMessageType> &msgsRequired)
+void CommsProgressHandler::transmittingNewSegment(const std::vector<registers_Munk::ParameterType> &msgsRequired)
 {
     this->clearCurrentProgress();
+
     for(int i = 0; i<msgsRequired.size(); i++)
         this->progressMap[msgsRequired.at(i)] = false;
 }
 
-void CommsProgressHandler::receivedAckProgress(const MunkMessageType &type, int &complete, int &needed)
+void CommsProgressHandler::receivedAckProgress(const registers_Munk::ParameterType &type, int &complete, int &needed)
 {
     this->progressMap[type] = true;
     this->currentProgress(complete,needed);
@@ -25,7 +26,7 @@ void CommsProgressHandler::receivedAckProgress(const MunkMessageType &type, int 
 void CommsProgressHandler::currentProgress(int &complete, int &needed)
 {
     needed = this->progressMap.size();
-    std::map<MunkMessageType,bool>::iterator it;
+    std::map<registers_Munk::ParameterType,bool>::iterator it;
     complete = 0;
 
     for(it = this->progressMap.begin(); it != this->progressMap.end(); it++)

@@ -24,6 +24,8 @@ public:
     MotorAxis getAxis() const;
     uint64_t getPosition() const;
 
+    bool isStatusValid() const override;
+
 public:
     Status_Position& operator = (const Status_Position &rhs)
     {

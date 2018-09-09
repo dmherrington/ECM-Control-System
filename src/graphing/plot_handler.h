@@ -88,7 +88,7 @@ public:
     //! \brief Adds a plot to the handler object
     //! \param dataKey Key to indentify data
     //!
-    void AddPlot(const common_data::observation::IPlotComparablePtr expression, const std::string &name = "", const bool &useSecondayYAxis = false);
+    void AddPlot(const common_data::observation::IPlotComparablePtr expression, const std::string &name = "", const bool &useSecondayYAxis = false, const bool &invertYAxis = false);
 
 
     //!
@@ -259,7 +259,7 @@ public slots:
     //!
     //! \brief Remove all graphs from the plot instance
     //!
-    void removeAllGraphs();
+    void hideAllGraphs();
 
     //!
     //! \brief Force all graphs to be replotted
@@ -366,7 +366,7 @@ private:
     //! \brief Marshals adding a graph to QCustomPlot object to the main thread
     //! \return Graph added
     //!
-    Q_INVOKABLE QCPGraph* MarshalAddGraph(const bool &useSecondaryAxis = false);
+    Q_INVOKABLE QCPGraph* MarshalAddGraph(const std::string &axisName = "Response", const bool &useSecondaryAxis = false, const bool &invertYAxis = false);
 
 
 private:
@@ -393,6 +393,7 @@ private:
         bool Redraw;
         bool Selected;
         bool yAxis2;
+        bool invertYAxis;
 
         //! Graph to display plot
         QVector<QCPGraph *> g;

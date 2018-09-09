@@ -116,6 +116,18 @@ public:
     //!
     void InsertData(const IPlotComparable& ID, const QDateTime &time, const double &value);
 
+    //!
+    //! \brief Remove all data associated with the identifier from the collection
+    //!
+    //! Data will be inserted into the collection in the same thread that method is called in.
+    //! \param ID Identifier of source
+    //!
+    void ClearData(const IPlotComparable& ID);
+
+    //!
+    //! \brief ClearAllData
+    //!
+    void ClearAllData();
 
     //!
     //! \brief Schedule the application of any queued data to be inserted on seperate thread
@@ -124,8 +136,6 @@ public:
 
 
 public:
-
-
 
     //!
     //! \brief Make plot in the collection, if already made this method does nothing

@@ -10,6 +10,8 @@
 #include "communication_connection.h"
 #include "communication_update.h"
 
+#include "../modbus_register.h"
+
 namespace common{
 namespace comms{
 
@@ -30,10 +32,11 @@ public:
     virtual bool isSerialDeviceReadyToConnect() const = 0;
     virtual void openSerialPortConnection(const SerialConfiguration &config) const  = 0;
     virtual void closeSerialPortConnection() const = 0;
-    virtual void writeToSerialPort(const QByteArray &msg) const = 0;
+    virtual void writeToSerialPort(const ModbusRegister &regMsg) const = 0;
     virtual bool isSerialPortOpen() const = 0;
 
 signals:
+
     //!
     //! \brief signal_SerialPortReadyToConnect
     //!

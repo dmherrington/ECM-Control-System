@@ -70,6 +70,15 @@ public:
     //!
     void AddData(const QDateTime &domain, const double range);
 
+    //!
+    //! \brief ClearPreviousData
+    //!
+    void ClearPreviousData();
+
+    //!
+    //! \brief Remove all existing data from the graph being plotted by this object
+    //!
+    void ClearData();
 
     //!
     //! \brief Prepare data contained in this object for display on a plot.

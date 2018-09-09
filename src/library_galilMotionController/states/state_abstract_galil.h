@@ -69,21 +69,21 @@ public:
     virtual void getClone(AbstractStateGalil** state) const = 0;
 
 public:
-    virtual void handleCommand(const AbstractCommand* command) = 0;
+    virtual void handleCommand(const AbstractCommandPtr command) = 0;
 
-    virtual ECMState getCurrentState() const;
+    virtual GalilState getCurrentState() const;
 
-    virtual ECMState getDesiredState() const;
+    virtual GalilState getDesiredState() const;
 
 protected:
     bool checkEStop() const;
     void clearCommand();
 protected:
     GalilSettings mSettings;
-    const AbstractCommand* currentCommand;
+    AbstractCommandPtr currentCommand;
 
-    ECMState currentState;
-    ECMState desiredState;
+    GalilState currentState;
+    GalilState desiredState;
 };
 
 } //end of namespace Galil

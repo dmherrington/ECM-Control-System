@@ -170,6 +170,10 @@ void RigolOscilliscope::NewDataReceived(const std::vector<uint8_t> &buffer) cons
 
 void RigolOscilliscope::NewMeaurementReceived(const commands_Rigol::RigolMeasurementStatus &status) const
 {
+    //First check if the status is actually valid or garbage
+    if(!status.isStatusValid())
+        return;
+
     //First let us construct the tuple describing the measurement
     common::TupleSensorString sensorTuple(QString::fromStdString(status.getDeviceName()),
                                           QString::fromStdString(AvailableChannelsToDisplayString(status.getChannel())),
@@ -180,9 +184,9 @@ void RigolOscilliscope::NewMeaurementReceived(const commands_Rigol::RigolMeasure
     switch (status.getMeasurementType()) {
     case data_Rigol::MeasurementTypes::MEASURE_VTOP:
     {
-        newSensorMeasurement.ConstructSensor(common_data::SENSOR_VOLTAGE,"Voltage Top");
-        ((common_data::SensorVoltage*)newSensorMeasurement.getSensorData().get())->SetVoltage(status.getMeasurementValue(),common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
-        emit signal_RigolNewSensorValue(sensorTuple,newSensorMeasurement);
+            newSensorMeasurement.ConstructSensor(common_data::SENSOR_VOLTAGE,"Voltage Top");
+            ((common_data::SensorVoltage*)newSensorMeasurement.getSensorData().get())->SetVoltage(status.getMeasurementValue(),common_data::VoltageUnit::UNIT_VOLTAGE_VOLTS);
+            emit signal_RigolNewSensorValue(sensorTuple,newSensorMeasurement);
         break;
     }
     case data_Rigol::MeasurementTypes::MEASURE_MAREA:

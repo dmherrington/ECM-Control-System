@@ -73,7 +73,8 @@ HEADERS += \
     commands/measure/rigol_measurement_status.h \
     commands/acquire/acquire_components.h \
     commands/measure/measure_components.h \
-    communications/rigol_link_configuration.h
+    communications/rigol_link_configuration.h \
+    rigol_version.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

@@ -68,3 +68,9 @@ std::string ProgramGeneric::buildProgram() const
 
 //    return programString;
 }
+
+void ProgramGeneric::readFromJSON(const QJsonObject &json)
+{
+    setProgramString(json["ProgramString"].toString().toStdString());
+}
+

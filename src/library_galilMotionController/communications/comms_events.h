@@ -4,6 +4,8 @@
 #include <string>
 #include "common/common.h"
 
+#include "common/comms/communication_update.h"
+
 #include "status/status_components.h"
 #include "programs/program_components.h"
 #include "commands/command_components.h"
@@ -19,7 +21,12 @@ public:
     /// Link Events
     /////////////////////////////////////////////////////////
 
-    virtual void LinkConnected() const
+    virtual void LinkConnectionUpdate(const common::comms::CommunicationUpdate &update)
+    {
+        UNUSED(update);
+    }
+
+    virtual void LinkConnected()
     {
 
     }
@@ -27,6 +34,12 @@ public:
     virtual void LinkDisconnected() const
     {
 
+    }
+
+    virtual void CustomUserRequestReceived(const std::string &request, const std::string &response)
+    {
+        UNUSED(request);
+        UNUSED(response);
     }
 
     virtual void ErrorBadCommand(const std::string &commandType, const std::string &text)
@@ -76,6 +89,11 @@ public:
     }
 
     virtual void NewStatusVariableValue(const Status_VariableValue &status)
+    {
+        UNUSED(status);
+    }
+
+    virtual void NewStatusLabelList(const Status_LabelList &status)
     {
         UNUSED(status);
     }

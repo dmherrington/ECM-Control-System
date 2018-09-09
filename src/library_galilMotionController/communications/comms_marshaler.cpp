@@ -48,10 +48,23 @@ bool CommsMarshaler::DisconnetLink()
 /// Methods issuing Galil commands, requests, programs
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+void CommsMarshaler::sendCustomGalilCommands(const std::vector<string> &stringCommands)
+{
+    //    if(!isConnected)
+    //    {
+    //        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot execute command.");});
+    //        return;
+    //    }
+
+    auto func = [this, stringCommands]() {
+            protocol->SendCustomProtocolCommand(link.get(), stringCommands);
+    };
+
+    link->MarshalOnThread(func);
+}
+
 void CommsMarshaler::sendAbstractGalilCommand(const AbstractCommandPtr command)
 {
-    std::cout<<"Lets send an abstract galil command"<<std::endl;
-
 //    if(!isConnected)
 //    {
 //        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot execute command.");});
@@ -67,8 +80,6 @@ void CommsMarshaler::sendAbstractGalilCommand(const AbstractCommandPtr command)
 
 void CommsMarshaler::sendAbstractGalilMotionCommand(const AbstractCommandPtr command)
 {
-    std::cout<<"Lets send an abstract galil motion command"<<std::endl;
-
 //    if(!isConnected)
 //    {
 //        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot execute motion command.");});
@@ -82,7 +93,7 @@ void CommsMarshaler::sendAbstractGalilMotionCommand(const AbstractCommandPtr com
     link->MarshalOnThread(func);
 }
 
-void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request)
+void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request) const
 {
 //    if(!isConnected)
 //    {
@@ -100,8 +111,6 @@ void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request)
 //I do not think this method is called
 void CommsMarshaler::sendGalilProfileExecution(const AbstractCommandPtr &command)
 {
-    std::cout<<"Lets send an request to execute a specific galil profile."<<std::endl;
-
 //    if(!isConnected)
 //    {
 //        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot execute profile.");});
@@ -117,8 +126,6 @@ void CommsMarshaler::sendGalilProfileExecution(const AbstractCommandPtr &command
 
 void CommsMarshaler::sendGalilControllerGains(const CommandControllerGain &command)
 {
-    std::cout<<"Lets send an request to to update the controller gains."<<std::endl;
-
 //    if(!isConnected)
 //    {
 //        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot update controller gains.");});
@@ -174,6 +181,8 @@ void CommsMarshaler::downloadProgram(const AbstractCommandPtr downloadCommand) c
 template <typename T>
 void CommsMarshaler::SendGalilMessage(const T& message)
 {
+    UNUSED(message);
+
     ///////////////////
     /// Define function that sends the given message
     ///////////////////
@@ -192,9 +201,14 @@ void CommsMarshaler::SendGalilMessage(const T& message)
 /// React to Link Events
 //////////////////////////////////////////////////////////////
 
+void CommsMarshaler::ConnectionUpdate(const common::comms::CommunicationUpdate &update) const
+{
+    Emit([&](CommsEvents *ptr){ptr->LinkConnectionUpdate(update);});
+}
+
 void CommsMarshaler::ConnectionOpened() const
 {
-    Emit([&](const CommsEvents *ptr){ptr->LinkConnected();});
+    Emit([&](CommsEvents *ptr){ptr->LinkConnected();});
 }
 
 void CommsMarshaler::ConnectionClosed() const
@@ -204,26 +218,38 @@ void CommsMarshaler::ConnectionClosed() const
 
 void CommsMarshaler::StatusReceived(const AbstractStatus &status) const
 {
-
+    UNUSED(status);
 }
 
 void CommsMarshaler::BadRequestResponse(const AbstractStatus &status) const
 {
-
+    UNUSED(status);
 }
 
 void CommsMarshaler::BadCommandResponse(const AbstractStatus &status) const
 {
-
+    UNUSED(status);
 }
 
 //////////////////////////////////////////////////////////////
-/// MAVLINK Protocol Events
+/// Galil Protocol Events
 //////////////////////////////////////////////////////////////
+
+void CommsMarshaler::NewCustomStatusReceived(const string &initialCommand, const string &newStatus) const
+{
+    Emit([&](CommsEvents *ptr){ptr->CustomUserRequestReceived(initialCommand,newStatus);});
+}
 
 void CommsMarshaler::NewProgramUploaded(const ProgramGeneric &program) const
 {
     Emit([&](CommsEvents *ptr){ptr->NewProgramUploaded(program);});
+
+    //We now have a new program, let us query for the available labels and variables
+    RequestListLabelsPtr requestLabels = std::make_shared<RequestListLabels>();
+    sendAbstractGalilRequest(requestLabels);
+
+    RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
+    sendAbstractGalilRequest(requestVariables);
 }
 
 void CommsMarshaler::NewProgramDownloaded(const ProgramGeneric &program) const
@@ -236,14 +262,19 @@ void CommsMarshaler::ErrorBadCommand(const CommandType &type, const std::string 
     Emit([&](CommsEvents *ptr){ptr->ErrorBadCommand(CommandToString(type),description);});
 }
 
+void CommsMarshaler::ErrorBadRequest(const RequestTypes &type, const string &description) const
+{
+    Emit([&](CommsEvents *ptr){ptr->ErrorBadCommand(RequestToString(type),description);});
+}
+
 void CommsMarshaler::NewPositionReceived(const Status_Position &status) const
 {
-
+    UNUSED(status);
 }
 
 void CommsMarshaler::NewStatusReceived(const std::vector<AbstractStatusPtr> &status) const
 {
-    for(int i = 0; i < status.size(); i++)
+    for(size_t i = 0; i < status.size(); i++)
     {
         parseStatus(status.at(i));
     }
@@ -255,13 +286,15 @@ void CommsMarshaler::parseStatus(const AbstractStatusPtr &status) const
     case StatusTypes::STATUS_POSITION:
     {
         Status_Position castStatus(*status.get()->as<Status_Position>());
-        Emit([&](CommsEvents *ptr){ptr->NewStatusPosition(castStatus);});
+        if(castStatus.isStatusValid())
+            Emit([&](CommsEvents *ptr){ptr->NewStatusPosition(castStatus);});
         break;
     }
     case StatusTypes::STATUS_TELLINPUTS:
     {
         StatusInputs castStatus(*status.get()->as<StatusInputs>());
-        Emit([&](CommsEvents *ptr){ptr->NewStatusInputs(castStatus);});
+        if(castStatus.isStatusValid())
+            Emit([&](CommsEvents *ptr){ptr->NewStatusInputs(castStatus);});
         break;
     }
     case StatusTypes::STATUS_SWITCH:
@@ -270,29 +303,41 @@ void CommsMarshaler::parseStatus(const AbstractStatusPtr &status) const
 
         Status_MotorEnabled motorEnabled;
         motorEnabled.setMotorEnabled(!castStatus.getSwitchStatus(SwitchStatus::MOTOR_OFF));
-        Emit([&](CommsEvents *ptr){ptr->NewStatusMotorEnabled(motorEnabled);});
+        if(castStatus.isStatusValid())
+            Emit([&](CommsEvents *ptr){ptr->NewStatusMotorEnabled(motorEnabled);});
 
         Status_AxisInMotion axisMotion;
         axisMotion.setMotorMoving(castStatus.getSwitchStatus(SwitchStatus::AXIS_IN_MOTION));
-        Emit([&](CommsEvents *ptr){ptr->NewStatusMotorInMotion(axisMotion);});
+        if(castStatus.isStatusValid())
+            Emit([&](CommsEvents *ptr){ptr->NewStatusMotorInMotion(axisMotion);});
         break;
     }
     case StatusTypes::STATUS_STOPCODE:
     {
         Status_StopCode castStatus(*status.get()->as<Status_StopCode>());
-        Emit([&](CommsEvents *ptr){ptr->NewStatusMotorStopCode(castStatus);});
+        if(castStatus.isStatusValid())
+            Emit([&](CommsEvents *ptr){ptr->NewStatusMotorStopCode(castStatus);});
+        break;
+    }
+    case StatusTypes::STATUS_LABELLIST:
+    {
+        Status_LabelList castStatus(*status.get()->as<Status_LabelList>());
+        if(castStatus.isStatusValid())
+            Emit([&](CommsEvents *ptr){ptr->NewStatusLabelList(castStatus);});
         break;
     }
     case StatusTypes::STATUS_VARIABLELIST:
     {
         Status_VariableList castStatus(*status.get()->as<Status_VariableList>());
-        Emit([&](CommsEvents *ptr){ptr->NewStatusVariableList(castStatus);});
+        if(castStatus.isStatusValid())
+            Emit([&](CommsEvents *ptr){ptr->NewStatusVariableList(castStatus);});
         break;
     }
     case StatusTypes::STATUS_VARIABLEVALUE:
     {
         Status_VariableValue castStatus(*status.get()->as<Status_VariableValue>());
-        Emit([&](CommsEvents *ptr){ptr->NewStatusVariableValue(castStatus);});
+        if(castStatus.isStatusValid())
+            Emit([&](CommsEvents *ptr){ptr->NewStatusVariableValue(castStatus);});
         break;
     }
     default:

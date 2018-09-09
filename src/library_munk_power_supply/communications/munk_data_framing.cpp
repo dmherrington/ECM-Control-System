@@ -53,9 +53,17 @@ FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
     }
     case FramingState::RECEIVED_STD_FUNCTION_CODE:
     {
-        currentMSGState = FramingState::RECEIVED_STARTING_REGISTER_HI;
-        currentMessge.appendArray(byte);
+        //after we have received our function code, the next byte is dependent on what type we are
 
+        if(currentMessge.isReadWriteType() == data_Munk::MunkRWType::WRITE)
+            currentMSGState = FramingState::RECEIVED_STARTING_REGISTER_HI;
+        else if(currentMessge.isReadWriteType() == data_Munk::MunkRWType::READ)
+        {
+            currentMSGState = FramingState::RECEIVED_PAYLOAD;
+            currentMessge.setRemainingPayload(byte);
+
+        }
+        currentMessge.appendArray(byte);
         break;
     }
     case FramingState::RECEIVED_STARTING_REGISTER_HI:
@@ -81,20 +89,7 @@ FramingState MunkDataFraming::additionalByteRecevied(const uint8_t &byte)
     }
     case FramingState::RECEIVED_LENGTH_LO:
     {
-        //if we are in a read then this is the first byte of the payload
-        if(currentMessge.isReadWriteType() == data_Munk::MunkRWType::WRITE)
-        {
-            currentMSGState = FramingState::RECEIVED_CRC_LOW;
-        }
-        else{
-
-            uint8_t hi = currentMessge.getDataByte(currentMessge.getDataSize() - 2);
-            uint8_t lo = currentMessge.getDataByte(currentMessge.getDataSize() - 2);
-            int payload = lo | (hi<<8);
-            currentMessge.setRemainingPayload(payload - 1);
-            currentMSGState = FramingState::RECEIVED_PAYLOAD;
-
-        }
+        currentMSGState = FramingState::RECEIVED_CRC_LOW;
         currentMessge.appendArray(byte);
         break;
     }
@@ -178,23 +173,23 @@ void MunkDataFraming::resetMessageState()
 
 unsigned int MunkDataFraming::CRC16(const QByteArray &array) const
 {
-char j;
-WORD Temp = 0xFFFF;
-int size = array.size();
-for (int i=0;i<size;i++){
-unsigned char charTemp = (unsigned char)array.at(i);
-Temp ^= (WORD)charTemp;
-for (j=8;j!=0;j--){
+    char j;
+    WORD Temp = 0xFFFF;
+    int size = array.size();
+    for (int i=0;i<size;i++){
+        unsigned char charTemp = (unsigned char)array.at(i);
+        Temp ^= (WORD)charTemp;
+        for (j=8;j!=0;j--){
 
-    if ((Temp & 0x0001) != 0) {      // If the LSB is set
-        Temp >>= 1;                    // Shift right and XOR 0xA001
-        Temp ^= 0xA001;
+            if ((Temp & 0x0001) != 0) {      // If the LSB is set
+                Temp >>= 1;                    // Shift right and XOR 0xA001
+                Temp ^= 0xA001;
+            }
+            else                            // Else LSB is not set
+                Temp >>= 1;                    // Just shift right
+        }
     }
-    else                            // Else LSB is not set
-        Temp >>= 1;                    // Just shift right
-}
-}
-return Temp;
+    return Temp;
 }
 
 } //end of namespace comms_Munk

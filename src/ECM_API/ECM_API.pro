@@ -34,13 +34,42 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         ecm_api.cpp \
     ecm_logging.cpp \
-    ecm_process.cpp
+    ecm_process.cpp \
+    states/state_abstract_ecm_process.cpp \
+    states/state_ecm_power_supply_setup.cpp \
+    states/state_ecm_profile_machine.cpp \
+    states/state_ecm_profile_machine_cease.cpp \
+    states/state_ecm_profile_machine_process.cpp \
+    states/state_ecm_profile_machine_setup.cpp \
+    states/state_ecm_pump_setup.cpp \
+    states/state_ecm_touchoff.cpp \
+    states/state_ecm_touchoff_disable.cpp \
+    states/state_ecm_touchoff_enable.cpp \
+    states/state_ecm_touchoff_execute.cpp \
+    states/state_ecm_idle.cpp \
+    states/state_ecm_initialization.cpp
 
 HEADERS += \
         ecm_api.h \
         ecm_api_global.h \  
     ecm_logging.h \
-    ecm_process.h
+    ecm_process.h \
+    states/state_abstract_ecm_process.h \
+    states/state_ecm_components.h \
+    states/state_ecm_power_supply_setup.h \
+    states/state_ecm_profile_machine.h \
+    states/state_ecm_profile_machine_cease.h \
+    states/state_ecm_profile_machine_process.h \
+    states/state_ecm_profile_machine_setup.h \
+    states/state_ecm_pump_setup.h \
+    states/state_ecm_touchoff.h \
+    states/state_ecm_touchoff_disable.h \
+    states/state_ecm_touchoff_enable.h \
+    states/state_ecm_touchoff_execute.h \
+    states/state_ecm_types.h \
+    states/state_ecm_idle.h \
+    states/state_ecm_initialization.h \
+    ecm_api_version.h
 
 # Unix lib Install
 unix:!symbian {
@@ -59,6 +88,8 @@ INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include
 INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
 INCLUDEPATH += $$(ECM_ROOT)/tools/sensoray/lib/
+INCLUDEPATH += $$(ECM_ROOT)/tools/libmodbus
+INCLUDEPATH += $$(ECM_ROOT)/tools/libmodbus/src
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
@@ -96,14 +127,19 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../library_rigol_oscilloscope/ -llibrary_ri
 INCLUDEPATH += $$PWD/../library_rigol_oscilloscope
 DEPENDPATH += $$PWD/../library_rigol_oscilloscope
 
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_qModBus/release/ -llibrary_qModBus
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_qModBus/debug/ -llibrary_qModBus
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_qModBus/ -llibrary_qModBus
+
+INCLUDEPATH += $$PWD/../library_qModBus
+DEPENDPATH += $$PWD/../library_qModBus
+
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/release/ -llibrary_westinghouse510
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/debug/ -llibrary_westinghouse510
 else:unix:!macx: LIBS += -L$$OUT_PWD/../library_westinghouse510/ -llibrary_westinghouse510
 
 INCLUDEPATH += $$PWD/../library_westinghouse510
 DEPENDPATH += $$PWD/../library_westinghouse510
-
-
 
 unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
 unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo

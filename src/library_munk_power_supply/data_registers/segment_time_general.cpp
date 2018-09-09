@@ -79,5 +79,18 @@ void SegmentTimeGeneral::appendRegisterData(const SegmentTimeDataGeneral &data)
     this->registerData.push_back(data);
 }
 
+std::string SegmentTimeGeneral::getLoggingString() const
+{
+    std::string returnString = "";
+    for(size_t i = 0; i < registerData.size(); i++)
+    {
+        returnString += "Segment " + std::to_string(i) + ": ";
+        returnString += registerData.at(i).getLoggingString();
+        returnString += "\r\n";
+    }
+
+    return returnString;
+}
+
 } //end of namespace registers_Munk
 

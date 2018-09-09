@@ -17,13 +17,14 @@ ProgramVariableValueList::ProgramVariableValueList(const ProgramVariableValueLis
 
 void ProgramVariableValueList::fromVariableList(const ProgramVariableList &list)
 {
-   std::map<std::string,int> mapVariables = list.getVariableMap();
-   std::map<std::string,int>::iterator it = mapVariables.begin();
+   std::map<std::string,double> programMap = list.getVariableMap();
+   std::map<std::string,double>::iterator it = programMap.begin();
 
-   for(;it!=mapVariables.end();++it)
+   for(;it!=programMap.end();++it)
    {
        Status_VariableValue newVar;
        newVar.setVariableName(it->first);
+       newVar.setVariableValue(it->second);
        this->addVariable(newVar);
    }
 }

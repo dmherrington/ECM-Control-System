@@ -7,8 +7,6 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
     qRegisterMetaType<common::comms::CommunicationConnection>("CommunicationConnection");
     qRegisterMetaType<common::comms::CommunicationUpdate>("CommunicationUpdate");
 
-    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortReadyToConnect()),this,SLOT(slot_SerialPortReadyToConnect()));
-    //connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortConnection(common::comms::CommunicationConnection)),this,SLOT(slot_SerialPortConnectionUpdate(common::comms::CommunicationConnection)));
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_SerialPortUpdate(common::comms::CommunicationUpdate)));
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_RXNewSerialData(QByteArray)),this,SLOT(slot_SerialPortReceivedData(QByteArray)));
 
@@ -30,7 +28,7 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
 //!
 void Westinghouse510::setPumpFlowRate(const registers_WestinghousePump::Register_FlowRate &desRate)
 {
-    this->m_Comms->writeToSerialPort(desRate.getFullMessage());
+    this->m_Comms->writeToSerialPort(desRate.getModbusRegister());
 }
 
 //!
@@ -42,13 +40,19 @@ void Westinghouse510::setPumpOperations(const registers_WestinghousePump::Regist
 {
     if(!desOps.isRun())
     {
-        //if we were trying to turn off the pump and it had yet been initialized,
+        //if we were trying to turn off the pump,
         //let us stop the initialization timer in the event it was running
-        if(initializationTimer->isActive())
-            initializationTimer->stop();
+        initializationTimer->stop();
     }
 
-    this->m_Comms->writeToSerialPort(desOps.getFullMessage());
+    this->m_Comms->writeToSerialPort(desOps.getModbusRegister());
+}
+
+void Westinghouse510::ceasePumpOperations()
+{
+    registers_WestinghousePump::Register_OperationSignal newOps;
+    newOps.shouldRun(false);
+    this->setPumpOperations(newOps);
 }
 
 void Westinghouse510::setInitializationTime(const unsigned int &interval)
@@ -62,10 +66,27 @@ bool Westinghouse510::isPumpConnected() const
     return this->m_Comms->isSerialPortOpen();
 }
 
-void Westinghouse510::slot_SerialPortReadyToConnect()
+void Westinghouse510::openPumpConnection(const std::string &portNumber)
 {
     common::comms::SerialConfiguration config("WestinghousePort");
+    config.setPortName(portNumber);
     this->m_Comms->openSerialPortConnection(config);
+
+    //this->slot_SerialPortReadyToConnect();
+}
+
+void Westinghouse510::slot_SerialPortReadyToConnect()
+{
+//    const auto infos = QSerialPortInfo::availablePorts();
+//    for (const QSerialPortInfo &info : infos)
+//    {
+//        if(info.portName() == "COM14")
+//        {
+//            config.setPortName("\\\\.\\COM14");
+//            this->m_Comms->openSerialPortConnection(config);
+//        }
+//    }
+
 }
 
 void Westinghouse510::slot_SerialPortUpdate(const common::comms::CommunicationUpdate &update)
@@ -76,8 +97,12 @@ void Westinghouse510::slot_SerialPortUpdate(const common::comms::CommunicationUp
 
         break;
     case CommunicationUpdate::UpdateTypes::CONNECTED:
+    {
         m_State->pumpConnected.set(true);
+        registers_WestinghousePump::Register_RunSource updateRunSource(registers_WestinghousePump::Register_RunSource::SourceSetting::SOURCE_RS485);
+        this->m_Comms->writeToSerialPort(updateRunSource.getModbusRegister());
         break;
+    }
     case CommunicationUpdate::UpdateTypes::DISCONNECTED:
         m_State->pumpConnected.set(false);
         break;
@@ -165,3 +190,36 @@ void Westinghouse510::parseReceivedMessage(const comms_WestinghousePump::Westing
         }
     }
 }
+
+std::string Westinghouse510::getLogOfOperationalSettings() const
+{
+    std::string str;
+    //Let us write the header contents
+    str += "Volumetric Flow: " + std::to_string(m_State->flowRate.get()) + " lpm. \r\n";
+    str += "Initialization Time: " + std::to_string(m_State->delayTime.get()) +" milliseconds. \r\n";
+    return str;
+}
+
+
+void Westinghouse510::saveToFile(const QString &filePath)
+{
+    QFile saveFile(filePath);
+
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        return;
+    }
+
+    QJsonObject saveObject;
+    this->write(saveObject);
+    QJsonDocument saveDoc(saveObject);
+    saveFile.write(saveDoc.toJson());
+    saveFile.close();
+}
+
+void Westinghouse510::write(QJsonObject &json) const
+{
+    json["pumpDelayTime"] = (int)this->m_State->delayTime.get();
+    json["pumpFlowRate"] = this->m_State->flowRate.get();
+}
+
+

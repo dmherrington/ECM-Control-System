@@ -71,6 +71,9 @@ public:
 
     void closeConnection();
 
+    void initializeMotionController();
+
+public:
     std::string getCurrentMCState() const;
 
     StatusInputs getCurrent_MCDIO() const;
@@ -81,8 +84,10 @@ private:
     //////////////////////////////////////////////////////////////
     /// Virtual methods imposed via Comms::CommsEvents
     //////////////////////////////////////////////////////////////
-    void LinkConnected() const override;
+    void LinkConnectionUpdate(const common::comms::CommunicationUpdate &update) override;
+    void LinkConnected() override;
     void LinkDisconnected() const override;
+    void CustomUserRequestReceived(const std::string &request, const std::string &response) override;
     void StatusMessage(const std::string &msg) const override;
     void ErrorBadCommand(const std::string &commandType, const std::string &description) override;
     void NewProgramUploaded(const ProgramGeneric &program) override;
@@ -92,26 +97,27 @@ private:
     void NewStatusMotorEnabled(const Status_MotorEnabled &status) override;
     void NewStatusMotorInMotion(const Status_AxisInMotion &status) override;
     void NewStatusMotorStopCode(const Status_StopCode &status) override;
+    void NewStatusLabelList(const Status_LabelList &status) override;
     void NewStatusVariableList(const Status_VariableList &status) override;
     void NewStatusVariableValue(const Status_VariableValue &status) override;
 
 public:
+    std::string getLogOfOperationalSettings() const;
+
     void getSettingsPath(std::string &settingsPath) const;
     bool saveSettings();
     bool saveSettingsAs(const std::string &filePath);
     bool loadSettings(const std::string &filePath);
 
-    void getProgramPath(std::string &filePath) const;
-    bool saveProgram(const std::string &text);
-    bool saveProgramAs(const std::string &filePath, const std::string &text);
+    bool saveProgram();
+    bool saveProgramAs(const std::string &filePath);
     bool loadProgram(const std::string &filePath, std::string &programText);
+    void getProgramPath(std::string &filePath) const;
 
-    void executeCommand(const AbstractCommand* command);
-
-    void executeStringCommand(const std::string &stringCommand);
 
 public:
-    void initializeMotionController();
+    void executeCommand(const AbstractCommandPtr command);
+    void executeCustomCommands(const std::vector<std::string> &stringCommands);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     /// Callback Interfafce as required from inheritance of GalilStatusUpdate_Interface
@@ -126,12 +132,12 @@ private:
     void cbi_AbstractGalilCommand(const AbstractCommandPtr command) override;
     void cbi_AbstractGalilMotionCommand(const AbstractCommandPtr command) override;
     void cbi_AbstractGalilRequest(const AbstractRequestPtr request) override;
-    void cbi_AbstractGalilAddPolled(const AbstractRequestPtr request) override;
+    void cbi_AbstractGalilAddPolled(const AbstractRequestPtr request, const int &period) override;
     void cbi_AbstractGalilRemovePolled(const common::TupleECMData &tuple) override;
     void cbi_GalilControllerGains(const CommandControllerGain &gains) override;
     void cbi_GalilHomeIndicated(const bool &indicated) override;
     void cbi_NewMotionProfileState(const MotionProfileState &state) override;
-    void cbi_GalilNewMachineState(const std::string &state) override;
+    void cbi_GalilNewMachineState(const ECM::Galil::GalilState &state) override;
     void cbi_GalilUploadProgram(const AbstractCommandPtr command) override;
     void cbi_GalilDownloadProgram(const AbstractCommandPtr command) override;
 
@@ -165,6 +171,10 @@ signals:
     void signal_MCNewProfileVariableValue(const common::TupleProfileVariableString &variableTuple, const common_data::MotionProfileVariableState &data) const;
 
 
+    //!
+    //! \brief signal_MotionControllerCommunicationUpdate
+    //! \param connection
+    //!
     void signal_MotionControllerCommunicationUpdate(const common::comms::CommunicationUpdate &connection) const;
 
 
@@ -172,13 +182,25 @@ signals:
     //! \brief signal_MCNewMotionState signal emitted when the state machine has progressed to a new state
     //! \param state string descriptor describing the state the galil motion controller is in
     //!
-    void signal_MCNewMotionState(const std::string &state) const;
+    void signal_MCNewMotionState(const ECM::Galil::GalilState &state, const std::string &stateString) const;
 
     //!
     //! \brief signal_MCNewProgramReceived
     //! \param programText
     //!
-    void signal_MCNewProgramReceived(const std::string &programText);
+    void signal_MCNewProgramReceived(const ProgramGeneric &program);
+
+    //!
+    //! \brief signal_MCNewProgramLabelList
+    //! \param labels
+    //!
+    void signal_MCNewProgramLabelList(const ProgramLabelList &labels);
+
+    //!
+    //! \brief signal_MCNewProgramVariableList
+    //! \param variableList
+    //!
+    void signal_MCNewProgramVariableList(const ProgramVariableList &variableList);
 
     //!
     //! \brief signal_GalilHomeIndicated
@@ -189,6 +211,8 @@ signals:
     void signal_GalilUpdatedProfileState(const MotionProfileState &state) const;
 
     void signal_ErrorCode(const std::string &errorString);
+
+    void signal_CustomUserRequestReceived(const std::string &request, const std::string &response);
 
 private:
     QString profilesPath;

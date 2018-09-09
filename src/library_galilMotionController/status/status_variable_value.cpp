@@ -47,9 +47,9 @@ std::string Status_VariableValue::getVariableName() const
 }
 
 
-bool Status_VariableValue::setVariableValue(const double &value)
+void Status_VariableValue::setVariableValue(const double &value)
 {
-    return this->variableValue = value ; //Ken this needs to be handled if the data has changed
+    this->variableValue = value ; //Ken this needs to be handled if the data has changed
 }
 
 double Status_VariableValue::getVariableValue() const

@@ -1,6 +1,9 @@
 #ifndef GALIL_CURRENT_PROGRAM_H
 #define GALIL_CURRENT_PROGRAM_H
 
+#include <QJsonObject>
+#include <QTextStream>
+
 #include <string>
 #include <map>
 
@@ -30,13 +33,29 @@ public:
 
     bool getLabelLine(const std::string &label, int &line) const;
 
-    bool getVariableLine(const std::string &variable, int &line) const;
+    //bool getVariableLine(const std::string &variable, int &line) const;
 
     std::map<std::string, int> getLablMap() const;
 
-    std::map<std::string, int> getVariableMap() const;
+    std::map<std::string, double> getVariableMap() const;
 
     std::string getProgram() const;
+
+    std::string getLoggingString() const;
+
+public:
+    void writeJSONData(QJsonObject &json) const;
+
+public:
+    friend QTextStream& operator <<(QTextStream &outStream, const GalilCurrentProgram &data)
+    {
+        return outStream<<QString::fromStdString(data.getLoggingString());
+    }
+
+    friend std::ostream& operator<< (std::ostream &stream, const GalilCurrentProgram &data)
+    {
+        return stream<<data.getLoggingString();
+    }
 
 public:
     //!

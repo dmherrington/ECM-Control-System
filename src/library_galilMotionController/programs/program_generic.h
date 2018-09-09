@@ -26,6 +26,9 @@ public:
     std::string buildProgram() const;
 
 public:
+    void readFromJSON(const QJsonObject &json);
+
+public:
     //!
     //! \brief operator =
     //! \param rhs

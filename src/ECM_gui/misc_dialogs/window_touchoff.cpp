@@ -2,13 +2,15 @@
 #include "ui_window_touchoff.h"
 
 Window_Touchoff::Window_Touchoff(GalilMotionController *obj, QWidget *parent) :
-    QMainWindow(parent),
-    m_MotionController(obj),
-    ui(new Ui::Window_Touchoff)
+    GeneralDialogWindow(DialogWindowTypes::WINDOW_TOUCHOFF,"Touchoff",parent),
+    ui(new Ui::Window_Touchoff),
+    m_MotionController(obj)
 {
     ui->setupUi(this);
 
     connect(m_MotionController,SIGNAL(signal_GalilUpdatedProfileState(MotionProfileState)),this,SLOT(slot_UpdateMotionProfileState(MotionProfileState)));
+
+    GeneralDialogWindow::readWindowSettings();
 }
 
 Window_Touchoff::~Window_Touchoff()
@@ -16,46 +18,16 @@ Window_Touchoff::~Window_Touchoff()
     delete ui;
 }
 
-bool Window_Touchoff::isWindowHidden() const
-{
-    return windowHidden;
-}
-
-void Window_Touchoff::readSettings()
-{
-    QSettings settings("Touchoff Window", "ECM Application");
-    QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
-    QSize size = settings.value("size", QSize(400, 400)).toSize();
-    resize(size);
-    move(pos);
-}
-
 void Window_Touchoff::closeEvent(QCloseEvent *event)
 {
-    QSettings settings("Touchoff Window", "ECM Application");
-    settings.setValue("pos", pos());
-    settings.setValue("size", size());
-}
-
-void Window_Touchoff::hideEvent(QHideEvent *event)
-{
-    windowHidden = true;
-}
-
-void Window_Touchoff::showEvent(QShowEvent *event)
-{
-    windowHidden = false;
-}
-
-void Window_Touchoff::on_actionClose_triggered()
-{
-    this->hide();
+    saveToFile(getPreviousSettingsPath());
+    GeneralDialogWindow::closeEvent(event);
 }
 
 void Window_Touchoff::on_pushButton_ExecuteTouchoff_released()
 {
-    CommandExecuteProfile command(MotionProfile::ProfileType::TOUCHOFF,"touchof");
-    m_MotionController->executeCommand(&command);
+    CommandExecuteProfilePtr commandTouchoffExecute = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::TOUCHOFF,"touchof");
+    m_MotionController->executeCommand(commandTouchoffExecute);
 }
 
 void Window_Touchoff::slot_UpdateMotionProfileState(const MotionProfileState &state)
@@ -66,15 +38,17 @@ void Window_Touchoff::slot_UpdateMotionProfileState(const MotionProfileState &st
         ui->lineEdit_TouchoffCode->setText(QString::fromStdString(ProfileState_Touchoff::TOUCHOFFCodesToString(castState->getCurrentCode())));
 
         switch (castState->getCurrentCode()) {
-        case ProfileState_Touchoff::TOUCHOFFProfileCodes::INCOMPLETE:
+        case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_POSITIONAL:
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_INCONSISTENT:
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_TOUCHING:
-            ui->widget_TouchoffComplete->setColor(QColor(255));
+            ui->widget_TouchoffComplete->setColor(QColor(255,0,0));
             break;
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING:
             ui->widget_TouchoffComplete->setColor(QColor(255,255,0));
+            break;
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::FINISHED:
             ui->widget_TouchoffComplete->setColor(QColor(0,255,0));
+            break;
         default:
             break;
         }
@@ -85,12 +59,28 @@ void Window_Touchoff::on_pushButton_TouchoffRef_released()
 {
     uint64_t position = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->position.get().getPosition();
     ui->doubleSpinBox_TouchoffRef->setValue(position/10.0);
-    Command_Variable command("touchref",position);
-    m_MotionController->executeCommand(&command);
+    Command_VariablePtr commandTouchoffRef = std::make_shared<Command_Variable>("touchref",position);
+    m_MotionController->executeCommand(commandTouchoffRef);
 }
 
-void Window_Touchoff::on_pushButton_RunTouchoff_released()
+void Window_Touchoff::on_pushButton_TouchoffGap_released()
 {
-    CommandExecuteProfile command(MotionProfile::ProfileType::TOUCHOFF,"touchof");
-    m_MotionController->executeCommand(&command);
+    int desiredGap = ui->doubleSpinBox_InitialGap->value() * 10.0;
+    Command_VariablePtr commandTouchoffGap = std::make_shared<Command_Variable>("initgap",desiredGap);
+    m_MotionController->executeCommand(commandTouchoffGap);
+}
+
+void Window_Touchoff::on_actionClose_triggered()
+{
+    GeneralDialogWindow::onCloseAction();
+}
+
+void Window_Touchoff::saveToFile(const QString &filePath)
+{
+    UNUSED(filePath);
+}
+
+void Window_Touchoff::openFromFile(const QString &filePath)
+{
+    UNUSED(filePath);
 }

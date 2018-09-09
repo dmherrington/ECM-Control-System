@@ -6,6 +6,7 @@
 #include "requests/abstract_request.h"
 #include "status/status_variable_value.h"
 #include "status/status_variable_list.h"
+
 #include "common/class_forward.h"
 
 ECM_CLASS_FORWARD(RequestListVariables);

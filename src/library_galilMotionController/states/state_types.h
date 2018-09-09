@@ -9,7 +9,7 @@
 namespace ECM{
 namespace Galil {
 
-enum class ECMState{
+enum class GalilState{
     STATE_ESTOP = 1, /**< */
     STATE_HOME_POSITIONING = 2, /**< */
     STATE_IDLE = 3, /**< */
@@ -28,32 +28,32 @@ enum class ECMState{
 //! \param type
 //! \return
 //!
-inline std::string ECMStateToString(const ECMState &type) {
+inline std::string ECMStateToString(const GalilState &type) {
     switch (type) {
-    case ECMState::STATE_ESTOP:
+    case GalilState::STATE_ESTOP:
         return "Emergency Stop";
-    case ECMState::STATE_HOME_POSITIONING:
+    case GalilState::STATE_HOME_POSITIONING:
         return "Moving Home";
-    case ECMState::STATE_IDLE:
+    case GalilState::STATE_IDLE:
         return "Idle";
-    case ECMState::STATE_JOGGING:
+    case GalilState::STATE_JOGGING:
         return "Jogging";
-    case ECMState::STATE_MANUAL_POSITIONING:
+    case GalilState::STATE_MANUAL_POSITIONING:
         return "Manual";
-    case ECMState::STATE_READY:
+    case GalilState::STATE_READY:
         return "Ready";
-    case ECMState::STATE_READY_STOP:
+    case GalilState::STATE_READY_STOP:
         return "Ready Stop";
-    case ECMState::STATE_SCRIPT_EXECUTION:
+    case GalilState::STATE_SCRIPT_EXECUTION:
         return "Script Execution";
-    case ECMState::STATE_MOTION_STOP:
+    case GalilState::STATE_MOTION_STOP:
         return "Stopping";
-    case ECMState::STATE_TOUCHOFF:
+    case GalilState::STATE_TOUCHOFF:
         return "Touchoff";
-    case ECMState::STATE_UNKNOWN:
+    case GalilState::STATE_UNKNOWN:
         return "Unknown";
     default:
-        throw std::runtime_error("Unknown state type seen");
+        throw std::runtime_error("Unknown Galil state type seen");
     }
 }
 

@@ -7,6 +7,7 @@
 #include "library_sensoray_global.h"
 
 #include "common/common.h"
+#include "common/modbus_register.h"
 #include "common/comms/abstract_communication.h"
 
 #include "communications/sensoray_tcp_configuration.h"
@@ -56,7 +57,7 @@ public:
     bool isSerialDeviceReadyToConnect() const;
     void openSerialPortConnection(const common::comms::SerialConfiguration &config) const override;
     void closeSerialPortConnection() const override;
-    void writeToSerialPort(const QByteArray &msg) const override;
+    void writeToSerialPort(const ModbusRegister &regMsg) const override;
     bool isSerialPortOpen() const override;
 
 public:

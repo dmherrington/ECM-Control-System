@@ -45,8 +45,11 @@ void MunkPollStatus::run()
             if(m_CB)
             {
                 registers_Munk::RegisterFaultState requestRegister1(data_Munk::FaultRegisterType::FAULT_REGISTER_1);
+                requestRegister1.setSlaveAddress(01);
                 registers_Munk::RegisterFaultState requestRegister2(data_Munk::FaultRegisterType::FAULT_REGISTER_2);
+                requestRegister2.setSlaveAddress(01);
                 registers_Munk::RegisterFaultState requestRegister3(data_Munk::FaultRegisterType::FAULT_REGISTER_3);
+                requestRegister3.setSlaveAddress(01);
 
                 m_CB->cbi_MunkFaultStateRequest(requestRegister1);
                 m_CB->cbi_MunkFaultStateRequest(requestRegister2);

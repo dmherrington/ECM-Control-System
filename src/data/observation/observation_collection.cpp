@@ -99,7 +99,6 @@ bool ObservationCollection::getInstantaniousValue(const IPlotComparable &ID, dou
     return false;
 }
 
-
 //!
 //! \brief Evaluate a member of the collection and retreive its cartesian data
 //! \param [in] ID Identifier ot observation in component
@@ -145,9 +144,26 @@ bool ObservationCollection::SourceExists(const IPlotComparable &ID) const
 void ObservationCollection::InsertData(const IPlotComparable& ID, const QDateTime &time, const double &value)
 {
     if(m_DataScalar.contains(ID) == false)
-        throw new std::runtime_error("Unknown Scalar Identifier");
+        throw new std::runtime_error("Unknown Scalar Identifier when performing InsertData");
     m_DataScalar[ID]->AddData(time, value);
     m_DataScalar[ID]->setCurrentTime(time);
+}
+
+void ObservationCollection::ClearData(const IPlotComparable &ID)
+{
+    if(m_DataScalar.contains(ID) == false)
+        throw new std::runtime_error("Unknown Scalar Identifier when performing ClearData");
+    m_DataScalar[ID]->ClearData();
+}
+
+//!
+//! \brief ObservationCollection::ClearAllData
+//!
+void ObservationCollection::ClearAllData()
+{
+    QHash<ObservationIDReference, ObservationScalar*>::iterator it;
+    for (it = m_DataScalar.begin(); it != m_DataScalar.end(); ++it)
+        it.value()->ClearData();
 }
 
 //!

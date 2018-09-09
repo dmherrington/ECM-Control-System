@@ -43,3 +43,10 @@ uint64_t Status_Position::getPosition() const
     return position;
 }
 
+
+bool Status_Position::isStatusValid() const
+{
+    if(abs(position) > 1400000)
+        return false;
+    return true;
+}

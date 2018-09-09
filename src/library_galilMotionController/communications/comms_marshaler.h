@@ -47,11 +47,14 @@ public:
     //////////////////////////////////////////////////////////////
     /// Methods issuing Galil commands, requests, programs
     //////////////////////////////////////////////////////////////
+
+    void sendCustomGalilCommands(const std::vector<std::string> &stringCommands);
+
     void sendAbstractGalilCommand(const AbstractCommandPtr command);
 
     void sendAbstractGalilMotionCommand(const AbstractCommandPtr command);
 
-    void sendAbstractGalilRequest(const AbstractRequestPtr request);
+    void sendAbstractGalilRequest(const AbstractRequestPtr request) const;
 
     void sendGalilProfileExecution(const AbstractCommandPtr &command);
 
@@ -76,6 +79,8 @@ private:
     /// Virtual methods imposed from ILinkEvents
     //////////////////////////////////////////////////////////////
 
+    void ConnectionUpdate(const common::comms::CommunicationUpdate &update) const override;
+
     void ConnectionOpened() const override;
 
     void ConnectionClosed() const override;
@@ -90,15 +95,19 @@ private:
     /// Virtual methods imposed from IProtocolGalilEvents
     //////////////////////////////////////////////////////////////
 
+    void NewCustomStatusReceived(const std::string &initialCommand, const std::string &newStatus) const override;
+
+    void NewProgramUploaded(const ProgramGeneric &program) const override;
+
     void NewProgramDownloaded(const ProgramGeneric &program) const override;
 
     void NewPositionReceived(const Status_Position &status) const override;
 
     void NewStatusReceived(const std::vector<AbstractStatusPtr> &status) const override;
 
-    void NewProgramUploaded(const ProgramGeneric &program) const override;
-
     void ErrorBadCommand(const CommandType &type, const std::string &description) const override;
+
+    void ErrorBadRequest(const RequestTypes &type, const std::string &description) const override;
 
 private:
     void parseStatus(const AbstractStatusPtr &status) const;

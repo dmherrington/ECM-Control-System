@@ -44,13 +44,12 @@ SOURCES += munk_power_supply.cpp \
     data_registers/segment_voltage_data.cpp \
     data_registers/segment_voltage_setpoint.cpp \
     data_response/exception_response.cpp \
-    data_response/fault_register_one.cpp \
-    data_response/fault_register_three.cpp \
-    data_response/fault_register_two.cpp \
     data_response/valid_response.cpp \
     munk_poll_status.cpp \
     data_registers/register_standard_faults.cpp \
-    data_registers/register_fault_reset.cpp
+    data_registers/register_fault_reset.cpp \
+    munk_machine_state.cpp \
+    data_response/fault_register_state.cpp
 
 HEADERS += \
     library_munk_power_supply_global.h \
@@ -99,12 +98,12 @@ HEADERS += \
     data_registers/segment_voltage_setpoint.h \
     data_registers/type_definition.h \
     data_response/exception_response.h \
-    data_response/fault_register_one.h \
-    data_response/fault_register_three.h \
-    data_response/fault_register_two.h \
     data_response/valid_response.h \
     communications/comms_progress_handler.h \
-    data_registers/register_fault_reset.h
+    data_registers/register_fault_reset.h \
+    munk_machine_state.h \
+    data_response/fault_register_state.h \
+    munk_version.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

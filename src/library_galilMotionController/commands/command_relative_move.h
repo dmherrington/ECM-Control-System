@@ -94,7 +94,7 @@ public:
     }
 
 private:
-    std::map<MotorAxis, int> relativeMove; /**< Value of the relative move */
+    std::map<MotorAxis, int> relativeMove; /**< Value of the relative move in micrometers */
 };
 
 //! \remark

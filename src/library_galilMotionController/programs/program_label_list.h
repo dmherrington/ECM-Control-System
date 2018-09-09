@@ -25,6 +25,8 @@ public:
 
     void clearLabelList();
 
+    size_t sizeOfLabelList() const;
+
     std::map<std::string,int> getLabelMap() const;
 
 public:

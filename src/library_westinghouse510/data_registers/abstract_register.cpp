@@ -71,6 +71,24 @@ QByteArray AbstractWestinghouseRegister::getFullMessage() const
     return dataSum;
 }
 
+ModbusRegister AbstractWestinghouseRegister::getModbusRegister() const
+{
+    ModbusRegister modbusRegister;
+
+    modbusRegister.setSlaveAddress(this->slaveAddress);
+
+    modbusRegister.setRegisterAddress(this->getRegisterCode());
+
+    if(this->readOrwrite == data_WestinghousePump::RWType::READ)
+        modbusRegister.setReadorWrite(ModbusRegister_RWType::READ);
+    else
+        modbusRegister.setReadorWrite(ModbusRegister_RWType::WRITE);
+
+    modbusRegister.setData(this->getByteArray());
+
+    return modbusRegister;
+}
+
 unsigned int AbstractWestinghouseRegister::CRC16(const QByteArray &array) const
 {
     char j;

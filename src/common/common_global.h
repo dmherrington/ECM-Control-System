@@ -1,6 +1,8 @@
 #ifndef COMMON_GLOBAL_H
 #define COMMON_GLOBAL_H
 
+#include "common_version.h"
+
 #ifdef _MSC_VER
 #  if defined(COMMON_LIBRARY)
 #    define COMMONSHARED_EXPORT  __declspec(dllexport)

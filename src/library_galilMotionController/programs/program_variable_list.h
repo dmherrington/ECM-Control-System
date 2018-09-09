@@ -19,15 +19,15 @@ public:
 
     void removeVariable(const std::string &name);
 
-    void updateVariable(const std::string &name, const int &lineNumber);
+    void updateVariable(const std::string &name, const double &value);
 
-    bool getVariableLine(const std::string &name, int &lineNumber) const;
+    bool getVariableValue(const std::string &name, double &value) const;
 
     void clearVariableList();
 
     size_t sizeOfVariableList() const;
 
-     std::map<std::string,int> getVariableMap() const;
+     std::map<std::string,double> getVariableMap() const;
 
 public:
     ProgramVariableList& operator = (const ProgramVariableList &rhs)
@@ -48,7 +48,7 @@ public:
     }
 
 private:
-    std::map<std::string,int> variableMap;
+    std::map<std::string,double> variableMap;
 };
 
 

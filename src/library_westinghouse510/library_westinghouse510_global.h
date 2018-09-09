@@ -1,6 +1,8 @@
 #ifndef LIBRARY_WESTINGHOUSE510_GLOBAL_H
 #define LIBRARY_WESTINGHOUSE510_GLOBAL_H
 
+#include "westinghouse_version.h"
+
 #ifdef _MSC_VER
 #  if defined(LIBRARY_WESTINGHOUSE510_LIBRARY)
 #    define LIBRARY_WESTINGHOUSE510SHARED_EXPORT __declspec(dllexport)

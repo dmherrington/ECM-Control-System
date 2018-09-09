@@ -32,6 +32,12 @@ common::EnvironmentTime AbstractStatus::getTime() const
     return this->latestUpdate;
 }
 
+bool AbstractStatus::isStatusValid() const
+{
+    return true;
+}
+
+
 //void AbstractStatus::setTupleDescription(const common::TupleECMData &tuple)
 //{
 //    this->descriptor = tuple;

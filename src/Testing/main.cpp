@@ -13,16 +13,17 @@
 #include "common/environment_time.h"
 #include "common/comms/serial_configuration.h"
 
+#include "library_qModBus/library_qmodbus.h"
 #include "main.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-
-//    uint16_t bitArray = 0;
-//    uint16_t ba = 0;
-//    uint32_t mask = 1<<7;
-//    ba = (bitArray & (~mask)) | ((int)1<<7);
+    //Library_QModBus* md = new Library_QModBus();
+    uint16_t bitArray = 7;
+    uint16_t ba = 0;
+    uint32_t mask = 1<<3;
+    ba = (1 & (16384));
 
 //    std::cout<<"Program is running"<<std::endl;
 //    HSESSION sess;
@@ -119,31 +120,31 @@ int main(int argc, char *argv[])
 //    GalilMotionController* newGalil = new GalilMotionController();
 //    MunkPowerSupply* newMunk = new MunkPowerSupply();
 
-    Sensoray* newInterface = new Sensoray();
-    comms_Sensoray::SensorayTCPConfiguration sensorayConfig;
+//    Sensoray* newInterface = new Sensoray();
+//    comms_Sensoray::SensorayTCPConfiguration sensorayConfig;
 
-    newInterface->openConnection(sensorayConfig);
+//    newInterface->openConnection(sensorayConfig);
 
-    Westinghouse510* pump = new Westinghouse510(newInterface,03);
-    registers_WestinghousePump::Register_OperationSignal newOps;
-    newOps.setSlaveAddress(03);
-    newOps.shouldReverse(false);
-    newOps.setReadorWrite(data_WestinghousePump::RWType::WRITE);
-    common::comms::SerialConfiguration newSerialConfig;
-    newInterface->openSerialPortConnection(newSerialConfig);
+//    Westinghouse510* pump = new Westinghouse510(newInterface,03);
+//    registers_WestinghousePump::Register_OperationSignal newOps;
+//    newOps.setSlaveAddress(03);
+//    newOps.shouldReverse(false);
+//    newOps.setReadorWrite(data_WestinghousePump::RWType::WRITE);
+//    common::comms::SerialConfiguration newSerialConfig;
+//    newInterface->openSerialPortConnection(newSerialConfig);
 
-    while(true)
-    {
-        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-        std::cout<<"Should be turning the pump on...."<<std::endl;
-        newOps.shouldRun(true);
-        newInterface->writeToSerialPort(newOps.getFullMessage());
+//    while(true)
+//    {
+//        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+//        std::cout<<"Should be turning the pump on...."<<std::endl;
+//        newOps.shouldRun(true);
+//        newInterface->writeToSerialPort(newOps.getFullMessage());
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-        std::cout<<"Should be turning the pump off...."<<std::endl;
-        newOps.shouldRun(false);
-        newInterface->writeToSerialPort(newOps.getFullMessage());
-    }
+//        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+//        std::cout<<"Should be turning the pump off...."<<std::endl;
+//        newOps.shouldRun(false);
+//        newInterface->writeToSerialPort(newOps.getFullMessage());
+//    }
 
     // Testing of the Sensoray device
 //    HSESSION sess;

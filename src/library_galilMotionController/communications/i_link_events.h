@@ -1,6 +1,8 @@
 #ifndef I_LINK_EVENTS_GALIL_H
 #define I_LINK_EVENTS_GALIL_H
 
+#include "common/comms/communication_update.h"
+
 #include "status/status_components.h"
 
 namespace Comms
@@ -9,6 +11,9 @@ namespace Comms
 class ILinkEvents
 {
 public:
+
+    virtual void ConnectionUpdate(const common::comms::CommunicationUpdate &update) const = 0;
+
     virtual void ConnectionOpened() const = 0;
 
     virtual void ConnectionClosed() const = 0;

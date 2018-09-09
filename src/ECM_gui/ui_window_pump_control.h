@@ -54,7 +54,6 @@ public:
     QPushButton *pushButton_PumpRunning;
     QLabel *label_OnTime;
     QLineEdit *lineEdit_OnTime;
-    QSpacerItem *verticalSpacer;
     QHBoxLayout *horizontalLayout_4;
     QGridLayout *gridLayout_6;
     QHBoxLayout *horizontalLayout;
@@ -74,8 +73,7 @@ public:
     QSpacerItem *horizontalSpacer_5;
     LED *widget_PumpInitialized;
     QSpacerItem *horizontalSpacer_4;
-    QPushButton *pushButton;
-    QSpacerItem *horizontalSpacer_8;
+    QSpacerItem *verticalSpacer;
     QGridLayout *gridLayout;
     QDoubleSpinBox *doubleSpinBox_delayTime;
     QLabel *label_Flowrate;
@@ -314,7 +312,7 @@ public:
         gridLayout_5->addLayout(gridLayout_2, 2, 0, 1, 1);
 
 
-        gridLayout_9->addLayout(gridLayout_5, 0, 0, 3, 2);
+        gridLayout_9->addLayout(gridLayout_5, 0, 0, 2, 1);
 
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
@@ -484,11 +482,7 @@ public:
         verticalLayout->addWidget(lineEdit_OnTime);
 
 
-        gridLayout_9->addLayout(verticalLayout, 0, 2, 1, 1);
-
-        verticalSpacer = new QSpacerItem(20, 5, QSizePolicy::Minimum, QSizePolicy::Fixed);
-
-        gridLayout_9->addItem(verticalSpacer, 1, 2, 1, 1);
+        gridLayout_9->addLayout(verticalLayout, 0, 1, 1, 3);
 
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setSpacing(1);
@@ -611,141 +605,11 @@ public:
         horizontalLayout_4->addLayout(gridLayout_7);
 
 
-        gridLayout_9->addLayout(horizontalLayout_4, 2, 2, 2, 1);
+        gridLayout_9->addLayout(horizontalLayout_4, 1, 1, 1, 1);
 
-        pushButton = new QPushButton(centralwidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        sizePolicy.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
-        pushButton->setSizePolicy(sizePolicy);
-        pushButton->setMinimumSize(QSize(100, 40));
-        pushButton->setFont(font2);
-        pushButton->setStyleSheet(QLatin1String("QMainWindow{\n"
-"background-color:#1d1d1d;\n"
-"}\n"
-"\n"
-"QMenuBar{\n"
-"background-color:#1d1d1d;\n"
-"padding:5px;\n"
-"	font: 12pt \"MS Shell Dlg 2\";\n"
-"}\n"
-"\n"
-"QMenuBar::item{\n"
-"background-color:#1d1d1d;\n"
-"color:#fff;\n"
-"padding:5px;\n"
-"\n"
-"}\n"
-"\n"
-"QMenu{\n"
-"color:#fff;\n"
-"padding:0;\n"
-"}\n"
-"\n"
-"QMenu::item:selected{\n"
-"color:#fff;\n"
-"background-color:#00aba9;\n"
-"}\n"
-"\n"
-"QTableWidget{\n"
-"background-color:#3d3d3d;\n"
-"color:#fff;\n"
-"  selection-background-color: #da532c;\n"
-"border:solid;\n"
-"border-width:3px;\n"
-"border-color:#da532c;\n"
-"}\n"
-"QHeaderView::section{\n"
-"background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, 217, 255), stop:1 rgba(36, 158, 217, 255));\n"
-"border:none;\n"
-"border-top-style:solid;\n"
-"border-width:1px;\n"
-"border-top-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, 217, 255), stop:1 rgba(36, 158, 217, 255));\n"
-"color:#fff;\n"
-"\n"
-"}\n"
-"QHeaderView{\n"
-"background-color:qlineargradient"
-                        "(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, 217, 255), stop:1 rgba(36, 158, 217, 255));\n"
-"\n"
-"border:none;\n"
-"border-top-style:solid;\n"
-"border-width:1px;\n"
-"border-top-color:#149ED9;\n"
-"color:#fff;\n"
-"	font: 75 12pt \"Calibri\";\n"
-"}\n"
-"\n"
-"QTableCornerButton::section{\n"
-"border:none;\n"
-"background-color:#149ED9;\n"
-"}\n"
-"\n"
-"QListWidget{\n"
-"background-color:#3d3d3d;\n"
-"color:#fff;\n"
-"}\n"
-"\n"
-"QMenu{\n"
-"background-color:#3d3d3d;\n"
-"}\n"
-"QStatusBar{\n"
-"background-color:#7e3878;\n"
-"color:#fff;\n"
-"}\n"
-"\n"
-"QPushButton{\n"
-"border-style:solid;\n"
-"background-color:#3d3d3d;\n"
-"color:#fff;\n"
-"border-radius:7px;\n"
-"}\n"
-"\n"
-"QPushButton:disabled {\n"
-"background-color: rgb(204, 0, 0);\n"
-"}\n"
-"\n"
-"QPushButton:hover{\n"
-"color:#ccc;\n"
-"	background-color: qlineargradient(spread:pad, x1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(45, 45, 45, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
-"	border-color:#2d89ef;\n"
-"border-width:2px;\n"
-"}\n"
-"\n"
-""
-                        "QPushButton:pressed{\n"
-"background-color: qlineargradient(spread:pad, x1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(29, 29, 29, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
-"}\n"
-"\n"
-"\n"
-"QTabWidget::tab{\n"
-"background-color:#3d3d3d;\n"
-"}\n"
-"\n"
-"QLineEdit{\n"
-"border-radius:0;\n"
-"}\n"
-"\n"
-"QProgressBar{\n"
-"border-radius:0;\n"
-"text-align:center;\n"
-"color:#fff;\n"
-"background-color:transparent;\n"
-"border: 2px solid #e3a21a;\n"
-"border-radius:7px;\n"
-"	font: 75 12pt \"Open Sans\";\n"
-"\n"
-"}\n"
-"\n"
-"QProgressBar::chunk{\n"
-"background-color:#2d89ef;\n"
-"width:20px;\n"
-"}"));
+        verticalSpacer = new QSpacerItem(20, 5, QSizePolicy::Minimum, QSizePolicy::Fixed);
 
-        gridLayout_9->addWidget(pushButton, 3, 0, 2, 1);
-
-        horizontalSpacer_8 = new QSpacerItem(65, 50, QSizePolicy::Minimum, QSizePolicy::Minimum);
-
-        gridLayout_9->addItem(horizontalSpacer_8, 3, 1, 2, 1);
+        gridLayout_9->addItem(verticalSpacer, 1, 2, 1, 1);
 
         gridLayout = new QGridLayout();
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
@@ -795,7 +659,7 @@ public:
         gridLayout->addWidget(label_delayTim, 0, 0, 1, 1);
 
 
-        gridLayout_9->addLayout(gridLayout, 4, 2, 1, 1);
+        gridLayout_9->addLayout(gridLayout, 2, 1, 1, 3);
 
         Window_PumpControl->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Window_PumpControl);
@@ -845,7 +709,6 @@ public:
         label_Connection->setText(QApplication::translate("Window_PumpControl", "Connected", nullptr));
         label_Running_2->setText(QApplication::translate("Window_PumpControl", "Running:", nullptr));
         label_Running->setText(QApplication::translate("Window_PumpControl", "Initialized:", nullptr));
-        pushButton->setText(QApplication::translate("Window_PumpControl", "DONE", nullptr));
         label_Flowrate->setText(QApplication::translate("Window_PumpControl", "Flowrate Setpoint (lpm)", nullptr));
         label_delayTim->setText(QApplication::translate("Window_PumpControl", "Delay Time (sec)", nullptr));
         menuFile->setTitle(QApplication::translate("Window_PumpControl", "File", nullptr));

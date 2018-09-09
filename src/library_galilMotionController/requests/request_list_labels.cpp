@@ -1,37 +1,58 @@
 #include "request_list_labels.h"
 
 RequestListLabels::RequestListLabels():
-    AbstractRequest(RequestTypes::LIST_LABELS)
+    AbstractRequest(RequestTypes::LIST_LABELS,500)
 {
 
 }
 
 RequestListLabels::RequestListLabels(const RequestListLabels &copy):
-    AbstractRequest(RequestTypes::LIST_LABELS)
+    AbstractRequest(copy)
 {
-    this->mapLabels = copy.mapLabels;
+
 }
 
-void RequestListLabels::updateLabels(const std::string &labels)
+AbstractRequest* RequestListLabels::getClone() const
 {
-    this->mapLabels.clear();
-
-    QString newLabels = QString::fromStdString(labels);
-    QStringList list = newLabels.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
-    for(int i =0; i < list.size(); i++)
-    {
-        QString value = list.at(i);
-        QStringList sublist = value.split("=");
-        this->mapLabels[sublist.at(0).toStdString()] = sublist.at(1).toInt();
-    }
+    return (new RequestListLabels(*this));
 }
 
-std::map<std::string, int> RequestListLabels::getLabels() const
+void RequestListLabels::getClone(AbstractRequest** state) const
 {
-    return this->mapLabels;
+    *state = new RequestListLabels(*this);
 }
 
 std::string RequestListLabels::getRequestString() const
 {
+    std::string str = "";
+    str += RequestToString(this->getRequestType());
+    return str;
+}
 
+std::vector<AbstractStatusPtr> RequestListLabels::getStatus() const
+{
+    std::vector<AbstractStatusPtr> rtn;
+    Status_LabelListPtr statusLabelList = std::make_shared<Status_LabelList>();
+    ProgramLabelList programLabelList;
+    //as the galil only currently reports a single axis here, we will make the parse easy for now
+    QString result = QString::fromStdString(buffer);
+    QStringList list = result.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
+    for(int i = 0; i < list.size(); i++)
+    {
+        QStringList line = list.at(i).split(QRegExp("="),QString::SkipEmptyParts);
+        if(line.size() == 2)
+        {
+            QString lblName = line.at(0).trimmed();
+            lblName = lblName.remove(0,1);
+            QString lblLineNumber = line.at(1).trimmed();
+            programLabelList.addLabel(lblName.toStdString(),lblLineNumber.toInt());
+        }
+    }
+    statusLabelList->setLabelList(programLabelList);
+    if(programLabelList.sizeOfLabelList() > 0)
+        statusLabelList->setLabelList(programLabelList);
+
+    rtn.push_back(statusLabelList);
+
+    return rtn;
 }

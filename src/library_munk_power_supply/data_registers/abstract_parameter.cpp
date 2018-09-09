@@ -57,17 +57,28 @@ QByteArray AbstractParameter::getFullMessage() const
     QByteArray prefix = getPrefixByteArray();
     QByteArray data = getByteArray();
 
-    if(data.size() > 0)
+    if((this->readOrwrite == data_Munk::MunkRWType::WRITE) && (data.size() > 0))
     {
         dataSum.append(prefix);
         dataSum.append(data);
-
         unsigned int checkSum = CRC16(dataSum);
         highChecksum = (uint8_t)((checkSum & 0xFF00) >> 8);
         lowChecksum = (uint8_t)(checkSum & 0x00FF);
         dataSum.append(lowChecksum);
         dataSum.append(highChecksum);
     }
+    else if(this->readOrwrite == data_Munk::MunkRWType::READ)
+    {
+        dataSum.append(prefix);
+        dataSum.append(data);
+        unsigned int checkSum = CRC16(dataSum);
+        highChecksum = (uint8_t)((checkSum & 0xFF00) >> 8);
+        lowChecksum = (uint8_t)(checkSum & 0x00FF);
+        dataSum.append(lowChecksum);
+        dataSum.append(highChecksum);
+    }
+
+
 
     return dataSum;
 }

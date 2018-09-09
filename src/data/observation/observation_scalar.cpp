@@ -61,13 +61,32 @@ namespace observation {
     //!
     void ObservationScalar::AddData(const QDateTime &domain, const double range)
     {
-
         m_DataMutex.lock();
 
         m_Domain.append(domain);
         m_Range.append(range);
         m_DataMutex.unlock();
     }
+
+    void ObservationScalar::ClearPreviousData()
+    {
+        m_DataMutex.lock();
+        m_Domain.clear();
+        m_Range.clear();
+        m_DataMutex.unlock();
+
+        AddData(m_CurrTime,m_CurrTimeRange);
+    }
+
+    void ObservationScalar::ClearData()
+    {
+        m_DataMutex.lock();
+
+        m_Domain.clear();
+        m_Range.clear();
+        m_DataMutex.unlock();
+    }
+
 
 
     //!
