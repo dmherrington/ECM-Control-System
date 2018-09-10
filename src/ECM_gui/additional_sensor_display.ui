@@ -141,7 +141,7 @@ width:20px;
    <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout"/>
+   <layout class="QVBoxLayout" name="verticalLayout_2"/>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
