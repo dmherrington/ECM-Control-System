@@ -42,6 +42,7 @@ public:
     bool ConnectToLink(const std::string &linkName);
     bool DisconnetLink();
 
+    bool isDeviceConnected() const;
 
 
     //////////////////////////////////////////////////////////////

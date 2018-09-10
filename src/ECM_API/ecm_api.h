@@ -43,7 +43,13 @@ private:
 signals:
     void signal_LockMotionButtons(const bool &lock);
 
+    void signal_LockCommandButtons(const bool &lock);
+
     void signal_MCNewMotionState(const std::string &stateString);
+
+    void signal_AllDevicesConnected(const bool &connectivity);
+
+    void signal_FaultCodeRecieved();
 
 private slots:
 
@@ -65,6 +71,9 @@ private slots:
     //! \param stateString
     //!
     void slot_MCNewMotionState(const ECM::Galil::GalilState &state, const std::string &stateString);
+
+
+    void slot_FaultCodeReceived();
 
 public:
 

@@ -86,7 +86,7 @@ bool GalilLink::Connect(void)
         this->connected = true;
         EmitEvent([](const ILinkEvents *ptr){ptr->ConnectionOpened();});
         update.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
-        errorString = "Galil has been connected.";
+        errorString = "Galil Motion Controller has been connected.";
     }
     else{
         unsigned int bufferSize = 100;
@@ -94,7 +94,7 @@ bool GalilLink::Connect(void)
         GError(rtnCode,buf,bufferSize);
         std::string bufString(buf);
         delete[] buf;
-        errorString = "Error connecting to galil: " + bufString;
+        errorString = "Error connecting to Galil Motion Controller: " + bufString;
         update.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::ALERT);
     }
 

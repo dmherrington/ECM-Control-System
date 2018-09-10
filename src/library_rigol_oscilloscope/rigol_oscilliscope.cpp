@@ -102,6 +102,8 @@ void RigolOscilliscope::ConnectionOpened()
     this->initializeRigol();
     common::comms::CommunicationUpdate connection;
     connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
+    connection.setPeripheralMessage("Rigol Oscilliscope has been connected.");
+
     emit signal_RigolCommunicationUpdate(connection);
 }
 
@@ -109,6 +111,8 @@ void RigolOscilliscope::ConnectionClosed() const
 {
     common::comms::CommunicationUpdate connection;
     connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED);
+    connection.setPeripheralMessage("Rigol Oscilliscope has been disconnected.");
+
     emit signal_RigolCommunicationUpdate(connection);
 }
 

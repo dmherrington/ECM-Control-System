@@ -144,6 +144,7 @@ private slots:
     void slot_LockCommandButtons(const bool &lock);
 
     void slot_FaultCodeReceived();
+    
 
 protected:
     void readSettings();

@@ -19,6 +19,9 @@ ECM_API::ECM_API()
             this, SLOT(slot_MCNewMotionState(ECM::Galil::GalilState,std::string)));
 
 
+    connect(m_Munk, SIGNAL(signal_FaultCodeRecieved()),
+            this, SLOT(slot_FaultCodeReceived()));
+
     m_Sensoray = new Sensoray();
 
     m_Modbus485 = new Library_QModBus();
@@ -186,6 +189,7 @@ void ECM_API::slot_MCNewMotionState(const ECM::Galil::GalilState &state, const s
         //We do not want to change the state condition of the button in this state
         //This is because if we go to lock the buttons the release event will either
         //trigger immediately or never be emitted.
+
         break;
     }
     default:
@@ -193,6 +197,14 @@ void ECM_API::slot_MCNewMotionState(const ECM::Galil::GalilState &state, const s
     }
 
     emit signal_MCNewMotionState(stateString);
+}
+
+void ECM_API::slot_FaultCodeReceived()
+{
+    //First stop the machine to the best of our ability
+    this->action_StopMachine();
+
+    emit signal_FaultCodeRecieved();
 }
 
 void ECM_API::writeHeaderBreaker(std::string &logString, const unsigned int &size) const

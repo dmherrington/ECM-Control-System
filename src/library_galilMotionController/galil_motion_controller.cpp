@@ -344,6 +344,9 @@ void GalilMotionController::NewStatusVariableList(const Status_VariableList &sta
 
 void GalilMotionController::executeCommand(const AbstractCommandPtr command)
 {
+    if(!commsMarshaler->isDeviceConnected())
+        return;
+
     ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
     currentState->handleCommand(command);
     stateMachine->ProcessStateTransitions();
@@ -351,6 +354,9 @@ void GalilMotionController::executeCommand(const AbstractCommandPtr command)
 
 void GalilMotionController::executeCustomCommands(const std::vector<std::string> &stringCommands)
 {
+    if(!commsMarshaler->isDeviceConnected())
+        return;
+
     this->commsMarshaler->sendCustomGalilCommands(stringCommands);
 }
 

@@ -92,7 +92,13 @@ void Westinghouse510::slot_SerialPortReadyToConnect()
 void Westinghouse510::slot_SerialPortUpdate(const common::comms::CommunicationUpdate &update)
 {
     using namespace common::comms;
-    switch (update.getUpdateType()) {
+    CommunicationUpdate::UpdateTypes type = update.getUpdateType();
+
+    CommunicationUpdate pumpCommunicationUpdate("Westinghouse Pump");
+    pumpCommunicationUpdate.setUpdateType(type);
+
+
+    switch (type) {
     case CommunicationUpdate::UpdateTypes::ALERT:
 
         break;
@@ -101,21 +107,26 @@ void Westinghouse510::slot_SerialPortUpdate(const common::comms::CommunicationUp
         m_State->pumpConnected.set(true);
         registers_WestinghousePump::Register_RunSource updateRunSource(registers_WestinghousePump::Register_RunSource::SourceSetting::SOURCE_RS485);
         this->m_Comms->writeToSerialPort(updateRunSource.getModbusRegister());
+        pumpCommunicationUpdate.setPeripheralMessage("Westinghouse Pump has been connected.");
         break;
     }
     case CommunicationUpdate::UpdateTypes::DISCONNECTED:
+    {
+        pumpCommunicationUpdate.setPeripheralMessage("Westinghouse Pump has been disconnected.");
         m_State->pumpConnected.set(false);
         break;
-//    case CommunicationUpdate::UpdateTypes::ERROR:
-
-//        break;
+    }
     case CommunicationUpdate::UpdateTypes::UPDATE:
-
-        break;
-    default:
+    {
+        std::string str = "Westinghouse Pump has communication update: " + update.getPeripheralMessage();
+        pumpCommunicationUpdate.setPeripheralMessage(str);
         break;
     }
-    emit signal_PumpCommunicationUpdate(update);
+    default:
+        return;
+        break;
+    }
+    emit signal_PumpCommunicationUpdate(pumpCommunicationUpdate);
 }
 
 void Westinghouse510::slot_SerialPortReceivedData(const QByteArray &data)

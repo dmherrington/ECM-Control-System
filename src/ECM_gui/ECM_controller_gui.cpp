@@ -49,7 +49,10 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     //API Connections
     connect(m_API->m_Rigol, SIGNAL(signal_RigolPlottable(common::TupleSensorString,bool)), this, SLOT(slot_NewlyAvailableRigolData(common::TupleSensorString,bool)));
     connect(m_API->m_Rigol, SIGNAL(signal_RigolNewSensorValue(common::TupleSensorString,common_data::SensorState)), this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
+
     connect(m_API, SIGNAL(signal_MCNewMotionState(std::string)), this, SLOT(slot_MCNewMotionState(std::string)));
+    connect(m_API, SIGNAL(signal_FaultCodeRecieved()), this, SLOT(slot_FaultCodeReceived()));
+
     //Updates required per API
     this->slot_MCNewMotionState(m_API->m_Galil->getCurrentMCState());
     slot_MCNewDigitalInput(m_API->m_Galil->getCurrent_MCDIO());
@@ -201,12 +204,6 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &senso
     m_additionalSensorDisplay->UpdateNonPlottedData(sensor,state);
 
     QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(sensor);
-
-//    if(counter >20)
-//    {
-//        m_PlotCollection.ClearAllData();
-//        counter = 0;
-//    }
 
     ui->widget_primaryPlot->RedrawDataSource(plots);
     m_SensorDisplays.PlottedDataUpdated(sensor); //this seems to be uneeded based on the call after this
@@ -762,7 +759,43 @@ void ECMControllerGUI::slot_LockMotionButtons(const bool &lock)
     ui->pushButton_DecreaseRelativeMove->setDisabled(lock);
 }
 
+void ECMControllerGUI::slot_LockCommandButtons(const bool &lock)
+{
+    ui->doubleSpinBox_RetractDistance->setDisabled(lock);
+    ui->doubleSpinBox_StepSize->setDisabled(lock);
+    ui->spinBox_Pause->setDisabled(lock);
+    ui->spinBox_PlungeSpeed->setDisabled(lock);
+    ui->spinBox_RetractPeriod->setDisabled(lock);
+    ui->spinBox_RetractSpeed->setDisabled(lock);
+
+    ui->doubleSpinBox_CutDepth->setDisabled(lock);
+    ui->doubleSpinBox_CutSpeed->setDisabled(lock);
+
+    ui->spinBox_Jog->setDisabled(lock);
+    ui->pushButton_DecreaseJog->setDisabled(lock);
+    ui->pushButton_IncreaseJog->setDisabled(lock);
+
+    ui->pushButton_IncreaseRelativeMove->setDisabled(lock);
+    ui->pushButton_DecreaseRelativeMove->setDisabled(lock);
+    ui->spinBox_RelativeMove->setDisabled(lock);
+    ui->spinBox_RelativeMoveSpeed->setDisabled(lock);
+
+    ui->pushButton_ResetHome->setDisabled(lock);
+    ui->pushButton_MoveHome->setDisabled(lock);
+}
+
 void ECMControllerGUI::slot_UpdatedMotionProfileState(const MotionProfileState &state)
 {
 
+}
+
+void ECMControllerGUI::slot_FaultCodeReceived()
+{
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.setText("A fault code has been received.");
+    msgBox.setInformativeText("Stopping all machining processes. Please correct the fault code before continuing.");
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    msgBox.exec();
 }
