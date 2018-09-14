@@ -61,6 +61,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_Galil, SIGNAL(signal_MCNewProgramVariableList(ProgramVariableList)), this, SLOT(slot_MCNEWProgramVariableList(ProgramVariableList)));
     connect(m_API->m_Galil, SIGNAL(signal_MCNewProfileVariableValue(common::TupleProfileVariableString,common_data::MotionProfileVariableState)), this, SLOT(slot_NewProfileVariableData(common::TupleProfileVariableString,common_data::MotionProfileVariableState)));
     connect(m_API->m_Galil, SIGNAL(signal_GalilUpdatedProfileState(MotionProfileState)), this, SLOT(slot_UpdatedMotionProfileState(MotionProfileState)));
+    connect(m_API->m_Galil, SIGNAL(signal_ErrorCommandCode(CommandType,std::string)), this, SLOT(slot_MCCommandError(CommandType,std::string)));
 
     m_WindowCustomMotionCommands = new Window_CustomMotionCommands(m_API->m_Galil);
     m_WindowCustomMotionCommands->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint);
@@ -765,4 +766,18 @@ void ECMControllerGUI::slot_LockMotionButtons(const bool &lock)
 void ECMControllerGUI::slot_UpdatedMotionProfileState(const MotionProfileState &state)
 {
 
+}
+
+void ECMControllerGUI::slot_MCCommandError(const CommandType &type, const string &description)
+{
+    switch (type) {
+    case CommandType::SET_VARIABLE:
+    {
+        //There was a problem setting a new variable, therefore let us reset the GUI to the current latest and greatest
+        this->slot_MCNEWProgramVariableList(m_API->m_Galil->stateInterface->galilProgram->getVariableList());
+        break;
+    }
+    default:
+        break;
+    }
 }

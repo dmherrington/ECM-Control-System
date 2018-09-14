@@ -27,6 +27,11 @@ void GalilCurrentProgram::setVariableList(const ProgramVariableList &list)
     this->variableList = list;
 }
 
+void GalilCurrentProgram::updateVariableValue(const std::string &name, const double &value)
+{
+    this->variableList.updateVariable(name,value);
+}
+
 bool GalilCurrentProgram::doesLabelExist(const std::string &label) const
 {
     return labelList.doesLabelExist(label);
@@ -63,6 +68,16 @@ std::map<std::string, double> GalilCurrentProgram::getVariableMap() const
     return this->variableList.getVariableMap();
 }
 
+ProgramLabelList GalilCurrentProgram::getLabelList() const
+{
+    return this->labelList;
+}
+
+ProgramVariableList GalilCurrentProgram::getVariableList() const
+{
+    return this->variableList;
+}
+
 std::string GalilCurrentProgram::getProgram() const
 {
     return this->program;
@@ -70,6 +85,7 @@ std::string GalilCurrentProgram::getProgram() const
 
 std::string GalilCurrentProgram::getLoggingString() const
 {
+    std::string str;
     return this->getProgram();
 }
 

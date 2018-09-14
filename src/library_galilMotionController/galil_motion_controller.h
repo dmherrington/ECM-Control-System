@@ -89,7 +89,8 @@ private:
     void LinkDisconnected() const override;
     void CustomUserRequestReceived(const std::string &request, const std::string &response) override;
     void StatusMessage(const std::string &msg) const override;
-    void ErrorBadCommand(const std::string &commandType, const std::string &description) override;
+    void ErrorBadCommand(const CommandType &type, const std::string &description) override;
+    void ErrorBadRequest(const RequestTypes &type, const std::string &description) override;
     void NewProgramUploaded(const ProgramGeneric &program) override;
     void NewProgramDownloaded(const ProgramGeneric &program) override;
     void NewStatusInputs(const StatusInputs &status) override;
@@ -210,7 +211,9 @@ signals:
 
     void signal_GalilUpdatedProfileState(const MotionProfileState &state) const;
 
-    void signal_ErrorCode(const std::string &errorString);
+    void signal_ErrorCommandCode(const CommandType &type, const std::string &errorString);
+
+    void signal_ErrorRequestCode(const RequestTypes &type, const std::string &errorString);
 
     void signal_CustomUserRequestReceived(const std::string &request, const std::string &response);
 

@@ -2,7 +2,7 @@
 
 namespace commands_Rigol {
 
-AbstractRigolStatus::AbstractRigolStatus(const std::string &name, const CommandTypes &type):
+AbstractRigolStatus::AbstractRigolStatus(const std::string &name, const data_Rigol::CommandTypes &type):
     deviceName(name),
     commandType(type)
 {
@@ -29,12 +29,12 @@ std::string AbstractRigolStatus::getDeviceName() const
     return this->deviceName;
 }
 
-void AbstractRigolStatus::setCommandType(const CommandTypes &type)
+void AbstractRigolStatus::setCommandType(const data_Rigol::CommandTypes &type)
 {
     this->commandType = type;
 }
 
-CommandTypes AbstractRigolStatus::getCommandType() const
+data_Rigol::CommandTypes AbstractRigolStatus::getCommandType() const
 {
     return this->commandType;
 }

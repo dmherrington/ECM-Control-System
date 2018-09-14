@@ -118,6 +118,27 @@ void GalilProtocol::handleCommandResponse(const ILink *link, const AbstractComma
         switch (response) {
         case G_NO_ERROR:
         {
+            switch (command->getCommandType()) {
+            case CommandType::SET_VARIABLE:
+            {
+                std::vector<AbstractStatusPtr> status;
+
+                common::EnvironmentTime updateTime;
+                common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,updateTime);
+
+                Command_Variable* variableValue = command.get()->as<Command_Variable>();
+                Status_VariableValuePtr variableStatus = std::make_shared<Status_VariableValue>();
+                variableStatus->setVariableName(variableValue->getVariableName());
+                variableStatus->setVariableValue(variableValue->getVariableValue());
+                variableStatus->setTime(updateTime);
+
+                status.push_back(variableStatus);
+                Emit([&](const IProtocolGalilEvents* ptr){ptr->NewStatusReceived(status);});
+                break;
+            }
+            default:
+                break;
+            }
             break;
         }
         case G_BAD_RESPONSE_QUESTION_MARK:

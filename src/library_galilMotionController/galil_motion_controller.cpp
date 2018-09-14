@@ -224,10 +224,16 @@ void GalilMotionController::StatusMessage(const std::string &msg) const
     UNUSED(msg);
 }
 
-void GalilMotionController::ErrorBadCommand(const std::string &commandType, const std::string &description)
+void GalilMotionController::ErrorBadCommand(const CommandType &type, const std::string &description)
 {
-    std::cout<<"There was a bad command when issuing: "<<commandType<<" and the response was: "<<description<<std::endl;
-    emit signal_ErrorCode(description);
+    //std::cout<<"There was a bad command when issuing: "<<type<<" and the response was: "<<description<<std::endl;
+    emit signal_ErrorCommandCode(type, description);
+}
+
+void GalilMotionController::ErrorBadRequest(const RequestTypes &type, const std::string &description)
+{
+    //std::cout<<"There was a bad request when issuing: "<<requestType<<" and the response was: "<<description<<std::endl;
+    emit signal_ErrorRequestCode(type, description);
 }
 
 void GalilMotionController::NewProgramUploaded(const ProgramGeneric &program)
@@ -315,6 +321,8 @@ void GalilMotionController::NewStatusMotorInMotion(const Status_AxisInMotion &st
 
 void GalilMotionController::NewStatusVariableValue(const Status_VariableValue &status)
 {
+    stateInterface->galilProgram->updateVariableValue(status.getVariableName(), status.getVariableValue());
+
     if(stateInterface->statusVariableValues->updateVariable(status))
     {
 
@@ -487,6 +495,9 @@ bool GalilMotionController::loadSettings(const std::string &filePath)
 std::string GalilMotionController::getLogOfOperationalSettings() const
 {
     std::string str;
-    str += stateInterface->galilProgram->getLoggingString();
+    str += "GALIL MOTION CONTROL PROGRAM: \n";
+    str += stateInterface->galilProgram->getProgram();
+    str += "GALIL MOTION CONTROL VARIABLE SETTINGS: \n";
+    str += stateInterface->galilProgram->getVariableList().getLoggingString();
     return str;
 }
