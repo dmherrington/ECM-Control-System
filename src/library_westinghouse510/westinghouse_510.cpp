@@ -133,6 +133,8 @@ void Westinghouse510::slot_SerialPortReceivedData(const QByteArray &data)
 
 void Westinghouse510::slot_PumpInitializationComplete()
 {
+    this->m_State->pumpInitialized.set(true);
+
     emit signal_PumpInitialized();
 }
 
@@ -174,6 +176,7 @@ void Westinghouse510::parseReceivedMessage(const comms_WestinghousePump::Westing
                     else{
                         if(initializationTimer->isActive())
                             initializationTimer->stop();
+                        this->m_State->pumpInitialized.set(false);
                     }
 
                     emit signal_PumpOperating(writeOps.isRun());

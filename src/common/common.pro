@@ -62,12 +62,13 @@ HEADERS += common.h\
     hash_keys.h \
     tuple_general_descriptor.h \
     modbus_register.h \
-    common_version.h
+    common_version.h \
+    hsm.h
 
 #Header file copy
-headers.path    = $$(ECM_ROOT)/include/common
-headers.files   += $$HEADERS
-INSTALLS       += headers
+INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET
+INSTALL_HEADERS = $$HEADERS
+include(../headerinstall.pri)
 
 # Unix lib Install
 unix:!symbian {

@@ -14,7 +14,11 @@
 #include "library_westinghouse510/westinghouse_510.h"
 #include "library_qModBus/library_qmodbus.h"
 
+#include "states/state_ecm_components.h"
+
 #include "ecm_logging.h"
+#include "ecm_modules.h"
+
 
 class ECM_APISHARED_EXPORT ECM_API: public QObject
 {

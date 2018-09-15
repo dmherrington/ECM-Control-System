@@ -5,21 +5,15 @@
 #include <thread>
 
 #include "common/class_forward.h"
+#include "common/hsm.h"
 
-#include "../ecm_api.h"
-
+#include "ECM_API/ecm_modules.h"
 #include "ECM_API/states/state_ecm_types.h"
-#include "library_galilMotionController/states/hsm.h"
 
 namespace ECM{
 namespace API {
 
-class Empty
-{
-    Empty() = default;
-};
-
-class AbstractStateECMProcess : public hsm::StateWithOwner<ECM_API>
+class AbstractStateECMProcess : public hsm::StateWithOwner<ECM_Modules>
 {
 public:
     AbstractStateECMProcess() = default;

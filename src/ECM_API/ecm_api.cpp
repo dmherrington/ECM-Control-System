@@ -25,6 +25,16 @@ ECM_API::ECM_API()
 
     m_Pump = new Westinghouse510(m_Modbus485,03);
 
+    ECM_Modules* moduleAccess = new ECM_Modules(m_Galil);
+
+    //hsm::StateMachine* machine = new hsm::StateMachine<ECM::API::ECMState_Idle>(moduleAccess);
+
+    hsm::StateMachine* machine = new hsm::StateMachine();
+    machine->Initialize<ECM::Galil::State_Idle>(moduleAccess);
+    //if we begin issuing text commands we have to be careful how the state machine progresses
+//    stateMachine->UpdateStates();
+//    stateMachine->ProcessStateTransitions();
+
 }
 
 std::map<std::string, std::string> ECM_API::getSoftwareVersions() const
