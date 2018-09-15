@@ -84,6 +84,18 @@ public:
     //!
     void openPumpConnection(const std::string &portNumber);
 
+public:
+    //!
+    //! \brief isPumpInitialized
+    //! \return
+    //!
+    bool isPumpInitialized() const;
+
+    //!
+    //! \brief isPumpInitialized
+    //! \return
+    //!
+    bool isPumpRunning() const;
 
 public:
 

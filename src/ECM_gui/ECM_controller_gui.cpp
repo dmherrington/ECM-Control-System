@@ -202,11 +202,11 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &senso
 
     QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(sensor);
 
-//    if(counter >20)
-//    {
-//        m_PlotCollection.ClearAllData();
-//        counter = 0;
-//    }
+    //    if(counter >20)
+    //    {
+    //        m_PlotCollection.ClearAllData();
+    //        counter = 0;
+    //    }
 
     ui->widget_primaryPlot->RedrawDataSource(plots);
     m_SensorDisplays.PlottedDataUpdated(sensor); //this seems to be uneeded based on the call after this
@@ -220,13 +220,13 @@ void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalStrin
     ui->lineEdit_MachinePosition->setText(QString::number(state.getPositionalState()->getAxisPosition(common_data::PositionUnit::UNIT_POSITION_MICRO_METER)));
 
     m_PlotCollection.UpdatePositionalStatePlots(tuple,state);
-//    m_SensorDisplays.UpdateNonPlottedData(tuple,state);
-//    m_additionalSensorDisplay->UpdateNonPlottedData(tuple,state);
+    //    m_SensorDisplays.UpdateNonPlottedData(tuple,state);
+    //    m_additionalSensorDisplay->UpdateNonPlottedData(tuple,state);
 
     QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(tuple);
     ui->widget_primaryPlot->RedrawDataSource(plots);
-//    m_SensorDisplays.PlottedDataUpdated(state); //this seems to be uneeded based on the call after this
-//    m_additionalSensorDisplay->UpdatePlottedData(state);
+    //    m_SensorDisplays.PlottedDataUpdated(state); //this seems to be uneeded based on the call after this
+    //    m_additionalSensorDisplay->UpdatePlottedData(state);
 
     m_API->m_Log->WriteLogMachinePositionalState(tuple,state);
 }
@@ -687,8 +687,8 @@ void ECMControllerGUI::on_pushButton_RunExplicitProfile_released()
         QAbstractButton* pButtonOverwrite = msgBox.addButton(tr("Overwrite"), QMessageBox::AcceptRole);
         QAbstractButton* pButtonCancel = msgBox.addButton(tr("Cancel"), QMessageBox::AcceptRole);
 
-//        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-//        msgBox.setDefaultButton(QMessageBox::Yes);
+        //        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        //        msgBox.setDefaultButton(QMessageBox::Yes);
         msgBox.exec();
 
         if(msgBox.clickedButton() == pButtonCancel)
@@ -712,30 +712,37 @@ void ECMControllerGUI::on_pushButton_RunExplicitProfile_released()
             return;
     }
 
-    //grab the current time and update all of the sources
-    common::EnvironmentTime startTime;
-    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
+    //If the pump isn't initialized, we have to pause and wait before executing it
+    if(!m_API->m_Pump->isPumpInitialized())
+    {
+        //If the pump isnt running, let us issue a command to start the pump
+        if(!m_API->m_Pump->isPumpRunning())
+        {
+            registers_WestinghousePump::Register_OperationSignal newOps;
+            newOps.shouldRun(true);
+            m_API->m_Pump->setPumpOperations(newOps);
+        }
 
-    m_API->initializeECMLogs(partNumber.toStdString(),serialNumber.toStdString(),
-                             profileName.toStdString(),startTime,"",clearContents);
+        connect(m_API->m_Pump, &Westinghouse510::signal_PumpInitialized,
+                [this,partNumber,serialNumber,profileName,clearContents]()
+        {
+            common::EnvironmentTime startTime = m_API->executeMachiningProcess(partNumber.toStdString(), serialNumber.toStdString(),
+                                                                                    profileName.toStdString(), "", clearContents);
+            QDate tmp_Date(startTime.year, startTime.month, startTime.dayOfMonth);
 
-    QDate tmp_Date(startTime.year, startTime.month, startTime.dayOfMonth);
-    QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond);
+            QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond);
 
-    //Update plot properties of the current start time
-    ui->widget_primaryPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
-    m_additionalSensorDisplay->SetOriginTime(QDateTime(tmp_Date, tmp_Time));
+            //Update plot properties of the current start time
+            ui->widget_primaryPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
+            m_additionalSensorDisplay->SetOriginTime(QDateTime(tmp_Date, tmp_Time));
 
-    //Clear all of the exisitng data that may be on the plots
-    m_PlotCollection.ClearAllData();
+            //Clear all of the exisitng data that may be on the plots
+            m_PlotCollection.ClearAllData();
 
-    m_API->m_Log->enableLogging(true);
+            disconnect(m_API->m_Pump,SIGNAL(signal_PumpInitialized()), this, nullptr);
+        });
 
-    //While executing this type of command
-    //get the profile name from the GUI
-
-    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,profileName.toStdString());
-    m_API->m_Galil->executeCommand(command);
+    }
 }
 
 void ECMControllerGUI::on_pushButton_RunAutomatedProfile_released()

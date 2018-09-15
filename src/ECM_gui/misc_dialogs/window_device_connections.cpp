@@ -141,6 +141,10 @@ void Window_DeviceConnections::on_pushButton_connectSensoray_released()
 void Window_DeviceConnections::on_pushButton_connectPump_released()
 {
     QString portNumber = ui->comboBox_PortPump->currentText();
+
+    if(portNumber.isEmpty())
+        return;
+
     portNumber.remove(0,3);
 
     if(portNumber.toInt() > 9)
@@ -158,12 +162,20 @@ void Window_DeviceConnections::on_pushButton_connectPump_released()
 void Window_DeviceConnections::on_pushButton_connect_Rigol_released()
 {
     QString ipAddress = ui->lineEdit_IPRigol->text();
+
+    if(ipAddress.isEmpty())
+        return;
+
     m_API->m_Rigol->openConnection(ipAddress.toStdString() , 5555);
 }
 
 void Window_DeviceConnections::on_pushButton_connectMunk_released()
 {
     QString portNumber = ui->comboBox_PortMunk->currentText();
+
+    if(portNumber.isEmpty())
+        return;
+
     portNumber.remove(0,3);
 
     if(portNumber.toInt() > 9)
@@ -181,6 +193,10 @@ void Window_DeviceConnections::on_pushButton_connectMunk_released()
 void Window_DeviceConnections::on_pushButton_connectGalil_released()
 {
     QString ipAddress = ui->lineEdit_IPGalil->text();
+
+    if(ipAddress.isEmpty())
+        return;
+
     ipAddress += " -d";
     m_API->m_Galil->openConnection(ipAddress.toStdString());
 }

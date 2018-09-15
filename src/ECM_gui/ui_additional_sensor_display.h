@@ -13,12 +13,12 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -27,7 +27,7 @@ class Ui_AdditionalSensorDisplay
 {
 public:
     QWidget *centralwidget;
-    QGridLayout *gridLayout;
+    QVBoxLayout *verticalLayout_2;
     QMenuBar *menubar;
     QMenu *menuView;
     QStatusBar *statusbar;
@@ -163,8 +163,8 @@ public:
         AdditionalSensorDisplay->setDockNestingEnabled(true);
         centralwidget = new QWidget(AdditionalSensorDisplay);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
-        gridLayout = new QGridLayout(centralwidget);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        verticalLayout_2 = new QVBoxLayout(centralwidget);
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         AdditionalSensorDisplay->setCentralWidget(centralwidget);
         menubar = new QMenuBar(AdditionalSensorDisplay);
         menubar->setObjectName(QStringLiteral("menubar"));
