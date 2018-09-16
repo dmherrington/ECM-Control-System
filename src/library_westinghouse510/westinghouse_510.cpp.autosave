@@ -98,7 +98,6 @@ void Westinghouse510::slot_SerialPortUpdate(const common::comms::CommunicationUp
     pumpCommunicationUpdate.setDeviceType(ECMDevice::DEVICE_PUMP);
     pumpCommunicationUpdate.setUpdateType(type);
 
-
     switch (type) {
     case CommunicationUpdate::UpdateTypes::ALERT:
 

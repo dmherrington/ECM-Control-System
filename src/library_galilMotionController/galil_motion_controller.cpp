@@ -184,7 +184,36 @@ std::vector<common::TupleECMData> GalilMotionController::getAvailablePlottables(
 
 void GalilMotionController::LinkConnectionUpdate(const common::comms::CommunicationUpdate &update)
 {
-    emit signal_MotionControllerCommunicationUpdate(update);
+//    switch (update.getUpdateType()) {
+//    case common::comms::CommunicationUpdate::UpdateTypes::ALERT:
+
+//        break;
+//    case common::comms::CommunicationUpdate::UpdateTypes::CONNECTED:
+//    {
+//        //update the connection interface
+//        stateInterface->setConnected(true);
+
+//        //initialize the device
+//        this->initializeMotionController();
+//        break;
+//    }
+//    case common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED:
+//    {
+//        if(galilPolling)
+//        {
+//            galilPolling->pausePolling();
+//            galilPolling->stop();
+//        }
+
+//        break;
+//    }
+//    case common::comms::CommunicationUpdate::UpdateTypes::UPDATE:
+
+//        break;
+//    default:
+//        break;
+//    }
+//    emit signal_MotionControllerCommunicationUpdate(update);
 }
 
 void GalilMotionController::LinkConnected()

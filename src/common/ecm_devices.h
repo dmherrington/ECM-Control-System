@@ -8,7 +8,8 @@ enum class ECMDevice
     DEVICE_OSCOPE,
     DEVICE_SENSORAY,
     DEVICE_MOTIONCONTROL,
-    DEVICE_ALL
+    DEVICE_ALL,
+    DEVICE_UNKNOWN
 };
 
 #endif // ECM_DEVICES_H

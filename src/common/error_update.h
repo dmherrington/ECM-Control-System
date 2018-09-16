@@ -1,5 +1,5 @@
-#ifndef COMMUNICATION_UPDATE_H
-#define COMMUNICATION_UPDATE_H
+#ifndef ERROR_UPDATE_H
+#define ERROR_UPDATE_H
 
 #include <QMetaType>
 
@@ -8,28 +8,28 @@
 #include "string"
 
 namespace common {
-namespace comms {
 
-class CommunicationUpdate
+class ErrorUpdate
 {
 public:
     enum class UpdateTypes
     {
-        CONNECTED,
-        DISCONNECTED,
-        UPDATE,
-        ALERT
+        WARNING,
+        ALERT,
+        CRITICAL
     };
 
 public:
-    CommunicationUpdate(const std::string &source = "", const UpdateTypes &status = UpdateTypes::UPDATE, const std::string &msg = "")
+    ErrorUpdate(const std::string &source = "", const ECMDevice &device = ECMDevice::DEVICE_UNKNOWN,
+                const UpdateTypes &status = UpdateTypes::WARNING, const std::string &msg = "")
     {
         this->sourceName = source;
+        this->deviceType = device;
         this->updateType = status;
         this->message = msg;
     }
 
-    CommunicationUpdate(const CommunicationUpdate &copy)
+    ErrorUpdate(const ErrorUpdate &copy)
     {
         this->sourceName = copy.sourceName;
         this->deviceType = copy.deviceType;
@@ -37,7 +37,7 @@ public:
         this->message = copy.message;
     }
 
-    ~CommunicationUpdate() = default;
+    ~ErrorUpdate() = default;
 
 public:
     void setSourceName(const std::string &source)
@@ -81,7 +81,7 @@ public:
     }
 
 public:
-    CommunicationUpdate& operator = (const CommunicationUpdate &rhs)
+    CommunicationUpdate& operator = (const ErrorUpdate &rhs)
     {
         this->sourceName = rhs.sourceName;
         this->deviceType = rhs.deviceType;
@@ -98,8 +98,8 @@ private:
 
 };
 
-} //end of namespace comms
 } //end of namespace common
 
-Q_DECLARE_METATYPE(common::comms::CommunicationUpdate)
-#endif // COMMUNICATION_UPDATE_H
+Q_DECLARE_METATYPE(common::ErrorUpdate)
+
+#endif // ERROR_UPDATE_H
