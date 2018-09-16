@@ -507,7 +507,7 @@ public:
 
     void retranslateUi(QMainWindow *Window_DeviceConnections)
     {
-        Window_DeviceConnections->setWindowTitle(QApplication::translate("Window_DeviceConnections", "MainWindow", nullptr));
+        Window_DeviceConnections->setWindowTitle(QApplication::translate("Window_DeviceConnections", "Device Connections", nullptr));
         actionOpen->setText(QApplication::translate("Window_DeviceConnections", "Open", nullptr));
         actionSave->setText(QApplication::translate("Window_DeviceConnections", "Save", nullptr));
         actionSave_As->setText(QApplication::translate("Window_DeviceConnections", "Save As", nullptr));

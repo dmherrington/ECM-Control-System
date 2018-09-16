@@ -151,7 +151,7 @@ void AdditionalSensorDisplay::NewDock(const common::TupleSensorString &sensor, c
     else if(m_SensorDockMap.size() == 1)
     {
         this->sensorDockOrdering.push_back(sensor);
-        this->addDockWidget(Qt::TopDockWidgetArea, dock);
+        this->addDockWidget(Qt::BottomDockWidgetArea, dock);
 
 //        common::TupleSensorString previousDock = this->sensorDockOrdering.at(this->sensorDockOrdering.size());
 //        this->sensorDockOrdering.push_back(sensor);
