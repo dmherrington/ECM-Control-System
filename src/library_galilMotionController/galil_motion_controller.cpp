@@ -184,63 +184,66 @@ std::vector<common::TupleECMData> GalilMotionController::getAvailablePlottables(
 
 void GalilMotionController::LinkConnectionUpdate(const common::comms::CommunicationUpdate &update)
 {
-//    switch (update.getUpdateType()) {
-//    case common::comms::CommunicationUpdate::UpdateTypes::ALERT:
+    switch (update.getUpdateType()) {
+    case common::comms::CommunicationUpdate::UpdateTypes::ALERT:
 
-//        break;
-//    case common::comms::CommunicationUpdate::UpdateTypes::CONNECTED:
-//    {
-//        //update the connection interface
-//        stateInterface->setConnected(true);
+        break;
+    case common::comms::CommunicationUpdate::UpdateTypes::CONNECTED:
+    {
+        //update the connection interface
+        stateInterface->setConnected(true);
 
-//        //initialize the device
-//        this->initializeMotionController();
-//        break;
-//    }
-//    case common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED:
-//    {
-//        if(galilPolling)
-//        {
-//            galilPolling->pausePolling();
-//            galilPolling->stop();
-//        }
+        //initialize the device
+        this->initializeMotionController();
+        break;
+    }
+    case common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED:
+    {
+        if(galilPolling)
+        {
+            galilPolling->pausePolling();
+            galilPolling->stop();
+        }
 
-//        break;
-//    }
-//    case common::comms::CommunicationUpdate::UpdateTypes::UPDATE:
+        break;
+    }
+    case common::comms::CommunicationUpdate::UpdateTypes::UPDATE:
 
-//        break;
-//    default:
-//        break;
-//    }
-//    emit signal_MotionControllerCommunicationUpdate(update);
+        break;
+    default:
+        break;
+    }
+    emit signal_MotionControllerCommunicationUpdate(update);
 }
 
 void GalilMotionController::LinkConnected()
 {
-    //update the connection interface
-    stateInterface->setConnected(true);
+    std::cout<<"The connect message is being emitted from somewhere."<<std::endl;
 
-    //initialize the device
-    this->initializeMotionController();
+//    //update the connection interface
+//    stateInterface->setConnected(true);
 
-    //notify all listeners that we have connected
-    common::comms::CommunicationUpdate connection;
-    connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
-    emit signal_MotionControllerCommunicationUpdate(connection);
+//    //initialize the device
+//    this->initializeMotionController();
+
+//    //notify all listeners that we have connected
+//    common::comms::CommunicationUpdate connection;
+//    connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
+//    emit signal_MotionControllerCommunicationUpdate(connection);
 }
 
 void GalilMotionController::LinkDisconnected() const
 {
-    if(galilPolling)
-    {
-        galilPolling->pausePolling();
-        galilPolling->stop();
-    }
+    std::cout<<"The disconnect message is being emitted from somewhere."<<std::endl;
+//    if(galilPolling)
+//    {
+//        galilPolling->pausePolling();
+//        galilPolling->stop();
+//    }
 
-    common::comms::CommunicationUpdate connection;
-    connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED);
-    emit signal_MotionControllerCommunicationUpdate(connection);
+//    common::comms::CommunicationUpdate connection;
+//    connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED);
+//    emit signal_MotionControllerCommunicationUpdate(connection);
 }
 
 void GalilMotionController::CustomUserRequestReceived(const string &request, const string &response)

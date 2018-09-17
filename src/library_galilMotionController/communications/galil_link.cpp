@@ -77,16 +77,16 @@ bool GalilLink::Connect(void)
     }
 
     common::comms::CommunicationUpdate update("Galil Link");
-    std::string errorString = "";
+    update.setDeviceType(ECMDevice::DEVICE_MOTIONCONTROL);
 
     //We should attempt connecting to the Galil unit at the prescribed address
     GReturn rtnCode = GOpen(address.c_str(),&galil);
     if(rtnCode == G_NO_ERROR)
     {
         this->connected = true;
-        EmitEvent([](const ILinkEvents *ptr){ptr->ConnectionOpened();});
+        //EmitEvent([](const ILinkEvents *ptr){ptr->ConnectionOpened();});
         update.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
-        errorString = "Galil Motion Controller has been connected.";
+        update.setPeripheralMessage("Galil Motion Controller has been connected.");
     }
     else{
         unsigned int bufferSize = 100;
@@ -94,11 +94,10 @@ bool GalilLink::Connect(void)
         GError(rtnCode,buf,bufferSize);
         std::string bufString(buf);
         delete[] buf;
-        errorString = "Error connecting to Galil Motion Controller: " + bufString;
         update.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::ALERT);
+        update.setPeripheralMessage("Error connecting to Galil Motion Controller: " + bufString);
     }
 
-    update.setPeripheralMessage(errorString);
     EmitEvent([update](const ILinkEvents *ptr){ptr->ConnectionUpdate(update);});
     return this->connected;
 }
@@ -115,7 +114,11 @@ bool GalilLink::Disconnect(void)
         if(rtnCode == G_NO_ERROR)
         {
             this->connected = false;
-            EmitEvent([](const ILinkEvents *ptr){ptr->ConnectionClosed();});
+            common::comms::CommunicationUpdate update("Galil Link");
+            update.setDeviceType(ECMDevice::DEVICE_MOTIONCONTROL);
+            update.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
+            update.setPeripheralMessage("Galil Motion Controller has been disconnected.");
+            EmitEvent([update](const ILinkEvents *ptr){ptr->ConnectionUpdate(update);});
 
         }
     }
