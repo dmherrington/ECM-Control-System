@@ -131,7 +131,8 @@ void Window_PumpControl::on_doubleSpinBox_flowRate_valueChanged(double arg1)
 
 void Window_PumpControl::on_doubleSpinBox_delayTime_valueChanged(double arg1)
 {
-
+    unsigned int initializationTime = arg1 * 1000;
+    m_Pump->setInitializationTime(initializationTime);
 }
 
 void Window_PumpControl::on_actionOpen_triggered()
