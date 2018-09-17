@@ -38,6 +38,9 @@ public:
     explicit ECMControllerGUI(QWidget *parent = 0);
     ~ECMControllerGUI();
 
+private:
+    void setupMachiningSequence(const std::string &partNumber, const std::string &serialNumber, const std::string &profileName,const bool &clearContents);
+
 private slots:
     void CreateSensorDisplays(const common::TupleSensorString &sensor, const common_data::SensorTypes &type);
     Q_INVOKABLE void MarshalCreateSensorDisplay(const common::TupleSensorString &sensor, const common_data::SensorTypes &type);

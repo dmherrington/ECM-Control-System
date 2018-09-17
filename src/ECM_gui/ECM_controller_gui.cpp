@@ -562,7 +562,6 @@ void ECMControllerGUI::MarshalCreateSensorDisplay(const common::TupleSensorStrin
     m_CreatedSensors.insert(sensor, true);
 }
 
-
 void ECMControllerGUI::on_actionClose_triggered()
 {
     QCloseEvent event;
@@ -715,6 +714,15 @@ void ECMControllerGUI::on_pushButton_RunExplicitProfile_released()
     //If the pump isn't initialized, we have to pause and wait before executing it
     if(!m_API->m_Pump->isPumpInitialized())
     {
+        connect(m_API->m_Pump, &Westinghouse510::signal_PumpInitialized, this,
+                [this,partNumber,serialNumber,profileName,clearContents]()
+        {
+            disconnect(m_API->m_Pump,SIGNAL(signal_PumpInitialized()), this, nullptr);
+
+            this->setupMachiningSequence(partNumber.toStdString(), serialNumber.toStdString(),
+                                         profileName.toStdString(), clearContents);
+        });
+
         //If the pump isnt running, let us issue a command to start the pump
         if(!m_API->m_Pump->isPumpRunning())
         {
@@ -722,28 +730,32 @@ void ECMControllerGUI::on_pushButton_RunExplicitProfile_released()
             newOps.shouldRun(true);
             m_API->m_Pump->setPumpOperations(newOps);
         }
-
-        connect(m_API->m_Pump, &Westinghouse510::signal_PumpInitialized,
-                [this,partNumber,serialNumber,profileName,clearContents]()
-        {
-            common::EnvironmentTime startTime = m_API->executeMachiningProcess(partNumber.toStdString(), serialNumber.toStdString(),
-                                                                                    profileName.toStdString(), "", clearContents);
-            QDate tmp_Date(startTime.year, startTime.month, startTime.dayOfMonth);
-
-            QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond);
-
-            //Update plot properties of the current start time
-            ui->widget_primaryPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
-            m_additionalSensorDisplay->SetOriginTime(QDateTime(tmp_Date, tmp_Time));
-
-            //Clear all of the exisitng data that may be on the plots
-            m_PlotCollection.ClearAllData();
-
-            disconnect(m_API->m_Pump,SIGNAL(signal_PumpInitialized()), this, nullptr);
-        });
-
+    }
+    else
+    {
+        this->setupMachiningSequence(partNumber.toStdString(), serialNumber.toStdString(),
+                                     profileName.toStdString(), clearContents);
     }
 }
+
+
+void ECMControllerGUI::setupMachiningSequence(const std::string &partNumber, const std::string &serialNumber, const std::string &profileName,const bool &clearContents)
+{
+    common::EnvironmentTime startTime = m_API->executeMachiningProcess(partNumber, serialNumber,
+                                                                            profileName, "", clearContents);
+    QDate tmp_Date(startTime.year, startTime.month, startTime.dayOfMonth);
+
+    QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond);
+
+    //Update plot properties of the current start time
+    ui->widget_primaryPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
+    m_additionalSensorDisplay->SetOriginTime(QDateTime(tmp_Date, tmp_Time));
+
+    //Clear all of the exisitng data that may be on the plots
+    m_PlotCollection.ClearAllData();
+
+}
+
 
 void ECMControllerGUI::on_pushButton_RunAutomatedProfile_released()
 {

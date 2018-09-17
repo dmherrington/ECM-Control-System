@@ -49,6 +49,8 @@ private slots:
 
     void slot_updatedFlowRate(const double &value);
 
+    void slot_PumpInitialized();
+
 private slots:
 
     void on_pushButton_PumpRunning_released();

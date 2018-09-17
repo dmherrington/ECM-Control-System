@@ -116,6 +116,7 @@ private:
     void parseReceivedMessage(const comms_WestinghousePump::WestinghouseMessage &msg);
 
 signals:
+
     //!
     //! \brief signal_PumpConnectionUpdate signal emitted when something about the connection has changed and/or been modified
     //! \param obj generic data type containing the status of the resulting connection update
