@@ -5,12 +5,15 @@
 #-------------------------------------------------
 
 QT       -= gui
-QT = core
+QT += core
 QT += serialport
 QT += network
 
 TARGET = library_westinghouse510
 TEMPLATE = lib
+
+win32:TARGET_EXT += .dll
+unix:QMAKE_CXXFLAGS += -std=gnu++0x
 
 DEFINES += LIBRARY_WESTINGHOUSE510_LIBRARY
 
