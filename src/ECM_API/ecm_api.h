@@ -14,7 +14,11 @@
 #include "library_westinghouse510/westinghouse_510.h"
 #include "library_qModBus/library_qmodbus.h"
 
+#include "states/state_ecm_components.h"
+
 #include "ecm_logging.h"
+#include "ecm_modules.h"
+
 
 class ECM_APISHARED_EXPORT ECM_API: public QObject
 {
@@ -30,10 +34,26 @@ public:
 
 public:
 
-    bool checkLoggingPathValidity(const string &partNumber, const string &serialNumber) const;
+    bool checkLoggingPathValidity(const std::string &partNumber, const std::string &serialNumber) const;
 
-    void initializeECMLogs(const string &partNumber, const string &serialNumber, const std::string &profile,
+    void initializeECMLogs(const std::string &partNumber, const std::string &serialNumber, const std::string &profile,
                            const common::EnvironmentTime &time, const std::string &descriptor = "", const bool &clearContents = false);
+
+    //ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
+
+    //!
+    //! \brief executeMachiningProcess
+    //! \param partNumber
+    //! \param serialNumber
+    //! \param profileName
+    //! \param time
+    //! \param descriptor
+    //! \param clearContents
+    //! \return
+    //!
+    common::EnvironmentTime executeMachiningProcess(const std::string &partNumber, const std::string &serialNumber,
+                                      const std::string &profileName, const std::string &descriptor = "",
+                                      const bool &clearContents = false);
 
 private:
     void writeHeaderBreaker(std::string &logString, const unsigned int &size) const;
@@ -44,6 +64,8 @@ signals:
     void signal_LockMotionButtons(const bool &lock);
 
     void signal_MCNewMotionState(const std::string &stateString);
+
+    void signal_InitializeStartTime(const common::EnvironmentTime &time);
 
 private slots:
 
@@ -66,6 +88,7 @@ private slots:
     //!
     void slot_MCNewMotionState(const ECM::Galil::GalilState &state, const std::string &stateString);
 
+
 public:
 
     RigolOscilliscope* m_Rigol;
@@ -81,6 +104,9 @@ public:
     ECMLogging* m_Log;
 
     Library_QModBus* m_Modbus485;
+
+public:
+    hsm::StateMachine* autoProcess;
 
 };
 

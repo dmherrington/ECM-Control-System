@@ -5,6 +5,8 @@
 #include <QBitArray>
 #include <string>
 
+#include "../library_westinghouse510_global.h"
+
 #include "common/common.h"
 #include "../data/type_read_write.h"
 #include "available_registers.h"

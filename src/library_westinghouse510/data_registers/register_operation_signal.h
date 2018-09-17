@@ -5,7 +5,7 @@
 
 namespace registers_WestinghousePump{
 
-class Register_OperationSignal : public AbstractWestinghouseRegister
+class LIBRARY_WESTINGHOUSE510SHARED_EXPORT Register_OperationSignal : public AbstractWestinghouseRegister
 {
 public:
     Register_OperationSignal();

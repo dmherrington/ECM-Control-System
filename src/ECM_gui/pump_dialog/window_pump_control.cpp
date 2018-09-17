@@ -12,6 +12,7 @@ Window_PumpControl::Window_PumpControl(Westinghouse510* obj, QWidget *parent) :
     ui->widget_PumpRunning->setDiameter(6);
 
     connect(m_Pump,SIGNAL(signal_PumpCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_PumpConnectionUpdate(common::comms::CommunicationUpdate)));
+    connect(m_Pump,SIGNAL(signal_PumpInitialized()), this, SLOT(slot_PumpInitialized()));
 
     this->m_Pump->m_State->flowRate.AddNotifier(this,[this]
     {
@@ -79,10 +80,7 @@ void Window_PumpControl::slot_updatedPumpOn(const bool &value)
         common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
         ui->lineEdit_OnTime->setText(QString::fromStdString(startTime.timeString()));
         ui->statusbar->showMessage("The pump has been turned on.",2500);
-
-        QTimer::singleShot(ui->doubleSpinBox_delayTime->value() * 1000, [=] {
-            ui->widget_PumpInitialized->setColor(QColor(0,255,0));
-        });    }
+    }
     else
     {
         ui->widget_PumpRunning->setColor(QColor(255,0,0));
@@ -113,6 +111,11 @@ void Window_PumpControl::slot_updatedDelayTime(const double &value)
     ui->statusbar->showMessage(tr("Delay time has been updated."),2500);
 }
 
+void Window_PumpControl::slot_PumpInitialized()
+{
+    ui->widget_PumpInitialized->setColor(QColor(0,255,0));
+}
+
 void Window_PumpControl::on_pushButton_PumpRunning_released()
 {
     bool run = !m_Pump->m_State->pumpON.get();
@@ -131,7 +134,8 @@ void Window_PumpControl::on_doubleSpinBox_flowRate_valueChanged(double arg1)
 
 void Window_PumpControl::on_doubleSpinBox_delayTime_valueChanged(double arg1)
 {
-
+    unsigned int initializationTime = arg1 * 1000;
+    m_Pump->setInitializationTime(initializationTime);
 }
 
 void Window_PumpControl::on_actionOpen_triggered()

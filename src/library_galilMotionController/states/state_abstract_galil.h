@@ -5,13 +5,12 @@
 #include <thread>
 
 #include "common/class_forward.h"
+#include "common/hsm.h"
 
 #include "library_galilMotionController/settings/galil_settings.h"
 #include "library_galilMotionController/commands/command_components.h"
 
 #include "library_galilMotionController/states/state_types.h"
-#include "library_galilMotionController/states/hsm.h"
-
 #include "library_galilMotionController/galil_state_interface.h"
 
 namespace ECM{

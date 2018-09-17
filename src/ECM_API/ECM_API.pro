@@ -34,7 +34,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         ecm_api.cpp \
     ecm_logging.cpp \
-    ecm_process.cpp \
     states/state_abstract_ecm_process.cpp \
     states/state_ecm_power_supply_setup.cpp \
     states/state_ecm_profile_machine.cpp \
@@ -47,13 +46,13 @@ SOURCES += \
     states/state_ecm_touchoff_enable.cpp \
     states/state_ecm_touchoff_execute.cpp \
     states/state_ecm_idle.cpp \
-    states/state_ecm_initialization.cpp
+    states/state_ecm_initialization.cpp \
+    ecm_modules.cpp
 
 HEADERS += \
         ecm_api.h \
         ecm_api_global.h \  
     ecm_logging.h \
-    ecm_process.h \
     states/state_abstract_ecm_process.h \
     states/state_ecm_components.h \
     states/state_ecm_power_supply_setup.h \
@@ -69,7 +68,8 @@ HEADERS += \
     states/state_ecm_types.h \
     states/state_ecm_idle.h \
     states/state_ecm_initialization.h \
-    ecm_api_version.h
+    ecm_api_version.h \
+    ecm_modules.h
 
 # Unix lib Install
 unix:!symbian {

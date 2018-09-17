@@ -66,6 +66,16 @@ bool Westinghouse510::isPumpConnected() const
     return this->m_Comms->isSerialPortOpen();
 }
 
+bool Westinghouse510::isPumpInitialized() const
+{
+    return this->m_State->pumpInitialized.get();
+}
+
+bool Westinghouse510::isPumpRunning() const
+{
+    return this->m_State->pumpON.get();
+}
+
 void Westinghouse510::openPumpConnection(const std::string &portNumber)
 {
     common::comms::SerialConfiguration config("WestinghousePort");
@@ -101,6 +111,9 @@ void Westinghouse510::slot_SerialPortUpdate(const common::comms::CommunicationUp
         m_State->pumpConnected.set(true);
         registers_WestinghousePump::Register_RunSource updateRunSource(registers_WestinghousePump::Register_RunSource::SourceSetting::SOURCE_RS485);
         this->m_Comms->writeToSerialPort(updateRunSource.getModbusRegister());
+
+        this->ceasePumpOperations();
+
         break;
     }
     case CommunicationUpdate::UpdateTypes::DISCONNECTED:
@@ -133,6 +146,8 @@ void Westinghouse510::slot_SerialPortReceivedData(const QByteArray &data)
 
 void Westinghouse510::slot_PumpInitializationComplete()
 {
+    this->m_State->pumpInitialized.set(true);
+
     emit signal_PumpInitialized();
 }
 
@@ -174,6 +189,7 @@ void Westinghouse510::parseReceivedMessage(const comms_WestinghousePump::Westing
                     else{
                         if(initializationTimer->isActive())
                             initializationTimer->stop();
+                        this->m_State->pumpInitialized.set(false);
                     }
 
                     emit signal_PumpOperating(writeOps.isRun());

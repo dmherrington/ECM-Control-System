@@ -32,4 +32,5 @@ example/example
 /src/window_GMC_variable_editor/debug/*
 /src/Window_GalilMotionController/debug/*
 /src/ECM_gui/debug/*
+/src/ECM_gui/release/*
 /src/ECM_API/debug/*

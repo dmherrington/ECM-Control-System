@@ -138,7 +138,6 @@ HEADERS += \
         requests/request_types.h \
         settings/galil_settings.h \
         settings/settings_pinout.h \
-        states/hsm.h \
         states/state_abstract_galil.h \
         states/state_components.h \
         states/state_estop.h \

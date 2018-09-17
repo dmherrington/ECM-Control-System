@@ -18,12 +18,21 @@ ECM_API::ECM_API()
     connect(m_Galil, SIGNAL(signal_MCNewMotionState(ECM::Galil::GalilState,std::string)),
             this, SLOT(slot_MCNewMotionState(ECM::Galil::GalilState,std::string)));
 
+    //ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
 
     m_Sensoray = new Sensoray();
 
     m_Modbus485 = new Library_QModBus();
 
     m_Pump = new Westinghouse510(m_Modbus485,03);
+
+//    ECM_Modules* moduleAccess = new ECM_Modules(m_Galil);
+
+//    autoProcess = new hsm::StateMachine();
+//    autoProcess->Initialize<ECM::Galil::State_Idle>(moduleAccess);
+//    //if we begin issuing text commands we have to be careful how the state machine progresses
+//    autoProcess->UpdateStates();
+//    autoProcess->ProcessStateTransitions();
 
 }
 
@@ -94,6 +103,29 @@ void ECM_API::initializeECMLogs(const std::string &partNumber, const std::string
                               operationsString, descriptor, time);
 }
 
+common::EnvironmentTime ECM_API::executeMachiningProcess(const std::string &partNumber, const std::string &serialNumber, const std::string &profileName,
+                                      const std::string &descriptor, const bool &clearContents)
+{
+    //grab the current time and update all of the sources
+    common::EnvironmentTime startTime;
+    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
+
+    this->initializeECMLogs(partNumber,serialNumber,
+                             profileName,startTime,descriptor,clearContents);
+
+    m_Log->enableLogging(true);
+
+    emit signal_InitializeStartTime(startTime);
+
+    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,profileName);
+    m_Galil->executeCommand(command);
+
+    return startTime;
+    //ECM::API::AbstractStateECMProcess* currentState = static_cast<ECM::API::AbstractStateECMProcess*>(autoProcess->getCurrentState());
+    //currentState->handleCommand(command);
+    //stateMachine->ProcessStateTransitions();
+}
+
 void ECM_API::action_StopMachine()
 {
     CommandStopPtr commandGalilStop = std::make_shared<CommandStop>();
@@ -128,16 +160,22 @@ void ECM_API::slot_UpdateMotionProfileState(const MotionProfileState &state)
             break;
         case ProfileState_Machining::MACHININGProfileCodes::COMPLETE:
         {
+            m_Pump->ceasePumpOperations();
+
             //grab the current time and update all of the sources
             common::EnvironmentTime endTime;
             common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,endTime);
 
             //conclude writing to the logs with any wrap up data that we need
             m_Log->CloseMachiningLog(endTime, currentCode);
+
+
             break;
         }
         case ProfileState_Machining::MACHININGProfileCodes::ABORTED:
         {
+            m_Pump->ceasePumpOperations();
+
             //grab the current time and update all of the sources
             common::EnvironmentTime endTime;
             common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,endTime);

@@ -6,7 +6,7 @@
 namespace registers_WestinghousePump{
 
 
-class Register_RunSource : public AbstractWestinghouseRegister
+class LIBRARY_WESTINGHOUSE510SHARED_EXPORT Register_RunSource : public AbstractWestinghouseRegister
 {
 
 public:

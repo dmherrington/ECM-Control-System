@@ -48,7 +48,10 @@ void ECMState_Initialization::Update()
 
 void ECMState_Initialization::OnEnter()
 {
+    //Check that the motor is armed
 
+
+    //Check that the motor has been homed
 }
 
 } //end of namespace Galil
