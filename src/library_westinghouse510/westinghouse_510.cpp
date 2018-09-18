@@ -195,8 +195,8 @@ std::string Westinghouse510::getLogOfOperationalSettings() const
 {
     std::string str;
     //Let us write the header contents
-    str += "Volumetric Flow: " + std::to_string(m_State->flowRate.get()) + " lpm. \r\n";
-    str += "Initialization Time: " + std::to_string(m_State->delayTime.get()) +" milliseconds. \r\n";
+    str += "Volumetric Flow: " + std::to_string(m_State->flowRate.get()) + " lpm. \n";
+    str += "Initialization Time: " + std::to_string(m_State->delayTime.get()) +" milliseconds. \n";
     return str;
 }
 

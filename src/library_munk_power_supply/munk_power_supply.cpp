@@ -354,7 +354,7 @@ std::string MunkPowerSupply::getLogOfOperationalSettings() const
     for(size_t i = 0; i < registerData.size(); i++)
     {
 
-        str += registerData.at(i).getLoggingString() + "\r\n";
+        str += registerData.at(i).getLoggingString() + "\n";
     }
 
     return str;
