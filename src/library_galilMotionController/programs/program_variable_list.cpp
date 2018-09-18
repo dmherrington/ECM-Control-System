@@ -60,3 +60,15 @@ size_t ProgramVariableList::sizeOfVariableList() const
  {
      return this->variableMap;
  }
+
+ std::string ProgramVariableList::getLoggingString() const
+ {
+   std::string str;
+   std::map<std::string,double>::const_iterator it = this->variableMap.begin();
+   for(; it != this->variableMap.end(); ++it)
+   {
+        str += it->first + ":" + std::to_string(it->second) + "\n";
+   }
+
+   return str;
+ }

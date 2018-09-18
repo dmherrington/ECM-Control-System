@@ -88,18 +88,23 @@ void ECMLogging::writeLoggingHeader(const std::string &partNumber, const std::st
     QTextStream stringWriter(&str, QIODevice::WriteOnly);
 
     stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
-    stringWriter << "Part Number #: " << QString::fromStdString(partNumber) << "\t" << "Serial Number #: " << QString::fromStdString(serialNumber) << "\t" <<"Machining Profile : " << QString::fromStdString(profileString) <<"\r\n";
-    stringWriter << "Operation Time : " << time <<"\r\n";
+    stringWriter << "Part Number #: " << QString::fromStdString(partNumber) << "\t" << "Serial Number #: " << QString::fromStdString(serialNumber) << "\t" <<"Machining Profile : " << QString::fromStdString(profileString) <<"\n";
+    stringWriter << "Operation Time : " << time <<"\n";
     stringWriter << "Descriptor (Optional): " << QString::fromStdString(descriptor) <<"\r\n" <<"\r\n";
 
-    stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
     this->WriteLogSoftwareVersions(stringWriter);
-    stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
+
+    stringWriter <<"\r\n";
 
     stringWriter << QString::fromStdString(operationalSettings);
 
+    stringWriter <<"\r\n";
+
     stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
-    stringWriter<<"OPERATIONAL DATA: \r\n";
+    stringWriter<<"OPERATIONAL DATA: \n";
+    stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
+
+    stringWriter <<"\r\n";
 
     stringWriter.flush();
     QTextStream out(masterLog);
@@ -109,15 +114,16 @@ void ECMLogging::writeLoggingHeader(const std::string &partNumber, const std::st
 
 void ECMLogging::WriteLogSoftwareVersions(QTextStream &stringWriter)
 {
-    stringWriter<<"SOFTWARE VERSION INFORMATION: \r\n";
+    stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
+    stringWriter<<"SOFTWARE VERSION INFORMATION: \n";
+    stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
+
     std::map<std::string,std::string>::iterator it = this->softwareVersioningMap.begin();
 
     for(; it != this->softwareVersioningMap.end(); ++it)
     {
-        stringWriter<<QString::fromStdString(it->first)<<":"<<QString::fromStdString(it->second)<<"\r\n";
+        stringWriter<<QString::fromStdString(it->first)<<":"<<QString::fromStdString(it->second)<<"\n";
     }
-
-    stringWriter<<"\r\n";
 }
 
 void ECMLogging::setLoggingRelativeTime(const bool &value)
@@ -146,7 +152,7 @@ void ECMLogging::WriteLogMachinePositionalState(const common::TuplePositionalStr
     stringWriter << "POS|";
     stringWriter << state.getObservationTime().ToString() << "\t" << QString::number(elapsedTime) << "\t" << key.axisName << "|";
     stringWriter << state;
-    stringWriter << "\r\n";
+    stringWriter << "\n";
     stringWriter.flush();
 
     QTextStream out(masterLog);
@@ -164,7 +170,7 @@ void ECMLogging::WriteLogProfileVariableState(const common::TupleProfileVariable
     stringWriter << "PVS|";
     stringWriter << state.getObservationTime().ToString() << "\t" << QString::number(elapsedTime) << "\t" << key.programName << "\t" << key.profileName << "\t" << key.variableName << "|";
     stringWriter << state;
-    stringWriter << "\r\n";
+    stringWriter << "\n";
     stringWriter.flush();
 
     QTextStream out(masterLog);
@@ -183,7 +189,7 @@ void ECMLogging::WriteLogSensorState(const common::TupleSensorString &key, const
     stringWriter << "S|";
     stringWriter << state.getObservationTime().ToString() << "\t" << QString::number(elapsedTime) << "\t" << key.sourceName << "\t" << key.sensorName << "\t" << key.measurementName << "|";
     stringWriter << state;
-    stringWriter << "\r\n";
+    stringWriter << "\n";
     stringWriter.flush();
 
     QTextStream out(masterLog);
@@ -212,9 +218,9 @@ void ECMLogging::CloseMachiningLog(const common::EnvironmentTime &time, const Pr
     QTextStream stringWriter(&str, QIODevice::WriteOnly);
 
     stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
-    stringWriter<<QString::fromStdString(ProfileState_Machining::MACHININGCodesToString(completionCode)) << "\r\n";
+    stringWriter<<QString::fromStdString(ProfileState_Machining::MACHININGCodesToString(completionCode)) << "\n";
     stringWriter<<"Elapsed Seconds: " << QString::number(operationalTime);
-    stringWriter << "\r\n";
+    stringWriter << "\n";
     stringWriter.flush();
 
     QTextStream out(masterLog);
@@ -234,7 +240,7 @@ std::string ECMLogging::WriteHeaderBreaker(const unsigned int &size)
     }
 
     //bump the header to the next line
-    str += "\r\n";
+    str += "\n";
     return str;
 }
 

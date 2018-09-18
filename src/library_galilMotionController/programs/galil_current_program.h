@@ -26,6 +26,9 @@ public:
 
     void setVariableList(const ProgramVariableList &list);
 
+    void updateVariableValue(const std::string &name, const double &value);
+
+
 public:
     bool doesLabelExist(const std::string &label) const;
 
@@ -38,6 +41,10 @@ public:
     std::map<std::string, int> getLablMap() const;
 
     std::map<std::string, double> getVariableMap() const;
+
+    ProgramLabelList getLabelList() const;
+
+    ProgramVariableList getVariableList() const;
 
     std::string getProgram() const;
 

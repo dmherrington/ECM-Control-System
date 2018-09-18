@@ -19,15 +19,15 @@ ECM_CLASS_FORWARD(AbstractRigolStatus);
 class AbstractRigolStatus
 {
 public:
-    AbstractRigolStatus(const std::string &name, const CommandTypes &type);
+    AbstractRigolStatus(const std::string &name, const data_Rigol::CommandTypes &type);
 
     AbstractRigolStatus(const AbstractRigolStatus &copy);
 
     void setDeviceName(const std::string &name);
     std::string getDeviceName() const;
 
-    void setCommandType(const CommandTypes &type);
-    CommandTypes getCommandType() const;
+    void setCommandType(const data_Rigol::CommandTypes &type);
+    data_Rigol::CommandTypes getCommandType() const;
 
     void updateMeasurementTime();
     common::EnvironmentTime getMeasurementTime() const;
@@ -86,7 +86,7 @@ public:
 
 private:
     std::string deviceName = "Rigol";
-    CommandTypes commandType;
+    data_Rigol::CommandTypes commandType;
     common::EnvironmentTime measurementTime;
     common::EnvironmentTime requestTime;
     common::EnvironmentTime receivedTime;

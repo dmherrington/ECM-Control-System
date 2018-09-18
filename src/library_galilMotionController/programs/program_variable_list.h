@@ -1,6 +1,8 @@
 #ifndef PROGRAM_VARIABLE_LIST_H
 #define PROGRAM_VARIABLE_LIST_H
 
+#include <QTextStream>
+
 #include <map>
 #include <string>
 
@@ -45,6 +47,20 @@ public:
 
     bool operator != (const ProgramVariableList &rhs) {
         return !(*this == rhs);
+    }
+
+public:
+    std::string getLoggingString() const;
+
+public:
+    friend QTextStream& operator <<(QTextStream &outStream, const ProgramVariableList &data)
+    {
+        return outStream<<QString::fromStdString(data.getLoggingString());
+    }
+
+    friend std::ostream& operator<< (std::ostream &stream, const ProgramVariableList &data)
+    {
+        return stream<<data.getLoggingString();
     }
 
 private:

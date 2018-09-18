@@ -259,12 +259,12 @@ void CommsMarshaler::NewProgramDownloaded(const ProgramGeneric &program) const
 
 void CommsMarshaler::ErrorBadCommand(const CommandType &type, const std::string &description) const
 {
-    Emit([&](CommsEvents *ptr){ptr->ErrorBadCommand(CommandToString(type),description);});
+    Emit([&](CommsEvents *ptr){ptr->ErrorBadCommand(type,description);});
 }
 
 void CommsMarshaler::ErrorBadRequest(const RequestTypes &type, const string &description) const
 {
-    Emit([&](CommsEvents *ptr){ptr->ErrorBadCommand(RequestToString(type),description);});
+    Emit([&](CommsEvents *ptr){ptr->ErrorBadRequest(type,description);});
 }
 
 void CommsMarshaler::NewPositionReceived(const Status_Position &status) const

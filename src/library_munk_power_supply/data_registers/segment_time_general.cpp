@@ -86,7 +86,7 @@ std::string SegmentTimeGeneral::getLoggingString() const
     {
         returnString += "Segment " + std::to_string(i) + ": ";
         returnString += registerData.at(i).getLoggingString();
-        returnString += "\r\n";
+        returnString += "\n";
     }
 
     return returnString;

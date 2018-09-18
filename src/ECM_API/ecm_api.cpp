@@ -82,21 +82,27 @@ void ECM_API::initializeECMLogs(const std::string &partNumber, const std::string
 
     std::string operationsString;
     this->writeHeaderBreaker(operationsString, 100);
-    operationsString += "PUMP OPERATIONAL SETTTINGS: \r\n";
+    operationsString += "PUMP OPERATIONAL SETTTINGS: \n";
+    this->writeHeaderBreaker(operationsString, 100);
     operationsString += m_Pump->getLogOfOperationalSettings();
-    this->writeHeaderBreaker(operationsString, 100);
     operationsString += "\r\n";
 
     this->writeHeaderBreaker(operationsString, 100);
-    operationsString += "POWER SUPPLY OPERATIONAL SETTTINGS: \r\n";
+    operationsString += "POWER SUPPLY OPERATIONAL SETTTINGS: \n";
+    this->writeHeaderBreaker(operationsString, 100);
     operationsString += m_Munk->getLogOfOperationalSettings();
-    this->writeHeaderBreaker(operationsString, 100);
     operationsString += "\r\n";
 
     this->writeHeaderBreaker(operationsString, 100);
-    operationsString += "MOTION CONTROLLER OPERATIONAL SETTTINGS: \r\n";
-    operationsString += m_Galil->getLogOfOperationalSettings();
+    operationsString += "MOTION CONTROLLER OPERATIONAL SCRIPT: \n";
     this->writeHeaderBreaker(operationsString, 100);
+    operationsString += m_Galil->stateInterface->galilProgram->getProgram();
+    operationsString += "\r\n";
+
+    this->writeHeaderBreaker(operationsString, 100);
+    operationsString += "MOTION CONTROLLER OPERATIONAL VARIABLES: \n";
+    this->writeHeaderBreaker(operationsString, 100);
+    operationsString += m_Galil->stateInterface->galilProgram->getVariableList().getLoggingString();
     operationsString += "\r\n";
 
     m_Log->writeLoggingHeader(partNumber, serialNumber, profile,
@@ -241,5 +247,5 @@ void ECM_API::writeHeaderBreaker(std::string &logString, const unsigned int &siz
         logString = logString + "*";
     }
     //bump the header to the next line
-    logString = logString + "\r\n";
+    logString = logString + "\n";
 }

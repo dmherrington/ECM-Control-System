@@ -42,9 +42,15 @@ public:
         UNUSED(response);
     }
 
-    virtual void ErrorBadCommand(const std::string &commandType, const std::string &text)
+    virtual void ErrorBadCommand(const CommandType &type, const std::string &text)
     {
-        UNUSED(commandType);
+        UNUSED(type);
+        UNUSED(text);
+    }
+
+    virtual void ErrorBadRequest(const RequestTypes &type, const std::string &text)
+    {
+        UNUSED(type);
         UNUSED(text);
     }
 

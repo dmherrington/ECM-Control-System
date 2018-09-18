@@ -69,7 +69,7 @@ public:
     {
         for(size_t i = 0; i < data.detailedRegisterData.size(); i++)
         {
-            outStream << data.detailedRegisterData.at(i) << "\r\n";
+            outStream << data.detailedRegisterData.at(i) << "\n";
         }
         return outStream;
     }
@@ -78,7 +78,7 @@ public:
     {
         for(size_t i = 0; i < data.detailedRegisterData.size(); i++)
         {
-            stream << data.detailedRegisterData.at(i) << "\r\n";
+            stream << data.detailedRegisterData.at(i) << "\n";
         }
         return stream;
     }
