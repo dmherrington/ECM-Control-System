@@ -503,6 +503,12 @@ void ECMControllerGUI::on_pushButton_ResetHome_released()
 
 void ECMControllerGUI::on_pushButton_MoveHome_released()
 {
+    //First set the move to home speed based on the jog value
+    int jogMoveSpeed = ui->spinBox_Jog->value();
+    CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(MotorAxis::Z, jogMoveSpeed);
+    m_API->m_Galil->executeCommand(commandSpeed);
+
+    //Next, transmit the move to home command
     CommandAbsoluteMovePtr command = std::make_shared<CommandAbsoluteMove>(MotorAxis::Z,0);
     m_API->m_Galil->executeCommand(command);
 }
