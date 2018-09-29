@@ -59,15 +59,12 @@ void Window_Touchoff::on_pushButton_TouchoffRef_released()
 {
     uint64_t position = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->position.get().getPosition();
     ui->doubleSpinBox_TouchoffRef->setValue(position/10.0);
-    Command_VariablePtr commandTouchoffRef = std::make_shared<Command_Variable>("touchref",position);
-    m_MotionController->executeCommand(commandTouchoffRef);
+    //By setting the value of the spinbox this should call the event on value changed and transmit to the motion controller
 }
 
 void Window_Touchoff::on_pushButton_TouchoffGap_released()
 {
-    int desiredGap = ui->doubleSpinBox_InitialGap->value() * 10.0;
-    Command_VariablePtr commandTouchoffGap = std::make_shared<Command_Variable>("initgap",desiredGap);
-    m_MotionController->executeCommand(commandTouchoffGap);
+
 }
 
 void Window_Touchoff::on_actionClose_triggered()
@@ -83,4 +80,18 @@ void Window_Touchoff::saveToFile(const QString &filePath)
 void Window_Touchoff::openFromFile(const QString &filePath)
 {
     UNUSED(filePath);
+}
+
+void Window_Touchoff::on_doubleSpinBox_TouchoffRef_valueChanged(double arg1)
+{
+    uint64_t position = arg1 * 10.0; //this conversion will take um to counts
+    Command_VariablePtr commandTouchoffRef = std::make_shared<Command_Variable>("touchref",position);
+    m_MotionController->executeCommand(commandTouchoffRef);
+}
+
+void Window_Touchoff::on_doubleSpinBox_InitialGap_valueChanged(double arg1)
+{
+    int desiredGap = arg1 * 10.0; //this conversion will take um to counts
+    Command_VariablePtr commandTouchoffGap = std::make_shared<Command_Variable>("initgap",desiredGap);
+    m_MotionController->executeCommand(commandTouchoffGap);
 }

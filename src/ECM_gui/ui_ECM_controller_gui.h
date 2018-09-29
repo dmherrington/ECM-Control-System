@@ -568,7 +568,7 @@ public:
         doubleSpinBox_CutSpeed->setMinimumSize(QSize(100, 25));
         doubleSpinBox_CutSpeed->setFont(font);
         doubleSpinBox_CutSpeed->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox_CutSpeed->setMinimum(0.01);
+        doubleSpinBox_CutSpeed->setMinimum(0);
         doubleSpinBox_CutSpeed->setMaximum(1000);
         doubleSpinBox_CutSpeed->setValue(0.4);
 
@@ -675,7 +675,8 @@ public:
         doubleSpinBox_StepSize->setMinimumSize(QSize(100, 25));
         doubleSpinBox_StepSize->setFont(font);
         doubleSpinBox_StepSize->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox_StepSize->setValue(0.02);
+        doubleSpinBox_StepSize->setDecimals(3);
+        doubleSpinBox_StepSize->setValue(0.05);
 
         formLayout->setWidget(3, QFormLayout::FieldRole, doubleSpinBox_StepSize);
 
