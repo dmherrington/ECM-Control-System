@@ -340,15 +340,17 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
         settings.setValue("pumpDisplayed",m_WindowPump->isWindowHidden());
         settings.setValue("rigolDisplayed",m_WindowRigol->isWindowHidden());
         settings.setValue("touchoffDisplayed",m_WindowTouchoff->isWindowHidden());
+        settings.setValue("motionCodeDisplayed",m_WindowMotionProfile->isWindowHidden());
         settings.setValue("customMotionDisplayed",m_WindowCustomMotionCommands->isWindowHidden());
 
+        m_additionalSensorDisplay->close();
         m_WindowMunk->close();
         m_WindowPump->close();
         m_WindowRigol->close();
         m_WindowTouchoff->close();
+        m_WindowMotionProfile->close();
         m_WindowCustomMotionCommands->close();
         m_WindowConnections->close();
-        m_additionalSensorDisplay->close();
 
         event->accept();
     }
