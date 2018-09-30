@@ -272,18 +272,23 @@ void GalilMotionController::NewStatusInputs(const StatusInputs &status)
 void GalilMotionController::NewStatusPosition(const Status_Position &status)
 {
     GalilStatus* ptr = stateInterface->getAxisStatus(status.getAxis());
+
+    common::TuplePositionalString tuple;
+    tuple.axisName = QString::fromStdString(AxisToString(status.getAxis()));
+    common_data::PositionalStatePtr position = std::make_shared<common_data::PositionalState>();
+    position->setStateAxis(status.getAxis());
+    position->setAxisPosition(status.getPosition());
+    common_data::MachinePositionalState state;
+    state.setObservationTime(status.getTime());
+    state.setPositionalState(position);
+
     if(ptr->setPosition(status))
     {
-        common::TuplePositionalString tuple;
-        tuple.axisName = QString::fromStdString(AxisToString(status.getAxis()));
-        common_data::PositionalStatePtr position = std::make_shared<common_data::PositionalState>();
-        position->setStateAxis(status.getAxis());
-        position->setAxisPosition(status.getPosition());
-        common_data::MachinePositionalState state;
-        state.setObservationTime(status.getTime());
-        state.setPositionalState(position);
-
-        emit signal_MCNewPosition(tuple,state);
+        emit signal_MCNewPosition(tuple,state, true);
+    }
+    else
+    {
+        emit signal_MCNewPosition(tuple,state, false);
     }
 }
 

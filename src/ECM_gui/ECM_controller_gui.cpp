@@ -56,7 +56,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     //Galil Connections
     connect(m_API->m_Galil, SIGNAL(signal_MCNewDigitalInput(StatusInputs)), this, SLOT(slot_MCNewDigitalInput(StatusInputs)));
-    connect(m_API->m_Galil, SIGNAL(signal_MCNewPosition(common::TuplePositionalString,common_data::MachinePositionalState)), this, SLOT(slot_NewPositionalData(common::TuplePositionalString,common_data::MachinePositionalState)));
+    connect(m_API->m_Galil, SIGNAL(signal_MCNewPosition(common::TuplePositionalString,common_data::MachinePositionalState,bool)), this, SLOT(slot_NewPositionalData(common::TuplePositionalString,common_data::MachinePositionalState,bool)));
     connect(m_API->m_Galil, SIGNAL(signal_MCNewProgramLabelList(ProgramLabelList)), this, SLOT(slot_MCNewProgramLabels(ProgramLabelList)));
     connect(m_API->m_Galil, SIGNAL(signal_MCNewProgramVariableList(ProgramVariableList)), this, SLOT(slot_MCNEWProgramVariableList(ProgramVariableList)));
     connect(m_API->m_Galil, SIGNAL(signal_MCNewProfileVariableValue(common::TupleProfileVariableString,common_data::MotionProfileVariableState)), this, SLOT(slot_NewProfileVariableData(common::TupleProfileVariableString,common_data::MotionProfileVariableState)));
@@ -216,7 +216,7 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &senso
     m_API->m_Log->WriteLogSensorState(sensor,state);
 }
 
-void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state)
+void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state, const bool &valueChanged)
 {
     ui->lineEdit_MachinePosition->setText(QString::number(state.getPositionalState()->getAxisPosition(common_data::PositionUnit::UNIT_POSITION_MICRO_METER)));
 
@@ -229,7 +229,8 @@ void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalStrin
     //    m_SensorDisplays.PlottedDataUpdated(state); //this seems to be uneeded based on the call after this
     //    m_additionalSensorDisplay->UpdatePlottedData(state);
 
-    m_API->m_Log->WriteLogMachinePositionalState(tuple,state);
+    if(valueChanged)
+        m_API->m_Log->WriteLogMachinePositionalState(tuple,state);
 }
 
 void ECMControllerGUI::slot_MCNewMotionState(const std::string &state)

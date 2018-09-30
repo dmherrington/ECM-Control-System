@@ -162,7 +162,7 @@ signals:
     //! \param tuple
     //! \param data
     //!
-    void signal_MCNewPosition(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &data) const;
+    void signal_MCNewPosition(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &data, const bool &valueChanged) const;
 
     //!
     //! \brief signal_MCNewProfileVariableValue
