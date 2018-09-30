@@ -40,11 +40,11 @@ signals:
 protected:
     virtual void onCloseAction();
 
-    virtual QString onSaveAction();
+    virtual QString onSaveAction(const std::string &extension = "json");
 
-    virtual QString onSaveAsAction();
+    virtual QString onSaveAsAction(const std::string &extension = "json");
 
-    virtual QString onOpenAction();
+    virtual QString onOpenAction(const std::string &extension = "json");
 
 protected:
     virtual void saveWindowSettings();

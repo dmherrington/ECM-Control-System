@@ -81,27 +81,27 @@ void GeneralDialogWindow::onCloseAction()
     emit signal_DialogWindowVisibilty(this->windowType,false);
 }
 
-QString GeneralDialogWindow::onSaveAction()
+QString GeneralDialogWindow::onSaveAction(const std::string &extension)
 {
     if(currentSettingsPath == "")
-        this->onSaveAsAction();
+        this->onSaveAsAction(extension);
 
     return currentSettingsPath;
 }
 
-QString GeneralDialogWindow::onSaveAsAction()
+QString GeneralDialogWindow::onSaveAsAction(const std::string &extension)
 {
     std::string settingsPath = "";
     this->getSettingsPath(settingsPath);
-    currentSettingsPath = saveAsFileDialog(settingsPath,"json");
+    currentSettingsPath = saveAsFileDialog(settingsPath,extension);
     return currentSettingsPath;
 }
 
-QString GeneralDialogWindow::onOpenAction()
+QString GeneralDialogWindow::onOpenAction(const std::string &extension)
 {
     std::string settingsPath = "";
     this->getSettingsPath(settingsPath);
-    QString filePath = loadFileDialog(settingsPath,"json");
+    QString filePath = loadFileDialog(settingsPath,extension);
 
     if(!filePath.isEmpty()&& !filePath.isNull()){
         currentSettingsPath = filePath;

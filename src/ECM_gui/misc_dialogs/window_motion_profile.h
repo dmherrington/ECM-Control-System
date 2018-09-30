@@ -35,6 +35,9 @@ private:
 private slots:
     void on_actionClose_triggered();
 
+    void on_actionOpen_triggered();
+
+private slots:
     void slot_MCNewProgramAvailable(const ProgramGeneric &program);
 
     void on_codeTextEdit_textChanged();
@@ -42,6 +45,11 @@ private slots:
     void on_pushButton_UploadProgram_released();
 
     void on_pushButton_DownloadProgram_released();
+
+
+    void on_actionSave_triggered();
+
+    void on_actionSave_As_triggered();
 
 private:
     Ui::Window_MotionProfile *ui;
