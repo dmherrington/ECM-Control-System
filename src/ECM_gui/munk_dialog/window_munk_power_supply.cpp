@@ -155,3 +155,32 @@ void Window_MunkPowerSupply::openFromFile(const QString &filePath)
     QJsonDocument loadDoc(QJsonDocument::fromJson(loadData));
     ui->segmentWidget->read(loadDoc.object());
 }
+
+void Window_MunkPowerSupply::on_radioButton_singlePulse_clicked(bool checked)
+{
+    registers_Munk::Register_PulseMode pulseMode;
+    pulseMode.setPulseMode(data_Munk::TypePulseModes::ECMIntern);
+    ui->spinBox_NumPulses->setValue(1);
+    pulseMode.setTriggerCount(1);
+
+    munk->writeRegisterPulseMode(pulseMode);
+}
+
+void Window_MunkPowerSupply::on_radioButton_continuousPulse_clicked(bool checked)
+{
+    registers_Munk::Register_PulseMode pulseMode;
+    pulseMode.setPulseMode(data_Munk::TypePulseModes::ECMIntern);
+    ui->spinBox_NumPulses->setValue(255);
+    pulseMode.setTriggerCount(255);
+
+    munk->writeRegisterPulseMode(pulseMode);
+}
+
+void Window_MunkPowerSupply::on_radioButton_specifiedPulses_clicked(bool checked)
+{
+    registers_Munk::Register_PulseMode pulseMode;
+    pulseMode.setPulseMode(data_Munk::TypePulseModes::ECMIntern);
+    pulseMode.setTriggerCount(ui->spinBox_NumPulses->value());
+
+    munk->writeRegisterPulseMode(pulseMode);
+}

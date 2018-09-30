@@ -159,6 +159,19 @@ void MunkCommsMarshaler::sendRegisterFaultStateClear(const registers_Munk::Regis
     link->MarshalOnThread(func);
 }
 
+/////////////////////////////////////////////////////////////////////
+/// Methods issuing general register pulse mode
+/////////////////////////////////////////////////////////////////////
+
+void MunkCommsMarshaler::sendRegisterPulseMode(const registers_Munk::Register_PulseMode &registerMode)
+{
+    auto func = [this, registerMode]() {
+            protocol->sendPulseMode(link.get(), registerMode);
+    };
+
+    link->MarshalOnThread(func);
+}
+
 //////////////////////////////////////////////////////////////
 /// React to Link Events
 //////////////////////////////////////////////////////////////
@@ -192,6 +205,12 @@ void MunkCommsMarshaler::CommunicationUpdate(const std::string &name, const std:
 //////////////////////////////////////////////////////////////
 /// IProtocolMunkEvents
 //////////////////////////////////////////////////////////////
+
+void MunkCommsMarshaler::RegisterPulseModeUpdated(const ILink *link_ptr, const registers_Munk::Register_PulseMode &registerMode) const
+{
+    UNUSED(link_ptr);
+    Emit([&](CommsEvents *ptr){ptr->RegisterPulseModeUpdated();});
+}
 
 void MunkCommsMarshaler::FaultCodeReceived(const ILink* link_ptr, const data_Munk::FaultRegisterType &faultRegister, const unsigned int &code) const
 {

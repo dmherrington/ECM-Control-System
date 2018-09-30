@@ -18,7 +18,8 @@ enum class ParameterType{
     VOLTAGESETPOINT_REVERSE,
     FAULT_STATE,
     STATUS_STATE,
-    FAULT_DETAILED
+    FAULT_DETAILED,
+    PULSE_MODE
 };
 
 inline std::string ParameterTypeToString(const ParameterType &type) {
@@ -27,6 +28,8 @@ inline std::string ParameterTypeToString(const ParameterType &type) {
         return "Segment Times";
     case ParameterType::MEMORYWRITE:
         return "Memory Write";
+    case ParameterType::PULSE_MODE:
+        return "Pulse Mode";
     default:
         throw std::runtime_error("Unknown parameter type seen");
     }
@@ -48,6 +51,8 @@ inline int ParameterTypeToInt(const ParameterType &type)
         return 4170;
     case ParameterType::MEMORYWRITE:
         return 4191;
+    case ParameterType::PULSE_MODE:
+        return 4430;
     default:
         throw std::runtime_error("Unknown register type seen");
     }

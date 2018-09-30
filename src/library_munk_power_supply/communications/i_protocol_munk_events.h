@@ -16,6 +16,8 @@
 
 #include "data_registers/segment_time_detailed.h"
 
+#include "data_registers/register_pulse_mode.h"
+
 namespace comms_Munk{
 
 //!
@@ -36,6 +38,7 @@ public:
 
     virtual void ExceptionResponseReceived(const ILink* link_ptr, const data_Munk::MunkRWType &type, const uint8_t &code) const = 0;
 
+    virtual void RegisterPulseModeUpdated(const ILink* link_ptr, const registers_Munk::Register_PulseMode &registerMode) const = 0;
 };
 
 

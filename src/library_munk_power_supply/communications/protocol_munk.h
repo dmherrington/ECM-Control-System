@@ -31,6 +31,7 @@
 
 #include "data_registers/type_definition.h"
 
+#include "data_registers/register_pulse_mode.h"
 
 namespace comms_Munk{
 
@@ -80,6 +81,7 @@ public:
 
     void sendFaultStateReset(const ILink *link, const registers_Munk::Register_FaultReset &request);
 
+    void sendPulseMode(const ILink *link, const registers_Munk::Register_PulseMode &mode);
 
 public:
 

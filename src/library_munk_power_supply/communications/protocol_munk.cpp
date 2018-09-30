@@ -339,6 +339,32 @@ void MunkProtocol::sendFaultStateReset(const ILink *link, const registers_Munk::
     }
 }
 
+void MunkProtocol::sendPulseMode(const ILink *link, const registers_Munk::Register_PulseMode &mode)
+{
+    if(link->isConnected())
+    {
+        MunkMessage receivedMSG;
+        if(link->WriteBytes(mode.getFullMessage()))
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(20));
+            std::cout<<"We have finished transmitting the pulse mode."<<std::endl;
+            if(this->ReceiveData(link,receivedMSG))
+            {
+                std::cout<<"We have finished receiving the info on the response of the pulse mode."<<std::endl;
+                if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
+                    parseForException(link, receivedMSG);
+                else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::WRITE)
+                {
+                    if(mode.getFullExpectedResonse() == receivedMSG.getDataArray())
+                    {
+                        Emit([&](const IProtocolMunkEvents* ptr){ptr->RegisterPulseModeUpdated(link, mode);});
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 //!
 //! \brief Read data incoming from some link

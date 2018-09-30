@@ -55,6 +55,12 @@ private slots:
 
     void on_actionClose_triggered();
 
+    void on_radioButton_singlePulse_clicked(bool checked);
+
+    void on_radioButton_continuousPulse_clicked(bool checked);
+
+    void on_radioButton_specifiedPulses_clicked(bool checked);
+
 private:
     void saveToFile(const QString &filePath);
 
