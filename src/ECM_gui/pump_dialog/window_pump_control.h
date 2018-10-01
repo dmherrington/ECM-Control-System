@@ -1,6 +1,8 @@
 #ifndef WINDOW_PUMP_CONTROL_H
 #define WINDOW_PUMP_CONTROL_H
 
+#include <QTimer>
+
 #include "common/environment_time.h"
 
 #include "../general_dialog_window.h"
@@ -51,6 +53,8 @@ private slots:
 
     void slot_PumpInitialized();
 
+    void slot_PumpOperationalTimeout();
+
 private slots:
 
     void on_pushButton_PumpRunning_released();
@@ -75,6 +79,10 @@ private:
     Ui::Window_PumpControl *ui;
     Westinghouse510* m_Pump;
     bool windowHidden = true;
+
+private:
+    QTimer* m_OperationsTimer;
+    common::EnvironmentTime startTime;
 
 };
 
