@@ -78,12 +78,26 @@ void State_Touchoff::handleCommand(const AbstractCommandPtr command)
     }
     case CommandType::STOP:
     {
+        //we have aborted the touchoff routine
+        ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+        newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ABORTED);
+        MotionProfileState newProfileState;
+        newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
+        Owner().issueUpdatedMotionProfileState(newProfileState);
+
         desiredState = GalilState::STATE_MOTION_STOP;
         //delete copyCommand;
         break;
     }
     case CommandType::ESTOP:
     {
+        //we have aborted the touchoff routine
+        ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+        newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ABORTED);
+        MotionProfileState newProfileState;
+        newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
+        Owner().issueUpdatedMotionProfileState(newProfileState);
+
         desiredState = GalilState::STATE_ESTOP;
         //delete copyCommand;
         break;

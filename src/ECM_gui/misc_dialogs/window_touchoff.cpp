@@ -35,19 +35,25 @@ void Window_Touchoff::slot_UpdateMotionProfileState(const MotionProfileState &st
     if(state.getProfileState()->getType() == MotionProfile::ProfileType::TOUCHOFF)
     {
         ProfileState_Touchoff* castState = (ProfileState_Touchoff*)state.getProfileState().get();
-        ui->lineEdit_TouchoffCode->setText(QString::fromStdString(ProfileState_Touchoff::TOUCHOFFCodesToString(castState->getCurrentCode())));
 
         switch (castState->getCurrentCode()) {
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_POSITIONAL:
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_INCONSISTENT:
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_TOUCHING:
             ui->widget_TouchoffComplete->setColor(QColor(255,0,0));
+            ui->lineEdit_TouchoffCode->setText(QString::fromStdString(ProfileState_Touchoff::TOUCHOFFCodesToString(castState->getCurrentCode())));
             break;
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING:
             ui->widget_TouchoffComplete->setColor(QColor(255,255,0));
+            ui->lineEdit_TouchoffCode->setText(QString::fromStdString(ProfileState_Touchoff::TOUCHOFFCodesToString(castState->getCurrentCode())));
             break;
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::FINISHED:
             ui->widget_TouchoffComplete->setColor(QColor(0,255,0));
+            ui->lineEdit_TouchoffCode->setText(QString::fromStdString(ProfileState_Touchoff::TOUCHOFFCodesToString(castState->getCurrentCode())));
+            break;
+        case ProfileState_Touchoff::TOUCHOFFProfileCodes::ABORTED:
+            ui->widget_TouchoffComplete->setColor(QColor(255,0,0));
+            ui->lineEdit_TouchoffCode->setText("");
             break;
         default:
             break;

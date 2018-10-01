@@ -12,7 +12,8 @@ public:
         FINISHED = 1,
         ERROR_POSITIONAL = 2,
         ERROR_INCONSISTENT = 3,
-        ERROR_TOUCHING = 4
+        ERROR_TOUCHING = 4,
+        ABORTED = 5
     };
 
     //!
@@ -32,6 +33,8 @@ public:
             return "Touchoff Error: Inconsistent values.";
         case TOUCHOFFProfileCodes::ERROR_TOUCHING:
             return "Touchoff Error: Already touching.";
+        case TOUCHOFFProfileCodes::ABORTED:
+            return "Touchoff Error: Operation aborted.";
         default:
             throw std::runtime_error("Unknown touchoff profile code seen");
         }
