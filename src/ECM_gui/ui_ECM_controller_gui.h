@@ -1168,7 +1168,7 @@ public:
 
         retranslateUi(ECMControllerGUI);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(ECMControllerGUI);
@@ -1201,6 +1201,12 @@ public:
         pushButton_RunAutomatedProfile->setText(QApplication::translate("ECMControllerGUI", "Run Automated Profile", nullptr));
         label_CutDepth->setText(QApplication::translate("ECMControllerGUI", "Depth of Cut (um)", nullptr));
         label_CutSpeed->setText(QApplication::translate("ECMControllerGUI", "Cut Speed (um/s)", nullptr));
+#ifndef QT_NO_TOOLTIP
+        doubleSpinBox_CutDepth->setToolTip(QString());
+#endif // QT_NO_TOOLTIP
+#ifndef QT_NO_STATUSTIP
+        doubleSpinBox_CutDepth->setStatusTip(QString());
+#endif // QT_NO_STATUSTIP
         tabWidget->setTabText(tabWidget->indexOf(tab_linearParams), QApplication::translate("ECMControllerGUI", "Linear Parameters", nullptr));
         label_RetractSpeed->setText(QApplication::translate("ECMControllerGUI", "Retract Speed (um/s)", nullptr));
         label_PlungeSpeed->setText(QApplication::translate("ECMControllerGUI", "Plunge Speed (um/s)", nullptr));

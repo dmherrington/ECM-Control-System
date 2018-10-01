@@ -689,6 +689,12 @@ width:20px;
                  <pointsize>10</pointsize>
                 </font>
                </property>
+               <property name="toolTip">
+                <string/>
+               </property>
+               <property name="statusTip">
+                <string extracomment="testStatusTip"/>
+               </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
@@ -1978,7 +1984,7 @@ width:20px;
                   <string>Testing1</string>
                  </property>
                  <property name="statusTip">
-                  <string>Testing2</string>
+                  <string/>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

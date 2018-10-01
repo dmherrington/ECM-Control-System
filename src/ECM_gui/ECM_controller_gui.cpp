@@ -20,6 +20,19 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     ui->setupUi(this);
 
+    ui->doubleSpinBox_CutDepth->setToolTip("Profile Variable: maxdepth");
+    ui->doubleSpinBox_RetractDistance->setToolTip("Profile Variable: rtdist");
+    ui->doubleSpinBox_StepSize->setToolTip("Profile Variable: step");
+    ui->spinBox_RetractSpeed->setToolTip("Profile Variable: backsp");
+    ui->spinBox_PlungeSpeed->setToolTip("Profile Variable: forsp");
+    ui->doubleSpinBox_CutSpeed->setToolTip("Profile Variable: speed");
+    ui->spinBox_RetractPeriod->setToolTip("Profile Variable: rtfq");
+    ui->spinBox_Pause->setToolTip("Profile Variable: rtpause");
+
+    ui->spinBox_Jog->setToolTip("Jogging Speed");
+    ui->spinBox_RelativeMoveSpeed->setToolTip("Relative Move Speed");
+    ui->spinBox_RelativeMove->setToolTip("Relative Move Distance");
+
     ui->verticalLayout_SetpControlInner->setAlignment(Qt::AlignHCenter);
 
     common::EnvironmentTime startTime;
