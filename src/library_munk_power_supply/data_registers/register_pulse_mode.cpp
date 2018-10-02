@@ -36,17 +36,18 @@ void Register_PulseMode::setTriggerCount(const uint8_t &count)
 QByteArray Register_PulseMode::getByteArray() const
 {
     QByteArray ba;
-    uint8_t numBytes = 2;
-
-    uint8_t HIGHSeqType = (uint8_t)((numBytes & 0xFF00) >> 8);
-    uint8_t LOWSeqType = (uint8_t)(numBytes & 0x00FF);
+    int registerLength = 1;
+    uint8_t HIGHSeqType = (uint8_t)((registerLength & 0xFF00) >> 8);
+    uint8_t LOWSeqType = (uint8_t)(registerLength & 0x00FF);
     ba.append(HIGHSeqType);
     ba.append(LOWSeqType);
 
-    ba.append((uint8_t)numBytes * 2);
+    uint8_t numBytes = 2 * registerLength;
 
-    uint8_t HIGHBType = (uint8_t)((static_cast<uint8_t>(this->pulseMode) & 0xFF00) >> 8); //01 signals a value of true
-    uint8_t LOWBType = (uint8_t)(this->triggerCount & 0x00FF);
+    ba.append((uint8_t)numBytes);
+
+    uint8_t HIGHBType = (uint8_t)(static_cast<uint8_t>(this->pulseMode));
+    uint8_t LOWBType = (uint8_t)(this->triggerCount);
 
     ba.append(HIGHBType);
     ba.append(LOWBType);

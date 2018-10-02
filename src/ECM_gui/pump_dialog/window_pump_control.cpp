@@ -214,5 +214,5 @@ void Window_PumpControl::slot_PumpOperationalTimeout()
     common::EnvironmentTime currentTime;
     common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,currentTime);
     double elapsedSeconds = (currentTime - startTime) / (1000.0 * 1000.0);
-    this->ui->lineEdit_OnTime->setText(QString::number(elapsedSeconds));
+    this->ui->lineEdit_OnTime->setText(QString::number((int)elapsedSeconds));
 }

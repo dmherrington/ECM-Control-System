@@ -41,6 +41,8 @@ public:
 private:
     void stateSetup();
 
+private:
+    bool touchoffExecuting = false;
 };
 
 } //end of namespace Galil

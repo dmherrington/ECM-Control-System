@@ -39,7 +39,8 @@ public:
     void OnEnter(const AbstractCommandPtr command);
 
 private:
-    bool processFlag = false;
+    bool homeExecuting = false;
+
 };
 
 } //end of namespace Galil

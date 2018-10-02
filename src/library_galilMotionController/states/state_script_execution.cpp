@@ -4,7 +4,7 @@ namespace ECM{
 namespace Galil {
 
 State_ScriptExecution::State_ScriptExecution():
-    AbstractStateGalil()
+    AbstractStateGalil(), profileExecuting(false)
 {
     this->currentState = GalilState::STATE_SCRIPT_EXECUTION;
     this->desiredState = GalilState::STATE_SCRIPT_EXECUTION;
@@ -66,9 +66,12 @@ void State_ScriptExecution::handleCommand(const AbstractCommandPtr command)
     switch (command->getCommandType()) {
     case CommandType::EXECUTE_PROGRAM:
     {
-        CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
-        Owner().issueGalilCommand(castCommand);
-
+        if(!this->profileExecuting)
+        {
+            this->profileExecuting = true;
+            CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
+            Owner().issueGalilCommand(castCommand);
+        }
         break;
     }
     case CommandType::STOP:

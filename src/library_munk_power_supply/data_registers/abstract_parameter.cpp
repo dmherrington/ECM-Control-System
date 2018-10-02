@@ -78,8 +78,6 @@ QByteArray AbstractParameter::getFullMessage() const
         dataSum.append(highChecksum);
     }
 
-
-
     return dataSum;
 }
 

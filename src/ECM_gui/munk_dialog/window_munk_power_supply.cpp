@@ -159,6 +159,7 @@ void Window_MunkPowerSupply::openFromFile(const QString &filePath)
 void Window_MunkPowerSupply::on_radioButton_singlePulse_clicked(bool checked)
 {
     registers_Munk::Register_PulseMode pulseMode;
+    pulseMode.setSlaveAddress(01);
     pulseMode.setPulseMode(data_Munk::TypePulseModes::ECMIntern);
     ui->spinBox_NumPulses->setValue(1);
     pulseMode.setTriggerCount(1);
@@ -169,6 +170,7 @@ void Window_MunkPowerSupply::on_radioButton_singlePulse_clicked(bool checked)
 void Window_MunkPowerSupply::on_radioButton_continuousPulse_clicked(bool checked)
 {
     registers_Munk::Register_PulseMode pulseMode;
+    pulseMode.setSlaveAddress(01);
     pulseMode.setPulseMode(data_Munk::TypePulseModes::ECMIntern);
     ui->spinBox_NumPulses->setValue(255);
     pulseMode.setTriggerCount(255);
@@ -179,6 +181,7 @@ void Window_MunkPowerSupply::on_radioButton_continuousPulse_clicked(bool checked
 void Window_MunkPowerSupply::on_radioButton_specifiedPulses_clicked(bool checked)
 {
     registers_Munk::Register_PulseMode pulseMode;
+    pulseMode.setSlaveAddress(01);
     pulseMode.setPulseMode(data_Munk::TypePulseModes::ECMIntern);
     pulseMode.setTriggerCount(ui->spinBox_NumPulses->value());
 

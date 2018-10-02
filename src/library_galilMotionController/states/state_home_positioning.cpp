@@ -71,43 +71,46 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
     switch (command->getCommandType()) {
     case CommandType::EXECUTE_PROGRAM:
     {
-        Owner().statusVariableValues->addVariableNotifier("homest",this,[this]{
-            double varValue = 0.0;
-            bool valid = Owner().statusVariableValues->getVariableValue("homest",varValue);
-            if(!valid)
-            {
-                std::cout<<"The variable homest does not exist and therefore we do not know how to handle this case."<<std::endl;
-                desiredState = GalilState::STATE_MOTION_STOP;
-                return;
-            }
+        if(!this->homeExecuting)
+        {
+            this->homeExecuting = true;
+            Owner().statusVariableValues->addVariableNotifier("homest",this,[this]{
+                double varValue = 0.0;
+                bool valid = Owner().statusVariableValues->getVariableValue("homest",varValue);
+                if(!valid)
+                {
+                    std::cout<<"The variable homest does not exist and therefore we do not know how to handle this case."<<std::endl;
+                    desiredState = GalilState::STATE_MOTION_STOP;
+                    return;
+                }
 
-            switch ((int)varValue) {
-            case 0:
-            {
-                //continue searching for home
-                ProfileState_Homing newState("Homing Routine", "homest");
-                newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE);
-                MotionProfileState newProfileState;
-                newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
-                Owner().issueUpdatedMotionProfileState(newProfileState);
-                break;
-            }
-            case 1:
-            {
-                Owner().setHomeInidcated(true);
-                //a home position has been found
-                ProfileState_Homing newState("Homing Routine", "homest");
-                newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::COMPLETE);
-                MotionProfileState newProfileState;
-                newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
-                Owner().issueUpdatedMotionProfileState(newProfileState);
-                desiredState = GalilState::STATE_READY;
-                break;
-            }
-            } //end of switch statement
-        });
-        //CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*copyCommand->as<CommandExecuteProfile>());
-        Owner().issueGalilCommand(command); //this will not be considered a motion command as the profile contains the BG parameters
+                switch ((int)varValue) {
+                case 0:
+                {
+                    //continue searching for home
+                    ProfileState_Homing newState("Homing Routine", "homest");
+                    newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE);
+                    MotionProfileState newProfileState;
+                    newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
+                    Owner().issueUpdatedMotionProfileState(newProfileState);
+                    break;
+                }
+                case 1:
+                {
+                    Owner().setHomeInidcated(true);
+                    //a home position has been found
+                    ProfileState_Homing newState("Homing Routine", "homest");
+                    newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::COMPLETE);
+                    MotionProfileState newProfileState;
+                    newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
+                    Owner().issueUpdatedMotionProfileState(newProfileState);
+                    desiredState = GalilState::STATE_READY;
+                    break;
+                }
+                } //end of switch statement
+            });
+            Owner().issueGalilCommand(command); //this will not be considered a motion command as the profile contains the BG parameters
+        }
         break;
     }
     case CommandType::STOP:
@@ -149,8 +152,6 @@ void State_HomePositioning::OnEnter()
 
 void State_HomePositioning::OnEnter(const AbstractCommandPtr command)
 {
-    this->processFlag = false;
-
     Owner().setHomeInidcated(false);
 
     if(command != nullptr)

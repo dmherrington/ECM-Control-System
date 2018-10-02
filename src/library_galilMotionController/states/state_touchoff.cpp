@@ -4,7 +4,7 @@ namespace ECM{
 namespace Galil {
 
 State_Touchoff::State_Touchoff():
-    AbstractStateGalil()
+    AbstractStateGalil(), touchoffExecuting(false)
 {
     this->currentState = GalilState::STATE_TOUCHOFF;
     this->desiredState = GalilState::STATE_TOUCHOFF;
@@ -71,9 +71,12 @@ void State_Touchoff::handleCommand(const AbstractCommandPtr command)
     switch (command->getCommandType()) {
     case CommandType::EXECUTE_PROGRAM:
     {
-        this->stateSetup();
-        //CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*copyCommand->as<CommandExecuteProfile>());
-        Owner().issueGalilCommand(command); //this will not be considered a motion command as the profile contains the BG parameters
+        if(!this->touchoffExecuting)
+        {
+            this->touchoffExecuting = true;
+            this->stateSetup();
+            Owner().issueGalilCommand(command); //this will not be considered a motion command as the profile contains the BG parameters
+        }
         break;
     }
     case CommandType::STOP:
