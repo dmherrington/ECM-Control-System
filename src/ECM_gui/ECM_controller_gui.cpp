@@ -317,6 +317,7 @@ void ECMControllerGUI::readSettings()
     bool pumpHidden = settings.value("pumpDisplayed", false).toBool();
     bool rigolHidden = settings.value("rigolDisplayed", false).toBool();
     bool touchoffHidden = settings.value("touchoffDisplayed", false).toBool();
+    bool motionProfileHidden = settings.value("motionProfileDisplayed", false).toBool();
     bool customMotionCommands = settings.value("customMotionDisplayed", false).toBool();
 
     if(!sensorHidden)
@@ -333,6 +334,9 @@ void ECMControllerGUI::readSettings()
 
     if(!touchoffHidden)
         m_WindowTouchoff->show();
+
+    if(!motionProfileHidden)
+        m_WindowMotionProfile->show();
 
     if(!customMotionCommands)
         m_WindowCustomMotionCommands->show();
@@ -354,7 +358,7 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
         settings.setValue("pumpDisplayed",m_WindowPump->isWindowHidden());
         settings.setValue("rigolDisplayed",m_WindowRigol->isWindowHidden());
         settings.setValue("touchoffDisplayed",m_WindowTouchoff->isWindowHidden());
-        settings.setValue("motionCodeDisplayed",m_WindowMotionProfile->isWindowHidden());
+        settings.setValue("motionProfileDisplayed",m_WindowMotionProfile->isWindowHidden());
         settings.setValue("customMotionDisplayed",m_WindowCustomMotionCommands->isWindowHidden());
 
         m_additionalSensorDisplay->close();
@@ -392,42 +396,42 @@ void ECMControllerGUI::on_pushButton_MotorEnable_released()
 void ECMControllerGUI::on_doubleSpinBox_CutDepth_editingFinished()
 {
     //Command_Variable command("maxdepth",ui->doubleSpinBox_CutDepth->value() * 10);
-    Command_VariablePtr command = std::make_shared<Command_Variable>("maxdepth",ui->doubleSpinBox_CutDepth->value() * 10);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("maxdepth",ui->doubleSpinBox_CutDepth->value() * 10.0);
     m_API->m_Galil->executeCommand(command);
 }
 
 void ECMControllerGUI::on_doubleSpinBox_RetractDistance_editingFinished()
 {
     //Command_Variable command("rtdist",ui->doubleSpinBox_RetractDistance->value() * 10);
-    Command_VariablePtr command = std::make_shared<Command_Variable>("rtdist",ui->doubleSpinBox_RetractDistance->value() * 10);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("rtdist",ui->doubleSpinBox_RetractDistance->value() * 10.0);
     m_API->m_Galil->executeCommand(command);
 }
 
 void ECMControllerGUI::on_doubleSpinBox_StepSize_editingFinished()
 {
     //Command_Variable command("step",ui->doubleSpinBox_StepSize->value() * 10);
-    Command_VariablePtr command = std::make_shared<Command_Variable>("step",ui->doubleSpinBox_StepSize->value() * 10);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("step",ui->doubleSpinBox_StepSize->value() * 10.0);
     m_API->m_Galil->executeCommand(command);
 }
 
 void ECMControllerGUI::on_spinBox_RetractSpeed_editingFinished()
 {
     //Command_Variable command("backsp",ui->spinBox_RetractSpeed->value() * 10);
-    Command_VariablePtr command = std::make_shared<Command_Variable>("backsp",ui->spinBox_RetractSpeed->value() * 10);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("backsp",ui->spinBox_RetractSpeed->value() * 10.0);
     m_API->m_Galil->executeCommand(command);
 }
 
 void ECMControllerGUI::on_spinBox_PlungeSpeed_editingFinished()
 {
     //Command_Variable command("forsp",ui->spinBox_PlungeSpeed->value() * 10);
-    Command_VariablePtr command = std::make_shared<Command_Variable>("forsp",ui->spinBox_PlungeSpeed->value() * 10);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("forsp",ui->spinBox_PlungeSpeed->value() * 10.0);
     m_API->m_Galil->executeCommand(command);
 }
 
 void ECMControllerGUI::on_doubleSpinBox_CutSpeed_editingFinished()
 {
     //Command_Variable command("speed",ui->doubleSpinBox_CutSpeed->value() * 10);
-    Command_VariablePtr command = std::make_shared<Command_Variable>("speed",ui->doubleSpinBox_CutSpeed->value() * 10);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("speed",ui->doubleSpinBox_CutSpeed->value() * 10.0);
     m_API->m_Galil->executeCommand(command);
 }
 
@@ -819,6 +823,7 @@ void ECMControllerGUI::slot_MCCommandError(const CommandType &type, const string
         break;
     }
     default:
+        std::cout<<"There was an existing error not caught: "<<description<<std::endl;
         break;
     }
 }

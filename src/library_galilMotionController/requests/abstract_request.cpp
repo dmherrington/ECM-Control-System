@@ -6,6 +6,15 @@ AbstractRequest::AbstractRequest(const RequestTypes &type, const unsigned int &r
     this->bufferSize = respSize;
 }
 
+AbstractRequest::AbstractRequest(const AbstractRequest &copy)
+{
+    this->descriptor = copy.descriptor;
+    this->requestType = copy.requestType;
+    this->bufferSize = copy.bufferSize;
+    this->buffer =copy.buffer;
+    this->latestUpdate = copy.latestUpdate;
+}
+
 void AbstractRequest::setTupleDescription(const common::TupleECMData &tuple)
 {
     this->descriptor = tuple;

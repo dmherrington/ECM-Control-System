@@ -26,6 +26,11 @@ hsm::Transition State_ScriptExecution::GetTransition()
 
     if(currentState != desiredState)
     {
+        //First, let us make sure we disengage the pulsing as we are about to leave the script execution state
+        CommandSetBitPtr command = std::make_shared<CommandSetBit>();
+        command->appendAddress(2); //Ken: be careful in the event that this changes. This should be handled by settings or something
+        Owner().issueGalilCommand(command);
+
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {

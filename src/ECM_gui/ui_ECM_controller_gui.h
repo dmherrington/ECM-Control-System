@@ -1168,7 +1168,7 @@ public:
 
         retranslateUi(ECMControllerGUI);
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(ECMControllerGUI);
@@ -1245,7 +1245,7 @@ public:
         spinBox_RelativeMoveSpeed->setToolTip(QApplication::translate("ECMControllerGUI", "Testing1", nullptr));
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_STATUSTIP
-        spinBox_RelativeMoveSpeed->setStatusTip(QApplication::translate("ECMControllerGUI", "Testing2", nullptr));
+        spinBox_RelativeMoveSpeed->setStatusTip(QString());
 #endif // QT_NO_STATUSTIP
         pushButton_DecreaseRelativeMove->setText(QApplication::translate("ECMControllerGUI", "DECREASE", nullptr));
         pushButton_MotorDisable->setText(QApplication::translate("ECMControllerGUI", "DISABLE MOTOR", nullptr));

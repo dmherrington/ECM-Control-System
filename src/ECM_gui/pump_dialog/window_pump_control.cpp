@@ -11,6 +11,9 @@ Window_PumpControl::Window_PumpControl(Westinghouse510* obj, QWidget *parent) :
     ui->widget_PumpInitialized->setDiameter(6);
     ui->widget_PumpRunning->setDiameter(6);
 
+    m_OperationsTimer = new QTimer(this);
+    connect(m_OperationsTimer,SIGNAL(timeout()),this,SLOT(slot_PumpOperationalTimeout()));
+
     connect(m_Pump,SIGNAL(signal_PumpCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_PumpConnectionUpdate(common::comms::CommunicationUpdate)));
     connect(m_Pump,SIGNAL(signal_PumpInitialized()), this, SLOT(slot_PumpInitialized()));
 
@@ -23,10 +26,6 @@ Window_PumpControl::Window_PumpControl(Westinghouse510* obj, QWidget *parent) :
     {
         this->slot_updatedPumpOn(m_Pump->m_State->pumpON.get());
     });
-
-    m_OperationsTimer = new QTimer(this);
-    connect(m_OperationsTimer,SIGNAL(timeout()),this,SLOT(slot_PumpOperationalTimeout()));
-
 
     GeneralDialogWindow::readWindowSettings();
 
@@ -94,7 +93,8 @@ void Window_PumpControl::slot_updatedPumpOn(const bool &value)
         ui->lineEdit_OnTime->clear();
         ui->statusbar->showMessage(tr("The pump has been turned off."),2500);
 
-        m_OperationsTimer->stop();
+        if(m_OperationsTimer->isActive())
+            m_OperationsTimer->stop();
     }
 }
 

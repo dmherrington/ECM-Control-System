@@ -73,7 +73,7 @@ void State_EStop::OnEnter()
         CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();
         Owner().issueGalilCommand(command);
     }
-    //Lastly, send a command to make sure the airbrake has been engaged
+    //Lastly, send a command to make sure the pulse command has been disengaged
     CommandSetBitPtr command = std::make_shared<CommandSetBit>();
     command->appendAddress(2); //Ken: be careful in the event that this changes. This should be handled by settings or something
     Owner().issueGalilCommand(command);

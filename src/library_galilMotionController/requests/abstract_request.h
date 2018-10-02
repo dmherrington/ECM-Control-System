@@ -35,6 +35,8 @@ public:
     AbstractRequest(const RequestTypes &type, const unsigned int &respSize = 12);
 
 
+    AbstractRequest(const AbstractRequest &copy);
+
     virtual ~AbstractRequest() = default;
 
 public:

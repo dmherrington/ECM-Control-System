@@ -74,13 +74,13 @@ public:
         if (Window_MunkPowerSupply->objectName().isEmpty())
             Window_MunkPowerSupply->setObjectName(QStringLiteral("Window_MunkPowerSupply"));
         Window_MunkPowerSupply->setWindowModality(Qt::NonModal);
-        Window_MunkPowerSupply->resize(600, 330);
+        Window_MunkPowerSupply->resize(600, 400);
         QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Window_MunkPowerSupply->sizePolicy().hasHeightForWidth());
         Window_MunkPowerSupply->setSizePolicy(sizePolicy);
-        Window_MunkPowerSupply->setMinimumSize(QSize(600, 330));
+        Window_MunkPowerSupply->setMinimumSize(QSize(600, 400));
         Window_MunkPowerSupply->setMaximumSize(QSize(16777215, 450));
         Window_MunkPowerSupply->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
