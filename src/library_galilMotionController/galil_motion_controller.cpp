@@ -162,6 +162,11 @@ void GalilMotionController::closeConnection()
     }
 }
 
+bool GalilMotionController::isDeviceConnected() const
+{
+    return this->stateInterface->isConnected();
+}
+
 std::string GalilMotionController::getCurrentMCState() const
 {
     ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());

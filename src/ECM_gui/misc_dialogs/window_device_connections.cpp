@@ -113,21 +113,65 @@ void Window_DeviceConnections::slot_SensorayConnectionUpdate(const common::comms
 
 void Window_DeviceConnections::slot_PumpConnectionUpdate(const common::comms::CommunicationUpdate &update)
 {
+    if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
+    {
+        ui->comboBox_PortPump->setDisabled(true);
+        ui->pushButton_connectPump->setText("DISCONNECT");
+    }
+    else if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED)
+    {
+        ui->comboBox_PortPump->setEnabled(true);
+        ui->pushButton_connectPump->setText("CONNECT");
+    }
+
     this->updateLEDConnectionColor(ui->widget_WestinghouseConnection,update);
 }
 
 void Window_DeviceConnections::slot_RigolConnectionUpdate(const common::comms::CommunicationUpdate &update)
 {
+    if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
+    {
+        ui->lineEdit_IPRigol->setDisabled(true);
+        ui->pushButton_connect_Rigol->setText("DISCONNECT");
+    }
+    else if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED)
+    {
+        ui->comboBox_PortPump->setEnabled(true);
+        ui->pushButton_connect_Rigol->setText("CONNECT");
+    }
+
     this->updateLEDConnectionColor(ui->widget_RigolConnection,update);
 }
 
 void Window_DeviceConnections::slot_MunkConnectionUpdate(const common::comms::CommunicationUpdate &update)
 {
+    if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
+    {
+        ui->comboBox_PortMunk->setDisabled(true);
+        ui->pushButton_connectMunk->setText("DISCONNECT");
+    }
+    else if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED)
+    {
+        ui->comboBox_PortMunk->setEnabled(true);
+        ui->pushButton_connectMunk->setText("CONNECT");
+    }
+
     this->updateLEDConnectionColor(ui->widget_MunkConnection,update);
 }
 
 void Window_DeviceConnections::slot_GalilConnectionUpdate(const common::comms::CommunicationUpdate &update)
 {
+    if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
+    {
+        ui->lineEdit_IPGalil->setDisabled(true);
+        ui->pushButton_connectGalil->setText("DISCONNECT");
+    }
+    else if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED)
+    {
+        ui->lineEdit_IPGalil->setEnabled(true);
+        ui->pushButton_connectGalil->setText("CONNECT");
+    }
+
     this->updateLEDConnectionColor(ui->widget_GalilConnection,update);
 }
 
@@ -140,65 +184,94 @@ void Window_DeviceConnections::on_pushButton_connectSensoray_released()
 
 void Window_DeviceConnections::on_pushButton_connectPump_released()
 {
-    QString portNumber = ui->comboBox_PortPump->currentText();
-
-    if(portNumber.isEmpty())
-        return;
-
-    portNumber.remove(0,3);
-
-    if(portNumber.toInt() > 9)
+    if(m_API->m_Pump->isPumpConnected())
     {
-        portNumber = "\\\\.\\COM" + portNumber;
+        m_API->m_Pump->closePumpConnection();
     }
     else
     {
-        portNumber = "COM" + portNumber;
-    }
+        QString portNumber = ui->comboBox_PortPump->currentText();
 
-    m_API->m_Pump->openPumpConnection(portNumber.toStdString());
+        if(portNumber.isEmpty())
+            return;
+
+        portNumber.remove(0,3);
+
+        if(portNumber.toInt() > 9)
+        {
+            portNumber = "\\\\.\\COM" + portNumber;
+        }
+        else
+        {
+            portNumber = "COM" + portNumber;
+        }
+
+        m_API->m_Pump->openPumpConnection(portNumber.toStdString());
+    }
 }
 
 void Window_DeviceConnections::on_pushButton_connect_Rigol_released()
 {
-    QString ipAddress = ui->lineEdit_IPRigol->text();
+    if(m_API->m_Rigol->isDeviceConnected())
+    {
+        m_API->m_Rigol->closeConnection();
+    }
+    else
+    {
+        QString ipAddress = ui->lineEdit_IPRigol->text();
 
-    if(ipAddress.isEmpty())
-        return;
+        if(ipAddress.isEmpty())
+            return;
 
-    m_API->m_Rigol->openConnection(ipAddress.toStdString() , 5555);
+        m_API->m_Rigol->openConnection(ipAddress.toStdString() , 5555);
+    }
+
 }
 
 void Window_DeviceConnections::on_pushButton_connectMunk_released()
 {
-    QString portNumber = ui->comboBox_PortMunk->currentText();
-
-    if(portNumber.isEmpty())
-        return;
-
-    portNumber.remove(0,3);
-
-    if(portNumber.toInt() > 9)
+    if(m_API->m_Munk->isConnected())
     {
-        portNumber = "\\\\.\\COM" + portNumber;
+        m_API->m_Munk->closeSerialPort();
     }
     else
     {
-        portNumber = "COM" + portNumber;
-    }
+        QString portNumber = ui->comboBox_PortMunk->currentText();
 
-    m_API->m_Munk->openSerialPort(portNumber.toStdString());
+        if(portNumber.isEmpty())
+            return;
+
+        portNumber.remove(0,3);
+
+        if(portNumber.toInt() > 9)
+        {
+            portNumber = "\\\\.\\COM" + portNumber;
+        }
+        else
+        {
+            portNumber = "COM" + portNumber;
+        }
+
+        m_API->m_Munk->openSerialPort(portNumber.toStdString());
+    }
 }
 
 void Window_DeviceConnections::on_pushButton_connectGalil_released()
 {
-    QString ipAddress = ui->lineEdit_IPGalil->text();
+    if(m_API->m_Galil->isDeviceConnected())
+    {
+        m_API->m_Galil->closeConnection();
+    }
+    else
+    {
+        QString ipAddress = ui->lineEdit_IPGalil->text();
 
-    if(ipAddress.isEmpty())
-        return;
+        if(ipAddress.isEmpty())
+            return;
 
-    ipAddress += " -d";
-    m_API->m_Galil->openConnection(ipAddress.toStdString());
+        ipAddress += " -d";
+        m_API->m_Galil->openConnection(ipAddress.toStdString());
+    }
 }
 
 void Window_DeviceConnections::on_pushButton_ConnectAll_released()

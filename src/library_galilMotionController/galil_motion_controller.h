@@ -71,6 +71,8 @@ public:
 
     void closeConnection();
 
+    bool isDeviceConnected() const;
+
     void initializeMotionController();
 
 public:

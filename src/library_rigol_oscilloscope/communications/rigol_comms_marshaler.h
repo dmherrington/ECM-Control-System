@@ -37,7 +37,7 @@ public:
     //!
     bool ConnectToLink(const TCPConfiguration &linkConfig);
     bool DisconnetFromLink();
-
+    bool isDeviceConnected() const;
 
     void sendAbstractAcquireCommand(const commands_Rigol::AbstractAcquireCommandPtr command);
 

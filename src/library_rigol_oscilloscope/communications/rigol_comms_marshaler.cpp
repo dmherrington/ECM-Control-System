@@ -47,6 +47,11 @@ bool RigolCommsMarshaler::DisconnetFromLink()
     return link->isConnected();
 }
 
+bool RigolCommsMarshaler::isDeviceConnected() const
+{
+    return link->isConnected();
+}
+
 void RigolCommsMarshaler::sendAbstractAcquireCommand(const commands_Rigol::AbstractAcquireCommandPtr command)
 {
     auto func = [this, command]() {

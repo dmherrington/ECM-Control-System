@@ -32,6 +32,11 @@ void RigolOscilliscope::closeConnection()
     commsMarshaler->DisconnetFromLink();
 }
 
+bool RigolOscilliscope::isDeviceConnected() const
+{
+    return this->commsMarshaler->isDeviceConnected();
+}
+
 bool RigolOscilliscope::addPollingMeasurement(const commands_Rigol::MeasureCommand_Item &command)
 {
     /*

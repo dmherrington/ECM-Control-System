@@ -84,6 +84,11 @@ public:
     //!
     void openPumpConnection(const std::string &portNumber);
 
+    //!
+    //! \brief closePumpConnection
+    //!
+    void closePumpConnection();
+
 public:
     //!
     //! \brief isPumpInitialized
