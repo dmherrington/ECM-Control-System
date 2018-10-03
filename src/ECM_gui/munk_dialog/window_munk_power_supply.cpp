@@ -187,3 +187,13 @@ void Window_MunkPowerSupply::on_radioButton_specifiedPulses_clicked(bool checked
 
     munk->writeRegisterPulseMode(pulseMode);
 }
+
+void Window_MunkPowerSupply::on_spinBox_NumPulses_valueChanged(int arg1)
+{
+    registers_Munk::Register_PulseMode pulseMode;
+    pulseMode.setSlaveAddress(01);
+    pulseMode.setPulseMode(data_Munk::TypePulseModes::ECMIntern);
+    pulseMode.setTriggerCount(arg1);
+
+    munk->writeRegisterPulseMode(pulseMode);
+}

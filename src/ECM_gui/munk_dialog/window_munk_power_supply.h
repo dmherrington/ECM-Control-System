@@ -61,6 +61,8 @@ private slots:
 
     void on_radioButton_specifiedPulses_clicked(bool checked);
 
+    void on_spinBox_NumPulses_valueChanged(int arg1);
+
 private:
     void saveToFile(const QString &filePath);
 

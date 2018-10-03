@@ -49,8 +49,8 @@ QByteArray Register_PulseMode::getByteArray() const
     uint8_t HIGHBType = (uint8_t)(static_cast<uint8_t>(this->pulseMode));
     uint8_t LOWBType = (uint8_t)(this->triggerCount);
 
-    ba.append(HIGHBType);
     ba.append(LOWBType);
+    ba.append(HIGHBType);
 
     return ba;
 }

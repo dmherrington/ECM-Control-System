@@ -125,7 +125,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     readSettings();
 
-    //m_WindowConnections->connectToAllDevices();
+    m_WindowConnections->connectToAllDevices();
 }
 
 ECMControllerGUI::~ECMControllerGUI()
@@ -826,4 +826,14 @@ void ECMControllerGUI::slot_MCCommandError(const CommandType &type, const string
         std::cout<<"There was an existing error not caught: "<<description<<std::endl;
         break;
     }
+}
+
+void ECMControllerGUI::on_pushButton_IncreaseJog_clicked()
+{
+    std::cout<<"A single click is registered"<<std::endl;
+}
+
+void ECMControllerGUI::on_pushButton_DecreaseJog_clicked()
+{
+    std::cout<<"A single click is registered"<<std::endl;
 }
