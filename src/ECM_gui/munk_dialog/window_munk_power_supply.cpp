@@ -12,6 +12,10 @@ Window_MunkPowerSupply::Window_MunkPowerSupply(MunkPowerSupply *obj, QWidget *pa
     ui->widget_connection->setDiameter(5);
     ui->progressBar->setValue(0);
 
+    ui->radioButton_singlePulse->setChecked(true);
+    ui->spinBox_NumPulses->setValue(1);
+    ui->spinBox_NumPulses->setDisabled(true);
+
     ui->widget_DeviceFault->hide();
     connect(ui->widget_DeviceFault, SIGNAL(signal_TransmitClearFault()), this, SLOT(slot_ClearFaultRequested()));
     connect(munk, SIGNAL(signal_FaultStateCleared()), this, SLOT(slot_FaultStateCleared()));
@@ -203,10 +207,5 @@ void Window_MunkPowerSupply::on_radioButton_specifiedPulses_clicked(bool checked
 
 void Window_MunkPowerSupply::on_spinBox_NumPulses_valueChanged(int arg1)
 {
-    registers_Munk::Register_PulseMode pulseMode;
-    pulseMode.setSlaveAddress(01);
-    pulseMode.setPulseMode(data_Munk::TypePulseModes::ECMIntern);
-    pulseMode.setTriggerCount(arg1);
 
-    munk->writeRegisterPulseMode(pulseMode);
 }
