@@ -50,11 +50,8 @@ bool CommsMarshaler::DisconnetLink()
 
 void CommsMarshaler::sendCustomGalilCommands(const std::vector<string> &stringCommands)
 {
-    //    if(!isConnected)
-    //    {
-    //        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot execute command.");});
-    //        return;
-    //    }
+    if(!isConnected)
+        return;
 
     auto func = [this, stringCommands]() {
             protocol->SendCustomProtocolCommand(link.get(), stringCommands);
@@ -65,11 +62,8 @@ void CommsMarshaler::sendCustomGalilCommands(const std::vector<string> &stringCo
 
 void CommsMarshaler::sendAbstractGalilCommand(const AbstractCommandPtr command)
 {
-//    if(!isConnected)
-//    {
-//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot execute command.");});
-//        return;
-//    }
+    if(!isConnected)
+        return;
 
     auto func = [this, command]() {
             protocol->SendProtocolCommand(link.get(), command);
@@ -80,11 +74,8 @@ void CommsMarshaler::sendAbstractGalilCommand(const AbstractCommandPtr command)
 
 void CommsMarshaler::sendAbstractGalilMotionCommand(const AbstractCommandPtr command)
 {
-//    if(!isConnected)
-//    {
-//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot execute motion command.");});
-//        return;
-//    }
+    if(!isConnected)
+        return;
 
     auto func = [this, command]() {
             protocol->SendProtocolMotionCommand(link.get(), command);
@@ -95,11 +86,8 @@ void CommsMarshaler::sendAbstractGalilMotionCommand(const AbstractCommandPtr com
 
 void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request) const
 {
-//    if(!isConnected)
-//    {
-//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot send request.");});
-//        return;
-//    }
+    if(!isConnected)
+        return;
 
     auto func = [this, request]() {
             protocol->SendProtocolRequest(link.get(), request);
@@ -111,11 +99,8 @@ void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request) 
 //I do not think this method is called
 void CommsMarshaler::sendGalilProfileExecution(const AbstractCommandPtr &command)
 {
-//    if(!isConnected)
-//    {
-//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot execute profile.");});
-//        return;
-//    }
+    if(!isConnected)
+        return;
 
     auto func = [this, command]() {
         protocol->ExecuteProfile(link.get(), command);
@@ -126,11 +111,8 @@ void CommsMarshaler::sendGalilProfileExecution(const AbstractCommandPtr &command
 
 void CommsMarshaler::sendGalilControllerGains(const CommandControllerGain &command)
 {
-//    if(!isConnected)
-//    {
-//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot update controller gains.");});
-//        return;
-//    }
+    if(!isConnected)
+        return;
 
     auto func = [this, command]() {
         protocol->SendProtocolGainCommand(link.get(),command);
@@ -140,11 +122,8 @@ void CommsMarshaler::sendGalilControllerGains(const CommandControllerGain &comma
 
 void CommsMarshaler::uploadProgram(const AbstractCommandPtr uploadCommand) const
 {
-//    if(!isConnected)
-//    {
-//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot upload program.");});
-//        return;
-//    }
+    if(!isConnected)
+        return;
 
     auto func = [this, uploadCommand] () {
         protocol->UploadNewProgram(link.get(), uploadCommand);
@@ -154,11 +133,8 @@ void CommsMarshaler::uploadProgram(const AbstractCommandPtr uploadCommand) const
 
 void CommsMarshaler::downloadProgram(const AbstractCommandPtr downloadCommand) const
 {
-//    if(!isConnected)
-//    {
-//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot download program.");});
-//        return;
-//    }
+    if(!isConnected)
+        return;
 
     auto func = [this, downloadCommand] () {
         protocol->DownloadCurrentProgram(link.get(), downloadCommand);

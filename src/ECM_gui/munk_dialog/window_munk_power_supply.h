@@ -64,6 +64,9 @@ private slots:
     void on_spinBox_NumPulses_valueChanged(int arg1);
 
 private:
+    registers_Munk::Register_PulseMode getPulseMode() const;
+
+private:
     void saveToFile(const QString &filePath);
 
     void openFromFile(const QString &filePath);
