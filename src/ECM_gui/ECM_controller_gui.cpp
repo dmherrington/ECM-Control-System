@@ -232,7 +232,7 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &senso
 void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state, const bool &valueChanged)
 {
     ui->lineEdit_MachinePosition->setText(QString::number(state.getPositionalState()->getAxisPosition(common_data::PositionUnit::UNIT_POSITION_MICRO_METER)));
-
+    std::cout<<"The new position seen here is: "<<std::to_string(state.getPositionalState()->getAxisPosition(common_data::PositionUnit::UNIT_POSITION_MICRO_METER))<<std::endl;
     m_PlotCollection.UpdatePositionalStatePlots(tuple,state);
     //    m_SensorDisplays.UpdateNonPlottedData(tuple,state);
     //    m_additionalSensorDisplay->UpdateNonPlottedData(tuple,state);
