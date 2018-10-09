@@ -87,6 +87,7 @@ void Westinghouse510::openPumpConnection(const std::string &portNumber)
 
 void Westinghouse510::closePumpConnection()
 {
+    this->ceasePumpOperations();
     this->m_Comms->closeSerialPortConnection();
 }
 

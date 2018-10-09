@@ -31,6 +31,7 @@ public:
     virtual void cbi_AbstractGalilRemovePolled(const common::TupleECMData &tuple) = 0;
     virtual void cbi_GalilControllerGains(const CommandControllerGain &gains) = 0;
     virtual void cbi_GalilHomeIndicated(const bool &indicated) = 0;
+    virtual void cbi_GalilTouchoffIndicated(const bool &indicated) = 0;
     virtual void cbi_NewMotionProfileState(const MotionProfileState &state) = 0;
     virtual void cbi_GalilNewMachineState(const ECM::Galil::GalilState &state) = 0;
     virtual void cbi_GalilUploadProgram(const AbstractCommandPtr command) = 0;
@@ -119,16 +120,16 @@ public:
     bool isEStopEngaged() const;
 
 public:
-    bool isConnected() const;
     bool isHomeInidcated() const;
+    bool isTouchoffIndicated() const;
 
 public:
-    void setConnected(const bool &val);
     void setHomeInidcated(const bool &val);
+    void setTouchoffIndicated(const bool &val);
 
 private:
-    bool connected = false;
     bool indicatedHome = false;
+    bool indicatedTouchoff = false;
 
 private:
     GalilCallback_StateInterface *m_CB;

@@ -8,8 +8,7 @@ namespace Comms
 /// Setup
 //////////////////////////////////////////////////////////////
 
-CommsMarshaler::CommsMarshaler():
-    isConnected(false)
+CommsMarshaler::CommsMarshaler()
 {
     //let us simplify this and do this upon constuction as there will only be one link
     link = std::make_shared<GalilLink>();
@@ -31,17 +30,20 @@ CommsMarshaler::CommsMarshaler():
 //! \param linkName Name of link to connect to
 //! \return True if connection succesfull, false otherwise
 //!
-bool CommsMarshaler::ConnectToLink(const std::string &address)
+void CommsMarshaler::ConnectToLink(const std::string &address)
 {
     link->SetLinkAddress(address);
-    isConnected = link->Connect();
-    return isConnected;
+    link->Connect();
 }
 
-bool CommsMarshaler::DisconnetLink()
+void CommsMarshaler::DisconnetLink()
 {
-    isConnected = link->Disconnect();
-    return isConnected;
+    link->Disconnect();
+}
+
+bool CommsMarshaler::isDeviceConnected() const
+{
+    return link->isConnected();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,8 +52,8 @@ bool CommsMarshaler::DisconnetLink()
 
 void CommsMarshaler::sendCustomGalilCommands(const std::vector<string> &stringCommands)
 {
-//    if(!isConnected)
-//        return;
+    if(!link->isConnected())
+        return;
 
     auto func = [this, stringCommands]() {
             protocol->SendCustomProtocolCommand(link.get(), stringCommands);
@@ -62,8 +64,8 @@ void CommsMarshaler::sendCustomGalilCommands(const std::vector<string> &stringCo
 
 void CommsMarshaler::sendAbstractGalilCommand(const AbstractCommandPtr command)
 {
-//    if(!isConnected)
-//        return;
+    if(!link->isConnected())
+        return;
 
     auto func = [this, command]() {
             protocol->SendProtocolCommand(link.get(), command);
@@ -74,8 +76,8 @@ void CommsMarshaler::sendAbstractGalilCommand(const AbstractCommandPtr command)
 
 void CommsMarshaler::sendAbstractGalilMotionCommand(const AbstractCommandPtr command)
 {
-//    if(!isConnected)
-//        return;
+    if(!link->isConnected())
+        return;
 
     auto func = [this, command]() {
             protocol->SendProtocolMotionCommand(link.get(), command);
@@ -86,8 +88,8 @@ void CommsMarshaler::sendAbstractGalilMotionCommand(const AbstractCommandPtr com
 
 void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request) const
 {
-//    if(!isConnected)
-//        return;
+    if(!link->isConnected())
+        return;
 
     auto func = [this, request]() {
             protocol->SendProtocolRequest(link.get(), request);
@@ -99,8 +101,8 @@ void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request) 
 //I do not think this method is called
 void CommsMarshaler::sendGalilProfileExecution(const AbstractCommandPtr &command)
 {
-//    if(!isConnected)
-//        return;
+    if(!link->isConnected())
+        return;
 
     auto func = [this, command]() {
         protocol->ExecuteProfile(link.get(), command);
@@ -111,8 +113,8 @@ void CommsMarshaler::sendGalilProfileExecution(const AbstractCommandPtr &command
 
 void CommsMarshaler::sendGalilControllerGains(const CommandControllerGain &command)
 {
-//    if(!isConnected)
-//        return;
+    if(!link->isConnected())
+        return;
 
     auto func = [this, command]() {
         protocol->SendProtocolGainCommand(link.get(),command);
@@ -122,8 +124,8 @@ void CommsMarshaler::sendGalilControllerGains(const CommandControllerGain &comma
 
 void CommsMarshaler::uploadProgram(const AbstractCommandPtr uploadCommand) const
 {
-//    if(!isConnected)
-//        return;
+    if(!link->isConnected())
+        return;
 
     auto func = [this, uploadCommand] () {
         protocol->UploadNewProgram(link.get(), uploadCommand);
@@ -133,8 +135,8 @@ void CommsMarshaler::uploadProgram(const AbstractCommandPtr uploadCommand) const
 
 void CommsMarshaler::downloadProgram(const AbstractCommandPtr downloadCommand) const
 {
-//    if(!isConnected)
-//        return;
+    if(!link->isConnected())
+        return;
 
     auto func = [this, downloadCommand] () {
         protocol->DownloadCurrentProgram(link.get(), downloadCommand);

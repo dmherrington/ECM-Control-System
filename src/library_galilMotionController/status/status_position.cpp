@@ -20,7 +20,7 @@ void Status_Position::parseGalilString(const std::string &str)
     QStringList list = result.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
     result = list.at(0);
     result = result.trimmed();
-    this->setPosition(result.toDouble());
+    this->setPosition(result.toInt());
 }
 
 void Status_Position::setAxis(const MotorAxis &axis)
@@ -28,7 +28,7 @@ void Status_Position::setAxis(const MotorAxis &axis)
     this->currentAxis = axis;
 }
 
-void Status_Position::setPosition(const uint64_t &pos)
+void Status_Position::setPosition(const int &pos)
 {
     this->position = pos;
 }
@@ -38,7 +38,7 @@ MotorAxis Status_Position::getAxis() const
     return this->currentAxis;
 }
 
-uint64_t Status_Position::getPosition() const
+int Status_Position::getPosition() const
 {
     return position;
 }

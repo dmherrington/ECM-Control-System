@@ -52,6 +52,7 @@ private slots:
     void slot_DisplayActionTriggered();
     void slot_UpdatedMotionProfileState(const MotionProfileState &state);
     void slot_MCCommandError(const CommandType &type, const std::string &description);
+    void slot_MCTouchoffIndicated(const bool &indicated);
 
 private slots:
     void slot_NewProfileVariableData(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state);

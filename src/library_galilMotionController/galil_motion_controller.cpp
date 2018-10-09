@@ -155,16 +155,12 @@ void GalilMotionController::closeConnection()
     command->setDisableAxis(MotorAxis::Z);
     this->executeCommand(command);
 
-    if(commsMarshaler->DisconnetLink()) //if true this means we have disconnected from the galil unit
-    {
-        //since we have now disconnected from the galil we should stop collecting information
-        stateInterface->setConnected(false);
-    }
+    commsMarshaler->DisconnetLink();
 }
 
 bool GalilMotionController::isDeviceConnected() const
 {
-    return this->stateInterface->isConnected();
+    return commsMarshaler->isDeviceConnected();
 }
 
 std::string GalilMotionController::getCurrentMCState() const
@@ -194,9 +190,6 @@ void GalilMotionController::LinkConnectionUpdate(const common::comms::Communicat
 
 void GalilMotionController::LinkConnected()
 {
-    //update the connection interface
-    stateInterface->setConnected(true);
-
     //initialize the device
     this->initializeMotionController();
 
@@ -410,6 +403,11 @@ void GalilMotionController::cbi_GalilControllerGains(const CommandControllerGain
 void GalilMotionController::cbi_GalilHomeIndicated(const bool &indicated)
 {
     emit signal_GalilHomeIndicated(indicated);
+}
+
+void GalilMotionController::cbi_GalilTouchoffIndicated(const bool &indicated)
+{
+    emit signal_GalilTouchoffIndicated(indicated);
 }
 
 void GalilMotionController::cbi_NewMotionProfileState(const MotionProfileState &state)

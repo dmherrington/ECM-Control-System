@@ -172,6 +172,8 @@ void State_Touchoff::stateSetup()
         }
         case (int)ProfileState_Touchoff::TOUCHOFFProfileCodes::FINISHED:
         {
+
+            Owner().setTouchoffIndicated(true);
             //we have finished the touchoff routine
             ProfileState_Touchoff newState("Touchoff Routine", "touchof");
             newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::FINISHED);

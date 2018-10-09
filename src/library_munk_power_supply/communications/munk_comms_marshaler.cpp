@@ -55,7 +55,9 @@ bool MunkCommsMarshaler::isConnected() const
 
 void MunkCommsMarshaler::sendCompleteMunkParameters(const registers_Munk::SegmentTimeDetailed &segmentData, std::vector<registers_Munk::AbstractParameterPtr> parameters)
 {
-    std::cout<<"We will send a complete update to the munk"<<std::endl;
+    if(!link->isConnected())
+        return;
+
     auto func = [this, segmentData, parameters]() {
             protocol->updateCompleteMunkParameters(link.get(), segmentData, parameters);
     };
@@ -69,7 +71,9 @@ void MunkCommsMarshaler::sendCompleteMunkParameters(const registers_Munk::Segmen
 ///////////////////////////////////////////////////////////////////
 void MunkCommsMarshaler::sendForwardVoltageSetpoint(const registers_Munk::SegmentVoltageSetpoint &setpoint)
 {
-    std::cout<<"Lets send a forward voltage setpoint to the munk."<<std::endl;
+    if(!link->isConnected())
+        return;
+
     auto func = [this, setpoint]() {
             protocol->sendForwardVoltageSetpoint(link.get(), setpoint);
     };
@@ -79,7 +83,9 @@ void MunkCommsMarshaler::sendForwardVoltageSetpoint(const registers_Munk::Segmen
 
 void MunkCommsMarshaler::sendReverseVoltageSetpoint(const registers_Munk::SegmentVoltageSetpoint &setpoint)
 {
-    std::cout<<"Lets send a reverse voltage setpoint to the munk."<<std::endl;
+    if(!link->isConnected())
+        return;
+
     auto func = [this, setpoint]() {
             protocol->sendReverseVoltageSetpoint(link.get(), setpoint);
     };
@@ -93,7 +99,9 @@ void MunkCommsMarshaler::sendReverseVoltageSetpoint(const registers_Munk::Segmen
 
 void MunkCommsMarshaler::sendForwardCurrentSetpoint(const registers_Munk::SegmentCurrentSetpoint &setpoint)
 {
-    std::cout<<"Lets send a forward current setpoint to the munk."<<std::endl;
+    if(!link->isConnected())
+        return;
+
     auto func = [this, setpoint]() {
             protocol->sendForwardCurrentSetpoint(link.get(), setpoint);
     };
@@ -103,7 +111,9 @@ void MunkCommsMarshaler::sendForwardCurrentSetpoint(const registers_Munk::Segmen
 
 void MunkCommsMarshaler::sendReverseCurrentSetpoint(const registers_Munk::SegmentCurrentSetpoint &setpoint)
 {
-    std::cout<<"Lets send a reverse current setpoint to the munk."<<std::endl;
+    if(!link->isConnected())
+        return;
+
     auto func = [this, setpoint]() {
             protocol->sendReverseCurrentSetpoint(link.get(), setpoint);
     };
@@ -117,7 +127,9 @@ void MunkCommsMarshaler::sendReverseCurrentSetpoint(const registers_Munk::Segmen
 
 void MunkCommsMarshaler::sendSegmentTime(const registers_Munk::SegmentTimeGeneral &segment)
 {
-    std::cout<<"Lets send a segment time to the munk."<<std::endl;
+    if(!link->isConnected())
+        return;
+
     auto func = [this, segment]() {
             protocol->sendSegmentTime(link.get(), segment);
     };
@@ -127,9 +139,12 @@ void MunkCommsMarshaler::sendSegmentTime(const registers_Munk::SegmentTimeGenera
 
 void MunkCommsMarshaler::sendCommitToEEPROM()
 {
+    if(!link->isConnected())
+        return;
+
     registers_Munk::ParameterMemoryWrite command;
     command.setSlaveAddress(01);
-    std::cout<<"Lets send a commit to EEPROM of the munk."<<std::endl;
+
     auto func = [this, command]() {
             protocol->sendCommitToEEPROM(link.get(), command);
     };
@@ -143,6 +158,9 @@ void MunkCommsMarshaler::sendCommitToEEPROM()
 
 void MunkCommsMarshaler::sendRegisterFaultStateRequest(const registers_Munk::RegisterFaultState &request)
 {
+    if(!link->isConnected())
+        return;
+
     auto func = [this, request]() {
             protocol->sendFaultStateRequest(link.get(), request);
     };
@@ -152,6 +170,9 @@ void MunkCommsMarshaler::sendRegisterFaultStateRequest(const registers_Munk::Reg
 
 void MunkCommsMarshaler::sendRegisterFaultStateClear(const registers_Munk::Register_FaultReset &request)
 {
+    if(!link->isConnected())
+        return;
+
     auto func = [this, request]() {
             protocol->sendFaultStateReset(link.get(), request);
     };
@@ -165,6 +186,9 @@ void MunkCommsMarshaler::sendRegisterFaultStateClear(const registers_Munk::Regis
 
 void MunkCommsMarshaler::sendRegisterPulseMode(const registers_Munk::Register_PulseMode &registerMode)
 {
+    if(!link->isConnected())
+        return;
+
     auto func = [this, registerMode]() {
             protocol->sendPulseMode(link.get(), registerMode);
     };

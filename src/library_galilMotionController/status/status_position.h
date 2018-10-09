@@ -19,10 +19,10 @@ public:
     void parseGalilString(const std::string &str);
 
     void setAxis(const MotorAxis &axis);
-    void setPosition(const uint64_t &pos);
+    void setPosition(const int &pos);
 
     MotorAxis getAxis() const;
-    uint64_t getPosition() const;
+    int getPosition() const;
 
     bool isStatusValid() const override;
 
@@ -55,7 +55,7 @@ public:
 
 private:
     MotorAxis currentAxis = MotorAxis::Z;
-    uint64_t position = 0;
+    int position = 0;
 
 };
 

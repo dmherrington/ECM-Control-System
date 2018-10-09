@@ -44,7 +44,7 @@ protected:
 
     virtual QString onSaveAsAction(const std::string &extension = "json");
 
-    virtual QString onOpenAction(const std::string &extension = "json");
+    virtual QString onOpenAction(const std::string &extensionFilter = "json");
 
 protected:
     virtual void saveWindowSettings();

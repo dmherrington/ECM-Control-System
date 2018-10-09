@@ -38,7 +38,7 @@ bool CommsMarshaler::ConnectToSerialPort(const common::comms::SerialConfiguratio
     return link->isConnected();
 }
 
-bool CommsMarshaler::DisconnetFromSerialPort()
+bool CommsMarshaler::DisconnectFromSerialPort()
 {
     auto func = [this]() {
         link->DisconnectFromDevice();

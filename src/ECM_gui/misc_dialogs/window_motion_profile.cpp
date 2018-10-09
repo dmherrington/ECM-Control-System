@@ -29,7 +29,9 @@ void Window_MotionProfile::closeEvent(QCloseEvent *event)
 
 void Window_MotionProfile::on_actionOpen_triggered()
 {
-    QString filePath = GeneralDialogWindow::onOpenAction("txt");
+    std::string extensionFilter = "Open TXT Files (*.txt);; Open DMC Files (*.dmc)";
+
+    QString filePath = GeneralDialogWindow::onOpenAction(extensionFilter);
     if(!filePath.isEmpty() && !filePath.isNull()){
         openFromFile(filePath);
     }

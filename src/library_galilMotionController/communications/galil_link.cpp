@@ -67,7 +67,7 @@ GalilLink::~GalilLink()
 //! \brief GalilLink::Connect
 //! \return
 //!
-bool GalilLink::Connect(void)
+void GalilLink::Connect(void)
 {
     if(connected)
     {
@@ -100,14 +100,13 @@ bool GalilLink::Connect(void)
 
     update.setPeripheralMessage(errorString);
     EmitEvent([update](const ILinkEvents *ptr){ptr->ConnectionUpdate(update);});
-    return this->connected;
 }
 
 //!
 //! \brief GalilLink::Disconnect
 //! \return
 //!
-bool GalilLink::Disconnect(void)
+void GalilLink::Disconnect(void)
 {
     if(connected)
     {
@@ -117,9 +116,13 @@ bool GalilLink::Disconnect(void)
             this->connected = false;
             EmitEvent([](const ILinkEvents *ptr){ptr->ConnectionClosed();});
 
+            common::comms::CommunicationUpdate update("Galil Link");
+            update.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED);
+            update.setPeripheralMessage("Galil has been disconnected.");
+            EmitEvent([update](const ILinkEvents *ptr){ptr->ConnectionUpdate(update);});
+
         }
     }
-    return this->connected;
 }
 
 //!

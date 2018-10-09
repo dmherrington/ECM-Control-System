@@ -46,9 +46,9 @@ public:
     //!
     bool isConnected() const override;
 
-    bool Connect(void) override;
+    void Connect(void) override;
 
-    bool Disconnect(void) override;
+    void Disconnect(void) override;
 
     virtual void MarshalOnThread(std::function<void()> func){
         ///////////////////

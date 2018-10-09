@@ -139,6 +139,7 @@ private:
     void cbi_AbstractGalilRemovePolled(const common::TupleECMData &tuple) override;
     void cbi_GalilControllerGains(const CommandControllerGain &gains) override;
     void cbi_GalilHomeIndicated(const bool &indicated) override;
+    void cbi_GalilTouchoffIndicated(const bool &indicated) override;
     void cbi_NewMotionProfileState(const MotionProfileState &state) override;
     void cbi_GalilNewMachineState(const ECM::Galil::GalilState &state) override;
     void cbi_GalilUploadProgram(const AbstractCommandPtr command) override;
@@ -210,6 +211,8 @@ signals:
     //! \param indicated
     //!
     void signal_GalilHomeIndicated(const bool &indicated) const;
+
+    void signal_GalilTouchoffIndicated(const bool &indicated) const;
 
     void signal_GalilUpdatedProfileState(const MotionProfileState &state) const;
 

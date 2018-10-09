@@ -332,6 +332,8 @@ signals:
     void DoubleClick(QDateTime time);
 
 
+    void signal_ClearPlottingData();
+
 // ///////////////////////////////////////////////////////////////
 // ////////////// PRIVATE METHODS ////////////////////////////////
 // ///////////////////////////////////////////////////////////////
@@ -353,6 +355,7 @@ private slots:
     void DoPlotRecalculate();
 
 
+    void OnAction_ClearPlottingData();
 private:
 
     //!
