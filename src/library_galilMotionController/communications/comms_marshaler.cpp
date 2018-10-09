@@ -52,10 +52,10 @@ bool CommsMarshaler::isDeviceConnected() const
 
 void CommsMarshaler::sendCustomGalilCommands(const std::vector<string> &stringCommands)
 {
-    if(!link->isConnected())
-        return;
-
     auto func = [this, stringCommands]() {
+        if(!link->isConnected())
+            return;
+
             protocol->SendCustomProtocolCommand(link.get(), stringCommands);
     };
 
@@ -64,10 +64,10 @@ void CommsMarshaler::sendCustomGalilCommands(const std::vector<string> &stringCo
 
 void CommsMarshaler::sendAbstractGalilCommand(const AbstractCommandPtr command)
 {
-    if(!link->isConnected())
-        return;
-
     auto func = [this, command]() {
+        if(!link->isConnected())
+            return;
+
             protocol->SendProtocolCommand(link.get(), command);
     };
 
@@ -76,10 +76,10 @@ void CommsMarshaler::sendAbstractGalilCommand(const AbstractCommandPtr command)
 
 void CommsMarshaler::sendAbstractGalilMotionCommand(const AbstractCommandPtr command)
 {
-    if(!link->isConnected())
-        return;
-
     auto func = [this, command]() {
+        if(!link->isConnected())
+            return;
+
             protocol->SendProtocolMotionCommand(link.get(), command);
     };
 
@@ -88,10 +88,10 @@ void CommsMarshaler::sendAbstractGalilMotionCommand(const AbstractCommandPtr com
 
 void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request) const
 {
-    if(!link->isConnected())
-        return;
-
     auto func = [this, request]() {
+        if(!link->isConnected())
+            return;
+
             protocol->SendProtocolRequest(link.get(), request);
     };
 
@@ -101,10 +101,10 @@ void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request) 
 //I do not think this method is called
 void CommsMarshaler::sendGalilProfileExecution(const AbstractCommandPtr &command)
 {
-    if(!link->isConnected())
-        return;
-
     auto func = [this, command]() {
+        if(!link->isConnected())
+            return;
+
         protocol->ExecuteProfile(link.get(), command);
     };
 
@@ -113,10 +113,10 @@ void CommsMarshaler::sendGalilProfileExecution(const AbstractCommandPtr &command
 
 void CommsMarshaler::sendGalilControllerGains(const CommandControllerGain &command)
 {
-    if(!link->isConnected())
-        return;
-
     auto func = [this, command]() {
+        if(!link->isConnected())
+            return;
+
         protocol->SendProtocolGainCommand(link.get(),command);
     };
     link->MarshalOnThread(func);
@@ -124,10 +124,10 @@ void CommsMarshaler::sendGalilControllerGains(const CommandControllerGain &comma
 
 void CommsMarshaler::uploadProgram(const AbstractCommandPtr uploadCommand) const
 {
-    if(!link->isConnected())
-        return;
-
     auto func = [this, uploadCommand] () {
+        if(!link->isConnected())
+            return;
+
         protocol->UploadNewProgram(link.get(), uploadCommand);
     };
     link->MarshalOnThread(func);
@@ -135,10 +135,10 @@ void CommsMarshaler::uploadProgram(const AbstractCommandPtr uploadCommand) const
 
 void CommsMarshaler::downloadProgram(const AbstractCommandPtr downloadCommand) const
 {
-    if(!link->isConnected())
-        return;
-
     auto func = [this, downloadCommand] () {
+        if(!link->isConnected())
+            return;
+
         protocol->DownloadCurrentProgram(link.get(), downloadCommand);
     };
     link->MarshalOnThread(func);

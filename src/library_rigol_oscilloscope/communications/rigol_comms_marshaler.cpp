@@ -54,10 +54,10 @@ bool RigolCommsMarshaler::isDeviceConnected() const
 
 void RigolCommsMarshaler::sendAbstractAcquireCommand(const commands_Rigol::AbstractAcquireCommandPtr command)
 {
-    if(!link->isConnected())
-        return;
-
     auto func = [this, command]() {
+        if(!link->isConnected())
+            return;
+
         protocol->sendSetAcquisitionCommand(link.get(), command);
     };
 
@@ -67,10 +67,10 @@ void RigolCommsMarshaler::sendAbstractAcquireCommand(const commands_Rigol::Abstr
 
 void RigolCommsMarshaler::sendSetMeasurementCommand(const commands_Rigol::MeasureCommand_Item &command)
 {
-    if(!link->isConnected())
-        return;
-
     auto func = [this, command]() {
+        if(!link->isConnected())
+            return;
+
             protocol->sendSetMeasurementCommand(link.get(), command);
     };
 
@@ -79,10 +79,10 @@ void RigolCommsMarshaler::sendSetMeasurementCommand(const commands_Rigol::Measur
 
 void RigolCommsMarshaler::sendMeasurementRequest(const commands_Rigol::MeasureCommand_Item &command)
 {
-    if(!link->isConnected())
-        return;
-
     auto func = [this, command]() {
+        if(!link->isConnected())
+            return;
+
             protocol->sendMeasurementRequest(link.get(), command);
     };
 
@@ -91,10 +91,10 @@ void RigolCommsMarshaler::sendMeasurementRequest(const commands_Rigol::MeasureCo
 
 void RigolCommsMarshaler::EmitByteArray(const QByteArray &data)
 {
-    if(!link->isConnected())
-        return;
-
     auto func = [this, data]() {
+        if(!link->isConnected())
+            return;
+
         link->WriteBytes(data);
     };
 

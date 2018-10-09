@@ -140,7 +140,7 @@ bool GalilLink::isConnected() const
 //! \return
 //!
 GReturn GalilLink::UploadProgram(const std::string &programText) const
-{
+{    
     GReturn rtn = GProgramDownload(galil,programText.c_str(),0);
     return rtn;
 }

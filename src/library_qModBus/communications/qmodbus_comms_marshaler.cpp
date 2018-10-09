@@ -56,6 +56,9 @@ bool CommsMarshaler::isSerialPortConnected() const
 void CommsMarshaler::WriteToSingleRegister(const ModbusRegister &regMsg) const
 {
     auto func = [this, regMsg]() {
+        if(!link->isConnected())
+            return;
+
         protocol->writeDataToSingleRegister(link.get(),regMsg);
     };
 
