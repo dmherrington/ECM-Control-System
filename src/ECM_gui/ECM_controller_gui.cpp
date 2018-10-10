@@ -184,9 +184,13 @@ void ECMControllerGUI::slot_DisplayActionTriggered()
             if(selectedObject->isChecked())
             {
                 bool invertAxis = false;
+                bool useSecondaryAxis = true;
                 if(key.getData()->HumanName().toStdString() == "ppos")
+                {
+                    useSecondaryAxis = true;
                     invertAxis = true;
-                ui->widget_primaryPlot->AddPlot(plot, key.getData()->HumanName().toStdString(),true, invertAxis);
+                }
+                ui->widget_primaryPlot->AddPlot(plot, key.getData()->HumanName().toStdString(), useSecondaryAxis, invertAxis);
                 QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(key);
                 ui->widget_primaryPlot->RedrawDataSource(plots);
             }
@@ -243,7 +247,9 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &senso
 
 void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state, const bool &valueChanged)
 {
-    ui->lineEdit_MachinePosition->setText(QString::number(state.getPositionalState()->getAxisPosition(common_data::PositionUnit::UNIT_POSITION_MICRO_METER)));
+    double currentPosition = state.getPositionalState()->getAxisPosition(common_data::PositionUnit::UNIT_POSITION_MICRO_METER);
+
+    ui->lineEdit_MachinePosition->setText(QString::number(currentPosition));
 
     m_PlotCollection.UpdatePositionalStatePlots(tuple,state);
     //    m_SensorDisplays.UpdateNonPlottedData(tuple,state);

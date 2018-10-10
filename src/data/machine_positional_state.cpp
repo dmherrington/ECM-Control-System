@@ -7,7 +7,7 @@ PositionalState::PositionalState()
 
 }
 
-PositionalState::PositionalState(const  MotorAxis &axis, const unsigned int &position)
+PositionalState::PositionalState(const  MotorAxis &axis, const int &position)
 {
     this->axis = axis;
     this->position = position;
@@ -24,7 +24,7 @@ void PositionalState::setStateAxis(const MotorAxis &axis)
     this->axis = axis;
 }
 
-void PositionalState::setAxisPosition(const unsigned int &position)
+void PositionalState::setAxisPosition(const int &position)
 {
     this->position = position;
 }
@@ -34,9 +34,10 @@ MotorAxis PositionalState::getAxis() const
     return axis;
 }
 
-unsigned int PositionalState::getAxisPosition(const PositionUnit &unit) const
+double PositionalState::getAxisPosition(const PositionUnit &unit) const
 {
-    return position * common_data::PositionDimension(unit).RatioToBaseUnit();
+    double currentPosition = static_cast<double>(position) * common_data::PositionDimension(unit).RatioToBaseUnit();
+    return currentPosition;
 }
 
 std::string PositionalState::getLoggingString() const

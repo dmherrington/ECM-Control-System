@@ -123,7 +123,7 @@ void GalilMotionController::initializeMotionController()
     common::TuplePositionalString tuplePos;
     tuplePos.axisName = "XAxis";
     requestTP->setTupleDescription(common::TupleECMData(tuplePos));
-    galilPolling->addRequest(requestTP,200);
+    galilPolling->addRequest(requestTP,100);
     // 2: Request the stop codes
     RequestStopCodePtr requestSC = std::make_shared<RequestStopCode>();
     common::TupleGeneralDescriptorString tupleSC("StopCodes");
