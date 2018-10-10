@@ -44,10 +44,101 @@ Window_DeviceConnections::~Window_DeviceConnections()
 
 void Window_DeviceConnections::connectToAllDevices()
 {
-    this->on_pushButton_connectGalil_released();
-    this->on_pushButton_connectPump_released();
-    this->on_pushButton_connectMunk_released();
-    this->on_pushButton_connect_Rigol_released();
+    this->connect_MotionController(true);
+    this->connect_Oscilliscope(true);
+    this->connect_PowerSupply(true);
+    this->connect_Pump(true);
+}
+
+void Window_DeviceConnections::connect_MotionController(const bool &connect)
+{
+    if((!connect) && m_API->m_Galil->isDeviceConnected())
+    {
+        m_API->m_Galil->closeConnection();
+    }
+    else if(connect && (!m_API->m_Galil->isDeviceConnected()))
+    {
+        QString ipAddress = ui->lineEdit_IPGalil->text();
+
+        if(ipAddress.isEmpty())
+            return;
+
+        ipAddress += " -d";
+        m_API->m_Galil->openConnection(ipAddress.toStdString());
+    }
+}
+
+void Window_DeviceConnections::connect_Oscilliscope(const bool &connect)
+{
+    if((!connect) && m_API->m_Rigol->isDeviceConnected())
+    {
+        m_API->m_Rigol->closeConnection();
+    }
+    else if(connect && (!m_API->m_Rigol->isDeviceConnected()))
+    {
+        QString ipAddress = ui->lineEdit_IPRigol->text();
+
+        if(ipAddress.isEmpty())
+            return;
+
+        m_API->m_Rigol->openConnection(ipAddress.toStdString() , 5555);
+    }
+}
+
+void Window_DeviceConnections::connect_PowerSupply(const bool &connect)
+{
+    if((!connect) && m_API->m_Munk->isConnected())
+    {
+        m_API->m_Munk->closeSerialPort();
+    }
+    else if(connect && (!m_API->m_Munk->isConnected()))
+    {
+        QString portNumber = ui->comboBox_PortMunk->currentText();
+
+        if(portNumber.isEmpty())
+            return;
+
+        portNumber.remove(0,3);
+
+        if(portNumber.toInt() > 9)
+        {
+            portNumber = "\\\\.\\COM" + portNumber;
+        }
+        else
+        {
+            portNumber = "COM" + portNumber;
+        }
+
+        m_API->m_Munk->openSerialPort(portNumber.toStdString());
+    }
+}
+
+void Window_DeviceConnections::connect_Pump(const bool &connect)
+{
+    if((!connect) && m_API->m_Pump->isPumpConnected())
+    {
+        m_API->m_Pump->closePumpConnection();
+    }
+    else if(connect && (!m_API->m_Pump->isPumpConnected()))
+    {
+        QString portNumber = ui->comboBox_PortPump->currentText();
+
+        if(portNumber.isEmpty())
+            return;
+
+        portNumber.remove(0,3);
+
+        if(portNumber.toInt() > 9)
+        {
+            portNumber = "\\\\.\\COM" + portNumber;
+        }
+        else
+        {
+            portNumber = "COM" + portNumber;
+        }
+
+        m_API->m_Pump->openPumpConnection(portNumber.toStdString());
+    }
 }
 
 void Window_DeviceConnections::closeEvent(QCloseEvent *event)
@@ -185,93 +276,33 @@ void Window_DeviceConnections::on_pushButton_connectSensoray_released()
 void Window_DeviceConnections::on_pushButton_connectPump_released()
 {
     if(m_API->m_Pump->isPumpConnected())
-    {
-        m_API->m_Pump->closePumpConnection();
-    }
+        this->connect_Pump(false);
     else
-    {
-        QString portNumber = ui->comboBox_PortPump->currentText();
-
-        if(portNumber.isEmpty())
-            return;
-
-        portNumber.remove(0,3);
-
-        if(portNumber.toInt() > 9)
-        {
-            portNumber = "\\\\.\\COM" + portNumber;
-        }
-        else
-        {
-            portNumber = "COM" + portNumber;
-        }
-
-        m_API->m_Pump->openPumpConnection(portNumber.toStdString());
-    }
+        this->connect_Pump(true);
 }
 
 void Window_DeviceConnections::on_pushButton_connect_Rigol_released()
 {
     if(m_API->m_Rigol->isDeviceConnected())
-    {
-        m_API->m_Rigol->closeConnection();
-    }
+        this->connect_Oscilliscope(false);
     else
-    {
-        QString ipAddress = ui->lineEdit_IPRigol->text();
-
-        if(ipAddress.isEmpty())
-            return;
-
-        m_API->m_Rigol->openConnection(ipAddress.toStdString() , 5555);
-    }
-
+        this->connect_Oscilliscope(true);
 }
 
 void Window_DeviceConnections::on_pushButton_connectMunk_released()
 {
     if(m_API->m_Munk->isConnected())
-    {
-        m_API->m_Munk->closeSerialPort();
-    }
+        this->connect_PowerSupply(false);
     else
-    {
-        QString portNumber = ui->comboBox_PortMunk->currentText();
-
-        if(portNumber.isEmpty())
-            return;
-
-        portNumber.remove(0,3);
-
-        if(portNumber.toInt() > 9)
-        {
-            portNumber = "\\\\.\\COM" + portNumber;
-        }
-        else
-        {
-            portNumber = "COM" + portNumber;
-        }
-
-        m_API->m_Munk->openSerialPort(portNumber.toStdString());
-    }
+        this->connect_PowerSupply(true);
 }
 
 void Window_DeviceConnections::on_pushButton_connectGalil_released()
 {
     if(m_API->m_Galil->isDeviceConnected())
-    {
-        m_API->m_Galil->closeConnection();
-    }
+        this->connect_MotionController(false);
     else
-    {
-        QString ipAddress = ui->lineEdit_IPGalil->text();
-
-        if(ipAddress.isEmpty())
-            return;
-
-        ipAddress += " -d";
-        m_API->m_Galil->openConnection(ipAddress.toStdString());
-    }
+        this->connect_MotionController(true);
 }
 
 void Window_DeviceConnections::on_pushButton_ConnectAll_released()

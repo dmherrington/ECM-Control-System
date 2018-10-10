@@ -59,6 +59,7 @@ private:
     //////////////////////////////////////////////////////////////
     /// Virtual methods allowed from comms::CommsEvents
     //////////////////////////////////////////////////////////////
+    void LinkConnectionUpdate(const common::comms::CommunicationUpdate &update) override;
     void ConnectionOpened() override;
     void ConnectionClosed() const override;
     void NewDataReceived(const std::vector<uint8_t> &buffer) const override;

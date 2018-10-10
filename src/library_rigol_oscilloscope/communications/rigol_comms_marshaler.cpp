@@ -105,6 +105,11 @@ void RigolCommsMarshaler::EmitByteArray(const QByteArray &data)
 /// React to Link Events
 //////////////////////////////////////////////////////////////
 
+void RigolCommsMarshaler::ConnectionUpdate(const common::comms::CommunicationUpdate &update) const
+{
+    Emit([&](CommsEvents *ptr){ptr->LinkConnectionUpdate(update);});
+}
+
 void RigolCommsMarshaler::ConnectionOpened() const
 {
     Emit([&](CommsEvents *ptr){ptr->ConnectionOpened();});

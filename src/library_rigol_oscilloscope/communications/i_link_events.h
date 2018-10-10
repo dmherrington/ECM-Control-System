@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 
+#include "common/comms/communication_update.h"
+
 #include "commands/measure/rigol_measurement_status.h"
 
 namespace comms_Rigol{
@@ -14,6 +16,9 @@ class ILink;
 class ILinkEvents
 {
 public:
+
+
+    virtual void ConnectionUpdate(const common::comms::CommunicationUpdate &update) const = 0;
 
     virtual void ConnectionOpened() const = 0;
 

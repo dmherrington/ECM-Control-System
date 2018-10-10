@@ -57,6 +57,8 @@ private:
     /// React to Link Events
     //////////////////////////////////////////////////////////////
 
+    void ConnectionUpdate(const common::comms::CommunicationUpdate &update) const override;
+
     void ConnectionOpened() const override;
 
     void ConnectionClosed() const override;
