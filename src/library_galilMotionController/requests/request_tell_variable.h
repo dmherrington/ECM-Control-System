@@ -12,7 +12,7 @@ ECM_CLASS_FORWARD(Request_TellVariable);
 class Request_TellVariable : public AbstractRequest
 {
 public:
-    Request_TellVariable(const std::string &humName, const std::string &varName);
+    Request_TellVariable(const std::string &humName, const std::string &varName, const std::string &unit = "unitless");
 
     Request_TellVariable(const Request_TellVariable &copy);
 
@@ -50,6 +50,13 @@ public:
     void setVariableName(const std::string &name);
 
     /*!
+     * \brief setUnitName
+     * \param unit
+     */
+    void setUnitName(const std::string &unit);
+
+
+    /*!
      * \brief getHumanName
      * \return
      */
@@ -60,6 +67,12 @@ public:
      * \return
      */
     std::string getVariableName() const;
+
+    /*!
+     * \brief getUnitName
+     * \return
+     */
+    std::string getUnitName() const;
 
 public:
     //!
@@ -74,6 +87,8 @@ private:
     std::string humanName; /**< A human readable name that describes the variable requested */
 
     std::string variableName; /**< The variable name explicitly recognized within the galil motion profile */
+
+    std::string unitName; /**< The variable unit that the data will be collected in */
 };
 
 

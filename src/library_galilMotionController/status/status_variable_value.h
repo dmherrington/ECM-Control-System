@@ -27,8 +27,10 @@ public:
     std::string getVariableName() const;
 
     void setVariableValue(const double &value);
+    void setVariableUnit(const std::string &unit);
 
     double getVariableValue() const;
+    std::string getVariableUnit() const;
 
     common_data::MotionProfileVariableState getVariableState() const;
 public:
@@ -39,6 +41,7 @@ public:
         this->profileName = rhs.profileName;
         this->variableName = rhs.variableName;
         this->variableValue = rhs.variableValue;
+        this->variableUnit = rhs.variableUnit;
         return *this;
     }
 
@@ -58,6 +61,9 @@ public:
         if(this->variableValue != rhs.variableValue){
             return false;
         }
+        if(this->variableUnit != rhs.variableUnit){
+            return false;
+        }
         return true;
     }
 
@@ -71,6 +77,7 @@ private:
     std::string variableName = "";
 
     double variableValue = 0.0;
+    std::string variableUnit = "unitless";
 };
 
 #endif // STATUS_VARIABLE_VALUE_H

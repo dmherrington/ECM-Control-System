@@ -40,7 +40,7 @@ void ECMPlotCollection::UpdateProfileVariablePlots(const common::TupleProfileVar
     QDateTime time = QDateTime(tmp_Date, tmp_Time);
 
     ECMPlotIdentifier ID_S(variable);
-    MakePlot(ID_S, "unitless");
+    MakePlot(ID_S, ((common_data::ProfileVariableState*)state.getProfileStateVariable().get())->getVariableUnit());
     double value = ((common_data::ProfileVariableState*)state.getProfileStateVariable().get())->getVariableValue();
     InsertData(ID_S, time, value);
 }

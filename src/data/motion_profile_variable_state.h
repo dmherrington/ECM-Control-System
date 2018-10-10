@@ -21,14 +21,16 @@ class ProfileVariableState
 public:
     ProfileVariableState();
 
-    ProfileVariableState(const std::string &name, const double &value);
+    ProfileVariableState(const std::string &name, const double &value, const std::string &unit = "unitless");
 
     ProfileVariableState(const ProfileVariableState &copy);
 
     void setVariableName(const std::string &name);
+    void setVariableUnit(const std::string &unit);
     void setVariableValue(const double &value);
 
     std::string getVariableName() const;
+    std::string getVariableUnit() const;
     double getVariableValue() const;
 
     std::string getLoggingString() const;
@@ -37,12 +39,16 @@ public:
     ProfileVariableState& operator = (const ProfileVariableState &rhs)
     {
         this->variableName = rhs.variableName;
+        this->variableUnit = rhs.variableUnit;
         this->variableValue = rhs.variableValue;
         return *this;
     }
 
     bool operator == (const ProfileVariableState &rhs) {
         if(this->variableName != rhs.variableName){
+            return false;
+        }
+        if(this->variableUnit != rhs.variableUnit){
             return false;
         }
         if(this->variableValue != rhs.variableValue){
@@ -57,6 +63,7 @@ public:
 
 private:
     std::string variableName;
+    std::string variableUnit;
     double variableValue;
 };
 

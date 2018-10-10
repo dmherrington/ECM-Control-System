@@ -1,7 +1,7 @@
 #include "request_tell_variable.h"
 
-Request_TellVariable::Request_TellVariable(const std::string &humName, const std::string &varName):
-    AbstractRequest(RequestTypes::TELL_VARIABLE), humanName(humName), variableName(varName)
+Request_TellVariable::Request_TellVariable(const std::string &humName, const std::string &varName, const std::string &unit):
+    AbstractRequest(RequestTypes::TELL_VARIABLE), humanName(humName), variableName(varName), unitName(unit)
 {
 
 }
@@ -10,7 +10,9 @@ Request_TellVariable::Request_TellVariable(const std::string &humName, const std
 Request_TellVariable::Request_TellVariable(const Request_TellVariable &copy):
     AbstractRequest(copy)
 {
+    this->humanName = copy.humanName;
     this->variableName = copy.variableName;
+    this->unitName = copy.unitName;
 }
 
 AbstractRequest* Request_TellVariable::getClone() const
@@ -41,6 +43,11 @@ void Request_TellVariable::setVariableName(const std::string &name)
     this->variableName = name;
 }
 
+void Request_TellVariable::setUnitName(const std::string &unit)
+{
+    this->unitName = unit;
+}
+
 /*!
  * \brief Request_TellVariable::getHumanName
  * \return
@@ -57,6 +64,11 @@ std::string Request_TellVariable::getHumanName() const
 std::string Request_TellVariable::getVariableName() const
 {
     return this->variableName;
+}
+
+std::string Request_TellVariable::getUnitName() const
+{
+    return this->unitName;
 }
 
 std::string Request_TellVariable::getRequestString() const
@@ -80,6 +92,7 @@ std::vector<AbstractStatusPtr> Request_TellVariable::getStatus() const
 
         Status_VariableValuePtr status = std::make_shared<Status_VariableValue>(result.toDouble());
         status->setVariableName(this->variableName);
+        status->setVariableUnit(this->unitName);
         status->setTime(latestUpdate);
         rtn.push_back(status);
     }

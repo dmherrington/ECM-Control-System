@@ -200,15 +200,16 @@ void ECMControllerGUI::slot_DisplayActionTriggered()
 
 void ECMControllerGUI::slot_NewProfileVariableData(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state)
 {
-    //First, write the data to the logs
-    m_API->m_Log->WriteLogProfileVariableState(variable,state);
-
     common::TupleProfileVariableString tupleVariablePPOS("", "", "ppos");
     if(variable == tupleVariablePPOS)
     {
         double countPosition = state.getProfileStateVariable()->getVariableValue();
         state.getProfileStateVariable()->setVariableValue(countPosition/10.0);
+        state.getProfileStateVariable()->setVariableUnit("um");
     }
+
+    //First, write the data to the logs
+    m_API->m_Log->WriteLogProfileVariableState(variable,state);
 
     m_PlotCollection.UpdateProfileVariablePlots(variable, state);
     QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(variable);
