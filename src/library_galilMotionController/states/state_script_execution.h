@@ -44,6 +44,9 @@ public:
 private:
     std::vector<common::TupleProfileVariableString> currentScriptRequests;
     std::string scriptProfileName = "";
+
+private:
+    bool profileExecuting = false;
 };
 
 } //end of namespace Galil

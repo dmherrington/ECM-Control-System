@@ -3,6 +3,7 @@
 
 #include <string>
 #include "common/common.h"
+#include "common/comms/communication_update.h"
 #include "commands/measure/rigol_measurement_status.h"
 
 
@@ -15,6 +16,11 @@ public:
     /////////////////////////////////////////////////////////
     /// Link Events
     /////////////////////////////////////////////////////////
+    virtual void LinkConnectionUpdate(const common::comms::CommunicationUpdate &update)
+    {
+        UNUSED(update);
+    }
+
 
     virtual void ConnectionOpened()
     {

@@ -100,6 +100,10 @@ public:
         UNUSED(meaning);
     }
 
+    virtual void RegisterPulseModeUpdated()
+    {
+
+    }
 };
 
 } //end of namespace comms_Munk

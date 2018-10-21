@@ -689,6 +689,12 @@ width:20px;
                  <pointsize>10</pointsize>
                 </font>
                </property>
+               <property name="toolTip">
+                <string/>
+               </property>
+               <property name="statusTip">
+                <string extracomment="testStatusTip"/>
+               </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
@@ -723,7 +729,7 @@ width:20px;
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
                <property name="minimum">
-                <double>0.010000000000000</double>
+                <double>0.000000000000000</double>
                </property>
                <property name="maximum">
                 <double>1000.000000000000000</double>
@@ -991,8 +997,11 @@ width:20px;
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
+              <property name="decimals">
+               <number>3</number>
+              </property>
               <property name="value">
-               <double>0.020000000000000</double>
+               <double>0.050000000000000</double>
               </property>
              </widget>
             </item>
@@ -1975,7 +1984,7 @@ width:20px;
                   <string>Testing1</string>
                  </property>
                  <property name="statusTip">
-                  <string>Testing2</string>
+                  <string/>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

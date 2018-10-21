@@ -4,7 +4,7 @@ namespace ECM{
 namespace Galil {
 
 State_ScriptExecution::State_ScriptExecution():
-    AbstractStateGalil()
+    AbstractStateGalil(), profileExecuting(false)
 {
     this->currentState = GalilState::STATE_SCRIPT_EXECUTION;
     this->desiredState = GalilState::STATE_SCRIPT_EXECUTION;
@@ -26,6 +26,11 @@ hsm::Transition State_ScriptExecution::GetTransition()
 
     if(currentState != desiredState)
     {
+        //First, let us make sure we disengage the pulsing as we are about to leave the script execution state
+        CommandSetBitPtr command = std::make_shared<CommandSetBit>();
+        command->appendAddress(2); //Ken: be careful in the event that this changes. This should be handled by settings or something
+        Owner().issueGalilCommand(command);
+
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
@@ -61,9 +66,12 @@ void State_ScriptExecution::handleCommand(const AbstractCommandPtr command)
     switch (command->getCommandType()) {
     case CommandType::EXECUTE_PROGRAM:
     {
-        CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
-        Owner().issueGalilCommand(castCommand);
-
+        if(!this->profileExecuting)
+        {
+            this->profileExecuting = true;
+            CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
+            Owner().issueGalilCommand(castCommand);
+        }
         break;
     }
     case CommandType::STOP:
@@ -142,7 +150,7 @@ void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
 
         Owner().issueNewGalilState(GalilState::STATE_SCRIPT_EXECUTION);
 
-        Request_TellVariablePtr requestPosition = std::make_shared<Request_TellVariable>("Bottom Position","ppos");
+        Request_TellVariablePtr requestPosition = std::make_shared<Request_TellVariable>("Bottom Position","ppos","counts");
         common::TupleProfileVariableString tupleVariablePPOS("", "", "ppos");
         requestPosition->setTupleDescription(tupleVariablePPOS);
         Owner().issueGalilAddPollingRequest(requestPosition);        

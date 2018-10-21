@@ -94,8 +94,8 @@ bool QModBusLink::DisconnectFromDevice(void)
     EmitEvent([this](const ILinkEvents *ptr){
         common::comms::CommunicationUpdate commsUpdate;
         commsUpdate.setSourceName("QModBus");
-        commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
-        commsUpdate.setPeripheralMessage("Serial Port connection for QModbus has been opened.");
+        commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED);
+        commsUpdate.setPeripheralMessage("Serial Port connection for QModbus has been closed.");
 
         ptr->CommunicationUpdate(commsUpdate);
     });

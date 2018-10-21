@@ -17,7 +17,7 @@ bool ProgramVariableList::doesVariableExist(const std::string &name) const
     return false;
 }
 
-void ProgramVariableList::addVariable(const std::string &name, const int &lineNumber)
+void ProgramVariableList::addVariable(const std::string &name, const double &lineNumber)
 {
     this->variableMap[name] = lineNumber;
 }

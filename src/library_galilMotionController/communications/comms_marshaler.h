@@ -39,9 +39,9 @@ public:
     //! \param linkName Name of link to connect to
     //! \return True if connection successful, false otherwise
     //!
-    bool ConnectToLink(const std::string &linkName);
-    bool DisconnetLink();
-
+    void ConnectToLink(const std::string &linkName);
+    void DisconnetLink();
+    bool isDeviceConnected() const;
 
 
     //////////////////////////////////////////////////////////////
@@ -113,8 +113,6 @@ private:
     void parseStatus(const AbstractStatusPtr &status) const;
 
 private:
-    bool isConnected;
-
     std::shared_ptr<ILink> link;
     std::shared_ptr<GalilProtocol> protocol;
 

@@ -320,6 +320,7 @@ public:
         lineEdit_TouchoffCode->setMaximumSize(QSize(300, 30));
         lineEdit_TouchoffCode->setFont(font);
         lineEdit_TouchoffCode->setAlignment(Qt::AlignCenter);
+        lineEdit_TouchoffCode->setReadOnly(true);
 
         gridLayout->addWidget(lineEdit_TouchoffCode, 2, 1, 1, 2);
 

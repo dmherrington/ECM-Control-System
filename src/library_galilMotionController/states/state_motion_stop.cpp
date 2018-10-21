@@ -82,6 +82,19 @@ void State_MotionStop::OnEnter()
 {
     Owner().issueNewGalilState(GalilState::STATE_MOTION_STOP);
 
+    CommandStopPtr castCommand = std::make_shared<CommandStop>(); //the axis is defaulted to Z with no args
+    Owner().issueGalilCommand(castCommand);
+
+    //If the motor has already ceased motion we can exit this state
+    if(!Owner().isMotorInMotion()) //the exit condition for this state is that the machine motion has stopped on all axis
+    {
+        desiredState = GalilState::STATE_READY;
+    }
+
+    //The problem with performing this process was that if the user would simply click the motion and not hold
+    //the machine was never in motion and therefore never issue the stop command, therefore, checking this command
+    //if wouldnt send it. It is easier to just send the command and have it execute
+    /*
     if(!Owner().isMotorInMotion()) //the exit condition for this state is that the machine motion has stopped on all axis
     {
         //If we get into this condition this implies that the machine had already stopped motion
@@ -93,6 +106,7 @@ void State_MotionStop::OnEnter()
         CommandStopPtr castCommand = std::make_shared<CommandStop>(); //the axis is defaulted to Z with no args
         Owner().issueGalilCommand(castCommand);
     }
+    */
 }
 
 void State_MotionStop::OnEnter(const AbstractCommandPtr command)

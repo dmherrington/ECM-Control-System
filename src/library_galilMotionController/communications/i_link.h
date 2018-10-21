@@ -68,8 +68,8 @@ public:
     virtual bool isConnected() const = 0;
 
 
-    virtual bool Connect(void) = 0;
-    virtual bool Disconnect(void) = 0;
+    virtual void Connect(void) = 0;
+    virtual void Disconnect(void) = 0;
 
     virtual void MarshalOnThread(std::function<void()> func) = 0;
 

@@ -52,13 +52,14 @@ private slots:
     void slot_DisplayActionTriggered();
     void slot_UpdatedMotionProfileState(const MotionProfileState &state);
     void slot_MCCommandError(const CommandType &type, const std::string &description);
+    void slot_MCTouchoffIndicated(const bool &indicated);
 
 private slots:
     void slot_NewProfileVariableData(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state);
 
     void slot_NewSensorData(const common::TupleSensorString &sensor, const common_data::SensorState &state);
 
-    void slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state);
+    void slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state, const bool &valueChanged);
 
     void slot_MCNewMotionState(const std::string &state);
 
@@ -145,6 +146,10 @@ private slots:
 
 
     void slot_LockMotionButtons(const bool &lock);
+
+    void on_pushButton_IncreaseJog_clicked();
+
+    void on_pushButton_DecreaseJog_clicked();
 
 protected:
     void readSettings();

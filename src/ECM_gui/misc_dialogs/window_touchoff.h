@@ -41,6 +41,10 @@ private slots:
 
     void on_pushButton_TouchoffGap_released();
 
+    void on_doubleSpinBox_TouchoffRef_valueChanged(double arg1);
+
+    void on_doubleSpinBox_InitialGap_valueChanged(double arg1);
+
 private:
     Ui::Window_Touchoff *ui;
     GalilMotionController* m_MotionController;

@@ -49,19 +49,30 @@ std::string Status_VariableValue::getVariableName() const
 
 void Status_VariableValue::setVariableValue(const double &value)
 {
-    this->variableValue = value ; //Ken this needs to be handled if the data has changed
+    this->variableValue = value;
 }
+
+void Status_VariableValue::setVariableUnit(const std::string &unit)
+{
+    this->variableUnit = unit;
+}
+
 
 double Status_VariableValue::getVariableValue() const
 {
     return variableValue;
 }
 
+std::string Status_VariableValue::getVariableUnit() const
+{
+    return this->variableUnit;
+}
+
 common_data::MotionProfileVariableState Status_VariableValue::getVariableState() const
 {
     common_data::MotionProfileVariableState newState;
     newState.setObservationTime(this->getTime());
-    common_data::ProfileVariableStatePtr ptr = std::make_shared<common_data::ProfileVariableState>(getVariableName(),variableValue);
+    common_data::ProfileVariableStatePtr ptr = std::make_shared<common_data::ProfileVariableState>(getVariableName(),variableValue,variableUnit);
     newState.setProfileStateVariable(ptr);
     return newState;
 }

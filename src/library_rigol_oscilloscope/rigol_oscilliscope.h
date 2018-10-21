@@ -40,6 +40,9 @@ public:
 
 public:
     void openConnection(const std::string &ipAddress, const int &port);
+    void closeConnection();
+    bool isDeviceConnected() const;
+
     void initializeRigol();
 
     void loadFromQueue(const commands_Rigol::RigolMeasurementQueue &updatedQueue);
@@ -47,8 +50,6 @@ public:
     bool addPollingMeasurement(const MeasureCommand_Item &command);
     void removePollingMeasurement(const MeasureCommand_Item &command);
     commands_Rigol::RigolMeasurementQueue getCurrentPollingMeasurements() const;
-
-    void closeConnection();
 
     void executeMeasurementPolling(const bool &execute);
 
@@ -58,6 +59,7 @@ private:
     //////////////////////////////////////////////////////////////
     /// Virtual methods allowed from comms::CommsEvents
     //////////////////////////////////////////////////////////////
+    void LinkConnectionUpdate(const common::comms::CommunicationUpdate &update) override;
     void ConnectionOpened() override;
     void ConnectionClosed() const override;
     void NewDataReceived(const std::vector<uint8_t> &buffer) const override;

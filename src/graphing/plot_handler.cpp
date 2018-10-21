@@ -593,12 +593,13 @@ void PlotHandler::contextMenuRequest(QPoint pos)
     }
     else  // general context menu on graphs requested
     {
+        menu->addAction("Clear plotting data",this,SLOT(OnAction_ClearPlottingData()));
         if (this->selectedGraphs().size() > 0)
-            menu->addAction("Remove selected graph", this, SLOT(removeSelectedGraph()));
+//            menu->addAction("Remove selected graph", this, SLOT(removeSelectedGraph()));
         if (this->graphCount() > 0)
         {
-            menu->addAction("Hide all graphs", this, SLOT(hideAllGraphs()));
-            menu->addAction("Display all graphs", this, SLOT(RecalculateAllGraphs()));
+//            menu->addAction("Hide all graphs", this, SLOT(hideAllGraphs()));
+//            menu->addAction("Display all graphs", this, SLOT(RecalculateAllGraphs()));
         }
     }
     menu->popup(this->mapToGlobal(pos));
@@ -706,6 +707,10 @@ void PlotHandler::moveLegend()
 // ////////////// PLOT MANIPULATION SLOTS ////////////////////////
 // ///////////////////////////////////////////////////////////////
 
+void PlotHandler::OnAction_ClearPlottingData()
+{
+    emit signal_ClearPlottingData();
+}
 
 //!
 //! \brief Display all graphs from the plot instance

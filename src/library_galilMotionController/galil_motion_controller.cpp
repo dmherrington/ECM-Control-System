@@ -123,7 +123,7 @@ void GalilMotionController::initializeMotionController()
     common::TuplePositionalString tuplePos;
     tuplePos.axisName = "XAxis";
     requestTP->setTupleDescription(common::TupleECMData(tuplePos));
-    galilPolling->addRequest(requestTP,200);
+    galilPolling->addRequest(requestTP,100);
     // 2: Request the stop codes
     RequestStopCodePtr requestSC = std::make_shared<RequestStopCode>();
     common::TupleGeneralDescriptorString tupleSC("StopCodes");
@@ -155,11 +155,12 @@ void GalilMotionController::closeConnection()
     command->setDisableAxis(MotorAxis::Z);
     this->executeCommand(command);
 
-    if(commsMarshaler->DisconnetLink()) //if true this means we have disconnected from the galil unit
-    {
-        //since we have now disconnected from the galil we should stop collecting information
-        stateInterface->setConnected(false);
-    }
+    commsMarshaler->DisconnetLink();
+}
+
+bool GalilMotionController::isDeviceConnected() const
+{
+    return commsMarshaler->isDeviceConnected();
 }
 
 std::string GalilMotionController::getCurrentMCState() const
@@ -189,9 +190,6 @@ void GalilMotionController::LinkConnectionUpdate(const common::comms::Communicat
 
 void GalilMotionController::LinkConnected()
 {
-    //update the connection interface
-    stateInterface->setConnected(true);
-
     //initialize the device
     this->initializeMotionController();
 
@@ -272,18 +270,23 @@ void GalilMotionController::NewStatusInputs(const StatusInputs &status)
 void GalilMotionController::NewStatusPosition(const Status_Position &status)
 {
     GalilStatus* ptr = stateInterface->getAxisStatus(status.getAxis());
+
+    common::TuplePositionalString tuple;
+    tuple.axisName = QString::fromStdString(AxisToString(status.getAxis()));
+    common_data::PositionalStatePtr position = std::make_shared<common_data::PositionalState>();
+    position->setStateAxis(status.getAxis());
+    position->setAxisPosition(status.getPosition());
+    common_data::MachinePositionalState state;
+    state.setObservationTime(status.getTime());
+    state.setPositionalState(position);
+
     if(ptr->setPosition(status))
     {
-        common::TuplePositionalString tuple;
-        tuple.axisName = QString::fromStdString(AxisToString(status.getAxis()));
-        common_data::PositionalStatePtr position = std::make_shared<common_data::PositionalState>();
-        position->setStateAxis(status.getAxis());
-        position->setAxisPosition(status.getPosition());
-        common_data::MachinePositionalState state;
-        state.setObservationTime(status.getTime());
-        state.setPositionalState(position);
-
-        emit signal_MCNewPosition(tuple,state);
+        emit signal_MCNewPosition(tuple,state, true);
+    }
+    else
+    {
+        emit signal_MCNewPosition(tuple,state, false);
     }
 }
 
@@ -400,6 +403,11 @@ void GalilMotionController::cbi_GalilControllerGains(const CommandControllerGain
 void GalilMotionController::cbi_GalilHomeIndicated(const bool &indicated)
 {
     emit signal_GalilHomeIndicated(indicated);
+}
+
+void GalilMotionController::cbi_GalilTouchoffIndicated(const bool &indicated)
+{
+    emit signal_GalilTouchoffIndicated(indicated);
 }
 
 void GalilMotionController::cbi_NewMotionProfileState(const MotionProfileState &state)

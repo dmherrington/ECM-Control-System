@@ -8,8 +8,7 @@ namespace Comms
 /// Setup
 //////////////////////////////////////////////////////////////
 
-CommsMarshaler::CommsMarshaler():
-    isConnected(false)
+CommsMarshaler::CommsMarshaler()
 {
     //let us simplify this and do this upon constuction as there will only be one link
     link = std::make_shared<GalilLink>();
@@ -31,17 +30,20 @@ CommsMarshaler::CommsMarshaler():
 //! \param linkName Name of link to connect to
 //! \return True if connection succesfull, false otherwise
 //!
-bool CommsMarshaler::ConnectToLink(const std::string &address)
+void CommsMarshaler::ConnectToLink(const std::string &address)
 {
     link->SetLinkAddress(address);
-    isConnected = link->Connect();
-    return isConnected;
+    link->Connect();
 }
 
-bool CommsMarshaler::DisconnetLink()
+void CommsMarshaler::DisconnetLink()
 {
-    isConnected = link->Disconnect();
-    return isConnected;
+    link->Disconnect();
+}
+
+bool CommsMarshaler::isDeviceConnected() const
+{
+    return link->isConnected();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,13 +52,10 @@ bool CommsMarshaler::DisconnetLink()
 
 void CommsMarshaler::sendCustomGalilCommands(const std::vector<string> &stringCommands)
 {
-    //    if(!isConnected)
-    //    {
-    //        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot execute command.");});
-    //        return;
-    //    }
-
     auto func = [this, stringCommands]() {
+        if(!link->isConnected())
+            return;
+
             protocol->SendCustomProtocolCommand(link.get(), stringCommands);
     };
 
@@ -65,13 +64,10 @@ void CommsMarshaler::sendCustomGalilCommands(const std::vector<string> &stringCo
 
 void CommsMarshaler::sendAbstractGalilCommand(const AbstractCommandPtr command)
 {
-//    if(!isConnected)
-//    {
-//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot execute command.");});
-//        return;
-//    }
-
     auto func = [this, command]() {
+        if(!link->isConnected())
+            return;
+
             protocol->SendProtocolCommand(link.get(), command);
     };
 
@@ -80,13 +76,10 @@ void CommsMarshaler::sendAbstractGalilCommand(const AbstractCommandPtr command)
 
 void CommsMarshaler::sendAbstractGalilMotionCommand(const AbstractCommandPtr command)
 {
-//    if(!isConnected)
-//    {
-//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot execute motion command.");});
-//        return;
-//    }
-
     auto func = [this, command]() {
+        if(!link->isConnected())
+            return;
+
             protocol->SendProtocolMotionCommand(link.get(), command);
     };
 
@@ -95,13 +88,10 @@ void CommsMarshaler::sendAbstractGalilMotionCommand(const AbstractCommandPtr com
 
 void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request) const
 {
-//    if(!isConnected)
-//    {
-//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot send request.");});
-//        return;
-//    }
-
     auto func = [this, request]() {
+        if(!link->isConnected())
+            return;
+
             protocol->SendProtocolRequest(link.get(), request);
     };
 
@@ -111,13 +101,10 @@ void CommsMarshaler::sendAbstractGalilRequest(const AbstractRequestPtr request) 
 //I do not think this method is called
 void CommsMarshaler::sendGalilProfileExecution(const AbstractCommandPtr &command)
 {
-//    if(!isConnected)
-//    {
-//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot execute profile.");});
-//        return;
-//    }
-
     auto func = [this, command]() {
+        if(!link->isConnected())
+            return;
+
         protocol->ExecuteProfile(link.get(), command);
     };
 
@@ -126,13 +113,10 @@ void CommsMarshaler::sendGalilProfileExecution(const AbstractCommandPtr &command
 
 void CommsMarshaler::sendGalilControllerGains(const CommandControllerGain &command)
 {
-//    if(!isConnected)
-//    {
-//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot update controller gains.");});
-//        return;
-//    }
-
     auto func = [this, command]() {
+        if(!link->isConnected())
+            return;
+
         protocol->SendProtocolGainCommand(link.get(),command);
     };
     link->MarshalOnThread(func);
@@ -140,13 +124,10 @@ void CommsMarshaler::sendGalilControllerGains(const CommandControllerGain &comma
 
 void CommsMarshaler::uploadProgram(const AbstractCommandPtr uploadCommand) const
 {
-//    if(!isConnected)
-//    {
-//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot upload program.");});
-//        return;
-//    }
-
     auto func = [this, uploadCommand] () {
+        if(!link->isConnected())
+            return;
+
         protocol->UploadNewProgram(link.get(), uploadCommand);
     };
     link->MarshalOnThread(func);
@@ -154,13 +135,10 @@ void CommsMarshaler::uploadProgram(const AbstractCommandPtr uploadCommand) const
 
 void CommsMarshaler::downloadProgram(const AbstractCommandPtr downloadCommand) const
 {
-//    if(!isConnected)
-//    {
-//        Emit([&](const CommsEvents *ptr){ptr->StatusMessage("Galil not connected. Cannot download program.");});
-//        return;
-//    }
-
     auto func = [this, downloadCommand] () {
+        if(!link->isConnected())
+            return;
+
         protocol->DownloadCurrentProgram(link.get(), downloadCommand);
     };
     link->MarshalOnThread(func);
@@ -288,6 +266,8 @@ void CommsMarshaler::parseStatus(const AbstractStatusPtr &status) const
         Status_Position castStatus(*status.get()->as<Status_Position>());
         if(castStatus.isStatusValid())
             Emit([&](CommsEvents *ptr){ptr->NewStatusPosition(castStatus);});
+        else
+            std::cout<<"The status is no longer valid!"<<std::endl;
         break;
     }
     case StatusTypes::STATUS_TELLINPUTS:

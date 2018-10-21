@@ -77,31 +77,30 @@ void GeneralDialogWindow::showEvent(QShowEvent *event)
 
 void GeneralDialogWindow::onCloseAction()
 {
-    this->hide();
-    emit signal_DialogWindowVisibilty(this->windowType,false);
+    this->close();
 }
 
-QString GeneralDialogWindow::onSaveAction()
+QString GeneralDialogWindow::onSaveAction(const std::string &extension)
 {
     if(currentSettingsPath == "")
-        this->onSaveAsAction();
+        this->onSaveAsAction(extension);
 
     return currentSettingsPath;
 }
 
-QString GeneralDialogWindow::onSaveAsAction()
+QString GeneralDialogWindow::onSaveAsAction(const std::string &extension)
 {
     std::string settingsPath = "";
     this->getSettingsPath(settingsPath);
-    currentSettingsPath = saveAsFileDialog(settingsPath,"json");
+    currentSettingsPath = saveAsFileDialog(settingsPath,extension);
     return currentSettingsPath;
 }
 
-QString GeneralDialogWindow::onOpenAction()
+QString GeneralDialogWindow::onOpenAction(const std::string &extensionFilter)
 {
     std::string settingsPath = "";
     this->getSettingsPath(settingsPath);
-    QString filePath = loadFileDialog(settingsPath,"json");
+    QString filePath = loadFileDialog(settingsPath,extensionFilter);
 
     if(!filePath.isEmpty()&& !filePath.isNull()){
         currentSettingsPath = filePath;
@@ -146,7 +145,7 @@ QString GeneralDialogWindow::saveAsFileDialog(const std::string &filePath, const
     return fullFilePath;
 }
 
-QString GeneralDialogWindow::loadFileDialog(const std::string &filePath, const std::string &suffix)
+QString GeneralDialogWindow::loadFileDialog(const std::string &filePath, const std::string &nameFilter)
 {
     QString fullFilePath = "";
     QFileDialog fileDialog(this, "Choose profile to open");
@@ -154,10 +153,10 @@ QString GeneralDialogWindow::loadFileDialog(const std::string &filePath, const s
     fileDialog.setDirectory(galilProgramDirectory);
     fileDialog.setFileMode(QFileDialog::AnyFile);
     fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
-    QString nameFilter = "Open Files (*.";
-    nameFilter += QString::fromStdString(suffix) + ")";
-    fileDialog.setNameFilter(nameFilter);
-    fileDialog.setDefaultSuffix(QString::fromStdString(suffix));
+//    QString nameFilter = "Open TXT Files (*.";
+//    nameFilter += QString::fromStdString(suffix) + ")";
+    fileDialog.setNameFilter(QString::fromStdString(nameFilter));
+    //fileDialog.setDefaultSuffix(QString::fromStdString(suffix));
     fileDialog.exec();
     if(fileDialog.selectedFiles().size() > 0)
     {

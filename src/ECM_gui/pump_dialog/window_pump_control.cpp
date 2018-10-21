@@ -11,6 +11,9 @@ Window_PumpControl::Window_PumpControl(Westinghouse510* obj, QWidget *parent) :
     ui->widget_PumpInitialized->setDiameter(6);
     ui->widget_PumpRunning->setDiameter(6);
 
+    m_OperationsTimer = new QTimer(this);
+    connect(m_OperationsTimer,SIGNAL(timeout()),this,SLOT(slot_PumpOperationalTimeout()));
+
     connect(m_Pump,SIGNAL(signal_PumpCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_PumpConnectionUpdate(common::comms::CommunicationUpdate)));
     connect(m_Pump,SIGNAL(signal_PumpInitialized()), this, SLOT(slot_PumpInitialized()));
 
@@ -75,11 +78,10 @@ void Window_PumpControl::slot_updatedPumpOn(const bool &value)
     {
         ui->widget_PumpRunning->setColor(QColor(0,255,0));
         ui->pushButton_PumpRunning->setText("OFF");
-
-        common::EnvironmentTime startTime;
         common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
         ui->lineEdit_OnTime->setText(QString::fromStdString(startTime.timeString()));
         ui->statusbar->showMessage("The pump has been turned on.",2500);
+        m_OperationsTimer->start(1000);
     }
     else
     {
@@ -90,6 +92,9 @@ void Window_PumpControl::slot_updatedPumpOn(const bool &value)
         ui->lineEdit_OnTime->setText("");
         ui->lineEdit_OnTime->clear();
         ui->statusbar->showMessage(tr("The pump has been turned off."),2500);
+
+        if(m_OperationsTimer->isActive())
+            m_OperationsTimer->stop();
     }
 }
 
@@ -202,4 +207,12 @@ void Window_PumpControl::write(QJsonObject &json) const
 {
     json["pumpDelayTime"] = this->ui->doubleSpinBox_delayTime->value();
     json["pumpFlowRate"] = this->ui->doubleSpinBox_flowRate->value();
+}
+
+void Window_PumpControl::slot_PumpOperationalTimeout()
+{
+    common::EnvironmentTime currentTime;
+    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,currentTime);
+    double elapsedSeconds = (currentTime - startTime) / (1000.0 * 1000.0);
+    this->ui->lineEdit_OnTime->setText(QString::number((int)elapsedSeconds));
 }

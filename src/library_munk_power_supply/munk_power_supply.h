@@ -38,6 +38,9 @@
 
 #include "data_response/fault_register_state.h"
 
+
+#include "data_registers/register_pulse_mode.h"
+
 #include "munk_machine_state.h"
 #include "munk_poll_status.h"
 
@@ -76,6 +79,9 @@ public:
     void closeSerialPort();
 
     bool isConnected() const;
+
+public:
+    void writeRegisterPulseMode(const registers_Munk::Register_PulseMode &pulseMode);
 
 public:
     void saveToFile(const QString &filePath);

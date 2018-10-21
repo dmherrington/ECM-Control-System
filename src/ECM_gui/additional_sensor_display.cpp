@@ -23,6 +23,8 @@ AdditionalSensorDisplay::AdditionalSensorDisplay(ECMPlotCollection *plotCollecti
     m_SensorDocksCreated = false;
 
     this->setDockOptions(DockOption::AllowNestedDocks | DockOption::AllowTabbedDocks);
+
+    GeneralDialogWindow::readWindowSettings();
 //    setDockNestingEnabled(true);
 
 }

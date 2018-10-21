@@ -188,6 +188,7 @@ void State_Idle::OnEnter()
 
     //Update the state to indicate that the previous home indication is no longer valid
     Owner().setHomeInidcated(false);
+    Owner().setTouchoffIndicated(false);
 }
 
 void State_Idle::OnEnter(const AbstractCommandPtr command)

@@ -2,7 +2,7 @@
 #include "ui_window_motion_profile.h"
 
 Window_MotionProfile::Window_MotionProfile(GalilMotionController *obj, QWidget *parent) :
-    GeneralDialogWindow(DialogWindowTypes::WINDOW_MOTION_PROFILE,"Touchoff",parent),
+    GeneralDialogWindow(DialogWindowTypes::WINDOW_MOTION_PROFILE,"Motion Profile",parent),
     m_MotionController(obj),
     ui(new Ui::Window_MotionProfile)
 {
@@ -26,19 +26,63 @@ void Window_MotionProfile::closeEvent(QCloseEvent *event)
     GeneralDialogWindow::closeEvent(event);
 }
 
+
+void Window_MotionProfile::on_actionOpen_triggered()
+{
+    std::string extensionFilter = "Open TXT Files (*.txt);; Open DMC Files (*.dmc)";
+
+    QString filePath = GeneralDialogWindow::onOpenAction(extensionFilter);
+    if(!filePath.isEmpty() && !filePath.isNull()){
+        openFromFile(filePath);
+    }
+}
+
 void Window_MotionProfile::on_actionClose_triggered()
 {
     GeneralDialogWindow::onCloseAction();
 }
 
+void Window_MotionProfile::on_actionSave_triggered()
+{
+    QString filePath = GeneralDialogWindow::onSaveAction("txt");
+    if(!filePath.isEmpty())
+        this->saveToFile(filePath);
+}
+
+void Window_MotionProfile::on_actionSave_As_triggered()
+{
+    QString filePath = GeneralDialogWindow::onSaveAsAction("txt");
+    if(!filePath.isEmpty())
+        this->saveToFile(filePath);
+}
+
 void Window_MotionProfile::saveToFile(const QString &filePath)
 {
-    UNUSED(filePath);
+    QFile saveFile(filePath);
+
+    if (!saveFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        ui->statusbar->showMessage("Couldn't open file for saving.",2000);
+        return;
+    }
+
+    QTextStream outStream(&saveFile);
+    outStream << ui->codeTextEdit->toPlainText();
+    saveFile.close();
 }
 
 void Window_MotionProfile::openFromFile(const QString &filePath)
 {
-    UNUSED(filePath);
+    QFile file(filePath);
+
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        return;
+    }
+    QTextStream inStream(&file);
+    QString programText = inStream.readAll();
+    file.close();
+
+    ui->codeTextEdit->setPlainText(programText);
 }
 
 void Window_MotionProfile::slot_MCNewProgramAvailable(const ProgramGeneric &program)

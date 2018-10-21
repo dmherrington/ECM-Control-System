@@ -102,6 +102,12 @@ bool RigolTCPLink::Disconnect(void)
         delete m_socket;
         m_socket = NULL;
     }
+
+    common::comms::CommunicationUpdate update("Rigol Link");
+    update.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED);
+    update.setPeripheralMessage("Rigol has been disconnected.");
+    EmitEvent([update](const ILinkEvents *ptr){ptr->ConnectionUpdate(update);});
+
     return true;
 }
 
@@ -112,15 +118,14 @@ bool RigolTCPLink::Disconnect(void)
 /// @return success/fail
 bool RigolTCPLink::_hardwareConnect(QAbstractSocket::SocketError &error, QString& errorString)
 {
+    common::comms::CommunicationUpdate update("Rigol Link");
+
     if (m_socket) {
-        std::cout << "UdpLink:" << QString::number((long)this, 16).toStdString() << "closing port" << std::endl;
         m_socket->close();
         std::this_thread::sleep_for(std::chrono::microseconds(50000));
         delete m_socket;
         m_socket = NULL;
     }
-
-    std::cout << "UdpLink: hardwareConnect to " << _config.listenAddress() << ":" << _config.listenPortNumber() << std::endl;
 
     m_socket = new QTcpSocket();
     m_socket->bind(QHostAddress(QString::fromStdString((_config.listenAddress()))), _config.listenPortNumber());
@@ -137,26 +142,26 @@ bool RigolTCPLink::_hardwareConnect(QAbstractSocket::SocketError &error, QString
     if (!m_socket->isOpen() ) {
         error = m_socket->error();
         errorString = m_socket->errorString();
-        EmitEvent([&](const ILinkEvents *ptr){ptr->CommunicationUpdate(_config.listenAddress(), "Error opening port: " + errorString.toStdString());});
+
+        update.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::ALERT);
+        update.setPeripheralMessage("Error opening port: " + errorString.toStdString());
+
         m_socket->close();
         delete m_socket;
         m_socket = NULL;
         return false; // couldn't open udp port
     }
 
-
-    // TODO: Figure out the alternative to this:
-    EmitEvent([this](const ILinkEvents *ptr){ptr->CommunicationUpdate(getListenAddress(), "Opened port!");});
-    EmitEvent([this](const ILinkEvents *ptr){ptr->ConnectionOpened();});
-
-    std::cout << "Connection UdpLink: " << "with settings " << _config.listenAddress() << ":" << _config.listenPortNumber() << std::endl;
-
+    update.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
+    update.setPeripheralMessage("Rigol has been connected.");
 
     m_ListenThread = new AppThread(10, [&](){
         //this->PortEventLoop();
     });
     m_socket->moveToThread(m_ListenThread);
     m_ListenThread->start();
+
+    EmitEvent([update](const ILinkEvents *ptr){ptr->ConnectionUpdate(update);});
 
     return true; // successful connection
 }

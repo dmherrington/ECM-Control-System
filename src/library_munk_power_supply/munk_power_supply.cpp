@@ -83,6 +83,11 @@ bool MunkPowerSupply::isConnected() const
     return commsMarshaler->isConnected();
 }
 
+void MunkPowerSupply::writeRegisterPulseMode(const registers_Munk::Register_PulseMode &pulseMode)
+{
+    commsMarshaler->sendRegisterPulseMode(pulseMode);
+}
+
 void MunkPowerSupply::generateAndTransmitMessage(const SegmentTimeDetailed &detailedSegmentData)
 {
     generateMessages(detailedSegmentData);

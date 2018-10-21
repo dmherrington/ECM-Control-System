@@ -40,12 +40,6 @@ GalilStatus* GalilStateInterface::getAxisStatus(const MotorAxis &axis)
     }
 }
 
-
-void GalilStateInterface::setConnected(const bool &val)
-{
-    this->connected = val;
-}
-
 void GalilStateInterface::setHomeInidcated(const bool &val)
 {
     this->indicatedHome = val;
@@ -53,15 +47,24 @@ void GalilStateInterface::setHomeInidcated(const bool &val)
         m_CB->cbi_GalilHomeIndicated(this->indicatedHome);
 }
 
-bool GalilStateInterface::isConnected() const
-{
-    return this->connected;
-}
-
 bool GalilStateInterface::isHomeInidcated() const
 {
     return this->indicatedHome;
 }
+
+
+void GalilStateInterface::setTouchoffIndicated(const bool &val)
+{
+    this->indicatedTouchoff = val;
+    if(m_CB)
+        m_CB->cbi_GalilTouchoffIndicated(this->indicatedTouchoff);
+}
+
+bool GalilStateInterface::isTouchoffIndicated() const
+{
+    return this->indicatedTouchoff;
+}
+
 
 bool GalilStateInterface::isMotorInMotion() const
 {

@@ -32,6 +32,11 @@ void RigolOscilliscope::closeConnection()
     commsMarshaler->DisconnetFromLink();
 }
 
+bool RigolOscilliscope::isDeviceConnected() const
+{
+    return this->commsMarshaler->isDeviceConnected();
+}
+
 bool RigolOscilliscope::addPollingMeasurement(const commands_Rigol::MeasureCommand_Item &command)
 {
     /*
@@ -97,19 +102,34 @@ void RigolOscilliscope::cbi_RigolMeasurementRequests(const commands_Rigol::Measu
 //////////////////////////////////////////////////////////////
 /// Virtual methods allowed from comms::CommsEvents
 //////////////////////////////////////////////////////////////
+
+void RigolOscilliscope::LinkConnectionUpdate(const common::comms::CommunicationUpdate &update)
+{
+    switch (update.getUpdateType()) {
+    case common::comms::CommunicationUpdate::UpdateTypes::CONNECTED:
+    {
+        this->initializeRigol();
+        break;
+    }
+    case common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED:
+    {
+        break;
+    }
+    default:
+        break;
+    }
+
+    emit signal_RigolCommunicationUpdate(update);
+}
+
 void RigolOscilliscope::ConnectionOpened()
 {
-    this->initializeRigol();
-    common::comms::CommunicationUpdate connection;
-    connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
-    emit signal_RigolCommunicationUpdate(connection);
+
 }
 
 void RigolOscilliscope::ConnectionClosed() const
 {
-    common::comms::CommunicationUpdate connection;
-    connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED);
-    emit signal_RigolCommunicationUpdate(connection);
+
 }
 
 void RigolOscilliscope::initializeRigol()

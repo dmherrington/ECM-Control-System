@@ -24,15 +24,15 @@ class PositionalState
 public:
     PositionalState();
 
-    PositionalState(const  MotorAxis &axis, const unsigned int &position);
+    PositionalState(const  MotorAxis &axis, const int &position);
 
     PositionalState(const PositionalState &copy);
 
     void setStateAxis(const MotorAxis &axis);
-    void setAxisPosition(const unsigned int &position);
+    void setAxisPosition(const int &position);
 
     MotorAxis getAxis() const;
-    unsigned int getAxisPosition(const PositionUnit &unit) const;
+    double getAxisPosition(const PositionUnit &unit) const;
 
     std::string getLoggingString() const;
 
@@ -60,7 +60,7 @@ public:
 
 private:
     MotorAxis axis;
-    unsigned int position;
+    int position;
 };
 
 

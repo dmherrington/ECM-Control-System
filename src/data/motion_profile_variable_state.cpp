@@ -7,21 +7,28 @@ ProfileVariableState::ProfileVariableState()
 
 }
 
-ProfileVariableState::ProfileVariableState(const std::string &name, const double &value)
+ProfileVariableState::ProfileVariableState(const std::string &name, const double &value, const std::string &unit)
 {
     this->variableName = name;
+    this->variableUnit = unit;
     this->variableValue = value;
 }
 
 ProfileVariableState::ProfileVariableState(const ProfileVariableState &copy)
 {
     this->variableName = copy.variableName;
+    this->variableUnit = copy.variableUnit;
     this->variableValue = copy.variableValue;
 }
 
 void ProfileVariableState::setVariableName(const std::string &name)
 {
     this->variableName = name;
+}
+
+void ProfileVariableState::setVariableUnit(const std::string &unit)
+{
+    this->variableUnit = unit;
 }
 
 void ProfileVariableState::setVariableValue(const double &value)
@@ -34,6 +41,12 @@ std::string ProfileVariableState::getVariableName() const
     return this->variableName;
 }
 
+std::string ProfileVariableState::getVariableUnit() const
+{
+    return this->variableUnit;
+}
+
+
 double ProfileVariableState::getVariableValue() const
 {
     return variableValue;
@@ -41,7 +54,7 @@ double ProfileVariableState::getVariableValue() const
 
 std::string ProfileVariableState::getLoggingString() const
 {
-    std::string rtnStr = variableName + "\t" + std::to_string(variableValue);
+    std::string rtnStr = variableName + "\t" + std::to_string(variableValue) + "\t" + variableUnit;
     return rtnStr;
 }
 

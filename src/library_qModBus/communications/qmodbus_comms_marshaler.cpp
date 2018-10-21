@@ -38,7 +38,7 @@ bool CommsMarshaler::ConnectToSerialPort(const common::comms::SerialConfiguratio
     return link->isConnected();
 }
 
-bool CommsMarshaler::DisconnetFromSerialPort()
+bool CommsMarshaler::DisconnectFromSerialPort()
 {
     auto func = [this]() {
         link->DisconnectFromDevice();
@@ -56,6 +56,9 @@ bool CommsMarshaler::isSerialPortConnected() const
 void CommsMarshaler::WriteToSingleRegister(const ModbusRegister &regMsg) const
 {
     auto func = [this, regMsg]() {
+        if(!link->isConnected())
+            return;
+
         protocol->writeDataToSingleRegister(link.get(),regMsg);
     };
 

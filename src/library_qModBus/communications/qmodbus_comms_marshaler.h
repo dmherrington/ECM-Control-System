@@ -55,7 +55,7 @@ public:
     //! \brief DisconnetFromSerialPort
     //! \return
     //!
-    bool DisconnetFromSerialPort();
+    bool DisconnectFromSerialPort();
 
     bool isSerialPortConnected() const;
 

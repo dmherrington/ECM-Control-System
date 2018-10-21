@@ -77,7 +77,7 @@ std::vector<AbstractStatusPtr> RequestTellPosition::getStatus() const
             position->setAxis(tellAxis);
             position->setTime(latestUpdate);
             position->setPosition(result.toInt());
-           rtn.push_back(position);
+            rtn.push_back(position);
         }
     }
 

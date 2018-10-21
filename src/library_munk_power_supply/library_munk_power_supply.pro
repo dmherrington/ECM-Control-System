@@ -49,7 +49,8 @@ SOURCES += munk_power_supply.cpp \
     data_registers/register_standard_faults.cpp \
     data_registers/register_fault_reset.cpp \
     munk_machine_state.cpp \
-    data_response/fault_register_state.cpp
+    data_response/fault_register_state.cpp \
+    data_registers/register_pulse_mode.cpp
 
 HEADERS += \
     library_munk_power_supply_global.h \
@@ -103,7 +104,9 @@ HEADERS += \
     data_registers/register_fault_reset.h \
     munk_machine_state.h \
     data_response/fault_register_state.h \
-    munk_version.h
+    munk_version.h \
+    data_registers/register_pulse_mode.h \
+    data/type_pulse_mode.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

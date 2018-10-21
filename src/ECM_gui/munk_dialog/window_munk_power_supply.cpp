@@ -12,6 +12,10 @@ Window_MunkPowerSupply::Window_MunkPowerSupply(MunkPowerSupply *obj, QWidget *pa
     ui->widget_connection->setDiameter(5);
     ui->progressBar->setValue(0);
 
+    ui->radioButton_singlePulse->setChecked(true);
+    ui->spinBox_NumPulses->setValue(1);
+    ui->spinBox_NumPulses->setDisabled(true);
+
     ui->widget_DeviceFault->hide();
     connect(ui->widget_DeviceFault, SIGNAL(signal_TransmitClearFault()), this, SLOT(slot_ClearFaultRequested()));
     connect(munk, SIGNAL(signal_FaultStateCleared()), this, SLOT(slot_FaultStateCleared()));
@@ -56,6 +60,10 @@ void Window_MunkPowerSupply::on_pushButton_AddSegment_released()
 
 void Window_MunkPowerSupply::on_pushButton_transmit_released()
 {
+    //first allow us to get the pulse mode
+    munk->writeRegisterPulseMode(this->getPulseMode());
+
+    //next, send the segment data
     registers_Munk::SegmentTimeDetailed dataSegment = ui->segmentWidget->getRawData();
     munk->generateAndTransmitMessage(dataSegment);
 }
@@ -154,4 +162,50 @@ void Window_MunkPowerSupply::openFromFile(const QString &filePath)
 
     QJsonDocument loadDoc(QJsonDocument::fromJson(loadData));
     ui->segmentWidget->read(loadDoc.object());
+}
+
+registers_Munk::Register_PulseMode Window_MunkPowerSupply::getPulseMode() const
+{
+    registers_Munk::Register_PulseMode pulseMode;
+    pulseMode.setSlaveAddress(01);
+    pulseMode.setPulseMode(data_Munk::TypePulseModes::ECMIntern);
+    pulseMode.setTriggerCount(ui->spinBox_NumPulses->value());
+    return pulseMode;
+}
+
+void Window_MunkPowerSupply::on_radioButton_singlePulse_clicked(bool checked)
+{
+    ui->progressBar->setValue(0);
+
+    if(checked)
+    {
+        ui->spinBox_NumPulses->setValue(1);
+        ui->spinBox_NumPulses->setDisabled(true);
+    }
+}
+
+void Window_MunkPowerSupply::on_radioButton_continuousPulse_clicked(bool checked)
+{
+    ui->progressBar->setValue(0);
+
+    if(checked)
+    {
+        ui->spinBox_NumPulses->setValue(255);
+        ui->spinBox_NumPulses->setDisabled(true);
+    }
+}
+
+void Window_MunkPowerSupply::on_radioButton_specifiedPulses_clicked(bool checked)
+{
+    ui->progressBar->setValue(0);
+
+    if(checked)
+    {
+        ui->spinBox_NumPulses->setDisabled(false);
+    }
+}
+
+void Window_MunkPowerSupply::on_spinBox_NumPulses_valueChanged(int arg1)
+{
+
 }

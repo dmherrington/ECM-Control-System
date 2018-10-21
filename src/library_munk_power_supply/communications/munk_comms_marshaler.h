@@ -23,6 +23,7 @@
 #include "data/type_exception_message.h"
 #include "data_registers/register_fault_state.h"
 #include "data_registers/register_fault_reset.h"
+#include "data_registers/register_pulse_mode.h"
 
 namespace comms_Munk{
 
@@ -80,6 +81,12 @@ public:
 
     void sendRegisterFaultStateClear(const registers_Munk::Register_FaultReset &request);
 
+    /////////////////////////////////////////////////////////////////////
+    /// Methods issuing general register pulse mode
+    /////////////////////////////////////////////////////////////////////
+
+    void sendRegisterPulseMode(const registers_Munk::Register_PulseMode &registerMode);
+
 private:
     //////////////////////////////////////////////////////////////
     /// React to Link Events
@@ -98,6 +105,8 @@ private:
     //////////////////////////////////////////////////////////////
     /// IProtocolMunkEvents
     //////////////////////////////////////////////////////////////
+
+    void RegisterPulseModeUpdated(const ILink *link_ptr, const registers_Munk::Register_PulseMode &registerMode) const override;
 
     void FaultCodeReceived(const ILink* link_ptr, const data_Munk::FaultRegisterType &faultRegister, const unsigned int &code) const override;
 

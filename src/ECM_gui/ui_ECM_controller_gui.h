@@ -568,7 +568,7 @@ public:
         doubleSpinBox_CutSpeed->setMinimumSize(QSize(100, 25));
         doubleSpinBox_CutSpeed->setFont(font);
         doubleSpinBox_CutSpeed->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox_CutSpeed->setMinimum(0.01);
+        doubleSpinBox_CutSpeed->setMinimum(0);
         doubleSpinBox_CutSpeed->setMaximum(1000);
         doubleSpinBox_CutSpeed->setValue(0.4);
 
@@ -675,7 +675,8 @@ public:
         doubleSpinBox_StepSize->setMinimumSize(QSize(100, 25));
         doubleSpinBox_StepSize->setFont(font);
         doubleSpinBox_StepSize->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox_StepSize->setValue(0.02);
+        doubleSpinBox_StepSize->setDecimals(3);
+        doubleSpinBox_StepSize->setValue(0.05);
 
         formLayout->setWidget(3, QFormLayout::FieldRole, doubleSpinBox_StepSize);
 
@@ -1200,6 +1201,12 @@ public:
         pushButton_RunAutomatedProfile->setText(QApplication::translate("ECMControllerGUI", "Run Automated Profile", nullptr));
         label_CutDepth->setText(QApplication::translate("ECMControllerGUI", "Depth of Cut (um)", nullptr));
         label_CutSpeed->setText(QApplication::translate("ECMControllerGUI", "Cut Speed (um/s)", nullptr));
+#ifndef QT_NO_TOOLTIP
+        doubleSpinBox_CutDepth->setToolTip(QString());
+#endif // QT_NO_TOOLTIP
+#ifndef QT_NO_STATUSTIP
+        doubleSpinBox_CutDepth->setStatusTip(QString());
+#endif // QT_NO_STATUSTIP
         tabWidget->setTabText(tabWidget->indexOf(tab_linearParams), QApplication::translate("ECMControllerGUI", "Linear Parameters", nullptr));
         label_RetractSpeed->setText(QApplication::translate("ECMControllerGUI", "Retract Speed (um/s)", nullptr));
         label_PlungeSpeed->setText(QApplication::translate("ECMControllerGUI", "Plunge Speed (um/s)", nullptr));
@@ -1238,7 +1245,7 @@ public:
         spinBox_RelativeMoveSpeed->setToolTip(QApplication::translate("ECMControllerGUI", "Testing1", nullptr));
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_STATUSTIP
-        spinBox_RelativeMoveSpeed->setStatusTip(QApplication::translate("ECMControllerGUI", "Testing2", nullptr));
+        spinBox_RelativeMoveSpeed->setStatusTip(QString());
 #endif // QT_NO_STATUSTIP
         pushButton_DecreaseRelativeMove->setText(QApplication::translate("ECMControllerGUI", "DECREASE", nullptr));
         pushButton_MotorDisable->setText(QApplication::translate("ECMControllerGUI", "DISABLE MOTOR", nullptr));
