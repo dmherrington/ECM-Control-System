@@ -11,7 +11,9 @@ SUBDIRS += \
     library_rigol_oscilloscope \
     library_sensoray \
     library_westinghouse510 \
-    library_qModBus
+    library_qModBus \
+    Testing
+
 data.depends = common
 graphing.depends = data
 library_galilMotionController.depends = graphing

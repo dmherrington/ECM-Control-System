@@ -1,6 +1,5 @@
 #include "register_fault_state.h"
 
-
 namespace registers_Munk {
 
 //!

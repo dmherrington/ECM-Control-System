@@ -50,7 +50,10 @@ SOURCES += munk_power_supply.cpp \
     data_registers/register_fault_reset.cpp \
     munk_machine_state.cpp \
     data_response/fault_register_state.cpp \
-    data_registers/register_pulse_mode.cpp
+    data_registers/register_pulse_mode.cpp \
+    data_registers/register_tb_select.cpp \
+    data_registers/register_tb_count.cpp \
+    data_registers/register_tb_temperature.cpp
 
 HEADERS += \
     library_munk_power_supply_global.h \
@@ -106,7 +109,10 @@ HEADERS += \
     data_response/fault_register_state.h \
     munk_version.h \
     data_registers/register_pulse_mode.h \
-    data/type_pulse_mode.h
+    data/type_pulse_mode.h \
+    data_registers/register_tb_select.h \
+    data_registers/register_tb_count.h \
+    data_registers/register_tb_temperature.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

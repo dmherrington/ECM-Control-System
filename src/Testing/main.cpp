@@ -13,17 +13,33 @@
 #include "common/environment_time.h"
 #include "common/comms/serial_configuration.h"
 
-#include "library_qModBus/library_qmodbus.h"
+//#include "library_qModBus/library_qmodbus.h"
 #include "main.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
+
+    registers_Munk::Register_TBCount count;
+    count.setSlaveAddress(01);
+    QByteArray countByteArray = count.getFullMessage();
+    qDebug() << countByteArray.toHex();
+
+    registers_Munk::Register_TBSelect select;
+    select.setSlaveAddress(01);
+    QByteArray selectByteArray = select.getFullMessage();
+    qDebug() << selectByteArray.toHex();
+
+    registers_Munk::Register_TBTemperature temp;
+    temp.setSlaveAddress(01);
+    QByteArray tempByteArray = temp.getFullMessage();
+    qDebug() << tempByteArray.toHex();
+
     //Library_QModBus* md = new Library_QModBus();
-    uint16_t bitArray = 7;
-    uint16_t ba = 0;
-    uint32_t mask = 1<<3;
-    ba = (1 & (16384));
+//    uint16_t bitArray = 7;
+//    uint16_t ba = 0;
+//    uint32_t mask = 1<<3;
+//    ba = (1 & (16384));
 
 //    std::cout<<"Program is running"<<std::endl;
 //    HSESSION sess;
