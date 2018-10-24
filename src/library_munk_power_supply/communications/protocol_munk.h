@@ -83,6 +83,8 @@ public:
 
     void sendPulseMode(const ILink *link, const registers_Munk::Register_PulseMode &mode);
 
+    void sendMunkRequest(const ILink *link, const registers_Munk::AbstractParameterPtr request);
+
 public:
 
     //!

@@ -8,6 +8,7 @@
 #include "type_definition.h"
 #include "common/common.h"
 #include "common/class_forward.h"
+#include "common/environment_time.h"
 
 #include "data/type_read_write.h"
 
@@ -129,6 +130,17 @@ public:
     //!
     QByteArray getFullExpectedResonse() const;
 
+public:
+    common::EnvironmentTime getTime() const
+    {
+        return this->latestUpdate;
+    }
+
+    void updateTime()
+    {
+        this->latestUpdate.CurrentTime(common::Devices::SYSTEMCLOCK,this->latestUpdate);
+    }
+
 
 private:
     //!
@@ -150,6 +162,7 @@ public:
         this->readOrwrite = rhs.readOrwrite;
         this->highChecksum = rhs.highChecksum;
         this->lowChecksum = rhs.lowChecksum;
+        this->latestUpdate = rhs.latestUpdate;
         return *this;
     }
 
@@ -176,6 +189,9 @@ public:
             return false;
         }
         if(this->lowChecksum != rhs.lowChecksum){
+            return false;
+        }
+        if(this->latestUpdate != rhs.latestUpdate){
             return false;
         }
         return true;
@@ -229,6 +245,12 @@ protected:
     //! \brief lowChecksum
     //!
     mutable uint8_t lowChecksum;
+
+    //!
+    //! \brief latestUpdate
+    //!
+    common::EnvironmentTime latestUpdate;
+
 };
 
 } //end of namespace registers_Munk

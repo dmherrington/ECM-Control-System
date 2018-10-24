@@ -5,7 +5,7 @@ namespace registers_Munk {
 Register_TBTemperature::Register_TBTemperature():
     AbstractParameter()
 {
-    this->parameterCode = 801;
+    this->parameterCode = 811;
     this->parameterType = ParameterType::TB_TEMPERATURE;
     this->setReadorWrite(data_Munk::MunkRWType::READ);
 }
@@ -30,8 +30,8 @@ QByteArray Register_TBTemperature::getByteArray() const
 {
     QByteArray ba;
 
-    uint8_t HIGHSeqType = (uint8_t)((01 & 0xFF00) >> 8);
-    uint8_t LOWSeqType = (uint8_t)(01 & 0x00FF);
+    uint8_t HIGHSeqType = (uint8_t)((06 & 0xFF00) >> 8);
+    uint8_t LOWSeqType = (uint8_t)(06 & 0x00FF);
     ba.append(HIGHSeqType);
     ba.append(LOWSeqType);
 

@@ -233,6 +233,7 @@ void MunkCommsMarshaler::CommunicationUpdate(const std::string &name, const std:
 void MunkCommsMarshaler::RegisterPulseModeUpdated(const ILink *link_ptr, const registers_Munk::Register_PulseMode &registerMode) const
 {
     UNUSED(link_ptr);
+    UNUSED(registerMode);
     Emit([&](CommsEvents *ptr){ptr->RegisterPulseModeUpdated();});
 }
 

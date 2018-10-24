@@ -137,9 +137,9 @@ void MunkProtocol::sendForwardVoltageSetpoint(const ILink *link, const registers
                     if(setpoint.getFullExpectedResonse() == receivedMSG.getDataArray())
                     {
                         std::cout<<"We have received and confirmed the message."<<std::endl;
-                        uint8_t highREG = receivedMSG.getDataByte(4);
-                        uint8_t lowREG = receivedMSG.getDataByte(5);
-                        int numberOfRegisters = lowREG | (highREG<<8);
+//                        uint8_t highREG = receivedMSG.getDataByte(4);
+//                        uint8_t lowREG = receivedMSG.getDataByte(5);
+//                        int numberOfRegisters = lowREG | (highREG<<8);
                         Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentVoltageSetpointAcknowledged(link,data_Munk::SegmentMode::FORWARD);});
                     }
                 }
@@ -163,9 +163,9 @@ void MunkProtocol::sendReverseVoltageSetpoint(const ILink *link, const registers
                 {
                     if(setpoint.getFullExpectedResonse() == receivedMSG.getDataArray())
                     {
-                        uint8_t highREG = receivedMSG.getDataByte(4);
-                        uint8_t lowREG = receivedMSG.getDataByte(5);
-                        int numberOfRegisters = lowREG | (highREG<<8);
+//                        uint8_t highREG = receivedMSG.getDataByte(4);
+//                        uint8_t lowREG = receivedMSG.getDataByte(5);
+//                        int numberOfRegisters = lowREG | (highREG<<8);
                         Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentVoltageSetpointAcknowledged(link,data_Munk::SegmentMode::REVERSE);});
                     }
                 }
@@ -193,9 +193,9 @@ void MunkProtocol::sendForwardCurrentSetpoint(const ILink *link, const registers
                 {
                     if(setpoint.getFullExpectedResonse() == receivedMSG.getDataArray())
                     {
-                        uint8_t highREG = receivedMSG.getDataByte(4);
-                        uint8_t lowREG = receivedMSG.getDataByte(5);
-                        int numberOfRegisters = lowREG | (highREG<<8);
+//                        uint8_t highREG = receivedMSG.getDataByte(4);
+//                        uint8_t lowREG = receivedMSG.getDataByte(5);
+//                        int numberOfRegisters = lowREG | (highREG<<8);
                         Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentCurrentSetpointAcknowledged(link,data_Munk::SegmentMode::FORWARD);});
                     }
                 }
@@ -219,9 +219,9 @@ void MunkProtocol::sendReverseCurrentSetpoint(const ILink *link, const registers
                 {
                     if(setpoint.getFullExpectedResonse() == receivedMSG.getDataArray())
                     {
-                        uint8_t highREG = receivedMSG.getDataByte(4);
-                        uint8_t lowREG = receivedMSG.getDataByte(5);
-                        int numberOfRegisters = lowREG | (highREG<<8);
+//                        uint8_t highREG = receivedMSG.getDataByte(4);
+//                        uint8_t lowREG = receivedMSG.getDataByte(5);
+//                        int numberOfRegisters = lowREG | (highREG<<8);
                         Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentCurrentSetpointAcknowledged(link,data_Munk::SegmentMode::REVERSE);});
                     }
                 }
@@ -249,9 +249,9 @@ void MunkProtocol::sendSegmentTime(const ILink *link, const registers_Munk::Segm
                 {
                     if(segment.getFullExpectedResonse() == receivedMSG.getDataArray())
                     {
-                        uint8_t highREG = receivedMSG.getDataByte(4);
-                        uint8_t lowREG = receivedMSG.getDataByte(5);
-                        int numberOfRegisters = lowREG | (highREG<<8);
+//                        uint8_t highREG = receivedMSG.getDataByte(4);
+//                        uint8_t lowREG = receivedMSG.getDataByte(5);
+//                        int numberOfRegisters = lowREG | (highREG<<8);
                         Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentVoltageSetpointAcknowledged(link,data_Munk::SegmentMode::FORWARD);});
                     }
                 }
@@ -307,6 +307,36 @@ void MunkProtocol::sendFaultStateRequest(const ILink *link, const registers_Munk
                 else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::READ)
                 {
                     parseForFaultStateCode(link,&request,receivedMSG);
+                }
+            }
+        }
+    }
+}
+
+void MunkProtocol::sendMunkRequest(const ILink *link, const registers_Munk::AbstractParameterPtr request)
+{
+    if(link->isConnected())
+    {
+        MunkMessage receivedMSG;
+        if(link->WriteBytes(request->getFullMessage()))
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(20));
+            if(this->ReceiveData(link,receivedMSG))
+            {
+                if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
+                    parseForException(link, receivedMSG);
+                else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::READ)
+                {
+                    switch (request->getParameterType()) {
+                    case registers_Munk::ParameterType::FAULT_STATE:
+                    {
+                        //parseForFaultStateCode(link,&request,receivedMSG);
+                        break;
+                    }
+                    default:
+                        break;
+                    }
+
                 }
             }
         }

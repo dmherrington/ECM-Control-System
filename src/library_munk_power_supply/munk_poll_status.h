@@ -1,7 +1,8 @@
 #ifndef MUNK_POLL_STATUS_H
 #define MUNK_POLL_STATUS_H
 
-
+#include <map>
+#include <utility>
 #include <iostream>
 #include <QDate>
 
@@ -23,12 +24,15 @@ public:
     MunkPollStatus(const int &msTimeout = 1000);
 
     ~MunkPollStatus() {
-        std::cout << "Destructor on the munk poll status object" << std::endl;
+        std::cout << "Destructor on the munk timeout state machine" << std::endl;
         mToExit = true;
     }
 
     void beginPolling();
     void pausePolling();
+
+    void addRequest(const registers_Munk::AbstractParameterPtr request, const int &period = 100);
+    void removeRequest(const registers_Munk::ParameterType &registerType);
 
     void run();
 
@@ -38,11 +42,29 @@ public:
     }
 
 private:
+    void addRequestToQueue(const registers_Munk::AbstractParameterPtr request, const int &period = 100);
+
+    int greatestCommonDenominator(int a,int b) {
+        int temp;
+        while(b > 0) {
+            temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
+private:
+    typedef std::pair<double, double> pollingTimeout;
+
+private:
     Timer m_Timeout;
     int timeout;
 
 private:
     MunkStatusCallback_Interface *m_CB;
+    std::map<registers_Munk::ParameterType,registers_Munk::AbstractParameterPtr> requestMap;
+    std::map<registers_Munk::ParameterType,pollingTimeout> timeoutMap;
 
 protected:
     std::list<std::function<void()>> m_LambdasToRun;

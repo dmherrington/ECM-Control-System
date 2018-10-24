@@ -23,6 +23,7 @@ AbstractParameter::AbstractParameter(const AbstractParameter &copy)
     this->readOrwrite = copy.readOrwrite;
     this->highChecksum = copy.highChecksum;
     this->lowChecksum = copy.lowChecksum;
+    this->latestUpdate = copy.latestUpdate;
 }
 
 void AbstractParameter::setSlaveAddress(const uint8_t &address)
