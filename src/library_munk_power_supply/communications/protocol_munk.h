@@ -20,6 +20,11 @@
 #include "data_registers/parameter_memory_write.h"
 #include "data_registers/register_fault_state.h"
 #include "data_registers/register_fault_reset.h"
+
+#include "data_registers/register_tb_count.h"
+#include "data_registers/register_tb_select.h"
+#include "data_registers/register_tb_temperature.h"
+
 #include "data_registers/type_definition.h"
 
 #include "munk_data_framing.h"
@@ -85,6 +90,8 @@ public:
 
     void sendMunkRequest(const ILink *link, const registers_Munk::AbstractParameterPtr request);
 
+    void sendTemperatureRequest(const ILink *link, const registers_Munk::Register_TBTemperature &request);
+
 public:
 
     //!
@@ -102,6 +109,7 @@ public:
 
     void parseForFaultStateCode(const ILink *link, const registers_Munk::AbstractParameter *parameter, const MunkMessage &msg);
 
+    void parseForTemperaureStatus(const ILink *link, const registers_Munk::AbstractParameter *parameter, const MunkMessage &msg);
 private:
 
     void Emit(const std::function<void(const IProtocolMunkEvents*)> func)

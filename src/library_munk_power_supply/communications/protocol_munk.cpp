@@ -313,6 +313,31 @@ void MunkProtocol::sendFaultStateRequest(const ILink *link, const registers_Munk
     }
 }
 
+void MunkProtocol::sendTemperatureRequest(const ILink *link, const registers_Munk::Register_TBTemperature &request)
+{
+    for(int boardIndex = 1; boardIndex <= 6; boardIndex++)
+    {
+        if(link->isConnected())
+        {
+            MunkMessage receivedMSG;
+            if(link->WriteBytes(request.getFullMessage()))
+            {
+                std::this_thread::sleep_for(std::chrono::milliseconds(20));
+                if(this->ReceiveData(link,receivedMSG))
+                {
+                    if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
+                        parseForException(link, receivedMSG);
+                    else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::READ)
+                    {
+                        parseForFaultStateCode(link,&request,receivedMSG);
+                    }
+                }
+            }
+        }
+    }
+
+}
+
 void MunkProtocol::sendMunkRequest(const ILink *link, const registers_Munk::AbstractParameterPtr request)
 {
     if(link->isConnected())
