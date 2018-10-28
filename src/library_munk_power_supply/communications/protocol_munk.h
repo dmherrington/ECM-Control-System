@@ -38,6 +38,8 @@
 
 #include "data_registers/register_pulse_mode.h"
 
+#include "data_response/state_temperature_board.h"
+
 namespace comms_Munk{
 
 class MunkProtocol : public IProtocol
@@ -92,6 +94,7 @@ public:
 
     void sendTemperatureRequest(const ILink *link, const registers_Munk::Register_TBTemperature &request);
 
+    bool sendBoardChange(const ILink *link, const registers_Munk::Register_TBSelect &setBoard);
 public:
 
     //!

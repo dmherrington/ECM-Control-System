@@ -11,6 +11,8 @@ class State_TemperatureBoard
 public:
     State_TemperatureBoard(const unsigned int &board);
 
+    State_TemperatureBoard(const unsigned int &board, const QByteArray &receivedBytes);
+
     State_TemperatureBoard(const State_TemperatureBoard &copy);
 
     ~State_TemperatureBoard() = default;
@@ -32,9 +34,6 @@ public:
     void setTemperature_1(const double &temp);
 
     void setTemperature_2(const double &temp);
-
-private:
-    void parseFaultCode();
 
 public:
     //!

@@ -315,9 +315,14 @@ void MunkProtocol::sendFaultStateRequest(const ILink *link, const registers_Munk
 
 void MunkProtocol::sendTemperatureRequest(const ILink *link, const registers_Munk::Register_TBTemperature &request)
 {
+    registers_Munk::Register_TBSelect selectedBoard;
+    selectedBoard.setSlaveAddress(01);
+
+
     for(int boardIndex = 1; boardIndex <= 6; boardIndex++)
     {
-        if(link->isConnected())
+        selectedBoard.setBoardNumber(boardIndex);
+        if((this->sendBoardChange(link,selectedBoard)) && (link->isConnected()))
         {
             MunkMessage receivedMSG;
             if(link->WriteBytes(request.getFullMessage()))
@@ -329,14 +334,15 @@ void MunkProtocol::sendTemperatureRequest(const ILink *link, const registers_Mun
                         parseForException(link, receivedMSG);
                     else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::READ)
                     {
-                        parseForFaultStateCode(link,&request,receivedMSG);
+                        response_Munk::State_TemperatureBoard newTemp(boardIndex,receivedMSG.getDataArray());
+                        Emit([&](const IProtocolMunkEvents* ptr){ptr->UpdatedTemperatureStateRecieved(link, newTemp);});
                     }
                 }
             }
-        }
-    }
+        } //end of if board selected changed and link is connected
+    } //end of boardIndex for loop
 
-}
+} //end of function sendTemperatureRequest
 
 void MunkProtocol::sendMunkRequest(const ILink *link, const registers_Munk::AbstractParameterPtr request)
 {
@@ -420,6 +426,34 @@ void MunkProtocol::sendPulseMode(const ILink *link, const registers_Munk::Regist
     }
 }
 
+
+bool MunkProtocol::sendBoardChange(const ILink *link, const registers_Munk::Register_TBSelect &setBoard)
+{
+    if(link->isConnected())
+    {
+        MunkMessage receivedMSG;
+        if(link->WriteBytes(setBoard.getFullMessage()))
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(20));
+            std::cout<<"We have finished transmitting the board select request."<<std::endl;
+            if(this->ReceiveData(link,receivedMSG))
+            {
+                std::cout<<"We have finished receiving the info on the response to setting the board."<<std::endl;
+                if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
+                {
+                    //parseForException(link, receivedMSG);
+                    return false;
+                }
+                else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::WRITE)
+                {
+                    if(setBoard.getFullExpectedResonse() == receivedMSG.getDataArray())
+                        return true;
+                    return false;
+                }
+            }
+        }
+    }
+}
 
 //!
 //! \brief Read data incoming from some link

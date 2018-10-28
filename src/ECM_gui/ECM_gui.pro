@@ -68,7 +68,8 @@ SOURCES += \
     misc_dialogs/code_edit_widget.cpp \
     misc_dialogs/window_custom_motion_commands.cpp \
     misc_dialogs/widget_device_fault.cpp \
-    misc_dialogs/window_device_connections.cpp
+    misc_dialogs/window_device_connections.cpp \
+    misc_dialogs/window_munk_temperature_status.cpp
 
 HEADERS += \
         ECM_controller_gui.h \
@@ -95,7 +96,8 @@ HEADERS += \
     misc_dialogs/window_custom_motion_commands.h \
     misc_dialogs/widget_device_fault.h \
     misc_dialogs/window_device_connections.h \
-    gui_verison.h
+    gui_verison.h \
+    misc_dialogs/window_munk_temperature_status.h
 
 FORMS += \
         ECM_controller_gui.ui \
@@ -111,7 +113,8 @@ FORMS += \
     misc_dialogs/window_motion_profile.ui \
     misc_dialogs/window_custom_motion_commands.ui \
     misc_dialogs/widget_device_fault.ui \
-    misc_dialogs/window_device_connections.ui
+    misc_dialogs/window_device_connections.ui \
+    misc_dialogs/window_munk_temperature_status.ui
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include

@@ -107,10 +107,10 @@ private:
     //////////////////////////////////////////////////////////////
 
     void RegisterPulseModeUpdated(const ILink *link_ptr, const registers_Munk::Register_PulseMode &registerMode) const override;
-
     void FaultCodeReceived(const ILink* link_ptr, const data_Munk::FaultRegisterType &faultRegister, const unsigned int &code) const override;
-
     void FaultStateCleared(const ILink* link_ptr) const override;
+
+    void UpdatedTemperatureStateRecieved(const Ilink* link_ptr, const response_Munk::State_TemperatureBoard &tempStatus) const override;
 
     void SegmentVoltageSetpointAcknowledged(const ILink* link_ptr, const data_Munk::SegmentMode &mode) const override;
     void SegmentCurrentSetpointAcknowledged(const ILink* link_ptr , const data_Munk::SegmentMode &mode) const override;

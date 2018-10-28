@@ -9,6 +9,8 @@
 
 #include "data_registers/segment_time_detailed.h"
 
+#include "data_response/state_temperature_board.h"
+
 namespace comms_Munk{
 
 class CommsEvents
@@ -104,6 +106,12 @@ public:
     {
 
     }
+
+    virtual void TemperatureStateRecieved(const response_Munk::State_TemperatureBoard &tempStatus)
+    {
+        UNUSED(tempStatus);
+    }
+
 };
 
 } //end of namespace comms_Munk

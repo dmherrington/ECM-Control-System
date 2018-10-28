@@ -5,16 +5,21 @@ namespace response_Munk{
 
 State_TemperatureBoard::State_TemperatureBoard(const unsigned int &board)
 {
-    this->currentRegister = registerType;
-    this->faultCode = code;
-    this->parseFaultCode();
+    this->temperature_Board = board;
 }
+
+State_TemperatureBoard::State_TemperatureBoard(const unsigned int &board, const QByteArray &receivedBytes)
+{
+    this->temperature_Board = board;
+    this->receivedByteArray(receivedBytes);
+}
+
 
 State_TemperatureBoard::State_TemperatureBoard(const State_TemperatureBoard &copy)
 {
-    this->currentRegister = copy.currentRegister;
-    this->faultCode = copy.faultCode;
-    this->faultErrors = copy.faultErrors;
+    this->temperature_Board = copy.temperature_Board;
+    this->temperatureStatus_1 = copy.temperatureStatus_1;
+    this->temperatureStatus_2 = copy.temperatureStatus_2;
 }
 
 unsigned int State_TemperatureBoard::getBoardIndex() const
