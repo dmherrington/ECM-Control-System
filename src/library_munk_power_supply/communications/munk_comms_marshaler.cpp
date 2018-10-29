@@ -249,7 +249,7 @@ void MunkCommsMarshaler::FaultStateCleared(const ILink *link_ptr) const
     Emit([&](CommsEvents *ptr){ptr->FaultStateCleared();});
 }
 
-void MunkCommsMarshaler::UpdatedTemperatureStateRecieved(const Ilink* link_ptr, const response_Munk::State_TemperatureBoard &tempStatus) const
+void MunkCommsMarshaler::UpdatedTemperatureStateRecieved(const ILink *link_ptr, const response_Munk::State_TemperatureBoard &tempStatus) const
 {
     UNUSED(link_ptr);
     Emit([&](CommsEvents *ptr){ptr->TemperatureStateRecieved(tempStatus);});

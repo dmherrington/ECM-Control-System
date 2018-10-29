@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "../misc_widgets/widget_munk_temperature_state.h"
+
 namespace Ui {
 class Window_MunkTemperatureStatus;
 }

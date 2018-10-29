@@ -20,6 +20,9 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     ui->setupUi(this);
 
+    Window_MunkTemperatureStatus* newWindow = new Window_MunkTemperatureStatus();
+    newWindow->show();
+
     ui->doubleSpinBox_CutDepth->setToolTip("Profile Variable: maxdepth");
     ui->doubleSpinBox_RetractDistance->setToolTip("Profile Variable: rtdist");
     ui->doubleSpinBox_StepSize->setToolTip("Profile Variable: step");

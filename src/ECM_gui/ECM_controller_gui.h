@@ -15,6 +15,7 @@
 #include "misc_dialogs/window_custom_motion_commands.h"
 #include "misc_dialogs/window_touchoff.h"
 #include "misc_dialogs/window_motion_profile.h"
+#include "misc_dialogs/window_munk_temperature_status.h"
 
 #include "additional_sensor_display.h"
 #include "common/threadmanager.h"

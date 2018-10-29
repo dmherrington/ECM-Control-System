@@ -32,7 +32,7 @@ public:
     virtual void FaultCodeReceived(const ILink* link_ptr, const data_Munk::FaultRegisterType &faultRegister, const unsigned int &code) const = 0;
     virtual void FaultStateCleared(const ILink* link_ptr) const = 0;
 
-    virtual void UpdatedTemperatureStateRecieved(const Ilink* link_ptr, const response_Munk::State_TemperatureBoard &tempStatus) const = 0;
+    virtual void UpdatedTemperatureStateRecieved(const ILink* link_ptr, const response_Munk::State_TemperatureBoard &tempStatus) const = 0;
 
     virtual void SegmentVoltageSetpointAcknowledged(const ILink* link_ptr, const data_Munk::SegmentMode &mode) const = 0;
     virtual void SegmentCurrentSetpointAcknowledged(const ILink* link_ptr , const data_Munk::SegmentMode &mode) const = 0;

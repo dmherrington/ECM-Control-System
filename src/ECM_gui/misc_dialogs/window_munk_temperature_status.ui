@@ -110,10 +110,6 @@ QTabWidget::tab{
 background-color:#3d3d3d;
 }
 
-QLineEdit{
-border-radius:0;
-}
-
 QProgressBar{
 border-radius:0;
 text-align:center;

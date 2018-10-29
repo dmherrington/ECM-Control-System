@@ -6,6 +6,8 @@ Window_MunkTemperatureStatus::Window_MunkTemperatureStatus(QWidget *parent) :
     ui(new Ui::Window_MunkTemperatureStatus)
 {
     ui->setupUi(this);
+    Widget_MunkTemperatureState* state1 = new Widget_MunkTemperatureState();
+    ui->verticalLayout->addWidget(state1);
 }
 
 Window_MunkTemperatureStatus::~Window_MunkTemperatureStatus()

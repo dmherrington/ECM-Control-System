@@ -54,7 +54,7 @@ public:
     //!
     bool operator == (const FaultRegisterState &rhs)
     {
-        if(this->temperature_Board != rhs.temperature_Board){
+        if(this->currentRegister != rhs.currentRegister){
             return false;
         }
         if(this->faultCode != rhs.faultCode){
@@ -76,9 +76,10 @@ public:
     }
 
 private:
-    unsigned int temperature_Board = 0;
-    double temperatureStatus_1 = 0.0;
-    double temperatureStatus_2 = 0.0;
+    data_Munk::FaultRegisterType currentRegister;
+    unsigned int faultCode;
+    std::vector<std::string> faultErrors;
+
 };
 
 } //end of namespace
