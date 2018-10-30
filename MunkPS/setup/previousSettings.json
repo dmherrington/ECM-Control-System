@@ -1,7 +1,7 @@
 {
     "segmentData": [
         {
-            "current": 600,
+            "current": 400,
             "segmentMode": "FORWARD",
             "supplyOutput": "OUTPUT1",
             "time": 10000,
