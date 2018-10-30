@@ -107,7 +107,7 @@ public:
 
     }
 
-    virtual void TemperatureStateRecieved(const response_Munk::State_TemperatureBoard &tempStatus)
+    virtual void TemperatureStateRecieved(const response_Munk::State_TemperatureBoard &tempStatus) const
     {
         UNUSED(tempStatus);
     }

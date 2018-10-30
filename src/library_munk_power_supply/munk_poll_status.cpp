@@ -90,7 +90,6 @@ void MunkPollStatus::addRequestToQueue(const registers_Munk::AbstractParameterPt
         currentTimeout = greatestCommonDenominator(currentTimeout, it->second.second);
     }
     timeout = currentTimeout;
-
 }
 
 void MunkPollStatus::addRequest(const registers_Munk::AbstractParameterPtr request, const int &period)
@@ -180,14 +179,20 @@ void MunkPollStatus::run()
                         {
                             registers_Munk::RegisterFaultState requestRegister1(data_Munk::FaultRegisterType::FAULT_REGISTER_1);
                             requestRegister1.setSlaveAddress(01);
+                            m_CB->cbi_MunkFaultStateRequest(requestRegister1);
+
                             registers_Munk::RegisterFaultState requestRegister2(data_Munk::FaultRegisterType::FAULT_REGISTER_2);
                             requestRegister2.setSlaveAddress(01);
+                            m_CB->cbi_MunkFaultStateRequest(requestRegister2);
+
                             registers_Munk::RegisterFaultState requestRegister3(data_Munk::FaultRegisterType::FAULT_REGISTER_3);
                             requestRegister3.setSlaveAddress(01);
-
-                            m_CB->cbi_MunkFaultStateRequest(requestRegister1);
-                            m_CB->cbi_MunkFaultStateRequest(requestRegister2);
                             m_CB->cbi_MunkFaultStateRequest(requestRegister3);
+                        }
+                        else if(it->first == registers_Munk::ParameterType::TB_TEMPERATURE)
+                        {
+                            registers_Munk::Register_TBTemperature* tempRequest = requestMap.at(it->first)->as<registers_Munk::Register_TBTemperature>();
+                            m_CB->cbi_MunkTemperatureStateRequest(*tempRequest);
                         }
                     }
                 }

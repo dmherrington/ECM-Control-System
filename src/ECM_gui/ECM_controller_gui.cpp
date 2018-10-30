@@ -20,9 +20,6 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     ui->setupUi(this);
 
-    Window_MunkTemperatureStatus* newWindow = new Window_MunkTemperatureStatus();
-    newWindow->show();
-
     ui->doubleSpinBox_CutDepth->setToolTip("Profile Variable: maxdepth");
     ui->doubleSpinBox_RetractDistance->setToolTip("Profile Variable: rtdist");
     ui->doubleSpinBox_StepSize->setToolTip("Profile Variable: step");
@@ -111,6 +108,9 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     connect(m_API->m_Galil,SIGNAL(signal_GalilHomeIndicated(bool)),this,SLOT(slot_UpdateHomeIndicated(bool)));
 
+    m_WindowMunkTemperatureStatus = new Window_MunkTemperatureStatus(m_API->m_Munk);
+    m_WindowMunkTemperatureStatus->show();
+    m_WindowMunkTemperatureStatus->updateBoardCount(6);
 
     std::vector<common::TupleECMData> plottables = m_API->m_Galil->getPlottables();
     for(unsigned int i = 0; i < plottables.size(); i++)

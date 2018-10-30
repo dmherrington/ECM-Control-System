@@ -107,6 +107,8 @@ signals:
 
     void signal_SegmentWriteProgress(const int &completed, const int &required);
 
+    void signal_NewTemperatureReceived(const response_Munk::State_TemperatureBoard &tempStatus) const;
+
 private:
 
     //!
@@ -148,11 +150,15 @@ private:
 
     void ExceptionResponseReceived(const MunkRWType &RWType, const std::string &meaning) const override;
 
+    void TemperatureStateRecieved(const response_Munk::State_TemperatureBoard &tempStatus) const override;
+
     ///////////////////////////////////////////////////////////////
     /// Virtual Functions imposed from MunkStatusCallback_Interface
     ///////////////////////////////////////////////////////////////
 
     void cbi_MunkFaultStateRequest(const RegisterFaultState &request) const override;
+
+    void cbi_MunkTemperatureStateRequest(const Register_TBTemperature &request) const override;
 
 public:
     std::string getLogOfOperationalSettings() const;

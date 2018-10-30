@@ -196,6 +196,18 @@ void MunkCommsMarshaler::sendRegisterPulseMode(const registers_Munk::Register_Pu
     link->MarshalOnThread(func);
 }
 
+void MunkCommsMarshaler::sendTemperatureRequest(const registers_Munk::Register_TBTemperature &registerTemperature)
+{
+    auto func = [this, registerTemperature]() {
+        if(!link->isConnected())
+            return;
+
+            protocol->sendTemperatureRequest(link.get(), registerTemperature);
+    };
+
+    link->MarshalOnThread(func);
+}
+
 //////////////////////////////////////////////////////////////
 /// React to Link Events
 //////////////////////////////////////////////////////////////

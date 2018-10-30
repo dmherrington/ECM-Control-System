@@ -187,6 +187,7 @@ private:
     Window_CustomMotionCommands* m_WindowCustomMotionCommands;
     Window_Touchoff* m_WindowTouchoff;
     Window_MotionProfile* m_WindowMotionProfile;
+    Window_MunkTemperatureStatus* m_WindowMunkTemperatureStatus;
 };
 
 #endif // ECM_CONTROLLER_GUI_H

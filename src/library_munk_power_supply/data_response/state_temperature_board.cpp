@@ -44,6 +44,15 @@ void State_TemperatureBoard::setBoardIndex(const unsigned int &boardIndex)
 
 void State_TemperatureBoard::receivedByteArray(const QByteArray &receivedBytes)
 {
+    uint8_t dataHi1 = receivedBytes.at(3);
+    uint8_t dataLo1 = receivedBytes.at(4);
+    int tempValue1 = dataLo1 | (dataHi1<<8);
+    this->setTemperature_1((double)tempValue1 / 10.0);
+
+    uint8_t dataHi2 = receivedBytes.at(5);
+    uint8_t dataLo2 = receivedBytes.at(6);
+    int tempValue2 = dataLo2 | (dataHi2<<8);
+    this->setTemperature_2((double)tempValue2 / 10.0);
 
 }
 

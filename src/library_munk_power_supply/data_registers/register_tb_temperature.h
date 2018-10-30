@@ -5,6 +5,7 @@
 
 namespace registers_Munk{
 
+ECM_CLASS_FORWARD(Register_TBTemperature);
 
 class Register_TBTemperature : public AbstractParameter
 {

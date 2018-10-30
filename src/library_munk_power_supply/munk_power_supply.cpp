@@ -238,6 +238,16 @@ void MunkPowerSupply::ConnectionOpened() const
     connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
     emit signal_MunkCommunicationUpdate(connection);
 
+    // 1: Request the fault states of the munk unit
+    registers_Munk::RegisterFaultStatePtr requestRegister1 = std::make_shared<registers_Munk::RegisterFaultState>(data_Munk::FaultRegisterType::FAULT_REGISTER_1);
+    requestRegister1->setSlaveAddress(01);
+    pollStatus->addRequest(requestRegister1,1000);
+
+    // 2: Request the temperature state of the munk unit
+    registers_Munk::Register_TBTemperaturePtr requestTemperature = std::make_shared<registers_Munk::Register_TBTemperature>();
+    requestTemperature->setSlaveAddress(01);
+    pollStatus->addRequest(requestTemperature,1000);
+
     pollStatus->beginPolling();
 }
 
@@ -345,9 +355,19 @@ void MunkPowerSupply::ExceptionResponseReceived(const MunkRWType &RWType, const 
         emit signal_SegmentException("WRITING",meaning);
 }
 
+void MunkPowerSupply::TemperatureStateRecieved(const response_Munk::State_TemperatureBoard &tempStatus) const
+{
+    emit signal_NewTemperatureReceived(tempStatus);
+}
+
 void MunkPowerSupply::cbi_MunkFaultStateRequest(const RegisterFaultState &request) const
 {
     commsMarshaler->sendRegisterFaultStateRequest(request);
+}
+
+void MunkPowerSupply::cbi_MunkTemperatureStateRequest(const Register_TBTemperature &request) const
+{
+    commsMarshaler->sendTemperatureRequest(request);
 }
 
 std::string MunkPowerSupply::getLogOfOperationalSettings() const

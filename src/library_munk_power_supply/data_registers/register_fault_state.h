@@ -16,6 +16,8 @@
 
 namespace registers_Munk{
 
+ECM_CLASS_FORWARD(RegisterFaultState);
+
 class RegisterFaultState : public AbstractParameter
 {
 public:

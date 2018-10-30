@@ -87,6 +87,8 @@ public:
 
     void sendRegisterPulseMode(const registers_Munk::Register_PulseMode &registerMode);
 
+    void sendTemperatureRequest(const registers_Munk::Register_TBTemperature &registerTemperature);
+
 private:
     //////////////////////////////////////////////////////////////
     /// React to Link Events

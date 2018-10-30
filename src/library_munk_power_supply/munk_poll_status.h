@@ -11,11 +11,12 @@
 #include "common/timer.h"
 
 #include "data_registers/register_fault_state.h"
-
+#include "data_registers/register_tb_temperature.h"
 class MunkStatusCallback_Interface
 {
 public:
     virtual void cbi_MunkFaultStateRequest(const registers_Munk::RegisterFaultState &request) const = 0;
+    virtual void cbi_MunkTemperatureStateRequest(const registers_Munk::Register_TBTemperature &request) const = 0;
 };
 
 class MunkPollStatus : public Thread

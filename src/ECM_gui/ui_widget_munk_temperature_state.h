@@ -92,9 +92,9 @@ public:
     void retranslateUi(QWidget *Widget_MunkTemperatureState)
     {
         Widget_MunkTemperatureState->setWindowTitle(QApplication::translate("Widget_MunkTemperatureState", "Form", nullptr));
-        lineEdit_BoardNumber->setText(QApplication::translate("Widget_MunkTemperatureState", "1", nullptr));
-        lineEdit_Temp1->setText(QApplication::translate("Widget_MunkTemperatureState", "1", nullptr));
-        lineEdit_Temp2->setText(QApplication::translate("Widget_MunkTemperatureState", "1", nullptr));
+        lineEdit_BoardNumber->setText(QApplication::translate("Widget_MunkTemperatureState", "0", nullptr));
+        lineEdit_Temp1->setText(QApplication::translate("Widget_MunkTemperatureState", "0", nullptr));
+        lineEdit_Temp2->setText(QApplication::translate("Widget_MunkTemperatureState", "0", nullptr));
     } // retranslateUi
 
 };
