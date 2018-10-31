@@ -8,8 +8,7 @@ MunkPowerSupply::MunkPowerSupply(const std::string &name):
     m_fwdVSetpoint(TypeSupplyOutput::OUTPUT1,SegmentMode::FORWARD),
     m_revVSetpoint(TypeSupplyOutput::OUTPUT1,SegmentMode::REVERSE)
 {
-    //    qRegisterMetaType<SensorState>("SensorState");
-    //    qRegisterMetaType<TupleSensorString>("TupleSensorString");
+    qRegisterMetaType<response_Munk::State_TemperatureBoard>("MunkTemperatureState");
 
     commsMarshaler = new MunkCommsMarshaler();
     commsMarshaler->AddSubscriber(this);

@@ -64,12 +64,13 @@ void State_TemperatureBoard::setTemperatures(const double &temp1, const double &
 
 void State_TemperatureBoard::setTemperature_1(const double &temp)
 {
-    this->temperatureStatus_1 = temp;
+
+    this->temperatureStatus_1 = (temp * 9/5) + 32.0;
 }
 
 void State_TemperatureBoard::setTemperature_2(const double &temp)
 {
-    this->temperatureStatus_2 = temp;
+    this->temperatureStatus_2 = (temp * 9/5) + 32.0;
 }
 
 } //end of namespace response_Munk

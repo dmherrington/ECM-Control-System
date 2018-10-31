@@ -2,6 +2,7 @@
 #define STATE_TEMPERATURE_BOARD_H
 
 #include <QByteArray>
+#include <QMetaType>
 
 namespace response_Munk{
 
@@ -9,7 +10,7 @@ class State_TemperatureBoard
 {
 
 public:
-    State_TemperatureBoard(const unsigned int &board);
+    State_TemperatureBoard(const unsigned int &board = 0);
 
     State_TemperatureBoard(const unsigned int &board, const QByteArray &receivedBytes);
 
@@ -84,5 +85,7 @@ private:
 };
 
 } //end of namespace
+
+Q_DECLARE_METATYPE(response_Munk::State_TemperatureBoard);
 
 #endif // STATE_TEMPERATURE_BOARD_H

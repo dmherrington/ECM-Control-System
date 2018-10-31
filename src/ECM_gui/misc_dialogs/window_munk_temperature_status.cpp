@@ -5,6 +5,8 @@ Window_MunkTemperatureStatus::Window_MunkTemperatureStatus(const MunkPowerSupply
     QMainWindow(parent),
     ui(new Ui::Window_MunkTemperatureStatus)
 {
+    qRegisterMetaType<response_Munk::State_TemperatureBoard>("MunkTemperatureState");
+
     ui->setupUi(this);
     m_PowerSupply = obj;
 
@@ -37,7 +39,7 @@ void Window_MunkTemperatureStatus::updateBoardCount(const unsigned int &count)
     }
 
     //Next let us create a bunch of new ones
-    for (size_t boardIndex = 1; boardIndex < count; boardIndex++)
+    for (size_t boardIndex = 1; boardIndex <= count; boardIndex++)
     {
         Widget_MunkTemperatureState* newBoardState = new Widget_MunkTemperatureState(boardIndex);
         m_StateWidgets.insert(std::pair<unsigned int,Widget_MunkTemperatureState*>(boardIndex,newBoardState));

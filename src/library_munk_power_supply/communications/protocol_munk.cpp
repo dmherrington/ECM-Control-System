@@ -382,10 +382,8 @@ void MunkProtocol::sendFaultStateReset(const ILink *link, const registers_Munk::
         if(link->WriteBytes(request.getFullMessage()))
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(20));
-            std::cout<<"We have finished transmitting info"<<std::endl;
             if(this->ReceiveData(link,receivedMSG))
             {
-                std::cout<<"We have finished receiving info"<<std::endl;
                 if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
                     parseForException(link, receivedMSG);
                 else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::WRITE)
@@ -435,10 +433,8 @@ bool MunkProtocol::sendBoardChange(const ILink *link, const registers_Munk::Regi
         if(link->WriteBytes(setBoard.getFullMessage()))
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(20));
-            std::cout<<"We have finished transmitting the board select request."<<std::endl;
             if(this->ReceiveData(link,receivedMSG))
             {
-                std::cout<<"We have finished receiving the info on the response to setting the board."<<std::endl;
                 if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
                 {
                     //parseForException(link, receivedMSG);
