@@ -18,7 +18,7 @@ class Window_MotionProfile : public GeneralDialogWindow
     Q_OBJECT
 
 public:
-    explicit Window_MotionProfile(GalilMotionController* obj, QWidget *parent = 0);
+    explicit Window_MotionProfile(GalilMotionController* galilObj, QWidget *parent = 0);
     ~Window_MotionProfile();
 
 private:

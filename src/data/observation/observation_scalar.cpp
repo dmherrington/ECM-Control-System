@@ -81,7 +81,6 @@ namespace observation {
     void ObservationScalar::ClearData()
     {
         m_DataMutex.lock();
-
         m_Domain.clear();
         m_Range.clear();
         m_DataMutex.unlock();

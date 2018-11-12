@@ -17,6 +17,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -38,11 +39,20 @@ public:
     QAction *actionSave_As;
     QAction *actionClose;
     QWidget *centralwidget;
+    QGridLayout *gridLayout_3;
+    QHBoxLayout *horizontalLayout_6;
+    QSpacerItem *horizontalSpacer_4;
+    QGridLayout *gridLayout_4;
+    QLabel *label_ManualControl;
+    QSpacerItem *horizontalSpacer_5;
     QGridLayout *gridLayout_2;
-    CodeEditWidget *codeTextEdit;
+    QSpacerItem *horizontalSpacer_6;
+    QHBoxLayout *horizontalLayout;
+    QLabel *label;
+    QLineEdit *lineEdit;
     QGridLayout *gridLayout;
-    QPushButton *pushButton_UploadProgram;
     QPushButton *pushButton_DownloadProgram;
+    QPushButton *pushButton_UploadProgram;
     QSpacerItem *horizontalSpacer_3;
     QVBoxLayout *verticalLayout;
     QLabel *label_Connection;
@@ -50,6 +60,7 @@ public:
     QSpacerItem *horizontalSpacer_2;
     LED *led_ProgramCurrent;
     QSpacerItem *horizontalSpacer;
+    CodeEditWidget *codeTextEdit;
     QMenuBar *menubar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -61,7 +72,7 @@ public:
     {
         if (Window_MotionProfile->objectName().isEmpty())
             Window_MotionProfile->setObjectName(QStringLiteral("Window_MotionProfile"));
-        Window_MotionProfile->resize(480, 225);
+        Window_MotionProfile->resize(482, 295);
         Window_MotionProfile->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
@@ -189,37 +200,105 @@ public:
         actionClose->setObjectName(QStringLiteral("actionClose"));
         centralwidget = new QWidget(Window_MotionProfile);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
-        gridLayout_2 = new QGridLayout(centralwidget);
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        codeTextEdit = new CodeEditWidget(centralwidget);
-        codeTextEdit->setObjectName(QStringLiteral("codeTextEdit"));
+        gridLayout_3 = new QGridLayout(centralwidget);
+        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
+        horizontalLayout_6 = new QHBoxLayout();
+        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout_2->addWidget(codeTextEdit, 0, 0, 1, 1);
+        horizontalLayout_6->addItem(horizontalSpacer_4);
+
+        gridLayout_4 = new QGridLayout();
+        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
+        label_ManualControl = new QLabel(centralwidget);
+        label_ManualControl->setObjectName(QStringLiteral("label_ManualControl"));
+        QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(label_ManualControl->sizePolicy().hasHeightForWidth());
+        label_ManualControl->setSizePolicy(sizePolicy);
+        label_ManualControl->setMinimumSize(QSize(0, 32));
+        label_ManualControl->setMaximumSize(QSize(16777215, 32));
+        QFont font;
+        font.setPointSize(12);
+        font.setBold(true);
+        font.setWeight(75);
+        label_ManualControl->setFont(font);
+        label_ManualControl->setAlignment(Qt::AlignCenter);
+
+        gridLayout_4->addWidget(label_ManualControl, 0, 0, 1, 1);
+
+
+        horizontalLayout_6->addLayout(gridLayout_4);
+
+        horizontalSpacer_5 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_6->addItem(horizontalSpacer_5);
+
+
+        gridLayout_3->addLayout(horizontalLayout_6, 0, 0, 1, 1);
+
+        gridLayout_2 = new QGridLayout();
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        gridLayout_2->setSizeConstraint(QLayout::SetDefaultConstraint);
+        horizontalSpacer_6 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_2->addItem(horizontalSpacer_6, 0, 1, 1, 1);
+
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        label = new QLabel(centralwidget);
+        label->setObjectName(QStringLiteral("label"));
+        QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy1);
+        label->setMinimumSize(QSize(110, 18));
+        label->setMaximumSize(QSize(110, 18));
+        QFont font1;
+        font1.setPointSize(12);
+        label->setFont(font1);
+
+        horizontalLayout->addWidget(label);
+
+        lineEdit = new QLineEdit(centralwidget);
+        lineEdit->setObjectName(QStringLiteral("lineEdit"));
+        sizePolicy1.setHeightForWidth(lineEdit->sizePolicy().hasHeightForWidth());
+        lineEdit->setSizePolicy(sizePolicy1);
+        lineEdit->setMinimumSize(QSize(200, 18));
+        lineEdit->setMaximumSize(QSize(400, 18));
+        lineEdit->setFont(font1);
+
+        horizontalLayout->addWidget(lineEdit);
+
+
+        gridLayout_2->addLayout(horizontalLayout, 0, 0, 1, 1);
 
         gridLayout = new QGridLayout();
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        pushButton_UploadProgram = new QPushButton(centralwidget);
-        pushButton_UploadProgram->setObjectName(QStringLiteral("pushButton_UploadProgram"));
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(pushButton_UploadProgram->sizePolicy().hasHeightForWidth());
-        pushButton_UploadProgram->setSizePolicy(sizePolicy);
-        pushButton_UploadProgram->setMinimumSize(QSize(180, 30));
-        QFont font;
-        font.setPointSize(12);
-        pushButton_UploadProgram->setFont(font);
-
-        gridLayout->addWidget(pushButton_UploadProgram, 0, 0, 1, 1);
-
         pushButton_DownloadProgram = new QPushButton(centralwidget);
         pushButton_DownloadProgram->setObjectName(QStringLiteral("pushButton_DownloadProgram"));
-        sizePolicy.setHeightForWidth(pushButton_DownloadProgram->sizePolicy().hasHeightForWidth());
-        pushButton_DownloadProgram->setSizePolicy(sizePolicy);
+        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(pushButton_DownloadProgram->sizePolicy().hasHeightForWidth());
+        pushButton_DownloadProgram->setSizePolicy(sizePolicy2);
         pushButton_DownloadProgram->setMinimumSize(QSize(180, 30));
-        pushButton_DownloadProgram->setFont(font);
+        pushButton_DownloadProgram->setMaximumSize(QSize(16777215, 30));
+        pushButton_DownloadProgram->setFont(font1);
 
         gridLayout->addWidget(pushButton_DownloadProgram, 0, 1, 1, 1);
+
+        pushButton_UploadProgram = new QPushButton(centralwidget);
+        pushButton_UploadProgram->setObjectName(QStringLiteral("pushButton_UploadProgram"));
+        sizePolicy2.setHeightForWidth(pushButton_UploadProgram->sizePolicy().hasHeightForWidth());
+        pushButton_UploadProgram->setSizePolicy(sizePolicy2);
+        pushButton_UploadProgram->setMinimumSize(QSize(180, 30));
+        pushButton_UploadProgram->setMaximumSize(QSize(16777215, 30));
+        pushButton_UploadProgram->setFont(font1);
+
+        gridLayout->addWidget(pushButton_UploadProgram, 0, 0, 1, 1);
 
         horizontalSpacer_3 = new QSpacerItem(2, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -229,11 +308,11 @@ public:
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         label_Connection = new QLabel(centralwidget);
         label_Connection->setObjectName(QStringLiteral("label_Connection"));
-        sizePolicy.setHeightForWidth(label_Connection->sizePolicy().hasHeightForWidth());
-        label_Connection->setSizePolicy(sizePolicy);
+        sizePolicy2.setHeightForWidth(label_Connection->sizePolicy().hasHeightForWidth());
+        label_Connection->setSizePolicy(sizePolicy2);
         label_Connection->setMinimumSize(QSize(80, 18));
         label_Connection->setMaximumSize(QSize(80, 18));
-        label_Connection->setFont(font);
+        label_Connection->setFont(font1);
         label_Connection->setAlignment(Qt::AlignCenter);
 
         verticalLayout->addWidget(label_Connection);
@@ -246,8 +325,8 @@ public:
 
         led_ProgramCurrent = new LED(centralwidget);
         led_ProgramCurrent->setObjectName(QStringLiteral("led_ProgramCurrent"));
-        sizePolicy.setHeightForWidth(led_ProgramCurrent->sizePolicy().hasHeightForWidth());
-        led_ProgramCurrent->setSizePolicy(sizePolicy);
+        sizePolicy2.setHeightForWidth(led_ProgramCurrent->sizePolicy().hasHeightForWidth());
+        led_ProgramCurrent->setSizePolicy(sizePolicy2);
         led_ProgramCurrent->setMinimumSize(QSize(40, 40));
         led_ProgramCurrent->setMaximumSize(QSize(40, 40));
 
@@ -264,12 +343,20 @@ public:
         gridLayout->addLayout(verticalLayout, 0, 3, 1, 1);
 
 
-        gridLayout_2->addLayout(gridLayout, 1, 0, 1, 1);
+        gridLayout_2->addLayout(gridLayout, 1, 0, 1, 2);
+
+
+        gridLayout_3->addLayout(gridLayout_2, 1, 0, 1, 1);
+
+        codeTextEdit = new CodeEditWidget(centralwidget);
+        codeTextEdit->setObjectName(QStringLiteral("codeTextEdit"));
+
+        gridLayout_3->addWidget(codeTextEdit, 2, 0, 1, 1);
 
         Window_MotionProfile->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Window_MotionProfile);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 480, 40));
+        menubar->setGeometry(QRect(0, 0, 482, 40));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menubar);
@@ -306,8 +393,10 @@ public:
         actionSave->setText(QApplication::translate("Window_MotionProfile", "Save", nullptr));
         actionSave_As->setText(QApplication::translate("Window_MotionProfile", "Save As", nullptr));
         actionClose->setText(QApplication::translate("Window_MotionProfile", "Close", nullptr));
-        pushButton_UploadProgram->setText(QApplication::translate("Window_MotionProfile", "Upload Program", nullptr));
+        label_ManualControl->setText(QApplication::translate("Window_MotionProfile", "Scripting Code", nullptr));
+        label->setText(QApplication::translate("Window_MotionProfile", "Scripting Path:", nullptr));
         pushButton_DownloadProgram->setText(QApplication::translate("Window_MotionProfile", "Download Program", nullptr));
+        pushButton_UploadProgram->setText(QApplication::translate("Window_MotionProfile", "Upload Program", nullptr));
         label_Connection->setText(QApplication::translate("Window_MotionProfile", "Current:", nullptr));
         menuFile->setTitle(QApplication::translate("Window_MotionProfile", "File", nullptr));
         menuEdit->setTitle(QApplication::translate("Window_MotionProfile", "Edit", nullptr));

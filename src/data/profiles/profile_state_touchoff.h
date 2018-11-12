@@ -13,7 +13,8 @@ public:
         ERROR_POSITIONAL = 2,
         ERROR_INCONSISTENT = 3,
         ERROR_TOUCHING = 4,
-        ABORTED = 5
+        ABORTED = 5,
+        CLEARED = 6
     };
 
     //!

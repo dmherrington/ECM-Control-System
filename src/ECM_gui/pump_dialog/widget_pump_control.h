@@ -1,6 +1,7 @@
-#ifndef WINDOW_PUMP_CONTROL_H
-#define WINDOW_PUMP_CONTROL_H
+#ifndef WIDGET_PUMP_CONTROL_H
+#define WIDGET_PUMP_CONTROL_H
 
+#include <QWidget>
 #include <QTimer>
 
 #include "common/environment_time.h"
@@ -10,16 +11,16 @@
 #include "library_westinghouse510/westinghouse_510.h"
 
 namespace Ui {
-class Window_PumpControl;
+class Widget_PumpControl;
 }
 
-class Window_PumpControl : public GeneralDialogWindow
+class Widget_PumpControl : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit Window_PumpControl(Westinghouse510 *obj, QWidget *parent = 0);
-    ~Window_PumpControl();
+    explicit Widget_PumpControl(Westinghouse510* pumpObject, QWidget *parent = 0);
+    ~Widget_PumpControl();
 
 private:
     void closeEvent(QCloseEvent *event) override;
@@ -53,7 +54,7 @@ private slots:
 
     void slot_PumpInitialized();
 
-    void slot_PumpOperationalTimeout();
+    //void slot_PumpOperationalTimeout();
 
 private slots:
 
@@ -63,27 +64,14 @@ private slots:
 
     void on_doubleSpinBox_delayTime_valueChanged(double arg1);
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-    /// Action events triggered from the menu bar
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-
-    void on_actionClose_triggered();
-
-    void on_actionOpen_triggered();
-
-    void on_actionSave_triggered();
-
-    void on_actionSave_As_triggered();
-
 private:
-    Ui::Window_PumpControl *ui;
+    Ui::Widget_PumpControl *ui;
     Westinghouse510* m_Pump;
     bool windowHidden = true;
 
 private:
     QTimer* m_OperationsTimer;
     common::EnvironmentTime startTime;
-
 };
 
-#endif // WINDOW_PUMP_CONTROL_H
+#endif // WIDGET_PUMP_CONTROL_H

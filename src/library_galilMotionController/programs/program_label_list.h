@@ -1,6 +1,8 @@
 #ifndef PROGRAM_LABEL_LIST_H
 #define PROGRAM_LABEL_LIST_H
 
+#include <QStringList>
+
 #include <map>
 #include <string>
 
@@ -28,6 +30,9 @@ public:
     size_t sizeOfLabelList() const;
 
     std::map<std::string,int> getLabelMap() const;
+
+    QStringList getLabelList() const;
+
 
 public:
     ProgramLabelList& operator = (const ProgramLabelList &rhs)

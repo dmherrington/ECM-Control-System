@@ -8,12 +8,12 @@
 #include "ECM_plot_collection.h"
 #include "ECM_plot_identifier.h"
 
-#include "munk_dialog/window_munk_power_supply.h"
-#include "pump_dialog/window_pump_control.h"
+#include "galil_dialog/widget_motion_control.h"
+
+#include "misc_dialogs/window_profile_configuration.h"
 #include "rigol_dialog/window_rigol_control.h"
 #include "misc_dialogs/window_device_connections.h"
 #include "misc_dialogs/window_custom_motion_commands.h"
-#include "misc_dialogs/window_touchoff.h"
 #include "misc_dialogs/window_motion_profile.h"
 
 #include "additional_sensor_display.h"
@@ -52,7 +52,6 @@ private slots:
     void slot_DisplayActionTriggered();
     void slot_UpdatedMotionProfileState(const MotionProfileState &state);
     void slot_MCCommandError(const CommandType &type, const std::string &description);
-    void slot_MCTouchoffIndicated(const bool &indicated);
 
 private slots:
     void slot_NewProfileVariableData(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state);
@@ -67,9 +66,10 @@ private slots:
 
     void slot_MCNewProgramLabels(const ProgramLabelList &labels);
 
-    void slot_MCNEWProgramVariableList(const ProgramVariableList &variables);
 
     void slot_UpdateHomeIndicated(const bool &value);
+
+
 
     void on_pushButton_MotorEnable_released();
 
@@ -79,37 +79,7 @@ private slots:
 
     void on_pushButton_MoveHome_released();
 
-    void on_pushButton_EstablishTouchoff_released();
 
-
-    void on_pushButton_IncreaseJog_pressed();
-
-    void on_pushButton_IncreaseJog_released();
-
-    void on_pushButton_DecreaseJog_pressed();
-
-    void on_pushButton_DecreaseJog_released();
-
-    void on_pushButton_IncreaseRelativeMove_released();
-
-    void on_pushButton_DecreaseRelativeMove_released();
-
-
-    void on_doubleSpinBox_CutDepth_editingFinished();
-
-    void on_doubleSpinBox_RetractDistance_editingFinished();
-
-    void on_doubleSpinBox_StepSize_editingFinished();
-
-    void on_spinBox_RetractSpeed_editingFinished();
-
-    void on_spinBox_PlungeSpeed_editingFinished();
-
-    void on_doubleSpinBox_CutSpeed_editingFinished();
-
-    void on_spinBox_RetractPeriod_editingFinished();
-
-    void on_spinBox_Pause_editingFinished();
 
     void on_actionClose_triggered();
 
@@ -119,13 +89,7 @@ private slots:
 
     void on_actionConnections_triggered(bool checked);
 
-    void on_actionPump_triggered(bool checked);
-
-    void on_actionPower_Supply_triggered(bool checked);
-
     void on_actionOscilliscope_triggered(bool checked);
-
-    void on_actionTouchoff_triggered(bool checked);
 
     void on_actionMotion_Profile_triggered(bool checked);
 
@@ -139,17 +103,7 @@ private slots:
 
     void on_pushButton_RunExplicitProfile_released();
 
-    void on_pushButton_RunAutomatedProfile_released();
-
     void on_pushButton_Stop_released();
-
-
-
-    void slot_LockMotionButtons(const bool &lock);
-
-    void on_pushButton_IncreaseJog_clicked();
-
-    void on_pushButton_DecreaseJog_clicked();
 
 protected:
     void readSettings();
@@ -179,12 +133,12 @@ private:
     int counter = 0;
     ECM_API* m_API;
 
-    Window_MunkPowerSupply* m_WindowMunk;
-    Window_PumpControl* m_WindowPump;
+    Widget_MotionControl* m_MotionControl;
+
+    Window_ProfileConfiguration* m_ProfileConfiguration;
     Window_RigolControl* m_WindowRigol;
     Window_DeviceConnections* m_WindowConnections;
     Window_CustomMotionCommands* m_WindowCustomMotionCommands;
-    Window_Touchoff* m_WindowTouchoff;
     Window_MotionProfile* m_WindowMotionProfile;
 };
 

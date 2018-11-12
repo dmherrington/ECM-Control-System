@@ -60,3 +60,17 @@ std::map<std::string,int> ProgramLabelList::getLabelMap() const
 {
     return this->labelMap;
 }
+
+QStringList ProgramLabelList::getLabelList() const
+{
+    QStringList rtnList;
+
+    std::map<std::string,int>::const_iterator it = this->labelMap.begin();
+
+    for (; it != this->labelMap.end(); ++it)
+    {
+        rtnList.push_back(QString::fromStdString(it->first));
+    }
+
+    return rtnList;
+}
