@@ -13,8 +13,10 @@
 namespace ECM{
 namespace API {
 
-class AbstractStateECMProcess : public hsm::StateWithOwner<ECM_Modules>
+class AbstractStateECMProcess :  public QObject, public hsm::StateWithOwner<ECM_Modules>
 {
+    Q_OBJECT
+
 public:
     AbstractStateECMProcess() = default;
 

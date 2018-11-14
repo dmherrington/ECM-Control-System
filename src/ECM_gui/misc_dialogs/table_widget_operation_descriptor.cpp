@@ -50,3 +50,8 @@ void TableWidget_OperationDescriptor::on_lineEdit_ProfileName_textChanged(const 
     this->operationName = arg1.toStdString();
     emit signal_OperationNameChanged(this->operationName, this->m_OperationParamters->getTabIndex());
 }
+
+void TableWidget_OperationDescriptor::on_pushButton_ExecuteExplicitOp_released()
+{
+    emit signal_ExecuteExplicitProfile(this->m_OperationParamters);
+}

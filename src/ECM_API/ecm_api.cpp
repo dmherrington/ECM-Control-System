@@ -26,10 +26,10 @@ ECM_API::ECM_API()
 
     m_Pump = new Westinghouse510(m_Modbus485,03);
 
-//    ECM_Modules* moduleAccess = new ECM_Modules(m_Galil);
+    //ECM_Modules* moduleAccess = new ECM_Modules(m_Galil);
 
-//    autoProcess = new hsm::StateMachine();
-//    autoProcess->Initialize<ECM::Galil::State_Idle>(moduleAccess);
+    autoProcess = new hsm::StateMachine();
+    //autoProcess->Initialize<ECM::Galil::State_Idle>(moduleAccess);
 //    //if we begin issuing text commands we have to be careful how the state machine progresses
 //    autoProcess->UpdateStates();
 //    autoProcess->ProcessStateTransitions();

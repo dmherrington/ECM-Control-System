@@ -11,6 +11,7 @@
 #include "library_munk_power_supply_global.h"
 #include "common/comms/communication_update.h"
 #include "common/comms/communication_connection.h"
+#include "common/abstract_device_interface.h"
 
 #include "data/type_read_write.h"
 #include "data/type_exception_message.h"
@@ -48,7 +49,7 @@ using namespace registers_Munk;
 using namespace data_Munk;
 using namespace comms_Munk;
 
-class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply :  public QObject, CommsEvents, MunkStatusCallback_Interface
+class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply :  public QObject, CommsEvents, MunkStatusCallback_Interface, Abstract_DeviceInterface
 {
     Q_OBJECT
 

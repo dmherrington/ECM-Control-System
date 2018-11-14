@@ -30,8 +30,12 @@ public:
 private slots:
     void on_lineEdit_ProfileName_textChanged(const QString &arg1);
 
+    void on_pushButton_ExecuteExplicitOp_released();
+
 signals:
     void signal_OperationNameChanged(const std::string &name, const int &index);
+
+    void signal_ExecuteExplicitProfile(const Widget_ProfileParameters &parameters);
 
 private:
     Ui::TableWidget_OperationDescriptor *ui;

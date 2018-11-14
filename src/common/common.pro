@@ -63,7 +63,8 @@ HEADERS += common.h\
     tuple_general_descriptor.h \
     modbus_register.h \
     common_version.h \
-    hsm.h
+    hsm.h \
+    abstract_device_interface.h
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET
