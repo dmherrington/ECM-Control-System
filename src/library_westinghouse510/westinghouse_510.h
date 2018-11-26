@@ -23,7 +23,10 @@
 #include "communications/westinghouse_510_data_framing.h"
 #include "westinghouse_510_state.h"
 
-class LIBRARY_WESTINGHOUSE510SHARED_EXPORT Westinghouse510 : public QObject
+#include "pump_command.h"
+#include "device_interface_pump.h"
+
+class LIBRARY_WESTINGHOUSE510SHARED_EXPORT Westinghouse510 : public QObject, public DeviceInterface_Pump
 {
     Q_OBJECT
 public:
@@ -44,6 +47,9 @@ public:
         delete initializationTimer;
         initializationTimer = nullptr;
     }
+
+public:
+    void uploadPumpCommands(const PumpCommand &command);
 
 public:
     //!

@@ -17,7 +17,7 @@ public:
 
     bool doesVariableExist(const std::string &name) const;
 
-    void addVariable(const std::string &name, const double &lineNumber);
+    void addVariable(const std::string &name, const double &value);
 
     void removeVariable(const std::string &name);
 

@@ -36,7 +36,8 @@ SOURCES += \
     westinghouse_510_state.cpp \
     communications/westinghouse_510_data_framing.cpp \
     communications/westinghouse_message.cpp \
-    data_registers/register_run_source.cpp
+    data_registers/register_run_source.cpp \
+    pump_command.cpp
 
 HEADERS += \
     library_westinghouse510_global.h \
@@ -53,7 +54,9 @@ HEADERS += \
     data/westinghouse_exception_message.h \
     data/type_read_write.h \
     data_registers/register_run_source.h \
-    westinghouse_version.h
+    westinghouse_version.h \
+    pump_command.h \
+    device_interface_pump.h
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

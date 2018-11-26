@@ -2,6 +2,7 @@
 #define WIDGET_PUMP_CONTROL_H
 
 #include <QWidget>
+#include <QJsonArray>
 #include <QTimer>
 
 #include "common/environment_time.h"
@@ -21,6 +22,11 @@ class Widget_PumpControl : public QWidget
 public:
     explicit Widget_PumpControl(Westinghouse510* pumpObject, QWidget *parent = 0);
     ~Widget_PumpControl();
+
+public:
+    void writeToJSON(QJsonObject &saveObject);
+
+    void readFromJSON(const QJsonObject &openObject);
 
 private:
     void closeEvent(QCloseEvent *event) override;

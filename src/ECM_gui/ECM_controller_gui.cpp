@@ -9,6 +9,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     ui(new Ui::ECMControllerGUI),
     m_SensorDisplays(&m_PlotCollection)
 {
+
     //Required registration of MetaTyples from the MotionController interface
     qRegisterMetaType<common::TuplePositionalString>("TuplePositionalString");
     qRegisterMetaType<common_data::MachinePositionalState>("MachinePositionalState");

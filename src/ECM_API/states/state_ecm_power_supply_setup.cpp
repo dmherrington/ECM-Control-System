@@ -60,22 +60,22 @@ void ECMState_PowerSupplySetup::Update()
 
 void ECMState_PowerSupplySetup::OnEnter()
 {
-    Owner().m_Munk->AddLambda_FinishedUploadingParameters(this, [this](const bool completed, const uint8_t finishCode){
+    Owner().m_Munk->AddLambda_FinishedUploadingParameters(this, [this](const bool completed, const MunkPowerSupply::FINISH_CODE finishCode){
         desiredState = ECMState::STATE_ECM_POWERSUPPLY_SETUP;
-        if(!completed)
-        {
-            //for some reason a timeout has occured, should we handle this differently
-            std::cout<<"A timeout has occured when trying to send a goto command."<<std::endl;
-            desiredStateEnum = ArdupilotFlightState::STATE_FLIGHT_GUIDED_IDLE;
-        }else if(finishCode != MAV_MISSION_ACCEPTED)
-        {
-            std::cout<<"The autopilot says there is an error with the goTo command."<<std::endl;
-            desiredStateEnum = ArdupilotFlightState::STATE_FLIGHT_GUIDED_IDLE;
-        }
-        else if(completed && (finishCode == MAV_MISSION_ACCEPTED))
-        {
-            this->commandAccepted = true;
-        }
+//        if(!completed)
+//        {
+//            //for some reason a timeout has occured, should we handle this differently
+//            std::cout<<"A timeout has occured when trying to send a goto command."<<std::endl;
+//            desiredStateEnum = ArdupilotFlightState::STATE_FLIGHT_GUIDED_IDLE;
+//        }else if(finishCode != MAV_MISSION_ACCEPTED)
+//        {
+//            std::cout<<"The autopilot says there is an error with the goTo command."<<std::endl;
+//            desiredStateEnum = ArdupilotFlightState::STATE_FLIGHT_GUIDED_IDLE;
+//        }
+//        else if(completed && (finishCode == MAV_MISSION_ACCEPTED))
+//        {
+//            this->commandAccepted = true;
+//        }
 
     });
 }

@@ -145,6 +145,17 @@ void CommsMarshaler::downloadProgram(const AbstractCommandPtr downloadCommand) c
 }
 
 
+void CommsMarshaler::uploadGalilProfileVariables(const ProgramVariableList &varList) const
+{
+    auto func = [this, varList] () {
+        if(!link->isConnected())
+            return;
+
+        protocol->UploadProgramVariables(link.get(), varList);
+    };
+    link->MarshalOnThread(func);
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /// Query
 ///////////////////////////////////////////////////////////////////////////////////////////////

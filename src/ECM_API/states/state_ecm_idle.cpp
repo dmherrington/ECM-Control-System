@@ -39,6 +39,11 @@ hsm::Transition ECMState_Idle::GetTransition()
             //rtn = hsm::SiblingTransition<ECMState_Setup>();
             break;
         }
+        case ECMState::STATE_ECM_UPLOAD:
+        {
+            rtn = hsm::SiblingTransition<ECMState_Upload>(m_ProfileConfiguration);
+            break;
+        }
         default:
             std::cout<<"I dont know how we eneded up in this transition state from "<<ECMStateToString(this->currentState)<<"."<<std::endl;
             break;
@@ -46,6 +51,12 @@ hsm::Transition ECMState_Idle::GetTransition()
     }
 
     return rtn;
+}
+
+void ECMState_Idle::uploadConfiguration(const ECMCommand_ProfileConfiguration &config)
+{
+    this->m_ProfileConfiguration = config;
+    this->desiredState = ECMState::STATE_ECM_UPLOAD;
 }
 
 void ECMState_Idle::Update()
@@ -62,4 +73,5 @@ void ECMState_Idle::OnEnter()
 } //end of namespace Galil
 } //end of namespace ECM
 
+#include "states/state_ecm_upload.h"
 #include "states/state_ecm_initialization.h"

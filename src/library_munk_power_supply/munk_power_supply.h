@@ -49,7 +49,7 @@ using namespace registers_Munk;
 using namespace data_Munk;
 using namespace comms_Munk;
 
-class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply :  public QObject, CommsEvents, MunkStatusCallback_Interface, Abstract_DeviceInterface
+class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply : public QObject, public Abstract_DeviceInterface, CommsEvents, MunkStatusCallback_Interface
 {
     Q_OBJECT
 

@@ -64,6 +64,8 @@ public:
 
     void downloadProgram(const AbstractCommandPtr downloadCommand) const;
 
+    void uploadGalilProfileVariables(const ProgramVariableList &varList) const;
+
     //!
     //! \brief Issue a message to a given link
     //!

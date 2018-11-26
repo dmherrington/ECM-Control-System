@@ -106,59 +106,18 @@ void Widget_MunkPowerSupply::slot_SegmentExceptionReceived(const std::string &RW
 //    ui->statusbar->showMessage(QString::fromStdString(display),2000);
 }
 
-void Widget_MunkPowerSupply::on_actionOpen_triggered()
+void Widget_MunkPowerSupply::saveToJSON(QJsonObject &saveObject)
 {
-//    QString filePath = GeneralDialogWindow::onOpenAction();
-//    if(!filePath.isEmpty() && !filePath.isNull()){
-//        openFromFile(filePath);
-//    }
+    QJsonObject segmentObject;
+    ui->segmentWidget->write(segmentObject);
+
+    saveObject["MunkSettings"] = segmentObject;
 }
 
-void Widget_MunkPowerSupply::on_actionSave_triggered()
+void Widget_MunkPowerSupply::openFromJSON(const QJsonObject &openObject)
 {
-//    QString settingsPath = GeneralDialogWindow::onSaveAction();
-//    saveToFile(settingsPath);
-}
-
-void Widget_MunkPowerSupply::on_actionSave_As_triggered()
-{
-//    QString settingsPath = GeneralDialogWindow::onSaveAsAction();
-//    saveToFile(settingsPath);
-}
-
-void Widget_MunkPowerSupply::on_actionClose_triggered()
-{
-//    GeneralDialogWindow::onCloseAction();
-}
-
-void Widget_MunkPowerSupply::saveToFile(const QString &filePath)
-{
-//    QFile saveFile(filePath);
-
-//    if (!saveFile.open(QIODevice::WriteOnly)) {
-//        ui->statusbar->showMessage("Couldn't open file for saving.",2000);
-//        return;
-//    }
-//    QJsonObject saveObject;
-//    ui->segmentWidget->write(saveObject);
-//    QJsonDocument saveDoc(saveObject);
-//    saveFile.write(saveDoc.toJson());
-//    saveFile.close();
-}
-
-void Widget_MunkPowerSupply::openFromFile(const QString &filePath)
-{
-//    QFile openFile(filePath);
-
-//    if (!openFile.open(QIODevice::ReadOnly)) {
-//        ui->statusbar->showMessage("Couldn't open file for reading.",2000);
-//    }
-
-//    QByteArray loadData = openFile.readAll();
-//    openFile.close();
-
-//    QJsonDocument loadDoc(QJsonDocument::fromJson(loadData));
-//    ui->segmentWidget->read(loadDoc.object());
+    QJsonObject munkData = openObject["MunkSettings"];
+    ui->segmentWidget->read(munkData);
 }
 
 registers_Munk::Register_PulseMode Widget_MunkPowerSupply::getPulseMode() const

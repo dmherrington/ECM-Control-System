@@ -55,6 +55,28 @@ void GalilProtocol::DownloadCurrentProgram(const ILink *link, const AbstractComm
         handleCommandResponse(link,command,rtn);
 }
 
+void GalilProtocol::UploadProgramVariables(const ILink *link, const ProgramVariableList &varList)
+{
+    GReturn rtn = G_NO_ERROR;
+
+    std::map<std::string, double> currentVarMap = varList.getVariableMap();
+    std::map<std::string, double>::iterator it = currentVarMap.begin();
+
+    Command_VariablePtr newVariable = std::make_shared<Command_Variable>("",0.0);
+
+    for (; it!=currentVarMap.end(); ++it)
+    {
+        newVariable->setVariableName(it->first);
+        newVariable->setVariableValue(it->second);
+
+        rtn = link->WriteCommand(newVariable->getCommandString());
+        handleCommandResponse(link,newVariable,rtn);
+
+        if(rtn != G_NO_ERROR)
+            break;
+    }
+}
+
 void GalilProtocol::ExecuteProfile(const ILink *link, const AbstractCommandPtr &command)
 {
     std::cout<<"I am trying to execute a new profile"<<std::endl;

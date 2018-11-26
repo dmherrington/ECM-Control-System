@@ -47,18 +47,6 @@ private slots:
 
     void slot_SegmentExceptionReceived(const std::string &RW, const std::string &meaning);
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-    /// Action events triggered from the menu bar
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-
-    void on_actionOpen_triggered();
-
-    void on_actionSave_triggered();
-
-    void on_actionSave_As_triggered();
-
-    void on_actionClose_triggered();
-
     void on_radioButton_singlePulse_clicked(bool checked);
 
     void on_radioButton_continuousPulse_clicked(bool checked);
@@ -71,9 +59,9 @@ private:
     registers_Munk::Register_PulseMode getPulseMode() const;
 
 private:
-    void saveToFile(const QString &filePath);
+    void saveToJSON(QJsonObject &saveObject);
 
-    void openFromFile(const QString &filePath);
+    void openFromJSON(const QJsonObject &openObject);
 
 private:
     Ui::Widget_MunkPowerSupply *ui;

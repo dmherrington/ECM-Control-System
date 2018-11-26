@@ -26,6 +26,7 @@ namespace API {
 
 ECM_CLASS_FORWARD(ECMState_Idle);
 
+class ECMState_Upload;
 class ECMState_Initialization;
 
 class ECMState_Idle : public AbstractStateECMProcess
@@ -42,6 +43,9 @@ public:
 
 public:
     hsm::Transition GetTransition() override;
+
+public:
+    void uploadConfiguration(const ECMCommand_ProfileConfiguration &config) override;
 
 public:
     void Update() override;

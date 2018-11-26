@@ -21,6 +21,8 @@
 #include "common/comms/communication_update.h"
 #include "common/comms/communication_connection.h"
 
+#include "common/abstract_device_interface.h"
+
 #include "data/motion_profile_variable_state.h"
 #include "data/machine_positional_state.h"
 
@@ -55,7 +57,7 @@
 \*
 \*/
 
-class GMC_SHARED_EXPORT GalilMotionController : public QObject, public GalilStatusUpdate_Interface, public GalilCallback_StateInterface, private Comms::CommsEvents
+class GMC_SHARED_EXPORT GalilMotionController : public QObject, public Abstract_DeviceInterface, public GalilStatusUpdate_Interface, public GalilCallback_StateInterface, private Comms::CommsEvents
 {
     Q_OBJECT
 
@@ -121,6 +123,8 @@ public:
 public:
     void executeCommand(const AbstractCommandPtr command);
     void executeCustomCommands(const std::vector<std::string> &stringCommands);
+
+    void uploadProgramVariableList(const ProgramVariableList &varList);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     /// Callback Interfafce as required from inheritance of GalilStatusUpdate_Interface

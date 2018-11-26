@@ -173,7 +173,8 @@ HEADERS += \
     requests/request_custom_string.h \
     status/status_custom_request.h \
     galil_version.h \
-    commands/command_speed.h
+    commands/command_speed.h \
+    motioncontrol_device_interface.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

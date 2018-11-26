@@ -24,6 +24,11 @@ ECMState AbstractStateECMProcess::getDesiredState() const
     return desiredState;
 }
 
+void AbstractStateECMProcess::uploadConfiguration(const ECMCommand_ProfileConfiguration &config)
+{
+    UNUSED(config);
+}
+
 void AbstractStateECMProcess::clearCommand()
 {
 

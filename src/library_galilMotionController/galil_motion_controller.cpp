@@ -365,6 +365,11 @@ void GalilMotionController::executeCustomCommands(const std::vector<std::string>
     this->commsMarshaler->sendCustomGalilCommands(stringCommands);
 }
 
+void GalilMotionController::uploadProgramVariableList(const ProgramVariableList &varList)
+{
+    this->commsMarshaler->uploadGalilProfileVariables(varList);
+}
+
 void GalilMotionController::cbi_GalilStatusRequest(const AbstractRequestPtr request)
 {
     commsMarshaler->sendAbstractGalilRequest(request);

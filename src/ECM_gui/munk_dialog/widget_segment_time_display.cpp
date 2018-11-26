@@ -62,9 +62,8 @@ void WidgetSegmentTimeDisplay::cbiSegmentDataInterface_RemoveData(WidgetSegmentT
     cbiSegmentDataInterface_UpdatedData();
 }
 
-void WidgetSegmentTimeDisplay::read(const QJsonObject &json)
+void WidgetSegmentTimeDisplay::readFromJSON(const QJsonObject &json)
 {
-
     removeWidgets();
 
     QJsonArray segmentDataArray = json["segmentData"].toArray();
@@ -77,7 +76,7 @@ void WidgetSegmentTimeDisplay::read(const QJsonObject &json)
     cbiSegmentDataInterface_UpdatedData();
 }
 
-void WidgetSegmentTimeDisplay::write(QJsonObject &json) const
+void WidgetSegmentTimeDisplay::writeToJSON(QJsonObject &json) const
 {
     QJsonArray segmentDataArray;
     foreach (const WidgetSegmentTimeData* data, m_dataList) {

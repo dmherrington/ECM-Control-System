@@ -104,7 +104,9 @@ public:
     QHBoxLayout *horizontalLayout_2;
     QPushButton *pushButton_ResetHome;
     QPushButton *pushButton_MoveHome;
+    QSpacerItem *horizontalSpacer_6;
     QPushButton *pushButton_Stop;
+    QSpacerItem *horizontalSpacer_5;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -296,6 +298,7 @@ public:
         horizontalLayout_8 = new QHBoxLayout();
         horizontalLayout_8->setSpacing(6);
         horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
+        horizontalLayout_8->setContentsMargins(6, 6, 6, -1);
         horizontalSpacer_4 = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_8->addItem(horizontalSpacer_4);
@@ -306,6 +309,7 @@ public:
         horizontalLayout_6 = new QHBoxLayout();
         horizontalLayout_6->setSpacing(6);
         horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
+        horizontalLayout_6->setContentsMargins(-1, 6, -1, 6);
         pushButton_RunExplicitProfile = new QPushButton(frame_ProfileOptions);
         pushButton_RunExplicitProfile->setObjectName(QStringLiteral("pushButton_RunExplicitProfile"));
         sizePolicy1.setHeightForWidth(pushButton_RunExplicitProfile->sizePolicy().hasHeightForWidth());
@@ -721,7 +725,7 @@ public:
         horizontalLayout->addWidget(pushButton_MotorDisable);
 
 
-        gridLayout_6->addLayout(horizontalLayout, 0, 0, 1, 1);
+        gridLayout_6->addLayout(horizontalLayout, 0, 0, 1, 3);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
@@ -747,7 +751,11 @@ public:
         horizontalLayout_2->addWidget(pushButton_MoveHome);
 
 
-        gridLayout_6->addLayout(horizontalLayout_2, 1, 0, 1, 1);
+        gridLayout_6->addLayout(horizontalLayout_2, 1, 0, 1, 3);
+
+        horizontalSpacer_6 = new QSpacerItem(90, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_6->addItem(horizontalSpacer_6, 2, 0, 1, 1);
 
         pushButton_Stop = new QPushButton(frame_MaunalControl);
         pushButton_Stop->setObjectName(QStringLiteral("pushButton_Stop"));
@@ -759,7 +767,11 @@ public:
         font4.setWeight(75);
         pushButton_Stop->setFont(font4);
 
-        gridLayout_6->addWidget(pushButton_Stop, 2, 0, 1, 1);
+        gridLayout_6->addWidget(pushButton_Stop, 2, 1, 1, 1);
+
+        horizontalSpacer_5 = new QSpacerItem(90, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_6->addItem(horizontalSpacer_5, 2, 2, 1, 1);
 
 
         gridLayout_3->addWidget(frame_MaunalControl, 1, 2, 1, 1);

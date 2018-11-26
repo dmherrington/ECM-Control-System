@@ -20,6 +20,11 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
 
 }
 
+void Westinghouse510::uploadPumpCommands(const PumpCommand &command)
+{
+    this->setPumpFlowRate(command.getPumpFlowRate());
+}
+
 //!
 //! \brief setPumpFlowRate function transmitting the desired flow rate to the communication object.
 //! It is the role of the communication object to then transmit the desired flow rate to the appropriate
@@ -178,6 +183,7 @@ void Westinghouse510::parseReceivedMessage(const comms_WestinghousePump::Westing
                 if(m_State->flowRate.set(writeFlow.getVolumetricFlow()))
                 {
                     emit signal_PumpFlowUpdated(writeFlow.getVolumetricFlow());
+                    this->onFinishedUploadingParameters(true,FINISH_CODE::UNKNOWN);
                 }
                 break;
             }

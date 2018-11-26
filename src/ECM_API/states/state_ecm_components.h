@@ -30,4 +30,12 @@
 #include "ECM_API/states/state_ecm_touchoff_enable.h"
 #include "ECM_API/states/state_ecm_touchoff_execute.h"
 
+#include "ECM_API/states/state_ecm_upload.h"
+#include "ECM_API/states/state_ecm_upload_complete.h"
+#include "ECM_API/states/state_ecm_upload_failed.h"
+#include "ECM_API/states/state_ecm_upload_motion_profile.h"
+#include "ECM_API/states/state_ecm_upload_motion_variables.h"
+#include "ECM_API/states/state_ecm_upload_power_parameters.h"
+#include "ECM_API/states/state_ecm_upload_pump_parameters.h"
+
 #endif // STATE_ECM_COMPONENTS_H

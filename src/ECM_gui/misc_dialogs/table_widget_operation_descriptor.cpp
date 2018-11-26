@@ -53,5 +53,5 @@ void TableWidget_OperationDescriptor::on_lineEdit_ProfileName_textChanged(const 
 
 void TableWidget_OperationDescriptor::on_pushButton_ExecuteExplicitOp_released()
 {
-    emit signal_ExecuteExplicitProfile(this->m_OperationParamters);
+    //emit signal_ExecuteExplicitProfile(this->m_OperationParamters);
 }

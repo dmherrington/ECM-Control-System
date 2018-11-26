@@ -1,5 +1,5 @@
-#ifndef ABSTRACT_DEVICE_INTERFACE_H
-#define ABSTRACT_DEVICE_INTERFACE_H
+#ifndef DEVICE_INTERFACE_PUMP_H
+#define DEVICE_INTERFACE_PUMP_H
 
 #include <functional>
 #include <memory>
@@ -8,7 +8,7 @@
 
 #include "ecm_devices.h"
 
-class Abstract_DeviceInterface
+class DeviceInterface_Pump
 {
 public:
     enum class FINISH_CODE
@@ -77,4 +77,4 @@ protected:
     std::mutex m_MutexFinishLambda;
 };
 
-#endif // ABSTRACT_DEVICEINTERFACE_H
+#endif // DEVICE_INTERFACE_PUMP_H

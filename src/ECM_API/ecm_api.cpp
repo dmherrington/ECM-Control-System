@@ -9,6 +9,7 @@ ECM_API::ECM_API()
     m_Munk = new MunkPowerSupply();
 
     m_Galil = new GalilMotionController();
+
     connect(m_Galil,SIGNAL(signal_MotionControllerCommunicationUpdate(common::comms::CommunicationUpdate)),
             this,SLOT(slot_MotionControllerCommunicationUpdate(common::comms::CommunicationUpdate)));
 
@@ -28,8 +29,8 @@ ECM_API::ECM_API()
 
     //ECM_Modules* moduleAccess = new ECM_Modules(m_Galil);
 
-    autoProcess = new hsm::StateMachine();
-    //autoProcess->Initialize<ECM::Galil::State_Idle>(moduleAccess);
+//    autoProcess = new hsm::StateMachine();
+//    autoProcess->Initialize<ECM::Galil::State_Idle>(this);
 //    //if we begin issuing text commands we have to be careful how the state machine progresses
 //    autoProcess->UpdateStates();
 //    autoProcess->ProcessStateTransitions();

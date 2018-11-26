@@ -140,6 +140,27 @@ void Widget_PumpControl::on_doubleSpinBox_delayTime_valueChanged(double arg1)
     m_Pump->setInitializationTime(initializationTime);
 }
 
+void Widget_PumpControl::writeToJSON(QJsonObject &saveObject)
+{
+    QJsonArray segmentDataArray;
+
+    QJsonObject segmentObject;
+    segmentObject["pumpDelayTime"] = this->ui->doubleSpinBox_delayTime->value();
+    segmentObject["pumpFlowRate"] = this->ui->doubleSpinBox_flowRate->value();
+    segmentDataArray.append(segmentObject);
+
+    saveObject["pumpData"] = segmentDataArray;
+}
+
+void Widget_PumpControl::readFromJSON(const QJsonObject &openObject)
+{  
+    QJsonArray pumpDataArray = openObject["pumpData"].toArray();
+    QJsonObject segmentObject = pumpDataArray[0].toObject();
+
+    setPumpDelayTime(segmentObject["pumpDelayTime"].toDouble());
+    setPumpFlowRate(segmentObject["pumpFlowRate"].toDouble());
+}
+
 /*
 void Widget_PumpControl::on_actionOpen_triggered()
 {
