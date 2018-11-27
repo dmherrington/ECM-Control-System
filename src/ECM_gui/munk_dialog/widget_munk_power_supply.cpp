@@ -51,16 +51,11 @@ registers_Munk::SegmentTimeDetailed  Widget_MunkPowerSupply::getSegmentRegister(
 
 void Widget_MunkPowerSupply::slot_onCustomContextMenu(const QPoint &point)
 {
+    std::cout<<"I have requested a context menu"<<std::endl;
 //    QModelIndex index = ui->segmentWidget->indexAt(point);
 //    if (index.isValid() && index.row() % 2 == 0) {
 //        contextMenu->exec(ui->treeView->viewport()->mapToGlobal(point));
 //    }
-}
-
-void Widget_MunkPowerSupply::closeEvent(QCloseEvent *event)
-{
-//    saveToFile(getPreviousSettingsPath());
-//    GeneralDialogWindow::closeEvent(event);
 }
 
 void Widget_MunkPowerSupply::on_pushButton_AddSegment_released()

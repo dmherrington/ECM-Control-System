@@ -45,6 +45,9 @@ private slots:
     void on_listWidget_itemClicked(QListWidgetItem *item);
 
 
+private:
+    void saveToFile(const QString &filePath);
+
 private slots:
     void on_actionOpen_triggered();
 

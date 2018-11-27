@@ -28,6 +28,11 @@ public:
 
     Widget_ProfileParameters* getAccompanyingProfile();
 
+public:
+    void writeToJSON(QJsonObject &obj);
+
+    void readFromJSON(const QJsonObject &obj);
+
 
 private slots:
     void on_lineEdit_ProfileName_textChanged(const QString &arg1);

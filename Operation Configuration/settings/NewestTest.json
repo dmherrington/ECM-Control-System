@@ -1,0 +1,48 @@
+{
+    "configData": [
+        {
+            "MunkSettings": [
+                {
+                    "segmentData": [
+                    ]
+                }
+            ],
+            "opIndex": 1,
+            "opName": "Test 1",
+            "pumpData": [
+                {
+                    "pumpDelayTime": 0,
+                    "pumpFlowRate": 0
+                }
+            ],
+            "touchoffData": [
+                {
+                    "touchoffGap": 0,
+                    "touchoffRef": 0
+                }
+            ]
+        },
+        {
+            "MunkSettings": [
+                {
+                    "segmentData": [
+                    ]
+                }
+            ],
+            "opIndex": 2,
+            "opName": "Test 2",
+            "pumpData": [
+                {
+                    "pumpDelayTime": 0,
+                    "pumpFlowRate": 0
+                }
+            ],
+            "touchoffData": [
+                {
+                    "touchoffGap": 0,
+                    "touchoffRef": 0
+                }
+            ]
+        }
+    ]
+}

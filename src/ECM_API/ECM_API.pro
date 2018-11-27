@@ -101,6 +101,10 @@ win32:CONFIG(release, debug|release):       lib.files   += release/ECM_API.lib r
 else:win32:CONFIG(debug, debug|release):    lib.files   += debug/ECM_API.lib debug/ECM_API.dll
 INSTALLS += lib
 
+#Header file copy
+INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET
+INSTALL_HEADERS = $$HEADERS
+include(../headerinstall.pri)
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include

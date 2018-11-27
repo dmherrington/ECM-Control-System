@@ -45,6 +45,16 @@ Widget_ProfileParameters* TableWidget_OperationDescriptor::getAccompanyingProfil
     return this->m_OperationParameters;
 }
 
+void TableWidget_OperationDescriptor::writeToJSON(QJsonObject &obj)
+{
+    m_OperationParameters->writeToJSON(obj);
+}
+
+void TableWidget_OperationDescriptor::readFromJSON(const QJsonObject &obj)
+{
+    m_OperationParameters->readFromJSON(obj);
+}
+
 void TableWidget_OperationDescriptor::on_lineEdit_ProfileName_textChanged(const QString &arg1)
 {
     this->operationName = arg1.toStdString();

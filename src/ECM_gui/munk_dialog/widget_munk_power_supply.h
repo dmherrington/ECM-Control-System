@@ -26,9 +26,6 @@ public:
 
     registers_Munk::SegmentTimeDetailed getSegmentRegister() const;
 
-private:
-    void closeEvent(QCloseEvent *event) override;
-
 signals:
     void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility);
 
@@ -63,7 +60,7 @@ private slots:
 private:
     registers_Munk::Register_PulseMode getPulseMode() const;
 
-private:
+public:
     void writeToJSON(QJsonObject &saveObject);
 
     void readFromJSON(const QJsonObject &openObject);

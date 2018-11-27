@@ -89,34 +89,42 @@ void Window_ProfileConfiguration::on_actionSave_triggered()
 
 void Window_ProfileConfiguration::on_actionSave_As_triggered()
 {
-//    QJsonObject saveObject;
-//    ui->segmentWidget->write(saveObject);
-//    QJsonDocument saveDoc(saveObject);
-//    saveFile.write(saveDoc.toJson());
-//saveFile.close();
+    QString settingsPath = GeneralDialogWindow::onSaveAsAction();
+    saveToFile(settingsPath);
+}
 
+void Window_ProfileConfiguration::saveToFile(const QString &filePath)
+{
+    QFile saveFile(filePath);
 
-//QJsonArray segmentDataArray;
-//foreach (const WidgetSegmentTimeData* data, m_dataList) {
-//    QJsonObject segmentObject;
-//    data->write(segmentObject);
-//    segmentDataArray.append(segmentObject);
-//}
-//json["segmentData"] = segmentDataArray;
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        qWarning("Couldn't open save file.");
+    }
 
-//    for (size_t index = 0; i < m_MapOperations.size(); i++)
-//    {
-//        std::map<QListWidgetItem*,TableWidget_OperationDescriptor*>::iterator it = m_MapOperations.begin();
+    QJsonObject saveObject;
+    QJsonArray segmentDataArray;
 
-//        for (; it!=m_MapOperations.end(); ++it)
-//        {
-//            TableWidget_OperationDescriptor* currentOp = it->second;
+    for (size_t index = 1; index <= m_MapOperations.size(); index++)
+    {
+        std::map<QListWidgetItem*,TableWidget_OperationDescriptor*>::iterator it = m_MapOperations.begin();
 
-//            if(currentOp->getOperationIndex() == index)
-//            {
+        for (; it!=m_MapOperations.end(); ++it)
+        {
+            TableWidget_OperationDescriptor* currentOp = it->second;
 
-//            }
-//        }
-//    }
+            if(currentOp->getOperationIndex() == index)
+            {
+                QJsonObject operationObject;
+                operationObject["opIndex"] = (int)currentOp->getOperationIndex();
+                operationObject["opName"] = QString::fromStdString(currentOp->getOperationName());
+                currentOp->writeToJSON(operationObject);
+                segmentDataArray.append(operationObject);
+            }
+        }
+    }
 
+    saveObject["configData"] = segmentDataArray;
+    QJsonDocument saveDoc(saveObject);
+    saveFile.write(saveDoc.toJson());
+    saveFile.close();
 }
