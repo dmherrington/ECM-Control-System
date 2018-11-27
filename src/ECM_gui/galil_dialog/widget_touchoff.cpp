@@ -17,6 +17,37 @@ Widget_Touchoff::~Widget_Touchoff()
     delete ui;
 }
 
+void Widget_Touchoff::writeToJSON(QJsonObject &saveObject)
+{
+    QJsonArray segmentDataArray;
+
+    QJsonObject segmentObject;
+    segmentObject["touchoffRef"] = this->ui->doubleSpinBox_TouchoffRef->value();
+    segmentObject["touchoffGap"] = this->ui->doubleSpinBox_InitialGap->value();
+    segmentDataArray.append(segmentObject);
+
+    saveObject["touchoffData"] = segmentDataArray;
+}
+
+void Widget_Touchoff::readFromJSON(const QJsonObject &openObject)
+{
+    QJsonArray touchoffDataArray = openObject["touchoffData"].toArray();
+    QJsonObject touchoffObject = touchoffDataArray[0].toObject();
+
+    setTouchoffRef(touchoffObject["touchoffRef"].toDouble());
+    setTouchoffGap(touchoffObject["touchoffGap"].toDouble());
+}
+
+void Widget_Touchoff::setTouchoffRef(const double &value)
+{
+    ui->doubleSpinBox_TouchoffRef->setValue(value);
+}
+
+void Widget_Touchoff::setTouchoffGap(const double &value)
+{
+    ui->doubleSpinBox_InitialGap->setValue(value);
+}
+
 void Widget_Touchoff::on_pushButton_ExecuteTouchoff_released()
 {
     CommandExecuteProfilePtr commandTouchoffExecute = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::TOUCHOFF,"touchof");

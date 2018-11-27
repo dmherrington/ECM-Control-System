@@ -17,6 +17,16 @@ public:
     explicit Widget_Touchoff(GalilMotionController* galilObject, QWidget *parent = 0);
     ~Widget_Touchoff();
 
+public:
+    void writeToJSON(QJsonObject &saveObject);
+
+    void readFromJSON(const QJsonObject &openObject);
+
+public:
+    void setTouchoffRef(const double &value);
+
+    void setTouchoffGap(const double &value);
+
 private slots:
     void on_pushButton_ExecuteTouchoff_released();
 

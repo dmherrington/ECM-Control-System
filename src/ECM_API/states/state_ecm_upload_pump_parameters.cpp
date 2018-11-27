@@ -10,11 +10,6 @@ ECMState_UploadPumpParameters::ECMState_UploadPumpParameters():
     this->desiredState = ECMState::STATE_ECM_TOUCHOFF_EXECUTE;
 }
 
-void ECMState_UploadPumpParameters::OnExit()
-{
-
-}
-
 AbstractStateECMProcess* ECMState_UploadPumpParameters::getClone() const
 {
     return (new ECMState_UploadPumpParameters(*this));
@@ -48,9 +43,17 @@ void ECMState_UploadPumpParameters::Update()
 
 }
 
-void ECMState_UploadPumpParameters::OnEnter(const ECMCommand_ProfileConfigurationPtr command)
+void ECMState_UploadPumpParameters::OnEnter()
 {
-    Owner().m_Pump->AddLambda_FinishedUploadingParameters(this,[this](const bool completed, const uint8_t finishCode){
+
+}
+
+void ECMState_UploadPumpParameters::OnEnter(const ECMCommand_ProfileConfiguration &config)
+{
+    //First update the configuation per what was received upon entering the state
+    this->m_ProfileConfiguration = config;
+
+    Owner().m_Pump->AddLambda_FinishedUploadingParameters(this,[this](const bool completed, const DeviceInterface_Pump::FINISH_CODE finishCode){
         if(completed)
         {
             desiredState = ECMState::STATE_ECM_UPLOAD_COMPLETE;
@@ -60,7 +63,7 @@ void ECMState_UploadPumpParameters::OnEnter(const ECMCommand_ProfileConfiguratio
         }
     });
 
-    Owner().m_Pump->uploadPumpCommands(command->m_PumpParameters);
+    //Owner().m_Pump->setPumpProperties(config.m_PumpParameters);
 }
 
 } //end of namespace Galil

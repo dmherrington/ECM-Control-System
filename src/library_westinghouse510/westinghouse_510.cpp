@@ -20,7 +20,7 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
 
 }
 
-void Westinghouse510::uploadPumpCommands(const PumpCommand &command)
+void Westinghouse510::setPumpProperties(const Command_PumpProperties &command)
 {
     this->setPumpFlowRate(command.getPumpFlowRate());
 }

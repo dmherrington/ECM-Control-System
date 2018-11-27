@@ -87,7 +87,9 @@ SOURCES += \
     status/status_label_list.cpp \
     requests/request_custom_string.cpp \
     status/status_custom_request.cpp \
-    commands/command_speed.cpp
+    commands/command_speed.cpp \
+    motion_command_touchoff_config.cpp \
+    programs/galil_current_operation.cpp
 HEADERS += \
         galil_motion_controller.h \
         galil_parse_greturn.h \
@@ -174,7 +176,9 @@ HEADERS += \
     status/status_custom_request.h \
     galil_version.h \
     commands/command_speed.h \
-    motioncontrol_device_interface.h
+    motion_command_touchoff_config.h \
+    device_interface_motion_control.h \
+    programs/galil_current_operation.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

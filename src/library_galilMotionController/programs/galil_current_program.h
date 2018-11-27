@@ -105,7 +105,7 @@ public:
         return !(*this == rhs);
     }
 
-private:
+protected:
     std::string program;
     ProgramLabelList labelList;
     ProgramVariableList variableList;

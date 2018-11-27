@@ -26,6 +26,27 @@ Widget_ScriptingVariables::~Widget_ScriptingVariables()
     delete ui;
 }
 
+std::string Widget_ScriptingVariables::getProfileName() const
+{
+    return this->ui->comboBox_ProgramLabels->currentText().toStdString();
+}
+
+ProgramVariableList Widget_ScriptingVariables::getVariableLsit() const
+{
+    ProgramVariableList varList;
+
+    varList.addVariable("maxdepth",ui->doubleSpinBox_CutDepth->value() * 10.0);
+    varList.addVariable("rtdist",ui->doubleSpinBox_RetractDistance->value() * 10.0);
+    varList.addVariable("step",ui->doubleSpinBox_StepSize->value() * 10.0);
+    varList.addVariable("backsp",ui->spinBox_RetractSpeed->value() * 10.0);
+    varList.addVariable("forsp",ui->spinBox_PlungeSpeed->value() * 10.0);
+    varList.addVariable("speed",ui->doubleSpinBox_CutSpeed->value() * 10.0);
+    varList.addVariable("rtfq",ui->spinBox_RetractPeriod->value());
+    varList.addVariable("rtpause",ui->spinBox_Pause->value());
+
+    return varList;
+}
+
 void Widget_ScriptingVariables::on_doubleSpinBox_CutDepth_editingFinished()
 {
     //Command_Variable command("maxdepth",ui->doubleSpinBox_CutDepth->value() * 10);

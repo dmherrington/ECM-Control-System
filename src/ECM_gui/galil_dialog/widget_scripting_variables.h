@@ -18,6 +18,12 @@ public:
 
     ~Widget_ScriptingVariables();
 
+public:
+
+    std::string getProfileName() const;
+
+    ProgramVariableList getVariableLsit() const;
+
 private slots:
 
     void on_doubleSpinBox_CutDepth_editingFinished();

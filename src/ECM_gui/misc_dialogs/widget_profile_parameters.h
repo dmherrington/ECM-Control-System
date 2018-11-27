@@ -30,6 +30,7 @@ public:
 private:
     Ui::Widget_ProfileParameters *ui;
 
+public:
     Widget_ScriptingVariables* m_ScriptingVariables;
     Widget_Touchoff* m_MCTouchoff;
     Widget_PumpControl* m_PumpControl;

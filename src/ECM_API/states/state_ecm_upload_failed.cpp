@@ -10,57 +10,23 @@ ECMState_UploadFailed::ECMState_UploadFailed():
     this->desiredState = ECMState::STATE_ECM_UPLOAD;
 }
 
-void ECMState_UploadFailed::OnExit()
-{
-
-}
-
 AbstractStateECMProcess* ECMState_UploadFailed::getClone() const
 {
-    return (new ECMState_Upload(*this));
+    return (new ECMState_UploadFailed(*this));
 }
 
 void ECMState_UploadFailed::getClone(AbstractStateECMProcess** state) const
 {
-    *state = new ECMState_Upload(*this);
+    *state = new ECMState_UploadFailed(*this);
 }
 
 hsm::Transition ECMState_UploadFailed::GetTransition()
 {
     hsm::Transition rtn = hsm::NoTransition();
 
-    if(currentStateEnum != desiredStateEnum)
+    if(currentState != desiredState)
     {
-        if(IsInInnerState<State_LandingComplete>())
-        {
-            rtn = hsm::SiblingTransition<State_Grounded>();
-        }
-        else
-        {
-            //this means we want to chage the state of the vehicle for some reason
-            //this could be caused by a command, action sensed by the vehicle, or
-            //for various other peripheral reasons
-            switch (desiredStateEnum) {
-            case ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE:
-            {
-                rtn = hsm::InnerEntryTransition<ECMState_UploadMotionProfile>(m_CurrentConfiguration);
-                break;
-            }
-            case ECMState::STATE_ECM_UPLOAD_POWER_PARAMETERS:
-            {
-                rtn = hsm::InnerEntryTransition<ECMState_UploadPowerParameters>(m_CurrentConfiguration);
-                break;
-            }
-            case ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS:
-            {
-                rtn = hsm::InnerEntryTransition<ECMState_UploadPumpParameters>(m_CurrentConfiguration);
-                break;
-            }
-            default:
-                std::cout<<"I dont know how we eneded up in this transition state from STATE_TAKEOFF."<<std::endl;
-                break;
-            }
-        }
+
     }
 
     return rtn;
@@ -71,24 +37,15 @@ void ECMState_UploadFailed::Update()
 
 }
 
-void ECMState_UploadFailed::OnEnter(const ECMCommand_ProfileConfigurationPtr command)
+void ECMState_UploadFailed::OnEnter()
 {
-    Owner().m_Munk->AddLambda_FinishedUploadingParameters(this,[this](const bool completed, const uint8_t finishCode){
-        if(!completed)
-        {
-            //for some reason a timeout has occured, should we handle this differently
-            std::cout<<"A timeout has occured when trying to send a goto command."<<std::endl;
-            desiredStateEnum = ArdupilotFlightState::STATE_FLIGHT_GUIDED_IDLE;
-        }else if(finishCode != MAV_MISSION_ACCEPTED)
-        {
-            std::cout<<"The autopilot says there is an error with the goTo command."<<std::endl;
-            desiredStateEnum = ArdupilotFlightState::STATE_FLIGHT_GUIDED_IDLE;
-        }
-        else if(completed && (finishCode == MAV_MISSION_ACCEPTED))
-        {
-            this->commandAccepted = true;
-        }
-    });
+
+}
+
+void ECMState_UploadFailed::OnEnter(const ECMCommand_ProfileConfiguration &config)
+{
+    //First update the configuation per what was received upon entering the state
+    this->m_ProfileConfiguration = config;
 }
 
 } //end of namespace Galil

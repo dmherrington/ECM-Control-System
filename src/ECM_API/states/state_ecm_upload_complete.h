@@ -24,7 +24,7 @@ namespace API {
 ECM_CLASS_FORWARD(ECMState_UploadComplete);
 
 class ECMState_UploadMotionProfile;
-class ECMState_UploadPowerParameters;
+class ECMState_UploadPowerRegisterSegments;
 class ECMState_UploadPumpParameters;
 
 class ECMState_UploadComplete : public AbstractStateECMProcess
@@ -45,7 +45,7 @@ public:
 
     void OnEnter() override;
 
-    void OnEnter(const ECMCommand_ProfileConfigurationPtr command);
+    void OnEnter(const ECMCommand_ProfileConfiguration &config);
 
 };
 

@@ -10,11 +10,6 @@ ECMState_UploadMotionVariables::ECMState_UploadMotionVariables():
     this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES;
 }
 
-void ECMState_UploadMotionVariables::OnExit()
-{
-
-}
-
 AbstractStateECMProcess* ECMState_UploadMotionVariables::getClone() const
 {
     return (new ECMState_UploadMotionVariables(*this));
@@ -48,12 +43,20 @@ void ECMState_UploadMotionVariables::Update()
 
 }
 
-void ECMState_UploadMotionVariables::OnEnter(const ECMCommand_ProfileConfigurationPtr command)
+void ECMState_UploadMotionVariables::OnEnter()
 {
-    Owner().m_Munk->AddLambda_FinishedUploadingParameters(this,[this](const bool completed, const uint8_t finishCode){
+
+}
+
+void ECMState_UploadMotionVariables::OnEnter(const ECMCommand_ProfileConfiguration &config)
+{
+    //First update the configuation per what was received upon entering the state
+    this->m_ProfileConfiguration = config;
+
+    Owner().m_Galil->AddLambda_FinishedUploadingParameters(this,[this](const bool completed, const DeviceInterface_MotionControl::FINISH_CODE finishCode){
         if(completed)
         {
-            desiredState = ECMState::STATE_ECM_UPLOAD_POWER_PARAMETERS;
+            desiredState = ECMState::STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS;
         }else
         {
             desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
@@ -65,5 +68,5 @@ void ECMState_UploadMotionVariables::OnEnter(const ECMCommand_ProfileConfigurati
 } //end of namespace Galil
 } //end of namespace ECM
 
-#include "states/state_ecm_upload_power_parameters.h"
+#include "states/state_ecm_upload_power_register_segments.h"
 #include "states/state_ecm_upload_failed.h"

@@ -10,11 +10,6 @@ ECMState_Upload::ECMState_Upload():
     this->desiredState = ECMState::STATE_ECM_UPLOAD;
 }
 
-void ECMState_Upload::OnExit()
-{
-
-}
-
 AbstractStateECMProcess* ECMState_Upload::getClone() const
 {
     return (new ECMState_Upload(*this));
@@ -33,11 +28,17 @@ hsm::Transition ECMState_Upload::GetTransition()
     {
         if(IsInInnerState<ECMState_UploadComplete>())
         {
-            rtn = hsm::SiblingTransition<State_Grounded>();
+            //Let us check to see if we should execute this profile
+//            if(m_ProfileConfiguration.shouldProfileExecute()){
+//                rtn = hsm::SiblingTransition<ECMState::STATE_ECM_INITIALIZATION>(m_ProfileConfiguration);
+//            }
+//            else{
+//                rtn = hsm::SiblingTransition<ECMState::STATE_ECM_IDLE>();
+//            }
         }
         else if(IsInInnerState<ECMState_UploadFailed>())
         {
-            rtn = hsm::SiblingTransition<State_Grounded>();
+            //rtn = hsm::SiblingTransition<ECMState::STATE_ECM_IDLE>();
         }
         else
         {
@@ -47,22 +48,22 @@ hsm::Transition ECMState_Upload::GetTransition()
             switch (desiredState) {
             case ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE:
             {
-                rtn = hsm::InnerEntryTransition<ECMState_UploadMotionProfile>(m_CurrentConfiguration);
+                rtn = hsm::InnerEntryTransition<ECMState_UploadMotionProfile>(m_ProfileConfiguration);
                 break;
             }
             case ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES:
             {
-                rtn = hsm::InnerEntryTransition<ECMState_UploadMotionVariables>(m_CurrentConfiguration);
+                rtn = hsm::InnerEntryTransition<ECMState_UploadMotionVariables>(m_ProfileConfiguration);
                 break;
             }
-            case ECMState::STATE_ECM_UPLOAD_POWER_PARAMETERS:
+            case ECMState::STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS:
             {
-                rtn = hsm::InnerEntryTransition<ECMState_UploadPowerParameters>(m_CurrentConfiguration);
+                rtn = hsm::InnerEntryTransition<ECMState_UploadPowerRegisterSegments>(m_ProfileConfiguration);
                 break;
             }
             case ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS:
             {
-                rtn = hsm::InnerEntryTransition<ECMState_UploadPumpParameters>(m_CurrentConfiguration);
+                rtn = hsm::InnerEntryTransition<ECMState_UploadPumpParameters>(m_ProfileConfiguration);
                 break;
             }
             default:
@@ -80,18 +81,26 @@ void ECMState_Upload::Update()
 
 }
 
-void ECMState_Upload::OnEnter(const ECMCommand_ProfileConfigurationPtr command)
+void ECMState_Upload::OnEnter()
 {
 
 }
 
+void ECMState_Upload::OnEnter(const ECMCommand_ProfileConfiguration &config)
+{
+    //First update the configuation per what was received upon entering the state
+    this->m_ProfileConfiguration = config;
+}
+
 } //end of namespace Galil
 } //end of namespace ECM
+
+#include "states/state_ecm_initialization.h"
 
 #include "states/state_ecm_idle.h"
 #include "states/state_ecm_upload_complete.h"
 #include "states/state_ecm_upload_failed.h"
 #include "states/state_ecm_upload_motion_profile.h"
 #include "states/state_ecm_upload_motion_variables.h"
-#include "states/state_ecm_upload_power_parameters.h"
+#include "states/state_ecm_upload_power_register_segments.h"
 #include "states/state_ecm_upload_pump_parameters.h"

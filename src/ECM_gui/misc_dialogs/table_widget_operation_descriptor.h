@@ -5,6 +5,8 @@
 
 #include "widget_profile_parameters.h"
 
+#include "ECM_API/commands/ecmcommand_profile_configuration.h"
+
 namespace Ui {
 class TableWidget_OperationDescriptor;
 }
@@ -35,12 +37,12 @@ private slots:
 signals:
     void signal_OperationNameChanged(const std::string &name, const int &index);
 
-    void signal_ExecuteExplicitProfile(const Widget_ProfileParameters &parameters);
+    void signal_ExecuteExplicitProfileConfig(const ECMCommand_ProfileConfiguration &config);
 
 private:
     Ui::TableWidget_OperationDescriptor *ui;
 
-    Widget_ProfileParameters* m_OperationParamters;
+    Widget_ProfileParameters* m_OperationParameters;
 
 private:
     unsigned int operationIndex = 0;

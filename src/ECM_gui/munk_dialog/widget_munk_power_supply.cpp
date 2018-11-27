@@ -34,6 +34,21 @@ Widget_MunkPowerSupply::~Widget_MunkPowerSupply()
     delete ui;
 }
 
+registers_Munk::Register_PulseMode  Widget_MunkPowerSupply::getPulseModeRegister() const
+{
+    registers_Munk::Register_PulseMode pulseMode;
+    pulseMode.setSlaveAddress(01);
+    pulseMode.setPulseMode(data_Munk::TypePulseModes::ECMIntern);
+    pulseMode.setTriggerCount(ui->spinBox_NumPulses->value());
+    return pulseMode;
+}
+
+registers_Munk::SegmentTimeDetailed  Widget_MunkPowerSupply::getSegmentRegister() const
+{
+    registers_Munk::SegmentTimeDetailed dataSegment = ui->segmentWidget->getRawData();
+    return dataSegment;
+}
+
 void Widget_MunkPowerSupply::slot_onCustomContextMenu(const QPoint &point)
 {
 //    QModelIndex index = ui->segmentWidget->indexAt(point);
@@ -106,18 +121,23 @@ void Widget_MunkPowerSupply::slot_SegmentExceptionReceived(const std::string &RW
 //    ui->statusbar->showMessage(QString::fromStdString(display),2000);
 }
 
-void Widget_MunkPowerSupply::saveToJSON(QJsonObject &saveObject)
+void Widget_MunkPowerSupply::writeToJSON(QJsonObject &saveObject)
 {
-    QJsonObject segmentObject;
-    ui->segmentWidget->write(segmentObject);
+    QJsonArray segmentDataArray;
 
-    saveObject["MunkSettings"] = segmentObject;
+    QJsonObject segmentObject;
+    ui->segmentWidget->writeToJSON(segmentObject);
+    segmentDataArray.append(segmentObject);
+
+    saveObject["MunkSettings"] = segmentDataArray;
 }
 
-void Widget_MunkPowerSupply::openFromJSON(const QJsonObject &openObject)
+void Widget_MunkPowerSupply::readFromJSON(const QJsonObject &openObject)
 {
-    QJsonObject munkData = openObject["MunkSettings"];
-    ui->segmentWidget->read(munkData);
+    QJsonArray powerSupplyDataArray = openObject["MunkSettings"].toArray();
+    QJsonObject PSObject = powerSupplyDataArray[0].toObject();
+
+    ui->segmentWidget->readFromJSON(PSObject);
 }
 
 registers_Munk::Register_PulseMode Widget_MunkPowerSupply::getPulseMode() const

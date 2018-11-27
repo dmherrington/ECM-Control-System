@@ -23,8 +23,8 @@
 #include "communications/westinghouse_510_data_framing.h"
 #include "westinghouse_510_state.h"
 
-#include "pump_command.h"
 #include "device_interface_pump.h"
+#include "command_pump_properties.h"
 
 class LIBRARY_WESTINGHOUSE510SHARED_EXPORT Westinghouse510 : public QObject, public DeviceInterface_Pump
 {
@@ -49,7 +49,7 @@ public:
     }
 
 public:
-    void uploadPumpCommands(const PumpCommand &command);
+    void setPumpProperties(const Command_PumpProperties &command);
 
 public:
     //!

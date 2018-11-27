@@ -38,13 +38,19 @@ private slots:
 
     void on_ListWidgetRowMoved();
 
-    void on_actionOpen_triggered();
-
     void on_pushButton_OpenMotionScript_released();
 
     void on_listWidget_customContextMenuRequested(const QPoint &pos);
 
     void on_listWidget_itemClicked(QListWidgetItem *item);
+
+
+private slots:
+    void on_actionOpen_triggered();
+
+    void on_actionSave_triggered();
+
+    void on_actionSave_As_triggered();
 
 private:
     Ui::Window_ProfileConfiguration *ui;

@@ -13,15 +13,15 @@ Widget_PumpControl::Widget_PumpControl(Westinghouse510 *pumpObject, QWidget *par
     m_OperationsTimer = new QTimer(this);
     //connect(m_OperationsTimer,SIGNAL(timeout()),this,SLOT(slot_PumpOperationalTimeout()));
 
-    this->m_Pump->m_State->flowRate.AddNotifier(this,[this]
-    {
-        this->slot_updatedFlowRate(m_Pump->m_State->flowRate.get());
-    });
+//    this->m_Pump->m_State->flowRate.AddNotifier(this,[this]
+//    {
+//        this->slot_updatedFlowRate(m_Pump->m_State->flowRate.get());
+//    });
 
-    this->m_Pump->m_State->pumpON.AddNotifier(this,[this]
-    {
-        this->slot_updatedPumpOn(m_Pump->m_State->pumpON.get());
-    });
+//    this->m_Pump->m_State->pumpON.AddNotifier(this,[this]
+//    {
+//        this->slot_updatedPumpOn(m_Pump->m_State->pumpON.get());
+//    });
 
     //GeneralDialogWindow::readWindowSettings();
 
@@ -33,6 +33,22 @@ Widget_PumpControl::~Widget_PumpControl()
 {
     delete ui;
 }
+
+/*
+Command_PumpProperties Widget_PumpControl::getPumpProperties() const
+{
+    Command_PumpProperties newPumpCommand;
+
+    unsigned int initializationTime = ui->doubleSpinBox_delayTime->value() * 1000;
+    newPumpCommand.setPumpInitializationTime(initializationTime);
+
+    registers_WestinghousePump::Register_FlowRate newFlowRate;
+    newFlowRate.setVolumetricFlow(ui->doubleSpinBox_flowRate->value());
+
+    return newPumpCommand;
+}
+*/
+
 
 void Widget_PumpControl::closeEvent(QCloseEvent *event)
 {

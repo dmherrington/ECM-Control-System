@@ -21,6 +21,11 @@ public:
     explicit Widget_MunkPowerSupply(MunkPowerSupply* obj, QWidget *parent = 0);
     ~Widget_MunkPowerSupply();
 
+public:
+    registers_Munk::Register_PulseMode getPulseModeRegister() const;
+
+    registers_Munk::SegmentTimeDetailed getSegmentRegister() const;
+
 private:
     void closeEvent(QCloseEvent *event) override;
 
@@ -59,9 +64,9 @@ private:
     registers_Munk::Register_PulseMode getPulseMode() const;
 
 private:
-    void saveToJSON(QJsonObject &saveObject);
+    void writeToJSON(QJsonObject &saveObject);
 
-    void openFromJSON(const QJsonObject &openObject);
+    void readFromJSON(const QJsonObject &openObject);
 
 private:
     Ui::Widget_MunkPowerSupply *ui;

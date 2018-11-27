@@ -16,11 +16,6 @@ Window_ProfileConfiguration::~Window_ProfileConfiguration()
     delete ui;
 }
 
-void Window_ProfileConfiguration::on_actionOpen_triggered()
-{
-
-}
-
 void Window_ProfileConfiguration::on_pushButton_AddOperation_released()
 {
     Widget_ProfileParameters* operationParameters = new Widget_ProfileParameters(m_API);
@@ -80,4 +75,48 @@ void Window_ProfileConfiguration::on_listWidget_itemClicked(QListWidgetItem *ite
 {
     unsigned int currentTabIndex = this->m_MapOperations.at(item)->getAccompanyingProfile()->getTabIndex();
     ui->tabWidget_OperationParameters->setCurrentIndex(currentTabIndex);
+}
+
+void Window_ProfileConfiguration::on_actionOpen_triggered()
+{
+
+}
+
+void Window_ProfileConfiguration::on_actionSave_triggered()
+{
+
+}
+
+void Window_ProfileConfiguration::on_actionSave_As_triggered()
+{
+//    QJsonObject saveObject;
+//    ui->segmentWidget->write(saveObject);
+//    QJsonDocument saveDoc(saveObject);
+//    saveFile.write(saveDoc.toJson());
+//saveFile.close();
+
+
+//QJsonArray segmentDataArray;
+//foreach (const WidgetSegmentTimeData* data, m_dataList) {
+//    QJsonObject segmentObject;
+//    data->write(segmentObject);
+//    segmentDataArray.append(segmentObject);
+//}
+//json["segmentData"] = segmentDataArray;
+
+//    for (size_t index = 0; i < m_MapOperations.size(); i++)
+//    {
+//        std::map<QListWidgetItem*,TableWidget_OperationDescriptor*>::iterator it = m_MapOperations.begin();
+
+//        for (; it!=m_MapOperations.end(); ++it)
+//        {
+//            TableWidget_OperationDescriptor* currentOp = it->second;
+
+//            if(currentOp->getOperationIndex() == index)
+//            {
+
+//            }
+//        }
+//    }
+
 }

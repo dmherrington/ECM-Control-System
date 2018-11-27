@@ -6,13 +6,8 @@ namespace API {
 ECMState_UploadMotionProfile::ECMState_UploadMotionProfile():
     AbstractStateECMProcess()
 {
-    this->currentState = ECMState::STATE_ECM_TOUCHOFF_EXECUTE;
-    this->desiredState = ECMState::STATE_ECM_TOUCHOFF_EXECUTE;
-}
-
-void ECMState_UploadMotionProfile::OnExit()
-{
-
+    this->currentState = ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE;
+    this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE;
 }
 
 AbstractStateECMProcess* ECMState_UploadMotionProfile::getClone() const
@@ -48,9 +43,17 @@ void ECMState_UploadMotionProfile::Update()
 
 }
 
-void ECMState_UploadMotionProfile::OnEnter(const ECMCommand_ProfileConfigurationPtr command)
+void ECMState_UploadMotionProfile::OnEnter()
 {
-    Owner().m_Galil->AddLambda_FinishedUploadingParameters(this,[this](const bool completed, const uint8_t finishCode){
+
+}
+
+void ECMState_UploadMotionProfile::OnEnter(const ECMCommand_ProfileConfiguration &config)
+{
+    //First update the configuation per what was received upon entering the state
+    this->m_ProfileConfiguration = config;
+
+    Owner().m_Galil->AddLambda_FinishedUploadingParameters(this,[this](const bool completed, const DeviceInterface_MotionControl::FINISH_CODE finishCode){
         if(completed)
         {
             desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES;

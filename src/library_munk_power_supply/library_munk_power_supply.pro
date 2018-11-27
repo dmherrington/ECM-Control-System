@@ -107,7 +107,7 @@ HEADERS += \
     munk_version.h \
     data_registers/register_pulse_mode.h \
     data/type_pulse_mode.h \
-    munk_device_interface.h
+    device_interface_power_supply.h
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

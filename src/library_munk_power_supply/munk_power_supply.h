@@ -11,7 +11,6 @@
 #include "library_munk_power_supply_global.h"
 #include "common/comms/communication_update.h"
 #include "common/comms/communication_connection.h"
-#include "common/abstract_device_interface.h"
 
 #include "data/type_read_write.h"
 #include "data/type_exception_message.h"
@@ -45,11 +44,12 @@
 #include "munk_machine_state.h"
 #include "munk_poll_status.h"
 
+#include "device_interface_power_supply.h"
 using namespace registers_Munk;
 using namespace data_Munk;
 using namespace comms_Munk;
 
-class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply : public QObject, public Abstract_DeviceInterface, CommsEvents, MunkStatusCallback_Interface
+class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply : public QObject, public DeviceInterface_PowerSupply, CommsEvents, MunkStatusCallback_Interface
 {
     Q_OBJECT
 

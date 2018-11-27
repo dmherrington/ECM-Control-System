@@ -1,8 +1,10 @@
-#ifndef STATE_ECM_UPLOAD_POWER_PARAMETERS_H
-#define STATE_ECM_UPLOAD_POWER_PARAMETERS_H
+#ifndef ECM_STATE_UPLOAD_POWER_PULSE_MODE_H
+#define ECM_STATE_UPLOAD_POWER_PULSE_MODE_H
 
 #include "states/state_abstract_ecm_process.h"
 #include "commands/ecmcommand_profile_configuration.h"
+
+#include "library_munk_power_supply/munk_power_supply.h"
 
 /**
 \* @file  state_ecm_touchoff.h
@@ -20,14 +22,15 @@
 namespace ECM{
 namespace API {
 
-ECM_CLASS_FORWARD(ECMState_UploadPowerParameters);
+ECM_CLASS_FORWARD(ECMState_UploadPowerPulseMode);
 
-class ECMState_UploadPowerParameters;
+class ECMState_UploadPumpParameters;
+class ECMState_UploadFailed;
 
-class ECMState_UploadPowerParameters : public AbstractStateECMProcess
+class ECMState_UploadPowerPulseMode : public AbstractStateECMProcess
 {
 public:
-    ECMState_UploadPowerParameters();
+    ECMState_UploadPowerPulseMode();
 
 public:
     AbstractStateECMProcess* getClone() const override;
@@ -42,12 +45,11 @@ public:
 
     void OnEnter() override;
 
-    void OnEnter(const ECMCommand_ProfileConfigurationPtr command);
+    void OnEnter(const ECMCommand_ProfileConfiguration &config);
 
 };
 
 } //end of namespace API
 } //end of namespace ECM
 
-
-#endif // STATE_ECM_UPLOAD_POWER_PARAMETERS_H
+#endif // ECM_STATE_UPLOAD_POWER_PULSE_MODE_H

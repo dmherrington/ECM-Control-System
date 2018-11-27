@@ -3,11 +3,12 @@
 
 #include "common/class_forward.h"
 
-#include "library_galilMotionController/programs/galil_current_program.h"
+#include "library_galilMotionController/programs/galil_current_operation.h"
 
 #include "library_munk_power_supply/data_registers/segment_time_detailed.h"
+#include "library_munk_power_supply/data_registers/register_pulse_mode.h"
 
-#include "library_westinghouse510/pump_command.h"
+//#include "library_westinghouse510/command_pump_properties.h"
 
 
 ECM_CLASS_FORWARD(ECMCommand_ProfileConfiguration);
@@ -18,11 +19,22 @@ public:
     ECMCommand_ProfileConfiguration();
 
 public:
-    GalilCurrentProgram m_GalilParameters;
+    bool shouldProfileExecute() const;
 
-    registers_Munk::SegmentTimeDetailed m_MunkParameters;
+    void setProfileExecution(const bool &varExecute);
 
-    PumpCommand m_PumpParameters;
+private:
+    bool execute = false;
+
+public:
+
+    GalilCurrentOperation m_GalilOperation;
+
+    registers_Munk::SegmentTimeDetailed m_MunkSegment;
+
+    registers_Munk::Register_PulseMode m_MunkPulseMode;
+
+    //Command_PumpProperties m_PumpParameters;
 
 };
 

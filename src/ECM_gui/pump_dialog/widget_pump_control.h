@@ -10,6 +10,7 @@
 #include "../general_dialog_window.h"
 
 #include "library_westinghouse510/westinghouse_510.h"
+#include "library_westinghouse510/command_pump_properties.h"
 
 namespace Ui {
 class Widget_PumpControl;
@@ -28,6 +29,9 @@ public:
 
     void readFromJSON(const QJsonObject &openObject);
 
+public:
+    //Command_PumpProperties getPumpProperties() const;
+
 private:
     void closeEvent(QCloseEvent *event) override;
 
@@ -35,15 +39,6 @@ private:
     void setPumpFlowRate(const double &rate);
 
     void setPumpDelayTime(const double &time);
-
-private:
-    void saveToFile(const QString &filePath);
-
-    void openFromFile(const QString &filePath);
-
-    void read(const QJsonObject &json);
-
-    void write(QJsonObject &json) const;
 
 signals:
     void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility);

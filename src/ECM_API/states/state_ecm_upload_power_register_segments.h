@@ -1,8 +1,10 @@
-#ifndef STATE_ECM_UPLOAD_PUMP_PARAMETERS_H
-#define STATE_ECM_UPLOAD_PUMP_PARAMETERS_H
+#ifndef STATE_ECM_UPLOAD_POWER_PARAMETERS_H
+#define STATE_ECM_UPLOAD_POWER_PARAMETERS_H
 
 #include "states/state_abstract_ecm_process.h"
 #include "commands/ecmcommand_profile_configuration.h"
+
+#include "library_munk_power_supply/munk_power_supply.h"
 
 /**
 \* @file  state_ecm_touchoff.h
@@ -20,15 +22,15 @@
 namespace ECM{
 namespace API {
 
-ECM_CLASS_FORWARD(ECMState_UploadPumpParameters);
+ECM_CLASS_FORWARD(ECMState_UploadPowerRegisterSegments);
 
-class ECMState_UploadComplete;
+class ECMState_UploadPowerPulseMode;
 class ECMState_UploadFailed;
 
-class ECMState_UploadPumpParameters : public AbstractStateECMProcess
+class ECMState_UploadPowerRegisterSegments : public AbstractStateECMProcess
 {
 public:
-    ECMState_UploadPumpParameters();
+    ECMState_UploadPowerRegisterSegments();
 
 public:
     AbstractStateECMProcess* getClone() const override;
@@ -49,4 +51,5 @@ public:
 
 } //end of namespace API
 } //end of namespace ECM
-#endif //STATE_ECM_UPLOAD_PUMP_PARAMETERS_H
+
+#endif // STATE_ECM_UPLOAD_POWER_PARAMETERS_H

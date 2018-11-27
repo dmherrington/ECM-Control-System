@@ -182,8 +182,8 @@ void *Westinghouse510::qt_metacast(const char *_clname)
     if (!_clname) return nullptr;
     if (!strcmp(_clname, qt_meta_stringdata_Westinghouse510.stringdata0))
         return static_cast<void*>(this);
-    if (!strcmp(_clname, "Abstract_DeviceInterface"))
-        return static_cast< Abstract_DeviceInterface*>(this);
+    if (!strcmp(_clname, "DeviceInterface_Pump"))
+        return static_cast< DeviceInterface_Pump*>(this);
     return QObject::qt_metacast(_clname);
 }
 
