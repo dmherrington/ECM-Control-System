@@ -33,12 +33,11 @@ public:
     //Command_PumpProperties getPumpProperties() const;
 
 private:
-    void closeEvent(QCloseEvent *event) override;
-
-private:
     void setPumpFlowRate(const double &rate);
 
     void setPumpDelayTime(const double &time);
+
+    void setWaitForPumpDelay(const bool &wait);
 
 signals:
     void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility);

@@ -28,6 +28,8 @@ public:
 
     Widget_ProfileParameters* getAccompanyingProfile();
 
+    void newlyAvailableProgramLabels(const ProgramLabelList &labels);
+
 public:
     void writeToJSON(QJsonObject &obj);
 

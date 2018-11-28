@@ -40,6 +40,11 @@ std::string TableWidget_OperationDescriptor::getOperationName() const
     return this->operationName;
 }
 
+void TableWidget_OperationDescriptor::newlyAvailableProgramLabels(const ProgramLabelList &labels)
+{
+    this->m_OperationParameters->m_ScriptingVariables->updateProgramLabels(labels);
+}
+
 Widget_ProfileParameters* TableWidget_OperationDescriptor::getAccompanyingProfile()
 {
     return this->m_OperationParameters;
@@ -66,7 +71,7 @@ void TableWidget_OperationDescriptor::on_pushButton_ExecuteExplicitOp_released()
     ECMCommand_ProfileConfiguration newSingleProfile;
     newSingleProfile.m_GalilOperation.setOperationName(this->operationName);
     newSingleProfile.m_GalilOperation.setProfileName(this->m_OperationParameters->m_ScriptingVariables->getProfileName());
-    newSingleProfile.m_GalilOperation.setVariableList(this->m_OperationParameters->m_ScriptingVariables->getVariableLsit());
+    newSingleProfile.m_GalilOperation.setVariableList(this->m_OperationParameters->m_ScriptingVariables->getVariableList());
 
     newSingleProfile.m_MunkPulseMode = this->m_OperationParameters->m_PowerSupply->getPulseModeRegister();
     newSingleProfile.m_MunkSegment = this->m_OperationParameters->m_PowerSupply->getSegmentRegister();

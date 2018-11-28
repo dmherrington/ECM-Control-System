@@ -24,6 +24,7 @@ void Widget_Touchoff::writeToJSON(QJsonObject &saveObject)
     QJsonObject segmentObject;
     segmentObject["touchoffRef"] = this->ui->doubleSpinBox_TouchoffRef->value();
     segmentObject["touchoffGap"] = this->ui->doubleSpinBox_InitialGap->value();
+    segmentObject["touchoffExecute"] = this->ui->checkBox_UtilizeTouchoff->isChecked();
     segmentDataArray.append(segmentObject);
 
     saveObject["touchoffData"] = segmentDataArray;
@@ -36,6 +37,7 @@ void Widget_Touchoff::readFromJSON(const QJsonObject &openObject)
 
     setTouchoffRef(touchoffObject["touchoffRef"].toDouble());
     setTouchoffGap(touchoffObject["touchoffGap"].toDouble());
+    setTouchoffUtilization(touchoffObject["touchoffExecute"].toBool());
 }
 
 void Widget_Touchoff::setTouchoffRef(const double &value)
@@ -46,6 +48,11 @@ void Widget_Touchoff::setTouchoffRef(const double &value)
 void Widget_Touchoff::setTouchoffGap(const double &value)
 {
     ui->doubleSpinBox_InitialGap->setValue(value);
+}
+
+void Widget_Touchoff::setTouchoffUtilization(const bool &execute)
+{
+    ui->checkBox_UtilizeTouchoff->setChecked(execute);
 }
 
 void Widget_Touchoff::on_pushButton_ExecuteTouchoff_released()

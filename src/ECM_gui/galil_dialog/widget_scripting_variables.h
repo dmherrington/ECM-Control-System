@@ -19,10 +19,17 @@ public:
     ~Widget_ScriptingVariables();
 
 public:
+    void writeToJSON(QJsonObject &saveObject);
+
+    void readFromJSON(const QJsonObject &openObject);
+
+public:
 
     std::string getProfileName() const;
 
-    ProgramVariableList getVariableLsit() const;
+    ProgramVariableList getVariableList() const;
+
+    void updateProgramLabels(const ProgramLabelList &list);
 
 private slots:
 
@@ -53,6 +60,8 @@ private:
     Ui::Widget_ScriptingVariables *ui;
 
     GalilMotionController* m_Galil;
+
+    ProgramVariableList currentVarList;
 };
 
 #endif // WIDGET_SCRIPTING_VARIABLES_H

@@ -51,29 +51,31 @@ registers_Munk::SegmentTimeDetailed  Widget_MunkPowerSupply::getSegmentRegister(
 
 void Widget_MunkPowerSupply::slot_onCustomContextMenu(const QPoint &point)
 {
-    std::cout<<"I have requested a context menu"<<std::endl;
-//    QModelIndex index = ui->segmentWidget->indexAt(point);
-//    if (index.isValid() && index.row() % 2 == 0) {
-//        contextMenu->exec(ui->treeView->viewport()->mapToGlobal(point));
-//    }
+    QMenu contextMenu(tr("Context menu"), this);
+
+    QAction action1("Add Segment", this);
+    connect(&action1, SIGNAL(triggered()), this, SLOT(on_Action_AddSegment_released()));
+    contextMenu.addAction(&action1);
+
+    contextMenu.exec(mapToGlobal(point));
 }
 
-void Widget_MunkPowerSupply::on_pushButton_AddSegment_released()
+void Widget_MunkPowerSupply::on_Action_AddSegment_released()
 {
     ui->segmentWidget->addNewSegment();
     ui->segmentWidget->cbiSegmentDataInterface_UpdatedData();
 }
 
 
-void Widget_MunkPowerSupply::on_pushButton_transmit_released()
-{
-    //first allow us to get the pulse mode
-    munk->writeRegisterPulseMode(this->getPulseMode());
+//void Widget_MunkPowerSupply::on_pushButton_transmit_released()
+//{
+//    //first allow us to get the pulse mode
+//    munk->writeRegisterPulseMode(this->getPulseMode());
 
-    //next, send the segment data
-    registers_Munk::SegmentTimeDetailed dataSegment = ui->segmentWidget->getRawData();
-    munk->generateAndTransmitMessage(dataSegment);
-}
+//    //next, send the segment data
+//    registers_Munk::SegmentTimeDetailed dataSegment = ui->segmentWidget->getRawData();
+//    munk->generateAndTransmitMessage(dataSegment);
+//}
 
 void Widget_MunkPowerSupply::slot_ParameterTransmissionUpdate(const int &transmitted, const int &required)
 {

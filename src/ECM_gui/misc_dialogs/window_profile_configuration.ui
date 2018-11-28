@@ -425,7 +425,7 @@ width:20px;
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_AddMotionProfile_2">
+             <widget class="QPushButton" name="pushButton_UploadMotionScript">
               <property name="sizePolicy">
                <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                 <horstretch>0</horstretch>
@@ -459,7 +459,7 @@ width:20px;
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_AddMotionProfile_4">
+             <widget class="QPushButton" name="pushButton_DownloadMotionScript">
               <property name="sizePolicy">
                <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                 <horstretch>0</horstretch>

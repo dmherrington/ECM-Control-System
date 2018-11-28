@@ -19,6 +19,16 @@ Widget_ScriptingVariables::Widget_ScriptingVariables(GalilMotionController* gali
     ui->spinBox_Pause->setToolTip("Profile Variable: rtpause");
 
     connect(m_Galil, SIGNAL(signal_MCNewProgramVariableList(ProgramVariableList)), this, SLOT(slot_MCNEWProgramVariableList(ProgramVariableList)));
+
+    currentVarList.addVariable("maxdepth",ui->doubleSpinBox_CutDepth->value() * 10.0);
+    currentVarList.addVariable("rtdist",ui->doubleSpinBox_RetractDistance->value() * 10.0);
+    currentVarList.addVariable("step",ui->doubleSpinBox_StepSize->value() * 10.0);
+    currentVarList.addVariable("backsp",ui->spinBox_RetractSpeed->value() * 10.0);
+    currentVarList.addVariable("forsp",ui->spinBox_PlungeSpeed->value() * 10.0);
+    currentVarList.addVariable("speed",ui->doubleSpinBox_CutSpeed->value() * 10.0);
+    currentVarList.addVariable("rtfq",ui->spinBox_RetractPeriod->value());
+    currentVarList.addVariable("rtpause",ui->spinBox_Pause->value());
+
 }
 
 Widget_ScriptingVariables::~Widget_ScriptingVariables()
@@ -26,25 +36,56 @@ Widget_ScriptingVariables::~Widget_ScriptingVariables()
     delete ui;
 }
 
+void Widget_ScriptingVariables::writeToJSON(QJsonObject &saveObject)
+{
+    QJsonArray MCDataArray;
+
+    QJsonObject dataObject;
+    dataObject["profileName"] = this->getProfileName();
+
+    for()
+
+    MCDataArray.append(segmentObject);
+    saveObject["MotionControlData"] = MCDataArray;
+}
+
+void Widget_ScriptingVariables::readFromJSON(const QJsonObject &openObject)
+{
+    QJsonArray MCDataArray = openObject["MotionControlData"].toArray();
+    QJsonObject dataObject = MCDataArray[0].toObject();
+
+    setTouchoffRef(touchoffObject["touchoffRef"].toDouble());
+    setTouchoffGap(touchoffObject["touchoffGap"].toDouble());
+    setTouchoffUtilization(touchoffObject["touchoffExecute"].toBool());
+}
+
 std::string Widget_ScriptingVariables::getProfileName() const
 {
     return this->ui->comboBox_ProgramLabels->currentText().toStdString();
 }
 
-ProgramVariableList Widget_ScriptingVariables::getVariableLsit() const
+ProgramVariableList Widget_ScriptingVariables::getVariableList() const
 {
-    ProgramVariableList varList;
+    return currentVarList;
+}
 
-    varList.addVariable("maxdepth",ui->doubleSpinBox_CutDepth->value() * 10.0);
-    varList.addVariable("rtdist",ui->doubleSpinBox_RetractDistance->value() * 10.0);
-    varList.addVariable("step",ui->doubleSpinBox_StepSize->value() * 10.0);
-    varList.addVariable("backsp",ui->spinBox_RetractSpeed->value() * 10.0);
-    varList.addVariable("forsp",ui->spinBox_PlungeSpeed->value() * 10.0);
-    varList.addVariable("speed",ui->doubleSpinBox_CutSpeed->value() * 10.0);
-    varList.addVariable("rtfq",ui->spinBox_RetractPeriod->value());
-    varList.addVariable("rtpause",ui->spinBox_Pause->value());
+void Widget_ScriptingVariables::updateProgramLabels(const ProgramLabelList &list)
+{
+    QString currentLabel = ui->comboBox_ProgramLabels->currentText();
+    ui->comboBox_ProgramLabels->clear();
 
-    return varList;
+    std::map<std::string,int> programLabels = list.getLabelMap();
+    std::map<std::string,int>::iterator it = programLabels.begin();
+    for(;it!=programLabels.end();++it)
+    {
+        ui->comboBox_ProgramLabels->addItem(QString::fromStdString(it->first));
+    }
+
+    int foundIndex = ui->comboBox_ProgramLabels->findText(currentLabel);
+    if(foundIndex > -1)
+    {
+        ui->comboBox_ProgramLabels->setCurrentIndex(foundIndex);
+    }
 }
 
 void Widget_ScriptingVariables::on_doubleSpinBox_CutDepth_editingFinished()

@@ -40,7 +40,7 @@ public:
     QPushButton *pushButton_TouchoffRef;
     QDoubleSpinBox *doubleSpinBox_TouchoffRef;
     QLabel *label_3;
-    QCheckBox *checkBox;
+    QCheckBox *checkBox_UtilizeTouchoff;
     QHBoxLayout *horizontalLayout_10;
     QPushButton *pushButton_TouchoffGap;
     QDoubleSpinBox *doubleSpinBox_InitialGap;
@@ -262,11 +262,11 @@ public:
 
         gridLayout_12->addLayout(horizontalLayout_9, 0, 0, 1, 1);
 
-        checkBox = new QCheckBox(Widget_Touchoff);
-        checkBox->setObjectName(QStringLiteral("checkBox"));
-        checkBox->setFont(font1);
+        checkBox_UtilizeTouchoff = new QCheckBox(Widget_Touchoff);
+        checkBox_UtilizeTouchoff->setObjectName(QStringLiteral("checkBox_UtilizeTouchoff"));
+        checkBox_UtilizeTouchoff->setFont(font1);
 
-        gridLayout_12->addWidget(checkBox, 0, 1, 1, 1);
+        gridLayout_12->addWidget(checkBox_UtilizeTouchoff, 0, 1, 1, 1);
 
         horizontalLayout_10 = new QHBoxLayout();
         horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
@@ -463,7 +463,7 @@ public:
         label_ManualControl_4->setText(QApplication::translate("Widget_Touchoff", "Touchoff Configuration", nullptr));
         pushButton_TouchoffRef->setText(QApplication::translate("Widget_Touchoff", "Set Touchoff Ref", nullptr));
         label_3->setText(QApplication::translate("Widget_Touchoff", "um", nullptr));
-        checkBox->setText(QApplication::translate("Widget_Touchoff", "Utilize Touchoff", nullptr));
+        checkBox_UtilizeTouchoff->setText(QApplication::translate("Widget_Touchoff", "Utilize Touchoff", nullptr));
         pushButton_TouchoffGap->setText(QApplication::translate("Widget_Touchoff", "Set Initial Gap", nullptr));
         label_4->setText(QApplication::translate("Widget_Touchoff", "um", nullptr));
         pushButton_ExecuteTouchoff->setText(QApplication::translate("Widget_Touchoff", "Execute", nullptr));

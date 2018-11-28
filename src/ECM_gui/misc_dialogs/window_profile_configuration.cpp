@@ -16,15 +16,21 @@ Window_ProfileConfiguration::~Window_ProfileConfiguration()
     delete ui;
 }
 
-void Window_ProfileConfiguration::on_pushButton_AddOperation_released()
+void Window_ProfileConfiguration::updateConfigurationPath(const std::string &path)
+{
+    ui->lineEdit_ConfugrationPath->setText(QString::fromStdString(path));
+}
+
+TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const unsigned int &index)
 {
     Widget_ProfileParameters* operationParameters = new Widget_ProfileParameters(m_API);
-    int tabIndex = ui->tabWidget_OperationParameters->addTab(operationParameters,"Test");
-    operationParameters->setTabIndex(tabIndex);
+    ui->tabWidget_OperationParameters->addTab(operationParameters,"Test");
+    operationParameters->setTabIndex(index);
 
     TableWidget_OperationDescriptor* tableDescriptor = new TableWidget_OperationDescriptor(operationParameters);
-    tableDescriptor->setOperationIndex(tabIndex + 1);
+    tableDescriptor->setOperationIndex(index + 1);
     connect(tableDescriptor,SIGNAL(signal_OperationNameChanged(std::string,int)),this,SLOT(slot_OperationNameChanged(std::string,int)));
+    tableDescriptor->newlyAvailableProgramLabels(m_API->m_Galil->stateInterface->galilProgram->getLabelList());
 
     QListWidgetItem* newItem = new QListWidgetItem();
     newItem->setSizeHint(tableDescriptor->sizeHint());
@@ -32,6 +38,37 @@ void Window_ProfileConfiguration::on_pushButton_AddOperation_released()
     ui->listWidget->setItemWidget(newItem,tableDescriptor);
 
     this->m_MapOperations.insert(std::pair<QListWidgetItem*,TableWidget_OperationDescriptor*>(newItem,tableDescriptor));
+
+    return tableDescriptor;
+}
+
+void Window_ProfileConfiguration::clearExistingOperations()
+{
+    std::map<QListWidgetItem*,TableWidget_OperationDescriptor*>::iterator it = m_MapOperations.begin();
+
+    for (; it!=m_MapOperations.end(); ++it)
+    {
+        delete it->second;
+    }
+    ui->tabWidget_OperationParameters->clear();
+    ui->listWidget->clear();
+    m_MapOperations.clear();
+}
+
+void Window_ProfileConfiguration::slot_MCNewProgramLabels(const ProgramLabelList &labels)
+{
+    std::map<QListWidgetItem*,TableWidget_OperationDescriptor*>::iterator it = m_MapOperations.begin();
+
+    for (; it!=m_MapOperations.end(); ++it)
+    {
+        TableWidget_OperationDescriptor* currentOp = it->second;
+        currentOp->newlyAvailableProgramLabels(labels);
+    }
+}
+
+void Window_ProfileConfiguration::on_pushButton_AddOperation_released()
+{
+    this->addOperation(ui->tabWidget_OperationParameters->count());
 }
 
 void Window_ProfileConfiguration::on_pushButton_RemoveOperation_released()
@@ -49,9 +86,9 @@ void Window_ProfileConfiguration::on_pushButton_OpenMotionScript_released()
     std::string extensionFilter = "Open TXT Files (*.txt);; Open DMC Files (*.dmc)";
 
     QString filePath = GeneralDialogWindow::onOpenAction(extensionFilter);
-    ui->lineEdit_GalilScriptPath->setText(filePath);
 
     if(!filePath.isEmpty() && !filePath.isNull()){
+        ui->lineEdit_GalilScriptPath->setText(filePath);
         emit signal_LoadMotionProfile(filePath.toStdString());
     }
 }
@@ -79,12 +116,16 @@ void Window_ProfileConfiguration::on_listWidget_itemClicked(QListWidgetItem *ite
 
 void Window_ProfileConfiguration::on_actionOpen_triggered()
 {
-
+    QString filePath = GeneralDialogWindow::onOpenAction();
+    if(!filePath.isEmpty() && !filePath.isNull()){
+        openFromFile(filePath);
+    }
 }
 
 void Window_ProfileConfiguration::on_actionSave_triggered()
 {
-
+    QString settingsPath = GeneralDialogWindow::onSaveAction();
+    saveToFile(settingsPath);
 }
 
 void Window_ProfileConfiguration::on_actionSave_As_triggered()
@@ -100,6 +141,8 @@ void Window_ProfileConfiguration::saveToFile(const QString &filePath)
     if (!saveFile.open(QIODevice::WriteOnly)) {
         qWarning("Couldn't open save file.");
     }
+
+    this->updateConfigurationPath(filePath.toStdString());
 
     QJsonObject saveObject;
     QJsonArray segmentDataArray;
@@ -128,3 +171,29 @@ void Window_ProfileConfiguration::saveToFile(const QString &filePath)
     saveFile.write(saveDoc.toJson());
     saveFile.close();
 }
+
+
+void Window_ProfileConfiguration::openFromFile(const QString &filePath)
+{
+    QFile loadFile(filePath);
+     if (!loadFile.open(QIODevice::ReadOnly)) return;
+
+    this->updateConfigurationPath(filePath.toStdString());
+
+    clearExistingOperations();
+
+    QByteArray loadData = loadFile.readAll();
+    loadFile.close();
+
+    QJsonDocument loadDoc(QJsonDocument::fromJson(loadData));
+    QJsonObject jsonObject = loadDoc.object();
+    QJsonArray configArray = jsonObject["configData"].toArray();
+
+    for (int i = 0; i < configArray.size(); ++i) {
+        QJsonObject operationObject = configArray[i].toObject();
+        TableWidget_OperationDescriptor* newOperation = this->addOperation(operationObject["opIndex"].toInt() - 1);
+        newOperation->setOperationName(operationObject["opName"].toString().toStdString());
+        newOperation->readFromJSON(operationObject);
+    }
+}
+

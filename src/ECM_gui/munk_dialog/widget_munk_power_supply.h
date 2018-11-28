@@ -2,6 +2,7 @@
 #define WIDGET_MUNK_POWER_SUPPLY_H
 
 #include <QWidget>
+#include <QMenu>
 
 #include "../general_dialog_window.h"
 
@@ -30,10 +31,7 @@ signals:
     void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility);
 
 private slots:
-
-    void on_pushButton_AddSegment_released();
-
-    void on_pushButton_transmit_released();
+    void on_Action_AddSegment_released();
 
     void slot_onCustomContextMenu(const QPoint &point);
 

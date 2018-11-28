@@ -43,7 +43,7 @@ public:
     QLineEdit *lineEdit_OnTime;
     QHBoxLayout *horizontalLayout_13;
     QSpacerItem *horizontalSpacer_17;
-    QCheckBox *checkBox_2;
+    QCheckBox *checkBox_WaitForDelay;
     QSpacerItem *horizontalSpacer_18;
     QHBoxLayout *horizontalLayout_14;
     QSpacerItem *horizontalSpacer_19;
@@ -268,11 +268,11 @@ public:
 
         horizontalLayout_13->addItem(horizontalSpacer_17);
 
-        checkBox_2 = new QCheckBox(Widget_PumpControl);
-        checkBox_2->setObjectName(QStringLiteral("checkBox_2"));
-        checkBox_2->setFont(font1);
+        checkBox_WaitForDelay = new QCheckBox(Widget_PumpControl);
+        checkBox_WaitForDelay->setObjectName(QStringLiteral("checkBox_WaitForDelay"));
+        checkBox_WaitForDelay->setFont(font1);
 
-        horizontalLayout_13->addWidget(checkBox_2);
+        horizontalLayout_13->addWidget(checkBox_WaitForDelay);
 
         horizontalSpacer_18 = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -500,7 +500,7 @@ public:
         Widget_PumpControl->setWindowTitle(QApplication::translate("Widget_PumpControl", "Form", nullptr));
         label_ManualControl_5->setText(QApplication::translate("Widget_PumpControl", "Pump Configuration", nullptr));
         label_OnTime->setText(QApplication::translate("Widget_PumpControl", "On Time:", nullptr));
-        checkBox_2->setText(QApplication::translate("Widget_PumpControl", "Wait For Delay", nullptr));
+        checkBox_WaitForDelay->setText(QApplication::translate("Widget_PumpControl", "Wait For Delay", nullptr));
         pushButton_PumpRunning->setText(QApplication::translate("Widget_PumpControl", "ON", nullptr));
         label_Flowrate->setText(QApplication::translate("Widget_PumpControl", "Flowrate Setpoint (lpm)", nullptr));
         label_delayTim->setText(QApplication::translate("Widget_PumpControl", "Delay Time (sec)", nullptr));

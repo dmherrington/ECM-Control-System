@@ -316,7 +316,7 @@ width:20px;
       </layout>
      </item>
      <item row="0" column="1">
-      <widget class="QCheckBox" name="checkBox">
+      <widget class="QCheckBox" name="checkBox_UtilizeTouchoff">
        <property name="font">
         <font>
          <pointsize>12</pointsize>

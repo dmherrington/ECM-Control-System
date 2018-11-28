@@ -4,6 +4,20 @@
             "MunkSettings": [
                 {
                     "segmentData": [
+                        {
+                            "current": 11,
+                            "segmentMode": "FORWARD",
+                            "supplyOutput": "OUTPUT1",
+                            "time": 100,
+                            "voltage": 10
+                        },
+                        {
+                            "current": 11,
+                            "segmentMode": "REVERSE",
+                            "supplyOutput": "OUTPUT1",
+                            "time": 100,
+                            "voltage": 10
+                        }
                     ]
                 }
             ],
@@ -11,14 +25,16 @@
             "opName": "Test 1",
             "pumpData": [
                 {
-                    "pumpDelayTime": 0,
-                    "pumpFlowRate": 0
+                    "pumpDelayTime": 5,
+                    "pumpFlowRate": 3,
+                    "pumpWaitForDelay": false
                 }
             ],
             "touchoffData": [
                 {
-                    "touchoffGap": 0,
-                    "touchoffRef": 0
+                    "touchoffExecute": true,
+                    "touchoffGap": 100,
+                    "touchoffRef": 1200
                 }
             ]
         },
@@ -26,6 +42,20 @@
             "MunkSettings": [
                 {
                     "segmentData": [
+                        {
+                            "current": 13,
+                            "segmentMode": "FORWARD",
+                            "supplyOutput": "OUTPUT1",
+                            "time": 100,
+                            "voltage": 12
+                        },
+                        {
+                            "current": 13,
+                            "segmentMode": "REVERSE",
+                            "supplyOutput": "OUTPUT1",
+                            "time": 100,
+                            "voltage": 12
+                        }
                     ]
                 }
             ],
@@ -34,11 +64,13 @@
             "pumpData": [
                 {
                     "pumpDelayTime": 0,
-                    "pumpFlowRate": 0
+                    "pumpFlowRate": 0,
+                    "pumpWaitForDelay": false
                 }
             ],
             "touchoffData": [
                 {
+                    "touchoffExecute": false,
                     "touchoffGap": 0,
                     "touchoffRef": 0
                 }

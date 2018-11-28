@@ -27,6 +27,8 @@ public:
 
     void setTouchoffGap(const double &value);
 
+    void setTouchoffUtilization(const bool &execute);
+
 private slots:
     void on_pushButton_ExecuteTouchoff_released();
 

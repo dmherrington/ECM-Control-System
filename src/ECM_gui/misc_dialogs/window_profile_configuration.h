@@ -22,7 +22,13 @@ public:
     explicit Window_ProfileConfiguration(ECM_API* apiObject, QWidget *parent = 0);
     ~Window_ProfileConfiguration();
 
+public:
+    void updateConfigurationPath(const std::string &path);
+
 private:
+    TableWidget_OperationDescriptor* addOperation(const unsigned int &index);
+
+    void clearExistingOperations();
 
 signals:
     void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility) override;
@@ -44,9 +50,12 @@ private slots:
 
     void on_listWidget_itemClicked(QListWidgetItem *item);
 
+    void slot_MCNewProgramLabels(const ProgramLabelList &labels);
 
 private:
     void saveToFile(const QString &filePath);
+
+    void openFromFile(const QString &filePath);
 
 private slots:
     void on_actionOpen_triggered();
