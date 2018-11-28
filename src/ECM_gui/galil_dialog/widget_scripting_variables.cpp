@@ -117,57 +117,65 @@ void Widget_ScriptingVariables::updateProgramLabels(const ProgramLabelList &list
 
 void Widget_ScriptingVariables::on_doubleSpinBox_CutDepth_editingFinished()
 {
-    //Command_Variable command("maxdepth",ui->doubleSpinBox_CutDepth->value() * 10);
-    Command_VariablePtr command = std::make_shared<Command_Variable>("maxdepth",ui->doubleSpinBox_CutDepth->value() * 10.0);
+    double currentVariableValue = ui->doubleSpinBox_CutDepth->value() * 10.0;
+    currentVarList.updateVariable("maxdepth",currentVariableValue);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("maxdepth",currentVariableValue);
     //m_Galil->executeCommand(command);
 }
 
 void Widget_ScriptingVariables::on_doubleSpinBox_RetractDistance_editingFinished()
 {
-    //Command_Variable command("rtdist",ui->doubleSpinBox_RetractDistance->value() * 10);
-    Command_VariablePtr command = std::make_shared<Command_Variable>("rtdist",ui->doubleSpinBox_RetractDistance->value() * 10.0);
+    double currentVariableValue = ui->doubleSpinBox_RetractDistance->value() * 10.0;
+    currentVarList.updateVariable("rtdist",currentVariableValue);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("rtdist",currentVariableValue);
     //m_Galil->executeCommand(command);
 }
 
 void Widget_ScriptingVariables::on_doubleSpinBox_StepSize_editingFinished()
 {
-    //Command_Variable command("step",ui->doubleSpinBox_StepSize->value() * 10);
-    Command_VariablePtr command = std::make_shared<Command_Variable>("step",ui->doubleSpinBox_StepSize->value() * 10.0);
+    double currentVariableValue = ui->doubleSpinBox_StepSize->value() * 10.0;
+    currentVarList.updateVariable("step",currentVariableValue);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("step",currentVariableValue);
     //m_Galil->executeCommand(command);
 }
 
 void Widget_ScriptingVariables::on_spinBox_RetractSpeed_editingFinished()
 {
-    //Command_Variable command("backsp",ui->spinBox_RetractSpeed->value() * 10);
-    Command_VariablePtr command = std::make_shared<Command_Variable>("backsp",ui->spinBox_RetractSpeed->value() * 10.0);
+    double currentVariableValue = ui->spinBox_RetractSpeed->value() * 10.0;
+    currentVarList.updateVariable("backsp",currentVariableValue);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("backsp",currentVariableValue);
     //m_Galil->executeCommand(command);
 }
 
 void Widget_ScriptingVariables::on_spinBox_PlungeSpeed_editingFinished()
 {
-    //Command_Variable command("forsp",ui->spinBox_PlungeSpeed->value() * 10);
-    Command_VariablePtr command = std::make_shared<Command_Variable>("forsp",ui->spinBox_PlungeSpeed->value() * 10.0);
+    double currentVariableValue = ui->spinBox_PlungeSpeed->value() * 10.0;
+    currentVarList.updateVariable("forsp",currentVariableValue);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("forsp",currentVariableValue);
     //m_Galil->executeCommand(command);
 }
 
 void Widget_ScriptingVariables::on_doubleSpinBox_CutSpeed_editingFinished()
 {
-    //Command_Variable command("speed",ui->doubleSpinBox_CutSpeed->value() * 10);
-    Command_VariablePtr command = std::make_shared<Command_Variable>("speed",ui->doubleSpinBox_CutSpeed->value() * 10.0);
+    double currentVariableValue = ui->doubleSpinBox_CutSpeed->value() * 10.0;
+    currentVarList.updateVariable("speed",currentVariableValue);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("speed",currentVariableValue);
     //m_Galil->executeCommand(command);
 }
 
 void Widget_ScriptingVariables::on_spinBox_RetractPeriod_editingFinished()
 {
-    //Command_Variable command("rtfq",ui->spinBox_RetractPeriod->value());
-    Command_VariablePtr command = std::make_shared<Command_Variable>("rtfq",ui->spinBox_RetractPeriod->value());
+    double currentVariableValue = ui->spinBox_RetractPeriod->value();
+    currentVarList.updateVariable("rtfq",currentVariableValue);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("rtfq",currentVariableValue);
     //m_Galil->executeCommand(command);
 }
 
 void Widget_ScriptingVariables::on_spinBox_Pause_editingFinished()
 {
-    //Command_Variable command("rtpause",ui->spinBox_Pause->value());
-    Command_VariablePtr command = std::make_shared<Command_Variable>("rtpause",ui->spinBox_Pause->value());
+    double currentVariableValue = ui->spinBox_Pause->value();
+    currentVarList.updateVariable("maxdepth",currentVariableValue);
+    Command_VariablePtr command = std::make_shared<Command_Variable>("rtpause",currentVariableValue);
     //m_Galil->executeCommand(command);
 }
 
