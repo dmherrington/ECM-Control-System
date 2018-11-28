@@ -41,22 +41,49 @@ void Widget_ScriptingVariables::writeToJSON(QJsonObject &saveObject)
     QJsonArray MCDataArray;
 
     QJsonObject dataObject;
-    dataObject["profileName"] = this->getProfileName();
+    dataObject["profileName"] = QString::fromStdString(this->getProfileName());
 
-    for()
+    QJsonArray MCVariableArray;
 
-    MCDataArray.append(segmentObject);
+    std::map<std::string,double> variableMap = currentVarList.getVariableMap();
+    std::map<std::string,double>::iterator it = variableMap.begin();
+
+    for(;it!=variableMap.end();++it)
+    {
+        QJsonObject varObject;
+        std::string variableKey = it->first;
+        varObject[QString::fromStdString(variableKey)] = it->second;
+        MCVariableArray.append(varObject);
+    }
+
+    dataObject["variableData"] = MCVariableArray;
+
+    MCDataArray.append(dataObject);
     saveObject["MotionControlData"] = MCDataArray;
 }
 
 void Widget_ScriptingVariables::readFromJSON(const QJsonObject &openObject)
 {
+    ProgramVariableList newList;
+    newList.clearVariableList();
+
     QJsonArray MCDataArray = openObject["MotionControlData"].toArray();
     QJsonObject dataObject = MCDataArray[0].toObject();
 
-    setTouchoffRef(touchoffObject["touchoffRef"].toDouble());
-    setTouchoffGap(touchoffObject["touchoffGap"].toDouble());
-    setTouchoffUtilization(touchoffObject["touchoffExecute"].toBool());
+    QString profileString = dataObject["profileName"].toString();
+    int profileIndex = ui->comboBox_ProgramLabels->findText(profileString);
+    if(profileIndex > 0)
+        ui->comboBox_ProgramLabels->setCurrentIndex(profileIndex);
+
+    QJsonArray MCVariableArray = dataObject["variableData"].toArray();
+    for (int variableIndex = 0; variableIndex < MCVariableArray.size(); ++variableIndex) {
+        QJsonObject variableObject = MCVariableArray[variableIndex].toObject();
+        QString variableKey = variableObject.keys().at(0);
+        double variableValue = variableObject.value(variableKey).toDouble();
+        newList.addVariable(variableKey.toStdString(),variableValue);
+    }
+
+    this->slot_MCNEWProgramVariableList(newList);
 }
 
 std::string Widget_ScriptingVariables::getProfileName() const
@@ -146,6 +173,8 @@ void Widget_ScriptingVariables::on_spinBox_Pause_editingFinished()
 
 void Widget_ScriptingVariables::slot_MCNEWProgramVariableList(const ProgramVariableList &variables)
 {
+    this->currentVarList = variables;
+
     double value = 0;
     if(variables.getVariableValue("maxdepth",value))
         ui->doubleSpinBox_CutDepth->setValue(value / 10.0);

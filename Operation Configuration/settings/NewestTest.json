@@ -4,37 +4,23 @@
             "MunkSettings": [
                 {
                     "segmentData": [
-                        {
-                            "current": 11,
-                            "segmentMode": "FORWARD",
-                            "supplyOutput": "OUTPUT1",
-                            "time": 100,
-                            "voltage": 10
-                        },
-                        {
-                            "current": 11,
-                            "segmentMode": "REVERSE",
-                            "supplyOutput": "OUTPUT1",
-                            "time": 100,
-                            "voltage": 10
-                        }
                     ]
                 }
             ],
             "opIndex": 1,
-            "opName": "Test 1",
+            "opName": "Test 2",
             "pumpData": [
                 {
-                    "pumpDelayTime": 5,
-                    "pumpFlowRate": 3,
+                    "pumpDelayTime": 0,
+                    "pumpFlowRate": 0,
                     "pumpWaitForDelay": false
                 }
             ],
             "touchoffData": [
                 {
-                    "touchoffExecute": true,
-                    "touchoffGap": 100,
-                    "touchoffRef": 1200
+                    "touchoffExecute": false,
+                    "touchoffGap": 0,
+                    "touchoffRef": 0
                 }
             ]
         },
@@ -42,25 +28,11 @@
             "MunkSettings": [
                 {
                     "segmentData": [
-                        {
-                            "current": 13,
-                            "segmentMode": "FORWARD",
-                            "supplyOutput": "OUTPUT1",
-                            "time": 100,
-                            "voltage": 12
-                        },
-                        {
-                            "current": 13,
-                            "segmentMode": "REVERSE",
-                            "supplyOutput": "OUTPUT1",
-                            "time": 100,
-                            "voltage": 12
-                        }
                     ]
                 }
             ],
             "opIndex": 2,
-            "opName": "Test 2",
+            "opName": "Test 3",
             "pumpData": [
                 {
                     "pumpDelayTime": 0,
