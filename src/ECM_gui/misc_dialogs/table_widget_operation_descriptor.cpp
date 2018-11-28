@@ -62,11 +62,16 @@ Widget_ProfileParameters* TableWidget_OperationDescriptor::getAccompanyingProfil
 
 void TableWidget_OperationDescriptor::writeToJSON(QJsonObject &obj)
 {
+    obj["opIndex"] = (int)this->getOperationIndex();
+    obj["opName"] = QString::fromStdString(this->getOperationName());
+    obj["useOperation"] = this->shouldOperationBeUsed();
     m_OperationParameters->writeToJSON(obj);
 }
 
 void TableWidget_OperationDescriptor::readFromJSON(const QJsonObject &obj)
 {
+    this->setOperationName(obj["opName"].toString().toStdString());
+    this->setOperationUsage(obj["useOperation"].toBool());
     m_OperationParameters->readFromJSON(obj);
 }
 
@@ -86,7 +91,7 @@ void TableWidget_OperationDescriptor::on_pushButton_ExecuteExplicitOp_released()
     newSingleProfile.m_MunkPulseMode = this->m_OperationParameters->m_PowerSupply->getPulseModeRegister();
     newSingleProfile.m_MunkSegment = this->m_OperationParameters->m_PowerSupply->getSegmentRegister();
 
-    //newSingleProfile.m_PumpParameters = this->m_OperationParameters->m_PumpControl->getPumpProperties();
+    newSingleProfile.m_PumpParameters = this->m_OperationParameters->m_PumpControl->getPumpProperties();
 
     //emit signal_ExecuteExplicitProfile(this->m_OperationParamters);
 }

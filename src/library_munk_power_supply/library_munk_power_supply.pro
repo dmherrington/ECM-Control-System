@@ -108,6 +108,7 @@ HEADERS += \
     data_registers/register_pulse_mode.h \
     data/type_pulse_mode.h \
     device_interface_power_supply.h
+
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

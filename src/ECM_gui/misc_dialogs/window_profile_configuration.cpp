@@ -158,9 +158,6 @@ void Window_ProfileConfiguration::saveToFile(const QString &filePath)
             if(currentOp->getOperationIndex() == index)
             {
                 QJsonObject operationObject;
-                operationObject["opIndex"] = (int)currentOp->getOperationIndex();
-                operationObject["opName"] = QString::fromStdString(currentOp->getOperationName());
-                operationObject["useOperation"] = currentOp->shouldOperationBeUsed();
                 currentOp->writeToJSON(operationObject);
                 segmentDataArray.append(operationObject);
             }
@@ -193,8 +190,6 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
     for (int i = 0; i < configArray.size(); ++i) {
         QJsonObject operationObject = configArray[i].toObject();
         TableWidget_OperationDescriptor* newOperation = this->addOperation(operationObject["opIndex"].toInt() - 1);
-        newOperation->setOperationName(operationObject["opName"].toString().toStdString());
-        newOperation->setOperationUsage(operationObject["useOperation"].toBool());
         newOperation->readFromJSON(operationObject);
     }
 }

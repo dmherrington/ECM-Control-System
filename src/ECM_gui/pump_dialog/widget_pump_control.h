@@ -30,7 +30,7 @@ public:
     void readFromJSON(const QJsonObject &openObject);
 
 public:
-    //Command_PumpProperties getPumpProperties() const;
+    Command_PumpProperties getPumpProperties() const;
 
 private:
     void setPumpFlowRate(const double &rate);

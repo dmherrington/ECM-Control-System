@@ -12,9 +12,6 @@ QT += network
 TARGET = library_westinghouse510
 TEMPLATE = lib
 
-win32:TARGET_EXT += .dll
-unix:QMAKE_CXXFLAGS += -std=gnu++0x
-
 DEFINES += LIBRARY_WESTINGHOUSE510_LIBRARY
 
 # The following define makes your compiler emit warnings if you use
@@ -36,8 +33,7 @@ SOURCES += \
     westinghouse_510_state.cpp \
     communications/westinghouse_510_data_framing.cpp \
     communications/westinghouse_message.cpp \
-    data_registers/register_run_source.cpp \
-    command_pump_properties.cpp
+    data_registers/register_run_source.cpp
 
 HEADERS += \
     library_westinghouse510_global.h \

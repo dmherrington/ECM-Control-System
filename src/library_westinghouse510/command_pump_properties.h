@@ -7,17 +7,36 @@
 class Command_PumpProperties
 {
 public:
-    Command_PumpProperties();
+
+    Command_PumpProperties() = default;
+
+    Command_PumpProperties(const Command_PumpProperties &copy)
+    {
+        this->m_OpsFlow = copy.m_OpsFlow;
+        this->initTime = copy.initTime;
+    }
 
 public:
-    void setPumpFlowRate(const registers_WestinghousePump::Register_FlowRate &desRate);
+    void setPumpFlowRate(const registers_WestinghousePump::Register_FlowRate &desRate)
+    {
+        this->m_OpsFlow = desRate;
+    }
 
-    void setPumpInitializationTime(const unsigned int &initializationTime);
+    void setPumpInitializationTime(const unsigned int &initializationTime)
+    {
+        this->initTime = initializationTime;
+    }
 
 public:
-    registers_WestinghousePump::Register_FlowRate getPumpFlowRate() const;
+    registers_WestinghousePump::Register_FlowRate getPumpFlowRate() const
+    {
+        return this->m_OpsFlow;
+    }
 
-    unsigned int getInitializationTime() const;
+    unsigned int getInitializationTime() const
+    {
+        return this->initTime;
+    }
 
 private:
     registers_WestinghousePump::Register_FlowRate m_OpsFlow;
