@@ -123,6 +123,9 @@ void Widget_MunkPowerSupply::writeToJSON(QJsonObject &saveObject)
     QJsonArray segmentDataArray;
 
     QJsonObject segmentObject;
+
+    segmentObject["pulseMode"] = (int)ui->spinBox_NumPulses->value();
+
     ui->segmentWidget->writeToJSON(segmentObject);
     segmentDataArray.append(segmentObject);
 
@@ -134,6 +137,8 @@ void Widget_MunkPowerSupply::readFromJSON(const QJsonObject &openObject)
     QJsonArray powerSupplyDataArray = openObject["MunkSettings"].toArray();
     QJsonObject PSObject = powerSupplyDataArray[0].toObject();
 
+    int numPulses = PSObject["pulseMode"].toInt();
+
     ui->segmentWidget->readFromJSON(PSObject);
 }
 
@@ -144,6 +149,23 @@ registers_Munk::Register_PulseMode Widget_MunkPowerSupply::getPulseMode() const
     pulseMode.setPulseMode(data_Munk::TypePulseModes::ECMIntern);
     pulseMode.setTriggerCount(ui->spinBox_NumPulses->value());
     return pulseMode;
+}
+
+void Widget_MunkPowerSupply::updatePulseMode(const int &numPulses)
+{
+    ui->spinBox_NumPulses->setValue(numPulses);
+
+    switch (numPulses) {
+    case 1:
+        ui->radioButton_singlePulse->setChecked(true);
+        break;
+    case 255:
+        ui->radioButton_continuousPulse->setChecked(true);
+        break;
+    default:
+        ui->radioButton_specifiedPulses->setChecked(true);
+        break;
+    }
 }
 
 void Widget_MunkPowerSupply::on_radioButton_singlePulse_clicked(bool checked)

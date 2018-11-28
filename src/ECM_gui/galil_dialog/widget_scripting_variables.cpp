@@ -48,13 +48,15 @@ void Widget_ScriptingVariables::writeToJSON(QJsonObject &saveObject)
     std::map<std::string,double> variableMap = currentVarList.getVariableMap();
     std::map<std::string,double>::iterator it = variableMap.begin();
 
+    QJsonObject varObject;
+
     for(;it!=variableMap.end();++it)
     {
-        QJsonObject varObject;
         std::string variableKey = it->first;
         varObject[QString::fromStdString(variableKey)] = it->second;
-        MCVariableArray.append(varObject);
     }
+
+    MCVariableArray.append(varObject);
 
     dataObject["variableData"] = MCVariableArray;
 
@@ -76,9 +78,10 @@ void Widget_ScriptingVariables::readFromJSON(const QJsonObject &openObject)
         ui->comboBox_ProgramLabels->setCurrentIndex(profileIndex);
 
     QJsonArray MCVariableArray = dataObject["variableData"].toArray();
-    for (int variableIndex = 0; variableIndex < MCVariableArray.size(); ++variableIndex) {
-        QJsonObject variableObject = MCVariableArray[variableIndex].toObject();
-        QString variableKey = variableObject.keys().at(0);
+    QJsonObject variableObject = MCVariableArray[0].toObject();
+
+    for (int variableIndex = 0; variableIndex < variableObject.size(); ++variableIndex) {
+        QString variableKey = variableObject.keys().at(variableIndex);
         double variableValue = variableObject.value(variableKey).toDouble();
         newList.addVariable(variableKey.toStdString(),variableValue);
     }

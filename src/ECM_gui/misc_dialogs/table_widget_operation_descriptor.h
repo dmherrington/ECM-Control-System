@@ -20,6 +20,10 @@ public:
     ~TableWidget_OperationDescriptor();
 
 public:
+
+    void setOperationUsage(const bool &use);
+    bool shouldOperationBeUsed() const;
+
     void setOperationIndex(const unsigned int &index);
     unsigned int getOperationIndex() const;
 
@@ -41,6 +45,8 @@ private slots:
 
     void on_pushButton_ExecuteExplicitOp_released();
 
+    void on_checkBox_EnableOperation_toggled(bool checked);
+
 signals:
     void signal_OperationNameChanged(const std::string &name, const int &index);
 
@@ -54,6 +60,7 @@ private:
 private:
     unsigned int operationIndex = 0;
     std::string operationName = "";
+    bool useOperation = false;
 };
 
 #endif // TABLE_WIDGET_OPERATION_DESCRIPTOR_H

@@ -58,6 +58,8 @@ private slots:
 private:
     registers_Munk::Register_PulseMode getPulseMode() const;
 
+    void updatePulseMode(const int &numPulses);
+
 public:
     void writeToJSON(QJsonObject &saveObject);
 

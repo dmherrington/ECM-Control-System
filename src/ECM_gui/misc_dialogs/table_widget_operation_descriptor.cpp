@@ -18,6 +18,16 @@ TableWidget_OperationDescriptor::~TableWidget_OperationDescriptor()
     delete ui;
 }
 
+void TableWidget_OperationDescriptor::setOperationUsage(const bool &use)
+{
+    this->useOperation = use;
+}
+
+bool TableWidget_OperationDescriptor::shouldOperationBeUsed() const
+{
+    return this->useOperation;
+}
+
 void TableWidget_OperationDescriptor::setOperationIndex(const unsigned int &index)
 {
     this->operationIndex = index;
@@ -79,4 +89,9 @@ void TableWidget_OperationDescriptor::on_pushButton_ExecuteExplicitOp_released()
     //newSingleProfile.m_PumpParameters = this->m_OperationParameters->m_PumpControl->getPumpProperties();
 
     //emit signal_ExecuteExplicitProfile(this->m_OperationParamters);
+}
+
+void TableWidget_OperationDescriptor::on_checkBox_EnableOperation_toggled(bool checked)
+{
+    useOperation = checked;
 }
