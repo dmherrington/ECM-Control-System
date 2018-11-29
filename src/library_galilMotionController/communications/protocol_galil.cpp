@@ -28,6 +28,7 @@ void GalilProtocol::UploadNewProgram(const ILink *link, const AbstractCommandPtr
     std::cout<<"I am trying to upload a new program"<<std::endl;
     ProgramGeneric uploadProgram = command.get()->as<CommandUploadProgram>()->getProgram();
     GReturn rtn = link->UploadProgram(uploadProgram.getProgramString());
+
     if(rtn == G_NO_ERROR)
     {
         //We had no error and therefore need to call the setup

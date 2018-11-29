@@ -62,6 +62,14 @@ void ECMState_MotionProfileInitialization::OnEnter(const ECMCommand_ProfileConfi
             desiredState = ECMState::STATE_ECM_IDLE;
         }
     });
+
+    ProgramGeneric newProgram;
+    newProgram.setProgramString(config.m_GalilOperation.getProgram());
+
+    CommandUploadProgramPtr cmdProgram = std::make_shared<CommandUploadProgram>();
+    cmdProgram->setProgram(newProgram);
+
+    Owner().m_Galil->executeCommand(cmdProgram);
 }
 
 } //end of namespace Galil
