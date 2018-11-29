@@ -22,7 +22,7 @@ namespace API {
 
 ECM_CLASS_FORWARD(ECMState_Upload);
 
-class ECMState_Initialization;
+class ECMState_MotionProfileInitialization;
 
 class ECMState_UploadComplete;
 class ECMState_UploadFailed;

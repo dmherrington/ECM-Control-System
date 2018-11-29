@@ -65,6 +65,9 @@ public:
     virtual void getClone(AbstractStateECMProcess** state) const = 0;
 
 public:
+
+    virtual void initializeFromConfiguration(const ECMCommand_ProfileConfiguration &config);
+
     virtual void uploadConfiguration(const ECMCommand_ProfileConfiguration &config);
 
 public:

@@ -23,58 +23,84 @@ public:
     //!
     virtual void RemoveHost(void* ptr)
     {
-        m_MutexFinishLambda.lock();
-        m_FinishLambda.erase(ptr);
-        m_MutexFinishLambda.unlock();
+        m_MutexFinishScriptLambda.lock();
+        m_FinishScriptLambda.erase(ptr);
+        m_FinishVariablesLambda.erase(ptr);
+        m_MutexFinishScriptLambda.unlock();
     }
 
-    void setLambda_FinishedUploadingParameters(const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
-        m_MutexFinishLambda.lock();
+    void setLambda_FinishedUploadingScript(const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
+        m_MutexFinishScriptLambda.lock();
 
-        if(m_FinishLambda.find(0) != m_FinishLambda.cend())
+        if(m_FinishScriptLambda.find(0) != m_FinishScriptLambda.cend())
         {
             printf("Warning!!!! A finish procedure already exists, replacing old with new\n");
-            m_FinishLambda.erase(0);
+            m_FinishScriptLambda.erase(0);
         }
 
-        m_FinishLambda.insert({0, lambda});
-        m_MutexFinishLambda.unlock();
+        m_FinishScriptLambda.insert({0, lambda});
+        m_MutexFinishScriptLambda.unlock();
     }
 
-    //!
-    //! \brief Add a behavior to do when the device is finished
-    //!
-    //! This behavior is tied to a "host", which can be removed
-    //!
-    //! \param host Pointer to host of behavior
-    //! \param lambda Action to perform
-    //!
-    void AddLambda_FinishedUploadingParameters(void* host, const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
-        m_MutexFinishLambda.lock();
-        m_FinishLambda.insert({host, lambda});
-        m_MutexFinishLambda.unlock();
+
+    void setLambda_FinishedUploadingVariables(const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
+        m_MutexFinishVariablesLambda.lock();
+
+        if(m_FinishVariablesLambda.find(0) != m_FinishVariablesLambda.cend())
+        {
+            printf("Warning!!!! A finish procedure already exists, replacing old with new\n");
+            m_FinishVariablesLambda.erase(0);
+        }
+
+        m_FinishVariablesLambda.insert({0, lambda});
+        m_MutexFinishVariablesLambda.unlock();
+    }
+
+
+    void AddLambda_FinishedUploadingScript(void* host, const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
+        m_MutexFinishScriptLambda.lock();
+        m_FinishScriptLambda.insert({host, lambda});
+        m_MutexFinishScriptLambda.unlock();
+    }
+
+    void AddLambda_FinishedUploadingVariables(void* host, const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
+        m_MutexFinishVariablesLambda.lock();
+        m_FinishVariablesLambda.insert({host, lambda});
+        m_MutexFinishVariablesLambda.unlock();
     }
 
 
 protected:
-    void onFinishedUploadingParameters(const bool completed, const FINISH_CODE finishCode = FINISH_CODE::UNKNOWN){
+    void onFinishedUploadingScript(const bool completed, const FINISH_CODE finishCode = FINISH_CODE::UNKNOWN){
 
-        m_MutexFinishLambda.lock();
-        for(auto it = m_FinishLambda.cbegin() ; it != m_FinishLambda.cend() ; ++it)
+        m_MutexFinishScriptLambda.lock();
+        for(auto it = m_FinishScriptLambda.cbegin() ; it != m_FinishScriptLambda.cend() ; ++it)
         {
             it->second(completed, finishCode);
         }
-        m_MutexFinishLambda.unlock();
+        m_MutexFinishScriptLambda.unlock();
+    }
+
+    void onFinishedUploadingVariables(const bool completed, const FINISH_CODE finishCode = FINISH_CODE::UNKNOWN){
+
+        m_MutexFinishVariablesLambda.lock();
+        for(auto it = m_FinishVariablesLambda.cbegin() ; it != m_FinishVariablesLambda.cend() ; ++it)
+        {
+            it->second(completed, finishCode);
+        }
+        m_MutexFinishVariablesLambda.unlock();
     }
 
 signals:
     void signal_DeviceConfigured(const ECMDevice &device);
 
 protected:
-    std::unordered_map<void*, std::function<void(const bool completed, const FINISH_CODE finishCode)>> m_FinishLambda;
+    std::unordered_map<void*, std::function<void(const bool completed, const FINISH_CODE finishCode)>> m_FinishScriptLambda;
+    std::unordered_map<void*, std::function<void(const bool completed, const FINISH_CODE finishCode)>> m_FinishVariablesLambda;
     std::unordered_map<void*, std::function<void()>> m_ShutdownLambda;
 
-    std::mutex m_MutexFinishLambda;
+    std::mutex m_MutexFinishScriptLambda;
+    std::mutex m_MutexFinishVariablesLambda;
 };
 
 #endif // DEVICE_INTERFACE_MOTION_CONTOL_H

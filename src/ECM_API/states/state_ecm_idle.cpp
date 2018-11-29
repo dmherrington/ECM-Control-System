@@ -53,6 +53,12 @@ hsm::Transition ECMState_Idle::GetTransition()
     return rtn;
 }
 
+void ECMState_Idle::initializeFromConfiguration(const ECMCommand_ProfileConfiguration &config)
+{
+    this->m_ProfileConfiguration = config;
+    this->desiredState = ECMState::STATE_ECM_MOTION_PROFILE_INITIALIZATION;
+}
+
 void ECMState_Idle::uploadConfiguration(const ECMCommand_ProfileConfiguration &config)
 {
     this->m_ProfileConfiguration = config;
@@ -74,4 +80,4 @@ void ECMState_Idle::OnEnter()
 } //end of namespace ECM
 
 #include "states/state_ecm_upload.h"
-#include "states/state_ecm_initialization.h"
+#include "states/state_ecm_motion_profile_initialization.h"

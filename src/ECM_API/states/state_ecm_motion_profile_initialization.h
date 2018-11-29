@@ -28,10 +28,10 @@ ECM_CLASS_FORWARD(ECMState_Setup);
 class ECMState_Idle;
 class ECMState_PowerSupplySetup;
 
-class ECMState_Initialization : public AbstractStateECMProcess
+class ECMState_MotionProfileInitialization : public AbstractStateECMProcess
 {
 public:
-    ECMState_Initialization();
+    ECMState_MotionProfileInitialization();
 
 public:
     AbstractStateECMProcess* getClone() const override;
@@ -45,6 +45,8 @@ public:
     void Update() override;
 
     void OnEnter() override;
+
+    void OnEnter(const ECMCommand_ProfileConfiguration &config);
 
 };
 

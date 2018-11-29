@@ -95,7 +95,7 @@ void ECMState_Upload::OnEnter(const ECMCommand_ProfileConfiguration &config)
 } //end of namespace Galil
 } //end of namespace ECM
 
-#include "states/state_ecm_initialization.h"
+#include "states/state_ecm_motion_profile_initialization.h"
 
 #include "states/state_ecm_idle.h"
 #include "states/state_ecm_upload_complete.h"

@@ -33,7 +33,7 @@ enum class ECMState{
     STATE_ECM_PROFILE_MACHINE_PROCESS = 4, /**< */
     STATE_ECM_PROFILE_MACHINE_SETUP = 5, /**< */
     STATE_ECM_PUMP_SETUP = 6, /**< */
-    STATE_ECM_INITIALIZATION = 7, /**< */
+    STATE_ECM_MOTION_PROFILE_INITIALIZATION = 7, /**< */
     STATE_ECM_TOUCHOFF = 8, /**< */
     STATE_ECM_TOUCHOFF_DISABLE = 9, /**< */
     STATE_ECM_TOUCHOFF_ENABLE = 10, /**< */
@@ -70,7 +70,7 @@ inline std::string ECMStateToString(const ECMState &type) {
         return "Machine Setup";
     case ECMState::STATE_ECM_PUMP_SETUP:
         return "Pump Setup";
-    case ECMState::STATE_ECM_INITIALIZATION:
+    case ECMState::STATE_ECM_MOTION_PROFILE_INITIALIZATION:
         return "Machine Initialization";
     case ECMState::STATE_ECM_TOUCHOFF:
         return "Touchoff";

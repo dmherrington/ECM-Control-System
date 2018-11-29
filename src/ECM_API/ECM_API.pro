@@ -46,7 +46,6 @@ SOURCES += \
     states/state_ecm_touchoff_enable.cpp \
     states/state_ecm_touchoff_execute.cpp \
     states/state_ecm_idle.cpp \
-    states/state_ecm_initialization.cpp \
     ecm_modules.cpp \
     states/state_ecm_upload_motion_profile.cpp \
     commands/ecmcommand_profile_configuration.cpp \
@@ -56,7 +55,8 @@ SOURCES += \
     states/state_ecm_upload_complete.cpp \
     states/state_ecm_upload_failed.cpp \
     states/state_ecm_upload_power_register_segments.cpp \
-    states/state_ecm_upload_power_pulse_mode.cpp
+    states/state_ecm_upload_power_pulse_mode.cpp \
+    states/state_ecm_motion_profile_initialization.cpp
 
 HEADERS += \
         ecm_api.h \
@@ -76,7 +76,6 @@ HEADERS += \
     states/state_ecm_touchoff_execute.h \
     states/state_ecm_types.h \
     states/state_ecm_idle.h \
-    states/state_ecm_initialization.h \
     ecm_api_version.h \
     ecm_modules.h \
     states/state_ecm_upload_motion_profile.h \
@@ -87,7 +86,8 @@ HEADERS += \
     states/state_ecm_upload_complete.h \
     states/state_ecm_upload_failed.h \
     states/state_ecm_upload_power_register_segments.h \
-    states/state_ecm_upload_power_pulse_mode.h
+    states/state_ecm_upload_power_pulse_mode.h \
+    states/state_ecm_motion_profile_initialization.h
 
 # Unix lib Install
 unix:!symbian {
