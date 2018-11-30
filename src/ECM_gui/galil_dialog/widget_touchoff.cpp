@@ -17,6 +17,13 @@ Widget_Touchoff::~Widget_Touchoff()
     delete ui;
 }
 
+void Widget_Touchoff::loadFromTouchoffConfig(const MotionCommand_TouchoffConfig &config)
+{
+    this->ui->doubleSpinBox_TouchoffRef->setValue(config.getTouchoffRef());
+    this->ui->doubleSpinBox_InitialGap->setValue(config.getTouchoffGap());
+    this->ui->checkBox_UtilizeTouchoff->setChecked(config.shouldTouchoffBeUtilized());
+}
+
 void Widget_Touchoff::writeToJSON(QJsonObject &saveObject)
 {
     QJsonArray segmentDataArray;

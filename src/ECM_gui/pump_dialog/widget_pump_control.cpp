@@ -19,6 +19,11 @@ Widget_PumpControl::~Widget_PumpControl()
     delete ui;
 }
 
+void Widget_PumpControl::loadFromPumpProperties(const Command_PumpProperties &config)
+{
+    this->ui->doubleSpinBox_delayTime->setValue(config.getInitializationTime()/1000.0);
+    this->ui->doubleSpinBox_flowRate->setValue(config.getPumpFlowRate());
+}
 
 Command_PumpProperties Widget_PumpControl::getPumpProperties() const
 {

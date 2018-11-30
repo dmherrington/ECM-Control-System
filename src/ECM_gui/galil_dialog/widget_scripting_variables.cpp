@@ -36,6 +36,14 @@ Widget_ScriptingVariables::~Widget_ScriptingVariables()
     delete ui;
 }
 
+void Widget_ScriptingVariables::loadFromCurrentProgram(const GalilCurrentProgram &program, const std::string &profileName)
+{
+    slot_MCNEWProgramVariableList(program.getVariableList());
+    slot_MCNewProgramLabelList(program.getLabelList());
+    if(!profileName.empty())
+        this->setProfileName(profileName);
+}
+
 void Widget_ScriptingVariables::writeToJSON(QJsonObject &saveObject)
 {
     QJsonArray MCDataArray;
@@ -87,6 +95,13 @@ void Widget_ScriptingVariables::readFromJSON(const QJsonObject &openObject)
     }
 
     this->slot_MCNEWProgramVariableList(newList);
+}
+
+void Widget_ScriptingVariables::setProfileName(const std::string &name)
+{
+    int profileIndex = ui->comboBox_ProgramLabels->findText(QString::fromStdString(name));
+    if(profileIndex > 0)
+        ui->comboBox_ProgramLabels->setCurrentIndex(profileIndex);
 }
 
 std::string Widget_ScriptingVariables::getProfileName() const

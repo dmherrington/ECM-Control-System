@@ -7,6 +7,7 @@
 #include "../general_dialog_window.h"
 
 #include "library_munk_power_supply/munk_power_supply.h"
+#include "library_munk_power_supply/power_supply_setup_config.h"
 
 #include "widget_segment_time_display.h"
 
@@ -23,6 +24,9 @@ public:
     ~Widget_MunkPowerSupply();
 
 public:
+
+    void loadFromConfig(const PowerSupply_SetupConfig &config);
+
     registers_Munk::Register_PulseMode getPulseModeRegister() const;
 
     registers_Munk::SegmentTimeDetailed getSegmentRegister() const;
@@ -61,6 +65,7 @@ private:
     void updatePulseMode(const int &numPulses);
 
 public:
+
     void writeToJSON(QJsonObject &saveObject);
 
     void readFromJSON(const QJsonObject &openObject);

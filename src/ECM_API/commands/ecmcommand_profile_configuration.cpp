@@ -22,7 +22,6 @@ void ECMCommand_ProfileConfiguration::readFromJSON(const QJsonObject &obj)
     this->setOperationIndex(obj["opIndex"].toInt());
     this->setOperationName(obj["opName"].toString().toStdString());
     this->setProfileExecution(obj["useOperation"].toBool());
-
 }
 
 ECMCommand_ProfileConfiguration::ECMCommand_ProfileConfiguration(const ECMCommand_ProfileConfiguration &copy)
@@ -35,11 +34,30 @@ ECMCommand_ProfileConfiguration::ECMCommand_ProfileConfiguration(const ECMComman
     this->m_Touchoff = copy.m_Touchoff;
 }
 
+unsigned int ECMCommand_ProfileConfiguration::getOperationIndex() const
+{
+    return this->operationIndex;
+}
+
+std::string ECMCommand_ProfileConfiguration::getOperationName() const
+{
+    return this->operationName;
+}
+
 bool ECMCommand_ProfileConfiguration::shouldProfileExecute() const
 {
     return this->execute;
 }
 
+void ECMCommand_ProfileConfiguration::setOperationIndex(const unsigned int &index)
+{
+    this->operationIndex = index;
+}
+
+void ECMCommand_ProfileConfiguration::setOperationName(const std::string &name)
+{
+    this->operationName = name;
+}
 void ECMCommand_ProfileConfiguration::setProfileExecution(const bool &varExecute)
 {
     this->execute = varExecute;

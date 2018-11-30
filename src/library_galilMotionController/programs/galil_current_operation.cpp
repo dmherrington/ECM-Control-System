@@ -10,37 +10,10 @@ GalilCurrentOperation::GalilCurrentOperation(const GalilCurrentOperation &copy):
     GalilCurrentProgram(copy)
 {
 
-    QJsonArray MCDataArray;
-
-    QJsonObject dataObject;
-    dataObject["profileName"] = QString::fromStdString(this->getProfileName());
-
-    QJsonArray MCVariableArray;
-
-    std::map<std::string,double> variableMap = currentVarList.getVariableMap();
-    std::map<std::string,double>::iterator it = variableMap.begin();
-
-    QJsonObject varObject;
-
-    for(;it!=variableMap.end();++it)
-    {
-        std::string variableKey = it->first;
-        varObject[QString::fromStdString(variableKey)] = it->second;
-    }
-
-    MCVariableArray.append(varObject);
-
-    dataObject["variableData"] = MCVariableArray;
-
-    MCDataArray.append(dataObject);
-    saveObject["MotionControlData"] = MCDataArray;
-
 }
 
 void GalilCurrentOperation::writeToJSON(QJsonObject &saveObject)
 {
-//    saveObject["opIndex"] = (int)this->operationIndex;
-//    saveObject["opName"] = QString::fromStdString(this->getOperationName());
     saveObject["profileName"] = QString::fromStdString(this->getProfileName());
 
     QJsonArray MCDataArray;

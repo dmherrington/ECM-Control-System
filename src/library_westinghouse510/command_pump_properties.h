@@ -1,6 +1,9 @@
 #ifndef COMMAND_PUMP_PROPERTIES_H
 #define COMMAND_PUMP_PROPERTIES_H
 
+#include <QJsonArray>
+#include <QJsonObject>
+
 #include "data_registers/register_flow_rate.h"
 #include "data_registers/register_operation_signal.h"
 
@@ -12,14 +15,44 @@ public:
 
     Command_PumpProperties(const Command_PumpProperties &copy)
     {
-        this->m_OpsFlow = copy.m_OpsFlow;
+        this->flowRate = copy.flowRate;
+        this->waitForDelay = copy.waitForDelay;
         this->initTime = copy.initTime;
     }
 
 public:
-    void setPumpFlowRate(const registers_WestinghousePump::Register_FlowRate &desRate)
+    void writeToJSON(QJsonObject &saveObject)
     {
-        this->m_OpsFlow = desRate;
+        QJsonArray segmentDataArray;
+
+        QJsonObject segmentObject;
+        segmentObject["pumpDelayTime"] = (int)this->getInitializationTime();
+        segmentObject["pumpFlowRate"] = this->getPumpFlowRate();
+        segmentObject["pumpWaitForDelay"] = this->shouldWaitForInitializationDelay();
+        segmentDataArray.append(segmentObject);
+
+        saveObject["pumpData"] = segmentDataArray;
+    }
+
+    void readFromJSON(const QJsonObject &openObject)
+    {
+        QJsonArray pumpDataArray = openObject["pumpData"].toArray();
+        QJsonObject segmentObject = pumpDataArray[0].toObject();
+
+        setPumpInitializationTime(segmentObject["pumpDelayTime"].toDouble());
+        setPumpFlowRate(segmentObject["pumpFlowRate"].toDouble());
+        setWaitForInitializationDelay(segmentObject["pumpWaitForDelay"].toBool());
+    }
+
+public:
+    void setPumpFlowRate(const double &desRate)
+    {
+        this->flowRate = desRate;
+    }
+
+    void setWaitForInitializationDelay(const bool &wait)
+    {
+        this->waitForDelay = wait;
     }
 
     void setPumpInitializationTime(const unsigned int &initializationTime)
@@ -28,18 +61,64 @@ public:
     }
 
 public:
-    registers_WestinghousePump::Register_FlowRate getPumpFlowRate() const
+    double getPumpFlowRate() const
     {
-        return this->m_OpsFlow;
+        return this->flowRate;
     }
 
+    bool shouldWaitForInitializationDelay() const
+    {
+        return this->waitForDelay;
+    }
     unsigned int getInitializationTime() const
     {
         return this->initTime;
     }
 
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    Command_PumpProperties& operator = (const Command_PumpProperties &rhs)
+    {
+        this->flowRate = rhs.flowRate;
+        this->waitForDelay = rhs.waitForDelay;
+        this->initTime = rhs.initTime;
+        return *this;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const Command_PumpProperties &rhs)
+    {
+        if(this->flowRate != rhs.flowRate){
+            return false;
+        }
+        if(this->waitForDelay != rhs.waitForDelay){
+            return false;
+        }
+        if(this->initTime != rhs.initTime){
+            return false;
+        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const Command_PumpProperties &rhs) {
+        return !(*this == rhs);
+    }
+
 private:
-    registers_WestinghousePump::Register_FlowRate m_OpsFlow;
+    double flowRate = 0.0;
+    bool waitForDelay = false;
     unsigned int initTime = 0;
 };
 

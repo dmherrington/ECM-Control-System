@@ -4,6 +4,7 @@
 #include <QWidget>
 
 #include "library_galilMotionController/galil_motion_controller.h"
+#include "library_galilMotionController/motion_command_touchoff_config.h"
 
 namespace Ui {
 class Widget_Touchoff;
@@ -18,6 +19,9 @@ public:
     ~Widget_Touchoff();
 
 public:
+
+    void loadFromTouchoffConfig(const MotionCommand_TouchoffConfig &config);
+
     void writeToJSON(QJsonObject &saveObject);
 
     void readFromJSON(const QJsonObject &openObject);

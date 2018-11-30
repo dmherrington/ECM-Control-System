@@ -16,6 +16,18 @@ WidgetSegmentTimeDisplay::~WidgetSegmentTimeDisplay()
     delete ui;
 }
 
+void WidgetSegmentTimeDisplay::loadNewRegisters(const registers_Munk::SegmentTimeDetailed &data)
+{
+    removeWidgets();
+
+    std::vector<registers_Munk::SegmentTimeDataDetailed> registerData = data.getRegisterData();
+    for(size_t i = 0; i < registerData.size(); i++)
+    {
+        WidgetSegmentTimeData* newData = this->addNewSegment();
+        newData->loadFromSegmentData(registerData.at(i));
+    }
+}
+
 WidgetSegmentTimeData* WidgetSegmentTimeDisplay::addNewSegment()
 {
     WidgetSegmentTimeData* newData = new WidgetSegmentTimeData();

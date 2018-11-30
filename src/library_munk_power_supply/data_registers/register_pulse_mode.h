@@ -58,6 +58,10 @@ public:
 
     void setTriggerCount(const uint8_t &count);
 
+    uint8_t getTriggerCount() const;
+
+private:
+    void updatePulseMode();
 public:
     //!
     //! \brief operator =

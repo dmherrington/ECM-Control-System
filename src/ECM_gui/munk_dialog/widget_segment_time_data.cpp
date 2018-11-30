@@ -31,6 +31,12 @@ WidgetSegmentTimeData::~WidgetSegmentTimeData()
     delete ui;
 }
 
+void WidgetSegmentTimeData::loadFromSegmentData(const registers_Munk::SegmentTimeDataDetailed &segmentData)
+{
+    this->data->updateData(segmentData);
+    this->updateDisplayData();
+}
+
 void WidgetSegmentTimeData::updateDisplayData() const
 {
     blockCallback = true;

@@ -26,7 +26,16 @@ public:
     void readFromJSON(const QJsonObject &obj);
 
 public:
+    std::string getOperationName() const;
+
     bool shouldProfileExecute() const;
+
+    unsigned int getOperationIndex() const;
+
+public:
+    void setOperationName(const std::string &name);
+
+    void setOperationIndex(const unsigned int &index);
 
     void setProfileExecution(const bool &varExecute);
 
@@ -88,7 +97,7 @@ public:
     //! \param rhs
     //! \return
     //!
-    bool operator != (const GalilCurrentOperation &rhs) {
+    bool operator != (const ECMCommand_ProfileConfiguration &rhs) {
         return !(*this == rhs);
     }
 

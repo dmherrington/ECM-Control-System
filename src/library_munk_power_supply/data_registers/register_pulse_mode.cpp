@@ -33,6 +33,11 @@ void Register_PulseMode::setTriggerCount(const uint8_t &count)
     this->triggerCount = count;
 }
 
+uint8_t Register_PulseMode::getTriggerCount() const
+{
+    return this->triggerCount;
+}
+
 QByteArray Register_PulseMode::getByteArray() const
 {
     QByteArray ba;

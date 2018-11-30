@@ -34,6 +34,12 @@ Widget_MunkPowerSupply::~Widget_MunkPowerSupply()
     delete ui;
 }
 
+void Widget_MunkPowerSupply::loadFromConfig(const PowerSupply_SetupConfig &config)
+{
+    this->updatePulseMode(config.m_MunkPulseMode.getTriggerCount());
+    this->ui->segmentWidget->loadNewRegisters(config.m_MunkSegment);
+}
+
 registers_Munk::Register_PulseMode  Widget_MunkPowerSupply::getPulseModeRegister() const
 {
     registers_Munk::Register_PulseMode pulseMode;
