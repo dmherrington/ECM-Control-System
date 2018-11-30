@@ -13,12 +13,21 @@ public:
     ~GalilCurrentOperation() = default;
 
 public:
+    void writeToJSON(QJsonObject &saveObject);
+
+    void readFromJSON(const QJsonObject &openObject);
+
+public:
+    void setOperationIndex(const unsigned int &index);
     void setOperationName(const std::string &name);
     void setProfileName(const std::string &name);
 
 public:
+    unsigned int getOperationIndex() const;
     std::string getOperationName() const;
     std::string getProfileName() const;
+
+public:
 
 public:
     friend QTextStream& operator <<(QTextStream &outStream, const GalilCurrentOperation &data)
@@ -39,6 +48,7 @@ public:
     GalilCurrentOperation& operator = (const GalilCurrentOperation &rhs)
     {
         GalilCurrentProgram::operator =(rhs);
+        this->operationIndex = rhs.operationIndex;
         this->operationName = rhs.operationName;
         this->profileName = rhs.profileName;
         return *this;
@@ -52,6 +62,9 @@ public:
     bool operator == (const GalilCurrentOperation &rhs)
     {
         if(!GalilCurrentProgram::operator ==(rhs)){
+            return false;
+        }
+        if(this->operationIndex != rhs.operationIndex){
             return false;
         }
         if(this->operationName != rhs.operationName){
@@ -73,8 +86,9 @@ public:
     }
 
 private:
-    std::string operationName;
-    std::string profileName;
+    unsigned int operationIndex = 0;
+    std::string operationName = "";
+    std::string profileName = "";
 };
 
 #endif // GALIL_CURRENT_OPERATION_H

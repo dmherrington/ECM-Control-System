@@ -25,25 +25,50 @@ void GalilProtocol::AddListner(const IProtocolGalilEvents* listener)
 
 void GalilProtocol::UploadNewProgram(const ILink *link, const AbstractCommandPtr command)
 {
-    std::cout<<"I am trying to upload a new program"<<std::endl;
     ProgramGeneric uploadProgram = command.get()->as<CommandUploadProgram>()->getProgram();
     GReturn rtn = link->UploadProgram(uploadProgram.getProgramString());
 
+    std::vector<AbstractRequestPtr> currentRequests;
+    RequestListLabelsPtr requestLabels = std::make_shared<RequestListLabels>();
+    currentRequests.push_back(requestLabels);
+    RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
+    currentRequests.push_back(requestVariables);
+
+    unsigned int requestIndex = 0;
+    while ((rtn == G_NO_ERROR) && (requestIndex <= (currentRequests.size() - 1)))
+    {
+        this->SendProtocolRequest(link,currentRequests.at(requestIndex));
+        requestIndex++;
+    }
+
     if(rtn == G_NO_ERROR)
     {
-        //We had no error and therefore need to call the setup
+        //If we have gotten to this point, we currently have a newly available program with accompanying labels and variables.
+        GalilCurrentProgram newProgram;
+        newProgram.setProgram(uploadProgram.getProgramString());
+        Status_LabelList* currentLabels = requestLabels->getStatus().at(0)->as<Status_LabelList>();
+        Status_VariableList* currentVariables = requestLabels->getStatus().at(0)->as<Status_VariableList>();
+
+        newProgram.setLabelList(currentLabels->getLabelList());
+        newProgram.setVariableList(currentVariables->getVariableList());
+
+        //We had no error and therefore need to call the setup to initialize all of the variables that are contained within the script
         CommandExecuteProfilePtr commandExecuteSetup = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::SETUP,"setup");
         this->SendProtocolCommand(link,commandExecuteSetup);
 
-        Emit([&](const IProtocolGalilEvents* ptr){ptr->NewProgramUploaded(uploadProgram);});
+        Emit([&](const IProtocolGalilEvents* ptr){ptr->NewProgramUploaded(true,newProgram);});
     }
     else
+    {
         handleCommandResponse(link,command,rtn);
+        Emit([&](const IProtocolGalilEvents* ptr){ptr->NewProgramUploaded(false);});
+    }
+
+
 }
 
 void GalilProtocol::DownloadCurrentProgram(const ILink *link, const AbstractCommandPtr command)
 {
-    std::cout<<"I am trying to download a new program"<<std::endl;
     std::string programText;
     GReturn rtn = link->DownloadProgram(programText);
     if(rtn == G_NO_ERROR)

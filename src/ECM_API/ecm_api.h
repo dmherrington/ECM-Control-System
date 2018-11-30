@@ -17,6 +17,8 @@
 #include "ecm_logging.h"
 #include "ecm_modules.h"
 
+#include "commands/ecmcommand_profile_configuration.h"
+
 ECM_CLASS_FORWARD(ECM_API);
 
 class ECM_APISHARED_EXPORT ECM_API: public QObject
@@ -27,6 +29,10 @@ public:
     ECM_API();
 
     ~ECM_API() = default;
+
+public:
+    void initializeProfileConfiguration(const ECMCommand_ProfileConfiguration &config);
+    void onProfileConfigurationLoaded(const bool &success, const ECMCommand_ProfileConfiguration &config);
 
 public:
     void action_StopMachine();
@@ -65,6 +71,8 @@ signals:
     void signal_MCNewMotionState(const std::string &stateString);
 
     void signal_InitializeStartTime(const common::EnvironmentTime &time);
+
+    void signal_OnProfileConfigurationLoad(const bool &success, const ECMCommand_ProfileConfiguration &config);
 
 private slots:
 

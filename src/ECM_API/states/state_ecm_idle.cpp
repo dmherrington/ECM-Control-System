@@ -34,9 +34,9 @@ hsm::Transition ECMState_Idle::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_ECM_INITIALIZATION:
+        case ECMState::STATE_ECM_MOTION_PROFILE_INITIALIZATION:
         {
-            //rtn = hsm::SiblingTransition<ECMState_Setup>();
+            rtn = hsm::SiblingTransition<ECMState_MotionProfileInitialization>(m_ProfileConfiguration);
             break;
         }
         case ECMState::STATE_ECM_UPLOAD:

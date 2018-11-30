@@ -20,6 +20,11 @@ public:
     ~GalilCurrentProgram() = default;
 
 public:
+    void writeToJSON(QJsonObject &saveObject);
+
+    void readFromJSON(const QJsonObject &openObject);
+
+public:
     void setProgram(const std::string &programString);
 
     void setLabelList(const ProgramLabelList &list);
@@ -49,9 +54,6 @@ public:
     std::string getProgram() const;
 
     std::string getLoggingString() const;
-
-public:
-    void writeJSONData(QJsonObject &json) const;
 
 public:
     friend QTextStream& operator <<(QTextStream &outStream, const GalilCurrentProgram &data)

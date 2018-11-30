@@ -53,10 +53,14 @@ void ECMState_MotionProfileInitialization::OnEnter()
 
 void ECMState_MotionProfileInitialization::OnEnter(const ECMCommand_ProfileConfiguration &config)
 {
-    Owner().m_Galil->AddLambda_FinishedUploadingScript(this,[this](const bool completed, const DeviceInterface_Pump::FINISH_CODE finishCode){
-        if(completed)
+    Owner().m_Galil->AddLambda_FinishedUploadingScript(this,[this](const bool &success, const GalilCurrentProgram &program){
+        UNUSED(program);
+
+        if(success)
         {
             desiredState = ECMState::STATE_ECM_IDLE;
+            Owner().onProfileConfigurationLoaded(success, config);
+
         }else
         {
             desiredState = ECMState::STATE_ECM_IDLE;

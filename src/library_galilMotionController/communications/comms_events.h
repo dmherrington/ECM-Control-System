@@ -59,8 +59,9 @@ public:
         UNUSED(program);
     }
 
-    virtual void NewProgramUploaded(const ProgramGeneric &program)
+    virtual void NewProgramUploaded(const bool &success, const GalilCurrentProgram &program)
     {
+        UNUSED(success);
         UNUSED(program);
     }
 

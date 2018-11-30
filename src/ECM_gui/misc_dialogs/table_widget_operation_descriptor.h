@@ -39,6 +39,7 @@ public:
 
     void readFromJSON(const QJsonObject &obj);
 
+    ECMCommand_ProfileConfiguration getCurrentProfileConfiguration() const;
 
 private slots:
     void on_lineEdit_ProfileName_textChanged(const QString &arg1);

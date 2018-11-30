@@ -234,15 +234,13 @@ void GalilMotionController::ErrorBadRequest(const RequestTypes &type, const std:
     emit signal_ErrorRequestCode(type, description);
 }
 
-void GalilMotionController::NewProgramUploaded(const ProgramGeneric &program)
+void GalilMotionController::NewProgramUploaded(const bool &success, const GalilCurrentProgram &program)
 {
-    stateInterface->galilProgram->setProgram(program.getProgramString());
-    emit signal_MCNewProgramReceived(program);
+    //Ken this should be updated to reflect the latest conditions of the program not just the script
+    stateInterface->galilProgram->setProgram(program.getProgram());
+    this->onFinishedUploadingScript(success,program);
 
-    //This process is actually automated in the comms marshaler
-//We now have a new program, let us query for the available labels and variables
-//    RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
-//    commsMarshaler->sendAbstractGalilRequest(requestVariables);
+    //emit signal_MCNewProgramReceived(program);
 }
 
 void GalilMotionController::NewProgramDownloaded(const ProgramGeneric &program)

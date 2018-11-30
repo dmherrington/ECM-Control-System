@@ -8,6 +8,8 @@
 
 #include "ecm_devices.h"
 
+#include "programs/galil_current_program.h"
+
 class DeviceInterface_MotionControl
 {
 public:
@@ -29,7 +31,7 @@ public:
         m_MutexFinishScriptLambda.unlock();
     }
 
-    void setLambda_FinishedUploadingScript(const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
+    void setLambda_FinishedUploadingScript(const std::function<void(const bool &success, const GalilCurrentProgram &program)> &lambda){
         m_MutexFinishScriptLambda.lock();
 
         if(m_FinishScriptLambda.find(0) != m_FinishScriptLambda.cend())
@@ -43,7 +45,7 @@ public:
     }
 
 
-    void setLambda_FinishedUploadingVariables(const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
+    void setLambda_FinishedUploadingVariables(const std::function<void(const bool success, const FINISH_CODE finishCode)> &lambda){
         m_MutexFinishVariablesLambda.lock();
 
         if(m_FinishVariablesLambda.find(0) != m_FinishVariablesLambda.cend())
@@ -57,13 +59,13 @@ public:
     }
 
 
-    void AddLambda_FinishedUploadingScript(void* host, const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
+    void AddLambda_FinishedUploadingScript(void* host, const std::function<void(const bool &success, const GalilCurrentProgram &program)> &lambda){
         m_MutexFinishScriptLambda.lock();
         m_FinishScriptLambda.insert({host, lambda});
         m_MutexFinishScriptLambda.unlock();
     }
 
-    void AddLambda_FinishedUploadingVariables(void* host, const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
+    void AddLambda_FinishedUploadingVariables(void* host, const std::function<void(const bool success, const FINISH_CODE finishCode)> &lambda){
         m_MutexFinishVariablesLambda.lock();
         m_FinishVariablesLambda.insert({host, lambda});
         m_MutexFinishVariablesLambda.unlock();
@@ -71,22 +73,22 @@ public:
 
 
 protected:
-    void onFinishedUploadingScript(const bool completed, const FINISH_CODE finishCode = FINISH_CODE::UNKNOWN){
+    void onFinishedUploadingScript(const bool &success, const GalilCurrentProgram &program){
 
         m_MutexFinishScriptLambda.lock();
         for(auto it = m_FinishScriptLambda.cbegin() ; it != m_FinishScriptLambda.cend() ; ++it)
         {
-            it->second(completed, finishCode);
+            it->second(success, program);
         }
         m_MutexFinishScriptLambda.unlock();
     }
 
-    void onFinishedUploadingVariables(const bool completed, const FINISH_CODE finishCode = FINISH_CODE::UNKNOWN){
+    void onFinishedUploadingVariables(const bool success, const FINISH_CODE finishCode = FINISH_CODE::UNKNOWN){
 
         m_MutexFinishVariablesLambda.lock();
         for(auto it = m_FinishVariablesLambda.cbegin() ; it != m_FinishVariablesLambda.cend() ; ++it)
         {
-            it->second(completed, finishCode);
+            it->second(success, finishCode);
         }
         m_MutexFinishVariablesLambda.unlock();
     }
@@ -95,8 +97,8 @@ signals:
     void signal_DeviceConfigured(const ECMDevice &device);
 
 protected:
-    std::unordered_map<void*, std::function<void(const bool completed, const FINISH_CODE finishCode)>> m_FinishScriptLambda;
-    std::unordered_map<void*, std::function<void(const bool completed, const FINISH_CODE finishCode)>> m_FinishVariablesLambda;
+    std::unordered_map<void*, std::function<void(const bool &success, const GalilCurrentProgram &program)>> m_FinishScriptLambda;
+    std::unordered_map<void*, std::function<void(const bool success, const FINISH_CODE finishCode)>> m_FinishVariablesLambda;
     std::unordered_map<void*, std::function<void()>> m_ShutdownLambda;
 
     std::mutex m_MutexFinishScriptLambda;

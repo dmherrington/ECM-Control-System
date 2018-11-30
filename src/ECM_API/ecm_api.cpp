@@ -250,3 +250,8 @@ void ECM_API::writeHeaderBreaker(std::string &logString, const unsigned int &siz
     //bump the header to the next line
     logString = logString + "\n";
 }
+
+void ECM_API::onProfileConfigurationLoaded(const bool &success, const ECMCommand_ProfileConfiguration &config)
+{
+    emit signal_OnProfileConfigurationLoad(success, config);
+}

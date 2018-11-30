@@ -12,6 +12,23 @@ GalilCurrentProgram::GalilCurrentProgram(const GalilCurrentProgram &copy)
     this->variableList = copy.variableList;
 }
 
+void GalilCurrentProgram::writeToJSON(QJsonObject &saveObject)
+{
+    QJsonArray MCDataArray;
+
+    QJsonObject dataObject;
+
+
+
+    MCDataArray.append(dataObject);
+    saveObject["MotionControlData"] = MCDataArray;
+}
+
+void GalilCurrentProgram::readFromJSON(const QJsonObject &openObject)
+{
+
+}
+
 void GalilCurrentProgram::setProgram(const std::string &programString)
 {
     this->program = programString;
@@ -87,9 +104,4 @@ std::string GalilCurrentProgram::getLoggingString() const
 {
     std::string str;
     return this->getProgram();
-}
-
-void GalilCurrentProgram::writeJSONData(QJsonObject &json) const
-{
-    json["Program"] = QString::fromStdString(this->program);
 }

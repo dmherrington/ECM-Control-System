@@ -81,7 +81,7 @@ void TableWidget_OperationDescriptor::on_lineEdit_ProfileName_textChanged(const 
     emit signal_OperationNameChanged(this->operationName, this->m_OperationParameters->getTabIndex());
 }
 
-void TableWidget_OperationDescriptor::on_pushButton_ExecuteExplicitOp_released()
+ECMCommand_ProfileConfiguration TableWidget_OperationDescriptor::getCurrentProfileConfiguration() const
 {
     ECMCommand_ProfileConfiguration newSingleProfile;
     newSingleProfile.m_GalilOperation.setOperationName(this->operationName);
@@ -94,6 +94,11 @@ void TableWidget_OperationDescriptor::on_pushButton_ExecuteExplicitOp_released()
     newSingleProfile.m_PumpParameters = this->m_OperationParameters->m_PumpControl->getPumpProperties();
 
     //emit signal_ExecuteExplicitProfile(this->m_OperationParamters);
+}
+
+void TableWidget_OperationDescriptor::on_pushButton_ExecuteExplicitOp_released()
+{
+
 }
 
 void TableWidget_OperationDescriptor::on_checkBox_EnableOperation_toggled(bool checked)

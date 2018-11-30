@@ -21,12 +21,76 @@ public:
     ECMCommand_ProfileConfiguration(const ECMCommand_ProfileConfiguration &copy);
 
 public:
+    void writeToJSON(QJsonObject &obj);
+
+    void readFromJSON(const QJsonObject &obj);
+
+public:
     bool shouldProfileExecute() const;
 
     void setProfileExecution(const bool &varExecute);
 
-private:
-    bool execute = false;
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    ECMCommand_ProfileConfiguration& operator = (const ECMCommand_ProfileConfiguration &rhs)
+    {
+        this->m_GalilOperation = rhs.m_GalilOperation;
+        this->m_Touchoff = rhs.m_Touchoff;
+        this->m_MunkSegment = rhs.m_MunkSegment;
+        this->m_MunkPulseMode = rhs.m_MunkPulseMode;
+        this->m_PumpParameters = rhs.m_PumpParameters;
+
+        this->operationIndex = rhs.operationIndex;
+        this->operationName = rhs.operationName;
+        this->execute = rhs.execute;
+        return *this;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const ECMCommand_ProfileConfiguration &rhs)
+    {
+        if(this->m_GalilOperation != rhs.m_GalilOperation){
+            return false;
+        }
+        if(this->m_Touchoff != rhs.m_Touchoff){
+            return false;
+        }
+        if(this->m_MunkSegment != rhs.m_MunkSegment){
+            return false;
+        }
+        if(this->m_MunkPulseMode != rhs.m_MunkPulseMode){
+            return false;
+        }
+        if(this->m_PumpParameters != rhs.m_PumpParameters){
+            return false;
+        }
+        if(this->operationIndex != rhs.operationIndex){
+            return false;
+        }
+        if(this->operationName != rhs.operationName){
+            return false;
+        }
+        if(this->execute != rhs.execute){
+            return false;
+        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const GalilCurrentOperation &rhs) {
+        return !(*this == rhs);
+    }
 
 public:
 
@@ -40,6 +104,10 @@ public:
 
     Command_PumpProperties m_PumpParameters;
 
+private:
+    unsigned int operationIndex = 0;
+    std::string operationName = "";
+    bool execute = false;
 };
 
 #endif // ECMCOMMAND_PROFILE_CONFIGURATION_H

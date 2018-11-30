@@ -41,7 +41,7 @@ public:
     //! \brief NewProgramUploaded
     //! \param program
     //!
-    virtual void NewProgramUploaded(const ProgramGeneric &program) const = 0;
+    virtual void NewProgramUploaded(const bool &success, const GalilCurrentProgram &program = GalilCurrentProgram()) const = 0;
 
     //!
     //! \brief NewProgramDownloaded

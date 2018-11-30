@@ -229,16 +229,9 @@ void CommsMarshaler::NewCustomStatusReceived(const string &initialCommand, const
     Emit([&](CommsEvents *ptr){ptr->CustomUserRequestReceived(initialCommand,newStatus);});
 }
 
-void CommsMarshaler::NewProgramUploaded(const ProgramGeneric &program) const
+void CommsMarshaler::NewProgramUploaded(const bool &success, const GalilCurrentProgram &program) const
 {
-    Emit([&](CommsEvents *ptr){ptr->NewProgramUploaded(program);});
-
-    //We now have a new program, let us query for the available labels and variables
-    RequestListLabelsPtr requestLabels = std::make_shared<RequestListLabels>();
-    sendAbstractGalilRequest(requestLabels);
-
-    RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
-    sendAbstractGalilRequest(requestVariables);
+    Emit([&](CommsEvents *ptr){ptr->NewProgramUploaded(success, program);});
 }
 
 void CommsMarshaler::NewProgramDownloaded(const ProgramGeneric &program) const

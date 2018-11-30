@@ -95,7 +95,7 @@ private:
     void StatusMessage(const std::string &msg) const override;
     void ErrorBadCommand(const CommandType &type, const std::string &description) override;
     void ErrorBadRequest(const RequestTypes &type, const std::string &description) override;
-    void NewProgramUploaded(const ProgramGeneric &program) override;
+    void NewProgramUploaded(const bool &success, const GalilCurrentProgram &program) override;
     void NewProgramDownloaded(const ProgramGeneric &program) override;
     void NewStatusInputs(const StatusInputs &status) override;
     void NewStatusPosition(const Status_Position &status) override;
