@@ -130,7 +130,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     readSettings();
 
-    //m_WindowConnections->connectToAllDevices();
+    m_WindowConnections->connectToAllDevices();
 }
 
 ECMControllerGUI::~ECMControllerGUI()
@@ -390,7 +390,7 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
         m_WindowMotionProfile->close();
         m_WindowCustomMotionCommands->close();
         m_WindowConnections->close();
-
+        m_WindowMunkTemperatureStatus->close();
         event->accept();
     }
     else //the motor is not currently disabled, and therefore we will block the application from closing
