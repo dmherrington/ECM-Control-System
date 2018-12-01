@@ -38,6 +38,12 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     ui->widget_primaryPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
     connect(ui->widget_primaryPlot,SIGNAL(signal_ClearPlottingData()),this,SLOT(on_actionClear_All_Data_triggered()));
 
+    ui->widget_primaryPlotVoltage->SupplyPlotCollection(&m_PlotCollection);
+    ui->widget_primaryPlotVoltage->setOriginTime(QDateTime(tmp_Date, tmp_Time));
+
+    ui->widget_primaryPlotCurrent->SupplyPlotCollection(&m_PlotCollection);
+    ui->widget_primaryPlotCurrent->setOriginTime(QDateTime(tmp_Date, tmp_Time));
+
     ui->widget_LEDCommunication->setDiameter(5);
     ui->widget_LEDESTOP->setDiameter(5);
     ui->widget_LEDHomed->setDiameter(5);
@@ -45,6 +51,10 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     m_API = new ECM_API();
     m_API->m_Log->setLoggingStartTime(startTime);
+
+    //Create the state machine object and initialize to the idle state
+    stateMachine = new hsm::StateMachine();
+    stateMachine->Initialize<ECM::API::ECMState_Idle>(m_API);
 
     //API Connections
     connect(m_API->m_Rigol, SIGNAL(signal_RigolPlottable(common::TupleSensorString,bool)), this, SLOT(slot_NewlyAvailableRigolData(common::TupleSensorString,bool)));
@@ -61,6 +71,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_Galil, SIGNAL(signal_GalilUpdatedProfileState(MotionProfileState)), this, SLOT(slot_UpdatedMotionProfileState(MotionProfileState)));
     connect(m_API->m_Galil, SIGNAL(signal_ErrorCommandCode(CommandType,std::string)), this, SLOT(slot_MCCommandError(CommandType,std::string)));
     connect(m_API->m_Galil, SIGNAL(signal_MCNewProgramLabelList(ProgramLabelList)), this, SLOT(slot_MCNewProgramLabels(ProgramLabelList)));
+    connect(m_API->m_Galil,SIGNAL(signal_GalilHomeIndicated(bool)),this,SLOT(slot_UpdateHomeIndicated(bool)));
 
     m_WindowCustomMotionCommands = new Window_CustomMotionCommands(m_API->m_Galil);
     m_WindowCustomMotionCommands->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
@@ -76,9 +87,11 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     m_WindowConnections = new Window_DeviceConnections(m_API);
     m_WindowConnections->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
-    connect(m_WindowConnections,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
+    connect(m_WindowConnections,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
-    connect(m_API->m_Galil,SIGNAL(signal_GalilHomeIndicated(bool)),this,SLOT(slot_UpdateHomeIndicated(bool)));
+    m_WindowProfileConfiguration = new Window_ProfileConfiguration(m_API);
+    connect(m_WindowProfileConfiguration, SIGNAL(signal_ExecuteProfileCollection(ECMCommand_ProfileCollection)), this, SLOT(on_ExecuteProfileCollection(ECMCommand_ProfileCollection)));
+    connect(m_WindowProfileConfiguration, SIGNAL(signal_LoadProfileCollection(ECMCommand_ProfileCollection)), this, SLOT(slot_LoadProfileCollection(ECMCommand_ProfileCollection)));
 
 
     std::vector<common::TupleECMData> plottables = m_API->m_Galil->getPlottables();
@@ -99,10 +112,11 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     readSettings();
 
-    m_ProfileConfiguration = new Window_ProfileConfiguration(m_API);
     m_MotionControl = new Widget_MotionControl(m_API->m_Galil);
-    m_ProfileConfiguration->show();
+    m_WindowProfileConfiguration->show();
     //m_WindowConnections->connectToAllDevices();
+
+    ProgressStateMachineStates();
 }
 
 ECMControllerGUI::~ECMControllerGUI()
@@ -213,17 +227,16 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &senso
 
     QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(sensor);
 
-    //    if(counter >20)
-    //    {
-    //        m_PlotCollection.ClearAllData();
-    //        counter = 0;
-    //    }
+    //First, write the data to the logs
+    m_API->m_Log->WriteLogSensorState(sensor,state);
 
-    ui->widget_primaryPlot->RedrawDataSource(plots);
     m_SensorDisplays.PlottedDataUpdated(sensor); //this seems to be uneeded based on the call after this
     m_additionalSensorDisplay->UpdatePlottedData(sensor);
 
-    m_API->m_Log->WriteLogSensorState(sensor,state);
+    ui->widget_primaryPlot->RedrawDataSource(plots);
+    ui->widget_primaryPlotVoltage->RedrawDataSource(plots);
+    ui->widget_primaryPlotCurrent->RedrawDataSource(plots);
+
 }
 
 void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state, const bool &valueChanged)
@@ -635,4 +648,27 @@ void ECMControllerGUI::slot_MCCommandError(const CommandType &type, const string
         std::cout<<"There was an existing error not caught: "<<description<<std::endl;
         break;
     }
+}
+
+void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ProfileCollection &collection)
+{
+    ui->lineEdit_OfProfilesDetected->setText(QString::number(collection.getCollectionSize()));
+}
+
+void ECMControllerGUI::slot_LoadProfileCollection(const ECMCommand_ProfileCollection &collection)
+{
+    ECM::API::AbstractStateECMProcess* currentOuterState = static_cast<ECM::API::AbstractStateECMProcess*>(stateMachine->getCurrentOuterState());
+    currentOuterState->initializeFromCollection(collection);
+    ProgressStateMachineStates();
+}
+
+//!
+//! \brief Cause the state machine to update it's states
+//!
+void ECMControllerGUI::ProgressStateMachineStates()
+{
+    m_Mutex_StateMachine.lock();
+    stateMachine->ProcessStateTransitions();
+    stateMachine->UpdateStates();
+    m_Mutex_StateMachine.unlock();
 }

@@ -28,41 +28,30 @@ void ECMState_Idle::getClone(AbstractStateECMProcess** state) const
 hsm::Transition ECMState_Idle::GetTransition()
 {
     hsm::Transition rtn = hsm::NoTransition();
-
     if(currentState != desiredState)
     {
-        //this means we want to chage the state for some reason
-        //now initiate the state transition to the correct class
         switch (desiredState) {
         case ECMState::STATE_ECM_MOTION_PROFILE_INITIALIZATION:
         {
-            rtn = hsm::SiblingTransition<ECMState_MotionProfileInitialization>(m_ProfileConfiguration);
-            break;
-        }
-        case ECMState::STATE_ECM_UPLOAD:
-        {
-            rtn = hsm::SiblingTransition<ECMState_Upload>(m_ProfileConfiguration);
+            rtn = hsm::SiblingTransition<ECMState_MotionProfileInitialization>(m_ProfileCollection);
             break;
         }
         default:
-            std::cout<<"I dont know how we eneded up in this transition state from "<<ECMStateToString(this->currentState)<<"."<<std::endl;
             break;
         }
     }
-
     return rtn;
 }
 
-void ECMState_Idle::initializeFromConfiguration(const ECMCommand_ProfileConfiguration &config)
+void ECMState_Idle::initializeFromCollection(const ECMCommand_ProfileCollection &collection)
 {
-    this->m_ProfileConfiguration = config;
+    this->m_ProfileCollection = collection;
     this->desiredState = ECMState::STATE_ECM_MOTION_PROFILE_INITIALIZATION;
 }
 
 void ECMState_Idle::uploadConfiguration(const ECMCommand_ProfileConfiguration &config)
 {
-    this->m_ProfileConfiguration = config;
-    this->desiredState = ECMState::STATE_ECM_UPLOAD;
+
 }
 
 void ECMState_Idle::Update()
@@ -75,9 +64,7 @@ void ECMState_Idle::OnEnter()
 
 }
 
-
 } //end of namespace Galil
 } //end of namespace ECM
 
-#include "states/state_ecm_upload.h"
 #include "states/state_ecm_motion_profile_initialization.h"

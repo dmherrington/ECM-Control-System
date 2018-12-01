@@ -51,7 +51,6 @@ void ECMState_UploadMotionProfile::OnEnter()
 void ECMState_UploadMotionProfile::OnEnter(const ECMCommand_ProfileConfiguration &config)
 {
     //First update the configuation per what was received upon entering the state
-    this->m_ProfileConfiguration = config;
 
     Owner().m_Galil->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const GalilCurrentProgram &program){
         if(completed)

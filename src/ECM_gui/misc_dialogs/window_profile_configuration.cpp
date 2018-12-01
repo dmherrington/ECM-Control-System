@@ -30,6 +30,7 @@ TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const
     TableWidget_OperationDescriptor* tableDescriptor = new TableWidget_OperationDescriptor(operationParameters);
     tableDescriptor->setOperationIndex(index + 1);
     connect(tableDescriptor,SIGNAL(signal_OperationNameChanged(std::string,int)),this,SLOT(slot_OperationNameChanged(std::string,int)));
+    connect(tableDescriptor,SIGNAL(signal_ExecuteExplicitProfileConfig(ECMCommand_ProfileConfiguration)),this,SLOT(slot_OnExecuteExplicitProfileConfig(ECMCommand_ProfileConfiguration)));
     tableDescriptor->newlyAvailableProgramLabels(m_API->m_Galil->stateInterface->galilProgram->getLabelList());
 
     QListWidgetItem* newItem = new QListWidgetItem();
@@ -40,6 +41,13 @@ TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const
     this->m_MapOperations.insert(std::pair<QListWidgetItem*,TableWidget_OperationDescriptor*>(newItem,tableDescriptor));
 
     return tableDescriptor;
+}
+
+void Window_ProfileConfiguration::slot_OnExecuteExplicitProfileConfig(const ECMCommand_ProfileConfiguration &config)
+{
+    ECMCommand_ProfileCollection newProfileCollection;
+    newProfileCollection.insertProfile(config);
+    emit signal_ExecuteProfileCollection(newProfileCollection);
 }
 
 void Window_ProfileConfiguration::clearExistingOperations()
@@ -196,10 +204,13 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
         ECMCommand_ProfileConfiguration loadConfig;
         loadConfig.readFromJSON(operationObject);
 
+        //Object will contain all of the profiles used for the profile
         profileCollection.insertProfile(loadConfig);
 
         TableWidget_OperationDescriptor* newOperation = this->addOperation(operationObject["opIndex"].toInt() - 1);
         newOperation->loadFromProfileConfiguration(loadConfig);
     }
+
+    emit signal_LoadProfileCollection(profileCollection);
 }
 

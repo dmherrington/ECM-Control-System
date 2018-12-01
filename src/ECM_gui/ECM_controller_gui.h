@@ -26,6 +26,9 @@
 
 #include "general_dialog_window.h"
 
+#include "common/hsm.h"
+#include "ECM_API/states/state_ecm_components.h"
+
 namespace Ui {
 class ECMControllerGUI;
 }
@@ -52,6 +55,9 @@ private slots:
     void slot_DisplayActionTriggered();
     void slot_UpdatedMotionProfileState(const MotionProfileState &state);
     void slot_MCCommandError(const CommandType &type, const std::string &description);
+
+private slots:
+    void slot_LoadProfileCollection(const ECMCommand_ProfileCollection &collection);
 
 private slots:
     void slot_NewProfileVariableData(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state);
@@ -105,6 +111,8 @@ private slots:
 
     void on_pushButton_Stop_released();
 
+    void on_ExecuteProfileCollection(const ECMCommand_ProfileCollection &collection);
+
 protected:
     void readSettings();
     void closeEvent(QCloseEvent *event);
@@ -135,11 +143,18 @@ private:
 
     Widget_MotionControl* m_MotionControl;
 
-    Window_ProfileConfiguration* m_ProfileConfiguration;
+    Window_ProfileConfiguration* m_WindowProfileConfiguration;
     Window_RigolControl* m_WindowRigol;
     Window_DeviceConnections* m_WindowConnections;
     Window_CustomMotionCommands* m_WindowCustomMotionCommands;
     Window_MotionProfile* m_WindowMotionProfile;
+
+private:
+    void ProgressStateMachineStates();
+
+    std::mutex m_Mutex_StateMachine;
+    hsm::StateMachine* stateMachine;
+
 };
 
 #endif // ECM_CONTROLLER_GUI_H

@@ -17,14 +17,19 @@
 \*  While in this state, we can accept commands to download/upload programs from galil, load parameters and settigns from files,
 \* save files, etc.
 \*/
+#include "ECM_API/states/state_ecm_types.h"
 
 #include "ECM_API/states/state_abstract_ecm_process.h"
-#include "ECM_API/states/state_ecm_power_supply_setup.h"
+#include "ECM_API/states/state_ecm_idle.h"
+#include "ECM_API/states/state_ecm_motion_profile_initialization.h"
+
 #include "ECM_API/states/state_ecm_profile_machine.h"
 #include "ECM_API/states/state_ecm_profile_machine_cease.h"
 #include "ECM_API/states/state_ecm_profile_machine_process.h"
 #include "ECM_API/states/state_ecm_profile_machine_setup.h"
-#include "ECM_API/states/state_ecm_motion_profile_initialization.h"
+
+#include "ECM_API/states/state_ecm_pump_setup.h"
+
 #include "ECM_API/states/state_ecm_touchoff.h"
 #include "ECM_API/states/state_ecm_touchoff_disable.h"
 #include "ECM_API/states/state_ecm_touchoff_enable.h"
@@ -38,5 +43,7 @@
 #include "ECM_API/states/state_ecm_upload_power_pulse_mode.h"
 #include "ECM_API/states/state_ecm_upload_power_register_segments.h"
 #include "ECM_API/states/state_ecm_upload_pump_parameters.h"
+
+#include "ECM_API/states/state_test.h"
 
 #endif // STATE_ECM_COMPONENTS_H

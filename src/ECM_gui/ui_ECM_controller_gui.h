@@ -73,10 +73,10 @@ public:
     QHBoxLayout *horizontalLayout_4;
     QVBoxLayout *verticalLayout_6;
     QLabel *label_PartNumber_3;
-    QLineEdit *lineEdit_PartNumber_2;
+    QLineEdit *lineEdit_ExecutingProfileNumber;
     QVBoxLayout *verticalLayout_7;
     QLabel *label_PartNumber_4;
-    QLineEdit *lineEdit_PartNumber_3;
+    QLineEdit *lineEdit_OfProfilesDetected;
     QSpacerItem *horizontalSpacer;
     QSpacerItem *verticalSpacer_2;
     QFrame *frame_Status;
@@ -472,16 +472,16 @@ public:
 
         verticalLayout_6->addWidget(label_PartNumber_3);
 
-        lineEdit_PartNumber_2 = new QLineEdit(frame_ProfileOptions);
-        lineEdit_PartNumber_2->setObjectName(QStringLiteral("lineEdit_PartNumber_2"));
-        sizePolicy1.setHeightForWidth(lineEdit_PartNumber_2->sizePolicy().hasHeightForWidth());
-        lineEdit_PartNumber_2->setSizePolicy(sizePolicy1);
-        lineEdit_PartNumber_2->setMinimumSize(QSize(180, 30));
-        lineEdit_PartNumber_2->setMaximumSize(QSize(180, 30));
-        lineEdit_PartNumber_2->setFont(font1);
-        lineEdit_PartNumber_2->setAlignment(Qt::AlignCenter);
+        lineEdit_ExecutingProfileNumber = new QLineEdit(frame_ProfileOptions);
+        lineEdit_ExecutingProfileNumber->setObjectName(QStringLiteral("lineEdit_ExecutingProfileNumber"));
+        sizePolicy1.setHeightForWidth(lineEdit_ExecutingProfileNumber->sizePolicy().hasHeightForWidth());
+        lineEdit_ExecutingProfileNumber->setSizePolicy(sizePolicy1);
+        lineEdit_ExecutingProfileNumber->setMinimumSize(QSize(180, 30));
+        lineEdit_ExecutingProfileNumber->setMaximumSize(QSize(180, 30));
+        lineEdit_ExecutingProfileNumber->setFont(font1);
+        lineEdit_ExecutingProfileNumber->setAlignment(Qt::AlignCenter);
 
-        verticalLayout_6->addWidget(lineEdit_PartNumber_2);
+        verticalLayout_6->addWidget(lineEdit_ExecutingProfileNumber);
 
 
         horizontalLayout_4->addLayout(verticalLayout_6);
@@ -500,16 +500,16 @@ public:
 
         verticalLayout_7->addWidget(label_PartNumber_4);
 
-        lineEdit_PartNumber_3 = new QLineEdit(frame_ProfileOptions);
-        lineEdit_PartNumber_3->setObjectName(QStringLiteral("lineEdit_PartNumber_3"));
-        sizePolicy1.setHeightForWidth(lineEdit_PartNumber_3->sizePolicy().hasHeightForWidth());
-        lineEdit_PartNumber_3->setSizePolicy(sizePolicy1);
-        lineEdit_PartNumber_3->setMinimumSize(QSize(180, 30));
-        lineEdit_PartNumber_3->setMaximumSize(QSize(180, 30));
-        lineEdit_PartNumber_3->setFont(font1);
-        lineEdit_PartNumber_3->setAlignment(Qt::AlignCenter);
+        lineEdit_OfProfilesDetected = new QLineEdit(frame_ProfileOptions);
+        lineEdit_OfProfilesDetected->setObjectName(QStringLiteral("lineEdit_OfProfilesDetected"));
+        sizePolicy1.setHeightForWidth(lineEdit_OfProfilesDetected->sizePolicy().hasHeightForWidth());
+        lineEdit_OfProfilesDetected->setSizePolicy(sizePolicy1);
+        lineEdit_OfProfilesDetected->setMinimumSize(QSize(180, 30));
+        lineEdit_OfProfilesDetected->setMaximumSize(QSize(180, 30));
+        lineEdit_OfProfilesDetected->setFont(font1);
+        lineEdit_OfProfilesDetected->setAlignment(Qt::AlignCenter);
 
-        verticalLayout_7->addWidget(lineEdit_PartNumber_3);
+        verticalLayout_7->addWidget(lineEdit_OfProfilesDetected);
 
 
         horizontalLayout_4->addLayout(verticalLayout_7);
@@ -874,20 +874,20 @@ public:
         lineEdit_SerialNumber->setText(QApplication::translate("ECMControllerGUI", "DEFAULT SERIAL #", nullptr));
         label_PartNumber_3->setText(QApplication::translate("ECMControllerGUI", "Profile Number:", nullptr));
 #ifndef QT_NO_TOOLTIP
-        lineEdit_PartNumber_2->setToolTip(QString());
+        lineEdit_ExecutingProfileNumber->setToolTip(QString());
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_STATUSTIP
-        lineEdit_PartNumber_2->setStatusTip(QString());
+        lineEdit_ExecutingProfileNumber->setStatusTip(QString());
 #endif // QT_NO_STATUSTIP
-        lineEdit_PartNumber_2->setText(QApplication::translate("ECMControllerGUI", "0", nullptr));
+        lineEdit_ExecutingProfileNumber->setText(QApplication::translate("ECMControllerGUI", "0", nullptr));
         label_PartNumber_4->setText(QApplication::translate("ECMControllerGUI", "of Profiles Detected:", nullptr));
 #ifndef QT_NO_TOOLTIP
-        lineEdit_PartNumber_3->setToolTip(QString());
+        lineEdit_OfProfilesDetected->setToolTip(QString());
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_STATUSTIP
-        lineEdit_PartNumber_3->setStatusTip(QString());
+        lineEdit_OfProfilesDetected->setStatusTip(QString());
 #endif // QT_NO_STATUSTIP
-        lineEdit_PartNumber_3->setText(QApplication::translate("ECMControllerGUI", "0", nullptr));
+        lineEdit_OfProfilesDetected->setText(QApplication::translate("ECMControllerGUI", "0", nullptr));
         label_2->setText(QApplication::translate("ECMControllerGUI", "COMMUNICATION", nullptr));
         label_3->setText(QApplication::translate("ECMControllerGUI", "HOMED", nullptr));
         label_4->setText(QApplication::translate("ECMControllerGUI", "TOUCHOFF", nullptr));

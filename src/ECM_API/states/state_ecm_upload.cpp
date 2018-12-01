@@ -48,22 +48,22 @@ hsm::Transition ECMState_Upload::GetTransition()
             switch (desiredState) {
             case ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE:
             {
-                rtn = hsm::InnerEntryTransition<ECMState_UploadMotionProfile>(m_ProfileConfiguration);
+                //rtn = hsm::InnerEntryTransition<ECMState_UploadMotionProfile>(m_ProfileCollection);
                 break;
             }
             case ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES:
             {
-                rtn = hsm::InnerEntryTransition<ECMState_UploadMotionVariables>(m_ProfileConfiguration);
+                //rtn = hsm::InnerEntryTransition<ECMState_UploadMotionVariables>(m_ProfileCollection);
                 break;
             }
             case ECMState::STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS:
             {
-                rtn = hsm::InnerEntryTransition<ECMState_UploadPowerRegisterSegments>(m_ProfileConfiguration);
+                //rtn = hsm::InnerEntryTransition<ECMState_UploadPowerRegisterSegments>(m_ProfileCollection);
                 break;
             }
             case ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS:
             {
-                rtn = hsm::InnerEntryTransition<ECMState_UploadPumpParameters>(m_ProfileConfiguration);
+                //rtn = hsm::InnerEntryTransition<ECMState_UploadPumpParameters>(m_ProfileCollection);
                 break;
             }
             default:
@@ -89,7 +89,6 @@ void ECMState_Upload::OnEnter()
 void ECMState_Upload::OnEnter(const ECMCommand_ProfileConfiguration &config)
 {
     //First update the configuation per what was received upon entering the state
-    this->m_ProfileConfiguration = config;
 }
 
 } //end of namespace Galil

@@ -102,7 +102,8 @@ void TableWidget_OperationDescriptor::loadFromProfileConfiguration(const ECMComm
 
 void TableWidget_OperationDescriptor::on_pushButton_ExecuteExplicitOp_released()
 {
-
+    ECMCommand_ProfileConfiguration executeConfig = this->getCurrentProfileConfiguration();
+    emit signal_ExecuteExplicitProfileConfig(executeConfig);
 }
 
 void TableWidget_OperationDescriptor::on_checkBox_EnableOperation_toggled(bool checked)

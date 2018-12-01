@@ -603,7 +603,7 @@ width:20px;
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_PartNumber_2">
+                <widget class="QLineEdit" name="lineEdit_ExecutingProfileNumber">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -685,7 +685,7 @@ width:20px;
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_PartNumber_3">
+                <widget class="QLineEdit" name="lineEdit_OfProfilesDetected">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>

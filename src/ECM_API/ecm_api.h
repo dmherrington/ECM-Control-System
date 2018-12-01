@@ -17,7 +17,7 @@
 #include "ecm_logging.h"
 #include "ecm_modules.h"
 
-#include "commands/ecm_command_profile_configuration.h"
+#include "commands/ecm_command_profile_collection.h"
 
 ECM_CLASS_FORWARD(ECM_API);
 
@@ -32,7 +32,7 @@ public:
 
 public:
     void initializeProfileConfiguration(const ECMCommand_ProfileConfiguration &config);
-    void onProfileConfigurationLoaded(const bool &success, const ECMCommand_ProfileConfiguration &config);
+    void onProfileCollectionInitialized(const bool &success, const ECMCommand_ProfileCollection &config);
 
 public:
     void action_StopMachine();
@@ -72,7 +72,7 @@ signals:
 
     void signal_InitializeStartTime(const common::EnvironmentTime &time);
 
-    void signal_OnProfileConfigurationLoad(const bool &success, const ECMCommand_ProfileConfiguration &config);
+    void signal_OnProfileCollectionInitialized(const bool &success, const ECMCommand_ProfileCollection &collection);
 
 private slots:
 
@@ -111,9 +111,6 @@ public:
     ECMLogging* m_Log;
 
     Library_QModBus* m_Modbus485;
-
-public:
-//    hsm::StateMachine* autoProcess;
 
 };
 

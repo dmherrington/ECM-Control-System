@@ -15,7 +15,10 @@ public:
 public:
     void insertProfile(const ECMCommand_ProfileConfiguration &profile);
 
-    ECMCommand_ProfileConfiguration getProfile(const unsigned int &index);
+    ECMCommand_ProfileConfiguration getProfile(const unsigned int &index) const;
+
+public:
+    unsigned int getCollectionSize() const;
 
 private:
     std::map<unsigned int, ECMCommand_ProfileConfiguration> m_Collection;

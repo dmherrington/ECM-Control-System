@@ -1,17 +1,12 @@
 #include "state_abstract_ecm_process.h"
 
-namespace ECM{
+namespace ECM {
 namespace API {
 
 AbstractStateECMProcess::AbstractStateECMProcess(const AbstractStateECMProcess &copy)
 {
     this->currentState = copy.currentState;
     this->desiredState = copy.desiredState;
-}
-
-void AbstractStateECMProcess::OnExit()
-{
-
 }
 
 ECMState AbstractStateECMProcess::getCurrentState() const
@@ -24,7 +19,7 @@ ECMState AbstractStateECMProcess::getDesiredState() const
     return desiredState;
 }
 
-void AbstractStateECMProcess::initializeFromConfiguration(const ECMCommand_ProfileConfiguration &config)
+void AbstractStateECMProcess::initializeFromCollection(const ECMCommand_ProfileCollection &config)
 {
 
 }
@@ -35,6 +30,16 @@ void AbstractStateECMProcess::uploadConfiguration(const ECMCommand_ProfileConfig
 }
 
 void AbstractStateECMProcess::clearCommand()
+{
+
+}
+
+void AbstractStateECMProcess::OnExit()
+{
+
+}
+
+void AbstractStateECMProcess::OnEnter()
 {
 
 }

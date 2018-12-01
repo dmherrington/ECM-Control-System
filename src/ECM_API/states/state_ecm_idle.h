@@ -1,8 +1,12 @@
 #ifndef STATE_ECM_IDLE_H
 #define STATE_ECM_IDLE_H
 
-#include "states/state_abstract_ecm_process.h"
+#include "common/class_forward.h"
+#include "common/hsm.h"
 
+#include "../ecm_api.h"
+
+#include "state_abstract_ecm_process.h"
 
 /**
 \* @file  state_ecm_touchoff.h
@@ -26,7 +30,6 @@ namespace API {
 
 ECM_CLASS_FORWARD(ECMState_Idle);
 
-class ECMState_Upload;
 class ECMState_MotionProfileInitialization;
 
 class ECMState_Idle : public AbstractStateECMProcess
@@ -34,26 +37,24 @@ class ECMState_Idle : public AbstractStateECMProcess
 public:
     ECMState_Idle();
 
-    void OnExit() override;
-
 public:
     AbstractStateECMProcess* getClone() const override;
 
     void getClone(AbstractStateECMProcess** state) const override;
 
 public:
+    void OnEnter() override;
+    void Update() override;
+    void OnExit() override;
+
+public:
     hsm::Transition GetTransition() override;
 
 public:
 
-    void initializeFromConfiguration(const ECMCommand_ProfileConfiguration &config) override;
+    void initializeFromCollection(const ECMCommand_ProfileCollection &collection) override;
 
     void uploadConfiguration(const ECMCommand_ProfileConfiguration &config) override;
-
-public:
-    void Update() override;
-
-    void OnEnter() override;
 
 };
 

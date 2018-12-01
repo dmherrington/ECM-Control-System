@@ -51,8 +51,6 @@ void ECMState_UploadPowerRegisterSegments::OnEnter()
 void ECMState_UploadPowerRegisterSegments::OnEnter(const ECMCommand_ProfileConfiguration &config)
 {
     //First update the configuation per what was received upon entering the state
-    this->m_ProfileConfiguration = config;
-
     Owner().m_Munk->AddLambda_FinishedUploadingSegments(this,[this](const bool completed, const DeviceInterface_PowerSupply::FINISH_CODE finishCode){
             if(completed)
             {

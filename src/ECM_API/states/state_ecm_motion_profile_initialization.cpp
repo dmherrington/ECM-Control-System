@@ -10,6 +10,11 @@ ECMState_MotionProfileInitialization::ECMState_MotionProfileInitialization():
     this->desiredState = ECMState::STATE_ECM_MOTION_PROFILE_INITIALIZATION;
 }
 
+void ECMState_MotionProfileInitialization::OnExit()
+{
+
+}
+
 AbstractStateECMProcess* ECMState_MotionProfileInitialization::getClone() const
 {
     return (new ECMState_MotionProfileInitialization(*this));
@@ -51,15 +56,15 @@ void ECMState_MotionProfileInitialization::OnEnter()
 
 }
 
-void ECMState_MotionProfileInitialization::OnEnter(const ECMCommand_ProfileConfiguration &config)
+void ECMState_MotionProfileInitialization::OnEnter(const ECMCommand_ProfileCollection &collection)
 {
-    Owner().m_Galil->AddLambda_FinishedUploadingScript(this,[this,config](const bool &success, const GalilCurrentProgram &program){
+    Owner().m_Galil->AddLambda_FinishedUploadingScript(this,[this,collection](const bool &success, const GalilCurrentProgram &program){
         UNUSED(program);
 
         if(success)
         {
             desiredState = ECMState::STATE_ECM_IDLE;
-            Owner().onProfileConfigurationLoaded(success, config);
+            Owner().onProfileCollectionInitialized(success, collection);
 
         }else
         {
@@ -68,7 +73,7 @@ void ECMState_MotionProfileInitialization::OnEnter(const ECMCommand_ProfileConfi
     });
 
     ProgramGeneric newProgram;
-    newProgram.setProgramString(config.m_GalilOperation.getProgram());
+    newProgram.setProgramString(collection.getProfile(1).m_GalilOperation.getProgram());
 
     CommandUploadProgramPtr cmdProgram = std::make_shared<CommandUploadProgram>();
     cmdProgram->setProgram(newProgram);

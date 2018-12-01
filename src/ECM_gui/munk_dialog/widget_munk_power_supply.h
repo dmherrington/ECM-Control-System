@@ -34,9 +34,10 @@ public:
 signals:
     void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility);
 
-private slots:
-    void on_Action_AddSegment_released();
+private:
+    void addNewSegment();
 
+private slots:
     void slot_onCustomContextMenu(const QPoint &point);
 
     void slot_ParameterTransmissionUpdate(const int &transmitted, const int &required);

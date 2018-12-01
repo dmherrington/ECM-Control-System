@@ -7,19 +7,19 @@
 #include "common/class_forward.h"
 #include "common/hsm.h"
 
-#include "ECM_API/ecm_api.h"
-#include "ECM_API/states/state_ecm_types.h"
+#include "../ecm_api.h"
+#include "../commands/ecm_command_profile_collection.h"
 
-#include "../commands/ecm_command_profile_configuration.h"
+#include "state_ecm_types.h"
+
 
 namespace ECM{
 namespace API {
 
 ECM_CLASS_FORWARD(AbstractStateECMProcess);
 
-class AbstractStateECMProcess :  public QObject, public hsm::StateWithOwner<ECM_API>
+class AbstractStateECMProcess : public hsm::StateWithOwner<ECM_API>
 {
-    Q_OBJECT
 
 public:
     AbstractStateECMProcess() = default;
@@ -30,7 +30,6 @@ public:
       */
     virtual ~AbstractStateECMProcess() = default;
 
-    virtual void OnExit();
 public:
     /**
      *
@@ -65,8 +64,13 @@ public:
     virtual void getClone(AbstractStateECMProcess** state) const = 0;
 
 public:
+    virtual void OnExit();
 
-    virtual void initializeFromConfiguration(const ECMCommand_ProfileConfiguration &config);
+    virtual void OnEnter();
+
+public:
+
+    virtual void initializeFromCollection(const ECMCommand_ProfileCollection &collection);
 
     virtual void uploadConfiguration(const ECMCommand_ProfileConfiguration &config);
 
@@ -80,7 +84,7 @@ protected:
     void clearCommand();
 
 protected:
-    ECMCommand_ProfileConfiguration m_ProfileConfiguration;
+    ECMCommand_ProfileCollection m_ProfileCollection;
 
     ECMState currentState;
     ECMState desiredState;

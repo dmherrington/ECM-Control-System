@@ -27,14 +27,6 @@ ECM_API::ECM_API()
 
     m_Pump = new Westinghouse510(m_Modbus485,03);
 
-    //ECM_Modules* moduleAccess = new ECM_Modules(m_Galil);
-
-//    autoProcess = new hsm::StateMachine();
-//    autoProcess->Initialize<ECM::Galil::State_Idle>(this);
-//    //if we begin issuing text commands we have to be careful how the state machine progresses
-//    autoProcess->UpdateStates();
-//    autoProcess->ProcessStateTransitions();
-
 }
 
 std::map<std::string, std::string> ECM_API::getSoftwareVersions() const
@@ -251,7 +243,7 @@ void ECM_API::writeHeaderBreaker(std::string &logString, const unsigned int &siz
     logString = logString + "\n";
 }
 
-void ECM_API::onProfileConfigurationLoaded(const bool &success, const ECMCommand_ProfileConfiguration &config)
+void ECM_API::onProfileCollectionInitialized(const bool &success, const ECMCommand_ProfileCollection &config)
 {
-    emit signal_OnProfileConfigurationLoad(success, config);
+    emit signal_OnProfileCollectionInitialized(success, config);
 }

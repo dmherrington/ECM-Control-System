@@ -45,7 +45,6 @@ void ECMState_UploadComplete::OnEnter()
 void ECMState_UploadComplete::OnEnter(const ECMCommand_ProfileConfiguration &config)
 {
     //First update the configuation per what was received upon entering the state
-    this->m_ProfileConfiguration = config;
 }
 
 } //end of namespace Galil

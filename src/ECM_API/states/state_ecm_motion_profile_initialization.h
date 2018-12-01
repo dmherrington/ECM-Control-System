@@ -1,7 +1,12 @@
 #ifndef STATE_ECM_INITIALIZATION_H
 #define STATE_ECM_INITIALIZATION_H
 
-#include "states/state_abstract_ecm_process.h"
+#include "common/class_forward.h"
+#include "common/hsm.h"
+
+#include "../ecm_api.h"
+
+#include "state_abstract_ecm_process.h"
 
 /**
 \* @file  state_ecm_touchoff.h
@@ -39,14 +44,15 @@ public:
     void getClone(AbstractStateECMProcess** state) const override;
 
 public:
+    void OnEnter() override;
+    void Update() override;
+    void OnExit() override;
+
+public:
     hsm::Transition GetTransition() override;
 
 public:
-    void Update() override;
-
-    void OnEnter() override;
-
-    void OnEnter(const ECMCommand_ProfileConfiguration &config);
+    void OnEnter(const ECMCommand_ProfileCollection &collection);
 
 };
 

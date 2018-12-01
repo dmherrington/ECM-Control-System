@@ -56,7 +56,8 @@ SOURCES += \
     states/state_ecm_upload_power_pulse_mode.cpp \
     states/state_ecm_motion_profile_initialization.cpp \
     commands/ecm_command_profile_collection.cpp \
-    commands/ecm_command_profile_configuration.cpp
+    commands/ecm_command_profile_configuration.cpp \
+    states/state_test.cpp
 
 HEADERS += \
         ecm_api.h \
@@ -87,7 +88,8 @@ HEADERS += \
     states/state_ecm_upload_power_pulse_mode.h \
     states/state_ecm_motion_profile_initialization.h \
     commands/ecm_command_profile_collection.h \
-    commands/ecm_command_profile_configuration.h
+    commands/ecm_command_profile_configuration.h \
+    states/state_test.h
 
 # Unix lib Install
 unix:!symbian {

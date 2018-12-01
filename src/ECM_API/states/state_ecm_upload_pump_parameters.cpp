@@ -51,8 +51,6 @@ void ECMState_UploadPumpParameters::OnEnter()
 void ECMState_UploadPumpParameters::OnEnter(const ECMCommand_ProfileConfiguration &config)
 {
     //First update the configuation per what was received upon entering the state
-    this->m_ProfileConfiguration = config;
-
     Owner().m_Pump->AddLambda_FinishedUploadingParameters(this,[this](const bool completed, const DeviceInterface_Pump::FINISH_CODE finishCode){
         if(completed)
         {

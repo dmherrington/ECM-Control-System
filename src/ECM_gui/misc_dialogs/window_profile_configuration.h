@@ -37,6 +37,10 @@ signals:
 
     void signal_LoadMotionProfile(const std::string &filePath);
 
+    void signal_ExecuteProfileCollection(const ECMCommand_ProfileCollection &collection);
+
+    void signal_LoadProfileCollection(const ECMCommand_ProfileCollection &collection);
+
 private slots:
     void on_pushButton_AddOperation_released();
 
@@ -53,6 +57,9 @@ private slots:
     void on_listWidget_itemClicked(QListWidgetItem *item);
 
     void slot_MCNewProgramLabels(const ProgramLabelList &labels);
+
+private slots:
+    void slot_OnExecuteExplicitProfileConfig(const ECMCommand_ProfileConfiguration &config);
 
 private:
     void saveToFile(const QString &filePath);

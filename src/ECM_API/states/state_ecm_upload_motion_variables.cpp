@@ -51,8 +51,6 @@ void ECMState_UploadMotionVariables::OnEnter()
 void ECMState_UploadMotionVariables::OnEnter(const ECMCommand_ProfileConfiguration &config)
 {
     //First update the configuation per what was received upon entering the state
-    this->m_ProfileConfiguration = config;
-
     Owner().m_Galil->AddLambda_FinishedUploadingVariables(this,[this](const bool completed, const DeviceInterface_MotionControl::FINISH_CODE finishCode){
         if(completed)
         {
