@@ -1,8 +1,26 @@
 {
     "configData": [
         {
+            "MotionControlData": [
+                {
+                    "profileName": "",
+                    "variableData": [
+                        {
+                            "backsp": 100,
+                            "forsp": 200,
+                            "maxdepth": 9,
+                            "rtdist": 1000,
+                            "rtfq": 11,
+                            "rtpause": 8,
+                            "speed": 4,
+                            "step": 0.5
+                        }
+                    ]
+                }
+            ],
             "MunkSettings": [
                 {
+                    "pulseMode": 255,
                     "segmentData": [
                     ]
                 }
@@ -11,42 +29,19 @@
             "opName": "Test 2",
             "pumpData": [
                 {
-                    "pumpDelayTime": 0,
-                    "pumpFlowRate": 0,
-                    "pumpWaitForDelay": false
+                    "pumpDelayTime": 10000,
+                    "pumpFlowRate": 1.23,
+                    "pumpWaitForDelay": true
                 }
             ],
             "touchoffData": [
                 {
-                    "touchoffExecute": false,
-                    "touchoffGap": 0,
-                    "touchoffRef": 0
-                }
-            ]
-        },
-        {
-            "MunkSettings": [
-                {
-                    "segmentData": [
-                    ]
+                    "touchoffExecute": true,
+                    "touchoffGap": 20.6,
+                    "touchoffRef": 20.5
                 }
             ],
-            "opIndex": 2,
-            "opName": "Test 3",
-            "pumpData": [
-                {
-                    "pumpDelayTime": 0,
-                    "pumpFlowRate": 0,
-                    "pumpWaitForDelay": false
-                }
-            ],
-            "touchoffData": [
-                {
-                    "touchoffExecute": false,
-                    "touchoffGap": 0,
-                    "touchoffRef": 0
-                }
-            ]
+            "useOperation": true
         }
     ]
 }

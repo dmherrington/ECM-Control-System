@@ -10,6 +10,8 @@
 #include "widget_profile_parameters.h"
 #include "table_widget_operation_descriptor.h"
 
+#include "ECM_API/commands/ecm_command_profile_collection.h"
+
 namespace Ui {
 class Window_ProfileConfiguration;
 }

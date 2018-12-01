@@ -17,7 +17,7 @@
 #include "ecm_logging.h"
 #include "ecm_modules.h"
 
-#include "commands/ecmcommand_profile_configuration.h"
+#include "commands/ecm_command_profile_configuration.h"
 
 ECM_CLASS_FORWARD(ECM_API);
 

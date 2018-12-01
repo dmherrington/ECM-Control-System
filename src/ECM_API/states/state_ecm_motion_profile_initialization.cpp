@@ -30,7 +30,7 @@ hsm::Transition ECMState_MotionProfileInitialization::GetTransition()
         switch (desiredState) {
         case(ECMState::STATE_ECM_IDLE):
         {
-            rtn = hsm::SiblingTransition<ECMState::STATE_ECM_IDLE>();
+            rtn = hsm::SiblingTransition<ECMState_Idle>();
             break;
         }
         default:
@@ -53,7 +53,7 @@ void ECMState_MotionProfileInitialization::OnEnter()
 
 void ECMState_MotionProfileInitialization::OnEnter(const ECMCommand_ProfileConfiguration &config)
 {
-    Owner().m_Galil->AddLambda_FinishedUploadingScript(this,[this](const bool &success, const GalilCurrentProgram &program){
+    Owner().m_Galil->AddLambda_FinishedUploadingScript(this,[this,config](const bool &success, const GalilCurrentProgram &program){
         UNUSED(program);
 
         if(success)
@@ -79,4 +79,4 @@ void ECMState_MotionProfileInitialization::OnEnter(const ECMCommand_ProfileConfi
 } //end of namespace Galil
 } //end of namespace ECM
 
-#include "states/state_ecm_power_supply_setup.h"
+#include "states/state_ecm_idle.h"

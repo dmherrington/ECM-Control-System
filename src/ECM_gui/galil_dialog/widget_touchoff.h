@@ -22,9 +22,7 @@ public:
 
     void loadFromTouchoffConfig(const MotionCommand_TouchoffConfig &config);
 
-    void writeToJSON(QJsonObject &saveObject);
-
-    void readFromJSON(const QJsonObject &openObject);
+    MotionCommand_TouchoffConfig getCurrentTouchoffConfig() const;
 
 public:
     void setTouchoffRef(const double &value);

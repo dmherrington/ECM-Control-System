@@ -10,7 +10,7 @@
 #include "ECM_API/ecm_api.h"
 #include "ECM_API/states/state_ecm_types.h"
 
-#include "../commands/ecmcommand_profile_configuration.h"
+#include "../commands/ecm_command_profile_configuration.h"
 
 namespace ECM{
 namespace API {

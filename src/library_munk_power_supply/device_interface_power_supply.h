@@ -17,64 +17,85 @@ public:
     };
 
 public:
-    //!
-    //! \brief Remove all action tied to the given host
-    //! \param ptr Pointer to host that actions attributed to are to be removed
-    //!
     virtual void RemoveHost(void* ptr)
     {
-        m_MutexFinishLambda.lock();
-        m_FinishLambda.erase(ptr);
-        m_MutexFinishLambda.unlock();
+        m_MutexFinishSegmentsLambda.lock();
+        m_FinishedUploadingSegments.erase(ptr);
+        m_MutexFinishSegmentsLambda.unlock();
+
+        m_MutexFinishPulseModeLambda.lock();
+        m_FinishedUploadingPulseMode.erase(ptr);
+        m_MutexFinishPulseModeLambda.unlock();
     }
 
-    void setLambda_FinishedUploadingParameters(const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
-        m_MutexFinishLambda.lock();
+    void setLambda_FinishedUploadingSegments(const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
+        m_MutexFinishSegmentsLambda.lock();
 
-        if(m_FinishLambda.find(0) != m_FinishLambda.cend())
+        if(m_FinishedUploadingSegments.find(0) != m_FinishedUploadingSegments.cend())
         {
             printf("Warning!!!! A finish procedure already exists, replacing old with new\n");
-            m_FinishLambda.erase(0);
+            m_FinishedUploadingSegments.erase(0);
         }
 
-        m_FinishLambda.insert({0, lambda});
-        m_MutexFinishLambda.unlock();
+        m_FinishedUploadingSegments.insert({0, lambda});
+        m_MutexFinishSegmentsLambda.unlock();
     }
 
-    //!
-    //! \brief Add a behavior to do when the device is finished
-    //!
-    //! This behavior is tied to a "host", which can be removed
-    //!
-    //! \param host Pointer to host of behavior
-    //! \param lambda Action to perform
-    //!
-    void AddLambda_FinishedUploadingParameters(void* host, const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
-        m_MutexFinishLambda.lock();
-        m_FinishLambda.insert({host, lambda});
-        m_MutexFinishLambda.unlock();
+    void setLambda_FinishedUploadingPulseMode(const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
+        m_MutexFinishPulseModeLambda.lock();
+
+        if(m_FinishedUploadingPulseMode.find(0) != m_FinishedUploadingPulseMode.cend())
+        {
+            printf("Warning!!!! A finish procedure already exists, replacing old with new\n");
+            m_FinishedUploadingPulseMode.erase(0);
+        }
+
+        m_FinishedUploadingPulseMode.insert({0, lambda});
+        m_MutexFinishPulseModeLambda.unlock();
     }
 
+    void AddLambda_FinishedUploadingSegments(void* host, const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
+        m_MutexFinishSegmentsLambda.lock();
+        m_FinishedUploadingSegments.insert({host, lambda});
+        m_MutexFinishSegmentsLambda.unlock();
+    }
+
+    void AddLambda_FinishedUploadingPulseMode(void* host, const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
+        m_MutexFinishPulseModeLambda.lock();
+        m_FinishedUploadingPulseMode.insert({host, lambda});
+        m_MutexFinishPulseModeLambda.unlock();
+    }
 
 protected:
-    void onFinishedUploadingParameters(const bool completed, const FINISH_CODE finishCode = FINISH_CODE::UNKNOWN){
+    void onFinishedUploadingSegments(const bool completed, const FINISH_CODE finishCode = FINISH_CODE::UNKNOWN){
 
-        m_MutexFinishLambda.lock();
-        for(auto it = m_FinishLambda.cbegin() ; it != m_FinishLambda.cend() ; ++it)
+        m_MutexFinishSegmentsLambda.lock();
+        for(auto it = m_FinishedUploadingSegments.cbegin() ; it != m_FinishedUploadingSegments.cend() ; ++it)
         {
             it->second(completed, finishCode);
         }
-        m_MutexFinishLambda.unlock();
+        m_MutexFinishSegmentsLambda.unlock();
+    }
+
+    void onFinishedUploadingPulseMode(const bool completed, const FINISH_CODE finishCode = FINISH_CODE::UNKNOWN){
+
+        m_MutexFinishPulseModeLambda.lock();
+        for(auto it = m_FinishedUploadingPulseMode.cbegin() ; it != m_FinishedUploadingPulseMode.cend() ; ++it)
+        {
+            it->second(completed, finishCode);
+        }
+        m_MutexFinishPulseModeLambda.unlock();
     }
 
 signals:
     void signal_DeviceConfigured(const ECMDevice &device);
 
 protected:
-    std::unordered_map<void*, std::function<void(const bool completed, const FINISH_CODE finishCode)>> m_FinishLambda;
-    std::unordered_map<void*, std::function<void()>> m_ShutdownLambda;
+    std::unordered_map<void*, std::function<void(const bool completed, const FINISH_CODE finishCode)>> m_FinishedUploadingSegments;
+    std::unordered_map<void*, std::function<void(const bool completed, const FINISH_CODE finishCode)>> m_FinishedUploadingPulseMode;
 
-    std::mutex m_MutexFinishLambda;
+    std::mutex m_MutexFinishSegmentsLambda;
+    std::mutex m_MutexFinishPulseModeLambda;
 };
 
 #endif // DEVICE_INTERFACE_POWER_SUPPLY_H

@@ -14,18 +14,24 @@ GalilCurrentOperation::GalilCurrentOperation(const GalilCurrentOperation &copy):
 
 void GalilCurrentOperation::writeToJSON(QJsonObject &saveObject)
 {
-    saveObject["profileName"] = QString::fromStdString(this->getProfileName());
-
     QJsonArray MCDataArray;
     QJsonObject dataObject;
+
+    dataObject["profileName"] = QString::fromStdString(this->getProfileName());
+
     this->variableList.writeToJSON(dataObject);
     MCDataArray.append(dataObject);
+
     saveObject["MotionControlData"] = MCDataArray;
 }
 
 void GalilCurrentOperation::readFromJSON(const QJsonObject &openObject)
 {
+    QJsonArray MCDataArray = openObject["MotionControlData"].toArray();
+    QJsonObject MCObject = MCDataArray[0].toObject();
 
+    this->setProfileName(MCObject["profileName"].toString().toStdString());
+    this->variableList.readFromJSON(MCObject);
 }
 
 void GalilCurrentOperation::setOperationIndex(const unsigned int &index)

@@ -22,18 +22,12 @@ public:
 
     void loadFromCurrentProgram(const GalilCurrentProgram &program, const std::string &profileName = "");
 
-    void writeToJSON(QJsonObject &saveObject);
-
-    void readFromJSON(const QJsonObject &openObject);
-
-public:
-    void setProfileName(const std::string &name);
-
-public:
-
     std::string getProfileName() const;
 
     ProgramVariableList getVariableList() const;
+
+public:
+    void setProfileName(const std::string &name);
 
     void updateProgramLabels(const ProgramLabelList &list);
 

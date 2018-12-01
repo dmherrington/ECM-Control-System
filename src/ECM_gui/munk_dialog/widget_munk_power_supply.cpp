@@ -164,12 +164,15 @@ void Widget_MunkPowerSupply::updatePulseMode(const int &numPulses)
     switch (numPulses) {
     case 1:
         ui->radioButton_singlePulse->setChecked(true);
+        ui->spinBox_NumPulses->setDisabled(true);
         break;
     case 255:
         ui->radioButton_continuousPulse->setChecked(true);
+        ui->spinBox_NumPulses->setDisabled(true);
         break;
     default:
         ui->radioButton_specifiedPulses->setChecked(true);
+        ui->spinBox_NumPulses->setDisabled(false);
         break;
     }
 }

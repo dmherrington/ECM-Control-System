@@ -44,59 +44,6 @@ void Widget_ScriptingVariables::loadFromCurrentProgram(const GalilCurrentProgram
         this->setProfileName(profileName);
 }
 
-void Widget_ScriptingVariables::writeToJSON(QJsonObject &saveObject)
-{
-    QJsonArray MCDataArray;
-
-    QJsonObject dataObject;
-    dataObject["profileName"] = QString::fromStdString(this->getProfileName());
-
-    QJsonArray MCVariableArray;
-
-    std::map<std::string,double> variableMap = currentVarList.getVariableMap();
-    std::map<std::string,double>::iterator it = variableMap.begin();
-
-    QJsonObject varObject;
-
-    for(;it!=variableMap.end();++it)
-    {
-        std::string variableKey = it->first;
-        varObject[QString::fromStdString(variableKey)] = it->second;
-    }
-
-    MCVariableArray.append(varObject);
-
-    dataObject["variableData"] = MCVariableArray;
-
-    MCDataArray.append(dataObject);
-    saveObject["MotionControlData"] = MCDataArray;
-}
-
-void Widget_ScriptingVariables::readFromJSON(const QJsonObject &openObject)
-{
-    ProgramVariableList newList;
-    newList.clearVariableList();
-
-    QJsonArray MCDataArray = openObject["MotionControlData"].toArray();
-    QJsonObject dataObject = MCDataArray[0].toObject();
-
-    QString profileString = dataObject["profileName"].toString();
-    int profileIndex = ui->comboBox_ProgramLabels->findText(profileString);
-    if(profileIndex > 0)
-        ui->comboBox_ProgramLabels->setCurrentIndex(profileIndex);
-
-    QJsonArray MCVariableArray = dataObject["variableData"].toArray();
-    QJsonObject variableObject = MCVariableArray[0].toObject();
-
-    for (int variableIndex = 0; variableIndex < variableObject.size(); ++variableIndex) {
-        QString variableKey = variableObject.keys().at(variableIndex);
-        double variableValue = variableObject.value(variableKey).toDouble();
-        newList.addVariable(variableKey.toStdString(),variableValue);
-    }
-
-    this->slot_MCNEWProgramVariableList(newList);
-}
-
 void Widget_ScriptingVariables::setProfileName(const std::string &name)
 {
     int profileIndex = ui->comboBox_ProgramLabels->findText(QString::fromStdString(name));

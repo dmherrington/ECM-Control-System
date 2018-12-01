@@ -21,6 +21,7 @@ TableWidget_OperationDescriptor::~TableWidget_OperationDescriptor()
 void TableWidget_OperationDescriptor::setOperationUsage(const bool &use)
 {
     this->useOperation = use;
+    ui->checkBox_EnableOperation->setChecked(use);
 }
 
 bool TableWidget_OperationDescriptor::shouldOperationBeUsed() const
@@ -60,21 +61,6 @@ Widget_ProfileParameters* TableWidget_OperationDescriptor::getAccompanyingProfil
     return this->m_OperationParameters;
 }
 
-void TableWidget_OperationDescriptor::writeToJSON(QJsonObject &obj)
-{
-    obj["opIndex"] = (int)this->getOperationIndex();
-    obj["opName"] = QString::fromStdString(this->getOperationName());
-    obj["useOperation"] = this->shouldOperationBeUsed();
-    m_OperationParameters->writeToJSON(obj);
-}
-
-void TableWidget_OperationDescriptor::readFromJSON(const QJsonObject &obj)
-{
-    this->setOperationName(obj["opName"].toString().toStdString());
-    this->setOperationUsage(obj["useOperation"].toBool());
-    m_OperationParameters->readFromJSON(obj);
-}
-
 void TableWidget_OperationDescriptor::on_lineEdit_ProfileName_textChanged(const QString &arg1)
 {
     this->operationName = arg1.toStdString();
@@ -83,17 +69,35 @@ void TableWidget_OperationDescriptor::on_lineEdit_ProfileName_textChanged(const 
 
 ECMCommand_ProfileConfiguration TableWidget_OperationDescriptor::getCurrentProfileConfiguration() const
 {
-    ECMCommand_ProfileConfiguration newSingleProfile;
-    newSingleProfile.m_GalilOperation.setOperationName(this->operationName);
-    newSingleProfile.m_GalilOperation.setProfileName(this->m_OperationParameters->m_ScriptingVariables->getProfileName());
-    newSingleProfile.m_GalilOperation.setVariableList(this->m_OperationParameters->m_ScriptingVariables->getVariableList());
+    ECMCommand_ProfileConfiguration currentConfiguration;
+    currentConfiguration.setOperationIndex(this->getOperationIndex());
+    currentConfiguration.setOperationName(this->getOperationName());
+    currentConfiguration.setProfileExecution(this->shouldOperationBeUsed());
+    currentConfiguration.m_GalilOperation.setOperationName(this->operationName);
+    currentConfiguration.m_GalilOperation.setProfileName(this->m_OperationParameters->m_ScriptingVariables->getProfileName());
+    currentConfiguration.m_GalilOperation.setVariableList(this->m_OperationParameters->m_ScriptingVariables->getVariableList());
 
-    newSingleProfile.m_MunkPulseMode = this->m_OperationParameters->m_PowerSupply->getPulseModeRegister();
-    newSingleProfile.m_MunkSegment = this->m_OperationParameters->m_PowerSupply->getSegmentRegister();
+    currentConfiguration.m_Touchoff = this->m_OperationParameters->m_MCTouchoff->getCurrentTouchoffConfig();
 
-    newSingleProfile.m_PumpParameters = this->m_OperationParameters->m_PumpControl->getPumpProperties();
+    currentConfiguration.m_ConfigPowerSupply.m_MunkPulseMode = this->m_OperationParameters->m_PowerSupply->getPulseModeRegister();
+    currentConfiguration.m_ConfigPowerSupply.m_MunkSegment = this->m_OperationParameters->m_PowerSupply->getSegmentRegister();
 
+    currentConfiguration.m_PumpParameters = this->m_OperationParameters->m_PumpControl->getPumpProperties();
+
+    return currentConfiguration;
     //emit signal_ExecuteExplicitProfile(this->m_OperationParamters);
+}
+
+void TableWidget_OperationDescriptor::loadFromProfileConfiguration(const ECMCommand_ProfileConfiguration &config)
+{
+    this->setOperationIndex(config.getOperationIndex());
+    this->setOperationName(config.getOperationName());
+    this->setOperationUsage(config.shouldProfileExecute());
+
+    this->m_OperationParameters->m_MCTouchoff->loadFromTouchoffConfig(config.m_Touchoff);
+    this->m_OperationParameters->m_PumpControl->loadFromPumpProperties(config.m_PumpParameters);
+    this->m_OperationParameters->m_PowerSupply->loadFromConfig(config.m_ConfigPowerSupply);
+    this->m_OperationParameters->m_ScriptingVariables->loadFromCurrentProgram(config.m_GalilOperation);
 }
 
 void TableWidget_OperationDescriptor::on_pushButton_ExecuteExplicitOp_released()

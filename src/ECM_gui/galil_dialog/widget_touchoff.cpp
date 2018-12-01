@@ -24,27 +24,13 @@ void Widget_Touchoff::loadFromTouchoffConfig(const MotionCommand_TouchoffConfig 
     this->ui->checkBox_UtilizeTouchoff->setChecked(config.shouldTouchoffBeUtilized());
 }
 
-void Widget_Touchoff::writeToJSON(QJsonObject &saveObject)
+MotionCommand_TouchoffConfig Widget_Touchoff::getCurrentTouchoffConfig() const
 {
-    QJsonArray segmentDataArray;
-
-    QJsonObject segmentObject;
-    segmentObject["touchoffRef"] = this->ui->doubleSpinBox_TouchoffRef->value();
-    segmentObject["touchoffGap"] = this->ui->doubleSpinBox_InitialGap->value();
-    segmentObject["touchoffExecute"] = this->ui->checkBox_UtilizeTouchoff->isChecked();
-    segmentDataArray.append(segmentObject);
-
-    saveObject["touchoffData"] = segmentDataArray;
-}
-
-void Widget_Touchoff::readFromJSON(const QJsonObject &openObject)
-{
-    QJsonArray touchoffDataArray = openObject["touchoffData"].toArray();
-    QJsonObject touchoffObject = touchoffDataArray[0].toObject();
-
-    setTouchoffRef(touchoffObject["touchoffRef"].toDouble());
-    setTouchoffGap(touchoffObject["touchoffGap"].toDouble());
-    setTouchoffUtilization(touchoffObject["touchoffExecute"].toBool());
+    MotionCommand_TouchoffConfig currentConfig;
+    currentConfig.setTouchoffRef(this->ui->doubleSpinBox_TouchoffRef->value());
+    currentConfig.setTouchoffGap(this->ui->doubleSpinBox_InitialGap->value());
+    currentConfig.setTouchoffUtilization(this->ui->checkBox_UtilizeTouchoff->isChecked());
+    return currentConfig;
 }
 
 void Widget_Touchoff::setTouchoffRef(const double &value)

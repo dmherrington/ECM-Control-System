@@ -35,7 +35,6 @@ SOURCES += \
         ecm_api.cpp \
     ecm_logging.cpp \
     states/state_abstract_ecm_process.cpp \
-    states/state_ecm_power_supply_setup.cpp \
     states/state_ecm_profile_machine.cpp \
     states/state_ecm_profile_machine_cease.cpp \
     states/state_ecm_profile_machine_process.cpp \
@@ -48,7 +47,6 @@ SOURCES += \
     states/state_ecm_idle.cpp \
     ecm_modules.cpp \
     states/state_ecm_upload_motion_profile.cpp \
-    commands/ecmcommand_profile_configuration.cpp \
     states/state_ecm_upload_pump_parameters.cpp \
     states/state_ecm_upload.cpp \
     states/state_ecm_upload_motion_variables.cpp \
@@ -56,7 +54,9 @@ SOURCES += \
     states/state_ecm_upload_failed.cpp \
     states/state_ecm_upload_power_register_segments.cpp \
     states/state_ecm_upload_power_pulse_mode.cpp \
-    states/state_ecm_motion_profile_initialization.cpp
+    states/state_ecm_motion_profile_initialization.cpp \
+    commands/ecm_command_profile_collection.cpp \
+    commands/ecm_command_profile_configuration.cpp
 
 HEADERS += \
         ecm_api.h \
@@ -64,7 +64,6 @@ HEADERS += \
     ecm_logging.h \
     states/state_abstract_ecm_process.h \
     states/state_ecm_components.h \
-    states/state_ecm_power_supply_setup.h \
     states/state_ecm_profile_machine.h \
     states/state_ecm_profile_machine_cease.h \
     states/state_ecm_profile_machine_process.h \
@@ -79,7 +78,6 @@ HEADERS += \
     ecm_api_version.h \
     ecm_modules.h \
     states/state_ecm_upload_motion_profile.h \
-    commands/ecmcommand_profile_configuration.h \
     states/state_ecm_upload_pump_parameters.h \
     states/state_ecm_upload.h \
     states/state_ecm_upload_motion_variables.h \
@@ -87,7 +85,9 @@ HEADERS += \
     states/state_ecm_upload_failed.h \
     states/state_ecm_upload_power_register_segments.h \
     states/state_ecm_upload_power_pulse_mode.h \
-    states/state_ecm_motion_profile_initialization.h
+    states/state_ecm_motion_profile_initialization.h \
+    commands/ecm_command_profile_collection.h \
+    commands/ecm_command_profile_configuration.h
 
 # Unix lib Install
 unix:!symbian {

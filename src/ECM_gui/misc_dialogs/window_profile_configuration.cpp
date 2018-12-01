@@ -157,8 +157,9 @@ void Window_ProfileConfiguration::saveToFile(const QString &filePath)
 
             if(currentOp->getOperationIndex() == index)
             {
+                ECMCommand_ProfileConfiguration operationConfiguration = currentOp->getCurrentProfileConfiguration();
                 QJsonObject operationObject;
-                currentOp->writeToJSON(operationObject);
+                operationConfiguration.writeToJSON(operationObject);
                 segmentDataArray.append(operationObject);
             }
         }
@@ -187,10 +188,18 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
     QJsonObject jsonObject = loadDoc.object();
     QJsonArray configArray = jsonObject["configData"].toArray();
 
+    ECMCommand_ProfileCollection profileCollection;
+
     for (int i = 0; i < configArray.size(); ++i) {
         QJsonObject operationObject = configArray[i].toObject();
+
+        ECMCommand_ProfileConfiguration loadConfig;
+        loadConfig.readFromJSON(operationObject);
+
+        profileCollection.insertProfile(loadConfig);
+
         TableWidget_OperationDescriptor* newOperation = this->addOperation(operationObject["opIndex"].toInt() - 1);
-        newOperation->readFromJSON(operationObject);
+        newOperation->loadFromProfileConfiguration(loadConfig);
     }
 }
 

@@ -27,11 +27,6 @@ public:
 
     unsigned int getTabIndex() const;
 
-public:
-    void writeToJSON(QJsonObject &object);
-
-    void readFromJSON(const QJsonObject &obj);
-
 private:
     Ui::Widget_ProfileParameters *ui;
 

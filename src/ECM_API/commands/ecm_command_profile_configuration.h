@@ -1,13 +1,12 @@
-#ifndef ECMCOMMAND_PROFILE_CONFIGURATION_H
-#define ECMCOMMAND_PROFILE_CONFIGURATION_H
+#ifndef ECM_COMMAND_PROFILE_CONFIGURATION_H
+#define ECM_COMMAND_PROFILE_CONFIGURATION_H
 
 #include "common/class_forward.h"
 
 #include "library_galilMotionController/programs/galil_current_operation.h"
 #include "library_galilMotionController/motion_command_touchoff_config.h"
 
-#include "library_munk_power_supply/data_registers/segment_time_detailed.h"
-#include "library_munk_power_supply/data_registers/register_pulse_mode.h"
+#include "library_munk_power_supply/power_supply_setup_config.h"
 
 #include "library_westinghouse510/command_pump_properties.h"
 
@@ -26,18 +25,22 @@ public:
     void readFromJSON(const QJsonObject &obj);
 
 public:
+    unsigned int getOperationIndex() const;
+
     std::string getOperationName() const;
 
     bool shouldProfileExecute() const;
 
-    unsigned int getOperationIndex() const;
+    bool hasProfileCompleted() const;
 
 public:
-    void setOperationName(const std::string &name);
-
     void setOperationIndex(const unsigned int &index);
 
+    void setOperationName(const std::string &name);
+
     void setProfileExecution(const bool &varExecute);
+
+    void setProfileCompletion(const bool &complete);
 
 public:
     //!
@@ -46,15 +49,16 @@ public:
     //!
     ECMCommand_ProfileConfiguration& operator = (const ECMCommand_ProfileConfiguration &rhs)
     {
-        this->m_GalilOperation = rhs.m_GalilOperation;
-        this->m_Touchoff = rhs.m_Touchoff;
-        this->m_MunkSegment = rhs.m_MunkSegment;
-        this->m_MunkPulseMode = rhs.m_MunkPulseMode;
-        this->m_PumpParameters = rhs.m_PumpParameters;
-
         this->operationIndex = rhs.operationIndex;
         this->operationName = rhs.operationName;
         this->execute = rhs.execute;
+        this->completed = rhs.completed;
+
+        this->m_GalilOperation = rhs.m_GalilOperation;
+        this->m_Touchoff = rhs.m_Touchoff;
+        this->m_ConfigPowerSupply = rhs.m_ConfigPowerSupply;
+        this->m_PumpParameters = rhs.m_PumpParameters;
+
         return *this;
     }
 
@@ -65,21 +69,6 @@ public:
     //!
     bool operator == (const ECMCommand_ProfileConfiguration &rhs)
     {
-        if(this->m_GalilOperation != rhs.m_GalilOperation){
-            return false;
-        }
-        if(this->m_Touchoff != rhs.m_Touchoff){
-            return false;
-        }
-        if(this->m_MunkSegment != rhs.m_MunkSegment){
-            return false;
-        }
-        if(this->m_MunkPulseMode != rhs.m_MunkPulseMode){
-            return false;
-        }
-        if(this->m_PumpParameters != rhs.m_PumpParameters){
-            return false;
-        }
         if(this->operationIndex != rhs.operationIndex){
             return false;
         }
@@ -87,6 +76,22 @@ public:
             return false;
         }
         if(this->execute != rhs.execute){
+            return false;
+        }
+        if(this->completed != rhs.completed)
+        {
+            return false;
+        }
+        if(this->m_GalilOperation != rhs.m_GalilOperation){
+            return false;
+        }
+        if(this->m_Touchoff != rhs.m_Touchoff){
+            return false;
+        }
+        if(this->m_ConfigPowerSupply != rhs.m_ConfigPowerSupply){
+            return false;
+        }
+        if(this->m_PumpParameters != rhs.m_PumpParameters){
             return false;
         }
         return true;
@@ -107,9 +112,7 @@ public:
 
     MotionCommand_TouchoffConfig m_Touchoff;
 
-    registers_Munk::SegmentTimeDetailed m_MunkSegment;
-
-    registers_Munk::Register_PulseMode m_MunkPulseMode;
+    PowerSupply_SetupConfig m_ConfigPowerSupply;
 
     Command_PumpProperties m_PumpParameters;
 
@@ -117,6 +120,7 @@ private:
     unsigned int operationIndex = 0;
     std::string operationName = "";
     bool execute = false;
+    bool completed = false;
 };
 
-#endif // ECMCOMMAND_PROFILE_CONFIGURATION_H
+#endif // ECM_COMMAND_PROFILE_CONFIGURATION_H

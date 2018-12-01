@@ -35,19 +35,3 @@ unsigned int Widget_ProfileParameters::getTabIndex() const
 {
     return this->tabIndex;
 }
-
-void Widget_ProfileParameters::writeToJSON(QJsonObject &object)
-{
-    m_ScriptingVariables->writeToJSON(object);
-    m_MCTouchoff->writeToJSON(object);
-    m_PowerSupply->writeToJSON(object);
-    m_PumpControl->writeToJSON(object);
-}
-
-void Widget_ProfileParameters::readFromJSON(const QJsonObject &obj)
-{
-    m_ScriptingVariables->readFromJSON(obj);
-    m_MCTouchoff->readFromJSON(obj);
-    m_PowerSupply->readFromJSON(obj);
-    m_PumpControl->readFromJSON(obj);
-}

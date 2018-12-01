@@ -38,7 +38,7 @@ void PowerSupply_SetupConfig::readFromJSON(const QJsonObject &openObject)
     m_MunkPulseMode.setTriggerCount(numPulses);
 
     QJsonArray segmentDataArray = powerSupplyDataObject["segmentData"].toArray();
-    for(size_t i = 0; i < segmentDataArray.size(); i++)
+    for(int i = 0; i < segmentDataArray.size(); i++)
     {
         registers_Munk::SegmentTimeDataDetailed newRegister;
         newRegister.read(segmentDataArray.at(i).toObject());

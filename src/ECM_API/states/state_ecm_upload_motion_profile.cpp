@@ -53,7 +53,7 @@ void ECMState_UploadMotionProfile::OnEnter(const ECMCommand_ProfileConfiguration
     //First update the configuation per what was received upon entering the state
     this->m_ProfileConfiguration = config;
 
-    Owner().m_Galil->AddLambda_FinishedUploadingParameters(this,[this](const bool completed, const DeviceInterface_MotionControl::FINISH_CODE finishCode){
+    Owner().m_Galil->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const GalilCurrentProgram &program){
         if(completed)
         {
             desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES;

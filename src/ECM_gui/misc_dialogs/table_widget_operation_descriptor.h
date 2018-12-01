@@ -5,7 +5,7 @@
 
 #include "widget_profile_parameters.h"
 
-#include "ECM_API/commands/ecmcommand_profile_configuration.h"
+#include "ECM_API/commands/ecm_command_profile_configuration.h"
 
 namespace Ui {
 class TableWidget_OperationDescriptor;
@@ -35,11 +35,9 @@ public:
     void newlyAvailableProgramLabels(const ProgramLabelList &labels);
 
 public:
-    void writeToJSON(QJsonObject &obj);
-
-    void readFromJSON(const QJsonObject &obj);
-
     ECMCommand_ProfileConfiguration getCurrentProfileConfiguration() const;
+
+    void loadFromProfileConfiguration(const ECMCommand_ProfileConfiguration &config);
 
 private slots:
     void on_lineEdit_ProfileName_textChanged(const QString &arg1);

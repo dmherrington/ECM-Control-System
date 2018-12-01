@@ -23,6 +23,7 @@ void Widget_PumpControl::loadFromPumpProperties(const Command_PumpProperties &co
 {
     this->ui->doubleSpinBox_delayTime->setValue(config.getInitializationTime()/1000.0);
     this->ui->doubleSpinBox_flowRate->setValue(config.getPumpFlowRate());
+    this->ui->checkBox_WaitForDelay->setChecked(config.shouldWaitForInitializationDelay());
 }
 
 Command_PumpProperties Widget_PumpControl::getPumpProperties() const
@@ -31,12 +32,8 @@ Command_PumpProperties Widget_PumpControl::getPumpProperties() const
 
     unsigned int initializationTime = ui->doubleSpinBox_delayTime->value() * 1000;
     newPumpCommand.setPumpInitializationTime(initializationTime);
-
-    registers_WestinghousePump::Register_FlowRate newFlowRate;
-    newFlowRate.setVolumetricFlow(ui->doubleSpinBox_flowRate->value());
-
-    newPumpCommand.setPumpFlowRate(newFlowRate);
-
+    newPumpCommand.setPumpFlowRate(ui->doubleSpinBox_flowRate->value());
+    newPumpCommand.setWaitForInitializationDelay(ui->checkBox_WaitForDelay->isChecked());
     return newPumpCommand;
 }
 
