@@ -69,6 +69,9 @@ public:
     std::vector<common::TupleECMData> getPlottables() const;
 
 public:
+    GalilCurrentProgram getCurrentMCProgram() const;
+
+public:
     void openConnection(const std::string &address);
 
     void closeConnection();
@@ -196,7 +199,7 @@ signals:
     //! \brief signal_MCNewProgramReceived
     //! \param programText
     //!
-    void signal_MCNewProgramReceived(const ProgramGeneric &program);
+    void signal_MCNewProgramReceived(const GalilCurrentProgram &program);
 
     //!
     //! \brief signal_MCNewProgramLabelList

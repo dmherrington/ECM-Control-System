@@ -94,6 +94,11 @@ std::vector<common::TupleECMData> GalilMotionController::getPlottables() const
     return rtn;
 }
 
+GalilCurrentProgram GalilMotionController::getCurrentMCProgram() const
+{
+    return *stateInterface->galilProgram;
+}
+
 void GalilMotionController::initializeMotionController()
 {
 
@@ -108,9 +113,22 @@ void GalilMotionController::initializeMotionController()
     this->commsMarshaler->sendAbstractGalilCommand(commandMotorDisable);
 
     // 3: Write the default galil script to the Galil
+
+    //Add the appropriate lambda function to see the progress of the initialization upload
+    this->AddLambda_FinishedUploadingScript(this,[this](const bool &success, const GalilCurrentProgram &program){
+        if(success)
+        {
+            emit signal_MCNewProgramReceived(program);
+        }else
+        {
+
+        }
+    });
+
     CommandUploadProgramPtr commandUploadDefault = std::make_shared<CommandUploadProgram>();
     commandUploadDefault->setProgram(defaultProgram);
     this->executeCommand(commandUploadDefault);
+
 
     //This is no longer needed here as it is performed in the protocol
     // 4: Execute the initial setup routine within the default script to establish variables etc
@@ -239,14 +257,12 @@ void GalilMotionController::NewProgramUploaded(const bool &success, const GalilC
     //Ken this should be updated to reflect the latest conditions of the program not just the script
     stateInterface->galilProgram->setProgram(program.getProgram());
     this->onFinishedUploadingScript(success,program);
-
-    //emit signal_MCNewProgramReceived(program);
 }
 
 void GalilMotionController::NewProgramDownloaded(const ProgramGeneric &program)
 {
     stateInterface->galilProgram->setProgram(program.getProgramString());
-    emit signal_MCNewProgramReceived(program);
+    //emit signal_MCNewProgramReceived(program);
 
     //This process is actually automated in the comms marshaler
 //    //We now have a new program, let us query for the available labels and variables

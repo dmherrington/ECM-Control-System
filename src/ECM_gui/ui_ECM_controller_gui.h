@@ -78,6 +78,9 @@ public:
     QLabel *label_PartNumber_4;
     QLineEdit *lineEdit_OfProfilesDetected;
     QSpacerItem *horizontalSpacer;
+    QHBoxLayout *horizontalLayout_9;
+    QLabel *label_ProfileName;
+    QLineEdit *lineEdit_ProfileName;
     QSpacerItem *verticalSpacer_2;
     QFrame *frame_Status;
     QGridLayout *gridLayout;
@@ -527,9 +530,37 @@ public:
 
         gridLayout_2->addLayout(horizontalLayout_7, 1, 0, 1, 1);
 
-        verticalSpacer_2 = new QSpacerItem(20, 67, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        horizontalLayout_9 = new QHBoxLayout();
+        horizontalLayout_9->setSpacing(6);
+        horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
+        label_ProfileName = new QLabel(frame_ProfileOptions);
+        label_ProfileName->setObjectName(QStringLiteral("label_ProfileName"));
+        sizePolicy1.setHeightForWidth(label_ProfileName->sizePolicy().hasHeightForWidth());
+        label_ProfileName->setSizePolicy(sizePolicy1);
+        label_ProfileName->setMinimumSize(QSize(180, 25));
+        label_ProfileName->setMaximumSize(QSize(180, 25));
+        label_ProfileName->setFont(font3);
+        label_ProfileName->setAlignment(Qt::AlignCenter);
 
-        gridLayout_2->addItem(verticalSpacer_2, 2, 0, 1, 1);
+        horizontalLayout_9->addWidget(label_ProfileName);
+
+        lineEdit_ProfileName = new QLineEdit(frame_ProfileOptions);
+        lineEdit_ProfileName->setObjectName(QStringLiteral("lineEdit_ProfileName"));
+        sizePolicy1.setHeightForWidth(lineEdit_ProfileName->sizePolicy().hasHeightForWidth());
+        lineEdit_ProfileName->setSizePolicy(sizePolicy1);
+        lineEdit_ProfileName->setMinimumSize(QSize(180, 30));
+        lineEdit_ProfileName->setMaximumSize(QSize(180, 30));
+        lineEdit_ProfileName->setFont(font1);
+        lineEdit_ProfileName->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_9->addWidget(lineEdit_ProfileName);
+
+
+        gridLayout_2->addLayout(horizontalLayout_9, 2, 0, 1, 1);
+
+        verticalSpacer_2 = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout_2->addItem(verticalSpacer_2, 3, 0, 1, 1);
 
 
         gridLayout_3->addWidget(frame_ProfileOptions, 1, 0, 1, 1);
@@ -888,6 +919,8 @@ public:
         lineEdit_OfProfilesDetected->setStatusTip(QString());
 #endif // QT_NO_STATUSTIP
         lineEdit_OfProfilesDetected->setText(QApplication::translate("ECMControllerGUI", "0", nullptr));
+        label_ProfileName->setText(QApplication::translate("ECMControllerGUI", "Profile Name:", nullptr));
+        lineEdit_ProfileName->setText(QApplication::translate("ECMControllerGUI", "DEFAULT PROFILE NAME", nullptr));
         label_2->setText(QApplication::translate("ECMControllerGUI", "COMMUNICATION", nullptr));
         label_3->setText(QApplication::translate("ECMControllerGUI", "HOMED", nullptr));
         label_4->setText(QApplication::translate("ECMControllerGUI", "TOUCHOFF", nullptr));

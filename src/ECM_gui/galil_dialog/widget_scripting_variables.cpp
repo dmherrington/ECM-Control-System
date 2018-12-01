@@ -18,6 +18,7 @@ Widget_ScriptingVariables::Widget_ScriptingVariables(GalilMotionController* gali
     ui->spinBox_RetractPeriod->setToolTip("Profile Variable: rtfq");
     ui->spinBox_Pause->setToolTip("Profile Variable: rtpause");
 
+    connect(m_Galil, SIGNAL(signal_MCNewProgramReceived), this, SLOT());
     connect(m_Galil, SIGNAL(signal_MCNewProgramVariableList(ProgramVariableList)), this, SLOT(slot_MCNEWProgramVariableList(ProgramVariableList)));
 
     currentVarList.addVariable("maxdepth",ui->doubleSpinBox_CutDepth->value() * 10.0);
@@ -28,6 +29,13 @@ Widget_ScriptingVariables::Widget_ScriptingVariables(GalilMotionController* gali
     currentVarList.addVariable("speed",ui->doubleSpinBox_CutSpeed->value() * 10.0);
     currentVarList.addVariable("rtfq",ui->spinBox_RetractPeriod->value());
     currentVarList.addVariable("rtpause",ui->spinBox_Pause->value());
+
+    if(m_Galil->isDeviceConnected())
+    {
+        GalilCurrentProgram existingProgram = m_Galil->getCurrentMCProgram();
+        this->slot_MCNEWProgramVariableList(existingProgram.getVariableList());
+        this->slot_MCNewProgramLabelList(existingProgram.getLabelList());
+    }
 
 }
 
@@ -156,15 +164,15 @@ void Widget_ScriptingVariables::slot_MCNEWProgramVariableList(const ProgramVaria
     if(variables.getVariableValue("step",value))
         ui->doubleSpinBox_StepSize->setValue(value / 10.0);
     if(variables.getVariableValue("backsp",value))
-        ui->spinBox_RetractSpeed->setValue(value / 10.0);
+        ui->spinBox_RetractSpeed->setValue(static_cast<int>(value / 10.0));
     if(variables.getVariableValue("forsp",value))
-        ui->spinBox_PlungeSpeed->setValue(value / 10.0);
+        ui->spinBox_PlungeSpeed->setValue(static_cast<int>(value / 10.0));
     if(variables.getVariableValue("speed",value))
         ui->doubleSpinBox_CutSpeed->setValue(value / 10.0);
     if(variables.getVariableValue("rtfq",value))
-        ui->spinBox_RetractPeriod->setValue(value);
+        ui->spinBox_RetractPeriod->setValue(static_cast<int>(value));
     if(variables.getVariableValue("rtpause",value))
-        ui->spinBox_Pause->setValue(value);
+        ui->spinBox_Pause->setValue(static_cast<int>(value));
 }
 
 void Widget_ScriptingVariables::slot_MCNewProgramLabelList(const ProgramLabelList &labels)

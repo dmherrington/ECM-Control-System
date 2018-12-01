@@ -81,9 +81,13 @@ void Widget_MotionControl::on_pushButton_DecreaseRelativeMove_released()
 
 void Widget_MotionControl::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state, const bool &valueChanged)
 {
-    double currentPosition = state.getPositionalState()->getAxisPosition(common_data::PositionUnit::UNIT_POSITION_MICRO_METER);
+    UNUSED(tuple);
 
-    ui->lineEdit_MachinePosition->setText(QString::number(currentPosition));
+    if(valueChanged)
+    {
+        double currentPosition = state.getPositionalState()->getAxisPosition(common_data::PositionUnit::UNIT_POSITION_MICRO_METER);
+        ui->lineEdit_MachinePosition->setText(QString::number(currentPosition));
+    }
 }
 
 void Widget_MotionControl::slot_LockMotionButtons(const bool &lock)
