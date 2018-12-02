@@ -207,8 +207,8 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
         //Object will contain all of the profiles used for the profile
         profileCollection.insertProfile(loadConfig);
 
-        TableWidget_OperationDescriptor* newOperation = this->addOperation(operationObject["opIndex"].toInt() - 1);
-        newOperation->loadFromProfileConfiguration(loadConfig);
+//        TableWidget_OperationDescriptor* newOperation = this->addOperation(operationObject["opIndex"].toInt() - 1);
+//        newOperation->loadFromProfileConfiguration(loadConfig);
     }
 
     emit signal_LoadProfileCollection(profileCollection);

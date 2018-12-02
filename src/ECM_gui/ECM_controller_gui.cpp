@@ -586,6 +586,8 @@ void ECMControllerGUI::setupMachiningSequence(const std::string &partNumber, con
 
     //Update plot properties of the current start time
     ui->widget_primaryPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
+    ui->widget_primaryPlotCurrent->setOriginTime(QDateTime(tmp_Date, tmp_Time));
+    ui->widget_primaryPlotVoltage->setOriginTime(QDateTime(tmp_Date, tmp_Time));
     m_additionalSensorDisplay->SetOriginTime(QDateTime(tmp_Date, tmp_Time));
 
     //Clear all of the exisitng data that may be on the plots
@@ -652,7 +654,45 @@ void ECMControllerGUI::slot_MCCommandError(const CommandType &type, const string
 
 void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ProfileCollection &collection)
 {
-    ui->lineEdit_OfProfilesDetected->setText(QString::number(collection.getCollectionSize()));
+    //first check that we can log where we want to
+    QString partNumber = ui->lineEdit_PartNumber->text();
+    QString serialNumber = ui->lineEdit_SerialNumber->text();
+
+    bool validPath = m_API->m_Log->checkLoggingPath(partNumber.toStdString(),serialNumber.toStdString());
+    bool clearContents = true;
+
+    if(!validPath)
+    {
+        QMessageBox msgBox;
+        msgBox.setIcon(QMessageBox::Question);
+        msgBox.setText("The provided Part/Serial number combination already exists.");
+        msgBox.setInformativeText("Do you want to overwrite or append the existing contents?");
+        QAbstractButton* pButtonAppend = msgBox.addButton(tr("Append"), QMessageBox::AcceptRole);
+        QAbstractButton* pButtonOverwrite = msgBox.addButton(tr("Overwrite"), QMessageBox::AcceptRole);
+        QAbstractButton* pButtonCancel = msgBox.addButton(tr("Cancel"), QMessageBox::AcceptRole);
+        msgBox.exec();
+
+        if(msgBox.clickedButton() == pButtonCancel)
+        {
+            /*
+                 * There is nothing to do at this point with the profile and we should wait
+                 * for user to update the appropriate part and serial numbers and wait for
+                 * them to try again.
+                 */
+            return;
+        }
+        else if(msgBox.clickedButton() == pButtonOverwrite)
+        {
+
+        }
+        else if(msgBox.clickedButton() == pButtonAppend)
+        {
+            clearContents = false;
+        }
+        else
+            return;
+    }
+
 }
 
 void ECMControllerGUI::slot_LoadProfileCollection(const ECMCommand_ProfileCollection &collection)
