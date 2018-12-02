@@ -90,7 +90,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_WindowConnections,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
     m_WindowProfileConfiguration = new Window_ProfileConfiguration(m_API);
-    connect(m_WindowProfileConfiguration, SIGNAL(signal_ExecuteProfileCollection(ECMCommand_ProfileCollection)), this, SLOT(on_ExecuteProfileCollection(ECMCommand_ProfileCollection)));
+    connect(m_WindowProfileConfiguration, SIGNAL(signal_ExecuteProfileCollection(ECMCommand_ExecuteCollection)), this, SLOT(on_ExecuteProfileCollection(ECMCommand_ExecuteCollection)));
     connect(m_WindowProfileConfiguration, SIGNAL(signal_LoadProfileCollection(ECMCommand_ProfileCollection)), this, SLOT(slot_LoadProfileCollection(ECMCommand_ProfileCollection)));
 
 
@@ -116,12 +116,45 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_WindowProfileConfiguration->show();
     //m_WindowConnections->connectToAllDevices();
 
+    setupUploadCallbacks();
+
     ProgressStateMachineStates();
 }
 
 ECMControllerGUI::~ECMControllerGUI()
 {
     delete ui;
+}
+
+void ECMControllerGUI::setupUploadCallbacks()
+{
+    m_API->m_Galil->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const GalilCurrentProgram &program){
+        UNUSED(completed);UNUSED(program);
+        this->ProgressStateMachineStates();
+    });
+    m_API->m_Galil->AddLambda_FinishedUploadingVariables(this,[this](const bool success, const ProgramVariableList &variableList){
+        UNUSED(success);UNUSED(variableList);
+        this->ProgressStateMachineStates();
+    });
+    m_API->m_Galil->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
+
+        this->ProgressStateMachineStates();
+    });
+
+    m_API->m_Munk->AddLambda_FinishedUploadingSegments(this,[this](const bool success, const DeviceInterface_PowerSupply::FINISH_CODE &finishCode){
+        UNUSED(success);UNUSED(finishCode);
+        this->ProgressStateMachineStates();
+    });
+
+    m_API->m_Munk->AddLambda_FinishedUploadingPulseMode(this,[this](const bool success, const DeviceInterface_PowerSupply::FINISH_CODE &finishCode){
+        UNUSED(success);UNUSED(finishCode);
+        this->ProgressStateMachineStates();
+    });
+
+    m_API->m_Pump->AddLambda_FinishedUploadingParameters(this,[this](const bool success, const DeviceInterface_Pump::FINISH_CODE &finishCode){
+        UNUSED(success);UNUSED(finishCode);
+        this->ProgressStateMachineStates();
+    });
 }
 
 void ECMControllerGUI::on_actionClose_triggered()
@@ -390,6 +423,21 @@ void ECMControllerGUI::slot_NewlyAvailableRigolData(const common::TupleSensorStr
 {
     if(val)
     {
+       common::TupleECMData sensorData(sensor);
+       ECMPlotIdentifierPtr addPlot = std::make_shared<ECMPlotIdentifier>(sensorData);
+        if(sensor.measurementName == "MARea")
+        {
+            ui->widget_primaryPlotCurrent->AddPlot(addPlot, sensorData.getData()->HumanName().toStdString(),false, false);
+            QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(sensorData);
+            ui->widget_primaryPlotCurrent->RedrawDataSource(plots);
+        }
+        else if(sensor.measurementName == "VTOP")
+        {
+            ui->widget_primaryPlotVoltage->AddPlot(addPlot, sensorData.getData()->HumanName().toStdString(),false, false);
+            QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(sensorData);
+            ui->widget_primaryPlotVoltage->RedrawDataSource(plots);
+        }
+
         this->slot_AddPlottable(sensor);
         m_additionalSensorDisplay->AddUsableSensor(sensor);
     }
@@ -652,8 +700,10 @@ void ECMControllerGUI::slot_MCCommandError(const CommandType &type, const string
     }
 }
 
-void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ProfileCollection &collection)
+void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ExecuteCollection &collection)
 {
+    ECMCommand_ExecuteCollection executeCollection(collection);
+
     //first check that we can log where we want to
     QString partNumber = ui->lineEdit_PartNumber->text();
     QString serialNumber = ui->lineEdit_SerialNumber->text();
@@ -683,7 +733,7 @@ void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ProfileColle
         }
         else if(msgBox.clickedButton() == pButtonOverwrite)
         {
-
+            clearContents = true;
         }
         else if(msgBox.clickedButton() == pButtonAppend)
         {
@@ -693,6 +743,13 @@ void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ProfileColle
             return;
     }
 
+    executeCollection.setPartNumber(partNumber.toStdString());
+    executeCollection.setSerialNumber(serialNumber.toStdString());
+    executeCollection.setOverwriteLogs(clearContents);
+
+    ECM::API::AbstractStateECMProcess* currentOuterState = static_cast<ECM::API::AbstractStateECMProcess*>(stateMachine->getCurrentOuterState());
+    currentOuterState->executeCollection(collection);
+    ProgressStateMachineStates();
 }
 
 void ECMControllerGUI::slot_LoadProfileCollection(const ECMCommand_ProfileCollection &collection)
@@ -712,3 +769,4 @@ void ECMControllerGUI::ProgressStateMachineStates()
     stateMachine->UpdateStates();
     m_Mutex_StateMachine.unlock();
 }
+

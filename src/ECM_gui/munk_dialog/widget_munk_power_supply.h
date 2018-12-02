@@ -38,6 +38,8 @@ private:
     void addNewSegment();
 
 private slots:
+    void on_Action_AddSegment_released();
+
     void slot_onCustomContextMenu(const QPoint &point);
 
     void slot_ParameterTransmissionUpdate(const int &transmitted, const int &required);

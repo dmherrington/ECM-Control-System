@@ -6,6 +6,8 @@
 #include <unordered_map>
 #include <mutex>
 
+#include "data/motion_profile_state.h"
+
 #include "ecm_devices.h"
 
 #include "programs/galil_current_program.h"
@@ -27,8 +29,15 @@ public:
     {
         m_MutexFinishScriptLambda.lock();
         m_FinishScriptLambda.erase(ptr);
-        m_FinishVariablesLambda.erase(ptr);
         m_MutexFinishScriptLambda.unlock();
+
+        m_MutexFinishVariablesLambda.lock();
+        m_FinishVariablesLambda.erase(ptr);
+        m_MutexFinishVariablesLambda.lock();
+
+        m_MutexNewMotionProfileStateLambda.lock();
+        m_NewMotionProfileStateLambda.erase(ptr);
+        m_MutexNewMotionProfileStateLambda.lock();
     }
 
     void setLambda_FinishedUploadingScript(const std::function<void(const bool &success, const GalilCurrentProgram &program)> &lambda){
@@ -45,7 +54,7 @@ public:
     }
 
 
-    void setLambda_FinishedUploadingVariables(const std::function<void(const bool success, const FINISH_CODE finishCode)> &lambda){
+    void setLambda_FinishedUploadingVariables(const std::function<void(const bool success, const ProgramVariableList &variableList)> &lambda){
         m_MutexFinishVariablesLambda.lock();
 
         if(m_FinishVariablesLambda.find(0) != m_FinishVariablesLambda.cend())
@@ -59,18 +68,36 @@ public:
     }
 
 
+    void setLambda_NewMotionProfileState(const std::function<void(const MotionProfileState &profileState)> &lambda){
+        m_MutexNewMotionProfileStateLambda.lock();
+
+        if(m_NewMotionProfileStateLambda.find(0) != m_NewMotionProfileStateLambda.cend())
+        {
+            printf("Warning!!!! A finish procedure already exists, replacing old with new\n");
+            m_NewMotionProfileStateLambda.erase(0);
+        }
+
+        m_NewMotionProfileStateLambda.insert({0, lambda});
+        m_MutexNewMotionProfileStateLambda.unlock();
+    }
+
     void AddLambda_FinishedUploadingScript(void* host, const std::function<void(const bool &success, const GalilCurrentProgram &program)> &lambda){
         m_MutexFinishScriptLambda.lock();
         m_FinishScriptLambda.insert({host, lambda});
         m_MutexFinishScriptLambda.unlock();
     }
 
-    void AddLambda_FinishedUploadingVariables(void* host, const std::function<void(const bool success, const FINISH_CODE finishCode)> &lambda){
+    void AddLambda_FinishedUploadingVariables(void* host, const std::function<void(const bool success, const ProgramVariableList &variableList)> &lambda){
         m_MutexFinishVariablesLambda.lock();
         m_FinishVariablesLambda.insert({host, lambda});
         m_MutexFinishVariablesLambda.unlock();
     }
 
+    void AddLambda_NewMotionProfileState(void* host, const std::function<void(const MotionProfileState &profileState)> &lambda){
+        m_MutexNewMotionProfileStateLambda.lock();
+        m_NewMotionProfileStateLambda.insert({host, lambda});
+        m_MutexNewMotionProfileStateLambda.unlock();
+    }
 
 protected:
     void onFinishedUploadingScript(const bool &success, const GalilCurrentProgram &program){
@@ -83,14 +110,24 @@ protected:
         m_MutexFinishScriptLambda.unlock();
     }
 
-    void onFinishedUploadingVariables(const bool success, const FINISH_CODE finishCode = FINISH_CODE::UNKNOWN){
+    void onFinishedUploadingVariables(const bool success, const ProgramVariableList &variableList){
 
         m_MutexFinishVariablesLambda.lock();
         for(auto it = m_FinishVariablesLambda.cbegin() ; it != m_FinishVariablesLambda.cend() ; ++it)
         {
-            it->second(success, finishCode);
+            it->second(success, variableList);
         }
         m_MutexFinishVariablesLambda.unlock();
+    }
+
+    void onNewMotionProfileState(const MotionProfileState &profileState){
+
+        m_MutexNewMotionProfileStateLambda.lock();
+        for(auto it = m_NewMotionProfileStateLambda.cbegin() ; it != m_NewMotionProfileStateLambda.cend() ; ++it)
+        {
+            it->second(profileState);
+        }
+        m_MutexNewMotionProfileStateLambda.unlock();
     }
 
 signals:
@@ -98,11 +135,13 @@ signals:
 
 protected:
     std::unordered_map<void*, std::function<void(const bool &success, const GalilCurrentProgram &program)>> m_FinishScriptLambda;
-    std::unordered_map<void*, std::function<void(const bool success, const FINISH_CODE finishCode)>> m_FinishVariablesLambda;
-    std::unordered_map<void*, std::function<void()>> m_ShutdownLambda;
+    std::unordered_map<void*, std::function<void(const bool success, const ProgramVariableList &variableList)>> m_FinishVariablesLambda;
+    std::unordered_map<void*, std::function<void(const MotionProfileState &profileState)>> m_NewMotionProfileStateLambda;
 
     std::mutex m_MutexFinishScriptLambda;
     std::mutex m_MutexFinishVariablesLambda;
+    std::mutex m_MutexNewMotionProfileStateLambda;
+
 };
 
 #endif // DEVICE_INTERFACE_MOTION_CONTOL_H

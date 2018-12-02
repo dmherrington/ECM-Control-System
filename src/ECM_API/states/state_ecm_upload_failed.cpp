@@ -6,8 +6,14 @@ namespace API {
 ECMState_UploadFailed::ECMState_UploadFailed():
     AbstractStateECMProcess()
 {
-    this->currentState = ECMState::STATE_ECM_UPLOAD;
-    this->desiredState = ECMState::STATE_ECM_UPLOAD;
+    std::cout<<"We are currently in the constructor of STATE_ECM_UPLOAD_FAILED."<<std::endl;
+    this->currentState = ECMState::STATE_ECM_UPLOAD_FAILED;
+    this->desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
+}
+
+void ECMState_UploadFailed::OnExit()
+{
+
 }
 
 AbstractStateECMProcess* ECMState_UploadFailed::getClone() const

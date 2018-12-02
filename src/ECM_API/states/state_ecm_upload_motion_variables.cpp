@@ -6,8 +6,14 @@ namespace API {
 ECMState_UploadMotionVariables::ECMState_UploadMotionVariables():
     AbstractStateECMProcess()
 {
+    std::cout<<"We are currently in the constructor of STATE_ECM_UPLOAD_MOTION_VARIABLES."<<std::endl;
     this->currentState = ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES;
     this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES;
+}
+
+void ECMState_UploadMotionVariables::OnExit()
+{
+    Owner().m_Galil->RemoveHost(this);
 }
 
 AbstractStateECMProcess* ECMState_UploadMotionVariables::getClone() const
@@ -29,6 +35,16 @@ hsm::Transition ECMState_UploadMotionVariables::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
+        case ECMState::STATE_ECM_UPLOAD_FAILED:
+        {
+            rtn = hsm::SiblingTransition<ECMState_UploadFailed>();
+            break;
+        }
+        case ECMState::STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS:
+        {
+            rtn = hsm::SiblingTransition<ECMState_UploadPowerRegisterSegments>(this->m_Config);
+            break;
+        }
         default:
             std::cout<<"I dont know how we eneded up in this transition state from "<<ECMStateToString(this->currentState)<<"."<<std::endl;
             break;
@@ -51,7 +67,10 @@ void ECMState_UploadMotionVariables::OnEnter()
 void ECMState_UploadMotionVariables::OnEnter(const ECMCommand_ProfileConfiguration &config)
 {
     //First update the configuation per what was received upon entering the state
-    Owner().m_Galil->AddLambda_FinishedUploadingVariables(this,[this](const bool completed, const DeviceInterface_MotionControl::FINISH_CODE finishCode){
+    this->m_Config = config;
+
+    Owner().m_Galil->AddLambda_FinishedUploadingVariables(this,[this](const bool completed, const ProgramVariableList &variableList){
+        UNUSED(variableList);
         if(completed)
         {
             desiredState = ECMState::STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS;
@@ -61,6 +80,8 @@ void ECMState_UploadMotionVariables::OnEnter(const ECMCommand_ProfileConfigurati
         }
 
     });
+
+    Owner().m_Galil->uploadProgramVariableList(config.m_GalilOperation.getVariableList());
 }
 
 } //end of namespace Galil

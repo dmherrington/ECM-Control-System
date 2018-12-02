@@ -1,7 +1,12 @@
-#ifndef STATE_ECM_TOUCHOFF_H
-#define STATE_ECM_TOUCHOFF_H
+#ifndef STATE_ECM_SETUP_MACHINE_PUMP_H
+#define STATE_ECM_SETUP_MACHINE_PUMP_H
 
-#include "states/state_abstract_ecm_process.h"
+#include "common/class_forward.h"
+#include "common/hsm.h"
+
+#include "../ecm_api.h"
+
+#include "state_abstract_ecm_process.h"
 
 /**
 \* @file  state_ecm_touchoff.h
@@ -23,19 +28,16 @@
 namespace ECM{
 namespace API {
 
-class ECMState_Idle;
+ECM_CLASS_FORWARD(ECMState_SetupMachinePump);
 
-class ECMState_TouchoffDisable;
-class ECMState_TouchoffEnable;
-class ECMState_TouchoffExecute;
+class ECMState_SetupMachineIdle;
+class ECMState_SetupMachineComplete;
+class ECMState_SetupMachineFailed;
 
-class ECMState_PumpSetup;
-
-
-class ECMState_Touchoff : public AbstractStateECMProcess
+class ECMState_SetupMachinePump : public AbstractStateECMProcess
 {
 public:
-    ECMState_Touchoff();
+    ECMState_SetupMachinePump();
 
 public:
     AbstractStateECMProcess* getClone() const override;
@@ -46,12 +48,18 @@ public:
     hsm::Transition GetTransition() override;
 
 public:
-    void Update() override;
-
     void OnEnter() override;
+    void Update() override;
+    void OnExit() override;
+
+public:
+    void OnEnter(const ECMCommand_ProfileConfiguration &configuration);
+
+private:
+    ECMCommand_ProfileConfiguration m_Config;
 };
 
 } //end of namespace API
 } //end of namespace ECM
 
-#endif // STATE_ECM_TOUCHOFF_H
+#endif // STATE_ECM_SETUP_MACHINE_PUMP_H

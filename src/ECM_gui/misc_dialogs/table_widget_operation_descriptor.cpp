@@ -9,7 +9,7 @@ TableWidget_OperationDescriptor::TableWidget_OperationDescriptor(Widget_ProfileP
 
     this->m_OperationParameters = operationParameters;
 
-    ui->lineEdit_ProfileName->setText(QString::fromStdString(this->operationName));
+    ui->lineEdit_OperationName->setText(QString::fromStdString(this->operationName));
     ui->spinBox_OperationOrder->setValue(this->operationIndex);
 }
 
@@ -43,7 +43,7 @@ unsigned int TableWidget_OperationDescriptor::getOperationIndex() const
 void TableWidget_OperationDescriptor::setOperationName(const std::string &name)
 {
     this->operationName = name;
-    ui->lineEdit_ProfileName->setText(QString::fromStdString(this->operationName));
+    ui->lineEdit_OperationName->setText(QString::fromStdString(this->operationName));
 }
 
 std::string TableWidget_OperationDescriptor::getOperationName() const

@@ -38,12 +38,6 @@ SOURCES += \
     states/state_ecm_profile_machine.cpp \
     states/state_ecm_profile_machine_cease.cpp \
     states/state_ecm_profile_machine_process.cpp \
-    states/state_ecm_profile_machine_setup.cpp \
-    states/state_ecm_pump_setup.cpp \
-    states/state_ecm_touchoff.cpp \
-    states/state_ecm_touchoff_disable.cpp \
-    states/state_ecm_touchoff_enable.cpp \
-    states/state_ecm_touchoff_execute.cpp \
     states/state_ecm_idle.cpp \
     ecm_modules.cpp \
     states/state_ecm_upload_motion_profile.cpp \
@@ -58,7 +52,13 @@ SOURCES += \
     commands/ecm_command_profile_collection.cpp \
     commands/ecm_command_profile_configuration.cpp \
     states/state_test.cpp \
-    commands/ecm_command_execute_collection.cpp
+    commands/ecm_command_execute_collection.cpp \
+    states/state_ecm_setup_machine_home.cpp \
+    states/state_ecm_setup_machine_touchoff.cpp \
+    states/state_ecm_setup_machine.cpp \
+    states/state_ecm_setup_machine_pump.cpp \
+    states/state_ecm_setup_machine_complete.cpp \
+    states/state_ecm_setup_machine_failed.cpp
 
 HEADERS += \
         ecm_api.h \
@@ -69,12 +69,6 @@ HEADERS += \
     states/state_ecm_profile_machine.h \
     states/state_ecm_profile_machine_cease.h \
     states/state_ecm_profile_machine_process.h \
-    states/state_ecm_profile_machine_setup.h \
-    states/state_ecm_pump_setup.h \
-    states/state_ecm_touchoff.h \
-    states/state_ecm_touchoff_disable.h \
-    states/state_ecm_touchoff_enable.h \
-    states/state_ecm_touchoff_execute.h \
     states/state_ecm_types.h \
     states/state_ecm_idle.h \
     ecm_api_version.h \
@@ -91,7 +85,15 @@ HEADERS += \
     commands/ecm_command_profile_collection.h \
     commands/ecm_command_profile_configuration.h \
     states/state_test.h \
-    commands/ecm_command_execute_collection.h
+    commands/ecm_command_execute_collection.h \
+    commands/ecm_command_abstract_collection.h \
+    states/state_ecm_setup_machine.h \
+    states/state_ecm_setup_machine_pump.h \
+    states/state_ecm_setup_machine_home.h \
+    states/state_ecm_setup_machine_touchoff.h \
+    states/state_ecm_setup_machine_complete.h \
+    states/state_ecm_setup_machine_failed.h \
+    states/state_ecm_setup_machine_failed.h
 
 # Unix lib Install
 unix:!symbian {

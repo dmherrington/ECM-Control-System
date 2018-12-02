@@ -29,7 +29,7 @@ class ECMState_Idle;
 
 class ECMState_ProfileMachineCease;
 class ECMState_ProfileMachineProcess;
-class ECMState_ProfileMachineSetup;
+class ECMState_ProfileMachineComplete;
 
 class ECMState_ProfileMachine : public AbstractStateECMProcess
 {

@@ -42,6 +42,8 @@ public:
     ~ECMControllerGUI();
 
 private:
+    void setupUploadCallbacks();
+
     void setupMachiningSequence(const std::string &partNumber, const std::string &serialNumber, const std::string &profileName,const bool &clearContents);
 
 private slots:
@@ -111,7 +113,7 @@ private slots:
 
     void on_pushButton_Stop_released();
 
-    void on_ExecuteProfileCollection(const ECMCommand_ProfileCollection &collection);
+    void on_ExecuteProfileCollection(const ECMCommand_ExecuteCollection &collection);
 
 protected:
     void readSettings();

@@ -27,26 +27,25 @@ namespace API {
 
 enum class ECMState{
     STATE_ECM_IDLE = 0, /**< */
-    STATE_ECM_POWERSUPPLY_SETUP = 1, /**< */
+    STATE_ECM_MOTION_PROFILE_INITIALIZATION = 1, /**< */
     STATE_ECM_PROFILE_MACHINE = 2, /**< */
     STATE_ECM_PROFILE_MACHINE_CEASE = 3, /**< */
     STATE_ECM_PROFILE_MACHINE_PROCESS = 4, /**< */
-    STATE_ECM_PROFILE_MACHINE_SETUP = 5, /**< */
-    STATE_ECM_PUMP_SETUP = 6, /**< */
-    STATE_ECM_MOTION_PROFILE_INITIALIZATION = 7, /**< */
-    STATE_ECM_TOUCHOFF = 8, /**< */
-    STATE_ECM_TOUCHOFF_DISABLE = 9, /**< */
-    STATE_ECM_TOUCHOFF_ENABLE = 10, /**< */
-    STATE_ECM_TOUCHOFF_EXECUTE = 11, /**< */
-    STATE_ECM_UPLOAD = 12, /**< */
-    STATE_ECM_UPLOAD_COMPLETE = 13, /**< */
-    STATE_ECM_UPLOAD_FAILED = 14, /**< */
-    STATE_ECM_UPLOAD_MOTION_PROFILE = 15, /**< */
-    STATE_ECM_UPLOAD_MOTION_VARIABLES = 16, /**< */
-    STATE_ECM_UPLOAD_POWER_PULSE_MODE = 17, /**< */
-    STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS = 18, /**< */
-    STATE_ECM_UPLOAD_PUMP_PARAMETERS = 19, /**< */
-    STATE_UNKNOWN = 20 /**< */
+    STATE_ECM_SETUP_MACHINE = 5, /**< */
+    STATE_ECM_SETUP_MACHINE_COMPLETE = 6, /**< */
+    STATE_ECM_SETUP_MACHINE_FAILED = 7, /**< */
+    STATE_ECM_SETUP_MACHINE_HOME = 8, /**< */
+    STATE_ECM_SETUP_MACHINE_PUMP = 9, /**< */
+    STATE_ECM_SETUP_MACHINE_TOUCHOFF = 10, /**< */
+    STATE_ECM_UPLOAD = 11, /**< */
+    STATE_ECM_UPLOAD_COMPLETE = 12, /**< */
+    STATE_ECM_UPLOAD_FAILED = 13, /**< */
+    STATE_ECM_UPLOAD_MOTION_PROFILE = 14, /**< */
+    STATE_ECM_UPLOAD_MOTION_VARIABLES = 15, /**< */
+    STATE_ECM_UPLOAD_POWER_PULSE_MODE = 16, /**< */
+    STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS = 17, /**< */
+    STATE_ECM_UPLOAD_PUMP_PARAMETERS = 18, /**< */
+    STATE_UNKNOWN = 19 /**< */
 };
 
 //!
@@ -58,28 +57,40 @@ inline std::string ECMStateToString(const ECMState &type) {
     switch (type) {
     case ECMState::STATE_ECM_IDLE:
         return "Idle";
-    case ECMState::STATE_ECM_POWERSUPPLY_SETUP:
-        return "Powersupply Setup";
-    case ECMState::STATE_ECM_PROFILE_MACHINE:
-        return "Machine";
-    case ECMState::STATE_ECM_PROFILE_MACHINE_CEASE:
-        return "Machine Cease";
-    case ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS:
-        return "Machine Process";
-    case ECMState::STATE_ECM_PROFILE_MACHINE_SETUP:
-        return "Machine Setup";
-    case ECMState::STATE_ECM_PUMP_SETUP:
-        return "Pump Setup";
     case ECMState::STATE_ECM_MOTION_PROFILE_INITIALIZATION:
         return "Machine Initialization";
-    case ECMState::STATE_ECM_TOUCHOFF:
-        return "Touchoff";
-    case ECMState::STATE_ECM_TOUCHOFF_DISABLE:
-        return "Touchoff Disable";
-    case ECMState::STATE_ECM_TOUCHOFF_ENABLE:
-        return "Touchoff Enable";
-    case ECMState::STATE_ECM_TOUCHOFF_EXECUTE:
-        return "Touchoff Execute";
+
+    case ECMState::STATE_ECM_SETUP_MACHINE:
+        return "Machine Setup";
+    case ECMState::STATE_ECM_SETUP_MACHINE_COMPLETE:
+        return "Machine Setup Complete";
+    case ECMState::STATE_ECM_SETUP_MACHINE_FAILED:
+        return "Machine Setup Failed";
+    case ECMState::STATE_ECM_SETUP_MACHINE_HOME:
+        return "Machine Setup Home";
+    case ECMState::STATE_ECM_SETUP_MACHINE_PUMP:
+        return "Machine Setup Pump";
+    case ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF:
+        return "Machine Setup Touchoff";
+
+    case ECMState::STATE_ECM_UPLOAD:
+        return "Machine Initialization";
+    case ECMState::STATE_ECM_UPLOAD_COMPLETE:
+        return "Machine Upload Complete";
+    case ECMState::STATE_ECM_UPLOAD_FAILED:
+        return "Machine Upload Failed";
+    case ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE:
+        return "Machine Upload Motion Profile";
+    case ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES:
+        return "Machine Upload Motion Variables";
+    case ECMState::STATE_ECM_UPLOAD_POWER_PULSE_MODE:
+        return "Machine Upload Pulse Mode";
+    case ECMState::STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS:
+        return "Machine Upload Power Register";
+    case ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS:
+        return "Machine Upload Pump Parameters";
+
+
     case ECMState::STATE_UNKNOWN:
         return "Unknown";
     default:

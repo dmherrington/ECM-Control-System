@@ -431,6 +431,7 @@ void GalilMotionController::cbi_GalilTouchoffIndicated(const bool &indicated)
 
 void GalilMotionController::cbi_NewMotionProfileState(const MotionProfileState &state)
 {
+    this->onNewMotionProfileState(state);
     emit signal_GalilUpdatedProfileState(state);
 }
 

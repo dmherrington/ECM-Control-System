@@ -23,7 +23,7 @@ class AbstractStateECMProcess : public hsm::StateWithOwner<ECM_API>
 {
 
 public:
-    AbstractStateECMProcess() = default;
+    AbstractStateECMProcess();
 
     AbstractStateECMProcess(const AbstractStateECMProcess &copy);
 
@@ -85,7 +85,7 @@ protected:
     void clearCommand();
 
 protected:
-    ECMCommand_ProfileCollection m_ProfileCollection;
+    ECMCommand_AbstractCollectionPtr m_ECMCollection;
 
     ECMState currentState;
     ECMState desiredState;

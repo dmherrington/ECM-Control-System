@@ -1,10 +1,15 @@
-#ifndef STATE_ECM_PROFILE_MACHINE_SETUP_H
-#define STATE_ECM_PROFILE_MACHINE_SETUP_H
+#ifndef STATE_ECM_SETUP_MACHINE_H
+#define STATE_ECM_SETUP_MACHINE_H
 
-#include "states/state_abstract_ecm_process.h"
+#include "common/class_forward.h"
+#include "common/hsm.h"
+
+#include "../ecm_api.h"
+
+#include "state_abstract_ecm_process.h"
 
 /**
-\* @file  state_ecm_touchoff.h
+\* @file  state_ecm_machine_setup.h
 \*
 \* @author Kenneth Kroeger
 \*
@@ -23,22 +28,19 @@
 namespace ECM{
 namespace API {
 
-class ECMState_PumpSetup;
-class ECMState_TouchoffDisable;
-class ECMState_Setup;
+ECM_CLASS_FORWARD(ECMState_SetupMachine);
 
-ECM_CLASS_FORWARD(ECMState_MachineSetup);
+class ECMState_Idle;
+class ECMState_SetupMachineComplete;
+class ECMState_SetupMachineFailed;
+class ECMState_SetupMachineHome;
+class ECMState_SetupMachinePump;
+class ECMState_SetupMachineTouchoff;
 
-//Forward declare the class states available to transition to from this one
-class ECMState_TouchoffDisable;
-class ECMState_Setup;
-
-class ECMState_MachineSetup : public AbstractStateECMProcess
+class ECMState_SetupMachine : public AbstractStateECMProcess
 {
 public:
-    ECMState_MachineSetup();
-
-    void OnExit() override;
+    ECMState_SetupMachine();
 
 public:
     AbstractStateECMProcess* getClone() const override;
@@ -46,15 +48,19 @@ public:
     void getClone(AbstractStateECMProcess** state) const override;
 
 public:
+    void OnEnter() override;
+    void Update() override;
+    void OnExit() override;
+
+public:
     hsm::Transition GetTransition() override;
 
 public:
-    void Update() override;
+    void OnEnter(const ECMCommand_AbstractCollectionPtr &collection);
 
-    void OnEnter() override;
 };
 
 } //end of namespace API
 } //end of namespace ECM
 
-#endif // STATE_SCRIPT_EXECUTION_H
+#endif // STATE_ECM_SETUP_MACHINE_H

@@ -6,8 +6,8 @@
                     "profileName": "",
                     "variableData": [
                         {
-                            "backsp": 100,
-                            "forsp": 200,
+                            "backsp": 200,
+                            "forsp": 100,
                             "maxdepth": 9,
                             "rtdist": 1000,
                             "rtfq": 11,
@@ -20,28 +20,42 @@
             ],
             "MunkSettings": [
                 {
-                    "pulseMode": 255,
+                    "pulseMode": 109,
                     "segmentData": [
+                        {
+                            "current": 2,
+                            "segmentMode": "FORWARD",
+                            "supplyOutput": "OUTPUT1",
+                            "time": 300,
+                            "voltage": 1
+                        },
+                        {
+                            "current": 2,
+                            "segmentMode": "FORWARD",
+                            "supplyOutput": "OUTPUT1",
+                            "time": 300,
+                            "voltage": 1
+                        }
                     ]
                 }
             ],
             "opIndex": 1,
-            "opName": "Test 2",
+            "opName": "Operation 0",
             "pumpData": [
                 {
-                    "pumpDelayTime": 10000,
-                    "pumpFlowRate": 1.23,
+                    "pumpDelayTime": 5000,
+                    "pumpFlowRate": 5.23,
                     "pumpWaitForDelay": true
                 }
             ],
             "touchoffData": [
                 {
                     "touchoffExecute": true,
-                    "touchoffGap": 20.6,
-                    "touchoffRef": 20.5
+                    "touchoffGap": 10,
+                    "touchoffRef": 110
                 }
             ],
-            "useOperation": true
+            "useOperation": false
         }
     ]
 }

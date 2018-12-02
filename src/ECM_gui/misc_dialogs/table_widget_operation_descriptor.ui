@@ -65,7 +65,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_ProfileName">
+      <widget class="QLineEdit" name="lineEdit_OperationName">
        <property name="sizePolicy">
         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
          <horstretch>0</horstretch>

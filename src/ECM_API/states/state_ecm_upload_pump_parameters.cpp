@@ -6,8 +6,14 @@ namespace API {
 ECMState_UploadPumpParameters::ECMState_UploadPumpParameters():
     AbstractStateECMProcess()
 {
-    this->currentState = ECMState::STATE_ECM_TOUCHOFF_EXECUTE;
-    this->desiredState = ECMState::STATE_ECM_TOUCHOFF_EXECUTE;
+    std::cout<<"We are currently in the constructor of STATE_ECM_UPLOAD_PUMP_PARAMETERS."<<std::endl;
+    this->currentState = ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS;
+    this->desiredState = ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS;
+}
+
+void ECMState_UploadPumpParameters::OnExit()
+{
+    Owner().m_Pump->RemoveHost(this);
 }
 
 AbstractStateECMProcess* ECMState_UploadPumpParameters::getClone() const
@@ -29,6 +35,16 @@ hsm::Transition ECMState_UploadPumpParameters::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
+        case ECMState::STATE_ECM_UPLOAD_FAILED:
+        {
+            rtn = hsm::SiblingTransition<ECMState_UploadFailed>();
+            break;
+        }
+        case ECMState::STATE_ECM_UPLOAD_COMPLETE:
+        {
+            rtn = hsm::SiblingTransition<ECMState_UploadComplete>();
+            break;
+        }
         default:
             std::cout<<"I dont know how we eneded up in this transition state from "<<ECMStateToString(this->currentState)<<"."<<std::endl;
             break;
@@ -51,6 +67,8 @@ void ECMState_UploadPumpParameters::OnEnter()
 void ECMState_UploadPumpParameters::OnEnter(const ECMCommand_ProfileConfiguration &config)
 {
     //First update the configuation per what was received upon entering the state
+    this->m_Config;
+
     Owner().m_Pump->AddLambda_FinishedUploadingParameters(this,[this](const bool completed, const DeviceInterface_Pump::FINISH_CODE finishCode){
         if(completed)
         {
@@ -61,7 +79,7 @@ void ECMState_UploadPumpParameters::OnEnter(const ECMCommand_ProfileConfiguratio
         }
     });
 
-    //Owner().m_Pump->setPumpProperties(config.m_PumpParameters);
+    Owner().m_Pump->setPumpProperties(config.m_PumpParameters);
 }
 
 } //end of namespace Galil

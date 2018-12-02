@@ -6,8 +6,14 @@ namespace API {
 ECMState_UploadPowerRegisterSegments::ECMState_UploadPowerRegisterSegments():
     AbstractStateECMProcess()
 {
+    std::cout<<"We are currently in the constructor of STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS."<<std::endl;
     this->currentState = ECMState::STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS;
     this->desiredState = ECMState::STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS;
+}
+
+void ECMState_UploadPowerRegisterSegments::OnExit()
+{
+    Owner().m_Munk->RemoveHost(this);
 }
 
 AbstractStateECMProcess* ECMState_UploadPowerRegisterSegments::getClone() const
@@ -29,12 +35,21 @@ hsm::Transition ECMState_UploadPowerRegisterSegments::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
+        case ECMState::STATE_ECM_UPLOAD_FAILED:
+        {
+            rtn = hsm::SiblingTransition<ECMState_UploadFailed>();
+            break;
+        }
+        case ECMState::STATE_ECM_UPLOAD_POWER_PULSE_MODE:
+        {
+            rtn = hsm::SiblingTransition<ECMState_UploadPowerPulseMode>(this->m_Config);
+            break;
+        }
         default:
             std::cout<<"I dont know how we eneded up in this transition state from "<<ECMStateToString(this->currentState)<<"."<<std::endl;
             break;
         }
     }
-
     return rtn;
 }
 
@@ -51,6 +66,8 @@ void ECMState_UploadPowerRegisterSegments::OnEnter()
 void ECMState_UploadPowerRegisterSegments::OnEnter(const ECMCommand_ProfileConfiguration &config)
 {
     //First update the configuation per what was received upon entering the state
+    this->m_Config = config;
+
     Owner().m_Munk->AddLambda_FinishedUploadingSegments(this,[this](const bool completed, const DeviceInterface_PowerSupply::FINISH_CODE finishCode){
             if(completed)
             {

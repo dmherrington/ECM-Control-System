@@ -126,7 +126,10 @@ void CommsMarshaler::uploadProgram(const AbstractCommandPtr uploadCommand) const
 {
     auto func = [this, uploadCommand] () {
         if(!link->isConnected())
+        {
+            this->NewProgramUploaded(false);
             return;
+        }
 
         protocol->UploadNewProgram(link.get(), uploadCommand);
     };

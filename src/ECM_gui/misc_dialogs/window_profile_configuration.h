@@ -10,6 +10,7 @@
 #include "widget_profile_parameters.h"
 #include "table_widget_operation_descriptor.h"
 
+#include "ECM_API/commands/ecm_command_execute_collection.h"
 #include "ECM_API/commands/ecm_command_profile_collection.h"
 
 namespace Ui {
@@ -27,6 +28,8 @@ public:
 public:
     void updateConfigurationPath(const std::string &path);
 
+    void executingProfileIndex(const unsigned int &index);
+
 private:
     TableWidget_OperationDescriptor* addOperation(const unsigned int &index);
 
@@ -37,7 +40,7 @@ signals:
 
     void signal_LoadMotionProfile(const std::string &filePath);
 
-    void signal_ExecuteProfileCollection(const ECMCommand_ProfileCollection &collection);
+    void signal_ExecuteProfileCollection(const ECMCommand_ExecuteCollection &collection);
 
     void signal_LoadProfileCollection(const ECMCommand_ProfileCollection &collection);
 

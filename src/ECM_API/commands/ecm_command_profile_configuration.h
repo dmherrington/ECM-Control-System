@@ -29,6 +29,8 @@ public:
 
     std::string getOperationName() const;
 
+    bool shouldHomeBeIndicated() const;
+
     bool shouldProfileExecute() const;
 
     bool hasProfileCompleted() const;
@@ -37,6 +39,8 @@ public:
     void setOperationIndex(const unsigned int &index);
 
     void setOperationName(const std::string &name);
+
+    void setHomeNeedsToBeIndicated(const bool &homeExecute);
 
     void setProfileExecution(const bool &varExecute);
 
@@ -51,6 +55,7 @@ public:
     {
         this->operationIndex = rhs.operationIndex;
         this->operationName = rhs.operationName;
+        this->indicateHome = rhs.indicateHome;
         this->execute = rhs.execute;
         this->completed = rhs.completed;
 
@@ -73,6 +78,9 @@ public:
             return false;
         }
         if(this->operationName != rhs.operationName){
+            return false;
+        }
+        if(this->indicateHome != rhs.indicateHome){
             return false;
         }
         if(this->execute != rhs.execute){
@@ -119,6 +127,7 @@ public:
 private:
     unsigned int operationIndex = 0;
     std::string operationName = "";
+    bool indicateHome = false;
     bool execute = false;
     bool completed = false;
 };

@@ -6,8 +6,14 @@ namespace API {
 ECMState_UploadComplete::ECMState_UploadComplete():
     AbstractStateECMProcess()
 {
-    this->currentState = ECMState::STATE_ECM_UPLOAD;
-    this->desiredState = ECMState::STATE_ECM_UPLOAD;
+    std::cout<<"We are currently in the constructor of STATE_ECM_UPLOAD_COMPLETE."<<std::endl;
+    this->currentState = ECMState::STATE_ECM_UPLOAD_COMPLETE;
+    this->desiredState = ECMState::STATE_ECM_UPLOAD_COMPLETE;
+}
+
+void ECMState_UploadComplete::OnExit()
+{
+
 }
 
 AbstractStateECMProcess* ECMState_UploadComplete::getClone() const

@@ -335,6 +335,7 @@ void MunkPowerSupply::SegmentCommitedToMemoryAcknowledged()
 void MunkPowerSupply::NewSegmentSequence(const SegmentTimeDetailed &segmentData)
 {
     this->machineState->updateCurrentSegmentData(segmentData);
+    this->onFinishedUploadingSegments(true);
 }
 
 void MunkPowerSupply::ExceptionResponseReceived(const MunkRWType &RWType, const std::string &meaning) const

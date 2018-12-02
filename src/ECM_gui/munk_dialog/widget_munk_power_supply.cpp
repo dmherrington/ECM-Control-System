@@ -66,6 +66,11 @@ void Widget_MunkPowerSupply::slot_onCustomContextMenu(const QPoint &point)
     contextMenu.exec(mapToGlobal(point));
 }
 
+void Widget_MunkPowerSupply::on_Action_AddSegment_released()
+{
+    this->addNewSegment();
+}
+
 void Widget_MunkPowerSupply::addNewSegment()
 {
     ui->segmentWidget->addNewSegment();

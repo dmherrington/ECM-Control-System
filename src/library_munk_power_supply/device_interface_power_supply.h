@@ -28,7 +28,7 @@ public:
         m_MutexFinishPulseModeLambda.unlock();
     }
 
-    void setLambda_FinishedUploadingSegments(const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
+    void setLambda_FinishedUploadingSegments(const std::function<void(const bool completed, const FINISH_CODE &finishCode)> &lambda){
         m_MutexFinishSegmentsLambda.lock();
 
         if(m_FinishedUploadingSegments.find(0) != m_FinishedUploadingSegments.cend())
@@ -41,7 +41,7 @@ public:
         m_MutexFinishSegmentsLambda.unlock();
     }
 
-    void setLambda_FinishedUploadingPulseMode(const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
+    void setLambda_FinishedUploadingPulseMode(const std::function<void(const bool completed, const FINISH_CODE &finishCode)> &lambda){
         m_MutexFinishPulseModeLambda.lock();
 
         if(m_FinishedUploadingPulseMode.find(0) != m_FinishedUploadingPulseMode.cend())
@@ -54,20 +54,20 @@ public:
         m_MutexFinishPulseModeLambda.unlock();
     }
 
-    void AddLambda_FinishedUploadingSegments(void* host, const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
+    void AddLambda_FinishedUploadingSegments(void* host, const std::function<void(const bool completed, const FINISH_CODE &finishCode)> &lambda){
         m_MutexFinishSegmentsLambda.lock();
         m_FinishedUploadingSegments.insert({host, lambda});
         m_MutexFinishSegmentsLambda.unlock();
     }
 
-    void AddLambda_FinishedUploadingPulseMode(void* host, const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
+    void AddLambda_FinishedUploadingPulseMode(void* host, const std::function<void(const bool completed, const FINISH_CODE &finishCode)> &lambda){
         m_MutexFinishPulseModeLambda.lock();
         m_FinishedUploadingPulseMode.insert({host, lambda});
         m_MutexFinishPulseModeLambda.unlock();
     }
 
 protected:
-    void onFinishedUploadingSegments(const bool completed, const FINISH_CODE finishCode = FINISH_CODE::UNKNOWN){
+    void onFinishedUploadingSegments(const bool completed, const FINISH_CODE &finishCode = FINISH_CODE::UNKNOWN){
 
         m_MutexFinishSegmentsLambda.lock();
         for(auto it = m_FinishedUploadingSegments.cbegin() ; it != m_FinishedUploadingSegments.cend() ; ++it)
@@ -77,7 +77,7 @@ protected:
         m_MutexFinishSegmentsLambda.unlock();
     }
 
-    void onFinishedUploadingPulseMode(const bool completed, const FINISH_CODE finishCode = FINISH_CODE::UNKNOWN){
+    void onFinishedUploadingPulseMode(const bool completed, const FINISH_CODE &finishCode = FINISH_CODE::UNKNOWN){
 
         m_MutexFinishPulseModeLambda.lock();
         for(auto it = m_FinishedUploadingPulseMode.cbegin() ; it != m_FinishedUploadingPulseMode.cend() ; ++it)

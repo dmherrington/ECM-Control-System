@@ -23,9 +23,6 @@
 namespace ECM{
 namespace API {
 
-class ECMState_PumpSetup;
-class ECMState_TouchoffDisable;
-class ECMState_Setup;
 
 ECM_CLASS_FORWARD(ECMState_ProfileMachineProcess);
 
@@ -33,8 +30,6 @@ class ECMState_ProfileMachineProcess : public AbstractStateECMProcess
 {
 public:
     ECMState_ProfileMachineProcess();
-
-    void OnExit() override;
 
 public:
     AbstractStateECMProcess* getClone() const override;
@@ -45,9 +40,9 @@ public:
     hsm::Transition GetTransition() override;
 
 public:
-    void Update() override;
-
     void OnEnter() override;
+    void Update() override;
+    void OnExit() override;
 
 };
 

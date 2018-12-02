@@ -16,6 +16,23 @@ Window_ProfileConfiguration::~Window_ProfileConfiguration()
     delete ui;
 }
 
+void Window_ProfileConfiguration::executingProfileIndex(const unsigned int &index)
+{
+    std::map<QListWidgetItem*,TableWidget_OperationDescriptor*>::iterator it = m_MapOperations.begin();
+
+    for (; it!=m_MapOperations.end(); ++it)
+    {
+        TableWidget_OperationDescriptor* currentOp = it->second;
+        if(currentOp->getOperationIndex() == index)
+        {
+            ui->tabWidget_OperationParameters->setCurrentWidget(currentOp->getAccompanyingProfile());
+        }
+        else{
+            //currentOp->getAccompanyingProfile()->getTabIndex();
+        }
+    }
+}
+
 void Window_ProfileConfiguration::updateConfigurationPath(const std::string &path)
 {
     ui->lineEdit_ConfugrationPath->setText(QString::fromStdString(path));
@@ -29,6 +46,10 @@ TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const
 
     TableWidget_OperationDescriptor* tableDescriptor = new TableWidget_OperationDescriptor(operationParameters);
     tableDescriptor->setOperationIndex(index + 1);
+    QString operationName = "Operation " + QString::number(index);
+    tableDescriptor->setOperationName(operationName.toStdString());
+    ui->tabWidget_OperationParameters->setTabText(index,operationName);
+
     connect(tableDescriptor,SIGNAL(signal_OperationNameChanged(std::string,int)),this,SLOT(slot_OperationNameChanged(std::string,int)));
     connect(tableDescriptor,SIGNAL(signal_ExecuteExplicitProfileConfig(ECMCommand_ProfileConfiguration)),this,SLOT(slot_OnExecuteExplicitProfileConfig(ECMCommand_ProfileConfiguration)));
     tableDescriptor->newlyAvailableProgramLabels(m_API->m_Galil->stateInterface->galilProgram->getLabelList());
@@ -45,9 +66,10 @@ TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const
 
 void Window_ProfileConfiguration::slot_OnExecuteExplicitProfileConfig(const ECMCommand_ProfileConfiguration &config)
 {
-    ECMCommand_ProfileCollection newProfileCollection;
-    newProfileCollection.insertProfile(config);
-    emit signal_ExecuteProfileCollection(newProfileCollection);
+    ECMCommand_ExecuteCollection newExecutionCollection;
+    newExecutionCollection.insertProfile(config);
+    newExecutionCollection.setHomeShouldIndicate(ui->checkBox_ShouldHomeBeIndicated->isChecked());
+    emit signal_ExecuteProfileCollection(newExecutionCollection);
 }
 
 void Window_ProfileConfiguration::clearExistingOperations()

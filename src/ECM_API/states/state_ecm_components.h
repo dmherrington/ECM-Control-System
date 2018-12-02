@@ -26,14 +26,13 @@
 #include "ECM_API/states/state_ecm_profile_machine.h"
 #include "ECM_API/states/state_ecm_profile_machine_cease.h"
 #include "ECM_API/states/state_ecm_profile_machine_process.h"
-#include "ECM_API/states/state_ecm_profile_machine_setup.h"
 
-#include "ECM_API/states/state_ecm_pump_setup.h"
-
-#include "ECM_API/states/state_ecm_touchoff.h"
-#include "ECM_API/states/state_ecm_touchoff_disable.h"
-#include "ECM_API/states/state_ecm_touchoff_enable.h"
-#include "ECM_API/states/state_ecm_touchoff_execute.h"
+#include "ECM_API/states/state_ecm_setup_machine.h"
+#include "ECM_API/states/state_ecm_setup_machine_complete.h"
+#include "ECM_API/states/state_ecm_setup_machine_failed.h"
+#include "ECM_API/states/state_ecm_setup_machine_home.h"
+#include "ECM_API/states/state_ecm_setup_machine_pump.h"
+#include "ECM_API/states/state_ecm_setup_machine_touchoff.h"
 
 #include "ECM_API/states/state_ecm_upload.h"
 #include "ECM_API/states/state_ecm_upload_complete.h"

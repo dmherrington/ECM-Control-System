@@ -25,8 +25,6 @@ namespace API {
 
 ECM_CLASS_FORWARD(ECMState_ProfileMachineCease);
 
-class ECMState_Touchoff;
-
 class ECMState_ProfileMachineCease : public AbstractStateECMProcess
 {
 public:
@@ -41,9 +39,9 @@ public:
     hsm::Transition GetTransition() override;
 
 public:
-    void Update() override;
-
     void OnEnter() override;
+    void Update() override;
+    void OnExit() override;
 
 };
 

@@ -12,7 +12,7 @@ Window_MotionProfile::Window_MotionProfile(GalilMotionController *obj, QWidget *
 
     GeneralDialogWindow::readWindowSettings();
 
-    connect(m_MotionController,SIGNAL(signal_MCNewProgramReceived(ProgramGeneric)),this,SLOT(slot_MCNewProgramAvailable(ProgramGeneric)));
+    connect(m_MotionController,SIGNAL(signal_MCNewProgramReceived(GalilCurrentProgram)),this,SLOT(slot_MCNewProgramAvailable(GalilCurrentProgram)));
 }
 
 Window_MotionProfile::~Window_MotionProfile()
@@ -85,10 +85,10 @@ void Window_MotionProfile::openFromFile(const QString &filePath)
     ui->codeTextEdit->setPlainText(programText);
 }
 
-void Window_MotionProfile::slot_MCNewProgramAvailable(const ProgramGeneric &program)
+void Window_MotionProfile::slot_MCNewProgramAvailable(const GalilCurrentProgram &program)
 {
     ui->codeTextEdit->clear();
-    ui->codeTextEdit->setPlainText(QString::fromStdString(program.getProgramString()));
+    ui->codeTextEdit->setPlainText(QString::fromStdString(program.getProgram()));
     ui->led_ProgramCurrent->setColor(QColor(0,255,0));
 }
 

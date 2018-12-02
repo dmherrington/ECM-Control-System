@@ -55,6 +55,11 @@ std::string ECMCommand_ProfileConfiguration::getOperationName() const
     return this->operationName;
 }
 
+bool ECMCommand_ProfileConfiguration::shouldHomeBeIndicated() const
+{
+    return this->indicateHome;
+}
+
 bool ECMCommand_ProfileConfiguration::shouldProfileExecute() const
 {
     return this->execute;
@@ -74,6 +79,12 @@ void ECMCommand_ProfileConfiguration::setOperationName(const std::string &name)
 {
     this->operationName = name;
 }
+
+void ECMCommand_ProfileConfiguration::setHomeNeedsToBeIndicated(const bool &homeExecute)
+{
+    this->indicateHome = homeExecute;
+}
+
 void ECMCommand_ProfileConfiguration::setProfileExecution(const bool &varExecute)
 {
     this->execute = varExecute;

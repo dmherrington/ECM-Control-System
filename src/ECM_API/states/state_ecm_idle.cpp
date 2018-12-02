@@ -6,6 +6,7 @@ namespace API {
 ECMState_Idle::ECMState_Idle():
     AbstractStateECMProcess()
 {
+    std::cout<<"We are currently in the constructor of STATE_ECM_IDLE."<<std::endl;
     this->currentState = ECMState::STATE_ECM_IDLE;
     this->desiredState = ECMState::STATE_ECM_IDLE;
 }
@@ -33,12 +34,13 @@ hsm::Transition ECMState_Idle::GetTransition()
         switch (desiredState) {
         case ECMState::STATE_ECM_MOTION_PROFILE_INITIALIZATION:
         {
-            rtn = hsm::SiblingTransition<ECMState_MotionProfileInitialization>(m_ProfileCollection);
+            ECMCommand_ProfileCollection* collection = m_ECMCollection.get()->as<ECMCommand_ProfileCollection>();
+            rtn = hsm::SiblingTransition<ECMState_MotionProfileInitialization>(*collection);
             break;
         }
         case ECMState::STATE_ECM_UPLOAD:
         {
-            rtn = hsm::SiblingTransition<ECMState_Upload>(m_ProfileCollection);
+            rtn = hsm::SiblingTransition<ECMState_Upload>(m_ECMCollection);
             break;
         }
         default:
@@ -50,12 +52,13 @@ hsm::Transition ECMState_Idle::GetTransition()
 
 void ECMState_Idle::initializeFromCollection(const ECMCommand_ProfileCollection &collection)
 {
-    this->m_ProfileCollection = collection;
+    m_ECMCollection = std::make_shared<ECMCommand_ProfileCollection>(collection);
     this->desiredState = ECMState::STATE_ECM_MOTION_PROFILE_INITIALIZATION;
 }
 
 void ECMState_Idle::executeCollection(const ECMCommand_ExecuteCollection &collection)
 {
+    m_ECMCollection = std::make_shared<ECMCommand_ExecuteCollection>(collection);
     this->desiredState = ECMState::STATE_ECM_UPLOAD;
 }
 

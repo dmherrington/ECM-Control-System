@@ -6,8 +6,14 @@ namespace API {
 ECMState_Upload::ECMState_Upload():
     AbstractStateECMProcess()
 {
+    std::cout<<"We are currently in the constructor of STATE_ECM_UPLOAD."<<std::endl;
     this->currentState = ECMState::STATE_ECM_UPLOAD;
     this->desiredState = ECMState::STATE_ECM_UPLOAD;
+}
+
+void ECMState_Upload::OnExit()
+{
+
 }
 
 AbstractStateECMProcess* ECMState_Upload::getClone() const
@@ -28,6 +34,7 @@ hsm::Transition ECMState_Upload::GetTransition()
     {
         if(IsInInnerState<ECMState_UploadComplete>())
         {
+            std::cout<<"The upload state sees that all of the uploads are complete"<<std::endl;
             //Let us check to see if we should execute this profile
 //            if(m_ProfileConfiguration.shouldProfileExecute()){
 //                rtn = hsm::SiblingTransition<ECMState::STATE_ECM_INITIALIZATION>(m_ProfileConfiguration);
@@ -38,7 +45,7 @@ hsm::Transition ECMState_Upload::GetTransition()
         }
         else if(IsInInnerState<ECMState_UploadFailed>())
         {
-            //rtn = hsm::SiblingTransition<ECMState::STATE_ECM_IDLE>();
+            rtn = hsm::SiblingTransition<ECMState_Idle>();
         }
         else
         {
@@ -48,7 +55,8 @@ hsm::Transition ECMState_Upload::GetTransition()
             switch (desiredState) {
             case ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE:
             {
-                //rtn = hsm::InnerEntryTransition<ECMState_UploadMotionProfile>(m_ProfileCollection);
+                ECMCommand_ExecuteCollection* executionCollection = m_ECMCollection.get()->as<ECMCommand_ExecuteCollection>();
+                rtn = hsm::InnerEntryTransition<ECMState_UploadMotionProfile>(executionCollection->getActiveConfiguration());
                 break;
             }
             case ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES:
@@ -86,15 +94,15 @@ void ECMState_Upload::OnEnter()
 
 }
 
-void ECMState_Upload::OnEnter(const ECMCommand_ExecuteCollection &collection)
+void ECMState_Upload::OnEnter(const ECMCommand_AbstractCollectionPtr &collection)
 {
     //First update the configuation per what was received upon entering the state
+    this->m_ECMCollection = collection;
+    this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE;
 }
 
-} //end of namespace Galil
+} //end of namespace API
 } //end of namespace ECM
-
-#include "states/state_ecm_motion_profile_initialization.h"
 
 #include "states/state_ecm_idle.h"
 #include "states/state_ecm_upload_complete.h"

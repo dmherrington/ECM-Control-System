@@ -39,12 +39,15 @@ public:
     hsm::Transition GetTransition() override;
 
 public:
-    void Update() override;
-
     void OnEnter() override;
+    void Update() override;
+    void OnExit() override;
 
-    void OnEnter(const ECMCommand_ExecuteCollection &config);
+public:
+    void OnEnter(const ECMCommand_ProfileConfiguration &config);
 
+private:
+    ECMCommand_ProfileConfiguration m_Config;
 };
 
 } //end of namespace API

@@ -30,7 +30,7 @@ public:
     QGridLayout *gridLayout_2;
     QHBoxLayout *horizontalLayout;
     QSpinBox *spinBox_OperationOrder;
-    QLineEdit *lineEdit_ProfileName;
+    QLineEdit *lineEdit_OperationName;
     QCheckBox *checkBox_EnableOperation;
     QPushButton *pushButton_ExecuteExplicitOp;
 
@@ -63,15 +63,15 @@ public:
 
         horizontalLayout->addWidget(spinBox_OperationOrder);
 
-        lineEdit_ProfileName = new QLineEdit(TableWidget_OperationDescriptor);
-        lineEdit_ProfileName->setObjectName(QStringLiteral("lineEdit_ProfileName"));
-        sizePolicy.setHeightForWidth(lineEdit_ProfileName->sizePolicy().hasHeightForWidth());
-        lineEdit_ProfileName->setSizePolicy(sizePolicy);
-        lineEdit_ProfileName->setMinimumSize(QSize(150, 20));
-        lineEdit_ProfileName->setMaximumSize(QSize(150, 20));
-        lineEdit_ProfileName->setAlignment(Qt::AlignCenter);
+        lineEdit_OperationName = new QLineEdit(TableWidget_OperationDescriptor);
+        lineEdit_OperationName->setObjectName(QStringLiteral("lineEdit_OperationName"));
+        sizePolicy.setHeightForWidth(lineEdit_OperationName->sizePolicy().hasHeightForWidth());
+        lineEdit_OperationName->setSizePolicy(sizePolicy);
+        lineEdit_OperationName->setMinimumSize(QSize(150, 20));
+        lineEdit_OperationName->setMaximumSize(QSize(150, 20));
+        lineEdit_OperationName->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout->addWidget(lineEdit_ProfileName);
+        horizontalLayout->addWidget(lineEdit_OperationName);
 
         checkBox_EnableOperation = new QCheckBox(TableWidget_OperationDescriptor);
         checkBox_EnableOperation->setObjectName(QStringLiteral("checkBox_EnableOperation"));

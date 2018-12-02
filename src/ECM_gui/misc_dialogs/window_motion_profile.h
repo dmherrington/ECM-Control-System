@@ -38,7 +38,7 @@ private slots:
     void on_actionOpen_triggered();
 
 private slots:
-    void slot_MCNewProgramAvailable(const ProgramGeneric &program);
+    void slot_MCNewProgramAvailable(const GalilCurrentProgram &program);
 
     void on_codeTextEdit_textChanged();
 

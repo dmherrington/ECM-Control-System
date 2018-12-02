@@ -22,7 +22,7 @@ namespace API {
 
 ECM_CLASS_FORWARD(ECMState_Upload);
 
-class ECMState_MotionProfileInitialization;
+class ECMState_Idle;
 
 class ECMState_UploadComplete;
 class ECMState_UploadFailed;
@@ -46,11 +46,12 @@ public:
     hsm::Transition GetTransition() override;
 
 public:
-    void Update() override;
-
     void OnEnter() override;
+    void Update() override;
+    void OnExit() override;
 
-    void OnEnter(const ECMCommand_ExecuteCollection &collection);
+public:
+    void OnEnter(const ECMCommand_AbstractCollectionPtr &collection);
 
 };
 
