@@ -2,7 +2,7 @@
 #define STATE_ECM_UPLOAD_FAILED_H
 
 #include "states/state_abstract_ecm_process.h"
-#include "commands/ecm_command_profile_configuration.h"
+#include "commands/ecm_command_execute_collection.h"
 
 /**
 \* @file  state_ecm_touchoff.h

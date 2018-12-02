@@ -28,6 +28,7 @@ hsm::Transition ECMState_Upload::GetTransition()
     {
         if(IsInInnerState<ECMState_UploadComplete>())
         {
+            
             //Let us check to see if we should execute this profile
 //            if(m_ProfileConfiguration.shouldProfileExecute()){
 //                rtn = hsm::SiblingTransition<ECMState::STATE_ECM_INITIALIZATION>(m_ProfileConfiguration);

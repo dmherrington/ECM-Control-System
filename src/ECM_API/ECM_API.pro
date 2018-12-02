@@ -57,7 +57,8 @@ SOURCES += \
     states/state_ecm_motion_profile_initialization.cpp \
     commands/ecm_command_profile_collection.cpp \
     commands/ecm_command_profile_configuration.cpp \
-    states/state_test.cpp
+    states/state_test.cpp \
+    commands/ecm_command_execute_collection.cpp
 
 HEADERS += \
         ecm_api.h \
@@ -89,7 +90,8 @@ HEADERS += \
     states/state_ecm_motion_profile_initialization.h \
     commands/ecm_command_profile_collection.h \
     commands/ecm_command_profile_configuration.h \
-    states/state_test.h
+    states/state_test.h \
+    commands/ecm_command_execute_collection.h
 
 # Unix lib Install
 unix:!symbian {

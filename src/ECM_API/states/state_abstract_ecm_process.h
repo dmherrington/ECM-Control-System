@@ -9,6 +9,7 @@
 
 #include "../ecm_api.h"
 #include "../commands/ecm_command_profile_collection.h"
+#include "../commands/ecm_command_execute_collection.h"
 
 #include "state_ecm_types.h"
 
@@ -72,7 +73,7 @@ public:
 
     virtual void initializeFromCollection(const ECMCommand_ProfileCollection &collection);
 
-    virtual void uploadConfiguration(const ECMCommand_ProfileConfiguration &config);
+    virtual void executeCollection(const ECMCommand_ExecuteCollection &collection);
 
 public:
     virtual ECMState getCurrentState() const;

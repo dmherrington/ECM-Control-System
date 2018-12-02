@@ -19,14 +19,14 @@ ECMState AbstractStateECMProcess::getDesiredState() const
     return desiredState;
 }
 
-void AbstractStateECMProcess::initializeFromCollection(const ECMCommand_ProfileCollection &config)
+void AbstractStateECMProcess::initializeFromCollection(const ECMCommand_ProfileCollection &collection)
 {
-
+    UNUSED(collection);
 }
 
-void AbstractStateECMProcess::uploadConfiguration(const ECMCommand_ProfileConfiguration &config)
+void AbstractStateECMProcess::executeCollection(const ECMCommand_ExecuteCollection &collection)
 {
-    UNUSED(config);
+    UNUSED(collection);
 }
 
 void AbstractStateECMProcess::clearCommand()

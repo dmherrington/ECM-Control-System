@@ -1,7 +1,7 @@
 #ifndef ECM_COMMAND_PROFILE_COLLECTION_H
 #define ECM_COMMAND_PROFILE_COLLECTION_H
 
-#include <map>
+#include <vector>
 
 #include "ecm_command_profile_configuration.h"
 
@@ -21,7 +21,7 @@ public:
     unsigned int getCollectionSize() const;
 
 private:
-    std::map<unsigned int, ECMCommand_ProfileConfiguration> m_Collection;
+    std::vector<ECMCommand_ProfileConfiguration> m_Collection;
 };
 
 #endif // ECM_COMMAND_PROFILE_COLLECTION_H

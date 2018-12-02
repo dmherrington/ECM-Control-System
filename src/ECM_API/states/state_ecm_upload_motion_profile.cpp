@@ -48,7 +48,7 @@ void ECMState_UploadMotionProfile::OnEnter()
 
 }
 
-void ECMState_UploadMotionProfile::OnEnter(const ECMCommand_ProfileConfiguration &config)
+void ECMState_UploadMotionProfile::OnEnter(const ECMCommand_ExecuteCollection &config)
 {
     //First update the configuation per what was received upon entering the state
 

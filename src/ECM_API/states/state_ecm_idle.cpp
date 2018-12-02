@@ -36,6 +36,11 @@ hsm::Transition ECMState_Idle::GetTransition()
             rtn = hsm::SiblingTransition<ECMState_MotionProfileInitialization>(m_ProfileCollection);
             break;
         }
+        case ECMState::STATE_ECM_UPLOAD:
+        {
+            rtn = hsm::SiblingTransition<ECMState_Upload>(m_ProfileCollection);
+            break;
+        }
         default:
             break;
         }
@@ -49,9 +54,9 @@ void ECMState_Idle::initializeFromCollection(const ECMCommand_ProfileCollection 
     this->desiredState = ECMState::STATE_ECM_MOTION_PROFILE_INITIALIZATION;
 }
 
-void ECMState_Idle::uploadConfiguration(const ECMCommand_ProfileConfiguration &config)
+void ECMState_Idle::executeCollection(const ECMCommand_ExecuteCollection &collection)
 {
-
+    this->desiredState = ECMState::STATE_ECM_UPLOAD;
 }
 
 void ECMState_Idle::Update()
@@ -68,3 +73,4 @@ void ECMState_Idle::OnEnter()
 } //end of namespace ECM
 
 #include "states/state_ecm_motion_profile_initialization.h"
+#include "states/state_ecm_upload.h"

@@ -48,7 +48,7 @@ void ECMState_UploadPowerPulseMode::OnEnter()
 
 }
 
-void ECMState_UploadPowerPulseMode::OnEnter(const ECMCommand_ProfileConfiguration &config)
+void ECMState_UploadPowerPulseMode::OnEnter(const ECMCommand_ExecuteCollection &config)
 {
     //First update the configuation per what was received upon entering the state
     Owner().m_Munk->AddLambda_FinishedUploadingPulseMode(this,[this](const bool completed, const DeviceInterface_PowerSupply::FINISH_CODE finishCode){

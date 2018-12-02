@@ -2,7 +2,7 @@
 #define ECM_STATE_UPLOAD_POWER_PULSE_MODE_H
 
 #include "states/state_abstract_ecm_process.h"
-#include "commands/ecm_command_profile_configuration.h"
+#include "commands/ecm_command_execute_collection.h"
 
 #include "library_munk_power_supply/munk_power_supply.h"
 
@@ -45,7 +45,7 @@ public:
 
     void OnEnter() override;
 
-    void OnEnter(const ECMCommand_ProfileConfiguration &config);
+    void OnEnter(const ECMCommand_ExecuteCollection &config);
 
 };
 

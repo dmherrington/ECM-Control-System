@@ -31,6 +31,7 @@ namespace API {
 ECM_CLASS_FORWARD(ECMState_Idle);
 
 class ECMState_MotionProfileInitialization;
+class ECMState_Upload;
 
 class ECMState_Idle : public AbstractStateECMProcess
 {
@@ -54,7 +55,7 @@ public:
 
     void initializeFromCollection(const ECMCommand_ProfileCollection &collection) override;
 
-    void uploadConfiguration(const ECMCommand_ProfileConfiguration &config) override;
+    void executeCollection(const ECMCommand_ExecuteCollection &collection) override;
 
 };
 
