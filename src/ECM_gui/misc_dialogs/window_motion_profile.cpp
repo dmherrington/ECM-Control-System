@@ -12,7 +12,21 @@ Window_MotionProfile::Window_MotionProfile(GalilMotionController *obj, QWidget *
 
     GeneralDialogWindow::readWindowSettings();
 
-    connect(m_MotionController,SIGNAL(signal_MCNewProgramReceived(GalilCurrentProgram)),this,SLOT(slot_MCNewProgramAvailable(GalilCurrentProgram)));
+    m_MotionController->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const GalilCurrentProgram &program){
+        if(completed)
+        {
+            std::string loadPath = "";
+            if(program.wasProgramLoaded(loadPath))
+            {
+                ui->lineEdit_motionScriptPath->setText(QString::fromStdString(loadPath));
+            }
+
+            ui->codeTextEdit->clear();
+            ui->codeTextEdit->setPlainText(QString::fromStdString(program.getProgram()));
+            ui->led_ProgramCurrent->setColor(QColor(0,255,0));
+        }
+    });
+
 }
 
 Window_MotionProfile::~Window_MotionProfile()
@@ -78,18 +92,13 @@ void Window_MotionProfile::openFromFile(const QString &filePath)
     {
         return;
     }
+
     QTextStream inStream(&file);
     QString programText = inStream.readAll();
     file.close();
 
+    ui->lineEdit_motionScriptPath->setText(filePath);
     ui->codeTextEdit->setPlainText(programText);
-}
-
-void Window_MotionProfile::slot_MCNewProgramAvailable(const GalilCurrentProgram &program)
-{
-    ui->codeTextEdit->clear();
-    ui->codeTextEdit->setPlainText(QString::fromStdString(program.getProgram()));
-    ui->led_ProgramCurrent->setColor(QColor(0,255,0));
 }
 
 void Window_MotionProfile::on_codeTextEdit_textChanged()
@@ -101,11 +110,8 @@ void Window_MotionProfile::on_pushButton_UploadProgram_released()
 {
     std::string programString = ui->codeTextEdit->toPlainText().toStdString();
 
-    ProgramGeneric newProgram;
-    newProgram.setProgramString(programString);
-
     CommandUploadProgramPtr commandUploadDefault = std::make_shared<CommandUploadProgram>();
-    commandUploadDefault->setProgram(newProgram);
+    commandUploadDefault->setCurrentScript(programString);
     m_MotionController->executeCommand(commandUploadDefault);
 }
 

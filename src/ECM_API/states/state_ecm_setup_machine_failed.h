@@ -49,7 +49,7 @@ public:
     hsm::Transition GetTransition() override;
 
 public:
-    void OnEnter(const ECMCommand_ProfileConfiguration &collection);
+    void OnEnter(const ECMCommand_ProfileConfiguration &configuration);
 
 };
 

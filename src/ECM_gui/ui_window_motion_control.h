@@ -31,10 +31,12 @@
 
 QT_BEGIN_NAMESPACE
 
-class Ui_Window_ManualControl
+class Ui_Window_MotionControl
 {
 public:
+    QAction *actionClose;
     QWidget *centralwidget;
+    QGridLayout *gridLayout_3;
     QFrame *frame_MaunalControl;
     QGridLayout *gridLayout_2;
     QHBoxLayout *horizontalLayout_6;
@@ -72,21 +74,143 @@ public:
     QMenu *menuHelp;
     QStatusBar *statusbar;
 
-    void setupUi(QMainWindow *Window_ManualControl)
+    void setupUi(QMainWindow *Window_MotionControl)
     {
-        if (Window_ManualControl->objectName().isEmpty())
-            Window_ManualControl->setObjectName(QStringLiteral("Window_ManualControl"));
-        Window_ManualControl->resize(370, 305);
-        Window_ManualControl->setMinimumSize(QSize(370, 305));
-        Window_ManualControl->setMaximumSize(QSize(370, 305));
-        centralwidget = new QWidget(Window_ManualControl);
-        centralwidget->setObjectName(QStringLiteral("centralwidget"));
-        frame_MaunalControl = new QFrame(centralwidget);
-        frame_MaunalControl->setObjectName(QStringLiteral("frame_MaunalControl"));
-        frame_MaunalControl->setGeometry(QRect(10, 10, 350, 250));
+        if (Window_MotionControl->objectName().isEmpty())
+            Window_MotionControl->setObjectName(QStringLiteral("Window_MotionControl"));
+        Window_MotionControl->resize(370, 310);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(Window_MotionControl->sizePolicy().hasHeightForWidth());
+        Window_MotionControl->setSizePolicy(sizePolicy);
+        Window_MotionControl->setMinimumSize(QSize(370, 310));
+        Window_MotionControl->setMaximumSize(QSize(370, 310));
+        Window_MotionControl->setStyleSheet(QLatin1String("QMenuBar{\n"
+"background-color:#1d1d1d;\n"
+"padding:5px;\n"
+"	font: 12pt \"MS Shell Dlg 2\";\n"
+"}\n"
+"\n"
+"QMenuBar::item{\n"
+"background-color:#1d1d1d;\n"
+"color:#fff;\n"
+"padding:5px;\n"
+"\n"
+"}\n"
+"\n"
+"QMenu{\n"
+"color:#fff;\n"
+"padding:0;\n"
+"}\n"
+"\n"
+"QMenu::item:selected{\n"
+"color:#fff;\n"
+"background-color:#00aba9;\n"
+"}\n"
+"\n"
+"QTableWidget{\n"
+"background-color:#3d3d3d;\n"
+"color:#fff;\n"
+"  selection-background-color: #da532c;\n"
+"border:solid;\n"
+"border-width:3px;\n"
+"border-color:#da532c;\n"
+"}\n"
+"QHeaderView::section{\n"
+"background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, 217, 255), stop:1 rgba(36, 158, 217, 255));\n"
+"border:none;\n"
+"border-top-style:solid;\n"
+"border-width:1px;\n"
+"border-top-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, 217, 255), stop:1 rgba(36, 158, 217, 255));\n"
+"color:#fff;\n"
+"\n"
+"}\n"
+"QHeaderView{\n"
+"background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, "
+                        "217, 255), stop:1 rgba(36, 158, 217, 255));\n"
+"\n"
+"border:none;\n"
+"border-top-style:solid;\n"
+"border-width:1px;\n"
+"border-top-color:#149ED9;\n"
+"color:#fff;\n"
+"	font: 75 12pt \"Calibri\";\n"
+"}\n"
+"\n"
+"QTableCornerButton::section{\n"
+"border:none;\n"
+"background-color:#149ED9;\n"
+"}\n"
+"\n"
+"QListWidget{\n"
+"background-color:#3d3d3d;\n"
+"color:#fff;\n"
+"}\n"
+"\n"
+"QMenu{\n"
+"background-color:#3d3d3d;\n"
+"}\n"
+"QStatusBar{\n"
+"background-color:#7e3878;\n"
+"color:#fff;\n"
+"}\n"
+"\n"
+"QPushButton{\n"
+"border-style:solid;\n"
+"background-color:#3d3d3d;\n"
+"color:#fff;\n"
+"border-radius:7px;\n"
+"}\n"
+"\n"
+"QPushButton:disabled {\n"
+"background-color: rgb(204, 0, 0);\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"color:#ccc;\n"
+"	background-color: qlineargradient(spread:pad, x1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(45, 45, 45, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
+"	border-color:#2d89ef;\n"
+"border-width:2px;\n"
+"}\n"
+"\n"
+"QPushButton:pressed{\n"
+"background-color: qlineargrad"
+                        "ient(spread:pad, x1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(29, 29, 29, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
+"}\n"
+"\n"
+"\n"
+"QTabWidget::tab{\n"
+"background-color:#3d3d3d;\n"
+"}\n"
+"\n"
+"QLineEdit{\n"
+"border-radius:0;\n"
+"}\n"
+"\n"
+"QProgressBar{\n"
+"border-radius:0;\n"
+"text-align:center;\n"
+"color:#fff;\n"
+"background-color:transparent;\n"
+"border: 2px solid #e3a21a;\n"
+"border-radius:7px;\n"
+"	font: 75 12pt \"Open Sans\";\n"
+"\n"
+"}\n"
+"\n"
+"QProgressBar::chunk{\n"
+"background-color:#2d89ef;\n"
+"width:20px;\n"
+"}"));
+        actionClose = new QAction(Window_MotionControl);
+        actionClose->setObjectName(QStringLiteral("actionClose"));
+        centralwidget = new QWidget(Window_MotionControl);
+        centralwidget->setObjectName(QStringLiteral("centralwidget"));
+        gridLayout_3 = new QGridLayout(centralwidget);
+        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
+        frame_MaunalControl = new QFrame(centralwidget);
+        frame_MaunalControl->setObjectName(QStringLiteral("frame_MaunalControl"));
         sizePolicy.setHeightForWidth(frame_MaunalControl->sizePolicy().hasHeightForWidth());
         frame_MaunalControl->setSizePolicy(sizePolicy);
         frame_MaunalControl->setMinimumSize(QSize(350, 250));
@@ -311,10 +435,13 @@ public:
 
         gridLayout_2->addLayout(verticalLayout_5, 2, 1, 1, 1);
 
-        Window_ManualControl->setCentralWidget(centralwidget);
-        menubar = new QMenuBar(Window_ManualControl);
+
+        gridLayout_3->addWidget(frame_MaunalControl, 0, 0, 1, 1);
+
+        Window_MotionControl->setCentralWidget(centralwidget);
+        menubar = new QMenuBar(Window_MotionControl);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 370, 21));
+        menubar->setGeometry(QRect(0, 0, 370, 40));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menubar);
@@ -323,48 +450,50 @@ public:
         menuTools->setObjectName(QStringLiteral("menuTools"));
         menuHelp = new QMenu(menubar);
         menuHelp->setObjectName(QStringLiteral("menuHelp"));
-        Window_ManualControl->setMenuBar(menubar);
-        statusbar = new QStatusBar(Window_ManualControl);
+        Window_MotionControl->setMenuBar(menubar);
+        statusbar = new QStatusBar(Window_MotionControl);
         statusbar->setObjectName(QStringLiteral("statusbar"));
-        Window_ManualControl->setStatusBar(statusbar);
+        Window_MotionControl->setStatusBar(statusbar);
 
         menubar->addAction(menuFile->menuAction());
         menubar->addAction(menuEdit->menuAction());
         menubar->addAction(menuTools->menuAction());
         menubar->addAction(menuHelp->menuAction());
+        menuFile->addAction(actionClose);
 
-        retranslateUi(Window_ManualControl);
+        retranslateUi(Window_MotionControl);
 
-        QMetaObject::connectSlotsByName(Window_ManualControl);
+        QMetaObject::connectSlotsByName(Window_MotionControl);
     } // setupUi
 
-    void retranslateUi(QMainWindow *Window_ManualControl)
+    void retranslateUi(QMainWindow *Window_MotionControl)
     {
-        Window_ManualControl->setWindowTitle(QApplication::translate("Window_ManualControl", "MainWindow", nullptr));
-        label_ManualControl->setText(QApplication::translate("Window_ManualControl", "Manual Control", nullptr));
-        label->setText(QApplication::translate("Window_ManualControl", "Current Position (um):", nullptr));
-        label_ManualControl_3->setText(QApplication::translate("Window_ManualControl", "Jog  (um/sec)", nullptr));
-        pushButton_IncreaseJog->setText(QApplication::translate("Window_ManualControl", "INCREASE", nullptr));
-        pushButton_DecreaseJog->setText(QApplication::translate("Window_ManualControl", "DECREASE", nullptr));
-        label_ManualControl_4->setText(QApplication::translate("Window_ManualControl", "Step (um | um/sec)", nullptr));
-        pushButton_IncreaseRelativeMove->setText(QApplication::translate("Window_ManualControl", "INCREASE", nullptr));
+        Window_MotionControl->setWindowTitle(QApplication::translate("Window_MotionControl", "MainWindow", nullptr));
+        actionClose->setText(QApplication::translate("Window_MotionControl", "Close", nullptr));
+        label_ManualControl->setText(QApplication::translate("Window_MotionControl", "Manual Control", nullptr));
+        label->setText(QApplication::translate("Window_MotionControl", "Current Position (um):", nullptr));
+        label_ManualControl_3->setText(QApplication::translate("Window_MotionControl", "Jog  (um/sec)", nullptr));
+        pushButton_IncreaseJog->setText(QApplication::translate("Window_MotionControl", "INCREASE", nullptr));
+        pushButton_DecreaseJog->setText(QApplication::translate("Window_MotionControl", "DECREASE", nullptr));
+        label_ManualControl_4->setText(QApplication::translate("Window_MotionControl", "Step (um | um/sec)", nullptr));
+        pushButton_IncreaseRelativeMove->setText(QApplication::translate("Window_MotionControl", "INCREASE", nullptr));
 #ifndef QT_NO_TOOLTIP
-        spinBox_RelativeMoveSpeed->setToolTip(QApplication::translate("Window_ManualControl", "Testing1", nullptr));
+        spinBox_RelativeMoveSpeed->setToolTip(QApplication::translate("Window_MotionControl", "Testing1", nullptr));
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_STATUSTIP
         spinBox_RelativeMoveSpeed->setStatusTip(QString());
 #endif // QT_NO_STATUSTIP
-        pushButton_DecreaseRelativeMove->setText(QApplication::translate("Window_ManualControl", "DECREASE", nullptr));
-        menuFile->setTitle(QApplication::translate("Window_ManualControl", "File", nullptr));
-        menuEdit->setTitle(QApplication::translate("Window_ManualControl", "Edit", nullptr));
-        menuTools->setTitle(QApplication::translate("Window_ManualControl", "Tools", nullptr));
-        menuHelp->setTitle(QApplication::translate("Window_ManualControl", "Help", nullptr));
+        pushButton_DecreaseRelativeMove->setText(QApplication::translate("Window_MotionControl", "DECREASE", nullptr));
+        menuFile->setTitle(QApplication::translate("Window_MotionControl", "File", nullptr));
+        menuEdit->setTitle(QApplication::translate("Window_MotionControl", "Edit", nullptr));
+        menuTools->setTitle(QApplication::translate("Window_MotionControl", "Tools", nullptr));
+        menuHelp->setTitle(QApplication::translate("Window_MotionControl", "Help", nullptr));
     } // retranslateUi
 
 };
 
 namespace Ui {
-    class Window_ManualControl: public Ui_Window_ManualControl {};
+    class Window_MotionControl: public Ui_Window_MotionControl {};
 } // namespace Ui
 
 QT_END_NAMESPACE

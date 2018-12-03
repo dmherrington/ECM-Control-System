@@ -9,7 +9,9 @@ GalilCurrentOperation::GalilCurrentOperation():
 GalilCurrentOperation::GalilCurrentOperation(const GalilCurrentOperation &copy):
     GalilCurrentProgram(copy)
 {
-
+    this->operationIndex = copy.operationIndex;
+    this->operationName = copy.operationName;
+    this->profileName = copy.profileName;
 }
 
 void GalilCurrentOperation::writeToJSON(QJsonObject &saveObject)
@@ -18,6 +20,7 @@ void GalilCurrentOperation::writeToJSON(QJsonObject &saveObject)
     QJsonObject dataObject;
 
     dataObject["profileName"] = QString::fromStdString(this->getProfileName());
+    dataObject["programScript"] = QString::fromStdString(this->getProgram());
 
     this->variableList.writeToJSON(dataObject);
     MCDataArray.append(dataObject);
@@ -31,6 +34,8 @@ void GalilCurrentOperation::readFromJSON(const QJsonObject &openObject)
     QJsonObject MCObject = MCDataArray[0].toObject();
 
     this->setProfileName(MCObject["profileName"].toString().toStdString());
+    this->setProgram(MCObject["programScript"].toString().toStdString());
+
     this->variableList.readFromJSON(MCObject);
 }
 

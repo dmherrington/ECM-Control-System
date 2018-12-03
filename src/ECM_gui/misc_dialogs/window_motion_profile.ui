@@ -213,7 +213,7 @@ width:20px;
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>40</width>
+          <width>10</width>
           <height>20</height>
          </size>
         </property>
@@ -252,7 +252,7 @@ width:20px;
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit">
+         <widget class="QLineEdit" name="lineEdit_motionScriptPath">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
             <horstretch>0</horstretch>

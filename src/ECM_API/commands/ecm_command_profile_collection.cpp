@@ -47,6 +47,11 @@ ECMCommand_ProfileConfiguration ECMCommand_ProfileCollection::getProfile(const u
     return this->m_Collection.at(index);
 }
 
+std::map<unsigned int, ECMCommand_ProfileConfiguration> ECMCommand_ProfileCollection::getCollection() const
+{
+    return this->m_Collection;
+}
+
 unsigned int ECMCommand_ProfileCollection::getCollectionSize() const
 {
     return this->m_Collection.size();

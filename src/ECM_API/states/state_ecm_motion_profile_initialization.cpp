@@ -72,11 +72,8 @@ void ECMState_MotionProfileInitialization::OnEnter(const ECMCommand_ProfileColle
         }
     });
 
-    ProgramGeneric newProgram;
-    newProgram.setProgramString(collection.getProfile(1).m_GalilOperation.getProgram());
-
     CommandUploadProgramPtr cmdProgram = std::make_shared<CommandUploadProgram>();
-    cmdProgram->setProgram(newProgram);
+    cmdProgram->setCurrentScript(collection.getProfile(1).m_GalilOperation.getProgram());
 
     Owner().m_Galil->executeCommand(cmdProgram);
 }

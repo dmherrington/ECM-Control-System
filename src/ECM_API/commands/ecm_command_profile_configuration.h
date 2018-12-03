@@ -10,6 +10,8 @@
 
 #include "library_westinghouse510/command_pump_properties.h"
 
+#include "ecm_command_execution_properties.h"
+
 ECM_CLASS_FORWARD(ECMCommand_ProfileConfiguration);
 
 class ECMCommand_ProfileConfiguration
@@ -29,6 +31,9 @@ public:
 
     std::string getOperationName() const;
 
+    std::string getProfileName() const;
+
+
     bool shouldHomeBeIndicated() const;
 
     bool shouldProfileExecute() const;
@@ -44,8 +49,6 @@ public:
 
     void setProfileExecution(const bool &varExecute);
 
-    void setProfileCompletion(const bool &complete);
-
 public:
     //!
     //! \brief operator =
@@ -56,8 +59,9 @@ public:
         this->operationIndex = rhs.operationIndex;
         this->operationName = rhs.operationName;
         this->indicateHome = rhs.indicateHome;
-        this->execute = rhs.execute;
-        this->completed = rhs.completed;
+        this->shouldExecute = rhs.shouldExecute;
+
+        this->execProperties = rhs.execProperties;
 
         this->m_GalilOperation = rhs.m_GalilOperation;
         this->m_Touchoff = rhs.m_Touchoff;
@@ -83,10 +87,10 @@ public:
         if(this->indicateHome != rhs.indicateHome){
             return false;
         }
-        if(this->execute != rhs.execute){
+        if(this->shouldExecute != rhs.shouldExecute){
             return false;
         }
-        if(this->completed != rhs.completed)
+        if(this->execProperties != rhs.execProperties)
         {
             return false;
         }
@@ -128,8 +132,10 @@ private:
     unsigned int operationIndex = 0;
     std::string operationName = "";
     bool indicateHome = false;
-    bool execute = false;
-    bool completed = false;
+    bool shouldExecute = false;
+
+public:
+    ECMCommand_ExecutionProperties execProperties;
 };
 
 #endif // ECM_COMMAND_PROFILE_CONFIGURATION_H

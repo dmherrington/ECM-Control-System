@@ -59,6 +59,14 @@ void ECMState_SetupMachinePump::OnEnter()
 void ECMState_SetupMachinePump::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
 {
     this->m_Config = configuration;
+    Owner().m_Pump->AddLambda_FinishedPumpInitialization(this,[this](const bool &completed){
+        if(completed)
+        {
+            desiredState = ECMState::STATE_ECM_SETUP_MACHINE_COMPLETE;
+        }else{
+            desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
+        }
+    });
 }
 
 } //end of namespace API

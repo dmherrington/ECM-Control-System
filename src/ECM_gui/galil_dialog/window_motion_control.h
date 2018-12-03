@@ -1,24 +1,33 @@
-#ifndef WIDGET_MOTION_CONTROL_H
-#define WIDGET_MOTION_CONTROL_H
-
-#include <QWidget>
+#ifndef WINDOW_MOTION_CONTROL_H
+#define WINDOW_MOTION_CONTROL_H
 
 #include "library_galilMotionController/galil_motion_controller.h"
 
+#include "../general_dialog_window.h"
+
 namespace Ui {
-class Widget_MotionControl;
+class Window_MotionControl;
 }
 
-class Widget_MotionControl : public QWidget
+class Window_MotionControl : public GeneralDialogWindow
 {
     Q_OBJECT
 
 public:
-    explicit Widget_MotionControl(GalilMotionController* galilObject, QWidget *parent = 0);
-    ~Widget_MotionControl();
+    explicit Window_MotionControl(GalilMotionController* galilObject, QWidget *parent = 0);
+    ~Window_MotionControl();
 
 public:
     int getCurrentJogSpeed() const;
+
+private:
+    void lockMotionButtons(const bool &lock);
+
+private:
+    void closeEvent(QCloseEvent *event) override;
+
+signals:
+    void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility);
 
 private slots:
     void on_pushButton_IncreaseJog_pressed();
@@ -38,11 +47,11 @@ private slots:
 
     void slot_LockMotionButtons(const bool &lock);
 
-
 private:
-    Ui::Widget_MotionControl *ui;
+    Ui::Window_MotionControl *ui;
 
     GalilMotionController* m_Galil;
 };
 
-#endif // WIDGET_MOTION_CONTROL_H
+
+#endif // WINDOW_MOTION_CONTROL_H

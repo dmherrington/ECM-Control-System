@@ -25,8 +25,8 @@ void GalilProtocol::AddListner(const IProtocolGalilEvents* listener)
 
 void GalilProtocol::UploadNewProgram(const ILink *link, const AbstractCommandPtr command)
 {
-    ProgramGeneric uploadProgram = command.get()->as<CommandUploadProgram>()->getProgram();
-    GReturn rtn = link->UploadProgram(uploadProgram.getProgramString());
+    GalilCurrentProgram uploadProgram = command.get()->as<CommandUploadProgram>()->getCurrentProgram();
+    GReturn rtn = link->UploadProgram(uploadProgram.getProgram());
 
     std::vector<AbstractRequestPtr> currentRequests;
     RequestListLabelsPtr requestLabels = std::make_shared<RequestListLabels>();
@@ -44,8 +44,7 @@ void GalilProtocol::UploadNewProgram(const ILink *link, const AbstractCommandPtr
     if(rtn == G_NO_ERROR)
     {
         //If we have gotten to this point, we currently have a newly available program with accompanying labels and variables.
-        GalilCurrentProgram newProgram;
-        newProgram.setProgram(uploadProgram.getProgramString());
+        GalilCurrentProgram newProgram(uploadProgram);
 
         AbstractStatusPtr labelPtr = requestLabels->getStatus().at(0);
         Status_LabelList* currentLabels = labelPtr.get()->as<Status_LabelList>();

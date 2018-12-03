@@ -147,6 +147,16 @@ void Window_DeviceConnections::closeEvent(QCloseEvent *event)
     GeneralDialogWindow::closeEvent(event);
 }
 
+bool Window_DeviceConnections::areAllDevicesConnected() const
+{
+    if(m_API->m_Galil->isDeviceConnected())
+        if(m_API->m_Munk->isConnected())
+            if(m_API->m_Pump->isPumpConnected())
+                if(m_API->m_Rigol->isDeviceConnected())
+                    return true;
+    return false;
+}
+
 void Window_DeviceConnections::on_actionClose_triggered()
 {
     GeneralDialogWindow::onCloseAction();
@@ -215,6 +225,8 @@ void Window_DeviceConnections::slot_PumpConnectionUpdate(const common::comms::Co
         ui->pushButton_connectPump->setText("CONNECT");
     }
 
+    emit signal_DeviceConnectionComplete(areAllDevicesConnected());
+
     this->updateLEDConnectionColor(ui->widget_WestinghouseConnection,update);
 }
 
@@ -230,6 +242,8 @@ void Window_DeviceConnections::slot_RigolConnectionUpdate(const common::comms::C
         ui->comboBox_PortPump->setEnabled(true);
         ui->pushButton_connect_Rigol->setText("CONNECT");
     }
+
+    emit signal_DeviceConnectionComplete(areAllDevicesConnected());
 
     this->updateLEDConnectionColor(ui->widget_RigolConnection,update);
 }
@@ -247,6 +261,8 @@ void Window_DeviceConnections::slot_MunkConnectionUpdate(const common::comms::Co
         ui->pushButton_connectMunk->setText("CONNECT");
     }
 
+    emit signal_DeviceConnectionComplete(areAllDevicesConnected());
+
     this->updateLEDConnectionColor(ui->widget_MunkConnection,update);
 }
 
@@ -262,6 +278,8 @@ void Window_DeviceConnections::slot_GalilConnectionUpdate(const common::comms::C
         ui->lineEdit_IPGalil->setEnabled(true);
         ui->pushButton_connectGalil->setText("CONNECT");
     }
+
+    emit signal_DeviceConnectionComplete(areAllDevicesConnected());
 
     this->updateLEDConnectionColor(ui->widget_GalilConnection,update);
 }

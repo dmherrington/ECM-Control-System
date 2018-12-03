@@ -1,7 +1,12 @@
 #ifndef STATE_ECM_PROFILE_MACHINE_PROCESS_H
 #define STATE_ECM_PROFILE_MACHINE_PROCESS_H
 
-#include "states/state_abstract_ecm_process.h"
+#include "common/class_forward.h"
+#include "common/hsm.h"
+
+#include "../ecm_api.h"
+
+#include "state_abstract_ecm_process.h"
 
 /**
 \* @file  state_ecm_touchoff.h
@@ -26,6 +31,8 @@ namespace API {
 
 ECM_CLASS_FORWARD(ECMState_ProfileMachineProcess);
 
+class ECMState_ProfileMachineCease;
+
 class ECMState_ProfileMachineProcess : public AbstractStateECMProcess
 {
 public:
@@ -44,6 +51,11 @@ public:
     void Update() override;
     void OnExit() override;
 
+public:
+    void OnEnter(const ECMCommand_ProfileConfiguration &configuration);
+
+private:
+    ECMCommand_ProfileConfiguration m_Config;
 };
 
 } //end of namespace API

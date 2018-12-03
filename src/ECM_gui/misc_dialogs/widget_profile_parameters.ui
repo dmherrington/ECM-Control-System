@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1130</width>
+    <width>1200</width>
     <height>560</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>1130</width>
+    <width>1100</width>
     <height>560</height>
    </size>
   </property>
@@ -42,13 +42,13 @@
      </property>
      <property name="minimumSize">
       <size>
-       <width>575</width>
+       <width>580</width>
        <height>340</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>575</width>
+       <width>580</width>
        <height>340</height>
       </size>
      </property>
@@ -90,13 +90,13 @@
      </property>
      <property name="minimumSize">
       <size>
-       <width>525</width>
+       <width>580</width>
        <height>340</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>525</width>
+       <width>580</width>
        <height>340</height>
       </size>
      </property>
@@ -138,13 +138,13 @@
      </property>
      <property name="minimumSize">
       <size>
-       <width>525</width>
+       <width>580</width>
        <height>170</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>575</width>
+       <width>580</width>
        <height>170</height>
       </size>
      </property>
@@ -186,13 +186,13 @@
      </property>
      <property name="minimumSize">
       <size>
-       <width>525</width>
+       <width>580</width>
        <height>170</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>525</width>
+       <width>580</width>
        <height>170</height>
       </size>
      </property>

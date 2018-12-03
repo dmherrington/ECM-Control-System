@@ -29,6 +29,23 @@ public:
         return this->collectionType;
     }
 
+    void collectionWasLoaded(const bool &loaded, const std::string &loadPath = "")
+    {
+        collectionLoaded = loaded;
+        collectionPath = loadPath;
+    }
+
+public:
+    bool wasCollectionLoaded() const
+    {
+        return this->collectionLoaded;
+    }
+
+    std::string getLoadCollectionPath() const
+    {
+        return this->collectionPath;
+    }
+
 public:
 
     /**
@@ -70,6 +87,8 @@ public:
     //!
     ECMCommand_AbstractCollection& operator = (const ECMCommand_AbstractCollection &rhs)
     {
+        this->collectionLoaded = rhs.collectionLoaded;
+        this->collectionPath = rhs.collectionPath;
         this->collectionType = rhs.collectionType;
         return *this;
     }
@@ -81,6 +100,12 @@ public:
     //!
     bool operator == (const ECMCommand_AbstractCollection &rhs)
     {
+        if(this->collectionLoaded != rhs.collectionLoaded){
+            return false;
+        }
+        if(this->collectionPath != rhs.collectionPath){
+            return false;
+        }
         if(this->collectionType != rhs.collectionType){
             return false;
         }
@@ -97,6 +122,8 @@ public:
     }
 
 protected:
+    bool collectionLoaded = false;
+    std::string collectionPath = "";
     CollectionType collectionType;
 };
 

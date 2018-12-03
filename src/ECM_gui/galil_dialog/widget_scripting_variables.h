@@ -24,12 +24,16 @@ public:
 
     std::string getProfileName() const;
 
+    GalilCurrentProgram getDesiredProgram() const;
+
     ProgramVariableList getVariableList() const;
 
 public:
     void setProfileName(const std::string &name);
 
     void updateProgramLabels(const ProgramLabelList &list);
+
+    void updateProgramVariables(const ProgramVariableList &list);
 
 private slots:
 
@@ -49,19 +53,13 @@ private slots:
 
     void on_spinBox_Pause_editingFinished();
 
-private slots:
-
-    void slot_MCNewProgramLabelList(const ProgramLabelList &labels);
-
-    void slot_MCNEWProgramVariableList(const ProgramVariableList &variables);
-
 
 private:
     Ui::Widget_ScriptingVariables *ui;
 
     GalilMotionController* m_Galil;
 
-    ProgramVariableList currentVarList;
+    GalilCurrentProgram m_OperationalProgram;
 };
 
 #endif // WIDGET_SCRIPTING_VARIABLES_H

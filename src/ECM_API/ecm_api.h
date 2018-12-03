@@ -17,6 +17,7 @@
 #include "ecm_logging.h"
 #include "ecm_modules.h"
 
+#include "commands/ecm_command_execute_collection.h"
 #include "commands/ecm_command_profile_collection.h"
 
 ECM_CLASS_FORWARD(ECM_API);
@@ -41,24 +42,12 @@ public:
 
     bool checkLoggingPathValidity(const std::string &partNumber, const std::string &serialNumber) const;
 
-    void initializeECMLogs(const std::string &partNumber, const std::string &serialNumber, const std::string &profile,
-                           const common::EnvironmentTime &time, const std::string &descriptor = "", const bool &clearContents = false);
+    void initializeECMLogs(const ECMCommand_ExecuteCollection &executionCollection, const bool &clearContents,
+                           const std::string &descriptor = "");
 
-    //ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
+    void executeMachiningProcess(const ECMCommand_ProfileConfiguration &profileConfig);
 
-    //!
-    //! \brief executeMachiningProcess
-    //! \param partNumber
-    //! \param serialNumber
-    //! \param profileName
-    //! \param time
-    //! \param descriptor
-    //! \param clearContents
-    //! \return
-    //!
-    common::EnvironmentTime executeMachiningProcess(const std::string &partNumber, const std::string &serialNumber,
-                                      const std::string &profileName, const std::string &descriptor = "",
-                                      const bool &clearContents = false);
+    void concludeMachiningProcess(const ECMCommand_ProfileConfiguration &profileConfig);
 
 private:
     void writeHeaderBreaker(std::string &logString, const unsigned int &size) const;
@@ -66,13 +55,12 @@ private:
     std::map<std::string, std::string> getSoftwareVersions() const;
 
 signals:
-    void signal_LockMotionButtons(const bool &lock);
+    void signal_ExecutingProfile(const std::string operationName, const common::EnvironmentTime &time);
 
     void signal_MCNewMotionState(const std::string &stateString);
 
-    void signal_InitializeStartTime(const common::EnvironmentTime &time);
-
     void signal_OnProfileCollectionInitialized(const bool &success, const ECMCommand_ProfileCollection &collection);
+
 
 private slots:
 
@@ -87,13 +75,6 @@ private slots:
     //! \param state
     //!
     void slot_UpdateMotionProfileState(const MotionProfileState &state);
-
-    //!
-    //! \brief slot_MCNewMotionState
-    //! \param state
-    //! \param stateString
-    //!
-    void slot_MCNewMotionState(const ECM::Galil::GalilState &state, const std::string &stateString);
 
 
 public:

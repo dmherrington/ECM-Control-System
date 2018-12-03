@@ -58,7 +58,10 @@ SOURCES += \
     states/state_ecm_setup_machine.cpp \
     states/state_ecm_setup_machine_pump.cpp \
     states/state_ecm_setup_machine_complete.cpp \
-    states/state_ecm_setup_machine_failed.cpp
+    states/state_ecm_setup_machine_failed.cpp \
+    states/state_ecm_profile_machine_complete.cpp \
+    states/state_ecm_profile_machine_failed.cpp \
+    commands/ecm_command_execution_properties.cpp
 
 HEADERS += \
         ecm_api.h \
@@ -93,7 +96,11 @@ HEADERS += \
     states/state_ecm_setup_machine_touchoff.h \
     states/state_ecm_setup_machine_complete.h \
     states/state_ecm_setup_machine_failed.h \
-    states/state_ecm_setup_machine_failed.h
+    states/state_ecm_setup_machine_failed.h \
+    states/state_ecm_profile_machine_complete.h \
+    states/state_ecm_profile_machine_failed.h \
+    commands/ecm_command_execution_properties.h \
+    states/state_ecm_profile_machine_base.h
 
 # Unix lib Install
 unix:!symbian {

@@ -43,7 +43,7 @@ void ECMState_SetupMachineFailed::OnEnter()
 
 }
 
-void ECMState_SetupMachineFailed::OnEnter(const ECMCommand_ProfileConfiguration &collection)
+void ECMState_SetupMachineFailed::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
 {
 
 }

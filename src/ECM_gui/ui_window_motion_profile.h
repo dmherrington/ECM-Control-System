@@ -49,7 +49,7 @@ public:
     QSpacerItem *horizontalSpacer_6;
     QHBoxLayout *horizontalLayout;
     QLabel *label;
-    QLineEdit *lineEdit;
+    QLineEdit *lineEdit_motionScriptPath;
     QGridLayout *gridLayout;
     QPushButton *pushButton_DownloadProgram;
     QPushButton *pushButton_UploadProgram;
@@ -241,7 +241,7 @@ public:
         gridLayout_2 = new QGridLayout();
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         gridLayout_2->setSizeConstraint(QLayout::SetDefaultConstraint);
-        horizontalSpacer_6 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer_6 = new QSpacerItem(10, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         gridLayout_2->addItem(horizontalSpacer_6, 0, 1, 1, 1);
 
@@ -262,15 +262,15 @@ public:
 
         horizontalLayout->addWidget(label);
 
-        lineEdit = new QLineEdit(centralwidget);
-        lineEdit->setObjectName(QStringLiteral("lineEdit"));
-        sizePolicy1.setHeightForWidth(lineEdit->sizePolicy().hasHeightForWidth());
-        lineEdit->setSizePolicy(sizePolicy1);
-        lineEdit->setMinimumSize(QSize(200, 18));
-        lineEdit->setMaximumSize(QSize(400, 18));
-        lineEdit->setFont(font1);
+        lineEdit_motionScriptPath = new QLineEdit(centralwidget);
+        lineEdit_motionScriptPath->setObjectName(QStringLiteral("lineEdit_motionScriptPath"));
+        sizePolicy1.setHeightForWidth(lineEdit_motionScriptPath->sizePolicy().hasHeightForWidth());
+        lineEdit_motionScriptPath->setSizePolicy(sizePolicy1);
+        lineEdit_motionScriptPath->setMinimumSize(QSize(200, 18));
+        lineEdit_motionScriptPath->setMaximumSize(QSize(400, 18));
+        lineEdit_motionScriptPath->setFont(font1);
 
-        horizontalLayout->addWidget(lineEdit);
+        horizontalLayout->addWidget(lineEdit_motionScriptPath);
 
 
         gridLayout_2->addLayout(horizontalLayout, 0, 0, 1, 1);

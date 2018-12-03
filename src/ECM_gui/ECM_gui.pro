@@ -46,7 +46,6 @@ DEFINES += QCUSTOMPLOT_USE_LIBRARY
 
 SOURCES += \
     galil_dialog/widget_scripting_variables.cpp \
-    galil_dialog/widget_motion_control.cpp \
     galil_dialog/widget_touchoff.cpp \
     misc_dialogs/code_edit_widget.cpp \
     misc_dialogs/table_widget_operation_descriptor.cpp \
@@ -73,11 +72,11 @@ SOURCES += \
     general_dialog_window.cpp \
     LED.cpp \
     main.cpp \
-    plot_central.cpp
+    plot_central.cpp \
+    galil_dialog/window_motion_control.cpp
 
 HEADERS += \
     galil_dialog/widget_scripting_variables.h \
-    galil_dialog/widget_motion_control.h \
     galil_dialog/widget_touchoff.h \
     misc_dialogs/code_edit_widget.h \
     misc_dialogs/table_widget_operation_descriptor.h \
@@ -105,11 +104,11 @@ HEADERS += \
     general_dialog_window.h \
     gui_verison.h \
     LED.h \
-    plot_central.h
+    plot_central.h \
+    galil_dialog/window_motion_control.h
 
 FORMS += \
     galil_dialog/widget_scripting_variables.ui \
-    galil_dialog/widget_motion_control.ui \
     galil_dialog/widget_touchoff.ui \
     misc_dialogs/table_widget_operation_descriptor.ui \
     misc_dialogs/window_motion_profile.ui \
@@ -126,8 +125,8 @@ FORMS += \
     rigol_dialog/widget_rigol_radio.ui \
     SensorDisplay/display_base_plot_instantaneous.ui \
     additional_sensor_display.ui \
-    ECM_controller_gui.ui
-
+    ECM_controller_gui.ui \
+    galil_dialog/window_motion_control.ui
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

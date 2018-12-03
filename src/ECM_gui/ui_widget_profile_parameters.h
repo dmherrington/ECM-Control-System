@@ -37,13 +37,13 @@ public:
     {
         if (Widget_ProfileParameters->objectName().isEmpty())
             Widget_ProfileParameters->setObjectName(QStringLiteral("Widget_ProfileParameters"));
-        Widget_ProfileParameters->resize(1130, 560);
+        Widget_ProfileParameters->resize(1200, 560);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Widget_ProfileParameters->sizePolicy().hasHeightForWidth());
         Widget_ProfileParameters->setSizePolicy(sizePolicy);
-        Widget_ProfileParameters->setMinimumSize(QSize(1130, 560));
+        Widget_ProfileParameters->setMinimumSize(QSize(1100, 560));
         Widget_ProfileParameters->setMaximumSize(QSize(1200, 560));
         gridLayout = new QGridLayout(Widget_ProfileParameters);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
@@ -51,8 +51,8 @@ public:
         frame_PowerSupply->setObjectName(QStringLiteral("frame_PowerSupply"));
         sizePolicy.setHeightForWidth(frame_PowerSupply->sizePolicy().hasHeightForWidth());
         frame_PowerSupply->setSizePolicy(sizePolicy);
-        frame_PowerSupply->setMinimumSize(QSize(575, 340));
-        frame_PowerSupply->setMaximumSize(QSize(575, 340));
+        frame_PowerSupply->setMinimumSize(QSize(580, 340));
+        frame_PowerSupply->setMaximumSize(QSize(580, 340));
         frame_PowerSupply->setFrameShape(QFrame::Box);
         frame_PowerSupply->setFrameShadow(QFrame::Plain);
         frame_PowerSupply->setLineWidth(2);
@@ -67,8 +67,8 @@ public:
         frame_ScriptingVariables->setObjectName(QStringLiteral("frame_ScriptingVariables"));
         sizePolicy.setHeightForWidth(frame_ScriptingVariables->sizePolicy().hasHeightForWidth());
         frame_ScriptingVariables->setSizePolicy(sizePolicy);
-        frame_ScriptingVariables->setMinimumSize(QSize(525, 340));
-        frame_ScriptingVariables->setMaximumSize(QSize(525, 340));
+        frame_ScriptingVariables->setMinimumSize(QSize(580, 340));
+        frame_ScriptingVariables->setMaximumSize(QSize(580, 340));
         frame_ScriptingVariables->setFrameShape(QFrame::Box);
         frame_ScriptingVariables->setFrameShadow(QFrame::Plain);
         frame_ScriptingVariables->setLineWidth(2);
@@ -83,8 +83,8 @@ public:
         frame_Touchoff->setObjectName(QStringLiteral("frame_Touchoff"));
         sizePolicy.setHeightForWidth(frame_Touchoff->sizePolicy().hasHeightForWidth());
         frame_Touchoff->setSizePolicy(sizePolicy);
-        frame_Touchoff->setMinimumSize(QSize(525, 170));
-        frame_Touchoff->setMaximumSize(QSize(575, 170));
+        frame_Touchoff->setMinimumSize(QSize(580, 170));
+        frame_Touchoff->setMaximumSize(QSize(580, 170));
         frame_Touchoff->setFrameShape(QFrame::Box);
         frame_Touchoff->setFrameShadow(QFrame::Plain);
         frame_Touchoff->setLineWidth(2);
@@ -99,8 +99,8 @@ public:
         frame_Pump->setObjectName(QStringLiteral("frame_Pump"));
         sizePolicy.setHeightForWidth(frame_Pump->sizePolicy().hasHeightForWidth());
         frame_Pump->setSizePolicy(sizePolicy);
-        frame_Pump->setMinimumSize(QSize(525, 170));
-        frame_Pump->setMaximumSize(QSize(525, 170));
+        frame_Pump->setMinimumSize(QSize(580, 170));
+        frame_Pump->setMaximumSize(QSize(580, 170));
         frame_Pump->setFrameShape(QFrame::Box);
         frame_Pump->setFrameShadow(QFrame::Plain);
         frame_Pump->setLineWidth(2);

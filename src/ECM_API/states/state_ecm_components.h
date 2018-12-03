@@ -25,6 +25,8 @@
 
 #include "ECM_API/states/state_ecm_profile_machine.h"
 #include "ECM_API/states/state_ecm_profile_machine_cease.h"
+#include "ECM_API/states/state_ecm_profile_machine_complete.h"
+#include "ECM_API/states/state_ecm_profile_machine_failed.h"
 #include "ECM_API/states/state_ecm_profile_machine_process.h"
 
 #include "ECM_API/states/state_ecm_setup_machine.h"

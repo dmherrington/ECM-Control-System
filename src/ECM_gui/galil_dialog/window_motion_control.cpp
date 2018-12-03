@@ -1,9 +1,9 @@
-#include "widget_motion_control.h"
-#include "ui_widget_motion_control.h"
+#include "window_motion_control.h"
+#include "ui_window_motion_control.h"
 
-Widget_MotionControl::Widget_MotionControl(GalilMotionController* galilObject, QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::Widget_MotionControl)
+Window_MotionControl::Window_MotionControl(GalilMotionController* galilObject, QWidget *parent) :
+    GeneralDialogWindow(DialogWindowTypes::WINDOW_MOTION_CONTROL,"Motion Control",parent),
+    ui(new Ui::Window_MotionControl)
 {
     qRegisterMetaType<common::TuplePositionalString>("TuplePositionalString");
 
@@ -18,17 +18,22 @@ Widget_MotionControl::Widget_MotionControl(GalilMotionController* galilObject, Q
     connect(m_Galil, SIGNAL(signal_MCNewPosition(common::TuplePositionalString,common_data::MachinePositionalState,bool)), this, SLOT(slot_NewPositionalData(common::TuplePositionalString,common_data::MachinePositionalState,bool)));
 }
 
-Widget_MotionControl::~Widget_MotionControl()
+Window_MotionControl::~Window_MotionControl()
 {
     delete ui;
 }
 
-int Widget_MotionControl::getCurrentJogSpeed() const
+void Window_MotionControl::closeEvent(QCloseEvent *event)
+{
+    GeneralDialogWindow::closeEvent(event);
+}
+
+int Window_MotionControl::getCurrentJogSpeed() const
 {
     return ui->spinBox_Jog->value();
 }
 
-void Widget_MotionControl::on_pushButton_IncreaseJog_pressed()
+void Window_MotionControl::on_pushButton_IncreaseJog_pressed()
 {
     int jogRate = abs(ui->spinBox_Jog->value()) * (-1);
     CommandJogPtr beginJog = std::make_shared<CommandJog>(MotorAxis::Z,jogRate);
@@ -36,14 +41,14 @@ void Widget_MotionControl::on_pushButton_IncreaseJog_pressed()
     m_Galil->executeCommand(beginJog);
 }
 
-void Widget_MotionControl::on_pushButton_IncreaseJog_released()
+void Window_MotionControl::on_pushButton_IncreaseJog_released()
 {
     CommandStopPtr stopJog = std::make_shared<CommandStop>(MotorAxis::Z);
     //CommandStop stop(MotorAxis::Z);
     m_Galil->executeCommand(stopJog);
 }
 
-void Widget_MotionControl::on_pushButton_DecreaseJog_pressed()
+void Window_MotionControl::on_pushButton_DecreaseJog_pressed()
 {
     int jogRate = abs(ui->spinBox_Jog->value());
     CommandJogPtr beginJog = std::make_shared<CommandJog>(MotorAxis::Z,jogRate);
@@ -51,13 +56,13 @@ void Widget_MotionControl::on_pushButton_DecreaseJog_pressed()
     m_Galil->executeCommand(beginJog);
 }
 
-void Widget_MotionControl::on_pushButton_DecreaseJog_released()
+void Window_MotionControl::on_pushButton_DecreaseJog_released()
 {
     CommandStopPtr stopJog = std::make_shared<CommandStop>(MotorAxis::Z);
     m_Galil->executeCommand(stopJog);
 }
 
-void Widget_MotionControl::on_pushButton_IncreaseRelativeMove_released()
+void Window_MotionControl::on_pushButton_IncreaseRelativeMove_released()
 {
     int relativeMoveSpeed = ui->spinBox_RelativeMoveSpeed->value();
     CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(MotorAxis::Z, relativeMoveSpeed);
@@ -68,7 +73,7 @@ void Widget_MotionControl::on_pushButton_IncreaseRelativeMove_released()
     m_Galil->executeCommand(startIncreaseRelativeMove);
 }
 
-void Widget_MotionControl::on_pushButton_DecreaseRelativeMove_released()
+void Window_MotionControl::on_pushButton_DecreaseRelativeMove_released()
 {
     int relativeMoveSpeed = ui->spinBox_RelativeMoveSpeed->value();
     CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(MotorAxis::Z, relativeMoveSpeed);
@@ -79,7 +84,7 @@ void Widget_MotionControl::on_pushButton_DecreaseRelativeMove_released()
     m_Galil->executeCommand(startDecreaseRelativeMove);
 }
 
-void Widget_MotionControl::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state, const bool &valueChanged)
+void Window_MotionControl::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state, const bool &valueChanged)
 {
     UNUSED(tuple);
 
@@ -90,7 +95,7 @@ void Widget_MotionControl::slot_NewPositionalData(const common::TuplePositionalS
     }
 }
 
-void Widget_MotionControl::slot_LockMotionButtons(const bool &lock)
+void Window_MotionControl::slot_LockMotionButtons(const bool &lock)
 {
     ui->pushButton_DecreaseJog->setDisabled(lock);
     ui->pushButton_IncreaseJog->setDisabled(lock);

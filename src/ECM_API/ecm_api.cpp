@@ -16,9 +16,6 @@ ECM_API::ECM_API()
     connect(m_Galil, SIGNAL(signal_GalilUpdatedProfileState(MotionProfileState)),
             this, SLOT(slot_UpdateMotionProfileState(MotionProfileState)));
 
-    connect(m_Galil, SIGNAL(signal_MCNewMotionState(ECM::Galil::GalilState,std::string)),
-            this, SLOT(slot_MCNewMotionState(ECM::Galil::GalilState,std::string)));
-
     //ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
 
     m_Sensoray = new Sensoray();
@@ -53,11 +50,16 @@ bool ECM_API::checkLoggingPathValidity(const string &partNumber, const string &s
     return m_Log->checkLoggingPath(partNumber, serialNumber);
 }
 
-void ECM_API::initializeECMLogs(const std::string &partNumber, const std::string &serialNumber, const std::string &profile,
-                                const common::EnvironmentTime &time, const std::string &descriptor, const bool &clearContents)
+void ECM_API::initializeECMLogs(const ECMCommand_ExecuteCollection &executionCollection,
+                                const bool &clearContents,
+                                const std::string &descriptor)
 {
-    m_Log->initializeLogging(partNumber, serialNumber, clearContents); //gets the file and directory structure ready for us
+    //gets the file and directory structure ready for us
+    m_Log->initializeLogging(executionCollection.getPartNumber(),
+                             executionCollection.getSerialNumber(),
+                             clearContents);
 
+    /* This no longer made sense with the new profile configuration
     if(clearContents) //if its true means we have new stuff to write
     {
         std::string loggingPath = m_Log->getLoggingPath();
@@ -72,6 +74,7 @@ void ECM_API::initializeECMLogs(const std::string &partNumber, const std::string
         std::string pumpPath = loggingPath + "PumpSettings.json";
         m_Pump->saveToFile(QString::fromStdString(pumpPath));
     }
+    */
 
     std::string operationsString;
     this->writeHeaderBreaker(operationsString, 100);
@@ -98,31 +101,29 @@ void ECM_API::initializeECMLogs(const std::string &partNumber, const std::string
     operationsString += m_Galil->stateInterface->galilProgram->getVariableList().getLoggingString();
     operationsString += "\r\n";
 
-    m_Log->writeLoggingHeader(partNumber, serialNumber, profile,
-                              operationsString, descriptor, time);
+    m_Log->writeExecutionCollection(executionCollection);
+    ECMCommand_ProfileConfiguration profileConfig = executionCollection.getActiveConfiguration();
+    m_Log->writeLoggingHeader(executionCollection.getPartNumber(),executionCollection.getSerialNumber(),profileConfig.getOperationName(),
+                              profileConfig.getProfileName(),operationsString,descriptor,
+                              profileConfig.execProperties.getStartTime());
 }
 
-common::EnvironmentTime ECM_API::executeMachiningProcess(const std::string &partNumber, const std::string &serialNumber, const std::string &profileName,
-                                      const std::string &descriptor, const bool &clearContents)
+void ECM_API::executeMachiningProcess(const ECMCommand_ProfileConfiguration &profileConfig)
 {
-    //grab the current time and update all of the sources
-    common::EnvironmentTime startTime;
-    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
-
-    this->initializeECMLogs(partNumber,serialNumber,
-                             profileName,startTime,descriptor,clearContents);
-
     m_Log->enableLogging(true);
 
-    emit signal_InitializeStartTime(startTime);
+    emit signal_ExecutingProfile(profileConfig.getOperationName(),profileConfig.execProperties.getStartTime());
 
-    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,profileName);
+    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,
+                                                                               profileConfig.getProfileName());
     m_Galil->executeCommand(command);
+}
 
-    return startTime;
-    //ECM::API::AbstractStateECMProcess* currentState = static_cast<ECM::API::AbstractStateECMProcess*>(autoProcess->getCurrentState());
-    //currentState->handleCommand(command);
-    //stateMachine->ProcessStateTransitions();
+void ECM_API::concludeMachiningProcess(const ECMCommand_ProfileConfiguration &profileConfig)
+{
+    //conclude writing to the logs with any wrap up data that we need
+    m_Log->CloseMachiningLog(profileConfig.execProperties.getEndTime(),
+                             profileConfig.execProperties.getProfileCode());
 }
 
 void ECM_API::action_StopMachine()
@@ -159,14 +160,6 @@ void ECM_API::slot_UpdateMotionProfileState(const MotionProfileState &state)
             break;
         case ProfileState_Machining::MACHININGProfileCodes::COMPLETE:
         {
-            m_Pump->ceasePumpOperations();
-
-            //grab the current time and update all of the sources
-            common::EnvironmentTime endTime;
-            common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,endTime);
-
-            //conclude writing to the logs with any wrap up data that we need
-            m_Log->CloseMachiningLog(endTime, currentCode);
 
 
             break;
@@ -192,44 +185,6 @@ void ECM_API::slot_UpdateMotionProfileState(const MotionProfileState &state)
     default:
         break;
     }
-}
-
-void ECM_API::slot_MCNewMotionState(const ECM::Galil::GalilState &state, const string &stateString)
-{
-    switch (state) {
-    case ECM::Galil::GalilState::STATE_ESTOP:
-    case ECM::Galil::GalilState::STATE_HOME_POSITIONING:
-    case ECM::Galil::GalilState::STATE_MOTION_STOP:
-    case ECM::Galil::GalilState::STATE_READY_STOP:
-    case ECM::Galil::GalilState::STATE_SCRIPT_EXECUTION:
-    case ECM::Galil::GalilState::STATE_TOUCHOFF:
-    case ECM::Galil::GalilState::STATE_UNKNOWN:
-    {
-        //In all of the above cases we want to disable the buttons that could potentially have adverse conditions
-        //Although all of the checks are handled in the state machine of the galil library, it is preferred to have
-        //a secondary check within the API. This was primarily noted when the user could potentially double click.
-        emit signal_LockMotionButtons(true);
-        break;
-    }
-    case ECM::Galil::GalilState::STATE_IDLE:
-    case ECM::Galil::GalilState::STATE_READY:
-    {
-        emit signal_LockMotionButtons(false);
-        break;
-    }
-    case ECM::Galil::GalilState::STATE_JOGGING:
-    case ECM::Galil::GalilState::STATE_MANUAL_POSITIONING:
-    {
-        //We do not want to change the state condition of the button in this state
-        //This is because if we go to lock the buttons the release event will either
-        //trigger immediately or never be emitted.
-        break;
-    }
-    default:
-        break;
-    }
-
-    emit signal_MCNewMotionState(stateString);
 }
 
 void ECM_API::writeHeaderBreaker(std::string &logString, const unsigned int &size) const

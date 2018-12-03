@@ -1,15 +1,10 @@
-#ifndef STATE_ECM_SETUP_MACHINE_COMPLETE_H
-#define STATE_ECM_SETUP_MACHINE_COMPLETE_H
+#ifndef STATE_ECM_PROFILE_MACHINE_COMPLETE_H
+#define STATE_ECM_PROFILE_MACHINE_COMPLETE_H
 
-#include "common/class_forward.h"
-#include "common/hsm.h"
-
-#include "../ecm_api.h"
-
-#include "state_abstract_ecm_process.h"
+#include "state_ecm_profile_machine_base.h"
 
 /**
-\* @file  state_ecm_machine_setup.h
+\* @file  state_ecm_touchoff.h
 \*
 \* @author Kenneth Kroeger
 \*
@@ -28,12 +23,12 @@
 namespace ECM{
 namespace API {
 
-ECM_CLASS_FORWARD(ECMState_SetupMachineComplete);
+ECM_CLASS_FORWARD(ECMState_ProfileMachineComplete);
 
-class ECMState_SetupMachineComplete : public AbstractStateECMProcess
+class ECMState_ProfileMachineComplete : public ECMState_ProfileMachineBase
 {
 public:
-    ECMState_SetupMachineComplete();
+    ECMState_ProfileMachineComplete();
 
 public:
     AbstractStateECMProcess* getClone() const override;
@@ -41,19 +36,21 @@ public:
     void getClone(AbstractStateECMProcess** state) const override;
 
 public:
+    hsm::Transition GetTransition() override;
+
+public:
     void OnEnter() override;
     void Update() override;
     void OnExit() override;
 
 public:
-    hsm::Transition GetTransition() override;
-
-public:
     void OnEnter(const ECMCommand_ProfileConfiguration &configuration);
 
+private:
+    ECMCommand_ProfileConfiguration m_Config;
 };
 
 } //end of namespace API
 } //end of namespace ECM
 
-#endif // STATE_ECM_SETUP_MACHINE_COMPLETE_H
+#endif // STATE_ECM_PROFILE_MACHINE_COMPLETE_H

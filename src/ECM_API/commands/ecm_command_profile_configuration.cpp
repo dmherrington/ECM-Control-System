@@ -37,7 +37,9 @@ ECMCommand_ProfileConfiguration::ECMCommand_ProfileConfiguration(const ECMComman
 {
     this->operationIndex = copy.operationIndex;
     this->operationName = copy.operationName;
-    this->execute = copy.execute;
+    this->indicateHome = copy.indicateHome;
+    this->shouldExecute = copy.shouldExecute;
+    this->execProperties = copy.execProperties;
 
     this->m_GalilOperation = copy.m_GalilOperation;
     this->m_ConfigPowerSupply = copy.m_ConfigPowerSupply;
@@ -55,6 +57,11 @@ std::string ECMCommand_ProfileConfiguration::getOperationName() const
     return this->operationName;
 }
 
+std::string ECMCommand_ProfileConfiguration::getProfileName() const
+{
+    return this->m_GalilOperation.getProfileName();
+}
+
 bool ECMCommand_ProfileConfiguration::shouldHomeBeIndicated() const
 {
     return this->indicateHome;
@@ -62,12 +69,12 @@ bool ECMCommand_ProfileConfiguration::shouldHomeBeIndicated() const
 
 bool ECMCommand_ProfileConfiguration::shouldProfileExecute() const
 {
-    return this->execute;
+    return this->shouldExecute;
 }
 
 bool ECMCommand_ProfileConfiguration::hasProfileCompleted() const
 {
-    return this->completed;
+    return this->execProperties.hasProfileBeenCompleted();
 }
 
 void ECMCommand_ProfileConfiguration::setOperationIndex(const unsigned int &index)
@@ -87,10 +94,5 @@ void ECMCommand_ProfileConfiguration::setHomeNeedsToBeIndicated(const bool &home
 
 void ECMCommand_ProfileConfiguration::setProfileExecution(const bool &varExecute)
 {
-    this->execute = varExecute;
-}
-
-void ECMCommand_ProfileConfiguration::setProfileCompletion(const bool &complete)
-{
-    this->completed = complete;
+    this->shouldExecute = varExecute;
 }

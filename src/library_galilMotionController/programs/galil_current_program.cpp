@@ -7,6 +7,9 @@ GalilCurrentProgram::GalilCurrentProgram()
 
 GalilCurrentProgram::GalilCurrentProgram(const GalilCurrentProgram &copy)
 {
+    this->programLoaded = copy.programLoaded;
+    this->programPath = copy.programPath;
+
     this->program = copy.program;
     this->labelList = copy.labelList;
     this->variableList = copy.variableList;
@@ -14,19 +17,12 @@ GalilCurrentProgram::GalilCurrentProgram(const GalilCurrentProgram &copy)
 
 void GalilCurrentProgram::writeToJSON(QJsonObject &saveObject)
 {
-    QJsonArray MCDataArray;
-
-    QJsonObject dataObject;
-
-
-
-    MCDataArray.append(dataObject);
-    saveObject["MotionControlData"] = MCDataArray;
+    UNUSED(saveObject);
 }
 
 void GalilCurrentProgram::readFromJSON(const QJsonObject &openObject)
 {
-
+    UNUSED(openObject);
 }
 
 void GalilCurrentProgram::setProgram(const std::string &programString)
@@ -42,6 +38,12 @@ void GalilCurrentProgram::setLabelList(const ProgramLabelList &list)
 void GalilCurrentProgram::setVariableList(const ProgramVariableList &list)
 {
     this->variableList = list;
+}
+
+void GalilCurrentProgram::setProgramLoaded(const bool &loaded, const std::string &path)
+{
+    this->programLoaded = loaded;
+    this->programPath = path;
 }
 
 void GalilCurrentProgram::updateVariableValue(const std::string &name, const double &value)
@@ -67,13 +69,11 @@ bool GalilCurrentProgram::getLabelLine(const std::string &label, int &line) cons
     return true;
 }
 
-//bool GalilCurrentProgram::getVariableLine(const std::string &variable, int &line) const
-//{
-//    if(this->variableList.doesVariableExist(variable))
-//        return false;
-//    this->variableList.getVariableLine(variable,line);
-//    return true;
-//}
+bool GalilCurrentProgram::wasProgramLoaded(std::string &path) const
+{
+    path = this->programPath;
+    return this->programLoaded;
+}
 
 std::map<std::string, int> GalilCurrentProgram::getLablMap() const
 {

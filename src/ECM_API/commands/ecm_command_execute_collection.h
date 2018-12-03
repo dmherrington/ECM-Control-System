@@ -35,7 +35,7 @@ public:
 public:
     void setPartNumber(const std::string &number);
     void setSerialNumber(const std::string &number);
-    bool setProfileCompleted(const unsigned int &index);
+    bool doActiveOperationsRemain();
     void setHomeShouldIndicate(const bool &indicate);
     void setOverwriteLogs(const bool &overwrite);
 
@@ -45,6 +45,7 @@ public:
     unsigned int getActiveIndex() const;
     bool shouldHomeBeIndicated() const;
     bool shouldOverwriteLogs() const;
+    bool isFirstOperation(const unsigned int &index) const;
 
 public:
     //!

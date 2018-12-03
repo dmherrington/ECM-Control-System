@@ -87,7 +87,7 @@ public:
         sizePolicy.setHeightForWidth(Window_ProfileConfiguration->sizePolicy().hasHeightForWidth());
         Window_ProfileConfiguration->setSizePolicy(sizePolicy);
         Window_ProfileConfiguration->setMinimumSize(QSize(1600, 680));
-        Window_ProfileConfiguration->setMaximumSize(QSize(1600, 680));
+        Window_ProfileConfiguration->setMaximumSize(QSize(1800, 680));
         Window_ProfileConfiguration->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
@@ -523,7 +523,7 @@ public:
         sizePolicy.setHeightForWidth(tabWidget_OperationParameters->sizePolicy().hasHeightForWidth());
         tabWidget_OperationParameters->setSizePolicy(sizePolicy);
         tabWidget_OperationParameters->setMinimumSize(QSize(1100, 600));
-        tabWidget_OperationParameters->setMaximumSize(QSize(1100, 600));
+        tabWidget_OperationParameters->setMaximumSize(QSize(1300, 600));
         tabWidget_OperationParameters->setStyleSheet(QLatin1String("QTabWidget{\n"
 "background-color:#f5f5f5;\n"
 "padding:5px;\n"

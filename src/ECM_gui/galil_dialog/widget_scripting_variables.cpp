@@ -18,24 +18,26 @@ Widget_ScriptingVariables::Widget_ScriptingVariables(GalilMotionController* gali
     ui->spinBox_RetractPeriod->setToolTip("Profile Variable: rtfq");
     ui->spinBox_Pause->setToolTip("Profile Variable: rtpause");
 
-    connect(m_Galil, SIGNAL(signal_MCNewProgramReceived), this, SLOT());
-    connect(m_Galil, SIGNAL(signal_MCNewProgramVariableList(ProgramVariableList)), this, SLOT(slot_MCNEWProgramVariableList(ProgramVariableList)));
-
-    currentVarList.addVariable("maxdepth",ui->doubleSpinBox_CutDepth->value() * 10.0);
-    currentVarList.addVariable("rtdist",ui->doubleSpinBox_RetractDistance->value() * 10.0);
-    currentVarList.addVariable("step",ui->doubleSpinBox_StepSize->value() * 10.0);
-    currentVarList.addVariable("backsp",ui->spinBox_RetractSpeed->value() * 10.0);
-    currentVarList.addVariable("forsp",ui->spinBox_PlungeSpeed->value() * 10.0);
-    currentVarList.addVariable("speed",ui->doubleSpinBox_CutSpeed->value() * 10.0);
-    currentVarList.addVariable("rtfq",ui->spinBox_RetractPeriod->value());
-    currentVarList.addVariable("rtpause",ui->spinBox_Pause->value());
+    m_OperationalProgram.updateVariableValue("maxdepth",ui->doubleSpinBox_CutDepth->value() * 10.0);
+    m_OperationalProgram.updateVariableValue("rtdist",ui->doubleSpinBox_RetractDistance->value() * 10.0);
+    m_OperationalProgram.updateVariableValue("step",ui->doubleSpinBox_StepSize->value() * 10.0);
+    m_OperationalProgram.updateVariableValue("backsp",ui->spinBox_RetractSpeed->value() * 10.0);
+    m_OperationalProgram.updateVariableValue("forsp",ui->spinBox_PlungeSpeed->value() * 10.0);
+    m_OperationalProgram.updateVariableValue("speed",ui->doubleSpinBox_CutSpeed->value() * 10.0);
+    m_OperationalProgram.updateVariableValue("rtfq",ui->spinBox_RetractPeriod->value());
+    m_OperationalProgram.updateVariableValue("rtpause",ui->spinBox_Pause->value());
 
     if(m_Galil->isDeviceConnected())
     {
-        GalilCurrentProgram existingProgram = m_Galil->getCurrentMCProgram();
-        this->slot_MCNEWProgramVariableList(existingProgram.getVariableList());
-        this->slot_MCNewProgramLabelList(existingProgram.getLabelList());
+        loadFromCurrentProgram(m_Galil->getCurrentMCProgram());
     }
+
+    m_Galil->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const GalilCurrentProgram &program){
+        if(completed)
+        {
+            loadFromCurrentProgram(program);
+        }
+    });
 
 }
 
@@ -46,8 +48,9 @@ Widget_ScriptingVariables::~Widget_ScriptingVariables()
 
 void Widget_ScriptingVariables::loadFromCurrentProgram(const GalilCurrentProgram &program, const std::string &profileName)
 {
-    slot_MCNEWProgramVariableList(program.getVariableList());
-    slot_MCNewProgramLabelList(program.getLabelList());
+    m_OperationalProgram = program;
+    updateProgramVariables(m_OperationalProgram.getVariableList());
+    updateProgramLabels(m_OperationalProgram.getLabelList());
     if(!profileName.empty())
         this->setProfileName(profileName);
 }
@@ -64,13 +67,20 @@ std::string Widget_ScriptingVariables::getProfileName() const
     return this->ui->comboBox_ProgramLabels->currentText().toStdString();
 }
 
+GalilCurrentProgram Widget_ScriptingVariables::getDesiredProgram() const
+{
+    return this->m_OperationalProgram;
+}
+
 ProgramVariableList Widget_ScriptingVariables::getVariableList() const
 {
-    return currentVarList;
+    return m_OperationalProgram.getVariableList();
 }
 
 void Widget_ScriptingVariables::updateProgramLabels(const ProgramLabelList &list)
 {
+    m_OperationalProgram.setLabelList(list);
+
     QString currentLabel = ui->comboBox_ProgramLabels->currentText();
     ui->comboBox_ProgramLabels->clear();
 
@@ -91,7 +101,7 @@ void Widget_ScriptingVariables::updateProgramLabels(const ProgramLabelList &list
 void Widget_ScriptingVariables::on_doubleSpinBox_CutDepth_editingFinished()
 {
     double currentVariableValue = ui->doubleSpinBox_CutDepth->value() * 10.0;
-    currentVarList.updateVariable("maxdepth",currentVariableValue);
+    m_OperationalProgram.updateVariableValue("maxdepth",currentVariableValue);
     Command_VariablePtr command = std::make_shared<Command_Variable>("maxdepth",currentVariableValue);
     //m_Galil->executeCommand(command);
 }
@@ -99,7 +109,7 @@ void Widget_ScriptingVariables::on_doubleSpinBox_CutDepth_editingFinished()
 void Widget_ScriptingVariables::on_doubleSpinBox_RetractDistance_editingFinished()
 {
     double currentVariableValue = ui->doubleSpinBox_RetractDistance->value() * 10.0;
-    currentVarList.updateVariable("rtdist",currentVariableValue);
+    m_OperationalProgram.updateVariableValue("rtdist",currentVariableValue);
     Command_VariablePtr command = std::make_shared<Command_Variable>("rtdist",currentVariableValue);
     //m_Galil->executeCommand(command);
 }
@@ -107,7 +117,7 @@ void Widget_ScriptingVariables::on_doubleSpinBox_RetractDistance_editingFinished
 void Widget_ScriptingVariables::on_doubleSpinBox_StepSize_editingFinished()
 {
     double currentVariableValue = ui->doubleSpinBox_StepSize->value() * 10.0;
-    currentVarList.updateVariable("step",currentVariableValue);
+    m_OperationalProgram.updateVariableValue("step",currentVariableValue);
     Command_VariablePtr command = std::make_shared<Command_Variable>("step",currentVariableValue);
     //m_Galil->executeCommand(command);
 }
@@ -115,7 +125,7 @@ void Widget_ScriptingVariables::on_doubleSpinBox_StepSize_editingFinished()
 void Widget_ScriptingVariables::on_spinBox_RetractSpeed_editingFinished()
 {
     double currentVariableValue = ui->spinBox_RetractSpeed->value() * 10.0;
-    currentVarList.updateVariable("backsp",currentVariableValue);
+    m_OperationalProgram.updateVariableValue("backsp",currentVariableValue);
     Command_VariablePtr command = std::make_shared<Command_Variable>("backsp",currentVariableValue);
     //m_Galil->executeCommand(command);
 }
@@ -123,7 +133,7 @@ void Widget_ScriptingVariables::on_spinBox_RetractSpeed_editingFinished()
 void Widget_ScriptingVariables::on_spinBox_PlungeSpeed_editingFinished()
 {
     double currentVariableValue = ui->spinBox_PlungeSpeed->value() * 10.0;
-    currentVarList.updateVariable("forsp",currentVariableValue);
+    m_OperationalProgram.updateVariableValue("forsp",currentVariableValue);
     Command_VariablePtr command = std::make_shared<Command_Variable>("forsp",currentVariableValue);
     //m_Galil->executeCommand(command);
 }
@@ -131,7 +141,7 @@ void Widget_ScriptingVariables::on_spinBox_PlungeSpeed_editingFinished()
 void Widget_ScriptingVariables::on_doubleSpinBox_CutSpeed_editingFinished()
 {
     double currentVariableValue = ui->doubleSpinBox_CutSpeed->value() * 10.0;
-    currentVarList.updateVariable("speed",currentVariableValue);
+    m_OperationalProgram.updateVariableValue("speed",currentVariableValue);
     Command_VariablePtr command = std::make_shared<Command_Variable>("speed",currentVariableValue);
     //m_Galil->executeCommand(command);
 }
@@ -139,7 +149,7 @@ void Widget_ScriptingVariables::on_doubleSpinBox_CutSpeed_editingFinished()
 void Widget_ScriptingVariables::on_spinBox_RetractPeriod_editingFinished()
 {
     double currentVariableValue = ui->spinBox_RetractPeriod->value();
-    currentVarList.updateVariable("rtfq",currentVariableValue);
+    m_OperationalProgram.updateVariableValue("rtfq",currentVariableValue);
     Command_VariablePtr command = std::make_shared<Command_Variable>("rtfq",currentVariableValue);
     //m_Galil->executeCommand(command);
 }
@@ -147,45 +157,29 @@ void Widget_ScriptingVariables::on_spinBox_RetractPeriod_editingFinished()
 void Widget_ScriptingVariables::on_spinBox_Pause_editingFinished()
 {
     double currentVariableValue = ui->spinBox_Pause->value();
-    currentVarList.updateVariable("maxdepth",currentVariableValue);
+    m_OperationalProgram.updateVariableValue("maxdepth",currentVariableValue);
     Command_VariablePtr command = std::make_shared<Command_Variable>("rtpause",currentVariableValue);
     //m_Galil->executeCommand(command);
 }
 
-void Widget_ScriptingVariables::slot_MCNEWProgramVariableList(const ProgramVariableList &variables)
+void Widget_ScriptingVariables::updateProgramVariables(const ProgramVariableList &list)
 {
-    this->currentVarList = variables;
-
     double value = 0;
-    if(variables.getVariableValue("maxdepth",value))
+    if(list.getVariableValue("maxdepth",value))
         ui->doubleSpinBox_CutDepth->setValue(value / 10.0);
-    if(variables.getVariableValue("rtdist",value))
+    if(list.getVariableValue("rtdist",value))
         ui->doubleSpinBox_RetractDistance->setValue(value / 10.0);
-    if(variables.getVariableValue("step",value))
+    if(list.getVariableValue("step",value))
         ui->doubleSpinBox_StepSize->setValue(value / 10.0);
-    if(variables.getVariableValue("backsp",value))
+    if(list.getVariableValue("backsp",value))
         ui->spinBox_RetractSpeed->setValue(static_cast<int>(value / 10.0));
-    if(variables.getVariableValue("forsp",value))
+    if(list.getVariableValue("forsp",value))
         ui->spinBox_PlungeSpeed->setValue(static_cast<int>(value / 10.0));
-    if(variables.getVariableValue("speed",value))
+    if(list.getVariableValue("speed",value))
         ui->doubleSpinBox_CutSpeed->setValue(value / 10.0);
-    if(variables.getVariableValue("rtfq",value))
+    if(list.getVariableValue("rtfq",value))
         ui->spinBox_RetractPeriod->setValue(static_cast<int>(value));
-    if(variables.getVariableValue("rtpause",value))
+    if(list.getVariableValue("rtpause",value))
         ui->spinBox_Pause->setValue(static_cast<int>(value));
 }
 
-void Widget_ScriptingVariables::slot_MCNewProgramLabelList(const ProgramLabelList &labels)
-{
-    std::string currentProgram = ui->comboBox_ProgramLabels->currentText().toStdString();
-
-    ui->comboBox_ProgramLabels->clear();
-
-    ui->comboBox_ProgramLabels->addItems(labels.getLabelList());
-
-    if(labels.doesLabelExist(currentProgram))
-    {
-        int boxIndex = ui->comboBox_ProgramLabels->findText(QString::fromStdString(currentProgram));
-        ui->comboBox_ProgramLabels->setCurrentIndex(boxIndex);
-    }
-}

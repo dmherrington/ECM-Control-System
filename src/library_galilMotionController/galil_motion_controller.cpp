@@ -126,7 +126,7 @@ void GalilMotionController::initializeMotionController()
     });
 
     CommandUploadProgramPtr commandUploadDefault = std::make_shared<CommandUploadProgram>();
-    commandUploadDefault->setProgram(defaultProgram);
+    commandUploadDefault->setCurrentScript(defaultProgram.getProgramString());
     this->executeCommand(commandUploadDefault);
 
 

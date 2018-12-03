@@ -38,8 +38,6 @@ private slots:
     void on_actionOpen_triggered();
 
 private slots:
-    void slot_MCNewProgramAvailable(const GalilCurrentProgram &program);
-
     void on_codeTextEdit_textChanged();
 
     void on_pushButton_UploadProgram_released();

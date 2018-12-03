@@ -153,6 +153,19 @@ private:
     void cbi_GalilDownloadProgram(const AbstractCommandPtr command) override;
 
 signals:
+
+    //!
+    //! \brief signal_GalilHomeIndicated
+    //! \param indicated
+    //!
+    void signal_GalilHomeIndicated(const bool &indicated) const;
+
+    //!
+    //! \brief signal_GalilTouchoffIndicated
+    //! \param indicated
+    //!
+    void signal_GalilTouchoffIndicated(const bool &indicated) const;
+
     /**<
      * The following signals are pertinent to handling events that may have interest in logging.
      */
@@ -212,14 +225,6 @@ signals:
     //! \param variableList
     //!
     void signal_MCNewProgramVariableList(const ProgramVariableList &variableList);
-
-    //!
-    //! \brief signal_GalilHomeIndicated
-    //! \param indicated
-    //!
-    void signal_GalilHomeIndicated(const bool &indicated) const;
-
-    void signal_GalilTouchoffIndicated(const bool &indicated) const;
 
     void signal_GalilUpdatedProfileState(const MotionProfileState &state) const;
 

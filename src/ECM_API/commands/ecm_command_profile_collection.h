@@ -34,6 +34,8 @@ public:
 
     ECMCommand_ProfileConfiguration getProfile(const unsigned int &index) const;
 
+    std::map<unsigned int, ECMCommand_ProfileConfiguration> getCollection() const;
+
 public:
     unsigned int getCollectionSize() const;
 

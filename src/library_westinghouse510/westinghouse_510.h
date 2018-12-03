@@ -146,11 +146,6 @@ signals:
     //!
     void signal_PumpOperating(const bool &value);
 
-    //!
-    //! \brief signal_PumpInitialized signal emitted indicating the pump has initialized past the establised period
-    //!
-    void signal_PumpInitialized();
-
 
 private slots:
     //!

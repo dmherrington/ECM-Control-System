@@ -28,12 +28,17 @@ std::string CommandUploadProgram::getCommandString() const
     return str;
 }
 
-void CommandUploadProgram::setProgram(const ProgramGeneric &desiredProgram)
+void CommandUploadProgram::setCurrentScript(const std::string &text)
+{
+    this->program.setProgram(text);
+}
+
+void CommandUploadProgram::setCurrentProgram(const GalilCurrentProgram &desiredProgram)
 {
     this->program = desiredProgram;
 }
 
-ProgramGeneric CommandUploadProgram::getProgram() const
+GalilCurrentProgram CommandUploadProgram::getCurrentProgram() const
 {
     return this->program;
 }

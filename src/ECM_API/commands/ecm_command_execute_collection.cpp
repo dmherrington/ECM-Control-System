@@ -63,31 +63,27 @@ void ECMCommand_ExecuteCollection::setSerialNumber(const std::string &number)
     this->serialNumber = number;
 }
 
-bool ECMCommand_ExecuteCollection::setProfileCompleted(const unsigned int &index)
+bool ECMCommand_ExecuteCollection::doActiveOperationsRemain()
 {
     /*
      * We are first going to assume that everything is complete in the collection
      * unless we find an index that can negate this logic and should be executed.
      */
-    bool returnCollectionCompleted = true;
+    bool isCollectionIncomplete = false;
 
-    this->m_Collection.at(index).setProfileCompletion(true);
-
-    std::map<unsigned int, ECMCommand_ProfileConfiguration>::iterator it;
-
-    it = m_Collection.find(index);
+    std::map<unsigned int, ECMCommand_ProfileConfiguration>::iterator it = m_Collection.begin();
 
     for (; it!=m_Collection.end(); ++it)
     {
         ECMCommand_ProfileConfiguration currentConfig = it->second;
-        if(currentConfig.shouldProfileExecute())
+        if(currentConfig.shouldProfileExecute() && !currentConfig.execProperties.hasProfileBeenExecuted())
         {
             this->activeIndex = currentConfig.getOperationIndex();
-            returnCollectionCompleted = false;
+            isCollectionIncomplete = true;
             break;
         }
     }
-    return returnCollectionCompleted;
+    return isCollectionIncomplete;
 }
 
 void ECMCommand_ExecuteCollection::setHomeShouldIndicate(const bool &indicate)
@@ -130,4 +126,18 @@ bool ECMCommand_ExecuteCollection::shouldHomeBeIndicated() const
 bool ECMCommand_ExecuteCollection::shouldOverwriteLogs() const
 {
     return this->overwriteContents;
+}
+
+bool ECMCommand_ExecuteCollection::isFirstOperation(const unsigned int &index) const
+{
+    std::map<unsigned int, ECMCommand_ProfileConfiguration>::const_iterator it = m_Collection.begin();
+    for(;it!=m_Collection.end();++it)
+    {
+        ECMCommand_ProfileConfiguration currentConfig = it->second;
+        if(currentConfig.shouldProfileExecute() && currentConfig.getOperationIndex() < index)
+        {
+            return false;
+        }
+    }
+    return true;
 }

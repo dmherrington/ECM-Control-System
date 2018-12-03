@@ -61,7 +61,7 @@ Widget_ProfileParameters* TableWidget_OperationDescriptor::getAccompanyingProfil
     return this->m_OperationParameters;
 }
 
-void TableWidget_OperationDescriptor::on_lineEdit_ProfileName_textChanged(const QString &arg1)
+void TableWidget_OperationDescriptor::on_lineEdit_OperationName_textChanged(const QString &arg1)
 {
     this->operationName = arg1.toStdString();
     emit signal_OperationNameChanged(this->operationName, this->m_OperationParameters->getTabIndex());

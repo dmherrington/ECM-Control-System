@@ -1,7 +1,12 @@
 #ifndef STATE_ECM_PROFILE_MACHINE_H
 #define STATE_ECM_PROFILE_MACHINE_H
 
-#include "states/state_abstract_ecm_process.h"
+#include "common/class_forward.h"
+#include "common/hsm.h"
+
+#include "../ecm_api.h"
+
+#include "state_abstract_ecm_process.h"
 
 /**
 \* @file  state_ecm_touchoff.h
@@ -27,9 +32,12 @@ ECM_CLASS_FORWARD(ECMState_ProfileMachine);
 
 class ECMState_Idle;
 
+class ECMState_Upload;
+
 class ECMState_ProfileMachineCease;
-class ECMState_ProfileMachineProcess;
 class ECMState_ProfileMachineComplete;
+class ECMState_ProfileMachineFailed;
+class ECMState_ProfileMachineProcess;
 
 class ECMState_ProfileMachine : public AbstractStateECMProcess
 {
@@ -45,9 +53,12 @@ public:
     hsm::Transition GetTransition() override;
 
 public:
-    void Update() override;
-
     void OnEnter() override;
+    void Update() override;
+    void OnExit() override;
+
+public:
+    void OnEnter(const ECMCommand_AbstractCollectionPtr &collection);
 };
 
 } //end of namespace API

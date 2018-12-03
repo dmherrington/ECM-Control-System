@@ -25,6 +25,9 @@ public:
     explicit Window_ProfileConfiguration(ECM_API* apiObject, QWidget *parent = 0);
     ~Window_ProfileConfiguration();
 
+private:
+    void closeEvent(QCloseEvent *event) override;
+
 public:
     void updateConfigurationPath(const std::string &path);
 
@@ -63,7 +66,7 @@ private slots:
 
 private slots:
     void slot_OnExecuteExplicitProfileConfig(const ECMCommand_ProfileConfiguration &config);
-
+    void slot_OnProfileCollectionInitialized(const bool &success, const ECMCommand_ProfileCollection &collection);
 private:
     void saveToFile(const QString &filePath);
 
@@ -75,6 +78,8 @@ private slots:
     void on_actionSave_triggered();
 
     void on_actionSave_As_triggered();
+
+    void on_actionClose_triggered();
 
 private:
     Ui::Window_ProfileConfiguration *ui;

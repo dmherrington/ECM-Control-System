@@ -8,7 +8,7 @@
 #include "ECM_plot_collection.h"
 #include "ECM_plot_identifier.h"
 
-#include "galil_dialog/widget_motion_control.h"
+#include "galil_dialog/window_motion_control.h"
 
 #include "misc_dialogs/window_profile_configuration.h"
 #include "rigol_dialog/window_rigol_control.h"
@@ -44,22 +44,30 @@ public:
 private:
     void setupUploadCallbacks();
 
-    void setupMachiningSequence(const std::string &partNumber, const std::string &serialNumber, const std::string &profileName,const bool &clearContents);
+    void updateMCIndicators(const MotionProfileState &profileState);
 
 private slots:
     void CreateSensorDisplays(const common::TupleSensorString &sensor, const common_data::SensorTypes &type);
     Q_INVOKABLE void MarshalCreateSensorDisplay(const common::TupleSensorString &sensor, const common_data::SensorTypes &type);
 
+/*
+* Private Slots related to plottables
+*/
 private slots:
     void slot_NewlyAvailableRigolData(const common::TupleSensorString &sensor, const bool &val);
     void slot_AddPlottable(const common::TupleECMData &data, const bool &plot = false);
     void slot_RemovePlottable(const common::TupleECMData &data);
     void slot_DisplayActionTriggered();
-    void slot_UpdatedMotionProfileState(const MotionProfileState &state);
-    void slot_MCCommandError(const CommandType &type, const std::string &description);
 
+    void slot_DeviceConnectionUpdate(const bool &connected);
+
+/*
+* Private Slots related to collection execution and initialization
+*/
 private slots:
     void slot_LoadProfileCollection(const ECMCommand_ProfileCollection &collection);
+    void slot_InitializeProfileExecution(const std::string &operationName, const common::EnvironmentTime &startTime);
+    void on_ExecuteProfileCollection(const ECMCommand_ExecuteCollection &collection);
 
 private slots:
     void slot_NewProfileVariableData(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state);
@@ -68,16 +76,25 @@ private slots:
 
     void slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state, const bool &valueChanged);
 
+
+/*
+* Private Slots related to the motion controller
+*/
+private slots:
     void slot_MCNewMotionState(const std::string &state);
 
     void slot_MCNewDigitalInput(const StatusInputs &status);
 
-    void slot_MCNewProgramLabels(const ProgramLabelList &labels);
-
+    void slot_UpdateTouchoff(const bool &value);
 
     void slot_UpdateHomeIndicated(const bool &value);
 
+    void slot_MCCommandError(const CommandType &type, const std::string &description);
 
+/*
+* Private Slots related to actions on the front GUI
+*/
+private slots:
 
     void on_pushButton_MotorEnable_released();
 
@@ -87,13 +104,16 @@ private slots:
 
     void on_pushButton_MoveHome_released();
 
-
-
     void on_actionClose_triggered();
 
-
+/*
+* Private Slots related to actions fired from the tools menu
+*/
+private slots:
 
     void slot_ChangedWindowVisibility(const GeneralDialogWindow::DialogWindowTypes &type, const bool visibility);
+
+    void on_actionMotion_Control_triggered(bool checked);
 
     void on_actionConnections_triggered(bool checked);
 
@@ -107,13 +127,7 @@ private slots:
 
     void on_actionClear_All_Data_triggered();
 
-
-
-    void on_pushButton_RunExplicitProfile_released();
-
     void on_pushButton_Stop_released();
-
-    void on_ExecuteProfileCollection(const ECMCommand_ExecuteCollection &collection);
 
 protected:
     void readSettings();
@@ -143,8 +157,7 @@ private:
     int counter = 0;
     ECM_API* m_API;
 
-    Widget_MotionControl* m_MotionControl;
-
+    Window_MotionControl* m_WindowMotionControl;
     Window_ProfileConfiguration* m_WindowProfileConfiguration;
     Window_RigolControl* m_WindowRigol;
     Window_DeviceConnections* m_WindowConnections;

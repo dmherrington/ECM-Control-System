@@ -30,22 +30,24 @@ enum class ECMState{
     STATE_ECM_MOTION_PROFILE_INITIALIZATION = 1, /**< */
     STATE_ECM_PROFILE_MACHINE = 2, /**< */
     STATE_ECM_PROFILE_MACHINE_CEASE = 3, /**< */
-    STATE_ECM_PROFILE_MACHINE_PROCESS = 4, /**< */
-    STATE_ECM_SETUP_MACHINE = 5, /**< */
-    STATE_ECM_SETUP_MACHINE_COMPLETE = 6, /**< */
-    STATE_ECM_SETUP_MACHINE_FAILED = 7, /**< */
-    STATE_ECM_SETUP_MACHINE_HOME = 8, /**< */
-    STATE_ECM_SETUP_MACHINE_PUMP = 9, /**< */
-    STATE_ECM_SETUP_MACHINE_TOUCHOFF = 10, /**< */
-    STATE_ECM_UPLOAD = 11, /**< */
-    STATE_ECM_UPLOAD_COMPLETE = 12, /**< */
-    STATE_ECM_UPLOAD_FAILED = 13, /**< */
-    STATE_ECM_UPLOAD_MOTION_PROFILE = 14, /**< */
-    STATE_ECM_UPLOAD_MOTION_VARIABLES = 15, /**< */
-    STATE_ECM_UPLOAD_POWER_PULSE_MODE = 16, /**< */
-    STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS = 17, /**< */
-    STATE_ECM_UPLOAD_PUMP_PARAMETERS = 18, /**< */
-    STATE_UNKNOWN = 19 /**< */
+    STATE_ECM_PROFILE_MACHINE_COMPLETE = 4, /**< */
+    STATE_ECM_PROFILE_MACHINE_FAILED = 5, /**< */
+    STATE_ECM_PROFILE_MACHINE_PROCESS = 6, /**< */
+    STATE_ECM_SETUP_MACHINE = 10, /**< */
+    STATE_ECM_SETUP_MACHINE_COMPLETE = 11, /**< */
+    STATE_ECM_SETUP_MACHINE_FAILED = 12, /**< */
+    STATE_ECM_SETUP_MACHINE_HOME = 13, /**< */
+    STATE_ECM_SETUP_MACHINE_PUMP = 14, /**< */
+    STATE_ECM_SETUP_MACHINE_TOUCHOFF = 15, /**< */
+    STATE_ECM_UPLOAD = 20, /**< */
+    STATE_ECM_UPLOAD_COMPLETE = 21, /**< */
+    STATE_ECM_UPLOAD_FAILED = 22, /**< */
+    STATE_ECM_UPLOAD_MOTION_PROFILE = 23, /**< */
+    STATE_ECM_UPLOAD_MOTION_VARIABLES = 24, /**< */
+    STATE_ECM_UPLOAD_POWER_PULSE_MODE = 25, /**< */
+    STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS = 26, /**< */
+    STATE_ECM_UPLOAD_PUMP_PARAMETERS = 27, /**< */
+    STATE_UNKNOWN = 100 /**< */
 };
 
 //!
@@ -59,6 +61,17 @@ inline std::string ECMStateToString(const ECMState &type) {
         return "Idle";
     case ECMState::STATE_ECM_MOTION_PROFILE_INITIALIZATION:
         return "Machine Initialization";
+
+    case ECMState::STATE_ECM_PROFILE_MACHINE:
+        return "Profile Machining";
+    case ECMState::STATE_ECM_PROFILE_MACHINE_CEASE:
+        return "Profile Machining Cease";
+    case ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE:
+        return "Profile Machining Complete";
+    case ECMState::STATE_ECM_PROFILE_MACHINE_FAILED:
+        return "Profile Machining Failed";
+    case ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS:
+        return "Profile Machining Process";
 
     case ECMState::STATE_ECM_SETUP_MACHINE:
         return "Machine Setup";

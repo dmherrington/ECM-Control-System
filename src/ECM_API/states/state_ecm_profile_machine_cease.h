@@ -1,7 +1,7 @@
 #ifndef STATE_ECM_PROFILE_MACHINE_CEASE_H
 #define STATE_ECM_PROFILE_MACHINE_CEASE_H
 
-#include "states/state_abstract_ecm_process.h"
+#include "state_ecm_profile_machine_base.h"
 
 /**
 \* @file  state_ecm_touchoff.h
@@ -25,7 +25,10 @@ namespace API {
 
 ECM_CLASS_FORWARD(ECMState_ProfileMachineCease);
 
-class ECMState_ProfileMachineCease : public AbstractStateECMProcess
+class ECMState_ProfileMachineComplete;
+class ECMState_ProfileMachineFailed;
+
+class ECMState_ProfileMachineCease : public ECMState_ProfileMachineBase
 {
 public:
     ECMState_ProfileMachineCease();
@@ -42,6 +45,9 @@ public:
     void OnEnter() override;
     void Update() override;
     void OnExit() override;
+
+public:
+    void OnEnter(const ECMCommand_ProfileConfiguration &configuration);
 
 };
 
