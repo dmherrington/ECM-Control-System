@@ -40,14 +40,15 @@ public:
     void loadFromProfileConfiguration(const ECMCommand_ProfileConfiguration &config);
 
 private slots:
-    void on_lineEdit_ProfileName_textChanged(const QString &arg1);
 
     void on_pushButton_ExecuteExplicitOp_released();
 
     void on_checkBox_EnableOperation_toggled(bool checked);
 
+    void on_lineEdit_OperationName_textChanged(const QString &arg1);
+
 signals:
-    void signal_OperationNameChanged(const std::string &name, const int &index);
+    void signal_OperationNameChanged(const std::string &name, const unsigned int &index);
 
     void signal_ExecuteExplicitProfileConfig(const ECMCommand_ProfileConfiguration &config);
 
