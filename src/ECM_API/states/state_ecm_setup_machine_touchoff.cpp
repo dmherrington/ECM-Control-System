@@ -59,9 +59,27 @@ void ECMState_SetupMachineTouchoff::OnEnter()
 void ECMState_SetupMachineTouchoff::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
 {
     this->m_Config = configuration;
-
     if(configuration.m_Touchoff.shouldTouchoffBeUtilized())
     {
+        /*
+         * First, lets setup the necessary touchoff ref and gap variables per the configuration
+         */
+        Command_VariablePtr commandTouchRef = nullptr;
+
+        if(configuration.m_Touchoff.shouldTouchoffUtilizePreviousPosition())
+        {
+            int currentPosition = Owner().m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+            commandTouchRef = std::make_shared<Command_Variable>("touchref",currentPosition);
+        }
+        else{
+            commandTouchRef = std::make_shared<Command_Variable>(configuration.m_Touchoff.getTouchoffRefCommand());
+        }
+        Command_VariablePtr commandTouchGap = std::make_shared<Command_Variable>(configuration.m_Touchoff.getTouchoffGapCommand());
+
+        Owner().m_Galil->executeCommand(commandTouchRef);
+        Owner().m_Galil->executeCommand(commandTouchGap);
+
+
         Owner().m_Galil->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
 
             switch (profileState.getProfileState()->getType()) {
@@ -97,6 +115,9 @@ void ECMState_SetupMachineTouchoff::OnEnter(const ECMCommand_ProfileConfiguratio
                 break;
             }
         });
+
+        CommandExecuteProfilePtr commandTouchoffExecute = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::TOUCHOFF,"touchof");
+        Owner().m_Galil->executeCommand(commandTouchoffExecute);
     }
     else{
 

@@ -57,7 +57,7 @@ void GalilProtocol::UploadNewProgram(const ILink *link, const AbstractCommandPtr
 
         //We had no error and therefore need to call the setup to initialize all of the variables that are contained within the script
         CommandExecuteProfilePtr commandExecuteSetup = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::SETUP,"setup");
-        //this->SendProtocolCommand(link,commandExecuteSetup);
+        this->SendProtocolCommand(link,commandExecuteSetup);
 
         Emit([&](const IProtocolGalilEvents* ptr){ptr->NewProgramUploaded(true,newProgram);});
     }
