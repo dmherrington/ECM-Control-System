@@ -34,11 +34,11 @@ public:
     virtual void SegmentCurrentSetpointAcknowledged(const ILink* link_ptr , const data_Munk::SegmentMode &mode) const = 0;
     virtual void SegmentTimeSetpointAcknowledged(const ILink* link_ptr) const = 0;
     virtual void SegmentCommittedToMemory(const ILink* link_ptr) const = 0;
-    virtual void SegmentUploadComplete(const ILink* link_ptr, const registers_Munk::SegmentTimeDetailed &segmentData) const = 0;
+    virtual void SegmentUploadComplete(const bool &success, const registers_Munk::SegmentTimeDetailed &segmentData = registers_Munk::SegmentTimeDetailed()) const = 0;
 
     virtual void ExceptionResponseReceived(const ILink* link_ptr, const data_Munk::MunkRWType &type, const uint8_t &code) const = 0;
 
-    virtual void RegisterPulseModeUpdated(const ILink* link_ptr, const registers_Munk::Register_PulseMode &registerMode) const = 0;
+    virtual void RegisterPulseModeUpdated(const bool &success, const registers_Munk::Register_PulseMode &registerMode = registers_Munk::Register_PulseMode()) const = 0;
 };
 
 

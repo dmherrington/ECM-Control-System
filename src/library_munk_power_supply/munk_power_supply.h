@@ -145,7 +145,9 @@ private:
 
     void SegmentCommitedToMemoryAcknowledged() override;
 
-    void NewSegmentSequence(const registers_Munk::SegmentTimeDetailed &segmentData) override;
+    void NewSegmentSequence(const bool &success, const registers_Munk::SegmentTimeDetailed &segmentData) override;
+
+    void NewPulseMode(const bool &success, const registers_Munk::Register_PulseMode &pulseMode) override;
 
     void ExceptionResponseReceived(const MunkRWType &RWType, const std::string &meaning) const override;
 

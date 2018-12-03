@@ -104,17 +104,24 @@ void GalilProtocol::UploadProgramVariables(const ILink *link, const ProgramVaria
         if(rtn != G_NO_ERROR)
             break;
     }
+
+    if(rtn == G_NO_ERROR)
+    {
+        Emit([&](const IProtocolGalilEvents* ptr){ptr->NewVariableListUploaded(true,varList);});
+    }else{
+        Emit([&](const IProtocolGalilEvents* ptr){ptr->NewVariableListUploaded(false);});
+    }
 }
 
 void GalilProtocol::ExecuteProfile(const ILink *link, const AbstractCommandPtr &command)
 {
     std::cout<<"I am trying to execute a new profile"<<std::endl;
     //First, let us establish the correct gains for the galil
-//    CommandControllerGain commandGain(profile.profileGain);
-//    SendProtocolGainCommand(link,commandGain);
+    //    CommandControllerGain commandGain(profile.profileGain);
+    //    SendProtocolGainCommand(link,commandGain);
     //Next, let us exectue the profile
-//    CommandExecuteProfilePtr commandPtr = std::make_shared<CommandExecuteProfile>(command);
-//    SendProtocolCommand(link,commandPtr);
+    //    CommandExecuteProfilePtr commandPtr = std::make_shared<CommandExecuteProfile>(command);
+    //    SendProtocolCommand(link,commandPtr);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -166,41 +173,41 @@ void GalilProtocol::SendProtocolMotionCommand(const ILink *link, const AbstractC
 
 void GalilProtocol::handleCommandResponse(const ILink *link, const AbstractCommandPtr command, const GReturn &response)
 {
-        switch (response) {
-        case G_NO_ERROR:
+    switch (response) {
+    case G_NO_ERROR:
+    {
+        switch (command->getCommandType()) {
+        case CommandType::SET_VARIABLE:
         {
-            switch (command->getCommandType()) {
-            case CommandType::SET_VARIABLE:
-            {
-                std::vector<AbstractStatusPtr> status;
+            std::vector<AbstractStatusPtr> status;
 
-                common::EnvironmentTime updateTime;
-                common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,updateTime);
+            common::EnvironmentTime updateTime;
+            common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,updateTime);
 
-                Command_Variable* variableValue = command.get()->as<Command_Variable>();
-                Status_VariableValuePtr variableStatus = std::make_shared<Status_VariableValue>();
-                variableStatus->setVariableName(variableValue->getVariableName());
-                variableStatus->setVariableValue(variableValue->getVariableValue());
-                variableStatus->setTime(updateTime);
+            Command_Variable* variableValue = command.get()->as<Command_Variable>();
+            Status_VariableValuePtr variableStatus = std::make_shared<Status_VariableValue>();
+            variableStatus->setVariableName(variableValue->getVariableName());
+            variableStatus->setVariableValue(variableValue->getVariableValue());
+            variableStatus->setTime(updateTime);
 
-                status.push_back(variableStatus);
-                Emit([&](const IProtocolGalilEvents* ptr){ptr->NewStatusReceived(status);});
-                break;
-            }
-            default:
-                break;
-            }
-            break;
-        }
-        case G_BAD_RESPONSE_QUESTION_MARK:
-        {
-            handleBadCommand_ResponseQuestionMark(link, command->getCommandType());
+            status.push_back(variableStatus);
+            Emit([&](const IProtocolGalilEvents* ptr){ptr->NewStatusReceived(status);});
             break;
         }
         default:
-            std::cout<<"There is another bad command response that is not currently supported of value: "<<std::to_string(response)<<std::endl;
             break;
         }
+        break;
+    }
+    case G_BAD_RESPONSE_QUESTION_MARK:
+    {
+        handleBadCommand_ResponseQuestionMark(link, command->getCommandType());
+        break;
+    }
+    default:
+        std::cout<<"There is another bad command response that is not currently supported of value: "<<std::to_string(response)<<std::endl;
+        break;
+    }
 }
 
 void GalilProtocol::handleBadCommand_ResponseQuestionMark(const ILink* link, const CommandType &type)
@@ -223,25 +230,25 @@ void GalilProtocol::SendProtocolRequest(const ILink *link, const AbstractRequest
 
 void GalilProtocol::handleRequestResponse(const ILink *link, const AbstractRequestPtr request, const GReturn &code)
 {
-        switch (code) {
-        case G_NO_ERROR:
-        {
-            std::vector<AbstractStatusPtr> status = request->getStatus();
-            Emit([&](const IProtocolGalilEvents* ptr){ptr->NewStatusReceived(status);});
-            break;
-        }
-        case G_BAD_LOST_DATA:
-        {
-            break;
-        }
-        case G_BAD_RESPONSE_QUESTION_MARK:
-        {
-            handleBadRequest_ResponseQuestionMark(link, request);
-            break;
-        }
-        default:
-            break;
-        }
+    switch (code) {
+    case G_NO_ERROR:
+    {
+        std::vector<AbstractStatusPtr> status = request->getStatus();
+        Emit([&](const IProtocolGalilEvents* ptr){ptr->NewStatusReceived(status);});
+        break;
+    }
+    case G_BAD_LOST_DATA:
+    {
+        break;
+    }
+    case G_BAD_RESPONSE_QUESTION_MARK:
+    {
+        handleBadRequest_ResponseQuestionMark(link, request);
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 void GalilProtocol::handleBadRequest_ResponseQuestionMark(const ILink* link, const AbstractRequestPtr request)

@@ -332,10 +332,15 @@ void MunkPowerSupply::SegmentCommitedToMemoryAcknowledged()
     emit signal_SegmentWriteProgress(completed,required);
 }
 
-void MunkPowerSupply::NewSegmentSequence(const SegmentTimeDetailed &segmentData)
+void MunkPowerSupply::NewSegmentSequence(const bool &success, const SegmentTimeDetailed &segmentData)
 {
     this->machineState->updateCurrentSegmentData(segmentData);
-    this->onFinishedUploadingSegments(true);
+    this->onFinishedUploadingSegments(success);
+}
+
+void MunkPowerSupply::NewPulseMode(const bool &success, const registers_Munk::Register_PulseMode &pulseMode)
+{
+    this->onFinishedUploadingPulseMode(success);
 }
 
 void MunkPowerSupply::ExceptionResponseReceived(const MunkRWType &RWType, const std::string &meaning) const

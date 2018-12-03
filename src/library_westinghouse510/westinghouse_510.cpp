@@ -186,8 +186,8 @@ void Westinghouse510::parseReceivedMessage(const comms_WestinghousePump::Westing
                 if(m_State->flowRate.set(writeFlow.getVolumetricFlow()))
                 {
                     emit signal_PumpFlowUpdated(writeFlow.getVolumetricFlow());
-                    this->onFinishedUploadingParameters(true,FINISH_CODE::UNKNOWN);
                 }
+                this->onFinishedUploadingParameters(true,FINISH_CODE::UNKNOWN);
                 break;
             }
             case registers_WestinghousePump::WestinhouseRegisterTypes::OPERATION_SIGNAL:

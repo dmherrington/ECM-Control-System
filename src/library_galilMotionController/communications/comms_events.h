@@ -65,6 +65,12 @@ public:
         UNUSED(program);
     }
 
+    virtual void NewVariableListUploaded(const bool &success, const ProgramVariableList &list)
+    {
+        UNUSED(success);
+        UNUSED(list);
+    }
+
     virtual void StatusMessage(const std::string &msg) const
     {
         UNUSED(msg);

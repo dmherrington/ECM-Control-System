@@ -255,8 +255,15 @@ void GalilMotionController::ErrorBadRequest(const RequestTypes &type, const std:
 void GalilMotionController::NewProgramUploaded(const bool &success, const GalilCurrentProgram &program)
 {
     //Ken this should be updated to reflect the latest conditions of the program not just the script
-    stateInterface->galilProgram->setProgram(program.getProgram());
+    stateInterface->galilProgram->fromProgram(program);
     this->onFinishedUploadingScript(success,program);
+}
+
+void GalilMotionController::NewVariableListUploaded(const bool &success, const ProgramVariableList &list)
+{
+    //Ken this should be updated to reflect the latest conditions of the program not just the script
+    stateInterface->galilProgram->setVariableList(list);
+    this->onFinishedUploadingVariables(success,list);
 }
 
 void GalilMotionController::NewProgramDownloaded(const ProgramGeneric &program)

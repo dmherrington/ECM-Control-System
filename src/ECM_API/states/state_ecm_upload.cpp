@@ -35,13 +35,7 @@ hsm::Transition ECMState_Upload::GetTransition()
         if(IsInInnerState<ECMState_UploadComplete>())
         {
             std::cout<<"The upload state sees that all of the uploads are complete"<<std::endl;
-            //Let us check to see if we should execute this profile
-//            if(m_ProfileConfiguration.shouldProfileExecute()){
-//                rtn = hsm::SiblingTransition<ECMState::STATE_ECM_INITIALIZATION>(m_ProfileConfiguration);
-//            }
-//            else{
-//                rtn = hsm::SiblingTransition<ECMState::STATE_ECM_IDLE>();
-//            }
+            rtn = hsm::SiblingTransition<ECMState_SetupMachine>(this->m_ECMCollection);
         }
         else if(IsInInnerState<ECMState_UploadFailed>())
         {
@@ -105,6 +99,9 @@ void ECMState_Upload::OnEnter(const ECMCommand_AbstractCollectionPtr &collection
 } //end of namespace ECM
 
 #include "states/state_ecm_idle.h"
+
+#include "states/state_ecm_setup_machine.h"
+
 #include "states/state_ecm_upload_complete.h"
 #include "states/state_ecm_upload_failed.h"
 #include "states/state_ecm_upload_motion_profile.h"

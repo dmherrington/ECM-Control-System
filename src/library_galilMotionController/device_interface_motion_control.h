@@ -33,11 +33,11 @@ public:
 
         m_MutexFinishVariablesLambda.lock();
         m_FinishVariablesLambda.erase(ptr);
-        m_MutexFinishVariablesLambda.lock();
+        m_MutexFinishVariablesLambda.unlock();
 
         m_MutexNewMotionProfileStateLambda.lock();
         m_NewMotionProfileStateLambda.erase(ptr);
-        m_MutexNewMotionProfileStateLambda.lock();
+        m_MutexNewMotionProfileStateLambda.unlock();
     }
 
     void setLambda_FinishedUploadingScript(const std::function<void(const bool &success, const GalilCurrentProgram &program)> &lambda){

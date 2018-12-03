@@ -27,6 +27,9 @@ public:
     void readFromJSON(const QJsonObject &openObject);
 
 public:
+
+    void fromProgram(const GalilCurrentProgram &copy);
+
     void setProgram(const std::string &programString);
 
     void setLabelList(const ProgramLabelList &list);

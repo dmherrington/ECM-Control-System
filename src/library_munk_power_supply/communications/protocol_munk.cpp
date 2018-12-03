@@ -21,9 +21,10 @@ void MunkProtocol::AddListner(const IProtocolMunkEvents* listener)
 
 void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registers_Munk::SegmentTimeDetailed &segmentData, const std::vector<registers_Munk::AbstractParameterPtr> parameters)
 {
+    bool validParameter = true;
+
     for(unsigned int i = 0; i < parameters.size(); i++)
     {
-        bool validParameter = true;
         switch (parameters.at(i)->getParameterType()) {
         case registers_Munk::ParameterType::CURRENTSETPOINT_FORWARD:
         {
@@ -84,7 +85,7 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
         if(validParameter == false)
             break;
     }
-    Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentUploadComplete(link, segmentData);});
+    Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentUploadComplete(validParameter, segmentData);});
     std::cout<<"We have uploaded a complete set of munk parameters."<<std::endl;
 }
 
@@ -357,12 +358,14 @@ void MunkProtocol::sendPulseMode(const ILink *link, const registers_Munk::Regist
                 {
                     if(mode.getFullExpectedResonse() == receivedMSG.getDataArray())
                     {
-                        Emit([&](const IProtocolMunkEvents* ptr){ptr->RegisterPulseModeUpdated(link, mode);});
+                        Emit([&](const IProtocolMunkEvents* ptr){ptr->RegisterPulseModeUpdated(true, mode);});
+                        return;
                     }
                 }
             }
         }
     }
+    Emit([&](const IProtocolMunkEvents* ptr){ptr->RegisterPulseModeUpdated(false);});
 }
 
 

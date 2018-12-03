@@ -24,6 +24,8 @@ ECM_CLASS_FORWARD(ECMState_Upload);
 
 class ECMState_Idle;
 
+class ECMState_SetupMachine;
+
 class ECMState_UploadComplete;
 class ECMState_UploadFailed;
 class ECMState_UploadMotionProfile;

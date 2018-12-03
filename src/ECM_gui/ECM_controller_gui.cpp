@@ -135,34 +135,27 @@ void ECMControllerGUI::setupUploadCallbacks()
 {
     m_API->m_Galil->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const GalilCurrentProgram &program){
         UNUSED(completed);UNUSED(program);
-        this->ProgressStateMachineStates();
     });
     m_API->m_Galil->AddLambda_FinishedUploadingVariables(this,[this](const bool success, const ProgramVariableList &variableList){
         UNUSED(success);UNUSED(variableList);
-        this->ProgressStateMachineStates();
     });
     m_API->m_Galil->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
-        this->ProgressStateMachineStates();
     });
 
     m_API->m_Munk->AddLambda_FinishedUploadingSegments(this,[this](const bool success, const DeviceInterface_PowerSupply::FINISH_CODE &finishCode){
         UNUSED(success);UNUSED(finishCode);
-        this->ProgressStateMachineStates();
     });
 
     m_API->m_Munk->AddLambda_FinishedUploadingPulseMode(this,[this](const bool success, const DeviceInterface_PowerSupply::FINISH_CODE &finishCode){
         UNUSED(success);UNUSED(finishCode);
-        this->ProgressStateMachineStates();
     });
 
     m_API->m_Pump->AddLambda_FinishedUploadingParameters(this,[this](const bool success, const DeviceInterface_Pump::FINISH_CODE &finishCode){
         UNUSED(success);UNUSED(finishCode);
-        this->ProgressStateMachineStates();
     });
 
     m_API->m_Pump->AddLambda_FinishedPumpInitialization(this,[this](const bool completed){
         UNUSED(completed);
-        this->ProgressStateMachineStates();
     });
 }
 
@@ -294,6 +287,8 @@ void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalStrin
 
     if(valueChanged)
         m_API->m_Log->WriteLogMachinePositionalState(tuple,state);
+
+    ProgressStateMachineStates();
 }
 
 void ECMControllerGUI::slot_MCNewMotionState(const std::string &state)

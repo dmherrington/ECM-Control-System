@@ -63,7 +63,7 @@ QByteArray Register_PulseMode::getByteArray() const
 QByteArray Register_PulseMode::getExpectedResponse() const
 {
     QByteArray ba;
-    int messageLength = 2;
+    int messageLength = 1; //the number of registers that were changed
     uint8_t HIGHSeqType = (uint8_t)((messageLength & 0xFF00) >> 8);
     uint8_t LOWSeqType = (uint8_t)(messageLength & 0x00FF);
     ba.append(HIGHSeqType);

@@ -86,7 +86,7 @@ void Widget_Touchoff::slot_UpdateMotionProfileState(const MotionProfileState &st
 
 void Widget_Touchoff::on_pushButton_TouchoffRef_released()
 {
-    uint64_t position = m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->position.get().getPosition();
+    int position = m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
     ui->doubleSpinBox_TouchoffRef->setValue(position/10.0);
     //By setting the value of the spinbox this should call the event on value changed and transmit to the motion controller
 }

@@ -101,6 +101,8 @@ private:
 
     void NewProgramUploaded(const bool &success, const GalilCurrentProgram &program = GalilCurrentProgram()) const override;
 
+    void NewVariableListUploaded(const bool &succes, const ProgramVariableList &list = ProgramVariableList()) const override;
+
     void NewProgramDownloaded(const ProgramGeneric &program) const override;
 
     void NewPositionReceived(const Status_Position &status) const override;

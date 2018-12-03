@@ -237,6 +237,11 @@ void CommsMarshaler::NewProgramUploaded(const bool &success, const GalilCurrentP
     Emit([&](CommsEvents *ptr){ptr->NewProgramUploaded(success, program);});
 }
 
+void CommsMarshaler::NewVariableListUploaded(const bool &success, const ProgramVariableList &list) const
+{
+    Emit([&](CommsEvents *ptr){ptr->NewVariableListUploaded(success, list);});
+}
+
 void CommsMarshaler::NewProgramDownloaded(const ProgramGeneric &program) const
 {
     Emit([&](CommsEvents *ptr){ptr->NewProgramDownloaded(program);});

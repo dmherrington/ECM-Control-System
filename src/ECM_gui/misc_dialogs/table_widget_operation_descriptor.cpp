@@ -73,9 +73,7 @@ ECMCommand_ProfileConfiguration TableWidget_OperationDescriptor::getCurrentProfi
     currentConfiguration.setOperationIndex(this->getOperationIndex());
     currentConfiguration.setOperationName(this->getOperationName());
     currentConfiguration.setProfileExecution(this->shouldOperationBeUsed());
-    currentConfiguration.m_GalilOperation.setOperationName(this->operationName);
-    currentConfiguration.m_GalilOperation.setProfileName(this->m_OperationParameters->m_ScriptingVariables->getProfileName());
-    currentConfiguration.m_GalilOperation.setVariableList(this->m_OperationParameters->m_ScriptingVariables->getVariableList());
+    currentConfiguration.m_GalilOperation.fromProgram(this->m_OperationParameters->m_ScriptingVariables->getDesiredProgram());
 
     currentConfiguration.m_Touchoff = this->m_OperationParameters->m_MCTouchoff->getCurrentTouchoffConfig();
 

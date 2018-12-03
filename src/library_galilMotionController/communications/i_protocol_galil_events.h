@@ -50,6 +50,13 @@ public:
     virtual void NewProgramDownloaded(const ProgramGeneric &program) const = 0;
 
     //!
+    //! \brief NewVariableListUploaded
+    //! \param succes
+    //! \param list
+    //!
+    virtual void NewVariableListUploaded(const bool &succes, const ProgramVariableList &list = ProgramVariableList()) const = 0;
+
+    //!
     //! \brief ErrorBadCommand
     //! \param type
     //! \param description
