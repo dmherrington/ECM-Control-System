@@ -13,7 +13,6 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
@@ -36,8 +35,6 @@ class Ui_Window_MotionControl
 public:
     QAction *actionClose;
     QWidget *centralwidget;
-    QGridLayout *gridLayout_3;
-    QFrame *frame_MaunalControl;
     QGridLayout *gridLayout_2;
     QHBoxLayout *horizontalLayout_6;
     QSpacerItem *horizontalSpacer;
@@ -51,11 +48,11 @@ public:
     QLabel *label_ManualControl_3;
     QGridLayout *gridLayout;
     QSpacerItem *horizontalSpacer_7;
+    QSpacerItem *horizontalSpacer_6;
     QVBoxLayout *verticalLayout;
     QPushButton *pushButton_IncreaseJog;
     QSpinBox *spinBox_Jog;
     QPushButton *pushButton_DecreaseJog;
-    QSpacerItem *horizontalSpacer_6;
     QVBoxLayout *verticalLayout_5;
     QLabel *label_ManualControl_4;
     QHBoxLayout *horizontalLayout_2;
@@ -78,14 +75,14 @@ public:
     {
         if (Window_MotionControl->objectName().isEmpty())
             Window_MotionControl->setObjectName(QStringLiteral("Window_MotionControl"));
-        Window_MotionControl->resize(370, 310);
+        Window_MotionControl->resize(370, 276);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Window_MotionControl->sizePolicy().hasHeightForWidth());
         Window_MotionControl->setSizePolicy(sizePolicy);
-        Window_MotionControl->setMinimumSize(QSize(370, 310));
-        Window_MotionControl->setMaximumSize(QSize(370, 310));
+        Window_MotionControl->setMinimumSize(QSize(370, 276));
+        Window_MotionControl->setMaximumSize(QSize(370, 276));
         Window_MotionControl->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
@@ -207,18 +204,7 @@ public:
         actionClose->setObjectName(QStringLiteral("actionClose"));
         centralwidget = new QWidget(Window_MotionControl);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
-        gridLayout_3 = new QGridLayout(centralwidget);
-        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
-        frame_MaunalControl = new QFrame(centralwidget);
-        frame_MaunalControl->setObjectName(QStringLiteral("frame_MaunalControl"));
-        sizePolicy.setHeightForWidth(frame_MaunalControl->sizePolicy().hasHeightForWidth());
-        frame_MaunalControl->setSizePolicy(sizePolicy);
-        frame_MaunalControl->setMinimumSize(QSize(350, 250));
-        frame_MaunalControl->setMaximumSize(QSize(350, 300));
-        frame_MaunalControl->setFrameShape(QFrame::Box);
-        frame_MaunalControl->setFrameShadow(QFrame::Plain);
-        frame_MaunalControl->setLineWidth(2);
-        gridLayout_2 = new QGridLayout(frame_MaunalControl);
+        gridLayout_2 = new QGridLayout(centralwidget);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         horizontalLayout_6 = new QHBoxLayout();
         horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
@@ -228,15 +214,15 @@ public:
 
         gridLayout_4 = new QGridLayout();
         gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
-        label_ManualControl = new QLabel(frame_MaunalControl);
+        label_ManualControl = new QLabel(centralwidget);
         label_ManualControl->setObjectName(QStringLiteral("label_ManualControl"));
         QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(label_ManualControl->sizePolicy().hasHeightForWidth());
         label_ManualControl->setSizePolicy(sizePolicy1);
-        label_ManualControl->setMinimumSize(QSize(0, 32));
-        label_ManualControl->setMaximumSize(QSize(16777215, 32));
+        label_ManualControl->setMinimumSize(QSize(0, 20));
+        label_ManualControl->setMaximumSize(QSize(16777215, 20));
         QFont font;
         font.setPointSize(12);
         font.setBold(true);
@@ -258,7 +244,7 @@ public:
 
         horizontalLayout_5 = new QHBoxLayout();
         horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
-        label = new QLabel(frame_MaunalControl);
+        label = new QLabel(centralwidget);
         label->setObjectName(QStringLiteral("label"));
         sizePolicy.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
         label->setSizePolicy(sizePolicy);
@@ -270,7 +256,7 @@ public:
 
         horizontalLayout_5->addWidget(label);
 
-        lineEdit_MachinePosition = new QLineEdit(frame_MaunalControl);
+        lineEdit_MachinePosition = new QLineEdit(centralwidget);
         lineEdit_MachinePosition->setObjectName(QStringLiteral("lineEdit_MachinePosition"));
         lineEdit_MachinePosition->setMinimumSize(QSize(190, 25));
         lineEdit_MachinePosition->setMaximumSize(QSize(190, 25));
@@ -285,7 +271,7 @@ public:
 
         gridLayout_6 = new QGridLayout();
         gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
-        label_ManualControl_3 = new QLabel(frame_MaunalControl);
+        label_ManualControl_3 = new QLabel(centralwidget);
         label_ManualControl_3->setObjectName(QStringLiteral("label_ManualControl_3"));
         sizePolicy1.setHeightForWidth(label_ManualControl_3->sizePolicy().hasHeightForWidth());
         label_ManualControl_3->setSizePolicy(sizePolicy1);
@@ -300,9 +286,13 @@ public:
 
         gridLayout->addItem(horizontalSpacer_7, 0, 0, 1, 1);
 
+        horizontalSpacer_6 = new QSpacerItem(5, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer_6, 0, 2, 1, 1);
+
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        pushButton_IncreaseJog = new QPushButton(frame_MaunalControl);
+        pushButton_IncreaseJog = new QPushButton(centralwidget);
         pushButton_IncreaseJog->setObjectName(QStringLiteral("pushButton_IncreaseJog"));
         sizePolicy.setHeightForWidth(pushButton_IncreaseJog->sizePolicy().hasHeightForWidth());
         pushButton_IncreaseJog->setSizePolicy(sizePolicy);
@@ -314,7 +304,7 @@ public:
 
         verticalLayout->addWidget(pushButton_IncreaseJog);
 
-        spinBox_Jog = new QSpinBox(frame_MaunalControl);
+        spinBox_Jog = new QSpinBox(centralwidget);
         spinBox_Jog->setObjectName(QStringLiteral("spinBox_Jog"));
         sizePolicy.setHeightForWidth(spinBox_Jog->sizePolicy().hasHeightForWidth());
         spinBox_Jog->setSizePolicy(sizePolicy);
@@ -328,7 +318,7 @@ public:
 
         verticalLayout->addWidget(spinBox_Jog);
 
-        pushButton_DecreaseJog = new QPushButton(frame_MaunalControl);
+        pushButton_DecreaseJog = new QPushButton(centralwidget);
         pushButton_DecreaseJog->setObjectName(QStringLiteral("pushButton_DecreaseJog"));
         sizePolicy.setHeightForWidth(pushButton_DecreaseJog->sizePolicy().hasHeightForWidth());
         pushButton_DecreaseJog->setSizePolicy(sizePolicy);
@@ -341,19 +331,15 @@ public:
 
         gridLayout->addLayout(verticalLayout, 0, 1, 1, 1);
 
-        horizontalSpacer_6 = new QSpacerItem(5, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout->addItem(horizontalSpacer_6, 0, 2, 1, 1);
-
-
-        gridLayout_6->addLayout(gridLayout, 1, 0, 1, 1);
+        gridLayout_6->addLayout(gridLayout, 2, 0, 1, 1);
 
 
         gridLayout_2->addLayout(gridLayout_6, 2, 0, 1, 1);
 
         verticalLayout_5 = new QVBoxLayout();
         verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
-        label_ManualControl_4 = new QLabel(frame_MaunalControl);
+        label_ManualControl_4 = new QLabel(centralwidget);
         label_ManualControl_4->setObjectName(QStringLiteral("label_ManualControl_4"));
         sizePolicy1.setHeightForWidth(label_ManualControl_4->sizePolicy().hasHeightForWidth());
         label_ManualControl_4->setSizePolicy(sizePolicy1);
@@ -370,7 +356,7 @@ public:
 
         verticalLayout_SetpControlInner = new QVBoxLayout();
         verticalLayout_SetpControlInner->setObjectName(QStringLiteral("verticalLayout_SetpControlInner"));
-        pushButton_IncreaseRelativeMove = new QPushButton(frame_MaunalControl);
+        pushButton_IncreaseRelativeMove = new QPushButton(centralwidget);
         pushButton_IncreaseRelativeMove->setObjectName(QStringLiteral("pushButton_IncreaseRelativeMove"));
         sizePolicy.setHeightForWidth(pushButton_IncreaseRelativeMove->sizePolicy().hasHeightForWidth());
         pushButton_IncreaseRelativeMove->setSizePolicy(sizePolicy);
@@ -383,7 +369,7 @@ public:
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(2);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        spinBox_RelativeMove = new QSpinBox(frame_MaunalControl);
+        spinBox_RelativeMove = new QSpinBox(centralwidget);
         spinBox_RelativeMove->setObjectName(QStringLiteral("spinBox_RelativeMove"));
         sizePolicy.setHeightForWidth(spinBox_RelativeMove->sizePolicy().hasHeightForWidth());
         spinBox_RelativeMove->setSizePolicy(sizePolicy);
@@ -397,7 +383,7 @@ public:
 
         horizontalLayout->addWidget(spinBox_RelativeMove);
 
-        spinBox_RelativeMoveSpeed = new QSpinBox(frame_MaunalControl);
+        spinBox_RelativeMoveSpeed = new QSpinBox(centralwidget);
         spinBox_RelativeMoveSpeed->setObjectName(QStringLiteral("spinBox_RelativeMoveSpeed"));
         spinBox_RelativeMoveSpeed->setMinimumSize(QSize(65, 30));
         spinBox_RelativeMoveSpeed->setMaximumSize(QSize(65, 16777215));
@@ -412,7 +398,7 @@ public:
 
         verticalLayout_SetpControlInner->addLayout(horizontalLayout);
 
-        pushButton_DecreaseRelativeMove = new QPushButton(frame_MaunalControl);
+        pushButton_DecreaseRelativeMove = new QPushButton(centralwidget);
         pushButton_DecreaseRelativeMove->setObjectName(QStringLiteral("pushButton_DecreaseRelativeMove"));
         sizePolicy.setHeightForWidth(pushButton_DecreaseRelativeMove->sizePolicy().hasHeightForWidth());
         pushButton_DecreaseRelativeMove->setSizePolicy(sizePolicy);
@@ -434,9 +420,6 @@ public:
 
 
         gridLayout_2->addLayout(verticalLayout_5, 2, 1, 1, 1);
-
-
-        gridLayout_3->addWidget(frame_MaunalControl, 0, 0, 1, 1);
 
         Window_MotionControl->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Window_MotionControl);

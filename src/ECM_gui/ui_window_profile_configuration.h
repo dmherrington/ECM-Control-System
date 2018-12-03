@@ -80,13 +80,13 @@ public:
     {
         if (Window_ProfileConfiguration->objectName().isEmpty())
             Window_ProfileConfiguration->setObjectName(QStringLiteral("Window_ProfileConfiguration"));
-        Window_ProfileConfiguration->resize(1600, 680);
+        Window_ProfileConfiguration->resize(1650, 680);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Window_ProfileConfiguration->sizePolicy().hasHeightForWidth());
         Window_ProfileConfiguration->setSizePolicy(sizePolicy);
-        Window_ProfileConfiguration->setMinimumSize(QSize(1600, 680));
+        Window_ProfileConfiguration->setMinimumSize(QSize(1650, 680));
         Window_ProfileConfiguration->setMaximumSize(QSize(1800, 680));
         Window_ProfileConfiguration->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
@@ -556,7 +556,7 @@ public:
         Window_ProfileConfiguration->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Window_ProfileConfiguration);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1600, 40));
+        menubar->setGeometry(QRect(0, 0, 1650, 40));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menubar);

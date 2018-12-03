@@ -113,6 +113,8 @@ private slots:
 
     void slot_ChangedWindowVisibility(const GeneralDialogWindow::DialogWindowTypes &type, const bool visibility);
 
+    void on_actionProfile_Configuration_triggered(bool checked);
+
     void on_actionMotion_Control_triggered(bool checked);
 
     void on_actionConnections_triggered(bool checked);
@@ -128,6 +130,7 @@ private slots:
     void on_actionClear_All_Data_triggered();
 
     void on_pushButton_Stop_released();
+
 
 protected:
     void readSettings();
@@ -154,7 +157,7 @@ private:
     QMap<common::TupleECMData, QAction*> m_PlottingActionMap;
 
     ECMPlotCollection m_PlotCollection;
-    int counter = 0;
+
     ECM_API* m_API;
 
     Window_MotionControl* m_WindowMotionControl;
@@ -166,7 +169,6 @@ private:
 
 private:
     void ProgressStateMachineStates();
-
     std::mutex m_Mutex_StateMachine;
     hsm::StateMachine* stateMachine;
 

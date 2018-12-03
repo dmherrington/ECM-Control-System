@@ -63,7 +63,7 @@ TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const
     tableDescriptor->setOperationName(operationName.toStdString());
     ui->tabWidget_OperationParameters->setTabText(index,operationName);
 
-    connect(tableDescriptor,SIGNAL(signal_OperationNameChanged(std::string,int)),this,SLOT(slot_OperationNameChanged(std::string,int)));
+    connect(tableDescriptor,SIGNAL(signal_OperationNameChanged(std::string,uint)),this,SLOT(slot_OperationNameChanged(std::string,uint)));
     connect(tableDescriptor,SIGNAL(signal_ExecuteExplicitProfileConfig(ECMCommand_ProfileConfiguration)),this,SLOT(slot_OnExecuteExplicitProfileConfig(ECMCommand_ProfileConfiguration)));
     tableDescriptor->newlyAvailableProgramLabels(m_API->m_Galil->stateInterface->galilProgram->getLabelList());
 
@@ -119,7 +119,7 @@ void Window_ProfileConfiguration::on_pushButton_RemoveOperation_released()
     QList<QListWidgetItem*> selectedList = ui->listWidget->selectedItems();
 }
 
-void Window_ProfileConfiguration::slot_OperationNameChanged(const std::string &name, const int &index)
+void Window_ProfileConfiguration::slot_OperationNameChanged(const std::string &name, const unsigned int &index)
 {
     ui->tabWidget_OperationParameters->setTabText(index,QString::fromStdString(name));
 }

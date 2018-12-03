@@ -148,7 +148,7 @@ background-color:#2d89ef;
 width:20px;
 }</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout_11">
      <item>
@@ -218,8 +218,20 @@ width:20px;
      </item>
     </layout>
    </item>
-   <item row="1" column="0" colspan="2">
-    <layout class="QGridLayout" name="gridLayout_12">
+   <item row="0" column="2">
+    <widget class="QCheckBox" name="checkBox_UtilizeTouchoff">
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Utilize Touchoff</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="3">
+    <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
       <layout class="QHBoxLayout" name="horizontalLayout_9">
        <item>
@@ -315,18 +327,6 @@ width:20px;
        </item>
       </layout>
      </item>
-     <item row="0" column="1">
-      <widget class="QCheckBox" name="checkBox_UtilizeTouchoff">
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Utilize Touchoff</string>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="0">
       <layout class="QHBoxLayout" name="horizontalLayout_10">
        <item>
@@ -414,6 +414,18 @@ width:20px;
         </widget>
        </item>
       </layout>
+     </item>
+     <item row="0" column="1">
+      <widget class="QCheckBox" name="checkBox_ReferenceOldPosition">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Utilize Current</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -568,7 +580,7 @@ width:20px;
      </item>
     </layout>
    </item>
-   <item row="2" column="1">
+   <item row="2" column="1" colspan="2">
     <widget class="QLineEdit" name="lineEdit_TouchoffCode">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">

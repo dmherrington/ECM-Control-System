@@ -8,6 +8,7 @@ MotionCommand_TouchoffConfig::MotionCommand_TouchoffConfig()
 MotionCommand_TouchoffConfig::MotionCommand_TouchoffConfig(const MotionCommand_TouchoffConfig &copy)
 {
     this->utilizeTouchoff = copy.utilizeTouchoff;
+    this->utilizeExistingPosition = copy.utilizeExistingPosition;
     this->touchoffRef = copy.touchoffRef;
     this->touchoffGap = copy.touchoffGap;
 }
@@ -17,9 +18,10 @@ void MotionCommand_TouchoffConfig::writeToJSON(QJsonObject &saveObject)
     QJsonArray segmentDataArray;
 
     QJsonObject segmentObject;
+    segmentObject["touchoffExecute"] = this->shouldTouchoffBeUtilized();
+    segmentObject["touchoffRefPrevious"]    = this->shouldTouchoffUtilizePreviousPosition();
     segmentObject["touchoffRef"] = this->getTouchoffRef();
     segmentObject["touchoffGap"] = this->getTouchoffGap();
-    segmentObject["touchoffExecute"] = this->shouldTouchoffBeUtilized();
     segmentDataArray.append(segmentObject);
 
     saveObject["touchoffData"] = segmentDataArray;
@@ -30,14 +32,20 @@ void MotionCommand_TouchoffConfig::readFromJSON(const QJsonObject &openObject)
     QJsonArray touchoffDataArray = openObject["touchoffData"].toArray();
     QJsonObject touchoffObject = touchoffDataArray[0].toObject();
 
+    setTouchoffUtilization(touchoffObject["touchoffExecute"].toBool());
+    setTouchoffUtilizePreviousPosition(touchoffObject["touchoffRefPrevious"].toBool());
     setTouchoffRef(touchoffObject["touchoffRef"].toDouble());
     setTouchoffGap(touchoffObject["touchoffGap"].toDouble());
-    setTouchoffUtilization(touchoffObject["touchoffExecute"].toBool());
+
 }
 
 void MotionCommand_TouchoffConfig::setTouchoffUtilization(const bool &usage)
 {
     this->utilizeTouchoff = usage;
+}
+void MotionCommand_TouchoffConfig::setTouchoffUtilizePreviousPosition(const bool &usage)
+{
+    this->utilizeExistingPosition = usage;
 }
 void MotionCommand_TouchoffConfig::setTouchoffRef(const double &distance)
 {
@@ -52,6 +60,11 @@ bool MotionCommand_TouchoffConfig::shouldTouchoffBeUtilized() const
 {
     return this->utilizeTouchoff;
 }
+bool MotionCommand_TouchoffConfig::shouldTouchoffUtilizePreviousPosition() const
+{
+    return this->utilizeExistingPosition;
+}
+
 double MotionCommand_TouchoffConfig::getTouchoffRef() const
 {
     return this->touchoffRef;

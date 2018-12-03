@@ -29,22 +29,23 @@ QT_BEGIN_NAMESPACE
 class Ui_Widget_Touchoff
 {
 public:
-    QGridLayout *gridLayout;
+    QGridLayout *gridLayout_2;
     QHBoxLayout *horizontalLayout_11;
     QSpacerItem *horizontalSpacer_15;
     QGridLayout *gridLayout_13;
     QLabel *label_ManualControl_4;
     QSpacerItem *horizontalSpacer_16;
-    QGridLayout *gridLayout_12;
+    QCheckBox *checkBox_UtilizeTouchoff;
+    QGridLayout *gridLayout;
     QHBoxLayout *horizontalLayout_9;
     QPushButton *pushButton_TouchoffRef;
     QDoubleSpinBox *doubleSpinBox_TouchoffRef;
     QLabel *label_3;
-    QCheckBox *checkBox_UtilizeTouchoff;
     QHBoxLayout *horizontalLayout_10;
     QPushButton *pushButton_TouchoffGap;
     QDoubleSpinBox *doubleSpinBox_InitialGap;
     QLabel *label_4;
+    QCheckBox *checkBox_ReferenceOldPosition;
     QHBoxLayout *horizontalLayout_12;
     QPushButton *pushButton_ExecuteTouchoff;
     QLineEdit *lineEdit_TouchoffCode;
@@ -178,8 +179,8 @@ public:
 "background-color:#2d89ef;\n"
 "width:20px;\n"
 "}"));
-        gridLayout = new QGridLayout(Widget_Touchoff);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout_2 = new QGridLayout(Widget_Touchoff);
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         horizontalLayout_11 = new QHBoxLayout();
         horizontalLayout_11->setObjectName(QStringLiteral("horizontalLayout_11"));
         horizontalSpacer_15 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -214,10 +215,18 @@ public:
         horizontalLayout_11->addItem(horizontalSpacer_16);
 
 
-        gridLayout->addLayout(horizontalLayout_11, 0, 0, 1, 2);
+        gridLayout_2->addLayout(horizontalLayout_11, 0, 0, 1, 2);
 
-        gridLayout_12 = new QGridLayout();
-        gridLayout_12->setObjectName(QStringLiteral("gridLayout_12"));
+        checkBox_UtilizeTouchoff = new QCheckBox(Widget_Touchoff);
+        checkBox_UtilizeTouchoff->setObjectName(QStringLiteral("checkBox_UtilizeTouchoff"));
+        QFont font1;
+        font1.setPointSize(12);
+        checkBox_UtilizeTouchoff->setFont(font1);
+
+        gridLayout_2->addWidget(checkBox_UtilizeTouchoff, 0, 2, 1, 1);
+
+        gridLayout = new QGridLayout();
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
         horizontalLayout_9 = new QHBoxLayout();
         horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
         pushButton_TouchoffRef = new QPushButton(Widget_Touchoff);
@@ -229,8 +238,6 @@ public:
         pushButton_TouchoffRef->setSizePolicy(sizePolicy2);
         pushButton_TouchoffRef->setMinimumSize(QSize(180, 25));
         pushButton_TouchoffRef->setMaximumSize(QSize(180, 25));
-        QFont font1;
-        font1.setPointSize(12);
         pushButton_TouchoffRef->setFont(font1);
 
         horizontalLayout_9->addWidget(pushButton_TouchoffRef);
@@ -260,13 +267,7 @@ public:
         horizontalLayout_9->addWidget(label_3);
 
 
-        gridLayout_12->addLayout(horizontalLayout_9, 0, 0, 1, 1);
-
-        checkBox_UtilizeTouchoff = new QCheckBox(Widget_Touchoff);
-        checkBox_UtilizeTouchoff->setObjectName(QStringLiteral("checkBox_UtilizeTouchoff"));
-        checkBox_UtilizeTouchoff->setFont(font1);
-
-        gridLayout_12->addWidget(checkBox_UtilizeTouchoff, 0, 1, 1, 1);
+        gridLayout->addLayout(horizontalLayout_9, 0, 0, 1, 1);
 
         horizontalLayout_10 = new QHBoxLayout();
         horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
@@ -302,10 +303,16 @@ public:
         horizontalLayout_10->addWidget(label_4);
 
 
-        gridLayout_12->addLayout(horizontalLayout_10, 1, 0, 1, 1);
+        gridLayout->addLayout(horizontalLayout_10, 1, 0, 1, 1);
+
+        checkBox_ReferenceOldPosition = new QCheckBox(Widget_Touchoff);
+        checkBox_ReferenceOldPosition->setObjectName(QStringLiteral("checkBox_ReferenceOldPosition"));
+        checkBox_ReferenceOldPosition->setFont(font1);
+
+        gridLayout->addWidget(checkBox_ReferenceOldPosition, 0, 1, 1, 1);
 
 
-        gridLayout->addLayout(gridLayout_12, 1, 0, 1, 2);
+        gridLayout_2->addLayout(gridLayout, 1, 0, 1, 3);
 
         horizontalLayout_12 = new QHBoxLayout();
         horizontalLayout_12->setObjectName(QStringLiteral("horizontalLayout_12"));
@@ -437,7 +444,7 @@ public:
         horizontalLayout_12->addWidget(pushButton_ExecuteTouchoff);
 
 
-        gridLayout->addLayout(horizontalLayout_12, 2, 0, 1, 1);
+        gridLayout_2->addLayout(horizontalLayout_12, 2, 0, 1, 1);
 
         lineEdit_TouchoffCode = new QLineEdit(Widget_Touchoff);
         lineEdit_TouchoffCode->setObjectName(QStringLiteral("lineEdit_TouchoffCode"));
@@ -449,7 +456,7 @@ public:
         lineEdit_TouchoffCode->setAlignment(Qt::AlignCenter);
         lineEdit_TouchoffCode->setReadOnly(true);
 
-        gridLayout->addWidget(lineEdit_TouchoffCode, 2, 1, 1, 1);
+        gridLayout_2->addWidget(lineEdit_TouchoffCode, 2, 1, 1, 2);
 
 
         retranslateUi(Widget_Touchoff);
@@ -461,11 +468,12 @@ public:
     {
         Widget_Touchoff->setWindowTitle(QApplication::translate("Widget_Touchoff", "Form", nullptr));
         label_ManualControl_4->setText(QApplication::translate("Widget_Touchoff", "Touchoff Configuration", nullptr));
+        checkBox_UtilizeTouchoff->setText(QApplication::translate("Widget_Touchoff", "Utilize Touchoff", nullptr));
         pushButton_TouchoffRef->setText(QApplication::translate("Widget_Touchoff", "Set Touchoff Ref", nullptr));
         label_3->setText(QApplication::translate("Widget_Touchoff", "um", nullptr));
-        checkBox_UtilizeTouchoff->setText(QApplication::translate("Widget_Touchoff", "Utilize Touchoff", nullptr));
         pushButton_TouchoffGap->setText(QApplication::translate("Widget_Touchoff", "Set Initial Gap", nullptr));
         label_4->setText(QApplication::translate("Widget_Touchoff", "um", nullptr));
+        checkBox_ReferenceOldPosition->setText(QApplication::translate("Widget_Touchoff", "Utilize Current", nullptr));
         pushButton_ExecuteTouchoff->setText(QApplication::translate("Widget_Touchoff", "Execute", nullptr));
     } // retranslateUi
 

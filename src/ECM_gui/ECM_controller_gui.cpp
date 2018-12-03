@@ -101,7 +101,6 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_WindowMotionControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
     connect(m_WindowMotionControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
-
     std::vector<common::TupleECMData> plottables = m_API->m_Galil->getPlottables();
     for(unsigned int i = 0; i < plottables.size(); i++)
     {
@@ -480,6 +479,14 @@ void ECMControllerGUI::MarshalCreateSensorDisplay(const common::TupleSensorStrin
     m_CreatedSensors.insert(sensor, true);
 }
 
+void ECMControllerGUI::on_actionProfile_Configuration_triggered(bool checked)
+{
+    if(checked)
+        m_WindowProfileConfiguration->show();
+    else
+        m_WindowProfileConfiguration->hide();
+}
+
 void ECMControllerGUI::on_actionMotion_Control_triggered(bool checked)
 {
     if(checked)
@@ -744,4 +751,3 @@ void ECMControllerGUI::updateMCIndicators(const MotionProfileState &profileState
         break;
     }
 }
-

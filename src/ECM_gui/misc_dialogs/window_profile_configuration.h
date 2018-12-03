@@ -52,7 +52,7 @@ private slots:
 
     void on_pushButton_RemoveOperation_released();
 
-    void slot_OperationNameChanged(const std::string &name, const int &index);
+    void slot_OperationNameChanged(const std::string &name, const unsigned int &index);
 
     void on_ListWidgetRowMoved();
 

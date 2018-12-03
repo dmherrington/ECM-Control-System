@@ -47,6 +47,7 @@ public:
     QAction *actionCustom_Motion_Commands;
     QAction *actionClear_All_Data;
     QAction *actionMotion_Control;
+    QAction *actionProfile_Configuration;
     QWidget *centralWidget;
     QGridLayout *gridLayout_3;
     QFrame *frame_ProfileOptions;
@@ -251,19 +252,15 @@ public:
         actionConnections->setCheckable(true);
         actionPower_Supply = new QAction(ECMControllerGUI);
         actionPower_Supply->setObjectName(QStringLiteral("actionPower_Supply"));
-        actionPower_Supply->setCheckable(true);
         actionPump = new QAction(ECMControllerGUI);
         actionPump->setObjectName(QStringLiteral("actionPump"));
-        actionPump->setCheckable(true);
         actionOscilliscope = new QAction(ECMControllerGUI);
         actionOscilliscope->setObjectName(QStringLiteral("actionOscilliscope"));
-        actionOscilliscope->setCheckable(true);
         actionTouchoff = new QAction(ECMControllerGUI);
         actionTouchoff->setObjectName(QStringLiteral("actionTouchoff"));
         actionTouchoff->setCheckable(true);
         actionOpen_Sensors_Window = new QAction(ECMControllerGUI);
         actionOpen_Sensors_Window->setObjectName(QStringLiteral("actionOpen_Sensors_Window"));
-        actionOpen_Sensors_Window->setCheckable(true);
         actionClose = new QAction(ECMControllerGUI);
         actionClose->setObjectName(QStringLiteral("actionClose"));
         actionMotion_Profile = new QAction(ECMControllerGUI);
@@ -276,6 +273,10 @@ public:
         actionClear_All_Data->setObjectName(QStringLiteral("actionClear_All_Data"));
         actionMotion_Control = new QAction(ECMControllerGUI);
         actionMotion_Control->setObjectName(QStringLiteral("actionMotion_Control"));
+        actionMotion_Control->setCheckable(true);
+        actionProfile_Configuration = new QAction(ECMControllerGUI);
+        actionProfile_Configuration->setObjectName(QStringLiteral("actionProfile_Configuration"));
+        actionProfile_Configuration->setCheckable(true);
         centralWidget = new QWidget(ECMControllerGUI);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout_3 = new QGridLayout(centralWidget);
@@ -816,6 +817,7 @@ public:
         menuBar->addAction(menuHelp->menuAction());
         menuFile->addAction(actionClose);
         menuTools->addAction(actionConnections);
+        menuTools->addAction(actionProfile_Configuration);
         menuTools->addSeparator();
         menuTools->addAction(actionPower_Supply);
         menuTools->addAction(actionPump);
@@ -850,6 +852,7 @@ public:
         actionCustom_Motion_Commands->setText(QApplication::translate("ECMControllerGUI", "Custom Motion Commands", nullptr));
         actionClear_All_Data->setText(QApplication::translate("ECMControllerGUI", "Clear All Data", nullptr));
         actionMotion_Control->setText(QApplication::translate("ECMControllerGUI", "Motion Control", nullptr));
+        actionProfile_Configuration->setText(QApplication::translate("ECMControllerGUI", "Profile Configuration", nullptr));
 #ifndef QT_NO_TOOLTIP
         pushButton_RunExplicitProfile->setToolTip(QString());
 #endif // QT_NO_TOOLTIP

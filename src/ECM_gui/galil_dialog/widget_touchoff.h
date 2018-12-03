@@ -40,6 +40,8 @@ private slots:
 
     void on_doubleSpinBox_InitialGap_valueChanged(double arg1);
 
+    void on_checkBox_ReferenceOldPosition_toggled(bool val);
+
 private slots:
     void slot_UpdateMotionProfileState(const MotionProfileState &state);
 

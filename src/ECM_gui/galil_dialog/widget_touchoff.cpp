@@ -22,14 +22,16 @@ void Widget_Touchoff::loadFromTouchoffConfig(const MotionCommand_TouchoffConfig 
     this->ui->doubleSpinBox_TouchoffRef->setValue(config.getTouchoffRef());
     this->ui->doubleSpinBox_InitialGap->setValue(config.getTouchoffGap());
     this->ui->checkBox_UtilizeTouchoff->setChecked(config.shouldTouchoffBeUtilized());
+    this->ui->checkBox_ReferenceOldPosition->setChecked(config.shouldTouchoffUtilizePreviousPosition());
 }
 
 MotionCommand_TouchoffConfig Widget_Touchoff::getCurrentTouchoffConfig() const
 {
     MotionCommand_TouchoffConfig currentConfig;
-    currentConfig.setTouchoffRef(this->ui->doubleSpinBox_TouchoffRef->value());
-    currentConfig.setTouchoffGap(this->ui->doubleSpinBox_InitialGap->value());
+    currentConfig.setTouchoffRef(this->ui->doubleSpinBox_TouchoffRef->value() * 10.0);
+    currentConfig.setTouchoffGap(this->ui->doubleSpinBox_InitialGap->value() * 10.0);
     currentConfig.setTouchoffUtilization(this->ui->checkBox_UtilizeTouchoff->isChecked());
+    currentConfig.setTouchoffUtilizePreviousPosition(this->ui->checkBox_ReferenceOldPosition->isChecked());
     return currentConfig;
 }
 
@@ -91,14 +93,25 @@ void Widget_Touchoff::on_pushButton_TouchoffRef_released()
 
 void Widget_Touchoff::on_doubleSpinBox_TouchoffRef_valueChanged(double arg1)
 {
-    uint64_t position = arg1 * 10.0; //this conversion will take um to counts
-    Command_VariablePtr commandTouchoffRef = std::make_shared<Command_Variable>("touchref",position);
-    m_Galil->executeCommand(commandTouchoffRef);
+//    uint64_t position = arg1 * 10.0; //this conversion will take um to counts
+//    Command_VariablePtr commandTouchoffRef = std::make_shared<Command_Variable>("touchref",position);
+//    m_Galil->executeCommand(commandTouchoffRef);
 }
 
 void Widget_Touchoff::on_doubleSpinBox_InitialGap_valueChanged(double arg1)
 {
-    int desiredGap = arg1 * 10.0; //this conversion will take um to counts
-    Command_VariablePtr commandTouchoffGap = std::make_shared<Command_Variable>("initgap",desiredGap);
-    m_Galil->executeCommand(commandTouchoffGap);
+//    int desiredGap = arg1 * 10.0; //this conversion will take um to counts
+//    Command_VariablePtr commandTouchoffGap = std::make_shared<Command_Variable>("initgap",desiredGap);
+//    m_Galil->executeCommand(commandTouchoffGap);
+}
+
+void Widget_Touchoff::on_checkBox_ReferenceOldPosition_toggled(bool val)
+{
+    if(val)
+    {
+        ui->doubleSpinBox_TouchoffRef->setEnabled(false);
+    }else
+    {
+        ui->doubleSpinBox_TouchoffRef->setEnabled(true);
+    }
 }

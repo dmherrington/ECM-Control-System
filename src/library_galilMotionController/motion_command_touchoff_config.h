@@ -20,11 +20,13 @@ public:
 
 public:
     void setTouchoffUtilization(const bool &usage);
+    void setTouchoffUtilizePreviousPosition(const bool &usage);
     void setTouchoffRef(const double &distance);
     void setTouchoffGap(const double &distance);
 
 public:
     bool shouldTouchoffBeUtilized() const;
+    bool shouldTouchoffUtilizePreviousPosition() const;
     double getTouchoffRef() const;
     double getTouchoffGap() const;
 
@@ -40,6 +42,7 @@ public:
     MotionCommand_TouchoffConfig& operator = (const MotionCommand_TouchoffConfig &rhs)
     {
         this->utilizeTouchoff = rhs.utilizeTouchoff;
+        this->utilizeExistingPosition = rhs.utilizeExistingPosition;
         this->touchoffRef = rhs.touchoffRef;
         this->touchoffGap = rhs.touchoffGap;
         return *this;
@@ -53,6 +56,9 @@ public:
     bool operator == (const MotionCommand_TouchoffConfig &rhs)
     {
         if(this->utilizeTouchoff != rhs.utilizeTouchoff){
+            return false;
+        }
+        if(this->utilizeExistingPosition != rhs.utilizeExistingPosition){
             return false;
         }
         if(this->touchoffRef != rhs.touchoffRef){
@@ -75,6 +81,7 @@ public:
 
 private:
     bool utilizeTouchoff = false;
+    bool utilizeExistingPosition = false;
     double touchoffRef = 0.0;
     double touchoffGap = 0.0;
 };

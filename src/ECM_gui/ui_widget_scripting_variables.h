@@ -40,6 +40,7 @@ public:
     QComboBox *comboBox_ProgramLabels;
     QTabWidget *tabWidget;
     QWidget *tab_linearParams;
+    QGridLayout *gridLayout_4;
     QScrollArea *scrollArea_2;
     QWidget *scrollAreaWidgetContents_2;
     QGridLayout *gridLayout_7;
@@ -49,6 +50,7 @@ public:
     QDoubleSpinBox *doubleSpinBox_CutDepth;
     QDoubleSpinBox *doubleSpinBox_CutSpeed;
     QWidget *tab_vibrationParams;
+    QGridLayout *gridLayout_2;
     QScrollArea *scrollArea;
     QWidget *scrollAreaWidgetContents;
     QGridLayout *gridLayout_5;
@@ -66,6 +68,7 @@ public:
     QSpinBox *spinBox_Pause;
     QLabel *label_RetractSpeed;
     QWidget *tab;
+    QGridLayout *gridLayout_3;
     QScrollArea *scrollArea_3;
     QWidget *scrollAreaWidgetContents_3;
     QGridLayout *gridLayout_18;
@@ -75,14 +78,14 @@ public:
     {
         if (Widget_ScriptingVariables->objectName().isEmpty())
             Widget_ScriptingVariables->setObjectName(QStringLiteral("Widget_ScriptingVariables"));
-        Widget_ScriptingVariables->resize(520, 300);
+        Widget_ScriptingVariables->resize(560, 300);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Widget_ScriptingVariables->sizePolicy().hasHeightForWidth());
         Widget_ScriptingVariables->setSizePolicy(sizePolicy);
-        Widget_ScriptingVariables->setMinimumSize(QSize(520, 300));
-        Widget_ScriptingVariables->setMaximumSize(QSize(520, 300));
+        Widget_ScriptingVariables->setMinimumSize(QSize(560, 300));
+        Widget_ScriptingVariables->setMaximumSize(QSize(560, 300));
         Widget_ScriptingVariables->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
@@ -257,20 +260,21 @@ public:
         sizePolicy2.setVerticalStretch(0);
         sizePolicy2.setHeightForWidth(tabWidget->sizePolicy().hasHeightForWidth());
         tabWidget->setSizePolicy(sizePolicy2);
-        tabWidget->setMinimumSize(QSize(500, 240));
-        tabWidget->setMaximumSize(QSize(500, 350));
+        tabWidget->setMinimumSize(QSize(550, 240));
+        tabWidget->setMaximumSize(QSize(550, 350));
         tabWidget->setTabShape(QTabWidget::Triangular);
         tab_linearParams = new QWidget();
         tab_linearParams->setObjectName(QStringLiteral("tab_linearParams"));
+        gridLayout_4 = new QGridLayout(tab_linearParams);
+        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
         scrollArea_2 = new QScrollArea(tab_linearParams);
         scrollArea_2->setObjectName(QStringLiteral("scrollArea_2"));
-        scrollArea_2->setGeometry(QRect(10, 10, 470, 210));
         scrollArea_2->setMinimumSize(QSize(0, 210));
         scrollArea_2->setWidgetResizable(true);
         scrollArea_2->setAlignment(Qt::AlignCenter);
         scrollAreaWidgetContents_2 = new QWidget();
         scrollAreaWidgetContents_2->setObjectName(QStringLiteral("scrollAreaWidgetContents_2"));
-        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 468, 208));
+        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 524, 208));
         gridLayout_7 = new QGridLayout(scrollAreaWidgetContents_2);
         gridLayout_7->setObjectName(QStringLiteral("gridLayout_7"));
         formLayout_2 = new QFormLayout();
@@ -328,19 +332,23 @@ public:
         gridLayout_7->addLayout(formLayout_2, 0, 0, 1, 1);
 
         scrollArea_2->setWidget(scrollAreaWidgetContents_2);
+
+        gridLayout_4->addWidget(scrollArea_2, 0, 0, 1, 1);
+
         tabWidget->addTab(tab_linearParams, QString());
         tab_vibrationParams = new QWidget();
         tab_vibrationParams->setObjectName(QStringLiteral("tab_vibrationParams"));
+        gridLayout_2 = new QGridLayout(tab_vibrationParams);
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         scrollArea = new QScrollArea(tab_vibrationParams);
         scrollArea->setObjectName(QStringLiteral("scrollArea"));
-        scrollArea->setGeometry(QRect(10, 10, 470, 210));
         scrollArea->setMinimumSize(QSize(470, 210));
         scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         scrollArea->setWidgetResizable(true);
         scrollArea->setAlignment(Qt::AlignCenter);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 468, 208));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 524, 208));
         gridLayout_5 = new QGridLayout(scrollAreaWidgetContents);
         gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
         formLayout = new QFormLayout();
@@ -489,19 +497,23 @@ public:
         gridLayout_5->addLayout(formLayout, 0, 0, 1, 1);
 
         scrollArea->setWidget(scrollAreaWidgetContents);
+
+        gridLayout_2->addWidget(scrollArea, 0, 0, 1, 1);
+
         tabWidget->addTab(tab_vibrationParams, QString());
         tab = new QWidget();
         tab->setObjectName(QStringLiteral("tab"));
+        gridLayout_3 = new QGridLayout(tab);
+        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
         scrollArea_3 = new QScrollArea(tab);
         scrollArea_3->setObjectName(QStringLiteral("scrollArea_3"));
-        scrollArea_3->setGeometry(QRect(10, 10, 470, 210));
         scrollArea_3->setMinimumSize(QSize(470, 210));
         scrollArea_3->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         scrollArea_3->setWidgetResizable(true);
         scrollArea_3->setAlignment(Qt::AlignCenter);
         scrollAreaWidgetContents_3 = new QWidget();
         scrollAreaWidgetContents_3->setObjectName(QStringLiteral("scrollAreaWidgetContents_3"));
-        scrollAreaWidgetContents_3->setGeometry(QRect(0, 0, 468, 208));
+        scrollAreaWidgetContents_3->setGeometry(QRect(0, 0, 524, 208));
         gridLayout_18 = new QGridLayout(scrollAreaWidgetContents_3);
         gridLayout_18->setObjectName(QStringLiteral("gridLayout_18"));
         formLayout_3 = new QFormLayout();
@@ -510,6 +522,9 @@ public:
         gridLayout_18->addLayout(formLayout_3, 0, 0, 1, 1);
 
         scrollArea_3->setWidget(scrollAreaWidgetContents_3);
+
+        gridLayout_3->addWidget(scrollArea_3, 0, 0, 1, 1);
+
         tabWidget->addTab(tab, QString());
 
         gridLayout->addWidget(tabWidget, 1, 0, 1, 2);
