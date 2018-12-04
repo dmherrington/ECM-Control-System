@@ -34,8 +34,7 @@ hsm::Transition ECMState_Idle::GetTransition()
         switch (desiredState) {
         case ECMState::STATE_ECM_MOTION_PROFILE_INITIALIZATION:
         {
-            ECMCommand_ProfileCollection* collection = m_ECMCollection.get()->as<ECMCommand_ProfileCollection>();
-            rtn = hsm::SiblingTransition<ECMState_MotionProfileInitialization>(*collection);
+            rtn = hsm::SiblingTransition<ECMState_MotionProfileInitialization>(m_ECMCollection);
             break;
         }
         case ECMState::STATE_ECM_UPLOAD:
@@ -50,15 +49,9 @@ hsm::Transition ECMState_Idle::GetTransition()
     return rtn;
 }
 
-void ECMState_Idle::initializeFromCollection(const ECMCommand_ProfileCollection &collection)
-{
-    m_ECMCollection = std::make_shared<ECMCommand_ProfileCollection>(collection);
-    this->desiredState = ECMState::STATE_ECM_MOTION_PROFILE_INITIALIZATION;
-}
-
 void ECMState_Idle::executeCollection(const ECMCommand_ExecuteCollection &collection)
 {
-    m_ECMCollection = std::make_shared<ECMCommand_ExecuteCollection>(collection);
+    m_ECMCollection = collection;
     this->desiredState = ECMState::STATE_ECM_UPLOAD;
 }
 

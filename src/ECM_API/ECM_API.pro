@@ -36,7 +36,6 @@ SOURCES += \
     ecm_logging.cpp \
     states/state_abstract_ecm_process.cpp \
     states/state_ecm_profile_machine.cpp \
-    states/state_ecm_profile_machine_cease.cpp \
     states/state_ecm_profile_machine_process.cpp \
     states/state_ecm_idle.cpp \
     ecm_modules.cpp \
@@ -61,7 +60,9 @@ SOURCES += \
     states/state_ecm_setup_machine_failed.cpp \
     states/state_ecm_profile_machine_complete.cpp \
     states/state_ecm_profile_machine_failed.cpp \
-    commands/ecm_command_execution_properties.cpp
+    commands/ecm_command_execution_properties.cpp \
+    states/state_ecm_profile_machine_complete_execution.cpp \
+    states/state_ecm_profile_machine_abort.cpp
 
 HEADERS += \
         ecm_api.h \
@@ -70,7 +71,6 @@ HEADERS += \
     states/state_abstract_ecm_process.h \
     states/state_ecm_components.h \
     states/state_ecm_profile_machine.h \
-    states/state_ecm_profile_machine_cease.h \
     states/state_ecm_profile_machine_process.h \
     states/state_ecm_types.h \
     states/state_ecm_idle.h \
@@ -100,7 +100,9 @@ HEADERS += \
     states/state_ecm_profile_machine_complete.h \
     states/state_ecm_profile_machine_failed.h \
     commands/ecm_command_execution_properties.h \
-    states/state_ecm_profile_machine_base.h
+    states/state_ecm_profile_machine_base.h \
+    states/state_ecm_profile_machine_complete_execution.h \
+    states/state_ecm_profile_machine_abort.h
 
 # Unix lib Install
 unix:!symbian {

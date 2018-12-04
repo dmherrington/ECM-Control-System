@@ -1,5 +1,5 @@
-#ifndef STATE_ECM_PROFILE_MACHINE_CEASE_H
-#define STATE_ECM_PROFILE_MACHINE_CEASE_H
+#ifndef STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION_H
+#define STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION_H
 
 #include "state_ecm_profile_machine_base.h"
 
@@ -23,15 +23,14 @@
 namespace ECM{
 namespace API {
 
-ECM_CLASS_FORWARD(ECMState_ProfileMachineCease);
+ECM_CLASS_FORWARD(ECMState_ProfileMachineCompleteExecution);
 
 class ECMState_ProfileMachineComplete;
-class ECMState_ProfileMachineFailed;
 
-class ECMState_ProfileMachineCease : public ECMState_ProfileMachineBase
+class ECMState_ProfileMachineCompleteExecution : public ECMState_ProfileMachineBase
 {
 public:
-    ECMState_ProfileMachineCease();
+    ECMState_ProfileMachineCompleteExecution();
 
 public:
     AbstractStateECMProcess* getClone() const override;
@@ -54,4 +53,4 @@ public:
 } //end of namespace API
 } //end of namespace ECM
 
-#endif // STATE_ECM_PROFILE_MACHINE_CEASE_H
+#endif // STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION_H

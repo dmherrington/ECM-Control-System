@@ -95,7 +95,6 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_WindowProfileConfiguration = new Window_ProfileConfiguration(m_API);
     m_WindowProfileConfiguration->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
     connect(m_WindowProfileConfiguration, SIGNAL(signal_ExecuteProfileCollection(ECMCommand_ExecuteCollection)), this, SLOT(on_ExecuteProfileCollection(ECMCommand_ExecuteCollection)));
-    connect(m_WindowProfileConfiguration, SIGNAL(signal_LoadProfileCollection(ECMCommand_ProfileCollection)), this, SLOT(slot_LoadProfileCollection(ECMCommand_ProfileCollection)));
 
     m_WindowMotionControl = new Window_MotionControl(m_API->m_Galil);
     m_WindowMotionControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
@@ -649,13 +648,6 @@ void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ExecuteColle
 
     ECM::API::AbstractStateECMProcess* currentOuterState = static_cast<ECM::API::AbstractStateECMProcess*>(stateMachine->getCurrentOuterState());
     currentOuterState->executeCollection(collection);
-    ProgressStateMachineStates();
-}
-
-void ECMControllerGUI::slot_LoadProfileCollection(const ECMCommand_ProfileCollection &collection)
-{
-    ECM::API::AbstractStateECMProcess* currentOuterState = static_cast<ECM::API::AbstractStateECMProcess*>(stateMachine->getCurrentOuterState());
-    currentOuterState->initializeFromCollection(collection);
     ProgressStateMachineStates();
 }
 

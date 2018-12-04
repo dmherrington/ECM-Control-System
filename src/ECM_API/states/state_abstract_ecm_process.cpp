@@ -3,8 +3,7 @@
 namespace ECM {
 namespace API {
 
-AbstractStateECMProcess::AbstractStateECMProcess():
-    m_ECMCollection(nullptr)
+AbstractStateECMProcess::AbstractStateECMProcess()
 {
 
 }
@@ -14,7 +13,7 @@ AbstractStateECMProcess::AbstractStateECMProcess(const AbstractStateECMProcess &
     this->currentState = copy.currentState;
     this->desiredState = copy.desiredState;
 
-    this->m_ECMCollection = copy.m_ECMCollection->getClone();
+    this->m_ECMCollection = copy.m_ECMCollection;
 }
 
 ECMState AbstractStateECMProcess::getCurrentState() const
@@ -25,11 +24,6 @@ ECMState AbstractStateECMProcess::getCurrentState() const
 ECMState AbstractStateECMProcess::getDesiredState() const
 {
     return desiredState;
-}
-
-void AbstractStateECMProcess::initializeFromCollection(const ECMCommand_ProfileCollection &collection)
-{
-    UNUSED(collection);
 }
 
 void AbstractStateECMProcess::executeCollection(const ECMCommand_ExecuteCollection &collection)

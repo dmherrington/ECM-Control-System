@@ -197,8 +197,3 @@ void ECM_API::writeHeaderBreaker(std::string &logString, const unsigned int &siz
     //bump the header to the next line
     logString = logString + "\n";
 }
-
-void ECM_API::onProfileCollectionInitialized(const bool &success, const ECMCommand_ProfileCollection &config)
-{
-    emit signal_OnProfileCollectionInitialized(success, config);
-}

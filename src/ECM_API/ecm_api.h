@@ -59,9 +59,6 @@ signals:
 
     void signal_MCNewMotionState(const std::string &stateString);
 
-    void signal_OnProfileCollectionInitialized(const bool &success, const ECMCommand_ProfileCollection &collection);
-
-
 private slots:
 
     //!

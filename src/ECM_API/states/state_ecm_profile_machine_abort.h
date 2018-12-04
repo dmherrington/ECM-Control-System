@@ -1,12 +1,6 @@
-#ifndef STATE_ECM_PROFILE_MACHINE_H
-#define STATE_ECM_PROFILE_MACHINE_H
+#ifndef STATE_ECM_PROFILE_MACHINE_ABORT_H
+#define STATE_ECM_PROFILE_MACHINE_ABORT_H
 
-#include "common/class_forward.h"
-#include "common/hsm.h"
-
-#include "../ecm_api.h"
-
-#include "state_abstract_ecm_process.h"
 #include "state_ecm_profile_machine_base.h"
 
 /**
@@ -29,21 +23,14 @@
 namespace ECM{
 namespace API {
 
-ECM_CLASS_FORWARD(ECMState_ProfileMachine);
+ECM_CLASS_FORWARD(ECMState_ProfileMachineAbort);
 
-class ECMState_Idle;
-
-class ECMState_Upload;
-
-class ECMState_ProfileMachineCease;
-class ECMState_ProfileMachineComplete;
 class ECMState_ProfileMachineFailed;
-class ECMState_ProfileMachineProcess;
 
-class ECMState_ProfileMachine : public AbstractStateECMProcess
+class ECMState_ProfileMachineAbort : public ECMState_ProfileMachineBase
 {
 public:
-    ECMState_ProfileMachine();
+    ECMState_ProfileMachineAbort();
 
 public:
     AbstractStateECMProcess* getClone() const override;
@@ -59,10 +46,13 @@ public:
     void OnExit() override;
 
 public:
-    void OnEnter(const ECMCommand_ExecuteCollection &collection);
+    void OnEnter(const ECMCommand_ProfileConfiguration &configuration);
+
+private:
+    ECMCommand_ProfileConfiguration m_Config;
 };
 
 } //end of namespace API
 } //end of namespace ECM
 
-#endif // STATE_ECM_PROFILE_MACHINE_H
+#endif // STATE_ECM_PROFILE_MACHINE_ABORT_H

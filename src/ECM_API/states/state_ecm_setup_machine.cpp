@@ -48,8 +48,7 @@ hsm::Transition ECMState_SetupMachine::GetTransition()
             switch (desiredState) {
             case ECMState::STATE_ECM_SETUP_MACHINE_HOME:
             {
-                ECMCommand_ExecuteCollection* executionCollection = m_ECMCollection.get()->as<ECMCommand_ExecuteCollection>();
-                rtn = hsm::InnerEntryTransition<ECMState_SetupMachineHome>(executionCollection->getActiveConfiguration());
+                rtn = hsm::InnerEntryTransition<ECMState_SetupMachineHome>(m_ECMCollection.getActiveConfiguration());
                 break;
             }
             case ECMState::STATE_ECM_SETUP_MACHINE_PUMP:
@@ -82,7 +81,7 @@ void ECMState_SetupMachine::OnEnter()
 
 }
 
-void ECMState_SetupMachine::OnEnter(const ECMCommand_AbstractCollectionPtr &collection)
+void ECMState_SetupMachine::OnEnter(const ECMCommand_ExecuteCollection &collection)
 {
     this->m_ECMCollection = collection;
     this->desiredState = ECMState::STATE_ECM_SETUP_MACHINE_HOME;

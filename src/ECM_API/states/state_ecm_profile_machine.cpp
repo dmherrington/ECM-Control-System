@@ -39,27 +39,25 @@ hsm::Transition ECMState_ProfileMachine::GetTransition()
         else if(IsInInnerState<ECMState_ProfileMachineComplete>())
         {
             //if we have succeeded let us see if there is more to machine
-            AbstractStateECMProcess* currentInnerState = static_cast<AbstractStateECMProcess*>(GetImmediateInnerState());
+            ECMState_ProfileMachineBase* currentInnerState = static_cast<ECMState_ProfileMachineBase*>(GetImmediateInnerState());
 
-//            ECMCommand_ProfileConfiguration currentConfig = currentInnerState->getCurrentConfig();
-//            ECMCommand_ExecuteCollection* executionCollection = this->m_ECMCollection->as<ECMCommand_ExecuteCollection>();
-//            executionCollection->insertProfile(currentConfig);
-//            if(executionCollection->doActiveOperationsRemain())
-//            {
-//                rtn = hsm::SiblingTransition<ECMState_Upload>(this->m_ECMCollection);
-//            }
-//            else
-//            {
-//                rtn = hsm::SiblingTransition<ECMState_Idle>();
-//            }
+            ECMCommand_ProfileConfiguration currentConfig = currentInnerState->getCurrentConfig();
+            m_ECMCollection.insertProfile(currentConfig);
+            if(m_ECMCollection.doActiveOperationsRemain())
+            {
+                rtn = hsm::SiblingTransition<ECMState_Upload>(this->m_ECMCollection);
+            }
+            else
+            {
+                rtn = hsm::SiblingTransition<ECMState_Idle>();
+            }
         }
         else
         {
             switch (desiredState) {
             case ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS:
             {
-                ECMCommand_ExecuteCollection* executionCollection = m_ECMCollection.get()->as<ECMCommand_ExecuteCollection>();
-                rtn = hsm::InnerEntryTransition<ECMState_ProfileMachineProcess>(executionCollection->getActiveConfiguration());
+                rtn = hsm::InnerEntryTransition<ECMState_ProfileMachineProcess>(m_ECMCollection.getActiveConfiguration());
                 break;
             }
             default:
@@ -81,19 +79,18 @@ void ECMState_ProfileMachine::OnEnter()
 
 }
 
-void ECMState_ProfileMachine::OnEnter(const ECMCommand_AbstractCollectionPtr &collection)
+void ECMState_ProfileMachine::OnEnter(const ECMCommand_ExecuteCollection &collection)
 {
     //First update the configuation per what was received upon entering the state
     this->m_ECMCollection = collection;
     this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS;
 
-    ECMCommand_ExecuteCollection* currentCollection = this->m_ECMCollection.get()->as<ECMCommand_ExecuteCollection>();
     //establish if we should clear contents
     bool overwriteContents = false;
-    if(currentCollection->shouldOverwriteLogs() && currentCollection->isFirstOperation(currentCollection->getActiveIndex()))
+    if(m_ECMCollection.shouldOverwriteLogs() && m_ECMCollection.isFirstOperation(m_ECMCollection.getActiveIndex()))
         overwriteContents = true;
 
-    Owner().initializeECMLogs(*currentCollection,overwriteContents);
+    Owner().initializeECMLogs(collection,overwriteContents);
 }
 
 } //end of namespace Galil
@@ -103,7 +100,7 @@ void ECMState_ProfileMachine::OnEnter(const ECMCommand_AbstractCollectionPtr &co
 
 #include "states/state_ecm_upload.h"
 
-#include "states/state_ecm_profile_machine_cease.h"
+#include "states/state_ecm_profile_machine_complete_execution.h"
 #include "states/state_ecm_profile_machine_complete.h"
 #include "states/state_ecm_profile_machine_failed.h"
 #include "states/state_ecm_profile_machine_process.h"

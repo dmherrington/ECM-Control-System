@@ -52,9 +52,6 @@ public:
     hsm::Transition GetTransition() override;
 
 public:
-
-    void initializeFromCollection(const ECMCommand_ProfileCollection &collection) override;
-
     void executeCollection(const ECMCommand_ExecuteCollection &collection) override;
 
 };

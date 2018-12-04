@@ -24,7 +24,6 @@ public:
     void establishStartTime();
     void establishEndTime();
     void setHasProfileExecuted(const bool &executed);
-    void setHasProfileBeenCompleted(const bool &completed);
     void setStartTime(const EnvironmentTime &start);
     void setEndTime(const EnvironmentTime &end);
     void setProfileCode(const ProfileState_Machining::MACHININGProfileCodes &code);
@@ -45,7 +44,6 @@ public:
     ECMCommand_ExecutionProperties& operator = (const ECMCommand_ExecutionProperties &rhs)
     {
         this->executed = rhs.executed;
-        this->completed = rhs.completed;
         this->m_startTime = rhs.m_startTime;
         this->m_endTime = rhs.m_endTime;
         this->profileCode = rhs.profileCode;
@@ -60,9 +58,6 @@ public:
     bool operator == (const ECMCommand_ExecutionProperties &rhs)
     {
         if(this->executed != rhs.executed){
-            return false;
-        }
-        if(this->completed != rhs.completed){
             return false;
         }
         if(this->m_startTime != rhs.m_startTime){
@@ -92,7 +87,7 @@ private:
     EnvironmentTime m_startTime;
     EnvironmentTime m_endTime;
 
-    ProfileState_Machining::MACHININGProfileCodes profileCode;
+    ProfileState_Machining::MACHININGProfileCodes profileCode = ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE;
 };
 
 #endif // ECM_COMMAND_EXECUTION_PROPERTIES_H

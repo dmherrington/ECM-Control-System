@@ -43,19 +43,19 @@ hsm::Transition ECMState_Upload::GetTransition()
         }
         else
         {
+            ECMCommand_ProfileConfiguration activeConfiguration = m_ECMCollection.getActiveConfiguration();
             //this means we want to chage the state of the vehicle for some reason
             //this could be caused by a command, action sensed by the vehicle, or
             //for various other peripheral reasons
             switch (desiredState) {
             case ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE:
             {
-                ECMCommand_ExecuteCollection* executionCollection = m_ECMCollection.get()->as<ECMCommand_ExecuteCollection>();
-                rtn = hsm::InnerEntryTransition<ECMState_UploadMotionProfile>(executionCollection->getActiveConfiguration());
+                rtn = hsm::InnerEntryTransition<ECMState_UploadMotionProfile>(activeConfiguration);
                 break;
             }
             case ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES:
             {
-                //rtn = hsm::InnerEntryTransition<ECMState_UploadMotionVariables>(m_ProfileCollection);
+                rtn = hsm::InnerEntryTransition<ECMState_UploadMotionVariables>(activeConfiguration);
                 break;
             }
             case ECMState::STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS:
@@ -88,11 +88,17 @@ void ECMState_Upload::OnEnter()
 
 }
 
-void ECMState_Upload::OnEnter(const ECMCommand_AbstractCollectionPtr &collection)
+void ECMState_Upload::OnEnter(const ECMCommand_ExecuteCollection &collection)
 {
     //First update the configuation per what was received upon entering the state
     this->m_ECMCollection = collection;
-    this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE;
+    if(collection.isFirstOperation(collection.getActiveIndex()))
+    {
+        this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE;
+    }
+    else{
+        this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES;
+    }
 }
 
 } //end of namespace API

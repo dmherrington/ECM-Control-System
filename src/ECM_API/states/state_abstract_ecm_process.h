@@ -71,8 +71,6 @@ public:
 
 public:
 
-    virtual void initializeFromCollection(const ECMCommand_ProfileCollection &collection);
-
     virtual void executeCollection(const ECMCommand_ExecuteCollection &collection);
 
 public:
@@ -85,7 +83,7 @@ protected:
     void clearCommand();
 
 protected:
-    ECMCommand_AbstractCollectionPtr m_ECMCollection;
+    ECMCommand_ExecuteCollection m_ECMCollection;
 
     ECMState currentState;
     ECMState desiredState;

@@ -21,7 +21,6 @@ void ECMCommand_ExecutionProperties::initializeExecution()
 
 void ECMCommand_ExecutionProperties::completeExecution()
 {
-    setHasProfileBeenCompleted(true);
     establishEndTime();
 }
 
@@ -38,10 +37,6 @@ void ECMCommand_ExecutionProperties::establishEndTime()
 void ECMCommand_ExecutionProperties::setHasProfileExecuted(const bool &executed)
 {
     this->executed = executed;
-}
-void ECMCommand_ExecutionProperties::setHasProfileBeenCompleted(const bool &completed)
-{
-    this->completed = completed;
 }
 void ECMCommand_ExecutionProperties::setStartTime(const EnvironmentTime &start)
 {
@@ -62,7 +57,9 @@ bool ECMCommand_ExecutionProperties::hasProfileBeenExecuted() const
 }
 bool ECMCommand_ExecutionProperties::hasProfileBeenCompleted() const
 {
-    return this->completed;
+    if(profileCode == ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE)
+        return true;
+    return false;
 }
 EnvironmentTime ECMCommand_ExecutionProperties::getStartTime() const
 {

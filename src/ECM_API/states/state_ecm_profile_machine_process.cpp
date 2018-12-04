@@ -33,6 +33,16 @@ hsm::Transition ECMState_ProfileMachineProcess::GetTransition()
     if(currentState != desiredState)
     {
         switch (desiredState) {
+        case ECMState::STATE_ECM_PROFILE_MACHINE_ABORT:
+        {
+            rtn = hsm::SiblingTransition<ECMState_ProfileMachineAbort>(this->m_Config);
+            break;
+        }
+        case ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION:
+        {
+            rtn = hsm::SiblingTransition<ECMState_ProfileMachineCompleteExecution>(this->m_Config);
+            break;
+        }
         default:
             std::cout<<"I dont know how we eneded up in this transition state from "<<ECMStateToString(this->currentState)<<"."<<std::endl;
             break;
@@ -72,13 +82,12 @@ void ECMState_ProfileMachineProcess::OnEnter(const ECMCommand_ProfileConfigurati
             }
             case(ProfileState_Machining::MACHININGProfileCodes::COMPLETE):
             {
-                m_Config.execProperties.setHasProfileBeenCompleted(true);
-                desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_CEASE;
+                desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION;
                 break;
             }
             case(ProfileState_Machining::MACHININGProfileCodes::ABORTED):
             {
-                desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_CEASE;
+                desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_ABORT;
                 break;
             }
             default:
@@ -100,5 +109,5 @@ void ECMState_ProfileMachineProcess::OnEnter(const ECMCommand_ProfileConfigurati
 } //end of namespace Galil
 } //end of namespace ECM
 
-
-#include "states/state_ecm_profile_machine_cease.h"
+#include "states/state_ecm_profile_machine_abort.h"
+#include "states/state_ecm_profile_machine_complete_execution.h"

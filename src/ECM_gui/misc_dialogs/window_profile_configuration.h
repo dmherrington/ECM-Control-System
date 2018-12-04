@@ -45,8 +45,6 @@ signals:
 
     void signal_ExecuteProfileCollection(const ECMCommand_ExecuteCollection &collection);
 
-    void signal_LoadProfileCollection(const ECMCommand_ProfileCollection &collection);
-
 private slots:
     void on_pushButton_AddOperation_released();
 

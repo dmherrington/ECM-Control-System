@@ -64,7 +64,6 @@ void ECMState_MotionProfileInitialization::OnEnter(const ECMCommand_ProfileColle
         if(success)
         {
             desiredState = ECMState::STATE_ECM_IDLE;
-            Owner().onProfileCollectionInitialized(success, collection);
 
         }else
         {

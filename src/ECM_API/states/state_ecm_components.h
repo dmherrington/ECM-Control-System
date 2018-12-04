@@ -24,7 +24,7 @@
 #include "ECM_API/states/state_ecm_motion_profile_initialization.h"
 
 #include "ECM_API/states/state_ecm_profile_machine.h"
-#include "ECM_API/states/state_ecm_profile_machine_cease.h"
+#include "ECM_API/states/state_ecm_profile_machine_complete_execution.h"
 #include "ECM_API/states/state_ecm_profile_machine_complete.h"
 #include "ECM_API/states/state_ecm_profile_machine_failed.h"
 #include "ECM_API/states/state_ecm_profile_machine_process.h"

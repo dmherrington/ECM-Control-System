@@ -9,8 +9,6 @@ Window_ProfileConfiguration::Window_ProfileConfiguration(ECM_API* apiObject, QWi
     m_API = apiObject;
 
     connect(ui->listWidget->model(),SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),this,SLOT(on_ListWidgetRowMoved()));
-    connect(m_API, SIGNAL(signal_OnProfileCollectionInitialized(bool,ECMCommand_ProfileCollection)),
-            this, SLOT(slot_OnProfileCollectionInitialized(bool,ECMCommand_ProfileCollection)));
 }
 
 Window_ProfileConfiguration::~Window_ProfileConfiguration()
@@ -240,26 +238,10 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
         loadConfig.readFromJSON(operationObject);
         loadConfig.m_GalilOperation.setProgramLoaded(true,filePath.toStdString());
 
+        TableWidget_OperationDescriptor* currentWidget = this->addOperation(loadConfig.getOperationIndex());
+        currentWidget->loadFromProfileConfiguration(loadConfig);
+
         //Object will contain all of the profiles used for the profile
         profileCollection.insertProfile(loadConfig);
     }
-
-    emit signal_LoadProfileCollection(profileCollection);
 }
-
-void Window_ProfileConfiguration::slot_OnProfileCollectionInitialized(const bool &success, const ECMCommand_ProfileCollection &collection)
-{
-    if(success)
-    {
-        std::map<unsigned int, ECMCommand_ProfileConfiguration> loadCollection = collection.getCollection();
-        std::map<unsigned int, ECMCommand_ProfileConfiguration>::iterator it = loadCollection.begin();
-
-        for (; it!=loadCollection.end(); ++it)
-        {
-            ECMCommand_ProfileConfiguration currentConfig = it->second;
-            TableWidget_OperationDescriptor* currentWidget = this->addOperation(it->first);
-            currentWidget->loadFromProfileConfiguration(currentConfig);
-        }
-    }
-}
-
