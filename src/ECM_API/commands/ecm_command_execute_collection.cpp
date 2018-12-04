@@ -94,7 +94,7 @@ void ECMCommand_ExecuteCollection::setHomeShouldIndicate(const bool &indicate)
     for (; it!=m_Collection.end(); ++it)
     {
         ECMCommand_ProfileConfiguration currentConfig = it->second;
-        currentConfig.setHomeNeedsToBeIndicated(indicate);
+        currentConfig.setIndicateHomeAutomatically(indicate);
     }
 }
 

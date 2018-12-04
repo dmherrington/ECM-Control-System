@@ -13,7 +13,7 @@ ECMState_SetupMachinePump::ECMState_SetupMachinePump():
 
 void ECMState_SetupMachinePump::OnExit()
 {
-
+    Owner().m_Pump->RemoveHost(this);
 }
 
 AbstractStateECMProcess* ECMState_SetupMachinePump::getClone() const

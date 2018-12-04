@@ -13,7 +13,7 @@ ECMState_SetupMachineTouchoff::ECMState_SetupMachineTouchoff():
 
 void ECMState_SetupMachineTouchoff::OnExit()
 {
-
+    Owner().m_Galil->RemoveHost(this);
 }
 
 AbstractStateECMProcess* ECMState_SetupMachineTouchoff::getClone() const

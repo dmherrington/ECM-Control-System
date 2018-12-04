@@ -6,6 +6,8 @@
 #include <mutex>
 #include <unordered_map>
 
+#include <thread>
+
 template <typename T>
 class DataGetSetNotifier
 {
@@ -58,12 +60,15 @@ public:
         m_BeenSet = true;
         m_AccessMutex.unlock();
 
-
-        std::lock_guard<std::mutex> guardNotifier(m_NotifierListMutex);
-        for(auto it = m_Funcs.cbegin() ; it != m_Funcs.cend() ; ++it) {
-            std::function<void()> func = it->second;
-            func();
+        if(m_Funcs.size() > 0)
+        {
+            std::thread thread([this]()
+            {
+                this->callNotifications();
+            });
+            thread.detach();
         }
+
         return true;
     }
 
@@ -75,6 +80,18 @@ public:
 
     void operator = (const T &rhs) {
         this->set(rhs);
+    }
+
+private:
+    void callNotifications()
+    {
+        std::vector<std::function<void()>> lambdasToCall = {};
+        for(auto it = m_Funcs.cbegin() ; it != m_Funcs.cend() ; ++it) {
+            lambdasToCall.push_back(it->second);
+        }
+        for(auto it = lambdasToCall.cbegin() ; it != lambdasToCall.cend() ; ++it) {
+            (*it)();
+        }
     }
 
 private:

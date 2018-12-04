@@ -15,6 +15,12 @@ public:
 
     ProgramLabelList(const ProgramLabelList &copy);
 
+public:
+    //void writeToJSON(QJsonObject &saveObject);
+
+    //void readFromJSON(const QJsonObject &openObject);
+
+public:
     bool doesLabelExist(const std::string &name) const;
 
     void addLabel(const std::string &name, const int &lineNumber);

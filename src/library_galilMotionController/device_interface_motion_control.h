@@ -1,6 +1,7 @@
 #ifndef DEVICE_INTERFACE_MOTION_CONTOL_H
 #define DEVICE_INTERFACE_MOTION_CONTOL_H
 
+#include <thread>
 #include <functional>
 #include <memory>
 #include <unordered_map>
@@ -41,8 +42,6 @@ public:
     }
 
     void setLambda_FinishedUploadingScript(const std::function<void(const bool &success, const GalilCurrentProgram &program)> &lambda){
-        m_MutexFinishScriptLambda.lock();
-
         if(m_FinishScriptLambda.find(0) != m_FinishScriptLambda.cend())
         {
             printf("Warning!!!! A finish procedure already exists, replacing old with new\n");
@@ -50,13 +49,10 @@ public:
         }
 
         m_FinishScriptLambda.insert({0, lambda});
-        m_MutexFinishScriptLambda.unlock();
     }
 
 
     void setLambda_FinishedUploadingVariables(const std::function<void(const bool success, const ProgramVariableList &variableList)> &lambda){
-        m_MutexFinishVariablesLambda.lock();
-
         if(m_FinishVariablesLambda.find(0) != m_FinishVariablesLambda.cend())
         {
             printf("Warning!!!! A finish procedure already exists, replacing old with new\n");
@@ -64,13 +60,10 @@ public:
         }
 
         m_FinishVariablesLambda.insert({0, lambda});
-        m_MutexFinishVariablesLambda.unlock();
     }
 
 
     void setLambda_NewMotionProfileState(const std::function<void(const MotionProfileState &profileState)> &lambda){
-        m_MutexNewMotionProfileStateLambda.lock();
-
         if(m_NewMotionProfileStateLambda.find(0) != m_NewMotionProfileStateLambda.cend())
         {
             printf("Warning!!!! A finish procedure already exists, replacing old with new\n");
@@ -78,7 +71,6 @@ public:
         }
 
         m_NewMotionProfileStateLambda.insert({0, lambda});
-        m_MutexNewMotionProfileStateLambda.unlock();
     }
 
     void AddLambda_FinishedUploadingScript(void* host, const std::function<void(const bool &success, const GalilCurrentProgram &program)> &lambda){
@@ -128,6 +120,23 @@ protected:
             it->second(profileState);
         }
         m_MutexNewMotionProfileStateLambda.unlock();
+    }
+
+    void newMotionProfileState(const MotionProfileState &profileState)
+    {
+        std::thread thread([this,profileState]()
+        {
+            std::vector<std::function<void(const MotionProfileState &profileState)>> lambdasToCall = {};
+            for(auto it = m_NewMotionProfileStateLambda.cbegin(); it != m_NewMotionProfileStateLambda.cend(); ++it)
+            {
+                lambdasToCall.push_back(it->second);
+            }
+            for(auto it = lambdasToCall.cbegin(); it != lambdasToCall.cend(); ++it)
+            {
+                (*it)(profileState);
+            }
+        });
+        thread.detach();
     }
 
 signals:

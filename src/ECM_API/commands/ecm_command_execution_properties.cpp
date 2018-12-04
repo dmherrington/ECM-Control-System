@@ -58,8 +58,8 @@ bool ECMCommand_ExecutionProperties::hasProfileBeenExecuted() const
 bool ECMCommand_ExecutionProperties::hasProfileBeenCompleted() const
 {
     if(profileCode == ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE)
-        return true;
-    return false;
+        return false;
+    return true;
 }
 EnvironmentTime ECMCommand_ExecutionProperties::getStartTime() const
 {

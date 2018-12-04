@@ -51,6 +51,11 @@ std::string TableWidget_OperationDescriptor::getOperationName() const
     return this->operationName;
 }
 
+void TableWidget_OperationDescriptor::setShouldHomeIndicateAutomatically(const bool &indicate)
+{
+    this->indicateHome = indicate;
+}
+
 void TableWidget_OperationDescriptor::newlyAvailableProgramLabels(const ProgramLabelList &labels)
 {
     this->m_OperationParameters->m_ScriptingVariables->updateProgramLabels(labels);
@@ -74,6 +79,8 @@ ECMCommand_ProfileConfiguration TableWidget_OperationDescriptor::getCurrentProfi
     currentConfiguration.setOperationName(this->getOperationName());
     currentConfiguration.setProfileExecution(this->shouldOperationBeUsed());
     currentConfiguration.m_GalilOperation.fromProgram(this->m_OperationParameters->m_ScriptingVariables->getDesiredProgram());
+    currentConfiguration.m_GalilOperation.setProfileName(this->m_OperationParameters->m_ScriptingVariables->getProfileName());
+    currentConfiguration.setIndicateHomeAutomatically(this->indicateHome);
 
     currentConfiguration.m_Touchoff = this->m_OperationParameters->m_MCTouchoff->getCurrentTouchoffConfig();
 

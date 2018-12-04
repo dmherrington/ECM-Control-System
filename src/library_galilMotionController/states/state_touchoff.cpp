@@ -6,6 +6,7 @@ namespace Galil {
 State_Touchoff::State_Touchoff():
     AbstractStateGalil(), touchoffExecuting(false)
 {
+    std::cout<<"In constructor of STATE_TOUCHOFF"<<std::endl;
     this->currentState = GalilState::STATE_TOUCHOFF;
     this->desiredState = GalilState::STATE_TOUCHOFF;
 }
@@ -67,14 +68,17 @@ void State_Touchoff::handleCommand(const AbstractCommandPtr command)
     //const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
     this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
     //CommandType currentCommand = copyCommand->getCommandType();
-
+    std::cout<<"Now handling the command"<<std::endl;
     switch (command->getCommandType()) {
     case CommandType::EXECUTE_PROGRAM:
     {
         if(!this->touchoffExecuting)
         {
             this->touchoffExecuting = true;
-            this->stateSetup();
+            Owner().statusVariableValues->addVariableNotifier("touchst",this,[this]{
+                std::cout<<"I saw it here"<<std::endl;
+            });
+            //this->stateSetup();
             Owner().issueGalilCommand(command); //this will not be considered a motion command as the profile contains the BG parameters
         }
         break;
@@ -86,9 +90,8 @@ void State_Touchoff::handleCommand(const AbstractCommandPtr command)
         newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ABORTED);
         MotionProfileState newProfileState;
         newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
-        Owner().issueUpdatedMotionProfileState(newProfileState);
-
         desiredState = GalilState::STATE_MOTION_STOP;
+        Owner().issueUpdatedMotionProfileState(newProfileState);
         //delete copyCommand;
         break;
     }
@@ -99,9 +102,8 @@ void State_Touchoff::handleCommand(const AbstractCommandPtr command)
         newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ABORTED);
         MotionProfileState newProfileState;
         newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
-        Owner().issueUpdatedMotionProfileState(newProfileState);
-
         desiredState = GalilState::STATE_ESTOP;
+        Owner().issueUpdatedMotionProfileState(newProfileState);
         //delete copyCommand;
         break;
     }
@@ -148,17 +150,16 @@ void State_Touchoff::OnEnter(const AbstractCommandPtr command)
 }
 
 void State_Touchoff::stateSetup()
-{
-    //Issue the current command based on what we are doing
-    ProfileState_Touchoff newState("Touchoff Routine", "touchof");
-    newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING);
-    MotionProfileState newProfileState;
-    newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
-    Owner().issueUpdatedMotionProfileState(newProfileState);
-
+{    
     Owner().statusVariableValues->addVariableNotifier("touchst",this,[this]{
         double varValue = 0.0;
         bool valid = Owner().statusVariableValues->getVariableValue("touchst",varValue);
+        if(!valid)
+        {
+            std::cout<<"The variable homest does not exist and therefore we do not know how to handle this case."<<std::endl;
+            desiredState = GalilState::STATE_MOTION_STOP;
+            return;
+        }
         switch ((int)varValue) {
         case (int)ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING:
         {
@@ -179,8 +180,8 @@ void State_Touchoff::stateSetup()
             newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::FINISHED);
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
-            Owner().issueUpdatedMotionProfileState(newProfileState);
             desiredState = GalilState::STATE_READY;
+            Owner().issueUpdatedMotionProfileState(newProfileState);
             break;
         }
         case (int)ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_POSITIONAL:
@@ -190,11 +191,8 @@ void State_Touchoff::stateSetup()
             newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_POSITIONAL);
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
-            Owner().issueUpdatedMotionProfileState(newProfileState);
-
-//            CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
-//            this->currentCommand = command;
             desiredState = GalilState::STATE_MOTION_STOP;
+            Owner().issueUpdatedMotionProfileState(newProfileState);
             break;
         }
         case (int)ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_INCONSISTENT:
@@ -204,11 +202,11 @@ void State_Touchoff::stateSetup()
             newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_INCONSISTENT);
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
+            desiredState = GalilState::STATE_MOTION_STOP;
             Owner().issueUpdatedMotionProfileState(newProfileState);
 
 //            CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
 //            this->currentCommand = command;
-            desiredState = GalilState::STATE_MOTION_STOP;
             break;
         }
         case (int)ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_TOUCHING:
@@ -218,11 +216,11 @@ void State_Touchoff::stateSetup()
             newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_TOUCHING);
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
+            desiredState = GalilState::STATE_MOTION_STOP;
             Owner().issueUpdatedMotionProfileState(newProfileState);
 
 //            CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
 //            this->currentCommand = command;
-            desiredState = GalilState::STATE_MOTION_STOP;
             break;
         }
         default:
@@ -231,6 +229,14 @@ void State_Touchoff::stateSetup()
             break;
         } //end of switch statement
     });
+
+    //Issue the current command based on what we are doing
+    ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+    newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING);
+    MotionProfileState newProfileState;
+    newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
+    Owner().issueUpdatedMotionProfileState(newProfileState);
+
 }
 
 } //end of namespace Galil

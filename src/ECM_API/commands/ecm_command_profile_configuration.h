@@ -45,7 +45,7 @@ public:
 
     void setOperationName(const std::string &name);
 
-    void setHomeNeedsToBeIndicated(const bool &homeExecute);
+    void setIndicateHomeAutomatically(const bool &homeExecute);
 
     void setProfileExecution(const bool &varExecute);
 

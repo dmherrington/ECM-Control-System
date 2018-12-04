@@ -21,8 +21,7 @@ GalilMotionController::GalilMotionController(const std::string &name):
     stateMachine = new hsm::StateMachine();
     stateMachine->Initialize<ECM::Galil::State_Idle>(stateInterface);
     //if we begin issuing text commands we have to be careful how the state machine progresses
-    stateMachine->UpdateStates();
-    stateMachine->ProcessStateTransitions();
+    ProgressStateMachineStates();
 
     //Instantiating the galil state polling object. This is only needed to be done once within the program
     galilPolling = new GalilPollState();
@@ -281,8 +280,7 @@ void GalilMotionController::NewStatusInputs(const StatusInputs &status)
 {
     if(stateInterface->statusInputs.set(status))
     {
-        stateMachine->UpdateStates();
-        stateMachine->ProcessStateTransitions();
+        ProgressStateMachineStates();
 
         emit signal_MCNewDigitalInput(status);
     }
@@ -315,8 +313,7 @@ void GalilMotionController::NewStatusMotorEnabled(const Status_MotorEnabled &sta
 {
     if(stateInterface->getAxisStatus(status.getAxis())->setMotorEnabled(status.isMotorEnabled()))
     {
-        stateMachine->UpdateStates();
-        stateMachine->ProcessStateTransitions();
+        ProgressStateMachineStates();
     }
 }
 void GalilMotionController::NewStatusMotorStopCode(const Status_StopCode &status)
@@ -324,8 +321,7 @@ void GalilMotionController::NewStatusMotorStopCode(const Status_StopCode &status
     if(stateInterface->getAxisStatus(status.getAxis())->stopCode.set(status))
     {
         std::cout<<"I have seen a new status motor stop code and the value is: "<<status.getCode()<<std::endl;
-        stateMachine->UpdateStates();
-        stateMachine->ProcessStateTransitions();
+        ProgressStateMachineStates();
     }
 }
 
@@ -338,8 +334,7 @@ void GalilMotionController::NewStatusMotorInMotion(const Status_AxisInMotion &st
             RequestStopCodePtr request = std::make_shared<RequestStopCode>();
             commsMarshaler->sendAbstractGalilRequest(request);
         }
-        stateMachine->UpdateStates();
-        stateMachine->ProcessStateTransitions();
+        ProgressStateMachineStates();
     }
 }
 
@@ -350,8 +345,7 @@ void GalilMotionController::NewStatusVariableValue(const Status_VariableValue &s
     if(stateInterface->statusVariableValues->updateVariable(status))
     {
 
-        stateMachine->UpdateStates();
-        stateMachine->ProcessStateTransitions();
+        //ProgressStateMachineStates();
 
         common::TupleProfileVariableString varTuple(QString::fromStdString(status.getProgramName()),
                                                     QString::fromStdString(status.getProfileName()),
@@ -378,7 +372,7 @@ void GalilMotionController::executeCommand(const AbstractCommandPtr command)
 {
     ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
     currentState->handleCommand(command);
-    stateMachine->ProcessStateTransitions();
+    ProgressStateMachineStates();
 }
 
 void GalilMotionController::executeCustomCommands(const std::vector<std::string> &stringCommands)
@@ -438,6 +432,7 @@ void GalilMotionController::cbi_GalilTouchoffIndicated(const bool &indicated)
 
 void GalilMotionController::cbi_NewMotionProfileState(const MotionProfileState &state)
 {
+    ProgressStateMachineStates();
     this->onNewMotionProfileState(state);
     emit signal_GalilUpdatedProfileState(state);
 }
@@ -535,4 +530,15 @@ std::string GalilMotionController::getLogOfOperationalSettings() const
     str += "GALIL MOTION CONTROL VARIABLE SETTINGS: \n";
     str += stateInterface->galilProgram->getVariableList().getLoggingString();
     return str;
+}
+
+//!
+//! \brief Cause the state machine to update it's states
+//!
+void GalilMotionController::ProgressStateMachineStates()
+{
+//    m_Mutex_StateMachine.lock();
+    stateMachine->ProcessStateTransitions();
+    stateMachine->UpdateStates();
+//    m_Mutex_StateMachine.unlock();
 }

@@ -6,6 +6,7 @@ namespace Galil {
 State_Ready::State_Ready():
     AbstractStateGalil()
 {
+    std::cout<<"In constructor of STATE_READY"<<std::endl;
     this->currentState = GalilState::STATE_READY;
     this->desiredState = GalilState::STATE_READY;
 }

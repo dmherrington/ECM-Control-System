@@ -34,7 +34,7 @@ public:
     void executingProfileIndex(const unsigned int &index);
 
 private:
-    TableWidget_OperationDescriptor* addOperation(const unsigned int &index);
+    TableWidget_OperationDescriptor* addOperation(const unsigned int &index, const string &operationName = "");
 
     void clearExistingOperations();
 
@@ -77,6 +77,8 @@ private slots:
     void on_actionSave_As_triggered();
 
     void on_actionClose_triggered();
+
+    void on_checkBox_ShouldHomeBeIndicated_toggled(bool checked);
 
 private:
     Ui::Window_ProfileConfiguration *ui;

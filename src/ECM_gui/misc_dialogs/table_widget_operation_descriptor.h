@@ -30,6 +30,8 @@ public:
     void setOperationName(const std::string &name);
     std::string getOperationName() const;
 
+    void setShouldHomeIndicateAutomatically(const bool &indicate);
+
     Widget_ProfileParameters* getAccompanyingProfile();
 
     void newlyAvailableProgramLabels(const ProgramLabelList &labels);
@@ -61,6 +63,7 @@ private:
     unsigned int operationIndex = 0;
     std::string operationName = "";
     bool useOperation = false;
+    bool indicateHome = false;
 };
 
 #endif // TABLE_WIDGET_OPERATION_DESCRIPTOR_H

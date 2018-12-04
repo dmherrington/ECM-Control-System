@@ -19,8 +19,8 @@ Widget_Touchoff::~Widget_Touchoff()
 
 void Widget_Touchoff::loadFromTouchoffConfig(const MotionCommand_TouchoffConfig &config)
 {
-    this->ui->doubleSpinBox_TouchoffRef->setValue(config.getTouchoffRef());
-    this->ui->doubleSpinBox_InitialGap->setValue(config.getTouchoffGap());
+    this->ui->doubleSpinBox_TouchoffRef->setValue(config.getTouchoffRef() / 10.0);
+    this->ui->doubleSpinBox_InitialGap->setValue(config.getTouchoffGap() / 10.0);
     this->ui->checkBox_UtilizeTouchoff->setChecked(config.shouldTouchoffBeUtilized());
     this->ui->checkBox_ReferenceOldPosition->setChecked(config.shouldTouchoffUtilizePreviousPosition());
 }

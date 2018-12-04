@@ -87,7 +87,7 @@ void ECMCommand_ProfileConfiguration::setOperationName(const std::string &name)
     this->operationName = name;
 }
 
-void ECMCommand_ProfileConfiguration::setHomeNeedsToBeIndicated(const bool &homeExecute)
+void ECMCommand_ProfileConfiguration::setIndicateHomeAutomatically(const bool &homeExecute)
 {
     this->indicateHome = homeExecute;
 }

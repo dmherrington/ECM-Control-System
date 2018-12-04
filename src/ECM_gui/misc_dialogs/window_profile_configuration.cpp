@@ -49,17 +49,21 @@ void Window_ProfileConfiguration::updateConfigurationPath(const std::string &pat
     ui->lineEdit_ConfugrationPath->setText(QString::fromStdString(path));
 }
 
-TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const unsigned int &index)
+TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const unsigned int &index, const std::string &operationName)
 {
     Widget_ProfileParameters* operationParameters = new Widget_ProfileParameters(m_API);
-    ui->tabWidget_OperationParameters->addTab(operationParameters,"Test");
+    std::string opName = "";
+    if(operationName.empty())
+        opName = "Operation "  + std::to_string(index);
+    else
+        opName = operationName;
+
+    ui->tabWidget_OperationParameters->addTab(operationParameters,QString::fromStdString(opName));
     operationParameters->setTabIndex(index);
 
     TableWidget_OperationDescriptor* tableDescriptor = new TableWidget_OperationDescriptor(operationParameters);
     tableDescriptor->setOperationIndex(index + 1);
-    QString operationName = "Operation " + QString::number(index);
-    tableDescriptor->setOperationName(operationName.toStdString());
-    ui->tabWidget_OperationParameters->setTabText(index,operationName);
+    tableDescriptor->setOperationName(opName);
 
     connect(tableDescriptor,SIGNAL(signal_OperationNameChanged(std::string,uint)),this,SLOT(slot_OperationNameChanged(std::string,uint)));
     connect(tableDescriptor,SIGNAL(signal_ExecuteExplicitProfileConfig(ECMCommand_ProfileConfiguration)),this,SLOT(slot_OnExecuteExplicitProfileConfig(ECMCommand_ProfileConfiguration)));
@@ -238,10 +242,21 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
         loadConfig.readFromJSON(operationObject);
         loadConfig.m_GalilOperation.setProgramLoaded(true,filePath.toStdString());
 
-        TableWidget_OperationDescriptor* currentWidget = this->addOperation(loadConfig.getOperationIndex());
+        TableWidget_OperationDescriptor* currentWidget = this->addOperation(loadConfig.getOperationIndex(), loadConfig.getOperationName());
         currentWidget->loadFromProfileConfiguration(loadConfig);
 
         //Object will contain all of the profiles used for the profile
         profileCollection.insertProfile(loadConfig);
+    }
+}
+
+void Window_ProfileConfiguration::on_checkBox_ShouldHomeBeIndicated_toggled(bool checked)
+{
+    std::map<QListWidgetItem*,TableWidget_OperationDescriptor*>::iterator it = m_MapOperations.begin();
+
+    for (; it!=m_MapOperations.end(); ++it)
+    {
+        TableWidget_OperationDescriptor* currentOperation = it->second;
+        currentOperation->setShouldHomeIndicateAutomatically(checked);
     }
 }

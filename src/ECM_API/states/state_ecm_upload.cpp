@@ -48,6 +48,11 @@ hsm::Transition ECMState_Upload::GetTransition()
             //this could be caused by a command, action sensed by the vehicle, or
             //for various other peripheral reasons
             switch (desiredState) {
+            case ECMState::STATE_ECM_UPLOAD_COMPLETE:
+            {
+                rtn = hsm::SiblingTransition<ECMState_SetupMachine>(this->m_ECMCollection);
+                break;
+            }
             case ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE:
             {
                 rtn = hsm::InnerEntryTransition<ECMState_UploadMotionProfile>(activeConfiguration);
@@ -91,14 +96,16 @@ void ECMState_Upload::OnEnter()
 void ECMState_Upload::OnEnter(const ECMCommand_ExecuteCollection &collection)
 {
     //First update the configuation per what was received upon entering the state
+//    this->m_ECMCollection = collection;
+//    if(collection.isFirstOperation(collection.getActiveIndex()))
+//    {
+//        this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE;
+//    }
+//    else{
+//        this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES;
+//    }
     this->m_ECMCollection = collection;
-    if(collection.isFirstOperation(collection.getActiveIndex()))
-    {
-        this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE;
-    }
-    else{
-        this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES;
-    }
+    this->desiredState = ECMState::STATE_ECM_UPLOAD_COMPLETE;
 }
 
 } //end of namespace API

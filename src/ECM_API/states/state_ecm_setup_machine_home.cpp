@@ -13,7 +13,7 @@ ECMState_SetupMachineHome::ECMState_SetupMachineHome():
 
 void ECMState_SetupMachineHome::OnExit()
 {
-
+    Owner().m_Galil->RemoveHost(this);
 }
 
 AbstractStateECMProcess* ECMState_SetupMachineHome::getClone() const
@@ -96,7 +96,8 @@ void ECMState_SetupMachineHome::OnEnter(const ECMCommand_ProfileConfiguration &c
         Owner().m_Galil->executeCommand(command);
     } //end of if statement
     else{
-
+        //the home function did not need to be executed at this time, therefore, we can move on to touchoff
+        desiredState = ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF;
     }
 }
 

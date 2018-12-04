@@ -252,13 +252,17 @@ information, settings, and callback information for the states within the HSM.*/
 private:
     GCon galil; /**< Member variable containing a pointer to the Galil interface */
 
-    hsm::StateMachine* stateMachine; /**< Member variable containing a pointer to the state
- machine. This state machine evolves the state per event updates and user commands either via
-the GUI or information updates from the polled status of the galil. */
-
     GalilPollState* galilPolling; /**< Member variable that contains a threaded object consistently
  assessing and querying the state of the galil based on a timeout. This state should be paused when
 uploading and/or downloading from the galil. */
+
+
+private:
+    void ProgressStateMachineStates();
+    std::mutex m_Mutex_StateMachine;
+    hsm::StateMachine* stateMachine; /**< Member variable containing a pointer to the state
+ machine. This state machine evolves the state per event updates and user commands either via
+the GUI or information updates from the polled status of the galil. */
 
 private:
     GalilSettings m_Settings; /**< Value of the axis to be disabled */

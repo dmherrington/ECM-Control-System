@@ -79,6 +79,9 @@ ProgramVariableList Widget_ScriptingVariables::getVariableList() const
 
 void Widget_ScriptingVariables::updateProgramLabels(const ProgramLabelList &list)
 {
+    if(list.getLabelList().isEmpty())
+        return;
+
     m_OperationalProgram.setLabelList(list);
 
     QString currentLabel = ui->comboBox_ProgramLabels->currentText();
