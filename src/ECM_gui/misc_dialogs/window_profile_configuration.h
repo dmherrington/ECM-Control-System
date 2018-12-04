@@ -64,7 +64,6 @@ private slots:
 
 private slots:
     void slot_OnExecuteExplicitProfileConfig(const ECMCommand_ProfileConfiguration &config);
-    void slot_OnProfileCollectionInitialized(const bool &success, const ECMCommand_ProfileCollection &collection);
 private:
     void saveToFile(const QString &filePath);
 

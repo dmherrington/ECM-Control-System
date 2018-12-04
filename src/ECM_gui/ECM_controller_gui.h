@@ -65,7 +65,6 @@ private slots:
 * Private Slots related to collection execution and initialization
 */
 private slots:
-    void slot_LoadProfileCollection(const ECMCommand_ProfileCollection &collection);
     void slot_InitializeProfileExecution(const std::string &operationName, const common::EnvironmentTime &startTime);
     void on_ExecuteProfileCollection(const ECMCommand_ExecuteCollection &collection);
 
