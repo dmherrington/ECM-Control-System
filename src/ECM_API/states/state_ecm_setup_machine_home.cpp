@@ -60,7 +60,8 @@ void ECMState_SetupMachineHome::OnEnter(const ECMCommand_ProfileConfiguration &c
 {
     this->m_Config = configuration;
 
-    if(configuration.shouldHomeBeIndicated())
+    //check that we should indicate home and it has not previously completed
+    if(configuration.shouldHomeBeIndicated() && !Owner().m_Galil->stateInterface->isHomeInidcated())
     {
         Owner().m_Galil->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
 
@@ -90,6 +91,9 @@ void ECMState_SetupMachineHome::OnEnter(const ECMCommand_ProfileConfiguration &c
                 break;
             }
         }); //end of lambda expression
+
+        CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::HOMING,"latch");
+        Owner().m_Galil->executeCommand(command);
     } //end of if statement
     else{
 
