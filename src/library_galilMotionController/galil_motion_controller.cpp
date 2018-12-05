@@ -307,6 +307,8 @@ void GalilMotionController::NewStatusPosition(const Status_Position &status)
     {
         emit signal_MCNewPosition(tuple,state, false);
     }
+    ProgressStateMachineStates();
+
 }
 
 void GalilMotionController::NewStatusMotorEnabled(const Status_MotorEnabled &status)

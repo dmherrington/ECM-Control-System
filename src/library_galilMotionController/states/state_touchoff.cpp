@@ -14,6 +14,7 @@ State_Touchoff::State_Touchoff():
 void State_Touchoff::OnExit()
 {
     Owner().statusVariableValues->removeVariableNotifier("touchst",this);
+
     common::TupleProfileVariableString tupleVariable("Default","Touchoff","touchst");
     Owner().issueGalilRemovePollingRequest(tupleVariable);
 }
@@ -75,6 +76,11 @@ void State_Touchoff::handleCommand(const AbstractCommandPtr command)
         if(!this->touchoffExecuting)
         {
             this->touchoffExecuting = true;
+
+            double varValue = 0.0;
+            Owner().statusVariableValues->getVariableValue("touchst",varValue);
+            std::cout<<"The current varValue in handle command is: " <<std::to_string(varValue) <<std::endl;
+
             Owner().statusVariableValues->addVariableNotifier("touchst",this,[this]{
                 std::cout<<"I saw it here"<<std::endl;
             });
@@ -114,6 +120,11 @@ void State_Touchoff::handleCommand(const AbstractCommandPtr command)
 
 void State_Touchoff::Update()
 {
+
+    double varValue = 0.0;
+    Owner().statusVariableValues->getVariableValue("touchst",varValue);
+    std::cout<<"The current varValue is in the update: " <<std::to_string(varValue) <<std::endl;
+
     //Check the status of the estop state
     bool eStopState = this->checkEStop();
     if(eStopState == true)
@@ -150,7 +161,7 @@ void State_Touchoff::OnEnter(const AbstractCommandPtr command)
 }
 
 void State_Touchoff::stateSetup()
-{    
+{
     Owner().statusVariableValues->addVariableNotifier("touchst",this,[this]{
         double varValue = 0.0;
         bool valid = Owner().statusVariableValues->getVariableValue("touchst",varValue);

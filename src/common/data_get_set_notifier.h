@@ -60,14 +60,20 @@ public:
         m_BeenSet = true;
         m_AccessMutex.unlock();
 
-        if(m_Funcs.size() > 0)
-        {
-            std::thread thread([this]()
-            {
-                this->callNotifications();
-            });
-            thread.detach();
+        std::lock_guard<std::mutex> guardNotifier(m_NotifierListMutex);
+        for(auto it = m_Funcs.cbegin() ; it != m_Funcs.cend() ; ++it) {
+            std::function<void()> func = it->second;
+            func();
         }
+
+//        if(m_Funcs.size() > 0)
+//        {
+//            std::thread thread([this]()
+//            {
+//                this->callNotifications();
+//            });
+//            thread.detach();
+//        }
 
         return true;
     }
