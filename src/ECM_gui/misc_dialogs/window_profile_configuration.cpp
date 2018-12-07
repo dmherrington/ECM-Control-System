@@ -119,6 +119,46 @@ void Window_ProfileConfiguration::on_pushButton_AddOperation_released()
 void Window_ProfileConfiguration::on_pushButton_RemoveOperation_released()
 {
     QList<QListWidgetItem*> selectedList = ui->listWidget->selectedItems();
+    QList<QListWidgetItem*>::iterator iteratorListWidget = selectedList.begin();
+
+    std::map<QListWidgetItem*,TableWidget_OperationDescriptor*>::iterator iteratorMapOperations;
+
+    for (; iteratorListWidget!=selectedList.end(); ++iteratorListWidget)
+    {
+
+        iteratorMapOperations = m_MapOperations.find(*iteratorListWidget);
+
+        if(iteratorMapOperations != m_MapOperations.end())
+        {
+            TableWidget_OperationDescriptor* tableWidget = iteratorMapOperations->second;
+            ui->tabWidget_OperationParameters->removeTab(tableWidget->getAccompanyingProfile()->getTabIndex());
+            delete iteratorMapOperations->second;
+            m_MapOperations.erase(iteratorMapOperations);
+        }
+
+        delete ui->listWidget->takeItem(ui->listWidget->row(*iteratorListWidget));
+    }
+
+
+    for (iteratorMapOperations = m_MapOperations.begin(); iteratorMapOperations != m_MapOperations.end(); ++iteratorMapOperations)
+    {
+        TableWidget_OperationDescriptor* tableWidget = iteratorMapOperations->second;
+        int tabIndex = ui->tabWidget_OperationParameters->indexOf(tableWidget->getAccompanyingProfile());
+        tableWidget->getAccompanyingProfile()->setTabIndex(static_cast<unsigned int>(tabIndex));
+    }
+
+    //let us reorder all of the operation numbers
+    for(int listIndex = 0; listIndex < ui->listWidget->count(); listIndex++)
+    {
+        QListWidgetItem* currentItem = ui->listWidget->item(listIndex);
+        this->m_MapOperations.at(currentItem)->setOperationIndex(listIndex + 1);
+    }
+
+    if(ui->listWidget->count() <=0)
+    {
+        ui->tabWidget_OperationParameters->clear();
+    }
+
 }
 
 void Window_ProfileConfiguration::slot_OperationNameChanged(const std::string &name, const unsigned int &index)

@@ -52,6 +52,7 @@ public:
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         spinBox_OperationOrder = new QSpinBox(TableWidget_OperationDescriptor);
         spinBox_OperationOrder->setObjectName(QStringLiteral("spinBox_OperationOrder"));
+        spinBox_OperationOrder->setEnabled(false);
         sizePolicy.setHeightForWidth(spinBox_OperationOrder->sizePolicy().hasHeightForWidth());
         spinBox_OperationOrder->setSizePolicy(sizePolicy);
         spinBox_OperationOrder->setMinimumSize(QSize(60, 20));
@@ -60,6 +61,7 @@ public:
         font.setPointSize(10);
         spinBox_OperationOrder->setFont(font);
         spinBox_OperationOrder->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+        spinBox_OperationOrder->setMinimum(1);
 
         horizontalLayout->addWidget(spinBox_OperationOrder);
 

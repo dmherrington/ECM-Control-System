@@ -179,9 +179,6 @@ void State_Ready::handleCommand(const AbstractCommandPtr command)
         //const Command_Variable* castCommand = copyCommand->as<Command_Variable>();
         //Command_VariablePtr command = std::make_shared<Command_Variable>(*castCommand);
         Owner().issueGalilCommand(command);
-
-        RequestListVariablesPtr listVariables = std::make_shared<RequestListVariables>();
-        Owner().issueGalilRequest(listVariables);
         break;
     }
     default:
