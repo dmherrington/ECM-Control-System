@@ -80,7 +80,7 @@ void ECMState_SetupMachineHome::OnEnter(const ECMCommand_ProfileConfiguration &c
                 case ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE:
                 {
                     //this seems strange that an incomplete would cause this, need more finite defintion
-                    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
+                    //desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
                     break;
                 }
                 default:
