@@ -69,22 +69,14 @@ void State_Touchoff::handleCommand(const AbstractCommandPtr command)
     //const AbstractCommand* copyCommand = command->getClone(); //we first make a local copy so that we can manage the memory
     this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
     //CommandType currentCommand = copyCommand->getCommandType();
-    std::cout<<"Now handling the command"<<std::endl;
+
     switch (command->getCommandType()) {
     case CommandType::EXECUTE_PROGRAM:
     {
         if(!this->touchoffExecuting)
         {
-            this->touchoffExecuting = true;
-
-            double varValue = 0.0;
-            Owner().statusVariableValues->getVariableValue("touchst",varValue);
-            std::cout<<"The current varValue in handle command is: " <<std::to_string(varValue) <<std::endl;
-
-            Owner().statusVariableValues->addVariableNotifier("touchst",this,[this]{
-                std::cout<<"I saw it here"<<std::endl;
-            });
-            //this->stateSetup();
+            this->touchoffExecuting = true;;
+            this->stateSetup();
             Owner().issueGalilCommand(command); //this will not be considered a motion command as the profile contains the BG parameters
         }
         break;
