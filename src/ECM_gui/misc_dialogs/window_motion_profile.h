@@ -32,6 +32,8 @@ private:
 
     void openFromFile(const QString &filePath);
 
+    void updateStatusLED(const QColor &color);
+
 private slots:
     void on_actionClose_triggered();
 

@@ -34,7 +34,8 @@ hsm::Transition ECMState_SetupMachine::GetTransition()
     {
         if(IsInInnerState<ECMState_SetupMachineComplete>())
         {
-            std::cout<<"The machine has been completely setup and is ready to run the configuraiton."<<std::endl;
+            std::cout<<"The machine has finished being setup"<<std::endl;
+            //rtn = hsm::SiblingTransition<ECMState_ProfileMachine>();
         }
         else if(IsInInnerState<ECMState_SetupMachineFailed>())
         {
@@ -97,3 +98,4 @@ void ECMState_SetupMachine::OnEnter(const ECMCommand_ExecuteCollection &collecti
 #include "states/state_ecm_setup_machine_pump.h"
 #include "states/state_ecm_setup_machine_touchoff.h"
 
+#include "states/state_ecm_profile_machine.h"

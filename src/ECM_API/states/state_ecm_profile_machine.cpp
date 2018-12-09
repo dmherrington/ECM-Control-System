@@ -85,11 +85,21 @@ void ECMState_ProfileMachine::OnEnter(const ECMCommand_ExecuteCollection &collec
     this->m_ECMCollection = collection;
     this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS;
 
-    //establish if we should clear contents
+    /*
+     * We need to establish if we should clear the logs. Since this is a recursive process, we require that two conditions
+     * be met satisfactorily.
+     * 1) Require that the logs indeed in the first place desire to be overwritten.
+     * 2) Require that the operation is the first operation of the collection. This is required that since we can return
+     * to this condition from another event, we would then subsequently not want to clear the original logs.
+     */
     bool overwriteContents = false;
     if(m_ECMCollection.shouldOverwriteLogs() && m_ECMCollection.isFirstOperation(m_ECMCollection.getActiveIndex()))
         overwriteContents = true;
 
+    /*
+     * When initializing the logs, this process sets up the directory structure and the accompanying header contents.
+     * At this time, the collection is also written to the appropriate contents and any necessary loggin setup.
+     */
     Owner().initializeECMLogs(collection,overwriteContents);
 }
 

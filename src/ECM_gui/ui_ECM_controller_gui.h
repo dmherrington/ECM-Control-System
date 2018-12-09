@@ -67,9 +67,11 @@ public:
     QLabel *label_PartNumber_2;
     QLineEdit *lineEdit_SerialNumber;
     QSpacerItem *horizontalSpacer;
-    QHBoxLayout *horizontalLayout_9;
+    QHBoxLayout *horizontalLayout_6;
+    QSpacerItem *horizontalSpacer_8;
     QLabel *label_OperationName;
     QLineEdit *lineEdit_OperationName;
+    QSpacerItem *horizontalSpacer_7;
     QHBoxLayout *horizontalLayout_5;
     QSpacerItem *horizontalSpacer_3;
     QGridLayout *gridLayout_2;
@@ -431,9 +433,13 @@ public:
 
         gridLayout_7->addLayout(horizontalLayout_7, 1, 0, 1, 1);
 
-        horizontalLayout_9 = new QHBoxLayout();
-        horizontalLayout_9->setSpacing(6);
-        horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
+        horizontalLayout_6 = new QHBoxLayout();
+        horizontalLayout_6->setSpacing(6);
+        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
+        horizontalSpacer_8 = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_6->addItem(horizontalSpacer_8);
+
         label_OperationName = new QLabel(frame_ProfileOptions);
         label_OperationName->setObjectName(QStringLiteral("label_OperationName"));
         sizePolicy1.setHeightForWidth(label_OperationName->sizePolicy().hasHeightForWidth());
@@ -443,7 +449,7 @@ public:
         label_OperationName->setFont(font3);
         label_OperationName->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout_9->addWidget(label_OperationName);
+        horizontalLayout_6->addWidget(label_OperationName);
 
         lineEdit_OperationName = new QLineEdit(frame_ProfileOptions);
         lineEdit_OperationName->setObjectName(QStringLiteral("lineEdit_OperationName"));
@@ -455,10 +461,14 @@ public:
         lineEdit_OperationName->setAlignment(Qt::AlignCenter);
         lineEdit_OperationName->setReadOnly(true);
 
-        horizontalLayout_9->addWidget(lineEdit_OperationName);
+        horizontalLayout_6->addWidget(lineEdit_OperationName);
+
+        horizontalSpacer_7 = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_6->addItem(horizontalSpacer_7);
 
 
-        gridLayout_7->addLayout(horizontalLayout_9, 2, 0, 1, 1);
+        gridLayout_7->addLayout(horizontalLayout_6, 2, 0, 1, 1);
 
         horizontalLayout_5 = new QHBoxLayout();
         horizontalLayout_5->setSpacing(6);

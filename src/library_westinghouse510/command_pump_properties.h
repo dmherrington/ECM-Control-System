@@ -45,6 +45,11 @@ public:
     }
 
 public:
+    void setEngagePump(const bool &engage)
+    {
+        this->engagePump = engage;
+    }
+
     void setPumpFlowRate(const double &desRate)
     {
         this->flowRate = desRate;
@@ -61,6 +66,12 @@ public:
     }
 
 public:
+
+    bool shouldPumpBeEngaged() const
+    {
+        return this->engagePump;
+    }
+
     double getPumpFlowRate() const
     {
         return this->flowRate;
@@ -82,6 +93,7 @@ public:
     //!
     Command_PumpProperties& operator = (const Command_PumpProperties &rhs)
     {
+        this->engagePump = rhs.engagePump;
         this->flowRate = rhs.flowRate;
         this->waitForDelay = rhs.waitForDelay;
         this->initTime = rhs.initTime;
@@ -95,6 +107,9 @@ public:
     //!
     bool operator == (const Command_PumpProperties &rhs)
     {
+        if(this->engagePump != rhs.engagePump){
+            return false;
+        }
         if(this->flowRate != rhs.flowRate){
             return false;
         }
@@ -117,6 +132,7 @@ public:
     }
 
 private:
+    bool engagePump = false;
     double flowRate = 0.0;
     bool waitForDelay = false;
     unsigned int initTime = 0;

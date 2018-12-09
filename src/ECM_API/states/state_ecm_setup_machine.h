@@ -37,6 +37,8 @@ class ECMState_SetupMachineHome;
 class ECMState_SetupMachinePump;
 class ECMState_SetupMachineTouchoff;
 
+class ECMState_ProfileMachine;
+
 class ECMState_SetupMachine : public AbstractStateECMProcess
 {
 public:

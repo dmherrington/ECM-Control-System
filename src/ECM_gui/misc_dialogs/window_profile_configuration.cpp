@@ -273,21 +273,27 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
     QJsonObject jsonObject = loadDoc.object();
     QJsonArray configArray = jsonObject["configData"].toArray();
 
-    ECMCommand_ProfileCollection profileCollection;
+    if(!configArray.isEmpty())
+    {
+        ECMCommand_ProfileCollection profileCollection;
+        profileCollection.collectionWasLoaded(true,filePath.toStdString());
 
-    for (int i = 0; i < configArray.size(); ++i) {
-        QJsonObject operationObject = configArray[i].toObject();
+        for (int i = 0; i < configArray.size(); ++i) {
+            QJsonObject operationObject = configArray[i].toObject();
 
-        ECMCommand_ProfileConfiguration loadConfig;
-        loadConfig.readFromJSON(operationObject);
-        loadConfig.m_GalilOperation.setProgramLoaded(true,filePath.toStdString());
+            ECMCommand_ProfileConfiguration loadConfig;
+            loadConfig.readFromJSON(operationObject);
+            loadConfig.m_GalilOperation.setProgramLoaded(true,filePath.toStdString());
 
-        TableWidget_OperationDescriptor* currentWidget = this->addOperation(loadConfig.getOperationIndex(), loadConfig.getOperationName());
-        currentWidget->loadFromProfileConfiguration(loadConfig);
+            TableWidget_OperationDescriptor* currentWidget = this->addOperation(loadConfig.getOperationIndex(), loadConfig.getOperationName());
+            currentWidget->loadFromProfileConfiguration(loadConfig);
 
-        //Object will contain all of the profiles used for the profile
-        profileCollection.insertProfile(loadConfig);
+            //Object will contain all of the profiles used for the profile
+            profileCollection.insertProfile(loadConfig);
+        }
+
     }
+
 }
 
 void Window_ProfileConfiguration::on_checkBox_ShouldHomeBeIndicated_toggled(bool checked)

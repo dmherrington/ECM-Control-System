@@ -53,20 +53,38 @@ void ECMState_SetupMachinePump::Update()
 
 void ECMState_SetupMachinePump::OnEnter()
 {
-
+    /*
+     * We should not be able to enter this method. This is an overloaded method as required from the base.
+     * If for some reason this state has been entered while trying to setup the machine, we shall say
+     * that the setup has therefore failed.
+     */
+    desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_FAILED;
 }
 
 void ECMState_SetupMachinePump::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
 {
     this->m_Config = configuration;
-    Owner().m_Pump->AddLambda_FinishedPumpInitialization(this,[this](const bool &completed){
-        if(completed)
-        {
-            desiredState = ECMState::STATE_ECM_SETUP_MACHINE_COMPLETE;
-        }else{
-            desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
-        }
-    });
+    if(configuration.m_PumpParameters.shouldPumpBeEngaged())
+    {
+
+        Owner().m_Pump->AddLambda_FinishedPumpInitialization(this,[this](const bool &completed){
+            if(completed)
+            {
+                desiredState = ECMState::STATE_ECM_SETUP_MACHINE_COMPLETE;
+            }else{
+                desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
+            }
+        });
+
+//        registers_WestinghousePump::Register_OperationSignal newOps;
+//        newOps.shouldRun(configuration.m_PumpParameters.shouldPumpBeEngaged());
+//        Owner().m_Pump->setPumpProperties(configuration.m_PumpParameters);
+    }
+    else
+    {
+        desiredState = ECMState::STATE_ECM_SETUP_MACHINE_COMPLETE;
+    }
+
 }
 
 } //end of namespace API

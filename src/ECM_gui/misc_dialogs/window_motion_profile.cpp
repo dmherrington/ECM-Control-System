@@ -43,7 +43,7 @@ void Window_MotionProfile::closeEvent(QCloseEvent *event)
 
 void Window_MotionProfile::on_actionOpen_triggered()
 {
-    std::string extensionFilter = "Open TXT Files (*.txt);; Open DMC Files (*.dmc)";
+    std::string extensionFilter = "Open TXT Files (*.txt);; Open DMC Files (*.dmc);; Open JSON Files(*.json)";
 
     QString filePath = GeneralDialogWindow::onOpenAction(extensionFilter);
     if(!filePath.isEmpty() && !filePath.isNull()){
@@ -101,9 +101,20 @@ void Window_MotionProfile::openFromFile(const QString &filePath)
     ui->codeTextEdit->setPlainText(programText);
 }
 
+void Window_MotionProfile::updateStatusLED(const QColor &color)
+{
+    ui->led_ProgramCurrent->setColor(color);
+}
+
 void Window_MotionProfile::on_codeTextEdit_textChanged()
 {
-    ui->led_ProgramCurrent->setColor(QColor(255,0,0));
+    if(ui->lineEdit_motionScriptPath->text().toStdString() != m_MotionController->getCurrentMCProgram().getProgram())
+    {
+        updateStatusLED(QColor(255,0,0));
+    }
+    else{
+        updateStatusLED(QColor(0,255,0));
+    }
 }
 
 void Window_MotionProfile::on_pushButton_UploadProgram_released()
