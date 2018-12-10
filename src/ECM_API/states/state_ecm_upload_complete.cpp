@@ -50,6 +50,7 @@ void ECMState_UploadComplete::OnEnter()
 
 void ECMState_UploadComplete::OnEnter(const ECMCommand_ProfileConfiguration &config)
 {
+    UNUSED(config);
     //First update the configuation per what was received upon entering the state
 }
 

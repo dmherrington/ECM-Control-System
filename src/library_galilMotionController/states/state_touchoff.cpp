@@ -6,7 +6,6 @@ namespace Galil {
 State_Touchoff::State_Touchoff():
     AbstractStateGalil(), touchoffExecuting(false)
 {
-    std::cout<<"In constructor of STATE_TOUCHOFF"<<std::endl;
     this->currentState = GalilState::STATE_TOUCHOFF;
     this->desiredState = GalilState::STATE_TOUCHOFF;
 }
@@ -112,11 +111,6 @@ void State_Touchoff::handleCommand(const AbstractCommandPtr command)
 
 void State_Touchoff::Update()
 {
-
-    double varValue = 0.0;
-    Owner().statusVariableValues->getVariableValue("touchst",varValue);
-    std::cout<<"The current varValue is in the update: " <<std::to_string(varValue) <<std::endl;
-
     //Check the status of the estop state
     bool eStopState = this->checkEStop();
     if(eStopState == true)

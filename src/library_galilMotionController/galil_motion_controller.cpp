@@ -441,7 +441,7 @@ void GalilMotionController::cbi_NewMotionProfileState(const MotionProfileState &
 
 void GalilMotionController::cbi_GalilNewMachineState(const ECM::Galil::GalilState &state)
 {
-    emit signal_MCNewMotionState(state,ECM::Galil::ECMStateToString(state));
+    emit signal_MCNewMotionState(ECM::Galil::ECMStateToString(state));
 }
 
 void GalilMotionController::cbi_GalilUploadProgram(const AbstractCommandPtr command)

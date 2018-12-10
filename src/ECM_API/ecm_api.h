@@ -42,7 +42,9 @@ public:
 
     bool checkLoggingPathValidity(const std::string &partNumber, const std::string &serialNumber) const;
 
-    void initializeECMLogs(const ECMCommand_ExecuteCollection &executionCollection, const bool &clearContents,
+    void writeCurrentOperationSettings(const ECMCommand_ExecuteCollection &executionCollection, const bool &clearContents);
+
+    void initializeECMLogs(const ECMCommand_ExecuteCollection &executionCollection,
                            const std::string &descriptor = "");
 
     void executeMachiningProcess(const ECMCommand_ProfileConfiguration &profileConfig);

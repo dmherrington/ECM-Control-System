@@ -54,7 +54,7 @@ void ECMState_ProfileMachineComplete::OnEnter()
 
 void ECMState_ProfileMachineComplete::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
 {
-
+    this->m_Config = configuration;
 }
 
 } //end of namespace API

@@ -185,7 +185,7 @@ width:20px;
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_4">
            <item>
-            <widget class="QPushButton" name="pushButton_RunExplicitProfile">
+            <widget class="QPushButton" name="pushButton_LoadAutomatedProfile">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -249,7 +249,10 @@ width:20px;
           </layout>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_PartNumber_4">
+          <widget class="QLineEdit" name="lineEdit_ConfigurationPath">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -397,7 +400,7 @@ width:20px;
               <number>0</number>
              </property>
              <item>
-              <widget class="QLabel" name="label_PartNumber_2">
+              <widget class="QLabel" name="label_SerialNumber">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -1471,6 +1474,9 @@ width:20px;
    </property>
   </action>
   <action name="actionPump">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Pump</string>
    </property>

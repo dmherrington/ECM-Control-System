@@ -49,7 +49,7 @@ hsm::Transition ECMState_ProfileMachine::GetTransition()
             }
             else
             {
-                rtn = hsm::SiblingTransition<ECMState_Idle>();
+                rtn = hsm::SiblingTransition<ECMState_ExecutionComplete>(this->m_ECMCollection);
             }
         }
         else
@@ -76,14 +76,14 @@ void ECMState_ProfileMachine::Update()
 
 void ECMState_ProfileMachine::OnEnter()
 {
-
+    std::cout<<"we are in here for some reason"<<std::endl;
 }
 
 void ECMState_ProfileMachine::OnEnter(const ECMCommand_ExecuteCollection &collection)
 {
     //First update the configuation per what was received upon entering the state
     this->m_ECMCollection = collection;
-    this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS;
+    m_ECMCollection.initializeProfileExecution();
 
     /*
      * We need to establish if we should clear the logs. Since this is a recursive process, we require that two conditions
@@ -92,15 +92,18 @@ void ECMState_ProfileMachine::OnEnter(const ECMCommand_ExecuteCollection &collec
      * 2) Require that the operation is the first operation of the collection. This is required that since we can return
      * to this condition from another event, we would then subsequently not want to clear the original logs.
      */
-    bool overwriteContents = false;
     if(m_ECMCollection.shouldOverwriteLogs() && m_ECMCollection.isFirstOperation(m_ECMCollection.getActiveIndex()))
-        overwriteContents = true;
+    {
+        Owner().writeCurrentOperationSettings(m_ECMCollection, true);
+    }
 
     /*
      * When initializing the logs, this process sets up the directory structure and the accompanying header contents.
      * At this time, the collection is also written to the appropriate contents and any necessary loggin setup.
      */
-    Owner().initializeECMLogs(collection,overwriteContents);
+    Owner().initializeECMLogs(m_ECMCollection);
+
+    this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS;
 }
 
 } //end of namespace Galil
@@ -114,3 +117,5 @@ void ECMState_ProfileMachine::OnEnter(const ECMCommand_ExecuteCollection &collec
 #include "states/state_ecm_profile_machine_complete.h"
 #include "states/state_ecm_profile_machine_failed.h"
 #include "states/state_ecm_profile_machine_process.h"
+
+#include "states/state_ecm_execution_complete.h"

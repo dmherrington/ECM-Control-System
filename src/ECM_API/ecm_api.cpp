@@ -50,32 +50,20 @@ bool ECM_API::checkLoggingPathValidity(const string &partNumber, const string &s
     return m_Log->checkLoggingPath(partNumber, serialNumber);
 }
 
-void ECM_API::initializeECMLogs(const ECMCommand_ExecuteCollection &executionCollection,
-                                const bool &clearContents,
-                                const std::string &descriptor)
+void ECM_API::writeCurrentOperationSettings(const ECMCommand_ExecuteCollection &executionCollection, const bool &clearContents)
 {
     //gets the file and directory structure ready for us
     m_Log->initializeLogging(executionCollection.getPartNumber(),
                              executionCollection.getSerialNumber(),
                              clearContents);
 
-    /* This no longer made sense with the new profile configuration
-    if(clearContents) //if its true means we have new stuff to write
-    {
-        std::string loggingPath = m_Log->getLoggingPath();
+    //writes the properties of the configuration to a log file
+    m_Log->writeExecutionCollection(executionCollection);
+}
 
-        //Write the Munk Profile Parameters
-        std::string munkPath = loggingPath + "PowerSupplySettings.json";
-        m_Munk->saveToFile(QString::fromStdString(munkPath));
-
-        std::string galilPath = loggingPath + "MotionControllerSettings.txt";
-        m_Galil->saveProgramAs(galilPath);
-
-        std::string pumpPath = loggingPath + "PumpSettings.json";
-        m_Pump->saveToFile(QString::fromStdString(pumpPath));
-    }
-    */
-
+void ECM_API::initializeECMLogs(const ECMCommand_ExecuteCollection &executionCollection,
+                                const std::string &descriptor)
+{
     std::string operationsString;
     this->writeHeaderBreaker(operationsString, 100);
     operationsString += "PUMP OPERATIONAL SETTTINGS: \n";
@@ -101,7 +89,6 @@ void ECM_API::initializeECMLogs(const ECMCommand_ExecuteCollection &executionCol
     operationsString += m_Galil->stateInterface->galilProgram->getVariableList().getLoggingString();
     operationsString += "\r\n";
 
-    m_Log->writeExecutionCollection(executionCollection);
     ECMCommand_ProfileConfiguration profileConfig = executionCollection.getActiveConfiguration();
     m_Log->writeLoggingHeader(executionCollection.getPartNumber(),executionCollection.getSerialNumber(),profileConfig.getOperationName(),
                               profileConfig.getProfileName(),operationsString,descriptor,
@@ -110,18 +97,25 @@ void ECM_API::initializeECMLogs(const ECMCommand_ExecuteCollection &executionCol
 
 void ECM_API::executeMachiningProcess(const ECMCommand_ProfileConfiguration &profileConfig)
 {
+    //Enable logging of any current machining information that comes through
     m_Log->enableLogging(true);
+
+    //Begin requesting of information from the oscilliscope
+    m_Rigol->executeMeasurementPolling(true);
 
     emit signal_ExecutingProfile(profileConfig.getOperationName(),profileConfig.execProperties.getStartTime());
 
-    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,
-                                                                               profileConfig.getProfileName());
-    m_Galil->executeCommand(command);
+    //CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,
+    //                                                                           profileConfig.getProfileName());
+    //m_Galil->executeCommand(command);
 }
 
 void ECM_API::concludeMachiningProcess(const ECMCommand_ProfileConfiguration &profileConfig)
 {
-    //conclude writing to the logs with any wrap up data that we need
+    //Stop requesting information from the oscilliscope device
+    m_Rigol->executeMeasurementPolling(false);
+
+    //Conclude writing to the logs with any wrap up data that we need
     m_Log->CloseMachiningLog(profileConfig.execProperties.getEndTime(),
                              profileConfig.execProperties.getProfileCode());
 }
@@ -131,7 +125,7 @@ void ECM_API::action_StopMachine()
     CommandStopPtr commandGalilStop = std::make_shared<CommandStop>();
     m_Galil->executeCommand(commandGalilStop);
 
-    m_Pump->ceasePumpOperations();
+    //m_Pump->ceasePumpOperations();
 }
 
 void ECM_API::slot_MotionControllerCommunicationUpdate(const common::comms::CommunicationUpdate &update)

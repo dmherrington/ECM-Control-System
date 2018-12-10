@@ -65,6 +65,7 @@ private slots:
 * Private Slots related to collection execution and initialization
 */
 private slots:
+    void slot_OnLoadedConfiguration(const std::string &filePath);
     void slot_InitializeProfileExecution(const std::string &operationName, const common::EnvironmentTime &startTime);
     void on_ExecuteProfileCollection(const ECMCommand_ExecuteCollection &collection);
 
@@ -130,6 +131,13 @@ private slots:
 
     void on_pushButton_Stop_released();
 
+
+    void on_pushButton_RunAutomatedProfile_released();
+
+    void on_pushButton_LoadAutomatedProfile_released();
+
+private:
+    QString loadFileDialog(const std::string &filePath, const std::string &nameFilter);
 
 protected:
     void readSettings();

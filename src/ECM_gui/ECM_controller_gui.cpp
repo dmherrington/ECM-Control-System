@@ -74,6 +74,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_Galil, SIGNAL(signal_ErrorCommandCode(CommandType,std::string)), this, SLOT(slot_MCCommandError(CommandType,std::string)));
     connect(m_API->m_Galil,SIGNAL(signal_GalilHomeIndicated(bool)),this,SLOT(slot_UpdateHomeIndicated(bool)));
     connect(m_API->m_Galil,SIGNAL(signal_GalilTouchoffIndicated(bool)),this,SLOT(slot_UpdateTouchoff(bool)));
+    connect(m_API->m_Galil, SIGNAL(signal_MCNewMotionState(std::string)), this, SLOT(slot_MCNewMotionState(std::string)));
 
     m_WindowCustomMotionCommands = new Window_CustomMotionCommands(m_API->m_Galil);
     m_WindowCustomMotionCommands->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
@@ -95,6 +96,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_WindowProfileConfiguration = new Window_ProfileConfiguration(m_API);
     m_WindowProfileConfiguration->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
     connect(m_WindowProfileConfiguration, SIGNAL(signal_ExecuteProfileCollection(ECMCommand_ExecuteCollection)), this, SLOT(on_ExecuteProfileCollection(ECMCommand_ExecuteCollection)));
+    connect(m_WindowProfileConfiguration, SIGNAL(signal_LoadMotionProfile(std::string)), this, SLOT(slot_OnLoadedConfiguration(std::string)));
 
     m_WindowMotionControl = new Window_MotionControl(m_API->m_Galil);
     m_WindowMotionControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
@@ -133,28 +135,29 @@ ECMControllerGUI::~ECMControllerGUI()
 void ECMControllerGUI::setupUploadCallbacks()
 {
     m_API->m_Galil->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const GalilCurrentProgram &program){
-        UNUSED(completed);UNUSED(program);
+        UNUSED(completed);UNUSED(program);UNUSED(this);
     });
     m_API->m_Galil->AddLambda_FinishedUploadingVariables(this,[this](const bool success, const ProgramVariableList &variableList){
-        UNUSED(success);UNUSED(variableList);
+        UNUSED(success);UNUSED(variableList);UNUSED(this);
     });
     m_API->m_Galil->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
+       UNUSED(profileState); UNUSED(this);
     });
 
     m_API->m_Munk->AddLambda_FinishedUploadingSegments(this,[this](const bool success, const DeviceInterface_PowerSupply::FINISH_CODE &finishCode){
-        UNUSED(success);UNUSED(finishCode);
+        UNUSED(success);UNUSED(finishCode);UNUSED(this);
     });
 
     m_API->m_Munk->AddLambda_FinishedUploadingPulseMode(this,[this](const bool success, const DeviceInterface_PowerSupply::FINISH_CODE &finishCode){
-        UNUSED(success);UNUSED(finishCode);
+        UNUSED(success);UNUSED(finishCode);UNUSED(this);
     });
 
     m_API->m_Pump->AddLambda_FinishedUploadingParameters(this,[this](const bool success, const DeviceInterface_Pump::FINISH_CODE &finishCode){
-        UNUSED(success);UNUSED(finishCode);
+        UNUSED(success);UNUSED(finishCode);UNUSED(this);
     });
 
     m_API->m_Pump->AddLambda_FinishedPumpInitialization(this,[this](const bool completed){
-        UNUSED(completed);
+        UNUSED(completed);UNUSED(this);
     });
 }
 
@@ -451,7 +454,7 @@ void ECMControllerGUI::MarshalCreateSensorDisplay(const common::TupleSensorStrin
         QMetaObject::invokeMethod(this, "MarshalCreateSensorDisplay", Qt::BlockingQueuedConnection, Q_ARG(const common::TupleSensorString&, sensor), Q_ARG(const common_data::SensorTypes&, type));
         return;
     }
-    if(m_SensorDisplays.CreateSensor(sensor,type) != NULL)
+    if(m_SensorDisplays.CreateSensor(sensor,type) != nullptr)
     {
         //set sensor display frame to created sensor
         if(m_DisplaySensor == true)
@@ -557,6 +560,11 @@ void ECMControllerGUI::slot_ChangedWindowVisibility(const GeneralDialogWindow::D
     }
 }
 
+void ECMControllerGUI::slot_OnLoadedConfiguration(const std::string &filePath)
+{
+
+}
+
 void ECMControllerGUI::slot_InitializeProfileExecution(const std::string &operationName, const common::EnvironmentTime &startTime)
 {
     ui->lineEdit_OperationName->setText(QString::fromStdString(operationName));
@@ -642,12 +650,17 @@ void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ExecuteColle
             return;
     }
 
+    //clear the current runtime items that are contained in the GUI
+    ui->lineEdit_ConfigurationTime->setText(QString::number(0));
+    ui->lineEdit_ProfileTime->setText(QString::number(0));
+
+    //update the execution names per the GUI
     executeCollection.setPartNumber(partNumber.toStdString());
     executeCollection.setSerialNumber(serialNumber.toStdString());
     executeCollection.setOverwriteLogs(clearContents);
 
     ECM::API::AbstractStateECMProcess* currentOuterState = static_cast<ECM::API::AbstractStateECMProcess*>(stateMachine->getCurrentOuterState());
-    currentOuterState->executeCollection(collection);
+    currentOuterState->executeCollection(executeCollection);
     ProgressStateMachineStates();
 }
 
@@ -737,4 +750,55 @@ void ECMControllerGUI::updateMCIndicators(const MotionProfileState &profileState
     default:
         break;
     }
+}
+
+void ECMControllerGUI::on_pushButton_RunAutomatedProfile_released()
+{
+    ECMCommand_ExecuteCollection executeCollection = m_WindowProfileConfiguration->getCurrentCollection();
+    if(executeCollection.getActiveCollectionSize() > 0)
+    {
+        on_ExecuteProfileCollection(executeCollection);
+    }
+}
+
+void ECMControllerGUI::on_pushButton_LoadAutomatedProfile_released()
+{
+    char* ECMPath = getenv("ECM_ROOT");
+    std::string loadPath = "";
+
+    if(ECMPath){
+        std::string rootPath(ECMPath);
+        QDir initialDirectory(QString::fromStdString(rootPath + "/"));
+        initialDirectory.mkpath(QString::fromStdString(rootPath + "/"));
+
+        loadPath = initialDirectory.absolutePath().toStdString() + "/";
+    }
+
+    std::string extensionFilter = "Open JSON Files (*.json)";
+    QString filePath = loadFileDialog(loadPath,extensionFilter);
+
+    if(!filePath.isEmpty() && !filePath.isNull()){
+        ui->lineEdit_ConfigurationPath->setText(filePath);
+        m_WindowProfileConfiguration->openFromFile(filePath);
+    }
+}
+
+QString ECMControllerGUI::loadFileDialog(const std::string &filePath, const std::string &nameFilter)
+{
+    QString fullFilePath = "";
+    QFileDialog fileDialog(this, "Choose profile to open");
+    QDir galilProgramDirectory(QString::fromStdString(filePath));
+    fileDialog.setDirectory(galilProgramDirectory);
+    fileDialog.setFileMode(QFileDialog::AnyFile);
+    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
+//    QString nameFilter = "Open TXT Files (*.";
+//    nameFilter += QString::fromStdString(suffix) + ")";
+    fileDialog.setNameFilter(QString::fromStdString(nameFilter));
+    //fileDialog.setDefaultSuffix(QString::fromStdString(suffix));
+    fileDialog.exec();
+    if(fileDialog.selectedFiles().size() > 0)
+    {
+        fullFilePath = fileDialog.selectedFiles().first();
+    }
+    return fullFilePath;
 }

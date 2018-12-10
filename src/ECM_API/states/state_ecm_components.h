@@ -20,6 +20,7 @@
 #include "ECM_API/states/state_ecm_types.h"
 
 #include "ECM_API/states/state_abstract_ecm_process.h"
+#include "ECM_API/states/state_ecm_execution_complete.h"
 #include "ECM_API/states/state_ecm_idle.h"
 #include "ECM_API/states/state_ecm_motion_profile_initialization.h"
 

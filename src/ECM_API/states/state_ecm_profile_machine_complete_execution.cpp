@@ -69,6 +69,7 @@ void ECMState_ProfileMachineCompleteExecution::OnEnter(const ECMCommand_ProfileC
 
     Owner().action_StopMachine();
 
+    desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE;
 }
 
 

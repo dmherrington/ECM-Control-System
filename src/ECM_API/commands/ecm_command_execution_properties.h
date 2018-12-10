@@ -83,7 +83,6 @@ public:
 
 private:
     bool executed = false;
-    bool completed = false;
     EnvironmentTime m_startTime;
     EnvironmentTime m_endTime;
 

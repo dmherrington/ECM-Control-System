@@ -120,7 +120,7 @@ void ECMState_SetupMachineTouchoff::OnEnter(const ECMCommand_ProfileConfiguratio
         Owner().m_Galil->executeCommand(commandTouchoffExecute);
     }
     else{
-
+        desiredState = ECMState::STATE_ECM_SETUP_MACHINE_PUMP;
     }
 }
 

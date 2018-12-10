@@ -38,6 +38,7 @@ public:
     bool doActiveOperationsRemain();
     void setHomeShouldIndicate(const bool &indicate);
     void setOverwriteLogs(const bool &overwrite);
+    void initializeProfileExecution();
 
 public:
     std::string getPartNumber() const;

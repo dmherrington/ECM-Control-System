@@ -13,7 +13,7 @@ ECMState_ProfileMachineProcess::ECMState_ProfileMachineProcess():
 
 void ECMState_ProfileMachineProcess::OnExit()
 {
-
+    Owner().m_Galil->RemoveHost(this);
 }
 
 AbstractStateECMProcess* ECMState_ProfileMachineProcess::getClone() const
@@ -59,7 +59,7 @@ void ECMState_ProfileMachineProcess::Update()
 
 void ECMState_ProfileMachineProcess::OnEnter()
 {
-
+    desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_ABORT;
 }
 
 void ECMState_ProfileMachineProcess::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
@@ -101,6 +101,9 @@ void ECMState_ProfileMachineProcess::OnEnter(const ECMCommand_ProfileConfigurati
     });
 
     m_Config.execProperties.initializeExecution();
+
+    m_Config.execProperties.setProfileCode(ProfileState_Machining::MACHININGProfileCodes::COMPLETE);
+    desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION;
     Owner().executeMachiningProcess(this->m_Config);
 }
 

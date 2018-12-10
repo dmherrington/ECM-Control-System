@@ -34,8 +34,7 @@ hsm::Transition ECMState_SetupMachine::GetTransition()
     {
         if(IsInInnerState<ECMState_SetupMachineComplete>())
         {
-            std::cout<<"The machine has finished being setup"<<std::endl;
-            //rtn = hsm::SiblingTransition<ECMState_ProfileMachine>();
+            rtn = hsm::SiblingTransition<ECMState_ProfileMachine>(this->m_ECMCollection);
         }
         else if(IsInInnerState<ECMState_SetupMachineFailed>())
         {

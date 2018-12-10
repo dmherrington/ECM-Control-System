@@ -90,22 +90,27 @@ void ECMState_Upload::Update()
 
 void ECMState_Upload::OnEnter()
 {
-
+    //If we entered this state and received nothing, we should assume it is a failure.
+    this->desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
 }
 
 void ECMState_Upload::OnEnter(const ECMCommand_ExecuteCollection &collection)
 {
     //First update the configuation per what was received upon entering the state
-//    this->m_ECMCollection = collection;
-//    if(collection.isFirstOperation(collection.getActiveIndex()))
-//    {
-//        this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE;
-//    }
-//    else{
-//        this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES;
-//    }
     this->m_ECMCollection = collection;
-    this->desiredState = ECMState::STATE_ECM_UPLOAD_COMPLETE;
+
+    /*
+     * We should only transition to the upload motion profile state if the
+     * profile is the first in the queue. Otherwise, we should set the
+     * appropriate variables related to the motion profile.
+     */
+    if(collection.isFirstOperation(collection.getActiveIndex()))
+    {
+        this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE;
+    }
+    else{
+        this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES;
+    }
 }
 
 } //end of namespace API

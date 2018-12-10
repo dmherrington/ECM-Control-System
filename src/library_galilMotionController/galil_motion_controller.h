@@ -207,7 +207,7 @@ signals:
     //! \brief signal_MCNewMotionState signal emitted when the state machine has progressed to a new state
     //! \param state string descriptor describing the state the galil motion controller is in
     //!
-    void signal_MCNewMotionState(const ECM::Galil::GalilState &state, const std::string &stateString) const;
+    void signal_MCNewMotionState(const std::string &stateString) const;
 
     //!
     //! \brief signal_MCNewProgramReceived

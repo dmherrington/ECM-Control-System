@@ -28,7 +28,6 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
         switch (parameters.at(i)->getParameterType()) {
         case registers_Munk::ParameterType::CURRENTSETPOINT_FORWARD:
         {
-            std::cout<<"Uploading current setpoint forward...."<<std::endl;
             if(parameters.at(i)->getFullMessage().size() > 0)
                 validParameter = sendAbstractSetpoint(link,parameters.at(i));
             if(validParameter)
@@ -37,7 +36,6 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
         }
         case registers_Munk::ParameterType::CURRENTSETPOINT_REVERSE:
         {
-            std::cout<<"Uploading current setpoint reverse...."<<std::endl;
             if(parameters.at(i)->getFullMessage().size() > 0)
                 validParameter = sendAbstractSetpoint(link,parameters.at(i));
             if(validParameter)
@@ -46,7 +44,6 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
         }
         case registers_Munk::ParameterType::VOLTAGESETPOINT_FORWARD:
         {
-            std::cout<<"Uploading voltage setpoint forward...."<<std::endl;
             if(parameters.at(i)->getFullMessage().size() > 0)
                 validParameter = sendAbstractSetpoint(link,parameters.at(i));
             if(validParameter)
@@ -55,7 +52,6 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
         }
         case registers_Munk::ParameterType::VOLTAGESETPOINT_REVERSE:
         {
-            std::cout<<"Uploading voltage setpoint reverse...."<<std::endl;
             if(parameters.at(i)->getFullMessage().size() > 0)
                 validParameter = sendAbstractSetpoint(link,parameters.at(i));
             if(validParameter)
@@ -64,7 +60,6 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
         }
         case registers_Munk::ParameterType::PATTERNWRITECOMMAND:
         {
-            std::cout<<"Uploading segment setpoint times...."<<std::endl;
             if(parameters.at(i)->getFullMessage().size() > 0)
                 validParameter = sendAbstractSetpoint(link,parameters.at(i));
             if(validParameter)
@@ -73,7 +68,6 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
         }
         case registers_Munk::ParameterType::MEMORYWRITE:
         {
-            std::cout<<"Uploading commit to memory...."<<std::endl;
             validParameter = sendCommitToEEPROM(link,*parameters.at(i)->as<registers_Munk::ParameterMemoryWrite>());
             if(validParameter)
                 Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentCommittedToMemory(link);});
@@ -86,7 +80,6 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
             break;
     }
     Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentUploadComplete(validParameter, segmentData);});
-    std::cout<<"We have uploaded a complete set of munk parameters."<<std::endl;
 }
 
 bool MunkProtocol::sendAbstractSetpoint(const ILink *link, const registers_Munk::AbstractParameterPtr parameter)

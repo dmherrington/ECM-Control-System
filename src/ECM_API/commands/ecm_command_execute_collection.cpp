@@ -103,6 +103,11 @@ void ECMCommand_ExecuteCollection::setOverwriteLogs(const bool &overwrite)
     this->overwriteContents = overwrite;
 }
 
+void ECMCommand_ExecuteCollection::initializeProfileExecution()
+{
+    this->m_Collection.at(activeIndex).execProperties.initializeExecution();
+}
+
 std::string ECMCommand_ExecuteCollection::getPartNumber() const
 {
     return this->partNumber;

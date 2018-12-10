@@ -68,8 +68,10 @@ void ECMState_UploadPowerRegisterSegments::OnEnter(const ECMCommand_ProfileConfi
     //First update the configuation per what was received upon entering the state
     this->m_Config = config;
 
+    /*
     Owner().m_Munk->AddLambda_FinishedUploadingSegments(this,[this](const bool completed, const DeviceInterface_PowerSupply::FINISH_CODE finishCode){
-            if(completed)
+        UNUSED(finishCode);
+        if(completed)
             {
                 desiredState = ECMState::STATE_ECM_UPLOAD_POWER_PULSE_MODE;
             }else
@@ -79,6 +81,8 @@ void ECMState_UploadPowerRegisterSegments::OnEnter(const ECMCommand_ProfileConfi
     });
 
     Owner().m_Munk->generateAndTransmitMessage(config.m_ConfigPowerSupply.m_MunkSegment);
+    */
+    desiredState = ECMState::STATE_ECM_UPLOAD_POWER_PULSE_MODE;
 }
 
 } //end of namespace Galil

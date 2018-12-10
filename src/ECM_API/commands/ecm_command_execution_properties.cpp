@@ -7,10 +7,10 @@ ECMCommand_ExecutionProperties::ECMCommand_ExecutionProperties()
 
 ECMCommand_ExecutionProperties::ECMCommand_ExecutionProperties(const ECMCommand_ExecutionProperties &copy)
 {
-    this->completed = copy.completed;
     this->executed = copy.executed;
     this->m_endTime = copy.m_endTime;
     this->m_startTime =copy.m_startTime;
+    this->profileCode = copy.profileCode;
 }
 
 void ECMCommand_ExecutionProperties::initializeExecution()
@@ -26,12 +26,12 @@ void ECMCommand_ExecutionProperties::completeExecution()
 
 void ECMCommand_ExecutionProperties::establishStartTime()
 {
-    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,m_startTime);
+    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,this->m_startTime);
 }
 
 void ECMCommand_ExecutionProperties::establishEndTime()
 {
-    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,m_endTime);
+    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,this->m_endTime);
 }
 
 void ECMCommand_ExecutionProperties::setHasProfileExecuted(const bool &executed)

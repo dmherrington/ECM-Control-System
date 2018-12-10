@@ -52,6 +52,19 @@ std::map<unsigned int, ECMCommand_ProfileConfiguration> ECMCommand_ProfileCollec
     return this->m_Collection;
 }
 
+unsigned int ECMCommand_ProfileCollection::getActiveCollectionSize() const
+{
+    unsigned int count = 0;
+    std::map<unsigned int, ECMCommand_ProfileConfiguration>::const_iterator it = m_Collection.begin();
+    for(; it != m_Collection.end(); ++it)
+    {
+        if(it->second.shouldProfileExecute())
+            count++;
+    }
+
+    return count;
+}
+
 unsigned int ECMCommand_ProfileCollection::getCollectionSize() const
 {
     return this->m_Collection.size();

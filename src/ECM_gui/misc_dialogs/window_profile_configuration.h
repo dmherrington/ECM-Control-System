@@ -29,6 +29,9 @@ private:
     void closeEvent(QCloseEvent *event) override;
 
 public:
+
+    ECMCommand_ExecuteCollection getCurrentCollection() const;
+
     void updateConfigurationPath(const std::string &path);
 
     void executingProfileIndex(const unsigned int &index);
@@ -43,6 +46,8 @@ signals:
 
     void signal_LoadMotionProfile(const std::string &filePath);
 
+    void signal_LoadedProfileCollection(const std::string &filePath);
+
     void signal_ExecuteProfileCollection(const ECMCommand_ExecuteCollection &collection);
 
 private slots:
@@ -56,15 +61,14 @@ private slots:
 
     void on_pushButton_OpenMotionScript_released();
 
-    void on_listWidget_customContextMenuRequested(const QPoint &pos);
-
     void on_listWidget_itemClicked(QListWidgetItem *item);
 
     void slot_MCNewProgramLabels(const ProgramLabelList &labels);
 
 private slots:
     void slot_OnExecuteExplicitProfileConfig(const ECMCommand_ProfileConfiguration &config);
-private:
+
+public:
     void saveToFile(const QString &filePath);
 
     void openFromFile(const QString &filePath);

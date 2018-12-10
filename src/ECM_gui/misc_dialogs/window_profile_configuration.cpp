@@ -44,6 +44,30 @@ void Window_ProfileConfiguration::executingProfileIndex(const unsigned int &inde
     }
 }
 
+ECMCommand_ExecuteCollection Window_ProfileConfiguration::getCurrentCollection() const
+{
+
+    ECMCommand_ExecuteCollection executeCollection;
+    for (size_t index = 1; index <= m_MapOperations.size(); index++)
+    {
+        std::map<QListWidgetItem*,TableWidget_OperationDescriptor*>::const_iterator it = m_MapOperations.begin();
+
+        for (; it!=m_MapOperations.end(); ++it)
+        {
+            TableWidget_OperationDescriptor* currentOp = it->second;
+
+            if(currentOp->getOperationIndex() == index)
+            {
+                ECMCommand_ProfileConfiguration operationConfiguration = currentOp->getCurrentProfileConfiguration();
+                executeCollection.insertProfile(operationConfiguration);
+            }
+        }
+    }
+    executeCollection.setHomeShouldIndicate(ui->checkBox_ShouldHomeBeIndicated->isChecked());
+
+    return executeCollection;
+}
+
 void Window_ProfileConfiguration::updateConfigurationPath(const std::string &path)
 {
     ui->lineEdit_ConfugrationPath->setText(QString::fromStdString(path));
@@ -113,7 +137,7 @@ void Window_ProfileConfiguration::slot_MCNewProgramLabels(const ProgramLabelList
 
 void Window_ProfileConfiguration::on_pushButton_AddOperation_released()
 {
-    this->addOperation(ui->tabWidget_OperationParameters->count());
+    this->addOperation(static_cast<unsigned int>(ui->tabWidget_OperationParameters->count()));
 }
 
 void Window_ProfileConfiguration::on_pushButton_RemoveOperation_released()
@@ -176,11 +200,6 @@ void Window_ProfileConfiguration::on_pushButton_OpenMotionScript_released()
         ui->lineEdit_GalilScriptPath->setText(filePath);
         emit signal_LoadMotionProfile(filePath.toStdString());
     }
-}
-
-void Window_ProfileConfiguration::on_listWidget_customContextMenuRequested(const QPoint &pos)
-{
-
 }
 
 void Window_ProfileConfiguration::on_ListWidgetRowMoved()
@@ -291,9 +310,9 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
             //Object will contain all of the profiles used for the profile
             profileCollection.insertProfile(loadConfig);
         }
-
     }
 
+    emit signal_LoadedProfileCollection(filePath.toStdString());
 }
 
 void Window_ProfileConfiguration::on_checkBox_ShouldHomeBeIndicated_toggled(bool checked)

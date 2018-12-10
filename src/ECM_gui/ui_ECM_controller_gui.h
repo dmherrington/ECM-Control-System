@@ -54,9 +54,9 @@ public:
     QGridLayout *gridLayout_7;
     QVBoxLayout *verticalLayout_5;
     QHBoxLayout *horizontalLayout_4;
-    QPushButton *pushButton_RunExplicitProfile;
+    QPushButton *pushButton_LoadAutomatedProfile;
     QPushButton *pushButton_RunAutomatedProfile;
-    QLineEdit *lineEdit_PartNumber_4;
+    QLineEdit *lineEdit_ConfigurationPath;
     QHBoxLayout *horizontalLayout_7;
     QSpacerItem *horizontalSpacer_2;
     QHBoxLayout *horizontalLayout_3;
@@ -64,7 +64,7 @@ public:
     QLabel *label_PartNumber;
     QLineEdit *lineEdit_PartNumber;
     QVBoxLayout *verticalLayout_3;
-    QLabel *label_PartNumber_2;
+    QLabel *label_SerialNumber;
     QLineEdit *lineEdit_SerialNumber;
     QSpacerItem *horizontalSpacer;
     QHBoxLayout *horizontalLayout_6;
@@ -307,16 +307,16 @@ public:
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setSpacing(6);
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
-        pushButton_RunExplicitProfile = new QPushButton(frame_ProfileOptions);
-        pushButton_RunExplicitProfile->setObjectName(QStringLiteral("pushButton_RunExplicitProfile"));
-        sizePolicy1.setHeightForWidth(pushButton_RunExplicitProfile->sizePolicy().hasHeightForWidth());
-        pushButton_RunExplicitProfile->setSizePolicy(sizePolicy1);
-        pushButton_RunExplicitProfile->setMinimumSize(QSize(180, 30));
+        pushButton_LoadAutomatedProfile = new QPushButton(frame_ProfileOptions);
+        pushButton_LoadAutomatedProfile->setObjectName(QStringLiteral("pushButton_LoadAutomatedProfile"));
+        sizePolicy1.setHeightForWidth(pushButton_LoadAutomatedProfile->sizePolicy().hasHeightForWidth());
+        pushButton_LoadAutomatedProfile->setSizePolicy(sizePolicy1);
+        pushButton_LoadAutomatedProfile->setMinimumSize(QSize(180, 30));
         QFont font;
         font.setPointSize(12);
-        pushButton_RunExplicitProfile->setFont(font);
+        pushButton_LoadAutomatedProfile->setFont(font);
 
-        horizontalLayout_4->addWidget(pushButton_RunExplicitProfile);
+        horizontalLayout_4->addWidget(pushButton_LoadAutomatedProfile);
 
         pushButton_RunAutomatedProfile = new QPushButton(frame_ProfileOptions);
         pushButton_RunAutomatedProfile->setObjectName(QStringLiteral("pushButton_RunAutomatedProfile"));
@@ -335,19 +335,19 @@ public:
 
         verticalLayout_5->addLayout(horizontalLayout_4);
 
-        lineEdit_PartNumber_4 = new QLineEdit(frame_ProfileOptions);
-        lineEdit_PartNumber_4->setObjectName(QStringLiteral("lineEdit_PartNumber_4"));
-        sizePolicy1.setHeightForWidth(lineEdit_PartNumber_4->sizePolicy().hasHeightForWidth());
-        lineEdit_PartNumber_4->setSizePolicy(sizePolicy1);
-        lineEdit_PartNumber_4->setMinimumSize(QSize(460, 30));
-        lineEdit_PartNumber_4->setMaximumSize(QSize(400, 30));
+        lineEdit_ConfigurationPath = new QLineEdit(frame_ProfileOptions);
+        lineEdit_ConfigurationPath->setObjectName(QStringLiteral("lineEdit_ConfigurationPath"));
+        sizePolicy1.setHeightForWidth(lineEdit_ConfigurationPath->sizePolicy().hasHeightForWidth());
+        lineEdit_ConfigurationPath->setSizePolicy(sizePolicy1);
+        lineEdit_ConfigurationPath->setMinimumSize(QSize(460, 30));
+        lineEdit_ConfigurationPath->setMaximumSize(QSize(400, 30));
         QFont font2;
         font2.setPointSize(10);
-        lineEdit_PartNumber_4->setFont(font2);
-        lineEdit_PartNumber_4->setAlignment(Qt::AlignCenter);
-        lineEdit_PartNumber_4->setReadOnly(true);
+        lineEdit_ConfigurationPath->setFont(font2);
+        lineEdit_ConfigurationPath->setAlignment(Qt::AlignCenter);
+        lineEdit_ConfigurationPath->setReadOnly(true);
 
-        verticalLayout_5->addWidget(lineEdit_PartNumber_4);
+        verticalLayout_5->addWidget(lineEdit_ConfigurationPath);
 
 
         gridLayout_7->addLayout(verticalLayout_5, 0, 0, 1, 1);
@@ -398,16 +398,16 @@ public:
         verticalLayout_3 = new QVBoxLayout();
         verticalLayout_3->setSpacing(0);
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        label_PartNumber_2 = new QLabel(frame_ProfileOptions);
-        label_PartNumber_2->setObjectName(QStringLiteral("label_PartNumber_2"));
-        sizePolicy1.setHeightForWidth(label_PartNumber_2->sizePolicy().hasHeightForWidth());
-        label_PartNumber_2->setSizePolicy(sizePolicy1);
-        label_PartNumber_2->setMinimumSize(QSize(180, 25));
-        label_PartNumber_2->setMaximumSize(QSize(180, 25));
-        label_PartNumber_2->setFont(font3);
-        label_PartNumber_2->setAlignment(Qt::AlignCenter);
+        label_SerialNumber = new QLabel(frame_ProfileOptions);
+        label_SerialNumber->setObjectName(QStringLiteral("label_SerialNumber"));
+        sizePolicy1.setHeightForWidth(label_SerialNumber->sizePolicy().hasHeightForWidth());
+        label_SerialNumber->setSizePolicy(sizePolicy1);
+        label_SerialNumber->setMinimumSize(QSize(180, 25));
+        label_SerialNumber->setMaximumSize(QSize(180, 25));
+        label_SerialNumber->setFont(font3);
+        label_SerialNumber->setAlignment(Qt::AlignCenter);
 
-        verticalLayout_3->addWidget(label_PartNumber_2);
+        verticalLayout_3->addWidget(label_SerialNumber);
 
         lineEdit_SerialNumber = new QLineEdit(frame_ProfileOptions);
         lineEdit_SerialNumber->setObjectName(QStringLiteral("lineEdit_SerialNumber"));
@@ -864,9 +864,9 @@ public:
         actionMotion_Control->setText(QApplication::translate("ECMControllerGUI", "Motion Control", nullptr));
         actionProfile_Configuration->setText(QApplication::translate("ECMControllerGUI", "Profile Configuration", nullptr));
 #ifndef QT_NO_TOOLTIP
-        pushButton_RunExplicitProfile->setToolTip(QString());
+        pushButton_LoadAutomatedProfile->setToolTip(QString());
 #endif // QT_NO_TOOLTIP
-        pushButton_RunExplicitProfile->setText(QApplication::translate("ECMControllerGUI", "Load Configuration", nullptr));
+        pushButton_LoadAutomatedProfile->setText(QApplication::translate("ECMControllerGUI", "Load Configuration", nullptr));
 #ifndef QT_NO_TOOLTIP
         pushButton_RunAutomatedProfile->setToolTip(QApplication::translate("ECMControllerGUI", "<html><head/><body><p align=\"center\"><span style=\" font-size:10pt;\">Execute a profile while performing appropriate setup checks autonomously.<br/></span></p></body></html>", nullptr));
 #endif // QT_NO_TOOLTIP
@@ -875,12 +875,12 @@ public:
 #endif // QT_NO_WHATSTHIS
         pushButton_RunAutomatedProfile->setText(QApplication::translate("ECMControllerGUI", "Run Configuration", nullptr));
 #ifndef QT_NO_TOOLTIP
-        lineEdit_PartNumber_4->setToolTip(QString());
+        lineEdit_ConfigurationPath->setToolTip(QString());
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_STATUSTIP
-        lineEdit_PartNumber_4->setStatusTip(QString());
+        lineEdit_ConfigurationPath->setStatusTip(QString());
 #endif // QT_NO_STATUSTIP
-        lineEdit_PartNumber_4->setText(QApplication::translate("ECMControllerGUI", "CONFIGURATION PATH", nullptr));
+        lineEdit_ConfigurationPath->setText(QApplication::translate("ECMControllerGUI", "CONFIGURATION PATH", nullptr));
         label_PartNumber->setText(QApplication::translate("ECMControllerGUI", "Part Number:", nullptr));
 #ifndef QT_NO_TOOLTIP
         lineEdit_PartNumber->setToolTip(QString());
@@ -889,7 +889,7 @@ public:
         lineEdit_PartNumber->setStatusTip(QString());
 #endif // QT_NO_STATUSTIP
         lineEdit_PartNumber->setText(QApplication::translate("ECMControllerGUI", "DEFAULT PART #", nullptr));
-        label_PartNumber_2->setText(QApplication::translate("ECMControllerGUI", "Serial Number:", nullptr));
+        label_SerialNumber->setText(QApplication::translate("ECMControllerGUI", "Serial Number:", nullptr));
         lineEdit_SerialNumber->setText(QApplication::translate("ECMControllerGUI", "DEFAULT SERIAL #", nullptr));
         label_OperationName->setText(QApplication::translate("ECMControllerGUI", "Operation Name:", nullptr));
         lineEdit_OperationName->setText(QApplication::translate("ECMControllerGUI", "DEFAULT OPERATION NAME", nullptr));
