@@ -53,7 +53,7 @@ public:
 
     void concludeExecutingCollection(const ECMCommand_ExecuteCollection &executionCollection);
 
-    void concludeMachiningProcess(const ECMCommand_ProfileConfiguration &profileConfig);
+    void concludeExecutingOperation(const ECMCommand_ProfileConfiguration &profileConfig);
 
 private:
     void writeHeaderBreaker(std::string &logString, const unsigned int &size) const;

@@ -33,7 +33,7 @@ EnvironmentTime ExecutionTimeProperties::getEndTime() const
 {
     return this->m_endTime;
 }
-double ExecutionTimeProperties::getElapsedTime()
+double ExecutionTimeProperties::getElapsedTime() const
 {
     uint64_t microseconds = this->m_endTime - this->m_startTime;
     return static_cast<double>(microseconds / (1000.0 * 1000.0));

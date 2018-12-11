@@ -27,7 +27,7 @@ public:
 public:
     EnvironmentTime getStartTime() const;
     EnvironmentTime getEndTime() const;
-    double getElapsedTime();
+    double getElapsedTime() const;
 
 public:
     //!

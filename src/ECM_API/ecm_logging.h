@@ -74,8 +74,9 @@ public:
 
     void SetSensorLogFile(const common::TupleSensorString &key);
 
+    void WriteConcludingOperationStats(const double &duration, const ProfileState_Machining::MACHININGProfileCodes &completionCode);
 
-    void CloseMachiningLog(const common::EnvironmentTime &time, const ProfileState_Machining::MACHININGProfileCodes &completionCode);
+    void CloseMachiningLog(const double &duration);
 
 private:
     void WriteLogSoftwareVersions(QTextStream &stringWriter);

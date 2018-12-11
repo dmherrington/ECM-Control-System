@@ -113,13 +113,13 @@ void ECM_API::executeOperationalProfile(const ECMCommand_ProfileConfiguration &p
     //m_Galil->executeCommand(command);
 }
 
-void ECM_API::concludeMachiningProcess(const ECMCommand_ProfileConfiguration &profileConfig)
+void ECM_API::concludeExecutingOperation(const ECMCommand_ProfileConfiguration &profileConfig)
 {
     //Stop requesting information from the oscilliscope device
     m_Rigol->executeMeasurementPolling(false);
 
     //Conclude writing to the logs with any wrap up data that we need
-    m_Log->CloseMachiningLog(profileConfig.execProperties.getEndTime(),
+    m_Log->WriteConcludingOperationStats(profileConfig.execProperties.getElapsedTime(),
                              profileConfig.execProperties.getProfileCode());
 
     //Assemble a message to notify any listeners that we are finished executing an operation
@@ -134,6 +134,9 @@ void ECM_API::concludeMachiningProcess(const ECMCommand_ProfileConfiguration &pr
 
 void ECM_API::concludeExecutingCollection(const ECMCommand_ExecuteCollection &executionCollection)
 {
+    //During this process is where we should close the logs and everything associated with the operation
+    m_Log->CloseMachiningLog(executionCollection.getElapsedTime());
+
     //Assemble a message to notify any listeners that we are finished executing an operation
     ExecutionProperties props;
     props.setOperatingCondition(ExecutionProperties::ExecutionCondition::ENDING);

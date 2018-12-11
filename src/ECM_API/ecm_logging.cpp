@@ -237,21 +237,37 @@ void ECMLogging::SetSensorLogFile(const common::TupleSensorString &key)
     m_LogSensorStates[key] = outFile;
 }
 
+void ECMLogging::WriteConcludingOperationStats(const double &duration, const ProfileState_Machining::MACHININGProfileCodes &completionCode)
+{
+    if(!isComponentLogging())
+        return;
 
-void ECMLogging::CloseMachiningLog(const common::EnvironmentTime &time, const ProfileState_Machining::MACHININGProfileCodes &completionCode)
+    QString str;
+    QTextStream stringWriter(&str, QIODevice::WriteOnly);
+
+    stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
+    stringWriter<<QString::fromStdString(ProfileState_Machining::MACHININGCodesToString(completionCode)) << "\n";
+    stringWriter<<"Elapsed Seconds: " << QString::number(duration);
+    stringWriter << "\n";
+    stringWriter.flush();
+
+    QTextStream out(masterLog);
+    out << str;
+}
+
+void ECMLogging::CloseMachiningLog(const double &duration)
 {
     if(!isComponentLogging())
         return;
 
     this->enableLogging(false);
 
-    unsigned int operationalTime = (time - this->startLogTime) / (1000 * 1000);
     QString str;
     QTextStream stringWriter(&str, QIODevice::WriteOnly);
 
     stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
-    stringWriter<<QString::fromStdString(ProfileState_Machining::MACHININGCodesToString(completionCode)) << "\n";
-    stringWriter<<"Elapsed Seconds: " << QString::number(operationalTime);
+    //stringWriter<<QString::fromStdString(ProfileState_Machining::MACHININGCodesToString(completionCode)) << "\n";
+    stringWriter<<"Collection Elapsed Time: " << QString::number(duration);
     stringWriter << "\n";
     stringWriter.flush();
 

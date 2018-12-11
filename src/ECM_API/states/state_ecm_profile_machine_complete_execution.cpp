@@ -65,7 +65,7 @@ void ECMState_ProfileMachineCompleteExecution::OnEnter(const ECMCommand_ProfileC
 {
     this->m_Config = configuration;
     m_Config.execProperties.completeExecution();
-    Owner().concludeMachiningProcess(m_Config);
+    Owner().concludeExecutingOperation(m_Config);
 
     Owner().action_StopMachine();
 

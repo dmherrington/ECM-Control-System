@@ -96,6 +96,10 @@ void ECMState_ProfileMachine::OnEnter(const ECMCommand_ExecuteCollection &collec
     {
         Owner().initializeOperationalCollection(m_ECMCollection, true);
     }
+    else if(m_ECMCollection.isFirstOperation(m_ECMCollection.getActiveIndex()))
+    {
+        Owner().initializeOperationalCollection(m_ECMCollection, false);
+    }
 
     /*
      * When initializing the logs, this process sets up the directory structure and the accompanying header contents.
