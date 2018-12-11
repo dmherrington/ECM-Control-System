@@ -101,7 +101,7 @@ void TableWidget_OperationDescriptor::loadFromProfileConfiguration(const ECMComm
     this->m_OperationParameters->m_MCTouchoff->loadFromTouchoffConfig(config.m_Touchoff);
     this->m_OperationParameters->m_PumpControl->loadFromPumpProperties(config.m_PumpParameters);
     this->m_OperationParameters->m_PowerSupply->loadFromConfig(config.m_ConfigPowerSupply);
-    this->m_OperationParameters->m_ScriptingVariables->loadFromCurrentProgram(config.m_GalilOperation);
+    this->m_OperationParameters->m_ScriptingVariables->loadFromCurrentProgram(config.m_GalilOperation, config.getProfileName());
 }
 
 void TableWidget_OperationDescriptor::on_pushButton_ExecuteExplicitOp_released()

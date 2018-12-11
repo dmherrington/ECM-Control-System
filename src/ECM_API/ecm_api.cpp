@@ -55,7 +55,7 @@ void ECM_API::initializeOperationalCollection(const ECMCommand_ExecuteCollection
     ExecutionProperties props;
     props.setTime(executionCollection.getStartTime());
     props.setMaxIndex(executionCollection.getCollectionSize());
-    emit signal_ExecutingConfiguration(props);
+    emit signal_ExecutingCollection(props);
 
 }
 
@@ -121,6 +121,26 @@ void ECM_API::concludeMachiningProcess(const ECMCommand_ProfileConfiguration &pr
     //Conclude writing to the logs with any wrap up data that we need
     m_Log->CloseMachiningLog(profileConfig.execProperties.getEndTime(),
                              profileConfig.execProperties.getProfileCode());
+
+    //Assemble a message to notify any listeners that we are finished executing an operation
+    ExecuteOperationProperties props(profileConfig.getOperationName(), profileConfig.getOperationIndex());
+    props.setOperatingCondition(ExecutionProperties::ExecutionCondition::ENDING);
+    props.setTime(profileConfig.execProperties.getEndTime());
+
+    //Emit the signal notifying the listeners of a completed operational profile
+    emit signal_ExecutingOperation(props);
+
+}
+
+void ECM_API::concludeExecutingCollection(const ECMCommand_ExecuteCollection &executionCollection)
+{
+    //Assemble a message to notify any listeners that we are finished executing an operation
+    ExecutionProperties props;
+    props.setOperatingCondition(ExecutionProperties::ExecutionCondition::ENDING);
+    props.setTime(executionCollection.getEndTime());
+
+    //Emit the signal notifying the listeners of a completed operational profile
+    emit signal_ExecutingCollection(props);
 }
 
 void ECM_API::action_StopMachine()

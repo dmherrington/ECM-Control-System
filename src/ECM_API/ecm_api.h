@@ -51,6 +51,8 @@ public:
 
     void executeOperationalProfile(const ECMCommand_ProfileConfiguration &profileConfig);
 
+    void concludeExecutingCollection(const ECMCommand_ExecuteCollection &executionCollection);
+
     void concludeMachiningProcess(const ECMCommand_ProfileConfiguration &profileConfig);
 
 private:
@@ -59,7 +61,7 @@ private:
     std::map<std::string, std::string> getSoftwareVersions() const;
 
 signals:
-    void signal_ExecutingConfiguration(const ExecutionProperties &props);
+    void signal_ExecutingCollection(const ExecutionProperties &props);
     void signal_ExecutingOperation(const ExecuteOperationProperties &props);
 
 public:

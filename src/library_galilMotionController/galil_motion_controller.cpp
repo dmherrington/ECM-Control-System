@@ -322,7 +322,6 @@ void GalilMotionController::NewStatusMotorStopCode(const Status_StopCode &status
 {
     if(stateInterface->getAxisStatus(status.getAxis())->stopCode.set(status))
     {
-        std::cout<<"I have seen a new status motor stop code and the value is: "<<status.getCode()<<std::endl;
         ProgressStateMachineStates();
     }
 }
@@ -435,13 +434,13 @@ void GalilMotionController::cbi_GalilTouchoffIndicated(const bool &indicated)
 void GalilMotionController::cbi_NewMotionProfileState(const MotionProfileState &state)
 {
     ProgressStateMachineStates();
-    this->onNewMotionProfileState(state);
     emit signal_GalilUpdatedProfileState(state);
+    this->onNewMotionProfileState(state);
 }
 
 void GalilMotionController::cbi_GalilNewMachineState(const ECM::Galil::GalilState &state)
 {
-    emit signal_MCNewMotionState(ECM::Galil::ECMStateToString(state));
+    emit signal_MCNewMotionState(QString::fromStdString(ECM::Galil::ECMStateToString(state)));
 }
 
 void GalilMotionController::cbi_GalilUploadProgram(const AbstractCommandPtr command)

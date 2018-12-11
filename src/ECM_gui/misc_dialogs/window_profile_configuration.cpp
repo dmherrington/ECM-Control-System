@@ -78,6 +78,11 @@ void Window_ProfileConfiguration::updateConfigurationPath(const std::string &pat
     ui->lineEdit_ConfugrationPath->setText(QString::fromStdString(path));
 }
 
+void Window_ProfileConfiguration::updateGalilPath(const std::string &path)
+{
+    ui->lineEdit_GalilScriptPath->setText(QString::fromStdString(path));
+}
+
 TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const unsigned int &index, const std::string &operationName)
 {
     Widget_ProfileParameters* operationParameters = new Widget_ProfileParameters(m_API);
@@ -204,7 +209,6 @@ void Window_ProfileConfiguration::on_pushButton_OpenMotionScript_released()
 
     if(!filePath.isEmpty() && !filePath.isNull()){
         ui->lineEdit_GalilScriptPath->setText(filePath);
-        emit signal_LoadMotionProfile(filePath.toStdString());
     }
 }
 
@@ -290,6 +294,7 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
      if (!loadFile.open(QIODevice::ReadOnly)) return;
 
     this->updateConfigurationPath(filePath.toStdString());
+    this->updateGalilPath(filePath.toStdString());
 
     clearExistingOperations();
 
@@ -324,7 +329,7 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
             profileCollection.insertProfile(loadConfig);
         }
     }
-    emit signal_LoadedProfileCollection(filePath.toStdString());
+    emit signal_LoadedConfigurationCollection(filePath.toStdString());
 }
 
 void Window_ProfileConfiguration::setIndicateHome(const bool &checked)

@@ -35,6 +35,8 @@ public:
 
     void updateConfigurationPath(const std::string &path);
 
+    void updateGalilPath(const std::string &path);
+
     void executingProfileIndex(const unsigned int &index);
 
 private:
@@ -45,9 +47,7 @@ private:
 signals:
     void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility) override;
 
-    void signal_LoadMotionProfile(const std::string &filePath);
-
-    void signal_LoadedProfileCollection(const std::string &filePath);
+    void signal_LoadedConfigurationCollection(const std::string &filePath);
 
     void signal_ExecuteProfileCollection(const ECMCommand_ExecuteCollection &collection);
 

@@ -66,7 +66,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_API = new ECM_API();
     m_API->m_Log->setLoggingStartTime(startTime);
 
-    connect(m_API, SIGNAL(signal_ExecutingConfiguration(ExecutionProperties)),
+    connect(m_API, SIGNAL(signal_ExecutingCollection(ExecutionProperties)),
             this, SLOT(slot_ExecutingConfiguration(ExecutionProperties)));
 
     connect(m_API, SIGNAL(signal_ExecutingOperation(ExecuteOperationProperties)),
@@ -79,10 +79,6 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     //API Connections
     connect(m_API->m_Rigol, SIGNAL(signal_RigolPlottable(common::TupleSensorString,bool)), this, SLOT(slot_NewlyAvailableRigolData(common::TupleSensorString,bool)));
     connect(m_API->m_Rigol, SIGNAL(signal_RigolNewSensorValue(common::TupleSensorString,common_data::SensorState)), this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
-    connect(m_API, SIGNAL(signal_MCNewMotionState(std::string)), this, SLOT(slot_MCNewMotionState(std::string)));
-    //Updates required per API
-    this->slot_MCNewMotionState(m_API->m_Galil->getCurrentMCState());
-    slot_MCNewDigitalInput(m_API->m_Galil->getCurrent_MCDIO());
 
     //Galil Connections
     connect(m_API->m_Galil, SIGNAL(signal_MCNewDigitalInput(StatusInputs)), this, SLOT(slot_MCNewDigitalInput(StatusInputs)));
@@ -91,7 +87,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_Galil, SIGNAL(signal_ErrorCommandCode(CommandType,std::string)), this, SLOT(slot_MCCommandError(CommandType,std::string)));
     connect(m_API->m_Galil,SIGNAL(signal_GalilHomeIndicated(bool)),this,SLOT(slot_UpdateHomeIndicated(bool)));
     connect(m_API->m_Galil,SIGNAL(signal_GalilTouchoffIndicated(bool)),this,SLOT(slot_UpdateTouchoff(bool)));
-    connect(m_API->m_Galil, SIGNAL(signal_MCNewMotionState(std::string)), this, SLOT(slot_MCNewMotionState(std::string)));
+    connect(m_API->m_Galil, SIGNAL(signal_MCNewMotionState(QString)), this, SLOT(slot_MCNewMotionState(QString)));
 
     m_WindowCustomMotionCommands = new Window_CustomMotionCommands(m_API->m_Galil);
     m_WindowCustomMotionCommands->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
@@ -109,7 +105,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_WindowProfileConfiguration = new Window_ProfileConfiguration(m_API);
     m_WindowProfileConfiguration->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
     connect(m_WindowProfileConfiguration, SIGNAL(signal_ExecuteProfileCollection(ECMCommand_ExecuteCollection)), this, SLOT(on_ExecuteProfileCollection(ECMCommand_ExecuteCollection)));
-    connect(m_WindowProfileConfiguration, SIGNAL(signal_LoadMotionProfile(std::string)), this, SLOT(slot_OnLoadedConfiguration(std::string)));
+    connect(m_WindowProfileConfiguration, SIGNAL(signal_LoadedConfigurationCollection(std::string)), this, SLOT(slot_OnLoadedConfigurationCollection(std::string)));
 
     m_WindowMotionControl = new Window_MotionControl(m_API->m_Galil);
     m_WindowMotionControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
@@ -306,9 +302,9 @@ void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalStrin
     ProgressStateMachineStates();
 }
 
-void ECMControllerGUI::slot_MCNewMotionState(const std::string &state)
+void ECMControllerGUI::slot_MCNewMotionState(const QString &state)
 {
-    ui->lineEdit_GalilState->setText("State: " + QString::fromStdString(state));
+    ui->lineEdit_GalilState->setText("State: " + state);
 }
 
 void ECMControllerGUI::slot_MCNewDigitalInput(const StatusInputs &status)
@@ -559,9 +555,9 @@ void ECMControllerGUI::slot_ChangedWindowVisibility(const GeneralDialogWindow::D
     }
 }
 
-void ECMControllerGUI::slot_OnLoadedConfiguration(const std::string &filePath)
+void ECMControllerGUI::slot_OnLoadedConfigurationCollection(const std::string &filePath)
 {
-
+    ui->lineEdit_ConfigurationPath->setText(QString::fromStdString(filePath));
 }
 
 void ECMControllerGUI::slot_ExecutingConfiguration(const ExecutionProperties &props)
@@ -583,6 +579,7 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
     if(props.getOperatingCondition() == ExecutionProperties::ExecutionCondition::BEGINNING)
     {
         ui->lineEdit_OperationName->setText(QString::fromStdString(props.getOperationName()));
+        ui->lineEdit_OperationIndex->setText(QString::number(props.getCurrentIndex()));
 
         m_WindowProfileConfiguration->executingProfileIndex(props.getCurrentIndex());
 
@@ -600,7 +597,7 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
         m_additionalSensorDisplay->SetOriginTime(QDateTime(tmp_Date, tmp_Time));
 
         this->configurationStart = startTime;
-        ui->lineEdit_ConfigurationTime->setText(QString::number(0));
+        ui->lineEdit_OperationTime->setText(QString::number(0));
 
         elapsedOperationTimer->start();
     }

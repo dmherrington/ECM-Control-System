@@ -65,7 +65,7 @@ private slots:
 * Private Slots related to collection execution and initialization
 */
 private slots:
-    void slot_OnLoadedConfiguration(const std::string &filePath);
+    void slot_OnLoadedConfigurationCollection(const std::string &filePath);
 
     void slot_ExecutingOperation(const ExecuteOperationProperties &props);
     void slot_ExecutingConfiguration(const ExecutionProperties &props);
@@ -84,7 +84,7 @@ private slots:
 * Private Slots related to the motion controller
 */
 private slots:
-    void slot_MCNewMotionState(const std::string &state);
+    void slot_MCNewMotionState(const QString &state);
 
     void slot_MCNewDigitalInput(const StatusInputs &status);
 

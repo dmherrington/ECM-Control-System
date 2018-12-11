@@ -52,6 +52,8 @@ void ECMState_ExecutionComplete::Update()
 
 void ECMState_ExecutionComplete::OnEnter()
 {
+    Owner().concludeExecutingCollection(this->m_ECMCollection);
+
     this->desiredState = ECMState::STATE_ECM_IDLE;
 }
 

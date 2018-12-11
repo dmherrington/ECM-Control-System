@@ -45,8 +45,6 @@ public:
 public:
     void setAssociatedMotionScript(const std::string &script);
 
-    std::string getAssociatedMotionScript() const;
-
 public:
     //!
     //! \brief operator =

@@ -79,8 +79,3 @@ void ECMCommand_ProfileCollection::setAssociatedMotionScript(const std::string &
         currentConfig.m_GalilOperation.setProgram(script);
     }
 }
-
-std::string ECMCommand_ProfileCollection::getAssociatedMotionScript() const
-{
-    return this->motionScript;
-}

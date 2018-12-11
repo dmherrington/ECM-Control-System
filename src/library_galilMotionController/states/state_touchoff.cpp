@@ -223,6 +223,7 @@ void State_Touchoff::stateSetup()
         default:
             //there is a case condition that does not follow the flow chart
             std::cout<<"There is another value condition not considered here."<<std::endl;
+            desiredState = GalilState::STATE_MOTION_STOP;
             break;
         } //end of switch statement
     });

@@ -93,8 +93,7 @@ void ECMCommand_ExecuteCollection::setHomeShouldIndicate(const bool &indicate)
     std::map<unsigned int, ECMCommand_ProfileConfiguration>::iterator it = m_Collection.begin();
     for (; it!=m_Collection.end(); ++it)
     {
-        ECMCommand_ProfileConfiguration currentConfig = it->second;
-        currentConfig.setIndicateHomeAutomatically(indicate);
+        it->second.setIndicateHomeAutomatically(indicate);
     }
 }
 
