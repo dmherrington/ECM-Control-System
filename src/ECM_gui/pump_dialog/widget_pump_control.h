@@ -52,8 +52,6 @@ private slots:
 
 private slots:
 
-    void on_pushButton_PumpRunning_released();
-
     void on_doubleSpinBox_flowRate_valueChanged(double arg1);
 
     void on_doubleSpinBox_delayTime_valueChanged(double arg1);

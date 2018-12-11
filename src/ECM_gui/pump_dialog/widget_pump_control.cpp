@@ -68,26 +68,18 @@ void Widget_PumpControl::slot_updatedDelayTime(const double &value)
     //ui->statusbar->showMessage(tr("Delay time has been updated."),2500);
 }
 
-void Widget_PumpControl::on_pushButton_PumpRunning_released()
-{
-    bool run = !m_Pump->m_State->pumpON.get();
-    registers_WestinghousePump::Register_OperationSignal newOps;
-    newOps.shouldRun(run);
-    m_Pump->setPumpOperations(newOps);
-}
-
 void Widget_PumpControl::on_doubleSpinBox_flowRate_valueChanged(double arg1)
 {
     //ui->doubleSpinBox_flowRate->setStyleSheet("background-color: red");
-    registers_WestinghousePump::Register_FlowRate newFlowRate;
-    newFlowRate.setVolumetricFlow(arg1);
-    m_Pump->setPumpFlowRate(newFlowRate);
+//    registers_WestinghousePump::Register_FlowRate newFlowRate;
+//    newFlowRate.setVolumetricFlow(arg1);
+//    m_Pump->setPumpFlowRate(newFlowRate);
 }
 
 void Widget_PumpControl::on_doubleSpinBox_delayTime_valueChanged(double arg1)
 {
-    unsigned int initializationTime = arg1 * 1000;
-    m_Pump->setInitializationTime(initializationTime);
+//    unsigned int initializationTime = arg1 * 1000;
+//    m_Pump->setInitializationTime(initializationTime);
 }
 
 void Widget_PumpControl::writeToJSON(QJsonObject &saveObject)

@@ -10,19 +10,19 @@ Window_PumpControl::Window_PumpControl(Westinghouse510* obj, QWidget *parent) :
     ui->widget_PumpInitialized->setDiameter(6);
     ui->widget_PumpRunning->setDiameter(6);
 
-    this->m_Pump->m_State->flowRate.AddNotifier(this,[this]
-    {
-        this->slot_updatedFlowRate(m_Pump->m_State->flowRate.get());
-    });
+//    this->m_Pump->m_State->flowRate.AddNotifier(this,[this]
+//    {
+//        this->slot_updatedFlowRate(m_Pump->m_State->flowRate.get());
+//    });
 
-    this->m_Pump->m_State->pumpON.AddNotifier(this,[this]
-    {
-        this->slot_updatedPumpOn(m_Pump->m_State->pumpON.get());
-    });
+//    this->m_Pump->m_State->pumpON.AddNotifier(this,[this]
+//    {
+//        this->slot_updatedPumpOn(m_Pump->m_State->pumpON.get());
+//    });
 
-    GeneralDialogWindow::readWindowSettings();
+    //GeneralDialogWindow::readWindowSettings();
 
-    openFromFile(GeneralDialogWindow::getPreviousSettingsPath());
+    //openFromFile(GeneralDialogWindow::getPreviousSettingsPath());
 }
 
 Window_PumpControl::~Window_PumpControl()
