@@ -32,7 +32,6 @@ public:
     void setTouchoffUtilization(const bool &execute);
 
 private slots:
-    void on_pushButton_ExecuteTouchoff_released();
 
     void on_pushButton_TouchoffRef_released();
 
@@ -41,9 +40,6 @@ private slots:
     void on_doubleSpinBox_InitialGap_valueChanged(double arg1);
 
     void on_checkBox_ReferenceOldPosition_toggled(bool val);
-
-private slots:
-    void slot_UpdateMotionProfileState(const MotionProfileState &state);
 
 private:
     Ui::Widget_Touchoff *ui;

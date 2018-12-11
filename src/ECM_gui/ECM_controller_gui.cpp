@@ -111,6 +111,14 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_WindowMotionControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
     connect(m_WindowMotionControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
+    m_WindowPumpControl = new Window_PumpControl(m_API->m_Pump);
+    m_WindowPumpControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
+    connect(m_WindowPumpControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
+
+    m_WindowTouchoffControl = new Window_Touchoff(m_API->m_Galil);
+    m_WindowTouchoffControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
+    connect(m_WindowTouchoffControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
+
     std::vector<common::TupleECMData> plottables = m_API->m_Galil->getPlottables();
     for(unsigned int i = 0; i < plottables.size(); i++)
     {
@@ -317,26 +325,43 @@ void ECMControllerGUI::slot_MCNewDigitalInput(const StatusInputs &status)
 
 void ECMControllerGUI::readSettings()
 {
-    QSettings settings("Trolltech", "Application Example");
+    QSettings settings("ECMController", "Machine Automation");
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
     QSize size = settings.value("size", QSize(400, 400)).toSize();
 
-    bool sensorHidden = settings.value("sensorDisplayed", false).toBool();
-    bool rigolHidden = settings.value("rigolDisplayed", false).toBool();
-    bool customMotionCommands = settings.value("customMotionDisplayed", false).toBool();
-    bool profileConfiguration = settings.value("profileConfiguration", false).toBool();
+    bool sensorDisplayHidden = settings.value("sensorDisplayed", false).toBool();
 
-    if(!sensorHidden)
+    bool motionControlDisplayHidden = settings.value("motionControlDisplayed", false).toBool();
+    bool touchoffControlDisplayHidden = settings.value("touchoffControlDisplayed", false).toBool();
+    bool pumpControlDisplayHidden = settings.value("pumpControlDisplayed", false).toBool();
+    bool profileConfigurationDisplayHidden = settings.value("profileConfigurationDisplayed", false).toBool();
+    bool rigolControlDisplayHidden = settings.value("rigolControlDisplayed", false).toBool();
+    bool connectionDisplayHidden = settings.value("connectionsDisplayed", false).toBool();
+    bool customMotionControlDisplayHidden = settings.value("customMotionDisplayed", false).toBool();
+
+    if(!sensorDisplayHidden)
         m_additionalSensorDisplay->show();
 
-    if(!rigolHidden)
-        m_WindowRigol->show();
+    if(!motionControlDisplayHidden)
+        m_WindowMotionControl->show();
 
-    if(!customMotionCommands)
+    if(!touchoffControlDisplayHidden)
+        m_WindowTouchoffControl->show();
+
+    if(!pumpControlDisplayHidden)
+        m_WindowPumpControl->show();
+
+    if(!profileConfigurationDisplayHidden)
         m_WindowCustomMotionCommands->show();
 
-    if(!profileConfiguration)
-        m_WindowProfileConfiguration->show();
+    if(!rigolControlDisplayHidden)
+        m_WindowRigol->show();
+
+    if(!connectionDisplayHidden)
+        m_WindowConnections->show();
+
+    if(!customMotionControlDisplayHidden)
+        m_WindowCustomMotionCommands->show();
 
     resize(size);
     move(pos);
@@ -346,20 +371,28 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
 {
     if(!m_API->m_Galil->stateInterface->isMotorEnabled())
     {
-        QSettings settings("Trolltech", "Application Example");
+        QSettings settings("ECMController", "Machine Automation");
         settings.setValue("pos", pos());
         settings.setValue("size", size());
 
         settings.setValue("sensorDisplayed",m_additionalSensorDisplay->isWindowHidden());
-        settings.setValue("rigolDisplayed",m_WindowRigol->isWindowHidden());
+
+        settings.setValue("motionControlDisplayed",m_WindowMotionControl->isWindowHidden());
+        settings.setValue("touchoffControlDisplayed",m_WindowTouchoffControl->isWindowHidden());
+        settings.setValue("pumpControlDisplayed",m_WindowPumpControl->isWindowHidden());
+        settings.setValue("profileConfigurationDisplayed",m_WindowCustomMotionCommands->isWindowHidden());
+        settings.setValue("rigolControlDisplayed",m_WindowRigol->isWindowHidden());
+        settings.setValue("connectionsDisplayed",m_WindowConnections->isWindowHidden());
         settings.setValue("customMotionDisplayed",m_WindowCustomMotionCommands->isWindowHidden());
-        settings.setValue("profileConfiguration",m_WindowCustomMotionCommands->isWindowHidden());
 
         m_additionalSensorDisplay->close();
-        m_WindowRigol->close();
+        m_WindowMotionControl->close();
+        m_WindowTouchoffControl->close();
+        m_WindowPumpControl->close();
         m_WindowCustomMotionCommands->close();
+        m_WindowRigol->close();
         m_WindowConnections->close();
-        m_WindowProfileConfiguration->close();
+        m_WindowCustomMotionCommands->close();
 
         event->accept();
     }
@@ -479,6 +512,22 @@ void ECMControllerGUI::MarshalCreateSensorDisplay(const common::TupleSensorStrin
     m_CreatedSensors.insert(sensor, true);
 }
 
+void ECMControllerGUI::on_actionPump_Window_triggered(bool checked)
+{
+    if(checked)
+        m_WindowPumpControl->show();
+    else
+        m_WindowPumpControl->hide();
+}
+
+void ECMControllerGUI::on_actionTouchoff_Window_triggered(bool checked)
+{
+    if(checked)
+        m_WindowTouchoffControl->show();
+    else
+        m_WindowTouchoffControl->hide();
+}
+
 void ECMControllerGUI::on_actionProfile_Configuration_triggered(bool checked)
 {
     if(checked)
@@ -530,11 +579,20 @@ void ECMControllerGUI::on_actionOpen_Sensors_Window_triggered(bool checked)
 void ECMControllerGUI::slot_ChangedWindowVisibility(const GeneralDialogWindow::DialogWindowTypes &type, const bool visibility)
 {
     switch (type) {
+    case GeneralDialogWindow::DialogWindowTypes::WINDOW_SENSOR_DISPLAY:
+        ui->actionOpen_Sensors_Window->setChecked(visibility);
+        break;
     case GeneralDialogWindow::DialogWindowTypes::WINDOW_CONNECTIONS:
         ui->actionConnections->setChecked(visibility);
         break;
+    case GeneralDialogWindow::DialogWindowTypes::WINDOW_PUMP:
+        ui->actionPump_Window->setChecked(visibility);
+        break;
     case GeneralDialogWindow::DialogWindowTypes::WINDOW_OSCILLISCOPE:
         ui->actionOscilliscope->setChecked(visibility);
+        break;
+    case GeneralDialogWindow::DialogWindowTypes::WINDOW_TOUCHOFF:
+        ui->actionTouchoff_Window->setChecked(visibility);
         break;
     case GeneralDialogWindow::DialogWindowTypes::WINDOW_MOTION_PROFILE:
         ui->actionMotion_Profile->setChecked(visibility);
@@ -542,13 +600,12 @@ void ECMControllerGUI::slot_ChangedWindowVisibility(const GeneralDialogWindow::D
     case GeneralDialogWindow::DialogWindowTypes::WINDOW_CUSTOM_MOTION_COMMANDS:
         ui->actionCustom_Motion_Commands->setChecked(visibility);
         break;
-    case GeneralDialogWindow::DialogWindowTypes::WINDOW_SENSOR_DISPLAY:
-        ui->actionOpen_Sensors_Window->setChecked(visibility);
-        break;
-    case GeneralDialogWindow::DialogWindowTypes::WINDOW_TOUCHOFF:
-        ui->actionTouchoff->setChecked(visibility);
     case GeneralDialogWindow::DialogWindowTypes::WINDOW_MOTION_CONTROL:
         ui->actionMotion_Control->setChecked(visibility);
+        break;
+    case GeneralDialogWindow::DialogWindowTypes::WINDOW_OPERATION_CONFIGURATION:
+        ui->actionProfile_Configuration->setChecked(visibility);
+        break;
     default:
         std::cout<<"On slot_ChangedWindowVisibility called with unrecognized dialog window type."<<std::endl;
         break;

@@ -73,7 +73,9 @@ SOURCES += \
     LED.cpp \
     main.cpp \
     plot_central.cpp \
-    galil_dialog/window_motion_control.cpp
+    galil_dialog/window_motion_control.cpp \
+    pump_dialog/window_pump_control.cpp \
+    galil_dialog/window_touchoff.cpp
 
 HEADERS += \
     galil_dialog/widget_scripting_variables.h \
@@ -105,7 +107,9 @@ HEADERS += \
     gui_verison.h \
     LED.h \
     plot_central.h \
-    galil_dialog/window_motion_control.h
+    galil_dialog/window_motion_control.h \
+    pump_dialog/window_pump_control.h \
+    galil_dialog/window_touchoff.h
 
 FORMS += \
     galil_dialog/widget_scripting_variables.ui \
@@ -126,7 +130,9 @@ FORMS += \
     SensorDisplay/display_base_plot_instantaneous.ui \
     additional_sensor_display.ui \
     ECM_controller_gui.ui \
-    galil_dialog/window_motion_control.ui
+    galil_dialog/window_motion_control.ui \
+    pump_dialog/window_pump_control.ui \
+    galil_dialog/window_touchoff.ui
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

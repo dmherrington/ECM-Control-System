@@ -9,6 +9,9 @@
 #include "ECM_plot_identifier.h"
 
 #include "galil_dialog/window_motion_control.h"
+#include "galil_dialog/window_touchoff.h"
+
+#include "pump_dialog/window_pump_control.h"
 
 #include "misc_dialogs/window_profile_configuration.h"
 #include "rigol_dialog/window_rigol_control.h"
@@ -107,7 +110,12 @@ private slots:
 
     void on_pushButton_MoveHome_released();
 
-    void on_actionClose_triggered();
+    void on_pushButton_Stop_released();
+
+    void on_pushButton_RunAutomatedProfile_released();
+
+    void on_pushButton_LoadAutomatedProfile_released();
+
 
 /*
 * Private Slots related to actions fired from the tools menu
@@ -128,14 +136,14 @@ private slots:
 
     void on_actionOpen_Sensors_Window_triggered(bool checked);
 
+    void on_actionPump_Window_triggered(bool checked);
+
+    void on_actionTouchoff_Window_triggered(bool checked);
+
     void on_actionClear_All_Data_triggered();
 
-    void on_pushButton_Stop_released();
+    void on_actionClose_triggered();
 
-
-    void on_pushButton_RunAutomatedProfile_released();
-
-    void on_pushButton_LoadAutomatedProfile_released();
 
 private:
     QString loadFileDialog(const std::string &filePath, const std::string &nameFilter);
@@ -168,10 +176,21 @@ private:
 
     ECM_API* m_API;
 
+    /*
+     * The following are all related to independent windows within the GUI
+     */
     Window_MotionControl* m_WindowMotionControl;
+
+    Window_Touchoff* m_WindowTouchoffControl;
+
+    Window_PumpControl* m_WindowPumpControl;
+
     Window_ProfileConfiguration* m_WindowProfileConfiguration;
+
     Window_RigolControl* m_WindowRigol;
+
     Window_DeviceConnections* m_WindowConnections;
+
     Window_CustomMotionCommands* m_WindowCustomMotionCommands;
 
 private:

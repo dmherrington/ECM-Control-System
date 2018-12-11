@@ -8,8 +8,6 @@ Widget_Touchoff::Widget_Touchoff(GalilMotionController* galilObject, QWidget *pa
     ui->setupUi(this);
 
     m_Galil = galilObject;
-
-    connect(m_Galil,SIGNAL(signal_GalilUpdatedProfileState(MotionProfileState)),this,SLOT(slot_UpdateMotionProfileState(MotionProfileState)));
 }
 
 Widget_Touchoff::~Widget_Touchoff()
@@ -50,40 +48,6 @@ void Widget_Touchoff::setTouchoffUtilization(const bool &execute)
     ui->checkBox_UtilizeTouchoff->setChecked(execute);
 }
 
-void Widget_Touchoff::on_pushButton_ExecuteTouchoff_released()
-{
-    CommandExecuteProfilePtr commandTouchoffExecute = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::TOUCHOFF,"touchof");
-    m_Galil->executeCommand(commandTouchoffExecute);
-}
-
-void Widget_Touchoff::slot_UpdateMotionProfileState(const MotionProfileState &state)
-{
-    if(state.getProfileState()->getType() == MotionProfile::ProfileType::TOUCHOFF)
-    {
-        ProfileState_Touchoff* castState = (ProfileState_Touchoff*)state.getProfileState().get();
-
-        switch (castState->getCurrentCode()) {
-        case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_POSITIONAL:
-        case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_INCONSISTENT:
-        case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_TOUCHING:
-            ui->lineEdit_TouchoffCode->setText(QString::fromStdString(ProfileState_Touchoff::TOUCHOFFCodesToString(castState->getCurrentCode())));
-            break;
-        case ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING:
-            ui->lineEdit_TouchoffCode->setText(QString::fromStdString(ProfileState_Touchoff::TOUCHOFFCodesToString(castState->getCurrentCode())));
-            break;
-        case ProfileState_Touchoff::TOUCHOFFProfileCodes::FINISHED:
-            ui->lineEdit_TouchoffCode->setText(QString::fromStdString(ProfileState_Touchoff::TOUCHOFFCodesToString(castState->getCurrentCode())));
-            break;
-        case ProfileState_Touchoff::TOUCHOFFProfileCodes::ABORTED:
-        case ProfileState_Touchoff::TOUCHOFFProfileCodes::CLEARED:
-            ui->lineEdit_TouchoffCode->setText("");
-            break;
-        default:
-            break;
-        }
-    }
-}
-
 void Widget_Touchoff::on_pushButton_TouchoffRef_released()
 {
     int position = m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
@@ -109,6 +73,7 @@ void Widget_Touchoff::on_checkBox_ReferenceOldPosition_toggled(bool val)
 {
     if(val)
     {
+        ui->doubleSpinBox_TouchoffRef->setValue(0.0);
         ui->doubleSpinBox_TouchoffRef->setEnabled(false);
     }else
     {

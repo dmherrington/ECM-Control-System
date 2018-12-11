@@ -46,17 +46,9 @@ signals:
 
 private slots:
 
-    void slot_PumpConnectionUpdate(const common::comms::CommunicationUpdate &update);
-
     void slot_updatedDelayTime(const double &value);
 
-    void slot_updatedPumpOn(const bool &value);
-
     void slot_updatedFlowRate(const double &value);
-
-    void slot_PumpInitialized();
-
-    //void slot_PumpOperationalTimeout();
 
 private slots:
 
@@ -69,11 +61,6 @@ private slots:
 private:
     Ui::Widget_PumpControl *ui;
     Westinghouse510* m_Pump;
-    bool windowHidden = true;
-
-private:
-    QTimer* m_OperationsTimer;
-    common::EnvironmentTime startTime;
 };
 
 #endif // WIDGET_PUMP_CONTROL_H

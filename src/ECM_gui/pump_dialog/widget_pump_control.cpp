@@ -9,9 +9,6 @@ Widget_PumpControl::Widget_PumpControl(Westinghouse510 *pumpObject, QWidget *par
     ui->setupUi(this);
 
     m_Pump = pumpObject;
-
-    m_OperationsTimer = new QTimer(this);
-    //connect(m_OperationsTimer,SIGNAL(timeout()),this,SLOT(slot_PumpOperationalTimeout()));
 }
 
 Widget_PumpControl::~Widget_PumpControl()
@@ -53,50 +50,6 @@ void Widget_PumpControl::setWaitForPumpDelay(const bool &wait)
     ui->checkBox_WaitForDelay->setChecked(wait);
 }
 
-void Widget_PumpControl::slot_PumpConnectionUpdate(const common::comms::CommunicationUpdate &update)
-{
-    using namespace common::comms;
-    switch (update.getUpdateType()) {
-    case CommunicationUpdate::UpdateTypes::ALERT:
-        break;
-    case CommunicationUpdate::UpdateTypes::CONNECTED:
-        //ui->widget_PumpConnected->setColor(QColor(0,255,0));
-        break;
-    case CommunicationUpdate::UpdateTypes::DISCONNECTED:
-        //ui->widget_PumpConnected->setColor(QColor(255,0,0));
-        break;
-    default:
-        break;
-    }
-    //ui->statusbar->showMessage(QString::fromStdString(update.getPeripheralMessage()),2000);
-}
-
-void Widget_PumpControl::slot_updatedPumpOn(const bool &value)
-{
-    if(value)
-    {
-        //ui->widget_PumpRunning->setColor(QColor(0,255,0));
-        ui->pushButton_PumpRunning->setText("OFF");
-        common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
-        ui->lineEdit_OnTime->setText(QString::fromStdString(startTime.timeString()));
-        //ui->statusbar->showMessage("The pump has been turned on.",2500);
-        m_OperationsTimer->start(1000);
-    }
-    else
-    {
-        //ui->widget_PumpRunning->setColor(QColor(255,0,0));
-        //ui->widget_PumpInitialized->setColor(QColor(255,0,0));
-        ui->doubleSpinBox_flowRate->setStyleSheet("background-color: red");
-        ui->pushButton_PumpRunning->setText("ON");
-        ui->lineEdit_OnTime->setText("");
-        ui->lineEdit_OnTime->clear();
-        //ui->statusbar->showMessage(tr("The pump has been turned off."),2500);
-
-        if(m_OperationsTimer->isActive())
-            m_OperationsTimer->stop();
-    }
-}
-
 void Widget_PumpControl::slot_updatedFlowRate(const double &value)
 {
     if(abs(value - ui->doubleSpinBox_flowRate->value()) < 0.05)
@@ -113,11 +66,6 @@ void Widget_PumpControl::slot_updatedDelayTime(const double &value)
 {
     ui->doubleSpinBox_delayTime->setValue(value);
     //ui->statusbar->showMessage(tr("Delay time has been updated."),2500);
-}
-
-void Widget_PumpControl::slot_PumpInitialized()
-{
-    //ui->widget_PumpInitialized->setColor(QColor(0,255,0));
 }
 
 void Widget_PumpControl::on_pushButton_PumpRunning_released()

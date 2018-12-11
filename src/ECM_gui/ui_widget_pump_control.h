@@ -19,8 +19,6 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QLineEdit>
-#include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -38,16 +36,12 @@ public:
     QLabel *label_ManualControl_5;
     QSpacerItem *horizontalSpacer_24;
     QVBoxLayout *verticalLayout_4;
-    QVBoxLayout *verticalLayout_3;
-    QLabel *label_OnTime;
-    QLineEdit *lineEdit_OnTime;
     QHBoxLayout *horizontalLayout_13;
     QSpacerItem *horizontalSpacer_17;
     QCheckBox *checkBox_WaitForDelay;
     QSpacerItem *horizontalSpacer_18;
     QHBoxLayout *horizontalLayout_14;
     QSpacerItem *horizontalSpacer_19;
-    QPushButton *pushButton_PumpRunning;
     QSpacerItem *horizontalSpacer_20;
     QGridLayout *gridLayout_15;
     QDoubleSpinBox *doubleSpinBox_delayTime;
@@ -226,42 +220,6 @@ public:
 
         verticalLayout_4 = new QVBoxLayout();
         verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
-        verticalLayout_3 = new QVBoxLayout();
-        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        label_OnTime = new QLabel(Widget_PumpControl);
-        label_OnTime->setObjectName(QStringLiteral("label_OnTime"));
-        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(label_OnTime->sizePolicy().hasHeightForWidth());
-        label_OnTime->setSizePolicy(sizePolicy2);
-        label_OnTime->setMinimumSize(QSize(242, 20));
-        label_OnTime->setMaximumSize(QSize(16777215, 20));
-        QFont font1;
-        font1.setPointSize(12);
-        label_OnTime->setFont(font1);
-        label_OnTime->setAlignment(Qt::AlignCenter);
-
-        verticalLayout_3->addWidget(label_OnTime);
-
-        lineEdit_OnTime = new QLineEdit(Widget_PumpControl);
-        lineEdit_OnTime->setObjectName(QStringLiteral("lineEdit_OnTime"));
-        lineEdit_OnTime->setEnabled(true);
-        sizePolicy2.setHeightForWidth(lineEdit_OnTime->sizePolicy().hasHeightForWidth());
-        lineEdit_OnTime->setSizePolicy(sizePolicy2);
-        lineEdit_OnTime->setMinimumSize(QSize(242, 20));
-        lineEdit_OnTime->setMaximumSize(QSize(16777215, 20));
-        QFont font2;
-        font2.setPointSize(13);
-        lineEdit_OnTime->setFont(font2);
-        lineEdit_OnTime->setAlignment(Qt::AlignCenter);
-        lineEdit_OnTime->setReadOnly(true);
-
-        verticalLayout_3->addWidget(lineEdit_OnTime);
-
-
-        verticalLayout_4->addLayout(verticalLayout_3);
-
         horizontalLayout_13 = new QHBoxLayout();
         horizontalLayout_13->setObjectName(QStringLiteral("horizontalLayout_13"));
         horizontalSpacer_17 = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -270,6 +228,8 @@ public:
 
         checkBox_WaitForDelay = new QCheckBox(Widget_PumpControl);
         checkBox_WaitForDelay->setObjectName(QStringLiteral("checkBox_WaitForDelay"));
+        QFont font1;
+        font1.setPointSize(12);
         checkBox_WaitForDelay->setFont(font1);
 
         horizontalLayout_13->addWidget(checkBox_WaitForDelay);
@@ -290,143 +250,6 @@ public:
 
         horizontalLayout_14->addItem(horizontalSpacer_19);
 
-        pushButton_PumpRunning = new QPushButton(Widget_PumpControl);
-        pushButton_PumpRunning->setObjectName(QStringLiteral("pushButton_PumpRunning"));
-        sizePolicy2.setHeightForWidth(pushButton_PumpRunning->sizePolicy().hasHeightForWidth());
-        pushButton_PumpRunning->setSizePolicy(sizePolicy2);
-        pushButton_PumpRunning->setMinimumSize(QSize(242, 40));
-        pushButton_PumpRunning->setMaximumSize(QSize(16777215, 40));
-        QFont font3;
-        font3.setPointSize(18);
-        font3.setBold(true);
-        font3.setItalic(false);
-        font3.setUnderline(false);
-        font3.setWeight(75);
-        pushButton_PumpRunning->setFont(font3);
-        pushButton_PumpRunning->setStyleSheet(QLatin1String("QMainWindow{\n"
-"background-color:#1d1d1d;\n"
-"}\n"
-"\n"
-"QMenuBar{\n"
-"background-color:#1d1d1d;\n"
-"padding:5px;\n"
-"	font: 12pt \"MS Shell Dlg 2\";\n"
-"}\n"
-"\n"
-"QMenuBar::item{\n"
-"background-color:#1d1d1d;\n"
-"color:#fff;\n"
-"padding:5px;\n"
-"\n"
-"}\n"
-"\n"
-"QMenu{\n"
-"color:#fff;\n"
-"padding:0;\n"
-"}\n"
-"\n"
-"QMenu::item:selected{\n"
-"color:#fff;\n"
-"background-color:#00aba9;\n"
-"}\n"
-"\n"
-"QTableWidget{\n"
-"background-color:#3d3d3d;\n"
-"color:#fff;\n"
-"  selection-background-color: #da532c;\n"
-"border:solid;\n"
-"border-width:3px;\n"
-"border-color:#da532c;\n"
-"}\n"
-"QHeaderView::section{\n"
-"background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, 217, 255), stop:1 rgba(36, 158, 217, 255));\n"
-"border:none;\n"
-"border-top-style:solid;\n"
-"border-width:1px;\n"
-"border-top-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, 217, 255), stop:1 rgba(36, 158, 217, 255));\n"
-"color:#fff;\n"
-"\n"
-"}\n"
-"QHeaderView{\n"
-"background-color:qlineargradient"
-                        "(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, 217, 255), stop:1 rgba(36, 158, 217, 255));\n"
-"\n"
-"border:none;\n"
-"border-top-style:solid;\n"
-"border-width:1px;\n"
-"border-top-color:#149ED9;\n"
-"color:#fff;\n"
-"	font: 75 12pt \"Calibri\";\n"
-"}\n"
-"\n"
-"QTableCornerButton::section{\n"
-"border:none;\n"
-"background-color:#149ED9;\n"
-"}\n"
-"\n"
-"QListWidget{\n"
-"background-color:#3d3d3d;\n"
-"color:#fff;\n"
-"}\n"
-"\n"
-"QMenu{\n"
-"background-color:#3d3d3d;\n"
-"}\n"
-"QStatusBar{\n"
-"background-color:#7e3878;\n"
-"color:#fff;\n"
-"}\n"
-"\n"
-"QPushButton{\n"
-"border-style:solid;\n"
-"background-color:#3d3d3d;\n"
-"color:#fff;\n"
-"border-radius:7px;\n"
-"}\n"
-"\n"
-"QPushButton:disabled {\n"
-"background-color: rgb(204, 0, 0);\n"
-"}\n"
-"\n"
-"QPushButton:hover{\n"
-"color:#ccc;\n"
-"	background-color: qlineargradient(spread:pad, x1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(45, 45, 45, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
-"	border-color:#2d89ef;\n"
-"border-width:2px;\n"
-"}\n"
-"\n"
-""
-                        "QPushButton:pressed{\n"
-"background-color: qlineargradient(spread:pad, x1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(29, 29, 29, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
-"}\n"
-"\n"
-"\n"
-"QTabWidget::tab{\n"
-"background-color:#3d3d3d;\n"
-"}\n"
-"\n"
-"QLineEdit{\n"
-"border-radius:0;\n"
-"}\n"
-"\n"
-"QProgressBar{\n"
-"border-radius:0;\n"
-"text-align:center;\n"
-"color:#fff;\n"
-"background-color:transparent;\n"
-"border: 2px solid #e3a21a;\n"
-"border-radius:7px;\n"
-"	font: 75 12pt \"Open Sans\";\n"
-"\n"
-"}\n"
-"\n"
-"QProgressBar::chunk{\n"
-"background-color:#2d89ef;\n"
-"width:20px;\n"
-"}"));
-
-        horizontalLayout_14->addWidget(pushButton_PumpRunning);
-
         horizontalSpacer_20 = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_14->addItem(horizontalSpacer_20);
@@ -441,13 +264,16 @@ public:
         gridLayout_15->setObjectName(QStringLiteral("gridLayout_15"));
         doubleSpinBox_delayTime = new QDoubleSpinBox(Widget_PumpControl);
         doubleSpinBox_delayTime->setObjectName(QStringLiteral("doubleSpinBox_delayTime"));
+        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
         sizePolicy2.setHeightForWidth(doubleSpinBox_delayTime->sizePolicy().hasHeightForWidth());
         doubleSpinBox_delayTime->setSizePolicy(sizePolicy2);
         doubleSpinBox_delayTime->setMinimumSize(QSize(100, 20));
         doubleSpinBox_delayTime->setMaximumSize(QSize(100, 20));
-        QFont font4;
-        font4.setPointSize(10);
-        doubleSpinBox_delayTime->setFont(font4);
+        QFont font2;
+        font2.setPointSize(10);
+        doubleSpinBox_delayTime->setFont(font2);
         doubleSpinBox_delayTime->setAlignment(Qt::AlignCenter);
         doubleSpinBox_delayTime->setDecimals(0);
         doubleSpinBox_delayTime->setValue(0);
@@ -470,7 +296,7 @@ public:
         doubleSpinBox_flowRate->setSizePolicy(sizePolicy2);
         doubleSpinBox_flowRate->setMinimumSize(QSize(100, 20));
         doubleSpinBox_flowRate->setMaximumSize(QSize(100, 20));
-        doubleSpinBox_flowRate->setFont(font4);
+        doubleSpinBox_flowRate->setFont(font2);
         doubleSpinBox_flowRate->setAlignment(Qt::AlignCenter);
         doubleSpinBox_flowRate->setDecimals(2);
 
@@ -499,9 +325,7 @@ public:
     {
         Widget_PumpControl->setWindowTitle(QApplication::translate("Widget_PumpControl", "Form", nullptr));
         label_ManualControl_5->setText(QApplication::translate("Widget_PumpControl", "Pump Configuration", nullptr));
-        label_OnTime->setText(QApplication::translate("Widget_PumpControl", "On Time:", nullptr));
         checkBox_WaitForDelay->setText(QApplication::translate("Widget_PumpControl", "Wait For Delay", nullptr));
-        pushButton_PumpRunning->setText(QApplication::translate("Widget_PumpControl", "ON", nullptr));
         label_Flowrate->setText(QApplication::translate("Widget_PumpControl", "Flowrate Setpoint (lpm)", nullptr));
         label_delayTim->setText(QApplication::translate("Widget_PumpControl", "Delay Time (sec)", nullptr));
     } // retranslateUi

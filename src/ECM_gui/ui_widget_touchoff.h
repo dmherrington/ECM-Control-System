@@ -19,7 +19,6 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QWidget>
@@ -35,7 +34,6 @@ public:
     QGridLayout *gridLayout_13;
     QLabel *label_ManualControl_4;
     QSpacerItem *horizontalSpacer_16;
-    QCheckBox *checkBox_UtilizeTouchoff;
     QGridLayout *gridLayout;
     QHBoxLayout *horizontalLayout_9;
     QPushButton *pushButton_TouchoffRef;
@@ -45,10 +43,12 @@ public:
     QPushButton *pushButton_TouchoffGap;
     QDoubleSpinBox *doubleSpinBox_InitialGap;
     QLabel *label_4;
+    QHBoxLayout *horizontalLayout;
+    QSpacerItem *horizontalSpacer_17;
+    QCheckBox *checkBox_UtilizeTouchoff;
+    QSpacerItem *horizontalSpacer_18;
     QCheckBox *checkBox_ReferenceOldPosition;
-    QHBoxLayout *horizontalLayout_12;
-    QPushButton *pushButton_ExecuteTouchoff;
-    QLineEdit *lineEdit_TouchoffCode;
+    QSpacerItem *horizontalSpacer_19;
 
     void setupUi(QWidget *Widget_Touchoff)
     {
@@ -215,15 +215,7 @@ public:
         horizontalLayout_11->addItem(horizontalSpacer_16);
 
 
-        gridLayout_2->addLayout(horizontalLayout_11, 0, 0, 1, 2);
-
-        checkBox_UtilizeTouchoff = new QCheckBox(Widget_Touchoff);
-        checkBox_UtilizeTouchoff->setObjectName(QStringLiteral("checkBox_UtilizeTouchoff"));
-        QFont font1;
-        font1.setPointSize(12);
-        checkBox_UtilizeTouchoff->setFont(font1);
-
-        gridLayout_2->addWidget(checkBox_UtilizeTouchoff, 0, 2, 1, 1);
+        gridLayout_2->addLayout(horizontalLayout_11, 0, 0, 1, 1);
 
         gridLayout = new QGridLayout();
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
@@ -238,6 +230,8 @@ public:
         pushButton_TouchoffRef->setSizePolicy(sizePolicy2);
         pushButton_TouchoffRef->setMinimumSize(QSize(180, 25));
         pushButton_TouchoffRef->setMaximumSize(QSize(180, 25));
+        QFont font1;
+        font1.setPointSize(12);
         pushButton_TouchoffRef->setFont(font1);
 
         horizontalLayout_9->addWidget(pushButton_TouchoffRef);
@@ -306,158 +300,37 @@ public:
 
         gridLayout->addLayout(horizontalLayout_10, 1, 0, 1, 1);
 
+
+        gridLayout_2->addLayout(gridLayout, 1, 0, 1, 1);
+
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalSpacer_17 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_17);
+
+        checkBox_UtilizeTouchoff = new QCheckBox(Widget_Touchoff);
+        checkBox_UtilizeTouchoff->setObjectName(QStringLiteral("checkBox_UtilizeTouchoff"));
+        checkBox_UtilizeTouchoff->setFont(font1);
+
+        horizontalLayout->addWidget(checkBox_UtilizeTouchoff);
+
+        horizontalSpacer_18 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_18);
+
         checkBox_ReferenceOldPosition = new QCheckBox(Widget_Touchoff);
         checkBox_ReferenceOldPosition->setObjectName(QStringLiteral("checkBox_ReferenceOldPosition"));
         checkBox_ReferenceOldPosition->setFont(font1);
 
-        gridLayout->addWidget(checkBox_ReferenceOldPosition, 0, 1, 1, 1);
+        horizontalLayout->addWidget(checkBox_ReferenceOldPosition);
+
+        horizontalSpacer_19 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_19);
 
 
-        gridLayout_2->addLayout(gridLayout, 1, 0, 1, 3);
-
-        horizontalLayout_12 = new QHBoxLayout();
-        horizontalLayout_12->setObjectName(QStringLiteral("horizontalLayout_12"));
-        pushButton_ExecuteTouchoff = new QPushButton(Widget_Touchoff);
-        pushButton_ExecuteTouchoff->setObjectName(QStringLiteral("pushButton_ExecuteTouchoff"));
-        sizePolicy.setHeightForWidth(pushButton_ExecuteTouchoff->sizePolicy().hasHeightForWidth());
-        pushButton_ExecuteTouchoff->setSizePolicy(sizePolicy);
-        pushButton_ExecuteTouchoff->setMinimumSize(QSize(100, 30));
-        pushButton_ExecuteTouchoff->setMaximumSize(QSize(100, 30));
-        pushButton_ExecuteTouchoff->setFont(font1);
-        pushButton_ExecuteTouchoff->setStyleSheet(QLatin1String("QMenuBar{\n"
-"background-color:#1d1d1d;\n"
-"padding:5px;\n"
-"	font: 12pt \"MS Shell Dlg 2\";\n"
-"}\n"
-"\n"
-"QMenuBar::item{\n"
-"background-color:#1d1d1d;\n"
-"color:#fff;\n"
-"padding:5px;\n"
-"\n"
-"}\n"
-"\n"
-"QMenu{\n"
-"color:#fff;\n"
-"padding:0;\n"
-"}\n"
-"\n"
-"QMenu::item:selected{\n"
-"color:#fff;\n"
-"background-color:#00aba9;\n"
-"}\n"
-"\n"
-"QTableWidget{\n"
-"background-color:#3d3d3d;\n"
-"color:#fff;\n"
-"  selection-background-color: #da532c;\n"
-"border:solid;\n"
-"border-width:3px;\n"
-"border-color:#da532c;\n"
-"}\n"
-"QHeaderView::section{\n"
-"background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, 217, 255), stop:1 rgba(36, 158, 217, 255));\n"
-"border:none;\n"
-"border-top-style:solid;\n"
-"border-width:1px;\n"
-"border-top-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, 217, 255), stop:1 rgba(36, 158, 217, 255));\n"
-"color:#fff;\n"
-"\n"
-"}\n"
-"QHeaderView{\n"
-"background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(20, 158, "
-                        "217, 255), stop:1 rgba(36, 158, 217, 255));\n"
-"\n"
-"border:none;\n"
-"border-top-style:solid;\n"
-"border-width:1px;\n"
-"border-top-color:#149ED9;\n"
-"color:#fff;\n"
-"	font: 75 12pt \"Calibri\";\n"
-"}\n"
-"\n"
-"QTableCornerButton::section{\n"
-"border:none;\n"
-"background-color:#149ED9;\n"
-"}\n"
-"\n"
-"QListWidget{\n"
-"background-color:#3d3d3d;\n"
-"color:#fff;\n"
-"}\n"
-"\n"
-"QMenu{\n"
-"background-color:#3d3d3d;\n"
-"}\n"
-"QStatusBar{\n"
-"background-color:#7e3878;\n"
-"color:#fff;\n"
-"}\n"
-"\n"
-"QPushButton{\n"
-"border-style:solid;\n"
-"background-color:#3d3d3d;\n"
-"color:#fff;\n"
-"border-radius:7px;\n"
-"}\n"
-"\n"
-"QPushButton:disabled {\n"
-"background-color: rgb(204, 0, 0);\n"
-"}\n"
-"\n"
-"QPushButton:hover{\n"
-"color:#ccc;\n"
-"	background-color: qlineargradient(spread:pad, x1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(45, 45, 45, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
-"	border-color:#2d89ef;\n"
-"border-width:2px;\n"
-"}\n"
-"\n"
-"QPushButton:pressed{\n"
-"background-color: qlineargrad"
-                        "ient(spread:pad, x1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(29, 29, 29, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
-"}\n"
-"\n"
-"\n"
-"QTabWidget::tab{\n"
-"background-color:#3d3d3d;\n"
-"}\n"
-"\n"
-"QLineEdit{\n"
-"border-radius:0;\n"
-"}\n"
-"\n"
-"QProgressBar{\n"
-"border-radius:0;\n"
-"text-align:center;\n"
-"color:#fff;\n"
-"background-color:transparent;\n"
-"border: 2px solid #e3a21a;\n"
-"border-radius:7px;\n"
-"	font: 75 12pt \"Open Sans\";\n"
-"\n"
-"}\n"
-"\n"
-"QProgressBar::chunk{\n"
-"background-color:#2d89ef;\n"
-"width:20px;\n"
-"}"));
-
-        horizontalLayout_12->addWidget(pushButton_ExecuteTouchoff);
-
-
-        gridLayout_2->addLayout(horizontalLayout_12, 2, 0, 1, 1);
-
-        lineEdit_TouchoffCode = new QLineEdit(Widget_Touchoff);
-        lineEdit_TouchoffCode->setObjectName(QStringLiteral("lineEdit_TouchoffCode"));
-        sizePolicy2.setHeightForWidth(lineEdit_TouchoffCode->sizePolicy().hasHeightForWidth());
-        lineEdit_TouchoffCode->setSizePolicy(sizePolicy2);
-        lineEdit_TouchoffCode->setMinimumSize(QSize(300, 30));
-        lineEdit_TouchoffCode->setMaximumSize(QSize(300, 30));
-        lineEdit_TouchoffCode->setFont(font1);
-        lineEdit_TouchoffCode->setAlignment(Qt::AlignCenter);
-        lineEdit_TouchoffCode->setReadOnly(true);
-
-        gridLayout_2->addWidget(lineEdit_TouchoffCode, 2, 1, 1, 2);
+        gridLayout_2->addLayout(horizontalLayout, 2, 0, 1, 1);
 
 
         retranslateUi(Widget_Touchoff);
@@ -469,13 +342,12 @@ public:
     {
         Widget_Touchoff->setWindowTitle(QApplication::translate("Widget_Touchoff", "Form", nullptr));
         label_ManualControl_4->setText(QApplication::translate("Widget_Touchoff", "Touchoff Configuration", nullptr));
-        checkBox_UtilizeTouchoff->setText(QApplication::translate("Widget_Touchoff", "Utilize Touchoff", nullptr));
         pushButton_TouchoffRef->setText(QApplication::translate("Widget_Touchoff", "Set Touchoff Ref", nullptr));
         label_3->setText(QApplication::translate("Widget_Touchoff", "um", nullptr));
         pushButton_TouchoffGap->setText(QApplication::translate("Widget_Touchoff", "Set Initial Gap", nullptr));
         label_4->setText(QApplication::translate("Widget_Touchoff", "um", nullptr));
+        checkBox_UtilizeTouchoff->setText(QApplication::translate("Widget_Touchoff", "Utilize Touchoff", nullptr));
         checkBox_ReferenceOldPosition->setText(QApplication::translate("Widget_Touchoff", "Utilize Current", nullptr));
-        pushButton_ExecuteTouchoff->setText(QApplication::translate("Widget_Touchoff", "Execute", nullptr));
     } // retranslateUi
 
 };

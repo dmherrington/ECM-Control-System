@@ -1598,10 +1598,10 @@ width:20px;
     <addaction name="actionProfile_Configuration"/>
     <addaction name="separator"/>
     <addaction name="actionPower_Supply"/>
-    <addaction name="actionPump"/>
+    <addaction name="actionPump_Window"/>
     <addaction name="actionOscilliscope"/>
     <addaction name="separator"/>
-    <addaction name="actionTouchoff"/>
+    <addaction name="actionTouchoff_Window"/>
     <addaction name="actionMotion_Control"/>
     <addaction name="separator"/>
     <addaction name="actionCustom_Motion_Commands"/>
@@ -1648,7 +1648,7 @@ width:20px;
     <string>Power Supply</string>
    </property>
   </action>
-  <action name="actionPump">
+  <action name="actionPump_Window">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1661,7 +1661,7 @@ width:20px;
     <string>Oscilliscope</string>
    </property>
   </action>
-  <action name="actionTouchoff">
+  <action name="actionTouchoff_Window">
    <property name="checkable">
     <bool>true</bool>
    </property>

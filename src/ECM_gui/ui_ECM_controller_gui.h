@@ -38,9 +38,9 @@ class Ui_ECMControllerGUI
 public:
     QAction *actionConnections;
     QAction *actionPower_Supply;
-    QAction *actionPump;
+    QAction *actionPump_Window;
     QAction *actionOscilliscope;
-    QAction *actionTouchoff;
+    QAction *actionTouchoff_Window;
     QAction *actionOpen_Sensors_Window;
     QAction *actionClose;
     QAction *actionMotion_Profile;
@@ -260,14 +260,14 @@ public:
         actionConnections->setCheckable(true);
         actionPower_Supply = new QAction(ECMControllerGUI);
         actionPower_Supply->setObjectName(QStringLiteral("actionPower_Supply"));
-        actionPump = new QAction(ECMControllerGUI);
-        actionPump->setObjectName(QStringLiteral("actionPump"));
-        actionPump->setCheckable(true);
+        actionPump_Window = new QAction(ECMControllerGUI);
+        actionPump_Window->setObjectName(QStringLiteral("actionPump_Window"));
+        actionPump_Window->setCheckable(true);
         actionOscilliscope = new QAction(ECMControllerGUI);
         actionOscilliscope->setObjectName(QStringLiteral("actionOscilliscope"));
-        actionTouchoff = new QAction(ECMControllerGUI);
-        actionTouchoff->setObjectName(QStringLiteral("actionTouchoff"));
-        actionTouchoff->setCheckable(true);
+        actionTouchoff_Window = new QAction(ECMControllerGUI);
+        actionTouchoff_Window->setObjectName(QStringLiteral("actionTouchoff_Window"));
+        actionTouchoff_Window->setCheckable(true);
         actionOpen_Sensors_Window = new QAction(ECMControllerGUI);
         actionOpen_Sensors_Window->setObjectName(QStringLiteral("actionOpen_Sensors_Window"));
         actionClose = new QAction(ECMControllerGUI);
@@ -899,10 +899,10 @@ public:
         menuTools->addAction(actionProfile_Configuration);
         menuTools->addSeparator();
         menuTools->addAction(actionPower_Supply);
-        menuTools->addAction(actionPump);
+        menuTools->addAction(actionPump_Window);
         menuTools->addAction(actionOscilliscope);
         menuTools->addSeparator();
-        menuTools->addAction(actionTouchoff);
+        menuTools->addAction(actionTouchoff_Window);
         menuTools->addAction(actionMotion_Control);
         menuTools->addSeparator();
         menuTools->addAction(actionCustom_Motion_Commands);
@@ -921,9 +921,9 @@ public:
         ECMControllerGUI->setWindowTitle(QApplication::translate("ECMControllerGUI", "ECMControllerGUI", nullptr));
         actionConnections->setText(QApplication::translate("ECMControllerGUI", "Connections", nullptr));
         actionPower_Supply->setText(QApplication::translate("ECMControllerGUI", "Power Supply", nullptr));
-        actionPump->setText(QApplication::translate("ECMControllerGUI", "Pump", nullptr));
+        actionPump_Window->setText(QApplication::translate("ECMControllerGUI", "Pump", nullptr));
         actionOscilliscope->setText(QApplication::translate("ECMControllerGUI", "Oscilliscope", nullptr));
-        actionTouchoff->setText(QApplication::translate("ECMControllerGUI", "Touchoff", nullptr));
+        actionTouchoff_Window->setText(QApplication::translate("ECMControllerGUI", "Touchoff", nullptr));
         actionOpen_Sensors_Window->setText(QApplication::translate("ECMControllerGUI", "Open Sensors Window", nullptr));
         actionClose->setText(QApplication::translate("ECMControllerGUI", "Close", nullptr));
         actionMotion_Profile->setText(QApplication::translate("ECMControllerGUI", "Motion Profile", nullptr));
