@@ -69,3 +69,18 @@ unsigned int ECMCommand_ProfileCollection::getCollectionSize() const
 {
     return this->m_Collection.size();
 }
+
+void ECMCommand_ProfileCollection::setAssociatedMotionScript(const std::string &script)
+{
+    std::map<unsigned int, ECMCommand_ProfileConfiguration>::iterator it = m_Collection.begin();
+    for(; it != m_Collection.end(); ++it)
+    {
+        ECMCommand_ProfileConfiguration currentConfig = it->second;
+        currentConfig.m_GalilOperation.setProgram(script);
+    }
+}
+
+std::string ECMCommand_ProfileCollection::getAssociatedMotionScript() const
+{
+    return this->motionScript;
+}

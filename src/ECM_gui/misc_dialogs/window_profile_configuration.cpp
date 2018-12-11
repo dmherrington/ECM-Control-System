@@ -112,6 +112,7 @@ void Window_ProfileConfiguration::slot_OnExecuteExplicitProfileConfig(const ECMC
 {
     ECMCommand_ExecuteCollection newExecutionCollection;
     newExecutionCollection.insertProfile(config);
+    newExecutionCollection.setAssociatedMotionScript(m_WindowMotionProfile->getCurrentGalilScript());
     newExecutionCollection.setHomeShouldIndicate(ui->checkBox_ShouldHomeBeIndicated->isChecked());
     emit signal_ExecuteProfileCollection(newExecutionCollection);
 }
