@@ -330,7 +330,7 @@ void ECMControllerGUI::readSettings()
     QSize size = settings.value("size", QSize(400, 400)).toSize();
 
     bool sensorDisplayHidden = settings.value("sensorDisplayed", false).toBool();
-
+    bool windowProfileConfigurationHidden = settings.value("profileConfigurationDisplayed",false).toBool();
     bool motionControlDisplayHidden = settings.value("motionControlDisplayed", false).toBool();
     bool touchoffControlDisplayHidden = settings.value("touchoffControlDisplayed", false).toBool();
     bool pumpControlDisplayHidden = settings.value("pumpControlDisplayed", false).toBool();
@@ -341,6 +341,9 @@ void ECMControllerGUI::readSettings()
 
     if(!sensorDisplayHidden)
         m_additionalSensorDisplay->show();
+
+    if(!windowProfileConfigurationHidden)
+        m_WindowProfileConfiguration->show();
 
     if(!motionControlDisplayHidden)
         m_WindowMotionControl->show();
@@ -376,7 +379,7 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
         settings.setValue("size", size());
 
         settings.setValue("sensorDisplayed",m_additionalSensorDisplay->isWindowHidden());
-
+        settings.setValue("profileConfigurationDisplayed",m_WindowProfileConfiguration->isWindowHidden());
         settings.setValue("motionControlDisplayed",m_WindowMotionControl->isWindowHidden());
         settings.setValue("touchoffControlDisplayed",m_WindowTouchoffControl->isWindowHidden());
         settings.setValue("pumpControlDisplayed",m_WindowPumpControl->isWindowHidden());
@@ -386,6 +389,7 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
         settings.setValue("customMotionDisplayed",m_WindowCustomMotionCommands->isWindowHidden());
 
         m_additionalSensorDisplay->close();
+        m_WindowProfileConfiguration->close();
         m_WindowMotionControl->close();
         m_WindowTouchoffControl->close();
         m_WindowPumpControl->close();

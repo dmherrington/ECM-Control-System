@@ -22,13 +22,11 @@ Window_ProfileConfiguration::~Window_ProfileConfiguration()
 
 void Window_ProfileConfiguration::closeEvent(QCloseEvent *event)
 {
-    m_WindowMotionProfile->close();
     GeneralDialogWindow::closeEvent(event);
 }
 
 void Window_ProfileConfiguration::on_actionClose_triggered()
 {
-    m_WindowMotionProfile->close();
     GeneralDialogWindow::onCloseAction();
 }
 

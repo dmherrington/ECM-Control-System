@@ -228,7 +228,7 @@
                     "touchoffRefPrevious": false
                 }
             ],
-            "useOperation": false
+            "useOperation": true
         }
     ],
     "configureHome": true,

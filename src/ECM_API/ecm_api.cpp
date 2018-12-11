@@ -115,6 +115,9 @@ void ECM_API::executeOperationalProfile(const ECMCommand_ProfileConfiguration &p
 
 void ECM_API::concludeExecutingOperation(const ECMCommand_ProfileConfiguration &profileConfig)
 {
+    //First disable the logs so no more contents are written post the machining operation
+    m_Log->enableLogging(false);
+
     //Stop requesting information from the oscilliscope device
     m_Rigol->executeMeasurementPolling(false);
 
