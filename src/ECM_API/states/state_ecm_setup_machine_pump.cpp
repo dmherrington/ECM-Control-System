@@ -76,9 +76,9 @@ void ECMState_SetupMachinePump::OnEnter(const ECMCommand_ProfileConfiguration &c
             }
         });
 
-//        registers_WestinghousePump::Register_OperationSignal newOps;
-//        newOps.shouldRun(configuration.m_PumpParameters.shouldPumpBeEngaged());
-//        Owner().m_Pump->setPumpProperties(configuration.m_PumpParameters);
+        registers_WestinghousePump::Register_OperationSignal newOps;
+        newOps.shouldRun(configuration.m_PumpParameters.shouldPumpBeEngaged());
+        Owner().m_Pump->setPumpProperties(configuration.m_PumpParameters);
     }
     else
     {
