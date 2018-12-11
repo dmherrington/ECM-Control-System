@@ -29,6 +29,36 @@ Window_MotionProfile::Window_MotionProfile(GalilMotionController *obj, QWidget *
 
 }
 
+void Window_MotionProfile::setFilePath(const std::string &path)
+{
+    ui->lineEdit_motionScriptPath->setText(QString::fromStdString(path));
+}
+
+void Window_MotionProfile::setProgramText(const std::string &programText)
+{
+    ui->codeTextEdit->setPlainText(QString::fromStdString(programText));
+}
+
+void Window_MotionProfile::openGalilScript()
+{
+    this->on_actionOpen_triggered();
+}
+
+void Window_MotionProfile::uploadGalilScript()
+{
+    this->on_pushButton_UploadProgram_released();
+}
+
+void Window_MotionProfile::downloadGalilScript()
+{
+    this->on_pushButton_DownloadProgram_released();
+}
+
+std::string Window_MotionProfile::getCurrentGalilScript() const
+{
+    return ui->codeTextEdit->toPlainText().toStdString();
+}
+
 Window_MotionProfile::~Window_MotionProfile()
 {
     delete ui;
@@ -79,6 +109,7 @@ void Window_MotionProfile::saveToFile(const QString &filePath)
         return;
     }
 
+    this->setFilePath(filePath.toStdString());
     QTextStream outStream(&saveFile);
     outStream << ui->codeTextEdit->toPlainText();
     saveFile.close();
@@ -92,6 +123,8 @@ void Window_MotionProfile::openFromFile(const QString &filePath)
     {
         return;
     }
+
+    this->setFilePath(filePath.toStdString());
 
     QTextStream inStream(&file);
     QString programText = inStream.readAll();

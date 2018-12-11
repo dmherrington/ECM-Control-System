@@ -5,6 +5,8 @@
 
 #include "ecm_api_global.h"
 #include "common/ecm_devices.h"
+#include "common/execution_properties.h"
+
 #include "graphing/graphing_global.h"
 
 #include "library_munk_power_supply/munk_power_supply.h"
@@ -42,12 +44,12 @@ public:
 
     bool checkLoggingPathValidity(const std::string &partNumber, const std::string &serialNumber) const;
 
-    void writeCurrentOperationSettings(const ECMCommand_ExecuteCollection &executionCollection, const bool &clearContents);
+    void initializeOperationalCollection(const ECMCommand_ExecuteCollection &executionCollection, const bool &clearContents);
 
-    void initializeECMLogs(const ECMCommand_ExecuteCollection &executionCollection,
+    void initializeOperationLogs(const ECMCommand_ExecuteCollection &executionCollection,
                            const std::string &descriptor = "");
 
-    void executeMachiningProcess(const ECMCommand_ProfileConfiguration &profileConfig);
+    void executeOperationalProfile(const ECMCommand_ProfileConfiguration &profileConfig);
 
     void concludeMachiningProcess(const ECMCommand_ProfileConfiguration &profileConfig);
 
@@ -57,24 +59,8 @@ private:
     std::map<std::string, std::string> getSoftwareVersions() const;
 
 signals:
-    void signal_ExecutingProfile(const std::string operationName, const common::EnvironmentTime &time);
-
-    void signal_MCNewMotionState(const std::string &stateString);
-
-private slots:
-
-    //!
-    //! \brief slot_MotionControllerCommunicationUpdate
-    //! \param update
-    //!
-    void slot_MotionControllerCommunicationUpdate(const common::comms::CommunicationUpdate &update);
-
-    //!
-    //! \brief slot_UpdateMotionProfileState
-    //! \param state
-    //!
-    void slot_UpdateMotionProfileState(const MotionProfileState &state);
-
+    void signal_ExecutingConfiguration(const ExecutionProperties &props);
+    void signal_ExecutingOperation(const ExecuteOperationProperties &props);
 
 public:
 

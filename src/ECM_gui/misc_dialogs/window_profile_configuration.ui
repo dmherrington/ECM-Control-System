@@ -710,7 +710,7 @@ padding:5px;
           </font>
          </property>
          <property name="text">
-          <string>Should Home Be Autonomously Indicated</string>
+          <string>Indicate Home Autonomously</string>
          </property>
         </widget>
        </item>
@@ -761,6 +761,7 @@ padding:5px;
     <property name="title">
      <string>Tools</string>
     </property>
+    <addaction name="actionMotion_Profile"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -791,6 +792,14 @@ padding:5px;
   <action name="actionClose">
    <property name="text">
     <string>Close</string>
+   </property>
+  </action>
+  <action name="actionMotion_Profile">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Motion Profile</string>
    </property>
   </action>
  </widget>

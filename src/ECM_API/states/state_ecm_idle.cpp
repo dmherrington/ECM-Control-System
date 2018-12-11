@@ -52,6 +52,8 @@ hsm::Transition ECMState_Idle::GetTransition()
 void ECMState_Idle::executeCollection(const ECMCommand_ExecuteCollection &collection)
 {
     m_ECMCollection = collection;
+    m_ECMCollection.establishStartTime();
+
     this->desiredState = ECMState::STATE_ECM_UPLOAD;
 }
 

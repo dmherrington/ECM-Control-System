@@ -10,6 +10,20 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_SensorDisplays(&m_PlotCollection)
 {
 
+    /*
+     * Let us first setup the operational timers as related to
+     * operation and the configuration.
+     */
+    elapsedConfigurationTimer = new QTimer(this);
+    elapsedConfigurationTimer->setInterval(1000);
+
+    elapsedOperationTimer = new QTimer(this);
+    elapsedOperationTimer->setInterval(1000);
+
+    //Connect the timeouts to the appropriate items within the front panel
+    connect(elapsedOperationTimer, SIGNAL(timeout()), this, SLOT(slot_OnUpdateElapsedOperationTime()));
+    connect(elapsedConfigurationTimer, SIGNAL(timeout()), this, SLOT(slot_OnUpdateElapsedConfigurationTime()));
+
     //Required registration of MetaTyples from the MotionController interface
     qRegisterMetaType<common::TuplePositionalString>("TuplePositionalString");
     qRegisterMetaType<common_data::MachinePositionalState>("MachinePositionalState");
@@ -52,8 +66,11 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_API = new ECM_API();
     m_API->m_Log->setLoggingStartTime(startTime);
 
-    connect(m_API, SIGNAL(signal_ExecutingProfile(std::string,common::EnvironmentTime)),
-            this, SLOT(slot_InitializeProfileExecution(std::string,common::EnvironmentTime)));
+    connect(m_API, SIGNAL(signal_ExecutingConfiguration(ExecutionProperties)),
+            this, SLOT(slot_ExecutingConfiguration(ExecutionProperties)));
+
+    connect(m_API, SIGNAL(signal_ExecutingOperation(ExecuteOperationProperties)),
+            this, SLOT(slot_ExecutingOperation(ExecuteOperationProperties)));
 
     //Create the state machine object and initialize to the idle state
     stateMachine = new hsm::StateMachine();
@@ -79,10 +96,6 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_WindowCustomMotionCommands = new Window_CustomMotionCommands(m_API->m_Galil);
     m_WindowCustomMotionCommands->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
     connect(m_WindowCustomMotionCommands,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
-
-    m_WindowMotionProfile = new Window_MotionProfile(m_API->m_Galil);
-    m_WindowMotionProfile->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
-    connect(m_WindowMotionProfile,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
     m_WindowRigol = new Window_RigolControl(m_API->m_Rigol);
     m_WindowRigol->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
@@ -314,7 +327,6 @@ void ECMControllerGUI::readSettings()
 
     bool sensorHidden = settings.value("sensorDisplayed", false).toBool();
     bool rigolHidden = settings.value("rigolDisplayed", false).toBool();
-    bool motionProfileHidden = settings.value("motionProfileDisplayed", false).toBool();
     bool customMotionCommands = settings.value("customMotionDisplayed", false).toBool();
     bool profileConfiguration = settings.value("profileConfiguration", false).toBool();
 
@@ -323,9 +335,6 @@ void ECMControllerGUI::readSettings()
 
     if(!rigolHidden)
         m_WindowRigol->show();
-
-    if(!motionProfileHidden)
-        m_WindowMotionProfile->show();
 
     if(!customMotionCommands)
         m_WindowCustomMotionCommands->show();
@@ -347,13 +356,11 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
 
         settings.setValue("sensorDisplayed",m_additionalSensorDisplay->isWindowHidden());
         settings.setValue("rigolDisplayed",m_WindowRigol->isWindowHidden());
-        settings.setValue("motionProfileDisplayed",m_WindowMotionProfile->isWindowHidden());
         settings.setValue("customMotionDisplayed",m_WindowCustomMotionCommands->isWindowHidden());
         settings.setValue("profileConfiguration",m_WindowCustomMotionCommands->isWindowHidden());
 
         m_additionalSensorDisplay->close();
         m_WindowRigol->close();
-        m_WindowMotionProfile->close();
         m_WindowCustomMotionCommands->close();
         m_WindowConnections->close();
         m_WindowProfileConfiguration->close();
@@ -508,14 +515,6 @@ void ECMControllerGUI::on_actionOscilliscope_triggered(bool checked)
         m_WindowRigol->hide();
 }
 
-void ECMControllerGUI::on_actionMotion_Profile_triggered(bool checked)
-{
-    if(checked)
-        m_WindowMotionProfile->show();
-    else
-        m_WindowMotionProfile->hide();
-}
-
 void ECMControllerGUI::on_actionCustom_Motion_Commands_triggered(bool checked)
 {
     if(checked)
@@ -565,22 +564,53 @@ void ECMControllerGUI::slot_OnLoadedConfiguration(const std::string &filePath)
 
 }
 
-void ECMControllerGUI::slot_InitializeProfileExecution(const std::string &operationName, const common::EnvironmentTime &startTime)
+void ECMControllerGUI::slot_ExecutingConfiguration(const ExecutionProperties &props)
 {
-    ui->lineEdit_OperationName->setText(QString::fromStdString(operationName));
-
-    QDate tmp_Date(startTime.year, startTime.month, startTime.dayOfMonth);
-    QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond);
-
-    //Clear all of the exisitng data that may be on the plots
-    m_PlotCollection.ClearAllData();
-
-    //Update plot properties of the current start time
-    ui->widget_primaryPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
-    ui->widget_primaryPlotCurrent->setOriginTime(QDateTime(tmp_Date, tmp_Time));
-    ui->widget_primaryPlotVoltage->setOriginTime(QDateTime(tmp_Date, tmp_Time));
-    m_additionalSensorDisplay->SetOriginTime(QDateTime(tmp_Date, tmp_Time));
+    if(props.getOperatingCondition() == ExecutionProperties::ExecutionCondition::BEGINNING)
+    {
+        ui->lineEdit_OperationIndexTotal->setText(QString::number(props.getMaxIndex()));
+        ui->lineEdit_ConfigurationTime->setText(QString::number(0));
+        elapsedConfigurationTimer->start();
+    }
+    else
+    {
+        elapsedConfigurationTimer->stop();
+    }
 }
+
+void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties &props)
+{
+    if(props.getOperatingCondition() == ExecutionProperties::ExecutionCondition::BEGINNING)
+    {
+        ui->lineEdit_OperationName->setText(QString::fromStdString(props.getOperationName()));
+
+        m_WindowProfileConfiguration->executingProfileIndex(props.getCurrentIndex());
+
+        EnvironmentTime startTime = props.getTime();
+        QDate tmp_Date(startTime.year, startTime.month, startTime.dayOfMonth);
+        QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond);
+
+        //Clear all of the exisitng data that may be on the plots
+        m_PlotCollection.ClearAllData();
+
+        //Update plot properties of the current start time
+        ui->widget_primaryPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
+        ui->widget_primaryPlotCurrent->setOriginTime(QDateTime(tmp_Date, tmp_Time));
+        ui->widget_primaryPlotVoltage->setOriginTime(QDateTime(tmp_Date, tmp_Time));
+        m_additionalSensorDisplay->SetOriginTime(QDateTime(tmp_Date, tmp_Time));
+
+        this->configurationStart = startTime;
+        ui->lineEdit_ConfigurationTime->setText(QString::number(0));
+
+        elapsedOperationTimer->start();
+    }
+    else
+    {
+        elapsedOperationTimer->stop();
+    }
+
+}
+
 
 void ECMControllerGUI::on_pushButton_Stop_released()
 {
@@ -649,10 +679,6 @@ void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ExecuteColle
         else
             return;
     }
-
-    //clear the current runtime items that are contained in the GUI
-    ui->lineEdit_ConfigurationTime->setText(QString::number(0));
-    ui->lineEdit_ProfileTime->setText(QString::number(0));
 
     //update the execution names per the GUI
     executeCollection.setPartNumber(partNumber.toStdString());
@@ -801,4 +827,20 @@ QString ECMControllerGUI::loadFileDialog(const std::string &filePath, const std:
         fullFilePath = fileDialog.selectedFiles().first();
     }
     return fullFilePath;
+}
+
+void ECMControllerGUI::slot_OnUpdateElapsedOperationTime()
+{
+    EnvironmentTime currentTime;
+    EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK, currentTime);
+
+    ui->lineEdit_OperationTime->setText(QString::number((currentTime - operationStart)/(1000*1000)));
+}
+
+void ECMControllerGUI::slot_OnUpdateElapsedConfigurationTime()
+{
+    EnvironmentTime currentTime;
+    EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK, currentTime);
+
+    ui->lineEdit_ConfigurationTime->setText(QString::number((currentTime - configurationStart)/(1000*1000)));
 }

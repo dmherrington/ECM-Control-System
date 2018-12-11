@@ -8,6 +8,10 @@ Window_ProfileConfiguration::Window_ProfileConfiguration(ECM_API* apiObject, QWi
     ui->setupUi(this);
     m_API = apiObject;
 
+    m_WindowMotionProfile = new Window_MotionProfile(m_API->m_Galil);
+    m_WindowMotionProfile->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
+    connect(m_WindowMotionProfile,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
+
     connect(ui->listWidget->model(),SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),this,SLOT(on_ListWidgetRowMoved()));
 }
 
@@ -18,14 +22,15 @@ Window_ProfileConfiguration::~Window_ProfileConfiguration()
 
 void Window_ProfileConfiguration::closeEvent(QCloseEvent *event)
 {
+    m_WindowMotionProfile->close();
     GeneralDialogWindow::closeEvent(event);
 }
 
 void Window_ProfileConfiguration::on_actionClose_triggered()
 {
+    m_WindowMotionProfile->close();
     GeneralDialogWindow::onCloseAction();
 }
-
 
 void Window_ProfileConfiguration::executingProfileIndex(const unsigned int &index)
 {
@@ -270,6 +275,8 @@ void Window_ProfileConfiguration::saveToFile(const QString &filePath)
     }
 
     saveObject["configData"] = segmentDataArray;
+    saveObject["configureHome"] = ui->checkBox_ShouldHomeBeIndicated->isChecked();
+    saveObject["galilScript"] = QString::fromStdString(m_WindowMotionProfile->getCurrentGalilScript());
     QJsonDocument saveDoc(saveObject);
     saveFile.write(saveDoc.toJson());
     saveFile.close();
@@ -290,6 +297,11 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
 
     QJsonDocument loadDoc(QJsonDocument::fromJson(loadData));
     QJsonObject jsonObject = loadDoc.object();
+
+    this->setIndicateHome(jsonObject["configureHome"].toBool());
+    m_WindowMotionProfile->setFilePath(filePath.toStdString());
+    m_WindowMotionProfile->setProgramText(jsonObject["galilScript"].toString().toStdString());
+
     QJsonArray configArray = jsonObject["configData"].toArray();
 
     if(!configArray.isEmpty())
@@ -311,10 +323,27 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
             profileCollection.insertProfile(loadConfig);
         }
     }
-
     emit signal_LoadedProfileCollection(filePath.toStdString());
 }
 
+void Window_ProfileConfiguration::setIndicateHome(const bool &checked)
+{
+    ui->checkBox_ShouldHomeBeIndicated->setChecked(checked);
+}
+
+void Window_ProfileConfiguration::slot_ChangedWindowVisibility(const GeneralDialogWindow::DialogWindowTypes &type, const bool visibility)
+{
+    switch (type) {
+    case GeneralDialogWindow::DialogWindowTypes::WINDOW_MOTION_PROFILE:
+        ui->actionMotion_Profile->setChecked(visibility);
+        break;
+    default:
+        std::cout<<"On slot_ChangedWindowVisibility called with unrecognized dialog window type."<<std::endl;
+        break;
+    }
+}
+
+/*
 void Window_ProfileConfiguration::on_checkBox_ShouldHomeBeIndicated_toggled(bool checked)
 {
     std::map<QListWidgetItem*,TableWidget_OperationDescriptor*>::iterator it = m_MapOperations.begin();
@@ -324,4 +353,13 @@ void Window_ProfileConfiguration::on_checkBox_ShouldHomeBeIndicated_toggled(bool
         TableWidget_OperationDescriptor* currentOperation = it->second;
         currentOperation->setShouldHomeIndicateAutomatically(checked);
     }
+}
+*/
+
+void Window_ProfileConfiguration::on_actionMotion_Profile_triggered(bool checked)
+{
+    if(checked)
+        m_WindowMotionProfile->show();
+    else
+        m_WindowMotionProfile->hide();
 }

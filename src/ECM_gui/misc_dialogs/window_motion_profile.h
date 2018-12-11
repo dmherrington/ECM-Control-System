@@ -27,6 +27,17 @@ private:
 signals:
     void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility) override;
 
+public:
+    void setFilePath(const std::string &path);
+
+    void setProgramText(const std::string &programText);
+
+public:
+    void openGalilScript();
+    void uploadGalilScript();
+    void downloadGalilScript();
+    std::string getCurrentGalilScript() const;
+
 private:
     void saveToFile(const QString &filePath);
 

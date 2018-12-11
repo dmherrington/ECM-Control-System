@@ -66,7 +66,10 @@ private slots:
 */
 private slots:
     void slot_OnLoadedConfiguration(const std::string &filePath);
-    void slot_InitializeProfileExecution(const std::string &operationName, const common::EnvironmentTime &startTime);
+
+    void slot_ExecutingOperation(const ExecuteOperationProperties &props);
+    void slot_ExecutingConfiguration(const ExecutionProperties &props);
+
     void on_ExecuteProfileCollection(const ECMCommand_ExecuteCollection &collection);
 
 private slots:
@@ -121,8 +124,6 @@ private slots:
 
     void on_actionOscilliscope_triggered(bool checked);
 
-    void on_actionMotion_Profile_triggered(bool checked);
-
     void on_actionCustom_Motion_Commands_triggered(bool checked);
 
     void on_actionOpen_Sensors_Window_triggered(bool checked);
@@ -172,13 +173,20 @@ private:
     Window_RigolControl* m_WindowRigol;
     Window_DeviceConnections* m_WindowConnections;
     Window_CustomMotionCommands* m_WindowCustomMotionCommands;
-    Window_MotionProfile* m_WindowMotionProfile;
 
 private:
     void ProgressStateMachineStates();
     std::mutex m_Mutex_StateMachine;
     hsm::StateMachine* stateMachine;
 
+private:
+    EnvironmentTime operationStart;
+    EnvironmentTime configurationStart;
+    QTimer* elapsedConfigurationTimer;
+    QTimer* elapsedOperationTimer;
+private slots:
+    void slot_OnUpdateElapsedOperationTime();
+    void slot_OnUpdateElapsedConfigurationTime();
 };
 
 #endif // ECM_CONTROLLER_GUI_H

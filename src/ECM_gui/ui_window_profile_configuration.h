@@ -39,6 +39,7 @@ public:
     QAction *actionSave;
     QAction *actionSave_As;
     QAction *actionClose;
+    QAction *actionMotion_Profile;
     QWidget *centralwidget;
     QGridLayout *gridLayout_6;
     QGridLayout *gridLayout_4;
@@ -213,6 +214,9 @@ public:
         actionSave_As->setObjectName(QStringLiteral("actionSave_As"));
         actionClose = new QAction(Window_ProfileConfiguration);
         actionClose->setObjectName(QStringLiteral("actionClose"));
+        actionMotion_Profile = new QAction(Window_ProfileConfiguration);
+        actionMotion_Profile->setObjectName(QStringLiteral("actionMotion_Profile"));
+        actionMotion_Profile->setCheckable(true);
         centralwidget = new QWidget(Window_ProfileConfiguration);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         gridLayout_6 = new QGridLayout(centralwidget);
@@ -580,6 +584,7 @@ public:
         menuFile->addAction(actionSave_As);
         menuFile->addSeparator();
         menuFile->addAction(actionClose);
+        menuTools->addAction(actionMotion_Profile);
 
         retranslateUi(Window_ProfileConfiguration);
 
@@ -593,6 +598,7 @@ public:
         actionSave->setText(QApplication::translate("Window_ProfileConfiguration", "Save", nullptr));
         actionSave_As->setText(QApplication::translate("Window_ProfileConfiguration", "Save As", nullptr));
         actionClose->setText(QApplication::translate("Window_ProfileConfiguration", "Close", nullptr));
+        actionMotion_Profile->setText(QApplication::translate("Window_ProfileConfiguration", "Motion Profile", nullptr));
         label_ManualControl_6->setText(QApplication::translate("Window_ProfileConfiguration", "Profile Configuration", nullptr));
         label_3->setText(QApplication::translate("Window_ProfileConfiguration", "Current Configuration:", nullptr));
         label_2->setText(QApplication::translate("Window_ProfileConfiguration", "Galil Script:", nullptr));
@@ -603,7 +609,7 @@ public:
         pushButton_AddOperation->setText(QApplication::translate("Window_ProfileConfiguration", "Add Operation", nullptr));
         pushButton_RemoveOperation->setText(QApplication::translate("Window_ProfileConfiguration", "Remove Operation", nullptr));
         groupBox->setTitle(QApplication::translate("Window_ProfileConfiguration", "Settings", nullptr));
-        checkBox_ShouldHomeBeIndicated->setText(QApplication::translate("Window_ProfileConfiguration", "Should Home Be Autonomously Indicated", nullptr));
+        checkBox_ShouldHomeBeIndicated->setText(QApplication::translate("Window_ProfileConfiguration", "Indicate Home Autonomously", nullptr));
         menuFile->setTitle(QApplication::translate("Window_ProfileConfiguration", "File", nullptr));
         menuEdit->setTitle(QApplication::translate("Window_ProfileConfiguration", "Edit", nullptr));
         menuTools->setTitle(QApplication::translate("Window_ProfileConfiguration", "Tools", nullptr));

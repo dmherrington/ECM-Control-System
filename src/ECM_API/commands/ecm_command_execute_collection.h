@@ -4,7 +4,7 @@
 #include "ecm_command_abstract_collection.h"
 #include "ecm_command_profile_collection.h"
 
-class ECMCommand_ExecuteCollection : public ECMCommand_ProfileCollection
+class ECMCommand_ExecuteCollection : public ECMCommand_ProfileCollection, public ExecutionTimeProperties
 {
 public:
     ECMCommand_ExecuteCollection();
@@ -56,6 +56,7 @@ public:
     ECMCommand_ExecuteCollection& operator = (const ECMCommand_ExecuteCollection &rhs)
     {
         ECMCommand_ProfileCollection::operator =(rhs);
+        ExecutionTimeProperties::operator =(rhs);
         this->partNumber = rhs.partNumber;
         this->serialNumber = rhs.serialNumber;
         this->activeIndex = rhs.activeIndex;
@@ -72,6 +73,9 @@ public:
     bool operator == (const ECMCommand_ExecuteCollection &rhs)
     {
         if(!ECMCommand_ProfileCollection::operator ==(rhs)){
+            return false;
+        }
+        if(!ExecutionTimeProperties::operator ==(rhs)){
             return false;
         }
         if(this->partNumber != rhs.partNumber){

@@ -1,13 +1,13 @@
 #include "ecm_command_execute_collection.h"
 
 ECMCommand_ExecuteCollection::ECMCommand_ExecuteCollection():
-    ECMCommand_ProfileCollection()
+    ECMCommand_ProfileCollection(), ExecutionTimeProperties()
 {
     this->collectionType = CollectionType::ECMCollection_Execute;
 }
 
 ECMCommand_ExecuteCollection::ECMCommand_ExecuteCollection(const ECMCommand_ExecuteCollection &copy):
-    ECMCommand_ProfileCollection(copy)
+    ECMCommand_ProfileCollection(copy), ExecutionTimeProperties(copy)
 {
     this->partNumber = copy.partNumber;
     this->serialNumber = copy.serialNumber;

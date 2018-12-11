@@ -8,6 +8,7 @@
 #include "../general_dialog_window.h"
 
 #include "widget_profile_parameters.h"
+#include "window_motion_profile.h"
 #include "table_widget_operation_descriptor.h"
 
 #include "ECM_API/commands/ecm_command_execute_collection.h"
@@ -68,6 +69,8 @@ private slots:
 private slots:
     void slot_OnExecuteExplicitProfileConfig(const ECMCommand_ProfileConfiguration &config);
 
+    void slot_ChangedWindowVisibility(const GeneralDialogWindow::DialogWindowTypes &type, const bool visibility);
+
 public:
     void saveToFile(const QString &filePath);
 
@@ -82,10 +85,18 @@ private slots:
 
     void on_actionClose_triggered();
 
-    void on_checkBox_ShouldHomeBeIndicated_toggled(bool checked);
+    //void on_checkBox_ShouldHomeBeIndicated_toggled(bool checked);
+
+    void on_actionMotion_Profile_triggered(bool checked);
+
+private:
+    void setIndicateHome(const bool &checked);
 
 private:
     Ui::Window_ProfileConfiguration *ui;
+
+    Window_MotionProfile* m_WindowMotionProfile;
+
     ECM_API* m_API;
 
 private:

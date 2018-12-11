@@ -2,6 +2,8 @@
 #define PROGRAM_LABEL_LIST_H
 
 #include <QStringList>
+#include <QJsonArray>
+#include <QJsonObject>
 
 #include <map>
 #include <string>
@@ -16,9 +18,9 @@ public:
     ProgramLabelList(const ProgramLabelList &copy);
 
 public:
-    //void writeToJSON(QJsonObject &saveObject);
+    void writeToJSON(QJsonObject &saveObject);
 
-    //void readFromJSON(const QJsonObject &openObject);
+    void readFromJSON(const QJsonObject &openObject);
 
 public:
     bool doesLabelExist(const std::string &name) const;

@@ -10,14 +10,6 @@ ECM_API::ECM_API()
 
     m_Galil = new GalilMotionController();
 
-    connect(m_Galil,SIGNAL(signal_MotionControllerCommunicationUpdate(common::comms::CommunicationUpdate)),
-            this,SLOT(slot_MotionControllerCommunicationUpdate(common::comms::CommunicationUpdate)));
-
-    connect(m_Galil, SIGNAL(signal_GalilUpdatedProfileState(MotionProfileState)),
-            this, SLOT(slot_UpdateMotionProfileState(MotionProfileState)));
-
-    //ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
-
     m_Sensoray = new Sensoray();
 
     m_Modbus485 = new Library_QModBus();
@@ -50,7 +42,7 @@ bool ECM_API::checkLoggingPathValidity(const string &partNumber, const string &s
     return m_Log->checkLoggingPath(partNumber, serialNumber);
 }
 
-void ECM_API::writeCurrentOperationSettings(const ECMCommand_ExecuteCollection &executionCollection, const bool &clearContents)
+void ECM_API::initializeOperationalCollection(const ECMCommand_ExecuteCollection &executionCollection, const bool &clearContents)
 {
     //gets the file and directory structure ready for us
     m_Log->initializeLogging(executionCollection.getPartNumber(),
@@ -59,9 +51,15 @@ void ECM_API::writeCurrentOperationSettings(const ECMCommand_ExecuteCollection &
 
     //writes the properties of the configuration to a log file
     m_Log->writeExecutionCollection(executionCollection);
+
+    ExecutionProperties props;
+    props.setTime(executionCollection.getStartTime());
+    props.setMaxIndex(executionCollection.getCollectionSize());
+    emit signal_ExecutingConfiguration(props);
+
 }
 
-void ECM_API::initializeECMLogs(const ECMCommand_ExecuteCollection &executionCollection,
+void ECM_API::initializeOperationLogs(const ECMCommand_ExecuteCollection &executionCollection,
                                 const std::string &descriptor)
 {
     std::string operationsString;
@@ -95,7 +93,7 @@ void ECM_API::initializeECMLogs(const ECMCommand_ExecuteCollection &executionCol
                               profileConfig.execProperties.getStartTime());
 }
 
-void ECM_API::executeMachiningProcess(const ECMCommand_ProfileConfiguration &profileConfig)
+void ECM_API::executeOperationalProfile(const ECMCommand_ProfileConfiguration &profileConfig)
 {
     //Enable logging of any current machining information that comes through
     m_Log->enableLogging(true);
@@ -103,7 +101,12 @@ void ECM_API::executeMachiningProcess(const ECMCommand_ProfileConfiguration &pro
     //Begin requesting of information from the oscilliscope
     m_Rigol->executeMeasurementPolling(true);
 
-    emit signal_ExecutingProfile(profileConfig.getOperationName(),profileConfig.execProperties.getStartTime());
+    //Assemble a message to notify any listeners that we are about to execute an operation
+    ExecuteOperationProperties props(profileConfig.getOperationName(), profileConfig.getOperationIndex());
+    props.setTime(profileConfig.execProperties.getStartTime());
+
+    //Emit the signal notifying the listeners of a new operational profile
+    emit signal_ExecutingOperation(props);
 
     //CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,
     //                                                                           profileConfig.getProfileName());
@@ -125,60 +128,7 @@ void ECM_API::action_StopMachine()
     CommandStopPtr commandGalilStop = std::make_shared<CommandStop>();
     m_Galil->executeCommand(commandGalilStop);
 
-    //m_Pump->ceasePumpOperations();
-}
-
-void ECM_API::slot_MotionControllerCommunicationUpdate(const common::comms::CommunicationUpdate &update)
-{
-    //    if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
-    //        m_Galil->initializeMotionController();
-}
-
-void ECM_API::slot_UpdateMotionProfileState(const MotionProfileState &state)
-{
-    switch (state.getProfileState()->getType()) {
-    case MotionProfile::ProfileType::SETUP:
-        break;
-    case MotionProfile::ProfileType::HOMING:
-        break;
-    case MotionProfile::ProfileType::TOUCHOFF:
-        break;
-    case MotionProfile::ProfileType::PROFILE:
-    {
-        //implement a better way to cast the state in this condition
-        ProfileState_Machining* castState = (ProfileState_Machining*)state.getProfileState().get();
-        ProfileState_Machining::MACHININGProfileCodes currentCode = castState->getCurrentCode();
-        switch (currentCode) {
-        case ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE:
-
-            break;
-        case ProfileState_Machining::MACHININGProfileCodes::COMPLETE:
-        {
-
-
-            break;
-        }
-        case ProfileState_Machining::MACHININGProfileCodes::ABORTED:
-        {
-            m_Pump->ceasePumpOperations();
-
-            //grab the current time and update all of the sources
-            common::EnvironmentTime endTime;
-            common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,endTime);
-
-            //conclude writing to the logs with any wrap up data that we need
-            m_Log->CloseMachiningLog(endTime, currentCode);
-
-            //m_Rigol->executeMeasurementPolling(false);
-            break;
-        }
-        default:
-            break;
-        }
-    }
-    default:
-        break;
-    }
+    m_Pump->ceasePumpOperations();
 }
 
 void ECM_API::writeHeaderBreaker(std::string &logString, const unsigned int &size) const

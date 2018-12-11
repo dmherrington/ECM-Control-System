@@ -21,7 +21,7 @@ void GalilCurrentOperation::writeToJSON(QJsonObject &saveObject)
 
     dataObject["profileName"] = QString::fromStdString(this->getProfileName());
     dataObject["programScript"] = QString::fromStdString(this->getProgram());
-
+    this->labelList.writeToJSON(dataObject);
     this->variableList.writeToJSON(dataObject);
     MCDataArray.append(dataObject);
 
@@ -35,7 +35,7 @@ void GalilCurrentOperation::readFromJSON(const QJsonObject &openObject)
 
     this->setProfileName(MCObject["profileName"].toString().toStdString());
     this->setProgram(MCObject["programScript"].toString().toStdString());
-
+    this->labelList.readFromJSON(MCObject);
     this->variableList.readFromJSON(MCObject);
 }
 

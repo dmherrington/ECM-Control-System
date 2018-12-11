@@ -52,15 +52,6 @@ void ECMState_ExecutionComplete::Update()
 
 void ECMState_ExecutionComplete::OnEnter()
 {
-    //First set the move to home speed based on the jog value
-    int jogMoveSpeed = 5000;
-    CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(MotorAxis::Z, jogMoveSpeed);
-    Owner().m_Galil->executeCommand(commandSpeed);
-
-    //Next, transmit the move to home command
-    CommandAbsoluteMovePtr command = std::make_shared<CommandAbsoluteMove>(MotorAxis::Z,0);
-    Owner().m_Galil->executeCommand(command);
-
     this->desiredState = ECMState::STATE_ECM_IDLE;
 }
 

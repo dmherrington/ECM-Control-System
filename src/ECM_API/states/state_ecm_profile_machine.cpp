@@ -94,14 +94,14 @@ void ECMState_ProfileMachine::OnEnter(const ECMCommand_ExecuteCollection &collec
      */
     if(m_ECMCollection.shouldOverwriteLogs() && m_ECMCollection.isFirstOperation(m_ECMCollection.getActiveIndex()))
     {
-        Owner().writeCurrentOperationSettings(m_ECMCollection, true);
+        Owner().initializeOperationalCollection(m_ECMCollection, true);
     }
 
     /*
      * When initializing the logs, this process sets up the directory structure and the accompanying header contents.
      * At this time, the collection is also written to the appropriate contents and any necessary loggin setup.
      */
-    Owner().initializeECMLogs(m_ECMCollection);
+    Owner().initializeOperationLogs(m_ECMCollection);
 
     this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS;
 }
