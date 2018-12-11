@@ -9,6 +9,7 @@ ECMState_UploadPumpParameters::ECMState_UploadPumpParameters():
     std::cout<<"We are currently in the constructor of STATE_ECM_UPLOAD_PUMP_PARAMETERS."<<std::endl;
     this->currentState = ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS;
     this->desiredState = ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS;
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_UploadPumpParameters::OnExit()

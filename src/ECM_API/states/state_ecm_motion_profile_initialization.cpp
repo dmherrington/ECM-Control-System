@@ -8,6 +8,7 @@ ECMState_MotionProfileInitialization::ECMState_MotionProfileInitialization():
 {
     this->currentState = ECMState::STATE_ECM_MOTION_PROFILE_INITIALIZATION;
     this->desiredState = ECMState::STATE_ECM_MOTION_PROFILE_INITIALIZATION;
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_MotionProfileInitialization::OnExit()

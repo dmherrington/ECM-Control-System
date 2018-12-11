@@ -67,7 +67,7 @@ inline std::string ECMStateToString(const ECMState &type) {
     case ECMState::STATE_ECM_PROFILE_MACHINE:
         return "Profile Machining";
     case ECMState::STATE_ECM_PROFILE_MACHINE_ABORT:
-        return "Profile Machining Cease";
+        return "Profile Machining Abort";
     case ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE:
         return "Profile Machining Complete";
     case ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION:
@@ -91,7 +91,7 @@ inline std::string ECMStateToString(const ECMState &type) {
         return "Machine Setup Touchoff";
 
     case ECMState::STATE_ECM_UPLOAD:
-        return "Machine Initialization";
+        return "Machine Upload";
     case ECMState::STATE_ECM_UPLOAD_COMPLETE:
         return "Machine Upload Complete";
     case ECMState::STATE_ECM_UPLOAD_FAILED:

@@ -9,6 +9,7 @@ ECMState_ProfileMachineAbort::ECMState_ProfileMachineAbort():
     std::cout<<"We are currently in the constructor of STATE_ECM_PROFILE_MACHINE_ABORT."<<std::endl;
     this->currentState = ECMState::STATE_ECM_PROFILE_MACHINE_ABORT;
     this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_ABORT;
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_ProfileMachineAbort::OnExit()
@@ -64,6 +65,12 @@ void ECMState_ProfileMachineAbort::OnEnter()
 void ECMState_ProfileMachineAbort::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
 {
     this->m_Config = configuration;
+    m_Config.execProperties.completeExecution();
+    Owner().concludeExecutingOperation(m_Config);
+
+    Owner().action_StopMachine();
+
+    desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_FAILED;
 }
 
 

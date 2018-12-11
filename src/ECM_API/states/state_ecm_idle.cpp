@@ -9,6 +9,7 @@ ECMState_Idle::ECMState_Idle():
     std::cout<<"We are currently in the constructor of STATE_ECM_IDLE."<<std::endl;
     this->currentState = ECMState::STATE_ECM_IDLE;
     this->desiredState = ECMState::STATE_ECM_IDLE;
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_Idle::OnExit()

@@ -70,6 +70,10 @@ public:
     virtual void OnEnter();
 
 public:
+    virtual void stopProcess()
+    {
+
+    }
 
     virtual void executeCollection(const ECMCommand_ExecuteCollection &collection);
 
@@ -81,6 +85,9 @@ public:
 protected:
     bool checkEStop() const;
     void clearCommand();
+
+protected:
+    void notifyOwnerStateTransition();
 
 protected:
     ECMCommand_ExecuteCollection m_ECMCollection;

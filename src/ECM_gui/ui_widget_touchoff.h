@@ -312,6 +312,7 @@ public:
         checkBox_UtilizeTouchoff = new QCheckBox(Widget_Touchoff);
         checkBox_UtilizeTouchoff->setObjectName(QStringLiteral("checkBox_UtilizeTouchoff"));
         checkBox_UtilizeTouchoff->setFont(font1);
+        checkBox_UtilizeTouchoff->setChecked(true);
 
         horizontalLayout->addWidget(checkBox_UtilizeTouchoff);
 

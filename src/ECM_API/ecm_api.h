@@ -55,12 +55,15 @@ public:
 
     void concludeExecutingOperation(const ECMCommand_ProfileConfiguration &profileConfig);
 
+    void notifyNewOuterState(const std::string &stateString);
+
 private:
     void writeHeaderBreaker(std::string &logString, const unsigned int &size) const;
 
     std::map<std::string, std::string> getSoftwareVersions() const;
 
 signals:
+    void signal_NewOuterState(const std::string &stateString);
     void signal_ExecutingCollection(const ExecutionProperties &props);
     void signal_ExecutingOperation(const ExecuteOperationProperties &props);
 

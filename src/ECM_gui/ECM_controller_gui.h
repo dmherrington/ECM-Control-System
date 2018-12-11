@@ -75,6 +75,9 @@ private slots:
 
     void on_ExecuteProfileCollection(const ECMCommand_ExecuteCollection &collection);
 
+    void slot_OnNewOuterMachineState(const std::string &stateString);
+
+
 private slots:
     void slot_NewProfileVariableData(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state);
 

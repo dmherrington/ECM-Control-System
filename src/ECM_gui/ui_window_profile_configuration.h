@@ -28,6 +28,7 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -41,19 +42,21 @@ public:
     QAction *actionClose;
     QAction *actionMotion_Profile;
     QWidget *centralwidget;
-    QGridLayout *gridLayout_6;
-    QGridLayout *gridLayout_4;
+    QGridLayout *gridLayout_3;
+    QGridLayout *gridLayout_2;
     QHBoxLayout *horizontalLayout_15;
     QSpacerItem *horizontalSpacer_21;
     QGridLayout *gridLayout_20;
     QLabel *label_ManualControl_6;
     QSpacerItem *horizontalSpacer_22;
-    QGridLayout *gridLayout_3;
+    QVBoxLayout *verticalLayout;
+    QHBoxLayout *horizontalLayout_4;
     QLabel *label_3;
+    QSpacerItem *horizontalSpacer_3;
     QLineEdit *lineEdit_ConfugrationPath;
-    QGridLayout *gridLayout_2;
+    QHBoxLayout *horizontalLayout_3;
     QLabel *label_2;
-    QLineEdit *lineEdit_GalilScriptPath;
+    QSpacerItem *horizontalSpacer_2;
     QHBoxLayout *horizontalLayout_2;
     QPushButton *pushButton_OpenMotionScript;
     QPushButton *pushButton_UploadMotionScript;
@@ -65,11 +68,11 @@ public:
     QPushButton *pushButton_AddOperation;
     QPushButton *pushButton_RemoveOperation;
     QSpacerItem *horizontalSpacer;
-    QTabWidget *tabWidget_OperationParameters;
     QGroupBox *groupBox;
     QGridLayout *gridLayout_5;
     QCheckBox *checkBox_ShouldHomeBeIndicated;
     QSpacerItem *verticalSpacer;
+    QTabWidget *tabWidget_OperationParameters;
     QMenuBar *menubar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -81,14 +84,14 @@ public:
     {
         if (Window_ProfileConfiguration->objectName().isEmpty())
             Window_ProfileConfiguration->setObjectName(QStringLiteral("Window_ProfileConfiguration"));
-        Window_ProfileConfiguration->resize(1650, 680);
+        Window_ProfileConfiguration->resize(1620, 680);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Window_ProfileConfiguration->sizePolicy().hasHeightForWidth());
         Window_ProfileConfiguration->setSizePolicy(sizePolicy);
-        Window_ProfileConfiguration->setMinimumSize(QSize(1650, 680));
-        Window_ProfileConfiguration->setMaximumSize(QSize(1800, 680));
+        Window_ProfileConfiguration->setMinimumSize(QSize(1620, 680));
+        Window_ProfileConfiguration->setMaximumSize(QSize(1620, 680));
         Window_ProfileConfiguration->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
@@ -219,10 +222,10 @@ public:
         actionMotion_Profile->setCheckable(true);
         centralwidget = new QWidget(Window_ProfileConfiguration);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
-        gridLayout_6 = new QGridLayout(centralwidget);
-        gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
-        gridLayout_4 = new QGridLayout();
-        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
+        gridLayout_3 = new QGridLayout(centralwidget);
+        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
+        gridLayout_2 = new QGridLayout();
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         horizontalLayout_15 = new QHBoxLayout();
         horizontalLayout_15->setObjectName(QStringLiteral("horizontalLayout_15"));
         horizontalSpacer_21 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -257,40 +260,50 @@ public:
         horizontalLayout_15->addItem(horizontalSpacer_22);
 
 
-        gridLayout_4->addLayout(horizontalLayout_15, 0, 0, 1, 1);
+        gridLayout_2->addLayout(horizontalLayout_15, 0, 0, 1, 2);
 
-        gridLayout_3 = new QGridLayout();
-        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
         label_3 = new QLabel(centralwidget);
         label_3->setObjectName(QStringLiteral("label_3"));
         QFont font1;
         font1.setPointSize(10);
         label_3->setFont(font1);
 
-        gridLayout_3->addWidget(label_3, 0, 0, 1, 1);
+        horizontalLayout_4->addWidget(label_3);
+
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_4->addItem(horizontalSpacer_3);
+
+
+        verticalLayout->addLayout(horizontalLayout_4);
 
         lineEdit_ConfugrationPath = new QLineEdit(centralwidget);
         lineEdit_ConfugrationPath->setObjectName(QStringLiteral("lineEdit_ConfugrationPath"));
         lineEdit_ConfugrationPath->setFont(font1);
 
-        gridLayout_3->addWidget(lineEdit_ConfugrationPath, 1, 0, 1, 1);
+        verticalLayout->addWidget(lineEdit_ConfugrationPath);
 
 
-        gridLayout_4->addLayout(gridLayout_3, 1, 0, 1, 1);
+        gridLayout_2->addLayout(verticalLayout, 1, 0, 1, 1);
 
-        gridLayout_2 = new QGridLayout();
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
         label_2 = new QLabel(centralwidget);
         label_2->setObjectName(QStringLiteral("label_2"));
         label_2->setFont(font1);
 
-        gridLayout_2->addWidget(label_2, 0, 0, 1, 1);
+        horizontalLayout_3->addWidget(label_2);
 
-        lineEdit_GalilScriptPath = new QLineEdit(centralwidget);
-        lineEdit_GalilScriptPath->setObjectName(QStringLiteral("lineEdit_GalilScriptPath"));
-        lineEdit_GalilScriptPath->setFont(font1);
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout_2->addWidget(lineEdit_GalilScriptPath, 1, 0, 1, 1);
+        horizontalLayout_3->addItem(horizontalSpacer_2);
+
+
+        gridLayout_2->addLayout(horizontalLayout_3, 2, 0, 1, 1);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
@@ -447,10 +460,7 @@ public:
         horizontalLayout_2->addWidget(pushButton_DownloadMotionScript);
 
 
-        gridLayout_2->addLayout(horizontalLayout_2, 2, 0, 1, 1);
-
-
-        gridLayout_4->addLayout(gridLayout_2, 2, 0, 1, 1);
+        gridLayout_2->addLayout(horizontalLayout_2, 3, 0, 1, 2);
 
         gridLayout = new QGridLayout();
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
@@ -517,10 +527,32 @@ public:
         gridLayout->addLayout(horizontalLayout, 2, 0, 1, 1);
 
 
-        gridLayout_4->addLayout(gridLayout, 3, 0, 1, 1);
+        gridLayout_2->addLayout(gridLayout, 4, 0, 1, 2);
+
+        groupBox = new QGroupBox(centralwidget);
+        groupBox->setObjectName(QStringLiteral("groupBox"));
+        groupBox->setMinimumSize(QSize(470, 0));
+        groupBox->setMaximumSize(QSize(470, 16777215));
+        gridLayout_5 = new QGridLayout(groupBox);
+        gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
+        checkBox_ShouldHomeBeIndicated = new QCheckBox(groupBox);
+        checkBox_ShouldHomeBeIndicated->setObjectName(QStringLiteral("checkBox_ShouldHomeBeIndicated"));
+        QFont font2;
+        font2.setPointSize(12);
+        checkBox_ShouldHomeBeIndicated->setFont(font2);
+        checkBox_ShouldHomeBeIndicated->setChecked(true);
+
+        gridLayout_5->addWidget(checkBox_ShouldHomeBeIndicated, 0, 0, 1, 1);
 
 
-        gridLayout_6->addLayout(gridLayout_4, 0, 0, 1, 1);
+        gridLayout_2->addWidget(groupBox, 5, 0, 1, 2);
+
+        verticalSpacer = new QSpacerItem(17, 108, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout_2->addItem(verticalSpacer, 6, 1, 1, 1);
+
+
+        gridLayout_3->addLayout(gridLayout_2, 0, 0, 1, 1);
 
         tabWidget_OperationParameters = new QTabWidget(centralwidget);
         tabWidget_OperationParameters->setObjectName(QStringLiteral("tabWidget_OperationParameters"));
@@ -534,33 +566,12 @@ public:
 "	font: 12pt \"MS Shell Dlg 2\";\n"
 "}"));
 
-        gridLayout_6->addWidget(tabWidget_OperationParameters, 0, 1, 3, 1);
-
-        groupBox = new QGroupBox(centralwidget);
-        groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setMinimumSize(QSize(470, 0));
-        groupBox->setMaximumSize(QSize(470, 16777215));
-        gridLayout_5 = new QGridLayout(groupBox);
-        gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
-        checkBox_ShouldHomeBeIndicated = new QCheckBox(groupBox);
-        checkBox_ShouldHomeBeIndicated->setObjectName(QStringLiteral("checkBox_ShouldHomeBeIndicated"));
-        QFont font2;
-        font2.setPointSize(12);
-        checkBox_ShouldHomeBeIndicated->setFont(font2);
-
-        gridLayout_5->addWidget(checkBox_ShouldHomeBeIndicated, 0, 0, 1, 1);
-
-
-        gridLayout_6->addWidget(groupBox, 1, 0, 1, 1);
-
-        verticalSpacer = new QSpacerItem(20, 111, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        gridLayout_6->addItem(verticalSpacer, 2, 0, 1, 1);
+        gridLayout_3->addWidget(tabWidget_OperationParameters, 0, 1, 1, 1);
 
         Window_ProfileConfiguration->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Window_ProfileConfiguration);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1650, 40));
+        menubar->setGeometry(QRect(0, 0, 1620, 40));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menubar);

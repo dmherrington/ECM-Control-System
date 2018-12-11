@@ -9,11 +9,17 @@ ECMState_Upload::ECMState_Upload():
     std::cout<<"We are currently in the constructor of STATE_ECM_UPLOAD."<<std::endl;
     this->currentState = ECMState::STATE_ECM_UPLOAD;
     this->desiredState = ECMState::STATE_ECM_UPLOAD;
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_Upload::OnExit()
 {
 
+}
+
+void ECMState_Upload::stopProcess()
+{
+    desiredState = ECMState::STATE_ECM_IDLE;
 }
 
 AbstractStateECMProcess* ECMState_Upload::getClone() const

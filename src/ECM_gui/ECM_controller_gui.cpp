@@ -72,9 +72,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API, SIGNAL(signal_ExecutingOperation(ExecuteOperationProperties)),
             this, SLOT(slot_ExecutingOperation(ExecuteOperationProperties)));
 
-    //Create the state machine object and initialize to the idle state
-    stateMachine = new hsm::StateMachine();
-    stateMachine->Initialize<ECM::API::ECMState_Idle>(m_API);
+//    connect(m_API, SIGNAL(signal_NewOuterState(std::string)),
+//            this, SLOT(slot_OnNewOuterMachineState(std::string)));
 
     //API Connections
     connect(m_API->m_Rigol, SIGNAL(signal_RigolPlottable(common::TupleSensorString,bool)), this, SLOT(slot_NewlyAvailableRigolData(common::TupleSensorString,bool)));
@@ -88,6 +87,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_Galil,SIGNAL(signal_GalilHomeIndicated(bool)),this,SLOT(slot_UpdateHomeIndicated(bool)));
     connect(m_API->m_Galil,SIGNAL(signal_GalilTouchoffIndicated(bool)),this,SLOT(slot_UpdateTouchoff(bool)));
     connect(m_API->m_Galil, SIGNAL(signal_MCNewMotionState(QString)), this, SLOT(slot_MCNewMotionState(QString)));
+    this->slot_MCNewMotionState(QString::fromStdString(m_API->m_Galil->getCurrentMCState()));
 
     m_WindowCustomMotionCommands = new Window_CustomMotionCommands(m_API->m_Galil);
     m_WindowCustomMotionCommands->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
@@ -134,6 +134,10 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
         else
             slot_AddPlottable(plottables.at(i));
     }
+
+    //Create the state machine object and initialize to the idle state
+    stateMachine = new hsm::StateMachine();
+    stateMachine->Initialize<ECM::API::ECMState_Idle>(m_API);
 
     readSettings();
 
@@ -673,6 +677,11 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
 void ECMControllerGUI::on_pushButton_Stop_released()
 {
     m_API->action_StopMachine();
+
+    ECM::API::AbstractStateECMProcess* currentState = static_cast<ECM::API::AbstractStateECMProcess*>(stateMachine->getCurrentOuterState());
+    currentState->stopProcess();
+
+    ProgressStateMachineStates();
 }
 
 void ECMControllerGUI::on_actionClear_All_Data_triggered()
@@ -748,6 +757,10 @@ void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ExecuteColle
     ProgressStateMachineStates();
 }
 
+void ECMControllerGUI::slot_OnNewOuterMachineState(const std::string &stateString)
+{
+    ui->lineEdit_OuterState->setText(QString::fromStdString(stateString));
+}
 //!
 //! \brief Cause the state machine to update it's states
 //!

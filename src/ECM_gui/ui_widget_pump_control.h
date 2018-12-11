@@ -20,7 +20,6 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QSpacerItem>
-#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -29,25 +28,22 @@ class Ui_Widget_PumpControl
 {
 public:
     QGridLayout *gridLayout;
-    QGridLayout *gridLayout_16;
     QHBoxLayout *horizontalLayout_17;
     QSpacerItem *horizontalSpacer_23;
     QGridLayout *gridLayout_24;
     QLabel *label_ManualControl_5;
     QSpacerItem *horizontalSpacer_24;
-    QVBoxLayout *verticalLayout_4;
-    QHBoxLayout *horizontalLayout_13;
-    QSpacerItem *horizontalSpacer_17;
-    QCheckBox *checkBox_WaitForDelay;
-    QSpacerItem *horizontalSpacer_18;
-    QHBoxLayout *horizontalLayout_14;
-    QSpacerItem *horizontalSpacer_19;
-    QSpacerItem *horizontalSpacer_20;
     QGridLayout *gridLayout_15;
     QDoubleSpinBox *doubleSpinBox_delayTime;
     QLabel *label_Flowrate;
     QDoubleSpinBox *doubleSpinBox_flowRate;
     QLabel *label_delayTim;
+    QHBoxLayout *horizontalLayout;
+    QSpacerItem *horizontalSpacer_17;
+    QCheckBox *checkBox_UtilizePump;
+    QSpacerItem *horizontalSpacer_21;
+    QCheckBox *checkBox_WaitForDelay;
+    QSpacerItem *horizontalSpacer_18;
 
     void setupUi(QWidget *Widget_PumpControl)
     {
@@ -180,8 +176,6 @@ public:
 "}"));
         gridLayout = new QGridLayout(Widget_PumpControl);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        gridLayout_16 = new QGridLayout();
-        gridLayout_16->setObjectName(QStringLiteral("gridLayout_16"));
         horizontalLayout_17 = new QHBoxLayout();
         horizontalLayout_17->setObjectName(QStringLiteral("horizontalLayout_17"));
         horizontalSpacer_23 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -216,49 +210,7 @@ public:
         horizontalLayout_17->addItem(horizontalSpacer_24);
 
 
-        gridLayout_16->addLayout(horizontalLayout_17, 0, 0, 1, 1);
-
-        verticalLayout_4 = new QVBoxLayout();
-        verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
-        horizontalLayout_13 = new QHBoxLayout();
-        horizontalLayout_13->setObjectName(QStringLiteral("horizontalLayout_13"));
-        horizontalSpacer_17 = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_13->addItem(horizontalSpacer_17);
-
-        checkBox_WaitForDelay = new QCheckBox(Widget_PumpControl);
-        checkBox_WaitForDelay->setObjectName(QStringLiteral("checkBox_WaitForDelay"));
-        QFont font1;
-        font1.setPointSize(12);
-        checkBox_WaitForDelay->setFont(font1);
-
-        horizontalLayout_13->addWidget(checkBox_WaitForDelay);
-
-        horizontalSpacer_18 = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_13->addItem(horizontalSpacer_18);
-
-
-        verticalLayout_4->addLayout(horizontalLayout_13);
-
-
-        gridLayout_16->addLayout(verticalLayout_4, 0, 1, 2, 1);
-
-        horizontalLayout_14 = new QHBoxLayout();
-        horizontalLayout_14->setObjectName(QStringLiteral("horizontalLayout_14"));
-        horizontalSpacer_19 = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_14->addItem(horizontalSpacer_19);
-
-        horizontalSpacer_20 = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_14->addItem(horizontalSpacer_20);
-
-
-        gridLayout_16->addLayout(horizontalLayout_14, 1, 0, 1, 1);
-
-
-        gridLayout->addLayout(gridLayout_16, 0, 0, 1, 1);
+        gridLayout->addLayout(horizontalLayout_17, 0, 0, 1, 1);
 
         gridLayout_15 = new QGridLayout();
         gridLayout_15->setObjectName(QStringLiteral("gridLayout_15"));
@@ -271,9 +223,9 @@ public:
         doubleSpinBox_delayTime->setSizePolicy(sizePolicy2);
         doubleSpinBox_delayTime->setMinimumSize(QSize(100, 20));
         doubleSpinBox_delayTime->setMaximumSize(QSize(100, 20));
-        QFont font2;
-        font2.setPointSize(10);
-        doubleSpinBox_delayTime->setFont(font2);
+        QFont font1;
+        font1.setPointSize(10);
+        doubleSpinBox_delayTime->setFont(font1);
         doubleSpinBox_delayTime->setAlignment(Qt::AlignCenter);
         doubleSpinBox_delayTime->setDecimals(0);
         doubleSpinBox_delayTime->setValue(0);
@@ -286,7 +238,9 @@ public:
         label_Flowrate->setSizePolicy(sizePolicy2);
         label_Flowrate->setMinimumSize(QSize(136, 20));
         label_Flowrate->setMaximumSize(QSize(16777215, 20));
-        label_Flowrate->setFont(font1);
+        QFont font2;
+        font2.setPointSize(12);
+        label_Flowrate->setFont(font2);
 
         gridLayout_15->addWidget(label_Flowrate, 1, 0, 1, 1);
 
@@ -296,7 +250,7 @@ public:
         doubleSpinBox_flowRate->setSizePolicy(sizePolicy2);
         doubleSpinBox_flowRate->setMinimumSize(QSize(100, 20));
         doubleSpinBox_flowRate->setMaximumSize(QSize(100, 20));
-        doubleSpinBox_flowRate->setFont(font2);
+        doubleSpinBox_flowRate->setFont(font1);
         doubleSpinBox_flowRate->setAlignment(Qt::AlignCenter);
         doubleSpinBox_flowRate->setDecimals(2);
 
@@ -308,12 +262,43 @@ public:
         label_delayTim->setSizePolicy(sizePolicy2);
         label_delayTim->setMinimumSize(QSize(136, 20));
         label_delayTim->setMaximumSize(QSize(16777215, 20));
-        label_delayTim->setFont(font1);
+        label_delayTim->setFont(font2);
 
         gridLayout_15->addWidget(label_delayTim, 0, 0, 1, 1);
 
 
         gridLayout->addLayout(gridLayout_15, 1, 0, 1, 1);
+
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalSpacer_17 = new QSpacerItem(13, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_17);
+
+        checkBox_UtilizePump = new QCheckBox(Widget_PumpControl);
+        checkBox_UtilizePump->setObjectName(QStringLiteral("checkBox_UtilizePump"));
+        checkBox_UtilizePump->setFont(font2);
+        checkBox_UtilizePump->setChecked(true);
+
+        horizontalLayout->addWidget(checkBox_UtilizePump);
+
+        horizontalSpacer_21 = new QSpacerItem(13, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_21);
+
+        checkBox_WaitForDelay = new QCheckBox(Widget_PumpControl);
+        checkBox_WaitForDelay->setObjectName(QStringLiteral("checkBox_WaitForDelay"));
+        checkBox_WaitForDelay->setFont(font2);
+        checkBox_WaitForDelay->setChecked(true);
+
+        horizontalLayout->addWidget(checkBox_WaitForDelay);
+
+        horizontalSpacer_18 = new QSpacerItem(13, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_18);
+
+
+        gridLayout->addLayout(horizontalLayout, 2, 0, 1, 1);
 
 
         retranslateUi(Widget_PumpControl);
@@ -325,9 +310,10 @@ public:
     {
         Widget_PumpControl->setWindowTitle(QApplication::translate("Widget_PumpControl", "Form", nullptr));
         label_ManualControl_5->setText(QApplication::translate("Widget_PumpControl", "Pump Configuration", nullptr));
-        checkBox_WaitForDelay->setText(QApplication::translate("Widget_PumpControl", "Wait For Delay", nullptr));
         label_Flowrate->setText(QApplication::translate("Widget_PumpControl", "Flowrate Setpoint (lpm)", nullptr));
         label_delayTim->setText(QApplication::translate("Widget_PumpControl", "Delay Time (sec)", nullptr));
+        checkBox_UtilizePump->setText(QApplication::translate("Widget_PumpControl", "Utilize Pump", nullptr));
+        checkBox_WaitForDelay->setText(QApplication::translate("Widget_PumpControl", "Wait For Delay", nullptr));
     } // retranslateUi
 
 };

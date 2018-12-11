@@ -22,6 +22,7 @@ Window_ProfileConfiguration::~Window_ProfileConfiguration()
 
 void Window_ProfileConfiguration::closeEvent(QCloseEvent *event)
 {
+    m_WindowMotionProfile->close();
     GeneralDialogWindow::closeEvent(event);
 }
 
@@ -74,11 +75,6 @@ ECMCommand_ExecuteCollection Window_ProfileConfiguration::getCurrentCollection()
 void Window_ProfileConfiguration::updateConfigurationPath(const std::string &path)
 {
     ui->lineEdit_ConfugrationPath->setText(QString::fromStdString(path));
-}
-
-void Window_ProfileConfiguration::updateGalilPath(const std::string &path)
-{
-    ui->lineEdit_GalilScriptPath->setText(QString::fromStdString(path));
 }
 
 TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const unsigned int &index, const std::string &operationName)
@@ -201,13 +197,7 @@ void Window_ProfileConfiguration::slot_OperationNameChanged(const std::string &n
 
 void Window_ProfileConfiguration::on_pushButton_OpenMotionScript_released()
 {
-    std::string extensionFilter = "Open TXT Files (*.txt);; Open DMC Files (*.dmc)";
-
-    QString filePath = GeneralDialogWindow::onOpenAction(extensionFilter);
-
-    if(!filePath.isEmpty() && !filePath.isNull()){
-        ui->lineEdit_GalilScriptPath->setText(filePath);
-    }
+    m_WindowMotionProfile->openGalilScript();
 }
 
 void Window_ProfileConfiguration::on_ListWidgetRowMoved()
@@ -292,9 +282,8 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
      if (!loadFile.open(QIODevice::ReadOnly)) return;
 
     this->updateConfigurationPath(filePath.toStdString());
-    this->updateGalilPath(filePath.toStdString());
 
-    clearExistingOperations();
+     clearExistingOperations();
 
     QByteArray loadData = loadFile.readAll();
     loadFile.close();

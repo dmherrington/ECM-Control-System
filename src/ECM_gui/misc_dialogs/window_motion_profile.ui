@@ -261,7 +261,7 @@ width:20px;
           </property>
           <property name="minimumSize">
            <size>
-            <width>200</width>
+            <width>330</width>
             <height>18</height>
            </size>
           </property>

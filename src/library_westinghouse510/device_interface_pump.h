@@ -23,9 +23,9 @@ public:
     //!
     virtual void RemoveHost(void* ptr)
     {
-        m_MutexFinishLambda.lock();
-        m_FinishLambda.erase(ptr);
-        m_MutexFinishLambda.unlock();
+        m_MutexFinishUploadLambda.lock();
+        m_FinishUploadLambda.erase(ptr);
+        m_MutexFinishUploadLambda.unlock();
 
         m_MutexPumpInitializedLambda.lock();
         m_PumpInitializedLambda.erase(ptr);
@@ -33,16 +33,16 @@ public:
     }
 
     void setLambda_FinishedUploadingParameters(const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
-        m_MutexFinishLambda.lock();
+        m_MutexFinishUploadLambda.lock();
 
-        if(m_FinishLambda.find(0) != m_FinishLambda.cend())
+        if(m_FinishUploadLambda.find(0) != m_FinishUploadLambda.cend())
         {
             printf("Warning!!!! A finish procedure already exists, replacing old with new\n");
-            m_FinishLambda.erase(0);
+            m_FinishUploadLambda.erase(0);
         }
 
-        m_FinishLambda.insert({0, lambda});
-        m_MutexFinishLambda.unlock();
+        m_FinishUploadLambda.insert({0, lambda});
+        m_MutexFinishUploadLambda.unlock();
     }
 
     void setLambda_FinishedPumpInitialization(const std::function<void(const bool completed)> &lambda){
@@ -67,9 +67,9 @@ public:
     //! \param lambda Action to perform
     //!
     void AddLambda_FinishedUploadingParameters(void* host, const std::function<void(const bool completed, const FINISH_CODE finishCode)> &lambda){
-        m_MutexFinishLambda.lock();
-        m_FinishLambda.insert({host, lambda});
-        m_MutexFinishLambda.unlock();
+        m_MutexFinishUploadLambda.lock();
+        m_FinishUploadLambda.insert({host, lambda});
+        m_MutexFinishUploadLambda.unlock();
     }
 
     void AddLambda_FinishedPumpInitialization(void* host, const std::function<void(const bool completed)> &lambda){
@@ -82,12 +82,12 @@ public:
 protected:
     void onFinishedUploadingParameters(const bool completed, const FINISH_CODE finishCode = FINISH_CODE::UNKNOWN){
 
-        m_MutexFinishLambda.lock();
-        for(auto it = m_FinishLambda.cbegin() ; it != m_FinishLambda.cend() ; ++it)
+        m_MutexFinishUploadLambda.lock();
+        for(auto it = m_FinishUploadLambda.cbegin() ; it != m_FinishUploadLambda.cend() ; ++it)
         {
             it->second(completed, finishCode);
         }
-        m_MutexFinishLambda.unlock();
+        m_MutexFinishUploadLambda.unlock();
     }
 
     void onFinishedInitializingPump(const bool completed){
@@ -103,10 +103,10 @@ signals:
     void signal_DeviceConfigured(const ECMDevice &device);
 
 protected:
-    std::unordered_map<void*, std::function<void(const bool completed, const FINISH_CODE finishCode)>> m_FinishLambda;
+    std::unordered_map<void*, std::function<void(const bool completed, const FINISH_CODE finishCode)>> m_FinishUploadLambda;
     std::unordered_map<void*, std::function<void(const bool completed)>> m_PumpInitializedLambda;
 
-    std::mutex m_MutexFinishLambda;
+    std::mutex m_MutexFinishUploadLambda;
     std::mutex m_MutexPumpInitializedLambda;
 };
 

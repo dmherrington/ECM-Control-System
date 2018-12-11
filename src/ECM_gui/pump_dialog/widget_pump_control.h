@@ -41,6 +41,8 @@ private:
 
     void setWaitForPumpDelay(const bool &wait);
 
+    void setUtilizePump(const bool &use);
+
 signals:
     void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility);
 

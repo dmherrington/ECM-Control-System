@@ -9,6 +9,7 @@ ECMState_ProfileMachineFailed::ECMState_ProfileMachineFailed():
     std::cout<<"We are currently in the constructor of STATE_ECM_PROFILE_MACHINE_FAILED."<<std::endl;
     this->currentState = ECMState::STATE_ECM_PROFILE_MACHINE_FAILED;
     this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_FAILED;
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_ProfileMachineFailed::OnExit()

@@ -9,6 +9,7 @@ ECMState_UploadPowerPulseMode::ECMState_UploadPowerPulseMode():
     std::cout<<"We are currently in the constructor of STATE_ECM_UPLOAD_POWER_PULSE_MODE."<<std::endl;
     this->currentState = ECMState::STATE_ECM_UPLOAD_POWER_PULSE_MODE;
     this->desiredState = ECMState::STATE_ECM_UPLOAD_POWER_PULSE_MODE;
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_UploadPowerPulseMode::OnExit()

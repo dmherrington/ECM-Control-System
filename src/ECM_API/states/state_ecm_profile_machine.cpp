@@ -9,11 +9,18 @@ ECMState_ProfileMachine::ECMState_ProfileMachine():
     std::cout<<"We are currently in the constructor of STATE_ECM_PROFILE_MACHINE."<<std::endl;
     this->currentState = ECMState::STATE_ECM_PROFILE_MACHINE;
     this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE;
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_ProfileMachine::OnExit()
 {
 
+}
+
+void ECMState_ProfileMachine::stopProcess()
+{
+    ECM::API::AbstractStateECMProcess* currentInnerState = static_cast<ECM::API::AbstractStateECMProcess*>(this->GetImmediateInnerState());
+    currentInnerState->stopProcess();
 }
 
 AbstractStateECMProcess* ECMState_ProfileMachine::getClone() const

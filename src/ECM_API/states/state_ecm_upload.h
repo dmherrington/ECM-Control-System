@@ -53,6 +53,9 @@ public:
     void OnExit() override;
 
 public:
+    void stopProcess() override;
+
+public:
     void OnEnter(const ECMCommand_ExecuteCollection &collection);
 
 };

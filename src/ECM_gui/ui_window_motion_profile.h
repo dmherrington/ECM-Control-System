@@ -266,7 +266,7 @@ public:
         lineEdit_motionScriptPath->setObjectName(QStringLiteral("lineEdit_motionScriptPath"));
         sizePolicy1.setHeightForWidth(lineEdit_motionScriptPath->sizePolicy().hasHeightForWidth());
         lineEdit_motionScriptPath->setSizePolicy(sizePolicy1);
-        lineEdit_motionScriptPath->setMinimumSize(QSize(200, 18));
+        lineEdit_motionScriptPath->setMinimumSize(QSize(330, 18));
         lineEdit_motionScriptPath->setMaximumSize(QSize(400, 18));
         lineEdit_motionScriptPath->setFont(font1);
 

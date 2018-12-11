@@ -9,6 +9,7 @@ ECMState_SetupMachinePump::ECMState_SetupMachinePump():
     std::cout<<"We are currently in the constructor of STATE_ECM_SETUP_MACHINE_PUMP."<<std::endl;
     this->currentState = ECMState::STATE_ECM_SETUP_MACHINE_PUMP;
     this->desiredState = ECMState::STATE_ECM_SETUP_MACHINE_PUMP;
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_SetupMachinePump::OnExit()

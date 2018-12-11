@@ -9,11 +9,17 @@ ECMState_SetupMachine::ECMState_SetupMachine():
     std::cout<<"We are currently in the constructor of STATE_ECM_SETUP_MACHINE."<<std::endl;
     this->currentState = ECMState::STATE_ECM_SETUP_MACHINE;
     this->desiredState = ECMState::STATE_ECM_SETUP_MACHINE;
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_SetupMachine::OnExit()
 {
 
+}
+
+void ECMState_SetupMachine::stopProcess()
+{
+    desiredState = ECMState::STATE_ECM_IDLE;
 }
 
 AbstractStateECMProcess* ECMState_SetupMachine::getClone() const

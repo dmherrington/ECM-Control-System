@@ -35,8 +35,6 @@ public:
 
     void updateConfigurationPath(const std::string &path);
 
-    void updateGalilPath(const std::string &path);
-
     void executingProfileIndex(const unsigned int &index);
 
 private:

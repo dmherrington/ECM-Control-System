@@ -9,6 +9,7 @@ ECMState_SetupMachineHome::ECMState_SetupMachineHome():
     std::cout<<"We are currently in the constructor of STATE_ECM_SETUP_MACHINE_HOME."<<std::endl;
     this->currentState = ECMState::STATE_ECM_SETUP_MACHINE_HOME;
     this->desiredState = ECMState::STATE_ECM_SETUP_MACHINE_HOME;
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_SetupMachineHome::OnExit()

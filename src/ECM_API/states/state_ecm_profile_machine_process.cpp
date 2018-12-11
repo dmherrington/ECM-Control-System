@@ -9,11 +9,17 @@ ECMState_ProfileMachineProcess::ECMState_ProfileMachineProcess():
     std::cout<<"We are currently in the constructor of STATE_ECM_PROFILE_MACHINE_PROCESS."<<std::endl;
     this->currentState = ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS;
     this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS;
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_ProfileMachineProcess::OnExit()
 {
     Owner().m_Galil->RemoveHost(this);
+}
+
+void ECMState_ProfileMachineProcess::stopProcess()
+{
+
 }
 
 AbstractStateECMProcess* ECMState_ProfileMachineProcess::getClone() const
@@ -54,7 +60,7 @@ hsm::Transition ECMState_ProfileMachineProcess::GetTransition()
 
 void ECMState_ProfileMachineProcess::Update()
 {
-
+    desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_ABORT;
 }
 
 void ECMState_ProfileMachineProcess::OnEnter()
@@ -104,8 +110,8 @@ void ECMState_ProfileMachineProcess::OnEnter(const ECMCommand_ProfileConfigurati
 
     Owner().executeOperationalProfile(this->m_Config);
 
-    m_Config.execProperties.setProfileCode(ProfileState_Machining::MACHININGProfileCodes::COMPLETE);
-    desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION;
+//    m_Config.execProperties.setProfileCode(ProfileState_Machining::MACHININGProfileCodes::COMPLETE);
+//    desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION;
 }
 
 
