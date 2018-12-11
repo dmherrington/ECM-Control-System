@@ -66,7 +66,7 @@ Window_MotionProfile::~Window_MotionProfile()
 
 void Window_MotionProfile::closeEvent(QCloseEvent *event)
 {
-    saveToFile(getPreviousSettingsPath());
+    //saveToFile(getPreviousSettingsPath());
     GeneralDialogWindow::closeEvent(event);
 }
 

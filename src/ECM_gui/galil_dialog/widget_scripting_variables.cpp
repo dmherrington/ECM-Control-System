@@ -35,7 +35,7 @@ Widget_ScriptingVariables::Widget_ScriptingVariables(GalilMotionController* gali
     m_Galil->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const GalilCurrentProgram &program){
         if(completed)
         {
-            loadFromCurrentProgram(program);
+            loadFromCurrentProgram(program, ui->comboBox_ProgramLabels->currentText().toStdString());
         }
     });
 
@@ -49,6 +49,8 @@ Widget_ScriptingVariables::~Widget_ScriptingVariables()
 void Widget_ScriptingVariables::loadFromCurrentProgram(const GalilCurrentProgram &program, const std::string &profileName)
 {
     m_OperationalProgram = program;
+    std::cout<<"The current program is: "<<std::endl;
+    std::cout<<m_OperationalProgram.getProgram()<<std::endl;
     updateProgramVariables(m_OperationalProgram.getVariableList());
     updateProgramLabels(m_OperationalProgram.getLabelList());
     if(!profileName.empty())

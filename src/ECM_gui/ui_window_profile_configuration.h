@@ -593,7 +593,7 @@ public:
 
     void retranslateUi(QMainWindow *Window_ProfileConfiguration)
     {
-        Window_ProfileConfiguration->setWindowTitle(QApplication::translate("Window_ProfileConfiguration", "MainWindow", nullptr));
+        Window_ProfileConfiguration->setWindowTitle(QApplication::translate("Window_ProfileConfiguration", "Profile Configuration", nullptr));
         actionOpen->setText(QApplication::translate("Window_ProfileConfiguration", "Open", nullptr));
         actionSave->setText(QApplication::translate("Window_ProfileConfiguration", "Save", nullptr));
         actionSave_As->setText(QApplication::translate("Window_ProfileConfiguration", "Save As", nullptr));
