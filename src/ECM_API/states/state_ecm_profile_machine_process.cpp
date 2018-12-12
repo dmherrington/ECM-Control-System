@@ -9,7 +9,6 @@ ECMState_ProfileMachineProcess::ECMState_ProfileMachineProcess():
     std::cout<<"We are currently in the constructor of STATE_ECM_PROFILE_MACHINE_PROCESS."<<std::endl;
     this->currentState = ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS;
     this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS;
-    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_ProfileMachineProcess::OnExit()
@@ -65,12 +64,16 @@ void ECMState_ProfileMachineProcess::Update()
 
 void ECMState_ProfileMachineProcess::OnEnter()
 {
+    AbstractStateECMProcess::notifyOwnerStateTransition();
+
     desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_ABORT;
 }
 
 void ECMState_ProfileMachineProcess::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
 {
     this->m_Config = configuration;
+
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 
     Owner().m_Galil->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
 

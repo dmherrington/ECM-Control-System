@@ -9,7 +9,6 @@ ECMState_ProfileMachineComplete::ECMState_ProfileMachineComplete():
     std::cout<<"We are currently in the constructor of STATE_ECM_PROFILE_MACHINE_COMPLETE."<<std::endl;
     this->currentState = ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE;
     this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE;
-    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_ProfileMachineComplete::OnExit()
@@ -50,12 +49,15 @@ void ECMState_ProfileMachineComplete::Update()
 
 void ECMState_ProfileMachineComplete::OnEnter()
 {
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 
 }
 
 void ECMState_ProfileMachineComplete::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
 {
     this->m_Config = configuration;
+
+    this->OnEnter();
 }
 
 } //end of namespace API

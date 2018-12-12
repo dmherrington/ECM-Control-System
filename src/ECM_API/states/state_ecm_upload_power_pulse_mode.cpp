@@ -9,7 +9,6 @@ ECMState_UploadPowerPulseMode::ECMState_UploadPowerPulseMode():
     std::cout<<"We are currently in the constructor of STATE_ECM_UPLOAD_POWER_PULSE_MODE."<<std::endl;
     this->currentState = ECMState::STATE_ECM_UPLOAD_POWER_PULSE_MODE;
     this->desiredState = ECMState::STATE_ECM_UPLOAD_POWER_PULSE_MODE;
-    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_UploadPowerPulseMode::OnExit()
@@ -62,13 +61,15 @@ void ECMState_UploadPowerPulseMode::Update()
 
 void ECMState_UploadPowerPulseMode::OnEnter()
 {
-
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_UploadPowerPulseMode::OnEnter(const ECMCommand_ProfileConfiguration &config)
 {
     //First update the configuation per what was received upon entering the state
     this->m_Config = config;
+
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 
 //    Owner().m_Munk->AddLambda_FinishedUploadingPulseMode(this,[this](const bool completed, const DeviceInterface_PowerSupply::FINISH_CODE finishCode){
 //            if(completed)

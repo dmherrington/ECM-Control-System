@@ -9,7 +9,6 @@ ECMState_ExecutionComplete::ECMState_ExecutionComplete():
     std::cout<<"We are currently in the constructor of STATE_ECM_EXECUTION_COMPLETE."<<std::endl;
     this->currentState = ECMState::STATE_ECM_EXECUTION_COMPLETE;
     this->desiredState = ECMState::STATE_ECM_EXECUTION_COMPLETE;
-    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_ExecutionComplete::OnExit()
@@ -53,7 +52,7 @@ void ECMState_ExecutionComplete::Update()
 
 void ECMState_ExecutionComplete::OnEnter()
 {
-    Owner().concludeExecutingCollection(this->m_ECMCollection);
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 
     this->desiredState = ECMState::STATE_ECM_IDLE;
 }
@@ -61,6 +60,8 @@ void ECMState_ExecutionComplete::OnEnter()
 void ECMState_ExecutionComplete::OnEnter(const ECMCommand_ExecuteCollection &collection)
 {
     this->m_ECMCollection = collection;
+
+    Owner().concludeExecutingCollection(this->m_ECMCollection);
 
     this->OnEnter();
 }

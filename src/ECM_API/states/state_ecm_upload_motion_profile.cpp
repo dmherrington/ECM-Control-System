@@ -9,7 +9,6 @@ ECMState_UploadMotionProfile::ECMState_UploadMotionProfile():
     std::cout<<"We are currently in the constructor of STATE_ECM_UPLOAD_MOTION_PROFILE."<<std::endl;
     this->currentState = ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE;
     this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE;
-    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_UploadMotionProfile::OnExit()
@@ -62,14 +61,15 @@ void ECMState_UploadMotionProfile::Update()
 
 void ECMState_UploadMotionProfile::OnEnter()
 {
-
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_UploadMotionProfile::OnEnter(const ECMCommand_ProfileConfiguration &config)
 {
     //First update the configuation per what was received upon entering the state
-
     this->m_Config = config;
+
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 
     Owner().m_Galil->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const GalilCurrentProgram &program){
         if(completed)

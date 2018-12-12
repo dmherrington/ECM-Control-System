@@ -41,12 +41,12 @@ void ECMState_SetupMachineComplete::Update()
 
 void ECMState_SetupMachineComplete::OnEnter()
 {
-
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_SetupMachineComplete::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
 {
-
+    this->OnEnter();
 }
 
 } //end of namespace API

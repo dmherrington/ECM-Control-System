@@ -9,7 +9,6 @@ ECMState_SetupMachineTouchoff::ECMState_SetupMachineTouchoff():
     std::cout<<"We are currently in the constructor of STATE_ECM_SETUP_MACHINE_TOUCHOFF."<<std::endl;
     this->currentState = ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF;
     this->desiredState = ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF;
-    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_SetupMachineTouchoff::OnExit()
@@ -54,12 +53,17 @@ void ECMState_SetupMachineTouchoff::Update()
 
 void ECMState_SetupMachineTouchoff::OnEnter()
 {
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 
+    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
 }
 
 void ECMState_SetupMachineTouchoff::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
 {
     this->m_Config = configuration;
+
+    AbstractStateECMProcess::notifyOwnerStateTransition();
+
     if(configuration.m_Touchoff.shouldTouchoffBeUtilized())
     {
         /*

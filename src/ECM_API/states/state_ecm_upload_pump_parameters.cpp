@@ -9,7 +9,6 @@ ECMState_UploadPumpParameters::ECMState_UploadPumpParameters():
     std::cout<<"We are currently in the constructor of STATE_ECM_UPLOAD_PUMP_PARAMETERS."<<std::endl;
     this->currentState = ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS;
     this->desiredState = ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS;
-    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_UploadPumpParameters::OnExit()
@@ -62,13 +61,15 @@ void ECMState_UploadPumpParameters::Update()
 
 void ECMState_UploadPumpParameters::OnEnter()
 {
-
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_UploadPumpParameters::OnEnter(const ECMCommand_ProfileConfiguration &config)
 {
     //First update the configuation per what was received upon entering the state
     this->m_Config = config;
+
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 
     Owner().m_Pump->AddLambda_FinishedUploadingParameters(this,[this](const bool completed, const DeviceInterface_Pump::FINISH_CODE finishCode){
         UNUSED(finishCode);

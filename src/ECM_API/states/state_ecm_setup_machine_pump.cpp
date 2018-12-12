@@ -9,7 +9,6 @@ ECMState_SetupMachinePump::ECMState_SetupMachinePump():
     std::cout<<"We are currently in the constructor of STATE_ECM_SETUP_MACHINE_PUMP."<<std::endl;
     this->currentState = ECMState::STATE_ECM_SETUP_MACHINE_PUMP;
     this->desiredState = ECMState::STATE_ECM_SETUP_MACHINE_PUMP;
-    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_SetupMachinePump::OnExit()
@@ -54,6 +53,7 @@ void ECMState_SetupMachinePump::Update()
 
 void ECMState_SetupMachinePump::OnEnter()
 {
+    AbstractStateECMProcess::notifyOwnerStateTransition();
     /*
      * We should not be able to enter this method. This is an overloaded method as required from the base.
      * If for some reason this state has been entered while trying to setup the machine, we shall say
@@ -65,6 +65,9 @@ void ECMState_SetupMachinePump::OnEnter()
 void ECMState_SetupMachinePump::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
 {
     this->m_Config = configuration;
+
+    AbstractStateECMProcess::notifyOwnerStateTransition();
+
     if(configuration.m_PumpParameters.shouldPumpBeEngaged())
     {
 

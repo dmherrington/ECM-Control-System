@@ -151,7 +151,7 @@ void ECM_API::concludeExecutingCollection(const ECMCommand_ExecuteCollection &ex
 
 void ECM_API::notifyNewOuterState(const std::string &stateString)
 {
-    //emit signal_NewOuterState(stateString);
+    emit signal_NewOuterState(stateString);
 }
 
 void ECM_API::action_StopMachine()

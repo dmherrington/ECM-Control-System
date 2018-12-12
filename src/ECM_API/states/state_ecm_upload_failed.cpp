@@ -9,7 +9,6 @@ ECMState_UploadFailed::ECMState_UploadFailed():
     std::cout<<"We are currently in the constructor of STATE_ECM_UPLOAD_FAILED."<<std::endl;
     this->currentState = ECMState::STATE_ECM_UPLOAD_FAILED;
     this->desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
-    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_UploadFailed::OnExit()
@@ -46,12 +45,14 @@ void ECMState_UploadFailed::Update()
 
 void ECMState_UploadFailed::OnEnter()
 {
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 
 }
 
 void ECMState_UploadFailed::OnEnter(const ECMCommand_ProfileConfiguration &config)
 {
     //First update the configuation per what was received upon entering the state
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 } //end of namespace Galil

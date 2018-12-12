@@ -9,7 +9,6 @@ ECMState_SetupMachineFailed::ECMState_SetupMachineFailed():
     std::cout<<"We are currently in the constructor of STATE_ECM_SETUP_MACHINE_FAILED."<<std::endl;
     this->currentState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
     this->desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
-    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_SetupMachineFailed::OnExit()
@@ -41,12 +40,12 @@ void ECMState_SetupMachineFailed::Update()
 
 void ECMState_SetupMachineFailed::OnEnter()
 {
-
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_SetupMachineFailed::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
 {
-
+    this->OnEnter();
 }
 
 } //end of namespace API

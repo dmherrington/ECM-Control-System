@@ -9,7 +9,6 @@ ECMState_UploadComplete::ECMState_UploadComplete():
     std::cout<<"We are currently in the constructor of STATE_ECM_UPLOAD_COMPLETE."<<std::endl;
     this->currentState = ECMState::STATE_ECM_UPLOAD_COMPLETE;
     this->desiredState = ECMState::STATE_ECM_UPLOAD_COMPLETE;
-    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_UploadComplete::OnExit()
@@ -46,13 +45,13 @@ void ECMState_UploadComplete::Update()
 
 void ECMState_UploadComplete::OnEnter()
 {
-
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_UploadComplete::OnEnter(const ECMCommand_ProfileConfiguration &config)
 {
     UNUSED(config);
-    //First update the configuation per what was received upon entering the state
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 } //end of namespace Galil

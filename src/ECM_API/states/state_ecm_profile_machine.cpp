@@ -9,7 +9,6 @@ ECMState_ProfileMachine::ECMState_ProfileMachine():
     std::cout<<"We are currently in the constructor of STATE_ECM_PROFILE_MACHINE."<<std::endl;
     this->currentState = ECMState::STATE_ECM_PROFILE_MACHINE;
     this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE;
-    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_ProfileMachine::OnExit()
@@ -83,14 +82,18 @@ void ECMState_ProfileMachine::Update()
 
 void ECMState_ProfileMachine::OnEnter()
 {
-    std::cout<<"we are in here for some reason"<<std::endl;
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_ProfileMachine::OnEnter(const ECMCommand_ExecuteCollection &collection)
 {
     //First update the configuation per what was received upon entering the state
     this->m_ECMCollection = collection;
+
+    this->OnEnter();
+
     m_ECMCollection.initializeProfileExecution();
+
 
     /*
      * We need to establish if we should clear the logs. Since this is a recursive process, we require that two conditions

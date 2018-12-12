@@ -9,7 +9,6 @@ ECMState_UploadMotionVariables::ECMState_UploadMotionVariables():
     std::cout<<"We are currently in the constructor of STATE_ECM_UPLOAD_MOTION_VARIABLES."<<std::endl;
     this->currentState = ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES;
     this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES;
-    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_UploadMotionVariables::OnExit()
@@ -69,6 +68,8 @@ void ECMState_UploadMotionVariables::OnEnter(const ECMCommand_ProfileConfigurati
 {
     //First update the configuation per what was received upon entering the state
     this->m_Config = config;
+
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 
     Owner().m_Galil->AddLambda_FinishedUploadingVariables(this,[this](const bool completed, const ProgramVariableList &variableList){
         UNUSED(variableList);

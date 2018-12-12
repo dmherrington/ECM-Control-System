@@ -9,7 +9,6 @@ ECMState_Upload::ECMState_Upload():
     std::cout<<"We are currently in the constructor of STATE_ECM_UPLOAD."<<std::endl;
     this->currentState = ECMState::STATE_ECM_UPLOAD;
     this->desiredState = ECMState::STATE_ECM_UPLOAD;
-    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_Upload::OnExit()
@@ -96,6 +95,8 @@ void ECMState_Upload::Update()
 
 void ECMState_Upload::OnEnter()
 {
+    AbstractStateECMProcess::notifyOwnerStateTransition();
+
     //If we entered this state and received nothing, we should assume it is a failure.
     this->desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
 }
@@ -104,6 +105,8 @@ void ECMState_Upload::OnEnter(const ECMCommand_ExecuteCollection &collection)
 {
     //First update the configuation per what was received upon entering the state
     this->m_ECMCollection = collection;
+
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 
     /*
      * We should only transition to the upload motion profile state if the

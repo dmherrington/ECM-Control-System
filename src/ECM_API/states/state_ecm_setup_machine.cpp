@@ -9,7 +9,6 @@ ECMState_SetupMachine::ECMState_SetupMachine():
     std::cout<<"We are currently in the constructor of STATE_ECM_SETUP_MACHINE."<<std::endl;
     this->currentState = ECMState::STATE_ECM_SETUP_MACHINE;
     this->desiredState = ECMState::STATE_ECM_SETUP_MACHINE;
-    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_SetupMachine::OnExit()
@@ -95,6 +94,9 @@ void ECMState_SetupMachine::OnEnter()
 void ECMState_SetupMachine::OnEnter(const ECMCommand_ExecuteCollection &collection)
 {
     this->m_ECMCollection = collection;
+
+    AbstractStateECMProcess::notifyOwnerStateTransition();
+
     this->desiredState = ECMState::STATE_ECM_SETUP_MACHINE_HOME;
 }
 

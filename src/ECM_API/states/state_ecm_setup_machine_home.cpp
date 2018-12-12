@@ -9,7 +9,6 @@ ECMState_SetupMachineHome::ECMState_SetupMachineHome():
     std::cout<<"We are currently in the constructor of STATE_ECM_SETUP_MACHINE_HOME."<<std::endl;
     this->currentState = ECMState::STATE_ECM_SETUP_MACHINE_HOME;
     this->desiredState = ECMState::STATE_ECM_SETUP_MACHINE_HOME;
-    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_SetupMachineHome::OnExit()
@@ -54,12 +53,14 @@ void ECMState_SetupMachineHome::Update()
 
 void ECMState_SetupMachineHome::OnEnter()
 {
-
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_SetupMachineHome::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
 {
     this->m_Config = configuration;
+
+    this->OnEnter();
 
     //check that we should indicate home and it has not previously completed
     if(configuration.shouldHomeBeIndicated() && !Owner().m_Galil->stateInterface->isHomeInidcated())
