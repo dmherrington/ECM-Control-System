@@ -63,7 +63,8 @@ SOURCES += \
     commands/ecm_command_execution_properties.cpp \
     states/state_ecm_profile_machine_complete_execution.cpp \
     states/state_ecm_profile_machine_abort.cpp \
-    states/state_ecm_execution_complete.cpp
+    states/state_ecm_execution_complete.cpp \
+    states/state_ecm_setup_machine_touchoff_disconnect.cpp
 
 HEADERS += \
         ecm_api.h \
@@ -104,7 +105,8 @@ HEADERS += \
     states/state_ecm_profile_machine_base.h \
     states/state_ecm_profile_machine_complete_execution.h \
     states/state_ecm_profile_machine_abort.h \
-    states/state_ecm_execution_complete.h
+    states/state_ecm_execution_complete.h \
+    states/state_ecm_setup_machine_touchoff_disconnect.h
 
 # Unix lib Install
 unix:!symbian {

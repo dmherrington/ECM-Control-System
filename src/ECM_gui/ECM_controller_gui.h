@@ -77,6 +77,8 @@ private slots:
 
     void slot_OnNewOuterMachineState(const std::string &stateString);
 
+    void slot_OnExecutionPause(const std::string notificationText);
+
 
 private slots:
     void slot_NewProfileVariableData(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state);

@@ -36,6 +36,7 @@
 #include "ECM_API/states/state_ecm_setup_machine_home.h"
 #include "ECM_API/states/state_ecm_setup_machine_pump.h"
 #include "ECM_API/states/state_ecm_setup_machine_touchoff.h"
+#include "ECM_API/states/state_ecm_setup_machine_touchoff_disconnect.h"
 
 #include "ECM_API/states/state_ecm_upload.h"
 #include "ECM_API/states/state_ecm_upload_complete.h"

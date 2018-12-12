@@ -70,10 +70,9 @@ public:
     virtual void OnEnter();
 
 public:
-    virtual void stopProcess()
-    {
+    virtual void stopProcess();
 
-    }
+    virtual void continueProcess();
 
     virtual void executeCollection(const ECMCommand_ExecuteCollection &collection);
 

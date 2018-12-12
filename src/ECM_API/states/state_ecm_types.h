@@ -41,6 +41,7 @@ enum class ECMState{
     STATE_ECM_SETUP_MACHINE_HOME = 33, /**< */
     STATE_ECM_SETUP_MACHINE_PUMP = 34, /**< */
     STATE_ECM_SETUP_MACHINE_TOUCHOFF = 35, /**< */
+    STATE_ECM_SETUP_MACHINE_TOUCHOFF_DISCONNECT = 36, /**< */
     STATE_ECM_UPLOAD = 40, /**< */
     STATE_ECM_UPLOAD_COMPLETE = 41, /**< */
     STATE_ECM_UPLOAD_FAILED = 42, /**< */
@@ -91,6 +92,8 @@ inline std::string ECMStateToString(const ECMState &type) {
         return "Machine Setup Pump";
     case ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF:
         return "Machine Setup Touchoff";
+    case ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_DISCONNECT:
+        return "Machine Setup Touchoff Disconnect";
 
     case ECMState::STATE_ECM_UPLOAD:
         return "Machine Upload";

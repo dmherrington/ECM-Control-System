@@ -35,9 +35,9 @@ hsm::Transition ECMState_SetupMachineTouchoff::GetTransition()
         rtn = hsm::SiblingTransition<ECMState_SetupMachineFailed>();
         break;
     }
-    case ECMState::STATE_ECM_SETUP_MACHINE_PUMP:
+    case ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_DISCONNECT:
     {
-        rtn = hsm::SiblingTransition<ECMState_SetupMachinePump>(this->m_Config);
+        rtn = hsm::SiblingTransition<ECMState_SetupMachineTouchoffDisconnect>(this->m_Config);
         break;
     }
     default:
@@ -125,13 +125,14 @@ void ECMState_SetupMachineTouchoff::OnEnter(const ECMCommand_ProfileConfiguratio
         Owner().m_Galil->executeCommand(commandTouchoffExecute);
     }
     else{
-        desiredState = ECMState::STATE_ECM_SETUP_MACHINE_PUMP;
+        desiredState = ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_DISCONNECT;
     }
 }
 
 } //end of namespace API
 } //end of namespace ECM
 
+#include "states/state_ecm_setup_machine_touchoff_disconnect.h"
 #include "states/state_ecm_idle.h"
 #include "states/state_ecm_setup_machine_failed.h"
 #include "states/state_ecm_setup_machine_pump.h"

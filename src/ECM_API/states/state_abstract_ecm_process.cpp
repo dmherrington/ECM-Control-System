@@ -46,6 +46,16 @@ void AbstractStateECMProcess::OnEnter()
 
 }
 
+void AbstractStateECMProcess::stopProcess()
+{
+
+}
+
+void AbstractStateECMProcess::continueProcess()
+{
+
+}
+
 void AbstractStateECMProcess::notifyOwnerStateTransition()
 {
     Owner().notifyNewOuterState(ECMStateToString(this->currentState));

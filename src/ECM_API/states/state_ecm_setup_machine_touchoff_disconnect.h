@@ -1,5 +1,5 @@
-#ifndef STATE_ECM_SETUP_MACHINE_TOUCHOFF_H
-#define STATE_ECM_SETUP_MACHINE_TOUCHOFF_H
+#ifndef STATE_ECM_SETUP_MACHINE_TOUCHOFF_DISCONNECT_H
+#define STATE_ECM_SETUP_MACHINE_TOUCHOFF_DISCONNECT_H
 
 #include "common/class_forward.h"
 #include "common/hsm.h"
@@ -28,16 +28,16 @@
 namespace ECM{
 namespace API {
 
-ECM_CLASS_FORWARD(ECMState_SetupMachineTouchoff);
+ECM_CLASS_FORWARD(ECMState_SetupMachineTouchoffDisconnect);
 
 class ECMState_SetupMachineIdle;
 class ECMState_SetupMachineFailed;
-class ECMState_SetupMachineTouchoffDisconnect;
+class ECMState_SetupMachinePump;
 
-class ECMState_SetupMachineTouchoff : public AbstractStateECMProcess
+class ECMState_SetupMachineTouchoffDisconnect : public AbstractStateECMProcess
 {
 public:
-    ECMState_SetupMachineTouchoff();
+    ECMState_SetupMachineTouchoffDisconnect();
 
 public:
     AbstractStateECMProcess* getClone() const override;
@@ -53,6 +53,11 @@ public:
     void OnExit() override;
 
 public:
+    void stopProcess() override;
+
+    void continueProcess() override;
+
+public:
     void OnEnter(const ECMCommand_ProfileConfiguration &configuration);
 
 private:
@@ -62,4 +67,5 @@ private:
 } //end of namespace API
 } //end of namespace ECM
 
-#endif // STATE_ECM_SETUP_MACHINE_TOUCHOFF_H
+
+#endif // STATE_ECM_SETUP_MACHINE_TOUCHOFF_DISCONNECT_H

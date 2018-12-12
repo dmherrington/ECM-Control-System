@@ -75,6 +75,9 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API, SIGNAL(signal_NewOuterState(std::string)),
             this, SLOT(slot_OnNewOuterMachineState(std::string)));
 
+    connect(m_API, SIGNAL(signal_InPauseEvent()),
+            this, SLOT());
+
     //API Connections
     connect(m_API->m_Rigol, SIGNAL(signal_RigolPlottable(common::TupleSensorString,bool)), this, SLOT(slot_NewlyAvailableRigolData(common::TupleSensorString,bool)));
     connect(m_API->m_Rigol, SIGNAL(signal_RigolNewSensorValue(common::TupleSensorString,common_data::SensorState)), this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
@@ -761,6 +764,33 @@ void ECMControllerGUI::slot_OnNewOuterMachineState(const std::string &stateStrin
 {
     ui->lineEdit_OuterState->setText(QString::fromStdString(stateString));
 }
+
+void ECMControllerGUI::slot_OnExecutionPause(const std::string notificationText)
+{
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Information);
+    msgBox.setText("The current machining process has entered a pause state.");
+    msgBox.setInformativeText(QString::fromStdString(notificationText));
+    QAbstractButton* pButtonOk = msgBox.addButton(tr("Ok"), QMessageBox::AcceptRole);
+    QAbstractButton* pButtonCancel = msgBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
+    msgBox.exec();
+
+    ECM::API::AbstractStateECMProcess* currentState = static_cast<ECM::API::AbstractStateECMProcess*>(stateMachine->getCurrentState());
+
+    if(msgBox.clickedButton() == pButtonOk)
+    {
+        currentState->continueProcess();
+    }
+    else if(msgBox.clickedButton() == pButtonCancel)
+    {
+        currentState->stopProcess();
+    }
+    else
+        currentState->stopProcess();
+
+    ProgressStateMachineStates();
+}
+
 //!
 //! \brief Cause the state machine to update it's states
 //!

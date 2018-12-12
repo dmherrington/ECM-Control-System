@@ -154,6 +154,11 @@ void ECM_API::notifyNewOuterState(const std::string &stateString)
     emit signal_NewOuterState(stateString);
 }
 
+void ECM_API::notifyPausedEvent(const std::string notificationText)
+{
+    emit signal_InPauseEvent(notificationText);
+}
+
 void ECM_API::action_StopMachine()
 {
     CommandStopPtr commandGalilStop = std::make_shared<CommandStop>();

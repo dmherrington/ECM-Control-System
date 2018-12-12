@@ -57,6 +57,8 @@ public:
 
     void notifyNewOuterState(const std::string &stateString);
 
+    void notifyPausedEvent(const std::string notificationText);
+
 private:
     void writeHeaderBreaker(std::string &logString, const unsigned int &size) const;
 
@@ -64,6 +66,7 @@ private:
 
 signals:
     void signal_NewOuterState(const std::string &stateString);
+    void signal_InPauseEvent(const std::string notificationText);
     void signal_ExecutingCollection(const ExecutionProperties &props);
     void signal_ExecutingOperation(const ExecuteOperationProperties &props);
 
