@@ -59,6 +59,8 @@ enum class ECMState{
 //!
 inline std::string ECMStateToString(const ECMState &type) {
     switch (type) {
+    case ECMState::STATE_ECM_EXECUTION_COMPLETE:
+        return "Execution Complete";
     case ECMState::STATE_ECM_IDLE:
         return "Idle";
     case ECMState::STATE_ECM_MOTION_PROFILE_INITIALIZATION:

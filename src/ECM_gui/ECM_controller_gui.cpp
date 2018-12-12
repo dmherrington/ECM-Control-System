@@ -72,8 +72,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API, SIGNAL(signal_ExecutingOperation(ExecuteOperationProperties)),
             this, SLOT(slot_ExecutingOperation(ExecuteOperationProperties)));
 
-//    connect(m_API, SIGNAL(signal_NewOuterState(std::string)),
-//            this, SLOT(slot_OnNewOuterMachineState(std::string)));
+    connect(m_API, SIGNAL(signal_NewOuterState(std::string)),
+            this, SLOT(slot_OnNewOuterMachineState(std::string)));
 
     //API Connections
     connect(m_API->m_Rigol, SIGNAL(signal_RigolPlottable(common::TupleSensorString,bool)), this, SLOT(slot_NewlyAvailableRigolData(common::TupleSensorString,bool)));

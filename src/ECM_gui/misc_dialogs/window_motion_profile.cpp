@@ -15,6 +15,10 @@ Window_MotionProfile::Window_MotionProfile(GalilMotionController *obj, QWidget *
     m_MotionController->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const GalilCurrentProgram &program){
         if(completed)
         {
+            std::string programPath = "";
+            if(program.wasProgramLoaded(programPath))
+                ui->lineEdit_motionScriptPath->setText(QString::fromStdString(programPath));
+
             ui->codeTextEdit->clear();
             ui->codeTextEdit->setPlainText(QString::fromStdString(program.getProgram()));
             ui->led_ProgramCurrent->setColor(QColor(0,255,0));
