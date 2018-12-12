@@ -21,6 +21,10 @@ public:
 signals:
     void signal_HandleExecution(const bool &handle);
 
+private slots:
+    void on_pushButton_Ok_released();
+    void on_pushButton_Cancel_released();
+
 private:
     Ui::Dialog_ExecutionPaused *ui;
 };

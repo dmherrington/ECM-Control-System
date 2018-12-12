@@ -783,7 +783,7 @@ void ECMControllerGUI::slot_OnExecutionPause(const std::string notificationText)
     pauseDialog->setAttribute(Qt::WA_DeleteOnClose);
     pauseDialog->setModal(false);
     connect(pauseDialog, SIGNAL(signal_HandleExecution(bool)), this, SLOT(slot_OnHandlePause(bool)));
-
+    pauseDialog->setText(notificationText);
     pauseDialog->show();
 }
 

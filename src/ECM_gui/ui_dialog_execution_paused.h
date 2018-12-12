@@ -14,37 +14,71 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDialog>
-#include <QtWidgets/QDialogButtonBox>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QTextBrowser>
 
 QT_BEGIN_NAMESPACE
 
 class Ui_Dialog_ExecutionPaused
 {
 public:
-    QDialogButtonBox *buttonBox;
+    QGridLayout *gridLayout;
+    QLabel *label;
+    QTextBrowser *textBrowser;
+    QPushButton *pushButton_Ok;
+    QPushButton *pushButton_Cancel;
 
     void setupUi(QDialog *Dialog_ExecutionPaused)
     {
         if (Dialog_ExecutionPaused->objectName().isEmpty())
             Dialog_ExecutionPaused->setObjectName(QStringLiteral("Dialog_ExecutionPaused"));
-        Dialog_ExecutionPaused->resize(400, 300);
-        buttonBox = new QDialogButtonBox(Dialog_ExecutionPaused);
-        buttonBox->setObjectName(QStringLiteral("buttonBox"));
-        buttonBox->setGeometry(QRect(30, 240, 341, 32));
-        buttonBox->setOrientation(Qt::Horizontal);
-        buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
+        Dialog_ExecutionPaused->resize(383, 150);
+        Dialog_ExecutionPaused->setModal(false);
+        gridLayout = new QGridLayout(Dialog_ExecutionPaused);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        label = new QLabel(Dialog_ExecutionPaused);
+        label->setObjectName(QStringLiteral("label"));
+        QFont font;
+        font.setPointSize(10);
+        label->setFont(font);
+
+        gridLayout->addWidget(label, 0, 0, 1, 2);
+
+        textBrowser = new QTextBrowser(Dialog_ExecutionPaused);
+        textBrowser->setObjectName(QStringLiteral("textBrowser"));
+        QFont font1;
+        font1.setPointSize(1);
+        textBrowser->setFont(font1);
+
+        gridLayout->addWidget(textBrowser, 1, 0, 1, 2);
+
+        pushButton_Ok = new QPushButton(Dialog_ExecutionPaused);
+        pushButton_Ok->setObjectName(QStringLiteral("pushButton_Ok"));
+        pushButton_Ok->setFont(font);
+
+        gridLayout->addWidget(pushButton_Ok, 2, 0, 1, 1);
+
+        pushButton_Cancel = new QPushButton(Dialog_ExecutionPaused);
+        pushButton_Cancel->setObjectName(QStringLiteral("pushButton_Cancel"));
+        pushButton_Cancel->setFont(font);
+
+        gridLayout->addWidget(pushButton_Cancel, 2, 1, 1, 1);
+
 
         retranslateUi(Dialog_ExecutionPaused);
-        QObject::connect(buttonBox, SIGNAL(accepted()), Dialog_ExecutionPaused, SLOT(accept()));
-        QObject::connect(buttonBox, SIGNAL(rejected()), Dialog_ExecutionPaused, SLOT(reject()));
 
         QMetaObject::connectSlotsByName(Dialog_ExecutionPaused);
     } // setupUi
 
     void retranslateUi(QDialog *Dialog_ExecutionPaused)
     {
-        Dialog_ExecutionPaused->setWindowTitle(QApplication::translate("Dialog_ExecutionPaused", "Dialog", nullptr));
+        Dialog_ExecutionPaused->setWindowTitle(QApplication::translate("Dialog_ExecutionPaused", "Pause Dialog", nullptr));
+        label->setText(QApplication::translate("Dialog_ExecutionPaused", "The current machining process has encountered a pause point. ", nullptr));
+        pushButton_Ok->setText(QApplication::translate("Dialog_ExecutionPaused", "Ok", nullptr));
+        pushButton_Cancel->setText(QApplication::translate("Dialog_ExecutionPaused", "Cancel", nullptr));
     } // retranslateUi
 
 };

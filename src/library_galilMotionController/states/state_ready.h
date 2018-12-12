@@ -37,6 +37,9 @@ public:
 
     void OnEnter(const AbstractCommandPtr command);
 
+private:
+    unsigned int disableCount = 0;
+
 };
 
 } //end of namespace Galil

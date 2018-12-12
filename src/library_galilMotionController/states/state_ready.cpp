@@ -61,7 +61,7 @@ hsm::Transition State_Ready::GetTransition()
         }
         case GalilState::STATE_READY_STOP:
         {
-            rtn = hsm::SiblingTransition<State_ReadyStop>();
+            rtn = hsm::SiblingTransition<State_ReadyStop>(currentCommand);
             break;
         }
         case GalilState::STATE_ESTOP:
@@ -198,7 +198,11 @@ void State_Ready::Update()
     else
     {
         if(!Owner().isMotorEnabled())
-            desiredState = GalilState::STATE_IDLE;
+        {
+            disableCount++;
+            if(disableCount > 10)
+                desiredState = GalilState::STATE_IDLE;
+        }
     }
 }
 
@@ -210,6 +214,7 @@ void State_Ready::OnEnter()
 
     if(!Owner().isMotorEnabled())
     {
+        disableCount = 0;
         CommandMotorEnablePtr command = std::make_shared<CommandMotorEnable>();
         command->setEnableAxis(MotorAxis::Z);
         Owner().issueGalilCommand(command);
