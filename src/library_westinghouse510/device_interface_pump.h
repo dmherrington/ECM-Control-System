@@ -99,8 +99,6 @@ protected:
         }
         m_MutexPumpInitializedLambda.unlock();
     }
-signals:
-    void signal_DeviceConfigured(const ECMDevice &device);
 
 protected:
     std::unordered_map<void*, std::function<void(const bool completed, const FINISH_CODE finishCode)>> m_FinishUploadLambda;

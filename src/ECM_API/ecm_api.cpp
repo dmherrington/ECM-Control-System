@@ -108,9 +108,9 @@ void ECM_API::executeOperationalProfile(const ECMCommand_ProfileConfiguration &p
     //Emit the signal notifying the listeners of a new operational profile
     emit signal_ExecutingOperation(props);
 
-    //CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,
-    //                                                                           profileConfig.getProfileName());
-    //m_Galil->executeCommand(command);
+    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,
+                                                                               profileConfig.getProfileName());
+    m_Galil->executeCommand(command);
 }
 
 void ECM_API::concludeExecutingOperation(const ECMCommand_ProfileConfiguration &profileConfig)
