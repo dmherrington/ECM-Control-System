@@ -32,6 +32,8 @@
 #include "common/hsm.h"
 #include "ECM_API/states/state_ecm_components.h"
 
+#include "galil_dialog/dialog_execution_paused.h"
+
 namespace Ui {
 class ECMControllerGUI;
 }
@@ -79,6 +81,7 @@ private slots:
 
     void slot_OnExecutionPause(const std::string notificationText);
 
+    void slot_OnHandlePause(const bool &handle);
 
 private slots:
     void slot_NewProfileVariableData(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state);

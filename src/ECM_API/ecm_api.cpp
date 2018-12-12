@@ -115,15 +115,15 @@ void ECM_API::executeOperationalProfile(const ECMCommand_ProfileConfiguration &p
 
 void ECM_API::concludeExecutingOperation(const ECMCommand_ProfileConfiguration &profileConfig)
 {
-    //First disable the logs so no more contents are written post the machining operation
+    //Conclude writing to the logs with any wrap up data that we need
+    m_Log->WriteConcludingOperationStats(profileConfig.execProperties.getElapsedTime(),
+                             profileConfig.execProperties.getProfileCode());
+
+    //Disable the logs so no more contents are written post the machining operation
     m_Log->enableLogging(false);
 
     //Stop requesting information from the oscilliscope device
     m_Rigol->executeMeasurementPolling(false);
-
-    //Conclude writing to the logs with any wrap up data that we need
-    m_Log->WriteConcludingOperationStats(profileConfig.execProperties.getElapsedTime(),
-                             profileConfig.execProperties.getProfileCode());
 
     //Assemble a message to notify any listeners that we are finished executing an operation
     ExecuteOperationProperties props(profileConfig.getOperationName(), profileConfig.getOperationIndex());

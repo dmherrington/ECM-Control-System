@@ -63,6 +63,8 @@ void ECMState_SetupMachineTouchoffDisconnect::OnEnter(const ECMCommand_ProfileCo
     this->m_Config = configuration;
 
     AbstractStateECMProcess::notifyOwnerStateTransition();
+
+    Owner().notifyPausedEvent("Please disable the touchoff switch.");
 }
 
 void ECMState_SetupMachineTouchoffDisconnect::stopProcess()

@@ -75,8 +75,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API, SIGNAL(signal_NewOuterState(std::string)),
             this, SLOT(slot_OnNewOuterMachineState(std::string)));
 
-    connect(m_API, SIGNAL(signal_InPauseEvent()),
-            this, SLOT());
+    connect(m_API, SIGNAL(signal_InPauseEvent(std::string)),
+            this, SLOT(slot_OnExecutionPause(std::string)));
 
     //API Connections
     connect(m_API->m_Rigol, SIGNAL(signal_RigolPlottable(common::TupleSensorString,bool)), this, SLOT(slot_NewlyAvailableRigolData(common::TupleSensorString,bool)));
@@ -765,30 +765,26 @@ void ECMControllerGUI::slot_OnNewOuterMachineState(const std::string &stateStrin
     ui->lineEdit_OuterState->setText(QString::fromStdString(stateString));
 }
 
-void ECMControllerGUI::slot_OnExecutionPause(const std::string notificationText)
+void ECMControllerGUI::slot_OnHandlePause(const bool &handle)
 {
-    QMessageBox msgBox;
-    msgBox.setIcon(QMessageBox::Information);
-    msgBox.setText("The current machining process has entered a pause state.");
-    msgBox.setInformativeText(QString::fromStdString(notificationText));
-    QAbstractButton* pButtonOk = msgBox.addButton(tr("Ok"), QMessageBox::AcceptRole);
-    QAbstractButton* pButtonCancel = msgBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
-    msgBox.exec();
-
     ECM::API::AbstractStateECMProcess* currentState = static_cast<ECM::API::AbstractStateECMProcess*>(stateMachine->getCurrentState());
 
-    if(msgBox.clickedButton() == pButtonOk)
-    {
+    if(handle)
         currentState->continueProcess();
-    }
-    else if(msgBox.clickedButton() == pButtonCancel)
-    {
-        currentState->stopProcess();
-    }
     else
         currentState->stopProcess();
 
     ProgressStateMachineStates();
+}
+
+void ECMControllerGUI::slot_OnExecutionPause(const std::string notificationText)
+{
+    Dialog_ExecutionPaused* pauseDialog = new Dialog_ExecutionPaused(this);
+    pauseDialog->setAttribute(Qt::WA_DeleteOnClose);
+    pauseDialog->setModal(false);
+    connect(pauseDialog, SIGNAL(signal_HandleExecution(bool)), this, SLOT(slot_OnHandlePause(bool)));
+
+    pauseDialog->show();
 }
 
 //!

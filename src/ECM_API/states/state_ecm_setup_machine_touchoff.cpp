@@ -108,7 +108,7 @@ void ECMState_SetupMachineTouchoff::OnEnter(const ECMCommand_ProfileConfiguratio
                 }
                 case ProfileState_Touchoff::TOUCHOFFProfileCodes::FINISHED:
                 {
-                    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_PUMP;
+                    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_DISCONNECT;
                     break;
                 }
                 default:
