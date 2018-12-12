@@ -9,7 +9,7 @@ ECMState_SetupMachine::ECMState_SetupMachine():
     std::cout<<"We are currently in the constructor of STATE_ECM_SETUP_MACHINE."<<std::endl;
     this->currentState = ECMState::STATE_ECM_SETUP_MACHINE;
     this->desiredState = ECMState::STATE_ECM_SETUP_MACHINE;
-    AbstractStateECMProcess::notifyOwnerStateTransition();
+    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_SetupMachine::OnExit()
@@ -52,6 +52,11 @@ hsm::Transition ECMState_SetupMachine::GetTransition()
             //this could be caused by a command, action sensed by the vehicle, or
             //for various other peripheral reasons
             switch (desiredState) {
+            case ECMState::STATE_ECM_IDLE:
+            {
+                rtn = hsm::SiblingTransition<ECMState_Idle>();
+                break;
+            }
             case ECMState::STATE_ECM_SETUP_MACHINE_HOME:
             {
                 rtn = hsm::InnerEntryTransition<ECMState_SetupMachineHome>(m_ECMCollection.getActiveConfiguration());
@@ -68,7 +73,7 @@ hsm::Transition ECMState_SetupMachine::GetTransition()
                 break;
             }
             default:
-                std::cout<<"I dont know how we eneded up in this transition from within ECMState_Upload."<<std::endl;
+                std::cout<<"I dont know how we eneded up in this transition from within ECMState_SetupMachine."<<std::endl;
                 break;
             }
         }

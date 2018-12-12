@@ -9,7 +9,7 @@ ECMState_ExecutionComplete::ECMState_ExecutionComplete():
     std::cout<<"We are currently in the constructor of STATE_ECM_EXECUTION_COMPLETE."<<std::endl;
     this->currentState = ECMState::STATE_ECM_EXECUTION_COMPLETE;
     this->desiredState = ECMState::STATE_ECM_EXECUTION_COMPLETE;
-    AbstractStateECMProcess::notifyOwnerStateTransition();
+    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_ExecutionComplete::OnExit()

@@ -9,7 +9,7 @@ ECMState_ProfileMachineAbort::ECMState_ProfileMachineAbort():
     std::cout<<"We are currently in the constructor of STATE_ECM_PROFILE_MACHINE_ABORT."<<std::endl;
     this->currentState = ECMState::STATE_ECM_PROFILE_MACHINE_ABORT;
     this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_ABORT;
-    AbstractStateECMProcess::notifyOwnerStateTransition();
+    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_ProfileMachineAbort::OnExit()

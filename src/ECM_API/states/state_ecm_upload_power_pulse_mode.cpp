@@ -9,7 +9,7 @@ ECMState_UploadPowerPulseMode::ECMState_UploadPowerPulseMode():
     std::cout<<"We are currently in the constructor of STATE_ECM_UPLOAD_POWER_PULSE_MODE."<<std::endl;
     this->currentState = ECMState::STATE_ECM_UPLOAD_POWER_PULSE_MODE;
     this->desiredState = ECMState::STATE_ECM_UPLOAD_POWER_PULSE_MODE;
-    AbstractStateECMProcess::notifyOwnerStateTransition();
+    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_UploadPowerPulseMode::OnExit()
@@ -70,19 +70,19 @@ void ECMState_UploadPowerPulseMode::OnEnter(const ECMCommand_ProfileConfiguratio
     //First update the configuation per what was received upon entering the state
     this->m_Config = config;
 
-    Owner().m_Munk->AddLambda_FinishedUploadingPulseMode(this,[this](const bool completed, const DeviceInterface_PowerSupply::FINISH_CODE finishCode){
-            if(completed)
-            {
-                desiredState = ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS;
-            }else
-            {
-                desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
-            }
-    });
+//    Owner().m_Munk->AddLambda_FinishedUploadingPulseMode(this,[this](const bool completed, const DeviceInterface_PowerSupply::FINISH_CODE finishCode){
+//            if(completed)
+//            {
+//                desiredState = ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS;
+//            }else
+//            {
+//                desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
+//            }
+//    });
 
-    Owner().m_Munk->writeRegisterPulseMode(config.m_ConfigPowerSupply.m_MunkPulseMode);
+//    Owner().m_Munk->writeRegisterPulseMode(config.m_ConfigPowerSupply.m_MunkPulseMode);
 
-//    desiredState = ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS;
+    desiredState = ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS;
 
 }
 

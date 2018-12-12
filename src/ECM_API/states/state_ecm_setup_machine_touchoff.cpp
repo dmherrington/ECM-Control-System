@@ -9,7 +9,7 @@ ECMState_SetupMachineTouchoff::ECMState_SetupMachineTouchoff():
     std::cout<<"We are currently in the constructor of STATE_ECM_SETUP_MACHINE_TOUCHOFF."<<std::endl;
     this->currentState = ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF;
     this->desiredState = ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF;
-    AbstractStateECMProcess::notifyOwnerStateTransition();
+    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_SetupMachineTouchoff::OnExit()

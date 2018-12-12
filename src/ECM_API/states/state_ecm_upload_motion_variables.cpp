@@ -9,7 +9,7 @@ ECMState_UploadMotionVariables::ECMState_UploadMotionVariables():
     std::cout<<"We are currently in the constructor of STATE_ECM_UPLOAD_MOTION_VARIABLES."<<std::endl;
     this->currentState = ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES;
     this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES;
-    AbstractStateECMProcess::notifyOwnerStateTransition();
+    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_UploadMotionVariables::OnExit()

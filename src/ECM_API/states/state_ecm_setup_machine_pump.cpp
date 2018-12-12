@@ -9,7 +9,7 @@ ECMState_SetupMachinePump::ECMState_SetupMachinePump():
     std::cout<<"We are currently in the constructor of STATE_ECM_SETUP_MACHINE_PUMP."<<std::endl;
     this->currentState = ECMState::STATE_ECM_SETUP_MACHINE_PUMP;
     this->desiredState = ECMState::STATE_ECM_SETUP_MACHINE_PUMP;
-    AbstractStateECMProcess::notifyOwnerStateTransition();
+    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_SetupMachinePump::OnExit()
@@ -77,9 +77,9 @@ void ECMState_SetupMachinePump::OnEnter(const ECMCommand_ProfileConfiguration &c
             }
         });
 
-        registers_WestinghousePump::Register_OperationSignal newOps;
-        newOps.shouldRun(configuration.m_PumpParameters.shouldPumpBeEngaged());
-        Owner().m_Pump->setPumpProperties(configuration.m_PumpParameters);
+//        registers_WestinghousePump::Register_OperationSignal newOps;
+//        newOps.shouldRun(configuration.m_PumpParameters.shouldPumpBeEngaged());
+//        Owner().m_Pump->setPumpProperties(configuration.m_PumpParameters);
     }
     else
     {

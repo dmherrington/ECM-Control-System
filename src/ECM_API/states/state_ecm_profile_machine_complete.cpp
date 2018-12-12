@@ -9,7 +9,7 @@ ECMState_ProfileMachineComplete::ECMState_ProfileMachineComplete():
     std::cout<<"We are currently in the constructor of STATE_ECM_PROFILE_MACHINE_COMPLETE."<<std::endl;
     this->currentState = ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE;
     this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE;
-    AbstractStateECMProcess::notifyOwnerStateTransition();
+    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_ProfileMachineComplete::OnExit()

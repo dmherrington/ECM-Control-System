@@ -9,7 +9,7 @@ ECMState_UploadMotionProfile::ECMState_UploadMotionProfile():
     std::cout<<"We are currently in the constructor of STATE_ECM_UPLOAD_MOTION_PROFILE."<<std::endl;
     this->currentState = ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE;
     this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE;
-    AbstractStateECMProcess::notifyOwnerStateTransition();
+    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_UploadMotionProfile::OnExit()
