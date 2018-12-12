@@ -13,12 +13,19 @@ Dialog_ExecutionPaused::~Dialog_ExecutionPaused()
     delete ui;
 }
 
-void Dialog_ExecutionPaused::on_buttonBox_accepted()
+void Dialog_ExecutionPaused::setText(const std::string &fieldText)
 {
-    emit signal_HandleExecution(true);
+    ui->textBrowser->setText(QString::fromStdString(fieldText));
 }
 
-void Dialog_ExecutionPaused::on_buttonBox_rejected()
+void Dialog_ExecutionPaused::on_pushButton_Ok_released()
+{
+    emit signal_HandleExecution(true);
+    this->close();
+}
+
+void Dialog_ExecutionPaused::on_pushButton_Cancel_released()
 {
     emit signal_HandleExecution(false);
+    this->close();
 }
