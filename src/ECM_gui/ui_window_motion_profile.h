@@ -388,7 +388,7 @@ public:
 
     void retranslateUi(QMainWindow *Window_MotionProfile)
     {
-        Window_MotionProfile->setWindowTitle(QApplication::translate("Window_MotionProfile", "Motion Profile Code", nullptr));
+        Window_MotionProfile->setWindowTitle(QApplication::translate("Window_MotionProfile", "Galil Script", nullptr));
         actionOpen->setText(QApplication::translate("Window_MotionProfile", "Open", nullptr));
         actionSave->setText(QApplication::translate("Window_MotionProfile", "Save", nullptr));
         actionSave_As->setText(QApplication::translate("Window_MotionProfile", "Save As", nullptr));

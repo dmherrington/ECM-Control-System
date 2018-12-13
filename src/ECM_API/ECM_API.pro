@@ -112,7 +112,9 @@ HEADERS += \
     states/state_ecm_setup_machine_touchoff_position.h \
     states/state_ecm_setup_machine_touchoff_execute.h \
     states/state_ecm_setup_machine_touchoff_completed.h \
-    states/state_ecm_setup_machine_touchoff_failed.h
+    states/state_ecm_setup_machine_touchoff_failed.h \
+    commands/ecmcommand_base_profile_config.h \
+    commands/ecm_command_abstract_profile_config.h
 
 # Unix lib Install
 unix:!symbian {

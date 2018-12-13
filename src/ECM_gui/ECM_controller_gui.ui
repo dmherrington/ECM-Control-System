@@ -1782,9 +1782,6 @@ width:20px;
    </property>
   </action>
   <action name="actionProfile_Configuration">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="text">
     <string>Profile Configuration</string>
    </property>

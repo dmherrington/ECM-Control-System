@@ -288,7 +288,6 @@ public:
         actionMotion_Control->setCheckable(true);
         actionProfile_Configuration = new QAction(ECMControllerGUI);
         actionProfile_Configuration->setObjectName(QStringLiteral("actionProfile_Configuration"));
-        actionProfile_Configuration->setCheckable(true);
         centralWidget = new QWidget(ECMControllerGUI);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout_3 = new QGridLayout(centralWidget);

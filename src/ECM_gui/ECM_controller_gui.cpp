@@ -529,58 +529,87 @@ void ECMControllerGUI::MarshalCreateSensorDisplay(const common::TupleSensorStrin
 
 void ECMControllerGUI::on_actionPump_Window_triggered(bool checked)
 {
-    if(checked)
+    UNUSED(checked);
+    if(m_WindowPumpControl->isWindowHidden())
         m_WindowPumpControl->show();
     else
-        m_WindowPumpControl->hide();
+    {
+        m_WindowPumpControl->activateWindow();
+        m_WindowPumpControl->raise();
+    }
 }
 
 void ECMControllerGUI::on_actionTouchoff_Window_triggered(bool checked)
 {
-    if(checked)
+    UNUSED(checked);
+    if(m_WindowTouchoffControl->isWindowHidden())
         m_WindowTouchoffControl->show();
     else
-        m_WindowTouchoffControl->hide();
+    {
+        m_WindowTouchoffControl->activateWindow();
+        m_WindowTouchoffControl->raise();
+    }
 }
 
 void ECMControllerGUI::on_actionProfile_Configuration_triggered(bool checked)
 {
-    if(checked)
+    UNUSED(checked);
+    if(m_WindowProfileConfiguration->isWindowHidden())
         m_WindowProfileConfiguration->show();
     else
-        m_WindowProfileConfiguration->hide();
+    {
+        m_WindowProfileConfiguration->activateWindow();
+        m_WindowProfileConfiguration->raise();
+    }
 }
 
 void ECMControllerGUI::on_actionMotion_Control_triggered(bool checked)
 {
-    if(checked)
+    UNUSED(checked);
+    if(m_WindowMotionControl->isWindowHidden())
         m_WindowMotionControl->show();
     else
-        m_WindowMotionControl->hide();
+    {
+        m_WindowMotionControl->activateWindow();
+        m_WindowMotionControl->raise();
+    }
 }
 
 void ECMControllerGUI::on_actionConnections_triggered(bool checked)
 {
-    if(checked)
+    UNUSED(checked);
+    if(m_WindowConnections->isWindowHidden())
         m_WindowConnections->show();
     else
-        m_WindowConnections->hide();
+    {
+        m_WindowConnections->activateWindow();
+        m_WindowConnections->raise();
+    }
 }
 
 void ECMControllerGUI::on_actionOscilliscope_triggered(bool checked)
 {
-    if(checked)
+    UNUSED(checked);
+    if(m_WindowRigol->isWindowHidden())
         m_WindowRigol->show();
     else
-        m_WindowRigol->hide();
+    {
+        m_WindowRigol->activateWindow();
+        m_WindowRigol->raise();
+    }
 }
 
 void ECMControllerGUI::on_actionCustom_Motion_Commands_triggered(bool checked)
 {
-    if(checked)
+    UNUSED(checked);
+    if(m_WindowCustomMotionCommands->isWindowHidden())
         m_WindowCustomMotionCommands->show();
     else
-        m_WindowCustomMotionCommands->hide();
+    {
+        m_WindowCustomMotionCommands->activateWindow();
+        m_WindowCustomMotionCommands->raise();
+    }
+
 }
 
 void ECMControllerGUI::on_actionOpen_Sensors_Window_triggered(bool checked)
@@ -774,6 +803,10 @@ void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ExecuteColle
     executeCollection.setPartNumber(partNumber.toStdString());
     executeCollection.setSerialNumber(serialNumber.toStdString());
     executeCollection.setOverwriteLogs(clearContents);
+
+    //Raise the GUI to the front
+    this->activateWindow();
+    this->raise();
 
     ECM::API::AbstractStateECMProcess* currentOuterState = static_cast<ECM::API::AbstractStateECMProcess*>(stateMachine->getCurrentOuterState());
     currentOuterState->executeCollection(executeCollection);
