@@ -49,9 +49,7 @@ public:
 
         textBrowser = new QTextBrowser(Dialog_ExecutionPaused);
         textBrowser->setObjectName(QStringLiteral("textBrowser"));
-        QFont font1;
-        font1.setPointSize(1);
-        textBrowser->setFont(font1);
+        textBrowser->setFont(font);
 
         gridLayout->addWidget(textBrowser, 1, 0, 1, 2);
 

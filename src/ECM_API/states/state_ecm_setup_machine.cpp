@@ -43,6 +43,8 @@ hsm::Transition ECMState_SetupMachine::GetTransition()
         }
         else if(IsInInnerState<ECMState_SetupMachineFailed>())
         {
+            this->m_ECMCollection.establishEndTime();
+            Owner().concludeExecutingCollection(this->m_ECMCollection);
             rtn = hsm::SiblingTransition<ECMState_Idle>();
         }
         else

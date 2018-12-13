@@ -14,6 +14,7 @@ ECMCommand_ExecuteCollection::ECMCommand_ExecuteCollection(const ECMCommand_Exec
     this->activeIndex = copy.activeIndex;
     this->indicateHome = copy.indicateHome;
     this->overwriteContents = copy.overwriteContents;
+    this->writeGalilScript = copy.writeGalilScript;
 }
 
 ECMCommand_ExecuteCollection::ECMCommand_ExecuteCollection(const ECMCommand_ProfileCollection &proCollection):
@@ -107,6 +108,11 @@ void ECMCommand_ExecuteCollection::initializeProfileExecution()
     this->m_Collection.at(activeIndex).execProperties.initializeExecution();
 }
 
+void ECMCommand_ExecuteCollection::setWritingGalilScript(const bool &write)
+{
+    this->writeGalilScript = write;
+}
+
 std::string ECMCommand_ExecuteCollection::getPartNumber() const
 {
     return this->partNumber;
@@ -144,4 +150,9 @@ bool ECMCommand_ExecuteCollection::isFirstOperation(const unsigned int &index) c
         }
     }
     return true;
+}
+
+bool ECMCommand_ExecuteCollection::shouldWriteGalilScript() const
+{
+    return this->writeGalilScript;
 }

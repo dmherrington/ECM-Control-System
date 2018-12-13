@@ -30,14 +30,14 @@ hsm::Transition ECMState_SetupMachineTouchoffDisconnect::GetTransition()
 {
     hsm::Transition rtn = hsm::NoTransition();
     switch (desiredState) {
-    case ECMState::STATE_ECM_SETUP_MACHINE_FAILED:
+    case ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_FAILED:
     {
-        rtn = hsm::SiblingTransition<ECMState_SetupMachineFailed>();
+        rtn = hsm::SiblingTransition<ECMState_SetupMachineTouchoffFailed>();
         break;
     }
-    case ECMState::STATE_ECM_SETUP_MACHINE_PUMP:
+    case ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_COMPLETED:
     {
-        rtn = hsm::SiblingTransition<ECMState_SetupMachinePump>(this->m_Config);
+        rtn = hsm::SiblingTransition<ECMState_SetupMachineTouchoffCompleted>();
         break;
     }
     default:
@@ -55,15 +55,6 @@ void ECMState_SetupMachineTouchoffDisconnect::OnEnter()
 {
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
-    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
-}
-
-void ECMState_SetupMachineTouchoffDisconnect::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
-{
-    this->m_Config = configuration;
-
-    AbstractStateECMProcess::notifyOwnerStateTransition();
-
     Owner().notifyPausedEvent("Please disable the touchoff switch.");
 }
 
@@ -74,12 +65,11 @@ void ECMState_SetupMachineTouchoffDisconnect::stopProcess()
 
 void ECMState_SetupMachineTouchoffDisconnect::continueProcess()
 {
-    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_PUMP;
+    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_COMPLETED;
 }
 
 } //end of namespace API
 } //end of namespace ECM
 
-#include "states/state_ecm_idle.h"
-#include "states/state_ecm_setup_machine_failed.h"
-#include "states/state_ecm_setup_machine_pump.h"
+#include "states/state_ecm_setup_machine_touchoff_failed.h"
+#include "states/state_ecm_setup_machine_touchoff_completed.h"

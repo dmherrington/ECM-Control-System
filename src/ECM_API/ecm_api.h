@@ -22,6 +22,8 @@
 #include "commands/ecm_command_execute_collection.h"
 #include "commands/ecm_command_profile_collection.h"
 
+#include "states/state_ecm_types.h"
+
 ECM_CLASS_FORWARD(ECM_API);
 
 class ECM_APISHARED_EXPORT ECM_API: public QObject
@@ -55,7 +57,7 @@ public:
 
     void concludeExecutingOperation(const ECMCommand_ProfileConfiguration &profileConfig);
 
-    void notifyNewOuterState(const std::string &stateString);
+    void notifyNewOuterState(const ECM::API::ECMState &state, const std::string &stateString);
 
     void notifyPausedEvent(const std::string notificationText);
 
@@ -65,7 +67,7 @@ private:
     std::map<std::string, std::string> getSoftwareVersions() const;
 
 signals:
-    void signal_NewOuterState(const std::string &stateString);
+    void signal_NewOuterState(const ECM::API::ECMState &state, const std::string &stateString);
     void signal_InPauseEvent(const std::string notificationText);
     void signal_ExecutingCollection(const ExecutionProperties &props);
     void signal_ExecutingOperation(const ExecuteOperationProperties &props);

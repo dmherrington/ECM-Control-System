@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QListWidgetItem>
+#include <QMessageBox>
 
 #include "ECM_API/ecm_api.h"
 #include "../general_dialog_window.h"
@@ -73,6 +74,8 @@ public:
     void saveToFile(const QString &filePath);
 
     void openFromFile(const QString &filePath);
+
+    bool checkGalilScript(bool &shouldUpload);
 
 private slots:
     void on_actionOpen_triggered();

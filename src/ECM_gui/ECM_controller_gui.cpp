@@ -62,6 +62,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     ui->widget_LEDESTOP->setDiameter(5);
     ui->widget_LEDHomed->setDiameter(5);
     ui->widget_LEDTouchoff->setDiameter(5);
+    ui->widget_LEDMunkError->setDiameter(5);
+    ui->widget_LEDMunkError->setColor(QColor(0,255,0));
 
     m_API = new ECM_API();
     m_API->m_Log->setLoggingStartTime(startTime);
@@ -72,7 +74,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API, SIGNAL(signal_ExecutingOperation(ExecuteOperationProperties)),
             this, SLOT(slot_ExecutingOperation(ExecuteOperationProperties)));
 
-    connect(m_API, SIGNAL(signal_NewOuterState(std::string)),
+    connect(m_API, SIGNAL(signal_NewOuterState(ECM::API::ECMState, std::string)),
             this, SLOT(slot_OnNewOuterMachineState(std::string)));
 
     connect(m_API, SIGNAL(signal_InPauseEvent(std::string)),
@@ -91,6 +93,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_Galil,SIGNAL(signal_GalilTouchoffIndicated(bool)),this,SLOT(slot_UpdateTouchoff(bool)));
     connect(m_API->m_Galil, SIGNAL(signal_MCNewMotionState(QString)), this, SLOT(slot_MCNewMotionState(QString)));
     this->slot_MCNewMotionState(QString::fromStdString(m_API->m_Galil->getCurrentMCState()));
+    connect(m_API->m_Munk, SIGNAL(signal_MunkFaultCodeStatus(bool,std::vector<std::string>)),
+            this, SLOT());
 
     m_WindowCustomMotionCommands = new Window_CustomMotionCommands(m_API->m_Galil);
     m_WindowCustomMotionCommands->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
@@ -447,8 +451,8 @@ void ECMControllerGUI::on_pushButton_ResetHome_released()
 void ECMControllerGUI::on_pushButton_MoveHome_released()
 {
     //First set the move to home speed based on the jog value
-    int jogMoveSpeed = m_WindowMotionControl->getCurrentJogSpeed();
-    CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(MotorAxis::Z, jogMoveSpeed);
+    //int jogMoveSpeed = m_WindowMotionControl->getCurrentJogSpeed();
+    CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(MotorAxis::Z, 100000);
     m_API->m_Galil->executeCommand(commandSpeed);
 
     //Next, transmit the move to home command
@@ -709,7 +713,20 @@ void ECMControllerGUI::slot_MCCommandError(const CommandType &type, const string
 
 void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ExecuteCollection &collection)
 {
+    //First copy the contents to something local that we can manipulate
     ECMCommand_ExecuteCollection executeCollection(collection);
+
+    /*
+     * First, check to see if the script associated with the collection matches the existing galil script.
+     * This is done within the profile configuration window as the associated script is in the front panel
+     * there at the current time.
+     */
+    bool shouldUploadScript = executeCollection.shouldWriteGalilScript();
+
+    if(!m_WindowProfileConfiguration->checkGalilScript(shouldUploadScript))
+        return;
+
+    executeCollection.setWritingGalilScript(shouldUploadScript);
 
     //first check that we can log where we want to
     QString partNumber = ui->lineEdit_PartNumber->text();
@@ -760,8 +777,16 @@ void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ExecuteColle
     ProgressStateMachineStates();
 }
 
-void ECMControllerGUI::slot_OnNewOuterMachineState(const std::string &stateString)
+void ECMControllerGUI::slot_OnNewOuterMachineState(const ECM::API::ECMState &state, const std::string &stateString)
 {
+    switch (state) {
+    case ECM::API::ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF:
+        //Clear all of the exisitng data that may be on the plots
+        m_PlotCollection.ClearAllData();
+        break;
+    default:
+        break;
+    }
     ui->lineEdit_OuterState->setText(QString::fromStdString(stateString));
 }
 
@@ -940,4 +965,19 @@ void ECMControllerGUI::slot_OnUpdateElapsedConfigurationTime()
     EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK, currentTime);
 
     ui->lineEdit_ConfigurationTime->setText(QString::number((currentTime - configurationStart)/(1000*1000)));
+}
+
+void ECMControllerGUI::slot_MunkFaultCodeStatus(const bool &status, const std::vector<string> &errors)
+{
+    if(status)
+    {
+        ui->widget_LEDMunkError->setColor(QColor(255,0,0));
+    }
+    else
+        ui->widget_LEDMunkError->setColor(QColor(0,255,0));
+}
+
+void ECMControllerGUI::on_pushButton_ClearMunkError_released()
+{
+    m_API->m_Munk->resetFaultState();
 }

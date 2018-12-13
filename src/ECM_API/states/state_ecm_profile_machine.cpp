@@ -39,6 +39,9 @@ hsm::Transition ECMState_ProfileMachine::GetTransition()
     {
         if(IsInInnerState<ECMState_ProfileMachineFailed>())
         {
+            this->m_ECMCollection.establishEndTime();
+            Owner().concludeExecutingCollection(this->m_ECMCollection);
+
             //if we have failed we can completely stop the machining process
             rtn = hsm::SiblingTransition<ECMState_Idle>();
         }
@@ -55,7 +58,10 @@ hsm::Transition ECMState_ProfileMachine::GetTransition()
             }
             else
             {
-                rtn = hsm::SiblingTransition<ECMState_ExecutionComplete>(this->m_ECMCollection);
+                this->m_ECMCollection.establishEndTime();
+                Owner().concludeExecutingCollection(this->m_ECMCollection);
+
+                rtn = hsm::SiblingTransition<ECMState_Idle>();
             }
         }
         else
@@ -96,22 +102,6 @@ void ECMState_ProfileMachine::OnEnter(const ECMCommand_ExecuteCollection &collec
 
 
     /*
-     * We need to establish if we should clear the logs. Since this is a recursive process, we require that two conditions
-     * be met satisfactorily.
-     * 1) Require that the logs indeed in the first place desire to be overwritten.
-     * 2) Require that the operation is the first operation of the collection. This is required that since we can return
-     * to this condition from another event, we would then subsequently not want to clear the original logs.
-     */
-    if(m_ECMCollection.shouldOverwriteLogs() && m_ECMCollection.isFirstOperation(m_ECMCollection.getActiveIndex()))
-    {
-        Owner().initializeOperationalCollection(m_ECMCollection, true);
-    }
-    else if(m_ECMCollection.isFirstOperation(m_ECMCollection.getActiveIndex()))
-    {
-        Owner().initializeOperationalCollection(m_ECMCollection, false);
-    }
-
-    /*
      * When initializing the logs, this process sets up the directory structure and the accompanying header contents.
      * At this time, the collection is also written to the appropriate contents and any necessary loggin setup.
      */
@@ -131,5 +121,3 @@ void ECMState_ProfileMachine::OnEnter(const ECMCommand_ExecuteCollection &collec
 #include "states/state_ecm_profile_machine_complete.h"
 #include "states/state_ecm_profile_machine_failed.h"
 #include "states/state_ecm_profile_machine_process.h"
-
-#include "states/state_ecm_execution_complete.h"

@@ -30,9 +30,8 @@ namespace API {
 
 ECM_CLASS_FORWARD(ECMState_SetupMachineTouchoffDisconnect);
 
-class ECMState_SetupMachineIdle;
-class ECMState_SetupMachineFailed;
-class ECMState_SetupMachinePump;
+class ECMState_SetupMachineTouchoffCompleted;
+class ECMState_SetupMachineTouchoffFailed;
 
 class ECMState_SetupMachineTouchoffDisconnect : public AbstractStateECMProcess
 {
@@ -56,12 +55,6 @@ public:
     void stopProcess() override;
 
     void continueProcess() override;
-
-public:
-    void OnEnter(const ECMCommand_ProfileConfiguration &configuration);
-
-private:
-    ECMCommand_ProfileConfiguration m_Config;
 };
 
 } //end of namespace API

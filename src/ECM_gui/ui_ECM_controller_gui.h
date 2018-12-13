@@ -105,20 +105,21 @@ public:
     QPushButton *pushButton_Stop;
     QSpacerItem *horizontalSpacer_5;
     QFrame *frame_Status;
-    QGridLayout *gridLayout;
     QGridLayout *gridLayout_5;
-    QLabel *label_2;
-    QLabel *label_3;
-    QLabel *label_4;
-    QLabel *label_5;
-    LED *widget_LEDHomed;
+    QGridLayout *gridLayout;
     LED *widget_LEDCommunication;
+    QLabel *label_2;
+    LED *widget_LEDHomed;
+    QLabel *label_3;
     LED *widget_LEDTouchoff;
+    QLabel *label_4;
     LED *widget_LEDESTOP;
+    QLabel *label_5;
+    LED *widget_LEDMunkError;
+    QPushButton *pushButton_ClearMunkError;
     QLineEdit *lineEdit_OuterState;
-    QSpacerItem *verticalSpacer_2;
-    QLineEdit *lineEdit_GalilState;
     QSpacerItem *verticalSpacer_3;
+    QLineEdit *lineEdit_GalilState;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -760,13 +761,22 @@ public:
         frame_Status->setFrameShape(QFrame::Box);
         frame_Status->setFrameShadow(QFrame::Plain);
         frame_Status->setLineWidth(2);
-        gridLayout = new QGridLayout(frame_Status);
-        gridLayout->setSpacing(6);
-        gridLayout->setContentsMargins(11, 11, 11, 11);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        gridLayout_5 = new QGridLayout();
+        gridLayout_5 = new QGridLayout(frame_Status);
         gridLayout_5->setSpacing(6);
+        gridLayout_5->setContentsMargins(11, 11, 11, 11);
         gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
+        gridLayout = new QGridLayout();
+        gridLayout->setSpacing(6);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        widget_LEDCommunication = new LED(frame_Status);
+        widget_LEDCommunication->setObjectName(QStringLiteral("widget_LEDCommunication"));
+        sizePolicy2.setHeightForWidth(widget_LEDCommunication->sizePolicy().hasHeightForWidth());
+        widget_LEDCommunication->setSizePolicy(sizePolicy2);
+        widget_LEDCommunication->setMinimumSize(QSize(32, 32));
+        widget_LEDCommunication->setMaximumSize(QSize(32, 32));
+
+        gridLayout->addWidget(widget_LEDCommunication, 0, 0, 1, 1);
+
         label_2 = new QLabel(frame_Status);
         label_2->setObjectName(QStringLiteral("label_2"));
         sizePolicy2.setHeightForWidth(label_2->sizePolicy().hasHeightForWidth());
@@ -776,7 +786,16 @@ public:
         label_2->setFont(font2);
         label_2->setAlignment(Qt::AlignCenter);
 
-        gridLayout_5->addWidget(label_2, 0, 1, 1, 1);
+        gridLayout->addWidget(label_2, 0, 1, 1, 1);
+
+        widget_LEDHomed = new LED(frame_Status);
+        widget_LEDHomed->setObjectName(QStringLiteral("widget_LEDHomed"));
+        sizePolicy2.setHeightForWidth(widget_LEDHomed->sizePolicy().hasHeightForWidth());
+        widget_LEDHomed->setSizePolicy(sizePolicy2);
+        widget_LEDHomed->setMinimumSize(QSize(32, 32));
+        widget_LEDHomed->setMaximumSize(QSize(32, 32));
+
+        gridLayout->addWidget(widget_LEDHomed, 1, 0, 1, 1);
 
         label_3 = new QLabel(frame_Status);
         label_3->setObjectName(QStringLiteral("label_3"));
@@ -787,7 +806,16 @@ public:
         label_3->setFont(font2);
         label_3->setAlignment(Qt::AlignCenter);
 
-        gridLayout_5->addWidget(label_3, 1, 1, 1, 1);
+        gridLayout->addWidget(label_3, 1, 1, 1, 1);
+
+        widget_LEDTouchoff = new LED(frame_Status);
+        widget_LEDTouchoff->setObjectName(QStringLiteral("widget_LEDTouchoff"));
+        sizePolicy2.setHeightForWidth(widget_LEDTouchoff->sizePolicy().hasHeightForWidth());
+        widget_LEDTouchoff->setSizePolicy(sizePolicy2);
+        widget_LEDTouchoff->setMinimumSize(QSize(32, 32));
+        widget_LEDTouchoff->setMaximumSize(QSize(32, 32));
+
+        gridLayout->addWidget(widget_LEDTouchoff, 2, 0, 1, 1);
 
         label_4 = new QLabel(frame_Status);
         label_4->setObjectName(QStringLiteral("label_4"));
@@ -798,7 +826,16 @@ public:
         label_4->setFont(font2);
         label_4->setAlignment(Qt::AlignCenter);
 
-        gridLayout_5->addWidget(label_4, 2, 1, 1, 1);
+        gridLayout->addWidget(label_4, 2, 1, 1, 1);
+
+        widget_LEDESTOP = new LED(frame_Status);
+        widget_LEDESTOP->setObjectName(QStringLiteral("widget_LEDESTOP"));
+        sizePolicy2.setHeightForWidth(widget_LEDESTOP->sizePolicy().hasHeightForWidth());
+        widget_LEDESTOP->setSizePolicy(sizePolicy2);
+        widget_LEDESTOP->setMinimumSize(QSize(32, 32));
+        widget_LEDESTOP->setMaximumSize(QSize(32, 32));
+
+        gridLayout->addWidget(widget_LEDESTOP, 3, 0, 1, 1);
 
         label_5 = new QLabel(frame_Status);
         label_5->setObjectName(QStringLiteral("label_5"));
@@ -809,46 +846,25 @@ public:
         label_5->setFont(font2);
         label_5->setAlignment(Qt::AlignCenter);
 
-        gridLayout_5->addWidget(label_5, 3, 1, 1, 1);
+        gridLayout->addWidget(label_5, 3, 1, 1, 1);
 
-        widget_LEDHomed = new LED(frame_Status);
-        widget_LEDHomed->setObjectName(QStringLiteral("widget_LEDHomed"));
-        sizePolicy2.setHeightForWidth(widget_LEDHomed->sizePolicy().hasHeightForWidth());
-        widget_LEDHomed->setSizePolicy(sizePolicy2);
-        widget_LEDHomed->setMinimumSize(QSize(32, 32));
-        widget_LEDHomed->setMaximumSize(QSize(32, 32));
+        widget_LEDMunkError = new LED(frame_Status);
+        widget_LEDMunkError->setObjectName(QStringLiteral("widget_LEDMunkError"));
+        sizePolicy2.setHeightForWidth(widget_LEDMunkError->sizePolicy().hasHeightForWidth());
+        widget_LEDMunkError->setSizePolicy(sizePolicy2);
+        widget_LEDMunkError->setMinimumSize(QSize(32, 32));
+        widget_LEDMunkError->setMaximumSize(QSize(32, 32));
 
-        gridLayout_5->addWidget(widget_LEDHomed, 1, 0, 1, 1);
+        gridLayout->addWidget(widget_LEDMunkError, 4, 0, 1, 1);
 
-        widget_LEDCommunication = new LED(frame_Status);
-        widget_LEDCommunication->setObjectName(QStringLiteral("widget_LEDCommunication"));
-        sizePolicy2.setHeightForWidth(widget_LEDCommunication->sizePolicy().hasHeightForWidth());
-        widget_LEDCommunication->setSizePolicy(sizePolicy2);
-        widget_LEDCommunication->setMinimumSize(QSize(32, 32));
-        widget_LEDCommunication->setMaximumSize(QSize(32, 32));
+        pushButton_ClearMunkError = new QPushButton(frame_Status);
+        pushButton_ClearMunkError->setObjectName(QStringLiteral("pushButton_ClearMunkError"));
+        pushButton_ClearMunkError->setFont(font2);
 
-        gridLayout_5->addWidget(widget_LEDCommunication, 0, 0, 1, 1);
-
-        widget_LEDTouchoff = new LED(frame_Status);
-        widget_LEDTouchoff->setObjectName(QStringLiteral("widget_LEDTouchoff"));
-        sizePolicy2.setHeightForWidth(widget_LEDTouchoff->sizePolicy().hasHeightForWidth());
-        widget_LEDTouchoff->setSizePolicy(sizePolicy2);
-        widget_LEDTouchoff->setMinimumSize(QSize(32, 32));
-        widget_LEDTouchoff->setMaximumSize(QSize(32, 32));
-
-        gridLayout_5->addWidget(widget_LEDTouchoff, 2, 0, 1, 1);
-
-        widget_LEDESTOP = new LED(frame_Status);
-        widget_LEDESTOP->setObjectName(QStringLiteral("widget_LEDESTOP"));
-        sizePolicy2.setHeightForWidth(widget_LEDESTOP->sizePolicy().hasHeightForWidth());
-        widget_LEDESTOP->setSizePolicy(sizePolicy2);
-        widget_LEDESTOP->setMinimumSize(QSize(32, 32));
-        widget_LEDESTOP->setMaximumSize(QSize(32, 32));
-
-        gridLayout_5->addWidget(widget_LEDESTOP, 3, 0, 1, 1);
+        gridLayout->addWidget(pushButton_ClearMunkError, 4, 1, 1, 1);
 
 
-        gridLayout->addLayout(gridLayout_5, 0, 0, 1, 1);
+        gridLayout_5->addLayout(gridLayout, 0, 0, 1, 1);
 
         lineEdit_OuterState = new QLineEdit(frame_Status);
         lineEdit_OuterState->setObjectName(QStringLiteral("lineEdit_OuterState"));
@@ -861,11 +877,11 @@ public:
         lineEdit_OuterState->setAlignment(Qt::AlignCenter);
         lineEdit_OuterState->setReadOnly(true);
 
-        gridLayout->addWidget(lineEdit_OuterState, 1, 0, 1, 1);
+        gridLayout_5->addWidget(lineEdit_OuterState, 1, 0, 1, 1);
 
-        verticalSpacer_2 = new QSpacerItem(17, 18, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalSpacer_3 = new QSpacerItem(14, 7, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout->addItem(verticalSpacer_2, 2, 0, 1, 1);
+        gridLayout_5->addItem(verticalSpacer_3, 2, 0, 1, 1);
 
         lineEdit_GalilState = new QLineEdit(frame_Status);
         lineEdit_GalilState->setObjectName(QStringLiteral("lineEdit_GalilState"));
@@ -878,11 +894,7 @@ public:
         lineEdit_GalilState->setAlignment(Qt::AlignCenter);
         lineEdit_GalilState->setReadOnly(true);
 
-        gridLayout->addWidget(lineEdit_GalilState, 3, 0, 1, 1);
-
-        verticalSpacer_3 = new QSpacerItem(17, 18, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        gridLayout->addItem(verticalSpacer_3, 4, 0, 1, 1);
+        gridLayout_5->addWidget(lineEdit_GalilState, 3, 0, 1, 1);
 
 
         gridLayout_3->addWidget(frame_Status, 1, 3, 1, 1);
@@ -1010,6 +1022,7 @@ public:
         label_3->setText(QApplication::translate("ECMControllerGUI", "HOMED", nullptr));
         label_4->setText(QApplication::translate("ECMControllerGUI", "TOUCHOFF", nullptr));
         label_5->setText(QApplication::translate("ECMControllerGUI", "ESTOP", nullptr));
+        pushButton_ClearMunkError->setText(QApplication::translate("ECMControllerGUI", "Clear Munk Error", nullptr));
         menuFile->setTitle(QApplication::translate("ECMControllerGUI", "File", nullptr));
         menuEdit->setTitle(QApplication::translate("ECMControllerGUI", "Edit", nullptr));
         menuTools->setTitle(QApplication::translate("ECMControllerGUI", "Tools", nullptr));

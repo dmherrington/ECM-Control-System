@@ -149,9 +149,9 @@ void ECM_API::concludeExecutingCollection(const ECMCommand_ExecuteCollection &ex
     emit signal_ExecutingCollection(props);
 }
 
-void ECM_API::notifyNewOuterState(const std::string &stateString)
+void ECM_API::notifyNewOuterState(const ECM::API::ECMState &state, const std::string &stateString)
 {
-    emit signal_NewOuterState(stateString);
+    emit signal_NewOuterState(state, stateString);
 }
 
 void ECM_API::notifyPausedEvent(const std::string notificationText)

@@ -26,6 +26,35 @@ void Window_ProfileConfiguration::closeEvent(QCloseEvent *event)
     GeneralDialogWindow::closeEvent(event);
 }
 
+bool Window_ProfileConfiguration::checkGalilScript(bool &shouldUpload)
+{
+    bool continueExecution = true;
+
+    //First Check Profile Comparison
+    if(m_API->m_Galil->getCurrentMCProgram().getProgram() != m_WindowMotionProfile->getCurrentGalilScript())
+    {
+        QMessageBox msgBox;
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setText("The script associated with this script does not match currently what is aboard the galil unit.");
+        msgBox.setInformativeText("Do you want the script to be automatically uploaded? This will cause the homing routine to execute.");
+        QAbstractButton* pButtonAccept = msgBox.addButton(tr("Accept"), QMessageBox::AcceptRole);
+        QAbstractButton* pButtonReject = msgBox.addButton(tr("Reject"), QMessageBox::RejectRole);
+        msgBox.exec();
+
+        if(msgBox.clickedButton() == pButtonAccept)
+        {
+            shouldUpload = true;
+            continueExecution = true;
+        }
+        else if(msgBox.clickedButton() == pButtonReject)
+        {
+            continueExecution = false;
+        }
+    }
+
+    return continueExecution;
+}
+
 void Window_ProfileConfiguration::on_actionClose_triggered()
 {
     GeneralDialogWindow::onCloseAction();
@@ -109,11 +138,11 @@ TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const
 
 void Window_ProfileConfiguration::slot_OnExecuteExplicitProfileConfig(const ECMCommand_ProfileConfiguration &config)
 {
-    ECMCommand_ExecuteCollection newExecutionCollection;
-    newExecutionCollection.insertProfile(config);
-    newExecutionCollection.setAssociatedMotionScript(m_WindowMotionProfile->getCurrentGalilScript());
-    newExecutionCollection.setHomeShouldIndicate(ui->checkBox_ShouldHomeBeIndicated->isChecked());
-    emit signal_ExecuteProfileCollection(newExecutionCollection);
+        ECMCommand_ExecuteCollection newExecutionCollection;
+        newExecutionCollection.insertProfile(config);
+        newExecutionCollection.setAssociatedMotionScript(m_WindowMotionProfile->getCurrentGalilScript());
+        newExecutionCollection.setHomeShouldIndicate(ui->checkBox_ShouldHomeBeIndicated->isChecked());
+        emit signal_ExecuteProfileCollection(newExecutionCollection);
 }
 
 void Window_ProfileConfiguration::clearExistingOperations()
@@ -335,19 +364,6 @@ void Window_ProfileConfiguration::slot_ChangedWindowVisibility(const GeneralDial
         break;
     }
 }
-
-/*
-void Window_ProfileConfiguration::on_checkBox_ShouldHomeBeIndicated_toggled(bool checked)
-{
-    std::map<QListWidgetItem*,TableWidget_OperationDescriptor*>::iterator it = m_MapOperations.begin();
-
-    for (; it!=m_MapOperations.end(); ++it)
-    {
-        TableWidget_OperationDescriptor* currentOperation = it->second;
-        currentOperation->setShouldHomeIndicateAutomatically(checked);
-    }
-}
-*/
 
 void Window_ProfileConfiguration::on_actionMotion_Profile_triggered(bool checked)
 {

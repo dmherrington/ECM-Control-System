@@ -98,9 +98,7 @@ signals:
 
     void signal_CommunicationUpdate(const std::string &name, const std::string &msg) const;
 
-    void signal_FaultCodeRecieved() const;
-
-    void signal_FaultStateCleared();
+    void signal_MunkFaultCodeStatus(const bool &status, const std::vector<std::string> &codes);
 
     void signal_SegmentSetAck(const std::string &msg) const;
 

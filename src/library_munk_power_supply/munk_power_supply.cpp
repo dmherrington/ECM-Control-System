@@ -263,13 +263,14 @@ void MunkPowerSupply::FaultCodeReceived(const data_Munk::FaultRegisterType &faul
     response_Munk::FaultRegisterState newFaultState(faultRegister,code);
     if(machineState->updateRegisterFaults(newFaultState))
     {
-        emit signal_FaultCodeRecieved();
+        emit signal_MunkFaultCodeStatus(true,newFaultState.getCurrentFaultCodes());
     }
 }
 
 void MunkPowerSupply::FaultStateCleared()
 {
-    emit signal_FaultStateCleared();
+    std::vector<std::string> faultCleared;
+    emit signal_MunkFaultCodeStatus(false,faultCleared);
 }
 
 void MunkPowerSupply::ForwardVoltageSetpointAcknowledged()

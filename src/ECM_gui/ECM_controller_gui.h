@@ -77,7 +77,7 @@ private slots:
 
     void on_ExecuteProfileCollection(const ECMCommand_ExecuteCollection &collection);
 
-    void slot_OnNewOuterMachineState(const std::string &stateString);
+    void slot_OnNewOuterMachineState(const ECM::API::ECMState &state, const std::string &stateString);
 
     void slot_OnExecutionPause(const std::string notificationText);
 
@@ -104,6 +104,12 @@ private slots:
     void slot_UpdateHomeIndicated(const bool &value);
 
     void slot_MCCommandError(const CommandType &type, const std::string &description);
+
+/*
+* Private Slots related to the power supply
+*/
+private slots:
+    void slot_MunkFaultCodeStatus(const bool &status, const std::vector<std::string> &errors);
 
 /*
 * Private Slots related to actions on the front GUI
@@ -214,6 +220,7 @@ private:
 private slots:
     void slot_OnUpdateElapsedOperationTime();
     void slot_OnUpdateElapsedConfigurationTime();
+    void on_pushButton_ClearMunkError_released();
 };
 
 #endif // ECM_CONTROLLER_GUI_H

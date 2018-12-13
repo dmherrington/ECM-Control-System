@@ -28,7 +28,7 @@ namespace API {
 enum class ECMState{
     STATE_ECM_IDLE = 0, /**< */
     STATE_ECM_MOTION_PROFILE_INITIALIZATION = 1, /**< */
-    STATE_ECM_EXECUTION_COMPLETE = 2,
+    STATE_ECM_EXECUTION_FAILED = 2,
     STATE_ECM_PROFILE_MACHINE = 20, /**< */
     STATE_ECM_PROFILE_MACHINE_ABORT = 21, /**< */
     STATE_ECM_PROFILE_MACHINE_COMPLETE = 22, /**< */
@@ -41,15 +41,20 @@ enum class ECMState{
     STATE_ECM_SETUP_MACHINE_HOME = 33, /**< */
     STATE_ECM_SETUP_MACHINE_PUMP = 34, /**< */
     STATE_ECM_SETUP_MACHINE_TOUCHOFF = 35, /**< */
-    STATE_ECM_SETUP_MACHINE_TOUCHOFF_DISCONNECT = 36, /**< */
-    STATE_ECM_UPLOAD = 40, /**< */
-    STATE_ECM_UPLOAD_COMPLETE = 41, /**< */
-    STATE_ECM_UPLOAD_FAILED = 42, /**< */
-    STATE_ECM_UPLOAD_MOTION_PROFILE = 43, /**< */
-    STATE_ECM_UPLOAD_MOTION_VARIABLES = 44, /**< */
-    STATE_ECM_UPLOAD_POWER_PULSE_MODE = 45, /**< */
-    STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS = 46, /**< */
-    STATE_ECM_UPLOAD_PUMP_PARAMETERS = 47, /**< */
+    STATE_ECM_SETUP_MACHINE_TOUCHOFF_COMPLETED = 36, /**< */
+    STATE_ECM_SETUP_MACHINE_TOUCHOFF_CONNECT = 37, /**< */
+    STATE_ECM_SETUP_MACHINE_TOUCHOFF_DISCONNECT = 38, /**< */
+    STATE_ECM_SETUP_MACHINE_TOUCHOFF_EXECUTE = 39, /**< */
+    STATE_ECM_SETUP_MACHINE_TOUCHOFF_FAILED = 40, /**< */
+    STATE_ECM_SETUP_MACHINE_TOUCHOFF_POSITION = 41, /**< */
+    STATE_ECM_UPLOAD = 50, /**< */
+    STATE_ECM_UPLOAD_COMPLETE = 51, /**< */
+    STATE_ECM_UPLOAD_FAILED = 52, /**< */
+    STATE_ECM_UPLOAD_MOTION_PROFILE = 53, /**< */
+    STATE_ECM_UPLOAD_MOTION_VARIABLES = 54, /**< */
+    STATE_ECM_UPLOAD_POWER_PULSE_MODE = 55, /**< */
+    STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS = 56, /**< */
+    STATE_ECM_UPLOAD_PUMP_PARAMETERS = 57, /**< */
     STATE_UNKNOWN = 100 /**< */
 };
 
@@ -60,12 +65,8 @@ enum class ECMState{
 //!
 inline std::string ECMStateToString(const ECMState &type) {
     switch (type) {
-    case ECMState::STATE_ECM_EXECUTION_COMPLETE:
-        return "Execution Complete";
     case ECMState::STATE_ECM_IDLE:
         return "Idle";
-    case ECMState::STATE_ECM_MOTION_PROFILE_INITIALIZATION:
-        return "Machine Initialization";
 
     case ECMState::STATE_ECM_PROFILE_MACHINE:
         return "Profile Machining";
@@ -92,8 +93,18 @@ inline std::string ECMStateToString(const ECMState &type) {
         return "Machine Setup Pump";
     case ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF:
         return "Machine Setup Touchoff";
+    case ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_COMPLETED:
+        return "Touchoff Completed";
+    case ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_CONNECT:
+        return "Touchoff Connect";
     case ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_DISCONNECT:
-        return "Machine Setup Touchoff Disconnect";
+        return "Touchoff Disconnect";
+    case ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_EXECUTE:
+        return "Touchoff Execute";
+    case ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_FAILED:
+        return "Touchoff Failed";
+    case ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_POSITION:
+        return "Touchoff Position";
 
     case ECMState::STATE_ECM_UPLOAD:
         return "Machine Upload";

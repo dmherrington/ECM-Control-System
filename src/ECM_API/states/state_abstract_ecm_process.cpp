@@ -58,7 +58,7 @@ void AbstractStateECMProcess::continueProcess()
 
 void AbstractStateECMProcess::notifyOwnerStateTransition()
 {
-    Owner().notifyNewOuterState(ECMStateToString(this->currentState));
+    Owner().notifyNewOuterState(this->currentState, ECMStateToString(this->currentState));
 }
 
 } //end of namespace Galil

@@ -44,6 +44,8 @@ hsm::Transition ECMState_Upload::GetTransition()
         }
         else if(IsInInnerState<ECMState_UploadFailed>())
         {
+            this->m_ECMCollection.establishEndTime();
+            Owner().concludeExecutingCollection(this->m_ECMCollection);
             rtn = hsm::SiblingTransition<ECMState_Idle>();
         }
         else
@@ -110,10 +112,11 @@ void ECMState_Upload::OnEnter(const ECMCommand_ExecuteCollection &collection)
 
     /*
      * We should only transition to the upload motion profile state if the
-     * profile is the first in the queue. Otherwise, we should set the
-     * appropriate variables related to the motion profile.
+     * profile is the first in the queue and we desire to upload the script.
+     * Otherwise, we should set the appropriate variables related to the
+     * motion profile.
      */
-    if(collection.isFirstOperation(collection.getActiveIndex()))
+    if(collection.isFirstOperation(collection.getActiveIndex()) && collection.shouldWriteGalilScript())
     {
         this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE;
     }
@@ -125,6 +128,7 @@ void ECMState_Upload::OnEnter(const ECMCommand_ExecuteCollection &collection)
 } //end of namespace API
 } //end of namespace ECM
 
+
 #include "states/state_ecm_idle.h"
 
 #include "states/state_ecm_setup_machine.h"
@@ -133,5 +137,6 @@ void ECMState_Upload::OnEnter(const ECMCommand_ExecuteCollection &collection)
 #include "states/state_ecm_upload_failed.h"
 #include "states/state_ecm_upload_motion_profile.h"
 #include "states/state_ecm_upload_motion_variables.h"
+#include "states/state_ecm_upload_power_pulse_mode.h"
 #include "states/state_ecm_upload_power_register_segments.h"
 #include "states/state_ecm_upload_pump_parameters.h"

@@ -32,11 +32,6 @@ hsm::Transition ECMState_Idle::GetTransition()
     if(currentState != desiredState)
     {
         switch (desiredState) {
-        case ECMState::STATE_ECM_MOTION_PROFILE_INITIALIZATION:
-        {
-            rtn = hsm::SiblingTransition<ECMState_MotionProfileInitialization>(m_ECMCollection);
-            break;
-        }
         case ECMState::STATE_ECM_UPLOAD:
         {
             rtn = hsm::SiblingTransition<ECMState_Upload>(m_ECMCollection);
@@ -54,6 +49,22 @@ void ECMState_Idle::executeCollection(const ECMCommand_ExecuteCollection &collec
     m_ECMCollection = collection;
     m_ECMCollection.establishStartTime();
 
+    /*
+     * We need to establish if we should clear the logs. Since this is a recursive process, we require that two conditions
+     * be met satisfactorily.
+     * 1) Require that the logs indeed in the first place desire to be overwritten.
+     * 2) Require that the operation is the first operation of the collection. This is required that since we can return
+     * to this condition from another event, we would then subsequently not want to clear the original logs.
+     */
+    if(m_ECMCollection.shouldOverwriteLogs() && m_ECMCollection.isFirstOperation(m_ECMCollection.getActiveIndex()))
+    {
+        Owner().initializeOperationalCollection(m_ECMCollection, true);
+    }
+    else if(m_ECMCollection.isFirstOperation(m_ECMCollection.getActiveIndex()))
+    {
+        Owner().initializeOperationalCollection(m_ECMCollection, false);
+    }
+
     this->desiredState = ECMState::STATE_ECM_UPLOAD;
 }
 
@@ -70,5 +81,4 @@ void ECMState_Idle::OnEnter()
 } //end of namespace Galil
 } //end of namespace ECM
 
-#include "states/state_ecm_motion_profile_initialization.h"
 #include "states/state_ecm_upload.h"

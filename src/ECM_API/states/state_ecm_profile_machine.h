@@ -40,7 +40,7 @@ class ECMState_ProfileMachineComplete;
 class ECMState_ProfileMachineFailed;
 class ECMState_ProfileMachineProcess;
 
-class ECMState_ExecutionComplete;
+class ECMState_ExecutionFailed;
 
 class ECMState_ProfileMachine : public AbstractStateECMProcess
 {

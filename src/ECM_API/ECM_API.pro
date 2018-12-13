@@ -47,7 +47,6 @@ SOURCES += \
     states/state_ecm_upload_failed.cpp \
     states/state_ecm_upload_power_register_segments.cpp \
     states/state_ecm_upload_power_pulse_mode.cpp \
-    states/state_ecm_motion_profile_initialization.cpp \
     commands/ecm_command_profile_collection.cpp \
     commands/ecm_command_profile_configuration.cpp \
     states/state_test.cpp \
@@ -63,8 +62,12 @@ SOURCES += \
     commands/ecm_command_execution_properties.cpp \
     states/state_ecm_profile_machine_complete_execution.cpp \
     states/state_ecm_profile_machine_abort.cpp \
-    states/state_ecm_execution_complete.cpp \
-    states/state_ecm_setup_machine_touchoff_disconnect.cpp
+    states/state_ecm_setup_machine_touchoff_disconnect.cpp \
+    states/state_ecm_setup_machine_touchoff_connect.cpp \
+    states/state_ecm_setup_machine_touchoff_position.cpp \
+    states/state_ecm_setup_machine_touchoff_execute.cpp \
+    states/state_ecm_setup_machine_touchoff_completed.cpp \
+    states/state_ecm_setup_machine_touchoff_failed.cpp
 
 HEADERS += \
         ecm_api.h \
@@ -86,7 +89,6 @@ HEADERS += \
     states/state_ecm_upload_failed.h \
     states/state_ecm_upload_power_register_segments.h \
     states/state_ecm_upload_power_pulse_mode.h \
-    states/state_ecm_motion_profile_initialization.h \
     commands/ecm_command_profile_collection.h \
     commands/ecm_command_profile_configuration.h \
     states/state_test.h \
@@ -105,8 +107,12 @@ HEADERS += \
     states/state_ecm_profile_machine_base.h \
     states/state_ecm_profile_machine_complete_execution.h \
     states/state_ecm_profile_machine_abort.h \
-    states/state_ecm_execution_complete.h \
-    states/state_ecm_setup_machine_touchoff_disconnect.h
+    states/state_ecm_setup_machine_touchoff_disconnect.h \
+    states/state_ecm_setup_machine_touchoff_connect.h \
+    states/state_ecm_setup_machine_touchoff_position.h \
+    states/state_ecm_setup_machine_touchoff_execute.h \
+    states/state_ecm_setup_machine_touchoff_completed.h \
+    states/state_ecm_setup_machine_touchoff_failed.h
 
 # Unix lib Install
 unix:!symbian {

@@ -30,9 +30,13 @@ namespace API {
 
 ECM_CLASS_FORWARD(ECMState_SetupMachineTouchoff);
 
-class ECMState_SetupMachineIdle;
-class ECMState_SetupMachineFailed;
-class ECMState_SetupMachineTouchoffDisconnect;
+class ECMState_Idle;
+
+class ECMState_SetupMachineTouchoffConnect;
+class ECMState_SetupMachineTouchoffCompleted;
+class ECMState_SetupMachineTouchoffFailed;
+
+class ECMState_SetupMachinePump;
 
 class ECMState_SetupMachineTouchoff : public AbstractStateECMProcess
 {

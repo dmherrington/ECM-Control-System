@@ -20,9 +20,7 @@
 #include "ECM_API/states/state_ecm_types.h"
 
 #include "ECM_API/states/state_abstract_ecm_process.h"
-#include "ECM_API/states/state_ecm_execution_complete.h"
 #include "ECM_API/states/state_ecm_idle.h"
-#include "ECM_API/states/state_ecm_motion_profile_initialization.h"
 
 #include "ECM_API/states/state_ecm_profile_machine.h"
 #include "ECM_API/states/state_ecm_profile_machine_complete_execution.h"
@@ -36,7 +34,12 @@
 #include "ECM_API/states/state_ecm_setup_machine_home.h"
 #include "ECM_API/states/state_ecm_setup_machine_pump.h"
 #include "ECM_API/states/state_ecm_setup_machine_touchoff.h"
+#include "ECM_API/states/state_ecm_setup_machine_touchoff_completed.h"
+#include "ECM_API/states/state_ecm_setup_machine_touchoff_connect.h"
 #include "ECM_API/states/state_ecm_setup_machine_touchoff_disconnect.h"
+#include "ECM_API/states/state_ecm_setup_machine_touchoff_execute.h"
+#include "ECM_API/states/state_ecm_setup_machine_touchoff_failed.h"
+#include "ECM_API/states/state_ecm_setup_machine_touchoff_position.h"
 
 #include "ECM_API/states/state_ecm_upload.h"
 #include "ECM_API/states/state_ecm_upload_complete.h"
