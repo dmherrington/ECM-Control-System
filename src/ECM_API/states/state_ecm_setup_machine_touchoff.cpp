@@ -37,7 +37,7 @@ hsm::Transition ECMState_SetupMachineTouchoff::GetTransition()
     }
     else if(IsInInnerState<ECMState_SetupMachineTouchoffFailed>())
     {
-        rtn = hsm::SiblingTransition<ECMState_Idle>();
+        rtn = hsm::SiblingTransition<ECMState_SetupMachineFailed>();
     }
     else{
         if(currentState != desiredState)
@@ -89,11 +89,10 @@ void ECMState_SetupMachineTouchoff::OnEnter(const ECMCommand_ProfileConfiguratio
 } //end of namespace API
 } //end of namespace ECM
 
-#include "states/state_ecm_idle.h"
-
 #include "states/state_ecm_setup_machine_touchoff_connect.h"
 #include "states/state_ecm_setup_machine_touchoff_completed.h"
 #include "states/state_ecm_setup_machine_touchoff_failed.h"
 
 #include "states/state_ecm_setup_machine_pump.h"
 #include "states/state_ecm_setup_machine_complete.h"
+#include "states/state_ecm_setup_machine_failed.h"

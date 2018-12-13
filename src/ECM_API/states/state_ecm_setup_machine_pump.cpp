@@ -68,9 +68,9 @@ void ECMState_SetupMachinePump::OnEnter(const ECMCommand_ProfileConfiguration &c
 
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
-    if(configuration.m_PumpParameters.shouldPumpBeEngaged())
+    //if the pump should be running and is currently not already running
+    if(configuration.m_PumpParameters.shouldPumpBeEngaged() && !Owner().m_Pump->isPumpRunning())
     {
-
         Owner().m_Pump->AddLambda_FinishedPumpInitialization(this,[this](const bool &completed){
             if(completed)
             {
@@ -83,6 +83,17 @@ void ECMState_SetupMachinePump::OnEnter(const ECMCommand_ProfileConfiguration &c
         registers_WestinghousePump::Register_OperationSignal newOps;
         newOps.shouldRun(configuration.m_PumpParameters.shouldPumpBeEngaged());
         Owner().m_Pump->setPumpOperations(newOps);
+    }
+    else if(!Owner().m_Pump->isPumpInitialized()) //the pump is already running, however, is not currently initialized
+    {
+        Owner().m_Pump->AddLambda_FinishedPumpInitialization(this,[this](const bool &completed){
+            if(completed)
+            {
+                desiredState = ECMState::STATE_ECM_SETUP_MACHINE_COMPLETE;
+            }else{
+                desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
+            }
+        });
     }
     else
     {

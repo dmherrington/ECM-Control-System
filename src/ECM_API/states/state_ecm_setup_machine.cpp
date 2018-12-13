@@ -43,8 +43,14 @@ hsm::Transition ECMState_SetupMachine::GetTransition()
         }
         else if(IsInInnerState<ECMState_SetupMachineFailed>())
         {
+            ECMCommand_ProfileConfiguration currentConfig = this->m_ECMCollection.getActiveConfiguration();
+            currentConfig.execProperties.establishEndTime();
+            this->m_ECMCollection.insertProfile(currentConfig);
+
             this->m_ECMCollection.establishEndTime();
+            Owner().concludeExecutingOperation(this->m_ECMCollection.getActiveConfiguration());
             Owner().concludeExecutingCollection(this->m_ECMCollection);
+
             rtn = hsm::SiblingTransition<ECMState_Idle>();
         }
         else

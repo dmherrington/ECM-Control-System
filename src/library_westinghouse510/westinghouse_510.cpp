@@ -22,7 +22,10 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
 
 void Westinghouse510::setPumpProperties(const Command_PumpProperties &command)
 {
-    initializationTimer->setInterval(command.getInitializationTime());
+    if(command.shouldWaitForInitializationDelay())
+        initializationTimer->setInterval(command.getInitializationTime());
+    else
+        initializationTimer->setInterval(1);
 
     registers_WestinghousePump::Register_FlowRate newFlowRate;
     newFlowRate.setVolumetricFlow(command.getPumpFlowRate());

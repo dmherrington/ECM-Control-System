@@ -365,7 +365,6 @@ std::string MunkPowerSupply::getLogOfOperationalSettings() const
     std::vector<registers_Munk::SegmentTimeDataDetailed> registerData = segmentData.getRegisterData();
     for(size_t i = 0; i < registerData.size(); i++)
     {
-
         str += registerData.at(i).getLoggingString() + "\n";
     }
 

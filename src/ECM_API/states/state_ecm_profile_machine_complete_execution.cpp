@@ -70,7 +70,7 @@ void ECMState_ProfileMachineCompleteExecution::OnEnter(const ECMCommand_ProfileC
     m_Config.execProperties.completeExecution();
     Owner().concludeExecutingOperation(m_Config);
 
-    Owner().action_StopMachine();
+    Owner().action_StopMachine(); //we are going to move the stop action to the top level directory
 
     desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE;
 }
