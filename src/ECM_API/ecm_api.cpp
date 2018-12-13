@@ -110,7 +110,7 @@ void ECM_API::executeOperationalProfile(const ECMCommand_ProfileConfiguration &p
 
     CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,
                                                                                profileConfig.getProfileName());
-    m_Galil->executeCommand(command);
+    //m_Galil->executeCommand(command);
 }
 
 void ECM_API::concludeExecutingOperation(const ECMCommand_ProfileConfiguration &profileConfig)

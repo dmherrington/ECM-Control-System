@@ -13,11 +13,7 @@ Widget_MunkPowerSupply::Widget_MunkPowerSupply(MunkPowerSupply *obj, QWidget *pa
     ui->spinBox_NumPulses->setValue(1);
     ui->spinBox_NumPulses->setDisabled(true);
 
-    //connect(ui->widget_DeviceFault, SIGNAL(signal_TransmitClearFault()), this, SLOT(slot_ClearFaultRequested()));
-    connect(munk, SIGNAL(signal_FaultStateCleared()), this, SLOT(slot_FaultStateCleared()));
-
     connect(munk, SIGNAL(signal_SegmentWriteProgress(int,int)), this, SLOT(slot_ParameterTransmissionUpdate(int,int)));
-    connect(munk, SIGNAL(signal_FaultCodeRecieved()), this, SLOT(slot_FaultCodeReceived()));
 
     connect(munk, SIGNAL(signal_SegmentException(std::string,std::string)), this, SLOT(slot_SegmentExceptionReceived(std::string,std::string)));
 

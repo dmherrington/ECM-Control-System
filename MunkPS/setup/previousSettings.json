@@ -1,17 +1,17 @@
 {
     "segmentData": [
         {
-            "current": 600,
+            "current": 105,
             "segmentMode": "FORWARD",
             "supplyOutput": "OUTPUT1",
-            "time": 10000,
-            "voltage": 40
+            "time": 5000,
+            "voltage": 24
         },
         {
             "current": 0,
             "segmentMode": "DEAD",
             "supplyOutput": "OUTPUT1",
-            "time": 10000,
+            "time": 2000,
             "voltage": 0
         }
     ]

@@ -32,7 +32,8 @@ hsm::Transition ECMState_SetupMachineTouchoff::GetTransition()
 
     if(IsInInnerState<ECMState_SetupMachineTouchoffCompleted>())
     {
-        rtn = hsm::SiblingTransition<ECMState_SetupMachinePump>(this->m_Config);
+        rtn = hsm::SiblingTransition<ECMState_SetupMachineComplete>();
+        //rtn = hsm::SiblingTransition<ECMState_SetupMachinePump>(this->m_Config);
     }
     else if(IsInInnerState<ECMState_SetupMachineTouchoffFailed>())
     {
@@ -87,3 +88,4 @@ void ECMState_SetupMachineTouchoff::OnEnter(const ECMCommand_ProfileConfiguratio
 #include "states/state_ecm_setup_machine_touchoff_failed.h"
 
 #include "states/state_ecm_setup_machine_pump.h"
+#include "states/state_ecm_setup_machine_complete.h"

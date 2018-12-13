@@ -257,9 +257,6 @@ void ECMLogging::WriteConcludingOperationStats(const double &duration, const Pro
 
 void ECMLogging::CloseMachiningLog(const double &duration)
 {
-    if(!isComponentLogging())
-        return;
-
     this->enableLogging(false);
 
     QString str;

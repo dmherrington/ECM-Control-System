@@ -32,6 +32,7 @@ ECM_CLASS_FORWARD(ECMState_SetupMachineTouchoffConnect);
 
 class ECMState_SetupMachineTouchoffFailed;
 class ECMState_SetupMachineTouchoffPosition;
+class ECMState_SetupMachineTouchoffExecute;
 
 class ECMState_SetupMachineTouchoffConnect : public AbstractStateECMProcess
 {

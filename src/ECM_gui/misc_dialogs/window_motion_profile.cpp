@@ -35,6 +35,11 @@ void Window_MotionProfile::setFilePath(const std::string &path)
 void Window_MotionProfile::setProgramText(const std::string &programText)
 {
     ui->codeTextEdit->setPlainText(QString::fromStdString(programText));
+
+    if(programText == m_MotionController->getCurrentMCProgram().getProgram())
+        this->updateStatusLED(QColor(0,255,0));
+    else
+        this->updateStatusLED(QColor(0,255,0));
 }
 
 void Window_MotionProfile::openGalilScript()

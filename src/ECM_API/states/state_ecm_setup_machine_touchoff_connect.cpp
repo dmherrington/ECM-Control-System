@@ -35,9 +35,9 @@ hsm::Transition ECMState_SetupMachineTouchoffConnect::GetTransition()
         rtn = hsm::SiblingTransition<ECMState_SetupMachineTouchoffFailed>();
         break;
     }   
-    case ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_POSITION:
+    case ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_EXECUTE:
     {
-        rtn = hsm::SiblingTransition<ECMState_SetupMachineTouchoffPosition>(this->m_Config);
+        rtn = hsm::SiblingTransition<ECMState_SetupMachineTouchoffExecute>(this->m_Config);
         break;
     }
     default:
@@ -74,7 +74,7 @@ void ECMState_SetupMachineTouchoffConnect::stopProcess()
 
 void ECMState_SetupMachineTouchoffConnect::continueProcess()
 {
-    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_POSITION;
+    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_EXECUTE;
 }
 
 } //end of namespace API
@@ -82,3 +82,4 @@ void ECMState_SetupMachineTouchoffConnect::continueProcess()
 
 #include "states/state_ecm_setup_machine_touchoff_failed.h"
 #include "states/state_ecm_setup_machine_touchoff_position.h"
+#include "states/state_ecm_setup_machine_touchoff_execute.h"

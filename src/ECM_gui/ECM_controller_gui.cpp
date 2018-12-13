@@ -75,7 +75,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
             this, SLOT(slot_ExecutingOperation(ExecuteOperationProperties)));
 
     connect(m_API, SIGNAL(signal_NewOuterState(ECM::API::ECMState, std::string)),
-            this, SLOT(slot_OnNewOuterMachineState(std::string)));
+            this, SLOT(slot_OnNewOuterMachineState(ECM::API::ECMState, std::string)));
 
     connect(m_API, SIGNAL(signal_InPauseEvent(std::string)),
             this, SLOT(slot_OnExecutionPause(std::string)));
@@ -94,7 +94,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_Galil, SIGNAL(signal_MCNewMotionState(QString)), this, SLOT(slot_MCNewMotionState(QString)));
     this->slot_MCNewMotionState(QString::fromStdString(m_API->m_Galil->getCurrentMCState()));
     connect(m_API->m_Munk, SIGNAL(signal_MunkFaultCodeStatus(bool,std::vector<std::string>)),
-            this, SLOT());
+            this, SLOT(slot_MunkFaultCodeStatus(bool,std::vector<std::string>)));
 
     m_WindowCustomMotionCommands = new Window_CustomMotionCommands(m_API->m_Galil);
     m_WindowCustomMotionCommands->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
@@ -585,6 +585,7 @@ void ECMControllerGUI::on_actionCustom_Motion_Commands_triggered(bool checked)
 
 void ECMControllerGUI::on_actionOpen_Sensors_Window_triggered(bool checked)
 {
+    UNUSED(checked);
 //    if(checked)
 //        m_additionalSensorDisplay->show();
 //    else
@@ -636,6 +637,7 @@ void ECMControllerGUI::slot_ExecutingConfiguration(const ExecutionProperties &pr
 {
     if(props.getOperatingCondition() == ExecutionProperties::ExecutionCondition::BEGINNING)
     {
+        this->configurationStart = props.getTime();
         ui->lineEdit_OperationIndexTotal->setText(QString::number(props.getMaxIndex()));
         ui->lineEdit_ConfigurationTime->setText(QString::number(0));
         elapsedConfigurationTimer->start();
@@ -650,12 +652,14 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
 {
     if(props.getOperatingCondition() == ExecutionProperties::ExecutionCondition::BEGINNING)
     {
+        EnvironmentTime startTime = props.getTime();
+        this->operationStart = startTime;
+
         ui->lineEdit_OperationName->setText(QString::fromStdString(props.getOperationName()));
         ui->lineEdit_OperationIndex->setText(QString::number(props.getCurrentIndex()));
 
         m_WindowProfileConfiguration->executingProfileIndex(props.getCurrentIndex());
 
-        EnvironmentTime startTime = props.getTime();
         QDate tmp_Date(startTime.year, startTime.month, startTime.dayOfMonth);
         QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond);
 
@@ -668,7 +672,6 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
         ui->widget_primaryPlotVoltage->setOriginTime(QDateTime(tmp_Date, tmp_Time));
         m_additionalSensorDisplay->SetOriginTime(QDateTime(tmp_Date, tmp_Time));
 
-        this->configurationStart = startTime;
         ui->lineEdit_OperationTime->setText(QString::number(0));
 
         elapsedOperationTimer->start();
@@ -782,7 +785,7 @@ void ECMControllerGUI::slot_OnNewOuterMachineState(const ECM::API::ECMState &sta
     switch (state) {
     case ECM::API::ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF:
         //Clear all of the exisitng data that may be on the plots
-        m_PlotCollection.ClearAllData();
+        //m_PlotCollection.ClearAllData();
         break;
     default:
         break;

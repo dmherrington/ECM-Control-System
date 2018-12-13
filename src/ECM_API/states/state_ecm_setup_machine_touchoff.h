@@ -37,6 +37,7 @@ class ECMState_SetupMachineTouchoffCompleted;
 class ECMState_SetupMachineTouchoffFailed;
 
 class ECMState_SetupMachinePump;
+class ECMState_SetupMachineComplete;
 
 class ECMState_SetupMachineTouchoff : public AbstractStateECMProcess
 {
