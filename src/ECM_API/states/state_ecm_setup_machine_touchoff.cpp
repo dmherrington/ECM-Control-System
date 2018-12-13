@@ -32,8 +32,8 @@ hsm::Transition ECMState_SetupMachineTouchoff::GetTransition()
 
     if(IsInInnerState<ECMState_SetupMachineTouchoffCompleted>())
     {
-        rtn = hsm::SiblingTransition<ECMState_SetupMachineComplete>();
-        //rtn = hsm::SiblingTransition<ECMState_SetupMachinePump>(this->m_Config);
+        //rtn = hsm::SiblingTransition<ECMState_SetupMachineComplete>();
+        rtn = hsm::SiblingTransition<ECMState_SetupMachinePump>(this->m_Config);
     }
     else if(IsInInnerState<ECMState_SetupMachineTouchoffFailed>())
     {
@@ -46,6 +46,11 @@ hsm::Transition ECMState_SetupMachineTouchoff::GetTransition()
             case ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_CONNECT:
             {
                 rtn = hsm::InnerEntryTransition<ECMState_SetupMachineTouchoffConnect>(this->m_Config);
+                break;
+            }
+            case ECMState::STATE_ECM_SETUP_MACHINE_PUMP:
+            {
+                rtn = hsm::InnerEntryTransition<ECMState_SetupMachinePump>(this->m_Config);
                 break;
             }
             default:
@@ -75,7 +80,10 @@ void ECMState_SetupMachineTouchoff::OnEnter(const ECMCommand_ProfileConfiguratio
 
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
-    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_CONNECT;
+    if(configuration.m_Touchoff.shouldTouchoffBeUtilized())
+        desiredState = ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_CONNECT;
+    else
+        desiredState = ECMState::STATE_ECM_SETUP_MACHINE_PUMP;
 }
 
 } //end of namespace API

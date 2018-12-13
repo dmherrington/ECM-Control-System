@@ -452,7 +452,7 @@ void ECMControllerGUI::on_pushButton_MoveHome_released()
 {
     //First set the move to home speed based on the jog value
     //int jogMoveSpeed = m_WindowMotionControl->getCurrentJogSpeed();
-    CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(MotorAxis::Z, 100000);
+    CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(MotorAxis::Z, 10000);
     m_API->m_Galil->executeCommand(commandSpeed);
 
     //Next, transmit the move to home command

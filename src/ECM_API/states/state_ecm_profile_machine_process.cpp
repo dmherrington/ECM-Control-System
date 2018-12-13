@@ -113,8 +113,8 @@ void ECMState_ProfileMachineProcess::OnEnter(const ECMCommand_ProfileConfigurati
 
     Owner().executeOperationalProfile(this->m_Config);
 
-    m_Config.execProperties.setProfileCode(ProfileState_Machining::MACHININGProfileCodes::COMPLETE);
-    desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION;
+//    m_Config.execProperties.setProfileCode(ProfileState_Machining::MACHININGProfileCodes::COMPLETE);
+//    desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION;
 }
 
 
