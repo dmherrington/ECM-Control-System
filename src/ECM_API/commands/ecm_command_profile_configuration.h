@@ -1,7 +1,7 @@
 #ifndef ECM_COMMAND_PROFILE_CONFIGURATION_H
 #define ECM_COMMAND_PROFILE_CONFIGURATION_H
 
-#include "common/class_forward.h"
+#include "ecm_command_abstract_profile_config.h"
 
 #include "library_galilMotionController/programs/galil_current_operation.h"
 #include "library_galilMotionController/motion_command_touchoff_config.h"
@@ -14,7 +14,7 @@
 
 ECM_CLASS_FORWARD(ECMCommand_ProfileConfiguration);
 
-class ECMCommand_ProfileConfiguration
+class ECMCommand_ProfileConfiguration : public ECMCommand_AbstractProfileConfig
 {
 public:
     ECMCommand_ProfileConfiguration();
@@ -56,6 +56,8 @@ public:
     //!
     ECMCommand_ProfileConfiguration& operator = (const ECMCommand_ProfileConfiguration &rhs)
     {
+        ECMCommand_AbstractProfileConfig::operator =(rhs);
+
         this->operationIndex = rhs.operationIndex;
         this->operationName = rhs.operationName;
         this->indicateHome = rhs.indicateHome;
@@ -78,6 +80,10 @@ public:
     //!
     bool operator == (const ECMCommand_ProfileConfiguration &rhs)
     {
+        if(!ECMCommand_AbstractProfileConfig::operator ==(rhs)){
+            return false;
+        }
+
         if(this->operationIndex != rhs.operationIndex){
             return false;
         }

@@ -1,6 +1,7 @@
 #include "ecm_command_profile_configuration.h"
 
-ECMCommand_ProfileConfiguration::ECMCommand_ProfileConfiguration()
+ECMCommand_ProfileConfiguration::ECMCommand_ProfileConfiguration():
+    ECMCommand_AbstractProfileConfig(ConfigType::OPERATION)
 {
 
 }
