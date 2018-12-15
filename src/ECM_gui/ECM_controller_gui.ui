@@ -1709,9 +1709,6 @@ width:20px;
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionConnections">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="text">
     <string>Connections</string>
    </property>
@@ -1722,9 +1719,6 @@ width:20px;
    </property>
   </action>
   <action name="actionPump_Window">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="text">
     <string>Pump</string>
    </property>
@@ -1735,9 +1729,6 @@ width:20px;
    </property>
   </action>
   <action name="actionTouchoff_Window">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="text">
     <string>Touchoff</string>
    </property>
@@ -1753,17 +1744,11 @@ width:20px;
    </property>
   </action>
   <action name="actionMotion_Profile">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="text">
     <string>Motion Profile</string>
    </property>
   </action>
   <action name="actionCustom_Motion_Commands">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="text">
     <string>Custom Motion Commands</string>
    </property>
@@ -1774,9 +1759,6 @@ width:20px;
    </property>
   </action>
   <action name="actionMotion_Control">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="text">
     <string>Motion Control</string>
    </property>
