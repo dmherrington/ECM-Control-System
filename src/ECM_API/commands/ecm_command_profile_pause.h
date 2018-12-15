@@ -15,6 +15,8 @@ public:
 public:
     ECMCommand_ProfilePause();
 
+    ECMCommand_ProfilePause(const ECMCommand_ProfilePause &copy);
+
 public:
     unsigned int waitTime;
     WaitType durationType;

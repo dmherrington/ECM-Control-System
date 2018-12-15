@@ -23,10 +23,10 @@ void ECMCommand_ProfileCollection::getClone(ECMCommand_AbstractCollectionPtr &co
     collection = std::make_shared<ECMCommand_ProfileCollection>(*this);
 }
 
-void ECMCommand_ProfileCollection::insertProfile(const ECMCommand_ProfileConfiguration &profile)
+void ECMCommand_ProfileCollection::insertProfile(const ECMCommand_ProfileConfiguration *profile)
 {
-    std::pair<std::map<unsigned int,ECMCommand_ProfileConfiguration>::iterator,bool> ret;
-    ret = m_Collection.insert(std::pair<unsigned int, ECMCommand_ProfileConfiguration>(profile.getOperationIndex(),profile));
+    std::pair<std::map<unsigned int,ECMCommand_AbstractProfileConfig*>::iterator,bool> ret;
+    ret = m_Collection.insert(std::pair<unsigned int, ECMCommand_AbstractProfileConfig*>(profile.getOperationIndex(),profile));
 
     if(ret.second == false)
     {
@@ -35,19 +35,19 @@ void ECMCommand_ProfileCollection::insertProfile(const ECMCommand_ProfileConfigu
     }
 }
 
-ECMCommand_ProfileConfiguration ECMCommand_ProfileCollection::getLeadingProfile() const
+ECMCommand_AbstractProfileConfig* ECMCommand_ProfileCollection::getLeadingProfile() const
 {
-    std::map<unsigned int,ECMCommand_ProfileConfiguration>::const_iterator it = m_Collection.begin();
-    ECMCommand_ProfileConfiguration leadingProfile = it->second;
+    std::map<unsigned int,ECMCommand_AbstractProfileConfig*>::const_iterator it = m_Collection.begin();
+    ECMCommand_AbstractProfileConfig* leadingProfile = it->second;
     return leadingProfile;
 }
 
-ECMCommand_ProfileConfiguration ECMCommand_ProfileCollection::getProfile(const unsigned int &index) const
+ECMCommand_AbstractProfileConfig *ECMCommand_ProfileCollection::getProfile(const unsigned int &index) const
 {
     return this->m_Collection.at(index);
 }
 
-std::map<unsigned int, ECMCommand_ProfileConfiguration> ECMCommand_ProfileCollection::getCollection() const
+std::map<unsigned int, ECMCommand_AbstractProfileConfig*> ECMCommand_ProfileCollection::getCollection() const
 {
     return this->m_Collection;
 }
@@ -55,10 +55,10 @@ std::map<unsigned int, ECMCommand_ProfileConfiguration> ECMCommand_ProfileCollec
 unsigned int ECMCommand_ProfileCollection::getActiveCollectionSize() const
 {
     unsigned int count = 0;
-    std::map<unsigned int, ECMCommand_ProfileConfiguration>::const_iterator it = m_Collection.begin();
+    std::map<unsigned int, ECMCommand_AbstractProfileConfig*>::const_iterator it = m_Collection.begin();
     for(; it != m_Collection.end(); ++it)
     {
-        if(it->second.shouldProfileExecute())
+        if(it->second->shouldProfileExecute())
             count++;
     }
 
@@ -72,7 +72,7 @@ unsigned int ECMCommand_ProfileCollection::getCollectionSize() const
 
 void ECMCommand_ProfileCollection::setAssociatedMotionScript(const std::string &script)
 {
-    std::map<unsigned int, ECMCommand_ProfileConfiguration>::iterator it = m_Collection.begin();
+    std::map<unsigned int, ECMCommand_AbstractProfileConfig>::iterator it = m_Collection.begin();
     for(; it != m_Collection.end(); ++it)
     {
         ECMCommand_ProfileConfiguration currentConfig = it->second;

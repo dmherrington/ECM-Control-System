@@ -27,29 +27,6 @@ public:
     void readFromJSON(const QJsonObject &obj);
 
 public:
-    unsigned int getOperationIndex() const;
-
-    std::string getOperationName() const;
-
-    std::string getProfileName() const;
-
-
-    bool shouldHomeBeIndicated() const;
-
-    bool shouldProfileExecute() const;
-
-    bool hasProfileCompleted() const;
-
-public:
-    void setOperationIndex(const unsigned int &index);
-
-    void setOperationName(const std::string &name);
-
-    void setIndicateHomeAutomatically(const bool &homeExecute);
-
-    void setProfileExecution(const bool &varExecute);
-
-public:
     //!
     //! \brief operator =
     //! \param rhs
@@ -57,14 +34,6 @@ public:
     ECMCommand_ProfileConfiguration& operator = (const ECMCommand_ProfileConfiguration &rhs)
     {
         ECMCommand_AbstractProfileConfig::operator =(rhs);
-
-        this->operationIndex = rhs.operationIndex;
-        this->operationName = rhs.operationName;
-        this->indicateHome = rhs.indicateHome;
-        this->shouldExecute = rhs.shouldExecute;
-
-        this->execProperties = rhs.execProperties;
-
         this->m_GalilOperation = rhs.m_GalilOperation;
         this->m_Touchoff = rhs.m_Touchoff;
         this->m_ConfigPowerSupply = rhs.m_ConfigPowerSupply;
@@ -81,23 +50,6 @@ public:
     bool operator == (const ECMCommand_ProfileConfiguration &rhs)
     {
         if(!ECMCommand_AbstractProfileConfig::operator ==(rhs)){
-            return false;
-        }
-
-        if(this->operationIndex != rhs.operationIndex){
-            return false;
-        }
-        if(this->operationName != rhs.operationName){
-            return false;
-        }
-        if(this->indicateHome != rhs.indicateHome){
-            return false;
-        }
-        if(this->shouldExecute != rhs.shouldExecute){
-            return false;
-        }
-        if(this->execProperties != rhs.execProperties)
-        {
             return false;
         }
         if(this->m_GalilOperation != rhs.m_GalilOperation){
@@ -133,15 +85,6 @@ public:
     PowerSupply_SetupConfig m_ConfigPowerSupply;
 
     Command_PumpProperties m_PumpParameters;
-
-private:
-    unsigned int operationIndex = 0;
-    std::string operationName = "";
-    bool indicateHome = false;
-    bool shouldExecute = false;
-
-public:
-    ECMCommand_ExecutionProperties execProperties;
 };
 
 #endif // ECM_COMMAND_PROFILE_CONFIGURATION_H
