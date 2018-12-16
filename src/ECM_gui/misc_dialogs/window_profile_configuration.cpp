@@ -3,7 +3,8 @@
 
 Window_ProfileConfiguration::Window_ProfileConfiguration(ECM_API* apiObject, QWidget *parent) :
     GeneralDialogWindow(GeneralDialogWindow::DialogWindowTypes::WINDOW_OPERATION_CONFIGURATION,"Operation Configuration",parent),
-    ui(new Ui::Window_ProfileConfiguration)
+    ui(new Ui::Window_ProfileConfiguration),
+    previousItem(nullptr)
 {
     ui->setupUi(this);
     m_API = apiObject;
@@ -259,8 +260,17 @@ void Window_ProfileConfiguration::on_ListWidgetRowMoved()
 
 void Window_ProfileConfiguration::on_listWidget_itemClicked(QListWidgetItem *item)
 {
-    unsigned int currentTabIndex = this->m_MapOperations.at(item)->getAccompanyingProfile()->getTabIndex();
-    ui->tabWidget_OperationParameters->setCurrentIndex(currentTabIndex);
+    if(previousItem == item)
+    {
+        this->previousItem = nullptr;
+        ui->listWidget->clearSelection();
+    }
+    else
+    {
+        this->previousItem = item;
+        unsigned int currentTabIndex = this->m_MapOperations.at(item)->getAccompanyingProfile()->getTabIndex();
+        ui->tabWidget_OperationParameters->setCurrentIndex(currentTabIndex);
+    }
 }
 
 void Window_ProfileConfiguration::on_actionOpen_triggered()

@@ -511,6 +511,7 @@ public:
         listWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         listWidget->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
         listWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        listWidget->setTabKeyNavigation(true);
         listWidget->setDragEnabled(true);
         listWidget->setDragDropMode(QAbstractItemView::DragDrop);
         listWidget->setDefaultDropAction(Qt::MoveAction);

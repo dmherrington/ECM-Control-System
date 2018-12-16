@@ -103,6 +103,8 @@ private:
 
 private:
     std::map<QListWidgetItem*,TableWidget_OperationDescriptor*> m_MapOperations;
+
+    QListWidgetItem* previousItem;
 };
 
 #endif // WINDOW_PROFILE_CONFIGURATION_H

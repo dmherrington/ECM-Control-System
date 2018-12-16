@@ -623,6 +623,9 @@ width:20px;
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
+          <property name="tabKeyNavigation">
+           <bool>true</bool>
+          </property>
           <property name="dragEnabled">
            <bool>true</bool>
           </property>
