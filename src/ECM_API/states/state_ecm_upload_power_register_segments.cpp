@@ -71,7 +71,7 @@ void ECMState_UploadPowerRegisterSegments::OnEnter(ECMCommand_AbstractProfileCon
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
     switch (config->getConfigType()) {
-    case ECMCommand_AbstractProfileConfig::ConfigType::OPERATION:
+    case ProfileOpType::OPERATION:
     {
         ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(config);
 

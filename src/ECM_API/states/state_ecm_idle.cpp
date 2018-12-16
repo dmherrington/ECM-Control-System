@@ -32,9 +32,9 @@ hsm::Transition ECMState_Idle::GetTransition()
     if(currentState != desiredState)
     {
         switch (desiredState) {
-        case ECMState::STATE_ECM_UPLOAD:
+        case ECMState::STATE_ECM_MOTION_PROFILE_HANDLING:
         {
-            rtn = hsm::SiblingTransition<ECMState_Upload>(m_ECMCollection);
+            rtn = hsm::SiblingTransition<ECMState_ProfileHandling>(m_ECMCollection);
             break;
         }
         default:
@@ -46,8 +46,9 @@ hsm::Transition ECMState_Idle::GetTransition()
 
 void ECMState_Idle::executeCollection(const ECMCommand_ExecuteCollection &collection)
 {
+    this->m_ECMCollection = collection;
 
-    this->desiredState = ECMState::STATE_ECM_UPLOAD;
+    this->desiredState = ECMState::STATE_ECM_MOTION_PROFILE_HANDLING;
 }
 
 void ECMState_Idle::Update()
@@ -63,4 +64,4 @@ void ECMState_Idle::OnEnter()
 } //end of namespace Galil
 } //end of namespace ECM
 
-#include "states/state_ecm_upload.h"
+#include "states/state_ecm_profile_handling.h"

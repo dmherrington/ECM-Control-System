@@ -27,8 +27,7 @@ namespace API {
 
 enum class ECMState{
     STATE_ECM_IDLE = 0, /**< */
-    STATE_ECM_MOTION_PROFILE_INITIALIZATION = 1, /**< */
-    STATE_ECM_EXECUTION_FAILED = 2,
+    STATE_ECM_MOTION_PROFILE_HANDLING = 1, /**< */
     STATE_ECM_PROFILE_MACHINE = 20, /**< */
     STATE_ECM_PROFILE_MACHINE_ABORT = 21, /**< */
     STATE_ECM_PROFILE_MACHINE_COMPLETE = 22, /**< */
@@ -68,6 +67,8 @@ inline std::string ECMStateToString(const ECMState &type) {
     switch (type) {
     case ECMState::STATE_ECM_IDLE:
         return "Idle";
+    case ECMState::STATE_ECM_MOTION_PROFILE_HANDLING:
+        return "Profile Setup";
 
     case ECMState::STATE_ECM_PROFILE_MACHINE:
         return "Profile Machining";

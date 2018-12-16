@@ -91,7 +91,7 @@ ECMCommand_ExecuteCollection Window_ProfileConfiguration::getCurrentCollection()
 
             if(currentOp->getOperationIndex() == index)
             {
-                ECMCommand_ProfileConfiguration operationConfiguration = currentOp->getCurrentProfileConfiguration();
+                ECMCommand_AbstractProfileConfigPtr operationConfiguration = currentOp->getCurrentProfileConfiguration();
                 executeCollection.insertProfile(operationConfiguration);
             }
         }
@@ -106,24 +106,33 @@ void Window_ProfileConfiguration::updateConfigurationPath(const std::string &pat
     ui->lineEdit_ConfugrationPath->setText(QString::fromStdString(path));
 }
 
-TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const unsigned int &index, const std::string &operationName)
+TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const unsigned int &index, const std::string &operationName, const ProfileOpType &type)
 {
-    Widget_ProfileParameters* operationParameters = new Widget_ProfileParameters(m_API);
     std::string opName = "";
     if(operationName.empty())
         opName = "Operation "  + std::to_string(index);
     else
         opName = operationName;
 
-    ui->tabWidget_OperationParameters->addTab(operationParameters,QString::fromStdString(opName));
-    operationParameters->setTabIndex(index);
+    Widget_AbstractProfile* operationalProfile;
+    switch (type) {
+    case ProfileOpType::OPERATION:
+    {
+         operationalProfile = new Widget_ProfileParameters(m_API);
+         operationalProfile->setTabIndex(index);
+         ui->tabWidget_OperationParameters->addTab(operationalProfile,QString::fromStdString(opName));
+        break;
+    }
+    default:
+        break;
+    }
 
-    TableWidget_OperationDescriptor* tableDescriptor = new TableWidget_OperationDescriptor(operationParameters);
+    TableWidget_OperationDescriptor* tableDescriptor = new TableWidget_OperationDescriptor(operationalProfile);
     tableDescriptor->setOperationIndex(index + 1);
     tableDescriptor->setOperationName(opName);
 
     connect(tableDescriptor,SIGNAL(signal_OperationNameChanged(std::string,uint)),this,SLOT(slot_OperationNameChanged(std::string,uint)));
-    connect(tableDescriptor,SIGNAL(signal_ExecuteExplicitProfileConfig(ECMCommand_ProfileConfiguration)),this,SLOT(slot_OnExecuteExplicitProfileConfig(ECMCommand_ProfileConfiguration)));
+    connect(tableDescriptor,SIGNAL(signal_ExecuteExplicitProfileConfig(ECMCommand_AbstractProfileConfigPtr)),this,SLOT(slot_OnExecuteExplicitProfileConfig(ECMCommand_AbstractProfileConfigPtr)));
     tableDescriptor->newlyAvailableProgramLabels(m_API->m_Galil->stateInterface->galilProgram->getLabelList());
 
     QListWidgetItem* newItem = new QListWidgetItem();
@@ -136,13 +145,13 @@ TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const
     return tableDescriptor;
 }
 
-void Window_ProfileConfiguration::slot_OnExecuteExplicitProfileConfig(const ECMCommand_ProfileConfiguration &config)
+void Window_ProfileConfiguration::slot_OnExecuteExplicitProfileConfig(const ECMCommand_AbstractProfileConfigPtr config)
 {
         ECMCommand_ExecuteCollection newExecutionCollection;
         newExecutionCollection.insertProfile(config);
         newExecutionCollection.setAssociatedMotionScript(m_WindowMotionProfile->getCurrentGalilScript());
         newExecutionCollection.setHomeShouldIndicate(ui->checkBox_ShouldHomeBeIndicated->isChecked());
-        emit signal_ExecuteProfileCollection(newExecutionCollection);
+       emit signal_ExecuteProfileCollection(newExecutionCollection);
 }
 
 void Window_ProfileConfiguration::clearExistingOperations()
@@ -288,9 +297,9 @@ void Window_ProfileConfiguration::saveToFile(const QString &filePath)
 
             if(currentOp->getOperationIndex() == index)
             {
-                ECMCommand_ProfileConfiguration operationConfiguration = currentOp->getCurrentProfileConfiguration();
+                ECMCommand_AbstractProfileConfigPtr operationConfig = currentOp->getCurrentProfileConfiguration();
                 QJsonObject operationObject;
-                operationConfiguration.writeToJSON(operationObject);
+                operationConfig->writeToJSON(operationObject);
                 segmentDataArray.append(operationObject);
             }
         }
@@ -332,17 +341,31 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
         profileCollection.collectionWasLoaded(true,filePath.toStdString());
 
         for (int i = 0; i < configArray.size(); ++i) {
+            ECMCommand_AbstractProfileConfigPtr loadConfig;
             QJsonObject operationObject = configArray[i].toObject();
+            ProfileOpType opType = static_cast<ProfileOpType>(operationObject["opType"].toInt());
 
-            ECMCommand_ProfileConfiguration loadConfig;
-            loadConfig.readFromJSON(operationObject);
-            loadConfig.m_GalilOperation.setProgramLoaded(true,filePath.toStdString());
+            if(opType == ProfileOpType::OPERATION)
+            {
+                loadConfig = std::make_shared<ECMCommand_ProfileConfiguration>();
+                ECMCommand_ProfileConfigurationPtr castLoadConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(loadConfig);
+                castLoadConfig->readFromJSON(operationObject);
+                castLoadConfig->m_GalilOperation.setProgramLoaded(true,filePath.toStdString());
+            }
+            else if(opType == ProfileOpType::PAUSE)
+            {
 
-            TableWidget_OperationDescriptor* currentWidget = this->addOperation(loadConfig.getOperationIndex(), loadConfig.getOperationName());
+            }
+            else
+            {
+                break;
+            }
+
+            TableWidget_OperationDescriptor* currentWidget = this->addOperation(loadConfig->getOperationIndex(), loadConfig->getOperationName(), opType);
             currentWidget->loadFromProfileConfiguration(loadConfig);
 
             //Object will contain all of the profiles used for the profile
-            profileCollection.insertProfile(loadConfig);
+           profileCollection.insertProfile(loadConfig);
         }
     }
     emit signal_LoadedConfigurationCollection(filePath.toStdString());

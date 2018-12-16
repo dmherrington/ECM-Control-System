@@ -40,12 +40,22 @@ hsm::Transition ECMState_Upload::GetTransition()
         if(IsInInnerState<ECMState_UploadComplete>())
         {
             std::cout<<"The upload state sees that all of the uploads are complete"<<std::endl;
+
+            ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection.getActiveConfiguration();
+            if(activeConfiguration->getConfigType() == ProfileOpType::OPERATION)
+                Owner().logCurrentOperationalSettings();
+
             rtn = hsm::SiblingTransition<ECMState_SetupMachine>(this->m_ECMCollection);
         }
         else if(IsInInnerState<ECMState_UploadFailed>())
         {
+            ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection.getActiveConfiguration(); //find the current configuration we had been working on
+            activeConfiguration->execProperties.completeExecution();
+            Owner().concludeExecutingOperation(activeConfiguration);
+
             this->m_ECMCollection.establishEndTime();
             Owner().concludeExecutingCollection(this->m_ECMCollection);
+
             rtn = hsm::SiblingTransition<ECMState_Idle>();
         }
         else
@@ -105,7 +115,7 @@ void ECMState_Upload::OnEnter(const ECMCommand_ExecuteCollection &collection)
     ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection.getActiveConfiguration();
 
     switch (activeConfiguration->getConfigType()) {
-    case ECMCommand_AbstractProfileConfig::ConfigType::OPERATION:
+    case ProfileOpType::OPERATION:
     {
         /*
          * We should only transition to the upload motion profile state if the
@@ -123,7 +133,7 @@ void ECMState_Upload::OnEnter(const ECMCommand_ExecuteCollection &collection)
 
         break;
     }
-    case ECMCommand_AbstractProfileConfig::ConfigType::PAUSE:
+    case ProfileOpType::PAUSE:
     {
         this->desiredState = ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS;
         break;
@@ -146,6 +156,4 @@ void ECMState_Upload::OnEnter(const ECMCommand_ExecuteCollection &collection)
 #include "states/state_ecm_upload_failed.h"
 #include "states/state_ecm_upload_motion_profile.h"
 #include "states/state_ecm_upload_motion_variables.h"
-#include "states/state_ecm_upload_power_pulse_mode.h"
-#include "states/state_ecm_upload_power_register_segments.h"
 #include "states/state_ecm_upload_pump_parameters.h"

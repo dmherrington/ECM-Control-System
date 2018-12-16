@@ -33,7 +33,7 @@ ECM_CLASS_FORWARD(ECMState_ProfileMachine);
 
 class ECMState_Idle;
 
-class ECMState_Upload;
+class ECMState_ProfileHandling;
 
 class ECMState_ProfileMachineCease;
 class ECMState_ProfileMachineComplete;

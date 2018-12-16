@@ -3,6 +3,7 @@
 
 #include <QWidget>
 
+#include "widget_abstract_profile.h"
 #include "widget_profile_parameters.h"
 
 #include "ECM_API/commands/ecm_command_profile_configuration.h"
@@ -16,7 +17,7 @@ class TableWidget_OperationDescriptor : public QWidget
     Q_OBJECT
 
 public:
-    explicit TableWidget_OperationDescriptor(Widget_ProfileParameters* operationParameters, QWidget *parent = 0);
+    explicit TableWidget_OperationDescriptor(Widget_AbstractProfile *operationalProfile, QWidget *parent = 0);
     ~TableWidget_OperationDescriptor();
 
 public:
@@ -32,14 +33,14 @@ public:
 
     //void setShouldHomeIndicateAutomatically(const bool &indicate);
 
-    Widget_ProfileParameters* getAccompanyingProfile();
+    Widget_AbstractProfile* getAccompanyingProfile();
 
     void newlyAvailableProgramLabels(const ProgramLabelList &labels);
 
 public:
-    ECMCommand_ProfileConfiguration getCurrentProfileConfiguration() const;
+    ECMCommand_AbstractProfileConfigPtr getCurrentProfileConfiguration() const;
 
-    void loadFromProfileConfiguration(const ECMCommand_ProfileConfiguration &config);
+    void loadFromProfileConfiguration(const ECMCommand_AbstractProfileConfigPtr config);
 
 private slots:
 
@@ -52,12 +53,12 @@ private slots:
 signals:
     void signal_OperationNameChanged(const std::string &name, const unsigned int &index);
 
-    void signal_ExecuteExplicitProfileConfig(const ECMCommand_ProfileConfiguration &config);
+    void signal_ExecuteExplicitProfileConfig(ECMCommand_AbstractProfileConfigPtr config);
 
 private:
     Ui::TableWidget_OperationDescriptor *ui;
 
-    Widget_ProfileParameters* m_OperationParameters;
+    Widget_AbstractProfile* m_AbstractOperation;
 
 private:
     unsigned int operationIndex = 0;

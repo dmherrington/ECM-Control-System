@@ -19,6 +19,7 @@
 #include "ecm_logging.h"
 #include "ecm_modules.h"
 
+#include "commands/ecm_command_profile_pause.h"
 #include "commands/ecm_command_execute_collection.h"
 #include "commands/ecm_command_profile_collection.h"
 
@@ -48,10 +49,18 @@ public:
 
     void initializeOperationalCollection(const ECMCommand_ExecuteCollection &executionCollection, const bool &clearContents);
 
-    void initializeOperationLogs(const ECMCommand_ExecuteCollection &executionCollection,
-                           const std::string &descriptor = "");
+    void initializeLoggingOperation(const std::string &partNumber, const std::string &serialNumber,
+                                 const ECMCommand_AbstractProfileConfigPtr configuration, const std::string &description = "");
 
-    void executeOperationalProfile(const ECMCommand_ProfileConfigurationPtr profileConfig);
+    void logCurrentOperationalSettings();
+
+    void beginLoggingOperationalData();
+
+    void beginOperationalProfile(const ECMCommand_AbstractProfileConfigPtr profileConfig);
+
+    void executeExplicitProfile(const ECMCommand_ProfileConfigurationPtr profileConfig);
+
+    void executePauseProfile(const ECMCommand_ProfilePausePtr profileConfig);
 
     void concludeExecutingCollection(const ECMCommand_ExecuteCollection &executionCollection);
 

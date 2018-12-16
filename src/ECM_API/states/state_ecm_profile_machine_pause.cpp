@@ -69,11 +69,26 @@ void ECMState_ProfileMachinePause::OnEnter(ECMCommand_AbstractProfileConfigPtr c
     this->m_Config = configuration;
 
     AbstractStateECMProcess::notifyOwnerStateTransition();
+
+    switch (configuration->getConfigType()) {
+    case ProfileOpType::PAUSE:
+    {
+        ECMCommand_ProfilePausePtr castConfiguration = static_pointer_cast<ECMCommand_ProfilePause>(configuration);
+
+        Owner().executePauseProfile(castConfiguration);
+        Owner().notifyPausedEvent("The machining process has currently been paused.");
+
+        break;
+    }
+    default:
+        std::cout<<"We have the wrong config type in the machine pause operation."<<std::endl;
+        break;
+    }
 }
 
 void ECMState_ProfileMachinePause::stopProcess()
 {
-    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_FAILED;
+    desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_ABORT;
 }
 
 void ECMState_ProfileMachinePause::continueProcess()

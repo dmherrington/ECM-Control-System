@@ -1,7 +1,7 @@
 #include "ecm_command_profile_pause.h"
 
 ECMCommand_ProfilePause::ECMCommand_ProfilePause(const WaitType &waitType, const unsigned int &duration):
-    ECMCommand_AbstractProfileConfig(ConfigType::PAUSE)
+    ECMCommand_AbstractProfileConfig(ProfileOpType::PAUSE)
 {
     this->pauseType = waitType;
     this->pauseDuration = duration;

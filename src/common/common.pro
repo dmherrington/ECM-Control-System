@@ -65,7 +65,8 @@ HEADERS += common.h\
     common_version.h \
     hsm.h \
     abstract_device_interface.h \
-    execution_properties.h
+    execution_properties.h \
+    profile_operation_type.h
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

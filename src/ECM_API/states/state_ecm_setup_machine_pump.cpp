@@ -67,7 +67,7 @@ void ECMState_SetupMachinePump::OnEnter(ECMCommand_AbstractProfileConfigPtr conf
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
     switch (configuration->getConfigType()) {
-    case ECMCommand_AbstractProfileConfig::ConfigType::OPERATION:
+    case ProfileOpType::OPERATION:
     {
         ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(configuration);
 
@@ -104,7 +104,7 @@ void ECMState_SetupMachinePump::OnEnter(ECMCommand_AbstractProfileConfigPtr conf
         }
         break;
     }
-    case ECMCommand_AbstractProfileConfig::ConfigType::PAUSE:
+    case ProfileOpType::PAUSE:
     {
         ECMCommand_ProfilePausePtr castConfig = static_pointer_cast<ECMCommand_ProfilePause>(configuration);
 

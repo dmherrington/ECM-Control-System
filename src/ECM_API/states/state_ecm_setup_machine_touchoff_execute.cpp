@@ -65,7 +65,7 @@ void ECMState_SetupMachineTouchoffExecute::OnEnter(ECMCommand_AbstractProfileCon
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
     switch (this->m_Config->getConfigType()) {
-    case ECMCommand_AbstractProfileConfig::ConfigType::OPERATION:
+    case ProfileOpType::OPERATION:
     {
         ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(this->m_Config);
 

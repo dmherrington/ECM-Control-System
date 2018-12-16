@@ -59,8 +59,30 @@ void ECM_API::initializeOperationalCollection(const ECMCommand_ExecuteCollection
 
 }
 
-void ECM_API::initializeOperationLogs(const ECMCommand_ExecuteCollection &executionCollection,
-                                const std::string &descriptor)
+void ECM_API::initializeLoggingOperation(const std::string &partNumber, const std::string &serialNumber,
+                                      const ECMCommand_AbstractProfileConfigPtr configuration, const std::string &description)
+{
+    switch (configuration->getConfigType()) {
+    case ProfileOpType::OPERATION:
+    {
+        ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(configuration);
+
+        m_Log->writeProfileLoggingHeader(partNumber,serialNumber,castConfig->getOperationName(),
+                                  castConfig->getProfileName(),"",
+                                  castConfig->execProperties.getStartTime());
+        break;
+    }
+    case ProfileOpType::PAUSE:
+    {
+        break;
+    }
+    default:
+        break;
+    }
+
+}
+
+void ECM_API::logCurrentOperationalSettings()
 {
     std::string operationsString;
     this->writeHeaderBreaker(operationsString, 100);
@@ -87,43 +109,56 @@ void ECM_API::initializeOperationLogs(const ECMCommand_ExecuteCollection &execut
     operationsString += m_Galil->stateInterface->galilProgram->getVariableList().getLoggingString();
     operationsString += "\r\n";
 
-    ECMCommand_AbstractProfileConfigPtr profileConfig = executionCollection.getActiveConfiguration();
-//    m_Log->writeLoggingHeader(executionCollection.getPartNumber(),executionCollection.getSerialNumber(),profileConfig->getOperationName(),
-//                              profileConfig->getProfileName(),operationsString,descriptor,
-//                              profileConfig->execProperties.getStartTime());
+    m_Log->writeCurrentOperationalSettings(operationsString);
 }
 
-void ECM_API::executeOperationalProfile(const ECMCommand_ProfileConfigurationPtr profileConfig)
+void ECM_API::beginLoggingOperationalData()
 {
-    //Enable logging of any current machining information that comes through
-    m_Log->enableLogging(true);
+    m_Log->beginLoggingOperationalData();
+}
 
-    //Begin requesting of information from the oscilliscope
-    m_Rigol->executeMeasurementPolling(true);
-
+void ECM_API::beginOperationalProfile(const ECMCommand_AbstractProfileConfigPtr profileConfig)
+{
     //Assemble a message to notify any listeners that we are about to execute an operation
     ExecuteOperationProperties props(profileConfig->getOperationName(), profileConfig->getOperationIndex());
     props.setTime(profileConfig->execProperties.getStartTime());
 
     //Emit the signal notifying the listeners of a new operational profile
     emit signal_ExecutingOperation(props);
+}
+
+void ECM_API::executeExplicitProfile(const ECMCommand_ProfileConfigurationPtr profileConfig)
+{
+    //Begin requesting of information from the oscilliscope
+    m_Rigol->executeMeasurementPolling(true);
 
     CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,
                                                                                profileConfig->getProfileName());
     m_Galil->executeCommand(command);
 }
 
+void ECM_API::executePauseProfile(const ECMCommand_ProfilePausePtr profileConfig)
+{
+    //Stop requesting of information from the oscilliscope
+    m_Rigol->executeMeasurementPolling(false);
+
+    //Lastly, send a command to make sure the airbrake has been engaged
+    CommandSetBitPtr command = std::make_shared<CommandSetBit>();
+    command->appendAddress(2); //Ken: be careful in the event that this changes. This should be handled by settings or something
+    m_Galil->executeCommand(command);
+}
+
 void ECM_API::concludeExecutingOperation(const ECMCommand_AbstractProfileConfigPtr profileConfig)
 {
+    //Stop requesting information from the oscilliscope device
+    m_Rigol->executeMeasurementPolling(false);
+
     //Conclude writing to the logs with any wrap up data that we need
     m_Log->WriteConcludingOperationStats(profileConfig->execProperties.getElapsedTime(),
                              profileConfig->execProperties.getProfileCode());
 
     //Disable the logs so no more contents are written post the machining operation
     m_Log->enableLogging(false);
-
-    //Stop requesting information from the oscilliscope device
-    m_Rigol->executeMeasurementPolling(false);
 
     //Assemble a message to notify any listeners that we are finished executing an operation
     ExecuteOperationProperties props(profileConfig->getOperationName(), profileConfig->getOperationIndex());
@@ -140,7 +175,7 @@ void ECM_API::concludeExecutingCollection(const ECMCommand_ExecuteCollection &ex
     //During this process is where we should close the logs and everything associated with the operation
     m_Log->CloseMachiningLog(executionCollection.getElapsedTime());
 
-    //Assemble a message to notify any listeners that we are finished executing an operation
+    //Assemble a message to notify any listeners that we are finished executing the collection
     ExecutionProperties props;
     props.setOperatingCondition(ExecutionProperties::ExecutionCondition::ENDING);
     props.setTime(executionCollection.getEndTime());

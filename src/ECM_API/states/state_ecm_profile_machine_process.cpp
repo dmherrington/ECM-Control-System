@@ -78,7 +78,7 @@ void ECMState_ProfileMachineProcess::OnEnter(ECMCommand_AbstractProfileConfigPtr
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
     switch (this->m_Config->getConfigType()) {
-    case ECMCommand_AbstractProfileConfig::ConfigType::OPERATION:
+    case ProfileOpType::OPERATION:
     {
         ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(this->m_Config);
 
@@ -115,9 +115,7 @@ void ECMState_ProfileMachineProcess::OnEnter(ECMCommand_AbstractProfileConfigPtr
             }
         });
 
-        m_Config->execProperties.initializeExecution(); //this should be moved to the frontend
-
-        Owner().executeOperationalProfile(castConfig);
+        Owner().executeExplicitProfile(castConfig);
 
         break;
     }

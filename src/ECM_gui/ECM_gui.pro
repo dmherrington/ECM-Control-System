@@ -111,7 +111,8 @@ HEADERS += \
     galil_dialog/window_motion_control.h \
     pump_dialog/window_pump_control.h \
     galil_dialog/window_touchoff.h \
-    galil_dialog/dialog_execution_paused.h
+    galil_dialog/dialog_execution_paused.h \
+    misc_dialogs/widget_abstract_profile.h
 
 FORMS += \
     galil_dialog/widget_scripting_variables.ui \

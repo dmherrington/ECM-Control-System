@@ -22,9 +22,9 @@ public:
     ECMCommand_ProfileConfiguration(const ECMCommand_ProfileConfiguration &copy);
 
 public:
-    void writeToJSON(QJsonObject &obj);
+    void writeToJSON(QJsonObject &obj) override;
 
-    void readFromJSON(const QJsonObject &obj);
+    void readFromJSON(const QJsonObject &obj) override;
 
 public:
     std::string getProfileName() const;

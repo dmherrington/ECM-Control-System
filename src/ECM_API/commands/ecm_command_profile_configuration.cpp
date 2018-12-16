@@ -1,7 +1,7 @@
 #include "ecm_command_profile_configuration.h"
 
 ECMCommand_ProfileConfiguration::ECMCommand_ProfileConfiguration():
-    ECMCommand_AbstractProfileConfig(ConfigType::OPERATION)
+    ECMCommand_AbstractProfileConfig(ProfileOpType::OPERATION)
 {
 
 }
@@ -9,10 +9,6 @@ ECMCommand_ProfileConfiguration::ECMCommand_ProfileConfiguration():
 void ECMCommand_ProfileConfiguration::writeToJSON(QJsonObject &obj)
 {
     ECMCommand_AbstractProfileConfig::writeToJSON(obj);
-
-    obj["opIndex"] = (int)this->getOperationIndex();
-    obj["opName"] = QString::fromStdString(this->getOperationName());
-    obj["useOperation"] = this->shouldProfileExecute();
 
     m_GalilOperation.setOperationIndex(this->getOperationIndex());
     m_GalilOperation.setOperationName(this->getOperationName());
@@ -29,9 +25,6 @@ void ECMCommand_ProfileConfiguration::readFromJSON(const QJsonObject &obj)
 {
     ECMCommand_AbstractProfileConfig::readFromJSON(obj);
 
-    this->setOperationIndex(obj["opIndex"].toInt());
-    this->setOperationName(obj["opName"].toString().toStdString());
-    this->setProfileExecution(obj["useOperation"].toBool());
     m_GalilOperation.readFromJSON(obj);
     m_ConfigPowerSupply.readFromJSON(obj);
     m_PumpParameters.readFromJSON(obj);

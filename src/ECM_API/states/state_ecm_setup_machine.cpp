@@ -43,12 +43,12 @@ hsm::Transition ECMState_SetupMachine::GetTransition()
         }
         else if(IsInInnerState<ECMState_SetupMachineFailed>())
         {
-//            ECMCommand_ProfileConfiguration currentConfig = this->m_ECMCollection.getActiveConfiguration();
-//            currentConfig.execProperties.establishEndTime();
-//            this->m_ECMCollection.insertProfile(currentConfig);
+
+            ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection.getActiveConfiguration(); //find the current configuration we had been working on
+            activeConfiguration->execProperties.completeExecution();
+            Owner().concludeExecutingOperation(activeConfiguration);
 
             this->m_ECMCollection.establishEndTime();
-            Owner().concludeExecutingOperation(this->m_ECMCollection.getActiveConfiguration());
             Owner().concludeExecutingCollection(this->m_ECMCollection);
 
             rtn = hsm::SiblingTransition<ECMState_Idle>();
@@ -57,7 +57,7 @@ hsm::Transition ECMState_SetupMachine::GetTransition()
         {
             ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection.getActiveConfiguration();
             switch (activeConfiguration->getConfigType()) {
-            case ECMCommand_AbstractProfileConfig::ConfigType::OPERATION:
+            case ProfileOpType::OPERATION:
             {
                 switch (desiredState) {
                 case ECMState::STATE_ECM_SETUP_MACHINE_HOME:
@@ -66,16 +66,24 @@ hsm::Transition ECMState_SetupMachine::GetTransition()
                     break;
                 }
                 default:
-                    std::cout<<"I dont know how we eneded up in this transition from within ECMState_SetupMachine."<<std::endl;
+                    std::cout<<"I dont know how we eneded up in this transition from within ECMState_SetupMachine with a OPERATION configuration."<<std::endl;
                     break;
                 }
 
                 break;
             }
-            case ECMCommand_AbstractProfileConfig::ConfigType::PAUSE:
+            case ProfileOpType::PAUSE:
             {
-                rtn = hsm::SiblingTransition<ECMState_SetupMachinePump>(activeConfiguration);
-                break;
+                switch (desiredState) {
+                case ECMState::STATE_ECM_SETUP_MACHINE_PUMP:
+                {
+                    rtn = hsm::InnerEntryTransition<ECMState_SetupMachinePump>(activeConfiguration);
+                    break;
+                }
+                default:
+                    std::cout<<"I dont know how we eneded up in this transition from within ECMState_SetupMachine with a PAUSE configuration."<<std::endl;
+                    break;
+                }
             }
             default:
                 break;
@@ -105,12 +113,12 @@ void ECMState_SetupMachine::OnEnter(const ECMCommand_ExecuteCollection &collecti
     ECMCommand_AbstractProfileConfigPtr currentConfig = this->m_ECMCollection.getActiveConfiguration();
 
     switch (currentConfig->getConfigType()) {
-    case ECMCommand_AbstractProfileConfig::ConfigType::OPERATION:
+    case ProfileOpType::OPERATION:
     {
         this->desiredState = ECMState::STATE_ECM_SETUP_MACHINE_HOME;
         break;
     }
-    case ECMCommand_AbstractProfileConfig::ConfigType::PAUSE:
+    case ProfileOpType::PAUSE:
     {
         this->desiredState = ECMState::STATE_ECM_SETUP_MACHINE_PUMP;
         break;

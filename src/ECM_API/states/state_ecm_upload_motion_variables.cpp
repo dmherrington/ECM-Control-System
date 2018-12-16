@@ -72,7 +72,7 @@ void ECMState_UploadMotionVariables::OnEnter(ECMCommand_AbstractProfileConfigPtr
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
     switch (config->getConfigType()) {
-    case ECMCommand_AbstractProfileConfig::ConfigType::OPERATION:
+    case ProfileOpType::OPERATION:
     {
         ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(config);
 

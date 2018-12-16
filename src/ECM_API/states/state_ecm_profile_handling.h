@@ -25,10 +25,13 @@ namespace API {
 
 ECM_CLASS_FORWARD(ECMState_ProfileHandling);
 
+class ECMState_Idle;
+class ECMState_Upload;
+
 class ECMState_ProfileHandling : public AbstractStateECMProcess
 {
 public:
-    ECMState_Idle();
+    ECMState_ProfileHandling();
 
 public:
     AbstractStateECMProcess* getClone() const override;
@@ -44,7 +47,7 @@ public:
     hsm::Transition GetTransition() override;
 
 public:
-    void OnEnter(const ECMCommand_ExecuteCollection &collection, const bool &previouslyInitialized = false);
+    void OnEnter(const ECMCommand_ExecuteCollection &collection);
 
 };
 

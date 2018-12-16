@@ -39,7 +39,7 @@ public:
     void executingProfileIndex(const unsigned int &index);
 
 private:
-    TableWidget_OperationDescriptor* addOperation(const unsigned int &index, const string &operationName = "");
+    TableWidget_OperationDescriptor* addOperation(const unsigned int &index, const string &operationName = "", const ProfileOpType &type = ProfileOpType::OPERATION);
 
     void clearExistingOperations();
 
@@ -66,7 +66,7 @@ private slots:
     void slot_MCNewProgramLabels(const ProgramLabelList &labels);
 
 private slots:
-    void slot_OnExecuteExplicitProfileConfig(const ECMCommand_ProfileConfiguration &config);
+    void slot_OnExecuteExplicitProfileConfig(const ECMCommand_AbstractProfileConfigPtr config);
 
     void slot_ChangedWindowVisibility(const GeneralDialogWindow::DialogWindowTypes &type, const bool visibility);
 

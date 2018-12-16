@@ -129,7 +129,7 @@ protected:
     std::string programPath = "";
 
 protected:
-    std::string program;
+    std::string program = "";
     ProgramLabelList labelList;
     ProgramVariableList variableList;
 };

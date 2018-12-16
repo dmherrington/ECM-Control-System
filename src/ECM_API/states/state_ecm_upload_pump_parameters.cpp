@@ -69,7 +69,7 @@ void ECMState_UploadPumpParameters::OnEnter(ECMCommand_AbstractProfileConfigPtr 
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
     switch (configuration->getConfigType()) {
-    case ECMCommand_AbstractProfileConfig::ConfigType::OPERATION:
+    case ProfileOpType::OPERATION:
     {
         ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(configuration);
 
@@ -90,7 +90,7 @@ void ECMState_UploadPumpParameters::OnEnter(ECMCommand_AbstractProfileConfigPtr 
         break;
     }
 
-    case ECMCommand_AbstractProfileConfig::ConfigType::PAUSE:
+    case ProfileOpType::PAUSE:
     {
         //Set how long we want to wait once we tell the pump to turn off before moving to the next step
         Owner().m_Pump->setInitializationTime(2);

@@ -30,8 +30,6 @@ class ECMState_UploadComplete;
 class ECMState_UploadFailed;
 class ECMState_UploadMotionProfile;
 class ECMState_UploadMotionVariables;
-class ECMState_UploadPowerPulseMode;
-class ECMState_UploadPowerRegisterSegments;
 class ECMState_UploadPumpParameters;
 
 class ECMState_Upload : public AbstractStateECMProcess

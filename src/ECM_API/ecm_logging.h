@@ -36,10 +36,18 @@ public:
 
     void initializeLogging(const string &partNumber, const std::string &serialNumber, bool clearContents = true);
 
-    void writeLoggingHeader(const std::string &partNumber, const std::string &serialNumber, const std::string &operationName,
-                            const std::string &profileName, const std::string &operationalSettings, const std::string &descriptor,
-                            const common::EnvironmentTime &time);
+    void writeProfileLoggingHeader(const std::string &partNumber, const std::string &serialNumber, const std::string &operationName,
+                            const std::string &profileName, const std::string &descriptor, const common::EnvironmentTime &time);
 
+    void writePauseLoggingHeader(const std::string &partNumber, const std::string &serialNumber, const std::string &operationName,
+                            const std::string &descriptor, const common::EnvironmentTime &time);
+
+    void writeCurrentOperationalSettings(const std::string &operationalSettings);
+
+    void beginLoggingOperationalData();
+
+
+public:
 
     void enableLogging(const bool &enable);
 

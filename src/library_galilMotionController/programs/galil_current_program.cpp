@@ -27,12 +27,10 @@ void GalilCurrentProgram::readFromJSON(const QJsonObject &openObject)
 
 void GalilCurrentProgram::fromProgram(const GalilCurrentProgram &copy)
 {
-    this->programLoaded = copy.programLoaded;
-    this->programPath = copy.programPath;
-
-    this->program = copy.program;
-    this->labelList = copy.labelList;
-    this->variableList = copy.variableList;
+    this->programLoaded = copy.wasProgramLoaded(this->programPath);
+    this->program = copy.getProgram();
+    this->labelList = copy.getLabelList();
+    this->variableList = copy.getVariableList();
 }
 
 void GalilCurrentProgram::setProgram(const std::string &programString)

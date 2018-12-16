@@ -1,6 +1,6 @@
 #include "ecm_command_abstract_profile_config.h"
 
-ECMCommand_AbstractProfileConfig::ECMCommand_AbstractProfileConfig(const ConfigType &configType)
+ECMCommand_AbstractProfileConfig::ECMCommand_AbstractProfileConfig(const ProfileOpType &configType)
 {
     this->configType = configType;
 }
@@ -18,7 +18,8 @@ ECMCommand_AbstractProfileConfig::ECMCommand_AbstractProfileConfig(const ECMComm
 
 void ECMCommand_AbstractProfileConfig::writeToJSON(QJsonObject &obj)
 {
-    obj["opIndex"] = (int)this->getOperationIndex();
+    obj["opType"] = static_cast<int>(this->getConfigType());
+    obj["opIndex"] = static_cast<int>(this->getOperationIndex());
     obj["opName"] = QString::fromStdString(this->getOperationName());
     obj["useOperation"] = this->shouldProfileExecute();
 }

@@ -5,6 +5,8 @@
 #include <QJsonObject>
 
 #include "common/class_forward.h"
+#include "common/profile_operation_type.h"
+
 #include "ecm_command_execution_properties.h"
 
 ECM_CLASS_FORWARD(ECMCommand_AbstractProfileConfig);
@@ -12,19 +14,10 @@ ECM_CLASS_FORWARD(ECMCommand_AbstractProfileConfig);
 class ECMCommand_AbstractProfileConfig
 {
 public:
-    enum class ConfigType
-    {
-      OPERATION,
-      POSITION_MOVE,
-      PAUSE,
-      UNKNOWN
-    };
-
-public:
-    ECMCommand_AbstractProfileConfig(const ConfigType &configType);
+    ECMCommand_AbstractProfileConfig(const ProfileOpType &configType);
     ECMCommand_AbstractProfileConfig(const ECMCommand_AbstractProfileConfig &copy);
 
-    ConfigType getConfigType() const
+    ProfileOpType getConfigType() const
     {
         return this->configType;
     }
@@ -51,9 +44,9 @@ public:
     }
 
 public:
-    void writeToJSON(QJsonObject &obj);
+    virtual void writeToJSON(QJsonObject &obj);
 
-    void readFromJSON(const QJsonObject &obj);
+    virtual void readFromJSON(const QJsonObject &obj);
 
 public:
     unsigned int getOperationIndex() const;
@@ -126,7 +119,7 @@ public:
 
 
 protected:
-    ConfigType configType;
+    ProfileOpType configType;
     unsigned int operationIndex = 0;
     std::string operationName = "";
     bool indicateHome = false;

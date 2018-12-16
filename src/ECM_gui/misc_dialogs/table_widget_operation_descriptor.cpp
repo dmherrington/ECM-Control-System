@@ -1,13 +1,13 @@
 #include "table_widget_operation_descriptor.h"
 #include "ui_table_widget_operation_descriptor.h"
 
-TableWidget_OperationDescriptor::TableWidget_OperationDescriptor(Widget_ProfileParameters* operationParameters, QWidget *parentWidget) :
+TableWidget_OperationDescriptor::TableWidget_OperationDescriptor(Widget_AbstractProfile* operationalProfile, QWidget *parentWidget) :
     QWidget(parentWidget),
     ui(new Ui::TableWidget_OperationDescriptor)
 {
     ui->setupUi(this);
 
-    this->m_OperationParameters = operationParameters;
+    this->m_AbstractOperation = operationalProfile;
 
     ui->lineEdit_OperationName->setText(QString::fromStdString(this->operationName));
     ui->spinBox_OperationOrder->setValue(this->operationIndex);
@@ -51,62 +51,53 @@ std::string TableWidget_OperationDescriptor::getOperationName() const
     return this->operationName;
 }
 
-//void TableWidget_OperationDescriptor::setShouldHomeIndicateAutomatically(const bool &indicate)
-//{
-//    this->indicateHome = indicate;
-//}
-
 void TableWidget_OperationDescriptor::newlyAvailableProgramLabels(const ProgramLabelList &labels)
 {
-    this->m_OperationParameters->m_ScriptingVariables->updateProgramLabels(labels);
+    switch (this->m_AbstractOperation->getProfileType()) {
+    case ProfileOpType::OPERATION:
+    {
+        this->m_AbstractOperation->as<Widget_ProfileParameters>()->m_ScriptingVariables->updateProgramLabels(labels);
+        break;
+    }
+    default:
+        break;
+    }
 }
 
-Widget_ProfileParameters* TableWidget_OperationDescriptor::getAccompanyingProfile()
+Widget_AbstractProfile* TableWidget_OperationDescriptor::getAccompanyingProfile()
 {
-    return this->m_OperationParameters;
+    return this->m_AbstractOperation;
 }
 
 void TableWidget_OperationDescriptor::on_lineEdit_OperationName_textChanged(const QString &arg1)
 {
     this->operationName = arg1.toStdString();
-    emit signal_OperationNameChanged(this->operationName, this->m_OperationParameters->getTabIndex());
+    emit signal_OperationNameChanged(this->operationName, this->m_AbstractOperation->getTabIndex());
 }
 
-ECMCommand_ProfileConfiguration TableWidget_OperationDescriptor::getCurrentProfileConfiguration() const
+ECMCommand_AbstractProfileConfigPtr TableWidget_OperationDescriptor::getCurrentProfileConfiguration() const
 {
-    ECMCommand_ProfileConfiguration currentConfiguration;
-    currentConfiguration.setOperationIndex(this->getOperationIndex());
-    currentConfiguration.setOperationName(this->getOperationName());
-    currentConfiguration.setProfileExecution(this->shouldOperationBeUsed());
-    currentConfiguration.m_GalilOperation.fromProgram(this->m_OperationParameters->m_ScriptingVariables->getDesiredProgram());
-    currentConfiguration.m_GalilOperation.setProfileName(this->m_OperationParameters->m_ScriptingVariables->getProfileName());
-    //currentConfiguration.setIndicateHomeAutomatically(this->indicateHome);
+    ECMCommand_AbstractProfileConfigPtr currentConfig = this->m_AbstractOperation->getCurrentProfileConfiguration();
 
-    currentConfiguration.m_Touchoff = this->m_OperationParameters->m_MCTouchoff->getCurrentTouchoffConfig();
+    currentConfig->setOperationIndex(this->getOperationIndex());
+    currentConfig->setOperationName(this->getOperationName());
+    currentConfig->setProfileExecution(this->shouldOperationBeUsed());
 
-    currentConfiguration.m_ConfigPowerSupply.m_MunkPulseMode = this->m_OperationParameters->m_PowerSupply->getPulseModeRegister();
-    currentConfiguration.m_ConfigPowerSupply.m_MunkSegment = this->m_OperationParameters->m_PowerSupply->getSegmentRegister();
-
-    currentConfiguration.m_PumpParameters = this->m_OperationParameters->m_PumpControl->getPumpProperties();
-
-    return currentConfiguration;
+    return currentConfig;
 }
 
-void TableWidget_OperationDescriptor::loadFromProfileConfiguration(const ECMCommand_ProfileConfiguration &config)
+void TableWidget_OperationDescriptor::loadFromProfileConfiguration(const ECMCommand_AbstractProfileConfigPtr config)
 {
-    this->setOperationIndex(config.getOperationIndex());
-    this->setOperationName(config.getOperationName());
-    this->setOperationUsage(config.shouldProfileExecute());
+    this->setOperationIndex(config->getOperationIndex());
+    this->setOperationName(config->getOperationName());
+    this->setOperationUsage(config->shouldProfileExecute());
 
-    this->m_OperationParameters->m_MCTouchoff->loadFromTouchoffConfig(config.m_Touchoff);
-    this->m_OperationParameters->m_PumpControl->loadFromPumpProperties(config.m_PumpParameters);
-    this->m_OperationParameters->m_PowerSupply->loadFromConfig(config.m_ConfigPowerSupply);
-    this->m_OperationParameters->m_ScriptingVariables->loadFromCurrentProgram(config.m_GalilOperation, config.getProfileName());
+    this->m_AbstractOperation->loadFromProfileConfiguration(config);
 }
 
 void TableWidget_OperationDescriptor::on_pushButton_ExecuteExplicitOp_released()
 {
-    ECMCommand_ProfileConfiguration executeConfig = this->getCurrentProfileConfiguration();
+    ECMCommand_AbstractProfileConfigPtr executeConfig = this->getCurrentProfileConfiguration();
     emit signal_ExecuteExplicitProfileConfig(executeConfig);
 }
 

@@ -10,23 +10,24 @@
 #include "pump_dialog/widget_pump_control.h"
 #include "munk_dialog/widget_munk_power_supply.h"
 
+#include "widget_abstract_profile.h"
+
 namespace Ui {
 class Widget_ProfileParameters;
 }
 
-class Widget_ProfileParameters : public QWidget
+class Widget_ProfileParameters : public Widget_AbstractProfile
 {
-    Q_OBJECT
 
 public:
     explicit Widget_ProfileParameters(ECM_API* apiObject, QWidget *parent = 0);
+
     ~Widget_ProfileParameters();
 
 public:
-    void setTabIndex(const unsigned int &index);
+    ECMCommand_AbstractProfileConfigPtr getCurrentProfileConfiguration() const override;
 
-    unsigned int getTabIndex() const;
-
+    void loadFromProfileConfiguration(const ECMCommand_AbstractProfileConfigPtr config) override;
 private:
     Ui::Widget_ProfileParameters *ui;
 
@@ -35,8 +36,6 @@ public:
     Widget_Touchoff* m_MCTouchoff;
     Widget_PumpControl* m_PumpControl;
     Widget_MunkPowerSupply* m_PowerSupply;
-
-    unsigned int tabIndex = 0;
 };
 
 #endif // WIDGET_PROFILE_PARAMETERS_H

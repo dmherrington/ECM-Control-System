@@ -14,6 +14,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QCheckBox>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
@@ -42,13 +43,13 @@ public:
     QAction *actionClose;
     QAction *actionMotion_Profile;
     QWidget *centralwidget;
-    QGridLayout *gridLayout_3;
     QGridLayout *gridLayout_2;
     QHBoxLayout *horizontalLayout_15;
     QSpacerItem *horizontalSpacer_21;
     QGridLayout *gridLayout_20;
     QLabel *label_ManualControl_6;
     QSpacerItem *horizontalSpacer_22;
+    QTabWidget *tabWidget_OperationParameters;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout_4;
     QLabel *label_3;
@@ -67,12 +68,11 @@ public:
     QHBoxLayout *horizontalLayout;
     QPushButton *pushButton_AddOperation;
     QPushButton *pushButton_RemoveOperation;
-    QSpacerItem *horizontalSpacer;
+    QComboBox *comboBox;
     QGroupBox *groupBox;
     QGridLayout *gridLayout_5;
     QCheckBox *checkBox_ShouldHomeBeIndicated;
     QSpacerItem *verticalSpacer;
-    QTabWidget *tabWidget_OperationParameters;
     QMenuBar *menubar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -222,9 +222,7 @@ public:
         actionMotion_Profile->setCheckable(true);
         centralwidget = new QWidget(Window_ProfileConfiguration);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
-        gridLayout_3 = new QGridLayout(centralwidget);
-        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
-        gridLayout_2 = new QGridLayout();
+        gridLayout_2 = new QGridLayout(centralwidget);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         horizontalLayout_15 = new QHBoxLayout();
         horizontalLayout_15->setObjectName(QStringLiteral("horizontalLayout_15"));
@@ -260,7 +258,21 @@ public:
         horizontalLayout_15->addItem(horizontalSpacer_22);
 
 
-        gridLayout_2->addLayout(horizontalLayout_15, 0, 0, 1, 2);
+        gridLayout_2->addLayout(horizontalLayout_15, 0, 0, 1, 1);
+
+        tabWidget_OperationParameters = new QTabWidget(centralwidget);
+        tabWidget_OperationParameters->setObjectName(QStringLiteral("tabWidget_OperationParameters"));
+        sizePolicy.setHeightForWidth(tabWidget_OperationParameters->sizePolicy().hasHeightForWidth());
+        tabWidget_OperationParameters->setSizePolicy(sizePolicy);
+        tabWidget_OperationParameters->setMinimumSize(QSize(1100, 600));
+        tabWidget_OperationParameters->setMaximumSize(QSize(1300, 600));
+        tabWidget_OperationParameters->setStyleSheet(QLatin1String("QTabWidget{\n"
+"background-color:#f5f5f5;\n"
+"padding:5px;\n"
+"	font: 12pt \"MS Shell Dlg 2\";\n"
+"}"));
+
+        gridLayout_2->addWidget(tabWidget_OperationParameters, 0, 2, 7, 1);
 
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
@@ -460,7 +472,7 @@ public:
         horizontalLayout_2->addWidget(pushButton_DownloadMotionScript);
 
 
-        gridLayout_2->addLayout(horizontalLayout_2, 3, 0, 1, 2);
+        gridLayout_2->addLayout(horizontalLayout_2, 3, 0, 1, 1);
 
         gridLayout = new QGridLayout();
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
@@ -519,9 +531,13 @@ public:
 
         horizontalLayout->addWidget(pushButton_RemoveOperation);
 
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        comboBox = new QComboBox(centralwidget);
+        comboBox->addItem(QString());
+        comboBox->addItem(QString());
+        comboBox->setObjectName(QStringLiteral("comboBox"));
+        comboBox->setFont(font1);
 
-        horizontalLayout->addItem(horizontalSpacer);
+        horizontalLayout->addWidget(comboBox);
 
 
         gridLayout->addLayout(horizontalLayout, 2, 0, 1, 1);
@@ -550,23 +566,6 @@ public:
         verticalSpacer = new QSpacerItem(17, 108, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         gridLayout_2->addItem(verticalSpacer, 6, 1, 1, 1);
-
-
-        gridLayout_3->addLayout(gridLayout_2, 0, 0, 1, 1);
-
-        tabWidget_OperationParameters = new QTabWidget(centralwidget);
-        tabWidget_OperationParameters->setObjectName(QStringLiteral("tabWidget_OperationParameters"));
-        sizePolicy.setHeightForWidth(tabWidget_OperationParameters->sizePolicy().hasHeightForWidth());
-        tabWidget_OperationParameters->setSizePolicy(sizePolicy);
-        tabWidget_OperationParameters->setMinimumSize(QSize(1100, 600));
-        tabWidget_OperationParameters->setMaximumSize(QSize(1300, 600));
-        tabWidget_OperationParameters->setStyleSheet(QLatin1String("QTabWidget{\n"
-"background-color:#f5f5f5;\n"
-"padding:5px;\n"
-"	font: 12pt \"MS Shell Dlg 2\";\n"
-"}"));
-
-        gridLayout_3->addWidget(tabWidget_OperationParameters, 0, 1, 1, 1);
 
         Window_ProfileConfiguration->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Window_ProfileConfiguration);
@@ -599,6 +598,9 @@ public:
 
         retranslateUi(Window_ProfileConfiguration);
 
+        comboBox->setCurrentIndex(1);
+
+
         QMetaObject::connectSlotsByName(Window_ProfileConfiguration);
     } // setupUi
 
@@ -619,6 +621,9 @@ public:
         label->setText(QApplication::translate("Window_ProfileConfiguration", "Operations:", nullptr));
         pushButton_AddOperation->setText(QApplication::translate("Window_ProfileConfiguration", "Add Operation", nullptr));
         pushButton_RemoveOperation->setText(QApplication::translate("Window_ProfileConfiguration", "Remove Operation", nullptr));
+        comboBox->setItemText(0, QApplication::translate("Window_ProfileConfiguration", "Pause", nullptr));
+        comboBox->setItemText(1, QApplication::translate("Window_ProfileConfiguration", "Profile", nullptr));
+
         groupBox->setTitle(QApplication::translate("Window_ProfileConfiguration", "Settings", nullptr));
         checkBox_ShouldHomeBeIndicated->setText(QApplication::translate("Window_ProfileConfiguration", "Indicate Home Autonomously", nullptr));
         menuFile->setTitle(QApplication::translate("Window_ProfileConfiguration", "File", nullptr));
