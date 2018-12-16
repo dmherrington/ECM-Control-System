@@ -46,24 +46,6 @@ hsm::Transition ECMState_Idle::GetTransition()
 
 void ECMState_Idle::executeCollection(const ECMCommand_ExecuteCollection &collection)
 {
-    m_ECMCollection = collection;
-    m_ECMCollection.establishStartTime();
-
-    /*
-     * We need to establish if we should clear the logs. Since this is a recursive process, we require that two conditions
-     * be met satisfactorily.
-     * 1) Require that the logs indeed in the first place desire to be overwritten.
-     * 2) Require that the operation is the first operation of the collection. This is required that since we can return
-     * to this condition from another event, we would then subsequently not want to clear the original logs.
-     */
-    if(m_ECMCollection.shouldOverwriteLogs() && m_ECMCollection.isFirstOperation(m_ECMCollection.getActiveIndex()))
-    {
-        Owner().initializeOperationalCollection(m_ECMCollection, true);
-    }
-    else if(m_ECMCollection.isFirstOperation(m_ECMCollection.getActiveIndex()))
-    {
-        Owner().initializeOperationalCollection(m_ECMCollection, false);
-    }
 
     this->desiredState = ECMState::STATE_ECM_UPLOAD;
 }
