@@ -32,10 +32,10 @@ ECMCommand_AbstractProfileConfigPtr Widget_ProfileParameters::getCurrentProfileC
 //    currentConfiguration->m_GalilOperation.fromProgram(this->m_ScriptingVariables->getDesiredProgram());
 //    currentConfiguration->m_GalilOperation.setProfileName(this->m_ScriptingVariables->getProfileName());
 
-//    currentConfiguration->m_Touchoff = this->m_MCTouchoff->getCurrentTouchoffConfig();
+    currentConfiguration->m_Touchoff = this->m_MCTouchoff->getCurrentTouchoffConfig();
 
-//    currentConfiguration->m_ConfigPowerSupply.m_MunkPulseMode = this->m_PowerSupply->getPulseModeRegister();
-//    currentConfiguration->m_ConfigPowerSupply.m_MunkSegment = this->m_PowerSupply->getSegmentRegister();
+    currentConfiguration->m_ConfigPowerSupply.m_MunkPulseMode = this->m_PowerSupply->getPulseModeRegister();
+    currentConfiguration->m_ConfigPowerSupply.m_MunkSegment = this->m_PowerSupply->getSegmentRegister();
 
     currentConfiguration->m_PumpParameters = this->m_PumpControl->getPumpProperties();
 

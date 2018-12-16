@@ -9,5 +9,17 @@ enum class ProfileOpType
     UNKNOWN = 10
 };
 
+inline ProfileOpType ProfileOpTypeFromString(const std::string &str)
+{
+    if(str == "OPERATION")
+        return ProfileOpType::OPERATION;
+    else if(str == "POSITION MOVE")
+        return ProfileOpType::POSITION_MOVE;
+    else if(str == "PAUSE")
+        return ProfileOpType::PAUSE;
+    else
+        throw std::runtime_error("Unknown ProfileOpType string seen");
+}
+
 
 #endif // PROFILE_OPERATION_TYPE_H

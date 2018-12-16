@@ -106,7 +106,7 @@ void Window_ProfileConfiguration::updateConfigurationPath(const std::string &pat
     ui->lineEdit_ConfugrationPath->setText(QString::fromStdString(path));
 }
 
-TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const unsigned int &index, const std::string &operationName, const ProfileOpType &type)
+TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const ProfileOpType &type, const unsigned int &index, const std::string &operationName)
 {
     std::string opName = "";
     if(operationName.empty())
@@ -180,7 +180,9 @@ void Window_ProfileConfiguration::slot_MCNewProgramLabels(const ProgramLabelList
 
 void Window_ProfileConfiguration::on_pushButton_AddOperation_released()
 {
-    this->addOperation(static_cast<unsigned int>(ui->tabWidget_OperationParameters->count()));
+    std::string currentOpString = this->ui->comboBox_ProfileType->currentText().toStdString();
+    ProfileOpType desiredOpType = ProfileOpTypeFromString(currentOpString);
+    this->addOperation(desiredOpType, static_cast<unsigned int>(ui->tabWidget_OperationParameters->count()));
 }
 
 void Window_ProfileConfiguration::on_pushButton_RemoveOperation_released()

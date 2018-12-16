@@ -685,7 +685,7 @@ width:20px;
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="comboBox">
+         <widget class="QComboBox" name="comboBox_ProfileType">
           <property name="font">
            <font>
             <pointsize>10</pointsize>
@@ -696,12 +696,12 @@ width:20px;
           </property>
           <item>
            <property name="text">
-            <string>Pause</string>
+            <string>PAUSE</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Profile</string>
+            <string>OPERATION</string>
            </property>
           </item>
          </widget>

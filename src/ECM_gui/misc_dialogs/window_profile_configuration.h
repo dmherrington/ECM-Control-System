@@ -39,7 +39,7 @@ public:
     void executingProfileIndex(const unsigned int &index);
 
 private:
-    TableWidget_OperationDescriptor* addOperation(const unsigned int &index, const string &operationName = "", const ProfileOpType &type = ProfileOpType::OPERATION);
+    TableWidget_OperationDescriptor* addOperation(const ProfileOpType &type, const unsigned int &index, const string &operationName = "");
 
     void clearExistingOperations();
 
