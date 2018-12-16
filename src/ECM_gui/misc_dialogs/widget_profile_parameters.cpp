@@ -29,8 +29,8 @@ Widget_ProfileParameters::~Widget_ProfileParameters()
 ECMCommand_AbstractProfileConfigPtr Widget_ProfileParameters::getCurrentProfileConfiguration() const
 {
     ECMCommand_ProfileConfigurationPtr currentConfiguration = std::make_shared<ECMCommand_ProfileConfiguration>();
-//    currentConfiguration->m_GalilOperation.fromProgram(this->m_ScriptingVariables->getDesiredProgram());
-//    currentConfiguration->m_GalilOperation.setProfileName(this->m_ScriptingVariables->getProfileName());
+    currentConfiguration->m_GalilOperation.fromProgram(this->m_ScriptingVariables->getDesiredProgram());
+    currentConfiguration->m_GalilOperation.setProfileName(this->m_ScriptingVariables->getProfileName());
 
     currentConfiguration->m_Touchoff = this->m_MCTouchoff->getCurrentTouchoffConfig();
 

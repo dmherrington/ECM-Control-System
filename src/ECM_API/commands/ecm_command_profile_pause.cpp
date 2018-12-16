@@ -19,7 +19,7 @@ ECMCommand_ProfilePause::ECMCommand_ProfilePause(const ECMCommand_ProfilePause &
 void ECMCommand_ProfilePause::writeToJSON(QJsonObject &obj)
 {
     ECMCommand_AbstractProfileConfig::writeToJSON(obj);
-    obj["pauseType"] = static_cast<int>(this->getPuauseType());
+    obj["pauseType"] = static_cast<int>(this->getPauseType());
     obj["pauseDuration"] = static_cast<int>(this->getPauseDuration());
 
     m_PumpParameters.writeToJSON(obj);
@@ -28,7 +28,7 @@ void ECMCommand_ProfilePause::writeToJSON(QJsonObject &obj)
 void ECMCommand_ProfilePause::readFromJSON(const QJsonObject &obj)
 {
     ECMCommand_AbstractProfileConfig::readFromJSON(obj);
-    this->setPuauseType(static_cast<WaitType>(obj["pauseType"].toInt()));
+    this->setPauseType(static_cast<WaitType>(obj["pauseType"].toInt()));
     this->setPauseDuration(static_cast<unsigned int>(obj["pauseDuration"].toInt()));
 
     m_PumpParameters.readFromJSON(obj);
@@ -39,7 +39,7 @@ void ECMCommand_ProfilePause::setPauseDuration(const unsigned int &duration)
     this->pauseDuration = duration;
 }
 
-void ECMCommand_ProfilePause::setPuauseType(const WaitType &waitType)
+void ECMCommand_ProfilePause::setPauseType(const WaitType &waitType)
 {
     this->pauseType = waitType;
 }
@@ -49,7 +49,7 @@ unsigned int ECMCommand_ProfilePause::getPauseDuration() const
     return this->pauseDuration;
 }
 
-ECMCommand_ProfilePause::WaitType ECMCommand_ProfilePause::getPuauseType() const
+ECMCommand_ProfilePause::WaitType ECMCommand_ProfilePause::getPauseType() const
 {
     return this->pauseType;
 }

@@ -28,6 +28,7 @@ public:
     ECMCommand_AbstractProfileConfigPtr getCurrentProfileConfiguration() const override;
 
     void loadFromProfileConfiguration(const ECMCommand_AbstractProfileConfigPtr config) override;
+
 private:
     Ui::Widget_ProfileParameters *ui;
 

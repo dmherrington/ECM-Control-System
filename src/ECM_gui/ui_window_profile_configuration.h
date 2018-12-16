@@ -44,35 +44,41 @@ public:
     QAction *actionMotion_Profile;
     QWidget *centralwidget;
     QGridLayout *gridLayout_2;
+    QVBoxLayout *verticalLayout_2;
     QHBoxLayout *horizontalLayout_15;
     QSpacerItem *horizontalSpacer_21;
     QGridLayout *gridLayout_20;
     QLabel *label_ManualControl_6;
     QSpacerItem *horizontalSpacer_22;
-    QTabWidget *tabWidget_OperationParameters;
     QVBoxLayout *verticalLayout;
-    QHBoxLayout *horizontalLayout_4;
+    QHBoxLayout *horizontalLayout_3;
+    QSpacerItem *horizontalSpacer_4;
     QLabel *label_3;
     QSpacerItem *horizontalSpacer_3;
     QLineEdit *lineEdit_ConfugrationPath;
-    QHBoxLayout *horizontalLayout_3;
+    QHBoxLayout *horizontalLayout_4;
+    QSpacerItem *horizontalSpacer_5;
     QLabel *label_2;
     QSpacerItem *horizontalSpacer_2;
+    QHBoxLayout *horizontalLayout_5;
+    QSpacerItem *horizontalSpacer_7;
     QHBoxLayout *horizontalLayout_2;
     QPushButton *pushButton_OpenMotionScript;
     QPushButton *pushButton_UploadMotionScript;
     QPushButton *pushButton_DownloadMotionScript;
+    QSpacerItem *horizontalSpacer_6;
     QGridLayout *gridLayout;
     QLabel *label;
     QListWidget *listWidget;
     QHBoxLayout *horizontalLayout;
     QPushButton *pushButton_AddOperation;
     QPushButton *pushButton_RemoveOperation;
-    QComboBox *comboBox;
+    QComboBox *comboBox_ProfileType;
     QGroupBox *groupBox;
     QGridLayout *gridLayout_5;
     QCheckBox *checkBox_ShouldHomeBeIndicated;
     QSpacerItem *verticalSpacer;
+    QTabWidget *tabWidget_OperationParameters;
     QMenuBar *menubar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -84,14 +90,14 @@ public:
     {
         if (Window_ProfileConfiguration->objectName().isEmpty())
             Window_ProfileConfiguration->setObjectName(QStringLiteral("Window_ProfileConfiguration"));
-        Window_ProfileConfiguration->resize(1620, 680);
+        Window_ProfileConfiguration->resize(1720, 680);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Window_ProfileConfiguration->sizePolicy().hasHeightForWidth());
         Window_ProfileConfiguration->setSizePolicy(sizePolicy);
-        Window_ProfileConfiguration->setMinimumSize(QSize(1620, 680));
-        Window_ProfileConfiguration->setMaximumSize(QSize(1620, 680));
+        Window_ProfileConfiguration->setMinimumSize(QSize(1720, 680));
+        Window_ProfileConfiguration->setMaximumSize(QSize(1720, 680));
         Window_ProfileConfiguration->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
@@ -224,6 +230,8 @@ public:
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         gridLayout_2 = new QGridLayout(centralwidget);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        verticalLayout_2 = new QVBoxLayout();
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         horizontalLayout_15 = new QHBoxLayout();
         horizontalLayout_15->setObjectName(QStringLiteral("horizontalLayout_15"));
         horizontalSpacer_21 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -258,40 +266,30 @@ public:
         horizontalLayout_15->addItem(horizontalSpacer_22);
 
 
-        gridLayout_2->addLayout(horizontalLayout_15, 0, 0, 1, 1);
-
-        tabWidget_OperationParameters = new QTabWidget(centralwidget);
-        tabWidget_OperationParameters->setObjectName(QStringLiteral("tabWidget_OperationParameters"));
-        sizePolicy.setHeightForWidth(tabWidget_OperationParameters->sizePolicy().hasHeightForWidth());
-        tabWidget_OperationParameters->setSizePolicy(sizePolicy);
-        tabWidget_OperationParameters->setMinimumSize(QSize(1100, 600));
-        tabWidget_OperationParameters->setMaximumSize(QSize(1300, 600));
-        tabWidget_OperationParameters->setStyleSheet(QLatin1String("QTabWidget{\n"
-"background-color:#f5f5f5;\n"
-"padding:5px;\n"
-"	font: 12pt \"MS Shell Dlg 2\";\n"
-"}"));
-
-        gridLayout_2->addWidget(tabWidget_OperationParameters, 0, 2, 7, 1);
+        verticalLayout_2->addLayout(horizontalLayout_15);
 
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        horizontalLayout_4 = new QHBoxLayout();
-        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer_4);
+
         label_3 = new QLabel(centralwidget);
         label_3->setObjectName(QStringLiteral("label_3"));
         QFont font1;
         font1.setPointSize(10);
         label_3->setFont(font1);
 
-        horizontalLayout_4->addWidget(label_3);
+        horizontalLayout_3->addWidget(label_3);
 
         horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        horizontalLayout_4->addItem(horizontalSpacer_3);
+        horizontalLayout_3->addItem(horizontalSpacer_3);
 
 
-        verticalLayout->addLayout(horizontalLayout_4);
+        verticalLayout->addLayout(horizontalLayout_3);
 
         lineEdit_ConfugrationPath = new QLineEdit(centralwidget);
         lineEdit_ConfugrationPath->setObjectName(QStringLiteral("lineEdit_ConfugrationPath"));
@@ -300,22 +298,32 @@ public:
         verticalLayout->addWidget(lineEdit_ConfugrationPath);
 
 
-        gridLayout_2->addLayout(verticalLayout, 1, 0, 1, 1);
+        verticalLayout_2->addLayout(verticalLayout);
 
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        horizontalSpacer_5 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_4->addItem(horizontalSpacer_5);
+
         label_2 = new QLabel(centralwidget);
         label_2->setObjectName(QStringLiteral("label_2"));
         label_2->setFont(font1);
 
-        horizontalLayout_3->addWidget(label_2);
+        horizontalLayout_4->addWidget(label_2);
 
         horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        horizontalLayout_3->addItem(horizontalSpacer_2);
+        horizontalLayout_4->addItem(horizontalSpacer_2);
 
 
-        gridLayout_2->addLayout(horizontalLayout_3, 2, 0, 1, 1);
+        verticalLayout_2->addLayout(horizontalLayout_4);
+
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        horizontalSpacer_7 = new QSpacerItem(10, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_5->addItem(horizontalSpacer_7);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
@@ -472,7 +480,14 @@ public:
         horizontalLayout_2->addWidget(pushButton_DownloadMotionScript);
 
 
-        gridLayout_2->addLayout(horizontalLayout_2, 3, 0, 1, 1);
+        horizontalLayout_5->addLayout(horizontalLayout_2);
+
+        horizontalSpacer_6 = new QSpacerItem(10, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_5->addItem(horizontalSpacer_6);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_5);
 
         gridLayout = new QGridLayout();
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
@@ -531,19 +546,19 @@ public:
 
         horizontalLayout->addWidget(pushButton_RemoveOperation);
 
-        comboBox = new QComboBox(centralwidget);
-        comboBox->addItem(QString());
-        comboBox->addItem(QString());
-        comboBox->setObjectName(QStringLiteral("comboBox"));
-        comboBox->setFont(font1);
+        comboBox_ProfileType = new QComboBox(centralwidget);
+        comboBox_ProfileType->addItem(QString());
+        comboBox_ProfileType->addItem(QString());
+        comboBox_ProfileType->setObjectName(QStringLiteral("comboBox_ProfileType"));
+        comboBox_ProfileType->setFont(font1);
 
-        horizontalLayout->addWidget(comboBox);
+        horizontalLayout->addWidget(comboBox_ProfileType);
 
 
         gridLayout->addLayout(horizontalLayout, 2, 0, 1, 1);
 
 
-        gridLayout_2->addLayout(gridLayout, 4, 0, 1, 2);
+        verticalLayout_2->addLayout(gridLayout);
 
         groupBox = new QGroupBox(centralwidget);
         groupBox->setObjectName(QStringLiteral("groupBox"));
@@ -561,16 +576,33 @@ public:
         gridLayout_5->addWidget(checkBox_ShouldHomeBeIndicated, 0, 0, 1, 1);
 
 
-        gridLayout_2->addWidget(groupBox, 5, 0, 1, 2);
+        verticalLayout_2->addWidget(groupBox);
 
-        verticalSpacer = new QSpacerItem(17, 108, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalSpacer = new QSpacerItem(14, 105, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout_2->addItem(verticalSpacer, 6, 1, 1, 1);
+        verticalLayout_2->addItem(verticalSpacer);
+
+
+        gridLayout_2->addLayout(verticalLayout_2, 0, 0, 1, 1);
+
+        tabWidget_OperationParameters = new QTabWidget(centralwidget);
+        tabWidget_OperationParameters->setObjectName(QStringLiteral("tabWidget_OperationParameters"));
+        sizePolicy.setHeightForWidth(tabWidget_OperationParameters->sizePolicy().hasHeightForWidth());
+        tabWidget_OperationParameters->setSizePolicy(sizePolicy);
+        tabWidget_OperationParameters->setMinimumSize(QSize(1220, 600));
+        tabWidget_OperationParameters->setMaximumSize(QSize(1220, 600));
+        tabWidget_OperationParameters->setStyleSheet(QLatin1String("QTabWidget{\n"
+"background-color:#f5f5f5;\n"
+"padding:5px;\n"
+"	font: 12pt \"MS Shell Dlg 2\";\n"
+"}"));
+
+        gridLayout_2->addWidget(tabWidget_OperationParameters, 0, 1, 1, 1);
 
         Window_ProfileConfiguration->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Window_ProfileConfiguration);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1620, 40));
+        menubar->setGeometry(QRect(0, 0, 1720, 40));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menubar);
@@ -598,7 +630,7 @@ public:
 
         retranslateUi(Window_ProfileConfiguration);
 
-        comboBox->setCurrentIndex(1);
+        comboBox_ProfileType->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(Window_ProfileConfiguration);
@@ -621,8 +653,8 @@ public:
         label->setText(QApplication::translate("Window_ProfileConfiguration", "Operations:", nullptr));
         pushButton_AddOperation->setText(QApplication::translate("Window_ProfileConfiguration", "Add Operation", nullptr));
         pushButton_RemoveOperation->setText(QApplication::translate("Window_ProfileConfiguration", "Remove Operation", nullptr));
-        comboBox->setItemText(0, QApplication::translate("Window_ProfileConfiguration", "Pause", nullptr));
-        comboBox->setItemText(1, QApplication::translate("Window_ProfileConfiguration", "Profile", nullptr));
+        comboBox_ProfileType->setItemText(0, QApplication::translate("Window_ProfileConfiguration", "PAUSE", nullptr));
+        comboBox_ProfileType->setItemText(1, QApplication::translate("Window_ProfileConfiguration", "OPERATION", nullptr));
 
         groupBox->setTitle(QApplication::translate("Window_ProfileConfiguration", "Settings", nullptr));
         checkBox_ShouldHomeBeIndicated->setText(QApplication::translate("Window_ProfileConfiguration", "Indicate Home Autonomously", nullptr));

@@ -9,15 +9,15 @@ ECM_CLASS_FORWARD(ECMCommand_ProfilePause);
 
 class ECMCommand_ProfilePause : public ECMCommand_AbstractProfileConfig
 {
-
 public:
     enum class WaitType
     {
-        TIMED
+        FINITE,
+        INF
     };
 
 public:
-    ECMCommand_ProfilePause(const WaitType &waitType = WaitType::TIMED, const unsigned int &duration = 0);
+    ECMCommand_ProfilePause(const WaitType &waitType = WaitType::FINITE, const unsigned int &duration = 0);
 
     ECMCommand_ProfilePause(const ECMCommand_ProfilePause &copy);
 
@@ -29,12 +29,12 @@ public:
 public:
     void setPauseDuration(const unsigned int &duration);
 
-    void setPuauseType(const WaitType &waitType);
+    void setPauseType(const WaitType &waitType);
 
 public:
     unsigned int getPauseDuration() const;
 
-    WaitType getPuauseType() const;
+    WaitType getPauseType() const;
 
 
 private:

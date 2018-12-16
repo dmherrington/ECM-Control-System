@@ -26,6 +26,7 @@ public:
         QJsonArray segmentDataArray;
 
         QJsonObject segmentObject;
+        segmentObject["utilizePump"] = this->shouldPumpBeUtilized();
         segmentObject["pumpDelayTime"] = (int)this->getInitializationTime();
         segmentObject["pumpFlowRate"] = this->getPumpFlowRate();
         segmentObject["pumpWaitForDelay"] = this->shouldWaitForInitializationDelay();
@@ -39,13 +40,14 @@ public:
         QJsonArray pumpDataArray = openObject["pumpData"].toArray();
         QJsonObject segmentObject = pumpDataArray[0].toObject();
 
+        setUtilizePump(segmentObject["utilizePump"].toBool());
         setPumpInitializationTime(segmentObject["pumpDelayTime"].toDouble());
         setPumpFlowRate(segmentObject["pumpFlowRate"].toDouble());
         setWaitForInitializationDelay(segmentObject["pumpWaitForDelay"].toBool());
     }
 
 public:
-    void setEngagePump(const bool &engage)
+    void setUtilizePump(const bool &engage)
     {
         this->engagePump = engage;
     }
@@ -67,7 +69,7 @@ public:
 
 public:
 
-    bool shouldPumpBeEngaged() const
+    bool shouldPumpBeUtilized() const
     {
         return this->engagePump;
     }

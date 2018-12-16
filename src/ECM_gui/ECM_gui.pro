@@ -76,7 +76,8 @@ SOURCES += \
     galil_dialog/window_motion_control.cpp \
     pump_dialog/window_pump_control.cpp \
     galil_dialog/window_touchoff.cpp \
-    galil_dialog/dialog_execution_paused.cpp
+    galil_dialog/dialog_execution_paused.cpp \
+    misc_dialogs/widget_pause_parameters.cpp
 
 HEADERS += \
     galil_dialog/widget_scripting_variables.h \
@@ -112,7 +113,8 @@ HEADERS += \
     pump_dialog/window_pump_control.h \
     galil_dialog/window_touchoff.h \
     galil_dialog/dialog_execution_paused.h \
-    misc_dialogs/widget_abstract_profile.h
+    misc_dialogs/widget_abstract_profile.h \
+    misc_dialogs/widget_pause_parameters.h
 
 FORMS += \
     galil_dialog/widget_scripting_variables.ui \
@@ -136,7 +138,8 @@ FORMS += \
     galil_dialog/window_motion_control.ui \
     pump_dialog/window_pump_control.ui \
     galil_dialog/window_touchoff.ui \
-    galil_dialog/dialog_execution_paused.ui
+    galil_dialog/dialog_execution_paused.ui \
+    misc_dialogs/widget_pause_parameters.ui
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

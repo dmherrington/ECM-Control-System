@@ -8,6 +8,7 @@
 #include "ECM_API/ecm_api.h"
 #include "../general_dialog_window.h"
 
+#include "widget_pause_parameters.h"
 #include "widget_profile_parameters.h"
 #include "window_motion_profile.h"
 #include "table_widget_operation_descriptor.h"

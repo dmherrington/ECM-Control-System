@@ -31,7 +31,7 @@ Command_PumpProperties Widget_PumpControl::getPumpProperties() const
     newPumpCommand.setPumpInitializationTime(initializationTime);
     newPumpCommand.setPumpFlowRate(ui->doubleSpinBox_flowRate->value());
     newPumpCommand.setWaitForInitializationDelay(ui->checkBox_WaitForDelay->isChecked());
-    newPumpCommand.setEngagePump(ui->checkBox_UtilizePump->isChecked());
+    newPumpCommand.setUtilizePump(ui->checkBox_UtilizePump->isChecked());
     return newPumpCommand;
 }
 

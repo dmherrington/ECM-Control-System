@@ -37,13 +37,13 @@ public:
     {
         if (Widget_ProfileParameters->objectName().isEmpty())
             Widget_ProfileParameters->setObjectName(QStringLiteral("Widget_ProfileParameters"));
-        Widget_ProfileParameters->resize(1180, 560);
+        Widget_ProfileParameters->resize(1200, 560);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Widget_ProfileParameters->sizePolicy().hasHeightForWidth());
         Widget_ProfileParameters->setSizePolicy(sizePolicy);
-        Widget_ProfileParameters->setMinimumSize(QSize(1180, 560));
+        Widget_ProfileParameters->setMinimumSize(QSize(1200, 560));
         Widget_ProfileParameters->setMaximumSize(QSize(1200, 560));
         gridLayout = new QGridLayout(Widget_ProfileParameters);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));

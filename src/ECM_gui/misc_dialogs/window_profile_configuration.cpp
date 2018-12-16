@@ -123,6 +123,13 @@ TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const
          ui->tabWidget_OperationParameters->addTab(operationalProfile,QString::fromStdString(opName));
         break;
     }
+    case ProfileOpType::PAUSE:
+    {
+         operationalProfile = new Widget_PauseParameters();
+         operationalProfile->setTabIndex(index);
+         ui->tabWidget_OperationParameters->addTab(operationalProfile,QString::fromStdString(opName));
+        break;
+    }
     default:
         break;
     }
@@ -356,14 +363,16 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
             }
             else if(opType == ProfileOpType::PAUSE)
             {
-
+                loadConfig = std::make_shared<ECMCommand_ProfilePause>();
+                ECMCommand_ProfilePausePtr castLoadConfig = static_pointer_cast<ECMCommand_ProfilePause>(loadConfig);
+                castLoadConfig->readFromJSON(operationObject);
             }
             else
             {
                 break;
             }
 
-            TableWidget_OperationDescriptor* currentWidget = this->addOperation(loadConfig->getOperationIndex(), loadConfig->getOperationName(), opType);
+            TableWidget_OperationDescriptor* currentWidget = this->addOperation(opType, loadConfig->getOperationIndex(), loadConfig->getOperationName());
             currentWidget->loadFromProfileConfiguration(loadConfig);
 
             //Object will contain all of the profiles used for the profile
