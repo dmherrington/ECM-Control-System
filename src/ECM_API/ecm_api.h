@@ -51,11 +51,11 @@ public:
     void initializeOperationLogs(const ECMCommand_ExecuteCollection &executionCollection,
                            const std::string &descriptor = "");
 
-    void executeOperationalProfile(const ECMCommand_ProfileConfiguration &profileConfig);
+    void executeOperationalProfile(const ECMCommand_ProfileConfigurationPtr profileConfig);
 
     void concludeExecutingCollection(const ECMCommand_ExecuteCollection &executionCollection);
 
-    void concludeExecutingOperation(const ECMCommand_ProfileConfiguration &profileConfig);
+    void concludeExecutingOperation(const ECMCommand_AbstractProfileConfigPtr profileConfig);
 
     void notifyNewOuterState(const ECM::API::ECMState &state, const std::string &stateString);
 

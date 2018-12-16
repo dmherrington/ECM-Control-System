@@ -62,44 +62,74 @@ void ECMState_SetupMachinePump::OnEnter()
     desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_FAILED;
 }
 
-void ECMState_SetupMachinePump::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
+void ECMState_SetupMachinePump::OnEnter(ECMCommand_AbstractProfileConfigPtr configuration)
 {
-    this->m_Config = configuration;
-
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
-    //if the pump should be running and is currently not already running
-    if(configuration.m_PumpParameters.shouldPumpBeEngaged() && !Owner().m_Pump->isPumpRunning())
+    switch (configuration->getConfigType()) {
+    case ECMCommand_AbstractProfileConfig::ConfigType::OPERATION:
     {
-        Owner().m_Pump->AddLambda_FinishedPumpInitialization(this,[this](const bool &completed){
-            if(completed)
-            {
-                desiredState = ECMState::STATE_ECM_SETUP_MACHINE_COMPLETE;
-            }else{
-                desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
-            }
-        });
+        ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(configuration);
 
-        registers_WestinghousePump::Register_OperationSignal newOps;
-        newOps.shouldRun(configuration.m_PumpParameters.shouldPumpBeEngaged());
-        Owner().m_Pump->setPumpOperations(newOps);
-    }
-    else if(!Owner().m_Pump->isPumpInitialized()) //the pump is already running, however, is not currently initialized
-    {
-        Owner().m_Pump->AddLambda_FinishedPumpInitialization(this,[this](const bool &completed){
-            if(completed)
-            {
-                desiredState = ECMState::STATE_ECM_SETUP_MACHINE_COMPLETE;
-            }else{
-                desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
-            }
-        });
-    }
-    else
-    {
-        desiredState = ECMState::STATE_ECM_SETUP_MACHINE_COMPLETE;
-    }
+        //if the pump should be running and is currently not already running
+        if(castConfig->m_PumpParameters.shouldPumpBeEngaged() && !Owner().m_Pump->isPumpRunning())
+        {
+            Owner().m_Pump->AddLambda_FinishedPumpInitialization(this,[this](const bool &completed){
+                if(completed)
+                {
+                    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_COMPLETE;
+                }else{
+                    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
+                }
+            });
 
+            registers_WestinghousePump::Register_OperationSignal newOps;
+            newOps.shouldRun(castConfig->m_PumpParameters.shouldPumpBeEngaged());
+            Owner().m_Pump->setPumpOperations(newOps);
+        }
+        else if(!Owner().m_Pump->isPumpInitialized()) //the pump is already running, however, is not currently initialized
+        {
+            Owner().m_Pump->AddLambda_FinishedPumpInitialization(this,[this](const bool &completed){
+                if(completed)
+                {
+                    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_COMPLETE;
+                }else{
+                    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
+                }
+            });
+        }
+        else
+        {
+            desiredState = ECMState::STATE_ECM_SETUP_MACHINE_COMPLETE;
+        }
+        break;
+    }
+    case ECMCommand_AbstractProfileConfig::ConfigType::PAUSE:
+    {
+        ECMCommand_ProfilePausePtr castConfig = static_pointer_cast<ECMCommand_ProfilePause>(configuration);
+
+        if(!castConfig->m_PumpParameters.shouldPumpBeEngaged() && Owner().m_Pump->isPumpRunning())
+        {
+            Owner().m_Pump->AddLambda_FinishedPumpInitialization(this,[this](const bool &completed){
+                if(completed)
+                {
+                    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_COMPLETE;
+                }else{
+                    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
+                }
+            });
+
+            registers_WestinghousePump::Register_OperationSignal newOps;
+            newOps.shouldRun(castConfig->m_PumpParameters.shouldPumpBeEngaged());
+            Owner().m_Pump->setPumpOperations(newOps);
+        }
+        break;
+    }
+    default:
+        std::cout<<"We should not have gotten into STATE_ECM_SETUP_MACHINE_PUMP with the current command type."<<std::endl;
+        desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
+        break;
+    }
 }
 
 } //end of namespace API

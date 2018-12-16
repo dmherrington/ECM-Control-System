@@ -8,6 +8,8 @@ ECMCommand_ProfileConfiguration::ECMCommand_ProfileConfiguration():
 
 void ECMCommand_ProfileConfiguration::writeToJSON(QJsonObject &obj)
 {
+    ECMCommand_AbstractProfileConfig::writeToJSON(obj);
+
     obj["opIndex"] = (int)this->getOperationIndex();
     obj["opName"] = QString::fromStdString(this->getOperationName());
     obj["useOperation"] = this->shouldProfileExecute();
@@ -25,6 +27,8 @@ void ECMCommand_ProfileConfiguration::writeToJSON(QJsonObject &obj)
 
 void ECMCommand_ProfileConfiguration::readFromJSON(const QJsonObject &obj)
 {
+    ECMCommand_AbstractProfileConfig::readFromJSON(obj);
+
     this->setOperationIndex(obj["opIndex"].toInt());
     this->setOperationName(obj["opName"].toString().toStdString());
     this->setProfileExecution(obj["useOperation"].toBool());
@@ -34,7 +38,8 @@ void ECMCommand_ProfileConfiguration::readFromJSON(const QJsonObject &obj)
     m_Touchoff.readFromJSON(obj);
 }
 
-ECMCommand_ProfileConfiguration::ECMCommand_ProfileConfiguration(const ECMCommand_ProfileConfiguration &copy)
+ECMCommand_ProfileConfiguration::ECMCommand_ProfileConfiguration(const ECMCommand_ProfileConfiguration &copy):
+    ECMCommand_AbstractProfileConfig(copy)
 {
     this->operationIndex = copy.operationIndex;
     this->operationName = copy.operationName;
@@ -46,4 +51,9 @@ ECMCommand_ProfileConfiguration::ECMCommand_ProfileConfiguration(const ECMComman
     this->m_ConfigPowerSupply = copy.m_ConfigPowerSupply;
     this->m_PumpParameters = copy.m_PumpParameters;
     this->m_Touchoff = copy.m_Touchoff;
+}
+
+std::string ECMCommand_ProfileConfiguration::getProfileName() const
+{
+    return this->m_GalilOperation.getProfileName();
 }

@@ -20,20 +20,20 @@ ECMCommand_ExecuteCollection::ECMCommand_ExecuteCollection(const ECMCommand_Exec
 ECMCommand_ExecuteCollection::ECMCommand_ExecuteCollection(const ECMCommand_ProfileCollection &proCollection):
     ECMCommand_ProfileCollection(proCollection)
 {
-    this->activeIndex = this->getLeadingProfile().getOperationIndex();
+    this->activeIndex = this->getLeadingProfile()->getOperationIndex();
 }
 
-void ECMCommand_ExecuteCollection::insertProfile(const ECMCommand_ProfileConfiguration &profile)
+void ECMCommand_ExecuteCollection::insertProfile(const ECMCommand_AbstractProfileConfigPtr profile)
 {
     ECMCommand_ProfileCollection::insertProfile(profile);
 
-    std::map<unsigned int,ECMCommand_ProfileConfiguration>::iterator it = m_Collection.begin();
+    std::map<unsigned int,ECMCommand_AbstractProfileConfigPtr>::iterator it = m_Collection.begin();
     for (; it!=m_Collection.end(); ++it)
     {
-        ECMCommand_ProfileConfiguration currentConfig = it->second;
-        if(currentConfig.shouldProfileExecute() && !currentConfig.hasProfileCompleted())
+        ECMCommand_AbstractProfileConfigPtr currentConfig = it->second;
+        if(currentConfig->shouldProfileExecute() && !currentConfig->hasProfileCompleted())
         {
-            this->activeIndex = currentConfig.getOperationIndex();
+            this->activeIndex = currentConfig->getOperationIndex();
             break;
         }
     }
@@ -49,7 +49,7 @@ void ECMCommand_ExecuteCollection::getClone(ECMCommand_AbstractCollectionPtr &co
     collection = std::make_shared<ECMCommand_ExecuteCollection>(*this);
 }
 
-ECMCommand_ProfileConfiguration ECMCommand_ExecuteCollection::getActiveConfiguration() const
+ECMCommand_AbstractProfileConfigPtr ECMCommand_ExecuteCollection::getActiveConfiguration() const
 {
     return this->m_Collection.at(activeIndex);
 }
@@ -72,14 +72,14 @@ bool ECMCommand_ExecuteCollection::doActiveOperationsRemain()
      */
     bool isCollectionIncomplete = false;
 
-    std::map<unsigned int, ECMCommand_ProfileConfiguration>::iterator it = m_Collection.begin();
+    std::map<unsigned int, ECMCommand_AbstractProfileConfigPtr>::iterator it = m_Collection.begin();
 
     for (; it!=m_Collection.end(); ++it)
     {
-        ECMCommand_ProfileConfiguration currentConfig = it->second;
-        if(currentConfig.shouldProfileExecute() && !currentConfig.execProperties.hasProfileBeenExecuted())
+        ECMCommand_AbstractProfileConfigPtr currentConfig = it->second;
+        if(currentConfig->shouldProfileExecute() && !currentConfig->execProperties.hasProfileBeenExecuted())
         {
-            this->activeIndex = currentConfig.getOperationIndex();
+            this->activeIndex = currentConfig->getOperationIndex();
             isCollectionIncomplete = true;
             break;
         }
@@ -91,10 +91,10 @@ void ECMCommand_ExecuteCollection::setHomeShouldIndicate(const bool &indicate)
 {
     this->indicateHome = indicate;
 
-    std::map<unsigned int, ECMCommand_ProfileConfiguration>::iterator it = m_Collection.begin();
+    std::map<unsigned int, ECMCommand_AbstractProfileConfigPtr>::iterator it = m_Collection.begin();
     for (; it!=m_Collection.end(); ++it)
     {
-        it->second.setIndicateHomeAutomatically(indicate);
+        it->second->setIndicateHomeAutomatically(indicate);
     }
 }
 
@@ -105,7 +105,7 @@ void ECMCommand_ExecuteCollection::setOverwriteLogs(const bool &overwrite)
 
 void ECMCommand_ExecuteCollection::initializeProfileExecution()
 {
-    this->m_Collection.at(activeIndex).execProperties.initializeExecution();
+    this->m_Collection.at(activeIndex)->execProperties.initializeExecution();
 }
 
 void ECMCommand_ExecuteCollection::setWritingGalilScript(const bool &write)
@@ -140,11 +140,11 @@ bool ECMCommand_ExecuteCollection::shouldOverwriteLogs() const
 
 bool ECMCommand_ExecuteCollection::isFirstOperation(const unsigned int &index) const
 {
-    std::map<unsigned int, ECMCommand_ProfileConfiguration>::const_iterator it = m_Collection.begin();
+    std::map<unsigned int, ECMCommand_AbstractProfileConfigPtr>::const_iterator it = m_Collection.begin();
     for(;it!=m_Collection.end();++it)
     {
-        ECMCommand_ProfileConfiguration currentConfig = it->second;
-        if(currentConfig.shouldProfileExecute() && currentConfig.getOperationIndex() < index)
+        ECMCommand_AbstractProfileConfigPtr currentConfig = it->second;
+        if(currentConfig->shouldProfileExecute() && currentConfig->getOperationIndex() < index)
         {
             return false;
         }

@@ -56,14 +56,14 @@ void ECMState_SetupMachineHome::OnEnter()
     AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
-void ECMState_SetupMachineHome::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
+void ECMState_SetupMachineHome::OnEnter(ECMCommand_AbstractProfileConfigPtr configuration)
 {
     this->m_Config = configuration;
 
     this->OnEnter();
 
     //check that we should indicate home and it has not previously completed
-    if(configuration.shouldHomeBeIndicated() && !Owner().m_Galil->stateInterface->isHomeInidcated())
+    if(this->m_Config->shouldHomeBeIndicated() && !Owner().m_Galil->stateInterface->isHomeInidcated())
     {
         Owner().m_Galil->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
 

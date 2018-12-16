@@ -58,7 +58,7 @@ void ECMState_SetupMachineTouchoffPosition::OnEnter()
     desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
 }
 
-void ECMState_SetupMachineTouchoffPosition::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
+void ECMState_SetupMachineTouchoffPosition::OnEnter(ECMCommand_ProfileConfigurationPtr configuration)
 {
     this->m_Config = configuration;
 
@@ -68,7 +68,7 @@ void ECMState_SetupMachineTouchoffPosition::OnEnter(const ECMCommand_ProfileConf
     CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(MotorAxis::Z, 5000);
     Owner().m_Galil->executeCommand(commandSpeed);
 
-    if(this->m_Config.m_Touchoff.shouldTouchoffUtilizePreviousPosition())
+    if(this->m_Config->m_Touchoff.shouldTouchoffUtilizePreviousPosition())
     {
         /*
          * In this case, there is no reason to proceed any further,
@@ -78,7 +78,7 @@ void ECMState_SetupMachineTouchoffPosition::OnEnter(const ECMCommand_ProfileConf
     }
     else
     {
-        int touchoffPosition = this->m_Config.m_Touchoff.getTouchoffRef();
+        int touchoffPosition = this->m_Config->m_Touchoff.getTouchoffRef();
         //Next, transmit the move to home command
         CommandAbsoluteMovePtr command = std::make_shared<CommandAbsoluteMove>(MotorAxis::Z,touchoffPosition);
         Owner().m_Galil->executeCommand(command);

@@ -64,27 +64,37 @@ void ECMState_UploadPowerPulseMode::OnEnter()
     AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
-void ECMState_UploadPowerPulseMode::OnEnter(const ECMCommand_ProfileConfiguration &config)
+void ECMState_UploadPowerPulseMode::OnEnter(ECMCommand_AbstractProfileConfigPtr configuration)
 {
     //First update the configuation per what was received upon entering the state
-    this->m_Config = config;
+    this->m_Config = configuration;
 
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
-//    Owner().m_Munk->AddLambda_FinishedUploadingPulseMode(this,[this](const bool completed, const DeviceInterface_PowerSupply::FINISH_CODE finishCode){
-//            if(completed)
-//            {
-//                desiredState = ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS;
-//            }else
-//            {
-//                desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
-//            }
-//    });
+    switch (this->m_Config->getConfigType()) {
+    case ECMCommand_AbstractProfileConfig::ConfigType::OPERATION:
+    {
+        ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(this->m_Config);
 
-//    Owner().m_Munk->writeRegisterPulseMode(config.m_ConfigPowerSupply.m_MunkPulseMode);
+        Owner().m_Munk->AddLambda_FinishedUploadingPulseMode(this,[this](const bool completed, const DeviceInterface_PowerSupply::FINISH_CODE finishCode){
+                if(completed)
+                {
+                    desiredState = ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS;
+                }else
+                {
+                    desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
+                }
+        });
 
-    desiredState = ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS;
+        Owner().m_Munk->writeRegisterPulseMode(castConfig->m_ConfigPowerSupply.m_MunkPulseMode);
 
+        break;
+    }
+    default:
+        std::cout<<"We should not have gotten into STATE_ECM_UPLOAD_POWER_PULSE_MODE with the current command type."<<std::endl;
+        desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
+        break;
+    }
 }
 
 } //end of namespace Galil

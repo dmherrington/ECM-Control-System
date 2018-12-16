@@ -52,10 +52,5 @@ void ECMState_ProfileMachineFailed::OnEnter()
     AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
-void ECMState_ProfileMachineFailed::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
-{
-    this->OnEnter();
-}
-
 } //end of namespace API
 } //end of namespace ECM

@@ -28,13 +28,13 @@ public:
     virtual void getClone(ECMCommand_AbstractCollectionPtr &command) const override;
 
 public:
-    virtual void insertProfile(const ECMCommand_ProfileConfiguration* profile);
+    virtual void insertProfile(const ECMCommand_AbstractProfileConfigPtr profile);
 
-    ECMCommand_AbstractProfileConfig* getLeadingProfile() const;
+    ECMCommand_AbstractProfileConfigPtr getLeadingProfile() const;
 
-    ECMCommand_AbstractProfileConfig* getProfile(const unsigned int &index) const;
+    ECMCommand_AbstractProfileConfigPtr getProfile(const unsigned int &index) const;
 
-    std::map<unsigned int, ECMCommand_AbstractProfileConfig*> getCollection() const;
+    std::map<unsigned int, ECMCommand_AbstractProfileConfigPtr> getCollection() const;
 
 public:
 
@@ -83,7 +83,7 @@ public:
     }
 
 protected:
-    std::map<unsigned int, ECMCommand_AbstractProfileConfig*> m_Collection;
+    std::map<unsigned int, ECMCommand_AbstractProfileConfigPtr> m_Collection;
 };
 
 #endif // ECM_COMMAND_PROFILE_COLLECTION_H

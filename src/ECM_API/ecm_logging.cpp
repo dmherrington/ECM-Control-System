@@ -42,14 +42,14 @@ void ECMLogging::writeExecutionCollection(const ECMCommand_ExecuteCollection &co
     QJsonObject saveObject;
     QJsonArray segmentDataArray;
 
-    std::map<unsigned int, ECMCommand_ProfileConfiguration> profileMap = collection.getCollection();
-    std::map<unsigned int, ECMCommand_ProfileConfiguration>::iterator it = profileMap.begin();
+    std::map<unsigned int, ECMCommand_AbstractProfileConfigPtr> profileMap = collection.getCollection();
+    std::map<unsigned int, ECMCommand_AbstractProfileConfigPtr>::iterator it = profileMap.begin();
 
     for (; it!=profileMap.end(); ++it)
     {
-            ECMCommand_ProfileConfiguration operationConfiguration = it->second;
+            ECMCommand_AbstractProfileConfigPtr operationConfiguration = it->second;
             QJsonObject operationObject;
-            operationConfiguration.writeToJSON(operationObject);
+            operationConfiguration->writeToJSON(operationObject);
             segmentDataArray.append(operationObject);
     }
 

@@ -69,49 +69,68 @@ void ECMState_ProfileMachineProcess::OnEnter()
     desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_ABORT;
 }
 
-void ECMState_ProfileMachineProcess::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
+void ECMState_ProfileMachineProcess::OnEnter(ECMCommand_AbstractProfileConfigPtr configuration)
 {
+
+    //First update the configuation per what was received upon entering the state
     this->m_Config = configuration;
 
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
-    Owner().m_Galil->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
+    switch (this->m_Config->getConfigType()) {
+    case ECMCommand_AbstractProfileConfig::ConfigType::OPERATION:
+    {
+        ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(this->m_Config);
 
-        switch (profileState.getProfileState()->getType()) {
-        case MotionProfile::ProfileType::PROFILE:
-        {
-            ProfileState_Machining* castState = (ProfileState_Machining*)profileState.getProfileState().get();
-            m_Config.execProperties.setProfileCode(castState->getCurrentCode());
+        Owner().m_Galil->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
 
-            switch (castState->getCurrentCode()) {
-            case(ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE):
+            switch (profileState.getProfileState()->getType()) {
+            case MotionProfile::ProfileType::PROFILE:
             {
-                //There is nothing to do here as the machining profile is still executing
-                break;
-            }
-            case(ProfileState_Machining::MACHININGProfileCodes::COMPLETE):
-            {
-                desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION;
-                break;
-            }
-            case(ProfileState_Machining::MACHININGProfileCodes::ABORTED):
-            {
-                desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_ABORT;
+                ProfileState_Machining* castState = (ProfileState_Machining*)profileState.getProfileState().get();
+                m_Config->execProperties.setProfileCode(castState->getCurrentCode());
+
+                switch (castState->getCurrentCode()) {
+                case(ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE):
+                {
+                    break;
+                }
+                case(ProfileState_Machining::MACHININGProfileCodes::COMPLETE):
+                {
+                    desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION;
+                    break;
+                }
+                case(ProfileState_Machining::MACHININGProfileCodes::ABORTED):
+                {
+                    desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_ABORT;
+                    break;
+                }
+                default:
+                    break;
+                }
                 break;
             }
             default:
                 break;
             }
-            break;
-        }
-        default:
-            break;
-        }
-    });
+        });
 
-    m_Config.execProperties.initializeExecution();
+        m_Config->execProperties.initializeExecution(); //this should be moved to the frontend
 
-    Owner().executeOperationalProfile(this->m_Config);
+        Owner().executeOperationalProfile(castConfig);
+
+        break;
+    }
+    default:
+        std::cout<<"We should not have gotten into STATE_ECM_UPLOAD_MOTION_PROFILE with the current command type."<<std::endl;
+        desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
+        break;
+    }
+
+    this->m_Config = configuration;
+
+    AbstractStateECMProcess::notifyOwnerStateTransition();
+
 
 //    m_Config.execProperties.setProfileCode(ProfileState_Machining::MACHININGProfileCodes::COMPLETE);
 //    desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION;

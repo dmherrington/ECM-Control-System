@@ -46,7 +46,7 @@ public:
     void OnExit() override;
 
 public:
-    void OnEnter(const ECMCommand_ProfileConfiguration &configuration);
+    void OnEnter(ECMCommand_AbstractProfileConfigPtr configuration);
 
 };
 

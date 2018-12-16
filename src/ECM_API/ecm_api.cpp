@@ -87,13 +87,13 @@ void ECM_API::initializeOperationLogs(const ECMCommand_ExecuteCollection &execut
     operationsString += m_Galil->stateInterface->galilProgram->getVariableList().getLoggingString();
     operationsString += "\r\n";
 
-    ECMCommand_ProfileConfiguration profileConfig = executionCollection.getActiveConfiguration();
-    m_Log->writeLoggingHeader(executionCollection.getPartNumber(),executionCollection.getSerialNumber(),profileConfig.getOperationName(),
-                              profileConfig.getProfileName(),operationsString,descriptor,
-                              profileConfig.execProperties.getStartTime());
+    ECMCommand_AbstractProfileConfigPtr profileConfig = executionCollection.getActiveConfiguration();
+//    m_Log->writeLoggingHeader(executionCollection.getPartNumber(),executionCollection.getSerialNumber(),profileConfig->getOperationName(),
+//                              profileConfig->getProfileName(),operationsString,descriptor,
+//                              profileConfig->execProperties.getStartTime());
 }
 
-void ECM_API::executeOperationalProfile(const ECMCommand_ProfileConfiguration &profileConfig)
+void ECM_API::executeOperationalProfile(const ECMCommand_ProfileConfigurationPtr profileConfig)
 {
     //Enable logging of any current machining information that comes through
     m_Log->enableLogging(true);
@@ -102,22 +102,22 @@ void ECM_API::executeOperationalProfile(const ECMCommand_ProfileConfiguration &p
     m_Rigol->executeMeasurementPolling(true);
 
     //Assemble a message to notify any listeners that we are about to execute an operation
-    ExecuteOperationProperties props(profileConfig.getOperationName(), profileConfig.getOperationIndex());
-    props.setTime(profileConfig.execProperties.getStartTime());
+    ExecuteOperationProperties props(profileConfig->getOperationName(), profileConfig->getOperationIndex());
+    props.setTime(profileConfig->execProperties.getStartTime());
 
     //Emit the signal notifying the listeners of a new operational profile
     emit signal_ExecutingOperation(props);
 
     CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,
-                                                                               profileConfig.getProfileName());
+                                                                               profileConfig->getProfileName());
     m_Galil->executeCommand(command);
 }
 
-void ECM_API::concludeExecutingOperation(const ECMCommand_ProfileConfiguration &profileConfig)
+void ECM_API::concludeExecutingOperation(const ECMCommand_AbstractProfileConfigPtr profileConfig)
 {
     //Conclude writing to the logs with any wrap up data that we need
-    m_Log->WriteConcludingOperationStats(profileConfig.execProperties.getElapsedTime(),
-                             profileConfig.execProperties.getProfileCode());
+    m_Log->WriteConcludingOperationStats(profileConfig->execProperties.getElapsedTime(),
+                             profileConfig->execProperties.getProfileCode());
 
     //Disable the logs so no more contents are written post the machining operation
     m_Log->enableLogging(false);
@@ -126,9 +126,9 @@ void ECM_API::concludeExecutingOperation(const ECMCommand_ProfileConfiguration &
     m_Rigol->executeMeasurementPolling(false);
 
     //Assemble a message to notify any listeners that we are finished executing an operation
-    ExecuteOperationProperties props(profileConfig.getOperationName(), profileConfig.getOperationIndex());
+    ExecuteOperationProperties props(profileConfig->getOperationName(), profileConfig->getOperationIndex());
     props.setOperatingCondition(ExecutionProperties::ExecutionCondition::ENDING);
-    props.setTime(profileConfig.execProperties.getEndTime());
+    props.setTime(profileConfig->execProperties.getEndTime());
 
     //Emit the signal notifying the listeners of a completed operational profile
     emit signal_ExecutingOperation(props);

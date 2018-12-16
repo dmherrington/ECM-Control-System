@@ -64,26 +64,39 @@ void ECMState_UploadMotionVariables::OnEnter()
 
 }
 
-void ECMState_UploadMotionVariables::OnEnter(const ECMCommand_ProfileConfiguration &config)
+void ECMState_UploadMotionVariables::OnEnter(ECMCommand_AbstractProfileConfigPtr config)
 {
     //First update the configuation per what was received upon entering the state
     this->m_Config = config;
 
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
-    Owner().m_Galil->AddLambda_FinishedUploadingVariables(this,[this](const bool completed, const ProgramVariableList &variableList){
-        UNUSED(variableList);
-        if(completed)
-        {
-            desiredState = ECMState::STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS;
-        }else
-        {
-            desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
-        }
+    switch (config->getConfigType()) {
+    case ECMCommand_AbstractProfileConfig::ConfigType::OPERATION:
+    {
+        ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(config);
 
-    });
+        Owner().m_Galil->AddLambda_FinishedUploadingVariables(this,[this](const bool completed, const ProgramVariableList &variableList){
+            UNUSED(variableList);
+            if(completed)
+            {
+                desiredState = ECMState::STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS;
+            }else
+            {
+                desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
+            }
 
-    Owner().m_Galil->uploadProgramVariableList(config.m_GalilOperation.getVariableList());
+        });
+
+        Owner().m_Galil->uploadProgramVariableList(castConfig->m_GalilOperation.getVariableList());
+
+        break;
+    }
+    default:
+        std::cout<<"We should not have gotten into STATE_ECM_UPLOAD_MOTION_VARIABLES with the current command type."<<std::endl;
+        desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
+        break;
+    }
 }
 
 } //end of namespace Galil

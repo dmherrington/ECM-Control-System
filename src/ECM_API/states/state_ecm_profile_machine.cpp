@@ -48,10 +48,9 @@ hsm::Transition ECMState_ProfileMachine::GetTransition()
         else if(IsInInnerState<ECMState_ProfileMachineComplete>())
         {
             //if we have succeeded let us see if there is more to machine
-            ECMState_ProfileMachineBase* currentInnerState = static_cast<ECMState_ProfileMachineBase*>(GetImmediateInnerState());
-
-            ECMCommand_ProfileConfiguration currentConfig = currentInnerState->getCurrentConfig();
-            m_ECMCollection.insertProfile(currentConfig);
+//            ECMState_ProfileMachineBase* currentInnerState = static_cast<ECMState_ProfileMachineBase*>(GetImmediateInnerState());
+//            ECMCommand_ProfileConfiguration currentConfig = currentInnerState->getCurrentConfig();
+//            m_ECMCollection.insertProfile(currentConfig);
             if(m_ECMCollection.doActiveOperationsRemain())
             {
                 rtn = hsm::SiblingTransition<ECMState_Upload>(this->m_ECMCollection);
@@ -70,6 +69,11 @@ hsm::Transition ECMState_ProfileMachine::GetTransition()
             case ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS:
             {
                 rtn = hsm::InnerEntryTransition<ECMState_ProfileMachineProcess>(m_ECMCollection.getActiveConfiguration());
+                break;
+            }
+            case ECMState::STATE_ECM_PROFILE_MACHINE_PAUSED:
+            {
+                rtn = hsm::InnerEntryTransition<ECMState_ProfileMachinePause>(m_ECMCollection.getActiveConfiguration());
                 break;
             }
             default:
@@ -96,10 +100,10 @@ void ECMState_ProfileMachine::OnEnter(const ECMCommand_ExecuteCollection &collec
     //First update the configuation per what was received upon entering the state
     this->m_ECMCollection = collection;
 
-    this->OnEnter();
+    //Notify the world what state we are currently in
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 
-    m_ECMCollection.initializeProfileExecution();
-
+    m_ECMCollection.initializeProfileExecution(); //this should move to the beginning of the operation to be more consistent and account for upload, and setup time
 
     /*
      * When initializing the logs, this process sets up the directory structure and the accompanying header contents.
@@ -107,7 +111,23 @@ void ECMState_ProfileMachine::OnEnter(const ECMCommand_ExecuteCollection &collec
      */
     Owner().initializeOperationLogs(m_ECMCollection);
 
-    this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS;
+    ECMCommand_AbstractProfileConfigPtr currentConfig = this->m_ECMCollection.getActiveConfiguration();
+
+    switch (currentConfig->getConfigType()) {
+    case ECMCommand_AbstractProfileConfig::ConfigType::OPERATION:
+    {
+        this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS;
+        break;
+    }
+    case ECMCommand_AbstractProfileConfig::ConfigType::PAUSE:
+    {
+        this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_PAUSED;
+        break;
+    }
+    default:
+        break;
+    }
+
 }
 
 } //end of namespace Galil
@@ -120,4 +140,5 @@ void ECMState_ProfileMachine::OnEnter(const ECMCommand_ExecuteCollection &collec
 #include "states/state_ecm_profile_machine_complete_execution.h"
 #include "states/state_ecm_profile_machine_complete.h"
 #include "states/state_ecm_profile_machine_failed.h"
+#include "states/state_ecm_profile_machine_pause.h"
 #include "states/state_ecm_profile_machine_process.h"

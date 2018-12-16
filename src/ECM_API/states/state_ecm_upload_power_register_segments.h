@@ -46,10 +46,10 @@ public:
     void OnExit() override;
 
 public:
-    void OnEnter(const ECMCommand_ProfileConfiguration &config);
+    void OnEnter(ECMCommand_AbstractProfileConfigPtr config);
 
 private:
-    ECMCommand_ProfileConfiguration m_Config;
+    ECMCommand_AbstractProfileConfigPtr m_Config;
 };
 
 } //end of namespace API

@@ -14,7 +14,7 @@ public:
     ECMCommand_ExecuteCollection(const ECMCommand_ProfileCollection &proCollection);
 
 public:
-    void insertProfile(const ECMCommand_ProfileConfiguration &profile) override;
+    void insertProfile(const ECMCommand_AbstractProfileConfigPtr profile) override;
 
 public:
     /**
@@ -30,7 +30,7 @@ public:
     virtual void getClone(ECMCommand_AbstractCollectionPtr &command) const override;
 
 public:
-    ECMCommand_ProfileConfiguration getActiveConfiguration() const;
+    ECMCommand_AbstractProfileConfigPtr getActiveConfiguration() const;
 
 public:
     void setPartNumber(const std::string &number);

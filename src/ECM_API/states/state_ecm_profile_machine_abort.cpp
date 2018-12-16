@@ -36,7 +36,7 @@ hsm::Transition ECMState_ProfileMachineAbort::GetTransition()
         switch (desiredState) {
         case(ECMState::STATE_ECM_PROFILE_MACHINE_FAILED):
         {
-            rtn = hsm::SiblingTransition<ECMState_ProfileMachineFailed>(m_Config);
+            rtn = hsm::SiblingTransition<ECMState_ProfileMachineFailed>();
             break;
         }
         default:
@@ -61,13 +61,13 @@ void ECMState_ProfileMachineAbort::OnEnter()
     AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
-void ECMState_ProfileMachineAbort::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
+void ECMState_ProfileMachineAbort::OnEnter(ECMCommand_AbstractProfileConfigPtr configuration)
 {
     this->m_Config = configuration;
 
     this->OnEnter();
 
-    m_Config.execProperties.completeExecution();
+    m_Config->execProperties.completeExecution();
     Owner().concludeExecutingOperation(m_Config);
 
     Owner().action_StopMachine();

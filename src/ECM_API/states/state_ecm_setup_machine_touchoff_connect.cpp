@@ -58,7 +58,7 @@ void ECMState_SetupMachineTouchoffConnect::OnEnter()
     desiredState = ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_FAILED;
 }
 
-void ECMState_SetupMachineTouchoffConnect::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
+void ECMState_SetupMachineTouchoffConnect::OnEnter(ECMCommand_AbstractProfileConfigPtr configuration)
 {
     this->m_Config = configuration;
 

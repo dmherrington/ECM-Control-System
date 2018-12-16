@@ -64,26 +64,45 @@ void ECMState_UploadPumpParameters::OnEnter()
     AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
-void ECMState_UploadPumpParameters::OnEnter(const ECMCommand_ProfileConfiguration &config)
+void ECMState_UploadPumpParameters::OnEnter(ECMCommand_AbstractProfileConfigPtr configuration)
 {
-    //First update the configuation per what was received upon entering the state
-    this->m_Config = config;
-
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
-    Owner().m_Pump->AddLambda_FinishedUploadingParameters(this,[this](const bool completed, const DeviceInterface_Pump::FINISH_CODE finishCode){
-        UNUSED(finishCode);
+    switch (configuration->getConfigType()) {
+    case ECMCommand_AbstractProfileConfig::ConfigType::OPERATION:
+    {
+        ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(configuration);
 
-        if(completed)
-        {
-            desiredState = ECMState::STATE_ECM_UPLOAD_COMPLETE;
-        }else
-        {
-            desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
-        }
-    });
+        Owner().m_Pump->AddLambda_FinishedUploadingParameters(this,[this](const bool completed, const DeviceInterface_Pump::FINISH_CODE finishCode){
+            UNUSED(finishCode);
 
-    Owner().m_Pump->setPumpProperties(config.m_PumpParameters);
+            if(completed)
+            {
+                desiredState = ECMState::STATE_ECM_UPLOAD_COMPLETE;
+            }else
+            {
+                desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
+            }
+        });
+
+        Owner().m_Pump->setPumpProperties(castConfig->m_PumpParameters);
+
+        break;
+    }
+
+    case ECMCommand_AbstractProfileConfig::ConfigType::PAUSE:
+    {
+        //Set how long we want to wait once we tell the pump to turn off before moving to the next step
+        Owner().m_Pump->setInitializationTime(2);
+
+        desiredState = ECMState::STATE_ECM_UPLOAD_COMPLETE;
+        break;
+    }
+    default:
+        std::cout<<"We should not have gotten into STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS with the current command type."<<std::endl;
+        desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
+        break;
+    }
 }
 
 } //end of namespace Galil

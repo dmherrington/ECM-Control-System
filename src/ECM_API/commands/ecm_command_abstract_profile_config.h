@@ -1,6 +1,9 @@
 #ifndef ECM_COMMAND_ABSTRACT_PROFILE_CONFIG_H
 #define ECM_COMMAND_ABSTRACT_PROFILE_CONFIG_H
 
+#include <QJsonArray>
+#include <QJsonObject>
+
 #include "common/class_forward.h"
 #include "ecm_command_execution_properties.h"
 
@@ -18,15 +21,8 @@ public:
     };
 
 public:
-    ECMCommand_AbstractProfileConfig(const ConfigType &configType)
-    {
-        this->configType = configType;
-    }
-
-    ECMCommand_AbstractProfileConfig(const ECMCommand_AbstractProfileConfig &copy)
-    {
-        this->configType = copy.configType;
-    }
+    ECMCommand_AbstractProfileConfig(const ConfigType &configType);
+    ECMCommand_AbstractProfileConfig(const ECMCommand_AbstractProfileConfig &copy);
 
     ConfigType getConfigType() const
     {
@@ -34,55 +30,42 @@ public:
     }
 
 public:
-    unsigned int getOperationIndex() const
+    /**
+     *
+     */
+    template <class T>
+    const T* as() const
     {
-        return this->operationIndex;
+        //ensure that we are attempting to cast it to a type of configuration
+        return static_cast<const T *>(this);
     }
 
-    std::string getOperationName() const
+    /**
+     *
+     */
+    template <class T>
+    T* as()
     {
-        return this->operationName;
+        //ensure that we are attempting to cast it to a type of configuration
+        return static_cast<T *>(this);
     }
 
-    std::string getProfileName() const
-    {
-        return this->m_GalilOperation.getProfileName();
-    }
+public:
+    void writeToJSON(QJsonObject &obj);
 
-    bool shouldHomeBeIndicated() const
-    {
-        return this->indicateHome;
-    }
+    void readFromJSON(const QJsonObject &obj);
 
-    bool shouldProfileExecute() const
-    {
-        return this->shouldExecute;
-    }
+public:
+    unsigned int getOperationIndex() const;
+    std::string getOperationName() const;
+    bool shouldHomeBeIndicated() const;
+    bool shouldProfileExecute() const;
+    bool hasProfileCompleted() const;
 
-    bool hasProfileCompleted() const
-    {
-        return this->execProperties.hasProfileBeenCompleted();
-    }
-
-    void setOperationIndex(const unsigned int &index)
-    {
-        this->operationIndex = index;
-    }
-
-    void setOperationName(const std::string &name)
-    {
-        this->operationName = name;
-    }
-
-    void setIndicateHomeAutomatically(const bool &homeExecute)
-    {
-        this->indicateHome = homeExecute;
-    }
-
-    void setProfileExecution(const bool &varExecute)
-    {
-        this->shouldExecute = varExecute;
-    }
+    void setOperationIndex(const unsigned int &index);
+    void setOperationName(const std::string &name);
+    void setIndicateHomeAutomatically(const bool &homeExecute);
+    void setProfileExecution(const bool &varExecute);
 
 public:
     //!

@@ -44,13 +44,6 @@ void ECMState_SetupMachineTouchoffFailed::OnEnter()
     desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
 }
 
-void ECMState_SetupMachineTouchoffFailed::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
-{
-    this->m_Config = configuration;
-
-    AbstractStateECMProcess::notifyOwnerStateTransition();
-
-}
 
 } //end of namespace API
 } //end of namespace ECM

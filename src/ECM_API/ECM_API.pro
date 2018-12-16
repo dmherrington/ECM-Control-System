@@ -68,7 +68,9 @@ SOURCES += \
     states/state_ecm_setup_machine_touchoff_execute.cpp \
     states/state_ecm_setup_machine_touchoff_completed.cpp \
     states/state_ecm_setup_machine_touchoff_failed.cpp \
-    commands/ecm_command_profile_pause.cpp
+    commands/ecm_command_profile_pause.cpp \
+    commands/ecm_command_abstract_profile_config.cpp \
+    states/state_ecm_profile_machine_pause.cpp
 
 HEADERS += \
         ecm_api.h \
@@ -114,9 +116,9 @@ HEADERS += \
     states/state_ecm_setup_machine_touchoff_execute.h \
     states/state_ecm_setup_machine_touchoff_completed.h \
     states/state_ecm_setup_machine_touchoff_failed.h \
-    commands/ecmcommand_base_profile_config.h \
     commands/ecm_command_abstract_profile_config.h \
-    commands/ecm_command_profile_pause.h
+    commands/ecm_command_profile_pause.h \
+    states/state_ecm_profile_machine_pause.h
 
 # Unix lib Install
 unix:!symbian {

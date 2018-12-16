@@ -74,16 +74,28 @@ void ECMState_SetupMachineTouchoff::OnEnter()
     desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
 }
 
-void ECMState_SetupMachineTouchoff::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
+void ECMState_SetupMachineTouchoff::OnEnter(ECMCommand_AbstractProfileConfigPtr configuration)
 {
     this->m_Config = configuration;
 
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
-    if(configuration.m_Touchoff.shouldTouchoffBeUtilized())
-        desiredState = ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_CONNECT;
-    else
-        desiredState = ECMState::STATE_ECM_SETUP_MACHINE_PUMP;
+    switch (this->m_Config->getConfigType()) {
+    case ECMCommand_AbstractProfileConfig::ConfigType::OPERATION:
+    {
+        ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(this->m_Config);
+
+        if(castConfig->m_Touchoff.shouldTouchoffBeUtilized())
+            desiredState = ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_CONNECT;
+        else
+            desiredState = ECMState::STATE_ECM_SETUP_MACHINE_PUMP;
+
+        break;
+    }
+    default:
+        std::cout<<"We should not have gotten into STATE_ECM_SETUP_MACHINE_TOUCHOFF with the current command type."<<std::endl;
+        break;
+    }
 }
 
 } //end of namespace API

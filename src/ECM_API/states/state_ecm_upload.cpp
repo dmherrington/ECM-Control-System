@@ -50,34 +50,26 @@ hsm::Transition ECMState_Upload::GetTransition()
         }
         else
         {
-            ECMCommand_ProfileConfiguration activeConfiguration = m_ECMCollection.getActiveConfiguration();
-            //this means we want to chage the state of the vehicle for some reason
-            //this could be caused by a command, action sensed by the vehicle, or
-            //for various other peripheral reasons
             switch (desiredState) {
-            case ECMState::STATE_ECM_UPLOAD_COMPLETE:
-            {
-                rtn = hsm::SiblingTransition<ECMState_SetupMachine>(this->m_ECMCollection);
-                break;
-            }
             case ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE:
             {
-                rtn = hsm::InnerEntryTransition<ECMState_UploadMotionProfile>(activeConfiguration);
+                ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection.getActiveConfiguration();
+                ECMCommand_ProfileConfigurationPtr castConfiguration = static_pointer_cast<ECMCommand_ProfileConfiguration>(activeConfiguration);
+                rtn = hsm::InnerEntryTransition<ECMState_UploadMotionProfile>(castConfiguration);
                 break;
             }
             case ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES:
             {
-                rtn = hsm::InnerEntryTransition<ECMState_UploadMotionVariables>(activeConfiguration);
-                break;
-            }
-            case ECMState::STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS:
-            {
-                //rtn = hsm::InnerEntryTransition<ECMState_UploadPowerRegisterSegments>(m_ProfileCollection);
+                ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection.getActiveConfiguration();
+                ECMCommand_ProfileConfigurationPtr castConfiguration = static_pointer_cast<ECMCommand_ProfileConfiguration>(activeConfiguration);
+                rtn = hsm::InnerEntryTransition<ECMState_UploadMotionVariables>(castConfiguration);
                 break;
             }
             case ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS:
             {
-                //rtn = hsm::InnerEntryTransition<ECMState_UploadPumpParameters>(m_ProfileCollection);
+                ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection.getActiveConfiguration();
+                ECMCommand_ProfilePausePtr castConfiguration = static_pointer_cast<ECMCommand_ProfilePause>(activeConfiguration);
+                rtn = hsm::InnerEntryTransition<ECMState_UploadPumpParameters>(castConfiguration);
                 break;
             }
             default:
@@ -110,18 +102,35 @@ void ECMState_Upload::OnEnter(const ECMCommand_ExecuteCollection &collection)
 
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
-    /*
-     * We should only transition to the upload motion profile state if the
-     * profile is the first in the queue and we desire to upload the script.
-     * Otherwise, we should set the appropriate variables related to the
-     * motion profile.
-     */
-    if(collection.isFirstOperation(collection.getActiveIndex()) && collection.shouldWriteGalilScript())
+    ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection.getActiveConfiguration();
+
+    switch (activeConfiguration->getConfigType()) {
+    case ECMCommand_AbstractProfileConfig::ConfigType::OPERATION:
     {
-        this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE;
+        /*
+         * We should only transition to the upload motion profile state if the
+         * profile is the first in the queue and we desire to upload the script.
+         * Otherwise, we should set the appropriate variables related to the
+         * motion profile.
+         */
+        if(collection.isFirstOperation(collection.getActiveIndex()) && collection.shouldWriteGalilScript())
+        {
+            this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE;
+        }
+        else{
+            this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES;
+        }
+
+        break;
     }
-    else{
-        this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES;
+    case ECMCommand_AbstractProfileConfig::ConfigType::PAUSE:
+    {
+        this->desiredState = ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS;
+        break;
+    }
+    default:
+        std::cout<<"This profile type is not handled in STATE_ECM_UPLOAD."<<std::endl;
+        break;
     }
 }
 

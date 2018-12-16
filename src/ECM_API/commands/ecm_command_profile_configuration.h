@@ -27,6 +27,9 @@ public:
     void readFromJSON(const QJsonObject &obj);
 
 public:
+    std::string getProfileName() const;
+
+public:
     //!
     //! \brief operator =
     //! \param rhs

@@ -47,12 +47,6 @@ public:
     void OnEnter() override;
     void Update() override;
     void OnExit() override;
-
-public:
-    void OnEnter(const ECMCommand_ProfileConfiguration &configuration);
-
-private:
-    ECMCommand_ProfileConfiguration m_Config;
 };
 
 } //end of namespace API

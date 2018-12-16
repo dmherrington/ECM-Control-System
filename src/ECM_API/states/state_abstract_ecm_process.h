@@ -8,7 +8,9 @@
 #include "common/hsm.h"
 
 #include "../ecm_api.h"
+#include "../commands/ecm_command_abstract_profile_config.h"
 #include "../commands/ecm_command_profile_collection.h"
+#include "../commands/ecm_command_profile_pause.h"
 #include "../commands/ecm_command_execute_collection.h"
 
 #include "state_ecm_types.h"

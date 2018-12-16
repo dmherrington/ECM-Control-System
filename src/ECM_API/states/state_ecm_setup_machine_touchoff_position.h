@@ -55,10 +55,10 @@ public:
     void stopProcess() override;
 
 public:
-    void OnEnter(const ECMCommand_ProfileConfiguration &configuration);
+    void OnEnter(ECMCommand_ProfileConfigurationPtr configuration);
 
 private:
-    ECMCommand_ProfileConfiguration m_Config;
+    ECMCommand_ProfileConfigurationPtr m_Config;
 };
 
 } //end of namespace API
