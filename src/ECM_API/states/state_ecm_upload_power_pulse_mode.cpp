@@ -87,7 +87,6 @@ void ECMState_UploadPowerPulseMode::OnEnter(ECMCommand_AbstractProfileConfigPtr 
         });
 
         Owner().m_Munk->writeRegisterPulseMode(castConfig->m_ConfigPowerSupply.m_MunkPulseMode);
-
         break;
     }
     default:

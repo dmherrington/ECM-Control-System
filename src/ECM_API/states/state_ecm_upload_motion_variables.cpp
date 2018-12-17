@@ -89,7 +89,6 @@ void ECMState_UploadMotionVariables::OnEnter(ECMCommand_AbstractProfileConfigPtr
         });
 
         Owner().m_Galil->uploadProgramVariableList(castConfig->m_GalilOperation.getVariableList());
-
         break;
     }
     default:

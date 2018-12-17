@@ -87,7 +87,7 @@ void ECMState_ProfileHandling::OnEnter(const ECMCommand_ExecuteCollection &colle
         * 1) Require that the operation is the first operation of the collection. This is required that since we can return
         * to this condition from another event, we would then subsequently not want to clear the original logs.
         */
-        if(this->m_ECMCollection.isFirstOperation(collection.getActiveIndex()))
+        if(this->m_ECMCollection.isFirstOperation(this->m_ECMCollection.getActiveIndex()))
         {
             this->m_ECMCollection.establishStartTime(); //Set the start time associated with the collection
 

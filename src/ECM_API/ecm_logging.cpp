@@ -123,7 +123,7 @@ void ECMLogging::writeCurrentOperationalSettings(const std::string &operationalS
     out << str;
 }
 
-void ECMLogging::beginLoggingOperationalData()
+void ECMLogging::beginLoggingOperationalData(const ProfileOpType &type)
 {
     if(!loggingInitialized)
         return;
@@ -134,11 +134,29 @@ void ECMLogging::beginLoggingOperationalData()
     QString str;
     QTextStream stringWriter(&str, QIODevice::WriteOnly);
 
-    stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
-    stringWriter<<"OPERATIONAL DATA: \n";
-    stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
+    switch (type) {
+    case ProfileOpType::OPERATION:
+    {
+        stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
+        stringWriter<<"OPERATIONAL DATA: \n";
+        stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
 
-    stringWriter <<"\r\n";
+        stringWriter <<"\r\n";
+
+        break;
+    }
+    case ProfileOpType::PAUSE:
+    {
+        stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
+        stringWriter<<"THERE IS NO OPERATIONAL DATA OR SETTINGS FOR THIS TYPE OF OPERATION \n";
+        stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
+
+        stringWriter <<"\r\n";
+        break;
+    }
+    default:
+        break;
+    }
 
     stringWriter.flush();
     QTextStream out(masterLog);
@@ -190,12 +208,6 @@ void ECMLogging::writePauseLoggingHeader(const std::string &partNumber, const st
     stringWriter << "Descriptor (Optional): " << QString::fromStdString(descriptor) <<"\r\n" <<"\r\n";
 
     this->WriteLogSoftwareVersions(stringWriter);
-
-    stringWriter <<"\r\n";
-
-    stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
-    stringWriter<<"THERE IS NO OPERATIONAL DATA OR SETTINGS FOR THIS TYPE OF OPERATION \n";
-    stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
 
     stringWriter <<"\r\n";
 

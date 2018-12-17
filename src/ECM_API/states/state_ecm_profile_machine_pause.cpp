@@ -93,6 +93,7 @@ void ECMState_ProfileMachinePause::stopProcess()
 
 void ECMState_ProfileMachinePause::continueProcess()
 {
+    m_Config->execProperties.setProfileCode(ProfileState_Machining::MACHININGProfileCodes::COMPLETE);
     desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION;
 }
 

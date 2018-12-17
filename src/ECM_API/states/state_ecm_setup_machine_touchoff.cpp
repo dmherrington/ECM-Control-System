@@ -89,7 +89,6 @@ void ECMState_SetupMachineTouchoff::OnEnter(ECMCommand_AbstractProfileConfigPtr 
             desiredState = ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_CONNECT;
         else
             desiredState = ECMState::STATE_ECM_SETUP_MACHINE_PUMP;
-
         break;
     }
     default:

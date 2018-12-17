@@ -86,7 +86,6 @@ void ECMState_UploadPumpParameters::OnEnter(ECMCommand_AbstractProfileConfigPtr 
         });
 
         Owner().m_Pump->setPumpProperties(castConfig->m_PumpParameters);
-
         break;
     }
 

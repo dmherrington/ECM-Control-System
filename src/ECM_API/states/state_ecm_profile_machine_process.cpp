@@ -116,7 +116,6 @@ void ECMState_ProfileMachineProcess::OnEnter(ECMCommand_AbstractProfileConfigPtr
         });
 
         Owner().executeExplicitProfile(castConfig);
-
         break;
     }
     default:

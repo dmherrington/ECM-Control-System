@@ -87,7 +87,6 @@ void ECMState_UploadPowerRegisterSegments::OnEnter(ECMCommand_AbstractProfileCon
         });
 
         Owner().m_Munk->generateAndTransmitMessage(castConfig->m_ConfigPowerSupply.m_MunkSegment);
-
         break;
     }
     default:

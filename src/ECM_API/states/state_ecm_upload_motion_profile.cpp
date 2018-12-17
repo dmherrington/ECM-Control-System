@@ -91,7 +91,6 @@ void ECMState_UploadMotionProfile::OnEnter(ECMCommand_AbstractProfileConfigPtr c
         CommandUploadProgramPtr cmdProgram = std::make_shared<CommandUploadProgram>();
         cmdProgram->setCurrentScript(castConfig->m_GalilOperation.getProgram());
         Owner().m_Galil->executeCommand(cmdProgram);
-
         break;
     }
     default:

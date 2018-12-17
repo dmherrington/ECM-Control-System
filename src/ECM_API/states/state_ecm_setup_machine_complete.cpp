@@ -9,7 +9,6 @@ ECMState_SetupMachineComplete::ECMState_SetupMachineComplete():
     std::cout<<"We are currently in the constructor of STATE_ECM_SETUP_MACHINE_COMPLETE."<<std::endl;
     this->currentState = ECMState::STATE_ECM_SETUP_MACHINE_COMPLETE;
     this->desiredState = ECMState::STATE_ECM_SETUP_MACHINE_COMPLETE;
-    //AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 void ECMState_SetupMachineComplete::OnExit()
@@ -46,7 +45,7 @@ void ECMState_SetupMachineComplete::OnEnter()
 
 void ECMState_SetupMachineComplete::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
 {
-    this->OnEnter();
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
 } //end of namespace API

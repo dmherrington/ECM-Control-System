@@ -44,7 +44,7 @@ public:
 
     void writeCurrentOperationalSettings(const std::string &operationalSettings);
 
-    void beginLoggingOperationalData();
+    void beginLoggingOperationalData(const ProfileOpType &type);
 
 
 public:

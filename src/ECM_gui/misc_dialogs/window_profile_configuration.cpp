@@ -382,7 +382,7 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
                 break;
             }
 
-            TableWidget_OperationDescriptor* currentWidget = this->addOperation(opType, loadConfig->getOperationIndex(), loadConfig->getOperationName());
+            TableWidget_OperationDescriptor* currentWidget = this->addOperation(opType, loadConfig->getOperationIndex() - 1, loadConfig->getOperationName());
             currentWidget->loadFromProfileConfiguration(loadConfig);
 
             //Object will contain all of the profiles used for the profile

@@ -94,11 +94,13 @@ void ECMState_ProfileMachine::OnEnter(const ECMCommand_ExecuteCollection &collec
     switch (currentConfig->getConfigType()) {
     case ProfileOpType::OPERATION:
     {
+        Owner().beginLoggingOperationalData(ProfileOpType::OPERATION);
         this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS;
         break;
     }
     case ProfileOpType::PAUSE:
     {
+        Owner().beginLoggingOperationalData(ProfileOpType::PAUSE);
         this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_PAUSED;
         break;
     }

@@ -60,7 +60,8 @@ void ECMState_SetupMachineHome::OnEnter(ECMCommand_AbstractProfileConfigPtr conf
 {
     this->m_Config = configuration;
 
-    this->OnEnter();
+    AbstractStateECMProcess::notifyOwnerStateTransition();
+
 
     //check that we should indicate home and it has not previously completed
     if(this->m_Config->shouldHomeBeIndicated() && !Owner().m_Galil->stateInterface->isHomeInidcated())
