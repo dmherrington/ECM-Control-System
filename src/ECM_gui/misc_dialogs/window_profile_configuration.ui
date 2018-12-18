@@ -837,6 +837,7 @@ padding:5px;
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="separator"/>
     <addaction name="actionSave"/>
@@ -887,11 +888,13 @@ padding:5px;
    </property>
   </action>
   <action name="actionMotion_Profile">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="text">
     <string>Motion Profile</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="text">
+    <string>New</string>
    </property>
   </action>
  </widget>

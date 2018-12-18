@@ -33,6 +33,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     qRegisterMetaType<QCustomPlot::RefreshPriority>("QCustomPlot::RefreshPriority");
 
+    qRegisterMetaType<std::vector<std::string>>("std::vector<std::string>");
+
     ui->setupUi(this);
 
     common::EnvironmentTime startTime;
@@ -891,6 +893,8 @@ void ECMControllerGUI::updateMCIndicators(const MotionProfileState &profileState
     case MotionProfile::ProfileType::TOUCHOFF:
     {
         ProfileState_Touchoff* castState = (ProfileState_Touchoff*)profileState.getProfileState().get();
+        ui->statusBar->showMessage(QString::fromStdString(ProfileState_Touchoff::TOUCHOFFCodesToString(castState->getCurrentCode())),3000);
+
         switch (castState->getCurrentCode()) {
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_POSITIONAL:
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_INCONSISTENT:
@@ -915,6 +919,7 @@ void ECMControllerGUI::updateMCIndicators(const MotionProfileState &profileState
     case MotionProfile::ProfileType::HOMING:
     {
         ProfileState_Homing* castState = (ProfileState_Homing*)profileState.getProfileState().get();
+        ui->statusBar->showMessage(QString::fromStdString(ProfileState_Homing::HOMINGCodesToString(castState->getCurrentCode())),3000);
         switch (castState->getCurrentCode()) {
         case ProfileState_Homing::HOMINGProfileCodes::COMPLETE:
         {
@@ -1007,6 +1012,8 @@ void ECMControllerGUI::slot_MunkFaultCodeStatus(const bool &status, const std::v
 {
     if(status)
     {
+        if(errors.size() > 0)
+            ui->statusBar->showMessage(QString::fromStdString(errors.at(0)),3000);
         ui->widget_LEDMunkError->setColor(QColor(255,0,0));
     }
     else

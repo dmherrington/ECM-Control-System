@@ -42,6 +42,7 @@ public:
     QAction *actionSave_As;
     QAction *actionClose;
     QAction *actionMotion_Profile;
+    QAction *actionNew;
     QWidget *centralwidget;
     QGridLayout *gridLayout_2;
     QVBoxLayout *verticalLayout_2;
@@ -225,7 +226,8 @@ public:
         actionClose->setObjectName(QStringLiteral("actionClose"));
         actionMotion_Profile = new QAction(Window_ProfileConfiguration);
         actionMotion_Profile->setObjectName(QStringLiteral("actionMotion_Profile"));
-        actionMotion_Profile->setCheckable(true);
+        actionNew = new QAction(Window_ProfileConfiguration);
+        actionNew->setObjectName(QStringLiteral("actionNew"));
         centralwidget = new QWidget(Window_ProfileConfiguration);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         gridLayout_2 = new QGridLayout(centralwidget);
@@ -621,6 +623,7 @@ public:
         menubar->addAction(menuEdit->menuAction());
         menubar->addAction(menuTools->menuAction());
         menubar->addAction(menuHelp->menuAction());
+        menuFile->addAction(actionNew);
         menuFile->addAction(actionOpen);
         menuFile->addSeparator();
         menuFile->addAction(actionSave);
@@ -645,6 +648,7 @@ public:
         actionSave_As->setText(QApplication::translate("Window_ProfileConfiguration", "Save As", nullptr));
         actionClose->setText(QApplication::translate("Window_ProfileConfiguration", "Close", nullptr));
         actionMotion_Profile->setText(QApplication::translate("Window_ProfileConfiguration", "Motion Profile", nullptr));
+        actionNew->setText(QApplication::translate("Window_ProfileConfiguration", "New", nullptr));
         label_ManualControl_6->setText(QApplication::translate("Window_ProfileConfiguration", "Profile Configuration", nullptr));
         label_3->setText(QApplication::translate("Window_ProfileConfiguration", "Current Configuration:", nullptr));
         label_2->setText(QApplication::translate("Window_ProfileConfiguration", "Galil Script:", nullptr));

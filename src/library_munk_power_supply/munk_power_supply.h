@@ -181,4 +181,6 @@ private:
 
 };
 
+Q_DECLARE_METATYPE(std::vector<std::string>)
+
 #endif // MUNK_POWER_SUPPLY_H

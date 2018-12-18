@@ -416,3 +416,9 @@ void Window_ProfileConfiguration::on_actionMotion_Profile_triggered(bool checked
     else
         m_WindowMotionProfile->hide();
 }
+
+void Window_ProfileConfiguration::on_actionNew_triggered(bool checked)
+{
+    UNUSED(checked);
+    clearExistingOperations();
+}

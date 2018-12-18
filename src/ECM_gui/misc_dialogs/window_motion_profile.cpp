@@ -134,7 +134,7 @@ void Window_MotionProfile::openFromFile(const QString &filePath)
     file.close();
 
     ui->lineEdit_motionScriptPath->setText(filePath);
-    ui->codeTextEdit->setPlainText(programText);
+    this->setProgramText(programText.toStdString());
 }
 
 void Window_MotionProfile::updateStatusLED(const QColor &color)

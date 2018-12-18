@@ -91,6 +91,8 @@ private slots:
 
     void on_actionMotion_Profile_triggered(bool checked);
 
+    void on_actionNew_triggered(bool checked);
+
 private:
     void setIndicateHome(const bool &checked);
 
