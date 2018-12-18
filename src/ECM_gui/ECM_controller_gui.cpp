@@ -247,7 +247,7 @@ void ECMControllerGUI::slot_DisplayActionTriggered()
                 bool useSecondaryAxis = true;
                 if(key.getData()->HumanName().toStdString() == "ppos")
                 {
-                    useSecondaryAxis = true;
+                    useSecondaryAxis = false;
                     invertAxis = true;
                 }
                 ui->widget_primaryPlot->AddPlot(plot, key.getData()->HumanName().toStdString(), useSecondaryAxis, invertAxis);
