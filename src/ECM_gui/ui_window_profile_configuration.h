@@ -631,7 +631,7 @@ public:
 
         retranslateUi(Window_ProfileConfiguration);
 
-        comboBox_ProfileType->setCurrentIndex(1);
+        comboBox_ProfileType->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(Window_ProfileConfiguration);
@@ -654,8 +654,8 @@ public:
         label->setText(QApplication::translate("Window_ProfileConfiguration", "Operations:", nullptr));
         pushButton_AddOperation->setText(QApplication::translate("Window_ProfileConfiguration", "Add Operation", nullptr));
         pushButton_RemoveOperation->setText(QApplication::translate("Window_ProfileConfiguration", "Remove Operation", nullptr));
-        comboBox_ProfileType->setItemText(0, QApplication::translate("Window_ProfileConfiguration", "PAUSE", nullptr));
-        comboBox_ProfileType->setItemText(1, QApplication::translate("Window_ProfileConfiguration", "OPERATION", nullptr));
+        comboBox_ProfileType->setItemText(0, QApplication::translate("Window_ProfileConfiguration", "OPERATION", nullptr));
+        comboBox_ProfileType->setItemText(1, QApplication::translate("Window_ProfileConfiguration", "PAUSE", nullptr));
 
         groupBox->setTitle(QApplication::translate("Window_ProfileConfiguration", "Settings", nullptr));
         checkBox_ShouldHomeBeIndicated->setText(QApplication::translate("Window_ProfileConfiguration", "Indicate Home Autonomously", nullptr));

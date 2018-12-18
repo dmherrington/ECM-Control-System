@@ -724,16 +724,16 @@ width:20px;
              </font>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <property name="text">
-              <string>PAUSE</string>
+              <string>OPERATION</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>OPERATION</string>
+              <string>PAUSE</string>
              </property>
             </item>
            </widget>

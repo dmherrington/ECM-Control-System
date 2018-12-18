@@ -25,6 +25,7 @@ namespace API {
 ECM_CLASS_FORWARD(ECMState_UploadPowerRegisterSegments);
 
 class ECMState_UploadPowerPulseMode;
+class ECMState_UploadPumpParameters;
 class ECMState_UploadFailed;
 
 class ECMState_UploadPowerRegisterSegments : public AbstractStateECMProcess

@@ -123,6 +123,10 @@ void ECMState_SetupMachinePump::OnEnter(ECMCommand_AbstractProfileConfigPtr conf
             newOps.shouldRun(castConfig->m_PumpParameters.shouldPumpBeUtilized());
             Owner().m_Pump->setPumpOperations(newOps);
         }
+        else if(!castConfig->m_PumpParameters.shouldPumpBeUtilized() && !Owner().m_Pump->isPumpRunning())
+        {
+            desiredState = ECMState::STATE_ECM_SETUP_MACHINE_COMPLETE;
+        }
         break;
     }
     default:

@@ -310,8 +310,9 @@ public:
         doubleSpinBox_CutDepth->setMinimumSize(QSize(100, 25));
         doubleSpinBox_CutDepth->setFont(font1);
         doubleSpinBox_CutDepth->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox_CutDepth->setMaximum(1000);
-        doubleSpinBox_CutDepth->setValue(40);
+        doubleSpinBox_CutDepth->setDecimals(1);
+        doubleSpinBox_CutDepth->setMaximum(150000);
+        doubleSpinBox_CutDepth->setValue(50);
 
         formLayout_2->setWidget(0, QFormLayout::FieldRole, doubleSpinBox_CutDepth);
 
@@ -322,6 +323,7 @@ public:
         doubleSpinBox_CutSpeed->setMinimumSize(QSize(100, 25));
         doubleSpinBox_CutSpeed->setFont(font1);
         doubleSpinBox_CutSpeed->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        doubleSpinBox_CutSpeed->setDecimals(1);
         doubleSpinBox_CutSpeed->setMinimum(0);
         doubleSpinBox_CutSpeed->setMaximum(1000);
         doubleSpinBox_CutSpeed->setValue(0.4);
@@ -408,7 +410,8 @@ public:
         doubleSpinBox_RetractDistance->setMinimumSize(QSize(100, 25));
         doubleSpinBox_RetractDistance->setFont(font1);
         doubleSpinBox_RetractDistance->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox_RetractDistance->setMaximum(1000);
+        doubleSpinBox_RetractDistance->setDecimals(1);
+        doubleSpinBox_RetractDistance->setMaximum(150000);
         doubleSpinBox_RetractDistance->setValue(100);
 
         formLayout->setWidget(2, QFormLayout::FieldRole, doubleSpinBox_RetractDistance);
@@ -431,6 +434,7 @@ public:
         doubleSpinBox_StepSize->setFont(font1);
         doubleSpinBox_StepSize->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         doubleSpinBox_StepSize->setDecimals(3);
+        doubleSpinBox_StepSize->setMaximum(1000);
         doubleSpinBox_StepSize->setValue(0.05);
 
         formLayout->setWidget(3, QFormLayout::FieldRole, doubleSpinBox_StepSize);
@@ -532,7 +536,7 @@ public:
 
         retranslateUi(Widget_ScriptingVariables);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(Widget_ScriptingVariables);

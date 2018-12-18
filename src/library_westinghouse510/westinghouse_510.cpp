@@ -207,6 +207,7 @@ void Westinghouse510::parseReceivedMessage(const comms_WestinghousePump::Westing
                     else{
                         if(initializationTimer->isActive())
                             initializationTimer->stop();
+                        initializationTimer->start();
                         this->m_State->pumpInitialized.set(false);
                     }
 

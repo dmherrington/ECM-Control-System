@@ -45,6 +45,11 @@ hsm::Transition ECMState_UploadPowerRegisterSegments::GetTransition()
             rtn = hsm::SiblingTransition<ECMState_UploadPowerPulseMode>(this->m_Config);
             break;
         }
+        case ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS:
+        {
+            rtn = hsm::SiblingTransition<ECMState_UploadPumpParameters>(this->m_Config);
+            break;
+        }
         default:
             std::cout<<"I dont know how we eneded up in this transition state from "<<ECMStateToString(this->currentState)<<"."<<std::endl;
             break;
@@ -75,18 +80,25 @@ void ECMState_UploadPowerRegisterSegments::OnEnter(ECMCommand_AbstractProfileCon
     {
         ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(config);
 
-        Owner().m_Munk->AddLambda_FinishedUploadingSegments(this,[this](const bool completed, const DeviceInterface_PowerSupply::FINISH_CODE finishCode){
-            UNUSED(finishCode);
-            if(completed)
-                {
-                    desiredState = ECMState::STATE_ECM_UPLOAD_POWER_PULSE_MODE;
-                }else
-                {
-                    desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
-                }
-        });
+        if(castConfig->m_ConfigPowerSupply.m_MunkSegment.getRegisterData().size() > 0)
+        {
+            Owner().m_Munk->AddLambda_FinishedUploadingSegments(this,[this](const bool completed, const DeviceInterface_PowerSupply::FINISH_CODE finishCode){
+                UNUSED(finishCode);
+                if(completed)
+                    {
+                        desiredState = ECMState::STATE_ECM_UPLOAD_POWER_PULSE_MODE;
+                    }else
+                    {
+                        desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
+                    }
+            });
 
-        Owner().m_Munk->generateAndTransmitMessage(castConfig->m_ConfigPowerSupply.m_MunkSegment);
+            Owner().m_Munk->generateAndTransmitMessage(castConfig->m_ConfigPowerSupply.m_MunkSegment);
+        }
+        else
+        {
+            desiredState = ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS;
+        }
         break;
     }
     default:
@@ -100,4 +112,5 @@ void ECMState_UploadPowerRegisterSegments::OnEnter(ECMCommand_AbstractProfileCon
 } //end of namespace ECM
 
 #include "states/state_ecm_upload_power_pulse_mode.h"
+#include "states/state_ecm_upload_pump_parameters.h"
 #include "states/state_ecm_upload_failed.h"
