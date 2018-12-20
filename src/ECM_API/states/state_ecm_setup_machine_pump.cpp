@@ -87,7 +87,7 @@ void ECMState_SetupMachinePump::OnEnter(ECMCommand_AbstractProfileConfigPtr conf
             newOps.shouldRun(castConfig->m_PumpParameters.shouldPumpBeUtilized());
             Owner().m_Pump->setPumpOperations(newOps);
         }
-        else if(!Owner().m_Pump->isPumpInitialized()) //the pump is already running, however, is not currently initialized
+        else if(castConfig->m_PumpParameters.shouldPumpBeUtilized() && !Owner().m_Pump->isPumpInitialized()) //the pump is already running, however, is not currently initialized
         {
             Owner().m_Pump->AddLambda_FinishedPumpInitialization(this,[this](const bool &completed){
                 if(completed)

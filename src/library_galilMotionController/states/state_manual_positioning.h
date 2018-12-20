@@ -37,7 +37,7 @@ public:
     void OnEnter(const AbstractCommandPtr command);
 
 private:
-    unsigned int targetPosition;
+
 };
 
 } //end of namespace Galil

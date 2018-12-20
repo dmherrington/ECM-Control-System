@@ -13,6 +13,7 @@ State_ManualPositioning::State_ManualPositioning():
 void State_ManualPositioning::OnExit()
 {
     Owner().getAxisStatus(MotorAxis::Z)->stopCode.RemoveNotifier(this);
+    Owner().getAxisStatus(MotorAxis::Z)->position.RemoveNotifier(this);
 }
 
 AbstractStateGalil* State_ManualPositioning::getClone() const
@@ -67,7 +68,16 @@ void State_ManualPositioning::handleCommand(const AbstractCommandPtr command)
     }
     case CommandType::RELATIVE_MOVE:
     {
-        this->targetPosition = Owner().getAxisStatus(MotorAxis::Z)->getPosition().getPosition() + command->as<CommandRelativeMove>()->getRelativeDistance(MotorAxis::Z);
+        int targetPosition = Owner().getAxisStatus(MotorAxis::Z)->getPosition().getPosition() + command->as<CommandRelativeMove>()->getRelativeDistance(MotorAxis::Z) * 10;
+        Owner().getAxisStatus(MotorAxis::Z)->position.AddNotifier(this,[this, targetPosition]
+        {
+            int currentPosition = Owner().getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+            if(abs(currentPosition - targetPosition) < 2)
+            {
+                this->desiredState = GalilState::STATE_READY;
+            }
+        });
+
         Owner().issueGalilMotionCommand(command);
         break;
     }
