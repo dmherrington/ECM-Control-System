@@ -16,6 +16,11 @@ void ECMState_UploadMotionProfile::OnExit()
     Owner().m_Galil->RemoveHost(this);
 }
 
+void ECMState_UploadMotionProfile::stopProcess()
+{
+    desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
+}
+
 AbstractStateECMProcess* ECMState_UploadMotionProfile::getClone() const
 {
     return (new ECMState_UploadMotionProfile(*this));

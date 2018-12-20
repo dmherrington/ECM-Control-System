@@ -16,6 +16,11 @@ void ECMState_UploadPowerPulseMode::OnExit()
     Owner().m_Munk->RemoveHost(this);
 }
 
+void ECMState_UploadPowerPulseMode::stopProcess()
+{
+    desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
+}
+
 AbstractStateECMProcess* ECMState_UploadPowerPulseMode::getClone() const
 {
     return (new ECMState_UploadPowerPulseMode(*this));

@@ -16,6 +16,11 @@ void ECMState_UploadPowerRegisterSegments::OnExit()
     Owner().m_Munk->RemoveHost(this);
 }
 
+void ECMState_UploadPowerRegisterSegments::stopProcess()
+{
+    desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
+}
+
 AbstractStateECMProcess* ECMState_UploadPowerRegisterSegments::getClone() const
 {
     return (new ECMState_UploadPowerRegisterSegments(*this));

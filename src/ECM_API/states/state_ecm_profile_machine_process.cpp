@@ -18,7 +18,7 @@ void ECMState_ProfileMachineProcess::OnExit()
 
 void ECMState_ProfileMachineProcess::stopProcess()
 {
-
+    this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_ABORT;
 }
 
 AbstractStateECMProcess* ECMState_ProfileMachineProcess::getClone() const

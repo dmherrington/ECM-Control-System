@@ -171,7 +171,7 @@ void ECMControllerGUI::setupUploadCallbacks()
         UNUSED(success);UNUSED(variableList);UNUSED(this);
     });
     m_API->m_Galil->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
-       UNUSED(profileState); UNUSED(this);
+        this->updateMCIndicators(profileState);
     });
 
     m_API->m_Munk->AddLambda_FinishedUploadingSegments(this,[this](const bool success, const DeviceInterface_PowerSupply::FINISH_CODE &finishCode){

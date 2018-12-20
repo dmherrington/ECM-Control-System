@@ -16,6 +16,11 @@ void ECMState_SetupMachinePump::OnExit()
     Owner().m_Pump->RemoveHost(this);
 }
 
+void ECMState_SetupMachinePump::stopProcess()
+{
+    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
+}
+
 AbstractStateECMProcess* ECMState_SetupMachinePump::getClone() const
 {
     return (new ECMState_SetupMachinePump(*this));

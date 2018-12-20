@@ -16,6 +16,11 @@ void ECMState_ProfileMachinePause::OnExit()
 
 }
 
+void ECMState_ProfileMachinePause::stopProcess()
+{
+    this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_ABORT;
+}
+
 AbstractStateECMProcess* ECMState_ProfileMachinePause::getClone() const
 {
     return (new ECMState_ProfileMachinePause(*this));
@@ -84,11 +89,6 @@ void ECMState_ProfileMachinePause::OnEnter(ECMCommand_AbstractProfileConfigPtr c
         std::cout<<"We have the wrong config type in the machine pause operation."<<std::endl;
         break;
     }
-}
-
-void ECMState_ProfileMachinePause::stopProcess()
-{
-    desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_ABORT;
 }
 
 void ECMState_ProfileMachinePause::continueProcess()

@@ -16,6 +16,11 @@ void ECMState_SetupMachineHome::OnExit()
     Owner().m_Galil->RemoveHost(this);
 }
 
+void ECMState_SetupMachineHome::stopProcess()
+{
+    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
+}
+
 AbstractStateECMProcess* ECMState_SetupMachineHome::getClone() const
 {
     return (new ECMState_SetupMachineHome(*this));

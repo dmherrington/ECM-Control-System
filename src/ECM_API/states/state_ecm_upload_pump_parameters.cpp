@@ -16,6 +16,11 @@ void ECMState_UploadPumpParameters::OnExit()
     Owner().m_Pump->RemoveHost(this);
 }
 
+void ECMState_UploadPumpParameters::stopProcess()
+{
+    desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
+}
+
 AbstractStateECMProcess* ECMState_UploadPumpParameters::getClone() const
 {
     return (new ECMState_UploadPumpParameters(*this));

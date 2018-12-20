@@ -49,6 +49,8 @@ public:
     void Update() override;
     void OnExit() override;
 
+    void stopProcess() override;
+
 public:
     hsm::Transition GetTransition() override;
 
