@@ -62,26 +62,12 @@ void State_ManualPositioning::handleCommand(const AbstractCommandPtr command)
     switch (command->getCommandType()) {
     case CommandType::ABSOLUTE_MOVE:
     {
-//        Owner().getAxisStatus(MotorAxis::Z)->axisMoving.AddNotifier(this,[this]
-//        {
-//            if(Owner().getAxisStatus(MotorAxis::Z)->axisMoving.get())
-//                motionFlag = true;
-//        });
-
-        //CommandAbsoluteMovePtr castCommand = std::make_shared<CommandAbsoluteMove>(*copyCommand->as<CommandAbsoluteMove>());
-        //this->clearCommand();
         Owner().issueGalilMotionCommand(command);
         break;
     }
     case CommandType::RELATIVE_MOVE:
     {
-//        Owner().getAxisStatus(MotorAxis::Z)->axisMoving.AddNotifier(this,[this]
-//        {
-//            if(Owner().getAxisStatus(MotorAxis::Z)->axisMoving.get())
-//                motionFlag = true;
-//        });
-        //CommandRelativeMovePtr castCommand = std::make_shared<CommandRelativeMove>(*copyCommand->as<CommandRelativeMove>());
-        //this->clearCommand();
+        this->targetPosition = Owner().getAxisStatus(MotorAxis::Z)->getPosition().getPosition() + command->as<CommandRelativeMove>()->getRelativeDistance(MotorAxis::Z);
         Owner().issueGalilMotionCommand(command);
         break;
     }
@@ -116,6 +102,13 @@ void State_ManualPositioning::Update()
         //we should therefore transition to the idle state
         desiredState = GalilState::STATE_ESTOP;
         return;
+    }
+    else
+    {
+        if(this->currentCommand->getCommandType() == CommandType::RELATIVE_MOVE)
+        {
+
+        }
     }
 }
 

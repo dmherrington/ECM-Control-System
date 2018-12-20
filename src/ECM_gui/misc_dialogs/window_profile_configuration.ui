@@ -888,6 +888,9 @@ padding:5px;
    </property>
   </action>
   <action name="actionMotion_Profile">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Motion Profile</string>
    </property>

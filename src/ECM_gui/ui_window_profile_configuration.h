@@ -226,6 +226,7 @@ public:
         actionClose->setObjectName(QStringLiteral("actionClose"));
         actionMotion_Profile = new QAction(Window_ProfileConfiguration);
         actionMotion_Profile->setObjectName(QStringLiteral("actionMotion_Profile"));
+        actionMotion_Profile->setCheckable(true);
         actionNew = new QAction(Window_ProfileConfiguration);
         actionNew->setObjectName(QStringLiteral("actionNew"));
         centralwidget = new QWidget(Window_ProfileConfiguration);

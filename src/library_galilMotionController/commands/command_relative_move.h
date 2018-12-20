@@ -53,6 +53,8 @@ public:
     void setRelativeDirection(const MotorAxis &axis, const Direction &direction);
     void setRelativeDistance(const MotorAxis &axis, const int &distance);
 
+    int getRelativeDistance(const MotorAxis &axis) const;
+
 public:
     std::string getCommandString() const override;
 

@@ -226,7 +226,7 @@ public:
         doubleSpinBox_TouchoffRef->setFont(font1);
         doubleSpinBox_TouchoffRef->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         doubleSpinBox_TouchoffRef->setDecimals(1);
-        doubleSpinBox_TouchoffRef->setMaximum(100000);
+        doubleSpinBox_TouchoffRef->setMaximum(500000);
 
         horizontalLayout->addWidget(doubleSpinBox_TouchoffRef);
 
