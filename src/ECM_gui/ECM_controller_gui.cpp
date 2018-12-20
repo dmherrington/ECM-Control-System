@@ -67,6 +67,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     ui->widget_LEDMunkError->setDiameter(5);
     ui->widget_LEDMunkError->setColor(QColor(0,255,0));
 
+    connect(this,SIGNAL(signal_newMotionProfileState(MotionProfileState)),this,SLOT(slot_onNewMotionProfileState(MotionProfileState)));
+
     m_API = new ECM_API();
     m_API->m_Log->setLoggingStartTime(startTime);
 
@@ -171,7 +173,8 @@ void ECMControllerGUI::setupUploadCallbacks()
         UNUSED(success);UNUSED(variableList);UNUSED(this);
     });
     m_API->m_Galil->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
-        this->updateMCIndicators(profileState);
+        emit this->signal_newMotionProfileState(profileState);
+        //this->updateMCIndicators(profileState);
     });
 
     m_API->m_Munk->AddLambda_FinishedUploadingSegments(this,[this](const bool success, const DeviceInterface_PowerSupply::FINISH_CODE &finishCode){
@@ -189,6 +192,11 @@ void ECMControllerGUI::setupUploadCallbacks()
     m_API->m_Pump->AddLambda_FinishedPumpInitialization(this,[this](const bool completed){
         UNUSED(completed);UNUSED(this);
     });
+}
+
+void ECMControllerGUI::slot_onNewMotionProfileState(const MotionProfileState &profileState)
+{
+    this->updateMCIndicators(profileState);
 }
 
 void ECMControllerGUI::on_actionClose_triggered()

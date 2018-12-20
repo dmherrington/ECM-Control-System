@@ -51,6 +51,11 @@ private:
 
     void updateMCIndicators(const MotionProfileState &profileState);
 
+signals:
+    void signal_newMotionProfileState(const MotionProfileState &profileState);
+private slots:
+    void slot_onNewMotionProfileState(const MotionProfileState &profileState);
+
 private slots:
     void CreateSensorDisplays(const common::TupleSensorString &sensor, const common_data::SensorTypes &type);
     Q_INVOKABLE void MarshalCreateSensorDisplay(const common::TupleSensorString &sensor, const common_data::SensorTypes &type);

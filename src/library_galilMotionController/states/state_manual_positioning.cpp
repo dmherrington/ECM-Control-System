@@ -115,10 +115,7 @@ void State_ManualPositioning::Update()
     }
     else
     {
-        if(this->currentCommand->getCommandType() == CommandType::RELATIVE_MOVE)
-        {
 
-        }
     }
 }
 
