@@ -48,11 +48,18 @@ Widget_ScriptingVariables::~Widget_ScriptingVariables()
 
 void Widget_ScriptingVariables::loadFromCurrentProgram(const GalilCurrentProgram &program, const std::string &profileName)
 {
+    //This will allow us to save the old variables first
+    ProgramVariableList oldVariableList = m_OperationalProgram.getVariableList();
+
+    //Load what we can from the new program
     m_OperationalProgram = program;
     updateProgramVariables(m_OperationalProgram.getVariableList());
     updateProgramLabels(m_OperationalProgram.getLabelList());
     if(!profileName.empty())
         this->setProfileName(profileName);
+
+    //Restore the old variable list
+    updateProgramVariables(oldVariableList);
 }
 
 void Widget_ScriptingVariables::setProfileName(const std::string &name)
