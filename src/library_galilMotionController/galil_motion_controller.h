@@ -81,7 +81,7 @@ public:
     void initializeMotionController();
 
 public:
-    std::string getCurrentMCState() const;
+    ECM::Galil::GalilState getCurrentMCState() const;
 
     StatusInputs getCurrent_MCDIO() const;
 
@@ -207,7 +207,7 @@ signals:
     //! \brief signal_MCNewMotionState signal emitted when the state machine has progressed to a new state
     //! \param state string descriptor describing the state the galil motion controller is in
     //!
-    void signal_MCNewMotionState(const QString &stateString) const;
+    void signal_MCNewMotionState(const ECM::Galil::GalilState &state, const QString &stateString) const;
 
     //!
     //! \brief signal_MCNewProgramReceived
@@ -269,5 +269,8 @@ private:
 
     std::string deviceName;
 };
+
+Q_DECLARE_METATYPE(ECM::Galil::GalilState)
+
 
 #endif // GALIL_MOTION_CONTROLLER_H

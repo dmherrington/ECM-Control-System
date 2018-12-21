@@ -100,7 +100,7 @@ private slots:
 * Private Slots related to the motion controller
 */
 private slots:
-    void slot_MCNewMotionState(const QString &state);
+    void slot_MCNewMotionState(const ECM::Galil::GalilState &state, const QString &stateString);
 
     void slot_MCNewDigitalInput(const StatusInputs &status);
 

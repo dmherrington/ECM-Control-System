@@ -35,6 +35,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     qRegisterMetaType<std::vector<std::string>>("std::vector<std::string>");
 
+    qRegisterMetaType<ECM::Galil::GalilState>("ECM::Galil::GalilState");
+
     ui->setupUi(this);
 
     common::EnvironmentTime startTime;
@@ -95,8 +97,9 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_Galil, SIGNAL(signal_ErrorCommandCode(CommandType,std::string)), this, SLOT(slot_MCCommandError(CommandType,std::string)));
     connect(m_API->m_Galil,SIGNAL(signal_GalilHomeIndicated(bool)),this,SLOT(slot_UpdateHomeIndicated(bool)));
     connect(m_API->m_Galil,SIGNAL(signal_GalilTouchoffIndicated(bool)),this,SLOT(slot_UpdateTouchoff(bool)));
-    connect(m_API->m_Galil, SIGNAL(signal_MCNewMotionState(QString)), this, SLOT(slot_MCNewMotionState(QString)));
-    this->slot_MCNewMotionState(QString::fromStdString(m_API->m_Galil->getCurrentMCState()));
+    connect(m_API->m_Galil, SIGNAL(signal_MCNewMotionState(ECM::Galil::GalilState, QString)), this, SLOT(slot_MCNewMotionState(ECM::Galil::GalilState, QString)));
+    ECM::Galil::GalilState currentState = m_API->m_Galil->getCurrentMCState();
+    this->slot_MCNewMotionState(currentState, QString::fromStdString(ECMStateToString(currentState)));
     connect(m_API->m_Munk, SIGNAL(signal_MunkFaultCodeStatus(bool,std::vector<std::string>)),
             this, SLOT(slot_MunkFaultCodeStatus(bool,std::vector<std::string>)));
 
@@ -331,9 +334,10 @@ void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalStrin
     ProgressStateMachineStates();
 }
 
-void ECMControllerGUI::slot_MCNewMotionState(const QString &state)
+void ECMControllerGUI::slot_MCNewMotionState(const ECM::Galil::GalilState &state, const QString &stateString)
 {
-    ui->lineEdit_GalilState->setText("State: " + state);
+    UNUSED(state);
+    ui->lineEdit_GalilState->setText("State: " + stateString);
 }
 
 void ECMControllerGUI::slot_MCNewDigitalInput(const StatusInputs &status)
@@ -735,7 +739,19 @@ void ECMControllerGUI::on_pushButton_Stop_released()
 
 void ECMControllerGUI::on_actionClear_All_Data_triggered()
 {
+    EnvironmentTime startTime;
+    EnvironmentTime::CurrentTime(TimeDevice, startTime);
+
+    QDate tmp_Date(startTime.year, startTime.month, startTime.dayOfMonth);
+    QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond);
+
     m_PlotCollection.ClearAllData();
+
+    //Update plot properties of the current start time
+    ui->widget_primaryPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
+    ui->widget_primaryPlotCurrent->setOriginTime(QDateTime(tmp_Date, tmp_Time));
+    ui->widget_primaryPlotVoltage->setOriginTime(QDateTime(tmp_Date, tmp_Time));
+    m_additionalSensorDisplay->SetOriginTime(QDateTime(tmp_Date, tmp_Time));
 }
 
 void ECMControllerGUI::slot_MCCommandError(const CommandType &type, const string &description)

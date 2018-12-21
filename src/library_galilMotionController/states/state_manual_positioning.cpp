@@ -68,11 +68,11 @@ void State_ManualPositioning::handleCommand(const AbstractCommandPtr command)
     }
     case CommandType::RELATIVE_MOVE:
     {
-        int targetPosition = Owner().getAxisStatus(MotorAxis::Z)->getPosition().getPosition() + command->as<CommandRelativeMove>()->getRelativeDistance(MotorAxis::Z) * 10;
-        Owner().getAxisStatus(MotorAxis::Z)->position.AddNotifier(this,[this, targetPosition]
+        this->targetPosition = Owner().getAxisStatus(MotorAxis::Z)->getPosition().getPosition() + command->as<CommandRelativeMove>()->getRelativeDistance(MotorAxis::Z) * 10;
+        Owner().getAxisStatus(MotorAxis::Z)->position.AddNotifier(this,[this]
         {
             int currentPosition = Owner().getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
-            if(abs(currentPosition - targetPosition) < 2)
+            if(abs(currentPosition - this->targetPosition) < 2)
             {
                 this->desiredState = GalilState::STATE_READY;
             }
@@ -115,7 +115,11 @@ void State_ManualPositioning::Update()
     }
     else
     {
-
+        int currentPosition = Owner().getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+        if(abs(currentPosition - this->targetPosition) < 2)
+        {
+            this->desiredState = GalilState::STATE_READY;
+        }
     }
 }
 

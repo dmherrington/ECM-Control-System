@@ -171,7 +171,7 @@ private:
     QMutex m_UnitMutex;
 
     //! Mutex to protect critical resources.
-    QMutex m_DataMutex;
+    std::mutex m_DataMutex;
 
 
     QList<QDateTime> m_TempDomainAdd;

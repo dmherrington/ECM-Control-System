@@ -144,12 +144,12 @@ void GalilMotionController::initializeMotionController()
     common::TuplePositionalString tuplePos;
     tuplePos.axisName = "XAxis";
     requestTP->setTupleDescription(common::TupleECMData(tuplePos));
-    galilPolling->addRequest(requestTP,100);
+    galilPolling->addRequest(requestTP,20);
     // 2: Request the stop codes
     RequestStopCodePtr requestSC = std::make_shared<RequestStopCode>();
     common::TupleGeneralDescriptorString tupleSC("StopCodes");
     requestSC->setTupleDescription(common::TupleECMData(tupleSC));
-    galilPolling->addRequest(requestSC,1000);
+    galilPolling->addRequest(requestSC,200);
     // 3: Request the tell switches
     RequestTellSwitchesPtr requestTS = std::make_shared<RequestTellSwitches>();
     common::TupleGeneralDescriptorString tupleTS("TellSwitches");
@@ -184,11 +184,11 @@ bool GalilMotionController::isDeviceConnected() const
     return commsMarshaler->isDeviceConnected();
 }
 
-std::string GalilMotionController::getCurrentMCState() const
+ECM::Galil::GalilState GalilMotionController::getCurrentMCState() const
 {
     ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
     ECM::Galil::GalilState stateEnum = currentState->getCurrentState();
-    return ECM::Galil::ECMStateToString(stateEnum);
+    return stateEnum;
 }
 
 StatusInputs GalilMotionController::getCurrent_MCDIO() const
@@ -444,7 +444,7 @@ void GalilMotionController::cbi_NewMotionProfileState(const MotionProfileState &
 
 void GalilMotionController::cbi_GalilNewMachineState(const ECM::Galil::GalilState &state)
 {
-    emit signal_MCNewMotionState(QString::fromStdString(ECM::Galil::ECMStateToString(state)));
+    emit signal_MCNewMotionState(state, QString::fromStdString(ECM::Galil::ECMStateToString(state)));
 }
 
 void GalilMotionController::cbi_GalilUploadProgram(const AbstractCommandPtr command)

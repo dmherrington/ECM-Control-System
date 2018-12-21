@@ -57,14 +57,19 @@ void CommandRelativeMove::setRelativeDistance(const MotorAxis &axis, const int &
 
 int CommandRelativeMove::getRelativeDistance(const MotorAxis &axis) const
 {
+    int targetPosition = 0;
     if(axis == MotorAxis::ALL)
     {
         return 0;
     }
     else
     {
-        return this->relativeMove.at(axis) * 10;
+        if(this->moveDirection.at(axis) == Direction::DIRECTION_UP)
+            targetPosition = this->relativeMove.at(axis) * -10;
+        else
+            targetPosition = this->relativeMove.at(axis) * 10;
     }
+    return targetPosition;
 }
 
 std::string CommandRelativeMove::getCommandString() const

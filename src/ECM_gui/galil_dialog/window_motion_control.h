@@ -47,6 +47,8 @@ private slots:
 
     void slot_LockMotionButtons(const bool &lock);
 
+    void slot_MCNewMotionState(const ECM::Galil::GalilState &state, const QString &stateString);
+
 private:
     Ui::Window_MotionControl *ui;
 

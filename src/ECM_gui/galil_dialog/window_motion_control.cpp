@@ -15,6 +15,9 @@ Window_MotionControl::Window_MotionControl(GalilMotionController* galilObject, Q
     ui->spinBox_RelativeMoveSpeed->setToolTip("Relative Move Speed");
     ui->spinBox_RelativeMove->setToolTip("Relative Move Distance");
 
+    connect(m_Galil, SIGNAL(signal_MCNewMotionState(ECM::Galil::GalilState,QString)),
+            this, SLOT(slot_MCNewMotionState(ECM::Galil::GalilState,QString)));
+
     connect(m_Galil, SIGNAL(signal_MCNewPosition(common::TuplePositionalString,common_data::MachinePositionalState,bool)), this, SLOT(slot_NewPositionalData(common::TuplePositionalString,common_data::MachinePositionalState,bool)));
 }
 
@@ -103,3 +106,44 @@ void Window_MotionControl::slot_LockMotionButtons(const bool &lock)
     ui->pushButton_IncreaseRelativeMove->setDisabled(lock);
     ui->pushButton_DecreaseRelativeMove->setDisabled(lock);
 }
+
+void Window_MotionControl::slot_MCNewMotionState(const ECM::Galil::GalilState &state, const QString &stateString)
+{
+    UNUSED(stateString);
+    switch (state) {
+    case ECM::Galil::GalilState::STATE_ESTOP:
+    case ECM::Galil::GalilState::STATE_HOME_POSITIONING:
+    case ECM::Galil::GalilState::STATE_MOTION_STOP:
+    case ECM::Galil::GalilState::STATE_READY_STOP:
+    case ECM::Galil::GalilState::STATE_SCRIPT_EXECUTION:
+    case ECM::Galil::GalilState::STATE_TOUCHOFF:
+    case ECM::Galil::GalilState::STATE_UNKNOWN:
+    {
+
+        ui->pushButton_IncreaseRelativeMove->setDisabled(false);
+        ui->pushButton_DecreaseRelativeMove->setDisabled(false);
+        break;
+    }
+    case ECM::Galil::GalilState::STATE_IDLE:
+    case ECM::Galil::GalilState::STATE_READY:
+    {
+        ui->pushButton_IncreaseRelativeMove->setDisabled(false);
+        ui->pushButton_DecreaseRelativeMove->setDisabled(false);
+        break;
+    }
+    case ECM::Galil::GalilState::STATE_JOGGING:
+    case ECM::Galil::GalilState::STATE_MANUAL_POSITIONING:
+    {
+        //We do not want to change the state condition of the button in this state
+        //This is because if we go to lock the buttons the release event will either
+        //trigger immediately or never be emitted.
+        ui->pushButton_IncreaseRelativeMove->setDisabled(true);
+        ui->pushButton_DecreaseRelativeMove->setDisabled(true);
+        break;
+    }
+    default:
+        break;
+    }
+
+}
+
