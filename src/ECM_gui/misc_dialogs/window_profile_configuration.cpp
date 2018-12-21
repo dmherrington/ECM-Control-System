@@ -420,5 +420,6 @@ void Window_ProfileConfiguration::on_actionMotion_Profile_triggered(bool checked
 void Window_ProfileConfiguration::on_actionNew_triggered(bool checked)
 {
     UNUSED(checked);
+    ui->lineEdit_ConfugrationPath->clear();
     clearExistingOperations();
 }

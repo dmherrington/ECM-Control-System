@@ -20,7 +20,7 @@ public:
 
 public:
 
-    void loadFromCurrentProgram(const GalilCurrentProgram &program, const std::string &profileName = "");
+    void loadFromCurrentProgram(const GalilCurrentProgram &program, const std::string &profileName = "", const bool &useLoadedVars = true);
 
     std::string getProfileName() const;
 

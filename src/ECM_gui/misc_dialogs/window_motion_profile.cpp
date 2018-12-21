@@ -39,7 +39,7 @@ void Window_MotionProfile::setProgramText(const std::string &programText)
     if(programText == m_MotionController->getCurrentMCProgram().getProgram())
         this->updateStatusLED(QColor(0,255,0));
     else
-        this->updateStatusLED(QColor(0,255,0));
+        this->updateStatusLED(QColor(255,0,0));
 }
 
 void Window_MotionProfile::openGalilScript()

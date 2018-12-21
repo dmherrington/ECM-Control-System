@@ -23,6 +23,11 @@ Widget_ProfileParameters::Widget_ProfileParameters(ECM_API *apiObject, QWidget *
 
 Widget_ProfileParameters::~Widget_ProfileParameters()
 {
+    delete m_ScriptingVariables;
+    delete m_MCTouchoff;
+    delete m_PumpControl;
+    delete m_PowerSupply;
+
     delete ui;
 }
 

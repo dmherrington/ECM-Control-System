@@ -35,7 +35,7 @@ Widget_ScriptingVariables::Widget_ScriptingVariables(GalilMotionController* gali
     m_Galil->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const GalilCurrentProgram &program){
         if(completed)
         {
-            loadFromCurrentProgram(program, ui->comboBox_ProgramLabels->currentText().toStdString());
+            loadFromCurrentProgram(program, ui->comboBox_ProgramLabels->currentText().toStdString(), false);
         }
     });
 
@@ -43,10 +43,12 @@ Widget_ScriptingVariables::Widget_ScriptingVariables(GalilMotionController* gali
 
 Widget_ScriptingVariables::~Widget_ScriptingVariables()
 {
+    m_Galil->RemoveHost(this);
+
     delete ui;
 }
 
-void Widget_ScriptingVariables::loadFromCurrentProgram(const GalilCurrentProgram &program, const std::string &profileName)
+void Widget_ScriptingVariables::loadFromCurrentProgram(const GalilCurrentProgram &program, const std::string &profileName, const bool &useLoadedVars)
 {
     //This will allow us to save the old variables first
     ProgramVariableList oldVariableList = m_OperationalProgram.getVariableList();
@@ -58,8 +60,11 @@ void Widget_ScriptingVariables::loadFromCurrentProgram(const GalilCurrentProgram
     if(!profileName.empty())
         this->setProfileName(profileName);
 
-    //Restore the old variable list
-    updateProgramVariables(oldVariableList);
+    if(!useLoadedVars)
+    {
+        //Restore the old variable list
+        updateProgramVariables(oldVariableList);
+    }
 }
 
 void Widget_ScriptingVariables::setProfileName(const std::string &name)

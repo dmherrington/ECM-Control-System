@@ -15,6 +15,8 @@ TableWidget_OperationDescriptor::TableWidget_OperationDescriptor(Widget_Abstract
 
 TableWidget_OperationDescriptor::~TableWidget_OperationDescriptor()
 {
+    delete m_AbstractOperation;
+
     delete ui;
 }
 

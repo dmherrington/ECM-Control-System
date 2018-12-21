@@ -66,7 +66,6 @@ namespace observation {
         std::lock_guard<std::mutex> lock(m_DataMutex);
 
 //        m_DataMutex.lock();
-
         m_Domain.append(domain);
         m_Range.append(range);
 //        m_DataMutex.unlock();
