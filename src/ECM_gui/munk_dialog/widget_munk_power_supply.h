@@ -38,7 +38,7 @@ private:
     void addNewSegment();
 
 private slots:
-    void on_ContextMenu_AddSegment_released();
+    void contextMenu_AddSegment_released();
 
     void slot_onCustomContextMenu(const QPoint &point);
 

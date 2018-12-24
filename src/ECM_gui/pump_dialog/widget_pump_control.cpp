@@ -18,6 +18,7 @@ Widget_PumpControl::~Widget_PumpControl()
 
 void Widget_PumpControl::loadFromPumpProperties(const Command_PumpProperties &config)
 {
+    this->ui->checkBox_UtilizePump->setChecked(config.shouldPumpBeUtilized());
     this->ui->doubleSpinBox_delayTime->setValue(config.getInitializationTime()/1000.0);
     this->ui->doubleSpinBox_flowRate->setValue(config.getPumpFlowRate());
     this->ui->checkBox_WaitForDelay->setChecked(config.shouldWaitForInitializationDelay());
@@ -96,7 +97,7 @@ void Widget_PumpControl::writeToJSON(QJsonObject &saveObject)
     segmentObject["pumpDelayTime"] = this->ui->doubleSpinBox_delayTime->value();
     segmentObject["pumpFlowRate"] = this->ui->doubleSpinBox_flowRate->value();
     segmentObject["pumpWaitForDelay"] = this->ui->checkBox_WaitForDelay->isChecked();
-    segmentObject["pumpUtilization"] = this->ui->checkBox_UtilizePump->isChecked();
+    segmentObject["pumpUtilized"] = this->ui->checkBox_UtilizePump->isChecked();
     segmentDataArray.append(segmentObject);
 
     saveObject["pumpData"] = segmentDataArray;
@@ -110,5 +111,5 @@ void Widget_PumpControl::readFromJSON(const QJsonObject &openObject)
     setPumpDelayTime(segmentObject["pumpDelayTime"].toDouble());
     setPumpFlowRate(segmentObject["pumpFlowRate"].toDouble());
     setWaitForPumpDelay(segmentObject["pumpWaitForDelay"].toBool());
-    setUtilizePump(segmentObject["pumpUtilization"].toBool());
+    setUtilizePump(segmentObject["pumpUtilized"].toBool());
 }

@@ -91,7 +91,7 @@ protected:
     void notifyOwnerStateTransition();
 
 protected:
-    ECMCommand_ExecuteCollection m_ECMCollection;
+    ECMCommand_ExecuteCollectionPtr m_ECMCollection;
 
     ECMState currentState;
     ECMState desiredState;

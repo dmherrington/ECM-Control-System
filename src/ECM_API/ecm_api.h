@@ -47,7 +47,7 @@ public:
 
     bool checkLoggingPathValidity(const std::string &partNumber, const std::string &serialNumber) const;
 
-    void initializeOperationalCollection(const ECMCommand_ExecuteCollection &executionCollection, const bool &clearContents);
+    void initializeOperationalCollection(const ECMCommand_ExecuteCollectionPtr executionCollection, const bool &clearContents);
 
     void initializeLoggingOperation(const std::string &partNumber, const std::string &serialNumber,
                                  const ECMCommand_AbstractProfileConfigPtr configuration, const std::string &description = "");
@@ -62,7 +62,7 @@ public:
 
     void executePauseProfile(const ECMCommand_ProfilePausePtr profileConfig);
 
-    void concludeExecutingCollection(const ECMCommand_ExecuteCollection &executionCollection);
+    void concludeExecutingCollection(const ECMCommand_ExecuteCollectionPtr executionCollection);
 
     void concludeExecutingOperation(const ECMCommand_AbstractProfileConfigPtr profileConfig);
 

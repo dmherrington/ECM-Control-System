@@ -46,7 +46,8 @@ hsm::Transition ECMState_Idle::GetTransition()
 
 void ECMState_Idle::executeCollection(const ECMCommand_ExecuteCollection &collection)
 {
-    this->m_ECMCollection = collection;
+
+    this->m_ECMCollection = std::make_shared<ECMCommand_ExecuteCollection>(collection);
 
     this->desiredState = ECMState::STATE_ECM_MOTION_PROFILE_HANDLING;
 }

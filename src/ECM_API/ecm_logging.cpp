@@ -32,7 +32,7 @@ bool ECMLogging::checkLoggingPath(const string &partNumber, const string &serial
     return false;
 }
 
-void ECMLogging::writeExecutionCollection(const ECMCommand_ExecuteCollection &collection)
+void ECMLogging::writeExecutionCollection(const ECMCommand_ExecuteCollectionPtr collection)
 {
     if (!configurationFile->open(QIODevice::WriteOnly)) {
         qWarning("Couldn't open save file.");
@@ -42,7 +42,7 @@ void ECMLogging::writeExecutionCollection(const ECMCommand_ExecuteCollection &co
     QJsonObject saveObject;
     QJsonArray segmentDataArray;
 
-    std::map<unsigned int, ECMCommand_AbstractProfileConfigPtr> profileMap = collection.getCollection();
+    std::map<unsigned int, ECMCommand_AbstractProfileConfigPtr> profileMap = collection->getCollection();
     std::map<unsigned int, ECMCommand_AbstractProfileConfigPtr>::iterator it = profileMap.begin();
 
     for (; it!=profileMap.end(); ++it)

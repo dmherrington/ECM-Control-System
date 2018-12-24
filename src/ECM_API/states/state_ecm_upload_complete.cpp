@@ -48,7 +48,7 @@ void ECMState_UploadComplete::OnEnter()
     AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
-void ECMState_UploadComplete::OnEnter(const ECMCommand_ProfileConfiguration &config)
+void ECMState_UploadComplete::OnEnter(ECMCommand_ProfileConfigurationPtr config)
 {
     UNUSED(config);
     AbstractStateECMProcess::notifyOwnerStateTransition();

@@ -844,7 +844,7 @@ void ECMControllerGUI::slot_OnNewOuterMachineState(const ECM::API::ECMState &sta
     switch (state) {
     case ECM::API::ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF:
         //Clear all of the exisitng data that may be on the plots
-        //m_PlotCollection.ClearAllData();
+        m_PlotCollection.ClearAllData();
         break;
     default:
         break;

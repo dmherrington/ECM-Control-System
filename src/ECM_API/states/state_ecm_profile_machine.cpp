@@ -39,7 +39,7 @@ hsm::Transition ECMState_ProfileMachine::GetTransition()
     {
         if(IsInInnerState<ECMState_ProfileMachineFailed>())
         {
-            this->m_ECMCollection.establishEndTime();
+            this->m_ECMCollection->establishEndTime();
             Owner().concludeExecutingCollection(this->m_ECMCollection);
 
             //if we have failed we can completely stop the machining process
@@ -54,12 +54,12 @@ hsm::Transition ECMState_ProfileMachine::GetTransition()
             switch (desiredState) {
             case ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS:
             {
-                rtn = hsm::InnerEntryTransition<ECMState_ProfileMachineProcess>(m_ECMCollection.getActiveConfiguration());
+                rtn = hsm::InnerEntryTransition<ECMState_ProfileMachineProcess>(m_ECMCollection->getActiveConfiguration());
                 break;
             }
             case ECMState::STATE_ECM_PROFILE_MACHINE_PAUSED:
             {
-                rtn = hsm::InnerEntryTransition<ECMState_ProfileMachinePause>(m_ECMCollection.getActiveConfiguration());
+                rtn = hsm::InnerEntryTransition<ECMState_ProfileMachinePause>(m_ECMCollection->getActiveConfiguration());
                 break;
             }
             default:
@@ -81,7 +81,7 @@ void ECMState_ProfileMachine::OnEnter()
     AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
-void ECMState_ProfileMachine::OnEnter(const ECMCommand_ExecuteCollection &collection)
+void ECMState_ProfileMachine::OnEnter(ECMCommand_ExecuteCollectionPtr collection)
 {
     //First update the configuation per what was received upon entering the state
     this->m_ECMCollection = collection;
@@ -89,7 +89,7 @@ void ECMState_ProfileMachine::OnEnter(const ECMCommand_ExecuteCollection &collec
     //Notify the world what state we are currently in
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
-    ECMCommand_AbstractProfileConfigPtr currentConfig = this->m_ECMCollection.getActiveConfiguration();
+    ECMCommand_AbstractProfileConfigPtr currentConfig = this->m_ECMCollection->getActiveConfiguration();
 
     switch (currentConfig->getConfigType()) {
     case ProfileOpType::OPERATION:

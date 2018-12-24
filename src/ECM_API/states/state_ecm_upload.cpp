@@ -41,7 +41,7 @@ hsm::Transition ECMState_Upload::GetTransition()
         {
             std::cout<<"The upload state sees that all of the uploads are complete"<<std::endl;
 
-            ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection.getActiveConfiguration();
+            ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection->getActiveConfiguration();
             if(activeConfiguration->getConfigType() == ProfileOpType::OPERATION)
                 Owner().logCurrentOperationalSettings();
 
@@ -49,11 +49,11 @@ hsm::Transition ECMState_Upload::GetTransition()
         }
         else if(IsInInnerState<ECMState_UploadFailed>())
         {
-            ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection.getActiveConfiguration(); //find the current configuration we had been working on
+            ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection->getActiveConfiguration(); //find the current configuration we had been working on
             activeConfiguration->execProperties.completeExecution();
             Owner().concludeExecutingOperation(activeConfiguration);
 
-            this->m_ECMCollection.establishEndTime();
+            this->m_ECMCollection->establishEndTime();
             Owner().concludeExecutingCollection(this->m_ECMCollection);
 
             rtn = hsm::SiblingTransition<ECMState_Idle>();
@@ -63,21 +63,21 @@ hsm::Transition ECMState_Upload::GetTransition()
             switch (desiredState) {
             case ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE:
             {
-                ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection.getActiveConfiguration();
+                ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection->getActiveConfiguration();
                 ECMCommand_ProfileConfigurationPtr castConfiguration = static_pointer_cast<ECMCommand_ProfileConfiguration>(activeConfiguration);
                 rtn = hsm::InnerEntryTransition<ECMState_UploadMotionProfile>(castConfiguration);
                 break;
             }
             case ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES:
             {
-                ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection.getActiveConfiguration();
+                ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection->getActiveConfiguration();
                 ECMCommand_ProfileConfigurationPtr castConfiguration = static_pointer_cast<ECMCommand_ProfileConfiguration>(activeConfiguration);
                 rtn = hsm::InnerEntryTransition<ECMState_UploadMotionVariables>(castConfiguration);
                 break;
             }
             case ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS:
             {
-                ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection.getActiveConfiguration();
+                ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection->getActiveConfiguration();
                 ECMCommand_ProfilePausePtr castConfiguration = static_pointer_cast<ECMCommand_ProfilePause>(activeConfiguration);
                 rtn = hsm::InnerEntryTransition<ECMState_UploadPumpParameters>(castConfiguration);
                 break;
@@ -105,14 +105,14 @@ void ECMState_Upload::OnEnter()
     this->desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
 }
 
-void ECMState_Upload::OnEnter(const ECMCommand_ExecuteCollection &collection)
+void ECMState_Upload::OnEnter(ECMCommand_ExecuteCollectionPtr collection)
 {
     //First update the configuation per what was received upon entering the state
     this->m_ECMCollection = collection;
 
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
-    ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection.getActiveConfiguration();
+    ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection->getActiveConfiguration();
 
     switch (activeConfiguration->getConfigType()) {
     case ProfileOpType::OPERATION:
@@ -123,7 +123,7 @@ void ECMState_Upload::OnEnter(const ECMCommand_ExecuteCollection &collection)
          * Otherwise, we should set the appropriate variables related to the
          * motion profile.
          */
-        if(collection.isFirstOperation(collection.getActiveIndex()) && collection.shouldWriteGalilScript())
+        if(this->m_ECMCollection->isFirstOperation(this->m_ECMCollection->getActiveIndex()) && this->m_ECMCollection->shouldWriteGalilScript())
         {
             this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE;
         }

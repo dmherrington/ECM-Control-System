@@ -49,7 +49,7 @@ void ECMState_UploadFailed::OnEnter()
 
 }
 
-void ECMState_UploadFailed::OnEnter(const ECMCommand_ProfileConfiguration &config)
+void ECMState_UploadFailed::OnEnter(ECMCommand_ProfileConfigurationPtr config)
 {
     //First update the configuation per what was received upon entering the state
     AbstractStateECMProcess::notifyOwnerStateTransition();

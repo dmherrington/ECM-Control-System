@@ -56,13 +56,13 @@ void Widget_MunkPowerSupply::slot_onCustomContextMenu(const QPoint &point)
     QMenu contextMenu(tr("Context menu"), this);
 
     QAction action1("Add Segment", this);
-    connect(&action1, SIGNAL(triggered()), this, SLOT(on_ContextMenu_AddSegment_released()));
+    connect(&action1, SIGNAL(triggered()), this, SLOT(contextMenu_AddSegment_released()));
     contextMenu.addAction(&action1);
 
     contextMenu.exec(mapToGlobal(point));
 }
 
-void Widget_MunkPowerSupply::on_ContextMenu_AddSegment_released()
+void Widget_MunkPowerSupply::contextMenu_AddSegment_released()
 {
     this->addNewSegment();
 }

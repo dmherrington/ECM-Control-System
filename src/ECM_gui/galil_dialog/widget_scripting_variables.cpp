@@ -62,7 +62,9 @@ void Widget_ScriptingVariables::loadFromCurrentProgram(const GalilCurrentProgram
 
     if(!useLoadedVars)
     {
-        //Restore the old variable list
+        //Set the old variable list to the current config
+        m_OperationalProgram.setVariableList(oldVariableList);
+        //Restore the old variable list visually
         updateProgramVariables(oldVariableList);
     }
 }

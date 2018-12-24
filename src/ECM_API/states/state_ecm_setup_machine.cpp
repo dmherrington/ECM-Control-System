@@ -44,18 +44,18 @@ hsm::Transition ECMState_SetupMachine::GetTransition()
         else if(IsInInnerState<ECMState_SetupMachineFailed>())
         {
 
-            ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection.getActiveConfiguration(); //find the current configuration we had been working on
+            ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection->getActiveConfiguration(); //find the current configuration we had been working on
             activeConfiguration->execProperties.completeExecution();
             Owner().concludeExecutingOperation(activeConfiguration);
 
-            this->m_ECMCollection.establishEndTime();
+            this->m_ECMCollection->establishEndTime();
             Owner().concludeExecutingCollection(this->m_ECMCollection);
 
             rtn = hsm::SiblingTransition<ECMState_Idle>();
         }
         else
         {
-            ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection.getActiveConfiguration();
+            ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection->getActiveConfiguration();
             switch (activeConfiguration->getConfigType()) {
             case ProfileOpType::OPERATION:
             {
@@ -104,13 +104,13 @@ void ECMState_SetupMachine::OnEnter()
 
 }
 
-void ECMState_SetupMachine::OnEnter(const ECMCommand_ExecuteCollection &collection)
+void ECMState_SetupMachine::OnEnter(ECMCommand_ExecuteCollectionPtr collection)
 {
     this->m_ECMCollection = collection;
 
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
-    ECMCommand_AbstractProfileConfigPtr currentConfig = this->m_ECMCollection.getActiveConfiguration();
+    ECMCommand_AbstractProfileConfigPtr currentConfig = this->m_ECMCollection->getActiveConfiguration();
 
     switch (currentConfig->getConfigType()) {
     case ProfileOpType::OPERATION:

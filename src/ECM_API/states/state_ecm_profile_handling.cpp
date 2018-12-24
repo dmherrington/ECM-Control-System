@@ -60,7 +60,7 @@ void ECMState_ProfileHandling::OnEnter()
 
 }
 
-void ECMState_ProfileHandling::OnEnter(const ECMCommand_ExecuteCollection &collection)
+void ECMState_ProfileHandling::OnEnter(ECMCommand_ExecuteCollectionPtr collection)
 {
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
@@ -81,21 +81,21 @@ void ECMState_ProfileHandling::OnEnter(const ECMCommand_ExecuteCollection &colle
      * that have yet to have been executed. Let us check that is true. If it is not true and we have landed in this
      * state, we therefore have concluded executing the current collection successfully, or the collection is empty.
      */
-    if(m_ECMCollection.doActiveOperationsRemain())
+    if(m_ECMCollection->doActiveOperationsRemain())
     {
         /*
         * 1) Require that the operation is the first operation of the collection. This is required that since we can return
         * to this condition from another event, we would then subsequently not want to clear the original logs.
         */
-        if(this->m_ECMCollection.isFirstOperation(this->m_ECMCollection.getActiveIndex()))
+        if(this->m_ECMCollection->isFirstOperation(this->m_ECMCollection->getActiveIndex()))
         {
-            this->m_ECMCollection.establishStartTime(); //Set the start time associated with the collection
+            this->m_ECMCollection->establishStartTime(); //Set the start time associated with the collection
 
             /*
              * 2) Assess whether the logs should be overwritten, this would only have happened if also it is the
              * first operation of the collection.
             */
-            if(this->m_ECMCollection.shouldOverwriteLogs())
+            if(this->m_ECMCollection->shouldOverwriteLogs())
             {
                 /*
                  * Initializing the collection performs the following steps:
@@ -116,21 +116,21 @@ void ECMState_ProfileHandling::OnEnter(const ECMCommand_ExecuteCollection &colle
          * 1) Set the profile as executed to reflect it has been moved and acted upon in the current queue
          * 2) Set the start time associated with the profile
          */
-        this->m_ECMCollection.initializeProfileExecution();
+        this->m_ECMCollection->initializeProfileExecution();
 
         /*
          * Write the header appropriate header contents to the log file.
          */
-        Owner().initializeLoggingOperation(this->m_ECMCollection.getPartNumber(), this->m_ECMCollection.getSerialNumber(),
-                                           this->m_ECMCollection.getActiveConfiguration(), "");
+        Owner().initializeLoggingOperation(this->m_ECMCollection->getPartNumber(), this->m_ECMCollection->getSerialNumber(),
+                                           this->m_ECMCollection->getActiveConfiguration(), "");
 
-        Owner().beginOperationalProfile(this->m_ECMCollection.getActiveConfiguration());
+        Owner().beginOperationalProfile(this->m_ECMCollection->getActiveConfiguration());
 
         desiredState = ECMState::STATE_ECM_UPLOAD;
     }
-    else if(m_ECMCollection.getActiveCollectionSize() > 0) //there were some profiles and we clearly executed them all
+    else if(m_ECMCollection->getActiveCollectionSize() > 0) //there were some profiles and we clearly executed them all
     {
-        this->m_ECMCollection.establishEndTime();
+        this->m_ECMCollection->establishEndTime();
         Owner().concludeExecutingCollection(this->m_ECMCollection);
 
         desiredState = ECMState::STATE_ECM_IDLE;

@@ -42,19 +42,19 @@ bool ECM_API::checkLoggingPathValidity(const string &partNumber, const string &s
     return m_Log->checkLoggingPath(partNumber, serialNumber);
 }
 
-void ECM_API::initializeOperationalCollection(const ECMCommand_ExecuteCollection &executionCollection, const bool &clearContents)
+void ECM_API::initializeOperationalCollection(const ECMCommand_ExecuteCollectionPtr executionCollection, const bool &clearContents)
 {
     //gets the file and directory structure ready for us
-    m_Log->initializeLogging(executionCollection.getPartNumber(),
-                             executionCollection.getSerialNumber(),
+    m_Log->initializeLogging(executionCollection->getPartNumber(),
+                             executionCollection->getSerialNumber(),
                              clearContents);
 
     //writes the properties of the configuration to a log file
     m_Log->writeExecutionCollection(executionCollection);
 
     ExecutionProperties props;
-    props.setTime(executionCollection.getStartTime());
-    props.setMaxIndex(executionCollection.getCollectionSize());
+    props.setTime(executionCollection->getStartTime());
+    props.setMaxIndex(executionCollection->getCollectionSize());
     emit signal_ExecutingCollection(props);
 
 }
@@ -175,15 +175,15 @@ void ECM_API::concludeExecutingOperation(const ECMCommand_AbstractProfileConfigP
 
 }
 
-void ECM_API::concludeExecutingCollection(const ECMCommand_ExecuteCollection &executionCollection)
+void ECM_API::concludeExecutingCollection(const ECMCommand_ExecuteCollectionPtr executionCollection)
 {
     //During this process is where we should close the logs and everything associated with the operation
-    m_Log->CloseMachiningLog(executionCollection.getElapsedTime());
+    m_Log->CloseMachiningLog(executionCollection->getElapsedTime());
 
     //Assemble a message to notify any listeners that we are finished executing the collection
     ExecutionProperties props;
     props.setOperatingCondition(ExecutionProperties::ExecutionCondition::ENDING);
-    props.setTime(executionCollection.getEndTime());
+    props.setTime(executionCollection->getEndTime());
 
     //Emit the signal notifying the listeners of a completed operational profile
     emit signal_ExecutingCollection(props);

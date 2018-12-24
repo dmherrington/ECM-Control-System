@@ -26,7 +26,7 @@ public:
         QJsonArray segmentDataArray;
 
         QJsonObject segmentObject;
-        segmentObject["utilizePump"] = this->shouldPumpBeUtilized();
+        segmentObject["pumpUtilized"] = this->shouldPumpBeUtilized();
         segmentObject["pumpDelayTime"] = (int)this->getInitializationTime();
         segmentObject["pumpFlowRate"] = this->getPumpFlowRate();
         segmentObject["pumpWaitForDelay"] = this->shouldWaitForInitializationDelay();
@@ -40,7 +40,7 @@ public:
         QJsonArray pumpDataArray = openObject["pumpData"].toArray();
         QJsonObject segmentObject = pumpDataArray[0].toObject();
 
-        setUtilizePump(segmentObject["utilizePump"].toBool());
+        setUtilizePump(segmentObject["pumpUtilized"].toBool());
         setPumpInitializationTime(segmentObject["pumpDelayTime"].toDouble());
         setPumpFlowRate(segmentObject["pumpFlowRate"].toDouble());
         setWaitForInitializationDelay(segmentObject["pumpWaitForDelay"].toBool());

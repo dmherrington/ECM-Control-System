@@ -32,7 +32,7 @@ public:
 
     bool checkLoggingPath(const string &partNumber, const std::string &serialNumber) const;
 
-    void writeExecutionCollection(const ECMCommand_ExecuteCollection &collection);
+    void writeExecutionCollection(const ECMCommand_ExecuteCollectionPtr collection);
 
     void initializeLogging(const string &partNumber, const std::string &serialNumber, bool clearContents = true);
 

@@ -47,7 +47,7 @@ public:
     hsm::Transition GetTransition() override;
 
 public:
-    void OnEnter(const ECMCommand_ExecuteCollection &collection);
+    void OnEnter(ECMCommand_ExecuteCollectionPtr collection);
 
 };
 

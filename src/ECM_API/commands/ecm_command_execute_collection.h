@@ -4,6 +4,8 @@
 #include "ecm_command_abstract_collection.h"
 #include "ecm_command_profile_collection.h"
 
+ECM_CLASS_FORWARD(ECMCommand_ExecuteCollection);
+
 class ECMCommand_ExecuteCollection : public ECMCommand_ProfileCollection, public ExecutionTimeProperties
 {
 public:
