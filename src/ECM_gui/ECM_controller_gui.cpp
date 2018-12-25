@@ -745,7 +745,9 @@ void ECMControllerGUI::on_actionClear_All_Data_triggered()
     QDate tmp_Date(startTime.year, startTime.month, startTime.dayOfMonth);
     QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond);
 
+
     m_PlotCollection.ClearAllData();
+
 
     //Update plot properties of the current start time
     ui->widget_primaryPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));

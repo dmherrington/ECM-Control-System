@@ -66,11 +66,12 @@ PlotHandler::PlotHandler(QWidget *parent) :
 
 
     setInteractions(QCP::iRangeDrag | QCP::iSelectLegend | QCP::iRangeZoom | QCP::iSelectPlottables | QCP::iSelectAxes | QCP::iSelectOther);
-    yAxis->setLabel("Response");    
-//    yAxis2->setLabel("Response");
-//    yAxis2->setVisible(true);
+    yAxis->setLabel("Response");
+    //    yAxis2->setLabel("Response");
+    //    yAxis2->setVisible(true);
 
-    connect(&m_RecalculateScheduler, SIGNAL(PerformWork()), this, SLOT(DoPlotRecalculate()), Qt::DirectConnection);
+    connect(&m_RenderGraphScheduler, SIGNAL(PerformWork()), this, SLOT(DoPlotRecalculate()), Qt::DirectConnection);
+    connect(&m_ClearGraphScheduler, SIGNAL(PerformWork()), this, SLOT(DoPlotClear()), Qt::DirectConnection);
 
     addLayer("LayerEvents");
 
@@ -184,17 +185,17 @@ QList<std::shared_ptr<common_data::observation::IPlotComparable>> PlotHandler::A
 //!
 void PlotHandler::ChangeName(const common::TupleECMData &tuple, const QString &displayName)
 {
-//    for (int i = 0; i < m_PlotParameters.size(); i++) {
-//        if (m_PlotParameters.at(i).operation == tuple)
-//        {
-//            if(m_PlotParameters.at(i).DisplayName != displayName)
-//            {
-//                m_PlotParameters[i].DisplayName = displayName;
-//                RecalculatePlots();
-//            }
-//            break;
-//        }
-//    }
+    //    for (int i = 0; i < m_PlotParameters.size(); i++) {
+    //        if (m_PlotParameters.at(i).operation == tuple)
+    //        {
+    //            if(m_PlotParameters.at(i).DisplayName != displayName)
+    //            {
+    //                m_PlotParameters[i].DisplayName = displayName;
+    //                RecalculatePlots();
+    //            }
+    //            break;
+    //        }
+    //    }
 }
 
 
@@ -205,18 +206,18 @@ void PlotHandler::ChangeName(const common::TupleECMData &tuple, const QString &d
 //!
 void PlotHandler::ChangeColor(const common::TupleECMData &tuple, const QColor &color)
 {
-//    for (int i = 0; i < m_PlotParameters.size(); i++) {
-//        if (m_PlotParameters.at(i).operation == tuple)
-//        {
-//            if(m_PlotParameters.at(i).GraphColor != color)
-//            {
-//                m_PlotParameters[i].GraphColor = color;
-//                m_PlotParameters[i].Redraw = true;
-//                RecalculatePlots();
-//            }
-//            break;
-//        }
-//    }
+    //    for (int i = 0; i < m_PlotParameters.size(); i++) {
+    //        if (m_PlotParameters.at(i).operation == tuple)
+    //        {
+    //            if(m_PlotParameters.at(i).GraphColor != color)
+    //            {
+    //                m_PlotParameters[i].GraphColor = color;
+    //                m_PlotParameters[i].Redraw = true;
+    //                RecalculatePlots();
+    //            }
+    //            break;
+    //        }
+    //    }
 }
 
 
@@ -297,8 +298,10 @@ void PlotHandler::RemoveGraphData(const common_data::observation::IPlotComparabl
     }
 }
 
-
-
+void PlotHandler::ClearGraphData()
+{
+    ClearPlots();
+}
 
 //!
 //! \brief set the origin time of the plot
@@ -308,11 +311,22 @@ void PlotHandler::RemoveGraphData(const common_data::observation::IPlotComparabl
 //!
 void PlotHandler::setOriginTime(const QDateTime &originTime)
 {
+    std::lock_guard<std::mutex> lock(m_PlotParametersMutex);
+
     m_OriginTime = originTime;
     m_OriginTime_msSinceEpoch = m_OriginTime.toMSecsSinceEpoch();
     RecalculatePlots();
 }
 
+void PlotHandler::ClearGraphandUpdateOrigin(const QDateTime &originTime)
+{
+    std::lock_guard<std::mutex> lock(m_PlotParametersMutex);
+
+    m_OriginTime = originTime;
+    m_OriginTime_msSinceEpoch = m_OriginTime.toMSecsSinceEpoch();
+
+    ClearPlots();
+}
 
 //!
 //! \brief Set the unit this plot represents time
@@ -403,13 +417,13 @@ void PlotHandler::ChangeColorScheme(bool scheme)
     yAxis->grid()->setAntialiasedZeroLine(false);
 
 
-//    yAxis2->grid()->setPen(m_FigureProperties.grid_penColor);
-//    yAxis2->grid()->setSubGridPen(m_FigureProperties.grid_subPenColor);
-//    yAxis2->grid()->setZeroLinePen(m_FigureProperties.grid_zeroLineColor);
-//    yAxis2->grid()->setSubGridVisible(false);
-//    yAxis2->grid()->setAntialiased(false);
-//    yAxis2->grid()->setAntialiasedSubGrid(false);
-//    yAxis2->grid()->setAntialiasedZeroLine(false);
+    //    yAxis2->grid()->setPen(m_FigureProperties.grid_penColor);
+    //    yAxis2->grid()->setSubGridPen(m_FigureProperties.grid_subPenColor);
+    //    yAxis2->grid()->setZeroLinePen(m_FigureProperties.grid_zeroLineColor);
+    //    yAxis2->grid()->setSubGridVisible(false);
+    //    yAxis2->grid()->setAntialiased(false);
+    //    yAxis2->grid()->setAntialiasedSubGrid(false);
+    //    yAxis2->grid()->setAntialiasedZeroLine(false);
 
     // Replot so colors take effect
     Replot(rpHint);
@@ -460,7 +474,6 @@ bool PlotHandler::UpdateGrid(const double xSpacing, const double ySpacing)
 //!
 bool PlotHandler::YAxisRange(double lowWindow, double highWindow)
 {
-
     m_FigureProperties.window_custom = !m_FigureProperties.window_custom;
 
     if(m_FigureProperties.window_custom == true)
@@ -595,12 +608,12 @@ void PlotHandler::contextMenuRequest(QPoint pos)
     {
         menu->addAction("Clear plotting data",this,SLOT(OnAction_ClearPlottingData()));
         if (this->selectedGraphs().size() > 0)
-//            menu->addAction("Remove selected graph", this, SLOT(removeSelectedGraph()));
-        if (this->graphCount() > 0)
-        {
-//            menu->addAction("Hide all graphs", this, SLOT(hideAllGraphs()));
-//            menu->addAction("Display all graphs", this, SLOT(RecalculateAllGraphs()));
-        }
+            //            menu->addAction("Remove selected graph", this, SLOT(removeSelectedGraph()));
+            if (this->graphCount() > 0)
+            {
+                //            menu->addAction("Hide all graphs", this, SLOT(hideAllGraphs()));
+                //            menu->addAction("Display all graphs", this, SLOT(RecalculateAllGraphs()));
+            }
     }
     menu->popup(this->mapToGlobal(pos));
 }
@@ -616,7 +629,7 @@ void PlotHandler::SelectionChanged()
     //unselect all
     for (int i = 0; i < m_PlotParameters.size(); i++)
     {
-            m_PlotParameters[i].Selected = false;
+        m_PlotParameters[i].Selected = false;
     }
 
     //find selected plot and select
@@ -690,16 +703,16 @@ void PlotHandler::on_double_click(QMouseEvent *event)
 
 void PlotHandler::moveLegend()
 {
-  if (QAction* contextAction = qobject_cast<QAction*>(sender())) // make sure this slot is really called by a context menu action, so it carries the data we need
-  {
-    bool ok;
-    int dataInt = contextAction->data().toInt(&ok);
-    if (ok)
+    if (QAction* contextAction = qobject_cast<QAction*>(sender())) // make sure this slot is really called by a context menu action, so it carries the data we need
     {
-      this->axisRect()->insetLayout()->setInsetAlignment(0, (Qt::Alignment)dataInt);
-      Replot(rpHint);
+        bool ok;
+        int dataInt = contextAction->data().toInt(&ok);
+        if (ok)
+        {
+            this->axisRect()->insetLayout()->setInsetAlignment(0, (Qt::Alignment)dataInt);
+            Replot(rpHint);
+        }
     }
-  }
 }
 
 
@@ -729,6 +742,9 @@ void PlotHandler::RecalculateAllGraphs()
 //!
 void PlotHandler::removeSelectedGraph()
 {
+
+    std::lock_guard<std::mutex> lock(m_PlotParametersMutex);
+
     bool selected = false;
     common_data::observation::IPlotComparablePtr deletedExpr;
     //loop through all graphs
@@ -736,9 +752,6 @@ void PlotHandler::removeSelectedGraph()
     {
         if(m_PlotParameters.at(i).Selected == false)
             continue;
-
-        m_PlotParametersMutex.lock();
-
 
         for(int j = 0 ; j < m_PlotParameters.at(i).g.size() ; j++)
         {
@@ -753,12 +766,11 @@ void PlotHandler::removeSelectedGraph()
         m_PlotParameters.removeAt(i);
         Draw();
 
-        m_PlotParametersMutex.unlock();
         break;
     }
 
-//    if(selected)
-//        emit PlotDelete(deletedExpr);
+    //    if(selected)
+    //        emit PlotDelete(deletedExpr);
 }
 
 
@@ -767,8 +779,9 @@ void PlotHandler::removeSelectedGraph()
 //!
 void PlotHandler::hideAllGraphs()
 {
+    std::lock_guard<std::mutex> lock(m_PlotParametersMutex);
+
     QList<std::shared_ptr<common_data::observation::IPlotComparable>> removedExpressions;
-    m_PlotParametersMutex.lock();
     for (int i=0 ; i < m_PlotParameters.count() ; i++)
     {
         for(int j = 0 ; j < m_PlotParameters[i].g.size() ; j++)
@@ -778,15 +791,14 @@ void PlotHandler::hideAllGraphs()
         removedExpressions.append(m_PlotParameters[i].operation);
     }
     m_PlotParameters.clear();
-    m_PlotParametersMutex.unlock();
     Draw();
 
 
     //emit signal that we deleted
-//    for (int i = 0 ; i < removedExpressions.size() ; i++)
-//    {
-//        emit PlotDelete(removedExpressions.at(i));
-//    }
+    //    for (int i = 0 ; i < removedExpressions.size() ; i++)
+    //    {
+    //        emit PlotDelete(removedExpressions.at(i));
+    //    }
 }
 
 
@@ -862,7 +874,7 @@ void PlotHandler::Draw()
 //!
 void PlotHandler::RecalculatePlots()
 {
-    m_RecalculateScheduler.Schedule();
+    m_RenderGraphScheduler.Schedule();
 }
 
 
@@ -871,7 +883,7 @@ void PlotHandler::RecalculatePlots()
 //!
 void PlotHandler::DoPlotRecalculate()
 {
-    m_PlotParametersMutex.lock();
+    std::lock_guard<std::mutex> lock(m_PlotParametersMutex);
 
     //Determine our scale
     double msInTimeUnit = MsInTimeUnit(m_TimeUnit);
@@ -934,7 +946,6 @@ void PlotHandler::DoPlotRecalculate()
             QPen SelectedPen = g->selectedPen();
             SelectedPen.setColor(m_PlotParameters.at(plotIndex).GraphColor);
             g->setSelectedPen(SelectedPen);
-
             //set data in graph
             g->clearData();
             g->setData(d, r);
@@ -946,30 +957,62 @@ void PlotHandler::DoPlotRecalculate()
                 g->setSelected(true);
 
             }
-
             mReplotting.unlock();
         }
     }
 
     //place event bars in appropriate locations
-    for(int i = 0 ; i < m_EventBarList.size() ; i++)
-    {
-        mReplotting.lock();
+    //    for(int i = 0 ; i < m_EventBarList.size() ; i++)
+    //    {
+    //        mReplotting.lock();
 
-        m_EventBarList.at(i).PlotBar->clearData();
-        m_EventBarList.at(i).PlotBar->addData((m_EventBarList.at(i).t.toMSecsSinceEpoch() - m_OriginTime_msSinceEpoch) / msInTimeUnit, 1000);
-        m_EventBarList.at(i).PlotBar->addData((m_EventBarList.at(i).t.toMSecsSinceEpoch() - m_OriginTime_msSinceEpoch) / msInTimeUnit, -1000);
+    //        m_EventBarList.at(i).PlotBar->clearData();
+    //        m_EventBarList.at(i).PlotBar->addData((m_EventBarList.at(i).t.toMSecsSinceEpoch() - m_OriginTime_msSinceEpoch) / msInTimeUnit, 1000);
+    //        m_EventBarList.at(i).PlotBar->addData((m_EventBarList.at(i).t.toMSecsSinceEpoch() - m_OriginTime_msSinceEpoch) / msInTimeUnit, -1000);
 
-        mReplotting.unlock();
-    }
+    //    }
 
-    m_PlotParametersMutex.unlock();
+    mReplotting.lock();
 
     Draw();
 
-    m_RecalculateScheduler.Called();
+    mReplotting.unlock();
+
+    m_RenderGraphScheduler.Called();
 }
 
+//!
+//! \brief Schedule a recalculation of data displayed in plot
+//!
+void PlotHandler::ClearPlots()
+{
+    m_ClearGraphScheduler.Schedule();
+}
+
+
+void PlotHandler::DoPlotClear()
+{
+    std::lock_guard<std::mutex> lock(m_PlotParametersMutex);
+
+    //loop through all plots, scale their times, and plot
+    for(int plotIndex = 0 ; plotIndex < m_PlotParameters.size() ; plotIndex++)
+    {
+        QVector<QCPGraph*> graphs = m_PlotParameters[plotIndex].g;
+
+        for(int i = 0 ; i < graphs.size() ; i++)
+        {
+            graphs.at(i)->clearData();
+        }
+    }
+
+    mReplotting.lock();
+
+    Draw();
+
+    mReplotting.unlock();
+
+    m_ClearGraphScheduler.Called();
+}
 
 //!
 //! \brief Marshals removing a graph from QCustomPlot object to the main thread

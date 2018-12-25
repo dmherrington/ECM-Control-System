@@ -130,6 +130,16 @@ public:
     //!
     void RemoveGraphData(const common_data::observation::IPlotComparablePtr object);
 
+    //!
+    //! \brief ClearGraphandUpdateOrigin
+    //! \param originTime
+    //!
+    void ClearGraphandUpdateOrigin(const QDateTime &originTime);
+
+    //!
+    //! \brief ClearGraphData
+    //!
+    void ClearGraphData();
 
     //!
     //! \brief set the origin time of the plot
@@ -342,12 +352,21 @@ private slots:
 
     void CalculateCurrentTimeBar();
 
+    //!
+    //! \brief Schedule a recalculation of data displayed in plot
+    //!
+    void ClearPlots();
+
+    //!
+    //! \brief Clear the data display within the plot window
+    //!
+    void DoPlotClear();
+
 
     //!
     //! \brief Schedule a recalculation of data displayed in plot
     //!
     void RecalculatePlots();
-
 
     //!
     //! \brief Recaculate data to display in plot window
@@ -468,9 +487,10 @@ private:
 
     PlotMode m_PlotMode;
 
-    ThreadedScheduler m_RecalculateScheduler;
+    ThreadedScheduler m_RenderGraphScheduler;
+    ThreadedScheduler m_ClearGraphScheduler;
 
-    QMutex m_PlotParametersMutex;
+    std::mutex m_PlotParametersMutex;
 
     QVector<double> m_TempXData;
     QVector<double> m_TempYData;
