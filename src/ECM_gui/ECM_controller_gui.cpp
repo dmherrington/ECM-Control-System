@@ -710,11 +710,17 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
         m_PlotCollection.ClearAllData();
 
         //Update plot properties of the current start time
+        ui->widget_primaryPlot->ClearGraphandUpdateOrigin(QDateTime(tmp_Date, tmp_Time));
+        ui->widget_primaryPlotCurrent->ClearGraphandUpdateOrigin(QDateTime(tmp_Date, tmp_Time));
+        ui->widget_primaryPlotVoltage->ClearGraphandUpdateOrigin(QDateTime(tmp_Date, tmp_Time));
+
+        /*
+        //Update plot properties of the current start time
         ui->widget_primaryPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
         ui->widget_primaryPlotCurrent->setOriginTime(QDateTime(tmp_Date, tmp_Time));
         ui->widget_primaryPlotVoltage->setOriginTime(QDateTime(tmp_Date, tmp_Time));
         m_additionalSensorDisplay->SetOriginTime(QDateTime(tmp_Date, tmp_Time));
-
+        */
         ui->lineEdit_OperationTime->setText(QString::number(0));
 
         elapsedOperationTimer->start();
@@ -745,15 +751,19 @@ void ECMControllerGUI::on_actionClear_All_Data_triggered()
     QDate tmp_Date(startTime.year, startTime.month, startTime.dayOfMonth);
     QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond);
 
-
     m_PlotCollection.ClearAllData();
 
+    ui->widget_primaryPlot->ClearGraphandUpdateOrigin(QDateTime(tmp_Date, tmp_Time));
+    ui->widget_primaryPlotCurrent->ClearGraphandUpdateOrigin(QDateTime(tmp_Date, tmp_Time));
+    ui->widget_primaryPlotVoltage->ClearGraphandUpdateOrigin(QDateTime(tmp_Date, tmp_Time));
 
+    /*
     //Update plot properties of the current start time
     ui->widget_primaryPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
     ui->widget_primaryPlotCurrent->setOriginTime(QDateTime(tmp_Date, tmp_Time));
     ui->widget_primaryPlotVoltage->setOriginTime(QDateTime(tmp_Date, tmp_Time));
     m_additionalSensorDisplay->SetOriginTime(QDateTime(tmp_Date, tmp_Time));
+    */
 }
 
 void ECMControllerGUI::slot_MCCommandError(const CommandType &type, const string &description)
@@ -847,6 +857,9 @@ void ECMControllerGUI::slot_OnNewOuterMachineState(const ECM::API::ECMState &sta
     case ECM::API::ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF:
         //Clear all of the exisitng data that may be on the plots
         m_PlotCollection.ClearAllData();
+        ui->widget_primaryPlot->ClearGraphData();
+        ui->widget_primaryPlotCurrent->ClearGraphData();
+        ui->widget_primaryPlotVoltage->ClearGraphData();
         break;
     default:
         break;
