@@ -1,6 +1,9 @@
 #ifndef PROFILE_STATE_MACHINING_H
 #define PROFILE_STATE_MACHINING_H
 
+#include "common/common.h"
+#include "common/class_forward.h"
+
 #include "../motion_profile_state.h"
 
 class ProfileState_Machining : public MotionProfile
@@ -42,6 +45,42 @@ public:
 
     MACHININGProfileCodes getCurrentCode() const;
 
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    ProfileState_Machining& operator = (const ProfileState_Machining &rhs)
+    {
+        MotionProfile::operator =(rhs);
+        this->currentCode = rhs.currentCode;
+        return *this;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const ProfileState_Machining &rhs)
+    {
+        if(!MotionProfile::operator ==(rhs)){
+            return false;
+        }
+        if(this->currentCode != rhs.currentCode){
+            return false;
+        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const ProfileState_Machining &rhs) {
+        return !(*this == rhs);
+    }
 private:
     MACHININGProfileCodes currentCode;
 };

@@ -435,9 +435,11 @@ void GalilMotionController::cbi_GalilTouchoffIndicated(const bool &indicated)
     emit signal_GalilTouchoffIndicated(indicated);
 }
 
-void GalilMotionController::cbi_NewMotionProfileState(const MotionProfileState &state)
+void GalilMotionController::cbi_NewMotionProfileState(const MotionProfileState &state, const bool &processTransitions)
 {
-    ProgressStateMachineStates();
+    if(processTransitions)
+        ProgressStateMachineStates();
+
     emit signal_GalilUpdatedProfileState(state);
     this->onNewMotionProfileState(state);
 }
@@ -542,8 +544,7 @@ std::string GalilMotionController::getLogOfOperationalSettings() const
 //!
 void GalilMotionController::ProgressStateMachineStates()
 {
-//    m_Mutex_StateMachine.lock();
+    std::lock_guard<std::mutex> lock(m_Mutex_StateMachine);
     stateMachine->ProcessStateTransitions();
     stateMachine->UpdateStates();
-//    m_Mutex_StateMachine.unlock();
 }

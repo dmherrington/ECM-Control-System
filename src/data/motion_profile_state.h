@@ -58,6 +58,44 @@ public:
      */
     virtual ProfileType getType() const = 0;
 
+public:
+    //!
+    //! \brief operator =
+    //! \param rhs
+    //!
+    MotionProfile& operator = (const MotionProfile &rhs)
+    {
+        this->profileName = rhs.profileName;
+        this->profileTag = rhs.profileTag;
+        return *this;
+    }
+
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const MotionProfile &rhs)
+    {
+        if(this->profileName != rhs.profileName){
+            return false;
+        }
+        if(this->profileTag != rhs.profileTag){
+            return false;
+        }
+        return true;
+    }
+
+    //!
+    //! \brief operator !=
+    //! \param rhs
+    //! \return
+    //!
+    bool operator != (const MotionProfile &rhs) {
+        return !(*this == rhs);
+    }
+
+
 protected:
     std::string profileName;
     std::string profileTag;

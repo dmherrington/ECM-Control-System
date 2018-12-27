@@ -67,8 +67,9 @@ void ECMState_ProfileMachineCompleteExecution::OnEnter(ECMCommand_AbstractProfil
 
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
-    configuration->execProperties.completeExecution();
-    Owner().concludeExecutingOperation(configuration);
+    this->m_Config->execProperties.completeExecution();
+
+    Owner().concludeExecutingOperation(this->m_Config);
 
     Owner().action_StopMachine(); //we are going to move the stop action to the top level directory
 

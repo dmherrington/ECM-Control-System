@@ -46,6 +46,7 @@ public:
 
     void beginLoggingOperationalData(const ProfileOpType &type);
 
+    void writeStartingPosition(const int &position);
 
 public:
 
@@ -82,7 +83,8 @@ public:
 
     void SetSensorLogFile(const common::TupleSensorString &key);
 
-    void WriteConcludingOperationStats(const double &duration, const ProfileState_Machining::MACHININGProfileCodes &completionCode);
+    void WriteConcludingOperationStats(const double &duration, const int &concludingPosition,
+                                       const ProfileState_Machining::MACHININGProfileCodes &completionCode);
 
     void CloseMachiningLog(const double &duration);
 

@@ -117,6 +117,12 @@ void ECM_API::logCurrentOperationalSettings()
     m_Log->writeCurrentOperationalSettings(operationsString);
 }
 
+void ECM_API::writeToLogStartingPosition()
+{
+    int startPosition = m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+    m_Log->writeStartingPosition(startPosition);
+}
+
 void ECM_API::beginLoggingOperationalData(const ProfileOpType &type)
 {
     m_Log->beginLoggingOperationalData(type);
@@ -158,9 +164,11 @@ void ECM_API::concludeExecutingOperation(const ECMCommand_AbstractProfileConfigP
     //Stop requesting information from the oscilliscope device
     m_Rigol->executeMeasurementPolling(false);
 
+    int concludingPosition = m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+
     //Conclude writing to the logs with any wrap up data that we need
     m_Log->WriteConcludingOperationStats(profileConfig->execProperties.getElapsedTime(),
-                             profileConfig->execProperties.getProfileCode());
+                                         concludingPosition, profileConfig->execProperties.getProfileCode());
 
     //Disable the logs so no more contents are written post the machining operation
     m_Log->enableLogging(false);

@@ -122,6 +122,25 @@ void ECMLogging::writeCurrentOperationalSettings(const std::string &operationalS
     QTextStream out(masterLog);
     out << str;
 }
+void ECMLogging::writeStartingPosition(const int &position)
+{
+    if(!loggingInitialized)
+        return;
+
+    QString str;
+    QTextStream stringWriter(&str, QIODevice::WriteOnly);
+
+    stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
+    stringWriter <<"\r\n";
+    stringWriter << "Starting Position: " << QString::number(position) <<"\n";
+    stringWriter <<"\r\n";
+    stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
+    stringWriter <<"\r\n";
+
+    stringWriter.flush();
+    QTextStream out(masterLog);
+    out << str;
+}
 
 void ECMLogging::beginLoggingOperationalData(const ProfileOpType &type)
 {
@@ -176,8 +195,8 @@ void ECMLogging::writeProfileLoggingHeader(const std::string &partNumber, const 
     QTextStream stringWriter(&str, QIODevice::WriteOnly);
 
     stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
-    stringWriter << "Part Number #: " << QString::fromStdString(partNumber) << "\t" << "Serial Number #: " << QString::fromStdString(serialNumber) <<"\n";
-    stringWriter << "Operation Name: " << QString::fromStdString(operationName) << "\t" <<"Machining Profile : " << QString::fromStdString(profileName) <<"\n";
+    stringWriter << "Part Number #: " << QString::fromStdString(partNumber) << "\t" << " | Serial Number #: " << QString::fromStdString(serialNumber) <<"\n";
+    stringWriter << "Operation Name: " << QString::fromStdString(operationName) << "\t" <<"| Machining Profile : " << QString::fromStdString(profileName) <<"\n";
     stringWriter << "Operation Time : " << time <<"\n";
     stringWriter << "Descriptor (Optional): " << QString::fromStdString(descriptor) <<"\r\n" <<"\r\n";
 
@@ -310,7 +329,8 @@ void ECMLogging::SetSensorLogFile(const common::TupleSensorString &key)
     m_LogSensorStates[key] = outFile;
 }
 
-void ECMLogging::WriteConcludingOperationStats(const double &duration, const ProfileState_Machining::MACHININGProfileCodes &completionCode)
+void ECMLogging::WriteConcludingOperationStats(const double &duration, const int &concludingPosition,
+                                               const ProfileState_Machining::MACHININGProfileCodes &completionCode)
 {
     if(!isComponentLogging())
         return;
@@ -320,7 +340,11 @@ void ECMLogging::WriteConcludingOperationStats(const double &duration, const Pro
 
     stringWriter<<QString::fromStdString(this->WriteHeaderBreaker(100));
     stringWriter<<QString::fromStdString(ProfileState_Machining::MACHININGCodesToString(completionCode)) << "\n";
+    stringWriter<<"Concluding Position: " << QString::number(concludingPosition)<< "\n";
     stringWriter<<"Elapsed Seconds: " << QString::number(duration);
+    stringWriter << "\n";
+    stringWriter << "\n";
+    stringWriter << "\n";
     stringWriter << "\n";
     stringWriter.flush();
 

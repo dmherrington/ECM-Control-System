@@ -94,6 +94,8 @@ void ECMState_ProfileMachine::OnEnter(ECMCommand_ExecuteCollectionPtr collection
     switch (currentConfig->getConfigType()) {
     case ProfileOpType::OPERATION:
     {
+        Owner().writeToLogStartingPosition();
+
         Owner().beginLoggingOperationalData(ProfileOpType::OPERATION);
         this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS;
         break;

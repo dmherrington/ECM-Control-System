@@ -297,21 +297,21 @@ void ECMControllerGUI::slot_NewProfileVariableData(const common::TupleProfileVar
 
 void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &sensor, const common_data::SensorState &state)
 {
-    CreateSensorDisplays(sensor,state.getSensorType());
-
-    m_PlotCollection.UpdateSensorPlots(sensor, state);
-    m_SensorDisplays.UpdateNonPlottedData(sensor,state);
-    m_additionalSensorDisplay->UpdateNonPlottedData(sensor,state);
-
-    QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(sensor);
-
     //First, write the data to the logs
     m_API->m_Log->WriteLogSensorState(sensor,state);
 
-    m_SensorDisplays.PlottedDataUpdated(sensor); //this seems to be uneeded based on the call after this
-    m_additionalSensorDisplay->UpdatePlottedData(sensor);
+//    CreateSensorDisplays(sensor,state.getSensorType());
 
-    ui->widget_primaryPlot->RedrawDataSource(plots);
+    m_PlotCollection.UpdateSensorPlots(sensor, state);
+//    m_SensorDisplays.UpdateNonPlottedData(sensor,state);
+//    m_additionalSensorDisplay->UpdateNonPlottedData(sensor,state);
+
+    QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(sensor);
+
+//    m_SensorDisplays.PlottedDataUpdated(sensor); //this seems to be uneeded based on the call after this
+//    m_additionalSensorDisplay->UpdatePlottedData(sensor);
+
+//    ui->widget_primaryPlot->RedrawDataSource(plots);
     ui->widget_primaryPlotVoltage->RedrawDataSource(plots);
     ui->widget_primaryPlotCurrent->RedrawDataSource(plots);
 
@@ -319,6 +319,11 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &senso
 
 void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state, const bool &valueChanged)
 {
+    ProgressStateMachineStates();
+
+    if(valueChanged)
+        m_API->m_Log->WriteLogMachinePositionalState(tuple,state);
+
     m_PlotCollection.UpdatePositionalStatePlots(tuple,state);
     //    m_SensorDisplays.UpdateNonPlottedData(tuple,state);
     //    m_additionalSensorDisplay->UpdateNonPlottedData(tuple,state);
@@ -327,11 +332,6 @@ void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalStrin
     ui->widget_primaryPlot->RedrawDataSource(plots);
     //    m_SensorDisplays.PlottedDataUpdated(state); //this seems to be uneeded based on the call after this
     //    m_additionalSensorDisplay->UpdatePlottedData(state);
-
-    if(valueChanged)
-        m_API->m_Log->WriteLogMachinePositionalState(tuple,state);
-
-    ProgressStateMachineStates();
 }
 
 void ECMControllerGUI::slot_MCNewMotionState(const ECM::Galil::GalilState &state, const QString &stateString)
@@ -766,7 +766,7 @@ void ECMControllerGUI::on_actionClear_All_Data_triggered()
     */
 }
 
-void ECMControllerGUI::slot_MCCommandError(const CommandType &type, const string &description)
+void ECMControllerGUI::slot_MCCommandError(const CommandType &type, const std::string &description)
 {
     switch (type) {
     case CommandType::SET_VARIABLE:
@@ -776,7 +776,8 @@ void ECMControllerGUI::slot_MCCommandError(const CommandType &type, const string
         break;
     }
     default:
-        std::cout<<"There was an existing error not caught: "<<description<<std::endl;
+        QString errorString = "There was an error reported by the Motion Controller: " + QString::fromStdString(description);
+        ui->statusBar->showMessage(errorString,3000);
         break;
     }
 }

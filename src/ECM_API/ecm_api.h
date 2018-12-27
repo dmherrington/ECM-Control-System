@@ -54,6 +54,8 @@ public:
 
     void logCurrentOperationalSettings();
 
+    void writeToLogStartingPosition();
+
     void beginLoggingOperationalData(const ProfileOpType &type);
 
     void beginOperationalProfile(const ECMCommand_AbstractProfileConfigPtr profileConfig);

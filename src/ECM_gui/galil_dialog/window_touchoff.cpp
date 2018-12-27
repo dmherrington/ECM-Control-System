@@ -115,6 +115,7 @@ void Window_Touchoff::openFromFile(const QString &filePath)
 
 void Window_Touchoff::on_doubleSpinBox_TouchoffRef_valueChanged(double arg1)
 {
+    UNUSED(arg1);
 //    uint64_t position = arg1 * 10.0; //this conversion will take um to counts
 //    Command_VariablePtr commandTouchoffRef = std::make_shared<Command_Variable>("touchref",position);
 //    m_MotionController->executeCommand(commandTouchoffRef);
@@ -122,6 +123,7 @@ void Window_Touchoff::on_doubleSpinBox_TouchoffRef_valueChanged(double arg1)
 
 void Window_Touchoff::on_doubleSpinBox_InitialGap_valueChanged(double arg1)
 {
+    UNUSED(arg1);
 //    int desiredGap = arg1 * 10.0; //this conversion will take um to counts
 //    Command_VariablePtr commandTouchoffGap = std::make_shared<Command_Variable>("initgap",desiredGap);
 //    m_MotionController->executeCommand(commandTouchoffGap);

@@ -233,7 +233,7 @@ void State_Touchoff::stateSetup()
     newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING);
     MotionProfileState newProfileState;
     newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
-    Owner().issueUpdatedMotionProfileState(newProfileState);
+    Owner().issueUpdatedMotionProfileState(newProfileState,false);
 
 }
 

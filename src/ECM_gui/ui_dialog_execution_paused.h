@@ -35,7 +35,14 @@ public:
     {
         if (Dialog_ExecutionPaused->objectName().isEmpty())
             Dialog_ExecutionPaused->setObjectName(QStringLiteral("Dialog_ExecutionPaused"));
-        Dialog_ExecutionPaused->resize(383, 150);
+        Dialog_ExecutionPaused->resize(390, 150);
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(Dialog_ExecutionPaused->sizePolicy().hasHeightForWidth());
+        Dialog_ExecutionPaused->setSizePolicy(sizePolicy);
+        Dialog_ExecutionPaused->setMinimumSize(QSize(390, 150));
+        Dialog_ExecutionPaused->setMaximumSize(QSize(390, 150));
         Dialog_ExecutionPaused->setModal(false);
         gridLayout = new QGridLayout(Dialog_ExecutionPaused);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));

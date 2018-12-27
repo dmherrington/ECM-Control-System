@@ -62,9 +62,9 @@ void ECMState_ProfileHandling::OnEnter()
 
 void ECMState_ProfileHandling::OnEnter(ECMCommand_ExecuteCollectionPtr collection)
 {
-    AbstractStateECMProcess::notifyOwnerStateTransition();
-
     this->m_ECMCollection = collection;
+
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 
     /*
      * We need to establish if we should clear the logs. Since this is a recursive process, we require that two conditions
@@ -107,7 +107,7 @@ void ECMState_ProfileHandling::OnEnter(ECMCommand_ExecuteCollectionPtr collectio
             }
             else
             {
-                Owner().initializeOperationalCollection(this->m_ECMCollection, true);
+                Owner().initializeOperationalCollection(this->m_ECMCollection, false);
             }
         }
 
