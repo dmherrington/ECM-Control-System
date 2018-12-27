@@ -66,7 +66,7 @@
                             "kitoff": 2,
                             "kpdef": 3,
                             "kptoff": 30,
-                            "maxdepth": 25250,
+                            "maxdepth": 3000,
                             "mvnow": 2,
                             "n": 0,
                             "nextpos": 980199.9997,
@@ -138,7 +138,7 @@
                 {
                     "touchoffExecute": true,
                     "touchoffGap": 40000,
-                    "touchoffRef": 655000,
+                    "touchoffRef": 662800,
                     "touchoffRefPrevious": false
                 }
             ],
@@ -210,7 +210,7 @@
                             "kitoff": 2,
                             "kpdef": 3,
                             "kptoff": 30,
-                            "maxdepth": 12200,
+                            "maxdepth": 1000,
                             "mvnow": 2,
                             "n": 0,
                             "nextpos": 980199.9997,

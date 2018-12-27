@@ -48,8 +48,6 @@ public:
 public:
     void OnEnter(ECMCommand_AbstractProfileConfigPtr configuration);
 
-private:
-    ECMCommand_AbstractProfileConfigPtr m_Config;
 };
 
 } //end of namespace API

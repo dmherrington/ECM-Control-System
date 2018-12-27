@@ -13,7 +13,7 @@ public:
 
     ECMCommand_ProfileCollection(const ECMCommand_ProfileCollection &copy);
 
-    virtual ~ECMCommand_ProfileCollection() = default;
+    virtual ~ECMCommand_ProfileCollection() override;
 
     /**
      * @brief getClone

@@ -15,6 +15,8 @@ public:
 
     ECMCommand_ExecuteCollection(const ECMCommand_ProfileCollection &proCollection);
 
+    ~ECMCommand_ExecuteCollection() override;
+
 public:
     void insertProfile(const ECMCommand_AbstractProfileConfigPtr profile) override;
 

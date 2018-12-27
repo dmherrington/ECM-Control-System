@@ -15,7 +15,13 @@ class ECMCommand_AbstractProfileConfig
 {
 public:
     ECMCommand_AbstractProfileConfig(const ProfileOpType &configType);
+
     ECMCommand_AbstractProfileConfig(const ECMCommand_AbstractProfileConfig &copy);
+
+    virtual ~ECMCommand_AbstractProfileConfig()
+    {
+
+    }
 
     ProfileOpType getConfigType() const
     {

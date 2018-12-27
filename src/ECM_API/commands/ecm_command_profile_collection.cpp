@@ -12,6 +12,10 @@ ECMCommand_ProfileCollection::ECMCommand_ProfileCollection(const ECMCommand_Prof
     this->m_Collection = copy.m_Collection;
 }
 
+ECMCommand_ProfileCollection::~ECMCommand_ProfileCollection()
+{
+
+}
 
 ECMCommand_AbstractCollectionPtr ECMCommand_ProfileCollection::getClone() const
 {

@@ -21,10 +21,12 @@ public:
 
     ECMCommand_ProfilePause(const ECMCommand_ProfilePause &copy);
 
-public:
-    void writeToJSON(QJsonObject &obj);
+    ~ECMCommand_ProfilePause() override;
 
-    void readFromJSON(const QJsonObject &obj);
+public:
+    void writeToJSON(QJsonObject &obj) override;
+
+    void readFromJSON(const QJsonObject &obj) override;
 
 public:
     void setPauseDuration(const unsigned int &duration);

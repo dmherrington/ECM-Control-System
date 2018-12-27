@@ -7,6 +7,11 @@ ECMCommand_ProfilePause::ECMCommand_ProfilePause(const WaitType &waitType, const
     this->pauseDuration = duration;
 }
 
+ECMCommand_ProfilePause::~ECMCommand_ProfilePause()
+{
+
+}
+
 ECMCommand_ProfilePause::ECMCommand_ProfilePause(const ECMCommand_ProfilePause &copy):
     ECMCommand_AbstractProfileConfig(copy)
 {

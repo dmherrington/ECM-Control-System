@@ -53,7 +53,7 @@ void ECMState_ProfileMachineComplete::OnEnter()
 
 }
 
-void ECMState_ProfileMachineComplete::OnEnter(const ECMCommand_ProfileConfiguration &configuration)
+void ECMState_ProfileMachineComplete::OnEnter(ECMCommand_AbstractProfileConfigPtr configuration)
 {
     this->m_Config = configuration;
 

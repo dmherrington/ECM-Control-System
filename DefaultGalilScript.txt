@@ -1,0 +1,332 @@
+#setup
+'GENERAL SETTINGS
+BR -1
+ER 10000
+OE 0
+MT 1
+CE 2
+CN 1
+BWA=100
+SB2
+SB3
+II2,,,2
+KenTest = 0
+
+'Default Profile Parameters
+dx=29999
+speed=1000
+delay=1000
+maxdepth=300000
+rtdist = 1000
+rtfq = 20
+rtpause = 1000
+step = 1.0
+cutdone=0
+secdone=0
+initgap=1000
+touchst = 0
+ppos = 0
+homest=0
+
+'Default PID PARAMETERS
+kdtoff = 60.0
+kptoff = 30.0
+kitoff = 2.0
+kddef = 35.0
+kpdef = 3.0
+kidef = 1.0
+
+KD kddef
+KP kpdef
+KI kidef
+
+
+'Default SPEEDS & ACCELERATIONS
+SP 50000
+AC 1000000
+DC 1000000
+EN
+
+'Default Offsets
+OF -3.2
+IL 10
+FV 0
+FA 0
+
+#latch
+'SET SPEEDS & ACCELERATIONS
+SP 50000
+AC 1000000
+DC 1000000
+PR 20000;BG
+AM;ST
+JP #home
+EN
+
+'**************************************
+'EMERGENCY STOP
+'**************************************
+#ININT
+MG "Interrupt"
+ST
+SB2
+WT500
+MO
+MG "Emergency Stop Detected"
+#WAIT
+JP#WAIT,@IN[2]=1
+JS#RESETI
+ZS
+MG "Emergency Stop Cleared"
+EN
+#RESETI
+RI2
+
+'**************************************
+'Linear Move
+'**************************************
+'Will move at a constant rate
+
+#linemv
+startpos = _TPA
+ppos = _TPA
+finalmv = startpos+maxdepth
+
+cutdone=0;
+KD kdtoff
+KP kptoff
+KI kitoff
+MG "Linear Move Start"
+SP speed
+CB2
+PR maxdepth;BG
+#reportp
+ppos=_TPA
+JP #reportp, ppos<finalmv
+AM
+KD kddef
+KP kpdef
+KI kidef
+SB2;ST
+MG "Profile Complete"
+
+'return to profile start location
+SP 50000
+x=-1*maxdepth
+PR x;BG;
+AM;ST;
+cutdone=1
+EN
+
+'**************************************
+'Vibration Profile
+'**************************************
+'Will retract at set intervals
+
+#vibmv
+
+cutdone=0;
+
+MG "Vibration Profile Start"
+
+
+startpos = _TPA
+nextpos = _TPA
+ppos = _TPA
+SP 1000000
+backsp = 50000000
+forsp = 50000000
+KD 50
+KP 14
+KI 2
+FA 0
+FV 0
+IL 10
+rtpause = 8
+
+finalmv = startpos+maxdepth
+
+XQ #vmove, 1
+
+#fndepth
+curpos=_TPA
+JP #fndepth, curpos<finalmv
+MG "Reached max depth"
+ST; HX1; SB2
+cutdone = 1
+HX
+EN
+
+#polish
+secdone = 0
+step = 0
+fntime = 25000
+
+XQ #vmove, 1
+
+WT fntime
+ST; HX1; SB2
+WT 1000
+
+MG "Profile Complete"
+
+'return to profile start location
+SP 50000
+KD kddef
+KP kpdef
+KI kidef
+FV 0
+FA 0
+IL 10
+WT 1000
+secdone = 1
+HX
+EN
+ 
+
+#vmove
+PA nextpos;BG;AM
+WT5
+ppos = _TPA
+CB2
+WT rtfq
+SB2
+nextpos = nextpos+step
+AC backsp
+DC backsp
+PR -rtdist;BG;AM
+WT rtpause
+AC backsp
+DC forsp
+PR rtdist;BG;AM
+JP #vmove
+EN
+
+'**************************************
+'SUBROUTINES
+'**************************************
+
+#home
+homest = 0
+JG-5000, (_LR=0);
+BG;AM;ST;
+DP*=0
+WT 1000
+homest = 1
+EN
+'**************************************
+
+'**************************************
+#touchof
+'**************************************
+elimit= 40
+Merr = 50
+touchst = 0
+ztouch = 0
+n=0
+
+KD kdtoff
+KP kptoff
+KI kitoff
+'
+IF touchref>0
+SP 100000
+WT 500
+PA touchref;BG;AM
+WT 500
+ENDIF
+
+JP#STERR, @IN[1]=0
+XQ #TOUCHS, 1
+XQ #errChk, 2
+'
+EN
+'
+#TOUCHS
+JG500;BG
+#CHECK1
+JP #CHECK1, @IN[1]=1
+ST
+WT500
+zpos0 = _TPA
+
+SP 20000
+PR-600; BG; AM; ST
+JG500;BG
+#CHECK2
+JP #CHECK2, @IN[1]=1
+ST
+WT500
+zpos1 = _TPA
+
+SP 20000
+PR-600; BG; AM; ST
+JG500;BG
+#CHECK3
+JP #CHECK3, @IN[1]=1
+ST
+WT500
+zpos2 = _TPA
+
+JP #INCON, (zpos0-zpos1)>Merr
+JP #INCON, (zpos0-zpos2)>Merr
+JP #INCON, (zpos1-zpos2)>Merr
+JP #INCON, (zpos1-zpos0)>Merr
+JP #INCON, (zpos2-zpos0)>Merr
+JP #INCON, (zpos2-zpos1)>Merr
+ztouch = (zpos0+zpos1+zpos2)/3
+
+SP500;PA ztouch; BG; AM; ST
+
+MG "Zero point found"
+SP 100000
+PR-initgap; BG
+AM
+touchst = 1
+MG "Complete"
+KD kddef
+KP kpdef
+KI kidef
+HX
+EN
+'
+#errChk
+error=_TEA;
+JP #errChk, error<elimit
+ST
+'
+#Error
+MG "Positional error limit exceeded"
+touchst = 2
+KD kddef
+KP kpdef
+KI kidef
+HX
+EN
+'
+#INCON
+MG "Inconsitent Touch Position"
+touchst = 2
+KD kddef
+KP kpdef
+KI kidef
+HX
+EN
+'
+#STERR
+MG "Already touching part"
+touchst = 3
+KD kddef
+KP kpdef
+KI kidef
+EN
+'
+
+#BINARYF 
+time=150
+CB3
+WTtime
+SB3
+WTtime
+JP#BINARYF
+EN

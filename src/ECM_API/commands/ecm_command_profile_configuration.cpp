@@ -6,6 +6,11 @@ ECMCommand_ProfileConfiguration::ECMCommand_ProfileConfiguration():
 
 }
 
+ECMCommand_ProfileConfiguration::~ECMCommand_ProfileConfiguration()
+{
+
+}
+
 void ECMCommand_ProfileConfiguration::writeToJSON(QJsonObject &obj)
 {
     ECMCommand_AbstractProfileConfig::writeToJSON(obj);

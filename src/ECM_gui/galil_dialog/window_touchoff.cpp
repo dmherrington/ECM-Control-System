@@ -42,6 +42,15 @@ void Window_Touchoff::closeEvent(QCloseEvent *event)
 
 void Window_Touchoff::on_pushButton_ExecuteTouchoff_released()
 {
+
+    uint64_t position = static_cast<uint64_t>(ui->doubleSpinBox_TouchoffRef->value() * 10.0); //this conversion will take um to counts
+    Command_VariablePtr commandTouchoffRef = std::make_shared<Command_Variable>("touchref",position);
+    m_MotionController->executeCommand(commandTouchoffRef);
+
+    int desiredGap = static_cast<int>(ui->doubleSpinBox_InitialGap->value() * 10.0); //this conversion will take um to counts
+    Command_VariablePtr commandTouchoffGap = std::make_shared<Command_Variable>("initgap",desiredGap);
+    m_MotionController->executeCommand(commandTouchoffGap);
+
     CommandExecuteProfilePtr commandTouchoffExecute = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::TOUCHOFF,"touchof");
     m_MotionController->executeCommand(commandTouchoffExecute);
 }
@@ -106,14 +115,14 @@ void Window_Touchoff::openFromFile(const QString &filePath)
 
 void Window_Touchoff::on_doubleSpinBox_TouchoffRef_valueChanged(double arg1)
 {
-    uint64_t position = arg1 * 10.0; //this conversion will take um to counts
-    Command_VariablePtr commandTouchoffRef = std::make_shared<Command_Variable>("touchref",position);
-    m_MotionController->executeCommand(commandTouchoffRef);
+//    uint64_t position = arg1 * 10.0; //this conversion will take um to counts
+//    Command_VariablePtr commandTouchoffRef = std::make_shared<Command_Variable>("touchref",position);
+//    m_MotionController->executeCommand(commandTouchoffRef);
 }
 
 void Window_Touchoff::on_doubleSpinBox_InitialGap_valueChanged(double arg1)
 {
-    int desiredGap = arg1 * 10.0; //this conversion will take um to counts
-    Command_VariablePtr commandTouchoffGap = std::make_shared<Command_Variable>("initgap",desiredGap);
-    m_MotionController->executeCommand(commandTouchoffGap);
+//    int desiredGap = arg1 * 10.0; //this conversion will take um to counts
+//    Command_VariablePtr commandTouchoffGap = std::make_shared<Command_Variable>("initgap",desiredGap);
+//    m_MotionController->executeCommand(commandTouchoffGap);
 }

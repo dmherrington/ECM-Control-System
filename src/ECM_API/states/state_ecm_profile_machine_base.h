@@ -35,13 +35,13 @@ class ECMState_ProfileMachineBase : public AbstractStateECMProcess
 public:
     ECMState_ProfileMachineBase() = default;
 
-    ECMCommand_ProfileConfiguration getCurrentConfig() const
+    ECMCommand_AbstractProfileConfigPtr getCurrentConfig() const
     {
         return this->m_Config;
     }
 
     protected:
-        ECMCommand_ProfileConfiguration m_Config;
+        ECMCommand_AbstractProfileConfigPtr m_Config;
 };
 
 } //end of namespace API

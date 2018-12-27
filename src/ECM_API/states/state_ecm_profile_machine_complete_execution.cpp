@@ -36,7 +36,7 @@ hsm::Transition ECMState_ProfileMachineCompleteExecution::GetTransition()
         switch (desiredState) {
         case(ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE):
         {
-            rtn = hsm::InnerEntryTransition<ECMState_ProfileMachineComplete>(m_Config);
+            rtn = hsm::InnerEntryTransition<ECMState_ProfileMachineComplete>(this->m_Config);
             break;
         }
         default:
@@ -63,6 +63,8 @@ void ECMState_ProfileMachineCompleteExecution::OnEnter()
 
 void ECMState_ProfileMachineCompleteExecution::OnEnter(ECMCommand_AbstractProfileConfigPtr configuration)
 {
+    this->m_Config = configuration;
+
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
     configuration->execProperties.completeExecution();

@@ -21,6 +21,8 @@ public:
 
     ECMCommand_ProfileConfiguration(const ECMCommand_ProfileConfiguration &copy);
 
+    ~ECMCommand_ProfileConfiguration() override;
+
 public:
     void writeToJSON(QJsonObject &obj) override;
 

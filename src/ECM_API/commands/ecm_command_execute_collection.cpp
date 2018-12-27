@@ -6,6 +6,11 @@ ECMCommand_ExecuteCollection::ECMCommand_ExecuteCollection():
     this->collectionType = CollectionType::ECMCollection_Execute;
 }
 
+ECMCommand_ExecuteCollection::~ECMCommand_ExecuteCollection()
+{
+
+}
+
 ECMCommand_ExecuteCollection::ECMCommand_ExecuteCollection(const ECMCommand_ExecuteCollection &copy):
     ECMCommand_ProfileCollection(copy), ExecutionTimeProperties(copy)
 {
