@@ -77,21 +77,20 @@ void ECMState_UploadPumpParameters::OnEnter(ECMCommand_AbstractProfileConfigPtr 
     case ProfileOpType::OPERATION:
     {
         ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(configuration);
-        desiredState = ECMState::STATE_ECM_UPLOAD_COMPLETE;
 
-//        Owner().m_Pump->AddLambda_FinishedUploadingParameters(this,[this](const bool completed, const DeviceInterface_Pump::FINISH_CODE finishCode){
-//            UNUSED(finishCode);
+        Owner().m_Pump->AddLambda_FinishedUploadingParameters(this,[this](const bool completed, const DeviceInterface_Pump::FINISH_CODE finishCode){
+            UNUSED(finishCode);
 
-//            if(completed)
-//            {
-//                desiredState = ECMState::STATE_ECM_UPLOAD_COMPLETE;
-//            }else
-//            {
-//                desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
-//            }
-//        });
+            if(completed)
+            {
+                desiredState = ECMState::STATE_ECM_UPLOAD_COMPLETE;
+            }else
+            {
+                desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
+            }
+        });
 
-//        Owner().m_Pump->setPumpProperties(castConfig->m_PumpParameters);
+        Owner().m_Pump->setPumpProperties(castConfig->m_PumpParameters);
         break;
     }
 

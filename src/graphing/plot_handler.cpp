@@ -1001,7 +1001,12 @@ void PlotHandler::DoPlotClear()
 
         for(int i = 0 ; i < graphs.size() ; i++)
         {
+            mReplotting.lock();
+
             graphs.at(i)->clearData();
+
+            mReplotting.unlock();
+
         }
     }
 

@@ -1,0 +1,1000 @@
+{
+    "configData": [
+        {
+            "MotionControlData": [
+                {
+                    "labelData": [
+                        {
+                            "BINARYF": 508,
+                            "CHECK1": 428,
+                            "CHECK2": 438,
+                            "CHECK3": 448,
+                            "Error": 481,
+                            "INCON": 490,
+                            "ININT": 67,
+                            "RESETI": 80,
+                            "STERR": 499,
+                            "TOUCHS": 426,
+                            "WAIT": 74,
+                            "errChk": 476,
+                            "fndepth": 205,
+                            "fsttre": 357,
+                            "home": 389,
+                            "latch": 54,
+                            "linemva": 86,
+                            "linemvb": 117,
+                            "linemvc": 148,
+                            "opone": 295,
+                            "oponea": 314,
+                            "optre": 332,
+                            "optwov": 234,
+                            "reporta": 101,
+                            "reportb": 132,
+                            "reportc": 163,
+                            "setup": 0,
+                            "touchof": 400,
+                            "vibmv": 181,
+                            "vmove": 214,
+                            "vmtre": 367,
+                            "vmtwo": 274
+                        }
+                    ],
+                    "profileName": "linemvc",
+                    "programScript": "#setup\n'GENERAL SETTINGS\nBR -1\nER 10000\nOE 0\nMT 1\nCE 2\nCN 1\nBWA=100\nSB2\nSB3\nII2,,,2\n\n'Default Profile Parameters\ndx=30000\nspeed=1000\ndelay=1000\nmaxdepth=300000\nrtdist = 1000\nrtfq = 20\nrtpause = 1000\nstep = 1.0\ncutdone=0\nsecdone=0\ninitgap=1000\ntouchst = 0\nppos = 0\nhomest = 0\n\n'Default PID PARAMETERS\nkdtoff = 60.0\nkptoff = 30.0\nkitoff = 2.0\nkddef = 35.0\nkpdef = 3.0\nkidef = 1.0\n\nKD kddef\nKP kpdef\nKI kidef\n\n\n'Default SPEEDS & ACCELERATIONS\nSP 50000\nAC 1000000\nDC 1000000\nEN\n\n'Default Offsets\nOF -3.2\nIL 10\nFV 0\nFA 0\n\n#latch\n'SET SPEEDS & ACCELERATIONS\nSP 50000\nAC 1000000\nDC 1000000\nPR 20000;BG\nAM;ST\nJP #home\nEN\n\n'**************************************\n'EMERGENCY STOP\n'**************************************\n#ININT\nMG \"Interrupt\"\nST\nSB2\nWT500\nMO\nMG \"Emergency Stop Detected\"\n#WAIT\nJP#WAIT,@IN[2]=1\nJS#RESETI\nZS\nMG \"Emergency Stop Cleared\"\nEN\n#RESETI\nRI2\n\n'**************************************\n'Linear Move\n'**************************************\n#linemva\nstartpos = _TPA\nppos = _TPA\nmaxdepth = 25850\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reporta\nppos=_TPA\nJP #reporta, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n\n'******\n\n#linemvb\nstartpos = _TPA\nppos = _TPA\nmaxdepth = 31500\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reportb\nppos=_TPA\nJP #reportb, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n\n'******\n\n#linemvc\nstartpos = _TPA\nppos = _TPA\n'maxdepth = 3150\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reportc\nppos=_TPA\nJP #reportc, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n'**************************************\n'Vibration Profile\n'**************************************\n'Will retract at set intervals\n\n#vibmv\n\ncutdone=0;\n\nMG \"Vibration Profile Start\"\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 40000000\nforsp = 40000000\nKD 55\nKP 10\nKI 1\nFA 0\nFV 0\nIL 10\nrtpause = 8\n\nfinalmv = startpos+maxdepth\n\nCB2\nXQ #vmove, 1\n\n#fndepth\ncurpos=_TPA\nJP #fndepth, curpos<finalmv\nMG \"Reached max depth\"\nST; HX1; SB2\ncutdone = 1\nHX\nEN \n\n#vmove\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nWT rtfq\nnextpos = nextpos+step\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmove\nEN\n\n\n'***********************\n'OP2 vibration profile\n'***********************\n#optwov\nrtfq = 4\nrtdist = 500\nrtpause = 8\n'maxdepth = 11800\n\ncutdone = 0\n\nMG \"Vibration Profile Start\"\n\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 10000000\nforsp = 10000000\nKD 40\nKP 14\nKI 1\nFA 0\nFV 0\nIL 10\n\nrspeed = speed/1000\nstime = TIME\nttime = (maxdepth/rspeed)\n'ftime = TIME+1000000\n\n\nCB2\nXQ #vmtwo, 1\nMG \"1\"\nWT ttime\nMG \"Reached max depth\"\nST; HX1; SB2\n\ncutdone = 1\nHX\nEN\n\n#vmtwo\nint1 = TIME-stime\nint2 = int1*rspeed\nnextpos = startpos +int2\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nWT rtfq\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmtwo\nEN\n\n'**************************************\n'Op1 second linear section\n'**************************************\n#opone\nspeed = 150\nmaxdepth = 5050\n\nsecdone = 0\nSP10000\nPR -100; BG; AM\nstartpos = _TPA\nppos = _TPA\nfinalmv = startpos+maxdepth\n\nWT 100\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#oponea\nppos=_TPA\nJP #oponea, ppos< (finalmv-100)\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\nsecdone=1\nHX\nEN\n\n'**************************************\n'Op3 vibration\n'**************************************\n#optre\nstep = 1.25\nrtfq = 10\nrtdist = 1000\nrtpause = 8\n\ncutdone = 0\n\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 120000000\nforsp = 30000000\nKD 45\nKP 1.5\nKI 0.4\nFA 0\nFV 0\nIL 10\n\nfstmv = startpos+maxdepth\n\nXQ #vmtre, 1\n\n#fsttre\ncurpos=_TPA\nJP #fsttre, curpos<fstmv\nST; HX1; SB2;\n\nPA nextpos;BG;AM\ncutdone = 1\nHX\nEN\n\n#vmtre\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nCB2\nWT rtfq\nSB2\nnextpos = nextpos+step\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmtre, mvnow > 1\nEN\n\n'**************************************\n'SUBROUTINES\n'**************************************\n\n#home\nhomest = 0\nJG-5000, (_LR=0);\nBG;AM;ST;\nDP*=0\nWT 1000\nhomest = 1\nEN\n'**************************************\n\n'**************************************\n#touchof\n'**************************************\nelimit= 1000\nMerr = 80\ntouchst = 0\nztouch = 0\nn=0\n\n'\nIF touchref>0\nSP 200000\nWT 500\nPA touchref;BG;AM\nWT 500\nENDIF\n\nJP#STERR, @IN[1]=0\nXQ #TOUCHS, 1\nXQ #errChk, 2\n'\nEN\n'\nKD kdtoff\nKP kptoff\nKI kitoff\n\n#TOUCHS\nJG500;BG\n#CHECK1\nJP #CHECK1, @IN[1]=1\nST\nWT500\nzpos0 = _TPA\n\nSP 10000\nPR-600; BG; AM;\nWT500\nJG500;BG\n#CHECK2\nJP #CHECK2, @IN[1]=1\nST\nWT500\nzpos1 = _TPA\n\nSP 10000\nPR-600; BG; AM;\nWT500\nJG500;BG\n#CHECK3\nJP #CHECK3, @IN[1]=1\nST\nWT500\nzpos2 = _TPA\n\nJP #INCON, (zpos0-zpos1)>Merr\nJP #INCON, (zpos0-zpos2)>Merr\nJP #INCON, (zpos1-zpos2)>Merr\nJP #INCON, (zpos1-zpos0)>Merr\nJP #INCON, (zpos2-zpos0)>Merr\nJP #INCON, (zpos2-zpos1)>Merr\nztouch = (zpos0+zpos1+zpos2)/3\n\nSP500;PA ztouch; BG; AM;\n\nMG \"Zero point found\"\nSP 100000\nPR-initgap; BG\nAM\ntouchst = 1\nMG \"Complete\"\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#errChk\nerror=_TEA;\nJP #errChk, error<elimit\nST\n'\n#Error\nMG \"Positional error limit exceeded\"\ntouchst = 2\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#INCON\nMG \"Inconsitent Touch Position\"\ntouchst = 2\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#STERR\nMG \"Already touching part\"\ntouchst = 3\nKD kddef\nKP kpdef\nKI kidef\nEN\n'\n\n#BINARYF \ntime=150\nCB3\nWTtime\nSB3\nWTtime\nJP#BINARYF\nEN\n",
+                    "variableData": [
+                        {
+                            "Merr": 80,
+                            "backsp": 80000000,
+                            "curpos": 27223,
+                            "cutdone": 0,
+                            "delay": 1000,
+                            "dx": 30000,
+                            "elimit": 1000,
+                            "error": 209,
+                            "finalmv": 1107771,
+                            "forsp": 20000000,
+                            "fstmv": 766683,
+                            "ftime": -1363230485.8474,
+                            "homest": 0,
+                            "initgap": 1000,
+                            "int1": 14580,
+                            "int2": 1020.4843,
+                            "int3": 249528.1689,
+                            "kddef": 35,
+                            "kdtoff": 60,
+                            "kidef": 1,
+                            "kitoff": 2,
+                            "kpdef": 3,
+                            "kptoff": 30,
+                            "maxdepth": 25250,
+                            "mvnow": 2,
+                            "n": 0,
+                            "nextpos": 980199.9997,
+                            "ppos": 0,
+                            "rspeed": 0.07,
+                            "rtdist": 1000,
+                            "rtfq": 20,
+                            "rtpause": 1000,
+                            "secdone": 0,
+                            "secmv": 770683,
+                            "speed": 150,
+                            "startpos": 1102771,
+                            "step": 1,
+                            "steps": 100,
+                            "stime": -1297940806,
+                            "t": -1363595958,
+                            "t1": -1362755220,
+                            "t2": -1363576504,
+                            "t3": 4028,
+                            "testy": -1362579514,
+                            "testy2": 229313,
+                            "time": 150,
+                            "touchref": 1046671,
+                            "touchst": 0,
+                            "tsteps": 100,
+                            "ttime": 14287.3337,
+                            "x": -1000,
+                            "zpos0": 1051672,
+                            "zpos1": 1051673,
+                            "zpos2": 1051673,
+                            "ztouch": 1051672.6667
+                        }
+                    ]
+                }
+            ],
+            "MunkSettings": [
+                {
+                    "pulseMode": 255,
+                    "segmentData": [
+                        {
+                            "current": 105,
+                            "segmentMode": "REVERSE",
+                            "supplyOutput": "OUTPUT1",
+                            "time": 5000,
+                            "voltage": 24
+                        },
+                        {
+                            "current": 0,
+                            "segmentMode": "DEAD",
+                            "supplyOutput": "OUTPUT1",
+                            "time": 2000,
+                            "voltage": 0
+                        }
+                    ]
+                }
+            ],
+            "opIndex": 1,
+            "opName": "Non-Bone Linear",
+            "opType": 0,
+            "pumpData": [
+                {
+                    "pumpDelayTime": 2000,
+                    "pumpFlowRate": 2.5,
+                    "pumpUtilized": true,
+                    "pumpWaitForDelay": true
+                }
+            ],
+            "touchoffData": [
+                {
+                    "touchoffExecute": true,
+                    "touchoffGap": 40000,
+                    "touchoffRef": 655000,
+                    "touchoffRefPrevious": false
+                }
+            ],
+            "useOperation": true
+        },
+        {
+            "MotionControlData": [
+                {
+                    "labelData": [
+                        {
+                            "BINARYF": 508,
+                            "CHECK1": 428,
+                            "CHECK2": 438,
+                            "CHECK3": 448,
+                            "Error": 481,
+                            "INCON": 490,
+                            "ININT": 67,
+                            "RESETI": 80,
+                            "STERR": 499,
+                            "TOUCHS": 426,
+                            "WAIT": 74,
+                            "errChk": 476,
+                            "fndepth": 205,
+                            "fsttre": 357,
+                            "home": 389,
+                            "latch": 54,
+                            "linemva": 86,
+                            "linemvb": 117,
+                            "linemvc": 148,
+                            "opone": 295,
+                            "oponea": 314,
+                            "optre": 332,
+                            "optwov": 234,
+                            "reporta": 101,
+                            "reportb": 132,
+                            "reportc": 163,
+                            "setup": 0,
+                            "touchof": 400,
+                            "vibmv": 181,
+                            "vmove": 214,
+                            "vmtre": 367,
+                            "vmtwo": 274
+                        }
+                    ],
+                    "profileName": "optwov",
+                    "programScript": "#setup\n'GENERAL SETTINGS\nBR -1\nER 10000\nOE 0\nMT 1\nCE 2\nCN 1\nBWA=100\nSB2\nSB3\nII2,,,2\n\n'Default Profile Parameters\ndx=30000\nspeed=1000\ndelay=1000\nmaxdepth=300000\nrtdist = 1000\nrtfq = 20\nrtpause = 1000\nstep = 1.0\ncutdone=0\nsecdone=0\ninitgap=1000\ntouchst = 0\nppos = 0\nhomest = 0\n\n'Default PID PARAMETERS\nkdtoff = 60.0\nkptoff = 30.0\nkitoff = 2.0\nkddef = 35.0\nkpdef = 3.0\nkidef = 1.0\n\nKD kddef\nKP kpdef\nKI kidef\n\n\n'Default SPEEDS & ACCELERATIONS\nSP 50000\nAC 1000000\nDC 1000000\nEN\n\n'Default Offsets\nOF -3.2\nIL 10\nFV 0\nFA 0\n\n#latch\n'SET SPEEDS & ACCELERATIONS\nSP 50000\nAC 1000000\nDC 1000000\nPR 20000;BG\nAM;ST\nJP #home\nEN\n\n'**************************************\n'EMERGENCY STOP\n'**************************************\n#ININT\nMG \"Interrupt\"\nST\nSB2\nWT500\nMO\nMG \"Emergency Stop Detected\"\n#WAIT\nJP#WAIT,@IN[2]=1\nJS#RESETI\nZS\nMG \"Emergency Stop Cleared\"\nEN\n#RESETI\nRI2\n\n'**************************************\n'Linear Move\n'**************************************\n#linemva\nstartpos = _TPA\nppos = _TPA\nmaxdepth = 25850\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reporta\nppos=_TPA\nJP #reporta, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n\n'******\n\n#linemvb\nstartpos = _TPA\nppos = _TPA\nmaxdepth = 31500\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reportb\nppos=_TPA\nJP #reportb, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n\n'******\n\n#linemvc\nstartpos = _TPA\nppos = _TPA\n'maxdepth = 3150\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reportc\nppos=_TPA\nJP #reportc, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n'**************************************\n'Vibration Profile\n'**************************************\n'Will retract at set intervals\n\n#vibmv\n\ncutdone=0;\n\nMG \"Vibration Profile Start\"\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 40000000\nforsp = 40000000\nKD 55\nKP 10\nKI 1\nFA 0\nFV 0\nIL 10\nrtpause = 8\n\nfinalmv = startpos+maxdepth\n\nCB2\nXQ #vmove, 1\n\n#fndepth\ncurpos=_TPA\nJP #fndepth, curpos<finalmv\nMG \"Reached max depth\"\nST; HX1; SB2\ncutdone = 1\nHX\nEN \n\n#vmove\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nWT rtfq\nnextpos = nextpos+step\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmove\nEN\n\n\n'***********************\n'OP2 vibration profile\n'***********************\n#optwov\nrtfq = 4\nrtdist = 500\nrtpause = 8\n'maxdepth = 11800\n\ncutdone = 0\n\nMG \"Vibration Profile Start\"\n\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 10000000\nforsp = 10000000\nKD 40\nKP 14\nKI 1\nFA 0\nFV 0\nIL 10\n\nrspeed = speed/1000\nstime = TIME\nttime = (maxdepth/rspeed)\n'ftime = TIME+1000000\n\n\nCB2\nXQ #vmtwo, 1\nMG \"1\"\nWT ttime\nMG \"Reached max depth\"\nST; HX1; SB2\n\ncutdone = 1\nHX\nEN\n\n#vmtwo\nint1 = TIME-stime\nint2 = int1*rspeed\nnextpos = startpos +int2\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nWT rtfq\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmtwo\nEN\n\n'**************************************\n'Op1 second linear section\n'**************************************\n#opone\nspeed = 150\nmaxdepth = 5050\n\nsecdone = 0\nSP10000\nPR -100; BG; AM\nstartpos = _TPA\nppos = _TPA\nfinalmv = startpos+maxdepth\n\nWT 100\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#oponea\nppos=_TPA\nJP #oponea, ppos< (finalmv-100)\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\nsecdone=1\nHX\nEN\n\n'**************************************\n'Op3 vibration\n'**************************************\n#optre\nstep = 1.25\nrtfq = 10\nrtdist = 1000\nrtpause = 8\n\ncutdone = 0\n\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 120000000\nforsp = 30000000\nKD 45\nKP 1.5\nKI 0.4\nFA 0\nFV 0\nIL 10\n\nfstmv = startpos+maxdepth\n\nXQ #vmtre, 1\n\n#fsttre\ncurpos=_TPA\nJP #fsttre, curpos<fstmv\nST; HX1; SB2;\n\nPA nextpos;BG;AM\ncutdone = 1\nHX\nEN\n\n#vmtre\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nCB2\nWT rtfq\nSB2\nnextpos = nextpos+step\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmtre, mvnow > 1\nEN\n\n'**************************************\n'SUBROUTINES\n'**************************************\n\n#home\nhomest = 0\nJG-5000, (_LR=0);\nBG;AM;ST;\nDP*=0\nWT 1000\nhomest = 1\nEN\n'**************************************\n\n'**************************************\n#touchof\n'**************************************\nelimit= 1000\nMerr = 80\ntouchst = 0\nztouch = 0\nn=0\n\n'\nIF touchref>0\nSP 200000\nWT 500\nPA touchref;BG;AM\nWT 500\nENDIF\n\nJP#STERR, @IN[1]=0\nXQ #TOUCHS, 1\nXQ #errChk, 2\n'\nEN\n'\nKD kdtoff\nKP kptoff\nKI kitoff\n\n#TOUCHS\nJG500;BG\n#CHECK1\nJP #CHECK1, @IN[1]=1\nST\nWT500\nzpos0 = _TPA\n\nSP 10000\nPR-600; BG; AM;\nWT500\nJG500;BG\n#CHECK2\nJP #CHECK2, @IN[1]=1\nST\nWT500\nzpos1 = _TPA\n\nSP 10000\nPR-600; BG; AM;\nWT500\nJG500;BG\n#CHECK3\nJP #CHECK3, @IN[1]=1\nST\nWT500\nzpos2 = _TPA\n\nJP #INCON, (zpos0-zpos1)>Merr\nJP #INCON, (zpos0-zpos2)>Merr\nJP #INCON, (zpos1-zpos2)>Merr\nJP #INCON, (zpos1-zpos0)>Merr\nJP #INCON, (zpos2-zpos0)>Merr\nJP #INCON, (zpos2-zpos1)>Merr\nztouch = (zpos0+zpos1+zpos2)/3\n\nSP500;PA ztouch; BG; AM;\n\nMG \"Zero point found\"\nSP 100000\nPR-initgap; BG\nAM\ntouchst = 1\nMG \"Complete\"\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#errChk\nerror=_TEA;\nJP #errChk, error<elimit\nST\n'\n#Error\nMG \"Positional error limit exceeded\"\ntouchst = 2\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#INCON\nMG \"Inconsitent Touch Position\"\ntouchst = 2\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#STERR\nMG \"Already touching part\"\ntouchst = 3\nKD kddef\nKP kpdef\nKI kidef\nEN\n'\n\n#BINARYF \ntime=150\nCB3\nWTtime\nSB3\nWTtime\nJP#BINARYF\nEN\n",
+                    "variableData": [
+                        {
+                            "Merr": 80,
+                            "backsp": 80000000,
+                            "curpos": 27223,
+                            "cutdone": 0,
+                            "delay": 1000,
+                            "dx": 30000,
+                            "elimit": 1000,
+                            "error": 209,
+                            "finalmv": 1107771,
+                            "forsp": 20000000,
+                            "fstmv": 766683,
+                            "ftime": -1363230485.8474,
+                            "homest": 0,
+                            "initgap": 1000,
+                            "int1": 14580,
+                            "int2": 1020.4843,
+                            "int3": 249528.1689,
+                            "kddef": 35,
+                            "kdtoff": 60,
+                            "kidef": 1,
+                            "kitoff": 2,
+                            "kpdef": 3,
+                            "kptoff": 30,
+                            "maxdepth": 12200,
+                            "mvnow": 2,
+                            "n": 0,
+                            "nextpos": 980199.9997,
+                            "ppos": 0,
+                            "rspeed": 0.07,
+                            "rtdist": 1000,
+                            "rtfq": 20,
+                            "rtpause": 1000,
+                            "secdone": 0,
+                            "secmv": 770683,
+                            "speed": 86,
+                            "startpos": 1102771,
+                            "step": 1,
+                            "steps": 100,
+                            "stime": -1297940806,
+                            "t": -1363595958,
+                            "t1": -1362755220,
+                            "t2": -1363576504,
+                            "t3": 4028,
+                            "testy": -1362579514,
+                            "testy2": 229313,
+                            "time": 150,
+                            "touchref": 1046671,
+                            "touchst": 0,
+                            "tsteps": 100,
+                            "ttime": 14287.3337,
+                            "x": -1000,
+                            "zpos0": 1051672,
+                            "zpos1": 1051673,
+                            "zpos2": 1051673,
+                            "ztouch": 1051672.6667
+                        }
+                    ]
+                }
+            ],
+            "MunkSettings": [
+                {
+                    "pulseMode": 255,
+                    "segmentData": [
+                        {
+                            "current": 105,
+                            "segmentMode": "REVERSE",
+                            "supplyOutput": "OUTPUT1",
+                            "time": 5000,
+                            "voltage": 24
+                        },
+                        {
+                            "current": 0,
+                            "segmentMode": "DEAD",
+                            "supplyOutput": "OUTPUT1",
+                            "time": 2000,
+                            "voltage": 0
+                        }
+                    ]
+                }
+            ],
+            "opIndex": 2,
+            "opName": "Non-Bone vib",
+            "opType": 0,
+            "pumpData": [
+                {
+                    "pumpDelayTime": 2000,
+                    "pumpFlowRate": 2.5,
+                    "pumpUtilized": true,
+                    "pumpWaitForDelay": true
+                }
+            ],
+            "touchoffData": [
+                {
+                    "touchoffExecute": false,
+                    "touchoffGap": 0,
+                    "touchoffRef": 0,
+                    "touchoffRefPrevious": false
+                }
+            ],
+            "useOperation": true
+        },
+        {
+            "MotionControlData": [
+                {
+                    "labelData": [
+                        {
+                            "BINARYF": 508,
+                            "CHECK1": 428,
+                            "CHECK2": 438,
+                            "CHECK3": 448,
+                            "Error": 481,
+                            "INCON": 490,
+                            "ININT": 67,
+                            "RESETI": 80,
+                            "STERR": 499,
+                            "TOUCHS": 426,
+                            "WAIT": 74,
+                            "errChk": 476,
+                            "fndepth": 205,
+                            "fsttre": 357,
+                            "home": 389,
+                            "latch": 54,
+                            "linemva": 86,
+                            "linemvb": 117,
+                            "linemvc": 148,
+                            "opone": 295,
+                            "oponea": 314,
+                            "optre": 332,
+                            "optwov": 234,
+                            "reporta": 101,
+                            "reportb": 132,
+                            "reportc": 163,
+                            "setup": 0,
+                            "touchof": 400,
+                            "vibmv": 181,
+                            "vmove": 214,
+                            "vmtre": 367,
+                            "vmtwo": 274
+                        }
+                    ],
+                    "profileName": "linemvc",
+                    "programScript": "#setup\n'GENERAL SETTINGS\nBR -1\nER 10000\nOE 0\nMT 1\nCE 2\nCN 1\nBWA=100\nSB2\nSB3\nII2,,,2\n\n'Default Profile Parameters\ndx=30000\nspeed=1000\ndelay=1000\nmaxdepth=300000\nrtdist = 1000\nrtfq = 20\nrtpause = 1000\nstep = 1.0\ncutdone=0\nsecdone=0\ninitgap=1000\ntouchst = 0\nppos = 0\nhomest = 0\n\n'Default PID PARAMETERS\nkdtoff = 60.0\nkptoff = 30.0\nkitoff = 2.0\nkddef = 35.0\nkpdef = 3.0\nkidef = 1.0\n\nKD kddef\nKP kpdef\nKI kidef\n\n\n'Default SPEEDS & ACCELERATIONS\nSP 50000\nAC 1000000\nDC 1000000\nEN\n\n'Default Offsets\nOF -3.2\nIL 10\nFV 0\nFA 0\n\n#latch\n'SET SPEEDS & ACCELERATIONS\nSP 50000\nAC 1000000\nDC 1000000\nPR 20000;BG\nAM;ST\nJP #home\nEN\n\n'**************************************\n'EMERGENCY STOP\n'**************************************\n#ININT\nMG \"Interrupt\"\nST\nSB2\nWT500\nMO\nMG \"Emergency Stop Detected\"\n#WAIT\nJP#WAIT,@IN[2]=1\nJS#RESETI\nZS\nMG \"Emergency Stop Cleared\"\nEN\n#RESETI\nRI2\n\n'**************************************\n'Linear Move\n'**************************************\n#linemva\nstartpos = _TPA\nppos = _TPA\nmaxdepth = 25850\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reporta\nppos=_TPA\nJP #reporta, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n\n'******\n\n#linemvb\nstartpos = _TPA\nppos = _TPA\nmaxdepth = 31500\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reportb\nppos=_TPA\nJP #reportb, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n\n'******\n\n#linemvc\nstartpos = _TPA\nppos = _TPA\n'maxdepth = 3150\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reportc\nppos=_TPA\nJP #reportc, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n'**************************************\n'Vibration Profile\n'**************************************\n'Will retract at set intervals\n\n#vibmv\n\ncutdone=0;\n\nMG \"Vibration Profile Start\"\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 40000000\nforsp = 40000000\nKD 55\nKP 10\nKI 1\nFA 0\nFV 0\nIL 10\nrtpause = 8\n\nfinalmv = startpos+maxdepth\n\nCB2\nXQ #vmove, 1\n\n#fndepth\ncurpos=_TPA\nJP #fndepth, curpos<finalmv\nMG \"Reached max depth\"\nST; HX1; SB2\ncutdone = 1\nHX\nEN \n\n#vmove\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nWT rtfq\nnextpos = nextpos+step\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmove\nEN\n\n\n'***********************\n'OP2 vibration profile\n'***********************\n#optwov\nrtfq = 4\nrtdist = 500\nrtpause = 8\n'maxdepth = 11800\n\ncutdone = 0\n\nMG \"Vibration Profile Start\"\n\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 10000000\nforsp = 10000000\nKD 40\nKP 14\nKI 1\nFA 0\nFV 0\nIL 10\n\nrspeed = speed/1000\nstime = TIME\nttime = (maxdepth/rspeed)\n'ftime = TIME+1000000\n\n\nCB2\nXQ #vmtwo, 1\nMG \"1\"\nWT ttime\nMG \"Reached max depth\"\nST; HX1; SB2\n\ncutdone = 1\nHX\nEN\n\n#vmtwo\nint1 = TIME-stime\nint2 = int1*rspeed\nnextpos = startpos +int2\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nWT rtfq\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmtwo\nEN\n\n'**************************************\n'Op1 second linear section\n'**************************************\n#opone\nspeed = 150\nmaxdepth = 5050\n\nsecdone = 0\nSP10000\nPR -100; BG; AM\nstartpos = _TPA\nppos = _TPA\nfinalmv = startpos+maxdepth\n\nWT 100\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#oponea\nppos=_TPA\nJP #oponea, ppos< (finalmv-100)\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\nsecdone=1\nHX\nEN\n\n'**************************************\n'Op3 vibration\n'**************************************\n#optre\nstep = 1.25\nrtfq = 10\nrtdist = 1000\nrtpause = 8\n\ncutdone = 0\n\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 120000000\nforsp = 30000000\nKD 45\nKP 1.5\nKI 0.4\nFA 0\nFV 0\nIL 10\n\nfstmv = startpos+maxdepth\n\nXQ #vmtre, 1\n\n#fsttre\ncurpos=_TPA\nJP #fsttre, curpos<fstmv\nST; HX1; SB2;\n\nPA nextpos;BG;AM\ncutdone = 1\nHX\nEN\n\n#vmtre\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nCB2\nWT rtfq\nSB2\nnextpos = nextpos+step\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmtre, mvnow > 1\nEN\n\n'**************************************\n'SUBROUTINES\n'**************************************\n\n#home\nhomest = 0\nJG-5000, (_LR=0);\nBG;AM;ST;\nDP*=0\nWT 1000\nhomest = 1\nEN\n'**************************************\n\n'**************************************\n#touchof\n'**************************************\nelimit= 1000\nMerr = 80\ntouchst = 0\nztouch = 0\nn=0\n\n'\nIF touchref>0\nSP 200000\nWT 500\nPA touchref;BG;AM\nWT 500\nENDIF\n\nJP#STERR, @IN[1]=0\nXQ #TOUCHS, 1\nXQ #errChk, 2\n'\nEN\n'\nKD kdtoff\nKP kptoff\nKI kitoff\n\n#TOUCHS\nJG500;BG\n#CHECK1\nJP #CHECK1, @IN[1]=1\nST\nWT500\nzpos0 = _TPA\n\nSP 10000\nPR-600; BG; AM;\nWT500\nJG500;BG\n#CHECK2\nJP #CHECK2, @IN[1]=1\nST\nWT500\nzpos1 = _TPA\n\nSP 10000\nPR-600; BG; AM;\nWT500\nJG500;BG\n#CHECK3\nJP #CHECK3, @IN[1]=1\nST\nWT500\nzpos2 = _TPA\n\nJP #INCON, (zpos0-zpos1)>Merr\nJP #INCON, (zpos0-zpos2)>Merr\nJP #INCON, (zpos1-zpos2)>Merr\nJP #INCON, (zpos1-zpos0)>Merr\nJP #INCON, (zpos2-zpos0)>Merr\nJP #INCON, (zpos2-zpos1)>Merr\nztouch = (zpos0+zpos1+zpos2)/3\n\nSP500;PA ztouch; BG; AM;\n\nMG \"Zero point found\"\nSP 100000\nPR-initgap; BG\nAM\ntouchst = 1\nMG \"Complete\"\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#errChk\nerror=_TEA;\nJP #errChk, error<elimit\nST\n'\n#Error\nMG \"Positional error limit exceeded\"\ntouchst = 2\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#INCON\nMG \"Inconsitent Touch Position\"\ntouchst = 2\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#STERR\nMG \"Already touching part\"\ntouchst = 3\nKD kddef\nKP kpdef\nKI kidef\nEN\n'\n\n#BINARYF \ntime=150\nCB3\nWTtime\nSB3\nWTtime\nJP#BINARYF\nEN\n",
+                    "variableData": [
+                        {
+                            "Merr": 80,
+                            "backsp": 80000000,
+                            "curpos": 27223,
+                            "cutdone": 0,
+                            "delay": 1000,
+                            "dx": 30000,
+                            "elimit": 1000,
+                            "error": 209,
+                            "finalmv": 1107771,
+                            "forsp": 20000000,
+                            "fstmv": 766683,
+                            "ftime": -1363230485.8474,
+                            "homest": 0,
+                            "initgap": 1000,
+                            "int1": 14580,
+                            "int2": 1020.4843,
+                            "int3": 249528.1689,
+                            "kddef": 35,
+                            "kdtoff": 60,
+                            "kidef": 1,
+                            "kitoff": 2,
+                            "kpdef": 3,
+                            "kptoff": 30,
+                            "maxdepth": 31500,
+                            "mvnow": 2,
+                            "n": 0,
+                            "nextpos": 980199.9997,
+                            "ppos": 0,
+                            "rspeed": 0.07,
+                            "rtdist": 1000,
+                            "rtfq": 20,
+                            "rtpause": 1000,
+                            "secdone": 0,
+                            "secmv": 770683,
+                            "speed": 190,
+                            "startpos": 1102771,
+                            "step": 1,
+                            "steps": 100,
+                            "stime": -1297940806,
+                            "t": -1363595958,
+                            "t1": -1362755220,
+                            "t2": -1363576504,
+                            "t3": 4028,
+                            "testy": -1362579514,
+                            "testy2": 229313,
+                            "time": 150,
+                            "touchref": 1046671,
+                            "touchst": 0,
+                            "tsteps": 100,
+                            "ttime": 14287.3337,
+                            "x": -1000,
+                            "zpos0": 1051672,
+                            "zpos1": 1051673,
+                            "zpos2": 1051673,
+                            "ztouch": 1051672.6667
+                        }
+                    ]
+                }
+            ],
+            "MunkSettings": [
+                {
+                    "pulseMode": 255,
+                    "segmentData": [
+                        {
+                            "current": 105,
+                            "segmentMode": "FORWARD",
+                            "supplyOutput": "OUTPUT1",
+                            "time": 5000,
+                            "voltage": 24
+                        },
+                        {
+                            "current": 0,
+                            "segmentMode": "DEAD",
+                            "supplyOutput": "OUTPUT1",
+                            "time": 2000,
+                            "voltage": 0
+                        }
+                    ]
+                }
+            ],
+            "opIndex": 3,
+            "opName": "Hole Fast",
+            "opType": 0,
+            "pumpData": [
+                {
+                    "pumpDelayTime": 5000,
+                    "pumpFlowRate": 1,
+                    "pumpUtilized": true,
+                    "pumpWaitForDelay": true
+                }
+            ],
+            "touchoffData": [
+                {
+                    "touchoffExecute": true,
+                    "touchoffGap": 1000,
+                    "touchoffRef": 1066000,
+                    "touchoffRefPrevious": false
+                }
+            ],
+            "useOperation": false
+        },
+        {
+            "MotionControlData": [
+                {
+                    "labelData": [
+                        {
+                            "BINARYF": 508,
+                            "CHECK1": 428,
+                            "CHECK2": 438,
+                            "CHECK3": 448,
+                            "Error": 481,
+                            "INCON": 490,
+                            "ININT": 67,
+                            "RESETI": 80,
+                            "STERR": 499,
+                            "TOUCHS": 426,
+                            "WAIT": 74,
+                            "errChk": 476,
+                            "fndepth": 205,
+                            "fsttre": 357,
+                            "home": 389,
+                            "latch": 54,
+                            "linemva": 86,
+                            "linemvb": 117,
+                            "linemvc": 148,
+                            "opone": 295,
+                            "oponea": 314,
+                            "optre": 332,
+                            "optwov": 234,
+                            "reporta": 101,
+                            "reportb": 132,
+                            "reportc": 163,
+                            "setup": 0,
+                            "touchof": 400,
+                            "vibmv": 181,
+                            "vmove": 214,
+                            "vmtre": 367,
+                            "vmtwo": 274
+                        }
+                    ],
+                    "profileName": "linemvc",
+                    "programScript": "#setup\n'GENERAL SETTINGS\nBR -1\nER 10000\nOE 0\nMT 1\nCE 2\nCN 1\nBWA=100\nSB2\nSB3\nII2,,,2\n\n'Default Profile Parameters\ndx=30000\nspeed=1000\ndelay=1000\nmaxdepth=300000\nrtdist = 1000\nrtfq = 20\nrtpause = 1000\nstep = 1.0\ncutdone=0\nsecdone=0\ninitgap=1000\ntouchst = 0\nppos = 0\nhomest = 0\n\n'Default PID PARAMETERS\nkdtoff = 60.0\nkptoff = 30.0\nkitoff = 2.0\nkddef = 35.0\nkpdef = 3.0\nkidef = 1.0\n\nKD kddef\nKP kpdef\nKI kidef\n\n\n'Default SPEEDS & ACCELERATIONS\nSP 50000\nAC 1000000\nDC 1000000\nEN\n\n'Default Offsets\nOF -3.2\nIL 10\nFV 0\nFA 0\n\n#latch\n'SET SPEEDS & ACCELERATIONS\nSP 50000\nAC 1000000\nDC 1000000\nPR 20000;BG\nAM;ST\nJP #home\nEN\n\n'**************************************\n'EMERGENCY STOP\n'**************************************\n#ININT\nMG \"Interrupt\"\nST\nSB2\nWT500\nMO\nMG \"Emergency Stop Detected\"\n#WAIT\nJP#WAIT,@IN[2]=1\nJS#RESETI\nZS\nMG \"Emergency Stop Cleared\"\nEN\n#RESETI\nRI2\n\n'**************************************\n'Linear Move\n'**************************************\n#linemva\nstartpos = _TPA\nppos = _TPA\nmaxdepth = 25850\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reporta\nppos=_TPA\nJP #reporta, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n\n'******\n\n#linemvb\nstartpos = _TPA\nppos = _TPA\nmaxdepth = 31500\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reportb\nppos=_TPA\nJP #reportb, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n\n'******\n\n#linemvc\nstartpos = _TPA\nppos = _TPA\n'maxdepth = 3150\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reportc\nppos=_TPA\nJP #reportc, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n'**************************************\n'Vibration Profile\n'**************************************\n'Will retract at set intervals\n\n#vibmv\n\ncutdone=0;\n\nMG \"Vibration Profile Start\"\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 40000000\nforsp = 40000000\nKD 55\nKP 10\nKI 1\nFA 0\nFV 0\nIL 10\nrtpause = 8\n\nfinalmv = startpos+maxdepth\n\nCB2\nXQ #vmove, 1\n\n#fndepth\ncurpos=_TPA\nJP #fndepth, curpos<finalmv\nMG \"Reached max depth\"\nST; HX1; SB2\ncutdone = 1\nHX\nEN \n\n#vmove\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nWT rtfq\nnextpos = nextpos+step\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmove\nEN\n\n\n'***********************\n'OP2 vibration profile\n'***********************\n#optwov\nrtfq = 4\nrtdist = 500\nrtpause = 8\n'maxdepth = 11800\n\ncutdone = 0\n\nMG \"Vibration Profile Start\"\n\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 10000000\nforsp = 10000000\nKD 40\nKP 14\nKI 1\nFA 0\nFV 0\nIL 10\n\nrspeed = speed/1000\nstime = TIME\nttime = (maxdepth/rspeed)\n'ftime = TIME+1000000\n\n\nCB2\nXQ #vmtwo, 1\nMG \"1\"\nWT ttime\nMG \"Reached max depth\"\nST; HX1; SB2\n\ncutdone = 1\nHX\nEN\n\n#vmtwo\nint1 = TIME-stime\nint2 = int1*rspeed\nnextpos = startpos +int2\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nWT rtfq\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmtwo\nEN\n\n'**************************************\n'Op1 second linear section\n'**************************************\n#opone\nspeed = 150\nmaxdepth = 5050\n\nsecdone = 0\nSP10000\nPR -100; BG; AM\nstartpos = _TPA\nppos = _TPA\nfinalmv = startpos+maxdepth\n\nWT 100\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#oponea\nppos=_TPA\nJP #oponea, ppos< (finalmv-100)\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\nsecdone=1\nHX\nEN\n\n'**************************************\n'Op3 vibration\n'**************************************\n#optre\nstep = 1.25\nrtfq = 10\nrtdist = 1000\nrtpause = 8\n\ncutdone = 0\n\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 120000000\nforsp = 30000000\nKD 45\nKP 1.5\nKI 0.4\nFA 0\nFV 0\nIL 10\n\nfstmv = startpos+maxdepth\n\nXQ #vmtre, 1\n\n#fsttre\ncurpos=_TPA\nJP #fsttre, curpos<fstmv\nST; HX1; SB2;\n\nPA nextpos;BG;AM\ncutdone = 1\nHX\nEN\n\n#vmtre\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nCB2\nWT rtfq\nSB2\nnextpos = nextpos+step\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmtre, mvnow > 1\nEN\n\n'**************************************\n'SUBROUTINES\n'**************************************\n\n#home\nhomest = 0\nJG-5000, (_LR=0);\nBG;AM;ST;\nDP*=0\nWT 1000\nhomest = 1\nEN\n'**************************************\n\n'**************************************\n#touchof\n'**************************************\nelimit= 1000\nMerr = 80\ntouchst = 0\nztouch = 0\nn=0\n\n'\nIF touchref>0\nSP 200000\nWT 500\nPA touchref;BG;AM\nWT 500\nENDIF\n\nJP#STERR, @IN[1]=0\nXQ #TOUCHS, 1\nXQ #errChk, 2\n'\nEN\n'\nKD kdtoff\nKP kptoff\nKI kitoff\n\n#TOUCHS\nJG500;BG\n#CHECK1\nJP #CHECK1, @IN[1]=1\nST\nWT500\nzpos0 = _TPA\n\nSP 10000\nPR-600; BG; AM;\nWT500\nJG500;BG\n#CHECK2\nJP #CHECK2, @IN[1]=1\nST\nWT500\nzpos1 = _TPA\n\nSP 10000\nPR-600; BG; AM;\nWT500\nJG500;BG\n#CHECK3\nJP #CHECK3, @IN[1]=1\nST\nWT500\nzpos2 = _TPA\n\nJP #INCON, (zpos0-zpos1)>Merr\nJP #INCON, (zpos0-zpos2)>Merr\nJP #INCON, (zpos1-zpos2)>Merr\nJP #INCON, (zpos1-zpos0)>Merr\nJP #INCON, (zpos2-zpos0)>Merr\nJP #INCON, (zpos2-zpos1)>Merr\nztouch = (zpos0+zpos1+zpos2)/3\n\nSP500;PA ztouch; BG; AM;\n\nMG \"Zero point found\"\nSP 100000\nPR-initgap; BG\nAM\ntouchst = 1\nMG \"Complete\"\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#errChk\nerror=_TEA;\nJP #errChk, error<elimit\nST\n'\n#Error\nMG \"Positional error limit exceeded\"\ntouchst = 2\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#INCON\nMG \"Inconsitent Touch Position\"\ntouchst = 2\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#STERR\nMG \"Already touching part\"\ntouchst = 3\nKD kddef\nKP kpdef\nKI kidef\nEN\n'\n\n#BINARYF \ntime=150\nCB3\nWTtime\nSB3\nWTtime\nJP#BINARYF\nEN\n",
+                    "variableData": [
+                        {
+                            "Merr": 80,
+                            "backsp": 80000000,
+                            "curpos": 27223,
+                            "cutdone": 0,
+                            "delay": 1000,
+                            "dx": 30000,
+                            "elimit": 1000,
+                            "error": 209,
+                            "finalmv": 1107771,
+                            "forsp": 20000000,
+                            "fstmv": 766683,
+                            "ftime": -1363230485.8474,
+                            "homest": 0,
+                            "initgap": 1000,
+                            "int1": 14580,
+                            "int2": 1020.4843,
+                            "int3": 249528.1689,
+                            "kddef": 35,
+                            "kdtoff": 60,
+                            "kidef": 1,
+                            "kitoff": 2,
+                            "kpdef": 3,
+                            "kptoff": 30,
+                            "maxdepth": 5000,
+                            "mvnow": 2,
+                            "n": 0,
+                            "nextpos": 980199.9997,
+                            "ppos": 0,
+                            "rspeed": 0.07,
+                            "rtdist": 1000,
+                            "rtfq": 20,
+                            "rtpause": 1000,
+                            "secdone": 0,
+                            "secmv": 770683,
+                            "speed": 150,
+                            "startpos": 1102771,
+                            "step": 1,
+                            "steps": 100,
+                            "stime": -1297940806,
+                            "t": -1363595958,
+                            "t1": -1362755220,
+                            "t2": -1363576504,
+                            "t3": 4028,
+                            "testy": -1362579514,
+                            "testy2": 229313,
+                            "time": 150,
+                            "touchref": 1046671,
+                            "touchst": 0,
+                            "tsteps": 100,
+                            "ttime": 14287.3337,
+                            "x": -1000,
+                            "zpos0": 1051672,
+                            "zpos1": 1051673,
+                            "zpos2": 1051673,
+                            "ztouch": 1051672.6667
+                        }
+                    ]
+                }
+            ],
+            "MunkSettings": [
+                {
+                    "pulseMode": 255,
+                    "segmentData": [
+                        {
+                            "current": 105,
+                            "segmentMode": "FORWARD",
+                            "supplyOutput": "OUTPUT1",
+                            "time": 5000,
+                            "voltage": 24
+                        },
+                        {
+                            "current": 0,
+                            "segmentMode": "DEAD",
+                            "supplyOutput": "OUTPUT1",
+                            "time": 2000,
+                            "voltage": 0
+                        }
+                    ]
+                }
+            ],
+            "opIndex": 4,
+            "opName": "Hole BreakThrough",
+            "opType": 0,
+            "pumpData": [
+                {
+                    "pumpDelayTime": 2000,
+                    "pumpFlowRate": 1,
+                    "pumpUtilized": true,
+                    "pumpWaitForDelay": true
+                }
+            ],
+            "touchoffData": [
+                {
+                    "touchoffExecute": false,
+                    "touchoffGap": 0,
+                    "touchoffRef": 0,
+                    "touchoffRefPrevious": false
+                }
+            ],
+            "useOperation": false
+        },
+        {
+            "MotionControlData": [
+                {
+                    "labelData": [
+                        {
+                            "BINARYF": 508,
+                            "CHECK1": 428,
+                            "CHECK2": 438,
+                            "CHECK3": 448,
+                            "Error": 481,
+                            "INCON": 490,
+                            "ININT": 67,
+                            "RESETI": 80,
+                            "STERR": 499,
+                            "TOUCHS": 426,
+                            "WAIT": 74,
+                            "errChk": 476,
+                            "fndepth": 205,
+                            "fsttre": 357,
+                            "home": 389,
+                            "latch": 54,
+                            "linemva": 86,
+                            "linemvb": 117,
+                            "linemvc": 148,
+                            "opone": 295,
+                            "oponea": 314,
+                            "optre": 332,
+                            "optwov": 234,
+                            "reporta": 101,
+                            "reportb": 132,
+                            "reportc": 163,
+                            "setup": 0,
+                            "touchof": 400,
+                            "vibmv": 181,
+                            "vmove": 214,
+                            "vmtre": 367,
+                            "vmtwo": 274
+                        }
+                    ],
+                    "profileName": "linemvc",
+                    "programScript": "#setup\n'GENERAL SETTINGS\nBR -1\nER 10000\nOE 0\nMT 1\nCE 2\nCN 1\nBWA=100\nSB2\nSB3\nII2,,,2\n\n'Default Profile Parameters\ndx=30000\nspeed=1000\ndelay=1000\nmaxdepth=300000\nrtdist = 1000\nrtfq = 20\nrtpause = 1000\nstep = 1.0\ncutdone=0\nsecdone=0\ninitgap=1000\ntouchst = 0\nppos = 0\nhomest = 0\n\n'Default PID PARAMETERS\nkdtoff = 60.0\nkptoff = 30.0\nkitoff = 2.0\nkddef = 35.0\nkpdef = 3.0\nkidef = 1.0\n\nKD kddef\nKP kpdef\nKI kidef\n\n\n'Default SPEEDS & ACCELERATIONS\nSP 50000\nAC 1000000\nDC 1000000\nEN\n\n'Default Offsets\nOF -3.2\nIL 10\nFV 0\nFA 0\n\n#latch\n'SET SPEEDS & ACCELERATIONS\nSP 50000\nAC 1000000\nDC 1000000\nPR 20000;BG\nAM;ST\nJP #home\nEN\n\n'**************************************\n'EMERGENCY STOP\n'**************************************\n#ININT\nMG \"Interrupt\"\nST\nSB2\nWT500\nMO\nMG \"Emergency Stop Detected\"\n#WAIT\nJP#WAIT,@IN[2]=1\nJS#RESETI\nZS\nMG \"Emergency Stop Cleared\"\nEN\n#RESETI\nRI2\n\n'**************************************\n'Linear Move\n'**************************************\n#linemva\nstartpos = _TPA\nppos = _TPA\nmaxdepth = 25850\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reporta\nppos=_TPA\nJP #reporta, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n\n'******\n\n#linemvb\nstartpos = _TPA\nppos = _TPA\nmaxdepth = 31500\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reportb\nppos=_TPA\nJP #reportb, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n\n'******\n\n#linemvc\nstartpos = _TPA\nppos = _TPA\n'maxdepth = 3150\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reportc\nppos=_TPA\nJP #reportc, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n'**************************************\n'Vibration Profile\n'**************************************\n'Will retract at set intervals\n\n#vibmv\n\ncutdone=0;\n\nMG \"Vibration Profile Start\"\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 40000000\nforsp = 40000000\nKD 55\nKP 10\nKI 1\nFA 0\nFV 0\nIL 10\nrtpause = 8\n\nfinalmv = startpos+maxdepth\n\nCB2\nXQ #vmove, 1\n\n#fndepth\ncurpos=_TPA\nJP #fndepth, curpos<finalmv\nMG \"Reached max depth\"\nST; HX1; SB2\ncutdone = 1\nHX\nEN \n\n#vmove\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nWT rtfq\nnextpos = nextpos+step\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmove\nEN\n\n\n'***********************\n'OP2 vibration profile\n'***********************\n#optwov\nrtfq = 4\nrtdist = 500\nrtpause = 8\n'maxdepth = 11800\n\ncutdone = 0\n\nMG \"Vibration Profile Start\"\n\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 10000000\nforsp = 10000000\nKD 40\nKP 14\nKI 1\nFA 0\nFV 0\nIL 10\n\nrspeed = speed/1000\nstime = TIME\nttime = (maxdepth/rspeed)\n'ftime = TIME+1000000\n\n\nCB2\nXQ #vmtwo, 1\nMG \"1\"\nWT ttime\nMG \"Reached max depth\"\nST; HX1; SB2\n\ncutdone = 1\nHX\nEN\n\n#vmtwo\nint1 = TIME-stime\nint2 = int1*rspeed\nnextpos = startpos +int2\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nWT rtfq\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmtwo\nEN\n\n'**************************************\n'Op1 second linear section\n'**************************************\n#opone\nspeed = 150\nmaxdepth = 5050\n\nsecdone = 0\nSP10000\nPR -100; BG; AM\nstartpos = _TPA\nppos = _TPA\nfinalmv = startpos+maxdepth\n\nWT 100\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#oponea\nppos=_TPA\nJP #oponea, ppos< (finalmv-100)\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\nsecdone=1\nHX\nEN\n\n'**************************************\n'Op3 vibration\n'**************************************\n#optre\nstep = 1.25\nrtfq = 10\nrtdist = 1000\nrtpause = 8\n\ncutdone = 0\n\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 120000000\nforsp = 30000000\nKD 45\nKP 1.5\nKI 0.4\nFA 0\nFV 0\nIL 10\n\nfstmv = startpos+maxdepth\n\nXQ #vmtre, 1\n\n#fsttre\ncurpos=_TPA\nJP #fsttre, curpos<fstmv\nST; HX1; SB2;\n\nPA nextpos;BG;AM\ncutdone = 1\nHX\nEN\n\n#vmtre\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nCB2\nWT rtfq\nSB2\nnextpos = nextpos+step\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmtre, mvnow > 1\nEN\n\n'**************************************\n'SUBROUTINES\n'**************************************\n\n#home\nhomest = 0\nJG-5000, (_LR=0);\nBG;AM;ST;\nDP*=0\nWT 1000\nhomest = 1\nEN\n'**************************************\n\n'**************************************\n#touchof\n'**************************************\nelimit= 1000\nMerr = 80\ntouchst = 0\nztouch = 0\nn=0\n\n'\nIF touchref>0\nSP 200000\nWT 500\nPA touchref;BG;AM\nWT 500\nENDIF\n\nJP#STERR, @IN[1]=0\nXQ #TOUCHS, 1\nXQ #errChk, 2\n'\nEN\n'\nKD kdtoff\nKP kptoff\nKI kitoff\n\n#TOUCHS\nJG500;BG\n#CHECK1\nJP #CHECK1, @IN[1]=1\nST\nWT500\nzpos0 = _TPA\n\nSP 10000\nPR-600; BG; AM;\nWT500\nJG500;BG\n#CHECK2\nJP #CHECK2, @IN[1]=1\nST\nWT500\nzpos1 = _TPA\n\nSP 10000\nPR-600; BG; AM;\nWT500\nJG500;BG\n#CHECK3\nJP #CHECK3, @IN[1]=1\nST\nWT500\nzpos2 = _TPA\n\nJP #INCON, (zpos0-zpos1)>Merr\nJP #INCON, (zpos0-zpos2)>Merr\nJP #INCON, (zpos1-zpos2)>Merr\nJP #INCON, (zpos1-zpos0)>Merr\nJP #INCON, (zpos2-zpos0)>Merr\nJP #INCON, (zpos2-zpos1)>Merr\nztouch = (zpos0+zpos1+zpos2)/3\n\nSP500;PA ztouch; BG; AM;\n\nMG \"Zero point found\"\nSP 100000\nPR-initgap; BG\nAM\ntouchst = 1\nMG \"Complete\"\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#errChk\nerror=_TEA;\nJP #errChk, error<elimit\nST\n'\n#Error\nMG \"Positional error limit exceeded\"\ntouchst = 2\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#INCON\nMG \"Inconsitent Touch Position\"\ntouchst = 2\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#STERR\nMG \"Already touching part\"\ntouchst = 3\nKD kddef\nKP kpdef\nKI kidef\nEN\n'\n\n#BINARYF \ntime=150\nCB3\nWTtime\nSB3\nWTtime\nJP#BINARYF\nEN\n",
+                    "variableData": [
+                        {
+                            "Merr": 80,
+                            "backsp": 80000000,
+                            "curpos": 27223,
+                            "cutdone": 0,
+                            "delay": 1000,
+                            "dx": 30000,
+                            "elimit": 1000,
+                            "error": 209,
+                            "finalmv": 1107771,
+                            "forsp": 20000000,
+                            "fstmv": 766683,
+                            "ftime": -1363230485.8474,
+                            "homest": 0,
+                            "initgap": 1000,
+                            "int1": 14580,
+                            "int2": 1020.4843,
+                            "int3": 249528.1689,
+                            "kddef": 35,
+                            "kdtoff": 60,
+                            "kidef": 1,
+                            "kitoff": 2,
+                            "kpdef": 3,
+                            "kptoff": 30,
+                            "maxdepth": 7800,
+                            "mvnow": 2,
+                            "n": 0,
+                            "nextpos": 980199.9997,
+                            "ppos": 0,
+                            "rspeed": 0.07,
+                            "rtdist": 1000,
+                            "rtfq": 20,
+                            "rtpause": 1000,
+                            "secdone": 0,
+                            "secmv": 770683,
+                            "speed": 80,
+                            "startpos": 1102771,
+                            "step": 1,
+                            "steps": 100,
+                            "stime": -1297940806,
+                            "t": -1363595958,
+                            "t1": -1362755220,
+                            "t2": -1363576504,
+                            "t3": 4028,
+                            "testy": -1362579514,
+                            "testy2": 229313,
+                            "time": 150,
+                            "touchref": 1046671,
+                            "touchst": 0,
+                            "tsteps": 100,
+                            "ttime": 14287.3337,
+                            "x": -1000,
+                            "zpos0": 1051672,
+                            "zpos1": 1051673,
+                            "zpos2": 1051673,
+                            "ztouch": 1051672.6667
+                        }
+                    ]
+                }
+            ],
+            "MunkSettings": [
+                {
+                    "pulseMode": 255,
+                    "segmentData": [
+                        {
+                            "current": 200,
+                            "segmentMode": "FORWARD",
+                            "supplyOutput": "OUTPUT1",
+                            "time": 5000,
+                            "voltage": 24
+                        },
+                        {
+                            "current": 0,
+                            "segmentMode": "DEAD",
+                            "supplyOutput": "OUTPUT1",
+                            "time": 2000,
+                            "voltage": 0
+                        }
+                    ]
+                }
+            ],
+            "opIndex": 5,
+            "opName": "Bone Linear",
+            "opType": 0,
+            "pumpData": [
+                {
+                    "pumpDelayTime": 3000,
+                    "pumpFlowRate": 5,
+                    "pumpUtilized": true,
+                    "pumpWaitForDelay": true
+                }
+            ],
+            "touchoffData": [
+                {
+                    "touchoffExecute": true,
+                    "touchoffGap": 2000,
+                    "touchoffRef": 1046500,
+                    "touchoffRefPrevious": false
+                }
+            ],
+            "useOperation": false
+        },
+        {
+            "MotionControlData": [
+                {
+                    "labelData": [
+                        {
+                            "BINARYF": 508,
+                            "CHECK1": 428,
+                            "CHECK2": 438,
+                            "CHECK3": 448,
+                            "Error": 481,
+                            "INCON": 490,
+                            "ININT": 67,
+                            "RESETI": 80,
+                            "STERR": 499,
+                            "TOUCHS": 426,
+                            "WAIT": 74,
+                            "errChk": 476,
+                            "fndepth": 205,
+                            "fsttre": 357,
+                            "home": 389,
+                            "latch": 54,
+                            "linemva": 86,
+                            "linemvb": 117,
+                            "linemvc": 148,
+                            "opone": 295,
+                            "oponea": 314,
+                            "optre": 332,
+                            "optwov": 234,
+                            "reporta": 101,
+                            "reportb": 132,
+                            "reportc": 163,
+                            "setup": 0,
+                            "touchof": 400,
+                            "vibmv": 181,
+                            "vmove": 214,
+                            "vmtre": 367,
+                            "vmtwo": 274
+                        }
+                    ],
+                    "profileName": "optre",
+                    "programScript": "#setup\n'GENERAL SETTINGS\nBR -1\nER 10000\nOE 0\nMT 1\nCE 2\nCN 1\nBWA=100\nSB2\nSB3\nII2,,,2\n\n'Default Profile Parameters\ndx=30000\nspeed=1000\ndelay=1000\nmaxdepth=300000\nrtdist = 1000\nrtfq = 20\nrtpause = 1000\nstep = 1.0\ncutdone=0\nsecdone=0\ninitgap=1000\ntouchst = 0\nppos = 0\nhomest = 0\n\n'Default PID PARAMETERS\nkdtoff = 60.0\nkptoff = 30.0\nkitoff = 2.0\nkddef = 35.0\nkpdef = 3.0\nkidef = 1.0\n\nKD kddef\nKP kpdef\nKI kidef\n\n\n'Default SPEEDS & ACCELERATIONS\nSP 50000\nAC 1000000\nDC 1000000\nEN\n\n'Default Offsets\nOF -3.2\nIL 10\nFV 0\nFA 0\n\n#latch\n'SET SPEEDS & ACCELERATIONS\nSP 50000\nAC 1000000\nDC 1000000\nPR 20000;BG\nAM;ST\nJP #home\nEN\n\n'**************************************\n'EMERGENCY STOP\n'**************************************\n#ININT\nMG \"Interrupt\"\nST\nSB2\nWT500\nMO\nMG \"Emergency Stop Detected\"\n#WAIT\nJP#WAIT,@IN[2]=1\nJS#RESETI\nZS\nMG \"Emergency Stop Cleared\"\nEN\n#RESETI\nRI2\n\n'**************************************\n'Linear Move\n'**************************************\n#linemva\nstartpos = _TPA\nppos = _TPA\nmaxdepth = 25850\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reporta\nppos=_TPA\nJP #reporta, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n\n'******\n\n#linemvb\nstartpos = _TPA\nppos = _TPA\nmaxdepth = 31500\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reportb\nppos=_TPA\nJP #reportb, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n\n'******\n\n#linemvc\nstartpos = _TPA\nppos = _TPA\n'maxdepth = 3150\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reportc\nppos=_TPA\nJP #reportc, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n'**************************************\n'Vibration Profile\n'**************************************\n'Will retract at set intervals\n\n#vibmv\n\ncutdone=0;\n\nMG \"Vibration Profile Start\"\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 40000000\nforsp = 40000000\nKD 55\nKP 10\nKI 1\nFA 0\nFV 0\nIL 10\nrtpause = 8\n\nfinalmv = startpos+maxdepth\n\nCB2\nXQ #vmove, 1\n\n#fndepth\ncurpos=_TPA\nJP #fndepth, curpos<finalmv\nMG \"Reached max depth\"\nST; HX1; SB2\ncutdone = 1\nHX\nEN \n\n#vmove\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nWT rtfq\nnextpos = nextpos+step\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmove\nEN\n\n\n'***********************\n'OP2 vibration profile\n'***********************\n#optwov\nrtfq = 4\nrtdist = 500\nrtpause = 8\n'maxdepth = 11800\n\ncutdone = 0\n\nMG \"Vibration Profile Start\"\n\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 10000000\nforsp = 10000000\nKD 40\nKP 14\nKI 1\nFA 0\nFV 0\nIL 10\n\nrspeed = speed/1000\nstime = TIME\nttime = (maxdepth/rspeed)\n'ftime = TIME+1000000\n\n\nCB2\nXQ #vmtwo, 1\nMG \"1\"\nWT ttime\nMG \"Reached max depth\"\nST; HX1; SB2\n\ncutdone = 1\nHX\nEN\n\n#vmtwo\nint1 = TIME-stime\nint2 = int1*rspeed\nnextpos = startpos +int2\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nWT rtfq\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmtwo\nEN\n\n'**************************************\n'Op1 second linear section\n'**************************************\n#opone\nspeed = 150\nmaxdepth = 5050\n\nsecdone = 0\nSP10000\nPR -100; BG; AM\nstartpos = _TPA\nppos = _TPA\nfinalmv = startpos+maxdepth\n\nWT 100\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#oponea\nppos=_TPA\nJP #oponea, ppos< (finalmv-100)\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\nsecdone=1\nHX\nEN\n\n'**************************************\n'Op3 vibration\n'**************************************\n#optre\nstep = 1.25\nrtfq = 10\nrtdist = 1000\nrtpause = 8\n\ncutdone = 0\n\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 120000000\nforsp = 30000000\nKD 45\nKP 1.5\nKI 0.4\nFA 0\nFV 0\nIL 10\n\nfstmv = startpos+maxdepth\n\nXQ #vmtre, 1\n\n#fsttre\ncurpos=_TPA\nJP #fsttre, curpos<fstmv\nST; HX1; SB2;\n\nPA nextpos;BG;AM\ncutdone = 1\nHX\nEN\n\n#vmtre\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nCB2\nWT rtfq\nSB2\nnextpos = nextpos+step\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmtre, mvnow > 1\nEN\n\n'**************************************\n'SUBROUTINES\n'**************************************\n\n#home\nhomest = 0\nJG-5000, (_LR=0);\nBG;AM;ST;\nDP*=0\nWT 1000\nhomest = 1\nEN\n'**************************************\n\n'**************************************\n#touchof\n'**************************************\nelimit= 1000\nMerr = 80\ntouchst = 0\nztouch = 0\nn=0\n\n'\nIF touchref>0\nSP 200000\nWT 500\nPA touchref;BG;AM\nWT 500\nENDIF\n\nJP#STERR, @IN[1]=0\nXQ #TOUCHS, 1\nXQ #errChk, 2\n'\nEN\n'\nKD kdtoff\nKP kptoff\nKI kitoff\n\n#TOUCHS\nJG500;BG\n#CHECK1\nJP #CHECK1, @IN[1]=1\nST\nWT500\nzpos0 = _TPA\n\nSP 10000\nPR-600; BG; AM;\nWT500\nJG500;BG\n#CHECK2\nJP #CHECK2, @IN[1]=1\nST\nWT500\nzpos1 = _TPA\n\nSP 10000\nPR-600; BG; AM;\nWT500\nJG500;BG\n#CHECK3\nJP #CHECK3, @IN[1]=1\nST\nWT500\nzpos2 = _TPA\n\nJP #INCON, (zpos0-zpos1)>Merr\nJP #INCON, (zpos0-zpos2)>Merr\nJP #INCON, (zpos1-zpos2)>Merr\nJP #INCON, (zpos1-zpos0)>Merr\nJP #INCON, (zpos2-zpos0)>Merr\nJP #INCON, (zpos2-zpos1)>Merr\nztouch = (zpos0+zpos1+zpos2)/3\n\nSP500;PA ztouch; BG; AM;\n\nMG \"Zero point found\"\nSP 100000\nPR-initgap; BG\nAM\ntouchst = 1\nMG \"Complete\"\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#errChk\nerror=_TEA;\nJP #errChk, error<elimit\nST\n'\n#Error\nMG \"Positional error limit exceeded\"\ntouchst = 2\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#INCON\nMG \"Inconsitent Touch Position\"\ntouchst = 2\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#STERR\nMG \"Already touching part\"\ntouchst = 3\nKD kddef\nKP kpdef\nKI kidef\nEN\n'\n\n#BINARYF \ntime=150\nCB3\nWTtime\nSB3\nWTtime\nJP#BINARYF\nEN\n",
+                    "variableData": [
+                        {
+                            "Merr": 80,
+                            "backsp": 80000000,
+                            "curpos": 27223,
+                            "cutdone": 0,
+                            "delay": 1000,
+                            "dx": 30000,
+                            "elimit": 1000,
+                            "error": 209,
+                            "finalmv": 1107771,
+                            "forsp": 20000000,
+                            "fstmv": 766683,
+                            "ftime": -1363230485.8474,
+                            "homest": 1,
+                            "initgap": 1000,
+                            "int1": 14580,
+                            "int2": 1020.4843,
+                            "int3": 249528.1689,
+                            "kddef": 35,
+                            "kdtoff": 60,
+                            "kidef": 1,
+                            "kitoff": 2,
+                            "kpdef": 3,
+                            "kptoff": 30,
+                            "maxdepth": 8500,
+                            "mvnow": 2,
+                            "n": 0,
+                            "nextpos": 980199.9997,
+                            "ppos": 0,
+                            "rspeed": 0.07,
+                            "rtdist": 1000,
+                            "rtfq": 20,
+                            "rtpause": 1000,
+                            "secdone": 0,
+                            "secmv": 770683,
+                            "speed": 1000,
+                            "startpos": 1102771,
+                            "step": 1.25,
+                            "steps": 100,
+                            "stime": -1297940806,
+                            "t": -1363595958,
+                            "t1": -1362755220,
+                            "t2": -1363576504,
+                            "t3": 4028,
+                            "testy": -1362579514,
+                            "testy2": 229313,
+                            "time": 150,
+                            "touchref": 1046671,
+                            "touchst": 0,
+                            "tsteps": 100,
+                            "ttime": 14287.3337,
+                            "x": -1000,
+                            "zpos0": 1051672,
+                            "zpos1": 1051673,
+                            "zpos2": 1051673,
+                            "ztouch": 1051672.6667
+                        }
+                    ]
+                }
+            ],
+            "MunkSettings": [
+                {
+                    "pulseMode": 1,
+                    "segmentData": [
+                        {
+                            "current": 200,
+                            "segmentMode": "FORWARD",
+                            "supplyOutput": "OUTPUT1",
+                            "time": 10000,
+                            "voltage": 14
+                        }
+                    ]
+                }
+            ],
+            "opIndex": 6,
+            "opName": "Bone vib1",
+            "opType": 0,
+            "pumpData": [
+                {
+                    "pumpDelayTime": 3000,
+                    "pumpFlowRate": 5,
+                    "pumpUtilized": true,
+                    "pumpWaitForDelay": true
+                }
+            ],
+            "touchoffData": [
+                {
+                    "touchoffExecute": true,
+                    "touchoffGap": 500,
+                    "touchoffRef": 0,
+                    "touchoffRefPrevious": true
+                }
+            ],
+            "useOperation": false
+        },
+        {
+            "MotionControlData": [
+                {
+                    "labelData": [
+                        {
+                            "BINARYF": 508,
+                            "CHECK1": 428,
+                            "CHECK2": 438,
+                            "CHECK3": 448,
+                            "Error": 481,
+                            "INCON": 490,
+                            "ININT": 67,
+                            "RESETI": 80,
+                            "STERR": 499,
+                            "TOUCHS": 426,
+                            "WAIT": 74,
+                            "errChk": 476,
+                            "fndepth": 205,
+                            "fsttre": 357,
+                            "home": 389,
+                            "latch": 54,
+                            "linemva": 86,
+                            "linemvb": 117,
+                            "linemvc": 148,
+                            "opone": 295,
+                            "oponea": 314,
+                            "optre": 332,
+                            "optwov": 234,
+                            "reporta": 101,
+                            "reportb": 132,
+                            "reportc": 163,
+                            "setup": 0,
+                            "touchof": 400,
+                            "vibmv": 181,
+                            "vmove": 214,
+                            "vmtre": 367,
+                            "vmtwo": 274
+                        }
+                    ],
+                    "profileName": "optre",
+                    "programScript": "#setup\n'GENERAL SETTINGS\nBR -1\nER 10000\nOE 0\nMT 1\nCE 2\nCN 1\nBWA=100\nSB2\nSB3\nII2,,,2\n\n'Default Profile Parameters\ndx=30000\nspeed=1000\ndelay=1000\nmaxdepth=300000\nrtdist = 1000\nrtfq = 20\nrtpause = 1000\nstep = 1.0\ncutdone=0\nsecdone=0\ninitgap=1000\ntouchst = 0\nppos = 0\nhomest = 0\n\n'Default PID PARAMETERS\nkdtoff = 60.0\nkptoff = 30.0\nkitoff = 2.0\nkddef = 35.0\nkpdef = 3.0\nkidef = 1.0\n\nKD kddef\nKP kpdef\nKI kidef\n\n\n'Default SPEEDS & ACCELERATIONS\nSP 50000\nAC 1000000\nDC 1000000\nEN\n\n'Default Offsets\nOF -3.2\nIL 10\nFV 0\nFA 0\n\n#latch\n'SET SPEEDS & ACCELERATIONS\nSP 50000\nAC 1000000\nDC 1000000\nPR 20000;BG\nAM;ST\nJP #home\nEN\n\n'**************************************\n'EMERGENCY STOP\n'**************************************\n#ININT\nMG \"Interrupt\"\nST\nSB2\nWT500\nMO\nMG \"Emergency Stop Detected\"\n#WAIT\nJP#WAIT,@IN[2]=1\nJS#RESETI\nZS\nMG \"Emergency Stop Cleared\"\nEN\n#RESETI\nRI2\n\n'**************************************\n'Linear Move\n'**************************************\n#linemva\nstartpos = _TPA\nppos = _TPA\nmaxdepth = 25850\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reporta\nppos=_TPA\nJP #reporta, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n\n'******\n\n#linemvb\nstartpos = _TPA\nppos = _TPA\nmaxdepth = 31500\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reportb\nppos=_TPA\nJP #reportb, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n\n'******\n\n#linemvc\nstartpos = _TPA\nppos = _TPA\n'maxdepth = 3150\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reportc\nppos=_TPA\nJP #reportc, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n'**************************************\n'Vibration Profile\n'**************************************\n'Will retract at set intervals\n\n#vibmv\n\ncutdone=0;\n\nMG \"Vibration Profile Start\"\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 40000000\nforsp = 40000000\nKD 55\nKP 10\nKI 1\nFA 0\nFV 0\nIL 10\nrtpause = 8\n\nfinalmv = startpos+maxdepth\n\nCB2\nXQ #vmove, 1\n\n#fndepth\ncurpos=_TPA\nJP #fndepth, curpos<finalmv\nMG \"Reached max depth\"\nST; HX1; SB2\ncutdone = 1\nHX\nEN \n\n#vmove\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nWT rtfq\nnextpos = nextpos+step\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmove\nEN\n\n\n'***********************\n'OP2 vibration profile\n'***********************\n#optwov\nrtfq = 4\nrtdist = 500\nrtpause = 8\n'maxdepth = 11800\n\ncutdone = 0\n\nMG \"Vibration Profile Start\"\n\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 10000000\nforsp = 10000000\nKD 40\nKP 14\nKI 1\nFA 0\nFV 0\nIL 10\n\nrspeed = speed/1000\nstime = TIME\nttime = (maxdepth/rspeed)\n'ftime = TIME+1000000\n\n\nCB2\nXQ #vmtwo, 1\nMG \"1\"\nWT ttime\nMG \"Reached max depth\"\nST; HX1; SB2\n\ncutdone = 1\nHX\nEN\n\n#vmtwo\nint1 = TIME-stime\nint2 = int1*rspeed\nnextpos = startpos +int2\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nWT rtfq\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmtwo\nEN\n\n'**************************************\n'Op1 second linear section\n'**************************************\n#opone\nspeed = 150\nmaxdepth = 5050\n\nsecdone = 0\nSP10000\nPR -100; BG; AM\nstartpos = _TPA\nppos = _TPA\nfinalmv = startpos+maxdepth\n\nWT 100\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#oponea\nppos=_TPA\nJP #oponea, ppos< (finalmv-100)\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\nsecdone=1\nHX\nEN\n\n'**************************************\n'Op3 vibration\n'**************************************\n#optre\nstep = 1.25\nrtfq = 10\nrtdist = 1000\nrtpause = 8\n\ncutdone = 0\n\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 120000000\nforsp = 30000000\nKD 45\nKP 1.5\nKI 0.4\nFA 0\nFV 0\nIL 10\n\nfstmv = startpos+maxdepth\n\nXQ #vmtre, 1\n\n#fsttre\ncurpos=_TPA\nJP #fsttre, curpos<fstmv\nST; HX1; SB2;\n\nPA nextpos;BG;AM\ncutdone = 1\nHX\nEN\n\n#vmtre\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nCB2\nWT rtfq\nSB2\nnextpos = nextpos+step\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmtre, mvnow > 1\nEN\n\n'**************************************\n'SUBROUTINES\n'**************************************\n\n#home\nhomest = 0\nJG-5000, (_LR=0);\nBG;AM;ST;\nDP*=0\nWT 1000\nhomest = 1\nEN\n'**************************************\n\n'**************************************\n#touchof\n'**************************************\nelimit= 1000\nMerr = 80\ntouchst = 0\nztouch = 0\nn=0\n\n'\nIF touchref>0\nSP 200000\nWT 500\nPA touchref;BG;AM\nWT 500\nENDIF\n\nJP#STERR, @IN[1]=0\nXQ #TOUCHS, 1\nXQ #errChk, 2\n'\nEN\n'\nKD kdtoff\nKP kptoff\nKI kitoff\n\n#TOUCHS\nJG500;BG\n#CHECK1\nJP #CHECK1, @IN[1]=1\nST\nWT500\nzpos0 = _TPA\n\nSP 10000\nPR-600; BG; AM;\nWT500\nJG500;BG\n#CHECK2\nJP #CHECK2, @IN[1]=1\nST\nWT500\nzpos1 = _TPA\n\nSP 10000\nPR-600; BG; AM;\nWT500\nJG500;BG\n#CHECK3\nJP #CHECK3, @IN[1]=1\nST\nWT500\nzpos2 = _TPA\n\nJP #INCON, (zpos0-zpos1)>Merr\nJP #INCON, (zpos0-zpos2)>Merr\nJP #INCON, (zpos1-zpos2)>Merr\nJP #INCON, (zpos1-zpos0)>Merr\nJP #INCON, (zpos2-zpos0)>Merr\nJP #INCON, (zpos2-zpos1)>Merr\nztouch = (zpos0+zpos1+zpos2)/3\n\nSP500;PA ztouch; BG; AM;\n\nMG \"Zero point found\"\nSP 100000\nPR-initgap; BG\nAM\ntouchst = 1\nMG \"Complete\"\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#errChk\nerror=_TEA;\nJP #errChk, error<elimit\nST\n'\n#Error\nMG \"Positional error limit exceeded\"\ntouchst = 2\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#INCON\nMG \"Inconsitent Touch Position\"\ntouchst = 2\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#STERR\nMG \"Already touching part\"\ntouchst = 3\nKD kddef\nKP kpdef\nKI kidef\nEN\n'\n\n#BINARYF \ntime=150\nCB3\nWTtime\nSB3\nWTtime\nJP#BINARYF\nEN\n",
+                    "variableData": [
+                        {
+                            "Merr": 80,
+                            "backsp": 80000000,
+                            "curpos": 27223,
+                            "cutdone": 0,
+                            "delay": 1000,
+                            "dx": 30000,
+                            "elimit": 1000,
+                            "error": 209,
+                            "finalmv": 1107771,
+                            "forsp": 20000000,
+                            "fstmv": 766683,
+                            "ftime": -1363230485.8474,
+                            "homest": 1,
+                            "initgap": 1000,
+                            "int1": 14580,
+                            "int2": 1020.4843,
+                            "int3": 249528.1689,
+                            "kddef": 35,
+                            "kdtoff": 60,
+                            "kidef": 1,
+                            "kitoff": 2,
+                            "kpdef": 3,
+                            "kptoff": 30,
+                            "maxdepth": 4000,
+                            "mvnow": 2,
+                            "n": 0,
+                            "nextpos": 980199.9997,
+                            "ppos": 0,
+                            "rspeed": 0.07,
+                            "rtdist": 1000,
+                            "rtfq": 20,
+                            "rtpause": 1000,
+                            "secdone": 0,
+                            "secmv": 770683,
+                            "speed": 1000,
+                            "startpos": 1102771,
+                            "step": 1.25,
+                            "steps": 100,
+                            "stime": -1297940806,
+                            "t": -1363595958,
+                            "t1": -1362755220,
+                            "t2": -1363576504,
+                            "t3": 4028,
+                            "testy": -1362579514,
+                            "testy2": 229313,
+                            "time": 150,
+                            "touchref": 1046671,
+                            "touchst": 0,
+                            "tsteps": 100,
+                            "ttime": 14287.3337,
+                            "x": -1000,
+                            "zpos0": 1051672,
+                            "zpos1": 1051673,
+                            "zpos2": 1051673,
+                            "ztouch": 1051672.6667
+                        }
+                    ]
+                }
+            ],
+            "MunkSettings": [
+                {
+                    "pulseMode": 1,
+                    "segmentData": [
+                        {
+                            "current": 200,
+                            "segmentMode": "FORWARD",
+                            "supplyOutput": "OUTPUT1",
+                            "time": 10000,
+                            "voltage": 14
+                        }
+                    ]
+                }
+            ],
+            "opIndex": 7,
+            "opName": "Bone vib2",
+            "opType": 0,
+            "pumpData": [
+                {
+                    "pumpDelayTime": 3000,
+                    "pumpFlowRate": 2.3,
+                    "pumpUtilized": true,
+                    "pumpWaitForDelay": true
+                }
+            ],
+            "touchoffData": [
+                {
+                    "touchoffExecute": false,
+                    "touchoffGap": 0,
+                    "touchoffRef": 0,
+                    "touchoffRefPrevious": false
+                }
+            ],
+            "useOperation": false
+        }
+    ],
+    "configureHome": true,
+    "galilScript": "#setup\n'GENERAL SETTINGS\nBR -1\nER 10000\nOE 0\nMT 1\nCE 2\nCN 1\nBWA=100\nSB2\nSB3\nII2,,,2\n\n'Default Profile Parameters\ndx=30000\nspeed=1000\ndelay=1000\nmaxdepth=300000\nrtdist = 1000\nrtfq = 20\nrtpause = 1000\nstep = 1.0\ncutdone=0\nsecdone=0\ninitgap=1000\ntouchst = 0\nppos = 0\nhomest = 0\n\n'Default PID PARAMETERS\nkdtoff = 60.0\nkptoff = 30.0\nkitoff = 2.0\nkddef = 35.0\nkpdef = 3.0\nkidef = 1.0\n\nKD kddef\nKP kpdef\nKI kidef\n\n\n'Default SPEEDS & ACCELERATIONS\nSP 50000\nAC 1000000\nDC 1000000\nEN\n\n'Default Offsets\nOF -3.2\nIL 10\nFV 0\nFA 0\n\n#latch\n'SET SPEEDS & ACCELERATIONS\nSP 50000\nAC 1000000\nDC 1000000\nPR 20000;BG\nAM;ST\nJP #home\nEN\n\n'**************************************\n'EMERGENCY STOP\n'**************************************\n#ININT\nMG \"Interrupt\"\nST\nSB2\nWT500\nMO\nMG \"Emergency Stop Detected\"\n#WAIT\nJP#WAIT,@IN[2]=1\nJS#RESETI\nZS\nMG \"Emergency Stop Cleared\"\nEN\n#RESETI\nRI2\n\n'**************************************\n'Linear Move\n'**************************************\n#linemva\nstartpos = _TPA\nppos = _TPA\nmaxdepth = 25850\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reporta\nppos=_TPA\nJP #reporta, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n\n'******\n\n#linemvb\nstartpos = _TPA\nppos = _TPA\nmaxdepth = 31500\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reportb\nppos=_TPA\nJP #reportb, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n\n'******\n\n#linemvc\nstartpos = _TPA\nppos = _TPA\n'maxdepth = 3150\n\nfinalmv = startpos+maxdepth\n\ncutdone=0;\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#reportc\nppos=_TPA\nJP #reportc, ppos<finalmv\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\ncutdone=1\nEN\n'**************************************\n'Vibration Profile\n'**************************************\n'Will retract at set intervals\n\n#vibmv\n\ncutdone=0;\n\nMG \"Vibration Profile Start\"\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 40000000\nforsp = 40000000\nKD 55\nKP 10\nKI 1\nFA 0\nFV 0\nIL 10\nrtpause = 8\n\nfinalmv = startpos+maxdepth\n\nCB2\nXQ #vmove, 1\n\n#fndepth\ncurpos=_TPA\nJP #fndepth, curpos<finalmv\nMG \"Reached max depth\"\nST; HX1; SB2\ncutdone = 1\nHX\nEN \n\n#vmove\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nWT rtfq\nnextpos = nextpos+step\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmove\nEN\n\n\n'***********************\n'OP2 vibration profile\n'***********************\n#optwov\nrtfq = 4\nrtdist = 500\nrtpause = 8\n'maxdepth = 11800\n\ncutdone = 0\n\nMG \"Vibration Profile Start\"\n\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 10000000\nforsp = 10000000\nKD 40\nKP 14\nKI 1\nFA 0\nFV 0\nIL 10\n\nrspeed = speed/1000\nstime = TIME\nttime = (maxdepth/rspeed)\n'ftime = TIME+1000000\n\n\nCB2\nXQ #vmtwo, 1\nMG \"1\"\nWT ttime\nMG \"Reached max depth\"\nST; HX1; SB2\n\ncutdone = 1\nHX\nEN\n\n#vmtwo\nint1 = TIME-stime\nint2 = int1*rspeed\nnextpos = startpos +int2\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nWT rtfq\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmtwo\nEN\n\n'**************************************\n'Op1 second linear section\n'**************************************\n#opone\nspeed = 150\nmaxdepth = 5050\n\nsecdone = 0\nSP10000\nPR -100; BG; AM\nstartpos = _TPA\nppos = _TPA\nfinalmv = startpos+maxdepth\n\nWT 100\nKD kdtoff\nKP kptoff\nKI kitoff\nMG \"Linear Move Start\"\nSP speed\nCB2\nPR maxdepth;BG\n#oponea\nppos=_TPA\nJP #oponea, ppos< (finalmv-100)\nAM\nKD kddef\nKP kpdef\nKI kidef\nSB2;ST\nMG \"Profile Complete\"\n\nST;\nsecdone=1\nHX\nEN\n\n'**************************************\n'Op3 vibration\n'**************************************\n#optre\nstep = 1.25\nrtfq = 10\nrtdist = 1000\nrtpause = 8\n\ncutdone = 0\n\nstartpos = _TPA\nnextpos = _TPA\nppos = _TPA\nSP 1000000\nbacksp = 120000000\nforsp = 30000000\nKD 45\nKP 1.5\nKI 0.4\nFA 0\nFV 0\nIL 10\n\nfstmv = startpos+maxdepth\n\nXQ #vmtre, 1\n\n#fsttre\ncurpos=_TPA\nJP #fsttre, curpos<fstmv\nST; HX1; SB2;\n\nPA nextpos;BG;AM\ncutdone = 1\nHX\nEN\n\n#vmtre\nPA nextpos;BG;AM\nWT5\nppos = _TPA\nCB2\nWT rtfq\nSB2\nnextpos = nextpos+step\nAC backsp\nDC backsp\nPR -rtdist;BG;AM\nWT rtpause\nAC backsp\nDC forsp\nPR rtdist;BG;AM\nJP #vmtre, mvnow > 1\nEN\n\n'**************************************\n'SUBROUTINES\n'**************************************\n\n#home\nhomest = 0\nJG-5000, (_LR=0);\nBG;AM;ST;\nDP*=0\nWT 1000\nhomest = 1\nEN\n'**************************************\n\n'**************************************\n#touchof\n'**************************************\nelimit= 1000\nMerr = 80\ntouchst = 0\nztouch = 0\nn=0\n\n'\nIF touchref>0\nSP 200000\nWT 500\nPA touchref;BG;AM\nWT 500\nENDIF\n\nJP#STERR, @IN[1]=0\nXQ #TOUCHS, 1\nXQ #errChk, 2\n'\nEN\n'\nKD kdtoff\nKP kptoff\nKI kitoff\n\n#TOUCHS\nJG500;BG\n#CHECK1\nJP #CHECK1, @IN[1]=1\nST\nWT500\nzpos0 = _TPA\n\nSP 10000\nPR-600; BG; AM;\nWT500\nJG500;BG\n#CHECK2\nJP #CHECK2, @IN[1]=1\nST\nWT500\nzpos1 = _TPA\n\nSP 10000\nPR-600; BG; AM;\nWT500\nJG500;BG\n#CHECK3\nJP #CHECK3, @IN[1]=1\nST\nWT500\nzpos2 = _TPA\n\nJP #INCON, (zpos0-zpos1)>Merr\nJP #INCON, (zpos0-zpos2)>Merr\nJP #INCON, (zpos1-zpos2)>Merr\nJP #INCON, (zpos1-zpos0)>Merr\nJP #INCON, (zpos2-zpos0)>Merr\nJP #INCON, (zpos2-zpos1)>Merr\nztouch = (zpos0+zpos1+zpos2)/3\n\nSP500;PA ztouch; BG; AM;\n\nMG \"Zero point found\"\nSP 100000\nPR-initgap; BG\nAM\ntouchst = 1\nMG \"Complete\"\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#errChk\nerror=_TEA;\nJP #errChk, error<elimit\nST\n'\n#Error\nMG \"Positional error limit exceeded\"\ntouchst = 2\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#INCON\nMG \"Inconsitent Touch Position\"\ntouchst = 2\nKD kddef\nKP kpdef\nKI kidef\nHX\nEN\n'\n#STERR\nMG \"Already touching part\"\ntouchst = 3\nKD kddef\nKP kpdef\nKI kidef\nEN\n'\n\n#BINARYF \ntime=150\nCB3\nWTtime\nSB3\nWTtime\nJP#BINARYF\nEN\n"
+}

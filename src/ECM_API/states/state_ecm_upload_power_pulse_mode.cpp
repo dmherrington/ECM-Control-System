@@ -76,8 +76,6 @@ void ECMState_UploadPowerPulseMode::OnEnter(ECMCommand_AbstractProfileConfigPtr 
 
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
-    //Testing Comments
-    /*
     switch (this->m_Config->getConfigType()) {
     case ProfileOpType::OPERATION:
     {
@@ -101,9 +99,6 @@ void ECMState_UploadPowerPulseMode::OnEnter(ECMCommand_AbstractProfileConfigPtr 
         desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
         break;
     }
-    */
-
-    desiredState = ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS;
 }
 
 } //end of namespace Galil

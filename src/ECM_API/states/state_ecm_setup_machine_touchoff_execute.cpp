@@ -73,7 +73,6 @@ void ECMState_SetupMachineTouchoffExecute::OnEnter(ECMCommand_AbstractProfileCon
         /*
          * First, lets setup the necessary touchoff ref and gap variables per the configuration
          */
-        /*
         Command_VariablePtr commandTouchRef = nullptr;
 
         if(castConfig->m_Touchoff.shouldTouchoffUtilizePreviousPosition())
@@ -127,8 +126,6 @@ void ECMState_SetupMachineTouchoffExecute::OnEnter(ECMCommand_AbstractProfileCon
 
         CommandExecuteProfilePtr commandTouchoffExecute = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::TOUCHOFF,"touchof");
         Owner().m_Galil->executeCommand(commandTouchoffExecute);
-        */
-        desiredState = ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF_DISCONNECT;
         break;
     }
     default:

@@ -124,11 +124,6 @@ void ECMState_ProfileMachineProcess::OnEnter(ECMCommand_AbstractProfileConfigPtr
         break;
     }
 
-    this->m_Config = configuration;
-
-    AbstractStateECMProcess::notifyOwnerStateTransition();
-
-
 //    m_Config.execProperties.setProfileCode(ProfileState_Machining::MACHININGProfileCodes::COMPLETE);
 //    desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION;
 }
