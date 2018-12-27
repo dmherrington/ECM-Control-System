@@ -16,6 +16,11 @@ void ECMState_SetupMachineTouchoff::OnExit()
 
 }
 
+void ECMState_SetupMachineTouchoff::stopProcess()
+{
+    desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
+}
+
 AbstractStateECMProcess* ECMState_SetupMachineTouchoff::getClone() const
 {
     return (new ECMState_SetupMachineTouchoff(*this));

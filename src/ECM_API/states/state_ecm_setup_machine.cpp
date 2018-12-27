@@ -18,7 +18,8 @@ void ECMState_SetupMachine::OnExit()
 
 void ECMState_SetupMachine::stopProcess()
 {
-    desiredState = ECMState::STATE_ECM_IDLE;
+    ECM::API::AbstractStateECMProcess* currentInnerState = static_cast<ECM::API::AbstractStateECMProcess*>(this->GetImmediateInnerState());
+    currentInnerState->stopProcess();
 }
 
 AbstractStateECMProcess* ECMState_SetupMachine::getClone() const
