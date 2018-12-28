@@ -719,17 +719,27 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
 
         elapsedOperationTimer->start();
 
+        QString executionString = QString::fromStdString(props.getOperationName()) + " is being setup.";
+        ui->statusBar->showMessage(executionString,3000);
+
         break;
     }
     case ExecutionProperties::ExecutionCondition::EXECUTING:
     {
-        ui->lineEdit_CurrentStartPosition->setText(QString::number(props.getCurrentPosition()));
+        ui->lineEdit_CurrentStartPosition->setText(QString::number(props.getCurrentPosition() / 10.0));
+
+        QString executionString = QString::fromStdString(props.getOperationName()) + " is starting to execute.";
+        ui->statusBar->showMessage(executionString,3000);
         break;
     }
     case ExecutionProperties::ExecutionCondition::ENDING:
     {
-        ui->lineEdit_PreviousEndPosition->setText(QString::number(props.getCurrentPosition()));
+        ui->lineEdit_PreviousEndPosition->setText(QString::number(props.getCurrentPosition() / 10.0));
         elapsedOperationTimer->stop();
+
+        QString executionString = QString::fromStdString(props.getOperationName()) + " has finished executing.";
+        ui->statusBar->showMessage(executionString,3000);
+
         break;
     }
     default:

@@ -76,7 +76,7 @@ void ECMState_ProfileMachineProcess::OnEnter(ECMCommand_AbstractProfileConfigPtr
 
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
-    Owner().beginOperationalProfile(this->m_ECMCollection->getActiveConfiguration(),ExecutionProperties::ExecutionCondition::EXECUTING);
+    Owner().beginOperationalProfile(this->m_Config,ExecutionProperties::ExecutionCondition::EXECUTING);
 
     switch (this->m_Config->getConfigType()) {
     case ProfileOpType::OPERATION:

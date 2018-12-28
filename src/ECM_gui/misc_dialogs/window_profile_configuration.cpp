@@ -121,14 +121,16 @@ TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const
     {
          operationalProfile = new Widget_ProfileParameters(m_API);
          operationalProfile->setTabIndex(index);
-         ui->tabWidget_OperationParameters->addTab(operationalProfile,QString::fromStdString(opName));
+         int tabIndex = ui->tabWidget_OperationParameters->addTab(operationalProfile,QString::fromStdString(opName));
+         ui->tabWidget_OperationParameters->setCurrentIndex(tabIndex);
         break;
     }
     case ProfileOpType::PAUSE:
     {
          operationalProfile = new Widget_PauseParameters();
          operationalProfile->setTabIndex(index);
-         ui->tabWidget_OperationParameters->addTab(operationalProfile,QString::fromStdString(opName));
+         int tabIndex = ui->tabWidget_OperationParameters->addTab(operationalProfile,QString::fromStdString(opName));
+         ui->tabWidget_OperationParameters->setCurrentIndex(tabIndex);
         break;
     }
     default:
