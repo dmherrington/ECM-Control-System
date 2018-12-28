@@ -300,18 +300,18 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &senso
     //First, write the data to the logs
     m_API->m_Log->WriteLogSensorState(sensor,state);
 
-//    CreateSensorDisplays(sensor,state.getSensorType());
+    //    CreateSensorDisplays(sensor,state.getSensorType());
 
     m_PlotCollection.UpdateSensorPlots(sensor, state);
-//    m_SensorDisplays.UpdateNonPlottedData(sensor,state);
-//    m_additionalSensorDisplay->UpdateNonPlottedData(sensor,state);
+    //    m_SensorDisplays.UpdateNonPlottedData(sensor,state);
+    //    m_additionalSensorDisplay->UpdateNonPlottedData(sensor,state);
 
     QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(sensor);
 
-//    m_SensorDisplays.PlottedDataUpdated(sensor); //this seems to be uneeded based on the call after this
-//    m_additionalSensorDisplay->UpdatePlottedData(sensor);
+    //    m_SensorDisplays.PlottedDataUpdated(sensor); //this seems to be uneeded based on the call after this
+    //    m_additionalSensorDisplay->UpdatePlottedData(sensor);
 
-//    ui->widget_primaryPlot->RedrawDataSource(plots);
+    //    ui->widget_primaryPlot->RedrawDataSource(plots);
     ui->widget_primaryPlotVoltage->RedrawDataSource(plots);
     ui->widget_primaryPlotCurrent->RedrawDataSource(plots);
 
@@ -479,8 +479,8 @@ void ECMControllerGUI::slot_NewlyAvailableRigolData(const common::TupleSensorStr
 {
     if(val)
     {
-       common::TupleECMData sensorData(sensor);
-       ECMPlotIdentifierPtr addPlot = std::make_shared<ECMPlotIdentifier>(sensorData);
+        common::TupleECMData sensorData(sensor);
+        ECMPlotIdentifierPtr addPlot = std::make_shared<ECMPlotIdentifier>(sensorData);
         if(sensor.measurementName == "MARea")
         {
             ui->widget_primaryPlotCurrent->AddPlot(addPlot, sensorData.getData()->HumanName().toStdString(),false, false);
@@ -629,10 +629,10 @@ void ECMControllerGUI::on_actionCustom_Motion_Commands_triggered(bool checked)
 void ECMControllerGUI::on_actionOpen_Sensors_Window_triggered(bool checked)
 {
     UNUSED(checked);
-//    if(checked)
-//        m_additionalSensorDisplay->show();
-//    else
-//        m_additionalSensorDisplay->hide();
+    //    if(checked)
+    //        m_additionalSensorDisplay->show();
+    //    else
+    //        m_additionalSensorDisplay->hide();
 }
 
 void ECMControllerGUI::slot_ChangedWindowVisibility(const GeneralDialogWindow::DialogWindowTypes &type, const bool visibility)
@@ -693,7 +693,8 @@ void ECMControllerGUI::slot_ExecutingConfiguration(const ExecutionProperties &pr
 
 void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties &props)
 {
-    if(props.getOperatingCondition() == ExecutionProperties::ExecutionCondition::BEGINNING)
+    switch (props.getOperatingCondition()) {
+    case ExecutionProperties::ExecutionCondition::BEGINNING:
     {
         EnvironmentTime startTime = props.getTime();
         this->operationStart = startTime;
@@ -714,22 +715,26 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
         ui->widget_primaryPlotCurrent->ClearGraphandUpdateOrigin(QDateTime(tmp_Date, tmp_Time));
         ui->widget_primaryPlotVoltage->ClearGraphandUpdateOrigin(QDateTime(tmp_Date, tmp_Time));
 
-        /*
-        //Update plot properties of the current start time
-        ui->widget_primaryPlot->setOriginTime(QDateTime(tmp_Date, tmp_Time));
-        ui->widget_primaryPlotCurrent->setOriginTime(QDateTime(tmp_Date, tmp_Time));
-        ui->widget_primaryPlotVoltage->setOriginTime(QDateTime(tmp_Date, tmp_Time));
-        m_additionalSensorDisplay->SetOriginTime(QDateTime(tmp_Date, tmp_Time));
-        */
         ui->lineEdit_OperationTime->setText(QString::number(0));
 
         elapsedOperationTimer->start();
-    }
-    else
-    {
-        elapsedOperationTimer->stop();
-    }
 
+        break;
+    }
+    case ExecutionProperties::ExecutionCondition::EXECUTING:
+    {
+        ui->lineEdit_CurrentStartPosition->setText(QString::number(props.getCurrentPosition()));
+        break;
+    }
+    case ExecutionProperties::ExecutionCondition::ENDING:
+    {
+        ui->lineEdit_PreviousEndPosition->setText(QString::number(props.getCurrentPosition()));
+        elapsedOperationTimer->stop();
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 
@@ -883,7 +888,7 @@ void ECMControllerGUI::slot_OnHandlePause(const bool &handle)
 void ECMControllerGUI::slot_OnExecutionPause(const std::string notificationText)
 {
     Dialog_ExecutionPaused* pauseDialog = new Dialog_ExecutionPaused(this);
-    pauseDialog->setAttribute(Qt::WA_DeleteOnClose);
+    pauseDialog->setAttribute(Qt::WA_DeleteOnClose,true);
     pauseDialog->setModal(false);
     connect(pauseDialog, SIGNAL(signal_HandleExecution(bool)), this, SLOT(slot_OnHandlePause(bool)));
     pauseDialog->setText(notificationText);
@@ -1020,8 +1025,8 @@ QString ECMControllerGUI::loadFileDialog(const std::string &filePath, const std:
     fileDialog.setDirectory(galilProgramDirectory);
     fileDialog.setFileMode(QFileDialog::AnyFile);
     fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
-//    QString nameFilter = "Open TXT Files (*.";
-//    nameFilter += QString::fromStdString(suffix) + ")";
+    //    QString nameFilter = "Open TXT Files (*.";
+    //    nameFilter += QString::fromStdString(suffix) + ")";
     fileDialog.setNameFilter(QString::fromStdString(nameFilter));
     //fileDialog.setDefaultSuffix(QString::fromStdString(suffix));
     fileDialog.exec();

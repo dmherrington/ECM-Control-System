@@ -128,11 +128,15 @@ void ECM_API::beginLoggingOperationalData(const ProfileOpType &type)
     m_Log->beginLoggingOperationalData(type);
 }
 
-void ECM_API::beginOperationalProfile(const ECMCommand_AbstractProfileConfigPtr profileConfig)
+void ECM_API::beginOperationalProfile(const ECMCommand_AbstractProfileConfigPtr profileConfig, const ExecuteOperationProperties::ExecutionCondition &condition)
 {
     //Assemble a message to notify any listeners that we are about to execute an operation
     ExecuteOperationProperties props(profileConfig->getOperationName(), profileConfig->getOperationIndex());
+    props.setOperatingCondition(condition);
     props.setTime(profileConfig->execProperties.getStartTime());
+
+    int position = m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+    props.setCurrentPosition(position);
 
     //Emit the signal notifying the listeners of a new operational profile
     emit signal_ExecutingOperation(props);
@@ -177,6 +181,9 @@ void ECM_API::concludeExecutingOperation(const ECMCommand_AbstractProfileConfigP
     ExecuteOperationProperties props(profileConfig->getOperationName(), profileConfig->getOperationIndex());
     props.setOperatingCondition(ExecutionProperties::ExecutionCondition::ENDING);
     props.setTime(profileConfig->execProperties.getEndTime());
+
+    int position = m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+    props.setCurrentPosition(position);
 
     //Emit the signal notifying the listeners of a completed operational profile
     emit signal_ExecutingOperation(props);

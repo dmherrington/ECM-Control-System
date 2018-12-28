@@ -71,11 +71,12 @@ void ECMState_ProfileMachineProcess::OnEnter()
 
 void ECMState_ProfileMachineProcess::OnEnter(ECMCommand_AbstractProfileConfigPtr configuration)
 {
-
     //First update the configuation per what was received upon entering the state
     this->m_Config = configuration;
 
     AbstractStateECMProcess::notifyOwnerStateTransition();
+
+    Owner().beginOperationalProfile(this->m_ECMCollection->getActiveConfiguration(),ExecutionProperties::ExecutionCondition::EXECUTING);
 
     switch (this->m_Config->getConfigType()) {
     case ProfileOpType::OPERATION:

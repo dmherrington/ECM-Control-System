@@ -58,7 +58,8 @@ public:
 
     void beginLoggingOperationalData(const ProfileOpType &type);
 
-    void beginOperationalProfile(const ECMCommand_AbstractProfileConfigPtr profileConfig);
+    void beginOperationalProfile(const ECMCommand_AbstractProfileConfigPtr profileConfig,
+                                 const ExecutionProperties::ExecutionCondition &condition = ExecutionProperties::ExecutionCondition::BEGINNING);
 
     void executeExplicitProfile(const ECMCommand_ProfileConfigurationPtr profileConfig);
 

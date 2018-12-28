@@ -11,8 +11,9 @@ class COMMONSHARED_EXPORT ExecutionProperties
 public:
     enum class ExecutionCondition
     {
-      BEGINNING,
-      ENDING
+        BEGINNING,
+        EXECUTING,
+        ENDING
     };
 public:
     ExecutionProperties() = default;
@@ -54,6 +55,15 @@ public:
         return this->maxIndex;
     }
 
+    void setCurrentPosition(const int &position)
+    {
+        this->currentPosition = position;
+    }
+
+    int getCurrentPosition() const
+    {
+        return this->currentPosition;
+    }
 public:
     //!
     //! \brief operator =
@@ -64,6 +74,7 @@ public:
         this->time = rhs.time;
         this->condition = rhs.condition;
         this->maxIndex = rhs.maxIndex;
+        this->currentPosition = rhs.currentPosition;
         return *this;
     }
 
@@ -83,6 +94,9 @@ public:
         if(this->maxIndex != rhs.maxIndex){
             return false;
         }
+        if(this->currentPosition != rhs.currentPosition){
+            return false;
+        }
         return true;
     }
 
@@ -99,6 +113,7 @@ protected:
     EnvironmentTime time;
     ExecutionCondition condition = ExecutionCondition::BEGINNING;
     unsigned int maxIndex = 0;
+    int currentPosition = 0;
 
 };
 
