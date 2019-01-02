@@ -1,17 +1,19 @@
 #include "state_abstract_ecm_process.h"
 
-namespace ECM{
+namespace ECM {
 namespace API {
+
+AbstractStateECMProcess::AbstractStateECMProcess()
+{
+
+}
 
 AbstractStateECMProcess::AbstractStateECMProcess(const AbstractStateECMProcess &copy)
 {
     this->currentState = copy.currentState;
     this->desiredState = copy.desiredState;
-}
 
-void AbstractStateECMProcess::OnExit()
-{
-
+    this->m_ECMCollection = copy.m_ECMCollection;
 }
 
 ECMState AbstractStateECMProcess::getCurrentState() const
@@ -24,9 +26,39 @@ ECMState AbstractStateECMProcess::getDesiredState() const
     return desiredState;
 }
 
+void AbstractStateECMProcess::executeCollection(const ECMCommand_ExecuteCollection &collection)
+{
+    UNUSED(collection);
+}
+
 void AbstractStateECMProcess::clearCommand()
 {
 
+}
+
+void AbstractStateECMProcess::OnExit()
+{
+
+}
+
+void AbstractStateECMProcess::OnEnter()
+{
+
+}
+
+void AbstractStateECMProcess::stopProcess()
+{
+
+}
+
+void AbstractStateECMProcess::continueProcess()
+{
+
+}
+
+void AbstractStateECMProcess::notifyOwnerStateTransition()
+{
+    Owner().notifyNewOuterState(this->currentState, ECMStateToString(this->currentState));
 }
 
 } //end of namespace Galil

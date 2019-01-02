@@ -41,13 +41,20 @@ public:
     //! \brief NewProgramUploaded
     //! \param program
     //!
-    virtual void NewProgramUploaded(const ProgramGeneric &program) const = 0;
+    virtual void NewProgramUploaded(const bool &success, const GalilCurrentProgram &program = GalilCurrentProgram()) const = 0;
 
     //!
     //! \brief NewProgramDownloaded
     //! \param program
     //!
     virtual void NewProgramDownloaded(const ProgramGeneric &program) const = 0;
+
+    //!
+    //! \brief NewVariableListUploaded
+    //! \param succes
+    //! \param list
+    //!
+    virtual void NewVariableListUploaded(const bool &succes, const ProgramVariableList &list = ProgramVariableList()) const = 0;
 
     //!
     //! \brief ErrorBadCommand

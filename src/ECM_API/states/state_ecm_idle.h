@@ -1,8 +1,12 @@
 #ifndef STATE_ECM_IDLE_H
 #define STATE_ECM_IDLE_H
 
-#include "states/state_abstract_ecm_process.h"
+#include "common/class_forward.h"
+#include "common/hsm.h"
 
+#include "../ecm_api.h"
+
+#include "state_abstract_ecm_process.h"
 
 /**
 \* @file  state_ecm_touchoff.h
@@ -26,14 +30,12 @@ namespace API {
 
 ECM_CLASS_FORWARD(ECMState_Idle);
 
-class ECMState_Initialization;
+class ECMState_ProfileHandling;
 
 class ECMState_Idle : public AbstractStateECMProcess
 {
 public:
     ECMState_Idle();
-
-    void OnExit() override;
 
 public:
     AbstractStateECMProcess* getClone() const override;
@@ -41,12 +43,15 @@ public:
     void getClone(AbstractStateECMProcess** state) const override;
 
 public:
+    void OnEnter() override;
+    void Update() override;
+    void OnExit() override;
+
+public:
     hsm::Transition GetTransition() override;
 
 public:
-    void Update() override;
-
-    void OnEnter() override;
+    void executeCollection(const ECMCommand_ExecuteCollection &collection) override;
 
 };
 

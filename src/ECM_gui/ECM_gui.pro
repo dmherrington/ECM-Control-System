@@ -45,73 +45,106 @@ DEFINES += QCUSTOMPLOT_USE_LIBRARY
 
 
 SOURCES += \
-        main.cpp \
-        ECM_controller_gui.cpp \
-    additional_sensor_display.cpp \
-    ECM_plot_collection.cpp \
-    ECM_plot_identifier.cpp \
-    SensorDisplay/collection_displays.cpp \
-    SensorDisplay/display_base_plot_instantaneous.cpp \
-    SensorDisplay/display_voltage.cpp \
-    plot_central.cpp \
-    LED.cpp \
+    galil_dialog/widget_scripting_variables.cpp \
+    galil_dialog/widget_touchoff.cpp \
+    misc_dialogs/code_edit_widget.cpp \
+    misc_dialogs/table_widget_operation_descriptor.cpp \
+    misc_dialogs/widget_device_fault.cpp \
+    misc_dialogs/widget_profile_parameters.cpp \
+    misc_dialogs/window_custom_motion_commands.cpp \
+    misc_dialogs/window_device_connections.cpp \
+    misc_dialogs/window_motion_profile.cpp \
+    misc_dialogs/window_profile_configuration.cpp \
+    munk_dialog/widget_munk_power_supply.cpp \
     munk_dialog/widget_segment_time_data.cpp \
     munk_dialog/widget_segment_time_display.cpp \
-    munk_dialog/window_munk_power_supply.cpp \
-    misc_dialogs/window_touchoff.cpp \
-    rigol_dialog/window_rigol_control.cpp \
-    pump_dialog/window_pump_control.cpp \
-    SensorDisplay/display_ampere_area.cpp \
+    pump_dialog/widget_pump_control.cpp \
     rigol_dialog/widget_rigol_radio.cpp \
+    rigol_dialog/window_rigol_control.cpp \
+    SensorDisplay/collection_displays.cpp \
+    SensorDisplay/display_ampere_area.cpp \
+    SensorDisplay/display_base_plot_instantaneous.cpp \
+    SensorDisplay/display_voltage.cpp \
+    additional_sensor_display.cpp \
+    ECM_controller_gui.cpp \
+    ECM_plot_collection.cpp \
+    ECM_plot_identifier.cpp \
     general_dialog_window.cpp \
-    misc_dialogs/window_motion_profile.cpp \
-    misc_dialogs/code_edit_widget.cpp \
-    misc_dialogs/window_custom_motion_commands.cpp \
-    misc_dialogs/widget_device_fault.cpp \
-    misc_dialogs/window_device_connections.cpp
+    LED.cpp \
+    main.cpp \
+    plot_central.cpp \
+    galil_dialog/window_motion_control.cpp \
+    pump_dialog/window_pump_control.cpp \
+    galil_dialog/window_touchoff.cpp \
+    galil_dialog/dialog_execution_paused.cpp \
+    misc_dialogs/widget_pause_parameters.cpp
 
 HEADERS += \
-        ECM_controller_gui.h \
-    additional_sensor_display.h \
-    ECM_plot_collection.h \
-    ECM_plot_identifier.h \
+    galil_dialog/widget_scripting_variables.h \
+    galil_dialog/widget_touchoff.h \
+    misc_dialogs/code_edit_widget.h \
+    misc_dialogs/table_widget_operation_descriptor.h \
+    misc_dialogs/widget_device_fault.h \
+    misc_dialogs/widget_profile_parameters.h \
+    misc_dialogs/window_custom_motion_commands.h \
+    misc_dialogs/window_device_connections.h \
+    misc_dialogs/window_motion_profile.h \
+    misc_dialogs/window_profile_configuration.h \
+    munk_dialog/widget_munk_power_supply.h \
+    munk_dialog/widget_segment_time_data.h \
+    munk_dialog/widget_segment_time_display.h \
+    pump_dialog/widget_pump_control.h \
+    rigol_dialog/widget_rigol_radio.h \
+    rigol_dialog/window_rigol_control.h \
     SensorDisplay/collection_displays.h \
+    SensorDisplay/display_ampere_area.h \
     SensorDisplay/display_base_plot_instantaneous.h \
     SensorDisplay/display_voltage.h \
     SensorDisplay/I_sensor_display.h \
-    plot_central.h \
-    LED.h \
-    munk_dialog/widget_segment_time_data.h \
-    munk_dialog/widget_segment_time_display.h \
-    munk_dialog/window_munk_power_supply.h \
-    misc_dialogs/window_touchoff.h \
-    rigol_dialog/window_rigol_control.h \
-    pump_dialog/window_pump_control.h \
-    SensorDisplay/display_ampere_area.h \
-    rigol_dialog/widget_rigol_radio.h \
+    additional_sensor_display.h \
+    ECM_controller_gui.h \
+    ECM_plot_collection.h \
+    ECM_plot_identifier.h \
     general_dialog_window.h \
-    misc_dialogs/window_motion_profile.h \
-    misc_dialogs/code_edit_widget.h \
-    misc_dialogs/window_custom_motion_commands.h \
-    misc_dialogs/widget_device_fault.h \
-    misc_dialogs/window_device_connections.h \
-    gui_verison.h
+    gui_verison.h \
+    LED.h \
+    plot_central.h \
+    galil_dialog/window_motion_control.h \
+    pump_dialog/window_pump_control.h \
+    galil_dialog/window_touchoff.h \
+    galil_dialog/dialog_execution_paused.h \
+    misc_dialogs/widget_abstract_profile.h \
+    misc_dialogs/widget_pause_parameters.h
 
 FORMS += \
-        ECM_controller_gui.ui \
-    additional_sensor_display.ui \
-    SensorDisplay/display_base_plot_instantaneous.ui \
-    munk_dialog/widget_segment_time_data.ui \
-    munk_dialog/widget_segment_time_display.ui \
-    munk_dialog/window_munk_power_supply.ui \
-    misc_dialogs/window_touchoff.ui \
-    rigol_dialog/window_rigol_control.ui \
-    pump_dialog/window_pump_control.ui \
-    rigol_dialog/widget_rigol_radio.ui \
+    galil_dialog/widget_scripting_variables.ui \
+    galil_dialog/widget_touchoff.ui \
+    misc_dialogs/table_widget_operation_descriptor.ui \
     misc_dialogs/window_motion_profile.ui \
     misc_dialogs/window_custom_motion_commands.ui \
     misc_dialogs/widget_device_fault.ui \
-    misc_dialogs/window_device_connections.ui
+    misc_dialogs/window_device_connections.ui \
+    misc_dialogs/window_profile_configuration.ui \
+    munk_dialog/widget_munk_power_supply.ui \
+    misc_dialogs/widget_profile_parameters.ui \
+    munk_dialog/widget_segment_time_data.ui \
+    munk_dialog/widget_segment_time_display.ui \
+    pump_dialog/widget_pump_control.ui \
+    rigol_dialog/window_rigol_control.ui \
+    rigol_dialog/widget_rigol_radio.ui \
+    SensorDisplay/display_base_plot_instantaneous.ui \
+    additional_sensor_display.ui \
+    ECM_controller_gui.ui \
+    galil_dialog/window_motion_control.ui \
+    pump_dialog/window_pump_control.ui \
+    galil_dialog/window_touchoff.ui \
+    galil_dialog/dialog_execution_paused.ui \
+    misc_dialogs/widget_pause_parameters.ui
+
+#Header file copy
+INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET
+INSTALL_HEADERS = $$HEADERS
+include(../headerinstall.pri)
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include

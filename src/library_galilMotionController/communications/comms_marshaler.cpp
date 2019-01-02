@@ -126,7 +126,10 @@ void CommsMarshaler::uploadProgram(const AbstractCommandPtr uploadCommand) const
 {
     auto func = [this, uploadCommand] () {
         if(!link->isConnected())
+        {
+            this->NewProgramUploaded(false);
             return;
+        }
 
         protocol->UploadNewProgram(link.get(), uploadCommand);
     };
@@ -144,6 +147,17 @@ void CommsMarshaler::downloadProgram(const AbstractCommandPtr downloadCommand) c
     link->MarshalOnThread(func);
 }
 
+
+void CommsMarshaler::uploadGalilProfileVariables(const ProgramVariableList &varList) const
+{
+    auto func = [this, varList] () {
+        if(!link->isConnected())
+            return;
+
+        protocol->UploadProgramVariables(link.get(), varList);
+    };
+    link->MarshalOnThread(func);
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /// Query
@@ -218,16 +232,14 @@ void CommsMarshaler::NewCustomStatusReceived(const string &initialCommand, const
     Emit([&](CommsEvents *ptr){ptr->CustomUserRequestReceived(initialCommand,newStatus);});
 }
 
-void CommsMarshaler::NewProgramUploaded(const ProgramGeneric &program) const
+void CommsMarshaler::NewProgramUploaded(const bool &success, const GalilCurrentProgram &program) const
 {
-    Emit([&](CommsEvents *ptr){ptr->NewProgramUploaded(program);});
+    Emit([&](CommsEvents *ptr){ptr->NewProgramUploaded(success, program);});
+}
 
-    //We now have a new program, let us query for the available labels and variables
-    RequestListLabelsPtr requestLabels = std::make_shared<RequestListLabels>();
-    sendAbstractGalilRequest(requestLabels);
-
-    RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
-    sendAbstractGalilRequest(requestVariables);
+void CommsMarshaler::NewVariableListUploaded(const bool &success, const ProgramVariableList &list) const
+{
+    Emit([&](CommsEvents *ptr){ptr->NewVariableListUploaded(success, list);});
 }
 
 void CommsMarshaler::NewProgramDownloaded(const ProgramGeneric &program) const

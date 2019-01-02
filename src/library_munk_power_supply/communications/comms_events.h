@@ -8,6 +8,8 @@
 #include "data/type_fault_status_registers.h"
 
 #include "data_registers/segment_time_detailed.h"
+#include "data_registers/register_pulse_mode.h"
+
 
 namespace comms_Munk{
 
@@ -88,9 +90,10 @@ public:
 
     }
 
-    virtual void NewSegmentSequence(const registers_Munk::SegmentTimeDetailed &segmentData)
+    virtual void NewSegmentSequence(const bool &success, const registers_Munk::SegmentTimeDetailed &segmentData)
     {
         UNUSED(segmentData);
+        UNUSED(success);
     }
 
 
@@ -100,9 +103,10 @@ public:
         UNUSED(meaning);
     }
 
-    virtual void RegisterPulseModeUpdated()
+    virtual void NewPulseMode(const bool &success, const registers_Munk::Register_PulseMode &pulseMode)
     {
-
+        UNUSED(success);
+        UNUSED(pulseMode);
     }
 };
 

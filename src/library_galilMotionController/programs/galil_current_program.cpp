@@ -7,9 +7,30 @@ GalilCurrentProgram::GalilCurrentProgram()
 
 GalilCurrentProgram::GalilCurrentProgram(const GalilCurrentProgram &copy)
 {
+    this->programLoaded = copy.programLoaded;
+    this->programPath = copy.programPath;
+
     this->program = copy.program;
     this->labelList = copy.labelList;
     this->variableList = copy.variableList;
+}
+
+void GalilCurrentProgram::writeToJSON(QJsonObject &saveObject)
+{
+    UNUSED(saveObject);
+}
+
+void GalilCurrentProgram::readFromJSON(const QJsonObject &openObject)
+{
+    UNUSED(openObject);
+}
+
+void GalilCurrentProgram::fromProgram(const GalilCurrentProgram &copy)
+{
+    this->programLoaded = copy.wasProgramLoaded(this->programPath);
+    this->program = copy.getProgram();
+    this->labelList = copy.getLabelList();
+    this->variableList = copy.getVariableList();
 }
 
 void GalilCurrentProgram::setProgram(const std::string &programString)
@@ -25,6 +46,12 @@ void GalilCurrentProgram::setLabelList(const ProgramLabelList &list)
 void GalilCurrentProgram::setVariableList(const ProgramVariableList &list)
 {
     this->variableList = list;
+}
+
+void GalilCurrentProgram::setProgramLoaded(const bool &loaded, const std::string &path)
+{
+    this->programLoaded = loaded;
+    this->programPath = path;
 }
 
 void GalilCurrentProgram::updateVariableValue(const std::string &name, const double &value)
@@ -50,13 +77,11 @@ bool GalilCurrentProgram::getLabelLine(const std::string &label, int &line) cons
     return true;
 }
 
-//bool GalilCurrentProgram::getVariableLine(const std::string &variable, int &line) const
-//{
-//    if(this->variableList.doesVariableExist(variable))
-//        return false;
-//    this->variableList.getVariableLine(variable,line);
-//    return true;
-//}
+bool GalilCurrentProgram::wasProgramLoaded(std::string &path) const
+{
+    path = this->programPath;
+    return this->programLoaded;
+}
 
 std::map<std::string, int> GalilCurrentProgram::getLablMap() const
 {
@@ -87,9 +112,4 @@ std::string GalilCurrentProgram::getLoggingString() const
 {
     std::string str;
     return this->getProgram();
-}
-
-void GalilCurrentProgram::writeJSONData(QJsonObject &json) const
-{
-    json["Program"] = QString::fromStdString(this->program);
 }

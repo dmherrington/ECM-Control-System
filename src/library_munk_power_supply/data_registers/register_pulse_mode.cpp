@@ -33,6 +33,11 @@ void Register_PulseMode::setTriggerCount(const uint8_t &count)
     this->triggerCount = count;
 }
 
+uint8_t Register_PulseMode::getTriggerCount() const
+{
+    return this->triggerCount;
+}
+
 QByteArray Register_PulseMode::getByteArray() const
 {
     QByteArray ba;
@@ -58,7 +63,7 @@ QByteArray Register_PulseMode::getByteArray() const
 QByteArray Register_PulseMode::getExpectedResponse() const
 {
     QByteArray ba;
-    int messageLength = 2;
+    int messageLength = 1; //the number of registers that were changed
     uint8_t HIGHSeqType = (uint8_t)((messageLength & 0xFF00) >> 8);
     uint8_t LOWSeqType = (uint8_t)(messageLength & 0x00FF);
     ba.append(HIGHSeqType);

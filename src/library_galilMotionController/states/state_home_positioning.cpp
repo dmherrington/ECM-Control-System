@@ -6,6 +6,7 @@ namespace Galil {
 State_HomePositioning::State_HomePositioning():
     AbstractStateGalil()
 {
+    std::cout<<"In constructor of STATE_HOME_POSITIONING"<<std::endl;
     this->currentState = GalilState::STATE_HOME_POSITIONING;
     this->desiredState = GalilState::STATE_HOME_POSITIONING;
 }
@@ -103,8 +104,8 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
                     newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::COMPLETE);
                     MotionProfileState newProfileState;
                     newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
-                    Owner().issueUpdatedMotionProfileState(newProfileState);
                     desiredState = GalilState::STATE_READY;
+                    Owner().issueUpdatedMotionProfileState(newProfileState);
                     break;
                 }
                 } //end of switch statement

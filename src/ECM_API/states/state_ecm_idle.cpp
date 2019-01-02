@@ -6,6 +6,7 @@ namespace API {
 ECMState_Idle::ECMState_Idle():
     AbstractStateECMProcess()
 {
+    std::cout<<"We are currently in the constructor of STATE_ECM_IDLE."<<std::endl;
     this->currentState = ECMState::STATE_ECM_IDLE;
     this->desiredState = ECMState::STATE_ECM_IDLE;
 }
@@ -28,24 +29,27 @@ void ECMState_Idle::getClone(AbstractStateECMProcess** state) const
 hsm::Transition ECMState_Idle::GetTransition()
 {
     hsm::Transition rtn = hsm::NoTransition();
-
     if(currentState != desiredState)
     {
-        //this means we want to chage the state for some reason
-        //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_ECM_INITIALIZATION:
+        case ECMState::STATE_ECM_MOTION_PROFILE_HANDLING:
         {
-            //rtn = hsm::SiblingTransition<ECMState_Setup>();
+            rtn = hsm::SiblingTransition<ECMState_ProfileHandling>(m_ECMCollection);
             break;
         }
         default:
-            std::cout<<"I dont know how we eneded up in this transition state from "<<ECMStateToString(this->currentState)<<"."<<std::endl;
             break;
         }
     }
-
     return rtn;
+}
+
+void ECMState_Idle::executeCollection(const ECMCommand_ExecuteCollection &collection)
+{
+
+    this->m_ECMCollection = std::make_shared<ECMCommand_ExecuteCollection>(collection);
+
+    this->desiredState = ECMState::STATE_ECM_MOTION_PROFILE_HANDLING;
 }
 
 void ECMState_Idle::Update()
@@ -55,11 +59,10 @@ void ECMState_Idle::Update()
 
 void ECMState_Idle::OnEnter()
 {
-
+    AbstractStateECMProcess::notifyOwnerStateTransition();
 }
-
 
 } //end of namespace Galil
 } //end of namespace ECM
 
-#include "states/state_ecm_initialization.h"
+#include "states/state_ecm_profile_handling.h"

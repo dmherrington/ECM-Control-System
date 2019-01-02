@@ -5,6 +5,9 @@
 #include <QDir>
 #include <QMap>
 #include <QTextStream>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
 
 #include "common/environment_time.h"
 #include "common/tuple_sensor_string.h"
@@ -17,6 +20,9 @@
 
 #include "data/profiles/profile_state_machining.h"
 
+#include "commands/ecm_command_execute_collection.h"
+#include "commands/ecm_command_profile_collection.h"
+
 #include <iostream>
 
 class ECMLogging
@@ -26,12 +32,23 @@ public:
 
     bool checkLoggingPath(const string &partNumber, const std::string &serialNumber) const;
 
+    void writeExecutionCollection(const ECMCommand_ExecuteCollectionPtr collection);
+
     void initializeLogging(const string &partNumber, const std::string &serialNumber, bool clearContents = true);
 
-    void writeLoggingHeader(const string &partNumber, const string &serialNumber, const string &profileString,
-                            const std::string &operationalSettings,const std::string &descriptor,
-                            const common::EnvironmentTime &time);
+    void writeProfileLoggingHeader(const std::string &partNumber, const std::string &serialNumber, const std::string &operationName,
+                            const std::string &profileName, const std::string &descriptor, const common::EnvironmentTime &time);
 
+    void writePauseLoggingHeader(const std::string &partNumber, const std::string &serialNumber, const std::string &operationName,
+                            const std::string &descriptor, const common::EnvironmentTime &time);
+
+    void writeCurrentOperationalSettings(const std::string &operationalSettings);
+
+    void beginLoggingOperationalData(const ProfileOpType &type);
+
+    void writeStartingPosition(const int &position);
+
+public:
 
     void enableLogging(const bool &enable);
 
@@ -66,8 +83,10 @@ public:
 
     void SetSensorLogFile(const common::TupleSensorString &key);
 
+    void WriteConcludingOperationStats(const double &duration, const int &concludingPosition,
+                                       const ProfileState_Machining::MACHININGProfileCodes &completionCode);
 
-    void CloseMachiningLog(const common::EnvironmentTime &time, const ProfileState_Machining::MACHININGProfileCodes &completionCode);
+    void CloseMachiningLog(const double &duration);
 
 private:
     void WriteLogSoftwareVersions(QTextStream &stringWriter);
@@ -80,6 +99,8 @@ private:
 protected:
 
     QFile* masterLog;
+
+    QFile* configurationFile;
 
     bool logReglativeTime = false;
 

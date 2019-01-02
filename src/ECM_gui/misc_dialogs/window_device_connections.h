@@ -35,9 +35,12 @@ private:
 private:
     void closeEvent(QCloseEvent *event) override;
 
+    bool areAllDevicesConnected() const;
+
 signals:
     void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility);
 
+    void signal_DeviceConnectionComplete(const bool &connected);
 
 public slots:
     void slot_SensorayConnectionUpdate(const common::comms::CommunicationUpdate &update);

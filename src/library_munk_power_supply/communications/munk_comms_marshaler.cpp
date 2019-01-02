@@ -230,10 +230,10 @@ void MunkCommsMarshaler::CommunicationUpdate(const std::string &name, const std:
 /// IProtocolMunkEvents
 //////////////////////////////////////////////////////////////
 
-void MunkCommsMarshaler::RegisterPulseModeUpdated(const ILink *link_ptr, const registers_Munk::Register_PulseMode &registerMode) const
+void MunkCommsMarshaler::RegisterPulseModeUpdated(const bool &success, const registers_Munk::Register_PulseMode &registerMode) const
 {
-    UNUSED(link_ptr);
-    Emit([&](CommsEvents *ptr){ptr->RegisterPulseModeUpdated();});
+    UNUSED(success);
+    Emit([&](CommsEvents *ptr){ptr->NewPulseMode(success,registerMode);});
 }
 
 void MunkCommsMarshaler::FaultCodeReceived(const ILink* link_ptr, const data_Munk::FaultRegisterType &faultRegister, const unsigned int &code) const
@@ -278,10 +278,9 @@ void MunkCommsMarshaler::SegmentCommittedToMemory(const ILink* link_ptr) const
     Emit([&](CommsEvents *ptr){ptr->SegmentCommitedToMemoryAcknowledged();});
 }
 
-void MunkCommsMarshaler::SegmentUploadComplete(const ILink *link_ptr, const registers_Munk::SegmentTimeDetailed &segmentData) const
+void MunkCommsMarshaler::SegmentUploadComplete(const bool &success, const registers_Munk::SegmentTimeDetailed &segmentData) const
 {
-    UNUSED(link_ptr);
-    Emit([&](CommsEvents *ptr){ptr->NewSegmentSequence(segmentData);});
+    Emit([&](CommsEvents *ptr){ptr->NewSegmentSequence(success, segmentData);});
 }
 
 void MunkCommsMarshaler::ExceptionResponseReceived(const ILink* link_ptr, const data_Munk::MunkRWType &type, const uint8_t &code) const

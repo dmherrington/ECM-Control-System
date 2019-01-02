@@ -10,6 +10,37 @@ ProgramVariableList::ProgramVariableList(const ProgramVariableList &copy)
     this->variableMap = copy.variableMap;
 }
 
+void ProgramVariableList::writeToJSON(QJsonObject &saveObject)
+{
+    QJsonArray MCVariableArray;
+
+    std::map<std::string,double>::iterator it = variableMap.begin();
+
+    QJsonObject varObject;
+
+    for(;it!=variableMap.end();++it)
+    {
+        std::string variableKey = it->first;
+        varObject[QString::fromStdString(variableKey)] = it->second;
+    }
+
+    MCVariableArray.append(varObject);
+
+    saveObject["variableData"] = MCVariableArray;
+}
+
+void ProgramVariableList::readFromJSON(const QJsonObject &openObject)
+{
+    QJsonArray MCVariableArray = openObject["variableData"].toArray();
+    QJsonObject variableObject = MCVariableArray[0].toObject();
+
+    for (int variableIndex = 0; variableIndex < variableObject.size(); ++variableIndex) {
+        QString variableKey = variableObject.keys().at(variableIndex);
+        double variableValue = variableObject.value(variableKey).toDouble();
+        addVariable(variableKey.toStdString(),variableValue);
+    }
+}
+
 bool ProgramVariableList::doesVariableExist(const std::string &name) const
 {
     if(this->variableMap.count(name) > 0)
@@ -17,9 +48,9 @@ bool ProgramVariableList::doesVariableExist(const std::string &name) const
     return false;
 }
 
-void ProgramVariableList::addVariable(const std::string &name, const double &lineNumber)
+void ProgramVariableList::addVariable(const std::string &name, const double &value)
 {
-    this->variableMap[name] = lineNumber;
+    this->variableMap[name] = value;
 }
 
 void ProgramVariableList::removeVariable(const std::string &name)

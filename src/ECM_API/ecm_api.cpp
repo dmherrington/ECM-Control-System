@@ -9,30 +9,12 @@ ECM_API::ECM_API()
     m_Munk = new MunkPowerSupply();
 
     m_Galil = new GalilMotionController();
-    connect(m_Galil,SIGNAL(signal_MotionControllerCommunicationUpdate(common::comms::CommunicationUpdate)),
-            this,SLOT(slot_MotionControllerCommunicationUpdate(common::comms::CommunicationUpdate)));
-
-    connect(m_Galil, SIGNAL(signal_GalilUpdatedProfileState(MotionProfileState)),
-            this, SLOT(slot_UpdateMotionProfileState(MotionProfileState)));
-
-    connect(m_Galil, SIGNAL(signal_MCNewMotionState(ECM::Galil::GalilState,std::string)),
-            this, SLOT(slot_MCNewMotionState(ECM::Galil::GalilState,std::string)));
-
-    //ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
 
     m_Sensoray = new Sensoray();
 
     m_Modbus485 = new Library_QModBus();
 
     m_Pump = new Westinghouse510(m_Modbus485,03);
-
-//    ECM_Modules* moduleAccess = new ECM_Modules(m_Galil);
-
-//    autoProcess = new hsm::StateMachine();
-//    autoProcess->Initialize<ECM::Galil::State_Idle>(moduleAccess);
-//    //if we begin issuing text commands we have to be careful how the state machine progresses
-//    autoProcess->UpdateStates();
-//    autoProcess->ProcessStateTransitions();
 
 }
 
@@ -60,26 +42,53 @@ bool ECM_API::checkLoggingPathValidity(const string &partNumber, const string &s
     return m_Log->checkLoggingPath(partNumber, serialNumber);
 }
 
-void ECM_API::initializeECMLogs(const std::string &partNumber, const std::string &serialNumber, const std::string &profile,
-                                const common::EnvironmentTime &time, const std::string &descriptor, const bool &clearContents)
+void ECM_API::initializeOperationalCollection(const ECMCommand_ExecuteCollectionPtr executionCollection, const bool &clearContents)
 {
-    m_Log->initializeLogging(partNumber, serialNumber, clearContents); //gets the file and directory structure ready for us
+    //gets the file and directory structure ready for us
+    m_Log->initializeLogging(executionCollection->getPartNumber(),
+                             executionCollection->getSerialNumber(),
+                             clearContents);
 
-    if(clearContents) //if its true means we have new stuff to write
+    //writes the properties of the configuration to a log file
+    m_Log->writeExecutionCollection(executionCollection);
+
+    ExecutionProperties props;
+    props.setTime(executionCollection->getStartTime());
+    props.setMaxIndex(executionCollection->getCollectionSize());
+    emit signal_ExecutingCollection(props);
+
+}
+
+void ECM_API::initializeLoggingOperation(const std::string &partNumber, const std::string &serialNumber,
+                                      const ECMCommand_AbstractProfileConfigPtr configuration, const std::string &description)
+{
+    switch (configuration->getConfigType()) {
+    case ProfileOpType::OPERATION:
     {
-        std::string loggingPath = m_Log->getLoggingPath();
+        ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(configuration);
 
-        //Write the Munk Profile Parameters
-        std::string munkPath = loggingPath + "PowerSupplySettings.json";
-        m_Munk->saveToFile(QString::fromStdString(munkPath));
+        m_Log->writeProfileLoggingHeader(partNumber,serialNumber,castConfig->getOperationName(),
+                                  castConfig->getProfileName(),description,
+                                  castConfig->execProperties.getStartTime());
+        break;
+    }
+    case ProfileOpType::PAUSE:
+    {
+        ECMCommand_ProfilePausePtr castConfig = static_pointer_cast<ECMCommand_ProfilePause>(configuration);
 
-        std::string galilPath = loggingPath + "MotionControllerSettings.txt";
-        m_Galil->saveProgramAs(galilPath);
+        m_Log->writePauseLoggingHeader(partNumber,serialNumber,castConfig->getOperationName(),
+                                  description, castConfig->execProperties.getStartTime());
 
-        std::string pumpPath = loggingPath + "PumpSettings.json";
-        m_Pump->saveToFile(QString::fromStdString(pumpPath));
+        break;
+    }
+    default:
+        break;
     }
 
+}
+
+void ECM_API::logCurrentOperationalSettings()
+{
     std::string operationsString;
     this->writeHeaderBreaker(operationsString, 100);
     operationsString += "PUMP OPERATIONAL SETTTINGS: \n";
@@ -105,31 +114,104 @@ void ECM_API::initializeECMLogs(const std::string &partNumber, const std::string
     operationsString += m_Galil->stateInterface->galilProgram->getVariableList().getLoggingString();
     operationsString += "\r\n";
 
-    m_Log->writeLoggingHeader(partNumber, serialNumber, profile,
-                              operationsString, descriptor, time);
+    m_Log->writeCurrentOperationalSettings(operationsString);
 }
 
-common::EnvironmentTime ECM_API::executeMachiningProcess(const std::string &partNumber, const std::string &serialNumber, const std::string &profileName,
-                                      const std::string &descriptor, const bool &clearContents)
+void ECM_API::writeToLogStartingPosition()
 {
-    //grab the current time and update all of the sources
-    common::EnvironmentTime startTime;
-    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
+    int startPosition = m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+    m_Log->writeStartingPosition(startPosition);
+}
 
-    this->initializeECMLogs(partNumber,serialNumber,
-                             profileName,startTime,descriptor,clearContents);
+void ECM_API::beginLoggingOperationalData(const ProfileOpType &type)
+{
+    m_Log->beginLoggingOperationalData(type);
+}
 
-    m_Log->enableLogging(true);
+void ECM_API::beginOperationalProfile(const ECMCommand_AbstractProfileConfigPtr profileConfig, const ExecuteOperationProperties::ExecutionCondition &condition)
+{
+    //Assemble a message to notify any listeners that we are about to execute an operation
+    ExecuteOperationProperties props(profileConfig->getOperationName(), profileConfig->getOperationIndex());
+    props.setOperatingCondition(condition);
+    props.setTime(profileConfig->execProperties.getStartTime());
 
-    emit signal_InitializeStartTime(startTime);
+    int position = m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+    props.setCurrentPosition(position);
 
-    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,profileName);
+    //Emit the signal notifying the listeners of a new operational profile
+    emit signal_ExecutingOperation(props);
+}
+
+void ECM_API::executeExplicitProfile(const ECMCommand_ProfileConfigurationPtr profileConfig)
+{
+    //Begin requesting of information from the oscilliscope
+    m_Rigol->executeMeasurementPolling(true);
+
+    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,
+                                                                               profileConfig->getProfileName());
     m_Galil->executeCommand(command);
+}
 
-    return startTime;
-    //ECM::API::AbstractStateECMProcess* currentState = static_cast<ECM::API::AbstractStateECMProcess*>(autoProcess->getCurrentState());
-    //currentState->handleCommand(command);
-    //stateMachine->ProcessStateTransitions();
+void ECM_API::executePauseProfile(const ECMCommand_ProfilePausePtr profileConfig)
+{
+    //Stop requesting of information from the oscilliscope
+    m_Rigol->executeMeasurementPolling(false);
+
+    //Lastly, send a command to make sure the airbrake has been engaged
+    CommandSetBitPtr command = std::make_shared<CommandSetBit>();
+    command->appendAddress(2); //Ken: be careful in the event that this changes. This should be handled by settings or something
+    m_Galil->executeCommand(command);
+}
+
+void ECM_API::concludeExecutingOperation(const ECMCommand_AbstractProfileConfigPtr profileConfig)
+{
+    //Stop requesting information from the oscilliscope device
+    m_Rigol->executeMeasurementPolling(false);
+
+    int concludingPosition = m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+
+    //Conclude writing to the logs with any wrap up data that we need
+    m_Log->WriteConcludingOperationStats(profileConfig->execProperties.getElapsedTime(),
+                                         concludingPosition, profileConfig->execProperties.getProfileCode());
+
+    //Disable the logs so no more contents are written post the machining operation
+    m_Log->enableLogging(false);
+
+    //Assemble a message to notify any listeners that we are finished executing an operation
+    ExecuteOperationProperties props(profileConfig->getOperationName(), profileConfig->getOperationIndex());
+    props.setOperatingCondition(ExecutionProperties::ExecutionCondition::ENDING);
+    props.setTime(profileConfig->execProperties.getEndTime());
+
+    int position = m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+    props.setCurrentPosition(position);
+
+    //Emit the signal notifying the listeners of a completed operational profile
+    emit signal_ExecutingOperation(props);
+
+}
+
+void ECM_API::concludeExecutingCollection(const ECMCommand_ExecuteCollectionPtr executionCollection)
+{
+    //During this process is where we should close the logs and everything associated with the operation
+    m_Log->CloseMachiningLog(executionCollection->getElapsedTime());
+
+    //Assemble a message to notify any listeners that we are finished executing the collection
+    ExecutionProperties props;
+    props.setOperatingCondition(ExecutionProperties::ExecutionCondition::ENDING);
+    props.setTime(executionCollection->getEndTime());
+
+    //Emit the signal notifying the listeners of a completed operational profile
+    emit signal_ExecutingCollection(props);
+}
+
+void ECM_API::notifyNewOuterState(const ECM::API::ECMState &state, const std::string &stateString)
+{
+    emit signal_NewOuterState(state, stateString);
+}
+
+void ECM_API::notifyPausedEvent(const std::string notificationText)
+{
+    emit signal_InPauseEvent(notificationText);
 }
 
 void ECM_API::action_StopMachine()
@@ -138,105 +220,6 @@ void ECM_API::action_StopMachine()
     m_Galil->executeCommand(commandGalilStop);
 
     m_Pump->ceasePumpOperations();
-}
-
-void ECM_API::slot_MotionControllerCommunicationUpdate(const common::comms::CommunicationUpdate &update)
-{
-    //    if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
-    //        m_Galil->initializeMotionController();
-}
-
-void ECM_API::slot_UpdateMotionProfileState(const MotionProfileState &state)
-{
-    switch (state.getProfileState()->getType()) {
-    case MotionProfile::ProfileType::SETUP:
-        break;
-    case MotionProfile::ProfileType::HOMING:
-        break;
-    case MotionProfile::ProfileType::TOUCHOFF:
-        break;
-    case MotionProfile::ProfileType::PROFILE:
-    {
-        //implement a better way to cast the state in this condition
-        ProfileState_Machining* castState = (ProfileState_Machining*)state.getProfileState().get();
-        ProfileState_Machining::MACHININGProfileCodes currentCode = castState->getCurrentCode();
-        switch (currentCode) {
-        case ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE:
-
-            break;
-        case ProfileState_Machining::MACHININGProfileCodes::COMPLETE:
-        {
-            m_Pump->ceasePumpOperations();
-
-            //grab the current time and update all of the sources
-            common::EnvironmentTime endTime;
-            common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,endTime);
-
-            //conclude writing to the logs with any wrap up data that we need
-            m_Log->CloseMachiningLog(endTime, currentCode);
-
-
-            break;
-        }
-        case ProfileState_Machining::MACHININGProfileCodes::ABORTED:
-        {
-            m_Pump->ceasePumpOperations();
-
-            //grab the current time and update all of the sources
-            common::EnvironmentTime endTime;
-            common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,endTime);
-
-            //conclude writing to the logs with any wrap up data that we need
-            m_Log->CloseMachiningLog(endTime, currentCode);
-
-            //m_Rigol->executeMeasurementPolling(false);
-            break;
-        }
-        default:
-            break;
-        }
-    }
-    default:
-        break;
-    }
-}
-
-void ECM_API::slot_MCNewMotionState(const ECM::Galil::GalilState &state, const string &stateString)
-{
-    switch (state) {
-    case ECM::Galil::GalilState::STATE_ESTOP:
-    case ECM::Galil::GalilState::STATE_HOME_POSITIONING:
-    case ECM::Galil::GalilState::STATE_MOTION_STOP:
-    case ECM::Galil::GalilState::STATE_READY_STOP:
-    case ECM::Galil::GalilState::STATE_SCRIPT_EXECUTION:
-    case ECM::Galil::GalilState::STATE_TOUCHOFF:
-    case ECM::Galil::GalilState::STATE_UNKNOWN:
-    {
-        //In all of the above cases we want to disable the buttons that could potentially have adverse conditions
-        //Although all of the checks are handled in the state machine of the galil library, it is preferred to have
-        //a secondary check within the API. This was primarily noted when the user could potentially double click.
-        emit signal_LockMotionButtons(true);
-        break;
-    }
-    case ECM::Galil::GalilState::STATE_IDLE:
-    case ECM::Galil::GalilState::STATE_READY:
-    {
-        emit signal_LockMotionButtons(false);
-        break;
-    }
-    case ECM::Galil::GalilState::STATE_JOGGING:
-    case ECM::Galil::GalilState::STATE_MANUAL_POSITIONING:
-    {
-        //We do not want to change the state condition of the button in this state
-        //This is because if we go to lock the buttons the release event will either
-        //trigger immediately or never be emitted.
-        break;
-    }
-    default:
-        break;
-    }
-
-    emit signal_MCNewMotionState(stateString);
 }
 
 void ECM_API::writeHeaderBreaker(std::string &logString, const unsigned int &size) const

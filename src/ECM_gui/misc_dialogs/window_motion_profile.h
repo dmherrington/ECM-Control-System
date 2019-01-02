@@ -18,7 +18,7 @@ class Window_MotionProfile : public GeneralDialogWindow
     Q_OBJECT
 
 public:
-    explicit Window_MotionProfile(GalilMotionController* obj, QWidget *parent = 0);
+    explicit Window_MotionProfile(GalilMotionController* galilObj, QWidget *parent = 0);
     ~Window_MotionProfile();
 
 private:
@@ -27,10 +27,23 @@ private:
 signals:
     void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility) override;
 
+public:
+    void setFilePath(const std::string &path);
+
+    void setProgramText(const std::string &programText);
+
+public:
+    void openGalilScript();
+    void uploadGalilScript();
+    void downloadGalilScript();
+    std::string getCurrentGalilScript() const;
+
 private:
     void saveToFile(const QString &filePath);
 
     void openFromFile(const QString &filePath);
+
+    void updateStatusLED(const QColor &color);
 
 private slots:
     void on_actionClose_triggered();
@@ -38,8 +51,6 @@ private slots:
     void on_actionOpen_triggered();
 
 private slots:
-    void slot_MCNewProgramAvailable(const ProgramGeneric &program);
-
     void on_codeTextEdit_textChanged();
 
     void on_pushButton_UploadProgram_released();

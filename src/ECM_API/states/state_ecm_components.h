@@ -17,17 +17,40 @@
 \*  While in this state, we can accept commands to download/upload programs from galil, load parameters and settigns from files,
 \* save files, etc.
 \*/
+#include "ECM_API/states/state_ecm_types.h"
 
 #include "ECM_API/states/state_abstract_ecm_process.h"
-#include "ECM_API/states/state_ecm_power_supply_setup.h"
+#include "ECM_API/states/state_ecm_idle.h"
+
 #include "ECM_API/states/state_ecm_profile_machine.h"
-#include "ECM_API/states/state_ecm_profile_machine_cease.h"
+#include "ECM_API/states/state_ecm_profile_machine_complete_execution.h"
+#include "ECM_API/states/state_ecm_profile_machine_complete.h"
+#include "ECM_API/states/state_ecm_profile_machine_failed.h"
+#include "ECM_API/states/state_ecm_profile_machine_pause.h"
 #include "ECM_API/states/state_ecm_profile_machine_process.h"
-#include "ECM_API/states/state_ecm_profile_machine_setup.h"
-#include "ECM_API/states/state_ecm_initialization.h"
-#include "ECM_API/states/state_ecm_touchoff.h"
-#include "ECM_API/states/state_ecm_touchoff_disable.h"
-#include "ECM_API/states/state_ecm_touchoff_enable.h"
-#include "ECM_API/states/state_ecm_touchoff_execute.h"
+
+#include "ECM_API/states/state_ecm_setup_machine.h"
+#include "ECM_API/states/state_ecm_setup_machine_complete.h"
+#include "ECM_API/states/state_ecm_setup_machine_failed.h"
+#include "ECM_API/states/state_ecm_setup_machine_home.h"
+#include "ECM_API/states/state_ecm_setup_machine_pump.h"
+#include "ECM_API/states/state_ecm_setup_machine_touchoff.h"
+#include "ECM_API/states/state_ecm_setup_machine_touchoff_completed.h"
+#include "ECM_API/states/state_ecm_setup_machine_touchoff_connect.h"
+#include "ECM_API/states/state_ecm_setup_machine_touchoff_disconnect.h"
+#include "ECM_API/states/state_ecm_setup_machine_touchoff_execute.h"
+#include "ECM_API/states/state_ecm_setup_machine_touchoff_failed.h"
+#include "ECM_API/states/state_ecm_setup_machine_touchoff_position.h"
+
+#include "ECM_API/states/state_ecm_upload.h"
+#include "ECM_API/states/state_ecm_upload_complete.h"
+#include "ECM_API/states/state_ecm_upload_failed.h"
+#include "ECM_API/states/state_ecm_upload_motion_profile.h"
+#include "ECM_API/states/state_ecm_upload_motion_variables.h"
+#include "ECM_API/states/state_ecm_upload_power_pulse_mode.h"
+#include "ECM_API/states/state_ecm_upload_power_register_segments.h"
+#include "ECM_API/states/state_ecm_upload_pump_parameters.h"
+
+#include "ECM_API/states/state_test.h"
 
 #endif // STATE_ECM_COMPONENTS_H

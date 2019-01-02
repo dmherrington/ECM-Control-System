@@ -5,6 +5,8 @@
 
 #include "ecm_api_global.h"
 #include "common/ecm_devices.h"
+#include "common/execution_properties.h"
+
 #include "graphing/graphing_global.h"
 
 #include "library_munk_power_supply/munk_power_supply.h"
@@ -14,11 +16,16 @@
 #include "library_westinghouse510/westinghouse_510.h"
 #include "library_qModBus/library_qmodbus.h"
 
-#include "states/state_ecm_components.h"
-
 #include "ecm_logging.h"
 #include "ecm_modules.h"
 
+#include "commands/ecm_command_profile_pause.h"
+#include "commands/ecm_command_execute_collection.h"
+#include "commands/ecm_command_profile_collection.h"
+
+#include "states/state_ecm_types.h"
+
+ECM_CLASS_FORWARD(ECM_API);
 
 class ECM_APISHARED_EXPORT ECM_API: public QObject
 {
@@ -30,30 +37,41 @@ public:
     ~ECM_API() = default;
 
 public:
+    void initializeProfileConfiguration(const ECMCommand_ProfileConfiguration &config);
+    void onProfileCollectionInitialized(const bool &success, const ECMCommand_ProfileCollection &config);
+
+public:
     void action_StopMachine();
 
 public:
 
     bool checkLoggingPathValidity(const std::string &partNumber, const std::string &serialNumber) const;
 
-    void initializeECMLogs(const std::string &partNumber, const std::string &serialNumber, const std::string &profile,
-                           const common::EnvironmentTime &time, const std::string &descriptor = "", const bool &clearContents = false);
+    void initializeOperationalCollection(const ECMCommand_ExecuteCollectionPtr executionCollection, const bool &clearContents);
 
-    //ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
+    void initializeLoggingOperation(const std::string &partNumber, const std::string &serialNumber,
+                                 const ECMCommand_AbstractProfileConfigPtr configuration, const std::string &description = "");
 
-    //!
-    //! \brief executeMachiningProcess
-    //! \param partNumber
-    //! \param serialNumber
-    //! \param profileName
-    //! \param time
-    //! \param descriptor
-    //! \param clearContents
-    //! \return
-    //!
-    common::EnvironmentTime executeMachiningProcess(const std::string &partNumber, const std::string &serialNumber,
-                                      const std::string &profileName, const std::string &descriptor = "",
-                                      const bool &clearContents = false);
+    void logCurrentOperationalSettings();
+
+    void writeToLogStartingPosition();
+
+    void beginLoggingOperationalData(const ProfileOpType &type);
+
+    void beginOperationalProfile(const ECMCommand_AbstractProfileConfigPtr profileConfig,
+                                 const ExecutionProperties::ExecutionCondition &condition = ExecutionProperties::ExecutionCondition::BEGINNING);
+
+    void executeExplicitProfile(const ECMCommand_ProfileConfigurationPtr profileConfig);
+
+    void executePauseProfile(const ECMCommand_ProfilePausePtr profileConfig);
+
+    void concludeExecutingCollection(const ECMCommand_ExecuteCollectionPtr executionCollection);
+
+    void concludeExecutingOperation(const ECMCommand_AbstractProfileConfigPtr profileConfig);
+
+    void notifyNewOuterState(const ECM::API::ECMState &state, const std::string &stateString);
+
+    void notifyPausedEvent(const std::string notificationText);
 
 private:
     void writeHeaderBreaker(std::string &logString, const unsigned int &size) const;
@@ -61,33 +79,10 @@ private:
     std::map<std::string, std::string> getSoftwareVersions() const;
 
 signals:
-    void signal_LockMotionButtons(const bool &lock);
-
-    void signal_MCNewMotionState(const std::string &stateString);
-
-    void signal_InitializeStartTime(const common::EnvironmentTime &time);
-
-private slots:
-
-    //!
-    //! \brief slot_MotionControllerCommunicationUpdate
-    //! \param update
-    //!
-    void slot_MotionControllerCommunicationUpdate(const common::comms::CommunicationUpdate &update);
-
-    //!
-    //! \brief slot_UpdateMotionProfileState
-    //! \param state
-    //!
-    void slot_UpdateMotionProfileState(const MotionProfileState &state);
-
-    //!
-    //! \brief slot_MCNewMotionState
-    //! \param state
-    //! \param stateString
-    //!
-    void slot_MCNewMotionState(const ECM::Galil::GalilState &state, const std::string &stateString);
-
+    void signal_NewOuterState(const ECM::API::ECMState &state, const std::string &stateString);
+    void signal_InPauseEvent(const std::string notificationText);
+    void signal_ExecutingCollection(const ExecutionProperties &props);
+    void signal_ExecutingOperation(const ExecuteOperationProperties &props);
 
 public:
 
@@ -104,9 +99,6 @@ public:
     ECMLogging* m_Log;
 
     Library_QModBus* m_Modbus485;
-
-public:
-    hsm::StateMachine* autoProcess;
 
 };
 

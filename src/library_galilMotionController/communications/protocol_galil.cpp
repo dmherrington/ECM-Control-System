@@ -25,24 +25,53 @@ void GalilProtocol::AddListner(const IProtocolGalilEvents* listener)
 
 void GalilProtocol::UploadNewProgram(const ILink *link, const AbstractCommandPtr command)
 {
-    std::cout<<"I am trying to upload a new program"<<std::endl;
-    ProgramGeneric uploadProgram = command.get()->as<CommandUploadProgram>()->getProgram();
-    GReturn rtn = link->UploadProgram(uploadProgram.getProgramString());
+    GalilCurrentProgram uploadProgram = command.get()->as<CommandUploadProgram>()->getCurrentProgram();
+    GReturn rtn = link->UploadProgram(uploadProgram.getProgram());
+
+    std::vector<AbstractRequestPtr> currentRequests;
+    RequestListLabelsPtr requestLabels = std::make_shared<RequestListLabels>();
+    currentRequests.push_back(requestLabels);
+    RequestListVariablesPtr requestVariables = std::make_shared<RequestListVariables>();
+    currentRequests.push_back(requestVariables);
+
+    unsigned int requestIndex = 0;
+    while ((rtn == G_NO_ERROR) && (requestIndex <= (currentRequests.size() - 1)))
+    {
+        this->SendProtocolRequest(link,currentRequests.at(requestIndex));
+        requestIndex++;
+    }
+
     if(rtn == G_NO_ERROR)
     {
-        //We had no error and therefore need to call the setup
+        //If we have gotten to this point, we currently have a newly available program with accompanying labels and variables.
+        GalilCurrentProgram newProgram(uploadProgram);
+
+        AbstractStatusPtr labelPtr = requestLabels->getStatus().at(0);
+        Status_LabelList* currentLabels = labelPtr.get()->as<Status_LabelList>();
+
+        AbstractStatusPtr variablePtr = requestVariables->getStatus().at(0);
+        Status_VariableList* currentVariables = variablePtr.get()->as<Status_VariableList>();
+
+        newProgram.setLabelList(currentLabels->getLabelList());
+        newProgram.setVariableList(currentVariables->getVariableList());
+
+        //We had no error and therefore need to call the setup to initialize all of the variables that are contained within the script
         CommandExecuteProfilePtr commandExecuteSetup = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::SETUP,"setup");
         this->SendProtocolCommand(link,commandExecuteSetup);
 
-        Emit([&](const IProtocolGalilEvents* ptr){ptr->NewProgramUploaded(uploadProgram);});
+        Emit([&](const IProtocolGalilEvents* ptr){ptr->NewProgramUploaded(true,newProgram);});
     }
     else
+    {
         handleCommandResponse(link,command,rtn);
+        Emit([&](const IProtocolGalilEvents* ptr){ptr->NewProgramUploaded(false);});
+    }
+
+
 }
 
 void GalilProtocol::DownloadCurrentProgram(const ILink *link, const AbstractCommandPtr command)
 {
-    std::cout<<"I am trying to download a new program"<<std::endl;
     std::string programText;
     GReturn rtn = link->DownloadProgram(programText);
     if(rtn == G_NO_ERROR)
@@ -55,15 +84,44 @@ void GalilProtocol::DownloadCurrentProgram(const ILink *link, const AbstractComm
         handleCommandResponse(link,command,rtn);
 }
 
+void GalilProtocol::UploadProgramVariables(const ILink *link, const ProgramVariableList &varList)
+{
+    GReturn rtn = G_NO_ERROR;
+
+    std::map<std::string, double> currentVarMap = varList.getVariableMap();
+    std::map<std::string, double>::iterator it = currentVarMap.begin();
+
+    Command_VariablePtr newVariable = std::make_shared<Command_Variable>("",0.0);
+
+    for (; it!=currentVarMap.end(); ++it)
+    {
+        newVariable->setVariableName(it->first);
+        newVariable->setVariableValue(it->second);
+
+        rtn = link->WriteCommand(newVariable->getCommandString());
+        handleCommandResponse(link,newVariable,rtn);
+
+        if(rtn != G_NO_ERROR)
+            break;
+    }
+
+    if(rtn == G_NO_ERROR)
+    {
+        Emit([&](const IProtocolGalilEvents* ptr){ptr->NewVariableListUploaded(true,varList);});
+    }else{
+        Emit([&](const IProtocolGalilEvents* ptr){ptr->NewVariableListUploaded(false);});
+    }
+}
+
 void GalilProtocol::ExecuteProfile(const ILink *link, const AbstractCommandPtr &command)
 {
     std::cout<<"I am trying to execute a new profile"<<std::endl;
     //First, let us establish the correct gains for the galil
-//    CommandControllerGain commandGain(profile.profileGain);
-//    SendProtocolGainCommand(link,commandGain);
+    //    CommandControllerGain commandGain(profile.profileGain);
+    //    SendProtocolGainCommand(link,commandGain);
     //Next, let us exectue the profile
-//    CommandExecuteProfilePtr commandPtr = std::make_shared<CommandExecuteProfile>(command);
-//    SendProtocolCommand(link,commandPtr);
+    //    CommandExecuteProfilePtr commandPtr = std::make_shared<CommandExecuteProfile>(command);
+    //    SendProtocolCommand(link,commandPtr);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -115,41 +173,41 @@ void GalilProtocol::SendProtocolMotionCommand(const ILink *link, const AbstractC
 
 void GalilProtocol::handleCommandResponse(const ILink *link, const AbstractCommandPtr command, const GReturn &response)
 {
-        switch (response) {
-        case G_NO_ERROR:
+    switch (response) {
+    case G_NO_ERROR:
+    {
+        switch (command->getCommandType()) {
+        case CommandType::SET_VARIABLE:
         {
-            switch (command->getCommandType()) {
-            case CommandType::SET_VARIABLE:
-            {
-                std::vector<AbstractStatusPtr> status;
+            std::vector<AbstractStatusPtr> status;
 
-                common::EnvironmentTime updateTime;
-                common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,updateTime);
+            common::EnvironmentTime updateTime;
+            common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,updateTime);
 
-                Command_Variable* variableValue = command.get()->as<Command_Variable>();
-                Status_VariableValuePtr variableStatus = std::make_shared<Status_VariableValue>();
-                variableStatus->setVariableName(variableValue->getVariableName());
-                variableStatus->setVariableValue(variableValue->getVariableValue());
-                variableStatus->setTime(updateTime);
+            Command_Variable* variableValue = command.get()->as<Command_Variable>();
+            Status_VariableValuePtr variableStatus = std::make_shared<Status_VariableValue>();
+            variableStatus->setVariableName(variableValue->getVariableName());
+            variableStatus->setVariableValue(variableValue->getVariableValue());
+            variableStatus->setTime(updateTime);
 
-                status.push_back(variableStatus);
-                Emit([&](const IProtocolGalilEvents* ptr){ptr->NewStatusReceived(status);});
-                break;
-            }
-            default:
-                break;
-            }
-            break;
-        }
-        case G_BAD_RESPONSE_QUESTION_MARK:
-        {
-            handleBadCommand_ResponseQuestionMark(link, command->getCommandType());
+            status.push_back(variableStatus);
+            Emit([&](const IProtocolGalilEvents* ptr){ptr->NewStatusReceived(status);});
             break;
         }
         default:
-            std::cout<<"There is another bad command response that is not currently supported of value: "<<std::to_string(response)<<std::endl;
             break;
         }
+        break;
+    }
+    case G_BAD_RESPONSE_QUESTION_MARK:
+    {
+        handleBadCommand_ResponseQuestionMark(link, command->getCommandType());
+        break;
+    }
+    default:
+        std::cout<<"There is another bad command response that is not currently supported of value: "<<std::to_string(response)<<std::endl;
+        break;
+    }
 }
 
 void GalilProtocol::handleBadCommand_ResponseQuestionMark(const ILink* link, const CommandType &type)
@@ -172,25 +230,25 @@ void GalilProtocol::SendProtocolRequest(const ILink *link, const AbstractRequest
 
 void GalilProtocol::handleRequestResponse(const ILink *link, const AbstractRequestPtr request, const GReturn &code)
 {
-        switch (code) {
-        case G_NO_ERROR:
-        {
-            std::vector<AbstractStatusPtr> status = request->getStatus();
-            Emit([&](const IProtocolGalilEvents* ptr){ptr->NewStatusReceived(status);});
-            break;
-        }
-        case G_BAD_LOST_DATA:
-        {
-            break;
-        }
-        case G_BAD_RESPONSE_QUESTION_MARK:
-        {
-            handleBadRequest_ResponseQuestionMark(link, request);
-            break;
-        }
-        default:
-            break;
-        }
+    switch (code) {
+    case G_NO_ERROR:
+    {
+        std::vector<AbstractStatusPtr> status = request->getStatus();
+        Emit([&](const IProtocolGalilEvents* ptr){ptr->NewStatusReceived(status);});
+        break;
+    }
+    case G_BAD_LOST_DATA:
+    {
+        break;
+    }
+    case G_BAD_RESPONSE_QUESTION_MARK:
+    {
+        handleBadRequest_ResponseQuestionMark(link, request);
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 void GalilProtocol::handleBadRequest_ResponseQuestionMark(const ILink* link, const AbstractRequestPtr request)

@@ -20,6 +20,18 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
 
 }
 
+void Westinghouse510::setPumpProperties(const Command_PumpProperties &command)
+{
+    if(command.shouldWaitForInitializationDelay())
+        initializationTimer->setInterval(command.getInitializationTime());
+    else
+        initializationTimer->setInterval(1);
+
+    registers_WestinghousePump::Register_FlowRate newFlowRate;
+    newFlowRate.setVolumetricFlow(command.getPumpFlowRate());
+    this->setPumpFlowRate(newFlowRate);
+}
+
 //!
 //! \brief setPumpFlowRate function transmitting the desired flow rate to the communication object.
 //! It is the role of the communication object to then transmit the desired flow rate to the appropriate
@@ -153,8 +165,7 @@ void Westinghouse510::slot_SerialPortReceivedData(const QByteArray &data)
 void Westinghouse510::slot_PumpInitializationComplete()
 {
     this->m_State->pumpInitialized.set(true);
-
-    emit signal_PumpInitialized();
+    this->onFinishedInitializingPump(true);
 }
 
 void Westinghouse510::parseReceivedMessage(const comms_WestinghousePump::WestinghouseMessage &msg)
@@ -179,6 +190,7 @@ void Westinghouse510::parseReceivedMessage(const comms_WestinghousePump::Westing
                 {
                     emit signal_PumpFlowUpdated(writeFlow.getVolumetricFlow());
                 }
+                this->onFinishedUploadingParameters(true,FINISH_CODE::UNKNOWN);
                 break;
             }
             case registers_WestinghousePump::WestinhouseRegisterTypes::OPERATION_SIGNAL:
@@ -195,6 +207,7 @@ void Westinghouse510::parseReceivedMessage(const comms_WestinghousePump::Westing
                     else{
                         if(initializationTimer->isActive())
                             initializationTimer->stop();
+                        initializationTimer->start();
                         this->m_State->pumpInitialized.set(false);
                     }
 

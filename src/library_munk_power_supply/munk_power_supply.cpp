@@ -263,13 +263,14 @@ void MunkPowerSupply::FaultCodeReceived(const data_Munk::FaultRegisterType &faul
     response_Munk::FaultRegisterState newFaultState(faultRegister,code);
     if(machineState->updateRegisterFaults(newFaultState))
     {
-        emit signal_FaultCodeRecieved();
+        emit signal_MunkFaultCodeStatus(true,newFaultState.getCurrentFaultCodes());
     }
 }
 
 void MunkPowerSupply::FaultStateCleared()
 {
-    emit signal_FaultStateCleared();
+    std::vector<std::string> faultCleared;
+    emit signal_MunkFaultCodeStatus(false,faultCleared);
 }
 
 void MunkPowerSupply::ForwardVoltageSetpointAcknowledged()
@@ -332,9 +333,15 @@ void MunkPowerSupply::SegmentCommitedToMemoryAcknowledged()
     emit signal_SegmentWriteProgress(completed,required);
 }
 
-void MunkPowerSupply::NewSegmentSequence(const SegmentTimeDetailed &segmentData)
+void MunkPowerSupply::NewSegmentSequence(const bool &success, const SegmentTimeDetailed &segmentData)
 {
     this->machineState->updateCurrentSegmentData(segmentData);
+    this->onFinishedUploadingSegments(success);
+}
+
+void MunkPowerSupply::NewPulseMode(const bool &success, const registers_Munk::Register_PulseMode &pulseMode)
+{
+    this->onFinishedUploadingPulseMode(success);
 }
 
 void MunkPowerSupply::ExceptionResponseReceived(const MunkRWType &RWType, const std::string &meaning) const
@@ -358,7 +365,6 @@ std::string MunkPowerSupply::getLogOfOperationalSettings() const
     std::vector<registers_Munk::SegmentTimeDataDetailed> registerData = segmentData.getRegisterData();
     for(size_t i = 0; i < registerData.size(); i++)
     {
-
         str += registerData.at(i).getLoggingString() + "\n";
     }
 

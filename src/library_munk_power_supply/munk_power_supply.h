@@ -44,11 +44,12 @@
 #include "munk_machine_state.h"
 #include "munk_poll_status.h"
 
+#include "device_interface_power_supply.h"
 using namespace registers_Munk;
 using namespace data_Munk;
 using namespace comms_Munk;
 
-class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply :  public QObject, CommsEvents, MunkStatusCallback_Interface
+class LIBRARY_MUNK_POWER_SUPPLYSHARED_EXPORT MunkPowerSupply : public QObject, public DeviceInterface_PowerSupply, CommsEvents, MunkStatusCallback_Interface
 {
     Q_OBJECT
 
@@ -97,9 +98,7 @@ signals:
 
     void signal_CommunicationUpdate(const std::string &name, const std::string &msg) const;
 
-    void signal_FaultCodeRecieved() const;
-
-    void signal_FaultStateCleared();
+    void signal_MunkFaultCodeStatus(const bool &status, const std::vector<std::string> &codes);
 
     void signal_SegmentSetAck(const std::string &msg) const;
 
@@ -144,7 +143,9 @@ private:
 
     void SegmentCommitedToMemoryAcknowledged() override;
 
-    void NewSegmentSequence(const registers_Munk::SegmentTimeDetailed &segmentData) override;
+    void NewSegmentSequence(const bool &success, const registers_Munk::SegmentTimeDetailed &segmentData) override;
+
+    void NewPulseMode(const bool &success, const registers_Munk::Register_PulseMode &pulseMode) override;
 
     void ExceptionResponseReceived(const MunkRWType &RWType, const std::string &meaning) const override;
 
@@ -179,5 +180,7 @@ private:
     CommsProgressHandler commsProgress;
 
 };
+
+Q_DECLARE_METATYPE(std::vector<std::string>)
 
 #endif // MUNK_POWER_SUPPLY_H

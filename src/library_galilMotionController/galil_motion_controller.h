@@ -40,6 +40,8 @@
 
 #include "communications/comms_marshaler.h"
 
+#include "device_interface_motion_control.h"
+
 /**
 \* @file  galil_motion_controller.h
 \*
@@ -55,7 +57,7 @@
 \*
 \*/
 
-class GMC_SHARED_EXPORT GalilMotionController : public QObject, public GalilStatusUpdate_Interface, public GalilCallback_StateInterface, private Comms::CommsEvents
+class GMC_SHARED_EXPORT GalilMotionController : public QObject, public DeviceInterface_MotionControl, public GalilStatusUpdate_Interface, public GalilCallback_StateInterface, private Comms::CommsEvents
 {
     Q_OBJECT
 
@@ -67,6 +69,9 @@ public:
     std::vector<common::TupleECMData> getPlottables() const;
 
 public:
+    GalilCurrentProgram getCurrentMCProgram() const;
+
+public:
     void openConnection(const std::string &address);
 
     void closeConnection();
@@ -76,7 +81,7 @@ public:
     void initializeMotionController();
 
 public:
-    std::string getCurrentMCState() const;
+    ECM::Galil::GalilState getCurrentMCState() const;
 
     StatusInputs getCurrent_MCDIO() const;
 
@@ -93,7 +98,8 @@ private:
     void StatusMessage(const std::string &msg) const override;
     void ErrorBadCommand(const CommandType &type, const std::string &description) override;
     void ErrorBadRequest(const RequestTypes &type, const std::string &description) override;
-    void NewProgramUploaded(const ProgramGeneric &program) override;
+    void NewProgramUploaded(const bool &success, const GalilCurrentProgram &program) override;
+    void NewVariableListUploaded(const bool &success, const ProgramVariableList &list) override;
     void NewProgramDownloaded(const ProgramGeneric &program) override;
     void NewStatusInputs(const StatusInputs &status) override;
     void NewStatusPosition(const Status_Position &status) override;
@@ -122,6 +128,8 @@ public:
     void executeCommand(const AbstractCommandPtr command);
     void executeCustomCommands(const std::vector<std::string> &stringCommands);
 
+    void uploadProgramVariableList(const ProgramVariableList &varList);
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
     /// Callback Interfafce as required from inheritance of GalilStatusUpdate_Interface
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -140,12 +148,25 @@ private:
     void cbi_GalilControllerGains(const CommandControllerGain &gains) override;
     void cbi_GalilHomeIndicated(const bool &indicated) override;
     void cbi_GalilTouchoffIndicated(const bool &indicated) override;
-    void cbi_NewMotionProfileState(const MotionProfileState &state) override;
+    void cbi_NewMotionProfileState(const MotionProfileState &state, const bool &processTransitions) override;
     void cbi_GalilNewMachineState(const ECM::Galil::GalilState &state) override;
     void cbi_GalilUploadProgram(const AbstractCommandPtr command) override;
     void cbi_GalilDownloadProgram(const AbstractCommandPtr command) override;
 
 signals:
+
+    //!
+    //! \brief signal_GalilHomeIndicated
+    //! \param indicated
+    //!
+    void signal_GalilHomeIndicated(const bool &indicated) const;
+
+    //!
+    //! \brief signal_GalilTouchoffIndicated
+    //! \param indicated
+    //!
+    void signal_GalilTouchoffIndicated(const bool &indicated) const;
+
     /**<
      * The following signals are pertinent to handling events that may have interest in logging.
      */
@@ -186,13 +207,13 @@ signals:
     //! \brief signal_MCNewMotionState signal emitted when the state machine has progressed to a new state
     //! \param state string descriptor describing the state the galil motion controller is in
     //!
-    void signal_MCNewMotionState(const ECM::Galil::GalilState &state, const std::string &stateString) const;
+    void signal_MCNewMotionState(const ECM::Galil::GalilState &state, const QString &stateString) const;
 
     //!
     //! \brief signal_MCNewProgramReceived
     //! \param programText
     //!
-    void signal_MCNewProgramReceived(const ProgramGeneric &program);
+    void signal_MCNewProgramReceived(const GalilCurrentProgram &program);
 
     //!
     //! \brief signal_MCNewProgramLabelList
@@ -205,14 +226,6 @@ signals:
     //! \param variableList
     //!
     void signal_MCNewProgramVariableList(const ProgramVariableList &variableList);
-
-    //!
-    //! \brief signal_GalilHomeIndicated
-    //! \param indicated
-    //!
-    void signal_GalilHomeIndicated(const bool &indicated) const;
-
-    void signal_GalilTouchoffIndicated(const bool &indicated) const;
 
     void signal_GalilUpdatedProfileState(const MotionProfileState &state) const;
 
@@ -239,18 +252,25 @@ information, settings, and callback information for the states within the HSM.*/
 private:
     GCon galil; /**< Member variable containing a pointer to the Galil interface */
 
-    hsm::StateMachine* stateMachine; /**< Member variable containing a pointer to the state
- machine. This state machine evolves the state per event updates and user commands either via
-the GUI or information updates from the polled status of the galil. */
-
     GalilPollState* galilPolling; /**< Member variable that contains a threaded object consistently
  assessing and querying the state of the galil based on a timeout. This state should be paused when
 uploading and/or downloading from the galil. */
+
+
+private:
+    void ProgressStateMachineStates();
+    std::mutex m_Mutex_StateMachine;
+    hsm::StateMachine* stateMachine; /**< Member variable containing a pointer to the state
+ machine. This state machine evolves the state per event updates and user commands either via
+the GUI or information updates from the polled status of the galil. */
 
 private:
     GalilSettings m_Settings; /**< Value of the axis to be disabled */
 
     std::string deviceName;
 };
+
+Q_DECLARE_METATYPE(ECM::Galil::GalilState)
+
 
 #endif // GALIL_MOTION_CONTROLLER_H

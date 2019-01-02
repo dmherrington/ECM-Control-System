@@ -3,7 +3,7 @@
 
 #include "common/class_forward.h"
 #include "commands/abstract_command.h"
-#include "programs/program_generic.h"
+#include "programs/galil_current_program.h"
 
 ECM_CLASS_FORWARD(CommandUploadProgram);
 class CommandUploadProgram : public AbstractCommand
@@ -31,9 +31,11 @@ public:
     void getClone(AbstractCommand** state) const override;
 
 public:
-    void setProgram(const ProgramGeneric &desiredProgram);
+    void setCurrentScript(const std::string &text);
 
-    ProgramGeneric getProgram() const;
+    void setCurrentProgram(const GalilCurrentProgram &desiredProgram);
+
+    GalilCurrentProgram getCurrentProgram() const;
 public:
     //!
     //! \brief getCommandString
@@ -78,8 +80,9 @@ public:
     bool operator != (const CommandUploadProgram &rhs) {
         return !(*this == rhs);
     }
+
 private:
-    ProgramGeneric program;
+    GalilCurrentProgram program;
 };
 
 #endif // COMMAND_UPLOAD_PROGRAM_H

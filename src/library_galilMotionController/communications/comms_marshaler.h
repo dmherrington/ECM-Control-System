@@ -64,6 +64,8 @@ public:
 
     void downloadProgram(const AbstractCommandPtr downloadCommand) const;
 
+    void uploadGalilProfileVariables(const ProgramVariableList &varList) const;
+
     //!
     //! \brief Issue a message to a given link
     //!
@@ -97,7 +99,9 @@ private:
 
     void NewCustomStatusReceived(const std::string &initialCommand, const std::string &newStatus) const override;
 
-    void NewProgramUploaded(const ProgramGeneric &program) const override;
+    void NewProgramUploaded(const bool &success, const GalilCurrentProgram &program = GalilCurrentProgram()) const override;
+
+    void NewVariableListUploaded(const bool &succes, const ProgramVariableList &list = ProgramVariableList()) const override;
 
     void NewProgramDownloaded(const ProgramGeneric &program) const override;
 

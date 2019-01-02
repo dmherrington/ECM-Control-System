@@ -35,19 +35,43 @@ SOURCES += \
         ecm_api.cpp \
     ecm_logging.cpp \
     states/state_abstract_ecm_process.cpp \
-    states/state_ecm_power_supply_setup.cpp \
     states/state_ecm_profile_machine.cpp \
-    states/state_ecm_profile_machine_cease.cpp \
     states/state_ecm_profile_machine_process.cpp \
-    states/state_ecm_profile_machine_setup.cpp \
-    states/state_ecm_pump_setup.cpp \
-    states/state_ecm_touchoff.cpp \
-    states/state_ecm_touchoff_disable.cpp \
-    states/state_ecm_touchoff_enable.cpp \
-    states/state_ecm_touchoff_execute.cpp \
     states/state_ecm_idle.cpp \
-    states/state_ecm_initialization.cpp \
-    ecm_modules.cpp
+    ecm_modules.cpp \
+    states/state_ecm_upload_motion_profile.cpp \
+    states/state_ecm_upload_pump_parameters.cpp \
+    states/state_ecm_upload.cpp \
+    states/state_ecm_upload_motion_variables.cpp \
+    states/state_ecm_upload_complete.cpp \
+    states/state_ecm_upload_failed.cpp \
+    states/state_ecm_upload_power_register_segments.cpp \
+    states/state_ecm_upload_power_pulse_mode.cpp \
+    commands/ecm_command_profile_collection.cpp \
+    commands/ecm_command_profile_configuration.cpp \
+    states/state_test.cpp \
+    commands/ecm_command_execute_collection.cpp \
+    states/state_ecm_setup_machine_home.cpp \
+    states/state_ecm_setup_machine_touchoff.cpp \
+    states/state_ecm_setup_machine.cpp \
+    states/state_ecm_setup_machine_pump.cpp \
+    states/state_ecm_setup_machine_complete.cpp \
+    states/state_ecm_setup_machine_failed.cpp \
+    states/state_ecm_profile_machine_complete.cpp \
+    states/state_ecm_profile_machine_failed.cpp \
+    commands/ecm_command_execution_properties.cpp \
+    states/state_ecm_profile_machine_complete_execution.cpp \
+    states/state_ecm_profile_machine_abort.cpp \
+    states/state_ecm_setup_machine_touchoff_disconnect.cpp \
+    states/state_ecm_setup_machine_touchoff_connect.cpp \
+    states/state_ecm_setup_machine_touchoff_position.cpp \
+    states/state_ecm_setup_machine_touchoff_execute.cpp \
+    states/state_ecm_setup_machine_touchoff_completed.cpp \
+    states/state_ecm_setup_machine_touchoff_failed.cpp \
+    commands/ecm_command_profile_pause.cpp \
+    commands/ecm_command_abstract_profile_config.cpp \
+    states/state_ecm_profile_machine_pause.cpp \
+    states/state_ecm_profile_handling.cpp
 
 HEADERS += \
         ecm_api.h \
@@ -55,21 +79,48 @@ HEADERS += \
     ecm_logging.h \
     states/state_abstract_ecm_process.h \
     states/state_ecm_components.h \
-    states/state_ecm_power_supply_setup.h \
     states/state_ecm_profile_machine.h \
-    states/state_ecm_profile_machine_cease.h \
     states/state_ecm_profile_machine_process.h \
-    states/state_ecm_profile_machine_setup.h \
-    states/state_ecm_pump_setup.h \
-    states/state_ecm_touchoff.h \
-    states/state_ecm_touchoff_disable.h \
-    states/state_ecm_touchoff_enable.h \
-    states/state_ecm_touchoff_execute.h \
     states/state_ecm_types.h \
     states/state_ecm_idle.h \
-    states/state_ecm_initialization.h \
     ecm_api_version.h \
-    ecm_modules.h
+    ecm_modules.h \
+    states/state_ecm_upload_motion_profile.h \
+    states/state_ecm_upload_pump_parameters.h \
+    states/state_ecm_upload.h \
+    states/state_ecm_upload_motion_variables.h \
+    states/state_ecm_upload_complete.h \
+    states/state_ecm_upload_failed.h \
+    states/state_ecm_upload_power_register_segments.h \
+    states/state_ecm_upload_power_pulse_mode.h \
+    commands/ecm_command_profile_collection.h \
+    commands/ecm_command_profile_configuration.h \
+    states/state_test.h \
+    commands/ecm_command_execute_collection.h \
+    commands/ecm_command_abstract_collection.h \
+    states/state_ecm_setup_machine.h \
+    states/state_ecm_setup_machine_pump.h \
+    states/state_ecm_setup_machine_home.h \
+    states/state_ecm_setup_machine_touchoff.h \
+    states/state_ecm_setup_machine_complete.h \
+    states/state_ecm_setup_machine_failed.h \
+    states/state_ecm_setup_machine_failed.h \
+    states/state_ecm_profile_machine_complete.h \
+    states/state_ecm_profile_machine_failed.h \
+    commands/ecm_command_execution_properties.h \
+    states/state_ecm_profile_machine_base.h \
+    states/state_ecm_profile_machine_complete_execution.h \
+    states/state_ecm_profile_machine_abort.h \
+    states/state_ecm_setup_machine_touchoff_disconnect.h \
+    states/state_ecm_setup_machine_touchoff_connect.h \
+    states/state_ecm_setup_machine_touchoff_position.h \
+    states/state_ecm_setup_machine_touchoff_execute.h \
+    states/state_ecm_setup_machine_touchoff_completed.h \
+    states/state_ecm_setup_machine_touchoff_failed.h \
+    commands/ecm_command_abstract_profile_config.h \
+    commands/ecm_command_profile_pause.h \
+    states/state_ecm_profile_machine_pause.h \
+    states/state_ecm_profile_handling.h
 
 # Unix lib Install
 unix:!symbian {
@@ -83,6 +134,10 @@ win32:CONFIG(release, debug|release):       lib.files   += release/ECM_API.lib r
 else:win32:CONFIG(debug, debug|release):    lib.files   += debug/ECM_API.lib debug/ECM_API.dll
 INSTALLS += lib
 
+#Header file copy
+INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET
+INSTALL_HEADERS = $$HEADERS
+include(../headerinstall.pri)
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include

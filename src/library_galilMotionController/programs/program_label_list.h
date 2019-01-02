@@ -1,6 +1,10 @@
 #ifndef PROGRAM_LABEL_LIST_H
 #define PROGRAM_LABEL_LIST_H
 
+#include <QStringList>
+#include <QJsonArray>
+#include <QJsonObject>
+
 #include <map>
 #include <string>
 
@@ -13,6 +17,12 @@ public:
 
     ProgramLabelList(const ProgramLabelList &copy);
 
+public:
+    void writeToJSON(QJsonObject &saveObject);
+
+    void readFromJSON(const QJsonObject &openObject);
+
+public:
     bool doesLabelExist(const std::string &name) const;
 
     void addLabel(const std::string &name, const int &lineNumber);
@@ -28,6 +38,9 @@ public:
     size_t sizeOfLabelList() const;
 
     std::map<std::string,int> getLabelMap() const;
+
+    QStringList getLabelList() const;
+
 
 public:
     ProgramLabelList& operator = (const ProgramLabelList &rhs)

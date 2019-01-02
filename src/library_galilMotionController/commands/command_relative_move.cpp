@@ -55,6 +55,23 @@ void CommandRelativeMove::setRelativeDistance(const MotorAxis &axis, const int &
         this->setMoveDirection(axis, Direction::DIRECION_DOWN); //this direction has positive values
 }
 
+int CommandRelativeMove::getRelativeDistance(const MotorAxis &axis) const
+{
+    int targetPosition = 0;
+    if(axis == MotorAxis::ALL)
+    {
+        return 0;
+    }
+    else
+    {
+        if(this->moveDirection.at(axis) == Direction::DIRECTION_UP)
+            targetPosition = this->relativeMove.at(axis) * -10;
+        else
+            targetPosition = this->relativeMove.at(axis) * 10;
+    }
+    return targetPosition;
+}
+
 std::string CommandRelativeMove::getCommandString() const
 {
     std::string str = "";

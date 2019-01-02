@@ -8,12 +8,15 @@
 #include "ECM_plot_collection.h"
 #include "ECM_plot_identifier.h"
 
-#include "munk_dialog/window_munk_power_supply.h"
+#include "galil_dialog/window_motion_control.h"
+#include "galil_dialog/window_touchoff.h"
+
 #include "pump_dialog/window_pump_control.h"
+
+#include "misc_dialogs/window_profile_configuration.h"
 #include "rigol_dialog/window_rigol_control.h"
 #include "misc_dialogs/window_device_connections.h"
 #include "misc_dialogs/window_custom_motion_commands.h"
-#include "misc_dialogs/window_touchoff.h"
 #include "misc_dialogs/window_motion_profile.h"
 
 #include "additional_sensor_display.h"
@@ -25,6 +28,11 @@
 #include "ui_ECM_controller_gui.h"
 
 #include "general_dialog_window.h"
+
+#include "common/hsm.h"
+#include "ECM_API/states/state_ecm_components.h"
+
+#include "galil_dialog/dialog_execution_paused.h"
 
 namespace Ui {
 class ECMControllerGUI;
@@ -39,20 +47,46 @@ public:
     ~ECMControllerGUI();
 
 private:
-    void setupMachiningSequence(const std::string &partNumber, const std::string &serialNumber, const std::string &profileName,const bool &clearContents);
+    void setupUploadCallbacks();
+
+    void updateMCIndicators(const MotionProfileState &profileState);
+
+signals:
+    void signal_newMotionProfileState(const MotionProfileState &profileState);
+private slots:
+    void slot_onNewMotionProfileState(const MotionProfileState &profileState);
 
 private slots:
     void CreateSensorDisplays(const common::TupleSensorString &sensor, const common_data::SensorTypes &type);
     Q_INVOKABLE void MarshalCreateSensorDisplay(const common::TupleSensorString &sensor, const common_data::SensorTypes &type);
 
+/*
+* Private Slots related to plottables
+*/
 private slots:
     void slot_NewlyAvailableRigolData(const common::TupleSensorString &sensor, const bool &val);
     void slot_AddPlottable(const common::TupleECMData &data, const bool &plot = false);
     void slot_RemovePlottable(const common::TupleECMData &data);
     void slot_DisplayActionTriggered();
-    void slot_UpdatedMotionProfileState(const MotionProfileState &state);
-    void slot_MCCommandError(const CommandType &type, const std::string &description);
-    void slot_MCTouchoffIndicated(const bool &indicated);
+
+    void slot_DeviceConnectionUpdate(const bool &connected);
+
+/*
+* Private Slots related to collection execution and initialization
+*/
+private slots:
+    void slot_OnLoadedConfigurationCollection(const std::string &filePath);
+
+    void slot_ExecutingOperation(const ExecuteOperationProperties &props);
+    void slot_ExecutingConfiguration(const ExecutionProperties &props);
+
+    void on_ExecuteProfileCollection(const ECMCommand_ExecuteCollection &collection);
+
+    void slot_OnNewOuterMachineState(const ECM::API::ECMState &state, const std::string &stateString);
+
+    void slot_OnExecutionPause(const std::string notificationText);
+
+    void slot_OnHandlePause(const bool &handle);
 
 private slots:
     void slot_NewProfileVariableData(const common::TupleProfileVariableString &variable, const common_data::MotionProfileVariableState &state);
@@ -61,15 +95,31 @@ private slots:
 
     void slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state, const bool &valueChanged);
 
-    void slot_MCNewMotionState(const std::string &state);
+
+/*
+* Private Slots related to the motion controller
+*/
+private slots:
+    void slot_MCNewMotionState(const ECM::Galil::GalilState &state, const QString &stateString);
 
     void slot_MCNewDigitalInput(const StatusInputs &status);
 
-    void slot_MCNewProgramLabels(const ProgramLabelList &labels);
-
-    void slot_MCNEWProgramVariableList(const ProgramVariableList &variables);
+    void slot_UpdateTouchoff(const bool &value);
 
     void slot_UpdateHomeIndicated(const bool &value);
+
+    void slot_MCCommandError(const CommandType &type, const std::string &description);
+
+/*
+* Private Slots related to the power supply
+*/
+private slots:
+    void slot_MunkFaultCodeStatus(const bool &status, const std::vector<std::string> &errors);
+
+/*
+* Private Slots related to actions on the front GUI
+*/
+private slots:
 
     void on_pushButton_MotorEnable_released();
 
@@ -79,77 +129,43 @@ private slots:
 
     void on_pushButton_MoveHome_released();
 
-    void on_pushButton_EstablishTouchoff_released();
+    void on_pushButton_Stop_released();
+
+    void on_pushButton_RunAutomatedProfile_released();
+
+    void on_pushButton_LoadAutomatedProfile_released();
 
 
-    void on_pushButton_IncreaseJog_pressed();
-
-    void on_pushButton_IncreaseJog_released();
-
-    void on_pushButton_DecreaseJog_pressed();
-
-    void on_pushButton_DecreaseJog_released();
-
-    void on_pushButton_IncreaseRelativeMove_released();
-
-    void on_pushButton_DecreaseRelativeMove_released();
-
-
-    void on_doubleSpinBox_CutDepth_editingFinished();
-
-    void on_doubleSpinBox_RetractDistance_editingFinished();
-
-    void on_doubleSpinBox_StepSize_editingFinished();
-
-    void on_spinBox_RetractSpeed_editingFinished();
-
-    void on_spinBox_PlungeSpeed_editingFinished();
-
-    void on_doubleSpinBox_CutSpeed_editingFinished();
-
-    void on_spinBox_RetractPeriod_editingFinished();
-
-    void on_spinBox_Pause_editingFinished();
-
-    void on_actionClose_triggered();
-
-
+/*
+* Private Slots related to actions fired from the tools menu
+*/
+private slots:
 
     void slot_ChangedWindowVisibility(const GeneralDialogWindow::DialogWindowTypes &type, const bool visibility);
 
+    void on_actionProfile_Configuration_triggered(bool checked);
+
+    void on_actionMotion_Control_triggered(bool checked);
+
     void on_actionConnections_triggered(bool checked);
 
-    void on_actionPump_triggered(bool checked);
-
-    void on_actionPower_Supply_triggered(bool checked);
-
     void on_actionOscilliscope_triggered(bool checked);
-
-    void on_actionTouchoff_triggered(bool checked);
-
-    void on_actionMotion_Profile_triggered(bool checked);
 
     void on_actionCustom_Motion_Commands_triggered(bool checked);
 
     void on_actionOpen_Sensors_Window_triggered(bool checked);
 
+    void on_actionPump_Window_triggered(bool checked);
+
+    void on_actionTouchoff_Window_triggered(bool checked);
+
     void on_actionClear_All_Data_triggered();
 
+    void on_actionClose_triggered();
 
 
-    void on_pushButton_RunExplicitProfile_released();
-
-    void on_pushButton_RunAutomatedProfile_released();
-
-    void on_pushButton_Stop_released();
-
-
-
-    void slot_LockMotionButtons(const bool &lock);
-
-    void on_pushButton_IncreaseJog_clicked();
-
-    void on_pushButton_DecreaseJog_clicked();
+private:
+    QString loadFileDialog(const std::string &filePath, const std::string &nameFilter);
 
 protected:
     void readSettings();
@@ -176,16 +192,40 @@ private:
     QMap<common::TupleECMData, QAction*> m_PlottingActionMap;
 
     ECMPlotCollection m_PlotCollection;
-    int counter = 0;
+
     ECM_API* m_API;
 
-    Window_MunkPowerSupply* m_WindowMunk;
-    Window_PumpControl* m_WindowPump;
+    /*
+     * The following are all related to independent windows within the GUI
+     */
+    Window_MotionControl* m_WindowMotionControl;
+
+    Window_Touchoff* m_WindowTouchoffControl;
+
+    Window_PumpControl* m_WindowPumpControl;
+
+    Window_ProfileConfiguration* m_WindowProfileConfiguration;
+
     Window_RigolControl* m_WindowRigol;
+
     Window_DeviceConnections* m_WindowConnections;
+
     Window_CustomMotionCommands* m_WindowCustomMotionCommands;
-    Window_Touchoff* m_WindowTouchoff;
-    Window_MotionProfile* m_WindowMotionProfile;
+
+private:
+    void ProgressStateMachineStates();
+    std::mutex m_Mutex_StateMachine;
+    hsm::StateMachine* stateMachine;
+
+private:
+    EnvironmentTime operationStart;
+    EnvironmentTime configurationStart;
+    QTimer* elapsedConfigurationTimer;
+    QTimer* elapsedOperationTimer;
+private slots:
+    void slot_OnUpdateElapsedOperationTime();
+    void slot_OnUpdateElapsedConfigurationTime();
+    void on_pushButton_ClearMunkError_released();
 };
 
 #endif // ECM_CONTROLLER_GUI_H

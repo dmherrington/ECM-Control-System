@@ -12,9 +12,6 @@ QT += network
 TARGET = library_westinghouse510
 TEMPLATE = lib
 
-win32:TARGET_EXT += .dll
-unix:QMAKE_CXXFLAGS += -std=gnu++0x
-
 DEFINES += LIBRARY_WESTINGHOUSE510_LIBRARY
 
 # The following define makes your compiler emit warnings if you use
@@ -53,7 +50,9 @@ HEADERS += \
     data/westinghouse_exception_message.h \
     data/type_read_write.h \
     data_registers/register_run_source.h \
-    westinghouse_version.h
+    westinghouse_version.h \
+    device_interface_pump.h \
+    command_pump_properties.h
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

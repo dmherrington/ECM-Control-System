@@ -32,7 +32,7 @@ public:
     virtual void cbi_GalilControllerGains(const CommandControllerGain &gains) = 0;
     virtual void cbi_GalilHomeIndicated(const bool &indicated) = 0;
     virtual void cbi_GalilTouchoffIndicated(const bool &indicated) = 0;
-    virtual void cbi_NewMotionProfileState(const MotionProfileState &state) = 0;
+    virtual void cbi_NewMotionProfileState(const MotionProfileState &state, const bool &processTransitions) = 0;
     virtual void cbi_GalilNewMachineState(const ECM::Galil::GalilState &state) = 0;
     virtual void cbi_GalilUploadProgram(const AbstractCommandPtr command) = 0;
     virtual void cbi_GalilDownloadProgram(const AbstractCommandPtr command) = 0;
@@ -105,10 +105,10 @@ public:
             m_CB->cbi_AbstractGalilRemovePolled(tuple);
     }
 
-    void issueUpdatedMotionProfileState(const MotionProfileState &state)
+    void issueUpdatedMotionProfileState(const MotionProfileState &state, const bool &performStateUpdate = true)
     {
         if(m_CB)
-            m_CB->cbi_NewMotionProfileState(state);
+            m_CB->cbi_NewMotionProfileState(state, performStateUpdate);
     }
 
 public:

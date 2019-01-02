@@ -33,6 +33,8 @@ public:
     void UploadNewProgram(const ILink* link, const AbstractCommandPtr program);
     void DownloadCurrentProgram(const ILink* link, const AbstractCommandPtr command);
 
+    void UploadProgramVariables(const ILink* link, const ProgramVariableList &varList);
+
     void ExecuteProfile(const ILink* link, const AbstractCommandPtr &command);
 
     //////////////////////////////////////////////////////////////

@@ -13,9 +13,6 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QComboBox>
-#include <QtWidgets/QDoubleSpinBox>
-#include <QtWidgets/QFormLayout>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
@@ -27,10 +24,7 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
-#include <QtWidgets/QSpinBox>
-#include <QtWidgets/QSplitter>
 #include <QtWidgets/QStatusBar>
-#include <QtWidgets/QTabWidget>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -44,105 +38,100 @@ class Ui_ECMControllerGUI
 public:
     QAction *actionConnections;
     QAction *actionPower_Supply;
-    QAction *actionPump;
+    QAction *actionPump_Window;
     QAction *actionOscilliscope;
-    QAction *actionTouchoff;
+    QAction *actionTouchoff_Window;
     QAction *actionOpen_Sensors_Window;
     QAction *actionClose;
     QAction *actionMotion_Profile;
     QAction *actionCustom_Motion_Commands;
     QAction *actionClear_All_Data;
+    QAction *actionMotion_Control;
+    QAction *actionProfile_Configuration;
     QWidget *centralWidget;
-    QGridLayout *gridLayout_8;
-    QLineEdit *lineEdit_2;
-    QLineEdit *lineEdit;
-    graphing::PlotHandler *widget_primaryPlot;
-    QFrame *frame_DIO;
-    QGridLayout *gridLayout_9;
-    QLabel *label_ManualControl_5;
-    QGridLayout *gridLayout_7;
-    LED *widget_LEDEStop_DIO;
-    QLabel *label_2;
-    LED *widget_LEDTouchoff_DIO;
-    QLabel *label_3;
-    QSpacerItem *verticalSpacer;
-    QFrame *frame_MotorControl;
     QGridLayout *gridLayout_3;
+    QFrame *frame_MaunalControl;
+    QGridLayout *gridLayout_6;
+    QVBoxLayout *verticalLayout_5;
+    QHBoxLayout *horizontalLayout_4;
+    QPushButton *pushButton_LoadAutomatedProfile;
+    QPushButton *pushButton_RunAutomatedProfile;
+    QLineEdit *lineEdit_ConfigurationPath;
+    QSpacerItem *verticalSpacer_6;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *pushButton_MotorEnable;
+    QPushButton *pushButton_MotorDisable;
+    QSpacerItem *verticalSpacer_4;
+    QHBoxLayout *horizontalLayout_2;
+    QPushButton *pushButton_ResetHome;
+    QPushButton *pushButton_MoveHome;
+    QSpacerItem *verticalSpacer_5;
+    QHBoxLayout *horizontalLayout_9;
+    QSpacerItem *horizontalSpacer_6;
     QPushButton *pushButton_Stop;
+    QSpacerItem *horizontalSpacer_5;
+    QFrame *frame_Status;
+    QGridLayout *gridLayout_5;
+    QGridLayout *gridLayout;
+    LED *widget_LEDCommunication;
+    QLabel *label_2;
+    LED *widget_LEDHomed;
+    QLabel *label_3;
+    LED *widget_LEDTouchoff;
+    QLabel *label_4;
+    LED *widget_LEDESTOP;
+    QLabel *label_5;
+    LED *widget_LEDMunkError;
+    QPushButton *pushButton_ClearMunkError;
+    QLineEdit *lineEdit_OuterState;
+    QSpacerItem *verticalSpacer_3;
+    QLineEdit *lineEdit_GalilState;
+    QGridLayout *gridLayout_4;
+    graphing::PlotHandler *widget_primaryPlot;
+    graphing::PlotHandler *widget_primaryPlotVoltage;
+    graphing::PlotHandler *widget_primaryPlotCurrent;
     QFrame *frame_ProfileOptions;
     QGridLayout *gridLayout_2;
-    QSplitter *splitter_2;
-    QLabel *label_ManualControl_2;
-    QPushButton *pushButton_RunAutomatedProfile;
-    QTabWidget *tabWidget;
-    QWidget *tab_linearParams;
-    QGridLayout *gridLayout_5;
-    QFormLayout *formLayout_2;
-    QLabel *label_CutDepth;
-    QLabel *label_CutSpeed;
-    QDoubleSpinBox *doubleSpinBox_CutDepth;
-    QDoubleSpinBox *doubleSpinBox_CutSpeed;
-    QWidget *tab_vibrationParams;
-    QWidget *layoutWidget;
-    QFormLayout *formLayout;
-    QLabel *label_RetractSpeed;
-    QSpinBox *spinBox_RetractSpeed;
-    QLabel *label_PlungeSpeed;
-    QSpinBox *spinBox_PlungeSpeed;
-    QLabel *label_RetractDistance;
-    QDoubleSpinBox *doubleSpinBox_RetractDistance;
-    QLabel *label_StepSize;
-    QDoubleSpinBox *doubleSpinBox_StepSize;
-    QLabel *label_RetractPeriod;
-    QSpinBox *spinBox_RetractPeriod;
-    QLabel *label_Pause;
-    QSpinBox *spinBox_Pause;
-    QComboBox *comboBox_ProgramProfiles;
+    QHBoxLayout *horizontalLayout_3;
+    QSpacerItem *horizontalSpacer_2;
     QVBoxLayout *verticalLayout_4;
     QLabel *label_PartNumber;
     QLineEdit *lineEdit_PartNumber;
     QVBoxLayout *verticalLayout_3;
-    QLabel *label_PartNumber_2;
+    QLabel *label_SerialNumber;
     QLineEdit *lineEdit_SerialNumber;
-    QPushButton *pushButton_RunExplicitProfile;
-    QFormLayout *formLayout_3;
-    QPushButton *pushButton_EstablishTouchoff;
-    LED *widget_LEDTouchoffEstablished;
-    QPushButton *pushButton_Empty;
-    QFrame *frame_MaunalControl;
-    QGridLayout *gridLayout_10;
-    QGridLayout *gridLayout_4;
-    QLabel *label_ManualControl;
-    QPushButton *pushButton_ResetHome;
-    LED *widget_LEDHomeIndicated;
-    QLineEdit *lineEdit_GalilState;
-    QPushButton *pushButton_MoveHome;
-    QSpacerItem *horizontalSpacer_11;
-    QFormLayout *formLayout_4;
-    QLabel *label;
-    QLineEdit *lineEdit_MachinePosition;
-    QGridLayout *gridLayout_6;
-    QLabel *label_ManualControl_3;
-    QGridLayout *gridLayout;
-    QSpacerItem *horizontalSpacer_7;
-    QVBoxLayout *verticalLayout;
-    QPushButton *pushButton_IncreaseJog;
-    QSpinBox *spinBox_Jog;
-    QPushButton *pushButton_DecreaseJog;
-    QPushButton *pushButton_MotorEnable;
-    QSpacerItem *horizontalSpacer_6;
-    QVBoxLayout *verticalLayout_5;
-    QLabel *label_ManualControl_4;
-    QHBoxLayout *horizontalLayout_2;
+    QSpacerItem *horizontalSpacer;
+    QFrame *line;
+    QHBoxLayout *horizontalLayout_6;
     QSpacerItem *horizontalSpacer_8;
-    QVBoxLayout *verticalLayout_SetpControlInner;
-    QPushButton *pushButton_IncreaseRelativeMove;
-    QHBoxLayout *horizontalLayout;
-    QSpinBox *spinBox_RelativeMove;
-    QSpinBox *spinBox_RelativeMoveSpeed;
-    QPushButton *pushButton_DecreaseRelativeMove;
-    QPushButton *pushButton_MotorDisable;
+    QLabel *label_OperationName;
+    QLineEdit *lineEdit_OperationName;
+    QSpacerItem *horizontalSpacer_7;
+    QHBoxLayout *horizontalLayout_8;
     QSpacerItem *horizontalSpacer_9;
+    QLabel *label_OperationIndex;
+    QLineEdit *lineEdit_OperationIndex;
+    QLabel *label_OperationIndexColon;
+    QLineEdit *lineEdit_OperationIndexTotal;
+    QSpacerItem *horizontalSpacer_10;
+    QHBoxLayout *horizontalLayout_7;
+    QSpacerItem *horizontalSpacer_11;
+    QVBoxLayout *verticalLayout_6;
+    QLabel *label_CurrentStartPosition;
+    QLineEdit *lineEdit_CurrentStartPosition;
+    QVBoxLayout *verticalLayout_7;
+    QLabel *label_PreviousEndPosition;
+    QLineEdit *lineEdit_PreviousEndPosition;
+    QSpacerItem *horizontalSpacer_12;
+    QHBoxLayout *horizontalLayout_5;
+    QSpacerItem *horizontalSpacer_3;
+    QVBoxLayout *verticalLayout_2;
+    QLabel *label_OperationTime;
+    QLineEdit *lineEdit_OperationTime;
+    QVBoxLayout *verticalLayout;
+    QLabel *label_ConfigurationTime;
+    QLineEdit *lineEdit_ConfigurationTime;
+    QSpacerItem *horizontalSpacer_4;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -156,14 +145,14 @@ public:
     {
         if (ECMControllerGUI->objectName().isEmpty())
             ECMControllerGUI->setObjectName(QStringLiteral("ECMControllerGUI"));
-        ECMControllerGUI->resize(1040, 746);
+        ECMControllerGUI->resize(1045, 1004);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(ECMControllerGUI->sizePolicy().hasHeightForWidth());
         ECMControllerGUI->setSizePolicy(sizePolicy);
-        ECMControllerGUI->setMinimumSize(QSize(1040, 0));
-        ECMControllerGUI->setMaximumSize(QSize(1040, 16777215));
+        ECMControllerGUI->setMinimumSize(QSize(1045, 0));
+        ECMControllerGUI->setMaximumSize(QSize(1046, 16777215));
         ECMControllerGUI->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
@@ -283,65 +272,347 @@ public:
 "}"));
         actionConnections = new QAction(ECMControllerGUI);
         actionConnections->setObjectName(QStringLiteral("actionConnections"));
-        actionConnections->setCheckable(true);
         actionPower_Supply = new QAction(ECMControllerGUI);
         actionPower_Supply->setObjectName(QStringLiteral("actionPower_Supply"));
-        actionPower_Supply->setCheckable(true);
-        actionPump = new QAction(ECMControllerGUI);
-        actionPump->setObjectName(QStringLiteral("actionPump"));
-        actionPump->setCheckable(true);
+        actionPump_Window = new QAction(ECMControllerGUI);
+        actionPump_Window->setObjectName(QStringLiteral("actionPump_Window"));
         actionOscilliscope = new QAction(ECMControllerGUI);
         actionOscilliscope->setObjectName(QStringLiteral("actionOscilliscope"));
-        actionOscilliscope->setCheckable(true);
-        actionTouchoff = new QAction(ECMControllerGUI);
-        actionTouchoff->setObjectName(QStringLiteral("actionTouchoff"));
-        actionTouchoff->setCheckable(true);
+        actionTouchoff_Window = new QAction(ECMControllerGUI);
+        actionTouchoff_Window->setObjectName(QStringLiteral("actionTouchoff_Window"));
         actionOpen_Sensors_Window = new QAction(ECMControllerGUI);
         actionOpen_Sensors_Window->setObjectName(QStringLiteral("actionOpen_Sensors_Window"));
-        actionOpen_Sensors_Window->setCheckable(true);
         actionClose = new QAction(ECMControllerGUI);
         actionClose->setObjectName(QStringLiteral("actionClose"));
         actionMotion_Profile = new QAction(ECMControllerGUI);
         actionMotion_Profile->setObjectName(QStringLiteral("actionMotion_Profile"));
-        actionMotion_Profile->setCheckable(true);
         actionCustom_Motion_Commands = new QAction(ECMControllerGUI);
         actionCustom_Motion_Commands->setObjectName(QStringLiteral("actionCustom_Motion_Commands"));
-        actionCustom_Motion_Commands->setCheckable(true);
         actionClear_All_Data = new QAction(ECMControllerGUI);
         actionClear_All_Data->setObjectName(QStringLiteral("actionClear_All_Data"));
+        actionMotion_Control = new QAction(ECMControllerGUI);
+        actionMotion_Control->setObjectName(QStringLiteral("actionMotion_Control"));
+        actionProfile_Configuration = new QAction(ECMControllerGUI);
+        actionProfile_Configuration->setObjectName(QStringLiteral("actionProfile_Configuration"));
         centralWidget = new QWidget(ECMControllerGUI);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        gridLayout_8 = new QGridLayout(centralWidget);
-        gridLayout_8->setSpacing(6);
-        gridLayout_8->setContentsMargins(11, 11, 11, 11);
-        gridLayout_8->setObjectName(QStringLiteral("gridLayout_8"));
-        lineEdit_2 = new QLineEdit(centralWidget);
-        lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
+        gridLayout_3 = new QGridLayout(centralWidget);
+        gridLayout_3->setSpacing(6);
+        gridLayout_3->setContentsMargins(11, 11, 11, 11);
+        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
+        frame_MaunalControl = new QFrame(centralWidget);
+        frame_MaunalControl->setObjectName(QStringLiteral("frame_MaunalControl"));
         QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(lineEdit_2->sizePolicy().hasHeightForWidth());
-        lineEdit_2->setSizePolicy(sizePolicy1);
-        lineEdit_2->setMinimumSize(QSize(522, 25));
-        lineEdit_2->setMaximumSize(QSize(522, 25));
+        sizePolicy1.setHeightForWidth(frame_MaunalControl->sizePolicy().hasHeightForWidth());
+        frame_MaunalControl->setSizePolicy(sizePolicy1);
+        frame_MaunalControl->setMinimumSize(QSize(400, 300));
+        frame_MaunalControl->setMaximumSize(QSize(400, 300));
+        frame_MaunalControl->setFrameShape(QFrame::Box);
+        frame_MaunalControl->setFrameShadow(QFrame::Plain);
+        frame_MaunalControl->setLineWidth(2);
+        gridLayout_6 = new QGridLayout(frame_MaunalControl);
+        gridLayout_6->setSpacing(6);
+        gridLayout_6->setContentsMargins(11, 11, 11, 11);
+        gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
+        verticalLayout_5 = new QVBoxLayout();
+        verticalLayout_5->setSpacing(6);
+        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setSpacing(6);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        pushButton_LoadAutomatedProfile = new QPushButton(frame_MaunalControl);
+        pushButton_LoadAutomatedProfile->setObjectName(QStringLiteral("pushButton_LoadAutomatedProfile"));
+        sizePolicy1.setHeightForWidth(pushButton_LoadAutomatedProfile->sizePolicy().hasHeightForWidth());
+        pushButton_LoadAutomatedProfile->setSizePolicy(sizePolicy1);
+        pushButton_LoadAutomatedProfile->setMinimumSize(QSize(180, 35));
+        pushButton_LoadAutomatedProfile->setMaximumSize(QSize(16777215, 35));
         QFont font;
-        font.setPointSize(10);
-        lineEdit_2->setFont(font);
-        lineEdit_2->setReadOnly(true);
+        font.setPointSize(12);
+        pushButton_LoadAutomatedProfile->setFont(font);
 
-        gridLayout_8->addWidget(lineEdit_2, 1, 1, 1, 2);
+        horizontalLayout_4->addWidget(pushButton_LoadAutomatedProfile);
 
-        lineEdit = new QLineEdit(centralWidget);
-        lineEdit->setObjectName(QStringLiteral("lineEdit"));
-        sizePolicy1.setHeightForWidth(lineEdit->sizePolicy().hasHeightForWidth());
-        lineEdit->setSizePolicy(sizePolicy1);
-        lineEdit->setMinimumSize(QSize(490, 25));
-        lineEdit->setMaximumSize(QSize(490, 25));
-        lineEdit->setFont(font);
-        lineEdit->setReadOnly(true);
+        pushButton_RunAutomatedProfile = new QPushButton(frame_MaunalControl);
+        pushButton_RunAutomatedProfile->setObjectName(QStringLiteral("pushButton_RunAutomatedProfile"));
+        sizePolicy1.setHeightForWidth(pushButton_RunAutomatedProfile->sizePolicy().hasHeightForWidth());
+        pushButton_RunAutomatedProfile->setSizePolicy(sizePolicy1);
+        pushButton_RunAutomatedProfile->setMinimumSize(QSize(180, 35));
+        pushButton_RunAutomatedProfile->setMaximumSize(QSize(16777215, 35));
+        QFont font1;
+        font1.setPointSize(12);
+        font1.setBold(false);
+        font1.setWeight(50);
+        pushButton_RunAutomatedProfile->setFont(font1);
+        pushButton_RunAutomatedProfile->setToolTipDuration(-1);
 
-        gridLayout_8->addWidget(lineEdit, 1, 0, 1, 1);
+        horizontalLayout_4->addWidget(pushButton_RunAutomatedProfile);
 
+
+        verticalLayout_5->addLayout(horizontalLayout_4);
+
+        lineEdit_ConfigurationPath = new QLineEdit(frame_MaunalControl);
+        lineEdit_ConfigurationPath->setObjectName(QStringLiteral("lineEdit_ConfigurationPath"));
+        lineEdit_ConfigurationPath->setEnabled(false);
+        sizePolicy1.setHeightForWidth(lineEdit_ConfigurationPath->sizePolicy().hasHeightForWidth());
+        lineEdit_ConfigurationPath->setSizePolicy(sizePolicy1);
+        lineEdit_ConfigurationPath->setMinimumSize(QSize(380, 30));
+        lineEdit_ConfigurationPath->setMaximumSize(QSize(380, 30));
+        QFont font2;
+        font2.setPointSize(10);
+        lineEdit_ConfigurationPath->setFont(font2);
+        lineEdit_ConfigurationPath->setAlignment(Qt::AlignCenter);
+        lineEdit_ConfigurationPath->setReadOnly(true);
+
+        verticalLayout_5->addWidget(lineEdit_ConfigurationPath);
+
+
+        gridLayout_6->addLayout(verticalLayout_5, 0, 0, 1, 1);
+
+        verticalSpacer_6 = new QSpacerItem(20, 16, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout_6->addItem(verticalSpacer_6, 1, 0, 1, 1);
+
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        pushButton_MotorEnable = new QPushButton(frame_MaunalControl);
+        pushButton_MotorEnable->setObjectName(QStringLiteral("pushButton_MotorEnable"));
+        sizePolicy1.setHeightForWidth(pushButton_MotorEnable->sizePolicy().hasHeightForWidth());
+        pushButton_MotorEnable->setSizePolicy(sizePolicy1);
+        pushButton_MotorEnable->setMinimumSize(QSize(130, 35));
+        pushButton_MotorEnable->setMaximumSize(QSize(130, 35));
+        pushButton_MotorEnable->setFont(font);
+
+        horizontalLayout->addWidget(pushButton_MotorEnable);
+
+        pushButton_MotorDisable = new QPushButton(frame_MaunalControl);
+        pushButton_MotorDisable->setObjectName(QStringLiteral("pushButton_MotorDisable"));
+        sizePolicy1.setHeightForWidth(pushButton_MotorDisable->sizePolicy().hasHeightForWidth());
+        pushButton_MotorDisable->setSizePolicy(sizePolicy1);
+        pushButton_MotorDisable->setMinimumSize(QSize(130, 35));
+        pushButton_MotorDisable->setMaximumSize(QSize(130, 35));
+        pushButton_MotorDisable->setFont(font);
+
+        horizontalLayout->addWidget(pushButton_MotorDisable);
+
+
+        gridLayout_6->addLayout(horizontalLayout, 2, 0, 1, 1);
+
+        verticalSpacer_4 = new QSpacerItem(20, 15, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout_6->addItem(verticalSpacer_4, 3, 0, 1, 1);
+
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        pushButton_ResetHome = new QPushButton(frame_MaunalControl);
+        pushButton_ResetHome->setObjectName(QStringLiteral("pushButton_ResetHome"));
+        sizePolicy1.setHeightForWidth(pushButton_ResetHome->sizePolicy().hasHeightForWidth());
+        pushButton_ResetHome->setSizePolicy(sizePolicy1);
+        pushButton_ResetHome->setMinimumSize(QSize(130, 35));
+        pushButton_ResetHome->setMaximumSize(QSize(130, 35));
+        pushButton_ResetHome->setFont(font);
+
+        horizontalLayout_2->addWidget(pushButton_ResetHome);
+
+        pushButton_MoveHome = new QPushButton(frame_MaunalControl);
+        pushButton_MoveHome->setObjectName(QStringLiteral("pushButton_MoveHome"));
+        sizePolicy1.setHeightForWidth(pushButton_MoveHome->sizePolicy().hasHeightForWidth());
+        pushButton_MoveHome->setSizePolicy(sizePolicy1);
+        pushButton_MoveHome->setMinimumSize(QSize(130, 35));
+        pushButton_MoveHome->setMaximumSize(QSize(130, 35));
+        pushButton_MoveHome->setFont(font);
+
+        horizontalLayout_2->addWidget(pushButton_MoveHome);
+
+
+        gridLayout_6->addLayout(horizontalLayout_2, 4, 0, 1, 1);
+
+        verticalSpacer_5 = new QSpacerItem(20, 16, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout_6->addItem(verticalSpacer_5, 5, 0, 1, 1);
+
+        horizontalLayout_9 = new QHBoxLayout();
+        horizontalLayout_9->setSpacing(6);
+        horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
+        horizontalSpacer_6 = new QSpacerItem(90, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_9->addItem(horizontalSpacer_6);
+
+        pushButton_Stop = new QPushButton(frame_MaunalControl);
+        pushButton_Stop->setObjectName(QStringLiteral("pushButton_Stop"));
+        pushButton_Stop->setMinimumSize(QSize(120, 50));
+        pushButton_Stop->setMaximumSize(QSize(120, 50));
+        QFont font3;
+        font3.setPointSize(18);
+        font3.setBold(true);
+        font3.setWeight(75);
+        pushButton_Stop->setFont(font3);
+
+        horizontalLayout_9->addWidget(pushButton_Stop);
+
+        horizontalSpacer_5 = new QSpacerItem(90, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_9->addItem(horizontalSpacer_5);
+
+
+        gridLayout_6->addLayout(horizontalLayout_9, 6, 0, 1, 1);
+
+
+        gridLayout_3->addWidget(frame_MaunalControl, 1, 1, 1, 1);
+
+        frame_Status = new QFrame(centralWidget);
+        frame_Status->setObjectName(QStringLiteral("frame_Status"));
+        sizePolicy1.setHeightForWidth(frame_Status->sizePolicy().hasHeightForWidth());
+        frame_Status->setSizePolicy(sizePolicy1);
+        frame_Status->setMinimumSize(QSize(180, 300));
+        frame_Status->setMaximumSize(QSize(180, 300));
+        frame_Status->setFrameShape(QFrame::Box);
+        frame_Status->setFrameShadow(QFrame::Plain);
+        frame_Status->setLineWidth(2);
+        gridLayout_5 = new QGridLayout(frame_Status);
+        gridLayout_5->setSpacing(6);
+        gridLayout_5->setContentsMargins(11, 11, 11, 11);
+        gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
+        gridLayout = new QGridLayout();
+        gridLayout->setSpacing(6);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        widget_LEDCommunication = new LED(frame_Status);
+        widget_LEDCommunication->setObjectName(QStringLiteral("widget_LEDCommunication"));
+        sizePolicy1.setHeightForWidth(widget_LEDCommunication->sizePolicy().hasHeightForWidth());
+        widget_LEDCommunication->setSizePolicy(sizePolicy1);
+        widget_LEDCommunication->setMinimumSize(QSize(32, 32));
+        widget_LEDCommunication->setMaximumSize(QSize(32, 32));
+
+        gridLayout->addWidget(widget_LEDCommunication, 0, 0, 1, 1);
+
+        label_2 = new QLabel(frame_Status);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        sizePolicy1.setHeightForWidth(label_2->sizePolicy().hasHeightForWidth());
+        label_2->setSizePolicy(sizePolicy1);
+        label_2->setMinimumSize(QSize(110, 32));
+        label_2->setMaximumSize(QSize(110, 32));
+        label_2->setFont(font2);
+        label_2->setAlignment(Qt::AlignCenter);
+
+        gridLayout->addWidget(label_2, 0, 1, 1, 1);
+
+        widget_LEDHomed = new LED(frame_Status);
+        widget_LEDHomed->setObjectName(QStringLiteral("widget_LEDHomed"));
+        sizePolicy1.setHeightForWidth(widget_LEDHomed->sizePolicy().hasHeightForWidth());
+        widget_LEDHomed->setSizePolicy(sizePolicy1);
+        widget_LEDHomed->setMinimumSize(QSize(32, 32));
+        widget_LEDHomed->setMaximumSize(QSize(32, 32));
+
+        gridLayout->addWidget(widget_LEDHomed, 1, 0, 1, 1);
+
+        label_3 = new QLabel(frame_Status);
+        label_3->setObjectName(QStringLiteral("label_3"));
+        sizePolicy1.setHeightForWidth(label_3->sizePolicy().hasHeightForWidth());
+        label_3->setSizePolicy(sizePolicy1);
+        label_3->setMinimumSize(QSize(110, 32));
+        label_3->setMaximumSize(QSize(110, 32));
+        label_3->setFont(font2);
+        label_3->setAlignment(Qt::AlignCenter);
+
+        gridLayout->addWidget(label_3, 1, 1, 1, 1);
+
+        widget_LEDTouchoff = new LED(frame_Status);
+        widget_LEDTouchoff->setObjectName(QStringLiteral("widget_LEDTouchoff"));
+        sizePolicy1.setHeightForWidth(widget_LEDTouchoff->sizePolicy().hasHeightForWidth());
+        widget_LEDTouchoff->setSizePolicy(sizePolicy1);
+        widget_LEDTouchoff->setMinimumSize(QSize(32, 32));
+        widget_LEDTouchoff->setMaximumSize(QSize(32, 32));
+
+        gridLayout->addWidget(widget_LEDTouchoff, 2, 0, 1, 1);
+
+        label_4 = new QLabel(frame_Status);
+        label_4->setObjectName(QStringLiteral("label_4"));
+        sizePolicy1.setHeightForWidth(label_4->sizePolicy().hasHeightForWidth());
+        label_4->setSizePolicy(sizePolicy1);
+        label_4->setMinimumSize(QSize(110, 32));
+        label_4->setMaximumSize(QSize(110, 32));
+        label_4->setFont(font2);
+        label_4->setAlignment(Qt::AlignCenter);
+
+        gridLayout->addWidget(label_4, 2, 1, 1, 1);
+
+        widget_LEDESTOP = new LED(frame_Status);
+        widget_LEDESTOP->setObjectName(QStringLiteral("widget_LEDESTOP"));
+        sizePolicy1.setHeightForWidth(widget_LEDESTOP->sizePolicy().hasHeightForWidth());
+        widget_LEDESTOP->setSizePolicy(sizePolicy1);
+        widget_LEDESTOP->setMinimumSize(QSize(32, 32));
+        widget_LEDESTOP->setMaximumSize(QSize(32, 32));
+
+        gridLayout->addWidget(widget_LEDESTOP, 3, 0, 1, 1);
+
+        label_5 = new QLabel(frame_Status);
+        label_5->setObjectName(QStringLiteral("label_5"));
+        sizePolicy1.setHeightForWidth(label_5->sizePolicy().hasHeightForWidth());
+        label_5->setSizePolicy(sizePolicy1);
+        label_5->setMinimumSize(QSize(110, 32));
+        label_5->setMaximumSize(QSize(110, 32));
+        label_5->setFont(font2);
+        label_5->setAlignment(Qt::AlignCenter);
+
+        gridLayout->addWidget(label_5, 3, 1, 1, 1);
+
+        widget_LEDMunkError = new LED(frame_Status);
+        widget_LEDMunkError->setObjectName(QStringLiteral("widget_LEDMunkError"));
+        sizePolicy1.setHeightForWidth(widget_LEDMunkError->sizePolicy().hasHeightForWidth());
+        widget_LEDMunkError->setSizePolicy(sizePolicy1);
+        widget_LEDMunkError->setMinimumSize(QSize(32, 32));
+        widget_LEDMunkError->setMaximumSize(QSize(32, 32));
+
+        gridLayout->addWidget(widget_LEDMunkError, 4, 0, 1, 1);
+
+        pushButton_ClearMunkError = new QPushButton(frame_Status);
+        pushButton_ClearMunkError->setObjectName(QStringLiteral("pushButton_ClearMunkError"));
+        pushButton_ClearMunkError->setFont(font2);
+
+        gridLayout->addWidget(pushButton_ClearMunkError, 4, 1, 1, 1);
+
+
+        gridLayout_5->addLayout(gridLayout, 0, 0, 1, 1);
+
+        lineEdit_OuterState = new QLineEdit(frame_Status);
+        lineEdit_OuterState->setObjectName(QStringLiteral("lineEdit_OuterState"));
+        lineEdit_OuterState->setEnabled(false);
+        sizePolicy1.setHeightForWidth(lineEdit_OuterState->sizePolicy().hasHeightForWidth());
+        lineEdit_OuterState->setSizePolicy(sizePolicy1);
+        lineEdit_OuterState->setMinimumSize(QSize(160, 32));
+        lineEdit_OuterState->setMaximumSize(QSize(160, 32));
+        lineEdit_OuterState->setFont(font2);
+        lineEdit_OuterState->setAlignment(Qt::AlignCenter);
+        lineEdit_OuterState->setReadOnly(true);
+
+        gridLayout_5->addWidget(lineEdit_OuterState, 1, 0, 1, 1);
+
+        verticalSpacer_3 = new QSpacerItem(14, 7, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout_5->addItem(verticalSpacer_3, 2, 0, 1, 1);
+
+        lineEdit_GalilState = new QLineEdit(frame_Status);
+        lineEdit_GalilState->setObjectName(QStringLiteral("lineEdit_GalilState"));
+        lineEdit_GalilState->setEnabled(false);
+        sizePolicy1.setHeightForWidth(lineEdit_GalilState->sizePolicy().hasHeightForWidth());
+        lineEdit_GalilState->setSizePolicy(sizePolicy1);
+        lineEdit_GalilState->setMinimumSize(QSize(160, 32));
+        lineEdit_GalilState->setMaximumSize(QSize(160, 32));
+        lineEdit_GalilState->setFont(font2);
+        lineEdit_GalilState->setAlignment(Qt::AlignCenter);
+        lineEdit_GalilState->setReadOnly(true);
+
+        gridLayout_5->addWidget(lineEdit_GalilState, 3, 0, 1, 1);
+
+
+        gridLayout_3->addWidget(frame_Status, 1, 2, 1, 1);
+
+        gridLayout_4 = new QGridLayout();
+        gridLayout_4->setSpacing(6);
+        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
         widget_primaryPlot = new graphing::PlotHandler(centralWidget);
         widget_primaryPlot->setObjectName(QStringLiteral("widget_primaryPlot"));
         QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Minimum);
@@ -352,124 +623,35 @@ public:
         widget_primaryPlot->setMinimumSize(QSize(1020, 300));
         widget_primaryPlot->setMaximumSize(QSize(1020, 16777215));
 
-        gridLayout_8->addWidget(widget_primaryPlot, 0, 0, 1, 3);
+        gridLayout_4->addWidget(widget_primaryPlot, 0, 0, 1, 2);
 
-        frame_DIO = new QFrame(centralWidget);
-        frame_DIO->setObjectName(QStringLiteral("frame_DIO"));
-        sizePolicy1.setHeightForWidth(frame_DIO->sizePolicy().hasHeightForWidth());
-        frame_DIO->setSizePolicy(sizePolicy1);
-        frame_DIO->setMinimumSize(QSize(166, 220));
-        frame_DIO->setMaximumSize(QSize(166, 220));
-        frame_DIO->setFrameShape(QFrame::Box);
-        frame_DIO->setFrameShadow(QFrame::Plain);
-        frame_DIO->setLineWidth(2);
-        gridLayout_9 = new QGridLayout(frame_DIO);
-        gridLayout_9->setSpacing(6);
-        gridLayout_9->setContentsMargins(11, 11, 11, 11);
-        gridLayout_9->setObjectName(QStringLiteral("gridLayout_9"));
-        label_ManualControl_5 = new QLabel(frame_DIO);
-        label_ManualControl_5->setObjectName(QStringLiteral("label_ManualControl_5"));
-        QSizePolicy sizePolicy3(QSizePolicy::Preferred, QSizePolicy::Fixed);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(label_ManualControl_5->sizePolicy().hasHeightForWidth());
-        label_ManualControl_5->setSizePolicy(sizePolicy3);
-        QFont font1;
-        font1.setPointSize(12);
-        font1.setBold(true);
-        font1.setWeight(75);
-        label_ManualControl_5->setFont(font1);
-        label_ManualControl_5->setAlignment(Qt::AlignCenter);
+        widget_primaryPlotVoltage = new graphing::PlotHandler(centralWidget);
+        widget_primaryPlotVoltage->setObjectName(QStringLiteral("widget_primaryPlotVoltage"));
+        sizePolicy2.setHeightForWidth(widget_primaryPlotVoltage->sizePolicy().hasHeightForWidth());
+        widget_primaryPlotVoltage->setSizePolicy(sizePolicy2);
+        widget_primaryPlotVoltage->setMinimumSize(QSize(505, 300));
+        widget_primaryPlotVoltage->setMaximumSize(QSize(1020, 16777215));
 
-        gridLayout_9->addWidget(label_ManualControl_5, 0, 0, 1, 1);
+        gridLayout_4->addWidget(widget_primaryPlotVoltage, 1, 0, 1, 1);
 
-        gridLayout_7 = new QGridLayout();
-        gridLayout_7->setSpacing(6);
-        gridLayout_7->setObjectName(QStringLiteral("gridLayout_7"));
-        widget_LEDEStop_DIO = new LED(frame_DIO);
-        widget_LEDEStop_DIO->setObjectName(QStringLiteral("widget_LEDEStop_DIO"));
-        sizePolicy1.setHeightForWidth(widget_LEDEStop_DIO->sizePolicy().hasHeightForWidth());
-        widget_LEDEStop_DIO->setSizePolicy(sizePolicy1);
-        widget_LEDEStop_DIO->setMinimumSize(QSize(32, 32));
-        widget_LEDEStop_DIO->setMaximumSize(QSize(32, 32));
+        widget_primaryPlotCurrent = new graphing::PlotHandler(centralWidget);
+        widget_primaryPlotCurrent->setObjectName(QStringLiteral("widget_primaryPlotCurrent"));
+        sizePolicy2.setHeightForWidth(widget_primaryPlotCurrent->sizePolicy().hasHeightForWidth());
+        widget_primaryPlotCurrent->setSizePolicy(sizePolicy2);
+        widget_primaryPlotCurrent->setMinimumSize(QSize(505, 300));
+        widget_primaryPlotCurrent->setMaximumSize(QSize(1020, 16777215));
 
-        gridLayout_7->addWidget(widget_LEDEStop_DIO, 0, 0, 1, 1);
-
-        label_2 = new QLabel(frame_DIO);
-        label_2->setObjectName(QStringLiteral("label_2"));
-        sizePolicy1.setHeightForWidth(label_2->sizePolicy().hasHeightForWidth());
-        label_2->setSizePolicy(sizePolicy1);
-        label_2->setMinimumSize(QSize(110, 32));
-        label_2->setMaximumSize(QSize(110, 32));
-        label_2->setFont(font);
-        label_2->setAlignment(Qt::AlignCenter);
-
-        gridLayout_7->addWidget(label_2, 0, 1, 1, 1);
-
-        widget_LEDTouchoff_DIO = new LED(frame_DIO);
-        widget_LEDTouchoff_DIO->setObjectName(QStringLiteral("widget_LEDTouchoff_DIO"));
-        sizePolicy1.setHeightForWidth(widget_LEDTouchoff_DIO->sizePolicy().hasHeightForWidth());
-        widget_LEDTouchoff_DIO->setSizePolicy(sizePolicy1);
-        widget_LEDTouchoff_DIO->setMinimumSize(QSize(32, 32));
-        widget_LEDTouchoff_DIO->setMaximumSize(QSize(32, 32));
-
-        gridLayout_7->addWidget(widget_LEDTouchoff_DIO, 1, 0, 1, 1);
-
-        label_3 = new QLabel(frame_DIO);
-        label_3->setObjectName(QStringLiteral("label_3"));
-        sizePolicy1.setHeightForWidth(label_3->sizePolicy().hasHeightForWidth());
-        label_3->setSizePolicy(sizePolicy1);
-        label_3->setMinimumSize(QSize(110, 32));
-        label_3->setMaximumSize(QSize(110, 32));
-        label_3->setFont(font);
-        label_3->setAlignment(Qt::AlignCenter);
-
-        gridLayout_7->addWidget(label_3, 1, 1, 1, 1);
+        gridLayout_4->addWidget(widget_primaryPlotCurrent, 1, 1, 1, 1);
 
 
-        gridLayout_9->addLayout(gridLayout_7, 1, 0, 1, 1);
-
-        verticalSpacer = new QSpacerItem(20, 92, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        gridLayout_9->addItem(verticalSpacer, 2, 0, 1, 1);
-
-
-        gridLayout_8->addWidget(frame_DIO, 3, 2, 1, 1);
-
-        frame_MotorControl = new QFrame(centralWidget);
-        frame_MotorControl->setObjectName(QStringLiteral("frame_MotorControl"));
-        sizePolicy1.setHeightForWidth(frame_MotorControl->sizePolicy().hasHeightForWidth());
-        frame_MotorControl->setSizePolicy(sizePolicy1);
-        frame_MotorControl->setMinimumSize(QSize(166, 74));
-        frame_MotorControl->setMaximumSize(QSize(166, 74));
-        frame_MotorControl->setFrameShape(QFrame::Box);
-        frame_MotorControl->setFrameShadow(QFrame::Plain);
-        frame_MotorControl->setLineWidth(2);
-        gridLayout_3 = new QGridLayout(frame_MotorControl);
-        gridLayout_3->setSpacing(6);
-        gridLayout_3->setContentsMargins(11, 11, 11, 11);
-        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
-        pushButton_Stop = new QPushButton(frame_MotorControl);
-        pushButton_Stop->setObjectName(QStringLiteral("pushButton_Stop"));
-        pushButton_Stop->setMinimumSize(QSize(120, 50));
-        pushButton_Stop->setMaximumSize(QSize(120, 50));
-        QFont font2;
-        font2.setPointSize(18);
-        font2.setBold(true);
-        font2.setWeight(75);
-        pushButton_Stop->setFont(font2);
-
-        gridLayout_3->addWidget(pushButton_Stop, 0, 0, 1, 1);
-
-
-        gridLayout_8->addWidget(frame_MotorControl, 2, 2, 1, 1);
+        gridLayout_3->addLayout(gridLayout_4, 0, 0, 1, 3);
 
         frame_ProfileOptions = new QFrame(centralWidget);
         frame_ProfileOptions->setObjectName(QStringLiteral("frame_ProfileOptions"));
         sizePolicy1.setHeightForWidth(frame_ProfileOptions->sizePolicy().hasHeightForWidth());
         frame_ProfileOptions->setSizePolicy(sizePolicy1);
-        frame_ProfileOptions->setMinimumSize(QSize(490, 300));
-        frame_ProfileOptions->setMaximumSize(QSize(490, 300));
+        frame_ProfileOptions->setMinimumSize(QSize(430, 300));
+        frame_ProfileOptions->setMaximumSize(QSize(430, 300));
         frame_ProfileOptions->setFrameShape(QFrame::Box);
         frame_ProfileOptions->setFrameShadow(QFrame::Plain);
         frame_ProfileOptions->setLineWidth(2);
@@ -477,284 +659,28 @@ public:
         gridLayout_2->setSpacing(6);
         gridLayout_2->setContentsMargins(11, 11, 11, 11);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        splitter_2 = new QSplitter(frame_ProfileOptions);
-        splitter_2->setObjectName(QStringLiteral("splitter_2"));
-        splitter_2->setOrientation(Qt::Horizontal);
-        label_ManualControl_2 = new QLabel(splitter_2);
-        label_ManualControl_2->setObjectName(QStringLiteral("label_ManualControl_2"));
-        sizePolicy1.setHeightForWidth(label_ManualControl_2->sizePolicy().hasHeightForWidth());
-        label_ManualControl_2->setSizePolicy(sizePolicy1);
-        label_ManualControl_2->setMinimumSize(QSize(120, 20));
-        label_ManualControl_2->setMaximumSize(QSize(120, 20));
-        label_ManualControl_2->setFont(font1);
-        label_ManualControl_2->setAlignment(Qt::AlignCenter);
-        splitter_2->addWidget(label_ManualControl_2);
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        horizontalSpacer_2 = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout_2->addWidget(splitter_2, 0, 0, 1, 1);
-
-        pushButton_RunAutomatedProfile = new QPushButton(frame_ProfileOptions);
-        pushButton_RunAutomatedProfile->setObjectName(QStringLiteral("pushButton_RunAutomatedProfile"));
-        sizePolicy1.setHeightForWidth(pushButton_RunAutomatedProfile->sizePolicy().hasHeightForWidth());
-        pushButton_RunAutomatedProfile->setSizePolicy(sizePolicy1);
-        pushButton_RunAutomatedProfile->setMinimumSize(QSize(180, 30));
-        QFont font3;
-        font3.setPointSize(12);
-        font3.setBold(false);
-        font3.setWeight(50);
-        pushButton_RunAutomatedProfile->setFont(font3);
-        pushButton_RunAutomatedProfile->setToolTipDuration(-1);
-
-        gridLayout_2->addWidget(pushButton_RunAutomatedProfile, 0, 1, 2, 1);
-
-        tabWidget = new QTabWidget(frame_ProfileOptions);
-        tabWidget->setObjectName(QStringLiteral("tabWidget"));
-        sizePolicy1.setHeightForWidth(tabWidget->sizePolicy().hasHeightForWidth());
-        tabWidget->setSizePolicy(sizePolicy1);
-        tabWidget->setMinimumSize(QSize(280, 160));
-        tabWidget->setMaximumSize(QSize(280, 350));
-        tabWidget->setTabShape(QTabWidget::Triangular);
-        tab_linearParams = new QWidget();
-        tab_linearParams->setObjectName(QStringLiteral("tab_linearParams"));
-        gridLayout_5 = new QGridLayout(tab_linearParams);
-        gridLayout_5->setSpacing(6);
-        gridLayout_5->setContentsMargins(11, 11, 11, 11);
-        gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
-        formLayout_2 = new QFormLayout();
-        formLayout_2->setSpacing(6);
-        formLayout_2->setObjectName(QStringLiteral("formLayout_2"));
-        label_CutDepth = new QLabel(tab_linearParams);
-        label_CutDepth->setObjectName(QStringLiteral("label_CutDepth"));
-        QSizePolicy sizePolicy4(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-        sizePolicy4.setHorizontalStretch(0);
-        sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(label_CutDepth->sizePolicy().hasHeightForWidth());
-        label_CutDepth->setSizePolicy(sizePolicy4);
-        label_CutDepth->setMinimumSize(QSize(145, 25));
-        QFont font4;
-        font4.setPointSize(10);
-        font4.setBold(true);
-        font4.setWeight(75);
-        label_CutDepth->setFont(font4);
-        label_CutDepth->setAlignment(Qt::AlignCenter);
-
-        formLayout_2->setWidget(0, QFormLayout::LabelRole, label_CutDepth);
-
-        label_CutSpeed = new QLabel(tab_linearParams);
-        label_CutSpeed->setObjectName(QStringLiteral("label_CutSpeed"));
-        sizePolicy4.setHeightForWidth(label_CutSpeed->sizePolicy().hasHeightForWidth());
-        label_CutSpeed->setSizePolicy(sizePolicy4);
-        label_CutSpeed->setMinimumSize(QSize(145, 25));
-        label_CutSpeed->setFont(font4);
-        label_CutSpeed->setAlignment(Qt::AlignCenter);
-
-        formLayout_2->setWidget(1, QFormLayout::LabelRole, label_CutSpeed);
-
-        doubleSpinBox_CutDepth = new QDoubleSpinBox(tab_linearParams);
-        doubleSpinBox_CutDepth->setObjectName(QStringLiteral("doubleSpinBox_CutDepth"));
-        sizePolicy1.setHeightForWidth(doubleSpinBox_CutDepth->sizePolicy().hasHeightForWidth());
-        doubleSpinBox_CutDepth->setSizePolicy(sizePolicy1);
-        doubleSpinBox_CutDepth->setMinimumSize(QSize(100, 25));
-        doubleSpinBox_CutDepth->setFont(font);
-        doubleSpinBox_CutDepth->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox_CutDepth->setMaximum(1000);
-        doubleSpinBox_CutDepth->setValue(40);
-
-        formLayout_2->setWidget(0, QFormLayout::FieldRole, doubleSpinBox_CutDepth);
-
-        doubleSpinBox_CutSpeed = new QDoubleSpinBox(tab_linearParams);
-        doubleSpinBox_CutSpeed->setObjectName(QStringLiteral("doubleSpinBox_CutSpeed"));
-        sizePolicy1.setHeightForWidth(doubleSpinBox_CutSpeed->sizePolicy().hasHeightForWidth());
-        doubleSpinBox_CutSpeed->setSizePolicy(sizePolicy1);
-        doubleSpinBox_CutSpeed->setMinimumSize(QSize(100, 25));
-        doubleSpinBox_CutSpeed->setFont(font);
-        doubleSpinBox_CutSpeed->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox_CutSpeed->setMinimum(0);
-        doubleSpinBox_CutSpeed->setMaximum(1000);
-        doubleSpinBox_CutSpeed->setValue(0.4);
-
-        formLayout_2->setWidget(1, QFormLayout::FieldRole, doubleSpinBox_CutSpeed);
-
-
-        gridLayout_5->addLayout(formLayout_2, 0, 0, 1, 1);
-
-        tabWidget->addTab(tab_linearParams, QString());
-        tab_vibrationParams = new QWidget();
-        tab_vibrationParams->setObjectName(QStringLiteral("tab_vibrationParams"));
-        layoutWidget = new QWidget(tab_vibrationParams);
-        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
-        layoutWidget->setGeometry(QRect(9, 9, 254, 201));
-        formLayout = new QFormLayout(layoutWidget);
-        formLayout->setSpacing(6);
-        formLayout->setContentsMargins(11, 11, 11, 11);
-        formLayout->setObjectName(QStringLiteral("formLayout"));
-        formLayout->setContentsMargins(0, 0, 0, 0);
-        label_RetractSpeed = new QLabel(layoutWidget);
-        label_RetractSpeed->setObjectName(QStringLiteral("label_RetractSpeed"));
-        sizePolicy4.setHeightForWidth(label_RetractSpeed->sizePolicy().hasHeightForWidth());
-        label_RetractSpeed->setSizePolicy(sizePolicy4);
-        label_RetractSpeed->setMinimumSize(QSize(145, 25));
-        label_RetractSpeed->setFont(font4);
-        label_RetractSpeed->setAlignment(Qt::AlignCenter);
-
-        formLayout->setWidget(0, QFormLayout::LabelRole, label_RetractSpeed);
-
-        spinBox_RetractSpeed = new QSpinBox(layoutWidget);
-        spinBox_RetractSpeed->setObjectName(QStringLiteral("spinBox_RetractSpeed"));
-        sizePolicy1.setHeightForWidth(spinBox_RetractSpeed->sizePolicy().hasHeightForWidth());
-        spinBox_RetractSpeed->setSizePolicy(sizePolicy1);
-        spinBox_RetractSpeed->setMinimumSize(QSize(100, 25));
-        spinBox_RetractSpeed->setFont(font);
-        spinBox_RetractSpeed->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        spinBox_RetractSpeed->setMinimum(0);
-        spinBox_RetractSpeed->setMaximum(10000);
-        spinBox_RetractSpeed->setSingleStep(10);
-        spinBox_RetractSpeed->setValue(0);
-
-        formLayout->setWidget(0, QFormLayout::FieldRole, spinBox_RetractSpeed);
-
-        label_PlungeSpeed = new QLabel(layoutWidget);
-        label_PlungeSpeed->setObjectName(QStringLiteral("label_PlungeSpeed"));
-        sizePolicy4.setHeightForWidth(label_PlungeSpeed->sizePolicy().hasHeightForWidth());
-        label_PlungeSpeed->setSizePolicy(sizePolicy4);
-        label_PlungeSpeed->setMinimumSize(QSize(145, 25));
-        label_PlungeSpeed->setFont(font4);
-        label_PlungeSpeed->setAlignment(Qt::AlignCenter);
-
-        formLayout->setWidget(1, QFormLayout::LabelRole, label_PlungeSpeed);
-
-        spinBox_PlungeSpeed = new QSpinBox(layoutWidget);
-        spinBox_PlungeSpeed->setObjectName(QStringLiteral("spinBox_PlungeSpeed"));
-        sizePolicy1.setHeightForWidth(spinBox_PlungeSpeed->sizePolicy().hasHeightForWidth());
-        spinBox_PlungeSpeed->setSizePolicy(sizePolicy1);
-        spinBox_PlungeSpeed->setMinimumSize(QSize(100, 25));
-        spinBox_PlungeSpeed->setFont(font);
-        spinBox_PlungeSpeed->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        spinBox_PlungeSpeed->setMinimum(0);
-        spinBox_PlungeSpeed->setMaximum(10000);
-        spinBox_PlungeSpeed->setSingleStep(10);
-        spinBox_PlungeSpeed->setValue(0);
-
-        formLayout->setWidget(1, QFormLayout::FieldRole, spinBox_PlungeSpeed);
-
-        label_RetractDistance = new QLabel(layoutWidget);
-        label_RetractDistance->setObjectName(QStringLiteral("label_RetractDistance"));
-        sizePolicy4.setHeightForWidth(label_RetractDistance->sizePolicy().hasHeightForWidth());
-        label_RetractDistance->setSizePolicy(sizePolicy4);
-        label_RetractDistance->setMinimumSize(QSize(145, 25));
-        label_RetractDistance->setFont(font4);
-        label_RetractDistance->setAlignment(Qt::AlignCenter);
-
-        formLayout->setWidget(2, QFormLayout::LabelRole, label_RetractDistance);
-
-        doubleSpinBox_RetractDistance = new QDoubleSpinBox(layoutWidget);
-        doubleSpinBox_RetractDistance->setObjectName(QStringLiteral("doubleSpinBox_RetractDistance"));
-        sizePolicy1.setHeightForWidth(doubleSpinBox_RetractDistance->sizePolicy().hasHeightForWidth());
-        doubleSpinBox_RetractDistance->setSizePolicy(sizePolicy1);
-        doubleSpinBox_RetractDistance->setMinimumSize(QSize(100, 25));
-        doubleSpinBox_RetractDistance->setFont(font);
-        doubleSpinBox_RetractDistance->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox_RetractDistance->setMaximum(1000);
-        doubleSpinBox_RetractDistance->setValue(100);
-
-        formLayout->setWidget(2, QFormLayout::FieldRole, doubleSpinBox_RetractDistance);
-
-        label_StepSize = new QLabel(layoutWidget);
-        label_StepSize->setObjectName(QStringLiteral("label_StepSize"));
-        sizePolicy4.setHeightForWidth(label_StepSize->sizePolicy().hasHeightForWidth());
-        label_StepSize->setSizePolicy(sizePolicy4);
-        label_StepSize->setMinimumSize(QSize(145, 25));
-        label_StepSize->setFont(font4);
-        label_StepSize->setAlignment(Qt::AlignCenter);
-
-        formLayout->setWidget(3, QFormLayout::LabelRole, label_StepSize);
-
-        doubleSpinBox_StepSize = new QDoubleSpinBox(layoutWidget);
-        doubleSpinBox_StepSize->setObjectName(QStringLiteral("doubleSpinBox_StepSize"));
-        sizePolicy1.setHeightForWidth(doubleSpinBox_StepSize->sizePolicy().hasHeightForWidth());
-        doubleSpinBox_StepSize->setSizePolicy(sizePolicy1);
-        doubleSpinBox_StepSize->setMinimumSize(QSize(100, 25));
-        doubleSpinBox_StepSize->setFont(font);
-        doubleSpinBox_StepSize->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox_StepSize->setDecimals(3);
-        doubleSpinBox_StepSize->setValue(0.05);
-
-        formLayout->setWidget(3, QFormLayout::FieldRole, doubleSpinBox_StepSize);
-
-        label_RetractPeriod = new QLabel(layoutWidget);
-        label_RetractPeriod->setObjectName(QStringLiteral("label_RetractPeriod"));
-        sizePolicy4.setHeightForWidth(label_RetractPeriod->sizePolicy().hasHeightForWidth());
-        label_RetractPeriod->setSizePolicy(sizePolicy4);
-        label_RetractPeriod->setMinimumSize(QSize(145, 25));
-        label_RetractPeriod->setFont(font4);
-        label_RetractPeriod->setAlignment(Qt::AlignCenter);
-
-        formLayout->setWidget(4, QFormLayout::LabelRole, label_RetractPeriod);
-
-        spinBox_RetractPeriod = new QSpinBox(layoutWidget);
-        spinBox_RetractPeriod->setObjectName(QStringLiteral("spinBox_RetractPeriod"));
-        sizePolicy1.setHeightForWidth(spinBox_RetractPeriod->sizePolicy().hasHeightForWidth());
-        spinBox_RetractPeriod->setSizePolicy(sizePolicy1);
-        spinBox_RetractPeriod->setMinimumSize(QSize(100, 25));
-        spinBox_RetractPeriod->setFont(font);
-        spinBox_RetractPeriod->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        spinBox_RetractPeriod->setMinimum(0);
-        spinBox_RetractPeriod->setMaximum(10000);
-        spinBox_RetractPeriod->setSingleStep(1);
-        spinBox_RetractPeriod->setValue(10);
-
-        formLayout->setWidget(4, QFormLayout::FieldRole, spinBox_RetractPeriod);
-
-        label_Pause = new QLabel(layoutWidget);
-        label_Pause->setObjectName(QStringLiteral("label_Pause"));
-        sizePolicy4.setHeightForWidth(label_Pause->sizePolicy().hasHeightForWidth());
-        label_Pause->setSizePolicy(sizePolicy4);
-        label_Pause->setMinimumSize(QSize(145, 25));
-        label_Pause->setFont(font4);
-        label_Pause->setAlignment(Qt::AlignCenter);
-
-        formLayout->setWidget(5, QFormLayout::LabelRole, label_Pause);
-
-        spinBox_Pause = new QSpinBox(layoutWidget);
-        spinBox_Pause->setObjectName(QStringLiteral("spinBox_Pause"));
-        sizePolicy1.setHeightForWidth(spinBox_Pause->sizePolicy().hasHeightForWidth());
-        spinBox_Pause->setSizePolicy(sizePolicy1);
-        spinBox_Pause->setMinimumSize(QSize(100, 25));
-        spinBox_Pause->setFont(font);
-        spinBox_Pause->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        spinBox_Pause->setMinimum(0);
-        spinBox_Pause->setMaximum(10000);
-        spinBox_Pause->setSingleStep(1);
-        spinBox_Pause->setValue(8);
-
-        formLayout->setWidget(5, QFormLayout::FieldRole, spinBox_Pause);
-
-        tabWidget->addTab(tab_vibrationParams, QString());
-
-        gridLayout_2->addWidget(tabWidget, 1, 0, 5, 1);
-
-        comboBox_ProgramProfiles = new QComboBox(frame_ProfileOptions);
-        comboBox_ProgramProfiles->setObjectName(QStringLiteral("comboBox_ProgramProfiles"));
-        sizePolicy1.setHeightForWidth(comboBox_ProgramProfiles->sizePolicy().hasHeightForWidth());
-        comboBox_ProgramProfiles->setSizePolicy(sizePolicy1);
-        comboBox_ProgramProfiles->setMinimumSize(QSize(180, 30));
-
-        gridLayout_2->addWidget(comboBox_ProgramProfiles, 2, 1, 1, 1);
+        horizontalLayout_3->addItem(horizontalSpacer_2);
 
         verticalLayout_4 = new QVBoxLayout();
-        verticalLayout_4->setSpacing(6);
+        verticalLayout_4->setSpacing(0);
         verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
         label_PartNumber = new QLabel(frame_ProfileOptions);
         label_PartNumber->setObjectName(QStringLiteral("label_PartNumber"));
         sizePolicy1.setHeightForWidth(label_PartNumber->sizePolicy().hasHeightForWidth());
         label_PartNumber->setSizePolicy(sizePolicy1);
-        label_PartNumber->setMinimumSize(QSize(180, 25));
-        label_PartNumber->setMaximumSize(QSize(180, 25));
-        QFont font5;
-        font5.setPointSize(12);
-        font5.setBold(false);
-        font5.setItalic(true);
-        font5.setWeight(50);
-        label_PartNumber->setFont(font5);
+        label_PartNumber->setMinimumSize(QSize(160, 30));
+        label_PartNumber->setMaximumSize(QSize(160, 30));
+        QFont font4;
+        font4.setPointSize(12);
+        font4.setBold(false);
+        font4.setItalic(true);
+        font4.setWeight(50);
+        label_PartNumber->setFont(font4);
         label_PartNumber->setAlignment(Qt::AlignCenter);
 
         verticalLayout_4->addWidget(label_PartNumber);
@@ -763,370 +689,317 @@ public:
         lineEdit_PartNumber->setObjectName(QStringLiteral("lineEdit_PartNumber"));
         sizePolicy1.setHeightForWidth(lineEdit_PartNumber->sizePolicy().hasHeightForWidth());
         lineEdit_PartNumber->setSizePolicy(sizePolicy1);
-        lineEdit_PartNumber->setMinimumSize(QSize(180, 30));
-        lineEdit_PartNumber->setMaximumSize(QSize(180, 30));
-        lineEdit_PartNumber->setFont(font);
+        lineEdit_PartNumber->setMinimumSize(QSize(160, 30));
+        lineEdit_PartNumber->setMaximumSize(QSize(160, 30));
+        lineEdit_PartNumber->setFont(font2);
         lineEdit_PartNumber->setAlignment(Qt::AlignCenter);
 
         verticalLayout_4->addWidget(lineEdit_PartNumber);
 
 
-        gridLayout_2->addLayout(verticalLayout_4, 3, 1, 1, 1);
+        horizontalLayout_3->addLayout(verticalLayout_4);
 
         verticalLayout_3 = new QVBoxLayout();
-        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setSpacing(0);
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        label_PartNumber_2 = new QLabel(frame_ProfileOptions);
-        label_PartNumber_2->setObjectName(QStringLiteral("label_PartNumber_2"));
-        sizePolicy1.setHeightForWidth(label_PartNumber_2->sizePolicy().hasHeightForWidth());
-        label_PartNumber_2->setSizePolicy(sizePolicy1);
-        label_PartNumber_2->setMinimumSize(QSize(180, 25));
-        label_PartNumber_2->setMaximumSize(QSize(180, 25));
-        label_PartNumber_2->setFont(font5);
-        label_PartNumber_2->setAlignment(Qt::AlignCenter);
+        label_SerialNumber = new QLabel(frame_ProfileOptions);
+        label_SerialNumber->setObjectName(QStringLiteral("label_SerialNumber"));
+        sizePolicy1.setHeightForWidth(label_SerialNumber->sizePolicy().hasHeightForWidth());
+        label_SerialNumber->setSizePolicy(sizePolicy1);
+        label_SerialNumber->setMinimumSize(QSize(160, 30));
+        label_SerialNumber->setMaximumSize(QSize(160, 30));
+        label_SerialNumber->setFont(font4);
+        label_SerialNumber->setAlignment(Qt::AlignCenter);
 
-        verticalLayout_3->addWidget(label_PartNumber_2);
+        verticalLayout_3->addWidget(label_SerialNumber);
 
         lineEdit_SerialNumber = new QLineEdit(frame_ProfileOptions);
         lineEdit_SerialNumber->setObjectName(QStringLiteral("lineEdit_SerialNumber"));
         sizePolicy1.setHeightForWidth(lineEdit_SerialNumber->sizePolicy().hasHeightForWidth());
         lineEdit_SerialNumber->setSizePolicy(sizePolicy1);
-        lineEdit_SerialNumber->setMinimumSize(QSize(180, 30));
-        lineEdit_SerialNumber->setMaximumSize(QSize(180, 30));
-        lineEdit_SerialNumber->setFont(font);
+        lineEdit_SerialNumber->setMinimumSize(QSize(160, 30));
+        lineEdit_SerialNumber->setMaximumSize(QSize(160, 30));
+        lineEdit_SerialNumber->setFont(font2);
         lineEdit_SerialNumber->setAlignment(Qt::AlignCenter);
 
         verticalLayout_3->addWidget(lineEdit_SerialNumber);
 
 
-        gridLayout_2->addLayout(verticalLayout_3, 4, 1, 1, 1);
+        horizontalLayout_3->addLayout(verticalLayout_3);
 
-        pushButton_RunExplicitProfile = new QPushButton(frame_ProfileOptions);
-        pushButton_RunExplicitProfile->setObjectName(QStringLiteral("pushButton_RunExplicitProfile"));
-        sizePolicy1.setHeightForWidth(pushButton_RunExplicitProfile->sizePolicy().hasHeightForWidth());
-        pushButton_RunExplicitProfile->setSizePolicy(sizePolicy1);
-        pushButton_RunExplicitProfile->setMinimumSize(QSize(180, 30));
-        QFont font6;
-        font6.setPointSize(12);
-        pushButton_RunExplicitProfile->setFont(font6);
+        horizontalSpacer = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout_2->addWidget(pushButton_RunExplicitProfile, 5, 1, 1, 1);
-
-        formLayout_3 = new QFormLayout();
-        formLayout_3->setSpacing(6);
-        formLayout_3->setObjectName(QStringLiteral("formLayout_3"));
-        pushButton_EstablishTouchoff = new QPushButton(frame_ProfileOptions);
-        pushButton_EstablishTouchoff->setObjectName(QStringLiteral("pushButton_EstablishTouchoff"));
-        sizePolicy1.setHeightForWidth(pushButton_EstablishTouchoff->sizePolicy().hasHeightForWidth());
-        pushButton_EstablishTouchoff->setSizePolicy(sizePolicy1);
-        pushButton_EstablishTouchoff->setMinimumSize(QSize(180, 32));
-        pushButton_EstablishTouchoff->setMaximumSize(QSize(16777215, 32));
-        pushButton_EstablishTouchoff->setFont(font6);
-
-        formLayout_3->setWidget(0, QFormLayout::LabelRole, pushButton_EstablishTouchoff);
-
-        widget_LEDTouchoffEstablished = new LED(frame_ProfileOptions);
-        widget_LEDTouchoffEstablished->setObjectName(QStringLiteral("widget_LEDTouchoffEstablished"));
-        widget_LEDTouchoffEstablished->setMinimumSize(QSize(32, 32));
-        widget_LEDTouchoffEstablished->setMaximumSize(QSize(32, 32));
-
-        formLayout_3->setWidget(0, QFormLayout::FieldRole, widget_LEDTouchoffEstablished);
+        horizontalLayout_3->addItem(horizontalSpacer);
 
 
-        gridLayout_2->addLayout(formLayout_3, 6, 0, 1, 1);
+        gridLayout_2->addLayout(horizontalLayout_3, 0, 0, 1, 1);
 
-        pushButton_Empty = new QPushButton(frame_ProfileOptions);
-        pushButton_Empty->setObjectName(QStringLiteral("pushButton_Empty"));
-        sizePolicy1.setHeightForWidth(pushButton_Empty->sizePolicy().hasHeightForWidth());
-        pushButton_Empty->setSizePolicy(sizePolicy1);
-        pushButton_Empty->setMinimumSize(QSize(180, 30));
-        pushButton_Empty->setFont(font6);
+        line = new QFrame(frame_ProfileOptions);
+        line->setObjectName(QStringLiteral("line"));
+        line->setMinimumSize(QSize(400, 0));
+        line->setMaximumSize(QSize(400, 16777215));
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
 
-        gridLayout_2->addWidget(pushButton_Empty, 6, 1, 1, 1);
+        gridLayout_2->addWidget(line, 1, 0, 1, 1);
 
+        horizontalLayout_6 = new QHBoxLayout();
+        horizontalLayout_6->setSpacing(6);
+        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
+        horizontalSpacer_8 = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout_8->addWidget(frame_ProfileOptions, 2, 0, 2, 1);
+        horizontalLayout_6->addItem(horizontalSpacer_8);
 
-        frame_MaunalControl = new QFrame(centralWidget);
-        frame_MaunalControl->setObjectName(QStringLiteral("frame_MaunalControl"));
-        sizePolicy1.setHeightForWidth(frame_MaunalControl->sizePolicy().hasHeightForWidth());
-        frame_MaunalControl->setSizePolicy(sizePolicy1);
-        frame_MaunalControl->setMinimumSize(QSize(350, 300));
-        frame_MaunalControl->setMaximumSize(QSize(350, 300));
-        frame_MaunalControl->setFrameShape(QFrame::Box);
-        frame_MaunalControl->setFrameShadow(QFrame::Plain);
-        frame_MaunalControl->setLineWidth(2);
-        gridLayout_10 = new QGridLayout(frame_MaunalControl);
-        gridLayout_10->setSpacing(6);
-        gridLayout_10->setContentsMargins(11, 11, 11, 11);
-        gridLayout_10->setObjectName(QStringLiteral("gridLayout_10"));
-        gridLayout_4 = new QGridLayout();
-        gridLayout_4->setSpacing(6);
-        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
-        label_ManualControl = new QLabel(frame_MaunalControl);
-        label_ManualControl->setObjectName(QStringLiteral("label_ManualControl"));
-        sizePolicy4.setHeightForWidth(label_ManualControl->sizePolicy().hasHeightForWidth());
-        label_ManualControl->setSizePolicy(sizePolicy4);
-        label_ManualControl->setMinimumSize(QSize(0, 32));
-        label_ManualControl->setMaximumSize(QSize(16777215, 32));
-        label_ManualControl->setFont(font1);
-        label_ManualControl->setAlignment(Qt::AlignCenter);
+        label_OperationName = new QLabel(frame_ProfileOptions);
+        label_OperationName->setObjectName(QStringLiteral("label_OperationName"));
+        sizePolicy1.setHeightForWidth(label_OperationName->sizePolicy().hasHeightForWidth());
+        label_OperationName->setSizePolicy(sizePolicy1);
+        label_OperationName->setMinimumSize(QSize(150, 30));
+        label_OperationName->setMaximumSize(QSize(150, 30));
+        label_OperationName->setFont(font4);
+        label_OperationName->setAlignment(Qt::AlignCenter);
 
-        gridLayout_4->addWidget(label_ManualControl, 0, 0, 1, 1);
+        horizontalLayout_6->addWidget(label_OperationName);
 
-        pushButton_ResetHome = new QPushButton(frame_MaunalControl);
-        pushButton_ResetHome->setObjectName(QStringLiteral("pushButton_ResetHome"));
-        sizePolicy1.setHeightForWidth(pushButton_ResetHome->sizePolicy().hasHeightForWidth());
-        pushButton_ResetHome->setSizePolicy(sizePolicy1);
-        pushButton_ResetHome->setMinimumSize(QSize(112, 32));
-        pushButton_ResetHome->setMaximumSize(QSize(16777215, 32));
-        pushButton_ResetHome->setFont(font6);
+        lineEdit_OperationName = new QLineEdit(frame_ProfileOptions);
+        lineEdit_OperationName->setObjectName(QStringLiteral("lineEdit_OperationName"));
+        lineEdit_OperationName->setEnabled(false);
+        sizePolicy1.setHeightForWidth(lineEdit_OperationName->sizePolicy().hasHeightForWidth());
+        lineEdit_OperationName->setSizePolicy(sizePolicy1);
+        lineEdit_OperationName->setMinimumSize(QSize(180, 30));
+        lineEdit_OperationName->setMaximumSize(QSize(180, 30));
+        lineEdit_OperationName->setFont(font2);
+        lineEdit_OperationName->setAlignment(Qt::AlignCenter);
+        lineEdit_OperationName->setReadOnly(true);
 
-        gridLayout_4->addWidget(pushButton_ResetHome, 0, 1, 1, 1);
+        horizontalLayout_6->addWidget(lineEdit_OperationName);
 
-        widget_LEDHomeIndicated = new LED(frame_MaunalControl);
-        widget_LEDHomeIndicated->setObjectName(QStringLiteral("widget_LEDHomeIndicated"));
-        widget_LEDHomeIndicated->setMinimumSize(QSize(32, 32));
-        widget_LEDHomeIndicated->setMaximumSize(QSize(32, 32));
+        horizontalSpacer_7 = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout_4->addWidget(widget_LEDHomeIndicated, 0, 2, 1, 1);
-
-        lineEdit_GalilState = new QLineEdit(frame_MaunalControl);
-        lineEdit_GalilState->setObjectName(QStringLiteral("lineEdit_GalilState"));
-        sizePolicy1.setHeightForWidth(lineEdit_GalilState->sizePolicy().hasHeightForWidth());
-        lineEdit_GalilState->setSizePolicy(sizePolicy1);
-        lineEdit_GalilState->setMinimumSize(QSize(160, 32));
-        lineEdit_GalilState->setMaximumSize(QSize(160, 32));
-        lineEdit_GalilState->setFont(font);
-        lineEdit_GalilState->setAlignment(Qt::AlignCenter);
-        lineEdit_GalilState->setReadOnly(true);
-
-        gridLayout_4->addWidget(lineEdit_GalilState, 1, 0, 1, 1);
-
-        pushButton_MoveHome = new QPushButton(frame_MaunalControl);
-        pushButton_MoveHome->setObjectName(QStringLiteral("pushButton_MoveHome"));
-        sizePolicy1.setHeightForWidth(pushButton_MoveHome->sizePolicy().hasHeightForWidth());
-        pushButton_MoveHome->setSizePolicy(sizePolicy1);
-        pushButton_MoveHome->setMinimumSize(QSize(112, 32));
-        pushButton_MoveHome->setMaximumSize(QSize(16777215, 32));
-        pushButton_MoveHome->setFont(font6);
-
-        gridLayout_4->addWidget(pushButton_MoveHome, 1, 1, 1, 1);
-
-        horizontalSpacer_11 = new QSpacerItem(13, 17, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        gridLayout_4->addItem(horizontalSpacer_11, 1, 2, 1, 1);
+        horizontalLayout_6->addItem(horizontalSpacer_7);
 
 
-        gridLayout_10->addLayout(gridLayout_4, 0, 0, 1, 2);
+        gridLayout_2->addLayout(horizontalLayout_6, 2, 0, 1, 1);
 
-        formLayout_4 = new QFormLayout();
-        formLayout_4->setSpacing(6);
-        formLayout_4->setObjectName(QStringLiteral("formLayout_4"));
-        label = new QLabel(frame_MaunalControl);
-        label->setObjectName(QStringLiteral("label"));
-        sizePolicy1.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
-        label->setSizePolicy(sizePolicy1);
-        label->setMinimumSize(QSize(130, 25));
-        label->setMaximumSize(QSize(130, 25));
-        label->setFont(font);
+        horizontalLayout_8 = new QHBoxLayout();
+        horizontalLayout_8->setSpacing(6);
+        horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
+        horizontalSpacer_9 = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        formLayout_4->setWidget(0, QFormLayout::LabelRole, label);
+        horizontalLayout_8->addItem(horizontalSpacer_9);
 
-        lineEdit_MachinePosition = new QLineEdit(frame_MaunalControl);
-        lineEdit_MachinePosition->setObjectName(QStringLiteral("lineEdit_MachinePosition"));
-        lineEdit_MachinePosition->setMinimumSize(QSize(190, 25));
-        lineEdit_MachinePosition->setMaximumSize(QSize(190, 25));
-        lineEdit_MachinePosition->setFont(font);
-        lineEdit_MachinePosition->setAlignment(Qt::AlignCenter);
-        lineEdit_MachinePosition->setReadOnly(true);
+        label_OperationIndex = new QLabel(frame_ProfileOptions);
+        label_OperationIndex->setObjectName(QStringLiteral("label_OperationIndex"));
+        sizePolicy1.setHeightForWidth(label_OperationIndex->sizePolicy().hasHeightForWidth());
+        label_OperationIndex->setSizePolicy(sizePolicy1);
+        label_OperationIndex->setMinimumSize(QSize(180, 25));
+        label_OperationIndex->setMaximumSize(QSize(180, 25));
+        label_OperationIndex->setFont(font4);
+        label_OperationIndex->setAlignment(Qt::AlignCenter);
 
-        formLayout_4->setWidget(0, QFormLayout::FieldRole, lineEdit_MachinePosition);
+        horizontalLayout_8->addWidget(label_OperationIndex);
+
+        lineEdit_OperationIndex = new QLineEdit(frame_ProfileOptions);
+        lineEdit_OperationIndex->setObjectName(QStringLiteral("lineEdit_OperationIndex"));
+        lineEdit_OperationIndex->setEnabled(false);
+        sizePolicy1.setHeightForWidth(lineEdit_OperationIndex->sizePolicy().hasHeightForWidth());
+        lineEdit_OperationIndex->setSizePolicy(sizePolicy1);
+        lineEdit_OperationIndex->setMinimumSize(QSize(30, 25));
+        lineEdit_OperationIndex->setMaximumSize(QSize(30, 25));
+        lineEdit_OperationIndex->setFont(font2);
+        lineEdit_OperationIndex->setAlignment(Qt::AlignCenter);
+        lineEdit_OperationIndex->setReadOnly(true);
+
+        horizontalLayout_8->addWidget(lineEdit_OperationIndex);
+
+        label_OperationIndexColon = new QLabel(frame_ProfileOptions);
+        label_OperationIndexColon->setObjectName(QStringLiteral("label_OperationIndexColon"));
+        sizePolicy1.setHeightForWidth(label_OperationIndexColon->sizePolicy().hasHeightForWidth());
+        label_OperationIndexColon->setSizePolicy(sizePolicy1);
+        label_OperationIndexColon->setMinimumSize(QSize(30, 25));
+        label_OperationIndexColon->setMaximumSize(QSize(30, 25));
+        label_OperationIndexColon->setFont(font4);
+        label_OperationIndexColon->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_8->addWidget(label_OperationIndexColon);
+
+        lineEdit_OperationIndexTotal = new QLineEdit(frame_ProfileOptions);
+        lineEdit_OperationIndexTotal->setObjectName(QStringLiteral("lineEdit_OperationIndexTotal"));
+        lineEdit_OperationIndexTotal->setEnabled(false);
+        sizePolicy1.setHeightForWidth(lineEdit_OperationIndexTotal->sizePolicy().hasHeightForWidth());
+        lineEdit_OperationIndexTotal->setSizePolicy(sizePolicy1);
+        lineEdit_OperationIndexTotal->setMinimumSize(QSize(30, 25));
+        lineEdit_OperationIndexTotal->setMaximumSize(QSize(30, 25));
+        lineEdit_OperationIndexTotal->setFont(font2);
+        lineEdit_OperationIndexTotal->setAlignment(Qt::AlignCenter);
+        lineEdit_OperationIndexTotal->setReadOnly(true);
+
+        horizontalLayout_8->addWidget(lineEdit_OperationIndexTotal);
+
+        horizontalSpacer_10 = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_8->addItem(horizontalSpacer_10);
 
 
-        gridLayout_10->addLayout(formLayout_4, 1, 0, 1, 2);
+        gridLayout_2->addLayout(horizontalLayout_8, 3, 0, 1, 1);
 
-        gridLayout_6 = new QGridLayout();
-        gridLayout_6->setSpacing(6);
-        gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
-        label_ManualControl_3 = new QLabel(frame_MaunalControl);
-        label_ManualControl_3->setObjectName(QStringLiteral("label_ManualControl_3"));
-        sizePolicy4.setHeightForWidth(label_ManualControl_3->sizePolicy().hasHeightForWidth());
-        label_ManualControl_3->setSizePolicy(sizePolicy4);
-        label_ManualControl_3->setFont(font1);
-        label_ManualControl_3->setAlignment(Qt::AlignCenter);
+        horizontalLayout_7 = new QHBoxLayout();
+        horizontalLayout_7->setSpacing(6);
+        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
+        horizontalSpacer_11 = new QSpacerItem(13, 65, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout_6->addWidget(label_ManualControl_3, 0, 0, 1, 1);
+        horizontalLayout_7->addItem(horizontalSpacer_11);
 
-        gridLayout = new QGridLayout();
-        gridLayout->setSpacing(6);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        horizontalSpacer_7 = new QSpacerItem(5, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        verticalLayout_6 = new QVBoxLayout();
+        verticalLayout_6->setSpacing(6);
+        verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
+        label_CurrentStartPosition = new QLabel(frame_ProfileOptions);
+        label_CurrentStartPosition->setObjectName(QStringLiteral("label_CurrentStartPosition"));
+        sizePolicy1.setHeightForWidth(label_CurrentStartPosition->sizePolicy().hasHeightForWidth());
+        label_CurrentStartPosition->setSizePolicy(sizePolicy1);
+        label_CurrentStartPosition->setMinimumSize(QSize(180, 25));
+        label_CurrentStartPosition->setMaximumSize(QSize(180, 25));
+        label_CurrentStartPosition->setFont(font4);
+        label_CurrentStartPosition->setAlignment(Qt::AlignCenter);
 
-        gridLayout->addItem(horizontalSpacer_7, 0, 0, 1, 1);
+        verticalLayout_6->addWidget(label_CurrentStartPosition);
+
+        lineEdit_CurrentStartPosition = new QLineEdit(frame_ProfileOptions);
+        lineEdit_CurrentStartPosition->setObjectName(QStringLiteral("lineEdit_CurrentStartPosition"));
+        lineEdit_CurrentStartPosition->setEnabled(false);
+        sizePolicy1.setHeightForWidth(lineEdit_CurrentStartPosition->sizePolicy().hasHeightForWidth());
+        lineEdit_CurrentStartPosition->setSizePolicy(sizePolicy1);
+        lineEdit_CurrentStartPosition->setMinimumSize(QSize(180, 25));
+        lineEdit_CurrentStartPosition->setMaximumSize(QSize(180, 25));
+        lineEdit_CurrentStartPosition->setFont(font2);
+        lineEdit_CurrentStartPosition->setAlignment(Qt::AlignCenter);
+        lineEdit_CurrentStartPosition->setReadOnly(true);
+
+        verticalLayout_6->addWidget(lineEdit_CurrentStartPosition);
+
+
+        horizontalLayout_7->addLayout(verticalLayout_6);
+
+        verticalLayout_7 = new QVBoxLayout();
+        verticalLayout_7->setSpacing(6);
+        verticalLayout_7->setObjectName(QStringLiteral("verticalLayout_7"));
+        label_PreviousEndPosition = new QLabel(frame_ProfileOptions);
+        label_PreviousEndPosition->setObjectName(QStringLiteral("label_PreviousEndPosition"));
+        sizePolicy1.setHeightForWidth(label_PreviousEndPosition->sizePolicy().hasHeightForWidth());
+        label_PreviousEndPosition->setSizePolicy(sizePolicy1);
+        label_PreviousEndPosition->setMinimumSize(QSize(180, 25));
+        label_PreviousEndPosition->setMaximumSize(QSize(180, 25));
+        label_PreviousEndPosition->setFont(font4);
+        label_PreviousEndPosition->setLayoutDirection(Qt::LeftToRight);
+        label_PreviousEndPosition->setAlignment(Qt::AlignCenter);
+
+        verticalLayout_7->addWidget(label_PreviousEndPosition);
+
+        lineEdit_PreviousEndPosition = new QLineEdit(frame_ProfileOptions);
+        lineEdit_PreviousEndPosition->setObjectName(QStringLiteral("lineEdit_PreviousEndPosition"));
+        lineEdit_PreviousEndPosition->setEnabled(false);
+        sizePolicy1.setHeightForWidth(lineEdit_PreviousEndPosition->sizePolicy().hasHeightForWidth());
+        lineEdit_PreviousEndPosition->setSizePolicy(sizePolicy1);
+        lineEdit_PreviousEndPosition->setMinimumSize(QSize(180, 25));
+        lineEdit_PreviousEndPosition->setMaximumSize(QSize(180, 25));
+        lineEdit_PreviousEndPosition->setFont(font2);
+        lineEdit_PreviousEndPosition->setAlignment(Qt::AlignCenter);
+        lineEdit_PreviousEndPosition->setReadOnly(true);
+
+        verticalLayout_7->addWidget(lineEdit_PreviousEndPosition);
+
+
+        horizontalLayout_7->addLayout(verticalLayout_7);
+
+        horizontalSpacer_12 = new QSpacerItem(13, 65, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_7->addItem(horizontalSpacer_12);
+
+
+        gridLayout_2->addLayout(horizontalLayout_7, 4, 0, 1, 1);
+
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setSpacing(6);
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        horizontalSpacer_3 = new QSpacerItem(13, 65, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_5->addItem(horizontalSpacer_3);
+
+        verticalLayout_2 = new QVBoxLayout();
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        label_OperationTime = new QLabel(frame_ProfileOptions);
+        label_OperationTime->setObjectName(QStringLiteral("label_OperationTime"));
+        sizePolicy1.setHeightForWidth(label_OperationTime->sizePolicy().hasHeightForWidth());
+        label_OperationTime->setSizePolicy(sizePolicy1);
+        label_OperationTime->setMinimumSize(QSize(180, 25));
+        label_OperationTime->setMaximumSize(QSize(180, 25));
+        label_OperationTime->setFont(font4);
+        label_OperationTime->setAlignment(Qt::AlignCenter);
+
+        verticalLayout_2->addWidget(label_OperationTime);
+
+        lineEdit_OperationTime = new QLineEdit(frame_ProfileOptions);
+        lineEdit_OperationTime->setObjectName(QStringLiteral("lineEdit_OperationTime"));
+        lineEdit_OperationTime->setEnabled(false);
+        sizePolicy1.setHeightForWidth(lineEdit_OperationTime->sizePolicy().hasHeightForWidth());
+        lineEdit_OperationTime->setSizePolicy(sizePolicy1);
+        lineEdit_OperationTime->setMinimumSize(QSize(180, 25));
+        lineEdit_OperationTime->setMaximumSize(QSize(180, 25));
+        lineEdit_OperationTime->setFont(font2);
+        lineEdit_OperationTime->setAlignment(Qt::AlignCenter);
+        lineEdit_OperationTime->setReadOnly(true);
+
+        verticalLayout_2->addWidget(lineEdit_OperationTime);
+
+
+        horizontalLayout_5->addLayout(verticalLayout_2);
 
         verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(6);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        pushButton_IncreaseJog = new QPushButton(frame_MaunalControl);
-        pushButton_IncreaseJog->setObjectName(QStringLiteral("pushButton_IncreaseJog"));
-        sizePolicy1.setHeightForWidth(pushButton_IncreaseJog->sizePolicy().hasHeightForWidth());
-        pushButton_IncreaseJog->setSizePolicy(sizePolicy1);
-        pushButton_IncreaseJog->setMinimumSize(QSize(130, 30));
-        pushButton_IncreaseJog->setMaximumSize(QSize(130, 16777215));
-        pushButton_IncreaseJog->setFont(font6);
+        label_ConfigurationTime = new QLabel(frame_ProfileOptions);
+        label_ConfigurationTime->setObjectName(QStringLiteral("label_ConfigurationTime"));
+        sizePolicy1.setHeightForWidth(label_ConfigurationTime->sizePolicy().hasHeightForWidth());
+        label_ConfigurationTime->setSizePolicy(sizePolicy1);
+        label_ConfigurationTime->setMinimumSize(QSize(180, 25));
+        label_ConfigurationTime->setMaximumSize(QSize(180, 25));
+        label_ConfigurationTime->setFont(font4);
+        label_ConfigurationTime->setLayoutDirection(Qt::LeftToRight);
+        label_ConfigurationTime->setAlignment(Qt::AlignCenter);
 
-        verticalLayout->addWidget(pushButton_IncreaseJog);
+        verticalLayout->addWidget(label_ConfigurationTime);
 
-        spinBox_Jog = new QSpinBox(frame_MaunalControl);
-        spinBox_Jog->setObjectName(QStringLiteral("spinBox_Jog"));
-        sizePolicy1.setHeightForWidth(spinBox_Jog->sizePolicy().hasHeightForWidth());
-        spinBox_Jog->setSizePolicy(sizePolicy1);
-        spinBox_Jog->setMinimumSize(QSize(130, 30));
-        spinBox_Jog->setFont(font);
-        spinBox_Jog->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        spinBox_Jog->setMinimum(1);
-        spinBox_Jog->setMaximum(10000);
-        spinBox_Jog->setSingleStep(10);
-        spinBox_Jog->setValue(3000);
+        lineEdit_ConfigurationTime = new QLineEdit(frame_ProfileOptions);
+        lineEdit_ConfigurationTime->setObjectName(QStringLiteral("lineEdit_ConfigurationTime"));
+        lineEdit_ConfigurationTime->setEnabled(false);
+        sizePolicy1.setHeightForWidth(lineEdit_ConfigurationTime->sizePolicy().hasHeightForWidth());
+        lineEdit_ConfigurationTime->setSizePolicy(sizePolicy1);
+        lineEdit_ConfigurationTime->setMinimumSize(QSize(180, 25));
+        lineEdit_ConfigurationTime->setMaximumSize(QSize(180, 25));
+        lineEdit_ConfigurationTime->setFont(font2);
+        lineEdit_ConfigurationTime->setAlignment(Qt::AlignCenter);
+        lineEdit_ConfigurationTime->setReadOnly(true);
 
-        verticalLayout->addWidget(spinBox_Jog);
-
-        pushButton_DecreaseJog = new QPushButton(frame_MaunalControl);
-        pushButton_DecreaseJog->setObjectName(QStringLiteral("pushButton_DecreaseJog"));
-        sizePolicy1.setHeightForWidth(pushButton_DecreaseJog->sizePolicy().hasHeightForWidth());
-        pushButton_DecreaseJog->setSizePolicy(sizePolicy1);
-        pushButton_DecreaseJog->setMinimumSize(QSize(130, 30));
-        pushButton_DecreaseJog->setMaximumSize(QSize(130, 16777215));
-        pushButton_DecreaseJog->setFont(font6);
-
-        verticalLayout->addWidget(pushButton_DecreaseJog);
-
-        pushButton_MotorEnable = new QPushButton(frame_MaunalControl);
-        pushButton_MotorEnable->setObjectName(QStringLiteral("pushButton_MotorEnable"));
-        sizePolicy1.setHeightForWidth(pushButton_MotorEnable->sizePolicy().hasHeightForWidth());
-        pushButton_MotorEnable->setSizePolicy(sizePolicy1);
-        pushButton_MotorEnable->setMinimumSize(QSize(130, 30));
-        pushButton_MotorEnable->setFont(font6);
-
-        verticalLayout->addWidget(pushButton_MotorEnable);
+        verticalLayout->addWidget(lineEdit_ConfigurationTime);
 
 
-        gridLayout->addLayout(verticalLayout, 0, 1, 1, 1);
+        horizontalLayout_5->addLayout(verticalLayout);
 
-        horizontalSpacer_6 = new QSpacerItem(5, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer_4 = new QSpacerItem(13, 65, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout->addItem(horizontalSpacer_6, 0, 2, 1, 1);
-
-
-        gridLayout_6->addLayout(gridLayout, 1, 0, 1, 1);
+        horizontalLayout_5->addItem(horizontalSpacer_4);
 
 
-        gridLayout_10->addLayout(gridLayout_6, 2, 0, 1, 1);
-
-        verticalLayout_5 = new QVBoxLayout();
-        verticalLayout_5->setSpacing(6);
-        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
-        label_ManualControl_4 = new QLabel(frame_MaunalControl);
-        label_ManualControl_4->setObjectName(QStringLiteral("label_ManualControl_4"));
-        sizePolicy4.setHeightForWidth(label_ManualControl_4->sizePolicy().hasHeightForWidth());
-        label_ManualControl_4->setSizePolicy(sizePolicy4);
-        label_ManualControl_4->setFont(font1);
-        label_ManualControl_4->setAlignment(Qt::AlignCenter);
-
-        verticalLayout_5->addWidget(label_ManualControl_4);
-
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setSpacing(6);
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        horizontalSpacer_8 = new QSpacerItem(5, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_2->addItem(horizontalSpacer_8);
-
-        verticalLayout_SetpControlInner = new QVBoxLayout();
-        verticalLayout_SetpControlInner->setSpacing(6);
-        verticalLayout_SetpControlInner->setObjectName(QStringLiteral("verticalLayout_SetpControlInner"));
-        pushButton_IncreaseRelativeMove = new QPushButton(frame_MaunalControl);
-        pushButton_IncreaseRelativeMove->setObjectName(QStringLiteral("pushButton_IncreaseRelativeMove"));
-        sizePolicy1.setHeightForWidth(pushButton_IncreaseRelativeMove->sizePolicy().hasHeightForWidth());
-        pushButton_IncreaseRelativeMove->setSizePolicy(sizePolicy1);
-        pushButton_IncreaseRelativeMove->setMinimumSize(QSize(130, 30));
-        pushButton_IncreaseRelativeMove->setMaximumSize(QSize(130, 16777215));
-        pushButton_IncreaseRelativeMove->setFont(font6);
-
-        verticalLayout_SetpControlInner->addWidget(pushButton_IncreaseRelativeMove);
-
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setSpacing(2);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        spinBox_RelativeMove = new QSpinBox(frame_MaunalControl);
-        spinBox_RelativeMove->setObjectName(QStringLiteral("spinBox_RelativeMove"));
-        sizePolicy1.setHeightForWidth(spinBox_RelativeMove->sizePolicy().hasHeightForWidth());
-        spinBox_RelativeMove->setSizePolicy(sizePolicy1);
-        spinBox_RelativeMove->setMinimumSize(QSize(65, 30));
-        spinBox_RelativeMove->setMaximumSize(QSize(65, 16777215));
-        spinBox_RelativeMove->setFont(font);
-        spinBox_RelativeMove->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        spinBox_RelativeMove->setMaximum(100000);
-        spinBox_RelativeMove->setSingleStep(100);
-        spinBox_RelativeMove->setValue(2000);
-
-        horizontalLayout->addWidget(spinBox_RelativeMove);
-
-        spinBox_RelativeMoveSpeed = new QSpinBox(frame_MaunalControl);
-        spinBox_RelativeMoveSpeed->setObjectName(QStringLiteral("spinBox_RelativeMoveSpeed"));
-        spinBox_RelativeMoveSpeed->setMinimumSize(QSize(65, 30));
-        spinBox_RelativeMoveSpeed->setMaximumSize(QSize(65, 16777215));
-        spinBox_RelativeMoveSpeed->setFont(font);
-        spinBox_RelativeMoveSpeed->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        spinBox_RelativeMoveSpeed->setMaximum(5000);
-        spinBox_RelativeMoveSpeed->setSingleStep(10);
-        spinBox_RelativeMoveSpeed->setValue(1000);
-
-        horizontalLayout->addWidget(spinBox_RelativeMoveSpeed);
+        gridLayout_2->addLayout(horizontalLayout_5, 5, 0, 1, 1);
 
 
-        verticalLayout_SetpControlInner->addLayout(horizontalLayout);
-
-        pushButton_DecreaseRelativeMove = new QPushButton(frame_MaunalControl);
-        pushButton_DecreaseRelativeMove->setObjectName(QStringLiteral("pushButton_DecreaseRelativeMove"));
-        sizePolicy1.setHeightForWidth(pushButton_DecreaseRelativeMove->sizePolicy().hasHeightForWidth());
-        pushButton_DecreaseRelativeMove->setSizePolicy(sizePolicy1);
-        pushButton_DecreaseRelativeMove->setMinimumSize(QSize(130, 30));
-        pushButton_DecreaseRelativeMove->setMaximumSize(QSize(130, 16777215));
-        pushButton_DecreaseRelativeMove->setFont(font6);
-
-        verticalLayout_SetpControlInner->addWidget(pushButton_DecreaseRelativeMove);
-
-        pushButton_MotorDisable = new QPushButton(frame_MaunalControl);
-        pushButton_MotorDisable->setObjectName(QStringLiteral("pushButton_MotorDisable"));
-        sizePolicy1.setHeightForWidth(pushButton_MotorDisable->sizePolicy().hasHeightForWidth());
-        pushButton_MotorDisable->setSizePolicy(sizePolicy1);
-        pushButton_MotorDisable->setMinimumSize(QSize(130, 30));
-        pushButton_MotorDisable->setFont(font6);
-
-        verticalLayout_SetpControlInner->addWidget(pushButton_MotorDisable);
-
-
-        horizontalLayout_2->addLayout(verticalLayout_SetpControlInner);
-
-        horizontalSpacer_9 = new QSpacerItem(5, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_2->addItem(horizontalSpacer_9);
-
-
-        verticalLayout_5->addLayout(horizontalLayout_2);
-
-
-        gridLayout_10->addLayout(verticalLayout_5, 2, 1, 1, 1);
-
-
-        gridLayout_8->addWidget(frame_MaunalControl, 2, 1, 2, 1);
+        gridLayout_3->addWidget(frame_ProfileOptions, 1, 0, 1, 1);
 
         ECMControllerGUI->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(ECMControllerGUI);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1040, 40));
+        menuBar->setGeometry(QRect(0, 0, 1045, 40));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menuBar);
@@ -1152,13 +1025,14 @@ public:
         menuBar->addAction(menuHelp->menuAction());
         menuFile->addAction(actionClose);
         menuTools->addAction(actionConnections);
+        menuTools->addAction(actionProfile_Configuration);
         menuTools->addSeparator();
         menuTools->addAction(actionPower_Supply);
-        menuTools->addAction(actionPump);
+        menuTools->addAction(actionPump_Window);
         menuTools->addAction(actionOscilliscope);
         menuTools->addSeparator();
-        menuTools->addAction(actionTouchoff);
-        menuTools->addAction(actionMotion_Profile);
+        menuTools->addAction(actionTouchoff_Window);
+        menuTools->addAction(actionMotion_Control);
         menuTools->addSeparator();
         menuTools->addAction(actionCustom_Motion_Commands);
         menuView->addAction(actionOpen_Sensors_Window);
@@ -1168,9 +1042,6 @@ public:
 
         retranslateUi(ECMControllerGUI);
 
-        tabWidget->setCurrentIndex(0);
-
-
         QMetaObject::connectSlotsByName(ECMControllerGUI);
     } // setupUi
 
@@ -1179,42 +1050,44 @@ public:
         ECMControllerGUI->setWindowTitle(QApplication::translate("ECMControllerGUI", "ECMControllerGUI", nullptr));
         actionConnections->setText(QApplication::translate("ECMControllerGUI", "Connections", nullptr));
         actionPower_Supply->setText(QApplication::translate("ECMControllerGUI", "Power Supply", nullptr));
-        actionPump->setText(QApplication::translate("ECMControllerGUI", "Pump", nullptr));
+        actionPump_Window->setText(QApplication::translate("ECMControllerGUI", "Pump", nullptr));
         actionOscilliscope->setText(QApplication::translate("ECMControllerGUI", "Oscilliscope", nullptr));
-        actionTouchoff->setText(QApplication::translate("ECMControllerGUI", "Touchoff", nullptr));
+        actionTouchoff_Window->setText(QApplication::translate("ECMControllerGUI", "Touchoff", nullptr));
         actionOpen_Sensors_Window->setText(QApplication::translate("ECMControllerGUI", "Open Sensors Window", nullptr));
         actionClose->setText(QApplication::translate("ECMControllerGUI", "Close", nullptr));
         actionMotion_Profile->setText(QApplication::translate("ECMControllerGUI", "Motion Profile", nullptr));
         actionCustom_Motion_Commands->setText(QApplication::translate("ECMControllerGUI", "Custom Motion Commands", nullptr));
         actionClear_All_Data->setText(QApplication::translate("ECMControllerGUI", "Clear All Data", nullptr));
-        label_ManualControl_5->setText(QApplication::translate("ECMControllerGUI", "DIO Signals", nullptr));
-        label_2->setText(QApplication::translate("ECMControllerGUI", "ESTOP", nullptr));
-        label_3->setText(QApplication::translate("ECMControllerGUI", "TOUCHOFF", nullptr));
-        pushButton_Stop->setText(QApplication::translate("ECMControllerGUI", "STOP", nullptr));
-        label_ManualControl_2->setText(QApplication::translate("ECMControllerGUI", "Profile Optons", nullptr));
+        actionMotion_Control->setText(QApplication::translate("ECMControllerGUI", "Motion Control", nullptr));
+        actionProfile_Configuration->setText(QApplication::translate("ECMControllerGUI", "Profile Configuration", nullptr));
+#ifndef QT_NO_TOOLTIP
+        pushButton_LoadAutomatedProfile->setToolTip(QString());
+#endif // QT_NO_TOOLTIP
+        pushButton_LoadAutomatedProfile->setText(QApplication::translate("ECMControllerGUI", "Load Configuration", nullptr));
 #ifndef QT_NO_TOOLTIP
         pushButton_RunAutomatedProfile->setToolTip(QApplication::translate("ECMControllerGUI", "<html><head/><body><p align=\"center\"><span style=\" font-size:10pt;\">Execute a profile while performing appropriate setup checks autonomously.<br/></span></p></body></html>", nullptr));
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_WHATSTHIS
         pushButton_RunAutomatedProfile->setWhatsThis(QApplication::translate("ECMControllerGUI", "<html><head/><body><p>What does this actually do?</p></body></html>", nullptr));
 #endif // QT_NO_WHATSTHIS
-        pushButton_RunAutomatedProfile->setText(QApplication::translate("ECMControllerGUI", "Run Automated Profile", nullptr));
-        label_CutDepth->setText(QApplication::translate("ECMControllerGUI", "Depth of Cut (um)", nullptr));
-        label_CutSpeed->setText(QApplication::translate("ECMControllerGUI", "Cut Speed (um/s)", nullptr));
+        pushButton_RunAutomatedProfile->setText(QApplication::translate("ECMControllerGUI", "Run Configuration", nullptr));
 #ifndef QT_NO_TOOLTIP
-        doubleSpinBox_CutDepth->setToolTip(QString());
+        lineEdit_ConfigurationPath->setToolTip(QString());
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_STATUSTIP
-        doubleSpinBox_CutDepth->setStatusTip(QString());
+        lineEdit_ConfigurationPath->setStatusTip(QString());
 #endif // QT_NO_STATUSTIP
-        tabWidget->setTabText(tabWidget->indexOf(tab_linearParams), QApplication::translate("ECMControllerGUI", "Linear Parameters", nullptr));
-        label_RetractSpeed->setText(QApplication::translate("ECMControllerGUI", "Retract Speed (um/s)", nullptr));
-        label_PlungeSpeed->setText(QApplication::translate("ECMControllerGUI", "Plunge Speed (um/s)", nullptr));
-        label_RetractDistance->setText(QApplication::translate("ECMControllerGUI", "Retract Distance (um)", nullptr));
-        label_StepSize->setText(QApplication::translate("ECMControllerGUI", "Step Size (um)", nullptr));
-        label_RetractPeriod->setText(QApplication::translate("ECMControllerGUI", "Retract Period (ms)", nullptr));
-        label_Pause->setText(QApplication::translate("ECMControllerGUI", "Pause (ms)", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab_vibrationParams), QApplication::translate("ECMControllerGUI", "Vibration Parameters", nullptr));
+        lineEdit_ConfigurationPath->setText(QApplication::translate("ECMControllerGUI", "CONFIGURATION PATH", nullptr));
+        pushButton_MotorEnable->setText(QApplication::translate("ECMControllerGUI", "ENABLE MOTOR", nullptr));
+        pushButton_MotorDisable->setText(QApplication::translate("ECMControllerGUI", "DISABLE MOTOR", nullptr));
+        pushButton_ResetHome->setText(QApplication::translate("ECMControllerGUI", "RESET HOME", nullptr));
+        pushButton_MoveHome->setText(QApplication::translate("ECMControllerGUI", "MOVE HOME", nullptr));
+        pushButton_Stop->setText(QApplication::translate("ECMControllerGUI", "STOP", nullptr));
+        label_2->setText(QApplication::translate("ECMControllerGUI", "COMMUNICATION", nullptr));
+        label_3->setText(QApplication::translate("ECMControllerGUI", "HOMED", nullptr));
+        label_4->setText(QApplication::translate("ECMControllerGUI", "TOUCHOFF", nullptr));
+        label_5->setText(QApplication::translate("ECMControllerGUI", "ESTOP", nullptr));
+        pushButton_ClearMunkError->setText(QApplication::translate("ECMControllerGUI", "Clear Munk Error", nullptr));
         label_PartNumber->setText(QApplication::translate("ECMControllerGUI", "Part Number:", nullptr));
 #ifndef QT_NO_TOOLTIP
         lineEdit_PartNumber->setToolTip(QString());
@@ -1223,32 +1096,46 @@ public:
         lineEdit_PartNumber->setStatusTip(QString());
 #endif // QT_NO_STATUSTIP
         lineEdit_PartNumber->setText(QApplication::translate("ECMControllerGUI", "DEFAULT PART #", nullptr));
-        label_PartNumber_2->setText(QApplication::translate("ECMControllerGUI", "Serial Number:", nullptr));
+        label_SerialNumber->setText(QApplication::translate("ECMControllerGUI", "Serial Number:", nullptr));
         lineEdit_SerialNumber->setText(QApplication::translate("ECMControllerGUI", "DEFAULT SERIAL #", nullptr));
+        label_OperationName->setText(QApplication::translate("ECMControllerGUI", "Operation Name:", nullptr));
+        lineEdit_OperationName->setText(QApplication::translate("ECMControllerGUI", "DEFAULT OPERATION NAME", nullptr));
+        label_OperationIndex->setText(QApplication::translate("ECMControllerGUI", "Operation Index : Of", nullptr));
+        lineEdit_OperationIndex->setText(QApplication::translate("ECMControllerGUI", "0", nullptr));
+        label_OperationIndexColon->setText(QApplication::translate("ECMControllerGUI", ":", nullptr));
+        lineEdit_OperationIndexTotal->setText(QApplication::translate("ECMControllerGUI", "0", nullptr));
+        label_CurrentStartPosition->setText(QApplication::translate("ECMControllerGUI", "Current Start Position:", nullptr));
 #ifndef QT_NO_TOOLTIP
-        pushButton_RunExplicitProfile->setToolTip(QString());
-#endif // QT_NO_TOOLTIP
-        pushButton_RunExplicitProfile->setText(QApplication::translate("ECMControllerGUI", "Run Explicit Profile", nullptr));
-        pushButton_EstablishTouchoff->setText(QApplication::translate("ECMControllerGUI", "Establish Touchoff", nullptr));
-        pushButton_Empty->setText(QString());
-        label_ManualControl->setText(QApplication::translate("ECMControllerGUI", "Manual Control", nullptr));
-        pushButton_ResetHome->setText(QApplication::translate("ECMControllerGUI", "Reset Home", nullptr));
-        pushButton_MoveHome->setText(QApplication::translate("ECMControllerGUI", "Move To Home", nullptr));
-        label->setText(QApplication::translate("ECMControllerGUI", "Current Position (um):", nullptr));
-        label_ManualControl_3->setText(QApplication::translate("ECMControllerGUI", "Jog  (um/sec)", nullptr));
-        pushButton_IncreaseJog->setText(QApplication::translate("ECMControllerGUI", "INCREASE", nullptr));
-        pushButton_DecreaseJog->setText(QApplication::translate("ECMControllerGUI", "DECREASE", nullptr));
-        pushButton_MotorEnable->setText(QApplication::translate("ECMControllerGUI", "ENABLE MOTOR", nullptr));
-        label_ManualControl_4->setText(QApplication::translate("ECMControllerGUI", "Step (um | um/sec)", nullptr));
-        pushButton_IncreaseRelativeMove->setText(QApplication::translate("ECMControllerGUI", "INCREASE", nullptr));
-#ifndef QT_NO_TOOLTIP
-        spinBox_RelativeMoveSpeed->setToolTip(QApplication::translate("ECMControllerGUI", "Testing1", nullptr));
+        lineEdit_CurrentStartPosition->setToolTip(QString());
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_STATUSTIP
-        spinBox_RelativeMoveSpeed->setStatusTip(QString());
+        lineEdit_CurrentStartPosition->setStatusTip(QString());
 #endif // QT_NO_STATUSTIP
-        pushButton_DecreaseRelativeMove->setText(QApplication::translate("ECMControllerGUI", "DECREASE", nullptr));
-        pushButton_MotorDisable->setText(QApplication::translate("ECMControllerGUI", "DISABLE MOTOR", nullptr));
+        lineEdit_CurrentStartPosition->setText(QApplication::translate("ECMControllerGUI", "0", nullptr));
+        label_PreviousEndPosition->setText(QApplication::translate("ECMControllerGUI", "Previous End Position:", nullptr));
+#ifndef QT_NO_TOOLTIP
+        lineEdit_PreviousEndPosition->setToolTip(QString());
+#endif // QT_NO_TOOLTIP
+#ifndef QT_NO_STATUSTIP
+        lineEdit_PreviousEndPosition->setStatusTip(QString());
+#endif // QT_NO_STATUSTIP
+        lineEdit_PreviousEndPosition->setText(QApplication::translate("ECMControllerGUI", "0", nullptr));
+        label_OperationTime->setText(QApplication::translate("ECMControllerGUI", "Operation Runtime:", nullptr));
+#ifndef QT_NO_TOOLTIP
+        lineEdit_OperationTime->setToolTip(QString());
+#endif // QT_NO_TOOLTIP
+#ifndef QT_NO_STATUSTIP
+        lineEdit_OperationTime->setStatusTip(QString());
+#endif // QT_NO_STATUSTIP
+        lineEdit_OperationTime->setText(QApplication::translate("ECMControllerGUI", "OPERATION TIME", nullptr));
+        label_ConfigurationTime->setText(QApplication::translate("ECMControllerGUI", "Configuration Runtime:", nullptr));
+#ifndef QT_NO_TOOLTIP
+        lineEdit_ConfigurationTime->setToolTip(QString());
+#endif // QT_NO_TOOLTIP
+#ifndef QT_NO_STATUSTIP
+        lineEdit_ConfigurationTime->setStatusTip(QString());
+#endif // QT_NO_STATUSTIP
+        lineEdit_ConfigurationTime->setText(QApplication::translate("ECMControllerGUI", "CONFIGURATION TOTAL TIME", nullptr));
         menuFile->setTitle(QApplication::translate("ECMControllerGUI", "File", nullptr));
         menuEdit->setTitle(QApplication::translate("ECMControllerGUI", "Edit", nullptr));
         menuTools->setTitle(QApplication::translate("ECMControllerGUI", "Tools", nullptr));

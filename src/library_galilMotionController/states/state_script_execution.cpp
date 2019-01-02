@@ -80,10 +80,9 @@ void State_ScriptExecution::handleCommand(const AbstractCommandPtr command)
         newState.setCurrentCode(ProfileState_Machining::MACHININGProfileCodes::ABORTED);
         MotionProfileState newProfileState;
         newProfileState.setProfileState(std::make_shared<ProfileState_Machining>(newState));
-        Owner().issueUpdatedMotionProfileState(newProfileState);
-
         desiredState = GalilState::STATE_MOTION_STOP;
 
+        Owner().issueUpdatedMotionProfileState(newProfileState);
         break;
     }
     case CommandType::ESTOP:
@@ -92,10 +91,9 @@ void State_ScriptExecution::handleCommand(const AbstractCommandPtr command)
         newState.setCurrentCode(ProfileState_Machining::MACHININGProfileCodes::ABORTED);
         MotionProfileState newProfileState;
         newProfileState.setProfileState(std::make_shared<ProfileState_Machining>(newState));
-        Owner().issueUpdatedMotionProfileState(newProfileState);
-
         desiredState = GalilState::STATE_ESTOP;
 
+        Owner().issueUpdatedMotionProfileState(newProfileState);
         break;
     }
     default:
@@ -163,9 +161,6 @@ void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
         Owner().issueGalilAddPollingRequest(requestCutting);
         currentScriptRequests.push_back(tupleVariableCUTTING);
 
-        //The command isnt null so we should handle it
-        this->handleCommand(command);
-
         Owner().statusVariableValues->addVariableNotifier("cutdone",this,[this]
         {
             double varValue = 0.0;
@@ -189,9 +184,9 @@ void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
                 newState.setCurrentCode(ProfileState_Machining::MACHININGProfileCodes::COMPLETE);
                 MotionProfileState newProfileState;
                 newProfileState.setProfileState(std::make_shared<ProfileState_Machining>(newState));
-                Owner().issueUpdatedMotionProfileState(newProfileState);
-
                 desiredState = GalilState::STATE_READY;
+
+                Owner().issueUpdatedMotionProfileState(newProfileState);
                 break;
             }
             default:
@@ -199,6 +194,9 @@ void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
                 break;
             }
         });
+
+        //The command isnt null so we should handle it
+        this->handleCommand(command);
     }
     else{
         this->OnEnter();

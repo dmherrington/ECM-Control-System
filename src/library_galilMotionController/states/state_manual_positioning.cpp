@@ -13,6 +13,7 @@ State_ManualPositioning::State_ManualPositioning():
 void State_ManualPositioning::OnExit()
 {
     Owner().getAxisStatus(MotorAxis::Z)->stopCode.RemoveNotifier(this);
+    Owner().getAxisStatus(MotorAxis::Z)->position.RemoveNotifier(this);
 }
 
 AbstractStateGalil* State_ManualPositioning::getClone() const
@@ -62,26 +63,21 @@ void State_ManualPositioning::handleCommand(const AbstractCommandPtr command)
     switch (command->getCommandType()) {
     case CommandType::ABSOLUTE_MOVE:
     {
-//        Owner().getAxisStatus(MotorAxis::Z)->axisMoving.AddNotifier(this,[this]
-//        {
-//            if(Owner().getAxisStatus(MotorAxis::Z)->axisMoving.get())
-//                motionFlag = true;
-//        });
-
-        //CommandAbsoluteMovePtr castCommand = std::make_shared<CommandAbsoluteMove>(*copyCommand->as<CommandAbsoluteMove>());
-        //this->clearCommand();
         Owner().issueGalilMotionCommand(command);
         break;
     }
     case CommandType::RELATIVE_MOVE:
     {
-//        Owner().getAxisStatus(MotorAxis::Z)->axisMoving.AddNotifier(this,[this]
-//        {
-//            if(Owner().getAxisStatus(MotorAxis::Z)->axisMoving.get())
-//                motionFlag = true;
-//        });
-        //CommandRelativeMovePtr castCommand = std::make_shared<CommandRelativeMove>(*copyCommand->as<CommandRelativeMove>());
-        //this->clearCommand();
+        this->targetPosition = Owner().getAxisStatus(MotorAxis::Z)->getPosition().getPosition() + command->as<CommandRelativeMove>()->getRelativeDistance(MotorAxis::Z) * 10;
+        Owner().getAxisStatus(MotorAxis::Z)->position.AddNotifier(this,[this]
+        {
+            int currentPosition = Owner().getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+            if(abs(currentPosition - this->targetPosition) < 2)
+            {
+                this->desiredState = GalilState::STATE_READY;
+            }
+        });
+
         Owner().issueGalilMotionCommand(command);
         break;
     }
@@ -116,6 +112,14 @@ void State_ManualPositioning::Update()
         //we should therefore transition to the idle state
         desiredState = GalilState::STATE_ESTOP;
         return;
+    }
+    else
+    {
+        int currentPosition = Owner().getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+        if(abs(currentPosition - this->targetPosition) < 2)
+        {
+            this->desiredState = GalilState::STATE_READY;
+        }
     }
 }
 

@@ -21,10 +21,11 @@ public:
         WINDOW_CONNECTIONS,
         WINDOW_PUMP,
         WINDOW_OSCILLISCOPE,
-        WINDOW_POWERSUPPLY,
         WINDOW_TOUCHOFF,
         WINDOW_MOTION_PROFILE,
-        WINDOW_CUSTOM_MOTION_COMMANDS
+        WINDOW_CUSTOM_MOTION_COMMANDS,
+        WINDOW_MOTION_CONTROL,
+        WINDOW_OPERATION_CONFIGURATION
     };
 
     GeneralDialogWindow(const DialogWindowTypes &type, const QString &name, QWidget *parent);

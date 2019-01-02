@@ -163,7 +163,8 @@ void RigolOscilliscope::initializeRigol()
         commsMarshaler->sendSetMeasurementCommand(writeCommand);
     }
 
-    executeMeasurementPolling(true);
+    //Ken: This may no longer be needed on the initialization as it is now controlled through the API
+    //executeMeasurementPolling(true);
 }
 
 void RigolOscilliscope::loadFromQueue(const commands_Rigol::RigolMeasurementQueue &updatedQueue)

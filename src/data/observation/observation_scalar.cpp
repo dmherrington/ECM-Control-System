@@ -28,9 +28,10 @@ namespace observation {
 
     void ObservationScalar::setUnit(const std::string &unit)
     {
-        m_UnitMutex.lock();
+        std::lock_guard<std::mutex> lock(m_DataMutex);
+//        m_UnitMutex.lock();
         m_Unit = unit;
-        m_UnitMutex.unlock();
+//        m_UnitMutex.unlock();
     }
 
 
@@ -44,12 +45,13 @@ namespace observation {
         if(domain.size() != range.size())
             throw new std::runtime_error("Passed vectors size do not match");
 
-        m_DataMutex.lock();
+        std::lock_guard<std::mutex> lock(m_DataMutex);
+//        m_DataMutex.lock();
 
         m_Domain.append(domain);
         m_Range.append(range);
 
-        m_DataMutex.unlock();
+//        m_DataMutex.unlock();
 
     }
 
@@ -61,30 +63,34 @@ namespace observation {
     //!
     void ObservationScalar::AddData(const QDateTime &domain, const double range)
     {
-        m_DataMutex.lock();
+        std::lock_guard<std::mutex> lock(m_DataMutex);
 
+//        m_DataMutex.lock();
         m_Domain.append(domain);
         m_Range.append(range);
-        m_DataMutex.unlock();
+//        m_DataMutex.unlock();
     }
 
     void ObservationScalar::ClearPreviousData()
     {
-        m_DataMutex.lock();
+        std::lock_guard<std::mutex> lock(m_DataMutex);
+
+//        m_DataMutex.lock();
         m_Domain.clear();
         m_Range.clear();
-        m_DataMutex.unlock();
+//        m_DataMutex.unlock();
 
         AddData(m_CurrTime,m_CurrTimeRange);
     }
 
     void ObservationScalar::ClearData()
     {
-        m_DataMutex.lock();
+        std::lock_guard<std::mutex> lock(m_DataMutex);
 
+//        m_DataMutex.lock();
         m_Domain.clear();
         m_Range.clear();
-        m_DataMutex.unlock();
+//        m_DataMutex.unlock();
     }
 
 
@@ -96,6 +102,8 @@ namespace observation {
     //!
     CartesianData ObservationScalar::ConvertToScalarTime(const CartesianEvaluationParameters &parameters, const std::string &componentIndex)
     {
+        std::lock_guard<std::mutex> lock(m_DataMutex);
+
         UNUSED(componentIndex);
 
         qint64 MinTime_ms = parameters.minTime.toMSecsSinceEpoch();
@@ -103,7 +111,7 @@ namespace observation {
 
         qint64 currTime_ms = m_CurrTime.toMSecsSinceEpoch();
 
-        m_DataMutex.lock();
+//        m_DataMutex.lock();
         int NumPoint = std::min(m_Domain.size(), m_Range.size());
 
         int MinPoint = 0;
@@ -116,13 +124,13 @@ namespace observation {
             }
         }
 
-        m_DataMutex.unlock();
+//        m_DataMutex.unlock();
 
         double currentRangeTime = 0.0;
         qint64 min = std::numeric_limits<qint64>::max();
 
         CartesianData v(NumPoint - MinPoint, NumberSystems::SCALAR);
-        m_DataMutex.lock();
+//        m_DataMutex.lock();
         for(int j = 0 ; j < NumPoint - MinPoint ; j++)
         {
             qint64 domain_ms = m_Domain.at(j + MinPoint).toMSecsSinceEpoch();
@@ -134,7 +142,7 @@ namespace observation {
 
             v.InsertData(j, (domain_ms - OriginTime_ms) / parameters.msInTimeUnit, m_Range.at(j + MinPoint));
         }
-        m_DataMutex.unlock();
+//        m_DataMutex.unlock();
 
         m_UnitMutex.lock();
         v.setUnit(m_Unit);
@@ -195,11 +203,13 @@ namespace observation {
     //!
     void ObservationScalar::setCurrentTime(const QDateTime &time)
     {
+        std::lock_guard<std::mutex> lock(m_DataMutex);
+
         m_CurrTime = time;
 
         double currentRangeTime;
 
-        m_DataMutex.lock();
+//        m_DataMutex.lock();
         int NumPoint = std::min(m_Domain.size(), m_Range.size());
 
         for(int j = NumPoint-1; j > 0 ; j--)
@@ -211,7 +221,7 @@ namespace observation {
             }
         }
 
-        m_DataMutex.unlock();
+//        m_DataMutex.unlock();
         m_CurrTimeRange = currentRangeTime;
     }
 

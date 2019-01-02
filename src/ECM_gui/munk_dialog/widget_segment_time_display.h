@@ -32,9 +32,11 @@ public:
     void cbiSegmentDataInterface_RemoveData(WidgetSegmentTimeData *obj) override;
 
 public:
-    void read(const QJsonObject &json);
+    void loadNewRegisters(const registers_Munk::SegmentTimeDetailed &data);
 
-    void write(QJsonObject &json) const;
+    void readFromJSON(const QJsonObject &json);
+
+    void writeToJSON(QJsonObject &json) const;
 
     registers_Munk::SegmentTimeDetailed getRawData() const;
 

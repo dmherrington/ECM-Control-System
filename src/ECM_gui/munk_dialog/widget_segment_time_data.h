@@ -32,6 +32,8 @@ public:
     explicit WidgetSegmentTimeData(QWidget *parent = 0);
     ~WidgetSegmentTimeData();
 
+    void loadFromSegmentData(const registers_Munk::SegmentTimeDataDetailed &segmentData);
+
     void connectCallback(WidgetTimeDataInterface *cb)
     {
         m_CB = cb;

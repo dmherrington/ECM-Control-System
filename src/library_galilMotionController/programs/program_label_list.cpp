@@ -10,6 +10,37 @@ ProgramLabelList::ProgramLabelList(const ProgramLabelList &copy)
     this->labelMap = copy.labelMap;
 }
 
+void ProgramLabelList::writeToJSON(QJsonObject &saveObject)
+{
+    QJsonArray MCLabelArray;
+
+    std::map<std::string,int>::iterator it = labelMap.begin();
+
+    QJsonObject labelObject;
+
+    for(;it!=labelMap.end();++it)
+    {
+        std::string variableKey = it->first;
+        labelObject[QString::fromStdString(variableKey)] = it->second;
+    }
+
+    MCLabelArray.append(labelObject);
+
+    saveObject["labelData"] = MCLabelArray;
+}
+
+void ProgramLabelList::readFromJSON(const QJsonObject &openObject)
+{
+    QJsonArray MCLabelArray = openObject["labelData"].toArray();
+    QJsonObject labelObject = MCLabelArray[0].toObject();
+
+    for (int labelIndex = 0; labelIndex < labelObject.size(); ++labelIndex) {
+        QString labelKey = labelObject.keys().at(labelIndex);
+        int labelValue = labelObject.value(labelKey).toInt();
+        addLabel(labelKey.toStdString(),labelValue);
+    }
+}
+
 bool ProgramLabelList::doesLabelExist(const std::string &name) const
 {
     if(this->labelMap.count(name) > 0)
@@ -59,4 +90,18 @@ size_t ProgramLabelList::sizeOfLabelList() const
 std::map<std::string,int> ProgramLabelList::getLabelMap() const
 {
     return this->labelMap;
+}
+
+QStringList ProgramLabelList::getLabelList() const
+{
+    QStringList rtnList;
+
+    std::map<std::string,int>::const_iterator it = this->labelMap.begin();
+
+    for (; it != this->labelMap.end(); ++it)
+    {
+        rtnList.push_back(QString::fromStdString(it->first));
+    }
+
+    return rtnList;
 }

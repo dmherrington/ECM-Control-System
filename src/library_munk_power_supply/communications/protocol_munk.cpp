@@ -21,13 +21,13 @@ void MunkProtocol::AddListner(const IProtocolMunkEvents* listener)
 
 void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registers_Munk::SegmentTimeDetailed &segmentData, const std::vector<registers_Munk::AbstractParameterPtr> parameters)
 {
+    bool validParameter = true;
+
     for(unsigned int i = 0; i < parameters.size(); i++)
     {
-        bool validParameter = true;
         switch (parameters.at(i)->getParameterType()) {
         case registers_Munk::ParameterType::CURRENTSETPOINT_FORWARD:
         {
-            std::cout<<"Uploading current setpoint forward...."<<std::endl;
             if(parameters.at(i)->getFullMessage().size() > 0)
                 validParameter = sendAbstractSetpoint(link,parameters.at(i));
             if(validParameter)
@@ -36,7 +36,6 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
         }
         case registers_Munk::ParameterType::CURRENTSETPOINT_REVERSE:
         {
-            std::cout<<"Uploading current setpoint reverse...."<<std::endl;
             if(parameters.at(i)->getFullMessage().size() > 0)
                 validParameter = sendAbstractSetpoint(link,parameters.at(i));
             if(validParameter)
@@ -45,7 +44,6 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
         }
         case registers_Munk::ParameterType::VOLTAGESETPOINT_FORWARD:
         {
-            std::cout<<"Uploading voltage setpoint forward...."<<std::endl;
             if(parameters.at(i)->getFullMessage().size() > 0)
                 validParameter = sendAbstractSetpoint(link,parameters.at(i));
             if(validParameter)
@@ -54,7 +52,6 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
         }
         case registers_Munk::ParameterType::VOLTAGESETPOINT_REVERSE:
         {
-            std::cout<<"Uploading voltage setpoint reverse...."<<std::endl;
             if(parameters.at(i)->getFullMessage().size() > 0)
                 validParameter = sendAbstractSetpoint(link,parameters.at(i));
             if(validParameter)
@@ -63,7 +60,6 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
         }
         case registers_Munk::ParameterType::PATTERNWRITECOMMAND:
         {
-            std::cout<<"Uploading segment setpoint times...."<<std::endl;
             if(parameters.at(i)->getFullMessage().size() > 0)
                 validParameter = sendAbstractSetpoint(link,parameters.at(i));
             if(validParameter)
@@ -72,7 +68,6 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
         }
         case registers_Munk::ParameterType::MEMORYWRITE:
         {
-            std::cout<<"Uploading commit to memory...."<<std::endl;
             validParameter = sendCommitToEEPROM(link,*parameters.at(i)->as<registers_Munk::ParameterMemoryWrite>());
             if(validParameter)
                 Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentCommittedToMemory(link);});
@@ -84,8 +79,7 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
         if(validParameter == false)
             break;
     }
-    Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentUploadComplete(link, segmentData);});
-    std::cout<<"We have uploaded a complete set of munk parameters."<<std::endl;
+    Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentUploadComplete(validParameter, segmentData);});
 }
 
 bool MunkProtocol::sendAbstractSetpoint(const ILink *link, const registers_Munk::AbstractParameterPtr parameter)
@@ -357,12 +351,14 @@ void MunkProtocol::sendPulseMode(const ILink *link, const registers_Munk::Regist
                 {
                     if(mode.getFullExpectedResonse() == receivedMSG.getDataArray())
                     {
-                        Emit([&](const IProtocolMunkEvents* ptr){ptr->RegisterPulseModeUpdated(link, mode);});
+                        Emit([&](const IProtocolMunkEvents* ptr){ptr->RegisterPulseModeUpdated(true, mode);});
+                        return;
                     }
                 }
             }
         }
     }
+    Emit([&](const IProtocolMunkEvents* ptr){ptr->RegisterPulseModeUpdated(false);});
 }
 
 

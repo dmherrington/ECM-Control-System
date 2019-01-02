@@ -7,16 +7,25 @@
 #include "common/class_forward.h"
 #include "common/hsm.h"
 
-#include "ECM_API/ecm_modules.h"
-#include "ECM_API/states/state_ecm_types.h"
+#include "../ecm_api.h"
+#include "../commands/ecm_command_abstract_profile_config.h"
+#include "../commands/ecm_command_profile_collection.h"
+#include "../commands/ecm_command_profile_pause.h"
+#include "../commands/ecm_command_execute_collection.h"
+
+#include "state_ecm_types.h"
+
 
 namespace ECM{
 namespace API {
 
-class AbstractStateECMProcess : public hsm::StateWithOwner<ECM_Modules>
+ECM_CLASS_FORWARD(AbstractStateECMProcess);
+
+class AbstractStateECMProcess : public hsm::StateWithOwner<ECM_API>
 {
+
 public:
-    AbstractStateECMProcess() = default;
+    AbstractStateECMProcess();
 
     AbstractStateECMProcess(const AbstractStateECMProcess &copy);
 
@@ -24,7 +33,6 @@ public:
       */
     virtual ~AbstractStateECMProcess() = default;
 
-    virtual void OnExit();
 public:
     /**
      *
@@ -59,13 +67,31 @@ public:
     virtual void getClone(AbstractStateECMProcess** state) const = 0;
 
 public:
+    virtual void OnExit();
+
+    virtual void OnEnter();
+
+public:
+    virtual void stopProcess();
+
+    virtual void continueProcess();
+
+    virtual void executeCollection(const ECMCommand_ExecuteCollection &collection);
+
+public:
     virtual ECMState getCurrentState() const;
 
     virtual ECMState getDesiredState() const;
 
 protected:
+    bool checkEStop() const;
     void clearCommand();
+
 protected:
+    void notifyOwnerStateTransition();
+
+protected:
+    ECMCommand_ExecuteCollectionPtr m_ECMCollection;
 
     ECMState currentState;
     ECMState desiredState;

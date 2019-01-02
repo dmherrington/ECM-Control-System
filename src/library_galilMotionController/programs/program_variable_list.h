@@ -2,6 +2,8 @@
 #define PROGRAM_VARIABLE_LIST_H
 
 #include <QTextStream>
+#include <QJsonArray>
+#include <QJsonObject>
 
 #include <map>
 #include <string>
@@ -15,9 +17,16 @@ public:
 
     ProgramVariableList(const ProgramVariableList &copy);
 
+public:
+    void writeToJSON(QJsonObject &saveObject);
+
+    void readFromJSON(const QJsonObject &openObject);
+
+public:
+
     bool doesVariableExist(const std::string &name) const;
 
-    void addVariable(const std::string &name, const double &lineNumber);
+    void addVariable(const std::string &name, const double &value);
 
     void removeVariable(const std::string &name);
 

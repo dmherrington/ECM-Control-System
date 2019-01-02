@@ -238,7 +238,7 @@ GReturn GalilLink::WriteRequest(AbstractRequestPtr request) const
             retries++;
             request->increaseBufferSize();
         }
-        delete[] buf;
+        //delete[] buf; //Ken Fix: Should this be deleted.
     }
 
     return rtnCode;

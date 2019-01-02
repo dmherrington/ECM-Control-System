@@ -7,6 +7,8 @@
 #include <string>
 #include <map>
 
+#include "common/common.h"
+
 #include "program_label_list.h"
 #include "program_variable_list.h"
 
@@ -20,11 +22,21 @@ public:
     ~GalilCurrentProgram() = default;
 
 public:
+    void writeToJSON(QJsonObject &saveObject);
+
+    void readFromJSON(const QJsonObject &openObject);
+
+public:
+
+    void fromProgram(const GalilCurrentProgram &copy);
+
     void setProgram(const std::string &programString);
 
     void setLabelList(const ProgramLabelList &list);
 
     void setVariableList(const ProgramVariableList &list);
+
+    void setProgramLoaded(const bool &loaded, const std::string &path);
 
     void updateVariableValue(const std::string &name, const double &value);
 
@@ -36,7 +48,7 @@ public:
 
     bool getLabelLine(const std::string &label, int &line) const;
 
-    //bool getVariableLine(const std::string &variable, int &line) const;
+    bool wasProgramLoaded(std::string &path) const;
 
     std::map<std::string, int> getLablMap() const;
 
@@ -49,9 +61,6 @@ public:
     std::string getProgram() const;
 
     std::string getLoggingString() const;
-
-public:
-    void writeJSONData(QJsonObject &json) const;
 
 public:
     friend QTextStream& operator <<(QTextStream &outStream, const GalilCurrentProgram &data)
@@ -71,6 +80,9 @@ public:
     //!
     GalilCurrentProgram& operator = (const GalilCurrentProgram &rhs)
     {
+        this->programLoaded = rhs.programLoaded;
+        this->programPath = rhs.programPath;
+
         this->program = rhs.program;
         this->labelList = rhs.labelList;
         this->variableList = rhs.variableList;
@@ -84,6 +96,13 @@ public:
     //!
     bool operator == (const GalilCurrentProgram &rhs)
     {
+        if(this->programLoaded != rhs.programLoaded){
+            return false;
+        }
+        if(this->programPath != rhs.programPath){
+            return false;
+        }
+
         if(this->program != rhs.program){
             return false;
         }
@@ -105,8 +124,12 @@ public:
         return !(*this == rhs);
     }
 
-private:
-    std::string program;
+protected:
+    bool programLoaded = false;
+    std::string programPath = "";
+
+protected:
+    std::string program = "";
     ProgramLabelList labelList;
     ProgramVariableList variableList;
 };

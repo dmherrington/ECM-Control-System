@@ -12,7 +12,54 @@ Window_MotionProfile::Window_MotionProfile(GalilMotionController *obj, QWidget *
 
     GeneralDialogWindow::readWindowSettings();
 
-    connect(m_MotionController,SIGNAL(signal_MCNewProgramReceived(ProgramGeneric)),this,SLOT(slot_MCNewProgramAvailable(ProgramGeneric)));
+    m_MotionController->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const GalilCurrentProgram &program){
+        if(completed)
+        {
+            std::string programPath = "";
+            if(program.wasProgramLoaded(programPath))
+                ui->lineEdit_motionScriptPath->setText(QString::fromStdString(programPath));
+
+            ui->codeTextEdit->clear();
+            ui->codeTextEdit->setPlainText(QString::fromStdString(program.getProgram()));
+            ui->led_ProgramCurrent->setColor(QColor(0,255,0));
+        }
+    });
+
+}
+
+void Window_MotionProfile::setFilePath(const std::string &path)
+{
+    ui->lineEdit_motionScriptPath->setText(QString::fromStdString(path));
+}
+
+void Window_MotionProfile::setProgramText(const std::string &programText)
+{
+    ui->codeTextEdit->setPlainText(QString::fromStdString(programText));
+
+    if(programText == m_MotionController->getCurrentMCProgram().getProgram())
+        this->updateStatusLED(QColor(0,255,0));
+    else
+        this->updateStatusLED(QColor(255,0,0));
+}
+
+void Window_MotionProfile::openGalilScript()
+{
+    this->on_actionOpen_triggered();
+}
+
+void Window_MotionProfile::uploadGalilScript()
+{
+    this->on_pushButton_UploadProgram_released();
+}
+
+void Window_MotionProfile::downloadGalilScript()
+{
+    this->on_pushButton_DownloadProgram_released();
+}
+
+std::string Window_MotionProfile::getCurrentGalilScript() const
+{
+    return ui->codeTextEdit->toPlainText().toStdString();
 }
 
 Window_MotionProfile::~Window_MotionProfile()
@@ -22,14 +69,14 @@ Window_MotionProfile::~Window_MotionProfile()
 
 void Window_MotionProfile::closeEvent(QCloseEvent *event)
 {
-    saveToFile(getPreviousSettingsPath());
+    //saveToFile(getPreviousSettingsPath());
     GeneralDialogWindow::closeEvent(event);
 }
 
 
 void Window_MotionProfile::on_actionOpen_triggered()
 {
-    std::string extensionFilter = "Open TXT Files (*.txt);; Open DMC Files (*.dmc)";
+    std::string extensionFilter = "Open TXT Files (*.txt);; Open DMC Files (*.dmc);; Open JSON Files(*.json)";
 
     QString filePath = GeneralDialogWindow::onOpenAction(extensionFilter);
     if(!filePath.isEmpty() && !filePath.isNull()){
@@ -65,6 +112,7 @@ void Window_MotionProfile::saveToFile(const QString &filePath)
         return;
     }
 
+    this->setFilePath(filePath.toStdString());
     QTextStream outStream(&saveFile);
     outStream << ui->codeTextEdit->toPlainText();
     saveFile.close();
@@ -78,34 +126,39 @@ void Window_MotionProfile::openFromFile(const QString &filePath)
     {
         return;
     }
+
+    this->setFilePath(filePath.toStdString());
+
     QTextStream inStream(&file);
     QString programText = inStream.readAll();
     file.close();
 
-    ui->codeTextEdit->setPlainText(programText);
+    ui->lineEdit_motionScriptPath->setText(filePath);
+    this->setProgramText(programText.toStdString());
 }
 
-void Window_MotionProfile::slot_MCNewProgramAvailable(const ProgramGeneric &program)
+void Window_MotionProfile::updateStatusLED(const QColor &color)
 {
-    ui->codeTextEdit->clear();
-    ui->codeTextEdit->setPlainText(QString::fromStdString(program.getProgramString()));
-    ui->led_ProgramCurrent->setColor(QColor(0,255,0));
+    ui->led_ProgramCurrent->setColor(color);
 }
 
 void Window_MotionProfile::on_codeTextEdit_textChanged()
 {
-    ui->led_ProgramCurrent->setColor(QColor(255,0,0));
+    if(ui->lineEdit_motionScriptPath->text().toStdString() != m_MotionController->getCurrentMCProgram().getProgram())
+    {
+        updateStatusLED(QColor(255,0,0));
+    }
+    else{
+        updateStatusLED(QColor(0,255,0));
+    }
 }
 
 void Window_MotionProfile::on_pushButton_UploadProgram_released()
 {
     std::string programString = ui->codeTextEdit->toPlainText().toStdString();
 
-    ProgramGeneric newProgram;
-    newProgram.setProgramString(programString);
-
     CommandUploadProgramPtr commandUploadDefault = std::make_shared<CommandUploadProgram>();
-    commandUploadDefault->setProgram(newProgram);
+    commandUploadDefault->setCurrentScript(programString);
     m_MotionController->executeCommand(commandUploadDefault);
 }
 
