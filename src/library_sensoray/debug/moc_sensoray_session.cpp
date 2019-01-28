@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'sensoray_session.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.10.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.12.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'sensoray_session.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.10.1. It"
+#error "This file was generated using the moc from 5.12.0. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -41,7 +41,7 @@ QT_MOC_LITERAL(0, 0, 31) // "comms_Sensoray::SensoraySession"
 static const uint qt_meta_data_comms_Sensoray__SensoraySession[] = {
 
  // content:
-       7,       // revision
+       8,       // revision
        0,       // classname
        0,    0, // classinfo
        0,    0, // methods
@@ -62,10 +62,14 @@ void comms_Sensoray::SensoraySession::qt_static_metacall(QObject *_o, QMetaObjec
     Q_UNUSED(_a);
 }
 
-QT_INIT_METAOBJECT const QMetaObject comms_Sensoray::SensoraySession::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_comms_Sensoray__SensoraySession.data,
-      qt_meta_data_comms_Sensoray__SensoraySession,  qt_static_metacall, nullptr, nullptr}
-};
+QT_INIT_METAOBJECT const QMetaObject comms_Sensoray::SensoraySession::staticMetaObject = { {
+    &QObject::staticMetaObject,
+    qt_meta_stringdata_comms_Sensoray__SensoraySession.data,
+    qt_meta_data_comms_Sensoray__SensoraySession,
+    qt_static_metacall,
+    nullptr,
+    nullptr
+} };
 
 
 const QMetaObject *comms_Sensoray::SensoraySession::metaObject() const

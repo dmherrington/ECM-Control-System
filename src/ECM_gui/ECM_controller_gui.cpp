@@ -86,6 +86,26 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API, SIGNAL(signal_InPauseEvent(std::string)),
             this, SLOT(slot_OnExecutionPause(std::string)));
 
+    QDockWidget *dock = new QDockWidget(tr("Motion Utility"), this);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    WidgetFrontPanel_MotionControl* dockUtility_MotionControl = new WidgetFrontPanel_MotionControl(m_API->m_Galil);
+    dock->setWidget(dockUtility_MotionControl);
+    dock->setFeatures(QDockWidget::DockWidgetFeature::NoDockWidgetFeatures);
+
+    QDockWidget *dock2 = new QDockWidget(tr("Touchoff Utility"), this);
+    dock2->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    WidgetFrontPanel_Touchoff* dockUtility_Touchoff = new WidgetFrontPanel_Touchoff(m_API->m_Galil);
+    dock2->setWidget(dockUtility_Touchoff);
+
+    QDockWidget *dock3 = new QDockWidget(tr("Pump Utility"), this);
+    dock3->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    WidgetFrontPanel_PumpControl* dockUtility_Pump = new WidgetFrontPanel_PumpControl(m_API->m_Pump);
+    dock3->setWidget(dockUtility_Pump);
+
+    addDockWidget(Qt::RightDockWidgetArea, dock, Qt::Orientation::Vertical);
+    addDockWidget(Qt::RightDockWidgetArea, dock2, Qt::Orientation::Vertical);
+    addDockWidget(Qt::RightDockWidgetArea, dock3, Qt::Orientation::Vertical);
+
     //API Connections
     connect(m_API->m_Rigol, SIGNAL(signal_RigolPlottable(common::TupleSensorString,bool)), this, SLOT(slot_NewlyAvailableRigolData(common::TupleSensorString,bool)));
     connect(m_API->m_Rigol, SIGNAL(signal_RigolNewSensorValue(common::TupleSensorString,common_data::SensorState)), this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));

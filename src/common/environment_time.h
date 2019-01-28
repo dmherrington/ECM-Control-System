@@ -8,6 +8,8 @@
 
 #include "common_global.h"
 
+#include <cmath>
+
 namespace common {
 
 /*!

@@ -77,7 +77,10 @@ SOURCES += \
     pump_dialog/window_pump_control.cpp \
     galil_dialog/window_touchoff.cpp \
     galil_dialog/dialog_execution_paused.cpp \
-    misc_dialogs/widget_pause_parameters.cpp
+    misc_dialogs/widget_pause_parameters.cpp \
+    galil_dialog/widget_front_panel_touchoff.cpp \
+    galil_dialog/widget_front_panel_motion_control.cpp \
+    pump_dialog/widget_front_panel_pump_control.cpp
 
 HEADERS += \
     galil_dialog/widget_scripting_variables.h \
@@ -114,7 +117,10 @@ HEADERS += \
     galil_dialog/window_touchoff.h \
     galil_dialog/dialog_execution_paused.h \
     misc_dialogs/widget_abstract_profile.h \
-    misc_dialogs/widget_pause_parameters.h
+    misc_dialogs/widget_pause_parameters.h \
+    galil_dialog/widget_front_panel_touchoff.h \
+    galil_dialog/widget_front_panel_motion_control.h \
+    pump_dialog/widget_front_panel_pump_control.h
 
 FORMS += \
     galil_dialog/widget_scripting_variables.ui \
@@ -139,7 +145,10 @@ FORMS += \
     pump_dialog/window_pump_control.ui \
     galil_dialog/window_touchoff.ui \
     galil_dialog/dialog_execution_paused.ui \
-    misc_dialogs/widget_pause_parameters.ui
+    misc_dialogs/widget_pause_parameters.ui \
+    galil_dialog/widget_front_panel_touchoff.ui \
+    galil_dialog/widget_front_panel_motion_control.ui \
+    pump_dialog/widget_front_panel_pump_control.ui
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET
@@ -203,14 +212,15 @@ INCLUDEPATH += $$PWD/../library_westinghouse510
 DEPENDPATH += $$PWD/../library_westinghouse510
 
 
-unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
-unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo
+unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x64/ -lgclib
 
-INCLUDEPATH += $$PWD/../../tools/galil/lib/dynamic/x86
-DEPENDPATH += $$PWD/../../tools/galil/lib/dynamic/x86
+INCLUDEPATH += $$PWD/../../tools/galil/lib/dynamic/x64
+DEPENDPATH += $$PWD/../../tools/galil/lib/dynamic/x64
 
-win32: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
-else:unix: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
+unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x64/ -lgclibo
+
+INCLUDEPATH += $$PWD/../../tools/galil/lib/dynamic/x64
+DEPENDPATH += $$PWD/../../tools/galil/lib/dynamic/x64
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/release/ -llibrary_galilMotionController
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/debug/ -llibrary_galilMotionController

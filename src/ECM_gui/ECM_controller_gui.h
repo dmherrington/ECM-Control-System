@@ -34,6 +34,10 @@
 
 #include "galil_dialog/dialog_execution_paused.h"
 
+#include "galil_dialog/widget_front_panel_motion_control.h"
+#include "galil_dialog/widget_front_panel_touchoff.h"
+#include "pump_dialog/widget_front_panel_pump_control.h"
+
 namespace Ui {
 class ECMControllerGUI;
 }

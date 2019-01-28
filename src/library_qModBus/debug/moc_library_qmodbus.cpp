@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'library_qmodbus.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.10.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.12.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'library_qmodbus.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.10.1. It"
+#error "This file was generated using the moc from 5.12.0. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -55,7 +55,7 @@ QT_MOC_LITERAL(9, 191, 4) // "data"
 static const uint qt_meta_data_Library_QModBus[] = {
 
  // content:
-       7,       // revision
+       8,       // revision
        0,       // classname
        0,    0, // classinfo
        5,   14, // methods
@@ -116,35 +116,35 @@ void Library_QModBus::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            typedef void (Library_QModBus::*_t)(const common::comms::CommunicationUpdate & ) const;
+            using _t = void (Library_QModBus::*)(const common::comms::CommunicationUpdate & ) const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Library_QModBus::signal_CommunicationUpdate)) {
                 *result = 0;
                 return;
             }
         }
         {
-            typedef void (Library_QModBus::*_t)() const;
+            using _t = void (Library_QModBus::*)() const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Library_QModBus::signal_SerialPortReadyToConnect)) {
                 *result = 1;
                 return;
             }
         }
         {
-            typedef void (Library_QModBus::*_t)() const;
+            using _t = void (Library_QModBus::*)() const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Library_QModBus::signal_SerialPortNotReady)) {
                 *result = 2;
                 return;
             }
         }
         {
-            typedef void (Library_QModBus::*_t)(const common::comms::CommunicationUpdate ) const;
+            using _t = void (Library_QModBus::*)(const common::comms::CommunicationUpdate ) const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Library_QModBus::signal_SerialPortUpdate)) {
                 *result = 3;
                 return;
             }
         }
         {
-            typedef void (Library_QModBus::*_t)(const QByteArray ) const;
+            using _t = void (Library_QModBus::*)(const QByteArray ) const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Library_QModBus::signal_RXNewSerialData)) {
                 *result = 4;
                 return;
@@ -153,10 +153,14 @@ void Library_QModBus::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
     }
 }
 
-QT_INIT_METAOBJECT const QMetaObject Library_QModBus::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_Library_QModBus.data,
-      qt_meta_data_Library_QModBus,  qt_static_metacall, nullptr, nullptr}
-};
+QT_INIT_METAOBJECT const QMetaObject Library_QModBus::staticMetaObject = { {
+    &QObject::staticMetaObject,
+    qt_meta_stringdata_Library_QModBus.data,
+    qt_meta_data_Library_QModBus,
+    qt_static_metacall,
+    nullptr,
+    nullptr
+} };
 
 
 const QMetaObject *Library_QModBus::metaObject() const

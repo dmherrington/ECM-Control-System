@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'westinghouse_510.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.10.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.12.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'westinghouse_510.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.10.1. It"
+#error "This file was generated using the moc from 5.12.0. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -60,7 +60,7 @@ QT_MOC_LITERAL(13, 229, 31) // "slot_PumpInitializationComplete"
 static const uint qt_meta_data_Westinghouse510[] = {
 
  // content:
-       7,       // revision
+       8,       // revision
        0,       // classname
        0,    0, // classinfo
        7,   14, // methods
@@ -131,21 +131,21 @@ void Westinghouse510::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            typedef void (Westinghouse510::*_t)(const common::comms::CommunicationUpdate & );
+            using _t = void (Westinghouse510::*)(const common::comms::CommunicationUpdate & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Westinghouse510::signal_PumpCommunicationUpdate)) {
                 *result = 0;
                 return;
             }
         }
         {
-            typedef void (Westinghouse510::*_t)(const double & );
+            using _t = void (Westinghouse510::*)(const double & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Westinghouse510::signal_PumpFlowUpdated)) {
                 *result = 1;
                 return;
             }
         }
         {
-            typedef void (Westinghouse510::*_t)(const bool & );
+            using _t = void (Westinghouse510::*)(const bool & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Westinghouse510::signal_PumpOperating)) {
                 *result = 2;
                 return;
@@ -154,10 +154,14 @@ void Westinghouse510::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
     }
 }
 
-QT_INIT_METAOBJECT const QMetaObject Westinghouse510::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_Westinghouse510.data,
-      qt_meta_data_Westinghouse510,  qt_static_metacall, nullptr, nullptr}
-};
+QT_INIT_METAOBJECT const QMetaObject Westinghouse510::staticMetaObject = { {
+    &QObject::staticMetaObject,
+    qt_meta_stringdata_Westinghouse510.data,
+    qt_meta_data_Westinghouse510,
+    qt_static_metacall,
+    nullptr,
+    nullptr
+} };
 
 
 const QMetaObject *Westinghouse510::metaObject() const

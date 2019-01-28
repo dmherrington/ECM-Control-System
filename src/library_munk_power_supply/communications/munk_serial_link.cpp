@@ -136,7 +136,6 @@ bool MunkSerialLink::isConnected() const
 bool MunkSerialLink::_hardwareConnect(QSerialPort::SerialPortError& error, QString& errorString)
 {
     if (m_port) {
-        std::cout << "SerialLink:" << QString::number((long)this, 16).toStdString() << "closing port" << std::endl;
         m_port->close();
         std::this_thread::sleep_for(std::chrono::microseconds(50000));
         delete m_port;
