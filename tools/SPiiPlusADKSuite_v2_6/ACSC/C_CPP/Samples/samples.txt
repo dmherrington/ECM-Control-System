@@ -1,0 +1,35 @@
+
+ACSC Library samples directory contents:
+----------------------------------------
+
+RECIPROCATED  
+
+	The two samples execute a reciprocated point-to-point motion and
+	read a motor feedback position. First sample downloads to the
+	controller’s program buffer with help of the ACSC functions the
+	ACSPL+ program, which performs the described above actions.
+	Second sample uses the ACSC functions to execute a motion.
+	
+	Both of the samples are written as Win32 console apllications.
+
+TERMINAL 
+    
+	The simple communication terminal, that allows to communicate
+	with the SPiiPlus controller via any communication channel as
+	serial link (RS-232), Ethernet network, PCI bus and also with 
+	the simulator.
+
+	The sample uses the MFC library classes.
+
+Notes:
+
+	The projects of these samples include the reference to the ACSC
+	Library files ASCS.H and ACSCL_x86.LIB / ACSC_x64.LIB. These files
+	come with the SPiiPlus Tools installation package and place as default
+	in the "ACSC\C_CPP\Samples" Library directory: 
+	"C:\Program Files\ACS Motion Control\SPiiPlus NT Suite 2.10\ACSC".
+	The ACSC Library file ACSCL_x86.DLL is stored in the Windows system directory: 
+	"\WINDOWS\SYSTEM32" directory on x86 operating systems or
+	"\WINDOWS\SYSWOW64" directory on x64 operating systems.
+	The ACSC Library file ACSCL_x64.DLL is stored in the Windows system directory: 
+	"\WINDOWS\SYSTEM32" directory on x64 operating systems.
