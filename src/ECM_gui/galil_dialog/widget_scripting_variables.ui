@@ -269,7 +269,7 @@ width:20px;
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab_linearParams">
       <attribute name="title">
@@ -869,13 +869,13 @@ width:20px;
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="tab_unmatchedParams">
       <attribute name="title">
        <string>Unmatched Parameters</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0">
-        <widget class="QScrollArea" name="scrollArea_3">
+        <widget class="QScrollArea" name="scrollArea_unmatchedParams">
          <property name="minimumSize">
           <size>
            <width>470</width>
@@ -891,7 +891,7 @@ width:20px;
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
-         <widget class="QWidget" name="scrollAreaWidgetContents_3">
+         <widget class="QWidget" name="widget">
           <property name="geometry">
            <rect>
             <x>0</x>
@@ -900,9 +900,9 @@ width:20px;
             <height>208</height>
            </rect>
           </property>
-          <layout class="QGridLayout" name="gridLayout_18">
+          <layout class="QGridLayout" name="gridLayout_9">
            <item row="0" column="0">
-            <layout class="QFormLayout" name="formLayout_3"/>
+            <layout class="QGridLayout" name="gridLayout_unmatchedParams"/>
            </item>
           </layout>
          </widget>

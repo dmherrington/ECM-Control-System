@@ -67,12 +67,12 @@ public:
     QLabel *label_Pause;
     QSpinBox *spinBox_Pause;
     QLabel *label_RetractSpeed;
-    QWidget *tab;
+    QWidget *tab_unmatchedParams;
     QGridLayout *gridLayout_3;
-    QScrollArea *scrollArea_3;
-    QWidget *scrollAreaWidgetContents_3;
-    QGridLayout *gridLayout_18;
-    QFormLayout *formLayout_3;
+    QScrollArea *scrollArea_unmatchedParams;
+    QWidget *widget;
+    QGridLayout *gridLayout_9;
+    QGridLayout *gridLayout_unmatchedParams;
 
     void setupUi(QWidget *Widget_ScriptingVariables)
     {
@@ -505,38 +505,38 @@ public:
         gridLayout_2->addWidget(scrollArea, 0, 0, 1, 1);
 
         tabWidget->addTab(tab_vibrationParams, QString());
-        tab = new QWidget();
-        tab->setObjectName(QStringLiteral("tab"));
-        gridLayout_3 = new QGridLayout(tab);
+        tab_unmatchedParams = new QWidget();
+        tab_unmatchedParams->setObjectName(QStringLiteral("tab_unmatchedParams"));
+        gridLayout_3 = new QGridLayout(tab_unmatchedParams);
         gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
-        scrollArea_3 = new QScrollArea(tab);
-        scrollArea_3->setObjectName(QStringLiteral("scrollArea_3"));
-        scrollArea_3->setMinimumSize(QSize(470, 210));
-        scrollArea_3->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-        scrollArea_3->setWidgetResizable(true);
-        scrollArea_3->setAlignment(Qt::AlignCenter);
-        scrollAreaWidgetContents_3 = new QWidget();
-        scrollAreaWidgetContents_3->setObjectName(QStringLiteral("scrollAreaWidgetContents_3"));
-        scrollAreaWidgetContents_3->setGeometry(QRect(0, 0, 524, 208));
-        gridLayout_18 = new QGridLayout(scrollAreaWidgetContents_3);
-        gridLayout_18->setObjectName(QStringLiteral("gridLayout_18"));
-        formLayout_3 = new QFormLayout();
-        formLayout_3->setObjectName(QStringLiteral("formLayout_3"));
+        scrollArea_unmatchedParams = new QScrollArea(tab_unmatchedParams);
+        scrollArea_unmatchedParams->setObjectName(QStringLiteral("scrollArea_unmatchedParams"));
+        scrollArea_unmatchedParams->setMinimumSize(QSize(470, 210));
+        scrollArea_unmatchedParams->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        scrollArea_unmatchedParams->setWidgetResizable(true);
+        scrollArea_unmatchedParams->setAlignment(Qt::AlignCenter);
+        widget = new QWidget();
+        widget->setObjectName(QStringLiteral("widget"));
+        widget->setGeometry(QRect(0, 0, 524, 208));
+        gridLayout_9 = new QGridLayout(widget);
+        gridLayout_9->setObjectName(QStringLiteral("gridLayout_9"));
+        gridLayout_unmatchedParams = new QGridLayout();
+        gridLayout_unmatchedParams->setObjectName(QStringLiteral("gridLayout_unmatchedParams"));
 
-        gridLayout_18->addLayout(formLayout_3, 0, 0, 1, 1);
+        gridLayout_9->addLayout(gridLayout_unmatchedParams, 0, 0, 1, 1);
 
-        scrollArea_3->setWidget(scrollAreaWidgetContents_3);
+        scrollArea_unmatchedParams->setWidget(widget);
 
-        gridLayout_3->addWidget(scrollArea_3, 0, 0, 1, 1);
+        gridLayout_3->addWidget(scrollArea_unmatchedParams, 0, 0, 1, 1);
 
-        tabWidget->addTab(tab, QString());
+        tabWidget->addTab(tab_unmatchedParams, QString());
 
         gridLayout->addWidget(tabWidget, 1, 0, 1, 2);
 
 
         retranslateUi(Widget_ScriptingVariables);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(Widget_ScriptingVariables);
@@ -562,7 +562,7 @@ public:
         label_Pause->setText(QApplication::translate("Widget_ScriptingVariables", "Pause (ms)", nullptr));
         label_RetractSpeed->setText(QApplication::translate("Widget_ScriptingVariables", "Retract Speed (um/s)", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_vibrationParams), QApplication::translate("Widget_ScriptingVariables", "Vibration Parameters", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("Widget_ScriptingVariables", "Unmatched Parameters", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_unmatchedParams), QApplication::translate("Widget_ScriptingVariables", "Unmatched Parameters", nullptr));
     } // retranslateUi
 
 };

@@ -950,6 +950,7 @@ void PlotHandler::DoPlotRecalculate()
             g->clearData();
             g->setData(d, r);
             g->rescaleAxes(false);
+
             if(m_PlotParameters.at(plotIndex).Selected == true)
             {
                 QCPPlottableLegendItem *item = this->legend->itemWithPlottable(g);
