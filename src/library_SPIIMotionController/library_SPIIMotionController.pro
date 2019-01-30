@@ -5,6 +5,9 @@
 #-------------------------------------------------
 
 QT       -= gui
+QT += core
+QT += serialport
+QT += network
 
 TARGET = library_SPIIMotionController
 TEMPLATE = lib
@@ -23,11 +26,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        spii_motion_controller.cpp
+        spii_motion_controller.cpp \
+    communications/comms_marshaler.cpp \
+    communications/protocol_SPII.cpp \
+    communications/SPII_link.cpp
 
 HEADERS += \
         spii_motion_controller.h \
-        library_spiimotioncontroller_global.h 
+        library_spiimotioncontroller_global.h \ 
+    spii_version.h \
+    communications/comms_events.h \
+    communications/comms_marshaler.h \
+    communications/i_link.h \
+    communications/i_link_events.h \
+    communications/i_protocol.h \
+    communications/i_protocol_SPII_events.h \
+    communications/protocol_SPII.h \
+    communications/SPII_link.h
 
 # Unix lib Install
 unix:!symbian {
@@ -48,6 +63,13 @@ include(../headerinstall.pri)
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/tools/SPiiPlusADKSuite_v2_6/ACSC/C_CPP
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
+else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
+
+INCLUDEPATH += $$PWD/../common
+DEPENDPATH += $$PWD/../common
 
 unix:!macx|win32: LIBS += -L$$PWD/../../tools/SPiiPlusADKSuite_v2_6/ACSC/C_CPP/ -lACSCL_x86
 

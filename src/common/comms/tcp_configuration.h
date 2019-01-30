@@ -8,7 +8,7 @@
 
 
 namespace common{
-namespace comms{
+namespace comms {
 
 class TCPConfiguration : public LinkConfiguration
 {
@@ -45,5 +45,6 @@ private:
 
 } //end of namepsace comms
 } //end of namespace common
+
 
 #endif // TCP_CONFIGURATION_H
