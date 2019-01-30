@@ -179,6 +179,7 @@ HEADERS += \
     motion_command_touchoff_config.h \
     device_interface_motion_control.h \
     programs/galil_current_operation.h
+
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

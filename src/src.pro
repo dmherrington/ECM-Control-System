@@ -12,7 +12,8 @@ SUBDIRS += \
     library_sensoray \
     library_westinghouse510 \
     library_qModBus \
-    Testing
+    Testing \
+    library_SPIIMotionController
 data.depends = common
 graphing.depends = data
 library_galilMotionController.depends = graphing
