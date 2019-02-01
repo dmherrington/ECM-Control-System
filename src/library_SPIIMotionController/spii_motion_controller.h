@@ -10,6 +10,14 @@ class LIBRARY_SPIIMOTIONCONTROLLERSHARED_EXPORT SPIIMotionController
 
 public:
     SPIIMotionController();
+
+
+public:
+    void ConnectToSimulation();
+    void ConnectToSerialPort(const common::comms::SerialConfiguration &linkConfig);
+    void ConnectToEthernetPort(const common::comms::TCPConfiguration &linkConfig);
+    void ConnectToPCIPort(const ACSC_PCI_SLOT &linkConfig);
+
 };
 
 #endif // SPII_MOTION_CONTROLLER_H

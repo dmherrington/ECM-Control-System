@@ -29,7 +29,24 @@ SOURCES += \
         spii_motion_controller.cpp \
     communications/comms_marshaler.cpp \
     communications/protocol_SPII.cpp \
-    communications/SPII_link.cpp
+    communications/SPII_link.cpp \
+    states/state_estop.cpp \
+    states/state_home_positioning.cpp \
+    states/state_idle.cpp \
+    states/state_jogging.cpp \
+    states/state_manual_positioning.cpp \
+    states/state_motion_stop.cpp \
+    states/state_ready.cpp \
+    states/state_ready_stop.cpp \
+    states/state_script_execution.cpp \
+    states/state_stop.cpp \
+    states/state_touchoff.cpp \
+    status/abstract_status.cpp \
+    status/status_inputs.cpp \
+    status/status_position.cpp \
+    status/status_motor.cpp \
+    status/status_axis.cpp \
+    states/state_abstract_spii.cpp
 
 HEADERS += \
         spii_motion_controller.h \
@@ -42,7 +59,29 @@ HEADERS += \
     communications/i_protocol.h \
     communications/i_protocol_SPII_events.h \
     communications/protocol_SPII.h \
-    communications/SPII_link.h
+    communications/SPII_link.h \
+    states/state_components.h \
+    states/state_estop.h \
+    states/state_home_positioning.h \
+    states/state_idle.h \
+    states/state_jogging.h \
+    states/state_manual_positioning.h \
+    states/state_motion_stop.h \
+    states/state_ready.h \
+    states/state_ready_stop.h \
+    states/state_script_execution.h \
+    states/state_stop.h \
+    states/state_touchoff.h \
+    states/state_types.h \
+    status/abstract_status.h \
+    status/status_components.h \
+    status/status_inputs.h \
+    status/status_position.h \
+    status/status_switch.h \
+    status/status_types.h \
+    states/state_abstract_spii.h \
+    status/status_axis.h \
+    status/status_motor.h
 
 # Unix lib Install
 unix:!symbian {

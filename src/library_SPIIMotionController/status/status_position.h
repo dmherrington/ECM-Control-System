@@ -1,0 +1,104 @@
+#ifndef STATUS_POSITION_H
+#define STATUS_POSITION_H
+
+
+#include <map>
+
+#include "ACSC.h"
+
+#include "common/class_forward.h"
+#include "common/axis_definitions.h"
+
+#include "status/abstract_status.h"
+
+namespace SPII {
+
+ECM_CLASS_FORWARD(Status_PositionPerAxis);
+class Status_PositionPerAxis : public AbstractStatus
+{
+public:
+    Status_PositionPerAxis();
+
+    Status_PositionPerAxis(const Status_PositionPerAxis &copy);
+
+    void setAxis(const MotorAxis &axis);
+
+    void setPosition(const int &pos);
+
+    MotorAxis getAxis() const;
+
+    int getPosition() const;
+
+public:
+    Status_PositionPerAxis& operator = (const Status_PositionPerAxis &rhs)
+    {
+        AbstractStatus::operator =(rhs);
+        this->currentAxis = rhs.currentAxis;
+        this->position = rhs.position;
+        return *this;
+    }
+
+    bool operator == (const Status_PositionPerAxis &rhs) {
+        if(!AbstractStatus::operator ==(rhs))
+        {
+            return false;
+        }
+        if(this->currentAxis != rhs.currentAxis){
+            return false;
+        }
+        if(this->position != rhs.position){
+            return false;
+        }
+        return true;
+    }
+
+    bool operator != (const Status_PositionPerAxis &rhs) {
+        return !(*this == rhs);
+    }
+
+private:
+    MotorAxis currentAxis = MotorAxis::Z;
+    int position = 0;
+
+};
+
+ECM_CLASS_FORWARD(Status_Position);
+class Status_Position : public AbstractStatus
+{
+public:
+    Status_Position() = default;
+
+    void updatePositionStatus(const Status_PositionPerAxis &status);
+
+    Status_PositionPerAxis* getAxisPosition(const MotorAxis &axis);
+
+public:
+    Status_Position& operator = (const Status_Position &rhs)
+    {
+        AbstractStatus::operator =(rhs);
+        this->m_PositionStatus = rhs.m_PositionStatus;
+        return *this;
+    }
+
+    bool operator == (const Status_Position &rhs) {
+        if(!AbstractStatus::operator ==(rhs))
+        {
+            return false;
+        }
+        if(this->m_PositionStatus != rhs.m_PositionStatus){
+            return false;
+        }
+        return true;
+    }
+
+    bool operator != (const Status_Position &rhs) {
+        return !(*this == rhs);
+    }
+
+private:
+    std::map<MotorAxis, Status_PositionPerAxis> m_PositionStatus;
+};
+
+}//end of namespace SPII
+
+#endif // STATUS_POSITION_H

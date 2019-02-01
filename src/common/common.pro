@@ -35,7 +35,24 @@ SOURCES += common.cpp \
     tuple_profile_variable_string.cpp \
     tuple_positional_string.cpp \
     tuple_general_descriptor.cpp \
-    modbus_register.cpp
+    modbus_register.cpp \
+    commands/command_absolute_move.cpp \
+    commands/command_clear_bit.cpp \
+    commands/command_controller_gain.cpp \
+    commands/command_download_program.cpp \
+    commands/command_estop.cpp \
+    commands/command_execute_profile.cpp \
+    commands/command_jog.cpp \
+    commands/command_motion_start.cpp \
+    commands/command_motor_disable.cpp \
+    commands/command_motor_enable.cpp \
+    commands/command_relative_move.cpp \
+    commands/command_set_bit.cpp \
+    commands/command_speed.cpp \
+    commands/command_stop.cpp \
+    commands/command_upload_program.cpp \
+    commands/command_variable.cpp \
+    motion_profile.cpp
 
 HEADERS += common.h\
         common_global.h \
@@ -66,7 +83,29 @@ HEADERS += common.h\
     hsm.h \
     abstract_device_interface.h \
     execution_properties.h \
-    profile_operation_type.h
+    profile_operation_type.h \
+    commands/abstract_command.h \
+    commands/abstract_move_command.h \
+    commands/command_absolute_move.h \
+    commands/command_clear_bit.h \
+    commands/command_components.h \
+    commands/command_controller_gain.h \
+    commands/command_download_program.h \
+    commands/command_estop.h \
+    commands/command_execute_profile.h \
+    commands/command_jog.h \
+    commands/command_motion_start.h \
+    commands/command_motor_disable.h \
+    commands/command_motor_enable.h \
+    commands/command_relative_move.h \
+    commands/command_set_bit.h \
+    commands/command_speed.h \
+    commands/command_stop.h \
+    commands/command_types.h \
+    commands/command_upload_program.h \
+    commands/command_variable.h \
+    type_direction.h \
+    motion_profile.h
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

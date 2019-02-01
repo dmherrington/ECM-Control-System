@@ -1,4 +1,5 @@
 #include <QCoreApplication>
+#include <iostream>
 
 #include <conio.h>
 
@@ -34,7 +35,11 @@ void ErrorsHandler(const char* ErrorMessage, BOOL fCloseComm)
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-
+    int value =60;
+    if(value & ACSC_AST_MOVE)
+    {
+        std::cout<<"This is true"<<std::endl;
+    }
     // ACSPL+ program which we download to controller's buffer
     // The program performs a reciprocated motion from position 0 to 4000 and then back
     char* prog = "  enable X \r\n		";
