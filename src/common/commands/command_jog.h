@@ -111,15 +111,4 @@ private:
     std::map<MotorAxis, double> jogSpeed; /**< Value of the jog speed in cnts/second */
 };
 
-//! \remark
-//! JGm=n Arguements specified with a single axis mask and an assignment operator (=)
-//! JG n ... Arguements specified with an implicit, comma-separated order
-//! _JGM Operand contains the absolute value of the jog speed for the specified axis.
-
-//! \remark
-//!When jogging, the motion controller profiles a continuous move at the commanded speed.
-//!To stop the motion, use the ST command.
-//!JG 2 is the minimum non-zero speed
-//!The JG command will set the SP register with the absolute value of the 'n' value.
-
 #endif // COMMAND_JOG_H
