@@ -12,3 +12,13 @@ if(!acsc_GetAxesCount(Handle,&Value,NULL))
 doubleValue=0;if(!acsc_GetDBufferIndex(Handle,&Value,NULL)){printf("acsc_GetDBufferIndex():ErrorOccurred-%d\n",acsc_GetLastError());return;}
 
 }
+
+//!
+//! \brief Cause the state machine to update it's states
+//!
+void SPIIMotionController::ProgressStateMachineStates()
+{
+    std::lock_guard<std::mutex> lock(m_Mutex_StateMachine);
+    stateMachine->ProcessStateTransitions();
+    stateMachine->UpdateStates();
+}

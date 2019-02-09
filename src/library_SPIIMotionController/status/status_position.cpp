@@ -38,12 +38,27 @@ int Status_PositionPerAxis::getPosition() const
 
 void Status_Position::updatePositionStatus(const Status_PositionPerAxis &status)
 {
-    m_PositionStatus.insert(std::pair<MotorAxis,Status_PositionPerAxis>(status.getAxis(),status));
+    if(m_PositionStatus.count(status.getAxis()) > 0)
+    {
+        m_PositionStatus.at(status.getAxis()).set(status);
+    }
+    else
+    {
+        DataGetSetNotifier<Status_PositionPerAxis> newStatus(status);
+        m_PositionStatus.insert(std::pair<MotorAxis,DataGetSetNotifier<Status_PositionPerAxis>>(newStatus.getAxis(),newStatus));
+    }
 }
 
 Status_PositionPerAxis* Status_Position::getAxisPosition(const MotorAxis &axis)
 {
-
+    if(m_PositionStatus.count(axis) > 0)
+    {
+        return &m_PositionStatus.at(axis).get();
+    }
+    else
+    {
+        return nullptr;
+    }
 }
 
 } //end of namespace SPII

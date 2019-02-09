@@ -46,7 +46,10 @@ SOURCES += \
     status/status_position.cpp \
     status/status_motor.cpp \
     status/status_axis.cpp \
-    states/state_abstract_spii.cpp
+    states/state_abstract_spii.cpp \
+    spii_state_interface.cpp \
+    buffers/spii_buffer_manager.cpp \
+    buffers/buffer_data.cpp
 
 HEADERS += \
         spii_motion_controller.h \
@@ -81,7 +84,10 @@ HEADERS += \
     status/status_types.h \
     states/state_abstract_spii.h \
     status/status_axis.h \
-    status/status_motor.h
+    status/status_motor.h \
+    spii_state_interface.h \
+    buffers/spii_buffer_manager.h \
+    buffers/buffer_data.h
 
 # Unix lib Install
 unix:!symbian {

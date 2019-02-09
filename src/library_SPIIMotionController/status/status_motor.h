@@ -7,6 +7,7 @@
 
 #include "common/class_forward.h"
 #include "common/axis_definitions.h"
+#include "common/data_get_set_notifier.h"
 
 #include "status/abstract_status.h"
 
@@ -113,7 +114,7 @@ public:
     }
 
 private:
-    std::map<MotorAxis, Status_MotorPerAxis> m_MotorStatus;
+    std::map<MotorAxis, DataGetSetNotifier<Status_MotorPerAxis>> m_MotorStatus;
 };
 
 }//end of namespace SPII
