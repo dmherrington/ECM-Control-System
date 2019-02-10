@@ -72,7 +72,7 @@ private:
 
 private:
     QThread *m_ListenThread;
-    HANDLE m_SPII; /**< Member variable containing a pointer to the Galil interface */
+    HANDLE m_SPII; /**< Member variable containing a pointer to the SPII interface */
 
     bool connected;
 };

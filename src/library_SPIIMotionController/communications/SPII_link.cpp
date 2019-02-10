@@ -76,32 +76,53 @@ void SPIILink::Connect(void)
         this->Disconnect();
     }
 
-    /*
-    common::comms::CommunicationUpdate update("Galil Link");
-    std::string errorString = "";
-    address
-    //We should attempt connecting to the Galil unit at the prescribed address
-    GReturn rtnCode = GOpen(address.c_str(),&galil);
-    if(rtnCode == G_NO_ERROR)
+    common::comms::CommunicationUpdate commsUpdate("SPII Link");
+
+    switch (m_CommunicationSettings.type) {
+    case COMMS_TYPE::ETHERNET:
     {
-        this->connected = true;
-        EmitEvent([](const ILinkEvents *ptr){ptr->ConnectionOpened();});
-        update.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
-        errorString = "Galil has been connected.";
+        m_SPII = acsc_OpenCommEthernetTCP(m_CommunicationSettings.ethernetPort.listenAddress(),m_CommunicationSettings.ethernetPort.listenPortNumber());
+        if(m_SPII)
+        break;
     }
-    else{
-        unsigned int bufferSize = 100;
-        char* buf = new char[bufferSize]();
-        GError(rtnCode,buf,bufferSize);
-        std::string bufString(buf);
-        delete[] buf;
-        errorString = "Error connecting to galil: " + bufString;
-        update.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::ALERT);
+    case COMMS_TYPE::PCI:
+    {
+        //m_SPII = acsc_OpenCommPCI();
+        break;
+    }
+    case COMMS_TYPE::SERIAL:
+    {
+        //m_SPII = acsc_OpenCommSerial();
+        break;
+    }
+    case COMMS_TYPE::SIMULATION:
+    {
+        m_SPII = acsc_OpenCommSimulator();
+        break;
+    }
+    default:
+        break;
     }
 
-    update.setPeripheralMessage(errorString);
+    if(m_SPII == ACSC_INVALID)
+    {
+        commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::ALERT);
+
+        //there was a problem connecting
+        int errorCode = acsc_GetLastError();
+        acsc_GetErrorString(m_SPII,errorCode,)
+        //get the string associated with the error code
+        std::string errorString;
+        commsUpdate.setPeripheralMessage(errorString);
+    }
+    else
+    {
+        commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
+        commsUpdate.setPeripheralMessage("SPII Motor Controller Connected.");
+    }
+
     EmitEvent([update](const ILinkEvents *ptr){ptr->ConnectionUpdate(update);});
-    */
+
 }
 
 //!
@@ -112,6 +133,7 @@ void SPIILink::Disconnect(void)
 {
     if(connected)
     {
+        acsc_
         /*
         GReturn rtnCode = GClose(galil);
         if(rtnCode == G_NO_ERROR)

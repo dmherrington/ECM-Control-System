@@ -16,12 +16,12 @@
 
 namespace Comms {
 
-typedef enum {
+enum class COMMS_TYPE {
     SERIAL,
     ETHERNET,
     PCI,
     SIMULATION
-} COMMS_TYPE;
+};
 
 typedef struct {
     COMMS_TYPE type;				// 0 - serial, 1 - ethernet, 2 - PCI bus, 3 -simulator
