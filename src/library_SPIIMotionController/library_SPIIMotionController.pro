@@ -49,7 +49,10 @@ SOURCES += \
     states/state_abstract_spii.cpp \
     spii_state_interface.cpp \
     buffers/spii_buffer_manager.cpp \
-    buffers/buffer_data.cpp
+    buffers/buffer_data.cpp \
+    spii_poll_status.cpp \
+    requests/abstract_request.cpp \
+    requests/request_tell_position.cpp
 
 HEADERS += \
         spii_motion_controller.h \
@@ -87,7 +90,12 @@ HEADERS += \
     status/status_motor.h \
     spii_state_interface.h \
     buffers/spii_buffer_manager.h \
-    buffers/buffer_data.h
+    buffers/buffer_data.h \
+    spii_poll_status.h \
+    requests/abstract_request.h \
+    requests/request_components.h \
+    requests/request_tell_position.h \
+    requests/request_types.h
 
 # Unix lib Install
 unix:!symbian {
