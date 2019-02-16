@@ -42,7 +42,6 @@ SOURCES += \
     states/state_stop.cpp \
     states/state_touchoff.cpp \
     status/abstract_status.cpp \
-    status/status_inputs.cpp \
     status/status_position.cpp \
     status/status_motor.cpp \
     status/status_axis.cpp \
@@ -81,9 +80,7 @@ HEADERS += \
     states/state_types.h \
     status/abstract_status.h \
     status/status_components.h \
-    status/status_inputs.h \
     status/status_position.h \
-    status/status_switch.h \
     status/status_types.h \
     states/state_abstract_spii.h \
     status/status_axis.h \

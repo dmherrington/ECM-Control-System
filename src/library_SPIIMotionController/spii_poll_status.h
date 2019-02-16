@@ -1,5 +1,5 @@
-#ifndef GALIL_POLL_STATUS_H
-#define GALIL_POLL_STATUS_H
+#ifndef SPII_POLL_STATUS_H
+#define SPII_POLL_STATUS_H
 
 #include <map>
 
@@ -12,18 +12,23 @@
 
 #include "requests/request_components.h"
 
-class GalilStatusUpdate_Interface
+class SPIIStatusUpdate_Interface
 {
 public:
-    virtual void cbi_GalilStatusRequest(const AbstractRequestPtr request) = 0;
+    SPIIStatusUpdate_Interface() = default;
+
+    virtual ~SPIIStatusUpdate_Interface() = default;
+
+public:
+    virtual void cbi_SPIIStatusRequest(const AbstractRequestPtr request) = 0;
 };
 
-class GalilPollState : public Thread
+class SPIIPollState : public Thread
 {
 public:
-    GalilPollState(const int &msTimeout = 50);
+    SPIIPollState(const int &msTimeout = 50);
 
-    ~GalilPollState() {
+    ~SPIIPollState() {
         std::cout << "Destructor on the galil timeout state machine" << std::endl;
         mToExit = true;
     }
@@ -36,7 +41,7 @@ public:
 
     void run();
 
-    void connectCallback(GalilStatusUpdate_Interface *cb)
+    void connectCallback(SPIIStatusUpdate_Interface *cb)
     {
         m_CB = cb;
     }
@@ -62,7 +67,7 @@ private:
     int timeout;
 
 private:
-    GalilStatusUpdate_Interface *m_CB;
+    SPIIStatusUpdate_Interface *m_CB;
     std::map<common::TupleECMData,AbstractRequestPtr> requestMap;
     std::map<common::TupleECMData,pollingTimeout> timeoutMap;
 
@@ -83,4 +88,4 @@ protected:
     }
 };
 
-#endif // GALIL_STATE_MACHINE_H
+#endif // SPII_POLL_STATUS_H
