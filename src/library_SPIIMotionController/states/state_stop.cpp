@@ -19,7 +19,7 @@ void State_Stop::getClone(AbstractStateSPII** state) const
     *state = new State_Stop(*this);
 }
 
-void State_Stop::handleCommand(const AbstractCommand* command)
+void State_Stop::handleCommand(const AbstractCommandPtr command)
 {
     CommandType currentCommand = command->getCommandType();
 
@@ -69,11 +69,6 @@ void State_Stop::handleCommand(const AbstractCommand* command)
         std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
-    case CommandType::TELL_POSITION:
-    {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
-        break;
-    }
     default:
         break;
     }
@@ -86,12 +81,12 @@ hsm::Transition State_Stop::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case ECMState::STATE_READY:
+        case SPIIState::STATE_READY:
         {
             //return hsm::SiblingTransition<State_Ready>();
             break;
         }
-        case ECMState::STATE_ESTOP:
+        case SPIIState::STATE_ESTOP:
         {
 
         }

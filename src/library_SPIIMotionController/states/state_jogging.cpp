@@ -29,12 +29,12 @@ hsm::Transition State_Jogging::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case GalilState::STATE_MOTION_STOP:
+        case SPIIState::STATE_MOTION_STOP:
         {
             rtn = hsm::SiblingTransition<State_MotionStop>();
             break;
         }
-        case GalilState::STATE_ESTOP:
+        case SPIIState::STATE_ESTOP:
         {
             rtn = hsm::SiblingTransition<State_EStop>();
             break;
@@ -58,22 +58,17 @@ void State_Jogging::handleCommand(const AbstractCommandPtr command)
     case CommandType::JOG_MOVE:
     {
         //This is the command that brought us into this state
-        //CommandJogPtr castCommand = std::make_shared<CommandJog>(*command->as<CommandJog>());
         Owner().issueGalilMotionCommand(command);
-//        Owner().issueGalilCommand(castCommand); //KEN Fix this to differentiate a motion command so we can auto begin motion upon ack
-
-//        CommandMotionStartPtr motionStartCommand = std::make_shared<CommandMotionStart>();
-//        Owner().issueGalilCommand(motionStartCommand);
         break;
     }
     case CommandType::STOP:
     {
-        this->desiredState = GalilState::STATE_MOTION_STOP;
+        this->desiredState = SPIIState::STATE_MOTION_STOP;
         break;
     }
     case CommandType::ESTOP:
     {
-        this->desiredState = GalilState::STATE_ESTOP;
+        this->desiredState = SPIIState::STATE_ESTOP;
         break;
     }
     default:
@@ -90,23 +85,23 @@ void State_Jogging::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = GalilState::STATE_ESTOP;
+        desiredState = SPIIState::STATE_ESTOP;
     }
 }
 
 void State_Jogging::OnEnter()
 {
-    Owner().issueNewGalilState(GalilState::STATE_JOGGING);
+    Owner().issueNewGalilState(SPIIState::STATE_JOGGING);
     //this shouldn't really happen as how are we supposed to know the actual state jogging command
     //we therefore are going to do nothing other than change the state back to State_Ready
-    this->desiredState = GalilState::STATE_READY;
+    this->desiredState = SPIIState::STATE_READY;
 }
 
 void State_Jogging::OnEnter(const AbstractCommandPtr command)
 {
     if(command != nullptr)
     {
-        Owner().issueNewGalilState(GalilState::STATE_JOGGING);
+        Owner().issueNewGalilState(SPIIState::STATE_JOGGING);
         this->handleCommand(command);
     }
     else{

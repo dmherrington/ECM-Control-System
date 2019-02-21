@@ -14,6 +14,15 @@ public:
 
     ~BufferManager() = default;
 
+    void setDBufferIndex(const unsigned int &index);
+    unsigned int getDBufferIndex() const;
+
+    void setMaxBufferSize(const unsigned int &numBuffers);
+    unsigned int getBufferSize() const;
+
+    void updateBufferData(const unsigned int &bufferIndex, const BufferData &data);
+    void getBufferData(const unsigned int &bufferIndex, BufferData &data);
+
 private:
     unsigned int indexDBuffer;
     unsigned int maxBufferSize;

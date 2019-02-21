@@ -1,9 +1,9 @@
 #include "command_motion_start.h"
 
 CommandMotionStart::CommandMotionStart(const MotorAxis &axis):
-    AbstractCommand(CommandType::MOTION_START), startAxis(axis)
+    AbstractCommand(CommandType::MOTION_START)
 {
-
+    addAxis(axis);
 }
 
 CommandMotionStart::CommandMotionStart(const CommandMotionStart &copy):
@@ -26,33 +26,22 @@ void CommandMotionStart::getClone(AbstractCommand** state) const
 //! \brief setAxis
 //! \param axis
 //!
-void CommandMotionStart::setAxis(const MotorAxis &axis)
+void CommandMotionStart::addAxis(const MotorAxis &axis)
 {
-    startAxis = axis;
+    std::pair<std::map<MotorAxis,MotionValue>::iterator,bool> ret;
+    ret = m_AxisValue.insert ( std::pair<MotorAxis,MotionValue>(axis,MotionValue::CHANGE));
+    //the element already exists
+    if (ret.second==false) {
+        m_AxisValue.at(axis) = MotionValue::CHANGE;
+    }
 }
 
 //!
 //! \brief getAxis
 //! \return
 //!
-MotorAxis CommandMotionStart::getAxis() const
+std::map<MotorAxis,CommandMotionStart::MotionValue> CommandMotionStart::getAxis() const
 {
-    return startAxis;
+    return m_AxisValue;
 }
 
-std::string CommandMotionStart::getCommandString() const
-{
-    std::string str = "";
-    if(startAxis == MotorAxis::ALL)
-    {
-        //for now we are going to throw an exception here as this should create a multi-message
-        //or the mask should reflect all layers which I dont know how galil would handle yet
-    }
-    else
-    {
-        str.append(CommandToString(this->getCommandType()));
-        str.append(" ");
-        str.append(AxisToString(startAxis));
-    }
-    return str;
-}

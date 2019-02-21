@@ -1,5 +1,7 @@
 #include "request_tell_position.h"
 
+namespace SPII {
+
 RequestTellPosition::RequestTellPosition(const MotorAxis &axis):
     AbstractRequest(RequestTypes::TELL_POSITION,20), tellAxis(axis)
 {
@@ -61,27 +63,28 @@ std::vector<AbstractStatusPtr> RequestTellPosition::getStatus() const
 {
     std::vector<AbstractStatusPtr> rtn;
     //as the galil only currently reports a single axis here, we will make the parse easy for now
-    QString result = QString::fromStdString(buffer);
-    QStringList list = result.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
+//    QString result = QString::fromStdString(buffer);
+//    QStringList list = result.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
 
-    if(list.size() > 0)
-    {
-        result = list.at(0);
-        result = result.trimmed();
-        if(tellAxis == MotorAxis::ALL)
-        {
-            //we will not currently support this
-        }
-        else{
-            Status_PositionPtr position = std::make_shared<Status_Position>();
-            position->setAxis(tellAxis);
-            position->setTime(latestUpdate);
-            position->setPosition(result.toInt());
-            rtn.push_back(position);
-        }
-    }
+//    if(list.size() > 0)
+//    {
+//        result = list.at(0);
+//        result = result.trimmed();
+//        if(tellAxis == MotorAxis::ALL)
+//        {
+//            //we will not currently support this
+//        }
+//        else{
+//            Status_PositionPtr position = std::make_shared<Status_Position>();
+//            position->setAxis(tellAxis);
+//            position->setTime(latestUpdate);
+//            position->setPosition(result.toInt());
+//            rtn.push_back(position);
+//        }
+//    }
 
     return rtn;
 }
 
+} //end of namespace SPII
 

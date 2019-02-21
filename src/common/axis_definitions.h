@@ -20,9 +20,9 @@
 \*
 \*/
 
-enum class MotorAxis
+enum MotorAxis
 {
-    ALL = 0,
+    ALL = -1,
     X = 1,
     Y = 2,
     Z = 3

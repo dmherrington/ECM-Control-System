@@ -4,16 +4,15 @@
 #include <iostream>
 #include <thread>
 
-#include "common/class_forward.h"
 #include "common/hsm.h"
+#include "common/class_forward.h"
+#include "common/commands/command_components.h"
 
-#include "library_SPIIMotionController/settings/galil_settings.h"
-#include "library_SPIIMotionController/commands/command_components.h"
+#include "state_types.h"
+#include "../spii_state_interface.h"
+#include "../requests/request_components.h"
 
-#include "library_SPIIMotionController/states/state_types.h"
-#include "library_SPIIMotionController/spii_state_interface.h"
-
-namespace ECM{
+namespace ECM {
 namespace SPII {
 
 class AbstractStateSPII : public hsm::StateWithOwner<SPIIStateInterface>
@@ -24,8 +23,6 @@ public:
     {
 
     }
-
-    AbstractStateSPII(const GalilSettings &settings);
 
     AbstractStateSPII(const AbstractStateSPII &copy);
 
@@ -76,9 +73,9 @@ public:
 
 protected:
     bool checkEStop() const;
+
     void clearCommand();
 protected:
-    GalilSettings mSettings;
     AbstractCommandPtr currentCommand;
 
     SPIIState currentState;

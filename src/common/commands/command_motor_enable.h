@@ -2,6 +2,7 @@
 #define COMMAND_MOTOR_ENABLE_H
 
 #include <stdexcept>
+#include <map>
 
 #include "../class_forward.h"
 
@@ -27,6 +28,12 @@ ECM_CLASS_FORWARD(CommandMotorEnable);
 
 class CommandMotorEnable : public AbstractCommand
 {
+public:
+    enum EnableValue{
+        NO_CHANGE,
+        CHANGE
+    };
+
 public:
     //!
     //! \brief CommandMotorEnable
@@ -58,20 +65,14 @@ public:
     //! \brief setEnableAxis
     //! \param axis
     //!
-    void setEnableAxis(const MotorAxis &axis);
+    void addAxis(const MotorAxis &axis);
 
     //!
     //! \brief getEnableAxis
     //! \return
     //!
-    MotorAxis getEnableAxis();
+    std::map<MotorAxis,CommandMotorEnable::EnableValue> getEnableAxis();
 
-public:
-    //!
-    //! \brief getCommandString
-    //! \return
-    //!
-    std::string getCommandString() const override;
 
 public:
     //!
@@ -81,7 +82,7 @@ public:
     CommandMotorEnable& operator = (const CommandMotorEnable &rhs)
     {
         AbstractCommand::operator =(rhs);
-        this->enableAxis = rhs.enableAxis;
+        this->m_AxisValue = rhs.m_AxisValue;
         return *this;
     }
 
@@ -95,7 +96,7 @@ public:
         if(!AbstractCommand::operator ==(rhs)){
             return false;
         }
-        if(this->enableAxis != rhs.enableAxis){
+        if(this->m_AxisValue != rhs.m_AxisValue){
             return false;
         }
         return true;
@@ -111,7 +112,7 @@ public:
     }
 
 private:
-    std::vector<MotorAxis> enableAxis; /**< Value of the axis to be enabled */
+    std::map<MotorAxis,EnableValue> m_AxisValue; /**< Value of the axis to begin motion */
 
 };
 

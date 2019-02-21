@@ -146,16 +146,12 @@ class CommandControllerGain
 {
 public:
     CommandControllerGain();
-    CommandControllerGain(const ProgramProfileGain &profileGain);
 
     /**
       */
     virtual ~CommandControllerGain() = default;
 
 public:
-    void setGainValue(const GainType &type, const double value);
-    double getGainValue(const GainType &type) const;
-    std::string getCommandString(const GainType &type) const;
 
 private:
     struct controllerGain

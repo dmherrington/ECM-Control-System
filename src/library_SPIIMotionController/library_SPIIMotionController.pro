@@ -49,9 +49,15 @@ SOURCES += \
     spii_state_interface.cpp \
     buffers/spii_buffer_manager.cpp \
     buffers/buffer_data.cpp \
-    spii_poll_status.cpp \
     requests/abstract_request.cpp \
-    requests/request_tell_position.cpp
+    requests/request_tell_position.cpp \
+    buffers/buffer_variable_values.cpp \
+    status/status_variable_value.cpp \
+    requests/request_tell_variable.cpp \
+    status/status_axis_state.cpp \
+    spii_poll_machine.cpp \
+    spii_device_paramters.cpp \
+    communications/spii_settings.cpp
 
 HEADERS += \
         spii_motion_controller.h \
@@ -88,11 +94,17 @@ HEADERS += \
     spii_state_interface.h \
     buffers/spii_buffer_manager.h \
     buffers/buffer_data.h \
-    spii_poll_status.h \
     requests/abstract_request.h \
     requests/request_components.h \
     requests/request_tell_position.h \
-    requests/request_types.h
+    requests/request_types.h \
+    spii_poll_machine.h \
+    buffers/buffer_variable_values.h \
+    status/status_variable_value.h \
+    requests/request_tell_variable.h \
+    status/status_axis_state.h \
+    spii_device_paramters.h \
+    communications/spii_settings.h
 
 # Unix lib Install
 unix:!symbian {
@@ -120,6 +132,13 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
 
 INCLUDEPATH += $$PWD/../common
 DEPENDPATH += $$PWD/../common
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../data/release/ -ldata
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../data/debug/ -ldata
+else:unix:!macx: LIBS += -L$$OUT_PWD/../data/ -ldata
+
+INCLUDEPATH += $$PWD/../data
+DEPENDPATH += $$PWD/../data
 
 unix:!macx|win32: LIBS += -L$$PWD/../../tools/SPiiPlusADKSuite_v2_6/ACSC/C_CPP/ -lACSCL_x86
 

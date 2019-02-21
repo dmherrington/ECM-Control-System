@@ -1,20 +1,25 @@
-#include "galil_poll_status.h"
+#include "spii_poll_machine.h"
 
-GalilPollState::GalilPollState(const int &msTimeout):
-    m_CB(nullptr), timeout(msTimeout)
+SPIIPollMachine::SPIIPollMachine(const unsigned int &msTimeout):
+    timeout(msTimeout), m_CB(nullptr)
 {
 
 }
 
-void GalilPollState::beginPolling()
+void SPIIPollMachine::updateCommsHandle(std::shared_ptr<HANDLE> commsLink)
+{
+    m_SPIIDevice = commsLink;
+}
+
+void SPIIPollMachine::beginPolling()
 {
     m_Timeout.start();
     this->start();
 }
 
-void GalilPollState::addRequestToQueue(const AbstractRequestPtr request, const int &period)
+void SPIIPollMachine::addRequestToQueue(const SPII::AbstractRequestPtr request, const int &period)
 {
-    std::pair<std::map<common::TupleECMData,AbstractRequestPtr>::iterator,bool> ret;
+    std::pair<std::map<common::TupleECMData,SPII::AbstractRequestPtr>::iterator,bool> ret;
     auto dataPair = std::make_pair(0.0,period);
     requestMap[request->getTupleDescription()] = request;
     timeoutMap[request->getTupleDescription()] = dataPair;
@@ -30,7 +35,7 @@ void GalilPollState::addRequestToQueue(const AbstractRequestPtr request, const i
 
 }
 
-void GalilPollState::addRequest(const AbstractRequestPtr request, const int &period)
+void SPIIPollMachine::addRequest(const SPII::AbstractRequestPtr request, const int &period)
 {
     if(isThreadActive())
     {
@@ -44,7 +49,7 @@ void GalilPollState::addRequest(const AbstractRequestPtr request, const int &per
     }
 }
 
-void GalilPollState::removeRequest(const common::TupleECMData &tuple)
+void SPIIPollMachine::removeRequest(const common::TupleECMData &tuple)
 {
     if(isThreadActive())
     {
@@ -67,7 +72,7 @@ void GalilPollState::removeRequest(const common::TupleECMData &tuple)
     }
 }
 
-void GalilPollState::pausePolling()
+void SPIIPollMachine::pausePolling()
 {
     m_LambdasToRun.push_back([this]{
         m_Timeout.stop();
@@ -76,7 +81,7 @@ void GalilPollState::pausePolling()
     });
 }
 
-void GalilPollState::run()
+void SPIIPollMachine::run()
 {
     while(true)
     {
@@ -92,7 +97,7 @@ void GalilPollState::run()
         //If one of the lambda expressions has fired the clock should
         //be reset right at the end, thus making this value small and
         //improbable the next function will fire
-        unsigned int timeElapsed = m_Timeout.elapsedMilliseconds();
+        unsigned int timeElapsed = static_cast<unsigned int>(m_Timeout.elapsedMilliseconds());
         if(timeElapsed >= timeout)
         {
             //this means we should request the state of all the standard IO/Errors/Pos of the galil unit
@@ -112,7 +117,8 @@ void GalilPollState::run()
                         //1. Let us reset the current timer associated with this request
                         it->second.first = 0;
                         requestMap.at(it->first)->updateTime();
-                        m_CB->cbi_GalilStatusRequest(requestMap.at(it->first));
+                        processRequest(requestMap.at(it->first));
+                        //m_CB->cbi_SPIIStatusRequest();
                     }
                 }
             }
@@ -120,5 +126,21 @@ void GalilPollState::run()
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(timeout));
+    }
+}
+
+void SPIIPollMachine::processRequest(const SPII::AbstractRequestPtr request)
+{
+    switch (request->getRequestType()) {
+        case RequestTypes::TELL_POSITION:
+    {
+        double referencePosition;
+        int value = acsc_GetRPosition(m_SPIIDevice.get(),ACSC_AXIS_0,&referencePosition,ACSC_SYNCHRONOUS);
+        if(value)
+        {
+            std::cout<<"The current reference position is: "<<referencePosition<<std::endl;
+        }
+        break;
+    }
     }
 }

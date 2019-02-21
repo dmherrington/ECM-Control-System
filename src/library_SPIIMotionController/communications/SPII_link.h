@@ -33,7 +33,7 @@ public:
     //!
     bool isConnected() const override;
 
-    void Connect(void) override;
+    bool Connect(HANDLE *link = nullptr) override;
 
     void Disconnect(void) override;
 
@@ -55,6 +55,8 @@ public:
         }
     }
 
+    void requestPosition() override;
+
 private:
 
     template <typename F>
@@ -72,7 +74,7 @@ private:
 
 private:
     QThread *m_ListenThread;
-    HANDLE m_SPII; /**< Member variable containing a pointer to the SPII interface */
+    HANDLE* m_SPII; /**< Member variable containing a pointer to the SPII interface */
 
     bool connected;
 };

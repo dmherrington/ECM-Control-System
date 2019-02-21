@@ -24,7 +24,7 @@ public:
 
     void setAxis(const MotorAxis &axis);
 
-    void setPosition(const int &pos);
+    void setPosition(const double &pos);
 
     MotorAxis getAxis() const;
 
@@ -67,7 +67,11 @@ ECM_CLASS_FORWARD(Status_Position);
 class Status_Position : public AbstractStatus
 {
 public:
-    Status_Position() = default;
+    Status_Position();
+
+    Status_Position(const Status_Position &copy);
+
+    ~Status_Position();
 
     void updatePositionStatus(const Status_PositionPerAxis &status);
 
@@ -97,7 +101,7 @@ public:
     }
 
 private:
-    std::map<MotorAxis, DataGetSetNotifier<Status_PositionPerAxis>> m_PositionStatus;
+    std::map<MotorAxis, DataGetSetNotifier<Status_PositionPerAxis>*> m_PositionStatus;
 };
 
 }//end of namespace SPII

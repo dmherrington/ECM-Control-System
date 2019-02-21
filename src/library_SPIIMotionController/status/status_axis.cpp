@@ -1,35 +1,68 @@
 #include "status_axis.h"
 
-Statusy::status_axis():
-    AbstractStatus(StatusTypes::STATUS_MOTOREN)
+namespace SPII{
+
+Status_PerAxis::Status_PerAxis():
+    AbstractStatus(StatusTypes::STATUS_PER_AXIS)
 {
-    this->currentAxis = MotorAxis::Z;
-    this->moving = 0;
+
 }
 
-status_axis::status_axis(const status_axis &copy):
+Status_PerAxis::Status_PerAxis(const Status_PerAxis &copy):
     AbstractStatus(copy)
 {
-    this->currentAxis = copy.currentAxis;
-    this->moving = copy.moving;
+
 }
 
-void status_axis::setAxis(const MotorAxis &axis)
+void Status_PerAxis::setAxis(const MotorAxis &axis)
 {
-    this->currentAxis = axis;
+
 }
 
-MotorAxis status_axis::getAxis() const
+MotorAxis Status_PerAxis::getAxis() const
 {
-    return this->currentAxis;
+
 }
 
-void status_axis::setMotorMoving(const bool &moving)
+void Status_PerAxis::setMotorMoving(const bool &moving)
 {
-    this->moving = moving;
+
 }
 
-bool status_axis::isMotorMoving() const
+bool Status_PerAxis::isMotorMoving() const
 {
-    return this->moving;
+
 }
+
+
+
+
+
+Status_Axis::Status_Axis():
+    AbstractStatus(StatusTypes::STATUS_ALL_AXIS)
+{
+
+}
+
+Status_Axis::Status_Axis(const Status_Axis &copy):
+    AbstractStatus(copy)
+{
+
+}
+
+Status_Axis::~Status_Axis()
+{
+
+}
+
+void Status_Axis::updateAxisStatus(const Status_Axis &status)
+{
+
+}
+
+Status_Axis* Status_Axis::getAxisStatus(const MotorAxis &axis)
+{
+
+}
+
+} //end of namespace SPII

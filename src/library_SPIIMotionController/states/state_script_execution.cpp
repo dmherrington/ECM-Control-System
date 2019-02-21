@@ -34,17 +34,17 @@ hsm::Transition State_ScriptExecution::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case GalilState::STATE_READY:
+        case SPIIState::STATE_READY:
         {
             return hsm::SiblingTransition<State_Ready>();
             break;
         }
-        case GalilState::STATE_MOTION_STOP:
+        case SPIIState::STATE_MOTION_STOP:
         {
             return hsm::SiblingTransition<State_MotionStop>();
             break;
         }
-        case GalilState::STATE_ESTOP:
+        case SPIIState::STATE_ESTOP:
         {
             rtn = hsm::SiblingTransition<State_EStop>();
             break;
@@ -80,9 +80,9 @@ void State_ScriptExecution::handleCommand(const AbstractCommandPtr command)
         newState.setCurrentCode(ProfileState_Machining::MACHININGProfileCodes::ABORTED);
         MotionProfileState newProfileState;
         newProfileState.setProfileState(std::make_shared<ProfileState_Machining>(newState));
-        desiredState = GalilState::STATE_MOTION_STOP;
+        desiredState = SPIIState::STATE_MOTION_STOP;
 
-        Owner().issueUpdatedMotionProfileState(newProfileState);
+        //Owner().issueUpdatedMotionProfileState(newProfileState);
         break;
     }
     case CommandType::ESTOP:
@@ -91,9 +91,9 @@ void State_ScriptExecution::handleCommand(const AbstractCommandPtr command)
         newState.setCurrentCode(ProfileState_Machining::MACHININGProfileCodes::ABORTED);
         MotionProfileState newProfileState;
         newProfileState.setProfileState(std::make_shared<ProfileState_Machining>(newState));
-        desiredState = GalilState::STATE_ESTOP;
+        desiredState = SPIIState::STATE_ESTOP;
 
-        Owner().issueUpdatedMotionProfileState(newProfileState);
+        //Owner().issueUpdatedMotionProfileState(newProfileState);
         break;
     }
     default:
@@ -110,32 +110,28 @@ void State_ScriptExecution::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = GalilState::STATE_ESTOP;
+        desiredState = SPIIState::STATE_ESTOP;
     }
 }
 
 void State_ScriptExecution::OnExit()
 {
-    Owner().statusVariableValues->removeVariableNotifier("ppos",this);
-    Owner().statusVariableValues->removeVariableNotifier("cutdone",this);
+    Owner().m_VariableValues->removeVariableNotifier("ppos",this);
+    Owner().m_VariableValues->removeVariableNotifier("cutdone",this);
 
     //Ken we need to remove the polling measurements here
     for(size_t i = 0; i < currentScriptRequests.size(); i++)
     {
         Owner().issueGalilRemovePollingRequest(currentScriptRequests.at(i));
     }
-//    common::TupleProfileVariableString tupleVariablePPOS("Default","Profile","ppos");
-//    Owner().issueGalilRemovePollingRequest(tupleVariablePPOS);
-//    common::TupleProfileVariableString tupleVariableCUTTING("Default","Profile","cutdone");
-//    Owner().issueGalilRemovePollingRequest(tupleVariableCUTTING);
 }
 
 void State_ScriptExecution::OnEnter()
 {
-    Owner().issueNewGalilState(GalilState::STATE_SCRIPT_EXECUTION);
+    Owner().issueNewGalilState(SPIIState::STATE_SCRIPT_EXECUTION);
     //this shouldn't really happen as how are we supposed to know the the actual profile to execute
     //we therefore are going to do nothing other than change the state back to State_Ready
-    desiredState = GalilState::STATE_READY;
+    desiredState = SPIIState::STATE_READY;
 }
 
 void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
@@ -146,25 +142,25 @@ void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
         QString profileName = QString::fromStdString(castCommand->getProfileName());
         this->scriptProfileName = profileName.toStdString();
 
-        Owner().issueNewGalilState(GalilState::STATE_SCRIPT_EXECUTION);
+        Owner().issueNewGalilState(SPIIState::STATE_SCRIPT_EXECUTION);
 
-        Request_TellVariablePtr requestPosition = std::make_shared<Request_TellVariable>("Bottom Position","ppos","counts");
-        common::TupleProfileVariableString tupleVariablePPOS("", "", "ppos");
-        requestPosition->setTupleDescription(tupleVariablePPOS);
-        Owner().issueGalilAddPollingRequest(requestPosition);        
-        currentScriptRequests.push_back(tupleVariablePPOS);
+//        Request_TellVariablePtr requestPosition = std::make_shared<Request_TellVariable>("Bottom Position","ppos","counts");
+//        common::TupleProfileVariableString tupleVariablePPOS("", "", "ppos");
+//        requestPosition->setTupleDescription(tupleVariablePPOS);
+//        Owner().issueGalilAddPollingRequest(requestPosition);
+//        currentScriptRequests.push_back(tupleVariablePPOS);
 
 
-        Request_TellVariablePtr requestCutting = std::make_shared<Request_TellVariable>("Machining Complete","cutdone");
-        common::TupleProfileVariableString tupleVariableCUTTING("",profileName,"cutdone");
-        requestCutting->setTupleDescription(tupleVariableCUTTING);
-        Owner().issueGalilAddPollingRequest(requestCutting);
-        currentScriptRequests.push_back(tupleVariableCUTTING);
+//        Request_TellVariablePtr requestCutting = std::make_shared<Request_TellVariable>("Machining Complete","cutdone");
+//        common::TupleProfileVariableString tupleVariableCUTTING("",profileName,"cutdone");
+//        requestCutting->setTupleDescription(tupleVariableCUTTING);
+//        Owner().issueGalilAddPollingRequest(requestCutting);
+//        currentScriptRequests.push_back(tupleVariableCUTTING);
 
-        Owner().statusVariableValues->addVariableNotifier("cutdone",this,[this]
+        Owner().m_VariableValues->addVariableNotifier("cutdone",this,[this]
         {
             double varValue = 0.0;
-            bool valid = Owner().statusVariableValues->getVariableValue("cutdone",varValue);
+            bool valid = Owner().m_VariableValues->getVariableValue("cutdone",varValue);
             switch ((ProfileState_Machining::MACHININGProfileCodes)varValue) {
             case ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE:
             {
@@ -173,7 +169,7 @@ void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
                 newState.setCurrentCode(ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE);
                 MotionProfileState newProfileState;
                 newProfileState.setProfileState(std::make_shared<ProfileState_Machining>(newState));
-                Owner().issueUpdatedMotionProfileState(newProfileState);
+                //Owner().issueUpdatedMotionProfileState(newProfileState);
 
                 break;
             }
@@ -184,9 +180,9 @@ void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
                 newState.setCurrentCode(ProfileState_Machining::MACHININGProfileCodes::COMPLETE);
                 MotionProfileState newProfileState;
                 newProfileState.setProfileState(std::make_shared<ProfileState_Machining>(newState));
-                desiredState = GalilState::STATE_READY;
+                desiredState = SPIIState::STATE_READY;
 
-                Owner().issueUpdatedMotionProfileState(newProfileState);
+                //Owner().issueUpdatedMotionProfileState(newProfileState);
                 break;
             }
             default:

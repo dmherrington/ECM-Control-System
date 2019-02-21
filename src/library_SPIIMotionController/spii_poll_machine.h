@@ -6,6 +6,8 @@
 #include <iostream>
 #include <QDate>
 
+#include "ACSC.h"
+
 #include "common/environment_time.h"
 #include "common/threadmanager.h"
 #include "common/timer.h"
@@ -19,16 +21,16 @@ public:
 
     virtual ~SPIIStatusUpdate_Interface() = default;
 
-public:
-    virtual void cbi_SPIIStatusRequest(const AbstractRequestPtr request) = 0;
+    virtual void cbi_SPIIStatusRequest() = 0;
+
 };
 
-class SPIIPollState : public Thread
+class SPIIPollMachine : public Thread
 {
 public:
-    SPIIPollState(const int &msTimeout = 50);
+    SPIIPollMachine(const unsigned int &msTimeout = 50);
 
-    ~SPIIPollState() {
+    ~SPIIPollMachine() {
         std::cout << "Destructor on the galil timeout state machine" << std::endl;
         mToExit = true;
     }
@@ -36,7 +38,9 @@ public:
     void beginPolling();
     void pausePolling();
 
-    void addRequest(const AbstractRequestPtr request, const int &period = 100);
+    void updateCommsHandle(std::shared_ptr<HANDLE> commsLink);
+
+    void addRequest(const SPII::AbstractRequestPtr request, const int &period = 100);
     void removeRequest(const common::TupleECMData &tuple);
 
     void run();
@@ -47,7 +51,10 @@ public:
     }
 
 private:
-    void addRequestToQueue(const AbstractRequestPtr request, const int &period = 100);
+    void processRequest(const SPII::AbstractRequestPtr request);
+
+private:
+    void addRequestToQueue(const SPII::AbstractRequestPtr request, const int &period = 100);
 
     int greatestCommonDenominator(int a,int b) {
         int temp;
@@ -60,15 +67,18 @@ private:
     }
 
 private:
+    std::shared_ptr<HANDLE> m_SPIIDevice;
+
+private:
     typedef pair<double, double> pollingTimeout;
 
 private:
     Timer m_Timeout;
-    int timeout;
+    unsigned int timeout;
 
 private:
     SPIIStatusUpdate_Interface *m_CB;
-    std::map<common::TupleECMData,AbstractRequestPtr> requestMap;
+    std::map<common::TupleECMData,SPII::AbstractRequestPtr> requestMap;
     std::map<common::TupleECMData,pollingTimeout> timeoutMap;
 
 protected:

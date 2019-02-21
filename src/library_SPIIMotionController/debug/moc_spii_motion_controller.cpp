@@ -1,18 +1,18 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'qmodbus_session.h'
+** Meta object code from reading C++ file 'spii_motion_controller.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.10.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.11.3)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../communications/qmodbus_session.h"
+#include "../spii_motion_controller.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'qmodbus_session.h' doesn't include <QObject>."
+#error "The header file 'spii_motion_controller.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.10.1. It"
+#error "This file was generated using the moc from 5.11.3. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,25 +20,25 @@
 QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
-struct qt_meta_stringdata_comms_QModBus__QModBusSession_t {
+struct qt_meta_stringdata_SPIIMotionController_t {
     QByteArrayData data[1];
-    char stringdata0[30];
+    char stringdata0[21];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_comms_QModBus__QModBusSession_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_SPIIMotionController_t, stringdata0) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
-static const qt_meta_stringdata_comms_QModBus__QModBusSession_t qt_meta_stringdata_comms_QModBus__QModBusSession = {
+static const qt_meta_stringdata_SPIIMotionController_t qt_meta_stringdata_SPIIMotionController = {
     {
-QT_MOC_LITERAL(0, 0, 29) // "comms_QModBus::QModBusSession"
+QT_MOC_LITERAL(0, 0, 20) // "SPIIMotionController"
 
     },
-    "comms_QModBus::QModBusSession"
+    "SPIIMotionController"
 };
 #undef QT_MOC_LITERAL
 
-static const uint qt_meta_data_comms_QModBus__QModBusSession[] = {
+static const uint qt_meta_data_SPIIMotionController[] = {
 
  // content:
        7,       // revision
@@ -54,7 +54,7 @@ static const uint qt_meta_data_comms_QModBus__QModBusSession[] = {
        0        // eod
 };
 
-void comms_QModBus::QModBusSession::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void SPIIMotionController::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     Q_UNUSED(_o);
     Q_UNUSED(_id);
@@ -62,26 +62,26 @@ void comms_QModBus::QModBusSession::qt_static_metacall(QObject *_o, QMetaObject:
     Q_UNUSED(_a);
 }
 
-QT_INIT_METAOBJECT const QMetaObject comms_QModBus::QModBusSession::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_comms_QModBus__QModBusSession.data,
-      qt_meta_data_comms_QModBus__QModBusSession,  qt_static_metacall, nullptr, nullptr}
+QT_INIT_METAOBJECT const QMetaObject SPIIMotionController::staticMetaObject = {
+    { &QObject::staticMetaObject, qt_meta_stringdata_SPIIMotionController.data,
+      qt_meta_data_SPIIMotionController,  qt_static_metacall, nullptr, nullptr}
 };
 
 
-const QMetaObject *comms_QModBus::QModBusSession::metaObject() const
+const QMetaObject *SPIIMotionController::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *comms_QModBus::QModBusSession::qt_metacast(const char *_clname)
+void *SPIIMotionController::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_comms_QModBus__QModBusSession.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_SPIIMotionController.stringdata0))
         return static_cast<void*>(this);
     return QObject::qt_metacast(_clname);
 }
 
-int comms_QModBus::QModBusSession::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int SPIIMotionController::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QObject::qt_metacall(_c, _id, _a);
     return _id;

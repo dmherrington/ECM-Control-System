@@ -1,6 +1,8 @@
 #ifndef SPII_MOTION_CONTROLLER_H
 #define SPII_MOTION_CONTROLLER_H
 
+#include <QObject>
+
 #include <mutex>
 
 #include "ACSC.h"
@@ -8,23 +10,23 @@
 #include "library_spiimotioncontroller_global.h"
 
 #include "common/hsm.h"
+#include "common/commands/command_components.h"
 
 #include "communications/comms_marshaler.h"
 
-class LIBRARY_SPIIMOTIONCONTROLLERSHARED_EXPORT SPIIMotionController
+#include "spii_poll_machine.h"
+#include "spii_state_interface.h"
+
+class LIBRARY_SPIIMOTIONCONTROLLERSHARED_EXPORT SPIIMotionController : public QObject, private Comms::CommsEvents, private SPIIStatusUpdate_Interface
 {
+    Q_OBJECT
 
 public:
     SPIIMotionController();
 
-    ~SPIIMotionController();
+    ~SPIIMotionController() override;
 
     std::vector<common::TupleECMData> getPlottables() const;
-
-    void initializeMotionController();
-
-public:
-    void openConnection(const std::string &address);
 
 public:
     void ConnectToSimulation();
@@ -36,18 +38,26 @@ public:
 
     bool isDeviceConnected() const;
 
+    void LinkConnectionUpdate(const common::comms::CommunicationUpdate &update) override;
+
+    void cbi_SPIIStatusRequest() override;
+
+private:
+    void initializeMotionController();
+
+
 public:
-    Comms::CommsMarshaler* commsMarshaler; /**< Member variable handling the communications with the
+    Comms::CommsMarshaler* m_CommsMarshaler; /**< Member variable handling the communications with the
 actual Galil unit. This parent class will be subscribing to published events from the marshaller. This
 should drive the event driven structure required to exceite the state machine.*/
 
-    SPIIStateInterface* stateInterface; /**< Member variable containing the current state
+    SPIIStateInterface* m_StateInterface; /**< Member variable containing the current state
 information, settings, and callback information for the states within the HSM.*/
 
 private:
-    HANDLE SPIIDevice; /**< Member variable containing a pointer to the Galil interface */
+    std::shared_ptr<HANDLE> m_SPIIDevice; /**< Member variable containing a pointer to the Galil interface */
 
-    SPIIPollMachine* galilPolling; /**< Member variable that contains a threaded object consistently
+    SPIIPollMachine* m_DevicePolling; /**< Member variable that contains a threaded object consistently
  assessing and querying the state of the galil based on a timeout. This state should be paused when
 uploading and/or downloading from the galil. */
 

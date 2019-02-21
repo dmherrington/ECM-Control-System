@@ -29,12 +29,12 @@ hsm::Transition State_MotionStop::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case GalilState::STATE_READY:
+        case SPIIState::STATE_READY:
         {
             rtn = hsm::SiblingTransition<State_Ready>(this->currentCommand);
             break;
         }
-        case GalilState::STATE_ESTOP:
+        case SPIIState::STATE_ESTOP:
         {
             rtn = hsm::SiblingTransition<State_EStop>(this->currentCommand);
         }
@@ -70,17 +70,17 @@ void State_MotionStop::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = GalilState::STATE_ESTOP;
+        desiredState = SPIIState::STATE_ESTOP;
     }
     else if(!Owner().isMotorInMotion()) //the exit condition for this state is that the machine motion has stopped on all axis
     {
-        desiredState = GalilState::STATE_READY;
+        desiredState = SPIIState::STATE_READY;
     }
 }
 
 void State_MotionStop::OnEnter()
 {
-    Owner().issueNewGalilState(GalilState::STATE_MOTION_STOP);
+    Owner().issueNewGalilState(SPIIState::STATE_MOTION_STOP);
 
     CommandStopPtr castCommand = std::make_shared<CommandStop>(); //the axis is defaulted to Z with no args
     Owner().issueGalilCommand(castCommand);
@@ -88,7 +88,7 @@ void State_MotionStop::OnEnter()
     //If the motor has already ceased motion we can exit this state
     if(!Owner().isMotorInMotion()) //the exit condition for this state is that the machine motion has stopped on all axis
     {
-        desiredState = GalilState::STATE_READY;
+        desiredState = SPIIState::STATE_READY;
     }
 
     //The problem with performing this process was that if the user would simply click the motion and not hold

@@ -42,6 +42,15 @@ SOURCES += main.cpp
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/tools/SPiiPlusADKSuite_v2_6/ACSC/C_CPP
 
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_SPIIMotionController/release/ -llibrary_SPIIMotionController
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_SPIIMotionController/debug/ -llibrary_SPIIMotionController
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_SPIIMotionController/ -llibrary_SPIIMotionController
+
+INCLUDEPATH += $$PWD/../library_SPIIMotionController
+DEPENDPATH += $$PWD/../library_SPIIMotionController
+
 unix:!macx|win32: LIBS += -L$$PWD/../../tools/SPiiPlusADKSuite_v2_6/ACSC/C_CPP/ -lACSCL_x86
 
 INCLUDEPATH += $$PWD/../../tools/SPiiPlusADKSuite_v2_6/ACSC/C_CPP

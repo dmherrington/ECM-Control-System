@@ -1,5 +1,5 @@
-#ifndef STATUS_MOTOR_ENABLED_H
-#define STATUS_MOTOR_ENABLED_H
+#ifndef STATUS_MOTOR_H
+#define STATUS_MOTOR_H
 
 #include <map>
 
@@ -84,11 +84,17 @@ ECM_CLASS_FORWARD(Status_Motor);
 class Status_Motor : public AbstractStatus
 {
 public:
-    Status_Motor() = default;
+    Status_Motor();
+
+    Status_Motor(const Status_Motor &copy);
+
+    ~Status_Motor();
 
     void updateAxisStatus(const Status_MotorPerAxis &status);
 
     Status_MotorPerAxis* getAxisStatus(const MotorAxis &axis);
+
+    bool areAnyMotorsEnabled() const;
 
 public:
     Status_Motor& operator = (const Status_Motor &rhs)
@@ -114,10 +120,10 @@ public:
     }
 
 private:
-    std::map<MotorAxis, DataGetSetNotifier<Status_MotorPerAxis>> m_MotorStatus;
+    std::map<MotorAxis, DataGetSetNotifier<Status_MotorPerAxis>*> m_MotorStatus;
 };
 
 }//end of namespace SPII
 
-#endif // STATUS_MOTOR_ENABLED_H
+#endif // STATUS_MOTOR_H
 

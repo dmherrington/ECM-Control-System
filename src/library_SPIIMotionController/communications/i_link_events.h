@@ -1,6 +1,8 @@
 #ifndef I_LINK_EVENTS_SPII_H
 #define I_LINK_EVENTS_SPII_H
 
+#include "ACSC.h"
+
 #include "common/comms/communication_update.h"
 
 namespace Comms

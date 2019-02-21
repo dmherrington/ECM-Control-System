@@ -9,7 +9,7 @@ CommandUploadProgram::CommandUploadProgram():
 CommandUploadProgram::CommandUploadProgram(const CommandUploadProgram &copy):
     AbstractCommand(copy)
 {
-    this->program = copy.program;
+
 }
 
 AbstractCommand* CommandUploadProgram::getClone() const
@@ -30,15 +30,5 @@ std::string CommandUploadProgram::getCommandString() const
 
 void CommandUploadProgram::setCurrentScript(const std::string &text)
 {
-    this->program.setProgram(text);
-}
 
-void CommandUploadProgram::setCurrentProgram(const GalilCurrentProgram &desiredProgram)
-{
-    this->program = desiredProgram;
-}
-
-GalilCurrentProgram CommandUploadProgram::getCurrentProgram() const
-{
-    return this->program;
 }

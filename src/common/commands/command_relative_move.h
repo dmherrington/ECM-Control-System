@@ -11,7 +11,7 @@
 #include "abstract_move_command.h"
 
 /**
-\* @file  command_jog.h
+\* @file  command_relative_move.h
 \*
 \* @author Kenneth Kroeger
 \*
@@ -39,7 +39,7 @@ public:
 
     /**
       */
-    virtual ~CommandRelativeMove() = default;
+    ~CommandRelativeMove() override = default;
 
 public:
     /**

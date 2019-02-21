@@ -12,8 +12,8 @@ State_ManualPositioning::State_ManualPositioning():
 
 void State_ManualPositioning::OnExit()
 {
-    Owner().getAxisStatus(MotorAxis::Z)->stopCode.RemoveNotifier(this);
-    Owner().getAxisStatus(MotorAxis::Z)->position.RemoveNotifier(this);
+    //Owner().getAxisStatus(MotorAxis::Z)->stopCode.RemoveNotifier(this);
+    //Owner().getAxisStatus(MotorAxis::Z)->position.RemoveNotifier(this);
 }
 
 AbstractStateSPII* State_ManualPositioning::getClone() const
@@ -35,12 +35,12 @@ hsm::Transition State_ManualPositioning::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case GalilState::STATE_MOTION_STOP:
+        case SPIIState::STATE_MOTION_STOP:
         {
             rtn = hsm::SiblingTransition<State_MotionStop>();
             break;
         }
-        case GalilState::STATE_ESTOP:
+        case SPIIState::STATE_ESTOP:
         {
             rtn = hsm::SiblingTransition<State_EStop>();
             break;
@@ -68,32 +68,22 @@ void State_ManualPositioning::handleCommand(const AbstractCommandPtr command)
     }
     case CommandType::RELATIVE_MOVE:
     {
-        this->targetPosition = Owner().getAxisStatus(MotorAxis::Z)->getPosition().getPosition() + command->as<CommandRelativeMove>()->getRelativeDistance(MotorAxis::Z) * 10;
-        Owner().getAxisStatus(MotorAxis::Z)->position.AddNotifier(this,[this]
-        {
-            int currentPosition = Owner().getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
-            if(abs(currentPosition - this->targetPosition) < 2)
-            {
-                this->desiredState = GalilState::STATE_READY;
-            }
-        });
-
         Owner().issueGalilMotionCommand(command);
         break;
     }
     case CommandType::MOTOR_OFF:
     {
-        this->desiredState = GalilState::STATE_MOTION_STOP;
+        this->desiredState = SPIIState::STATE_MOTION_STOP;
         this->currentCommand = command;
     }
     case CommandType::STOP:
     {
-        this->desiredState = GalilState::STATE_MOTION_STOP;
+        this->desiredState = SPIIState::STATE_MOTION_STOP;
         break;
     }
     case CommandType::ESTOP:
     {
-        this->desiredState = GalilState::STATE_ESTOP;
+        this->desiredState = SPIIState::STATE_ESTOP;
         break;
     }
     default:
@@ -110,32 +100,33 @@ void State_ManualPositioning::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = GalilState::STATE_ESTOP;
+        desiredState = SPIIState::STATE_ESTOP;
         return;
     }
     else
     {
-        int currentPosition = Owner().getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+        int currentPosition = 0.0; // = Owner().getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
         if(abs(currentPosition - this->targetPosition) < 2)
         {
-            this->desiredState = GalilState::STATE_READY;
+            this->desiredState = SPIIState::STATE_READY;
         }
     }
 }
 
 void State_ManualPositioning::OnEnter()
 {
-    Owner().issueNewGalilState(GalilState::STATE_MANUAL_POSITIONING);
+    Owner().issueNewGalilState(SPIIState::STATE_MANUAL_POSITIONING);
     //For some reason no command was passed to this case. This is an interesting case.
-    this->desiredState = GalilState::STATE_READY;
+    this->desiredState = SPIIState::STATE_READY;
 }
 
 void State_ManualPositioning::OnEnter(const AbstractCommandPtr command)
 {
-    Owner().issueNewGalilState(GalilState::STATE_MANUAL_POSITIONING);
+    Owner().issueNewGalilState(SPIIState::STATE_MANUAL_POSITIONING);
 
     if(command != nullptr)
     {
+        /*
         //Let us establish the callback notification to when the stop code has changed
         Owner().getAxisStatus(MotorAxis::Z)->stopCode.AddNotifier(this,[this]
         {
@@ -149,32 +140,32 @@ void State_ManualPositioning::OnEnter(const AbstractCommandPtr command)
             case 1:
             {
                 //the machine has reached its commanded position
-                desiredState = GalilState::STATE_MOTION_STOP;
+                desiredState = SPIIState::STATE_MOTION_STOP;
                 break;
             }
             case 2:
             {
                 //Decelerating or stopped by FWD limit switch or soft limit FL
-                desiredState = GalilState::STATE_MOTION_STOP;
+                desiredState = SPIIState::STATE_MOTION_STOP;
                 break;
             }
             case 3:
             {
                 //Decelerating or stopped by REV limit switch or soft limit BL
-                desiredState = GalilState::STATE_MOTION_STOP;
+                desiredState = SPIIState::STATE_MOTION_STOP;
                 break;
             }
             default:
                 break;
             }
         });
-
+        */
         //This means there is a command for us to handle
         this->handleCommand(command);
     }
     else{
         //For some reason the command was null. This is an interesting case.
-        this->desiredState = GalilState::STATE_READY;
+        this->desiredState = SPIIState::STATE_READY;
     }
 }
 

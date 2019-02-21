@@ -5,11 +5,13 @@
 #include "common/tuple_profile_variable_string.h"
 
 #include "data/motion_profile_variable_state.h"
-#include "status/abstract_status.h"
+#include "abstract_status.h"
+
+using namespace SPII;
 
 ECM_CLASS_FORWARD(Status_VariableValue);
 
-class Status_VariableValue : public AbstractStatus
+class Status_VariableValue : public SPII::AbstractStatus
 {
 public:
     Status_VariableValue();
@@ -37,6 +39,7 @@ public:
     Status_VariableValue& operator = (const Status_VariableValue &rhs)
     {
         AbstractStatus::operator =(rhs);
+        this->bufferIndex = rhs.bufferIndex;
         this->programName = rhs.programName;
         this->profileName = rhs.profileName;
         this->variableName = rhs.variableName;
@@ -47,6 +50,9 @@ public:
 
     bool operator == (const Status_VariableValue &rhs) {
         if(!AbstractStatus::operator ==(rhs)){
+            return false;
+        }
+        if(this->bufferIndex != rhs.bufferIndex){
             return false;
         }
         if(this->programName != rhs.programName){
@@ -72,6 +78,8 @@ public:
     }
 
 private:
+    int bufferIndex = -1;
+
     std::string programName = "";
     std::string profileName = "";
     std::string variableName = "";

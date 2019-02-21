@@ -52,7 +52,8 @@ SOURCES += common.cpp \
     commands/command_stop.cpp \
     commands/command_upload_program.cpp \
     commands/command_variable.cpp \
-    motion_profile.cpp
+    motion_profile.cpp \
+    commands/abstract_axis_command.cpp
 
 HEADERS += common.h\
         common_global.h \
@@ -105,7 +106,8 @@ HEADERS += common.h\
     commands/command_upload_program.h \
     commands/command_variable.h \
     type_direction.h \
-    motion_profile.h
+    motion_profile.h \
+    commands/abstract_axis_command.h
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

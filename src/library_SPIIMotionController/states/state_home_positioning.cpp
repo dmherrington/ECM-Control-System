@@ -13,7 +13,7 @@ State_HomePositioning::State_HomePositioning():
 
 void State_HomePositioning::OnExit()
 {
-    Owner().statusVariableValues->removeVariableNotifier("homest",this);
+    Owner().m_VariableValues->removeVariableNotifier("homest",this);
 
     common::TupleProfileVariableString tupleVariable("Default","Homing","homest");
     Owner().issueGalilRemovePollingRequest(tupleVariable);
@@ -40,17 +40,17 @@ hsm::Transition State_HomePositioning::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case GalilState::STATE_READY:
+        case SPIIState::STATE_READY:
         {
             rtn = hsm::SiblingTransition<State_Ready>();
             break;
         }
-        case GalilState::STATE_MOTION_STOP:
+        case SPIIState::STATE_MOTION_STOP:
         {
             rtn = hsm::SiblingTransition<State_MotionStop>();
             break;
         }
-        case GalilState::STATE_ESTOP:
+        case SPIIState::STATE_ESTOP:
         {
             rtn = hsm::SiblingTransition<State_EStop>();
         }
@@ -75,13 +75,13 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
         if(!this->homeExecuting)
         {
             this->homeExecuting = true;
-            Owner().statusVariableValues->addVariableNotifier("homest",this,[this]{
+            Owner().m_VariableValues->addVariableNotifier("homest",this,[this]{
                 double varValue = 0.0;
-                bool valid = Owner().statusVariableValues->getVariableValue("homest",varValue);
+                bool valid = Owner().m_VariableValues->getVariableValue("homest",varValue);
                 if(!valid)
                 {
                     std::cout<<"The variable homest does not exist and therefore we do not know how to handle this case."<<std::endl;
-                    desiredState = GalilState::STATE_MOTION_STOP;
+                    desiredState = SPIIState::STATE_MOTION_STOP;
                     return;
                 }
 
@@ -93,7 +93,7 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
                     newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE);
                     MotionProfileState newProfileState;
                     newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
-                    Owner().issueUpdatedMotionProfileState(newProfileState);
+                    //Owner().issueUpdatedMotionProfileState(newProfileState);
                     break;
                 }
                 case 1:
@@ -104,8 +104,8 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
                     newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::COMPLETE);
                     MotionProfileState newProfileState;
                     newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
-                    desiredState = GalilState::STATE_READY;
-                    Owner().issueUpdatedMotionProfileState(newProfileState);
+                    desiredState = SPIIState::STATE_READY;
+                    //Owner().issueUpdatedMotionProfileState(newProfileState);
                     break;
                 }
                 } //end of switch statement
@@ -116,13 +116,13 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
     }
     case CommandType::STOP:
     {
-        desiredState = GalilState::STATE_MOTION_STOP;
+        desiredState = SPIIState::STATE_MOTION_STOP;
         //delete copyCommand;
         break;
     }
     case CommandType::ESTOP:
     {
-        desiredState = GalilState::STATE_ESTOP;
+        desiredState = SPIIState::STATE_ESTOP;
         //delete copyCommand;
         break;
     }
@@ -139,16 +139,16 @@ void State_HomePositioning::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = GalilState::STATE_ESTOP;
+        desiredState = SPIIState::STATE_ESTOP;
     }
 }
 
 void State_HomePositioning::OnEnter()
 {
-    Owner().issueNewGalilState(GalilState::STATE_HOME_POSITIONING);
+    Owner().issueNewGalilState(SPIIState::STATE_HOME_POSITIONING);
     //this shouldn't really happen as how are we supposed to know the actual home position command
     //we therefore are going to do nothing other than change the state back to State_Ready
-    this->desiredState = GalilState::STATE_READY;
+    this->desiredState = SPIIState::STATE_READY;
 }
 
 void State_HomePositioning::OnEnter(const AbstractCommandPtr command)
@@ -157,11 +157,11 @@ void State_HomePositioning::OnEnter(const AbstractCommandPtr command)
 
     if(command != nullptr)
     {
-        Owner().issueNewGalilState(GalilState::STATE_HOME_POSITIONING);
-        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Home Status","homest");
-        common::TupleProfileVariableString tupleVariable("Default","Homing","homest");
-        request->setTupleDescription(tupleVariable);
-        Owner().issueGalilAddPollingRequest(request,1000);
+        Owner().issueNewGalilState(SPIIState::STATE_HOME_POSITIONING);
+        //Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Home Status","homest");
+        //common::TupleProfileVariableString tupleVariable("Default","Homing","homest");
+        //request->setTupleDescription(tupleVariable);
+        //Owner().issueGalilAddPollingRequest(request,1000);
 
         this->handleCommand(command);
     }

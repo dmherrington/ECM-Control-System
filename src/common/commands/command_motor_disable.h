@@ -2,6 +2,8 @@
 #define COMMAND_MOTOR_DISABLE_H
 
 #include <stdexcept>
+#include <map>
+
 #include "../class_forward.h"
 
 #include "abstract_command.h"
@@ -27,6 +29,12 @@ ECM_CLASS_FORWARD(CommandMotorDisable);
 class CommandMotorDisable : public AbstractCommand
 {
 public:
+    enum DisableValue{
+        NO_CHANGE,
+        CHANGE
+    };
+
+public:
     //!
     //! \brief CommandMotorDisable
     //!
@@ -36,7 +44,7 @@ public:
 
     /**
       */
-    virtual ~CommandMotorDisable() = default;
+    ~CommandMotorDisable() override = default;
 
 public:
 
@@ -57,20 +65,14 @@ public:
     //! \brief setDisableAxis
     //! \param axis
     //!
-    void setDisableAxis(const MotorAxis &axis);
+    void addAxis(const MotorAxis &axis);
 
     //!
     //! \brief getDisableAxis
     //! \return
     //!
-    MotorAxis getDisableAxis() const;
+    std::map<MotorAxis,CommandMotorDisable::DisableValue> getDisableAxis() const;
 
-public:
-    //!
-    //! \brief getCommandString
-    //! \return
-    //!
-    std::string getCommandString() const override;
 
 public:
     //!
@@ -80,7 +82,7 @@ public:
     CommandMotorDisable& operator = (const CommandMotorDisable &rhs)
     {
         AbstractCommand::operator =(rhs);
-        this->disableAxis = rhs.disableAxis;
+        this->m_AxisValue = rhs.m_AxisValue;
         return *this;
     }
 
@@ -94,7 +96,7 @@ public:
         if(!AbstractCommand::operator ==(rhs)){
             return false;
         }
-        if(this->disableAxis != rhs.disableAxis){
+        if(this->m_AxisValue != rhs.m_AxisValue){
             return false;
         }
         return true;
@@ -110,7 +112,8 @@ public:
     }
 
 private:
-    std::vector<MotorAxis> disableAxis; /**< Value of the axis to be disabled */
+    std::map<MotorAxis,DisableValue> m_AxisValue; /**< Value of the axis to begin motion */
+
 };
 
 

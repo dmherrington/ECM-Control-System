@@ -7,7 +7,7 @@
 #include "abstract_command.h"
 
 /**
-\* @file  command_jog.h
+\* @file  command_upload_program.h
 \*
 \* @author Kenneth Kroeger
 \*
@@ -49,9 +49,6 @@ public:
 public:
     void setCurrentScript(const std::string &text);
 
-    void setCurrentProgram(const GalilCurrentProgram &desiredProgram);
-
-    GalilCurrentProgram getCurrentProgram() const;
 public:
     //!
     //! \brief getCommandString
@@ -68,7 +65,6 @@ public:
     CommandUploadProgram& operator = (const CommandUploadProgram &rhs)
     {
         AbstractCommand::operator =(rhs);
-        this->program = rhs.program;
         return *this;
     }
 
@@ -82,9 +78,6 @@ public:
         if(!AbstractCommand::operator ==(rhs)){
             return false;
         }
-        if(this->program != rhs.program){
-            return false;
-        }
         return true;
     }
 
@@ -96,9 +89,6 @@ public:
     bool operator != (const CommandUploadProgram &rhs) {
         return !(*this == rhs);
     }
-
-private:
-    GalilCurrentProgram program;
 };
 
 #endif // COMMAND_UPLOAD_PROGRAM_H

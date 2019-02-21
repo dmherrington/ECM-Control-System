@@ -29,12 +29,12 @@ hsm::Transition State_Idle::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case GalilState::STATE_READY:
+        case SPIIState::STATE_READY:
         {
             rtn = hsm::SiblingTransition<State_Ready>(this->currentCommand);
             break;
         }
-        case GalilState::STATE_ESTOP:
+        case SPIIState::STATE_ESTOP:
         {
             rtn = hsm::SiblingTransition<State_EStop>();
             break;
@@ -55,10 +55,10 @@ void State_Idle::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to STATE_ESTOP
-        desiredState = GalilState::STATE_ESTOP;
+        desiredState = SPIIState::STATE_ESTOP;
     }
     else if(Owner().isMotorEnabled() || Owner().isMotorInMotion())
-        desiredState = GalilState::STATE_READY;
+        desiredState = SPIIState::STATE_READY;
 }
 
 void State_Idle::handleCommand(const AbstractCommandPtr command)
@@ -89,7 +89,7 @@ void State_Idle::handleCommand(const AbstractCommandPtr command)
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to the Ready State and we no longer need the command
-        desiredState = GalilState::STATE_READY;
+        desiredState = SPIIState::STATE_READY;
         //delete copyCommand;
         break;
     }
@@ -99,7 +99,7 @@ void State_Idle::handleCommand(const AbstractCommandPtr command)
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to STATE_READY
-        desiredState = GalilState::STATE_READY;
+        desiredState = SPIIState::STATE_READY;
         this->currentCommand = command;
         break;
     }
@@ -116,7 +116,7 @@ void State_Idle::handleCommand(const AbstractCommandPtr command)
         else{
             //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
             //This command will transition the machine to STATE_READY
-            desiredState = GalilState::STATE_READY;
+            desiredState = SPIIState::STATE_READY;
             this->currentCommand = command;
         }
         break;
@@ -135,27 +135,21 @@ void State_Idle::handleCommand(const AbstractCommandPtr command)
         //If we are here because the motor hasn't turned off and is moving, something is wrong.
 
         //First check to see if the motor is already disarmed, and if not, disarm it
-        if(Owner().getAxisStatus(MotorAxis::Z)->isMotorEnabled())
+        if(Owner().m_MotorStatus->areAnyMotorsEnabled())
         {
             //If the motor is not currently armed, issue the command to arm it
-            //CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();
             Owner().issueGalilCommand(command);
         }
         else{
             //since the motor was already disarmed this implies that we can safely transition to idle state
-            this->desiredState = GalilState::STATE_IDLE;
+            this->desiredState = SPIIState::STATE_IDLE;
         }
-
-        //Lastly, send a command to make sure the airbrake has been engaged
-        CommandSetBitPtr command = std::make_shared<CommandSetBit>();
-        command->appendAddress(2); //Ken: be careful in the event that this changes. This should be handled by settings or something
-        Owner().issueGalilCommand(command);
 
         break;
     }
     case CommandType::ESTOP:
     {
-        desiredState = GalilState::STATE_ESTOP;
+        desiredState = SPIIState::STATE_ESTOP;
         //delete copyCommand;
         break;
     }
@@ -174,7 +168,7 @@ void State_Idle::handleCommand(const AbstractCommandPtr command)
 
 void State_Idle::OnEnter()
 {
-    Owner().issueNewGalilState(GalilState::STATE_IDLE);
+    Owner().issueNewGalilState(SPIIState::STATE_IDLE);
 
     //The first thing we should do when entering this state is to disable the motor
     //To get to this state, it should be noted that we should have already transitioned through

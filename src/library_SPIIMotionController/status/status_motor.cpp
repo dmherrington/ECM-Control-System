@@ -3,7 +3,7 @@
 namespace SPII {
 
 Status_MotorPerAxis::Status_MotorPerAxis():
-    AbstractStatus(StatusTypes::STATUS_MOTOR)
+    AbstractStatus(StatusTypes::STATUS_PER_MOTOR_AXIS)
 {
 
 }
@@ -65,10 +65,51 @@ bool Status_MotorPerAxis::isMotorAccelerating() const
     return this->isAccelerating;
 }
 
+
+
+Status_Motor::Status_Motor():
+    AbstractStatus(StatusTypes::STATUS_ALL_MOTOR_AXIS)
+{
+
+}
+
+Status_Motor::Status_Motor(const Status_Motor &copy):
+    AbstractStatus(copy)
+{
+
+}
+
+Status_Motor::~Status_Motor()
+{
+
+}
+
+bool Status_Motor::areAnyMotorsEnabled() const
+{
+    for (std::map<MotorAxis, DataGetSetNotifier<Status_MotorPerAxis>*>::const_iterator it=m_MotorStatus.begin(); it!=m_MotorStatus.end(); ++it)
+    {
+        if(it->second->get().isMotorEnabled())
+            return true;
+    }
+
+    return false;
+}
+
 void Status_Motor::updateAxisStatus(const Status_MotorPerAxis &status)
 {
-    m_MotorStatus.insert(std::pair<MotorAxis,Status_MotorPerAxis>(status.getAxis(),status));
+    /*
+    DataGetSetNotifier<Status_MotorPerAxis> newStatus;
+
+    std::pair<std::map<MotorAxis,DataGetSetNotifier<Status_MotorPerAxis>>::iterator,bool> ret;
+    ret = m_MotorStatus.insert (std::pair<MotorAxis,DataGetSetNotifier<Status_MotorPerAxis>>(status.getAxis(),newStatus));
+    //the element already exists
+    if (ret.second==false) {
+        m_MotorStatus.at(status.getAxis()) = newStatus;
+    }
+    */
 }
+
+
 
 Status_MotorPerAxis* Status_Motor::getAxisStatus(const MotorAxis &axis)
 {

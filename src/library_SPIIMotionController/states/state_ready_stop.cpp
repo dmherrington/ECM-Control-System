@@ -28,12 +28,12 @@ hsm::Transition State_ReadyStop::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case GalilState::STATE_IDLE:
+        case SPIIState::STATE_IDLE:
         {
             rtn = hsm::SiblingTransition<State_Idle>(currentCommand);
             break;
         }
-        case GalilState::STATE_ESTOP:
+        case SPIIState::STATE_ESTOP:
         {
             rtn = hsm::SiblingTransition<State_EStop>(currentCommand);
         }
@@ -67,15 +67,15 @@ void State_ReadyStop::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = GalilState::STATE_ESTOP;
+        desiredState = SPIIState::STATE_ESTOP;
     }
     else if(!Owner().isMotorEnabled())
-        desiredState = GalilState::STATE_IDLE;
+        desiredState = SPIIState::STATE_IDLE;
 }
 
 void State_ReadyStop::OnEnter()
 {
-    Owner().issueNewGalilState(GalilState::STATE_READY_STOP);
+    Owner().issueNewGalilState(SPIIState::STATE_READY_STOP);
 
     //The first thing we should do when entering this state is to disengage the motor
     //Let us check to see if the motor is already armed, if not, follow through with the command
@@ -89,7 +89,7 @@ void State_ReadyStop::OnEnter()
     }
     else{
         //since the motor was already disarmed this implies that we can safely transition to idle state
-        this->desiredState = GalilState::STATE_IDLE;
+        this->desiredState = SPIIState::STATE_IDLE;
     }
 
     //Lastly, send a command to make sure the airbrake has been engaged

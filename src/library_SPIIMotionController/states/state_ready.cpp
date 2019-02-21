@@ -29,42 +29,42 @@ hsm::Transition State_Ready::GetTransition()
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
-        case GalilState::STATE_IDLE:
+        case SPIIState::STATE_IDLE:
         {
             rtn = hsm::SiblingTransition<State_Idle>(currentCommand);
             break;
         }
-        case GalilState::STATE_MANUAL_POSITIONING:
+        case SPIIState::STATE_MANUAL_POSITIONING:
         {
             rtn = hsm::SiblingTransition<State_ManualPositioning>(currentCommand);
             break;
         }
-        case GalilState::STATE_JOGGING:
+        case SPIIState::STATE_JOGGING:
         {
             rtn = hsm::SiblingTransition<State_Jogging>(currentCommand);
             break;
         }
-        case GalilState::STATE_HOME_POSITIONING:
+        case SPIIState::STATE_HOME_POSITIONING:
         {
             rtn = hsm::SiblingTransition<State_HomePositioning>(currentCommand);
             break;
         }
-        case GalilState::STATE_SCRIPT_EXECUTION:
+        case SPIIState::STATE_SCRIPT_EXECUTION:
         {
             rtn = hsm::SiblingTransition<State_ScriptExecution>(currentCommand);
             break;
         }
-        case GalilState::STATE_TOUCHOFF:
+        case SPIIState::STATE_TOUCHOFF:
         {
             rtn = hsm::SiblingTransition<State_Touchoff>(currentCommand);
             break;
         }
-        case GalilState::STATE_READY_STOP:
+        case SPIIState::STATE_READY_STOP:
         {
             rtn = hsm::SiblingTransition<State_ReadyStop>(currentCommand);
             break;
         }
-        case GalilState::STATE_ESTOP:
+        case SPIIState::STATE_ESTOP:
         {
             rtn = hsm::SiblingTransition<State_EStop>();
             break;
@@ -88,7 +88,7 @@ void State_Ready::handleCommand(const AbstractCommandPtr command)
     case CommandType::DOWNLOAD_PROGRAM:
     case CommandType::UPLOAD_PROGRAM:
     {
-        desiredState = GalilState::STATE_READY_STOP;
+        desiredState = SPIIState::STATE_READY_STOP;
         this->currentCommand = command;
         break;
     }
@@ -102,7 +102,7 @@ void State_Ready::handleCommand(const AbstractCommandPtr command)
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to STATE_MANUAL_POSITIONING
-        desiredState = GalilState::STATE_MANUAL_POSITIONING;
+        desiredState = SPIIState::STATE_MANUAL_POSITIONING;
         this->currentCommand = command;
         break;
     }
@@ -110,7 +110,7 @@ void State_Ready::handleCommand(const AbstractCommandPtr command)
     {
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         //This command will transition the machine to STATE_JOGGING
-        desiredState = GalilState::STATE_JOGGING;
+        desiredState = SPIIState::STATE_JOGGING;
         this->currentCommand = command;
         break;
     }
@@ -122,21 +122,21 @@ void State_Ready::handleCommand(const AbstractCommandPtr command)
         case MotionProfile::ProfileType::HOMING:
         {
             //This command will transition the machine to STATE_HOME_POSITIONING
-            desiredState = GalilState::STATE_HOME_POSITIONING;
+            desiredState = SPIIState::STATE_HOME_POSITIONING;
             this->currentCommand = command;
             break;
         }
         case MotionProfile::ProfileType::PROFILE:
         {
             //This command will transition the machine to STATE_SCRIPT_EXECUTION
-            desiredState = GalilState::STATE_SCRIPT_EXECUTION;
+            desiredState = SPIIState::STATE_SCRIPT_EXECUTION;
             this->currentCommand = command;
             break;
         }
         case MotionProfile::ProfileType::TOUCHOFF:
         {
             //This command will transition the machine to STATE_TOUCHOFF
-            desiredState = GalilState::STATE_TOUCHOFF;
+            desiredState = SPIIState::STATE_TOUCHOFF;
             this->currentCommand = command;
             break;
         }
@@ -147,7 +147,7 @@ void State_Ready::handleCommand(const AbstractCommandPtr command)
     }
     case CommandType::MOTOR_OFF:
     {
-        desiredState = GalilState::STATE_READY_STOP;
+        desiredState = SPIIState::STATE_READY_STOP;
         break;
     }
     case CommandType::STOP:
@@ -193,7 +193,7 @@ void State_Ready::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = GalilState::STATE_ESTOP;
+        desiredState = SPIIState::STATE_ESTOP;
     }
     else
     {
@@ -201,14 +201,14 @@ void State_Ready::Update()
         {
             disableCount++;
             if(disableCount > 10)
-                desiredState = GalilState::STATE_IDLE;
+                desiredState = SPIIState::STATE_IDLE;
         }
     }
 }
 
 void State_Ready::OnEnter()
 {
-    Owner().issueNewGalilState(GalilState::STATE_READY);
+    Owner().issueNewGalilState(SPIIState::STATE_READY);
     //The first thing we should do when entering this state is to engage the motor
     //Let us check to see if the motor is already armed, if not, follow through with the command
 
@@ -216,7 +216,6 @@ void State_Ready::OnEnter()
     {
         disableCount = 0;
         CommandMotorEnablePtr command = std::make_shared<CommandMotorEnable>();
-        command->setEnableAxis(MotorAxis::Z);
         Owner().issueGalilCommand(command);
     }
 

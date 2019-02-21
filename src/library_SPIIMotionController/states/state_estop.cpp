@@ -28,7 +28,7 @@ hsm::Transition State_EStop::GetTransition()
     {
         //this means we want to chage the state for some reason
         switch (desiredState) {
-        case GalilState::STATE_IDLE:
+        case SPIIState::STATE_IDLE:
         {
             rtn = hsm::SiblingTransition<State_Idle>();
             break;
@@ -59,13 +59,13 @@ void State_EStop::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = GalilState::STATE_IDLE;
+        desiredState = SPIIState::STATE_IDLE;
     }
 }
 
 void State_EStop::OnEnter()
 {
-    Owner().issueNewGalilState(GalilState::STATE_ESTOP);
+    Owner().issueNewGalilState(SPIIState::STATE_ESTOP);
     //First check to see if the motor is already disarmed, and if not, disarm it
     if(Owner().isMotorEnabled())
     {

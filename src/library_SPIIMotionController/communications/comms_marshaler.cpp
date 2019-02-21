@@ -24,28 +24,46 @@ CommsMarshaler::CommsMarshaler()
 /// Connect/Disconnect from Galil Methods
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void CommsMarshaler::ConnectToSimulation()
+std::shared_ptr<HANDLE> CommsMarshaler::ConnectToSimulation()
 {
+    HANDLE* commsLink = nullptr;
+
     link->SetSimulationConnection();
-    link->Connect();
+    link->Connect(commsLink);
+
+    std::shared_ptr<HANDLE> sharedCommsLink(commsLink);
+
+    return sharedCommsLink;
 }
 
-void CommsMarshaler::ConnectToSerialPort(const common::comms::SerialConfiguration &linkConfig)
+HANDLE CommsMarshaler::ConnectToSerialPort(const common::comms::SerialConfiguration &linkConfig)
 {
+    HANDLE commsLink;
+
     link->SetSerialConnection(linkConfig);
     link->Connect();
+
+    return commsLink;
 }
 
-void CommsMarshaler::ConnectToEthernetPort(const common::comms::TCPConfiguration &linkConfig)
+HANDLE CommsMarshaler::ConnectToEthernetPort(const common::comms::TCPConfiguration &linkConfig)
 {
+    HANDLE commsLink;
+
     link->SetEthernetConnection(linkConfig);
     link->Connect();
+
+    return commsLink;
 }
 
-void CommsMarshaler::ConnectToPCIPort(const ACSC_PCI_SLOT &linkConfig)
+HANDLE CommsMarshaler::ConnectToPCIPort(const ACSC_PCI_SLOT &linkConfig)
 {
+    HANDLE commsLink;
+
     link->SetPCIConnection(linkConfig);
     link->Connect();
+
+    return commsLink;
 }
 
 void CommsMarshaler::DisconnetLink()
@@ -120,6 +138,11 @@ void CommsMarshaler::ConnectionClosed() const
     Emit([&](const CommsEvents *ptr){ptr->LinkDisconnected();});
 }
 
+
+void CommsMarshaler::requestPosition()
+{
+    link->requestPosition();
+}
 
 template void CommsMarshaler::SendSPIIMessage<double>(const double&);
 

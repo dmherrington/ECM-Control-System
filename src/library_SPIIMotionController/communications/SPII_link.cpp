@@ -51,7 +51,7 @@ private:
 SPIILink::SPIILink()
 {
     connected = false;
-    std::cout << "Create GalilLink " <<std::endl;
+    std::cout << "Create SPIILink " <<std::endl;
 }
 
 //!
@@ -67,8 +67,9 @@ SPIILink::~SPIILink()
 //! \brief GalilLink::Connect
 //! \return
 //!
-void SPIILink::Connect(void)
+bool SPIILink::Connect(HANDLE* link)
 {
+
     if(connected)
     {
         //We already connected and it has been requested to connect again
@@ -81,8 +82,11 @@ void SPIILink::Connect(void)
     switch (m_CommunicationSettings.type) {
     case COMMS_TYPE::ETHERNET:
     {
-        m_SPII = acsc_OpenCommEthernetTCP(m_CommunicationSettings.ethernetPort.listenAddress(),m_CommunicationSettings.ethernetPort.listenPortNumber());
-        if(m_SPII)
+        char *cstr = new char[m_CommunicationSettings.ethernetPort.listenAddress().length() + 1];
+        strcpy(cstr, m_CommunicationSettings.ethernetPort.listenAddress().c_str());
+
+        HANDLE currentCommsHandle = acsc_OpenCommEthernetTCP(cstr,m_CommunicationSettings.ethernetPort.listenPortNumber());
+        m_SPII = &currentCommsHandle;
         break;
     }
     case COMMS_TYPE::PCI:
@@ -97,31 +101,61 @@ void SPIILink::Connect(void)
     }
     case COMMS_TYPE::SIMULATION:
     {
-        m_SPII = acsc_OpenCommSimulator();
+        HANDLE currentCommsHandle = acsc_OpenCommSimulator();
+        m_SPII = &currentCommsHandle;
+        double referencePosition;
+        int value = acsc_GetRPosition(*m_SPII,ACSC_AXIS_0,&referencePosition,ACSC_SYNCHRONOUS);
+        if(value)
+        {
+            std::cout<<"The current reference position is: "<<referencePosition<<std::endl;
+        }
+
         break;
     }
     default:
+    {
         break;
+    }
     }
 
     if(m_SPII == ACSC_INVALID)
     {
-        commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::ALERT);
+        this->connected = false;
 
-        //there was a problem connecting
+        commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::ALERT);
         int errorCode = acsc_GetLastError();
-        acsc_GetErrorString(m_SPII,errorCode,)
+
+        int availableBufLength = 256;
+        char errorBuf[availableBufLength];
+        int receivedBufLength = 256;
+        //unsigned int maxTries = 2, tryIndex =0;
+
         //get the string associated with the error code
-        std::string errorString;
-        commsUpdate.setPeripheralMessage(errorString);
+        if(acsc_GetErrorString(m_SPII,errorCode,errorBuf,availableBufLength,&receivedBufLength))
+        {
+            if(receivedBufLength == availableBufLength)
+            {
+                //the buffer may have not been long enough
+                //we shall wrap this in a loop later
+            }
+            else
+            {
+                std::string errorString(errorBuf);
+                commsUpdate.setPeripheralMessage(errorString);
+            }
+
+        }
     }
     else
     {
+        link = m_SPII;
+        this->connected = true;
         commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
         commsUpdate.setPeripheralMessage("SPII Motor Controller Connected.");
     }
 
-    EmitEvent([update](const ILinkEvents *ptr){ptr->ConnectionUpdate(update);});
+
+    EmitEvent([commsUpdate](const ILinkEvents *ptr){ptr->ConnectionUpdate(commsUpdate);});
 
 }
 
@@ -133,21 +167,32 @@ void SPIILink::Disconnect(void)
 {
     if(connected)
     {
-        acsc_
-        /*
-        GReturn rtnCode = GClose(galil);
-        if(rtnCode == G_NO_ERROR)
+        switch (m_CommunicationSettings.type) {
+        case COMMS_TYPE::SIMULATION:
         {
-            this->connected = false;
-            EmitEvent([](const ILinkEvents *ptr){ptr->ConnectionClosed();});
-
-            common::comms::CommunicationUpdate update("Galil Link");
-            update.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED);
-            update.setPeripheralMessage("Galil has been disconnected.");
-            EmitEvent([update](const ILinkEvents *ptr){ptr->ConnectionUpdate(update);});
-
+            if(acsc_CloseSimulator())
+            {
+                //The simulator had closed properly
+                connected = false;
+            }
+            else {
+                //There was a problem closing the simulator
+            }
+            break;
         }
-        */
+        default:
+        {
+            if(acsc_CloseComm(this->m_SPII))
+            {
+                //The simulator had closed properly
+                connected = false;
+            }
+            else {
+                //There was a problem closing the simulator
+            }
+            break;
+        }
+        }
     }
 }
 
@@ -158,6 +203,16 @@ void SPIILink::Disconnect(void)
 bool SPIILink::isConnected() const
 {
     return this->connected;
+}
+
+void SPIILink::requestPosition()
+{
+    double referencePosition;
+    int value = acsc_GetRPosition(m_SPII,ACSC_AXIS_0,&referencePosition,ACSC_SYNCHRONOUS);
+    if(value)
+    {
+        std::cout<<"The current reference position is: "<<referencePosition<<std::endl;
+    }
 }
 
 } //END MAVLINKComms

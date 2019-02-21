@@ -21,15 +21,16 @@ public:
 
     CommsMarshaler();
 
+    void requestPosition();
 
     //////////////////////////////////////////////////////////////
     /// Connect/Disconnect from SPII Methods
     //////////////////////////////////////////////////////////////
 
-    void ConnectToSimulation();
-    void ConnectToSerialPort(const common::comms::SerialConfiguration &linkConfig);
-    void ConnectToEthernetPort(const common::comms::TCPConfiguration &linkConfig);
-    void ConnectToPCIPort(const ACSC_PCI_SLOT &linkConfig);
+    std::shared_ptr<HANDLE> ConnectToSimulation();
+    HANDLE ConnectToSerialPort(const common::comms::SerialConfiguration &linkConfig);
+    HANDLE ConnectToEthernetPort(const common::comms::TCPConfiguration &linkConfig);
+    HANDLE ConnectToPCIPort(const ACSC_PCI_SLOT &linkConfig);
 
 
     void DisconnetLink();
@@ -62,6 +63,7 @@ private:
     void ConnectionOpened() const override;
 
     void ConnectionClosed() const override;
+
 
 private:
     std::shared_ptr<ILink> link;

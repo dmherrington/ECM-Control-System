@@ -2,6 +2,7 @@
 #define COMMAND_MOTION_START_H
 
 #include <string>
+#include <map>
 
 #include "../class_forward.h"
 #include "../axis_definitions.h"
@@ -27,6 +28,13 @@ ECM_CLASS_FORWARD(CommandMotionStart);
 
 class CommandMotionStart : public AbstractCommand
 {
+
+public:
+    enum MotionValue{
+        NO_CHANGE,
+        CHANGE
+    };
+
 public:
     CommandMotionStart(const MotorAxis &axis = MotorAxis::Z);
 
@@ -34,7 +42,7 @@ public:
 
     /**
       */
-    virtual ~CommandMotionStart() = default;
+    ~CommandMotionStart() override = default;
 
 public:
     /**
@@ -54,20 +62,13 @@ public:
     //! \brief setAxis
     //! \param axis
     //!
-    void setAxis(const MotorAxis &axis);
+    void addAxis(const MotorAxis &axis);
 
     //!
     //! \brief getAxis
     //! \return
     //!
-    MotorAxis getAxis() const;
-
-public:
-    //!
-    //! \brief getCommandString
-    //! \return
-    //!
-    std::string getCommandString() const override;
+    std::map<MotorAxis,CommandMotionStart::MotionValue> getAxis() const;
 
 public:
     //!
@@ -77,7 +78,7 @@ public:
     CommandMotionStart& operator = (const CommandMotionStart &rhs)
     {
         AbstractCommand::operator =(rhs);
-        this->startAxis = rhs.startAxis;
+        this->m_AxisValue = rhs.m_AxisValue;
         return *this;
     }
 
@@ -91,7 +92,7 @@ public:
         if(!AbstractCommand::operator ==(rhs)){
             return false;
         }
-        if(this->startAxis != rhs.startAxis){
+        if(this->m_AxisValue != rhs.m_AxisValue){
             return false;
         }
         return true;
@@ -107,7 +108,7 @@ public:
     }
 
 private:
-    std::vector<MotorAxis> startAxis; /**< Value of the axis to begin motion */
+    std::map<MotorAxis,MotionValue> m_AxisValue; /**< Value of the axis to begin motion */
 
 };
 

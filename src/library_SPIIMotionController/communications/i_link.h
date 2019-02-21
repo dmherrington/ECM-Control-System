@@ -38,6 +38,8 @@ public:
     ILink() = default;
     virtual ~ILink() = default;
 
+    virtual void requestPosition() = 0;
+
     void AddListener(const ILinkEvents* ptr)
     {
         m_Listeners.push_back(ptr);
@@ -102,7 +104,7 @@ public:
     virtual bool isConnected() const = 0;
 
 
-    virtual void Connect(void) = 0;
+    virtual bool Connect(HANDLE* link = nullptr) = 0;
     virtual void Disconnect(void) = 0;
 
     virtual void MarshalOnThread(std::function<void()> func) = 0;

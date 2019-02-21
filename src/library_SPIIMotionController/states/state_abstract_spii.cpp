@@ -3,12 +3,6 @@
 namespace ECM{
 namespace SPII {
 
-AbstractStateSPII::AbstractStateSPII(const GalilSettings &settings):
-    mSettings(settings)
-{
-
-}
-
 AbstractStateSPII::AbstractStateSPII(const AbstractStateSPII &copy)
 {
     this->currentState = copy.currentState;

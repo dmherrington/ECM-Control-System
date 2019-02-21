@@ -125,7 +125,7 @@ public:
      *
      * Delete the sensor object if it is set.
      */
-    ~MotionProfileState();
+    virtual ~MotionProfileState();
 
     //!
     //! \brief Assignment operator

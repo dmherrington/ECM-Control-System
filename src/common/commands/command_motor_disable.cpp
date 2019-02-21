@@ -7,7 +7,7 @@ CommandMotorDisable::CommandMotorDisable():
 }
 
 CommandMotorDisable::CommandMotorDisable(const CommandMotorDisable &copy):
-    AbstractCommand(copy)
+    AbstractCommand(copy.getCommandType())
 {
 
 }
@@ -22,29 +22,17 @@ void CommandMotorDisable::getClone(AbstractCommand** state) const
     *state = new CommandMotorDisable(*this);
 }
 
-void CommandMotorDisable::setDisableAxis(const MotorAxis &axis)
+void CommandMotorDisable::addAxis(const MotorAxis &axis)
 {
-    this->disableAxis = axis;
+    std::pair<std::map<MotorAxis,DisableValue>::iterator,bool> ret;
+    ret = m_AxisValue.insert ( std::pair<MotorAxis,DisableValue>(axis,DisableValue::CHANGE));
+    //the element already exists
+    if (ret.second==false) {
+        m_AxisValue.at(axis) = DisableValue::CHANGE;
+    }
 }
 
-MotorAxis CommandMotorDisable::getDisableAxis() const
+std::map<MotorAxis, CommandMotorDisable::DisableValue> CommandMotorDisable::getDisableAxis() const
 {
-    return this->disableAxis;
-}
-
-std::string CommandMotorDisable::getCommandString() const
-{
-    std::string str = "";
-    if(disableAxis == MotorAxis::ALL)
-    {
-        //for now we are going to throw an exception here as this should create a multi-message
-        //or the mask should reflect all layers which I dont know how galil would handle yet
-    }
-    else
-    {
-        str.append(CommandToString(this->getCommandType()));
-        str.append(" ");
-        str.append(AxisToString(disableAxis));
-    }
-    return str;
+    return this->m_AxisValue;
 }

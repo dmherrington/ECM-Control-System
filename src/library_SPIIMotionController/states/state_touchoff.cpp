@@ -12,7 +12,7 @@ State_Touchoff::State_Touchoff():
 
 void State_Touchoff::OnExit()
 {
-    Owner().statusVariableValues->removeVariableNotifier("touchst",this);
+    Owner().m_VariableValues->removeVariableNotifier("touchst",this);
 
     common::TupleProfileVariableString tupleVariable("Default","Touchoff","touchst");
     Owner().issueGalilRemovePollingRequest(tupleVariable);
@@ -88,7 +88,7 @@ void State_Touchoff::handleCommand(const AbstractCommandPtr command)
         MotionProfileState newProfileState;
         newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
         desiredState = SPIIState::STATE_MOTION_STOP;
-        Owner().issueUpdatedMotionProfileState(newProfileState);
+        //Owner().issueUpdatedMotionProfileState(newProfileState);
         //delete copyCommand;
         break;
     }
@@ -100,7 +100,7 @@ void State_Touchoff::handleCommand(const AbstractCommandPtr command)
         MotionProfileState newProfileState;
         newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
         desiredState = SPIIState::STATE_ESTOP;
-        Owner().issueUpdatedMotionProfileState(newProfileState);
+        //Owner().issueUpdatedMotionProfileState(newProfileState);
         //delete copyCommand;
         break;
     }
@@ -117,27 +117,28 @@ void State_Touchoff::Update()
     {
         //this means that the estop button has been cleared
         //we should therefore transition to the idle state
-        desiredState = GalilState::STATE_ESTOP;
+        desiredState = SPIIState::STATE_ESTOP;
     }
 }
 
 void State_Touchoff::OnEnter()
 {
-    Owner().issueNewGalilState(GalilState::STATE_TOUCHOFF);
+    Owner().issueNewGalilState(SPIIState::STATE_TOUCHOFF);
     //this shouldn't really happen as how are we supposed to know the actual touchoff command
     //we therefore are going to do nothing other than change the state back to State_Ready
-    this->desiredState = GalilState::STATE_READY;
+    this->desiredState = SPIIState::STATE_READY;
 }
 
 void State_Touchoff::OnEnter(const AbstractCommandPtr command)
 {
     if(command != nullptr)
     {
-        Owner().issueNewGalilState(GalilState::STATE_TOUCHOFF);
-        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Touchoff Status","touchst");
-        common::TupleProfileVariableString tupleVariable("Default","Touchoff","touchst");
-        request->setTupleDescription(tupleVariable);
-        Owner().issueGalilAddPollingRequest(request,1000);
+        Owner().issueNewGalilState(SPIIState::STATE_TOUCHOFF);
+
+//        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Touchoff Status","touchst");
+//        common::TupleProfileVariableString tupleVariable("Default","Touchoff","touchst");
+//        request->setTupleDescription(tupleVariable);
+//        Owner().issueGalilAddPollingRequest(request,1000);
 
         this->handleCommand(command);
     }
@@ -148,13 +149,13 @@ void State_Touchoff::OnEnter(const AbstractCommandPtr command)
 
 void State_Touchoff::stateSetup()
 {
-    Owner().statusVariableValues->addVariableNotifier("touchst",this,[this]{
+    Owner().m_VariableValues->addVariableNotifier("touchst",this,[this]{
         double varValue = 0.0;
-        bool valid = Owner().statusVariableValues->getVariableValue("touchst",varValue);
+        bool valid = Owner().m_VariableValues->getVariableValue("touchst",varValue);
         if(!valid)
         {
             std::cout<<"The variable homest does not exist and therefore we do not know how to handle this case."<<std::endl;
-            desiredState = GalilState::STATE_MOTION_STOP;
+            desiredState = SPIIState::STATE_MOTION_STOP;
             return;
         }
         switch ((int)varValue) {
@@ -165,7 +166,7 @@ void State_Touchoff::stateSetup()
             newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING);
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
-            Owner().issueUpdatedMotionProfileState(newProfileState);
+            //Owner().issueUpdatedMotionProfileState(newProfileState);
             break;
         }
         case (int)ProfileState_Touchoff::TOUCHOFFProfileCodes::FINISHED:
@@ -177,8 +178,8 @@ void State_Touchoff::stateSetup()
             newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::FINISHED);
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
-            desiredState = GalilState::STATE_READY;
-            Owner().issueUpdatedMotionProfileState(newProfileState);
+            desiredState = SPIIState::STATE_READY;
+            //Owner().issueUpdatedMotionProfileState(newProfileState);
             break;
         }
         case (int)ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_POSITIONAL:
@@ -188,8 +189,8 @@ void State_Touchoff::stateSetup()
             newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_POSITIONAL);
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
-            desiredState = GalilState::STATE_MOTION_STOP;
-            Owner().issueUpdatedMotionProfileState(newProfileState);
+            desiredState = SPIIState::STATE_MOTION_STOP;
+            //Owner().issueUpdatedMotionProfileState(newProfileState);
             break;
         }
         case (int)ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_INCONSISTENT:
@@ -199,11 +200,8 @@ void State_Touchoff::stateSetup()
             newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_INCONSISTENT);
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
-            desiredState = GalilState::STATE_MOTION_STOP;
-            Owner().issueUpdatedMotionProfileState(newProfileState);
-
-//            CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
-//            this->currentCommand = command;
+            desiredState = SPIIState::STATE_MOTION_STOP;
+            //Owner().issueUpdatedMotionProfileState(newProfileState);
             break;
         }
         case (int)ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_TOUCHING:
@@ -213,17 +211,14 @@ void State_Touchoff::stateSetup()
             newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_TOUCHING);
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
-            desiredState = GalilState::STATE_MOTION_STOP;
-            Owner().issueUpdatedMotionProfileState(newProfileState);
-
-//            CommandAbsoluteMove* command = new CommandAbsoluteMove(MotorAxis::Z,0);
-//            this->currentCommand = command;
+            desiredState = SPIIState::STATE_MOTION_STOP;
+            //Owner().issueUpdatedMotionProfileState(newProfileState);
             break;
         }
         default:
             //there is a case condition that does not follow the flow chart
             std::cout<<"There is another value condition not considered here."<<std::endl;
-            desiredState = GalilState::STATE_MOTION_STOP;
+            desiredState = SPIIState::STATE_MOTION_STOP;
             break;
         } //end of switch statement
     });
@@ -233,7 +228,7 @@ void State_Touchoff::stateSetup()
     newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING);
     MotionProfileState newProfileState;
     newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
-    Owner().issueUpdatedMotionProfileState(newProfileState,false);
+    //Owner().issueUpdatedMotionProfileState(newProfileState,false);
 
 }
 
