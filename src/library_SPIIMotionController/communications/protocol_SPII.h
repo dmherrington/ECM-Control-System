@@ -37,6 +37,12 @@ public:
 
     bool requestMotorStatus(const int &axisRequest, int &value);
 
+    bool requestNumberofBuffers(double &count);
+
+    bool requestNumberofAxes(double &count);
+
+    bool requestDBufferIndex(double &index);
+
 public:
     void ReceiveData(ILink *link, const std::vector<uint8_t> &buffer) override;
 

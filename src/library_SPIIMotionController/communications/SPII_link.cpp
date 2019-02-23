@@ -154,9 +154,9 @@ bool SPIILink::Connect(HANDLE* link)
         commsUpdate.setPeripheralMessage("SPII Motor Controller Connected.");
     }
 
-
     EmitEvent([commsUpdate](const ILinkEvents *ptr){ptr->ConnectionUpdate(commsUpdate);});
 
+    return this->connected;
 }
 
 //!

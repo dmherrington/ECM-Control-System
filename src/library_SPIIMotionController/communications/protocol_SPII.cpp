@@ -36,6 +36,24 @@ bool SPIIProtocol::requestMotorStatus(const int &axisRequest, int &value)
     return rtnValidity;
 }
 
+bool SPIIProtocol::requestNumberofBuffers(double &value)
+{
+    bool rtnValidity = acsc_GetBuffersCount(m_SPII.get(),&value,ACSC_SYNCHRONOUS);
+    return rtnValidity;
+}
+
+bool SPIIProtocol::requestNumberofAxes(double &value)
+{
+    bool rtnValidity = acsc_GetAxesCount(m_SPII.get(),&value,ACSC_SYNCHRONOUS);
+    return rtnValidity;
+}
+
+bool SPIIProtocol::requestDBufferIndex(double &index)
+{
+    bool rtnValidity = acsc_GetDBufferIndex(m_SPII.get(),&index,ACSC_SYNCHRONOUS);
+    return rtnValidity;
+}
+
 void SPIIProtocol::ReceiveData(ILink *link, const std::vector<uint8_t> &buffer)
 {
     UNUSED(link);

@@ -29,10 +29,12 @@ std::shared_ptr<HANDLE> CommsMarshaler::ConnectToSimulation()
     HANDLE* commsLink = nullptr;
 
     link->SetSimulationConnection();
-    link->Connect(commsLink);
+    if(link->Connect(commsLink)
+    {
+            //If the device is connected we should get the remaining parameters describing the device
+    }
 
     std::shared_ptr<HANDLE> sharedCommsLink(commsLink);
-
     return sharedCommsLink;
 }
 
