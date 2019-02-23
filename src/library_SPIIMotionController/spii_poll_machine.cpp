@@ -1,12 +1,12 @@
 #include "spii_poll_machine.h"
 
-SPIIPollMachine::SPIIPollMachine(const unsigned int &msTimeout):
-    timeout(msTimeout), m_CB(nullptr)
+SPIIPollMachine::SPIIPollMachine(const unsigned int &msTimeout ):
+    timeout(msTimeout)
 {
 
 }
 
-void SPIIPollMachine::updateCommsHandle(std::shared_ptr<HANDLE> commsLink)
+void SPIIPollMachine::updateCommsProtocol(std::shared_ptr<Comms::CommsMarshaler> commsLink)
 {
     m_SPIIDevice = commsLink;
 }
@@ -104,22 +104,18 @@ void SPIIPollMachine::run()
             //these functions will update the actual stored information of the galil unit in the state
             //interface class contained at the callback location
 
-            if(m_CB)
+            //Iterate through the requests
+            std::map<common::TupleECMData,pollingTimeout>::iterator it;
+            for (it=timeoutMap.begin(); it!=timeoutMap.end(); ++it)
             {
-                //Iterate through the requests
-                std::map<common::TupleECMData,pollingTimeout>::iterator it;
-                for (it=timeoutMap.begin(); it!=timeoutMap.end(); ++it)
+                it->second.first += timeElapsed;
+                if(it->second.first >= it->second.second)
                 {
-                    it->second.first += timeElapsed;
-                    if(it->second.first >= it->second.second)
-                    {
-                        //we have therefore timed out
-                        //1. Let us reset the current timer associated with this request
-                        it->second.first = 0;
-                        requestMap.at(it->first)->updateTime();
-                        processRequest(requestMap.at(it->first));
-                        //m_CB->cbi_SPIIStatusRequest();
-                    }
+                    //we have therefore timed out
+                    //1. Let us reset the current timer associated with this request
+                    it->second.first = 0;
+                    requestMap.at(it->first)->updateTime();
+                    processRequest(requestMap.at(it->first));
                 }
             }
             m_Timeout.reset();
@@ -129,17 +125,26 @@ void SPIIPollMachine::run()
     }
 }
 
-void SPIIPollMachine::processRequest(const SPII::AbstractRequestPtr request)
+void SPIIPollMachine::processRequest(SPII::AbstractRequestPtr request)
 {
     switch (request->getRequestType()) {
-        case RequestTypes::TELL_POSITION:
+    case RequestTypes::TELL_AXIS:
     {
-        double referencePosition;
-        int value = acsc_GetRPosition(m_SPIIDevice.get(),ACSC_AXIS_0,&referencePosition,ACSC_SYNCHRONOUS);
-        if(value)
-        {
-            std::cout<<"The current reference position is: "<<referencePosition<<std::endl;
-        }
+        const SPII::RequestAxisStatus* currentRequest = request->as<SPII::RequestAxisStatus>();
+        std::vector<SPII::Status_PerAxis> updatedStatus = m_SPIIDevice->requestAxisState(currentRequest);
+        break;
+    }
+    case RequestTypes::TELL_MOTOR:
+    {
+        const SPII::RequestMotorStatus* currentRequest = request->as<SPII::RequestMotorStatus>();
+        std::vector<SPII::Status_MotorPerAxis> updatedStatus = m_SPIIDevice->requestMotorState(currentRequest);
+        break;
+    }
+    case RequestTypes::TELL_POSITION:
+    {
+        const SPII::RequestTellPosition* currentRequest = request->as<SPII::RequestTellPosition>();
+        std::vector<SPII::Status_PositionPerAxis> updatedStatus = m_SPIIDevice->requestPosition(currentRequest);
+        Emit([&](SPIIPollingEvents_Interface *ptr){ptr->SPIIPolling_PositionUpdate(updatedStatus);});
         break;
     }
     }

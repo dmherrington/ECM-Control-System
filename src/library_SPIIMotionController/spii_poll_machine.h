@@ -9,23 +9,26 @@
 #include "ACSC.h"
 
 #include "common/environment_time.h"
+#include "common/publisher.h"
 #include "common/threadmanager.h"
 #include "common/timer.h"
 
 #include "requests/request_components.h"
 
-class SPIIStatusUpdate_Interface
+#include "communications/comms_marshaler.h"
+
+class SPIIPollingEvents_Interface
 {
+
 public:
-    SPIIStatusUpdate_Interface() = default;
+    SPIIPollingEvents_Interface() = default;
+    virtual ~SPIIPollingEvents_Interface() = default;
 
-    virtual ~SPIIStatusUpdate_Interface() = default;
-
-    virtual void cbi_SPIIStatusRequest() = 0;
-
+public:
+    virtual void SPIIPolling_PositionUpdate(const std::vector<SPII::Status_PositionPerAxis> &position) = 0;
 };
 
-class SPIIPollMachine : public Thread
+class SPIIPollMachine : public Publisher<SPIIPollingEvents_Interface>, public Thread
 {
 public:
     SPIIPollMachine(const unsigned int &msTimeout = 50);
@@ -38,20 +41,15 @@ public:
     void beginPolling();
     void pausePolling();
 
-    void updateCommsHandle(std::shared_ptr<HANDLE> commsLink);
+    void updateCommsProtocol(std::shared_ptr<Comms::CommsMarshaler> commsLink);
 
     void addRequest(const SPII::AbstractRequestPtr request, const int &period = 100);
     void removeRequest(const common::TupleECMData &tuple);
 
     void run();
 
-    void connectCallback(SPIIStatusUpdate_Interface *cb)
-    {
-        m_CB = cb;
-    }
-
 private:
-    void processRequest(const SPII::AbstractRequestPtr request);
+    void processRequest(SPII::AbstractRequestPtr request);
 
 private:
     void addRequestToQueue(const SPII::AbstractRequestPtr request, const int &period = 100);
@@ -67,7 +65,7 @@ private:
     }
 
 private:
-    std::shared_ptr<HANDLE> m_SPIIDevice;
+    std::shared_ptr<Comms::CommsMarshaler> m_SPIIDevice;
 
 private:
     typedef pair<double, double> pollingTimeout;
@@ -77,7 +75,6 @@ private:
     unsigned int timeout;
 
 private:
-    SPIIStatusUpdate_Interface *m_CB;
     std::map<common::TupleECMData,SPII::AbstractRequestPtr> requestMap;
     std::map<common::TupleECMData,pollingTimeout> timeoutMap;
 

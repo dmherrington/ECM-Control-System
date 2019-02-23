@@ -24,7 +24,7 @@ public:
     void setAxis(const MotorAxis &axis);
     MotorAxis getAxis() const;
 
-    void updateMotorAxisStatus(const unsigned int &value);
+    void updateMotorAxisStatus(const int &value);
 
     bool isMotorEnabled() const;
     bool hasMotorReachedTarget() const;

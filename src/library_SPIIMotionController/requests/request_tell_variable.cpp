@@ -73,14 +73,6 @@ std::string Request_TellVariable::getUnitName() const
     return this->unitName;
 }
 
-std::string Request_TellVariable::getRequestString() const
-{
-    std::string str = "";
-    str += variableName;
-    str += "=?";
-    return str;
-}
-
 std::vector<AbstractStatusPtr> Request_TellVariable::getStatus() const
 {
     std::vector<AbstractStatusPtr> rtn;

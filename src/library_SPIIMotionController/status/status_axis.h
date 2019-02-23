@@ -23,14 +23,23 @@ public:
     MotorAxis getAxis() const;
 
     void setMotorMoving(const bool &moving);
-    bool isMotorMoving() const;
+    bool isAxisMoving() const;
+
+    void updateAxisStatus(const int &value);
 
 public:
     Status_PerAxis& operator = (const Status_PerAxis &rhs)
     {
         AbstractStatus::operator =(rhs);
         this->currentAxis = rhs.currentAxis;
-        this->moving = rhs.moving;
+        this->axisLeading = rhs.axisLeading;
+        this->axisDataCollection = rhs.axisDataCollection;
+        this->axisPEG = rhs.axisPEG;
+        this->axisMoving = rhs.axisMoving;
+        this->axisAccelerating = rhs.axisAccelerating;
+        this->axisSegmentedMotion = rhs.axisSegmentedMotion;
+        this->axisVelLock = rhs.axisVelLock;
+        this->axisPosLock = rhs.axisPosLock;
         return *this;
     }
 
@@ -42,7 +51,28 @@ public:
         if(this->currentAxis != rhs.currentAxis){
             return false;
         }
-        if(this->moving != rhs.moving){
+        if(this->axisLeading != rhs.axisLeading){
+            return false;
+        }
+        if(this->axisDataCollection != rhs.axisDataCollection){
+            return false;
+        }
+        if(this->axisPEG != rhs.axisPEG){
+            return false;
+        }
+        if(this->axisMoving != rhs.axisMoving){
+            return false;
+        }
+        if(this->axisAccelerating != rhs.axisAccelerating){
+            return false;
+        }
+        if(this->axisSegmentedMotion != rhs.axisSegmentedMotion){
+            return false;
+        }
+        if(this->axisVelLock != rhs.axisVelLock){
+            return false;
+        }
+        if(this->axisPosLock != rhs.axisPosLock){
             return false;
         }
         return true;
@@ -54,7 +84,15 @@ public:
 
 private:
     MotorAxis currentAxis = MotorAxis::Z;
-    bool moving = false;
+    bool axisLeading = false;
+    bool axisDataCollection = false;
+    bool axisPEG = false;
+    bool axisMoving = false;
+    bool axisAccelerating = false;
+    bool axisSegmentedMotion = false;
+    bool axisVelLock = false;
+    bool axisPosLock = false;
+
 };
 
 

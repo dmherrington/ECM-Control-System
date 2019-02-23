@@ -84,8 +84,6 @@ public:
         return requestType;
     }
 
-    virtual std::string getRequestString() const = 0;
-
 public:
     void setBufferSize(const unsigned int &size);
 

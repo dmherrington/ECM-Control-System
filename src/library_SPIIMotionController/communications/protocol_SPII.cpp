@@ -18,49 +18,28 @@ void SPIIProtocol::updateCommsHandle(std::shared_ptr<HANDLE> commsLink)
     m_SPII = commsLink;
 }
 
-std::vector<SPII::Status_PositionPerAxis> SPIIProtocol::requestPosition(const MotorAxis &axis)
+bool SPIIProtocol::requestPosition(const int &axisRequest, double &value)
 {
-    std::vector<SPII::Status_PositionPerAxis> rtnStatus;
-
-    switch (axis) {
-        case MotorAxis::ALL:
-    {
-
-        break;
-    }
-    case MotorAxis::X:
-    case MotorAxis::Y:
-    case MotorAxis::Z:
-    {
-        double referencePosition;
-        if(acsc_GetRPosition(m_SPII.get(),ACSC_AXIS_0,&referencePosition,ACSC_SYNCHRONOUS))
-        {
-            SPII::Status_PositionPerAxis newPosition;
-            newPosition.setAxis(axis);
-            newPosition.setPosition(referencePosition);
-            rtnStatus.push_back(newPosition);
-        }
-        break;
-    }
-
-    }
-
-    return rtnStatus;
+    bool rtnValidity = acsc_GetRPosition(m_SPII.get(),axisRequest,&value,ACSC_SYNCHRONOUS);
+    return rtnValidity;
 }
 
-std::vector<SPII::Status_PerAxis> SPIIProtocol::requestAxisStatus(const MotorAxis &axis)
+bool SPIIProtocol::requestAxisStatus(const int &axisRequest, int &value)
 {
-
+    bool rtnValidity = acsc_GetAxisState(m_SPII.get(),axisRequest,&value,ACSC_SYNCHRONOUS);
+    return rtnValidity;
 }
 
-std::vector<SPII::Status_MotorPerAxis> SPIIProtocol::requestMotorStatus(const MotorAxis &axis)
+bool SPIIProtocol::requestMotorStatus(const int &axisRequest, int &value)
 {
-
+    bool rtnValidity = acsc_GetMotorState(m_SPII.get(),axisRequest,&value,ACSC_SYNCHRONOUS);
+    return rtnValidity;
 }
 
 void SPIIProtocol::ReceiveData(ILink *link, const std::vector<uint8_t> &buffer)
 {
-
+    UNUSED(link);
+    UNUSED(buffer);
 }
 
 

@@ -24,16 +24,54 @@ MotorAxis Status_PerAxis::getAxis() const
 
 }
 
-void Status_PerAxis::setMotorMoving(const bool &moving)
+bool Status_PerAxis::isAxisMoving() const
 {
-
+    return this->axisMoving;
 }
 
-bool Status_PerAxis::isMotorMoving() const
+
+void Status_PerAxis::updateAxisStatus(const int &value)
 {
+    if(value & ACSC_AST_LEAD)
+        this->axisLeading = true;
+    else
+        this->axisLeading = false;
 
+    if(value & ACSC_AST_DC)
+        this->axisDataCollection = true;
+    else
+        this->axisDataCollection = false;
+
+    if(value & ACSC_AST_PEG)
+        this->axisPEG = true;
+    else
+        this->axisPEG = false;
+
+    if(value & ACSC_AST_MOVE)
+        this->axisMoving = true;
+    else
+        this->axisMoving = false;
+
+    if(value & ACSC_AST_ACC)
+        this->axisAccelerating = true;
+    else
+        this->axisAccelerating = false;
+
+    if(value & ACSC_AST_SEGMENT)
+        this->axisSegmentedMotion = true;
+    else
+        this->axisSegmentedMotion = false;
+
+    if(value & ACSC_AST_VELLOCK)
+        this->axisVelLock = true;
+    else
+        this->axisVelLock = false;
+
+    if(value & ACSC_AST_POSLOCK)
+        this->axisPosLock = true;
+    else
+        this->axisPosLock = false;
 }
-
 
 
 

@@ -5,9 +5,9 @@ SPIIMotionController::SPIIMotionController()
 {
 
     std::vector<MotorAxis> availableAxis;
-    availableAxis.push_back(MotorAxis::Z);
+    availableAxis.push_back(MotorAxis::X);
 
-    m_CommsMarshaler = new Comms::CommsMarshaler();
+    m_CommsMarshaler = std::make_shared<Comms::CommsMarshaler>();
     m_CommsMarshaler->AddSubscriber(this);
 
     m_StateInterface = new SPIIStateInterface(availableAxis);
@@ -20,7 +20,7 @@ SPIIMotionController::SPIIMotionController()
 
     //Instantiating the galil state polling object. This is only needed to be done once within the program
     m_DevicePolling = new SPIIPollMachine();
-    m_DevicePolling->connectCallback(this);
+    m_DevicePolling->updateCommsProtocol(m_CommsMarshaler);
 }
 
 SPIIMotionController::~SPIIMotionController()
@@ -91,42 +91,34 @@ void SPIIMotionController::LinkConnectionUpdate(const common::comms::Communicati
 
 void SPIIMotionController::initializeMotionController()
 {
-    m_DevicePolling->updateCommsHandle(m_SPIIDevice);
 
     // 1: Stop all motion that may exist on the controller
     //CommandStopPtr commandStop = std::make_shared<CommandStop>();
     //int rtnCode = acsc_KillAll(this->SPIIDevice,ACSC_SYNCHRONOUS);
 
 
-    //Add items to the ASC polling queue so that we can stay up to date
-    // 1: Request the position of the galil unit
+    //Add items to the ACS polling queue so that we can stay up to date
+    // 1: Request the position of the ACS unit
     RequestTellPositionPtr requestTP = std::make_shared<RequestTellPosition>();
-    common::TuplePositionalString tuplePos;
-    tuplePos.axisName = "All Axis";
-    requestTP->setTupleDescription(common::TupleECMData(tuplePos));
-
     m_DevicePolling->addRequest(requestTP,20);
-    // 2: Request the stop codes
-//    RequestStopCodePtr requestSC = std::make_shared<RequestStopCode>();
-//    common::TupleGeneralDescriptorString tupleSC("StopCodes");
-//    requestSC->setTupleDescription(common::TupleECMData(tupleSC));
-//    m_DevicePolling->addRequest(requestSC,200);
-    // 3: Request the tell switches
-//    RequestTellSwitchesPtr requestTS = std::make_shared<RequestTellSwitches>();
-//    common::TupleGeneralDescriptorString tupleTS("TellSwitches");
-//    requestTS->setTupleDescription(common::TupleECMData(tupleTS));
-//    m_DevicePolling->addRequest(requestTS,200);
-    // 4: Request the current inputs
-//    RequestTellInputsPtr requestTI = std::make_shared<RequestTellInputs>();
-//    common::TupleGeneralDescriptorString tupleTI("TellInputs");
-//    requestTI->setTupleDescription(common::TupleECMData(tupleTI));
-//    m_DevicePolling->addRequest(requestTI,1000);
+
+    // 1: Request the axis status of the ACS unit
+    RequestAxisStatusPtr requestAS = std::make_shared<RequestAxisStatus>();
+    m_DevicePolling->addRequest(requestAS,100);
+
+    // 1: Request the motor status of the ACS unit
+    RequestMotorStatusPtr requestMS = std::make_shared<RequestMotorStatus>();
+    m_DevicePolling->addRequest(requestMS,500);
 
     m_DevicePolling->beginPolling();
+}
 
+void SPIIMotionController::SPIIPolling_PositionUpdate(const std::vector<SPII::Status_PositionPerAxis> &position)
+{
+    m_StateInterface->
 }
 
 void SPIIMotionController::cbi_SPIIStatusRequest()
 {
-    m_CommsMarshaler->requestPosition();
+
 }

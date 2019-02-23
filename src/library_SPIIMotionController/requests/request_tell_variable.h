@@ -77,12 +77,6 @@ public:
     std::string getUnitName() const;
 
 public:
-    //!
-    //! \brief getCommandString
-    //! \return
-    //!
-    std::string getRequestString() const override;
-
     std::vector<AbstractStatusPtr> getStatus() const override;
 
 private:

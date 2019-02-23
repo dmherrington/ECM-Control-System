@@ -128,20 +128,67 @@ void CommsMarshaler::ConnectionUpdate(const common::comms::CommunicationUpdate &
     Emit([&](CommsEvents *ptr){ptr->LinkConnectionUpdate(update);});
 }
 
-void CommsMarshaler::ConnectionOpened() const
+std::vector<SPII::Status_PerAxis> CommsMarshaler::requestAxisState(const SPII::RequestAxisStatus* request)
 {
-    Emit([&](CommsEvents *ptr){ptr->LinkConnected();});
+    std::vector<SPII::Status_PerAxis> rtnAxis;
+    if(!link->isConnected())
+        return rtnAxis;
+
+    std::list<MotorAxis>::iterator it;
+    std::list<MotorAxis> axisList = request->getAxis();
+
+    for (it = axisList.begin(); it != axisList.end(); ++it){
+        int binaryState;
+        if(protocol->requestAxisStatus(*it,binaryState))
+        {
+            Status_PerAxis axisState;
+            axisState.setAxis(*it);
+            axisState.updateAxisStatus(binaryState);
+            rtnAxis.push_back(axisState);
+        }
+    }
 }
 
-void CommsMarshaler::ConnectionClosed() const
+std::vector<SPII::Status_MotorPerAxis> CommsMarshaler::requestMotorState(const SPII::RequestMotorStatus* request)
 {
-    Emit([&](const CommsEvents *ptr){ptr->LinkDisconnected();});
+    std::vector<SPII::Status_MotorPerAxis> rtnMotor;
+    if(!link->isConnected())
+        return rtnMotor;
+
+    std::list<MotorAxis>::iterator it;
+    std::list<MotorAxis> axisList = request->getAxis();
+
+    for (it = axisList.begin(); it != axisList.end(); ++it){
+        int binaryState;
+        if(protocol->requestMotorStatus(*it,binaryState))
+        {
+            Status_MotorPerAxis motorState;
+            motorState.setAxis(*it);
+            motorState.updateMotorAxisStatus(binaryState);
+            rtnMotor.push_back(motorState);
+        }
+    }
 }
 
-
-void CommsMarshaler::requestPosition()
+std::vector<SPII::Status_PositionPerAxis> CommsMarshaler::requestPosition(const SPII::RequestTellPosition* request)
 {
-    link->requestPosition();
+    std::vector<SPII::Status_PositionPerAxis> rtnPosition;
+    if(!link->isConnected())
+        return rtnPosition;
+
+    std::list<MotorAxis>::iterator it;
+    std::list<MotorAxis> axisList = request->getAxis();
+
+    for (it = axisList.begin(); it != axisList.end(); ++it){
+        double position;
+        if(protocol->requestPosition(*it,position))
+        {
+            Status_PositionPerAxis axisPosition;
+            axisPosition.setAxis(*it);
+            axisPosition.setPosition(position);
+            rtnPosition.push_back(axisPosition);
+        }
+    }
 }
 
 template void CommsMarshaler::SendSPIIMessage<double>(const double&);

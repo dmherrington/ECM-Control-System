@@ -24,7 +24,7 @@ MotorAxis Status_MotorPerAxis::getAxis() const
     return this->currentAxis;
 }
 
-void Status_MotorPerAxis::updateMotorAxisStatus(const unsigned int &value)
+void Status_MotorPerAxis::updateMotorAxisStatus(const int &value)
 {
     if(value & ACSC_MST_ENABLE)
         this->isEnabled = true;
@@ -45,7 +45,6 @@ void Status_MotorPerAxis::updateMotorAxisStatus(const unsigned int &value)
         this->isAccelerating = true;
     else
         this->isAccelerating = false;
-
 }
 
 bool Status_MotorPerAxis::isMotorEnabled() const

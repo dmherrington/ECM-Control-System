@@ -21,7 +21,11 @@ public:
 
     CommsMarshaler();
 
-    void requestPosition();
+    std::vector<SPII::Status_PerAxis> requestAxisState(const SPII::RequestAxisStatus* request);
+
+    std::vector<SPII::Status_MotorPerAxis> requestMotorState(const SPII::RequestMotorStatus* request);
+
+    std::vector<SPII::Status_PositionPerAxis> requestPosition(const SPII::RequestTellPosition* request);
 
     //////////////////////////////////////////////////////////////
     /// Connect/Disconnect from SPII Methods
@@ -59,11 +63,6 @@ private:
     //////////////////////////////////////////////////////////////
 
     void ConnectionUpdate(const common::comms::CommunicationUpdate &update) const override;
-
-    void ConnectionOpened() const override;
-
-    void ConnectionClosed() const override;
-
 
 private:
     std::shared_ptr<ILink> link;

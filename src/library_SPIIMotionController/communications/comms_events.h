@@ -27,16 +27,6 @@ public:
         UNUSED(update);
     }
 
-    virtual void LinkConnected()
-    {
-
-    }
-
-    virtual void LinkDisconnected() const
-    {
-
-    }
-
     virtual void CustomUserRequestReceived(const std::string &request, const std::string &response)
     {
         UNUSED(request);

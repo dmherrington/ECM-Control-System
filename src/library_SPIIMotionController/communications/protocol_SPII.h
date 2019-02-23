@@ -13,9 +13,12 @@
 #include "i_protocol_SPII_events.h"
 #include "i_protocol.h"
 
+#include "../requests/request_components.h"
 #include "../status/status_components.h"
 
 #include "common/axis_definitions.h"
+
+#include "i_link.h"
 
 namespace Comms
 {
@@ -28,11 +31,11 @@ public:
 
     void updateCommsHandle(std::shared_ptr<HANDLE> commsLink);
 
-    std::vector<SPII::Status_PositionPerAxis> requestPosition(const MotorAxis &axis);
+    bool requestPosition(const int &axisRequest, double &value);
 
-    std::vector<SPII::Status_PerAxis> requestAxisStatus(const MotorAxis &axis);
+    bool requestAxisStatus(const int &axisRequest, int &value);
 
-    std::vector<SPII::Status_MotorPerAxis> requestMotorStatus(const MotorAxis &axis);
+    bool requestMotorStatus(const int &axisRequest, int &value);
 
 public:
     void ReceiveData(ILink *link, const std::vector<uint8_t> &buffer) override;

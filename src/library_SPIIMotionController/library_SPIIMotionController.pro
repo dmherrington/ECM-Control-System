@@ -57,7 +57,9 @@ SOURCES += \
     status/status_axis_state.cpp \
     spii_poll_machine.cpp \
     spii_device_paramters.cpp \
-    communications/spii_settings.cpp
+    communications/spii_settings.cpp \
+    requests/request_motor_status.cpp \
+    requests/request_axis_status.cpp
 
 HEADERS += \
         spii_motion_controller.h \
@@ -104,7 +106,9 @@ HEADERS += \
     requests/request_tell_variable.h \
     status/status_axis_state.h \
     spii_device_paramters.h \
-    communications/spii_settings.h
+    communications/spii_settings.h \
+    requests/request_motor_status.h \
+    requests/request_axis_status.h
 
 # Unix lib Install
 unix:!symbian {

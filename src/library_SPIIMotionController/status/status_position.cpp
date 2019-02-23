@@ -53,9 +53,19 @@ Status_Position::~Status_Position()
 
 }
 
-void Status_Position::updatePositionStatus(const Status_PositionPerAxis &status)
+bool Status_Position::updatePositionStatus(const std::vector<Status_PositionPerAxis> &status)
 {
-
+    bool positionChanged = false;
+    for(size_t index = 0; index < status.size(); index++)
+    {
+        Status_PositionPerAxis currentStatus = status.at(index);
+        if(m_PositionStatus.at(currentStatus.getAxis())->set(currentStatus))
+        {
+            if(!positionChanged)
+                positionChanged = true;
+        }
+    }
+    return positionChanged;
 }
 
 Status_PositionPerAxis* Status_Position::getAxisPosition(const MotorAxis &axis)

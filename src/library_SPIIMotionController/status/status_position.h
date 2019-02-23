@@ -73,7 +73,7 @@ public:
 
     ~Status_Position();
 
-    void updatePositionStatus(const Status_PositionPerAxis &status);
+    bool updatePositionStatus(const std::vector<Status_PositionPerAxis> &status);
 
     Status_PositionPerAxis* getAxisPosition(const MotorAxis &axis);
 

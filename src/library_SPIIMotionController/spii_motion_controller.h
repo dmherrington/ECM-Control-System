@@ -17,7 +17,8 @@
 #include "spii_poll_machine.h"
 #include "spii_state_interface.h"
 
-class LIBRARY_SPIIMOTIONCONTROLLERSHARED_EXPORT SPIIMotionController : public QObject, private Comms::CommsEvents, private SPIIStatusUpdate_Interface
+class LIBRARY_SPIIMOTIONCONTROLLERSHARED_EXPORT SPIIMotionController : public QObject, private Comms::CommsEvents,
+        private SPIIPollingEvents_Interface
 {
     Q_OBJECT
 
@@ -40,14 +41,15 @@ public:
 
     void LinkConnectionUpdate(const common::comms::CommunicationUpdate &update) override;
 
-    void cbi_SPIIStatusRequest() override;
-
 private:
     void initializeMotionController();
 
+    private:
+
+    void SPIIPolling_PositionUpdate(const std::vector<SPII::Status_PositionPerAxis> &position) override;
 
 public:
-    Comms::CommsMarshaler* m_CommsMarshaler; /**< Member variable handling the communications with the
+    std::shared_ptr<Comms::CommsMarshaler> m_CommsMarshaler; /**< Member variable handling the communications with the
 actual Galil unit. This parent class will be subscribing to published events from the marshaller. This
 should drive the event driven structure required to exceite the state machine.*/
 

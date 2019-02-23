@@ -1,5 +1,5 @@
-#ifndef REQUEST_TELL_POSITION_H
-#define REQUEST_TELL_POSITION_H
+#ifndef REQUEST_AXIS_STATUS_H
+#define REQUEST_AXIS_STATUS_H
 
 #include <string>
 #include <list>
@@ -7,24 +7,23 @@
 #include "common/axis_definitions.h"
 
 #include "requests/abstract_request.h"
-#include "status/status_position.h"
 #include "common/class_forward.h"
 
 namespace SPII
 {
 
-ECM_CLASS_FORWARD(RequestTellPosition);
+ECM_CLASS_FORWARD(RequestAxisStatus);
 
-class RequestTellPosition : public AbstractRequest
+class RequestAxisStatus : public AbstractRequest
 {
 public:
-    RequestTellPosition(const MotorAxis &axis = MotorAxis::Z);
+    RequestAxisStatus(const MotorAxis &axis = MotorAxis::Z);
 
-    RequestTellPosition(const RequestTellPosition &copy);
+    RequestAxisStatus(const RequestAxisStatus &copy);
 
     /**
       */
-    virtual ~RequestTellPosition() override = default;
+    virtual ~RequestAxisStatus() override = default;
 
 public:
 
@@ -60,4 +59,5 @@ private:
 
 } //end of namespace SPII
 
-#endif // REQUEST_TELL_POSITION_H
+
+#endif // REQUEST_AXIS_STATUS_H

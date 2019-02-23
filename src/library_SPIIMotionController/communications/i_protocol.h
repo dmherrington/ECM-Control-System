@@ -4,8 +4,9 @@
 #include <memory>
 #include <vector>
 
-namespace Comms
-{
+#include "i_link_events.h"
+
+namespace Comms {
 
 class ILink;
 
@@ -13,6 +14,7 @@ class IProtocol
 {
 public:
     IProtocol() = default;
+
     virtual ~IProtocol() = default;
 
 public:

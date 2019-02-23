@@ -28,7 +28,9 @@ enum class RequestTypes{
     TELL_INPUTS = 4,
     TELL_POSITION = 5,
     TELL_SWITCHES = 6,
-    TELL_VARIABLE = 7
+    TELL_VARIABLE = 7,
+    TELL_MOTOR = 8,
+    TELL_AXIS = 9
 };
 
 //!
