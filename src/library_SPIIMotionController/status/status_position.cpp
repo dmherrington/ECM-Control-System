@@ -59,10 +59,23 @@ bool Status_Position::updatePositionStatus(const std::vector<Status_PositionPerA
     for(size_t index = 0; index < status.size(); index++)
     {
         Status_PositionPerAxis currentStatus = status.at(index);
-        if(m_PositionStatus.at(currentStatus.getAxis())->set(currentStatus))
+
+        std::map<MotorAxis, DataGetSetNotifier<Status_PositionPerAxis>*>::const_iterator iter = m_PositionStatus.find(currentStatus.getAxis());
+
+        if(iter != m_PositionStatus.end()) //item is already in the map and therefore we just need to update it
         {
-            if(!positionChanged)
-                positionChanged = true;
+            if(m_PositionStatus.at(currentStatus.getAxis())->set(currentStatus))
+            {
+                if(!positionChanged)
+                    positionChanged = true;
+            }
+        }
+        else {
+            DataGetSetNotifier<Status_PositionPerAxis>* newStatus = new DataGetSetNotifier<Status_PositionPerAxis>();
+            newStatus->set(currentStatus);
+            //insert it into the map
+            m_PositionStatus.insert(std::pair<MotorAxis, DataGetSetNotifier<Status_PositionPerAxis>*>(currentStatus.getAxis(), newStatus));
+            positionChanged = true;
         }
     }
     return positionChanged;

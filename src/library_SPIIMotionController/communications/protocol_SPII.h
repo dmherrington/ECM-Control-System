@@ -12,6 +12,7 @@
 #include "i_link.h"
 #include "i_protocol_SPII_events.h"
 #include "i_protocol.h"
+#include "spii_settings.h"
 
 #include "../requests/request_components.h"
 #include "../status/status_components.h"
@@ -19,6 +20,8 @@
 #include "common/axis_definitions.h"
 
 #include "i_link.h"
+
+#include "common/commands/command_components.h"
 
 namespace Comms
 {
@@ -29,7 +32,18 @@ class SPIIProtocol : public IProtocol
 public:
     SPIIProtocol();
 
-    void updateCommsHandle(std::shared_ptr<HANDLE> commsLink);
+
+public:
+    bool commandMotorEnable(const CommandMotorEnable &enable);
+
+    bool commandMotorDisable(const CommandMotorDisable &disable);
+
+    bool commandJogMotion(const CommandJog &jog);
+
+    bool commandKillMotion(const CommandStop &stop);
+
+public:
+    void updateDeviceSettings(const SPII_Settings &settings);
 
     bool requestPosition(const int &axisRequest, double &value);
 
@@ -55,7 +69,8 @@ private:
     }
 
 private:
-    std::shared_ptr<HANDLE> m_SPII; /**< Member variable containing a pointer to the SPII interface */
+    std::shared_ptr<HANDLE>  m_SPIIDevice;
+    SPII_Settings m_SPIISettings; /**< Member variable containing a pointer to the SPII interface */
 
 private:
     std::vector<const IProtocolSPIIEvents*> m_Listners;

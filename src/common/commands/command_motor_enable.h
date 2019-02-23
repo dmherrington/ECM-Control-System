@@ -71,7 +71,7 @@ public:
     //! \brief getEnableAxis
     //! \return
     //!
-    std::map<MotorAxis,CommandMotorEnable::EnableValue> getEnableAxis();
+    std::map<MotorAxis,CommandMotorEnable::EnableValue> getEnableAction() const;
 
 
 public:

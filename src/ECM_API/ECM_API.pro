@@ -38,7 +38,6 @@ SOURCES += \
     states/state_ecm_profile_machine.cpp \
     states/state_ecm_profile_machine_process.cpp \
     states/state_ecm_idle.cpp \
-    ecm_modules.cpp \
     states/state_ecm_upload_motion_profile.cpp \
     states/state_ecm_upload_pump_parameters.cpp \
     states/state_ecm_upload.cpp \
@@ -84,7 +83,6 @@ HEADERS += \
     states/state_ecm_types.h \
     states/state_ecm_idle.h \
     ecm_api_version.h \
-    ecm_modules.h \
     states/state_ecm_upload_motion_profile.h \
     states/state_ecm_upload_pump_parameters.h \
     states/state_ecm_upload.h \
@@ -205,15 +203,6 @@ DEPENDPATH += $$PWD/../../tools/galil/lib/dynamic/x86
 win32: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
 else:unix: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/release/ -llibrary_galilMotionController
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/debug/ -llibrary_galilMotionController
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_galilMotionController/ -llibrary_galilMotionController
-
-INCLUDEPATH += $$PWD/../library_galilMotionController
-DEPENDPATH += $$PWD/../library_galilMotionController
-
-
-
 win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
 
 INCLUDEPATH += $$PWD/../../tools/sensoray
@@ -233,3 +222,16 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../library_sensoray/ -llibrary_sensoray
 
 INCLUDEPATH += $$PWD/../library_sensoray
 DEPENDPATH += $$PWD/../library_sensoray
+
+
+unix:!macx|win32: LIBS += -L$$PWD/../../tools/SPiiPlusADKSuite_v2_6/ACSC/C_CPP/ -lACSCL_x86
+
+INCLUDEPATH += $$PWD/../../tools/SPiiPlusADKSuite_v2_6/ACSC/C_CPP
+DEPENDPATH += $$PWD/../../tools/SPiiPlusADKSuite_v2_6/ACSC/C_CPP
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_SPIIMotionController/release/ -llibrary_SPIIMotionController
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_SPIIMotionController/debug/ -llibrary_SPIIMotionController
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_SPIIMotionController/ -llibrary_SPIIMotionController
+
+INCLUDEPATH += $$PWD/../library_SPIIMotionController
+DEPENDPATH += $$PWD/../library_SPIIMotionController

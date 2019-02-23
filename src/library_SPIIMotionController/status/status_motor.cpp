@@ -94,18 +94,33 @@ bool Status_Motor::areAnyMotorsEnabled() const
     return false;
 }
 
-void Status_Motor::updateAxisStatus(const Status_MotorPerAxis &status)
+bool Status_Motor::updateMotorStatus(const std::vector<Status_MotorPerAxis> &status)
 {
-    /*
-    DataGetSetNotifier<Status_MotorPerAxis> newStatus;
 
-    std::pair<std::map<MotorAxis,DataGetSetNotifier<Status_MotorPerAxis>>::iterator,bool> ret;
-    ret = m_MotorStatus.insert (std::pair<MotorAxis,DataGetSetNotifier<Status_MotorPerAxis>>(status.getAxis(),newStatus));
-    //the element already exists
-    if (ret.second==false) {
-        m_MotorStatus.at(status.getAxis()) = newStatus;
+    bool motorChanged = false;
+    for(size_t index = 0; index < status.size(); index++)
+    {
+        Status_MotorPerAxis currentStatus = status.at(index);
+
+        std::map<MotorAxis, DataGetSetNotifier<Status_MotorPerAxis>*>::const_iterator iter = m_MotorStatus.find(currentStatus.getAxis());
+
+        if(iter != m_MotorStatus.end()) //item is already in the map and therefore we just need to update it
+        {
+            if(m_MotorStatus.at(currentStatus.getAxis())->set(currentStatus))
+            {
+                if(!motorChanged)
+                    motorChanged = true;
+            }
+        }
+        else {
+            DataGetSetNotifier<Status_MotorPerAxis>* newStatus = new DataGetSetNotifier<Status_MotorPerAxis>();
+            newStatus->set(currentStatus);
+            //insert it into the map
+            m_MotorStatus.insert(std::pair<MotorAxis, DataGetSetNotifier<Status_MotorPerAxis>*>(currentStatus.getAxis(), newStatus));
+            motorChanged = true;
+        }
     }
-    */
+    return motorChanged;
 }
 
 

@@ -67,12 +67,16 @@ public:
     //!
     void addAxis(const MotorAxis &axis);
 
+    void setDisableAll(const bool &value);
+
+
     //!
     //! \brief getDisableAxis
     //! \return
     //!
-    std::map<MotorAxis,CommandMotorDisable::DisableValue> getDisableAxis() const;
+    std::map<MotorAxis,CommandMotorDisable::DisableValue> getDisableAction() const;
 
+    bool shouldDisableAll() const;
 
 public:
     //!
@@ -82,6 +86,7 @@ public:
     CommandMotorDisable& operator = (const CommandMotorDisable &rhs)
     {
         AbstractCommand::operator =(rhs);
+        this->disableAll = rhs.disableAll;
         this->m_AxisValue = rhs.m_AxisValue;
         return *this;
     }
@@ -94,6 +99,9 @@ public:
     bool operator == (const CommandMotorDisable &rhs)
     {
         if(!AbstractCommand::operator ==(rhs)){
+            return false;
+        }
+        if(this->disableAll != rhs.disableAll){
             return false;
         }
         if(this->m_AxisValue != rhs.m_AxisValue){
@@ -112,8 +120,8 @@ public:
     }
 
 private:
+    bool disableAll = true;
     std::map<MotorAxis,DisableValue> m_AxisValue; /**< Value of the axis to begin motion */
-
 };
 
 

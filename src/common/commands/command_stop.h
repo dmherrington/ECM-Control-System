@@ -1,6 +1,8 @@
 #ifndef COMMAND_STOP_H
 #define COMMAND_STOP_H
 
+#include <map>
+
 #include "../class_forward.h"
 #include "../axis_definitions.h"
 
@@ -61,6 +63,11 @@ public:
     MotorAxis getAxis() const;
 
 public:
+    bool shouldStopAllMotion() const;
+
+    std::map<MotorAxis, bool> getStopAction() const;
+
+public:
     //!
     //! \brief getCommandString
     //! \return
@@ -75,6 +82,7 @@ public:
     CommandStop& operator = (const CommandStop &rhs)
     {
         AbstractCommand::operator =(rhs);
+        this->stopAll = rhs.stopAll;
         this->stopAxis = rhs.stopAxis;
         return *this;
     }
@@ -87,6 +95,9 @@ public:
     bool operator == (const CommandStop &rhs)
     {
         if(!AbstractCommand::operator ==(rhs)){
+            return false;
+        }
+        if(this->stopAll != rhs.stopAll){
             return false;
         }
         if(this->stopAxis != rhs.stopAxis){
@@ -105,8 +116,8 @@ public:
     }
 
 private:
-    MotorAxis stopAxis; /**< Value of the axis to be stop requested */
-
+    bool stopAll = true;
+    std::map<MotorAxis,bool> stopAxis; /**< Value of the axis to begin motion */
 };
 
 #endif // COMMAND_STOP_H

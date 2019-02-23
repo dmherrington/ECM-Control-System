@@ -3,8 +3,7 @@
 
 #include "ecm_command_abstract_profile_config.h"
 
-#include "library_galilMotionController/programs/galil_current_operation.h"
-#include "library_galilMotionController/motion_command_touchoff_config.h"
+#include "common/configs/configuration_touchoff.h"
 
 #include "library_munk_power_supply/power_supply_setup_config.h"
 
@@ -39,7 +38,7 @@ public:
     ECMCommand_ProfileConfiguration& operator = (const ECMCommand_ProfileConfiguration &rhs)
     {
         ECMCommand_AbstractProfileConfig::operator =(rhs);
-        this->m_GalilOperation = rhs.m_GalilOperation;
+        //this->m_GalilOperation = rhs.m_GalilOperation;
         this->m_Touchoff = rhs.m_Touchoff;
         this->m_ConfigPowerSupply = rhs.m_ConfigPowerSupply;
         this->m_PumpParameters = rhs.m_PumpParameters;
@@ -55,9 +54,6 @@ public:
     bool operator == (const ECMCommand_ProfileConfiguration &rhs)
     {
         if(!ECMCommand_AbstractProfileConfig::operator ==(rhs)){
-            return false;
-        }
-        if(this->m_GalilOperation != rhs.m_GalilOperation){
             return false;
         }
         if(this->m_Touchoff != rhs.m_Touchoff){
@@ -82,10 +78,7 @@ public:
     }
 
 public:
-
-    GalilCurrentOperation m_GalilOperation;
-
-    MotionCommand_TouchoffConfig m_Touchoff;
+    Configuration_Touchoff m_Touchoff;
 
     PowerSupply_SetupConfig m_ConfigPowerSupply;
 

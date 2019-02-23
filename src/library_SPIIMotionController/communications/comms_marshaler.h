@@ -11,6 +11,7 @@
 
 #include "i_link_events.h"
 #include "comms_events.h"
+#include "spii_settings.h"
 
 namespace Comms
 {
@@ -21,6 +22,14 @@ public:
 
     CommsMarshaler();
 
+public:
+    bool commandMotionStop(const CommandStop &stop);
+
+    bool commandMotorDisable(const CommandMotorDisable &disable);
+
+    bool commandMotorEnable(const CommandMotorEnable &enable);
+
+public:
     std::vector<SPII::Status_PerAxis> requestAxisState(const SPII::RequestAxisStatus* request);
 
     std::vector<SPII::Status_MotorPerAxis> requestMotorState(const SPII::RequestMotorStatus* request);
@@ -31,10 +40,10 @@ public:
     /// Connect/Disconnect from SPII Methods
     //////////////////////////////////////////////////////////////
 
-    std::shared_ptr<HANDLE> ConnectToSimulation();
-    HANDLE ConnectToSerialPort(const common::comms::SerialConfiguration &linkConfig);
-    HANDLE ConnectToEthernetPort(const common::comms::TCPConfiguration &linkConfig);
-    HANDLE ConnectToPCIPort(const ACSC_PCI_SLOT &linkConfig);
+    SPII_Settings ConnectToSimulation();
+    SPII_Settings ConnectToSerialPort(const common::comms::SerialConfiguration &linkConfig);
+    SPII_Settings ConnectToEthernetPort(const common::comms::TCPConfiguration &linkConfig);
+    SPII_Settings ConnectToPCIPort(const ACSC_PCI_SLOT &linkConfig);
 
 
     void DisconnetLink();

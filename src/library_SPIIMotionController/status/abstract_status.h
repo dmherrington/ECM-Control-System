@@ -68,6 +68,7 @@ public:
         //ensure that we are attempting to cast it to a type of state
         return static_cast<T *>(this);
     }
+
 public:
     AbstractStatus& operator = (const AbstractStatus &rhs)
     {

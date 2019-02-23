@@ -8,7 +8,7 @@ ECM_API::ECM_API()
 
     m_Munk = new MunkPowerSupply();
 
-    m_Galil = new GalilMotionController();
+    m_MotionController = new SPIIMotionController();
 
     m_Sensoray = new Sensoray();
 
@@ -23,7 +23,7 @@ std::map<std::string, std::string> ECM_API::getSoftwareVersions() const
     std::map<std::string, std::string> softwareVersionMap;
 
     softwareVersionMap.insert(std::pair<std::string,std::string>("ECM API",ECMAPI_VERSION_STRING));
-    softwareVersionMap.insert(std::pair<std::string,std::string>("GALIL Library",LIBGALIL_VERSION_STRING));
+    //softwareVersionMap.insert(std::pair<std::string,std::string>("SPII Library",LIBGALIL_VERSION_STRING));
     softwareVersionMap.insert(std::pair<std::string,std::string>("MUNK Library",LIBMUNK_VERSION_STRING));
     softwareVersionMap.insert(std::pair<std::string,std::string>("WESTINGHOUSE  Library",LIBWESTINGHOUSE_VERSION_STRING));
     softwareVersionMap.insert(std::pair<std::string,std::string>("SENSORAY Library",LIBSENSORAY_VERSION_STRING));
@@ -105,13 +105,13 @@ void ECM_API::logCurrentOperationalSettings()
     this->writeHeaderBreaker(operationsString, 100);
     operationsString += "MOTION CONTROLLER OPERATIONAL SCRIPT: \n";
     this->writeHeaderBreaker(operationsString, 100);
-    operationsString += m_Galil->stateInterface->galilProgram->getProgram();
+    operationsString += m_MotionController->stateInterface->galilProgram->getProgram();
     operationsString += "\r\n";
 
     this->writeHeaderBreaker(operationsString, 100);
     operationsString += "MOTION CONTROLLER OPERATIONAL VARIABLES: \n";
     this->writeHeaderBreaker(operationsString, 100);
-    operationsString += m_Galil->stateInterface->galilProgram->getVariableList().getLoggingString();
+    operationsString += m_MotionController->stateInterface->galilProgram->getVariableList().getLoggingString();
     operationsString += "\r\n";
 
     m_Log->writeCurrentOperationalSettings(operationsString);
@@ -119,7 +119,7 @@ void ECM_API::logCurrentOperationalSettings()
 
 void ECM_API::writeToLogStartingPosition()
 {
-    int startPosition = m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+    int startPosition = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
     m_Log->writeStartingPosition(startPosition);
 }
 
@@ -135,7 +135,7 @@ void ECM_API::beginOperationalProfile(const ECMCommand_AbstractProfileConfigPtr 
     props.setOperatingCondition(condition);
     props.setTime(profileConfig->execProperties.getStartTime());
 
-    int position = m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+    int position = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
     props.setCurrentPosition(position);
 
     //Emit the signal notifying the listeners of a new operational profile
@@ -149,7 +149,7 @@ void ECM_API::executeExplicitProfile(const ECMCommand_ProfileConfigurationPtr pr
 
     CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,
                                                                                profileConfig->getProfileName());
-    m_Galil->executeCommand(command);
+    m_MotionController->executeCommand(command);
 }
 
 void ECM_API::executePauseProfile(const ECMCommand_ProfilePausePtr profileConfig)
@@ -160,7 +160,7 @@ void ECM_API::executePauseProfile(const ECMCommand_ProfilePausePtr profileConfig
     //Lastly, send a command to make sure the airbrake has been engaged
     CommandSetBitPtr command = std::make_shared<CommandSetBit>();
     command->appendAddress(2); //Ken: be careful in the event that this changes. This should be handled by settings or something
-    m_Galil->executeCommand(command);
+    m_MotionController->executeCommand(command);
 }
 
 void ECM_API::concludeExecutingOperation(const ECMCommand_AbstractProfileConfigPtr profileConfig)
@@ -168,7 +168,7 @@ void ECM_API::concludeExecutingOperation(const ECMCommand_AbstractProfileConfigP
     //Stop requesting information from the oscilliscope device
     m_Rigol->executeMeasurementPolling(false);
 
-    int concludingPosition = m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+    int concludingPosition = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
 
     //Conclude writing to the logs with any wrap up data that we need
     m_Log->WriteConcludingOperationStats(profileConfig->execProperties.getElapsedTime(),
@@ -182,7 +182,7 @@ void ECM_API::concludeExecutingOperation(const ECMCommand_AbstractProfileConfigP
     props.setOperatingCondition(ExecutionProperties::ExecutionCondition::ENDING);
     props.setTime(profileConfig->execProperties.getEndTime());
 
-    int position = m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+    int position = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
     props.setCurrentPosition(position);
 
     //Emit the signal notifying the listeners of a completed operational profile
@@ -217,7 +217,7 @@ void ECM_API::notifyPausedEvent(const std::string notificationText)
 void ECM_API::action_StopMachine()
 {
     CommandStopPtr commandGalilStop = std::make_shared<CommandStop>();
-    m_Galil->executeCommand(commandGalilStop);
+    m_MotionController->executeCommand(commandGalilStop);
 
     m_Pump->ceasePumpOperations();
 }

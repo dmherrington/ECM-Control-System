@@ -1,7 +1,6 @@
 #ifndef ECM_COMMAND_EXECUTION_PROPERTIES_H
 #define ECM_COMMAND_EXECUTION_PROPERTIES_H
 
-
 #include "common/environment_time.h"
 #include "common/class_forward.h"
 

@@ -24,48 +24,104 @@ CommsMarshaler::CommsMarshaler()
 /// Connect/Disconnect from Galil Methods
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-std::shared_ptr<HANDLE> CommsMarshaler::ConnectToSimulation()
+SPII_Settings CommsMarshaler::ConnectToSimulation()
 {
+    SPII_Settings deviceSettings;
+
     HANDLE* commsLink = nullptr;
 
     link->SetSimulationConnection();
-    if(link->Connect(commsLink)
+    if(link->Connect(commsLink))
     {
-            //If the device is connected we should get the remaining parameters describing the device
+        deviceSettings.setDeviceHandle(commsLink);
+        protocol->updateDeviceSettings(deviceSettings);
+
+        //If the device is connected we should get the remaining parameters describing the device
+        double numberOfAxis, dBufferIndex, numOfBuffers;
+        if(protocol->requestNumberofAxes(numberOfAxis))
+            deviceSettings.setAxisCount(static_cast<unsigned int>(numberOfAxis));
+        if(protocol->requestDBufferIndex(dBufferIndex))
+            deviceSettings.setAxisCount(static_cast<unsigned int>(numberOfAxis));
+        if(protocol->requestNumberofBuffers(numOfBuffers))
+            deviceSettings.setAxisCount(static_cast<unsigned int>(numOfBuffers));
     }
 
-    std::shared_ptr<HANDLE> sharedCommsLink(commsLink);
-    return sharedCommsLink;
+    return deviceSettings;
 }
 
-HANDLE CommsMarshaler::ConnectToSerialPort(const common::comms::SerialConfiguration &linkConfig)
+SPII_Settings CommsMarshaler::ConnectToSerialPort(const common::comms::SerialConfiguration &linkConfig)
 {
-    HANDLE commsLink;
+    SPII_Settings deviceSettings;
+
+    HANDLE* commsLink = nullptr;
 
     link->SetSerialConnection(linkConfig);
-    link->Connect();
+    if(link->Connect(commsLink))
+    {
+        deviceSettings.setDeviceHandle(commsLink);
+        protocol->updateDeviceSettings(deviceSettings);
 
-    return commsLink;
+        //If the device is connected we should get the remaining parameters describing the device
+        double numberOfAxis, dBufferIndex, numOfBuffers;
+        if(protocol->requestNumberofAxes(numberOfAxis))
+            deviceSettings.setAxisCount(static_cast<unsigned int>(numberOfAxis));
+        if(protocol->requestDBufferIndex(dBufferIndex))
+            deviceSettings.setAxisCount(static_cast<unsigned int>(numberOfAxis));
+        if(protocol->requestNumberofBuffers(numOfBuffers))
+            deviceSettings.setAxisCount(static_cast<unsigned int>(numOfBuffers));
+    }
+
+    return deviceSettings;
 }
 
-HANDLE CommsMarshaler::ConnectToEthernetPort(const common::comms::TCPConfiguration &linkConfig)
+SPII_Settings CommsMarshaler::ConnectToEthernetPort(const common::comms::TCPConfiguration &linkConfig)
 {
-    HANDLE commsLink;
+    SPII_Settings deviceSettings;
+
+    HANDLE* commsLink = nullptr;
 
     link->SetEthernetConnection(linkConfig);
-    link->Connect();
+    if(link->Connect(commsLink))
+    {
+        deviceSettings.setDeviceHandle(commsLink);
+        protocol->updateDeviceSettings(deviceSettings);
 
-    return commsLink;
+        //If the device is connected we should get the remaining parameters describing the device
+        double numberOfAxis, dBufferIndex, numOfBuffers;
+        if(protocol->requestNumberofAxes(numberOfAxis))
+            deviceSettings.setAxisCount(static_cast<unsigned int>(numberOfAxis));
+        if(protocol->requestDBufferIndex(dBufferIndex))
+            deviceSettings.setAxisCount(static_cast<unsigned int>(numberOfAxis));
+        if(protocol->requestNumberofBuffers(numOfBuffers))
+            deviceSettings.setAxisCount(static_cast<unsigned int>(numOfBuffers));
+    }
+
+    return deviceSettings;
 }
 
-HANDLE CommsMarshaler::ConnectToPCIPort(const ACSC_PCI_SLOT &linkConfig)
+SPII_Settings CommsMarshaler::ConnectToPCIPort(const ACSC_PCI_SLOT &linkConfig)
 {
-    HANDLE commsLink;
+    SPII_Settings deviceSettings;
+
+    HANDLE* commsLink = nullptr;
 
     link->SetPCIConnection(linkConfig);
-    link->Connect();
+    if(link->Connect(commsLink))
+    {
+        deviceSettings.setDeviceHandle(commsLink);
+        protocol->updateDeviceSettings(deviceSettings);
 
-    return commsLink;
+        //If the device is connected we should get the remaining parameters describing the device
+        double numberOfAxis, dBufferIndex, numOfBuffers;
+        if(protocol->requestNumberofAxes(numberOfAxis))
+            deviceSettings.setAxisCount(static_cast<unsigned int>(numberOfAxis));
+        if(protocol->requestDBufferIndex(dBufferIndex))
+            deviceSettings.setAxisCount(static_cast<unsigned int>(numberOfAxis));
+        if(protocol->requestNumberofBuffers(numOfBuffers))
+            deviceSettings.setAxisCount(static_cast<unsigned int>(numOfBuffers));
+    }
+
+    return deviceSettings;
 }
 
 void CommsMarshaler::DisconnetLink()
@@ -130,6 +186,30 @@ void CommsMarshaler::ConnectionUpdate(const common::comms::CommunicationUpdate &
     Emit([&](CommsEvents *ptr){ptr->LinkConnectionUpdate(update);});
 }
 
+bool CommsMarshaler::commandMotionStop(const CommandStop &stop)
+{
+    if(!link->isConnected())
+        return false;
+
+    return protocol->commandKillMotion(stop);
+}
+
+bool CommsMarshaler::commandMotorDisable(const CommandMotorDisable &disable)
+{
+    if(!link->isConnected())
+        return false;
+
+    return protocol->commandMotorDisable(disable);
+}
+
+bool CommsMarshaler::commandMotorEnable(const CommandMotorEnable &enable)
+{
+    if(!link->isConnected())
+        return false;
+
+    return protocol->commandMotorEnable(enable);
+}
+
 std::vector<SPII::Status_PerAxis> CommsMarshaler::requestAxisState(const SPII::RequestAxisStatus* request)
 {
     std::vector<SPII::Status_PerAxis> rtnAxis;
@@ -149,6 +229,7 @@ std::vector<SPII::Status_PerAxis> CommsMarshaler::requestAxisState(const SPII::R
             rtnAxis.push_back(axisState);
         }
     }
+    return rtnAxis;
 }
 
 std::vector<SPII::Status_MotorPerAxis> CommsMarshaler::requestMotorState(const SPII::RequestMotorStatus* request)
@@ -170,6 +251,8 @@ std::vector<SPII::Status_MotorPerAxis> CommsMarshaler::requestMotorState(const S
             rtnMotor.push_back(motorState);
         }
     }
+
+    return rtnMotor;
 }
 
 std::vector<SPII::Status_PositionPerAxis> CommsMarshaler::requestPosition(const SPII::RequestTellPosition* request)
@@ -191,6 +274,7 @@ std::vector<SPII::Status_PositionPerAxis> CommsMarshaler::requestPosition(const 
             rtnPosition.push_back(axisPosition);
         }
     }
+    return rtnPosition;
 }
 
 template void CommsMarshaler::SendSPIIMessage<double>(const double&);

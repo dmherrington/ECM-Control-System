@@ -16,6 +16,7 @@
 
 #include "spii_poll_machine.h"
 #include "spii_state_interface.h"
+#include "states/state_components.h"
 
 class LIBRARY_SPIIMOTIONCONTROLLERSHARED_EXPORT SPIIMotionController : public QObject, private Comms::CommsEvents,
         private SPIIPollingEvents_Interface
@@ -28,6 +29,9 @@ public:
     ~SPIIMotionController() override;
 
     std::vector<common::TupleECMData> getPlottables() const;
+
+public:
+    void executeCommand(const AbstractCommandPtr command);
 
 public:
     void ConnectToSimulation();
@@ -48,6 +52,10 @@ private:
 
     void SPIIPolling_PositionUpdate(const std::vector<SPII::Status_PositionPerAxis> &position) override;
 
+    void SPIIPolling_AxisUpdate(const std::vector<SPII::Status_PerAxis> &axis) override;
+
+    void SPIIPolling_MotorUpdate(const std::vector<SPII::Status_MotorPerAxis> &motor) override;
+
 public:
     std::shared_ptr<Comms::CommsMarshaler> m_CommsMarshaler; /**< Member variable handling the communications with the
 actual Galil unit. This parent class will be subscribing to published events from the marshaller. This
@@ -57,7 +65,7 @@ should drive the event driven structure required to exceite the state machine.*/
 information, settings, and callback information for the states within the HSM.*/
 
 private:
-    std::shared_ptr<HANDLE> m_SPIIDevice; /**< Member variable containing a pointer to the Galil interface */
+    SPII_Settings m_SPIIDevice; /**< Member variable containing a pointer to the Galil interface */
 
     SPIIPollMachine* m_DevicePolling; /**< Member variable that contains a threaded object consistently
  assessing and querying the state of the galil based on a timeout. This state should be paused when

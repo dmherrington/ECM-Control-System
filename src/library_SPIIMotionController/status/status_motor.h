@@ -90,7 +90,7 @@ public:
 
     ~Status_Motor();
 
-    void updateAxisStatus(const Status_MotorPerAxis &status);
+    bool updateMotorStatus(const std::vector<Status_MotorPerAxis> &status);
 
     Status_MotorPerAxis* getAxisStatus(const MotorAxis &axis);
 

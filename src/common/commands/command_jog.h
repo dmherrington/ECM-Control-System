@@ -61,6 +61,8 @@ public:
     void setJogResolution(const double &resolution);
     void setJogSpeed(const MotorAxis &axis, const double &speed);
 
+    std::map<MotorAxis, double> getJogAction() const;
+
 public:
     std::string getCommandString() const override;
 

@@ -81,7 +81,7 @@ void ECMState_UploadMotionProfile::OnEnter(ECMCommand_AbstractProfileConfigPtr c
     {
         ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(config);
 
-        Owner().m_Galil->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const GalilCurrentProgram &program){
+        Owner().m_MotionController->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const GalilCurrentProgram &program){
             UNUSED(program);
 
             if(completed)
@@ -94,8 +94,8 @@ void ECMState_UploadMotionProfile::OnEnter(ECMCommand_AbstractProfileConfigPtr c
         });
 
         CommandUploadProgramPtr cmdProgram = std::make_shared<CommandUploadProgram>();
-        cmdProgram->setCurrentScript(castConfig->m_GalilOperation.getProgram());
-        Owner().m_Galil->executeCommand(cmdProgram);
+        cmdProgram->setCurrentScript(castConfig->m_MotionController.getProgram());
+        Owner().m_MotionController->executeCommand(cmdProgram);
         break;
     }
     default:

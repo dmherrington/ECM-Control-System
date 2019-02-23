@@ -13,7 +13,7 @@ ECMState_ProfileMachineProcess::ECMState_ProfileMachineProcess():
 
 void ECMState_ProfileMachineProcess::OnExit()
 {
-    Owner().m_Galil->RemoveHost(this);
+    Owner().m_MotionController->RemoveHost(this);
 }
 
 void ECMState_ProfileMachineProcess::stopProcess()

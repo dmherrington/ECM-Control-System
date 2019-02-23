@@ -32,7 +32,17 @@ void CommandMotorDisable::addAxis(const MotorAxis &axis)
     }
 }
 
-std::map<MotorAxis, CommandMotorDisable::DisableValue> CommandMotorDisable::getDisableAxis() const
+void CommandMotorDisable::setDisableAll(const bool &value)
+{
+    this->disableAll = value;
+}
+
+std::map<MotorAxis, CommandMotorDisable::DisableValue> CommandMotorDisable::getDisableAction() const
 {
     return this->m_AxisValue;
+}
+
+bool CommandMotorDisable::shouldDisableAll() const
+{
+    return this->disableAll;
 }

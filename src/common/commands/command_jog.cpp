@@ -71,6 +71,10 @@ void CommandJog::setJogSpeed(const MotorAxis &axis, const double &speed)
     else
         this->setMoveDirection(axis, Direction::DIRECION_DOWN); //this direction has positive values
 }
+std::map<MotorAxis, double> CommandJog::getJogAction() const
+{
+    return this->jogSpeed;
+}
 
 std::string CommandJog::getCommandString() const
 {

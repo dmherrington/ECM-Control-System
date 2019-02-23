@@ -93,9 +93,32 @@ Status_Axis::~Status_Axis()
 
 }
 
-void Status_Axis::updateAxisStatus(const Status_Axis &status)
+bool Status_Axis::updateAxisStatus(const std::vector<Status_PerAxis> &status)
 {
+    bool axisChanged = false;
+    for(size_t index = 0; index < status.size(); index++)
+    {
+        Status_PerAxis currentStatus = status.at(index);
 
+        std::map<MotorAxis, DataGetSetNotifier<Status_PerAxis>*>::const_iterator iter = m_AxisStatus.find(currentStatus.getAxis());
+
+        if(iter != m_AxisStatus.end()) //item is already in the map and therefore we just need to update it
+        {
+            if(m_AxisStatus.at(currentStatus.getAxis())->set(currentStatus))
+            {
+                if(!axisChanged)
+                    axisChanged = true;
+            }
+        }
+        else {
+            DataGetSetNotifier<Status_PerAxis>* newStatus = new DataGetSetNotifier<Status_PerAxis>();
+            newStatus->set(currentStatus);
+            //insert it into the map
+            m_AxisStatus.insert(std::pair<MotorAxis, DataGetSetNotifier<Status_PerAxis>*>(currentStatus.getAxis(), newStatus));
+            axisChanged = true;
+        }
+    }
+    return axisChanged;
 }
 
 Status_Axis* Status_Axis::getAxisStatus(const MotorAxis &axis)
