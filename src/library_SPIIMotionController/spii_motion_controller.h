@@ -18,6 +18,7 @@
 #include "spii_state_interface.h"
 #include "data/motion_profile_state.h"
 
+#include "buffers/spii_buffer_manager.h"
 
 #include "states/state_components.h"
 

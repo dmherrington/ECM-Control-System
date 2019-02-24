@@ -1,13 +1,13 @@
 #include "widget_scripting_variables.h"
 #include "ui_widget_scripting_variables.h"
 
-Widget_ScriptingVariables::Widget_ScriptingVariables(GalilMotionController* galilObject, QWidget *parent) :
+Widget_ScriptingVariables::Widget_ScriptingVariables(SPIIMotionController *motionControllerObject, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget_ScriptingVariables)
 {
     ui->setupUi(this);
 
-    m_Galil = galilObject;
+    m_Galil = motionControllerObject;
 
     ui->doubleSpinBox_CutDepth->setToolTip("Profile Variable: maxdepth");
     ui->doubleSpinBox_RetractDistance->setToolTip("Profile Variable: rtdist");

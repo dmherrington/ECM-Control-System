@@ -43,6 +43,17 @@ public:
     bool commandKillMotion(const CommandStop &stop);
 
 public:
+    bool programUpload(const CommandUploadProgram &program);
+
+    bool bufferUpload(const unsigned int &index, const std::string &text);
+
+    bool bufferCompile(const unsigned int &index);
+
+    bool bufferRun(const unsigned int &index, const std::string &label);
+
+    bool bufferStop(const unsigned int &index);
+
+public:
     void updateDeviceSettings(const SPII_Settings &settings);
 
     bool requestPosition(const int &axisRequest, double &value);

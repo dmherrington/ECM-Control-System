@@ -201,4 +201,30 @@ bool SPIIProtocol::commandKillMotion(const CommandStop &stop)
     return rtnValidity;
 }
 
+
+bool SPIIProtocol::programUpload(const CommandUploadProgram &program)
+{
+
+}
+
+bool SPIIProtocol::bufferUpload(const unsigned int &index, const std::string &text)
+{
+    //acsc_LoadBuffer()
+}
+
+bool SPIIProtocol::bufferCompile(const unsigned int &index)
+{
+    //acsc_CompileBuffer()
+    //printf("compilation error: %d\n", acsc_GetLastError());
+}
+
+bool SPIIProtocol::bufferRun(const unsigned int &index, const std::string &label)
+{
+    //acsc_RunBuffer()
+}
+
+bool SPIIProtocol::bufferStop(const unsigned int &index)
+{
+    //acsc_StopBuffer()
+}
 } //END Comms

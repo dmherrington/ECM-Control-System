@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-#include "library_galilMotionController/galil_motion_controller.h"
+#include "library_SPIIMotionController/spii_motion_controller.h"
 
 namespace Ui {
 class Widget_ScriptingVariables;
@@ -14,7 +14,7 @@ class Widget_ScriptingVariables : public QWidget
     Q_OBJECT
 
 public:
-    explicit Widget_ScriptingVariables(GalilMotionController *galilObject, QWidget *parent = 0);
+    explicit Widget_ScriptingVariables(SPIIMotionController* motionControllerObject, QWidget *parent = 0);
 
     ~Widget_ScriptingVariables();
 
@@ -24,7 +24,7 @@ public:
 
     std::string getProfileName() const;
 
-    GalilCurrentProgram getDesiredProgram() const;
+    BufferManager getDesiredProgram() const;
 
     ProgramVariableList getVariableList() const;
 
@@ -57,7 +57,7 @@ private slots:
 private:
     Ui::Widget_ScriptingVariables *ui;
 
-    GalilMotionController* m_Galil;
+    SPIIMotionController* m_Galil;
 
     GalilCurrentProgram m_OperationalProgram;
 };

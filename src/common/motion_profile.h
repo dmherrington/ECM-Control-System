@@ -1,5 +1,5 @@
-#ifndef MOTION_PROFILE_STATE_H
-#define MOTION_PROFILE_STATE_H
+#ifndef MOTION_PROFILE_H
+#define MOTION_PROFILE_H
 
 #include <stdexcept>
 

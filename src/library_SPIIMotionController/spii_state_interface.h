@@ -33,9 +33,9 @@ public:
     virtual void cbi_GalilControllerGains(const CommandControllerGain &gains) = 0;
     virtual void cbi_GalilHomeIndicated(const bool &indicated) = 0;
     virtual void cbi_GalilTouchoffIndicated(const bool &indicated) = 0;
-    //virtual void cbi_NewMotionProfileState(const MotionProfileState &state, const bool &processTransitions) = 0;
+    virtual void cbi_NewMotionProfileState(const MotionProfileState &state, const bool &processTransitions) = 0;
     virtual void cbi_GalilNewMachineState(const ECM::SPII::SPIIState &state) = 0;
-    virtual void cbi_GalilUploadProgram(const AbstractCommandPtr command) = 0;
+    virtual void cbi_SPIIUploadProgram(const AbstractCommandPtr command) = 0;
     virtual void cbi_GalilDownloadProgram(const AbstractCommandPtr command) = 0;
 };
 
@@ -52,7 +52,7 @@ public:
         m_CB = cb;
     }
 
-    void issueGalilUploadProgram(const AbstractCommandPtr command)
+    void issueSPIIUploadProgram(const AbstractCommandPtr command)
     {
         if(m_CB)
             m_CB->cbi_GalilUploadProgram(command);
@@ -106,11 +106,11 @@ public:
             m_CB->cbi_AbstractGalilRemovePolled(tuple);
     }
 
-//    void issueUpdatedMotionProfileState(const MotionProfileState &state, const bool &performStateUpdate = true)
-//    {
-//        if(m_CB)
-//            m_CB->cbi_NewMotionProfileState(state, performStateUpdate);
-//    }
+    void issueUpdatedMotionProfileState(const MotionProfileState &state, const bool &performStateUpdate = true)
+    {
+        if(m_CB)
+            m_CB->cbi_NewMotionProfileState(state, performStateUpdate);
+    }
 
 public:
     SPII::Status_PerAxis* getAxisStatus(const MotorAxis &axis);
@@ -140,7 +140,7 @@ public:
 inputs of the Galil Unit. Inputs can be gathered based on the enum settings contained within the file.
 Eventually this should change to be pulled from a configuraiton.*/
 
-    BufferVariableValues* m_VariableValues;/**< Member variable containing the current list of variables
+    BufferVariableValues* m_MasterVariableValues;/**< Member variable containing the current list of variables
 based on the program that is currently on the Galil Unit. Values of this may be updated per the
 the request of the polling status function.*/
 

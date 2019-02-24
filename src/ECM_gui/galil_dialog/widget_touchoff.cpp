@@ -1,13 +1,13 @@
 #include "widget_touchoff.h"
 #include "ui_widget_touchoff.h"
 
-Widget_Touchoff::Widget_Touchoff(GalilMotionController* galilObject, QWidget *parent) :
+Widget_Touchoff::Widget_Touchoff(SPIIMotionController *motionControlObject, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget_Touchoff)
 {
     ui->setupUi(this);
 
-    m_Galil = galilObject;
+    m_Galil = motionControlObject;
 }
 
 Widget_Touchoff::~Widget_Touchoff()
@@ -15,7 +15,7 @@ Widget_Touchoff::~Widget_Touchoff()
     delete ui;
 }
 
-void Widget_Touchoff::loadFromTouchoffConfig(const MotionCommand_TouchoffConfig &config)
+void Widget_Touchoff::loadFromTouchoffConfig(const Configuration_Touchoff &config)
 {
     this->ui->doubleSpinBox_TouchoffRef->setValue(config.getTouchoffRef() / 10.0);
     this->ui->doubleSpinBox_InitialGap->setValue(config.getTouchoffGap() / 10.0);
@@ -23,9 +23,9 @@ void Widget_Touchoff::loadFromTouchoffConfig(const MotionCommand_TouchoffConfig 
     this->ui->checkBox_ReferenceOldPosition->setChecked(config.shouldTouchoffUtilizePreviousPosition());
 }
 
-MotionCommand_TouchoffConfig Widget_Touchoff::getCurrentTouchoffConfig() const
+Configuration_Touchoff Widget_Touchoff::getCurrentTouchoffConfig() const
 {
-    MotionCommand_TouchoffConfig currentConfig;
+    Configuration_Touchoff currentConfig;
     currentConfig.setTouchoffRef(this->ui->doubleSpinBox_TouchoffRef->value() * 10.0);
     currentConfig.setTouchoffGap(this->ui->doubleSpinBox_InitialGap->value() * 10.0);
     currentConfig.setTouchoffUtilization(this->ui->checkBox_UtilizeTouchoff->isChecked());

@@ -13,7 +13,7 @@ State_HomePositioning::State_HomePositioning():
 
 void State_HomePositioning::OnExit()
 {
-    Owner().m_VariableValues->removeVariableNotifier("homest",this);
+    Owner().m_MasterVariableValues->removeVariableNotifier("homest",this);
 
     common::TupleProfileVariableString tupleVariable("Default","Homing","homest");
     Owner().issueGalilRemovePollingRequest(tupleVariable);
@@ -35,8 +35,6 @@ hsm::Transition State_HomePositioning::GetTransition()
 
     if(currentState != desiredState)
     {
-        //        Owner().issueGalilRemovePollingRequest("homest"); This should be completed onExit
-
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {
@@ -75,9 +73,9 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
         if(!this->homeExecuting)
         {
             this->homeExecuting = true;
-            Owner().m_VariableValues->addVariableNotifier("homest",this,[this]{
+            Owner().m_MasterVariableValues->addVariableNotifier("homest",this,[this]{
                 double varValue = 0.0;
-                bool valid = Owner().m_VariableValues->getVariableValue("homest",varValue);
+                bool valid = Owner().m_MasterVariableValues->getVariableValue("homest",varValue);
                 if(!valid)
                 {
                     std::cout<<"The variable homest does not exist and therefore we do not know how to handle this case."<<std::endl;
@@ -93,7 +91,7 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
                     newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE);
                     MotionProfileState newProfileState;
                     newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
-                    //Owner().issueUpdatedMotionProfileState(newProfileState);
+                    Owner().issueUpdatedMotionProfileState(newProfileState);
                     break;
                 }
                 case 1:
@@ -105,7 +103,7 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
                     MotionProfileState newProfileState;
                     newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
                     desiredState = SPIIState::STATE_READY;
-                    //Owner().issueUpdatedMotionProfileState(newProfileState);
+                    Owner().issueUpdatedMotionProfileState(newProfileState);
                     break;
                 }
                 } //end of switch statement
@@ -158,10 +156,10 @@ void State_HomePositioning::OnEnter(const AbstractCommandPtr command)
     if(command != nullptr)
     {
         Owner().issueNewGalilState(SPIIState::STATE_HOME_POSITIONING);
-        //Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Home Status","homest");
-        //common::TupleProfileVariableString tupleVariable("Default","Homing","homest");
-        //request->setTupleDescription(tupleVariable);
-        //Owner().issueGalilAddPollingRequest(request,1000);
+        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Home Status","homest");
+        common::TupleProfileVariableString tupleVariable("Default","Homing","homest");
+        request->setTupleDescription(tupleVariable);
+        Owner().issueGalilAddPollingRequest(request,1000);
 
         this->handleCommand(command);
     }
