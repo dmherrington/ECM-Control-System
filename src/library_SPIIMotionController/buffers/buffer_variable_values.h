@@ -55,7 +55,7 @@ public:
     }
 
 private:
-    std::map<std::string,DataGetSetNotifier<Status_VariableValue>*> variableMap;
+    std::map<std::string, DataGetSetNotifier<Status_VariableValue>*> variableMap;
 
 };
 

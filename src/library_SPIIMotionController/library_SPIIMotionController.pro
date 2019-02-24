@@ -108,7 +108,8 @@ HEADERS += \
     spii_device_paramters.h \
     communications/spii_settings.h \
     requests/request_motor_status.h \
-    requests/request_axis_status.h
+    requests/request_axis_status.h \
+    spii_device_interface_motion_control.h
 
 # Unix lib Install
 unix:!symbian {

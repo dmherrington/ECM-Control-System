@@ -4,14 +4,14 @@
 #include <QTextStream>
 #include <QJsonObject>
 
-class Operation_Current
+class Operation_CurrentProgram
 {
 public:
-    Operation_Current();
+    Operation_CurrentProgram();
 
-    Operation_Current(const Operation_Current &copy);
+    Operation_CurrentProgram(const Operation_CurrentProgram &copy);
 
-    ~Operation_Current() = default;
+    ~Operation_CurrentProgram() = default;
 
 public:
     void writeToJSON(QJsonObject &saveObject);
@@ -46,7 +46,7 @@ public:
     //! \brief operator =
     //! \param rhs
     //!
-    Operation_Current& operator = (const Operation_Current &rhs)
+    Operation_CurrentProgram& operator = (const Operation_CurrentProgram &rhs)
     {
         //GalilCurrentProgram::operator =(rhs);
         this->operationIndex = rhs.operationIndex;
@@ -60,7 +60,7 @@ public:
     //! \param rhs
     //! \return
     //!
-    bool operator == (const Operation_Current &rhs)
+    bool operator == (const Operation_CurrentProgram &rhs)
     {
 //        if(!GalilCurrentProgram::operator ==(rhs)){
 //            return false;
@@ -82,7 +82,7 @@ public:
     //! \param rhs
     //! \return
     //!
-    bool operator != (const Operation_Current &rhs) {
+    bool operator != (const Operation_CurrentProgram &rhs) {
         return !(*this == rhs);
     }
 

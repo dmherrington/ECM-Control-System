@@ -105,13 +105,13 @@ void ECM_API::logCurrentOperationalSettings()
     this->writeHeaderBreaker(operationsString, 100);
     operationsString += "MOTION CONTROLLER OPERATIONAL SCRIPT: \n";
     this->writeHeaderBreaker(operationsString, 100);
-    operationsString += m_MotionController->stateInterface->galilProgram->getProgram();
+    //operationsString += m_MotionController->stateInterface->galilProgram->getProgram();
     operationsString += "\r\n";
 
     this->writeHeaderBreaker(operationsString, 100);
     operationsString += "MOTION CONTROLLER OPERATIONAL VARIABLES: \n";
     this->writeHeaderBreaker(operationsString, 100);
-    operationsString += m_MotionController->stateInterface->galilProgram->getVariableList().getLoggingString();
+    //operationsString += m_MotionController->stateInterface->galilProgram->getVariableList().getLoggingString();
     operationsString += "\r\n";
 
     m_Log->writeCurrentOperationalSettings(operationsString);
@@ -119,8 +119,8 @@ void ECM_API::logCurrentOperationalSettings()
 
 void ECM_API::writeToLogStartingPosition()
 {
-    int startPosition = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
-    m_Log->writeStartingPosition(startPosition);
+    //int startPosition = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+    //m_Log->writeStartingPosition(startPosition);
 }
 
 void ECM_API::beginLoggingOperationalData(const ProfileOpType &type)
@@ -135,7 +135,8 @@ void ECM_API::beginOperationalProfile(const ECMCommand_AbstractProfileConfigPtr 
     props.setOperatingCondition(condition);
     props.setTime(profileConfig->execProperties.getStartTime());
 
-    int position = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+    //int position = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+    int position = 0;
     props.setCurrentPosition(position);
 
     //Emit the signal notifying the listeners of a new operational profile
@@ -168,8 +169,8 @@ void ECM_API::concludeExecutingOperation(const ECMCommand_AbstractProfileConfigP
     //Stop requesting information from the oscilliscope device
     m_Rigol->executeMeasurementPolling(false);
 
-    int concludingPosition = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
-
+    //int concludingPosition = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+    int concludingPosition = 0;
     //Conclude writing to the logs with any wrap up data that we need
     m_Log->WriteConcludingOperationStats(profileConfig->execProperties.getElapsedTime(),
                                          concludingPosition, profileConfig->execProperties.getProfileCode());
@@ -182,7 +183,8 @@ void ECM_API::concludeExecutingOperation(const ECMCommand_AbstractProfileConfigP
     props.setOperatingCondition(ExecutionProperties::ExecutionCondition::ENDING);
     props.setTime(profileConfig->execProperties.getEndTime());
 
-    int position = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+    //int position = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+    int position = 0;
     props.setCurrentPosition(position);
 
     //Emit the signal notifying the listeners of a completed operational profile

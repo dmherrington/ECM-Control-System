@@ -31,7 +31,7 @@ SPIIMotionController::~SPIIMotionController()
 
 void SPIIMotionController::executeCommand(const AbstractCommandPtr command)
 {
-    ECM::Galil::AbstractStateGalil* currentState = static_cast<ECM::Galil::AbstractStateGalil*>(stateMachine->getCurrentState());
+    ECM::SPII::AbstractStateSPII* currentState = static_cast<ECM::SPII::AbstractStateSPII*>(stateMachine->getCurrentState());
     currentState->handleCommand(command);
     ProgressStateMachineStates();
 }

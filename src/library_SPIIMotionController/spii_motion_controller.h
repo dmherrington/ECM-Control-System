@@ -16,10 +16,13 @@
 
 #include "spii_poll_machine.h"
 #include "spii_state_interface.h"
+#include "data/motion_profile_state.h"
+
+
 #include "states/state_components.h"
 
-class LIBRARY_SPIIMOTIONCONTROLLERSHARED_EXPORT SPIIMotionController : public QObject, private Comms::CommsEvents,
-        private SPIIPollingEvents_Interface
+class LIBRARY_SPIIMOTIONCONTROLLERSHARED_EXPORT SPIIMotionController : public QObject,
+        private Comms::CommsEvents, private SPIIPollingEvents_Interface
 {
     Q_OBJECT
 
@@ -79,7 +82,7 @@ private:
  machine. This state machine evolves the state per event updates and user commands either via
 the GUI or information updates from the polled status of the galil. */
 
-
+    MotionProfileState newState;
 };
 
 #endif // SPII_MOTION_CONTROLLER_H
