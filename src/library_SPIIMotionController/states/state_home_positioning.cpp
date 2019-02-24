@@ -16,7 +16,7 @@ void State_HomePositioning::OnExit()
     Owner().m_MasterVariableValues->removeVariableNotifier("homest",this);
 
     common::TupleProfileVariableString tupleVariable("Default","Homing","homest");
-    Owner().issueGalilRemovePollingRequest(tupleVariable);
+    Owner().issueSPIIRemovePollingRequest(tupleVariable);
 }
 
 AbstractStateSPII* State_HomePositioning::getClone() const
@@ -108,7 +108,7 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
                 }
                 } //end of switch statement
             });
-            Owner().issueGalilCommand(command); //this will not be considered a motion command as the profile contains the BG parameters
+            Owner().issueSPIICommand(command); //this will not be considered a motion command as the profile contains the BG parameters
         }
         break;
     }
@@ -143,7 +143,7 @@ void State_HomePositioning::Update()
 
 void State_HomePositioning::OnEnter()
 {
-    Owner().issueNewGalilState(SPIIState::STATE_HOME_POSITIONING);
+    Owner().issueNewSPIIState(SPIIState::STATE_HOME_POSITIONING);
     //this shouldn't really happen as how are we supposed to know the actual home position command
     //we therefore are going to do nothing other than change the state back to State_Ready
     this->desiredState = SPIIState::STATE_READY;
@@ -155,11 +155,11 @@ void State_HomePositioning::OnEnter(const AbstractCommandPtr command)
 
     if(command != nullptr)
     {
-        Owner().issueNewGalilState(SPIIState::STATE_HOME_POSITIONING);
+        Owner().issueNewSPIIState(SPIIState::STATE_HOME_POSITIONING);
         Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Home Status","homest");
         common::TupleProfileVariableString tupleVariable("Default","Homing","homest");
         request->setTupleDescription(tupleVariable);
-        Owner().issueGalilAddPollingRequest(request,1000);
+        Owner().issueSPIIAddPollingRequest(request,1000);
 
         this->handleCommand(command);
     }
@@ -168,7 +168,7 @@ void State_HomePositioning::OnEnter(const AbstractCommandPtr command)
     }
 }
 
-} //end of namespace Galil
+} //end of namespace SPII
 } //end of namespace ECM
 
 #include "states/state_ready.h"

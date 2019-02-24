@@ -13,7 +13,7 @@ ECMState_UploadMotionVariables::ECMState_UploadMotionVariables():
 
 void ECMState_UploadMotionVariables::OnExit()
 {
-    Owner().m_Galil->RemoveHost(this);
+    Owner().m_MotionController->RemoveHost(this);
 }
 
 void ECMState_UploadMotionVariables::stopProcess()
@@ -81,7 +81,7 @@ void ECMState_UploadMotionVariables::OnEnter(ECMCommand_AbstractProfileConfigPtr
     {
         ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(config);
 
-        Owner().m_Galil->AddLambda_FinishedUploadingVariables(this,[this](const bool completed, const ProgramVariableList &variableList){
+        Owner().m_MotionController->AddLambda_FinishedUploadingVariables(this,[this](const bool completed, const Operation_VariableList &variableList){
             UNUSED(variableList);
             if(completed)
             {
@@ -92,8 +92,8 @@ void ECMState_UploadMotionVariables::OnEnter(ECMCommand_AbstractProfileConfigPtr
             }
 
         });
-
-        Owner().m_Galil->uploadProgramVariableList(castConfig->m_GalilOperation.getVariableList());
+        //KEN FIX
+        //Owner().m_Galil->uploadProgramVariableList(castConfig->m_GalilOperation.getVariableList());
         break;
     }
     default:

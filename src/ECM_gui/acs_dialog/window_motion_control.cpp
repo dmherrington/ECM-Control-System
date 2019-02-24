@@ -1,7 +1,7 @@
 #include "window_motion_control.h"
 #include "ui_window_motion_control.h"
 
-Window_MotionControl::Window_MotionControl(SPIIMotionController *motionObject, QWidget *parent) :
+Window_MotionControl::Window_MotionControl(GalilMotionController* galilObject, QWidget *parent) :
     GeneralDialogWindow(DialogWindowTypes::WINDOW_MOTION_CONTROL,"Motion Control",parent),
     ui(new Ui::Window_MotionControl)
 {
@@ -9,7 +9,7 @@ Window_MotionControl::Window_MotionControl(SPIIMotionController *motionObject, Q
 
     ui->setupUi(this);
 
-    m_MotionController = motionObject;
+    m_Galil = galilObject;
 
     ui->spinBox_Jog->setToolTip("Jogging Speed");
     ui->spinBox_RelativeMoveSpeed->setToolTip("Relative Move Speed");
@@ -41,14 +41,14 @@ void Window_MotionControl::on_pushButton_IncreaseJog_pressed()
     int jogRate = abs(ui->spinBox_Jog->value()) * (-1);
     CommandJogPtr beginJog = std::make_shared<CommandJog>(MotorAxis::Z,jogRate);
     //CommandJog beginJog(MotorAxis::Z,jogRate);
-    m_MotionController->executeCommand(beginJog);
+    m_Galil->executeCommand(beginJog);
 }
 
 void Window_MotionControl::on_pushButton_IncreaseJog_released()
 {
     CommandStopPtr stopJog = std::make_shared<CommandStop>(MotorAxis::Z);
     //CommandStop stop(MotorAxis::Z);
-    m_MotionController->executeCommand(stopJog);
+    m_Galil->executeCommand(stopJog);
 }
 
 void Window_MotionControl::on_pushButton_DecreaseJog_pressed()
@@ -56,35 +56,35 @@ void Window_MotionControl::on_pushButton_DecreaseJog_pressed()
     int jogRate = abs(ui->spinBox_Jog->value());
     CommandJogPtr beginJog = std::make_shared<CommandJog>(MotorAxis::Z,jogRate);
     //CommandJog beginJog(MotorAxis::Z,jogRate);
-    m_MotionController->executeCommand(beginJog);
+    m_Galil->executeCommand(beginJog);
 }
 
 void Window_MotionControl::on_pushButton_DecreaseJog_released()
 {
     CommandStopPtr stopJog = std::make_shared<CommandStop>(MotorAxis::Z);
-    m_MotionController->executeCommand(stopJog);
+    m_Galil->executeCommand(stopJog);
 }
 
 void Window_MotionControl::on_pushButton_IncreaseRelativeMove_released()
 {
     int relativeMoveSpeed = ui->spinBox_RelativeMoveSpeed->value();
     CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(MotorAxis::Z, relativeMoveSpeed);
-    m_MotionController->executeCommand(commandSpeed);
+    m_Galil->executeCommand(commandSpeed);
 
     int relativeDistance = abs(ui->spinBox_RelativeMove->value()) * (-1);
     CommandRelativeMovePtr startIncreaseRelativeMove = std::make_shared<CommandRelativeMove>(MotorAxis::Z, relativeDistance);
-    m_MotionController->executeCommand(startIncreaseRelativeMove);
+    m_Galil->executeCommand(startIncreaseRelativeMove);
 }
 
 void Window_MotionControl::on_pushButton_DecreaseRelativeMove_released()
 {
     int relativeMoveSpeed = ui->spinBox_RelativeMoveSpeed->value();
     CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(MotorAxis::Z, relativeMoveSpeed);
-    m_MotionController->executeCommand(commandSpeed);
+    m_Galil->executeCommand(commandSpeed);
 
     int relativeDistance = abs(ui->spinBox_RelativeMove->value());
     CommandRelativeMovePtr startDecreaseRelativeMove = std::make_shared<CommandRelativeMove>(MotorAxis::Z, relativeDistance);
-    m_MotionController->executeCommand(startDecreaseRelativeMove);
+    m_Galil->executeCommand(startDecreaseRelativeMove);
 }
 
 void Window_MotionControl::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state, const bool &valueChanged)

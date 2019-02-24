@@ -22,8 +22,10 @@
 
 #include "states/state_components.h"
 
+#include "spii_device_interface_motion_control.h"
+
 class LIBRARY_SPIIMOTIONCONTROLLERSHARED_EXPORT SPIIMotionController : public QObject,
-        private Comms::CommsEvents, private SPIIPollingEvents_Interface
+        private Comms::CommsEvents, private SPIIPollingEvents_Interface, public SPIIDeviceInterface_MotionControl
 {
     Q_OBJECT
 

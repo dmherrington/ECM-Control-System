@@ -74,7 +74,7 @@ void State_Idle::handleCommand(const AbstractCommandPtr command)
         //const CommandDownloadProgram* castCommand = copyCommand->as<CommandDownloadProgram>();
         //CommandDownloadProgramPtr command = std::make_shared<CommandDownloadProgram>(*castCommand);
         //const CommandDownloadProgram* castCommand = copyCommand->as<CommandDownloadProgram>();
-        Owner().issueGalilDownloadProgram(command);
+        Owner().issueSPIIDownloadProgram(command);
         break;
     }
     case CommandType::UPLOAD_PROGRAM:
@@ -82,7 +82,7 @@ void State_Idle::handleCommand(const AbstractCommandPtr command)
         //const CommandUploadProgram* castCommand = copyCommand->as<CommandUploadProgram>();
         //CommandUploadProgramPtr command = std::make_shared<CommandUploadProgram>(*castCommand);
         //const CommandUploadProgram* castCommand = copyCommand->as<CommandUploadProgram>();
-        Owner().issueGalilUploadProgram(command);
+        Owner().issueSPIIUploadProgram(command);
         break;
     }
     case CommandType::MOTOR_ON:
@@ -111,7 +111,7 @@ void State_Idle::handleCommand(const AbstractCommandPtr command)
         {
             //This means we can handle this in this state
             //CommandExecuteProfilePtr commandPtr = std::make_shared<CommandExecuteProfile>(*castCommand);
-            Owner().issueGalilCommand(command); //this will call the setup routine
+            Owner().issueSPIICommand(command); //this will call the setup routine
         }
         else{
             //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
@@ -124,7 +124,7 @@ void State_Idle::handleCommand(const AbstractCommandPtr command)
     case CommandType::CLEAR_BIT:
     case CommandType::SET_BIT:
     {
-        std::cout<<"The current command: "<<CommandToString(command->getCommandType())<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        std::cout<<"The current command: "<<CommandToString(command->getCommandType())<<" is not available while SPII is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
     case CommandType::MOTOR_OFF:
@@ -138,7 +138,7 @@ void State_Idle::handleCommand(const AbstractCommandPtr command)
         if(Owner().m_MotorStatus->areAnyMotorsEnabled())
         {
             //If the motor is not currently armed, issue the command to arm it
-            Owner().issueGalilCommand(command);
+            Owner().issueSPIICommand(command);
         }
         else{
             //since the motor was already disarmed this implies that we can safely transition to idle state
@@ -157,7 +157,7 @@ void State_Idle::handleCommand(const AbstractCommandPtr command)
     {
         //const Command_Variable* castCommand = copyCommand->as<Command_Variable>();
         //Command_VariablePtr command = std::make_shared<Command_Variable>(*castCommand);
-        Owner().issueGalilCommand(command);
+        Owner().issueSPIICommand(command);
         break;
     }
     default:
@@ -168,7 +168,7 @@ void State_Idle::handleCommand(const AbstractCommandPtr command)
 
 void State_Idle::OnEnter()
 {
-    Owner().issueNewGalilState(SPIIState::STATE_IDLE);
+    Owner().issueNewSPIIState(SPIIState::STATE_IDLE);
 
     //The first thing we should do when entering this state is to disable the motor
     //To get to this state, it should be noted that we should have already transitioned through
@@ -177,7 +177,7 @@ void State_Idle::OnEnter()
     if(Owner().isMotorEnabled())
     {
         CommandMotorDisablePtr castCommand = std::make_shared<CommandMotorDisable>();
-        Owner().issueGalilCommand(castCommand);
+        Owner().issueSPIICommand(castCommand);
     }
 
     //Update the state to indicate that the previous home indication is no longer valid

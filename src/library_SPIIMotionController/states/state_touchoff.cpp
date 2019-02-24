@@ -15,7 +15,7 @@ void State_Touchoff::OnExit()
     Owner().m_MasterVariableValues->removeVariableNotifier("touchst",this);
 
     common::TupleProfileVariableString tupleVariable("Default","Touchoff","touchst");
-    Owner().issueGalilRemovePollingRequest(tupleVariable);
+    Owner().issueSPIIRemovePollingRequest(tupleVariable);
 }
 
 AbstractStateSPII* State_Touchoff::getClone() const
@@ -74,7 +74,7 @@ void State_Touchoff::handleCommand(const AbstractCommandPtr command)
         {
             this->touchoffExecuting = true;;
             this->stateSetup();
-            Owner().issueGalilCommand(command); //this will not be considered a motion command as the profile contains the BG parameters
+            Owner().issueSPIICommand(command); //this will not be considered a motion command as the profile contains the BG parameters
         }
         break;
     }
@@ -121,7 +121,7 @@ void State_Touchoff::Update()
 
 void State_Touchoff::OnEnter()
 {
-    Owner().issueNewGalilState(SPIIState::STATE_TOUCHOFF);
+    Owner().issueNewSPIIState(SPIIState::STATE_TOUCHOFF);
     //this shouldn't really happen as how are we supposed to know the actual touchoff command
     //we therefore are going to do nothing other than change the state back to State_Ready
     this->desiredState = SPIIState::STATE_READY;
@@ -131,12 +131,12 @@ void State_Touchoff::OnEnter(const AbstractCommandPtr command)
 {
     if(command != nullptr)
     {
-        Owner().issueNewGalilState(SPIIState::STATE_TOUCHOFF);
+        Owner().issueNewSPIIState(SPIIState::STATE_TOUCHOFF);
 
         Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Touchoff Status","touchst");
         common::TupleProfileVariableString tupleVariable("Default","Touchoff","touchst");
         request->setTupleDescription(tupleVariable);
-        Owner().issueGalilAddPollingRequest(request,1000);
+        Owner().issueSPIIAddPollingRequest(request,1000);
 
         this->handleCommand(command);
     }
@@ -230,7 +230,7 @@ void State_Touchoff::stateSetup()
 
 }
 
-} //end of namespace Galil
+} //end of namespace SPII
 } //end of namespace ECM
 
 #include "states/state_ready.h"

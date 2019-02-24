@@ -26,47 +26,47 @@ void State_Stop::handleCommand(const AbstractCommandPtr command)
     switch (currentCommand) {
     case CommandType::ABSOLUTE_MOVE:
     {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while SPII is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
     case CommandType::CLEAR_BIT:
     {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while SPII is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
     case CommandType::EXECUTE_PROGRAM:
     {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while SPII is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
     case CommandType::JOG_MOVE:
     {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while SPII is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
     case CommandType::MOTOR_OFF:
     {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while SPII is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
     case CommandType::MOTOR_ON:
     {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while SPII is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
     case CommandType::RELATIVE_MOVE:
     {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while SPII is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
     case CommandType::SET_BIT:
     {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while SPII is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
     case CommandType::STOP:
     {
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while SPII is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
     default:
@@ -100,7 +100,7 @@ hsm::Transition State_Stop::GetTransition()
     }
 }
 
-} //end of namespace Galil
+} //end of namespace SPII
 } //end of namespace ECM
 
 #include "states/state_idle.h"

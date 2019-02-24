@@ -58,7 +58,7 @@ void State_Jogging::handleCommand(const AbstractCommandPtr command)
     case CommandType::JOG_MOVE:
     {
         //This is the command that brought us into this state
-        Owner().issueGalilMotionCommand(command);
+        Owner().issueSPIIMotionCommand(command);
         break;
     }
     case CommandType::STOP:
@@ -91,7 +91,7 @@ void State_Jogging::Update()
 
 void State_Jogging::OnEnter()
 {
-    Owner().issueNewGalilState(SPIIState::STATE_JOGGING);
+    Owner().issueNewSPIIState(SPIIState::STATE_JOGGING);
     //this shouldn't really happen as how are we supposed to know the actual state jogging command
     //we therefore are going to do nothing other than change the state back to State_Ready
     this->desiredState = SPIIState::STATE_READY;
@@ -101,7 +101,7 @@ void State_Jogging::OnEnter(const AbstractCommandPtr command)
 {
     if(command != nullptr)
     {
-        Owner().issueNewGalilState(SPIIState::STATE_JOGGING);
+        Owner().issueNewSPIIState(SPIIState::STATE_JOGGING);
         this->handleCommand(command);
     }
     else{
@@ -109,7 +109,7 @@ void State_Jogging::OnEnter(const AbstractCommandPtr command)
     }
 }
 
-} //end of namespace Galil
+} //end of namespace SPII
 } //end of namespace ECM
 
 #include "states/state_motion_stop.h"

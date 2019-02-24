@@ -29,7 +29,7 @@ hsm::Transition State_ScriptExecution::GetTransition()
         //First, let us make sure we disengage the pulsing as we are about to leave the script execution state
         CommandSetBitPtr command = std::make_shared<CommandSetBit>();
         command->appendAddress(2); //Ken: be careful in the event that this changes. This should be handled by settings or something
-        Owner().issueGalilCommand(command);
+        Owner().issueSPIICommand(command);
 
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
@@ -70,7 +70,7 @@ void State_ScriptExecution::handleCommand(const AbstractCommandPtr command)
         {
             this->profileExecuting = true;
             CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
-            Owner().issueGalilCommand(castCommand);
+            Owner().issueSPIICommand(castCommand);
         }
         break;
     }
@@ -97,7 +97,7 @@ void State_ScriptExecution::handleCommand(const AbstractCommandPtr command)
         break;
     }
     default:
-        std::cout<<"The current command: "<<CommandToString(command->getCommandType())<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        std::cout<<"The current command: "<<CommandToString(command->getCommandType())<<" is not available while SPII is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
 }
@@ -116,19 +116,19 @@ void State_ScriptExecution::Update()
 
 void State_ScriptExecution::OnExit()
 {
-    Owner().m_VariableValues->removeVariableNotifier("ppos",this);
-    Owner().m_VariableValues->removeVariableNotifier("cutdone",this);
+    Owner().m_MasterVariableValues->removeVariableNotifier("ppos",this);
+    Owner().m_MasterVariableValues->removeVariableNotifier("cutdone",this);
 
     //Ken we need to remove the polling measurements here
     for(size_t i = 0; i < currentScriptRequests.size(); i++)
     {
-        Owner().issueGalilRemovePollingRequest(currentScriptRequests.at(i));
+        Owner().issueSPIIRemovePollingRequest(currentScriptRequests.at(i));
     }
 }
 
 void State_ScriptExecution::OnEnter()
 {
-    Owner().issueNewGalilState(SPIIState::STATE_SCRIPT_EXECUTION);
+    Owner().issueNewSPIIState(SPIIState::STATE_SCRIPT_EXECUTION);
     //this shouldn't really happen as how are we supposed to know the the actual profile to execute
     //we therefore are going to do nothing other than change the state back to State_Ready
     desiredState = SPIIState::STATE_READY;
@@ -142,25 +142,25 @@ void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
         QString profileName = QString::fromStdString(castCommand->getProfileName());
         this->scriptProfileName = profileName.toStdString();
 
-        Owner().issueNewGalilState(SPIIState::STATE_SCRIPT_EXECUTION);
+        Owner().issueNewSPIIState(SPIIState::STATE_SCRIPT_EXECUTION);
 
 //        Request_TellVariablePtr requestPosition = std::make_shared<Request_TellVariable>("Bottom Position","ppos","counts");
 //        common::TupleProfileVariableString tupleVariablePPOS("", "", "ppos");
 //        requestPosition->setTupleDescription(tupleVariablePPOS);
-//        Owner().issueGalilAddPollingRequest(requestPosition);
+//        Owner().issueSPIIAddPollingRequest(requestPosition);
 //        currentScriptRequests.push_back(tupleVariablePPOS);
 
 
 //        Request_TellVariablePtr requestCutting = std::make_shared<Request_TellVariable>("Machining Complete","cutdone");
 //        common::TupleProfileVariableString tupleVariableCUTTING("",profileName,"cutdone");
 //        requestCutting->setTupleDescription(tupleVariableCUTTING);
-//        Owner().issueGalilAddPollingRequest(requestCutting);
+//        Owner().issueSPIIAddPollingRequest(requestCutting);
 //        currentScriptRequests.push_back(tupleVariableCUTTING);
 
-        Owner().m_VariableValues->addVariableNotifier("cutdone",this,[this]
+        Owner().m_MasterVariableValues->addVariableNotifier("cutdone",this,[this]
         {
             double varValue = 0.0;
-            bool valid = Owner().m_VariableValues->getVariableValue("cutdone",varValue);
+            bool valid = Owner().m_MasterVariableValues->getVariableValue("cutdone",varValue);
             switch ((ProfileState_Machining::MACHININGProfileCodes)varValue) {
             case ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE:
             {
@@ -199,7 +199,7 @@ void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
     }
 }
 
-} //end of namespace Galil
+} //end of namespace SPII
 } //end of namespace ECM
 
 #include "states/state_ready.h"

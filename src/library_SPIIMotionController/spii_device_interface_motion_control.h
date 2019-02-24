@@ -13,6 +13,10 @@
 
 class SPIIDeviceInterface_MotionControl
 {
+
+public:
+    virtual ~SPIIDeviceInterface_MotionControl() = default;
+
 public:
     enum class FINISH_CODE
     {
@@ -35,7 +39,7 @@ public:
         m_MutexFinishVariablesLambda.unlock();
 
         m_MutexNewMotionProfileStateLambda.lock();
-        //m_NewMotionProfileStateLambda.erase(ptr);
+        m_NewMotionProfileStateLambda.erase(ptr);
         m_MutexNewMotionProfileStateLambda.unlock();
     }
 
@@ -61,15 +65,15 @@ public:
     }
 
 
-//    void setLambda_NewMotionProfileState(const std::function<void(const MotionProfileState &profileState)> &lambda){
-//        if(m_NewMotionProfileStateLambda.find(0) != m_NewMotionProfileStateLambda.cend())
-//        {
-//            printf("Warning!!!! A finish procedure already exists, replacing old with new\n");
-//            m_NewMotionProfileStateLambda.erase(0);
-//        }
+    void setLambda_NewMotionProfileState(const std::function<void(const MotionProfileState &profileState)> &lambda){
+        if(m_NewMotionProfileStateLambda.find(0) != m_NewMotionProfileStateLambda.cend())
+        {
+            printf("Warning!!!! A finish procedure already exists, replacing old with new\n");
+            m_NewMotionProfileStateLambda.erase(0);
+        }
 
-//        m_NewMotionProfileStateLambda.insert({0, lambda});
-//    }
+        m_NewMotionProfileStateLambda.insert({0, lambda});
+    }
 
     void AddLambda_FinishedUploadingScript(void* host, const std::function<void(const bool &success, const Operation_CurrentProgram &program)> &lambda){
         m_MutexFinishScriptLambda.lock();
@@ -83,11 +87,11 @@ public:
         m_MutexFinishVariablesLambda.unlock();
     }
 
-//    void AddLambda_NewMotionProfileState(void* host, const std::function<void(const MotionProfileState &profileState)> &lambda){
-//        m_MutexNewMotionProfileStateLambda.lock();
-//        m_NewMotionProfileStateLambda.insert({host, lambda});
-//        m_MutexNewMotionProfileStateLambda.unlock();
-//    }
+    void AddLambda_NewMotionProfileState(void* host, const std::function<void(const MotionProfileState &profileState)> &lambda){
+        m_MutexNewMotionProfileStateLambda.lock();
+        m_NewMotionProfileStateLambda.insert({host, lambda});
+        m_MutexNewMotionProfileStateLambda.unlock();
+    }
 
 protected:
     void onFinishedUploadingScript(const bool &success, const Operation_CurrentProgram &program){
@@ -110,32 +114,32 @@ protected:
         m_MutexFinishVariablesLambda.unlock();
     }
 
-//    void onNewMotionProfileState(const MotionProfileState &profileState){
+    void onNewMotionProfileState(const MotionProfileState &profileState){
 
-//        m_MutexNewMotionProfileStateLambda.lock();
-//        for(auto it = m_NewMotionProfileStateLambda.cbegin() ; it != m_NewMotionProfileStateLambda.cend() ; ++it)
-//        {
-//            it->second(profileState);
-//        }
-//        m_MutexNewMotionProfileStateLambda.unlock();
-//    }
+        m_MutexNewMotionProfileStateLambda.lock();
+        for(auto it = m_NewMotionProfileStateLambda.cbegin() ; it != m_NewMotionProfileStateLambda.cend() ; ++it)
+        {
+            it->second(profileState);
+        }
+        m_MutexNewMotionProfileStateLambda.unlock();
+    }
 
-//    void newMotionProfileState(const MotionProfileState &profileState)
-//    {
-//        std::thread thread([this,profileState]()
-//        {
-//            std::vector<std::function<void(const MotionProfileState &profileState)>> lambdasToCall = {};
-//            for(auto it = m_NewMotionProfileStateLambda.cbegin(); it != m_NewMotionProfileStateLambda.cend(); ++it)
-//            {
-//                lambdasToCall.push_back(it->second);
-//            }
-//            for(auto it = lambdasToCall.cbegin(); it != lambdasToCall.cend(); ++it)
-//            {
-//                (*it)(profileState);
-//            }
-//        });
-//        thread.detach();
-//    }
+    void newMotionProfileState(const MotionProfileState &profileState)
+    {
+        std::thread thread([this,profileState]()
+        {
+            std::vector<std::function<void(const MotionProfileState &profileState)>> lambdasToCall = {};
+            for(auto it = m_NewMotionProfileStateLambda.cbegin(); it != m_NewMotionProfileStateLambda.cend(); ++it)
+            {
+                lambdasToCall.push_back(it->second);
+            }
+            for(auto it = lambdasToCall.cbegin(); it != lambdasToCall.cend(); ++it)
+            {
+                (*it)(profileState);
+            }
+        });
+        thread.detach();
+    }
 
 signals:
     //void signal_DeviceConfigured(const ECMDevice &device);
@@ -143,7 +147,7 @@ signals:
 protected:
     std::unordered_map<void*, std::function<void(const bool &success, const Operation_CurrentProgram &program)>> m_FinishScriptLambda;
     std::unordered_map<void*, std::function<void(const bool success, const Operation_VariableList &variableList)>> m_FinishVariablesLambda;
-    //std::unordered_map<void*, std::function<void(const MotionProfileState &profileState)>> m_NewMotionProfileStateLambda;
+    std::unordered_map<void*, std::function<void(const MotionProfileState &profileState)>> m_NewMotionProfileStateLambda;
 
     std::mutex m_MutexFinishScriptLambda;
     std::mutex m_MutexFinishVariablesLambda;

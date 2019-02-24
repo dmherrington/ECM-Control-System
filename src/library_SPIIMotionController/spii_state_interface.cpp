@@ -29,7 +29,7 @@ void SPIIStateInterface::setHomeInidcated(const bool &val)
 {
     this->indicatedHome = val;
     if(m_CB)
-        m_CB->cbi_GalilHomeIndicated(this->indicatedHome);
+        m_CB->cbi_SPIIHomeIndicated(this->indicatedHome);
 }
 
 bool SPIIStateInterface::isHomeInidcated() const
@@ -42,7 +42,7 @@ void SPIIStateInterface::setTouchoffIndicated(const bool &val)
 {
     this->indicatedTouchoff = val;
     if(m_CB)
-        m_CB->cbi_GalilTouchoffIndicated(this->indicatedTouchoff);
+        m_CB->cbi_SPIITouchoffIndicated(this->indicatedTouchoff);
 }
 
 bool SPIIStateInterface::isTouchoffIndicated() const

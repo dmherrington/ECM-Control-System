@@ -13,7 +13,7 @@ ECMState_UploadMotionProfile::ECMState_UploadMotionProfile():
 
 void ECMState_UploadMotionProfile::OnExit()
 {
-    Owner().m_Galil->RemoveHost(this);
+    Owner().m_MotionController->RemoveHost(this);
 }
 
 void ECMState_UploadMotionProfile::stopProcess()
@@ -81,7 +81,7 @@ void ECMState_UploadMotionProfile::OnEnter(ECMCommand_AbstractProfileConfigPtr c
     {
         ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(config);
 
-        Owner().m_MotionController->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const GalilCurrentProgram &program){
+        Owner().m_MotionController->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const Operation_CurrentProgram &program){
             UNUSED(program);
 
             if(completed)
@@ -94,8 +94,9 @@ void ECMState_UploadMotionProfile::OnEnter(ECMCommand_AbstractProfileConfigPtr c
         });
 
         CommandUploadProgramPtr cmdProgram = std::make_shared<CommandUploadProgram>();
-        cmdProgram->setCurrentScript(castConfig->m_MotionController.getProgram());
-        Owner().m_MotionController->executeCommand(cmdProgram);
+        //KEN FIX
+//        cmdProgram->setCurrentScript(castConfig->m_MotionController.getProgram());
+//        Owner().m_MotionController->executeCommand(cmdProgram);
         break;
     }
     default:

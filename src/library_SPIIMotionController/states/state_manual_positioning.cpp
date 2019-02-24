@@ -63,12 +63,12 @@ void State_ManualPositioning::handleCommand(const AbstractCommandPtr command)
     switch (command->getCommandType()) {
     case CommandType::ABSOLUTE_MOVE:
     {
-        Owner().issueGalilMotionCommand(command);
+        Owner().issueSPIIMotionCommand(command);
         break;
     }
     case CommandType::RELATIVE_MOVE:
     {
-        Owner().issueGalilMotionCommand(command);
+        Owner().issueSPIIMotionCommand(command);
         break;
     }
     case CommandType::MOTOR_OFF:
@@ -115,14 +115,14 @@ void State_ManualPositioning::Update()
 
 void State_ManualPositioning::OnEnter()
 {
-    Owner().issueNewGalilState(SPIIState::STATE_MANUAL_POSITIONING);
+    Owner().issueNewSPIIState(SPIIState::STATE_MANUAL_POSITIONING);
     //For some reason no command was passed to this case. This is an interesting case.
     this->desiredState = SPIIState::STATE_READY;
 }
 
 void State_ManualPositioning::OnEnter(const AbstractCommandPtr command)
 {
-    Owner().issueNewGalilState(SPIIState::STATE_MANUAL_POSITIONING);
+    Owner().issueNewSPIIState(SPIIState::STATE_MANUAL_POSITIONING);
 
     if(command != nullptr)
     {
@@ -169,7 +169,7 @@ void State_ManualPositioning::OnEnter(const AbstractCommandPtr command)
     }
 }
 
-} //end of namespace Galil
+} //end of namespace SPII
 } //end of namespace ECM
 
 #include "states/state_motion_stop.h"

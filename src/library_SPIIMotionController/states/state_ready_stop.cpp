@@ -75,7 +75,7 @@ void State_ReadyStop::Update()
 
 void State_ReadyStop::OnEnter()
 {
-    Owner().issueNewGalilState(SPIIState::STATE_READY_STOP);
+    Owner().issueNewSPIIState(SPIIState::STATE_READY_STOP);
 
     //The first thing we should do when entering this state is to disengage the motor
     //Let us check to see if the motor is already armed, if not, follow through with the command
@@ -85,7 +85,7 @@ void State_ReadyStop::OnEnter()
     {
         //If the motor is currently armed, issue the command to disarm it
         CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();
-        Owner().issueGalilCommand(command);
+        Owner().issueSPIICommand(command);
     }
     else{
         //since the motor was already disarmed this implies that we can safely transition to idle state
@@ -95,7 +95,7 @@ void State_ReadyStop::OnEnter()
     //Lastly, send a command to make sure the airbrake has been engaged
     CommandSetBitPtr command = std::make_shared<CommandSetBit>();
     command->appendAddress(2); //Ken: be careful in the event that this changes. This should be handled by settings or something
-    Owner().issueGalilCommand(command);
+    Owner().issueSPIICommand(command);
 }
 
 void State_ReadyStop::OnEnter(const AbstractCommandPtr command)
@@ -113,7 +113,7 @@ void State_ReadyStop::OnEnter(const AbstractCommandPtr command)
     }
 }
 
-} //end of namespace Galil
+} //end of namespace SPII
 } //end of namespace ECM
 
 #include "states/state_idle.h"

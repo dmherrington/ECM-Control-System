@@ -80,10 +80,10 @@ void State_MotionStop::Update()
 
 void State_MotionStop::OnEnter()
 {
-    Owner().issueNewGalilState(SPIIState::STATE_MOTION_STOP);
+    Owner().issueNewSPIIState(SPIIState::STATE_MOTION_STOP);
 
     CommandStopPtr castCommand = std::make_shared<CommandStop>(); //the axis is defaulted to Z with no args
-    Owner().issueGalilCommand(castCommand);
+    Owner().issueSPIICommand(castCommand);
 
     //If the motor has already ceased motion we can exit this state
     if(!Owner().isMotorInMotion()) //the exit condition for this state is that the machine motion has stopped on all axis
@@ -99,12 +99,12 @@ void State_MotionStop::OnEnter()
     {
         //If we get into this condition this implies that the machine had already stopped motion
         //This could be caused by a limit switch being reached, in either case, we should move to the next state
-        desiredState = GalilState::STATE_READY;
+        desiredState = SPIIState::STATE_READY;
     }else
     {
         //The first thing we should do when entering this state is to stop motion of the motor
         CommandStopPtr castCommand = std::make_shared<CommandStop>(); //the axis is defaulted to Z with no args
-        Owner().issueGalilCommand(castCommand);
+        Owner().issueSPIICommand(castCommand);
     }
     */
 }
@@ -123,7 +123,7 @@ void State_MotionStop::OnEnter(const AbstractCommandPtr command)
     }
 }
 
-} //end of namespace Galil
+} //end of namespace SPII
 } //end of namespace ECM
 
 #include "states/state_ready.h"

@@ -83,7 +83,7 @@ void ECMState_ProfileMachineProcess::OnEnter(ECMCommand_AbstractProfileConfigPtr
     {
         ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(this->m_Config);
 
-        Owner().m_Galil->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
+        Owner().m_MotionController->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
 
             switch (profileState.getProfileState()->getType()) {
             case MotionProfile::ProfileType::PROFILE:

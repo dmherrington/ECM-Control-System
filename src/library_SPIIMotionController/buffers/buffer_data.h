@@ -8,12 +8,27 @@
 class BufferData
 {
 public:
-    BufferData();
+    BufferData(const unsigned int &bufferIndex = 0, const bool &dBuffer = false);
 
     ~BufferData();
 
 public:
     void setBufferIndex(const unsigned int &bufferIndex);
+
+    void updateLineCount(const unsigned int &count);
+
+    void setBufferCurrent(const bool &current);
+
+    void setBufferCompiled(const bool &compiled);
+
+    void setIsDBuffer(const bool &value);
+
+public:
+    bool isBufferCurrent() const;
+
+    bool isBufferCompiled() const;
+
+    bool isDBuffer() const;
 
 public:
     unsigned int getBufferIndex() const;
@@ -22,10 +37,17 @@ public:
     BufferVariableValues m_BufferVariables;
 
 private:
-    unsigned int index;
+    unsigned int index = 0;
 
-    std::string bufferProfile;
+    bool dBuffer = false;
 
+    unsigned int lineCount = 0;
+
+    std::string bufferProfile = "";
+
+    bool isCurrent = false;
+
+    bool isCompiled = false;
 };
 
 #endif // BUFFER_DATA_H

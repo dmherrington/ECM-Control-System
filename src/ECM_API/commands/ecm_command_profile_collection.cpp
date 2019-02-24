@@ -84,7 +84,8 @@ void ECMCommand_ProfileCollection::setAssociatedMotionScript(const std::string &
         case ProfileOpType::OPERATION:
         {
             ECMCommand_ProfileConfiguration* castConfig = abstractConfig->as<ECMCommand_ProfileConfiguration>();
-            castConfig->m_GalilOperation.setProgram(script);
+            //KEN FIX
+            //castConfig->m_GalilOperation.setProgram(script);
             break;
         }
         default:

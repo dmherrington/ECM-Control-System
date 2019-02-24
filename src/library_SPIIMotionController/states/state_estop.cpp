@@ -47,7 +47,7 @@ void State_EStop::handleCommand(const AbstractCommandPtr command)
 
     switch (currentCommand) {
     default:
-        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        std::cout<<"The current command: "<<CommandToString(currentCommand)<<" is not available while SPII is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
 }
@@ -65,18 +65,18 @@ void State_EStop::Update()
 
 void State_EStop::OnEnter()
 {
-    Owner().issueNewGalilState(SPIIState::STATE_ESTOP);
+    Owner().issueNewSPIIState(SPIIState::STATE_ESTOP);
     //First check to see if the motor is already disarmed, and if not, disarm it
     if(Owner().isMotorEnabled())
     {
         //If the motor is not currently armed, issue the command to arm it
         CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();
-        Owner().issueGalilCommand(command);
+        Owner().issueSPIICommand(command);
     }
     //Lastly, send a command to make sure the pulse command has been disengaged
     CommandSetBitPtr command = std::make_shared<CommandSetBit>();
     command->appendAddress(2); //Ken: be careful in the event that this changes. This should be handled by settings or something
-    Owner().issueGalilCommand(command);
+    Owner().issueSPIICommand(command);
 }
 
 void State_EStop::OnEnter(const AbstractCommandPtr command)
@@ -89,7 +89,7 @@ void State_EStop::OnEnter(const AbstractCommandPtr command)
     }
 }
 
-} //end of namespace Galil
+} //end of namespace SPII
 } //end of namespace ECM
 
 #include "states/state_idle.h"

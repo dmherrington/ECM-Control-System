@@ -94,7 +94,7 @@ void State_Ready::handleCommand(const AbstractCommandPtr command)
     }
     case CommandType::SPEED:
     {
-        Owner().issueGalilCommand(command);
+        Owner().issueSPIICommand(command);
         break;
     }
     case CommandType::ABSOLUTE_MOVE:
@@ -163,21 +163,21 @@ void State_Ready::handleCommand(const AbstractCommandPtr command)
         {
             //If the motor is not currently armed, issue the command to arm it
             //CommandMotorEnablePtr castCommand = std::make_shared<CommandMotorEnable>(*command->as<CommandMotorEnable>());
-            Owner().issueGalilCommand(command);
+            Owner().issueSPIICommand(command);
         }
         break;
     }
     case CommandType::CLEAR_BIT:
     case CommandType::SET_BIT:
     {
-        std::cout<<"The current command: "<<CommandToString(command->getCommandType())<<" is not available while Galil is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
+        std::cout<<"The current command: "<<CommandToString(command->getCommandType())<<" is not available while SPII is in the state of: "<<ECMStateToString(currentState)<<"."<<std::endl;
         break;
     }
     case CommandType::SET_VARIABLE:
     {
         //const Command_Variable* castCommand = copyCommand->as<Command_Variable>();
         //Command_VariablePtr command = std::make_shared<Command_Variable>(*castCommand);
-        Owner().issueGalilCommand(command);
+        Owner().issueSPIICommand(command);
         break;
     }
     default:
@@ -208,7 +208,7 @@ void State_Ready::Update()
 
 void State_Ready::OnEnter()
 {
-    Owner().issueNewGalilState(SPIIState::STATE_READY);
+    Owner().issueNewSPIIState(SPIIState::STATE_READY);
     //The first thing we should do when entering this state is to engage the motor
     //Let us check to see if the motor is already armed, if not, follow through with the command
 
@@ -216,12 +216,12 @@ void State_Ready::OnEnter()
     {
         disableCount = 0;
         CommandMotorEnablePtr command = std::make_shared<CommandMotorEnable>();
-        Owner().issueGalilCommand(command);
+        Owner().issueSPIICommand(command);
     }
 
     //Next we should establish the necessary gains for motion within this state
     CommandControllerGain command;
-    Owner().issueGalilControllerGains(command);
+    Owner().issueSPIIControllerGains(command);
 }
 
 void State_Ready::OnEnter(const AbstractCommandPtr command)
@@ -238,7 +238,7 @@ void State_Ready::OnEnter(const AbstractCommandPtr command)
     }
 }
 
-} //end of namespace Galil
+} //end of namespace SPII
 } //end of namespace ECM
 
 #include "states/state_idle.h"

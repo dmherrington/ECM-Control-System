@@ -1,7 +1,7 @@
 #include "window_touchoff.h"
 #include "ui_window_touchoff.h"
 
-Window_Touchoff::Window_Touchoff(SPIIMotionController* obj, QWidget *parent) :
+Window_Touchoff::Window_Touchoff(GalilMotionController *obj, QWidget *parent) :
     GeneralDialogWindow(DialogWindowTypes::WINDOW_TOUCHOFF,"Touchoff",parent),
     ui(new Ui::Window_Touchoff),
     m_MotionController(obj)

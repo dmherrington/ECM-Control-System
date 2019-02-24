@@ -20,9 +20,9 @@ public:
 
 public:
 
-    void loadFromTouchoffConfig(const Configuration_Touchoff &config);
+    void loadFromTouchoffConfig(const MotionCommand_TouchoffConfig &config);
 
-    Configuration_Touchoff getCurrentTouchoffConfig() const;
+    MotionCommand_TouchoffConfig getCurrentTouchoffConfig() const;
 
 public:
     void setTouchoffRef(const double &value);

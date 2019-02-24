@@ -45,8 +45,6 @@ DEFINES += QCUSTOMPLOT_USE_LIBRARY
 
 
 SOURCES += \
-    galil_dialog/widget_scripting_variables.cpp \
-    galil_dialog/widget_touchoff.cpp \
     misc_dialogs/code_edit_widget.cpp \
     misc_dialogs/table_widget_operation_descriptor.cpp \
     misc_dialogs/widget_device_fault.cpp \
@@ -73,15 +71,18 @@ SOURCES += \
     LED.cpp \
     main.cpp \
     plot_central.cpp \
-    galil_dialog/window_motion_control.cpp \
     pump_dialog/window_pump_control.cpp \
-    galil_dialog/window_touchoff.cpp \
-    galil_dialog/dialog_execution_paused.cpp \
-    misc_dialogs/widget_pause_parameters.cpp
+    misc_dialogs/widget_pause_parameters.cpp \
+    acs_dialog/dialog_execution_paused.cpp \
+    acs_dialog/widget_scripting_variables.cpp \
+    acs_dialog/widget_touchoff.cpp \
+    acs_dialog/window_motion_control.cpp \
+    acs_dialog/window_touchoff.cpp \
+    acs_dialog/widget_buffer_editor.cpp \
+    acs_dialog/window_buffer_manager.cpp \
+    acs_dialog/widget_buffer_descriptor.cpp
 
 HEADERS += \
-    galil_dialog/widget_scripting_variables.h \
-    galil_dialog/widget_touchoff.h \
     misc_dialogs/code_edit_widget.h \
     misc_dialogs/table_widget_operation_descriptor.h \
     misc_dialogs/widget_device_fault.h \
@@ -109,16 +110,19 @@ HEADERS += \
     gui_verison.h \
     LED.h \
     plot_central.h \
-    galil_dialog/window_motion_control.h \
     pump_dialog/window_pump_control.h \
-    galil_dialog/window_touchoff.h \
-    galil_dialog/dialog_execution_paused.h \
     misc_dialogs/widget_abstract_profile.h \
-    misc_dialogs/widget_pause_parameters.h
+    misc_dialogs/widget_pause_parameters.h \
+    acs_dialog/dialog_execution_paused.h \
+    acs_dialog/widget_scripting_variables.h \
+    acs_dialog/widget_touchoff.h \
+    acs_dialog/window_motion_control.h \
+    acs_dialog/window_touchoff.h \
+    acs_dialog/widget_buffer_editor.h \
+    acs_dialog/window_buffer_manager.h \
+    acs_dialog/widget_buffer_descriptor.h
 
 FORMS += \
-    galil_dialog/widget_scripting_variables.ui \
-    galil_dialog/widget_touchoff.ui \
     misc_dialogs/table_widget_operation_descriptor.ui \
     misc_dialogs/window_motion_profile.ui \
     misc_dialogs/window_custom_motion_commands.ui \
@@ -135,11 +139,16 @@ FORMS += \
     SensorDisplay/display_base_plot_instantaneous.ui \
     additional_sensor_display.ui \
     ECM_controller_gui.ui \
-    galil_dialog/window_motion_control.ui \
     pump_dialog/window_pump_control.ui \
-    galil_dialog/window_touchoff.ui \
-    galil_dialog/dialog_execution_paused.ui \
-    misc_dialogs/widget_pause_parameters.ui
+    misc_dialogs/widget_pause_parameters.ui \
+    acs_dialog/dialog_execution_paused.ui \
+    acs_dialog/widget_scripting_variables.ui \
+    acs_dialog/widget_touchoff.ui \
+    acs_dialog/window_motion_control.ui \
+    acs_dialog/window_touchoff.ui \
+    acs_dialog/widget_buffer_editor.ui \
+    acs_dialog/window_buffer_manager.ui \
+    acs_dialog/widget_buffer_descriptor.ui
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET
@@ -201,23 +210,6 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../library_westinghouse510/ -llibrary_westi
 
 INCLUDEPATH += $$PWD/../library_westinghouse510
 DEPENDPATH += $$PWD/../library_westinghouse510
-
-
-unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
-unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo
-
-INCLUDEPATH += $$PWD/../../tools/galil/lib/dynamic/x86
-DEPENDPATH += $$PWD/../../tools/galil/lib/dynamic/x86
-
-win32: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
-else:unix: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/release/ -llibrary_galilMotionController
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/debug/ -llibrary_galilMotionController
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_galilMotionController/ -llibrary_galilMotionController
-
-INCLUDEPATH += $$PWD/../library_galilMotionController
-DEPENDPATH += $$PWD/../library_galilMotionController
 
 
 
