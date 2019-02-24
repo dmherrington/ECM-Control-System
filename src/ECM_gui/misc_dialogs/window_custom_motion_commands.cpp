@@ -1,7 +1,7 @@
 #include "window_custom_motion_commands.h"
 #include "ui_window_custom_motion_commands.h"
 
-Window_CustomMotionCommands::Window_CustomMotionCommands(GalilMotionController *obj, QWidget *parent) :
+Window_CustomMotionCommands::Window_CustomMotionCommands(SPIIMotionController *obj, QWidget *parent) :
     GeneralDialogWindow(DialogWindowTypes::WINDOW_CUSTOM_MOTION_COMMANDS,"Motion Commands",parent),
     m_MotionController(obj),
     ui(new Ui::Window_CustomMotionCommands)

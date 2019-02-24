@@ -25,7 +25,7 @@ Window_DeviceConnections::Window_DeviceConnections(ECM_API *obj, QWidget *parent
 
     connect(m_API->m_Sensoray,SIGNAL(signal_SensorayCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_SensorayConnectionUpdate(common::comms::CommunicationUpdate)));
     connect(m_API->m_Pump,SIGNAL(signal_PumpCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_PumpConnectionUpdate(common::comms::CommunicationUpdate)));
-    connect(m_API->m_Galil,SIGNAL(signal_MotionControllerCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_GalilConnectionUpdate(common::comms::CommunicationUpdate)));
+    connect(m_API->m_MotionController,SIGNAL(signal_MotionControllerCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_GalilConnectionUpdate(common::comms::CommunicationUpdate)));
     connect(m_API->m_Munk,SIGNAL(signal_MunkCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_MunkConnectionUpdate(common::comms::CommunicationUpdate)));
     connect(m_API->m_Rigol,SIGNAL(signal_RigolCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_RigolConnectionUpdate(common::comms::CommunicationUpdate)));
 
@@ -52,11 +52,11 @@ void Window_DeviceConnections::connectToAllDevices()
 
 void Window_DeviceConnections::connect_MotionController(const bool &connect)
 {
-    if((!connect) && m_API->m_Galil->isDeviceConnected())
+    if((!connect) && m_API->m_MotionController->isDeviceConnected())
     {
-        m_API->m_Galil->closeConnection();
+        m_API->m_MotionController->closeConnection();
     }
-    else if(connect && (!m_API->m_Galil->isDeviceConnected()))
+    else if(connect && (!m_API->m_MotionController->isDeviceConnected()))
     {
         QString ipAddress = ui->lineEdit_IPGalil->text();
 
@@ -64,7 +64,7 @@ void Window_DeviceConnections::connect_MotionController(const bool &connect)
             return;
 
         ipAddress += " -d";
-        m_API->m_Galil->openConnection(ipAddress.toStdString());
+        //m_API->m_MotionController->openConnection(ipAddress.toStdString());
     }
 }
 
@@ -149,7 +149,7 @@ void Window_DeviceConnections::closeEvent(QCloseEvent *event)
 
 bool Window_DeviceConnections::areAllDevicesConnected() const
 {
-    if(m_API->m_Galil->isDeviceConnected())
+    if(m_API->m_MotionController->isDeviceConnected())
         if(m_API->m_Munk->isConnected())
             if(m_API->m_Pump->isPumpConnected())
                 if(m_API->m_Rigol->isDeviceConnected())
@@ -317,7 +317,7 @@ void Window_DeviceConnections::on_pushButton_connectMunk_released()
 
 void Window_DeviceConnections::on_pushButton_connectGalil_released()
 {
-    if(m_API->m_Galil->isDeviceConnected())
+    if(m_API->m_MotionController->isDeviceConnected())
         this->connect_MotionController(false);
     else
         this->connect_MotionController(true);

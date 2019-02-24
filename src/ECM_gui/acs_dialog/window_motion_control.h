@@ -1,6 +1,8 @@
 #ifndef WINDOW_MOTION_CONTROL_H
 #define WINDOW_MOTION_CONTROL_H
 
+#include "data/machine_positional_state.h"
+
 #include "library_SPIIMotionController/spii_motion_controller.h"
 
 #include "../general_dialog_window.h"
@@ -47,7 +49,7 @@ private slots:
 
     void slot_LockMotionButtons(const bool &lock);
 
-    void slot_MCNewMotionState(const ECM::Galil::GalilState &state, const QString &stateString);
+    void slot_MCNewMotionState(const ECM::SPII::SPIIState &state, const QString &stateString);
 
 private:
     Ui::Window_MotionControl *ui;

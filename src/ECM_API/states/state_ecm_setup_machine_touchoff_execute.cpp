@@ -13,7 +13,7 @@ ECMState_SetupMachineTouchoffExecute::ECMState_SetupMachineTouchoffExecute():
 
 void ECMState_SetupMachineTouchoffExecute::OnExit()
 {
-    Owner().m_Galil->RemoveHost(this);
+    Owner().m_MotionController->RemoveHost(this);
 }
 
 AbstractStateECMProcess* ECMState_SetupMachineTouchoffExecute::getClone() const
@@ -77,7 +77,7 @@ void ECMState_SetupMachineTouchoffExecute::OnEnter(ECMCommand_AbstractProfileCon
 
         if(castConfig->m_Touchoff.shouldTouchoffUtilizePreviousPosition())
         {
-            int currentPosition = Owner().m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+            int currentPosition = Owner().m_MotionController->m_StateInterface->m_AxisPosition->getAxisPosition(MotorAxis::Z)->getPosition();
             commandTouchRef = std::make_shared<Command_Variable>("touchref",currentPosition);
         }
         else{
@@ -85,10 +85,10 @@ void ECMState_SetupMachineTouchoffExecute::OnEnter(ECMCommand_AbstractProfileCon
         }
         Command_VariablePtr commandTouchGap = std::make_shared<Command_Variable>(castConfig->m_Touchoff.getTouchoffGapCommand());
 
-        Owner().m_Galil->executeCommand(commandTouchRef);
-        Owner().m_Galil->executeCommand(commandTouchGap);
+        Owner().m_MotionController->executeCommand(commandTouchRef);
+        Owner().m_MotionController->executeCommand(commandTouchGap);
 
-        Owner().m_Galil->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
+        Owner().m_MotionController->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
 
             switch (profileState.getProfileState()->getType()) {
             case MotionProfile::ProfileType::TOUCHOFF:
@@ -125,7 +125,7 @@ void ECMState_SetupMachineTouchoffExecute::OnEnter(ECMCommand_AbstractProfileCon
         });
 
         CommandExecuteProfilePtr commandTouchoffExecute = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::TOUCHOFF,"touchof");
-        Owner().m_Galil->executeCommand(commandTouchoffExecute);
+        Owner().m_MotionController->executeCommand(commandTouchoffExecute);
         break;
     }
     default:

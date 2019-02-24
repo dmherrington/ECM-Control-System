@@ -51,7 +51,6 @@ SOURCES += \
     misc_dialogs/widget_profile_parameters.cpp \
     misc_dialogs/window_custom_motion_commands.cpp \
     misc_dialogs/window_device_connections.cpp \
-    misc_dialogs/window_motion_profile.cpp \
     misc_dialogs/window_profile_configuration.cpp \
     munk_dialog/widget_munk_power_supply.cpp \
     munk_dialog/widget_segment_time_data.cpp \
@@ -89,7 +88,6 @@ HEADERS += \
     misc_dialogs/widget_profile_parameters.h \
     misc_dialogs/window_custom_motion_commands.h \
     misc_dialogs/window_device_connections.h \
-    misc_dialogs/window_motion_profile.h \
     misc_dialogs/window_profile_configuration.h \
     munk_dialog/widget_munk_power_supply.h \
     munk_dialog/widget_segment_time_data.h \
@@ -124,7 +122,6 @@ HEADERS += \
 
 FORMS += \
     misc_dialogs/table_widget_operation_descriptor.ui \
-    misc_dialogs/window_motion_profile.ui \
     misc_dialogs/window_custom_motion_commands.ui \
     misc_dialogs/widget_device_fault.ui \
     misc_dialogs/window_device_connections.ui \

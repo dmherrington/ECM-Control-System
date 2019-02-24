@@ -53,18 +53,18 @@ std::string TableWidget_OperationDescriptor::getOperationName() const
     return this->operationName;
 }
 
-void TableWidget_OperationDescriptor::newlyAvailableProgramLabels(const ProgramLabelList &labels)
-{
-    switch (this->m_AbstractOperation->getProfileType()) {
-    case ProfileOpType::OPERATION:
-    {
-        this->m_AbstractOperation->as<Widget_ProfileParameters>()->m_ScriptingVariables->updateProgramLabels(labels);
-        break;
-    }
-    default:
-        break;
-    }
-}
+//void TableWidget_OperationDescriptor::newlyAvailableProgramLabels(const ProgramLabelList &labels)
+//{
+//    switch (this->m_AbstractOperation->getProfileType()) {
+//    case ProfileOpType::OPERATION:
+//    {
+//        this->m_AbstractOperation->as<Widget_ProfileParameters>()->m_ScriptingVariables->updateProgramLabels(labels);
+//        break;
+//    }
+//    default:
+//        break;
+//    }
+//}
 
 Widget_AbstractProfile* TableWidget_OperationDescriptor::getAccompanyingProfile()
 {

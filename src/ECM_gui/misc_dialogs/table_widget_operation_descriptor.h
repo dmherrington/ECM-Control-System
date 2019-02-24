@@ -35,7 +35,7 @@ public:
 
     Widget_AbstractProfile* getAccompanyingProfile();
 
-    void newlyAvailableProgramLabels(const ProgramLabelList &labels);
+    //void newlyAvailableProgramLabels(const ProgramLabelList &labels);
 
 public:
     ECMCommand_AbstractProfileConfigPtr getCurrentProfileConfiguration() const;

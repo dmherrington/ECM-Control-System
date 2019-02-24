@@ -8,16 +8,12 @@
 #include "ECM_plot_collection.h"
 #include "ECM_plot_identifier.h"
 
-#include "galil_dialog/window_motion_control.h"
-#include "galil_dialog/window_touchoff.h"
-
 #include "pump_dialog/window_pump_control.h"
 
 #include "misc_dialogs/window_profile_configuration.h"
 #include "rigol_dialog/window_rigol_control.h"
 #include "misc_dialogs/window_device_connections.h"
 #include "misc_dialogs/window_custom_motion_commands.h"
-#include "misc_dialogs/window_motion_profile.h"
 
 #include "additional_sensor_display.h"
 #include "common/threadmanager.h"
@@ -32,7 +28,9 @@
 #include "common/hsm.h"
 #include "ECM_API/states/state_ecm_components.h"
 
-#include "galil_dialog/dialog_execution_paused.h"
+#include "acs_dialog/dialog_execution_paused.h"
+#include "acs_dialog/window_touchoff.h"
+#include "acs_dialog/window_motion_control.h"
 
 namespace Ui {
 class ECMControllerGUI;
@@ -100,9 +98,9 @@ private slots:
 * Private Slots related to the motion controller
 */
 private slots:
-    void slot_MCNewMotionState(const ECM::Galil::GalilState &state, const QString &stateString);
+    void slot_MCNewMotionState(const ECM::SPII::SPIIState &state, const QString &stateString);
 
-    void slot_MCNewDigitalInput(const StatusInputs &status);
+//    void slot_MCNewDigitalInput(const StatusInputs &status);
 
     void slot_UpdateTouchoff(const bool &value);
 

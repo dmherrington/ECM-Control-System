@@ -69,7 +69,7 @@ void ECMState_SetupMachineHome::OnEnter(ECMCommand_AbstractProfileConfigPtr conf
 
 
     //check that we should indicate home and it has not previously completed
-    if(this->m_Config->shouldHomeBeIndicated() && !Owner().m_MotionController->stateInterface->isHomeInidcated())
+    if(this->m_Config->shouldHomeBeIndicated() && !Owner().m_MotionController->m_StateInterface->isHomeInidcated())
     {
         Owner().m_MotionController->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
 

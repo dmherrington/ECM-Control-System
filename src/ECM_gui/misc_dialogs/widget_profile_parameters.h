@@ -5,8 +5,8 @@
 
 #include "ECM_API/ecm_api.h"
 
-#include "galil_dialog/widget_scripting_variables.h"
-#include "galil_dialog/widget_touchoff.h"
+#include "acs_dialog/widget_scripting_variables.h"
+#include "acs_dialog/widget_touchoff.h"
 #include "pump_dialog/widget_pump_control.h"
 #include "munk_dialog/widget_munk_power_supply.h"
 

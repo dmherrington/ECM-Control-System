@@ -86,5 +86,10 @@ Status_PositionPerAxis* Status_Position::getAxisPosition(const MotorAxis &axis)
 
 }
 
+DataGetSetNotifier<Status_PositionPerAxis>* Status_Position::getAxisPositionNotifier(const MotorAxis &axis)
+{
+    return this->m_PositionStatus.at(axis);
+}
+
 } //end of namespace SPII
 

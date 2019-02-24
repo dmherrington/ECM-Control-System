@@ -77,6 +77,8 @@ public:
 
     Status_PositionPerAxis* getAxisPosition(const MotorAxis &axis);
 
+    DataGetSetNotifier<Status_PositionPerAxis>* getAxisPositionNotifier(const MotorAxis &axis);
+
 public:
     Status_Position& operator = (const Status_Position &rhs)
     {

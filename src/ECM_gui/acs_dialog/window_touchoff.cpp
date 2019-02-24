@@ -1,7 +1,7 @@
 #include "window_touchoff.h"
 #include "ui_window_touchoff.h"
 
-Window_Touchoff::Window_Touchoff(GalilMotionController *obj, QWidget *parent) :
+Window_Touchoff::Window_Touchoff(SPIIMotionController *obj, QWidget *parent) :
     GeneralDialogWindow(DialogWindowTypes::WINDOW_TOUCHOFF,"Touchoff",parent),
     ui(new Ui::Window_Touchoff),
     m_MotionController(obj)
@@ -10,18 +10,18 @@ Window_Touchoff::Window_Touchoff(GalilMotionController *obj, QWidget *parent) :
 
     connect(m_MotionController,SIGNAL(signal_GalilUpdatedProfileState(MotionProfileState)),this,SLOT(slot_UpdateMotionProfileState(MotionProfileState)));
 
-    m_MotionController->stateInterface->statusVariableValues->addVariableNotifier("touchref",this,[this]{
+    m_MotionController->m_StateInterface->m_MasterVariableValues->addVariableNotifier("touchref",this,[this]{
         bool oldState = ui->doubleSpinBox_TouchoffRef->blockSignals(true);
         double value = 0.0;
-        m_MotionController->stateInterface->statusVariableValues->getVariableValue("touchref",value);
+        m_MotionController->m_StateInterface->m_MasterVariableValues->getVariableValue("touchref",value);
         ui->doubleSpinBox_TouchoffRef->setValue(value);
         ui->doubleSpinBox_TouchoffRef->blockSignals(oldState);
     });
 
-    m_MotionController->stateInterface->statusVariableValues->addVariableNotifier("initgap",this,[this]{
+    m_MotionController->m_StateInterface->m_MasterVariableValues->addVariableNotifier("initgap",this,[this]{
         bool oldState = ui->doubleSpinBox_InitialGap->blockSignals(true);
         double value = 0.0;
-        m_MotionController->stateInterface->statusVariableValues->getVariableValue("initgap",value);
+        m_MotionController->m_StateInterface->m_MasterVariableValues->getVariableValue("initgap",value);
         ui->doubleSpinBox_InitialGap->setValue(value);
         ui->doubleSpinBox_InitialGap->blockSignals(oldState);
     });
@@ -88,7 +88,8 @@ void Window_Touchoff::slot_UpdateMotionProfileState(const MotionProfileState &st
 
 void Window_Touchoff::on_pushButton_TouchoffRef_released()
 {
-    uint64_t position = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->position.get().getPosition();
+    //uint64_t position = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->position.get().getPosition();
+    uint64_t position = 0;
     ui->doubleSpinBox_TouchoffRef->setValue(position/10.0);
     //By setting the value of the spinbox this should call the event on value changed and transmit to the motion controller
 }

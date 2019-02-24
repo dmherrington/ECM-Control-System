@@ -20,20 +20,20 @@ public:
 
 public:
 
-    void loadFromCurrentProgram(const GalilCurrentProgram &program, const std::string &profileName = "", const bool &useLoadedVars = true);
+    //void loadFromCurrentProgram(const GalilCurrentProgram &program, const std::string &profileName = "", const bool &useLoadedVars = true);
 
     std::string getProfileName() const;
 
     BufferManager getDesiredProgram() const;
 
-    ProgramVariableList getVariableList() const;
+    //ProgramVariableList getVariableList() const;
 
 public:
     void setProfileName(const std::string &name);
 
-    void updateProgramLabels(const ProgramLabelList &list);
+    //void updateProgramLabels(const ProgramLabelList &list);
 
-    void updateProgramVariables(const ProgramVariableList &list);
+    //void updateProgramVariables(const ProgramVariableList &list);
 
 private slots:
 
@@ -59,7 +59,7 @@ private:
 
     SPIIMotionController* m_Galil;
 
-    GalilCurrentProgram m_OperationalProgram;
+    //GalilCurrentProgram m_OperationalProgram;
 };
 
 #endif // WIDGET_SCRIPTING_VARIABLES_H

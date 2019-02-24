@@ -1,7 +1,7 @@
 #include "window_motion_control.h"
 #include "ui_window_motion_control.h"
 
-Window_MotionControl::Window_MotionControl(GalilMotionController* galilObject, QWidget *parent) :
+Window_MotionControl::Window_MotionControl(SPIIMotionController* galilObject, QWidget *parent) :
     GeneralDialogWindow(DialogWindowTypes::WINDOW_MOTION_CONTROL,"Motion Control",parent),
     ui(new Ui::Window_MotionControl)
 {
@@ -9,16 +9,16 @@ Window_MotionControl::Window_MotionControl(GalilMotionController* galilObject, Q
 
     ui->setupUi(this);
 
-    m_Galil = galilObject;
+    m_MotionController = galilObject;
 
     ui->spinBox_Jog->setToolTip("Jogging Speed");
     ui->spinBox_RelativeMoveSpeed->setToolTip("Relative Move Speed");
     ui->spinBox_RelativeMove->setToolTip("Relative Move Distance");
 
-    connect(m_Galil, SIGNAL(signal_MCNewMotionState(ECM::Galil::GalilState,QString)),
-            this, SLOT(slot_MCNewMotionState(ECM::Galil::GalilState,QString)));
+    connect(m_MotionController, SIGNAL(signal_MCNewMotionState(ECM::SPII::SPIIState,QString)),
+            this, SLOT(slot_MCNewMotionState(ECM::SPII::SPIIState,QString)));
 
-    connect(m_Galil, SIGNAL(signal_MCNewPosition(common::TuplePositionalString,common_data::MachinePositionalState,bool)), this, SLOT(slot_NewPositionalData(common::TuplePositionalString,common_data::MachinePositionalState,bool)));
+    connect(m_MotionController, SIGNAL(signal_MCNewPosition(common::TuplePositionalString,common_data::MachinePositionalState,bool)), this, SLOT(slot_NewPositionalData(common::TuplePositionalString,common_data::MachinePositionalState,bool)));
 }
 
 Window_MotionControl::~Window_MotionControl()
@@ -41,14 +41,14 @@ void Window_MotionControl::on_pushButton_IncreaseJog_pressed()
     int jogRate = abs(ui->spinBox_Jog->value()) * (-1);
     CommandJogPtr beginJog = std::make_shared<CommandJog>(MotorAxis::Z,jogRate);
     //CommandJog beginJog(MotorAxis::Z,jogRate);
-    m_Galil->executeCommand(beginJog);
+    m_MotionController->executeCommand(beginJog);
 }
 
 void Window_MotionControl::on_pushButton_IncreaseJog_released()
 {
     CommandStopPtr stopJog = std::make_shared<CommandStop>(MotorAxis::Z);
     //CommandStop stop(MotorAxis::Z);
-    m_Galil->executeCommand(stopJog);
+    m_MotionController->executeCommand(stopJog);
 }
 
 void Window_MotionControl::on_pushButton_DecreaseJog_pressed()
@@ -56,35 +56,35 @@ void Window_MotionControl::on_pushButton_DecreaseJog_pressed()
     int jogRate = abs(ui->spinBox_Jog->value());
     CommandJogPtr beginJog = std::make_shared<CommandJog>(MotorAxis::Z,jogRate);
     //CommandJog beginJog(MotorAxis::Z,jogRate);
-    m_Galil->executeCommand(beginJog);
+    m_MotionController->executeCommand(beginJog);
 }
 
 void Window_MotionControl::on_pushButton_DecreaseJog_released()
 {
     CommandStopPtr stopJog = std::make_shared<CommandStop>(MotorAxis::Z);
-    m_Galil->executeCommand(stopJog);
+    m_MotionController->executeCommand(stopJog);
 }
 
 void Window_MotionControl::on_pushButton_IncreaseRelativeMove_released()
 {
     int relativeMoveSpeed = ui->spinBox_RelativeMoveSpeed->value();
     CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(MotorAxis::Z, relativeMoveSpeed);
-    m_Galil->executeCommand(commandSpeed);
+    m_MotionController->executeCommand(commandSpeed);
 
     int relativeDistance = abs(ui->spinBox_RelativeMove->value()) * (-1);
     CommandRelativeMovePtr startIncreaseRelativeMove = std::make_shared<CommandRelativeMove>(MotorAxis::Z, relativeDistance);
-    m_Galil->executeCommand(startIncreaseRelativeMove);
+    m_MotionController->executeCommand(startIncreaseRelativeMove);
 }
 
 void Window_MotionControl::on_pushButton_DecreaseRelativeMove_released()
 {
     int relativeMoveSpeed = ui->spinBox_RelativeMoveSpeed->value();
     CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(MotorAxis::Z, relativeMoveSpeed);
-    m_Galil->executeCommand(commandSpeed);
+    m_MotionController->executeCommand(commandSpeed);
 
     int relativeDistance = abs(ui->spinBox_RelativeMove->value());
     CommandRelativeMovePtr startDecreaseRelativeMove = std::make_shared<CommandRelativeMove>(MotorAxis::Z, relativeDistance);
-    m_Galil->executeCommand(startDecreaseRelativeMove);
+    m_MotionController->executeCommand(startDecreaseRelativeMove);
 }
 
 void Window_MotionControl::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state, const bool &valueChanged)
@@ -107,32 +107,32 @@ void Window_MotionControl::slot_LockMotionButtons(const bool &lock)
     ui->pushButton_DecreaseRelativeMove->setDisabled(lock);
 }
 
-void Window_MotionControl::slot_MCNewMotionState(const ECM::Galil::GalilState &state, const QString &stateString)
+void Window_MotionControl::slot_MCNewMotionState(const ECM::SPII::SPIIState &state, const QString &stateString)
 {
     UNUSED(stateString);
     switch (state) {
-    case ECM::Galil::GalilState::STATE_ESTOP:
-    case ECM::Galil::GalilState::STATE_HOME_POSITIONING:
-    case ECM::Galil::GalilState::STATE_MOTION_STOP:
-    case ECM::Galil::GalilState::STATE_READY_STOP:
-    case ECM::Galil::GalilState::STATE_SCRIPT_EXECUTION:
-    case ECM::Galil::GalilState::STATE_TOUCHOFF:
-    case ECM::Galil::GalilState::STATE_UNKNOWN:
+    case ECM::SPII::SPIIState::STATE_ESTOP:
+    case ECM::SPII::SPIIState::STATE_HOME_POSITIONING:
+    case ECM::SPII::SPIIState::STATE_MOTION_STOP:
+    case ECM::SPII::SPIIState::STATE_READY_STOP:
+    case ECM::SPII::SPIIState::STATE_SCRIPT_EXECUTION:
+    case ECM::SPII::SPIIState::STATE_TOUCHOFF:
+    case ECM::SPII::SPIIState::STATE_UNKNOWN:
     {
 
         ui->pushButton_IncreaseRelativeMove->setDisabled(false);
         ui->pushButton_DecreaseRelativeMove->setDisabled(false);
         break;
     }
-    case ECM::Galil::GalilState::STATE_IDLE:
-    case ECM::Galil::GalilState::STATE_READY:
+    case ECM::SPII::SPIIState::STATE_IDLE:
+    case ECM::SPII::SPIIState::STATE_READY:
     {
         ui->pushButton_IncreaseRelativeMove->setDisabled(false);
         ui->pushButton_DecreaseRelativeMove->setDisabled(false);
         break;
     }
-    case ECM::Galil::GalilState::STATE_JOGGING:
-    case ECM::Galil::GalilState::STATE_MANUAL_POSITIONING:
+    case ECM::SPII::SPIIState::STATE_JOGGING:
+    case ECM::SPII::SPIIState::STATE_MANUAL_POSITIONING:
     {
         //We do not want to change the state condition of the button in this state
         //This is because if we go to lock the buttons the release event will either

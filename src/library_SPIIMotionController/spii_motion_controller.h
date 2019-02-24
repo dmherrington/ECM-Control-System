@@ -34,11 +34,14 @@ public:
 
     ~SPIIMotionController() override;
 
+public:
+    ECM::SPII::SPIIState getCurrentMCState() const;
+
     std::vector<common::TupleECMData> getPlottables() const;
 
 public:
     void executeCommand(const AbstractCommandPtr command);
-
+    void executeCustomCommands(const std::vector<std::string> &stringCommands);
 public:
     void ConnectToSimulation();
     void ConnectToSerialPort(const common::comms::SerialConfiguration &linkConfig);

@@ -5,7 +5,7 @@
 
 #include "../general_dialog_window.h"
 
-#include "library_galilMotionController/galil_motion_controller.h"
+#include "library_SPIIMotionController/spii_motion_controller.h"
 
 namespace Ui {
 class Window_CustomMotionCommands;
@@ -16,7 +16,7 @@ class Window_CustomMotionCommands : public GeneralDialogWindow
     Q_OBJECT
 
 public:
-    explicit Window_CustomMotionCommands(GalilMotionController* obj, QWidget *parent = 0);
+    explicit Window_CustomMotionCommands(SPIIMotionController* obj, QWidget *parent = 0);
     ~Window_CustomMotionCommands();
 
 private:
@@ -38,7 +38,7 @@ private slots:
 
 private:
     Ui::Window_CustomMotionCommands *ui;
-    GalilMotionController* m_MotionController;
+    SPIIMotionController* m_MotionController;
     bool windowHidden = true;
 };
 #endif // WINDOW_CUSTOM_MOTION_COMMANDS_H

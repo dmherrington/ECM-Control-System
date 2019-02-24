@@ -13,7 +13,7 @@ ECMState_SetupMachineTouchoffPosition::ECMState_SetupMachineTouchoffPosition():
 
 void ECMState_SetupMachineTouchoffPosition::OnExit()
 {
-    Owner().m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->position.RemoveNotifier(this);
+    Owner().m_MotionController->m_StateInterface->m_AxisPosition->getAxisPositionNotifier(MotorAxis::Z)->RemoveNotifier(this);
 }
 
 AbstractStateECMProcess* ECMState_SetupMachineTouchoffPosition::getClone() const
@@ -66,7 +66,7 @@ void ECMState_SetupMachineTouchoffPosition::OnEnter(ECMCommand_ProfileConfigurat
 
     //First set the move to touchoff speed based on the following static value
     CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(MotorAxis::Z, 5000);
-    Owner().m_Galil->executeCommand(commandSpeed);
+    Owner().m_MotionController->executeCommand(commandSpeed);
 
     if(this->m_Config->m_Touchoff.shouldTouchoffUtilizePreviousPosition())
     {
@@ -81,11 +81,11 @@ void ECMState_SetupMachineTouchoffPosition::OnEnter(ECMCommand_ProfileConfigurat
         int touchoffPosition = this->m_Config->m_Touchoff.getTouchoffRef();
         //Next, transmit the move to home command
         CommandAbsoluteMovePtr command = std::make_shared<CommandAbsoluteMove>(MotorAxis::Z,touchoffPosition);
-        Owner().m_Galil->executeCommand(command);
+        Owner().m_MotionController->executeCommand(command);
 
-        Owner().m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->position.AddNotifier(this,[this,touchoffPosition]
+        Owner().m_MotionController->m_StateInterface->m_AxisPosition->getAxisPositionNotifier(MotorAxis::Z)->AddNotifier(this,[this,touchoffPosition]
         {
-            int currentPosition = Owner().m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+            int currentPosition = Owner().m_MotionController->m_StateInterface->m_AxisPosition->getAxisPositionNotifier(MotorAxis::Z)->get().getPosition();
             if(abs(currentPosition - touchoffPosition) < 10) //what is the tolerance allowed for the move
             {
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));

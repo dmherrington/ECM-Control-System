@@ -35,7 +35,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     qRegisterMetaType<std::vector<std::string>>("std::vector<std::string>");
 
-    qRegisterMetaType<ECM::Galil::GalilState>("ECM::Galil::GalilState");
+    qRegisterMetaType<ECM::SPII::SPIIState>("ECM::SPII::SPIIState");
 
     ui->setupUi(this);
 
@@ -91,19 +91,19 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_Rigol, SIGNAL(signal_RigolNewSensorValue(common::TupleSensorString,common_data::SensorState)), this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
 
     //Galil Connections
-    connect(m_API->m_Galil, SIGNAL(signal_MCNewDigitalInput(StatusInputs)), this, SLOT(slot_MCNewDigitalInput(StatusInputs)));
-    connect(m_API->m_Galil, SIGNAL(signal_MCNewPosition(common::TuplePositionalString,common_data::MachinePositionalState,bool)), this, SLOT(slot_NewPositionalData(common::TuplePositionalString,common_data::MachinePositionalState,bool)));
-    connect(m_API->m_Galil, SIGNAL(signal_MCNewProfileVariableValue(common::TupleProfileVariableString,common_data::MotionProfileVariableState)), this, SLOT(slot_NewProfileVariableData(common::TupleProfileVariableString,common_data::MotionProfileVariableState)));
-    connect(m_API->m_Galil, SIGNAL(signal_ErrorCommandCode(CommandType,std::string)), this, SLOT(slot_MCCommandError(CommandType,std::string)));
-    connect(m_API->m_Galil,SIGNAL(signal_GalilHomeIndicated(bool)),this,SLOT(slot_UpdateHomeIndicated(bool)));
-    connect(m_API->m_Galil,SIGNAL(signal_GalilTouchoffIndicated(bool)),this,SLOT(slot_UpdateTouchoff(bool)));
-    connect(m_API->m_Galil, SIGNAL(signal_MCNewMotionState(ECM::Galil::GalilState, QString)), this, SLOT(slot_MCNewMotionState(ECM::Galil::GalilState, QString)));
-    ECM::Galil::GalilState currentState = m_API->m_Galil->getCurrentMCState();
+    connect(m_API->m_MotionController, SIGNAL(signal_MCNewDigitalInput(StatusInputs)), this, SLOT(slot_MCNewDigitalInput(StatusInputs)));
+    connect(m_API->m_MotionController, SIGNAL(signal_MCNewPosition(common::TuplePositionalString,common_data::MachinePositionalState,bool)), this, SLOT(slot_NewPositionalData(common::TuplePositionalString,common_data::MachinePositionalState,bool)));
+    connect(m_API->m_MotionController, SIGNAL(signal_MCNewProfileVariableValue(common::TupleProfileVariableString,common_data::MotionProfileVariableState)), this, SLOT(slot_NewProfileVariableData(common::TupleProfileVariableString,common_data::MotionProfileVariableState)));
+    connect(m_API->m_MotionController, SIGNAL(signal_ErrorCommandCode(CommandType,std::string)), this, SLOT(slot_MCCommandError(CommandType,std::string)));
+    connect(m_API->m_MotionController,SIGNAL(signal_GalilHomeIndicated(bool)),this,SLOT(slot_UpdateHomeIndicated(bool)));
+    connect(m_API->m_MotionController,SIGNAL(signal_GalilTouchoffIndicated(bool)),this,SLOT(slot_UpdateTouchoff(bool)));
+    connect(m_API->m_MotionController, SIGNAL(signal_MCNewMotionState(ECM::Galil::GalilState, QString)), this, SLOT(slot_MCNewMotionState(ECM::Galil::GalilState, QString)));
+    ECM::SPII::SPIIState currentState = m_API->m_MotionController->getCurrentMCState();
     this->slot_MCNewMotionState(currentState, QString::fromStdString(ECMStateToString(currentState)));
     connect(m_API->m_Munk, SIGNAL(signal_MunkFaultCodeStatus(bool,std::vector<std::string>)),
             this, SLOT(slot_MunkFaultCodeStatus(bool,std::vector<std::string>)));
 
-    m_WindowCustomMotionCommands = new Window_CustomMotionCommands(m_API->m_Galil);
+    m_WindowCustomMotionCommands = new Window_CustomMotionCommands(m_API->m_MotionController);
     m_WindowCustomMotionCommands->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
     connect(m_WindowCustomMotionCommands,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
@@ -121,7 +121,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_WindowProfileConfiguration, SIGNAL(signal_ExecuteProfileCollection(ECMCommand_ExecuteCollection)), this, SLOT(on_ExecuteProfileCollection(ECMCommand_ExecuteCollection)));
     connect(m_WindowProfileConfiguration, SIGNAL(signal_LoadedConfigurationCollection(std::string)), this, SLOT(slot_OnLoadedConfigurationCollection(std::string)));
 
-    m_WindowMotionControl = new Window_MotionControl(m_API->m_Galil);
+    m_WindowMotionControl = new Window_MotionControl(m_API->m_MotionController);
     m_WindowMotionControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
     connect(m_WindowMotionControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
@@ -129,11 +129,11 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_WindowPumpControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
     connect(m_WindowPumpControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
-    m_WindowTouchoffControl = new Window_Touchoff(m_API->m_Galil);
+    m_WindowTouchoffControl = new Window_Touchoff(m_API->m_MotionController);
     m_WindowTouchoffControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
     connect(m_WindowTouchoffControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
-    std::vector<common::TupleECMData> plottables = m_API->m_Galil->getPlottables();
+    std::vector<common::TupleECMData> plottables = m_API->m_MotionController->getPlottables();
     for(unsigned int i = 0; i < plottables.size(); i++)
     {
         if(plottables.at(i).getType() == common::TupleECMData::DataTypes::POSITION) //if it is a position object we want to default plot this
@@ -169,13 +169,15 @@ ECMControllerGUI::~ECMControllerGUI()
 
 void ECMControllerGUI::setupUploadCallbacks()
 {
-    m_API->m_Galil->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const GalilCurrentProgram &program){
+    m_API->m_MotionController->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const Operation_CurrentProgram &program){
         UNUSED(completed);UNUSED(program);UNUSED(this);
     });
-    m_API->m_Galil->AddLambda_FinishedUploadingVariables(this,[this](const bool success, const ProgramVariableList &variableList){
+
+    m_API->m_MotionController->AddLambda_FinishedUploadingVariables(this,[this](const bool success, const Operation_VariableList &variableList){
         UNUSED(success);UNUSED(variableList);UNUSED(this);
     });
-    m_API->m_Galil->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
+
+    m_API->m_MotionController->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
         emit this->signal_newMotionProfileState(profileState);
         //this->updateMCIndicators(profileState);
     });
@@ -334,19 +336,19 @@ void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalStrin
     //    m_additionalSensorDisplay->UpdatePlottedData(state);
 }
 
-void ECMControllerGUI::slot_MCNewMotionState(const ECM::Galil::GalilState &state, const QString &stateString)
+void ECMControllerGUI::slot_MCNewMotionState(const ECM::SPII::SPIIState &state, const QString &stateString)
 {
     UNUSED(state);
     ui->lineEdit_GalilState->setText("State: " + stateString);
 }
 
-void ECMControllerGUI::slot_MCNewDigitalInput(const StatusInputs &status)
-{
-    if(status.getResult(GalilPins::GALIL_PIN_ESTOP))
-        ui->widget_LEDESTOP->setColor(QColor(255,0,0));
-    else
-        ui->widget_LEDESTOP->setColor(QColor(0,0,0));
-}
+//void ECMControllerGUI::slot_MCNewDigitalInput(const StatusInputs &status)
+//{
+//    if(status.getResult(GalilPins::GALIL_PIN_ESTOP))
+//        ui->widget_LEDESTOP->setColor(QColor(255,0,0));
+//    else
+//        ui->widget_LEDESTOP->setColor(QColor(0,0,0));
+//}
 
 void ECMControllerGUI::readSettings()
 {
@@ -397,7 +399,7 @@ void ECMControllerGUI::readSettings()
 
 void ECMControllerGUI::closeEvent(QCloseEvent *event)
 {
-    if(!m_API->m_Galil->stateInterface->isMotorEnabled())
+    if(!m_API->m_MotionController->m_StateInterface->isMotorEnabled())
     {
         QSettings settings("ECMController", "Machine Automation");
         settings.setValue("pos", pos());
@@ -446,20 +448,20 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
 void ECMControllerGUI::on_pushButton_MotorEnable_released()
 {
     CommandMotorEnablePtr command = std::make_shared<CommandMotorEnable>();
-    command->setEnableAxis(MotorAxis::Z);
-    m_API->m_Galil->executeCommand(command);
+    command->addAxis(MotorAxis::Z);
+    m_API->m_MotionController->executeCommand(command);
 }
 
 void ECMControllerGUI::on_pushButton_MotorDisable_released()
 {
     CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();
-    m_API->m_Galil->executeCommand(command);
+    m_API->m_MotionController->executeCommand(command);
 }
 
 void ECMControllerGUI::on_pushButton_ResetHome_released()
 {
     CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::HOMING,"latch");
-    m_API->m_Galil->executeCommand(command);
+    m_API->m_MotionController->executeCommand(command);
 }
 
 void ECMControllerGUI::on_pushButton_MoveHome_released()
@@ -467,11 +469,11 @@ void ECMControllerGUI::on_pushButton_MoveHome_released()
     //First set the move to home speed based on the jog value
     //int jogMoveSpeed = m_WindowMotionControl->getCurrentJogSpeed();
     CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(MotorAxis::Z, 10000);
-    m_API->m_Galil->executeCommand(commandSpeed);
+    m_API->m_MotionController->executeCommand(commandSpeed);
 
     //Next, transmit the move to home command
     CommandAbsoluteMovePtr command = std::make_shared<CommandAbsoluteMove>(MotorAxis::Z,0);
-    m_API->m_Galil->executeCommand(command);
+    m_API->m_MotionController->executeCommand(command);
 }
 
 

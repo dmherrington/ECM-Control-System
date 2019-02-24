@@ -36,6 +36,11 @@ void SPIIMotionController::executeCommand(const AbstractCommandPtr command)
     ProgressStateMachineStates();
 }
 
+void SPIIMotionController::executeCustomCommands(const std::vector<std::string> &stringCommands)
+{
+
+}
+
 
 void SPIIMotionController::ConnectToSimulation()
 {
@@ -144,3 +149,26 @@ void SPIIMotionController::SPIIPolling_PositionUpdate(const std::vector<SPII::St
 {
     m_StateInterface->m_AxisPosition->updatePositionStatus(position);
 }
+
+ECM::SPII::SPIIState SPIIMotionController::getCurrentMCState() const
+{
+    ECM::SPII::AbstractStateSPII* currentState = static_cast<ECM::SPII::AbstractStateSPII*>(stateMachine->getCurrentState());
+    ECM::SPII::SPIIState stateEnum = currentState->getCurrentState();
+    return stateEnum;
+}
+
+std::vector<common::TupleECMData> SPIIMotionController::getPlottables() const
+{
+    std::vector<common::TupleECMData> rtn;
+
+    common::TuplePositionalString tpString;
+    tpString.axisName = QString::fromStdString(AxisToString(MotorAxis::Z));
+    rtn.push_back(tpString);
+
+    common::TupleProfileVariableString varString("","","ppos");
+    rtn.push_back(varString);
+
+    return rtn;
+}
+
+

@@ -3,8 +3,9 @@
 
 #include <QWidget>
 
-#include "library_SPIIMotionController/spii_motion_controller.h"
 #include "common/configs/configuration_touchoff.h"
+
+#include "library_SPIIMotionController/spii_motion_controller.h"
 
 namespace Ui {
 class Widget_Touchoff;
@@ -20,9 +21,9 @@ public:
 
 public:
 
-    void loadFromTouchoffConfig(const MotionCommand_TouchoffConfig &config);
+    void loadFromTouchoffConfig(const Configuration_Touchoff &config);
 
-    MotionCommand_TouchoffConfig getCurrentTouchoffConfig() const;
+    Configuration_Touchoff getCurrentTouchoffConfig() const;
 
 public:
     void setTouchoffRef(const double &value);

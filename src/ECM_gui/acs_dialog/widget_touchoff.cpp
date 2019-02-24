@@ -50,7 +50,8 @@ void Widget_Touchoff::setTouchoffUtilization(const bool &execute)
 
 void Widget_Touchoff::on_pushButton_TouchoffRef_released()
 {
-    int position = m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+    //int position = m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+    int position = 0;
     ui->doubleSpinBox_TouchoffRef->setValue(position/10.0);
     //By setting the value of the spinbox this should call the event on value changed and transmit to the motion controller
 }

@@ -9,9 +9,9 @@ Window_ProfileConfiguration::Window_ProfileConfiguration(ECM_API* apiObject, QWi
     ui->setupUi(this);
     m_API = apiObject;
 
-    m_WindowMotionProfile = new Window_MotionProfile(m_API->m_Galil);
-    m_WindowMotionProfile->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
-    connect(m_WindowMotionProfile,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
+//    m_WindowMotionProfile = new Window_MotionProfile(m_API->m_Galil);
+//    m_WindowMotionProfile->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
+//    connect(m_WindowMotionProfile,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
     connect(ui->listWidget->model(),SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),this,SLOT(on_ListWidgetRowMoved()));
 }
@@ -23,7 +23,7 @@ Window_ProfileConfiguration::~Window_ProfileConfiguration()
 
 void Window_ProfileConfiguration::closeEvent(QCloseEvent *event)
 {
-    m_WindowMotionProfile->close();
+//    m_WindowMotionProfile->close();
     GeneralDialogWindow::closeEvent(event);
 }
 
@@ -32,26 +32,26 @@ bool Window_ProfileConfiguration::checkGalilScript(bool &shouldUpload)
     bool continueExecution = true;
 
     //First Check Profile Comparison
-    if(m_API->m_Galil->getCurrentMCProgram().getProgram() != m_WindowMotionProfile->getCurrentGalilScript())
-    {
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Warning);
-        msgBox.setText("The script associated with this script does not match currently what is aboard the galil unit.");
-        msgBox.setInformativeText("Do you want the script to be automatically uploaded? This will cause the homing routine to execute.");
-        QAbstractButton* pButtonAccept = msgBox.addButton(tr("Accept"), QMessageBox::AcceptRole);
-        QAbstractButton* pButtonReject = msgBox.addButton(tr("Reject"), QMessageBox::RejectRole);
-        msgBox.exec();
+//    if(m_API->m_Galil->getCurrentMCProgram().getProgram() != m_WindowMotionProfile->getCurrentGalilScript())
+//    {
+//        QMessageBox msgBox;
+//        msgBox.setIcon(QMessageBox::Warning);
+//        msgBox.setText("The script associated with this script does not match currently what is aboard the galil unit.");
+//        msgBox.setInformativeText("Do you want the script to be automatically uploaded? This will cause the homing routine to execute.");
+//        QAbstractButton* pButtonAccept = msgBox.addButton(tr("Accept"), QMessageBox::AcceptRole);
+//        QAbstractButton* pButtonReject = msgBox.addButton(tr("Reject"), QMessageBox::RejectRole);
+//        msgBox.exec();
 
-        if(msgBox.clickedButton() == pButtonAccept)
-        {
-            shouldUpload = true;
-            continueExecution = true;
-        }
-        else if(msgBox.clickedButton() == pButtonReject)
-        {
-            continueExecution = false;
-        }
-    }
+//        if(msgBox.clickedButton() == pButtonAccept)
+//        {
+//            shouldUpload = true;
+//            continueExecution = true;
+//        }
+//        else if(msgBox.clickedButton() == pButtonReject)
+//        {
+//            continueExecution = false;
+//        }
+//    }
 
     return continueExecution;
 }
@@ -143,7 +143,7 @@ TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const
 
     connect(tableDescriptor,SIGNAL(signal_OperationNameChanged(std::string,uint)),this,SLOT(slot_OperationNameChanged(std::string,uint)));
     connect(tableDescriptor,SIGNAL(signal_ExecuteExplicitProfileConfig(ECMCommand_AbstractProfileConfigPtr)),this,SLOT(slot_OnExecuteExplicitProfileConfig(ECMCommand_AbstractProfileConfigPtr)));
-    tableDescriptor->newlyAvailableProgramLabels(m_API->m_Galil->stateInterface->galilProgram->getLabelList());
+    //tableDescriptor->newlyAvailableProgramLabels(m_API->m_MotionController->stateInterface->galilProgram->getLabelList());
 
     QListWidgetItem* newItem = new QListWidgetItem();
     newItem->setSizeHint(tableDescriptor->sizeHint());
@@ -157,11 +157,11 @@ TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const
 
 void Window_ProfileConfiguration::slot_OnExecuteExplicitProfileConfig(const ECMCommand_AbstractProfileConfigPtr config)
 {
-        ECMCommand_ExecuteCollection newExecutionCollection;
-        newExecutionCollection.insertProfile(config);
-        newExecutionCollection.setAssociatedMotionScript(m_WindowMotionProfile->getCurrentGalilScript());
-        newExecutionCollection.setHomeShouldIndicate(ui->checkBox_ShouldHomeBeIndicated->isChecked());
-       emit signal_ExecuteProfileCollection(newExecutionCollection);
+//        ECMCommand_ExecuteCollection newExecutionCollection;
+//        newExecutionCollection.insertProfile(config);
+//        newExecutionCollection.setAssociatedMotionScript(m_WindowMotionProfile->getCurrentGalilScript());
+//        newExecutionCollection.setHomeShouldIndicate(ui->checkBox_ShouldHomeBeIndicated->isChecked());
+//       emit signal_ExecuteProfileCollection(newExecutionCollection);
 }
 
 void Window_ProfileConfiguration::clearExistingOperations()
@@ -177,15 +177,15 @@ void Window_ProfileConfiguration::clearExistingOperations()
     m_MapOperations.clear();
 }
 
-void Window_ProfileConfiguration::slot_MCNewProgramLabels(const ProgramLabelList &labels)
+void Window_ProfileConfiguration::slot_MCNewProgramLabels(const Operation_VariableList &labels)
 {
     std::map<QListWidgetItem*,TableWidget_OperationDescriptor*>::iterator it = m_MapOperations.begin();
 
-    for (; it!=m_MapOperations.end(); ++it)
-    {
-        TableWidget_OperationDescriptor* currentOp = it->second;
-        currentOp->newlyAvailableProgramLabels(labels);
-    }
+//    for (; it!=m_MapOperations.end(); ++it)
+//    {
+//        TableWidget_OperationDescriptor* currentOp = it->second;
+//        currentOp->newlyAvailableProgramLabels(labels);
+//    }
 }
 
 void Window_ProfileConfiguration::on_pushButton_AddOperation_released()
@@ -247,7 +247,7 @@ void Window_ProfileConfiguration::slot_OperationNameChanged(const std::string &n
 
 void Window_ProfileConfiguration::on_pushButton_OpenMotionScript_released()
 {
-    m_WindowMotionProfile->openGalilScript();
+//    m_WindowMotionProfile->openGalilScript();
 }
 
 void Window_ProfileConfiguration::on_ListWidgetRowMoved()
@@ -328,7 +328,7 @@ void Window_ProfileConfiguration::saveToFile(const QString &filePath)
 
     saveObject["configData"] = segmentDataArray;
     saveObject["configureHome"] = ui->checkBox_ShouldHomeBeIndicated->isChecked();
-    saveObject["galilScript"] = QString::fromStdString(m_WindowMotionProfile->getCurrentGalilScript());
+//    saveObject["galilScript"] = QString::fromStdString(m_WindowMotionProfile->getCurrentGalilScript());
     QJsonDocument saveDoc(saveObject);
     saveFile.write(saveDoc.toJson());
     saveFile.close();
@@ -351,8 +351,8 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
     QJsonObject jsonObject = loadDoc.object();
 
     this->setIndicateHome(jsonObject["configureHome"].toBool());
-    m_WindowMotionProfile->setFilePath(filePath.toStdString());
-    m_WindowMotionProfile->setProgramText(jsonObject["galilScript"].toString().toStdString());
+//    m_WindowMotionProfile->setFilePath(filePath.toStdString());
+//    m_WindowMotionProfile->setProgramText(jsonObject["galilScript"].toString().toStdString());
 
     QJsonArray configArray = jsonObject["configData"].toArray();
 
@@ -371,7 +371,7 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
                 loadConfig = std::make_shared<ECMCommand_ProfileConfiguration>();
                 ECMCommand_ProfileConfigurationPtr castLoadConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(loadConfig);
                 castLoadConfig->readFromJSON(operationObject);
-                castLoadConfig->m_GalilOperation.setProgramLoaded(true,filePath.toStdString());
+//                castLoadConfig->m_GalilOperation.setProgramLoaded(true,filePath.toStdString());
             }
             else if(opType == ProfileOpType::PAUSE)
             {
@@ -413,10 +413,10 @@ void Window_ProfileConfiguration::slot_ChangedWindowVisibility(const GeneralDial
 
 void Window_ProfileConfiguration::on_actionMotion_Profile_triggered(bool checked)
 {
-    if(checked)
-        m_WindowMotionProfile->show();
-    else
-        m_WindowMotionProfile->hide();
+//    if(checked)
+//        m_WindowMotionProfile->show();
+//    else
+//        m_WindowMotionProfile->hide();
 }
 
 void Window_ProfileConfiguration::on_actionNew_triggered(bool checked)
