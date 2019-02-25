@@ -19,9 +19,12 @@ public:
 
 public:
     void updateFromBufferData(const BufferData* data);
+    std::string getCurrentBufferName() const;
 
 private slots:
     void on_lineEdit_BufferName_textChanged(const QString &arg1);
+
+    void on_codeTextEdit_textChanged();
 
 private:
     void updateCurrentLED(const bool &current);
@@ -34,11 +37,17 @@ private:
 
     void updateCodeText(const std::string &programText);
 
+signals:
+    void signal_BufferNameChanged(const std::string &name);
+    void signal_BufferContentsMatch(const bool &match);
+    void signal_BufferUpdatedLineCount(const unsigned int &count);
+
 private:
     Ui::Widget_BufferEditor *ui;
 
     bool lockBufferName = false;
 
+    unsigned int previousLineCount = 0;
 };
 
 #endif // WIDGET_BUFFER_EDITOR_H

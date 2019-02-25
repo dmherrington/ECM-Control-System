@@ -76,6 +76,14 @@ bool SPIIMotionController::isDeviceConnected() const
     return m_CommsMarshaler->isDeviceConnected();
 }
 
+void SPIIMotionController::getSPIIProperties(unsigned int &numAxis, unsigned int &numBuffers, unsigned int &dBufferIndex) const
+{
+    numAxis = this->m_SPIIDevice.getAxisCount();
+    numBuffers = this->m_SPIIDevice.getBufferCount();
+    dBufferIndex = this->m_SPIIDevice.getDBufferIndex();
+}
+
+
 
 
 //!

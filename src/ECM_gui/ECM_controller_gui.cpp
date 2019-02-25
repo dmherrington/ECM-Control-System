@@ -133,6 +133,10 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_WindowTouchoffControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
     connect(m_WindowTouchoffControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
+    m_WindowBufferManager = new Window_BufferManager(m_API->m_MotionController);
+    m_WindowBufferManager->show();
+
+    /*
     std::vector<common::TupleECMData> plottables = m_API->m_MotionController->getPlottables();
     for(unsigned int i = 0; i < plottables.size(); i++)
     {
@@ -160,6 +164,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_WindowConnections->connectToAllDevices();
 
     ProgressStateMachineStates();
+    */
 }
 
 ECMControllerGUI::~ECMControllerGUI()

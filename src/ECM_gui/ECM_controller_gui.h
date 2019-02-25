@@ -31,6 +31,7 @@
 #include "acs_dialog/dialog_execution_paused.h"
 #include "acs_dialog/window_touchoff.h"
 #include "acs_dialog/window_motion_control.h"
+#include "acs_dialog/window_buffer_manager.h"
 
 namespace Ui {
 class ECMControllerGUI;
@@ -209,6 +210,8 @@ private:
     Window_DeviceConnections* m_WindowConnections;
 
     Window_CustomMotionCommands* m_WindowCustomMotionCommands;
+
+    Window_BufferManager* m_WindowBufferManager;
 
 private:
     void ProgressStateMachineStates();

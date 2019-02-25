@@ -25,6 +25,17 @@ public:
 
     Widget_BufferEditor* getBufferEditor() const;
 
+    void updateBufferIndex(const unsigned int &index);
+
+signals:
+    void singal_OpenBufferCode(const unsigned int &index);
+
+private slots:
+    void slot_UpdateBufferName(const std::string &name);
+    void slot_UpdateBufferLineCount(const unsigned int &count);
+
+    void on_pushButton_released();
+
 private:
     Ui::Widget_BufferDescriptor *ui;
 

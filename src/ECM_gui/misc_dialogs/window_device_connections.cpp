@@ -64,6 +64,8 @@ void Window_DeviceConnections::connect_MotionController(const bool &connect)
             return;
 
         ipAddress += " -d";
+        m_API->m_MotionController->ConnectToSimulation();
+
         //m_API->m_MotionController->openConnection(ipAddress.toStdString());
     }
 }

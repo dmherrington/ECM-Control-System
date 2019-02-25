@@ -47,23 +47,30 @@ public:
     void ConnectToSerialPort(const common::comms::SerialConfiguration &linkConfig);
     void ConnectToEthernetPort(const common::comms::TCPConfiguration &linkConfig);
     void ConnectToPCIPort(const ACSC_PCI_SLOT &linkConfig);
-
     void closeConnection();
 
     bool isDeviceConnected() const;
+    void getSPIIProperties(unsigned int &numAxis, unsigned int &numBuffers, unsigned int &dBufferIndex) const;
 
     void LinkConnectionUpdate(const common::comms::CommunicationUpdate &update) override;
 
 private:
     void initializeMotionController();
 
-    private:
+private:
 
     void SPIIPolling_PositionUpdate(const std::vector<SPII::Status_PositionPerAxis> &position) override;
 
     void SPIIPolling_AxisUpdate(const std::vector<SPII::Status_PerAxis> &axis) override;
 
     void SPIIPolling_MotorUpdate(const std::vector<SPII::Status_MotorPerAxis> &motor) override;
+signals:
+
+    //!
+    //! \brief signal_MotionControllerCommunicationUpdate
+    //! \param connection
+    //!
+    void signal_MCCommunicationUpdate(const common::comms::CommunicationUpdate &connection) const;
 
 public:
     std::shared_ptr<Comms::CommsMarshaler> m_CommsMarshaler; /**< Member variable handling the communications with the
