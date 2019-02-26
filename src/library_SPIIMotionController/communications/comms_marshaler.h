@@ -55,6 +55,8 @@ public:
     //////////////////////////////////////////////////////////////
 
     void sendCustomSPIICommands(const std::vector<std::string> &stringCommands);
+    void sendAbstractSPIICommand(const AbstractCommandPtr command);
+    void sendAbstractSPIIMotionCommand(const AbstractCommandPtr command);
 
     //!
     //! \brief Issue a message to a given link

@@ -143,9 +143,84 @@ void SPIIMotionController::initializeMotionController()
     m_DevicePolling->beginPolling();
 }
 
+void SPIIMotionController::cbi_AbstractSPIICommand(const AbstractCommandPtr command)
+{
+
+}
+void SPIIMotionController::cbi_AbstractSPIIMotionCommand(const AbstractCommandPtr command)
+{
+
+}
+void SPIIMotionController::cbi_AbstractSPIIRequest(const SPII::AbstractRequestPtr request)
+{
+
+}
+void SPIIMotionController::cbi_AbstractSPIIAddPolled(const SPII::AbstractRequestPtr request, const int &period)
+{
+
+}
+void SPIIMotionController::cbi_AbstractSPIIRemovePolled(const common::TupleECMData &tuple)
+{
+
+}
+void SPIIMotionController::cbi_SPIIControllerGains(const CommandControllerGain &gains)
+{
+
+}
+
+void SPIIMotionController::cbi_SPIIHomeIndicated(const bool &indicated)
+{
+    emit signal_MCHomeIndicated(indicated);
+}
+void SPIIMotionController::cbi_SPIITouchoffIndicated(const bool &indicated)
+{
+
+}
+void SPIIMotionController::cbi_SPIIMotionProfileState(const MotionProfileState &state, const bool &processTransitions)
+{
+
+}
+void SPIIMotionController::cbi_SPIINewMachineState(const ECM::SPII::SPIIState &state)
+{
+
+}
+
+void SPIIMotionController::cbi_SPIIUploadProgram(const AbstractCommandPtr command)
+{
+
+}
+void SPIIMotionController::cbi_SPIIDownloadProgram(const AbstractCommandPtr command)
+{
+
+}
+
+
 void SPIIMotionController::SPIIPolling_AxisUpdate(const std::vector<SPII::Status_PerAxis> &axis)
 {
     m_StateInterface->m_AxisStatus->updateAxisStatus(axis);
+
+    /*
+    GalilStatus* ptr = stateInterface->getAxisStatus(status.getAxis());
+
+    common::TuplePositionalString tuple;
+    tuple.axisName = QString::fromStdString(AxisToString(status.getAxis()));
+    common_data::PositionalStatePtr position = std::make_shared<common_data::PositionalState>();
+    position->setStateAxis(status.getAxis());
+    position->setAxisPosition(status.getPosition());
+    common_data::MachinePositionalState state;
+    state.setObservationTime(status.getTime());
+    state.setPositionalState(position);
+
+    if(ptr->setPosition(status))
+    {
+        emit signal_MCNewPosition(tuple,state, true);
+    }
+    else
+    {
+        emit signal_MCNewPosition(tuple,state, false);
+    }
+    ProgressStateMachineStates();
+    */
 }
 
 void SPIIMotionController::SPIIPolling_MotorUpdate(const std::vector<SPII::Status_MotorPerAxis> &motor)

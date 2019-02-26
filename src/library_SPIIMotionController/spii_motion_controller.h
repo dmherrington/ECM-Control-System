@@ -22,10 +22,12 @@
 
 #include "states/state_components.h"
 
+#include "spii_state_interface.h"
 #include "spii_device_interface_motion_control.h"
 
 class LIBRARY_SPIIMOTIONCONTROLLERSHARED_EXPORT SPIIMotionController : public QObject,
-        private Comms::CommsEvents, private SPIIPollingEvents_Interface, public SPIIDeviceInterface_MotionControl
+        private Comms::CommsEvents, private SPIIPollingEvents_Interface, public SPIIDeviceInterface_MotionControl,
+        public SPIICallback_StateInterface
 {
     Q_OBJECT
 
@@ -54,6 +56,23 @@ public:
 
     void LinkConnectionUpdate(const common::comms::CommunicationUpdate &update) override;
 
+public:
+    void cbi_AbstractSPIICommand(const AbstractCommandPtr command);
+    void cbi_AbstractSPIIMotionCommand(const AbstractCommandPtr command);
+    void cbi_AbstractSPIIRequest(const SPII::AbstractRequestPtr request);
+    void cbi_AbstractSPIIAddPolled(const SPII::AbstractRequestPtr request, const int &period);
+    void cbi_AbstractSPIIRemovePolled(const common::TupleECMData &tuple);
+    void cbi_SPIIControllerGains(const CommandControllerGain &gains);
+
+    void cbi_SPIIHomeIndicated(const bool &indicated);
+    void cbi_SPIITouchoffIndicated(const bool &indicated);
+    void cbi_SPIIMotionProfileState(const MotionProfileState &state, const bool &processTransitions);
+    void cbi_SPIINewMachineState(const ECM::SPII::SPIIState &state);
+
+    void cbi_SPIIUploadProgram(const AbstractCommandPtr command);
+    void cbi_SPIIDownloadProgram(const AbstractCommandPtr command);
+
+
 private:
     void initializeMotionController();
 
@@ -64,6 +83,7 @@ private:
     void SPIIPolling_AxisUpdate(const std::vector<SPII::Status_PerAxis> &axis) override;
 
     void SPIIPolling_MotorUpdate(const std::vector<SPII::Status_MotorPerAxis> &motor) override;
+
 signals:
 
     //!
@@ -71,6 +91,82 @@ signals:
     //! \param connection
     //!
     void signal_MCCommunicationUpdate(const common::comms::CommunicationUpdate &connection) const;
+
+
+    //!
+    //! \brief signal_MCNewMotionState signal emitted when the state machine has progressed to a new state
+    //! \param state string descriptor describing the state the galil motion controller is in
+    //!
+    void signal_MCNewMotionState(const ECM::SPII::SPIIState &state, const QString &stateString) const;
+
+
+signals:
+
+    //!
+    //! \brief signal_GalilHomeIndicated
+    //! \param indicated
+    //!
+    void signal_MCHomeIndicated(const bool &indicated) const;
+
+    //!
+    //! \brief signal_GalilTouchoffIndicated
+    //! \param indicated
+    //!
+    void signal_MCTouchoffIndicated(const bool &indicated) const;
+
+    //!
+    //! \brief signal_MCNewPositionalPlottable
+    //! \param variableTuple
+    //! \param on_off
+    //!
+    void signal_MCNewPositionalPlottable(const common::TuplePositionalString &variableTuple, const bool &on_off);
+
+    //!
+    //! \brief signal_MCNewVariablePlottable
+    //! \param variableTuple
+    //! \param on_off
+    //!
+    void signal_MCNewVariablePlottable(const common::TupleProfileVariableString &variableTuple, const bool &on_off);
+
+    //!
+    //! \brief signal_MCNewPoition
+    //! \param tuple
+    //! \param data
+    //!
+    void signal_MCNewPosition(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &data, const bool &valueChanged) const;
+
+    //!
+    //! \brief signal_MCNewProfileVariableValue
+    //! \param variableTuple
+    //! \param data
+    //!
+    void signal_MCNewProfileVariableValue(const common::TupleProfileVariableString &variableTuple, const common_data::MotionProfileVariableState &data) const;
+
+    //!
+    //! \brief signal_MCNewProgramReceived
+    //! \param programText
+    //!
+    void signal_MCNewProgramReceived(const GalilCurrentProgram &program);
+
+    //!
+    //! \brief signal_MCNewProgramLabelList
+    //! \param labels
+    //!
+    void signal_MCNewProgramLabelList(const ProgramLabelList &labels);
+
+    //!
+    //! \brief signal_MCNewProgramVariableList
+    //! \param variableList
+    //!
+    void signal_MCNewProgramVariableList(const ProgramVariableList &variableList);
+
+    void signal_GalilUpdatedProfileState(const MotionProfileState &state) const;
+
+    void signal_ErrorCommandCode(const CommandType &type, const std::string &errorString);
+
+    void signal_ErrorRequestCode(const RequestTypes &type, const std::string &errorString);
+
+    void signal_CustomUserRequestReceived(const std::string &request, const std::string &response);
 
 public:
     std::shared_ptr<Comms::CommsMarshaler> m_CommsMarshaler; /**< Member variable handling the communications with the

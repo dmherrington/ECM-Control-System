@@ -144,7 +144,31 @@ void CommsMarshaler::sendCustomSPIICommands(const std::vector<std::string> &stri
         if(!link->isConnected())
             return;
 
-            //protocol->SendCustomProtocolCommand(link.get(), stringCommands);
+            protocol->SendCustomProtocolCommand(stringCommands);
+    };
+
+    link->MarshalOnThread(func);
+}
+
+void CommsMarshaler::sendAbstractSPIICommand(const AbstractCommandPtr command)
+{
+    auto func = [this, command]() {
+        if(!link->isConnected())
+            return;
+
+            protocol->SendProtocolCommand(command);
+    };
+
+    link->MarshalOnThread(func);
+}
+
+void CommsMarshaler::sendAbstractSPIIMotionCommand(const AbstractCommandPtr command)
+{
+    auto func = [this, command]() {
+        if(!link->isConnected())
+            return;
+
+            protocol->SendProtocolMotionCommand(command);
     };
 
     link->MarshalOnThread(func);

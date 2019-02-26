@@ -32,6 +32,16 @@ class SPIIProtocol : public IProtocol
 public:
     SPIIProtocol();
 
+    //////////////////////////////////////////////////////////////
+    /// Methods issuing an explicit galil command
+    //////////////////////////////////////////////////////////////
+public:
+    void SendProtocolCommand(const AbstractCommandPtr command);
+
+    void SendProtocolMotionCommand(const AbstractCommandPtr command);
+
+    void SendCustomProtocolCommand(const std::vector<std::string> &stringCommands);
+
 
 public:
     bool commandMotorEnable(const CommandMotorEnable &enable);

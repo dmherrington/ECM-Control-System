@@ -80,6 +80,21 @@ void SPIIProtocol::ReceiveData(ILink *link, const std::vector<uint8_t> &buffer)
     UNUSED(buffer);
 }
 
+void SPIIProtocol::SendProtocolCommand(const AbstractCommandPtr command)
+{
+
+}
+
+void SPIIProtocol::SendProtocolMotionCommand(const AbstractCommandPtr command)
+{
+
+}
+
+void SPIIProtocol::SendCustomProtocolCommand(const std::vector<std::string> &stringCommands)
+{
+
+}
+
 bool SPIIProtocol::commandMotorEnable(const CommandMotorEnable &enable)
 {
     bool rtnValidity = false;

@@ -31,10 +31,12 @@ public:
     virtual void cbi_AbstractSPIIAddPolled(const SPII::AbstractRequestPtr request, const int &period) = 0;
     virtual void cbi_AbstractSPIIRemovePolled(const common::TupleECMData &tuple) = 0;
     virtual void cbi_SPIIControllerGains(const CommandControllerGain &gains) = 0;
+
     virtual void cbi_SPIIHomeIndicated(const bool &indicated) = 0;
     virtual void cbi_SPIITouchoffIndicated(const bool &indicated) = 0;
-    virtual void cbi_NewMotionProfileState(const MotionProfileState &state, const bool &processTransitions) = 0;
+    virtual void cbi_SPIIMotionProfileState(const MotionProfileState &state, const bool &processTransitions) = 0;
     virtual void cbi_SPIINewMachineState(const ECM::SPII::SPIIState &state) = 0;
+
     virtual void cbi_SPIIUploadProgram(const AbstractCommandPtr command) = 0;
     virtual void cbi_SPIIDownloadProgram(const AbstractCommandPtr command) = 0;
 };
