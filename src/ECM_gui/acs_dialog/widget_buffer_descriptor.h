@@ -30,6 +30,11 @@ public:
 
     void updateFromBufferStatus(const Status_BufferState &state);
 
+private:
+    void updateCurrentLED(const bool &current);
+
+    void updateCompiledLED(const bool &compiled);
+
 signals:
     void singal_DisplayBufferCode(const unsigned int &index);
 

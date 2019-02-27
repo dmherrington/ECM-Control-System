@@ -35,6 +35,14 @@ unsigned int Widget_BufferEditor::getBufferIndex() const
     return this->m_EditData->getBufferIndex();
 }
 
+void Widget_BufferEditor::updateProgramText(const std::string &text)
+{
+    bool oldState = ui->codeTextEdit->blockSignals(true);
+    ui->codeTextEdit->clear();
+    ui->codeTextEdit->document()->setPlainText(QString::fromStdString(text));
+    ui->codeTextEdit->blockSignals(oldState);
+}
+
 void Widget_BufferEditor::updateCurrentLED(const bool &current)
 {
     if(current)

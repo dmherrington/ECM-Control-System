@@ -234,7 +234,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="LED" name="led_ProgramChanges" native="true">
+      <widget class="LED" name="led_ProgramChanged" native="true">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>

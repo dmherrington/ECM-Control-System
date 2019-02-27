@@ -47,6 +47,24 @@ void Widget_BufferDescriptor::updateBufferIndex(const unsigned int &index)
     ui->label_BufferIndex->setText(QString::number(index));
 }
 
+void Widget_BufferDescriptor::updateCurrentLED(const bool &current)
+{
+    if(current)
+        ui->led_ProgramChanged->setColor(QColor(0,255,0));
+    else
+        ui->led_ProgramChanged->setColor(QColor(255,0,0));
+    m_BufferEditor->updateCurrentLED(current);
+}
+
+void Widget_BufferDescriptor::updateCompiledLED(const bool &compiled)
+{
+    if(compiled)
+        ui->led_ProgramCompiled->setColor(QColor(0,255,0));
+    else
+        ui->led_ProgramCompiled->setColor(QColor(255,0,0));
+    m_BufferEditor->updateCompiledLED(compiled);
+}
+
 void Widget_BufferDescriptor::slot_UpdateBufferName(const std::string &name)
 {
     ui->label_BufferName->setText(QString::fromStdString(name));
@@ -67,44 +85,39 @@ void Widget_BufferDescriptor::updateFromBufferStatus(const Status_BufferState &s
     switch (state.getBufferStatus()) {
     case Status_BufferState::ENUM_BUFFERSTATE::CLEARED:
     {
-        ui->codeTextEdit->clear();
+        m_BufferEditor->updateProgramText("");
         updateCurrentLED(true);
         updateCompiledLED(true);
         break;
     }
     case Status_BufferState::ENUM_BUFFERSTATE::COMPILED:
     {
-        ui->codeTextEdit->clear();
+        m_BufferEditor->updateProgramText(state.getProgramString());
         updateCurrentLED(true);
         updateCompiledLED(true);
         break;
     }
     case Status_BufferState::ENUM_BUFFERSTATE::CURRENT:
     {
-        ui->codeTextEdit->clear();
+        m_BufferEditor->updateProgramText(state.getProgramString());
         updateCurrentLED(true);
-        updateCompiledLED(true);
+        updateCompiledLED(false);
         break;
     }
     case Status_BufferState::ENUM_BUFFERSTATE::ERROR_COMPILING:
     {
-        ui->codeTextEdit->clear();
         updateCurrentLED(true);
-        updateCompiledLED(true);
+        updateCompiledLED(false);
         break;
     }
     case Status_BufferState::ENUM_BUFFERSTATE::ERROR_UPLOAD:
     {
-        ui->codeTextEdit->clear();
-        updateCurrentLED(true);
-        updateCompiledLED(true);
+        updateCurrentLED(false);
+        updateCompiledLED(false);
         break;
     }
     case Status_BufferState::ENUM_BUFFERSTATE::UNKNOWN:
     {
-        ui->codeTextEdit->clear();
-        updateCurrentLED(true);
-        updateCompiledLED(true);
         break;
     }
     default:

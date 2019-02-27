@@ -28,6 +28,8 @@ public:
 
     unsigned int getBufferIndex() const;
 
+    void updateProgramText(const std::string &text);
+
 private slots:
 
     void on_lineEdit_BufferName_textChanged(const QString &arg1);

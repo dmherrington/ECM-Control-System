@@ -84,5 +84,5 @@ void Window_BufferManager::slot_OnDisplayBufferContents(const unsigned int &inde
 
 void Window_BufferManager::slot_MCBufferStatusUpdate(const Status_BufferState &state)
 {
-
+    m_BufferDescriptors.at(state.getBufferIndex())->updateFromBufferStatus(state);
 }
