@@ -104,6 +104,11 @@ signals:
     //!
     void signal_MCNewMotionState(const ECM::SPII::SPIIState &state, const QString &stateString) const;
 
+    //!
+    //! \brief signal_MCBufferUpdate
+    //! \param state
+    //!
+    void signal_MCBufferUpdate(const Status_BufferState &state);
 
 signals:
 

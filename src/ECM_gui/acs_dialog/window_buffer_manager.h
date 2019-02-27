@@ -29,6 +29,7 @@ private slots:
     void slot_OnMCCommunicationUpdate(const common::comms::CommunicationUpdate &update);
     void slot_OnDisplayBufferContents(const unsigned int &index);
 
+    void slot_MCBufferStatusUpdate(const Status_BufferState &state);
 private:
     Ui::Window_BufferManager *ui;
 

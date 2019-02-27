@@ -31,9 +31,19 @@ std::string BufferData::getBufferName() const
     return this->bufferName;
 }
 
+void BufferData::setProgramString(const std::string &program)
+{
+    this->programText = program;
+}
+
+std::string BufferData::getProgramString() const
+{
+    return this->programText;
+}
+
 void BufferData::setBufferIndex(const unsigned int &bufferIndex)
 {
-    this->index = bufferIndex;
+    this->bufferIndex = bufferIndex;
 }
 
 
@@ -74,6 +84,12 @@ bool BufferData::isDBuffer() const
 
 unsigned int BufferData::getBufferIndex() const
 {
-    return this->index;
+    return this->bufferIndex;
 }
 
+void BufferData::markBufferAsCleared()
+{
+    setProgramString("");
+    setBufferCurrent(true);
+    setBufferCompiled(true);
+}

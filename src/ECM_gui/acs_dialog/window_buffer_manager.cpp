@@ -9,8 +9,11 @@ Window_BufferManager::Window_BufferManager(SPIIMotionController *motionControlOb
 
     m_SPIIDevice = motionControlObject;
 
-    connect(m_SPIIDevice, SIGNAL(signal_MCCommunicationUpdate(const common::comms::CommunicationUpdate &)),
-            this, SLOT(slot_OnMCCommunicationUpdate(const common::comms::CommunicationUpdate&)));
+    connect(m_SPIIDevice, SIGNAL(signal_MCCommunicationUpdate(common::comms::CommunicationUpdate)),
+            this, SLOT(slot_OnMCCommunicationUpdate(common::comms::CommunicationUpdate)));
+
+    connect(m_SPIIDevice, SIGNAL(signal_MCBufferUpdate(Status_BufferState)),
+            this, SLOT(slot_MCBufferStatusUpdate(Status_BufferState)));
 
 }
 
@@ -76,4 +79,10 @@ void Window_BufferManager::slot_OnMCCommunicationUpdate(const common::comms::Com
 void Window_BufferManager::slot_OnDisplayBufferContents(const unsigned int &index)
 {
     ui->stackedWidget_BufferContents->setCurrentIndex(index);
+}
+
+
+void Window_BufferManager::slot_MCBufferStatusUpdate(const Status_BufferState &state)
+{
+
 }

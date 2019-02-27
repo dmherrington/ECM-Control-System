@@ -28,6 +28,8 @@ public:
 
     void updateBufferIndex(const unsigned int &index);
 
+    void updateFromBufferStatus(const Status_BufferState &state);
+
 signals:
     void singal_DisplayBufferCode(const unsigned int &index);
 

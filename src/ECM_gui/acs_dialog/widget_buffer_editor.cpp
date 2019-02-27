@@ -67,6 +67,7 @@ void Widget_BufferEditor::updateCodeText(const std::string &programText)
     ui->codeTextEdit->clear();
 }
 
+
 void Widget_BufferEditor::on_lineEdit_BufferName_textChanged(const QString &arg1)
 {
     updateBufferName(arg1.toStdString());

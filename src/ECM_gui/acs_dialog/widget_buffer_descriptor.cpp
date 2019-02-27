@@ -61,3 +61,53 @@ void Widget_BufferDescriptor::on_pushButton_DisplayBuffer_released()
 {
     emit singal_DisplayBufferCode(m_BufferEditor->getBufferIndex());
 }
+
+void Widget_BufferDescriptor::updateFromBufferStatus(const Status_BufferState &state)
+{
+    switch (state.getBufferStatus()) {
+    case Status_BufferState::ENUM_BUFFERSTATE::CLEARED:
+    {
+        ui->codeTextEdit->clear();
+        updateCurrentLED(true);
+        updateCompiledLED(true);
+        break;
+    }
+    case Status_BufferState::ENUM_BUFFERSTATE::COMPILED:
+    {
+        ui->codeTextEdit->clear();
+        updateCurrentLED(true);
+        updateCompiledLED(true);
+        break;
+    }
+    case Status_BufferState::ENUM_BUFFERSTATE::CURRENT:
+    {
+        ui->codeTextEdit->clear();
+        updateCurrentLED(true);
+        updateCompiledLED(true);
+        break;
+    }
+    case Status_BufferState::ENUM_BUFFERSTATE::ERROR_COMPILING:
+    {
+        ui->codeTextEdit->clear();
+        updateCurrentLED(true);
+        updateCompiledLED(true);
+        break;
+    }
+    case Status_BufferState::ENUM_BUFFERSTATE::ERROR_UPLOAD:
+    {
+        ui->codeTextEdit->clear();
+        updateCurrentLED(true);
+        updateCompiledLED(true);
+        break;
+    }
+    case Status_BufferState::ENUM_BUFFERSTATE::UNKNOWN:
+    {
+        ui->codeTextEdit->clear();
+        updateCurrentLED(true);
+        updateCompiledLED(true);
+        break;
+    }
+    default:
+        break;
+    }
+}

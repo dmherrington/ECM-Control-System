@@ -174,6 +174,7 @@ void SPIIMotionController::cbi_SPIIHomeIndicated(const bool &indicated)
 {
     emit signal_MCHomeIndicated(indicated);
 }
+
 void SPIIMotionController::cbi_SPIITouchoffIndicated(const bool &indicated)
 {
 
@@ -261,7 +262,8 @@ std::vector<common::TupleECMData> SPIIMotionController::getPlottables() const
 
 void SPIIMotionController::NewBufferState(const Status_BufferState &state)
 {
-
+    m_StateInterface->m_BufferManager->statusBufferUpdate(state);
+    emit signal_MCBufferUpdate(state);
 }
 
 

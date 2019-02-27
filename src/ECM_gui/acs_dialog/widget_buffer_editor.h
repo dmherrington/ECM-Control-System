@@ -29,6 +29,7 @@ public:
     unsigned int getBufferIndex() const;
 
 private slots:
+
     void on_lineEdit_BufferName_textChanged(const QString &arg1);
 
     void on_codeTextEdit_textChanged();
