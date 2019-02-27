@@ -1,16 +1,15 @@
 #include "widget_buffer_descriptor.h"
 #include "ui_widget_buffer_descriptor.h"
 
-Widget_BufferDescriptor::Widget_BufferDescriptor(const unsigned int &bufferIndex, const bool &isDBuffer,
+Widget_BufferDescriptor::Widget_BufferDescriptor(SPIIMotionController *motionControlObject, const unsigned int &bufferIndex, const bool &isDBuffer,
                                                  QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget_BufferDescriptor)
 {
 
     ui->setupUi(this);
-    m_Data = new BufferData(bufferIndex,isDBuffer);
 
-    m_BufferEditor = new Widget_BufferEditor(bufferIndex, isDBuffer);
+    m_BufferEditor = new Widget_BufferEditor(motionControlObject, bufferIndex, isDBuffer);
 
     connect(m_BufferEditor, SIGNAL(signal_BufferNameChanged(const std::string&)),
             this, SLOT(slot_UpdateBufferName(const std::string&)));
@@ -58,7 +57,7 @@ void Widget_BufferDescriptor::slot_UpdateBufferLineCount(const unsigned int &cou
     ui->label_Lines->setText(QString::number(count));
 }
 
-void Widget_BufferDescriptor::on_pushButton_released()
+void Widget_BufferDescriptor::on_pushButton_DisplayBuffer_released()
 {
-    emit singal_OpenBufferCode(m_Data->getBufferIndex());
+    emit singal_DisplayBufferCode(m_BufferEditor->getBufferIndex());
 }

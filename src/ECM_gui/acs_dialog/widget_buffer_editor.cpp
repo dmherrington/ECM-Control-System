@@ -1,16 +1,18 @@
 #include "widget_buffer_editor.h"
 #include "ui_widget_buffer_editor.h"
 
-Widget_BufferEditor::Widget_BufferEditor(const unsigned int &bufferIndex, const bool &isDBuffer, QWidget *parent) :
+Widget_BufferEditor::Widget_BufferEditor(SPIIMotionController *motionControlObject, const unsigned int &bufferIndex, const bool &isDBuffer, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget_BufferEditor)
 {
     ui->setupUi(this);
+    m_SPIIDevice = motionControlObject;
+
+    m_EditData = new BufferData(bufferIndex,isDBuffer);
 
     updateBufferIndex(bufferIndex);
-
     std::string bufferName = "Buffer #" + std::to_string(bufferIndex);
-    updateBufferName(bufferName, isDBuffer);
+    updateBufferName(bufferName);
 }
 
 Widget_BufferEditor::~Widget_BufferEditor()
@@ -28,6 +30,10 @@ std::string Widget_BufferEditor::getCurrentBufferName() const
     return ui->lineEdit_BufferName->text().toStdString();
 }
 
+unsigned int Widget_BufferEditor::getBufferIndex() const
+{
+    return this->m_EditData->getBufferIndex();
+}
 
 void Widget_BufferEditor::updateCurrentLED(const bool &current)
 {
@@ -45,30 +51,15 @@ void Widget_BufferEditor::updateCompiledLED(const bool &compiled)
         ui->led_ProgramCompiled->setColor(QColor(255,0,0));
 }
 
-void Widget_BufferEditor::updateBufferName(const std::string &name, const bool &isDBuffer)
+void Widget_BufferEditor::updateBufferName(const std::string &name)
 {
-    std::string currentBufferName = "";
-    if(isDBuffer)
-    {
-        lockBufferName = true;
-        currentBufferName = "DBuffer";
-        ui->lineEdit_BufferName->setText(QString::fromStdString(currentBufferName));
-        ui->lineEdit_BufferName->setDisabled(true);
-    }
-    else
-    {
-        if(!lockBufferName)
-        {
-            currentBufferName = name;
-            ui->lineEdit_BufferName->setText(QString::fromStdString(currentBufferName));
-        }
-    }
-    emit signal_BufferNameChanged(currentBufferName);
+    ui->lineEdit_BufferName->setText(QString::fromStdString(m_EditData->setBufferName(name)));
+    emit signal_BufferNameChanged(m_EditData->getBufferName());
 }
 
 void Widget_BufferEditor::updateBufferIndex(const unsigned int &index)
 {
-    ui->label_BuferIndex->setText(QString::number(index));
+    ui->label_BufferIndexNumber->setText(QString::number(index));
 }
 
 void Widget_BufferEditor::updateCodeText(const std::string &programText)
@@ -89,4 +80,29 @@ void Widget_BufferEditor::on_codeTextEdit_textChanged()
         previousLineCount = currentLineCount;
         emit signal_BufferUpdatedLineCount(previousLineCount);
     }
+}
+
+void Widget_BufferEditor::on_pushButton_Upload_released()
+{
+    std::string programString = ui->codeTextEdit->toPlainText().toStdString();
+    SPIICommand_UploadProgramPtr commandUploadProgram = std::make_shared<SPIICommand_UploadProgram>();
+    commandUploadProgram->setCurrentScript(programString);
+    commandUploadProgram->setBufferIndex(m_EditData->getBufferIndex());
+
+    m_SPIIDevice->executeCommand(commandUploadProgram);
+}
+
+void Widget_BufferEditor::on_pushButton_Download_released()
+{
+
+}
+
+void Widget_BufferEditor::on_pushButton_Execute_released()
+{
+
+}
+
+void Widget_BufferEditor::on_pushButton_Clear_released()
+{
+
 }

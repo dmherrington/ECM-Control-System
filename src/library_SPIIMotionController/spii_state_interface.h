@@ -21,14 +21,17 @@
 #include "buffers/spii_buffer_manager.h"
 #include "buffers/buffer_variable_values.h"
 
-class SPIICallback_StateInterface{
+class SPIICallback_StateInterface
+{
+
+public:
     virtual ~SPIICallback_StateInterface() = default;
 
 public:
     virtual void cbi_AbstractSPIICommand(const AbstractCommandPtr command) = 0;
     virtual void cbi_AbstractSPIIMotionCommand(const AbstractCommandPtr command) = 0;
-    virtual void cbi_AbstractSPIIRequest(const SPII::AbstractRequestPtr request) = 0;
-    virtual void cbi_AbstractSPIIAddPolled(const SPII::AbstractRequestPtr request, const int &period) = 0;
+    virtual void cbi_AbstractSPIIRequest(const AbstractRequestPtr request) = 0;
+    virtual void cbi_AbstractSPIIAddPolled(const AbstractRequestPtr request, const int &period) = 0;
     virtual void cbi_AbstractSPIIRemovePolled(const common::TupleECMData &tuple) = 0;
     virtual void cbi_SPIIControllerGains(const CommandControllerGain &gains) = 0;
 
@@ -78,7 +81,7 @@ public:
             m_CB->cbi_AbstractSPIICommand(command);
     }
 
-    void issueSPIIRequest(const SPII::AbstractRequestPtr request)
+    void issueSPIIRequest(const AbstractRequestPtr request)
     {
         if(m_CB)
             m_CB->cbi_AbstractSPIIRequest(request);
@@ -96,7 +99,7 @@ public:
             m_CB->cbi_SPIIControllerGains(gains);
     }
 
-    void issueSPIIAddPollingRequest(const SPII::AbstractRequestPtr request, const int &period = 1000)
+    void issueSPIIAddPollingRequest(const AbstractRequestPtr request, const int &period = 1000)
     {
         if(m_CB)
             m_CB->cbi_AbstractSPIIAddPolled(request, period);
@@ -111,11 +114,11 @@ public:
     void issueUpdatedMotionProfileState(const MotionProfileState &state, const bool &performStateUpdate = true)
     {
         if(m_CB)
-            m_CB->cbi_NewMotionProfileState(state, performStateUpdate);
+            m_CB->cbi_SPIIMotionProfileState(state, performStateUpdate);
     }
 
 public:
-    SPII::Status_PerAxis* getAxisStatus(const MotorAxis &axis);
+    Status_PerAxis* getAxisStatus(const MotorAxis &axis);
 
 public:
     bool isMotorInMotion() const;
@@ -151,13 +154,13 @@ and variables actually aboard the SPII. This can be used as a comparison for det
 current program matches what the user witnesses. Also, this can be used to restore the current state
 of the program.*/
 
-    SPII::Status_Axis* m_AxisStatus; /**< Member variable containing the current status
+    Status_Axis* m_AxisStatus; /**< Member variable containing the current status
 of each individual axis of the SPII. This information contains positioning, motion, arming. */
 
-    SPII::Status_Motor* m_MotorStatus; /**< Member variable containing the current status
+    Status_Motor* m_MotorStatus; /**< Member variable containing the current status
 of each individual axis of the SPII. This information contains positioning, motion, arming. */
 
-    SPII::Status_Position* m_AxisPosition;
+    Status_Position* m_AxisPosition;
 
 };
 

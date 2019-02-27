@@ -82,7 +82,20 @@ void SPIIProtocol::ReceiveData(ILink *link, const std::vector<uint8_t> &buffer)
 
 void SPIIProtocol::SendProtocolCommand(const AbstractCommandPtr command)
 {
-
+    switch (command->getCommandType()) {
+    case CommandType::UPLOAD_PROGRAM:
+    {
+        SPIICommand_UploadProgram* uploadProgram = command->as<SPIICommand_UploadProgram>();
+        bool uploadSuccessful = bufferUpload(uploadProgram->getBufferIndex(), uploadProgram->getCurrentScript());
+        if(uploadSuccessful && (uploadProgram->shouldCompileImmediately()))
+            bufferCompile(uploadProgram->getBufferIndex());
+        break;
+    }
+    default:
+    {
+        break;
+    }
+    }
 }
 
 void SPIIProtocol::SendProtocolMotionCommand(const AbstractCommandPtr command)
@@ -217,20 +230,62 @@ bool SPIIProtocol::commandKillMotion(const CommandStop &stop)
 }
 
 
-bool SPIIProtocol::programUpload(const CommandUploadProgram &program)
-{
-
-}
-
 bool SPIIProtocol::bufferUpload(const unsigned int &index, const std::string &text)
 {
-    //acsc_LoadBuffer()
+    if(m_SPIIDevice == nullptr)
+        return false;
+
+    Status_BufferState newState;
+    newState.setBufferIndex(index);
+    newState.setProgramString(text);
+
+    char ctext[text.size()];
+    strcpy(ctext, text.c_str());
+
+    bool validUpload = acsc_LoadBuffer(*m_SPIIDevice.get(), static_cast<int>(index), ctext, static_cast<int>(text.length()),static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+
+    if(validUpload)
+        newState.setBufferState(Status_BufferState::ENUM_BUFFERSTATE::CURRENT);
+    else {
+        newState.setBufferState(Status_BufferState::ENUM_BUFFERSTATE::ERROR_UPLOAD);
+        int bufferSent = 100, bufferReceived = 100;
+        char errorBuf[bufferSent];
+
+        int errorCode = acsc_GetLastError();
+        acsc_GetErrorString(*m_SPIIDevice.get(),errorCode,errorBuf,bufferSent,&bufferReceived);
+        std::string errorString(errorBuf);
+        newState.setErrorString(errorString);
+    }
+
+    Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewBufferState(newState);});
+    return validUpload;
 }
 
 bool SPIIProtocol::bufferCompile(const unsigned int &index)
 {
-    //acsc_CompileBuffer()
-    //printf("compilation error: %d\n", acsc_GetLastError());
+    if(m_SPIIDevice == nullptr)
+        return false;
+
+    Status_BufferState newState;
+    newState.setBufferIndex(index);
+
+    bool validCompile = acsc_CompileBuffer(*m_SPIIDevice.get(), static_cast<int>(index), static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+
+    if(validCompile)
+        newState.setBufferState(Status_BufferState::ENUM_BUFFERSTATE::COMPILED);
+    else {
+        newState.setBufferState(Status_BufferState::ENUM_BUFFERSTATE::ERROR_COMPILING);
+        int bufferSent = 100, bufferReceived = 100;
+        char errorBuf[bufferSent];
+
+        int errorCode = acsc_GetLastError();
+        acsc_GetErrorString(*m_SPIIDevice.get(),errorCode,errorBuf,bufferSent,&bufferReceived);
+        std::string errorString(errorBuf);
+        newState.setErrorString(errorString);
+    }
+
+    Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewBufferState(newState);});
+    return validCompile;
 }
 
 bool SPIIProtocol::bufferRun(const unsigned int &index, const std::string &label)

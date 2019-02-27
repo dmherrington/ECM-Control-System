@@ -9,8 +9,6 @@
 
 #include "abstract_status.h"
 
-namespace SPII{
-
 ECM_CLASS_FORWARD(Status_PerAxis);
 class Status_PerAxis : public AbstractStatus
 {
@@ -136,8 +134,5 @@ public:
 private:
     std::map<MotorAxis, DataGetSetNotifier<Status_PerAxis>*> m_AxisStatus;
 };
-
-
-}//end of namespace SPII
 
 #endif // STATUS_AXIS_H

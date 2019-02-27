@@ -6,6 +6,31 @@ BufferData::BufferData(const unsigned int &bufferIndex, const bool &dBuffer)
     setIsDBuffer(dBuffer);
 }
 
+
+std::string BufferData::setBufferName(const std::string &value)
+{
+    std::string currentBufferName = "";
+    if(isDBuffer())
+    {
+        lockBufferName = true;
+        bufferName = "DBuffer";
+    }
+    else
+    {
+        if(!lockBufferName)
+        {
+            bufferName = value;
+        }
+    }
+
+    return this->bufferName;
+}
+
+std::string BufferData::getBufferName() const
+{
+    return this->bufferName;
+}
+
 void BufferData::setBufferIndex(const unsigned int &bufferIndex)
 {
     this->index = bufferIndex;

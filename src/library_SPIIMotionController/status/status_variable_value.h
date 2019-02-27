@@ -7,11 +7,9 @@
 #include "data/motion_profile_variable_state.h"
 #include "abstract_status.h"
 
-using namespace SPII;
-
 ECM_CLASS_FORWARD(Status_VariableValue);
 
-class Status_VariableValue : public SPII::AbstractStatus
+class Status_VariableValue : public AbstractStatus
 {
 public:
     Status_VariableValue();

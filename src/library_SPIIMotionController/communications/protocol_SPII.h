@@ -22,6 +22,7 @@
 #include "i_link.h"
 
 #include "common/commands/command_components.h"
+#include "../commands/spii_command_upload_program.h"
 
 namespace Comms
 {

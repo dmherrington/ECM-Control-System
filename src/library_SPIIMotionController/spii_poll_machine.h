@@ -25,9 +25,9 @@ public:
     virtual ~SPIIPollingEvents_Interface() = default;
 
 public:
-    virtual void SPIIPolling_PositionUpdate(const std::vector<SPII::Status_PositionPerAxis> &position) = 0;
-    virtual void SPIIPolling_AxisUpdate(const std::vector<SPII::Status_PerAxis> &axis) = 0;
-    virtual void SPIIPolling_MotorUpdate(const std::vector<SPII::Status_MotorPerAxis> &motor) = 0;
+    virtual void SPIIPolling_PositionUpdate(const std::vector<Status_PositionPerAxis> &position) = 0;
+    virtual void SPIIPolling_AxisUpdate(const std::vector<Status_PerAxis> &axis) = 0;
+    virtual void SPIIPolling_MotorUpdate(const std::vector<Status_MotorPerAxis> &motor) = 0;
 
 };
 
@@ -46,16 +46,16 @@ public:
 
     void updateCommsProtocol(std::shared_ptr<Comms::CommsMarshaler> commsLink);
 
-    void addRequest(const SPII::AbstractRequestPtr request, const int &period = 100);
+    void addRequest(const AbstractRequestPtr request, const int &period = 100);
     void removeRequest(const common::TupleECMData &tuple);
 
     void run();
 
 private:
-    void processRequest(SPII::AbstractRequestPtr request);
+    void processRequest(AbstractRequestPtr request);
 
 private:
-    void addRequestToQueue(const SPII::AbstractRequestPtr request, const int &period = 100);
+    void addRequestToQueue(const AbstractRequestPtr request, const int &period = 100);
 
     int greatestCommonDenominator(int a,int b) {
         int temp;
@@ -78,7 +78,7 @@ private:
     unsigned int timeout;
 
 private:
-    std::map<common::TupleECMData,SPII::AbstractRequestPtr> requestMap;
+    std::map<common::TupleECMData,AbstractRequestPtr> requestMap;
     std::map<common::TupleECMData,pollingTimeout> timeoutMap;
 
 protected:

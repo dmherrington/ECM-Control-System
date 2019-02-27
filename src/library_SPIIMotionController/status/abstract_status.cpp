@@ -1,7 +1,5 @@
 #include "abstract_status.h"
 
-namespace SPII {
-
 AbstractStatus::AbstractStatus(const StatusTypes &type):
     statusType(type)
 {
@@ -38,8 +36,6 @@ bool AbstractStatus::isStatusValid() const
 {
     return true;
 }
-
-} //end of namespace SPII
 
 //void AbstractStatus::setTupleDescription(const common::TupleECMData &tuple)
 //{

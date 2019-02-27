@@ -22,6 +22,7 @@
 
 enum class CommandType{
     ABSOLUTE_MOVE,
+    COMPILE_BUFFER,
     CLEAR_BIT,
     DOWNLOAD_PROGRAM,
     ESTOP,

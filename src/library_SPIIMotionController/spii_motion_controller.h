@@ -21,6 +21,8 @@
 #include "buffers/spii_buffer_manager.h"
 
 #include "states/state_components.h"
+#include "status/status_components.h"
+
 
 #include "spii_state_interface.h"
 #include "spii_device_interface_motion_control.h"
@@ -59,8 +61,8 @@ public:
 public:
     void cbi_AbstractSPIICommand(const AbstractCommandPtr command);
     void cbi_AbstractSPIIMotionCommand(const AbstractCommandPtr command);
-    void cbi_AbstractSPIIRequest(const SPII::AbstractRequestPtr request);
-    void cbi_AbstractSPIIAddPolled(const SPII::AbstractRequestPtr request, const int &period);
+    void cbi_AbstractSPIIRequest(const AbstractRequestPtr request);
+    void cbi_AbstractSPIIAddPolled(const AbstractRequestPtr request, const int &period);
     void cbi_AbstractSPIIRemovePolled(const common::TupleECMData &tuple);
     void cbi_SPIIControllerGains(const CommandControllerGain &gains);
 
@@ -74,15 +76,18 @@ public:
 
 
 private:
+    void NewBufferState(const Status_BufferState &state) override;
+
+private:
     void initializeMotionController();
 
 private:
 
-    void SPIIPolling_PositionUpdate(const std::vector<SPII::Status_PositionPerAxis> &position) override;
+    void SPIIPolling_PositionUpdate(const std::vector<Status_PositionPerAxis> &position) override;
 
-    void SPIIPolling_AxisUpdate(const std::vector<SPII::Status_PerAxis> &axis) override;
+    void SPIIPolling_AxisUpdate(const std::vector<Status_PerAxis> &axis) override;
 
-    void SPIIPolling_MotorUpdate(const std::vector<SPII::Status_MotorPerAxis> &motor) override;
+    void SPIIPolling_MotorUpdate(const std::vector<Status_MotorPerAxis> &motor) override;
 
 signals:
 
@@ -129,36 +134,11 @@ signals:
     void signal_MCNewVariablePlottable(const common::TupleProfileVariableString &variableTuple, const bool &on_off);
 
     //!
-    //! \brief signal_MCNewPoition
-    //! \param tuple
-    //! \param data
-    //!
-    void signal_MCNewPosition(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &data, const bool &valueChanged) const;
-
-    //!
     //! \brief signal_MCNewProfileVariableValue
     //! \param variableTuple
     //! \param data
     //!
     void signal_MCNewProfileVariableValue(const common::TupleProfileVariableString &variableTuple, const common_data::MotionProfileVariableState &data) const;
-
-    //!
-    //! \brief signal_MCNewProgramReceived
-    //! \param programText
-    //!
-    void signal_MCNewProgramReceived(const GalilCurrentProgram &program);
-
-    //!
-    //! \brief signal_MCNewProgramLabelList
-    //! \param labels
-    //!
-    void signal_MCNewProgramLabelList(const ProgramLabelList &labels);
-
-    //!
-    //! \brief signal_MCNewProgramVariableList
-    //! \param variableList
-    //!
-    void signal_MCNewProgramVariableList(const ProgramVariableList &variableList);
 
     void signal_GalilUpdatedProfileState(const MotionProfileState &state) const;
 

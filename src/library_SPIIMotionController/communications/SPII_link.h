@@ -76,7 +76,7 @@ private:
     QThread *m_ListenThread;
     HANDLE* m_SPII; /**< Member variable containing a pointer to the SPII interface */
 
-    bool connected;
+    bool connected = false;
 };
 
 } //end of namespace Comms

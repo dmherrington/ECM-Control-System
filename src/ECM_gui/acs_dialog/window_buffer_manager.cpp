@@ -40,10 +40,9 @@ void Window_BufferManager::setInitialBufferCount(const unsigned int &count, cons
     for(size_t index = 0; index < count; index++)
     {
         bool match = (index == dBuffer);
-        Widget_BufferDescriptor* tableDescriptor = new Widget_BufferDescriptor(index, match);
-        connect(tableDescriptor, SIGNAL(singal_OpenBufferCode(const unsigned int&)),
+        Widget_BufferDescriptor* tableDescriptor = new Widget_BufferDescriptor(m_SPIIDevice, index, match);
+        connect(tableDescriptor, SIGNAL(singal_DisplayBufferCode(const unsigned int&)),
                 this, SLOT(slot_OnDisplayBufferContents(const unsigned int&)));
-
 
         //connect(tableDescriptor,SIGNAL(signal_ExecuteExplicitProfileConfig(ECMCommand_AbstractProfileConfigPtr)),this,SLOT(slot_OnExecuteExplicitProfileConfig(ECMCommand_AbstractProfileConfigPtr)));
         QListWidgetItem* newItem = new QListWidgetItem();
@@ -66,7 +65,7 @@ void Window_BufferManager::slot_OnMCCommunicationUpdate(const common::comms::Com
     {
         unsigned int numAxis = 0, numBuffers = 0, dBufferIndex = 0;
         m_SPIIDevice->getSPIIProperties(numAxis, numBuffers, dBufferIndex);
-        setInitialBufferCount(numBuffers,dBufferIndex);
+        setInitialBufferCount(numBuffers + 1,dBufferIndex);
         break;
     }
     default:

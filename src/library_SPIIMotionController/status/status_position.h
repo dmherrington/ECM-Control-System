@@ -1,7 +1,6 @@
 #ifndef STATUS_POSITION_H
 #define STATUS_POSITION_H
 
-
 #include <map>
 
 #include "ACSC.h"
@@ -11,8 +10,6 @@
 #include "common/data_get_set_notifier.h"
 
 #include "status/abstract_status.h"
-
-namespace SPII {
 
 ECM_CLASS_FORWARD(Status_PositionPerAxis);
 class Status_PositionPerAxis : public AbstractStatus
@@ -105,7 +102,5 @@ public:
 private:
     std::map<MotorAxis, DataGetSetNotifier<Status_PositionPerAxis>*> m_PositionStatus;
 };
-
-}//end of namespace SPII
 
 #endif // STATUS_POSITION_H

@@ -11,8 +11,6 @@
 
 #include "status/abstract_status.h"
 
-namespace SPII {
-
 ECM_CLASS_FORWARD(Status_MotorPerAxis);
 class Status_MotorPerAxis : public AbstractStatus
 {
@@ -122,8 +120,6 @@ public:
 private:
     std::map<MotorAxis, DataGetSetNotifier<Status_MotorPerAxis>*> m_MotorStatus;
 };
-
-}//end of namespace SPII
 
 #endif // STATUS_MOTOR_H
 

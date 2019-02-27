@@ -6,9 +6,6 @@
 #include "requests/abstract_request.h"
 #include "status/status_variable_value.h"
 
-namespace SPII
-{
-
 ECM_CLASS_FORWARD(Request_TellVariable);
 
 class Request_TellVariable : public AbstractRequest
@@ -87,5 +84,4 @@ private:
     std::string unitName; /**< The variable unit that the data will be collected in */
 };
 
-} //end of namespace SPII
 #endif // REQUEST_TELL_VARIABLE_H

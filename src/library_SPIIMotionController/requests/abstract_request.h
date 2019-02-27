@@ -26,7 +26,6 @@
 \*
 \*
 \*/
-namespace SPII {
 
 ECM_CLASS_FORWARD(AbstractRequest);
 
@@ -123,6 +122,5 @@ protected:
     common::EnvironmentTime latestUpdate;
 
 };
-} //end of namespace SPII
 
 #endif // ABSTRACT_REQUEST_H

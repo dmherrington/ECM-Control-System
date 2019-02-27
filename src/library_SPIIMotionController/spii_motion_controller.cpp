@@ -3,7 +3,6 @@
 
 SPIIMotionController::SPIIMotionController()
 {
-
     std::vector<MotorAxis> availableAxis;
     availableAxis.push_back(MotorAxis::X);
 
@@ -11,7 +10,7 @@ SPIIMotionController::SPIIMotionController()
     m_CommsMarshaler->AddSubscriber(this);
 
     m_StateInterface = new SPIIStateInterface(availableAxis);
-    //m_StateInterface->connectCallback(this);
+    m_StateInterface->connectCallback(this);
 
     stateMachine = new hsm::StateMachine();
     stateMachine->Initialize<ECM::SPII::State_Idle>(m_StateInterface);
@@ -44,10 +43,15 @@ void SPIIMotionController::executeCustomCommands(const std::vector<std::string> 
 
 void SPIIMotionController::ConnectToSimulation()
 {
-    m_SPIIDevice = m_CommsMarshaler->ConnectToSimulation();
-    if(m_CommsMarshaler->isDeviceConnected())
+    if(m_CommsMarshaler->ConnectToSimulation(m_SPIIDevice))
     {
         initializeMotionController();
+
+        //Now we can notify the remaining parties that the
+        common::comms::CommunicationUpdate commsUpdate("Motion Controller Link");
+        commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
+        commsUpdate.setPeripheralMessage("SPII Motor Controller Connected.");
+        emit signal_MCCommunicationUpdate(commsUpdate);
     }
 }
 
@@ -82,8 +86,6 @@ void SPIIMotionController::getSPIIProperties(unsigned int &numAxis, unsigned int
     numBuffers = this->m_SPIIDevice.getBufferCount();
     dBufferIndex = this->m_SPIIDevice.getDBufferIndex();
 }
-
-
 
 
 //!
@@ -151,11 +153,11 @@ void SPIIMotionController::cbi_AbstractSPIIMotionCommand(const AbstractCommandPt
 {
 
 }
-void SPIIMotionController::cbi_AbstractSPIIRequest(const SPII::AbstractRequestPtr request)
+void SPIIMotionController::cbi_AbstractSPIIRequest(const AbstractRequestPtr request)
 {
 
 }
-void SPIIMotionController::cbi_AbstractSPIIAddPolled(const SPII::AbstractRequestPtr request, const int &period)
+void SPIIMotionController::cbi_AbstractSPIIAddPolled(const AbstractRequestPtr request, const int &period)
 {
 
 }
@@ -180,6 +182,7 @@ void SPIIMotionController::cbi_SPIIMotionProfileState(const MotionProfileState &
 {
 
 }
+
 void SPIIMotionController::cbi_SPIINewMachineState(const ECM::SPII::SPIIState &state)
 {
 
@@ -187,15 +190,16 @@ void SPIIMotionController::cbi_SPIINewMachineState(const ECM::SPII::SPIIState &s
 
 void SPIIMotionController::cbi_SPIIUploadProgram(const AbstractCommandPtr command)
 {
-
+    m_CommsMarshaler->sendAbstractSPIICommand(command);
 }
+
 void SPIIMotionController::cbi_SPIIDownloadProgram(const AbstractCommandPtr command)
 {
 
 }
 
 
-void SPIIMotionController::SPIIPolling_AxisUpdate(const std::vector<SPII::Status_PerAxis> &axis)
+void SPIIMotionController::SPIIPolling_AxisUpdate(const std::vector<Status_PerAxis> &axis)
 {
     m_StateInterface->m_AxisStatus->updateAxisStatus(axis);
 
@@ -223,12 +227,12 @@ void SPIIMotionController::SPIIPolling_AxisUpdate(const std::vector<SPII::Status
     */
 }
 
-void SPIIMotionController::SPIIPolling_MotorUpdate(const std::vector<SPII::Status_MotorPerAxis> &motor)
+void SPIIMotionController::SPIIPolling_MotorUpdate(const std::vector<Status_MotorPerAxis> &motor)
 {
     m_StateInterface->m_MotorStatus->updateMotorStatus(motor);
 }
 
-void SPIIMotionController::SPIIPolling_PositionUpdate(const std::vector<SPII::Status_PositionPerAxis> &position)
+void SPIIMotionController::SPIIPolling_PositionUpdate(const std::vector<Status_PositionPerAxis> &position)
 {
     m_StateInterface->m_AxisPosition->updatePositionStatus(position);
 }
@@ -252,6 +256,12 @@ std::vector<common::TupleECMData> SPIIMotionController::getPlottables() const
     rtn.push_back(varString);
 
     return rtn;
+}
+
+
+void SPIIMotionController::NewBufferState(const Status_BufferState &state)
+{
+
 }
 
 

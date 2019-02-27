@@ -30,17 +30,17 @@ public:
     bool commandMotorEnable(const CommandMotorEnable &enable);
 
 public:
-    std::vector<SPII::Status_PerAxis> requestAxisState(const SPII::RequestAxisStatus* request);
+    std::vector<Status_PerAxis> requestAxisState(const RequestAxisStatus* request);
 
-    std::vector<SPII::Status_MotorPerAxis> requestMotorState(const SPII::RequestMotorStatus* request);
+    std::vector<Status_MotorPerAxis> requestMotorState(const RequestMotorStatus* request);
 
-    std::vector<SPII::Status_PositionPerAxis> requestPosition(const SPII::RequestTellPosition* request);
+    std::vector<Status_PositionPerAxis> requestPosition(const RequestTellPosition* request);
 
     //////////////////////////////////////////////////////////////
     /// Connect/Disconnect from SPII Methods
     //////////////////////////////////////////////////////////////
 
-    SPII_Settings ConnectToSimulation();
+    bool ConnectToSimulation(SPII_Settings &deviceSettings);
     SPII_Settings ConnectToSerialPort(const common::comms::SerialConfiguration &linkConfig);
     SPII_Settings ConnectToEthernetPort(const common::comms::TCPConfiguration &linkConfig);
     SPII_Settings ConnectToPCIPort(const ACSC_PCI_SLOT &linkConfig);
@@ -74,6 +74,9 @@ private:
     //////////////////////////////////////////////////////////////
 
     void ConnectionUpdate(const common::comms::CommunicationUpdate &update) const override;
+
+    void NewBufferState(const Status_BufferState &state)const override;
+
 
 private:
     std::shared_ptr<ILink> link;

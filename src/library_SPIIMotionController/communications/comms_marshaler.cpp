@@ -24,10 +24,8 @@ CommsMarshaler::CommsMarshaler()
 /// Connect/Disconnect from Galil Methods
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-SPII_Settings CommsMarshaler::ConnectToSimulation()
+bool CommsMarshaler::ConnectToSimulation(SPII_Settings &deviceSettings)
 {
-    SPII_Settings deviceSettings;
-
     HANDLE* commsLink = nullptr;
 
     link->SetSimulationConnection();
@@ -41,12 +39,12 @@ SPII_Settings CommsMarshaler::ConnectToSimulation()
         if(protocol->requestNumberofAxes(numberOfAxis))
             deviceSettings.setAxisCount(static_cast<unsigned int>(numberOfAxis));
         if(protocol->requestDBufferIndex(dBufferIndex))
-            deviceSettings.setAxisCount(static_cast<unsigned int>(numberOfAxis));
+            deviceSettings.setDBufferIndex(static_cast<unsigned int>(dBufferIndex));
         if(protocol->requestNumberofBuffers(numOfBuffers))
-            deviceSettings.setAxisCount(static_cast<unsigned int>(numOfBuffers));
+            deviceSettings.setBufferCount(static_cast<unsigned int>(numOfBuffers));
     }
 
-    return deviceSettings;
+    return link->isConnected();
 }
 
 SPII_Settings CommsMarshaler::ConnectToSerialPort(const common::comms::SerialConfiguration &linkConfig)
@@ -234,9 +232,9 @@ bool CommsMarshaler::commandMotorEnable(const CommandMotorEnable &enable)
     return protocol->commandMotorEnable(enable);
 }
 
-std::vector<SPII::Status_PerAxis> CommsMarshaler::requestAxisState(const SPII::RequestAxisStatus* request)
+std::vector<Status_PerAxis> CommsMarshaler::requestAxisState(const RequestAxisStatus* request)
 {
-    std::vector<SPII::Status_PerAxis> rtnAxis;
+    std::vector<Status_PerAxis> rtnAxis;
     if(!link->isConnected())
         return rtnAxis;
 
@@ -256,9 +254,9 @@ std::vector<SPII::Status_PerAxis> CommsMarshaler::requestAxisState(const SPII::R
     return rtnAxis;
 }
 
-std::vector<SPII::Status_MotorPerAxis> CommsMarshaler::requestMotorState(const SPII::RequestMotorStatus* request)
+std::vector<Status_MotorPerAxis> CommsMarshaler::requestMotorState(const RequestMotorStatus* request)
 {
-    std::vector<SPII::Status_MotorPerAxis> rtnMotor;
+    std::vector<Status_MotorPerAxis> rtnMotor;
     if(!link->isConnected())
         return rtnMotor;
 
@@ -279,9 +277,9 @@ std::vector<SPII::Status_MotorPerAxis> CommsMarshaler::requestMotorState(const S
     return rtnMotor;
 }
 
-std::vector<SPII::Status_PositionPerAxis> CommsMarshaler::requestPosition(const SPII::RequestTellPosition* request)
+std::vector<Status_PositionPerAxis> CommsMarshaler::requestPosition(const RequestTellPosition* request)
 {
-    std::vector<SPII::Status_PositionPerAxis> rtnPosition;
+    std::vector<Status_PositionPerAxis> rtnPosition;
     if(!link->isConnected())
         return rtnPosition;
 
@@ -299,6 +297,11 @@ std::vector<SPII::Status_PositionPerAxis> CommsMarshaler::requestPosition(const 
         }
     }
     return rtnPosition;
+}
+
+void CommsMarshaler::NewBufferState(const Status_BufferState &state) const
+{
+
 }
 
 template void CommsMarshaler::SendSPIIMessage<double>(const double&);

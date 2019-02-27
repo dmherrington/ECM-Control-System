@@ -1,7 +1,5 @@
 #include "status_axis.h"
 
-namespace SPII{
-
 Status_PerAxis::Status_PerAxis():
     AbstractStatus(StatusTypes::STATUS_PER_AXIS)
 {
@@ -125,5 +123,3 @@ Status_Axis* Status_Axis::getAxisStatus(const MotorAxis &axis)
 {
 
 }
-
-} //end of namespace SPII

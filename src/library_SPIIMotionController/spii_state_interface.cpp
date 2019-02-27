@@ -7,11 +7,11 @@ SPIIStateInterface::SPIIStateInterface(const std::vector<MotorAxis> &availableAx
 
     m_MasterVariableValues = new BufferVariableValues();
 
-    m_AxisStatus = new SPII::Status_Axis();
+    m_AxisStatus = new Status_Axis();
 
-    m_MotorStatus = new SPII::Status_Motor();
+    m_MotorStatus = new Status_Motor();
 
-    m_AxisPosition = new SPII::Status_Position();
+    m_AxisPosition = new Status_Position();
 
 }
 
@@ -20,7 +20,7 @@ SPIIStateInterface::~SPIIStateInterface()
 
 }
 
-SPII::Status_PerAxis* SPIIStateInterface::getAxisStatus(const MotorAxis &axis)
+Status_PerAxis* SPIIStateInterface::getAxisStatus(const MotorAxis &axis)
 {
 
 }

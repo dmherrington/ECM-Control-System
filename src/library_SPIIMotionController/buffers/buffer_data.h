@@ -13,6 +13,10 @@ public:
     ~BufferData();
 
 public:
+
+    std::string setBufferName(const std::string &value);
+    std::string getBufferName() const;
+
     void setBufferIndex(const unsigned int &bufferIndex);
 
     void updateLineCount(const unsigned int &count);
@@ -38,6 +42,9 @@ public:
 
 private:
     unsigned int index = 0;
+
+    std::string bufferName = "";
+    bool lockBufferName = false;
 
     bool dBuffer = false;
 

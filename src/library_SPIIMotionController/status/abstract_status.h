@@ -8,7 +8,6 @@
 #include "common/tuple_ecm_data.h"
 
 #include "status/status_types.h"
-namespace SPII {
 
 ECM_CLASS_FORWARD(AbstractStatus);
 class AbstractStatus
@@ -92,7 +91,5 @@ protected:
     StatusTypes statusType;
     common::EnvironmentTime latestUpdate;
 };
-
-} //end of namespace SPII
 
 #endif // SPII_ABSTRACT_STATUS_H

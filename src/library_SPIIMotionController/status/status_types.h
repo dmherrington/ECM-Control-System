@@ -20,8 +20,6 @@
 \*
 \*/
 
-namespace SPII {
-
 enum class StatusTypes{
     STATUS_CUSTOM_REQUEST = 0,
     STATUS_POSITION = 1,
@@ -35,10 +33,8 @@ enum class StatusTypes{
     STATUS_TELLINPUTS = 9,
     STATUS_LABELLIST = 10,
     STATUS_VARIABLEVALUE = 11,
-    STATUS_VARIABLELIST = 12
+    STATUS_VARIABLELIST = 12,
+    STATUS_BUFFERSTATE = 13
 };
-
-} //end of namespace SPII
-
 
 #endif // GALIL_STATUS_TYPES_H

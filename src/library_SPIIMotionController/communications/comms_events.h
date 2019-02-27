@@ -6,6 +6,8 @@
 
 #include "common/comms/communication_update.h"
 
+#include "status/status_components.h"
+
 namespace Comms
 {
 
@@ -31,6 +33,11 @@ public:
     {
         UNUSED(request);
         UNUSED(response);
+    }
+
+    virtual void NewBufferState(const Status_BufferState &state)
+    {
+        UNUSED(state);
     }
 
 };

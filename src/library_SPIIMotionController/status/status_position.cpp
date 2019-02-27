@@ -1,7 +1,5 @@
 #include "status_position.h"
 
-namespace SPII{
-
 Status_PositionPerAxis::Status_PositionPerAxis():
     AbstractStatus(StatusTypes::STATUS_POSITION)
 {
@@ -90,6 +88,4 @@ DataGetSetNotifier<Status_PositionPerAxis>* Status_Position::getAxisPositionNoti
 {
     return this->m_PositionStatus.at(axis);
 }
-
-} //end of namespace SPII
 

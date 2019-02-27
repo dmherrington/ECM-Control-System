@@ -4,6 +4,7 @@
 #include <QWidget>
 
 #include "library_SPIIMotionController/buffers/buffer_data.h"
+#include "library_SPIIMotionController/communications/comms_marshaler.h"
 
 #include "widget_buffer_editor.h"
 
@@ -16,7 +17,7 @@ class Widget_BufferDescriptor : public QWidget
     Q_OBJECT
 
 public:
-    explicit Widget_BufferDescriptor(const unsigned int &bufferIndex = 0, const bool &isDBuffer = false, QWidget *parent = nullptr);
+    explicit Widget_BufferDescriptor(SPIIMotionController *motionControlObject, const unsigned int &bufferIndex = 0, const bool &isDBuffer = false, QWidget *parent = nullptr);
     ~Widget_BufferDescriptor();
 
 public:
@@ -28,21 +29,19 @@ public:
     void updateBufferIndex(const unsigned int &index);
 
 signals:
-    void singal_OpenBufferCode(const unsigned int &index);
+    void singal_DisplayBufferCode(const unsigned int &index);
 
 private slots:
     void slot_UpdateBufferName(const std::string &name);
     void slot_UpdateBufferLineCount(const unsigned int &count);
 
-    void on_pushButton_released();
+    void on_pushButton_DisplayBuffer_released();
 
 private:
     Ui::Widget_BufferDescriptor *ui;
 
 private:
     Widget_BufferEditor* m_BufferEditor;
-
-    BufferData* m_Data;
 
     bool isOpen = false;
 };

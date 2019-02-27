@@ -1,7 +1,5 @@
 #include "request_tell_position.h"
 
-namespace SPII {
-
 RequestTellPosition::RequestTellPosition(const MotorAxis &axis):
     AbstractRequest(RequestTypes::TELL_POSITION,20)
 {
@@ -42,7 +40,4 @@ std::list<MotorAxis> RequestTellPosition::getAxis() const
 {
     return tellAxis;
 }
-
-
-} //end of namespace SPII
 

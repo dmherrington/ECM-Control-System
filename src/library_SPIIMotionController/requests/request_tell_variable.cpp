@@ -1,7 +1,5 @@
 #include "request_tell_variable.h"
 
-namespace SPII {
-
 Request_TellVariable::Request_TellVariable(const std::string &humName, const std::string &varName, const std::string &unit):
     AbstractRequest(RequestTypes::TELL_VARIABLE), humanName(humName), variableName(varName), unitName(unit)
 {
@@ -93,5 +91,3 @@ std::vector<AbstractStatusPtr> Request_TellVariable::getStatus() const
 
     return rtn;
 }
-
-} //end of namespace SPII

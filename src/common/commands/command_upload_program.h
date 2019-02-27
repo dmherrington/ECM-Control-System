@@ -38,16 +38,18 @@ public:
      * @brief getClone
      * @return
      */
-    AbstractCommand* getClone() const override;
+    virtual AbstractCommand* getClone() const override;
 
     /**
      * @brief getClone
      * @param state
      */
-    void getClone(AbstractCommand** state) const override;
+    virtual void getClone(AbstractCommand** state) const override;
 
 public:
     void setCurrentScript(const std::string &text);
+
+    std::string getCurrentScript() const;
 
 public:
     //!
@@ -65,6 +67,7 @@ public:
     CommandUploadProgram& operator = (const CommandUploadProgram &rhs)
     {
         AbstractCommand::operator =(rhs);
+        this->programText = rhs.programText;
         return *this;
     }
 
@@ -78,6 +81,9 @@ public:
         if(!AbstractCommand::operator ==(rhs)){
             return false;
         }
+        if(this->programText != rhs.programText){
+            return false;
+        }
         return true;
     }
 
@@ -89,6 +95,9 @@ public:
     bool operator != (const CommandUploadProgram &rhs) {
         return !(*this == rhs);
     }
+
+private:
+    std::string programText = "";
 };
 
 #endif // COMMAND_UPLOAD_PROGRAM_H

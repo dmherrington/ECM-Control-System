@@ -143,19 +143,14 @@ bool SPIILink::Connect(HANDLE* link)
                 std::string errorString(errorBuf);
                 commsUpdate.setPeripheralMessage(errorString);
             }
-
         }
+        EmitEvent([commsUpdate](const ILinkEvents *ptr){ptr->ConnectionUpdate(commsUpdate);});
     }
     else
     {
         link = m_SPII;
         this->connected = true;
-        commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
-        commsUpdate.setPeripheralMessage("SPII Motor Controller Connected.");
     }
-
-    EmitEvent([commsUpdate](const ILinkEvents *ptr){ptr->ConnectionUpdate(commsUpdate);});
-
     return this->connected;
 }
 

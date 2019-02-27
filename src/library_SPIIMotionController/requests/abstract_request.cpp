@@ -1,7 +1,5 @@
 #include "abstract_request.h"
 
-namespace SPII {
-
 AbstractRequest::AbstractRequest(const RequestTypes &type, const unsigned int &respSize)
 {
     this->requestType = type;
@@ -50,5 +48,3 @@ void AbstractRequest::increaseBufferSize()
 {
     bufferSize+=bufferSize;
 }
-
-} //end of namespace SPII

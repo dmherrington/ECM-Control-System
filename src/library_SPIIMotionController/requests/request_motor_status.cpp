@@ -1,7 +1,5 @@
 #include "request_motor_status.h"
 
-namespace SPII {
-
 RequestMotorStatus::RequestMotorStatus(const MotorAxis &axis):
     AbstractRequest(RequestTypes::TELL_MOTOR,20)
 {
@@ -42,6 +40,3 @@ std::list<MotorAxis> RequestMotorStatus::getAxis() const
 {
     return tellAxis;
 }
-
-
-} //end of namespace SPII

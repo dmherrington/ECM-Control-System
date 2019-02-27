@@ -9,9 +9,6 @@
 #include "requests/abstract_request.h"
 #include "common/class_forward.h"
 
-namespace SPII
-{
-
 ECM_CLASS_FORWARD(RequestAxisStatus);
 
 class RequestAxisStatus : public AbstractRequest
@@ -31,7 +28,7 @@ public:
      * @brief getClone
      * @return
      */
-    SPII::AbstractRequest* getClone() const override;
+    AbstractRequest* getClone() const override;
 
     /**
      * @brief getClone
@@ -56,8 +53,5 @@ private:
     std::list<MotorAxis> tellAxis; /**< Value of the axis to be position requested */
 
 };
-
-} //end of namespace SPII
-
 
 #endif // REQUEST_AXIS_STATUS_H

@@ -30,5 +30,10 @@ std::string CommandUploadProgram::getCommandString() const
 
 void CommandUploadProgram::setCurrentScript(const std::string &text)
 {
+    this->programText = text;
+}
 
+std::string CommandUploadProgram::getCurrentScript() const
+{
+    return this->programText;
 }

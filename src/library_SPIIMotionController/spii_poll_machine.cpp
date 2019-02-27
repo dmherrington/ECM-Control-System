@@ -17,9 +17,9 @@ void SPIIPollMachine::beginPolling()
     this->start();
 }
 
-void SPIIPollMachine::addRequestToQueue(const SPII::AbstractRequestPtr request, const int &period)
+void SPIIPollMachine::addRequestToQueue(const AbstractRequestPtr request, const int &period)
 {
-    std::pair<std::map<common::TupleECMData,SPII::AbstractRequestPtr>::iterator,bool> ret;
+    std::pair<std::map<common::TupleECMData,AbstractRequestPtr>::iterator,bool> ret;
     auto dataPair = std::make_pair(0.0,period);
     requestMap[request->getTupleDescription()] = request;
     timeoutMap[request->getTupleDescription()] = dataPair;
@@ -35,7 +35,7 @@ void SPIIPollMachine::addRequestToQueue(const SPII::AbstractRequestPtr request, 
 
 }
 
-void SPIIPollMachine::addRequest(const SPII::AbstractRequestPtr request, const int &period)
+void SPIIPollMachine::addRequest(const AbstractRequestPtr request, const int &period)
 {
     if(isThreadActive())
     {
@@ -125,29 +125,29 @@ void SPIIPollMachine::run()
     }
 }
 
-void SPIIPollMachine::processRequest(SPII::AbstractRequestPtr request)
+void SPIIPollMachine::processRequest(AbstractRequestPtr request)
 {
     switch (request->getRequestType()) {
     case RequestTypes::TELL_AXIS:
     {
-        const SPII::RequestAxisStatus* currentRequest = request->as<SPII::RequestAxisStatus>();
-        std::vector<SPII::Status_PerAxis> updatedStatus = m_SPIIDevice->requestAxisState(currentRequest);
+        const RequestAxisStatus* currentRequest = request->as<RequestAxisStatus>();
+        std::vector<Status_PerAxis> updatedStatus = m_SPIIDevice->requestAxisState(currentRequest);
         if(updatedStatus.size() > 0)
             Emit([&](SPIIPollingEvents_Interface *ptr){ptr->SPIIPolling_AxisUpdate(updatedStatus);});
         break;
     }
     case RequestTypes::TELL_MOTOR:
     {
-        const SPII::RequestMotorStatus* currentRequest = request->as<SPII::RequestMotorStatus>();
-        std::vector<SPII::Status_MotorPerAxis> updatedStatus = m_SPIIDevice->requestMotorState(currentRequest);
+        const RequestMotorStatus* currentRequest = request->as<RequestMotorStatus>();
+        std::vector<Status_MotorPerAxis> updatedStatus = m_SPIIDevice->requestMotorState(currentRequest);
         if(updatedStatus.size() > 0)
             Emit([&](SPIIPollingEvents_Interface *ptr){ptr->SPIIPolling_MotorUpdate(updatedStatus);});
         break;
     }
     case RequestTypes::TELL_POSITION:
     {
-        const SPII::RequestTellPosition* currentRequest = request->as<SPII::RequestTellPosition>();
-        std::vector<SPII::Status_PositionPerAxis> updatedStatus = m_SPIIDevice->requestPosition(currentRequest);
+        const RequestTellPosition* currentRequest = request->as<RequestTellPosition>();
+        std::vector<Status_PositionPerAxis> updatedStatus = m_SPIIDevice->requestPosition(currentRequest);
         if(updatedStatus.size() > 0)
             Emit([&](SPIIPollingEvents_Interface *ptr){ptr->SPIIPolling_PositionUpdate(updatedStatus);});
         break;
