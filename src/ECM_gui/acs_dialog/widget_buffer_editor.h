@@ -30,6 +30,17 @@ public:
 
     void updateProgramText(const std::string &text);
 
+public:
+    void updateCurrentLED(const bool &current);
+
+    void updateCompiledLED(const bool &compiled);
+
+    void updateBufferName(const std::string &name = "");
+
+    void updateBufferIndex(const unsigned int &index);
+
+    void updateCodeText(const std::string &programText);
+
 private slots:
 
     void on_lineEdit_BufferName_textChanged(const QString &arg1);
@@ -43,17 +54,6 @@ private slots:
     void on_pushButton_Execute_released();
 
     void on_pushButton_Clear_released();
-
-private:
-    void updateCurrentLED(const bool &current);
-
-    void updateCompiledLED(const bool &compiled);
-
-    void updateBufferName(const std::string &name = "");
-
-    void updateBufferIndex(const unsigned int &index);
-
-    void updateCodeText(const std::string &programText);
 
 signals:
     void signal_BufferNameChanged(const std::string &name);

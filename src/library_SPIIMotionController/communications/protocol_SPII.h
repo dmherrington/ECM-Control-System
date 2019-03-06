@@ -64,6 +64,8 @@ public:
 
     bool bufferStop(const unsigned int &index);
 
+    int checkForBufferCompilation(const unsigned int &index);
+
 public:
     void updateDeviceSettings(const SPII_Settings &settings);
 

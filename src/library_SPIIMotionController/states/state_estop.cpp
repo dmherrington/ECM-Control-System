@@ -6,6 +6,7 @@ namespace SPII {
 State_EStop::State_EStop():
     AbstractStateSPII()
 {
+    std::cout<<"We are in the EStop State"<<std::endl;
     this->currentState = SPIIState::STATE_ESTOP;
     this->desiredState = SPIIState::STATE_ESTOP;
 }

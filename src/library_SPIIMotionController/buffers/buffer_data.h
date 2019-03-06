@@ -10,7 +10,7 @@ class BufferData
 public:
     BufferData(const unsigned int &bufferIndex = 0, const bool &dBuffer = false);
 
-    ~BufferData();
+    ~BufferData() = default;
 
 public:
 

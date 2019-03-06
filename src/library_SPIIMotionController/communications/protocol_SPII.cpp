@@ -88,7 +88,16 @@ void SPIIProtocol::SendProtocolCommand(const AbstractCommandPtr command)
         SPIICommand_UploadProgram* uploadProgram = command->as<SPIICommand_UploadProgram>();
         bool uploadSuccessful = bufferUpload(uploadProgram->getBufferIndex(), uploadProgram->getCurrentScript());
         if(uploadSuccessful && (uploadProgram->shouldCompileImmediately()))
-            bufferCompile(uploadProgram->getBufferIndex());
+            if(bufferCompile(uploadProgram->getBufferIndex()))
+            {
+                int compileError = checkForBufferCompilation(uploadProgram->getBufferIndex());
+                int bufferSent = 100, bufferReceived = 100;
+                char errorBuf[bufferSent];
+                acsc_GetErrorString(*m_SPIIDevice.get(),compileError,errorBuf,bufferSent,&bufferReceived);
+                std::string errorString(errorBuf);
+                errorString = errorString.substr(0,bufferReceived);
+                std::cout<<"The error string seen here is: "<<errorString<<std::endl;
+            }
         break;
     }
     default:
@@ -198,7 +207,7 @@ bool SPIIProtocol::commandJogMotion(const CommandJog &jog)
     {
         //this would be a multiaxis jog
         //for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-           //std::cout << it->first << " => " << it->second << '\n';
+        //std::cout << it->first << " => " << it->second << '\n';
         //rtnValidity = acsc_JogM(*m_SPIIDevice.get(),&index,ACSC_SYNCHRONOUS);
     }
     else if(jogActionMap.size() == 1)
@@ -286,6 +295,18 @@ bool SPIIProtocol::bufferCompile(const unsigned int &index)
 
     Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewBufferState(newState);});
     return validCompile;
+}
+
+int SPIIProtocol::checkForBufferCompilation(const unsigned int &index)
+{
+    if(m_SPIIDevice == nullptr)
+        return false;
+    int bufferError[1];
+    bool validRequest = acsc_ReadInteger(*m_SPIIDevice, ACSC_NONE, "PERR", static_cast<int>(index),static_cast<int>(index),ACSC_NONE,ACSC_NONE,bufferError,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+    if(validRequest)
+        return bufferError[0];
+
+    return -1;
 }
 
 bool SPIIProtocol::bufferRun(const unsigned int &index, const std::string &label)

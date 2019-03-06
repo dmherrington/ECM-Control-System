@@ -32,7 +32,7 @@ private:
     unsigned int maxBufferSize;
 
 private:
-    std::map<unsigned int, BufferData> m_ProgramBuffers;
+    std::map<unsigned int, BufferData*> m_ProgramBuffers;
 
 };
 

@@ -7,8 +7,9 @@ BufferManager::BufferManager()
 
 void BufferManager::setDBufferIndex(const unsigned int &index)
 {
-
+    m_ProgramBuffers.at(index)->setIsDBuffer(true);
 }
+
 unsigned int BufferManager::getDBufferIndex() const
 {
 
@@ -16,11 +17,17 @@ unsigned int BufferManager::getDBufferIndex() const
 
 void BufferManager::setMaxBufferSize(const unsigned int &numBuffers)
 {
+    m_ProgramBuffers.clear();
 
+    for(size_t index = 0; index < numBuffers; index++)
+    {
+        BufferData* newData = new BufferData(index);
+        m_ProgramBuffers.insert(std::pair<unsigned int, BufferData*>(index,newData));
+    }
 }
 unsigned int BufferManager::getBufferSize() const
 {
-
+    return m_ProgramBuffers.size();
 }
 
 void BufferManager::updateBufferData(const unsigned int &bufferIndex, const BufferData &data)

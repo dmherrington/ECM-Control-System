@@ -45,6 +45,9 @@ void SPIIMotionController::ConnectToSimulation()
 {
     if(m_CommsMarshaler->ConnectToSimulation(m_SPIIDevice))
     {
+        m_StateInterface->m_BufferManager->setMaxBufferSize(m_SPIIDevice.getBufferCount() + 1);
+        m_StateInterface->m_BufferManager->setDBufferIndex(m_SPIIDevice.getDBufferIndex());
+
         initializeMotionController();
 
         //Now we can notify the remaining parties that the

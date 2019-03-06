@@ -68,7 +68,9 @@ bool SPIIStateInterface::isMotorEnabled() const
 
 bool SPIIStateInterface::isEStopEngaged() const
 {
+    bool EStopEngaged = false;
 
+    return EStopEngaged;
 }
 
 

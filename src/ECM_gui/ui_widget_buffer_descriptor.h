@@ -35,7 +35,7 @@ public:
     QSpacerItem *horizontalSpacer_2;
     QLabel *label_Lines;
     QSpacerItem *horizontalSpacer_3;
-    LED *led_ProgramChanges;
+    LED *led_ProgramChanged;
     QSpacerItem *horizontalSpacer_4;
     LED *led_ProgramCompiled;
     QSpacerItem *horizontalSpacer_5;
@@ -117,14 +117,14 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer_3);
 
-        led_ProgramChanges = new LED(Widget_BufferDescriptor);
-        led_ProgramChanges->setObjectName(QStringLiteral("led_ProgramChanges"));
-        sizePolicy.setHeightForWidth(led_ProgramChanges->sizePolicy().hasHeightForWidth());
-        led_ProgramChanges->setSizePolicy(sizePolicy);
-        led_ProgramChanges->setMinimumSize(QSize(20, 20));
-        led_ProgramChanges->setMaximumSize(QSize(20, 20));
+        led_ProgramChanged = new LED(Widget_BufferDescriptor);
+        led_ProgramChanged->setObjectName(QStringLiteral("led_ProgramChanged"));
+        sizePolicy.setHeightForWidth(led_ProgramChanged->sizePolicy().hasHeightForWidth());
+        led_ProgramChanged->setSizePolicy(sizePolicy);
+        led_ProgramChanged->setMinimumSize(QSize(20, 20));
+        led_ProgramChanged->setMaximumSize(QSize(20, 20));
 
-        horizontalLayout->addWidget(led_ProgramChanges);
+        horizontalLayout->addWidget(led_ProgramChanged);
 
         horizontalSpacer_4 = new QSpacerItem(13, 13, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
