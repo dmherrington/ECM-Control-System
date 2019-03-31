@@ -20,6 +20,45 @@ void SPIIProtocol::updateDeviceSettings(const SPII_Settings &settings)
     m_SPIIDevice = settings.getDeviceHandle();
 }
 
+BufferLabelValues SPIIProtocol::updateBufferLabels()
+{
+    BufferLabelValues labels;
+
+}
+
+BufferVariableValues SPIIProtocol::updateBufferVariables(const unsigned int &bufferIndex)
+{
+    BufferVariableValues vars;
+
+}
+
+void SPIIProtocol::uploadProgramToBuffer(const SPIICommand_UploadProgram *uploadProgram)
+{
+    Status_BufferState newBufferState;
+    newBufferState.setBufferIndex(uploadProgram->getBufferIndex());
+    newBufferState.setProgramString(uploadProgram->getCurrentScript());
+
+    bool uploadSuccessful = bufferUpload(uploadProgram->getBufferIndex(), uploadProgram->getCurrentScript());
+
+    if(uploadSuccessful && (uploadProgram->shouldCompileImmediately()))
+    {
+        if(bufferCompile(uploadProgram->getBufferIndex(), newBufferState))
+        {
+            //there was no error and therefore we can resume
+            //If we basically had uploaded and compiled the DBuffer, we are going to reset all of the available variables
+            if(m_SPIISettings.getDBufferIndex() == uploadProgram->getBufferIndex())
+            {
+                updateBufferVariables(uploadProgram->getBufferIndex());
+            }
+            //If we had uploaded and compiled the buffer containing the labels, let us regrab all of the labels
+            else if(m_SPIISettings.getLabelBufferIndex() == uploadProgram->getBufferIndex())
+            {
+                updateBufferVariables(uploadProgram->getBufferIndex());
+            }
+        }
+    }
+}
+
 bool SPIIProtocol::requestPosition(const int &axisRequest, double &value)
 {
     if(m_SPIIDevice == nullptr)
@@ -86,18 +125,23 @@ void SPIIProtocol::SendProtocolCommand(const AbstractCommandPtr command)
     case CommandType::UPLOAD_PROGRAM:
     {
         SPIICommand_UploadProgram* uploadProgram = command->as<SPIICommand_UploadProgram>();
-        bool uploadSuccessful = bufferUpload(uploadProgram->getBufferIndex(), uploadProgram->getCurrentScript());
-        if(uploadSuccessful && (uploadProgram->shouldCompileImmediately()))
-            if(bufferCompile(uploadProgram->getBufferIndex()))
-            {
-                int compileError = checkForBufferCompilation(uploadProgram->getBufferIndex());
-                int bufferSent = 100, bufferReceived = 100;
-                char errorBuf[bufferSent];
-                acsc_GetErrorString(*m_SPIIDevice.get(),compileError,errorBuf,bufferSent,&bufferReceived);
-                std::string errorString(errorBuf);
-                errorString = errorString.substr(0,bufferReceived);
-                std::cout<<"The error string seen here is: "<<errorString<<std::endl;
-            }
+        uploadProgramToBuffer(uploadProgram);
+        break;
+    }
+    case CommandType::MOTOR_ON:
+    {
+        CommandMotorEnable* commandEnable = command->as<CommandMotorEnable>();
+        commandMotorEnable(*commandEnable);
+        break;
+    }
+    case CommandType::MOTOR_OFF:
+    {
+        CommandMotorDisable* commandDisable = command->as<CommandMotorDisable>();
+        commandMotorDisable(*commandDisable);
+        break;
+    }
+    case CommandType::JOG_MOVE:
+    {
         break;
     }
     default:
@@ -115,6 +159,20 @@ void SPIIProtocol::SendProtocolMotionCommand(const AbstractCommandPtr command)
 void SPIIProtocol::SendCustomProtocolCommand(const std::vector<std::string> &stringCommands)
 {
 
+}
+
+bool SPIIProtocol::WriteVariableValue(const Command_Variable &value)
+{
+    bool rtnValidity = false;
+
+    double values[1] = {value.getVariableValue()};
+
+    char ctext[value.getVariableName().size()];
+    strcpy(ctext, value.getVariableName().c_str());
+
+    rtnValidity = acsc_WriteReal(*m_SPIIDevice.get(),ACSC_NONE,ctext,0,0,ACSC_NONE,ACSC_NONE,values,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+
+    return rtnValidity;
 }
 
 bool SPIIProtocol::commandMotorEnable(const CommandMotorEnable &enable)
@@ -238,6 +296,10 @@ bool SPIIProtocol::commandKillMotion(const CommandStop &stop)
     return rtnValidity;
 }
 
+bool SPIIProtocol::programUpload(const CommandUploadProgram &program)
+{
+
+}
 
 bool SPIIProtocol::bufferUpload(const unsigned int &index, const std::string &text)
 {
@@ -270,12 +332,11 @@ bool SPIIProtocol::bufferUpload(const unsigned int &index, const std::string &te
     return validUpload;
 }
 
-bool SPIIProtocol::bufferCompile(const unsigned int &index)
+bool SPIIProtocol::bufferCompile(const unsigned int &index, Status_BufferState &newState)
 {
     if(m_SPIIDevice == nullptr)
         return false;
 
-    Status_BufferState newState;
     newState.setBufferIndex(index);
 
     bool validCompile = acsc_CompileBuffer(*m_SPIIDevice.get(), static_cast<int>(index), static_cast<LP_ACSC_WAITBLOCK>(nullptr));
@@ -287,10 +348,16 @@ bool SPIIProtocol::bufferCompile(const unsigned int &index)
         int bufferSent = 100, bufferReceived = 100;
         char errorBuf[bufferSent];
 
-        int errorCode = acsc_GetLastError();
-        acsc_GetErrorString(*m_SPIIDevice.get(),errorCode,errorBuf,bufferSent,&bufferReceived);
-        std::string errorString(errorBuf);
-        newState.setErrorString(errorString);
+        int errorCode = checkForBufferCompilation(index);
+        if(errorCode != 0)
+        {
+            acsc_GetErrorString(*m_SPIIDevice.get(),errorCode,errorBuf,bufferSent,&bufferReceived);
+            std::string errorString(errorBuf);
+            newState.setErrorString(errorString);
+
+            unsigned int errorLine = checkForBufferLineError(index);
+            newState.setErrorLine(errorLine);
+        }
     }
 
     Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewBufferState(newState);});
@@ -303,6 +370,18 @@ int SPIIProtocol::checkForBufferCompilation(const unsigned int &index)
         return false;
     int bufferError[1];
     bool validRequest = acsc_ReadInteger(*m_SPIIDevice, ACSC_NONE, "PERR", static_cast<int>(index),static_cast<int>(index),ACSC_NONE,ACSC_NONE,bufferError,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+    if(validRequest)
+        return bufferError[0];
+
+    return -1;
+}
+
+unsigned int SPIIProtocol::checkForBufferLineError(const unsigned int &index)
+{
+    if(m_SPIIDevice == nullptr)
+        return false;
+    int bufferError[1];
+    bool validRequest = acsc_ReadInteger(*m_SPIIDevice, ACSC_NONE, "PERL", static_cast<int>(index),static_cast<int>(index),ACSC_NONE,ACSC_NONE,bufferError,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
     if(validRequest)
         return bufferError[0];
 

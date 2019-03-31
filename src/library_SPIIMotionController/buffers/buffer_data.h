@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "buffer_label_values.h"
 #include "buffer_variable_values.h"
 
 class BufferData

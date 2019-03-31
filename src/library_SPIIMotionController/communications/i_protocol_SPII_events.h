@@ -3,7 +3,11 @@
 
 #include <string>
 
+#include "common/operation/operation_label_list.h"
+#include "common/operation/operation_variable_list.h"
+
 #include "../status/status_components.h"
+
 
 namespace Comms
 {
@@ -18,6 +22,12 @@ public:
 
 public:
     virtual void NewBufferState(const Status_BufferState &state) const = 0;
+
+    virtual void NewStatusMotor(const Status_Motor &status) const = 0;
+
+    virtual void NewStatus_OperationalLabels(const Operation_LabelList &labelList) const = 0;
+
+    virtual void NewStatus_OperationalVariables(const Operation_VariableList &variableList) = 0;
 };
 
 

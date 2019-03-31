@@ -24,6 +24,9 @@
 #include "common/commands/command_components.h"
 #include "../commands/spii_command_upload_program.h"
 
+#include "../buffers/buffer_label_values.h"
+#include "../buffers/buffer_variable_values.h"
+
 namespace Comms
 {
 
@@ -45,6 +48,9 @@ public:
 
 
 public:
+    bool WriteVariableValue(const Command_Variable &value);
+
+public:
     bool commandMotorEnable(const CommandMotorEnable &enable);
 
     bool commandMotorDisable(const CommandMotorDisable &disable);
@@ -58,13 +64,15 @@ public:
 
     bool bufferUpload(const unsigned int &index, const std::string &text);
 
-    bool bufferCompile(const unsigned int &index);
+    bool bufferCompile(const unsigned int &index, Status_BufferState &newState);
 
     bool bufferRun(const unsigned int &index, const std::string &label);
 
     bool bufferStop(const unsigned int &index);
 
     int checkForBufferCompilation(const unsigned int &index);
+
+    unsigned int checkForBufferLineError(const unsigned int &index);
 
 public:
     void updateDeviceSettings(const SPII_Settings &settings);
@@ -83,6 +91,14 @@ public:
 
 public:
     void ReceiveData(ILink *link, const std::vector<uint8_t> &buffer) override;
+
+private:
+    BufferLabelValues updateBufferLabels();
+
+    BufferVariableValues updateBufferVariables(const unsigned int &bufferIndex);
+
+
+    void uploadProgramToBuffer(const SPIICommand_UploadProgram* uploadProgram);
 
 private:
 

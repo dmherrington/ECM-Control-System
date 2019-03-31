@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'spii_motion_controller.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.11.3)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.10.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'spii_motion_controller.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.11.3. It"
+#error "This file was generated using the moc from 5.10.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -198,84 +198,84 @@ void SPIIMotionController::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _t = void (SPIIMotionController::*)(const common::comms::CommunicationUpdate & ) const;
+            typedef void (SPIIMotionController::*_t)(const common::comms::CommunicationUpdate & ) const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_MCCommunicationUpdate)) {
                 *result = 0;
                 return;
             }
         }
         {
-            using _t = void (SPIIMotionController::*)(const ECM::SPII::SPIIState & , const QString & ) const;
+            typedef void (SPIIMotionController::*_t)(const ECM::SPII::SPIIState & , const QString & ) const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_MCNewMotionState)) {
                 *result = 1;
                 return;
             }
         }
         {
-            using _t = void (SPIIMotionController::*)(const Status_BufferState & );
+            typedef void (SPIIMotionController::*_t)(const Status_BufferState & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_MCBufferUpdate)) {
                 *result = 2;
                 return;
             }
         }
         {
-            using _t = void (SPIIMotionController::*)(const bool & ) const;
+            typedef void (SPIIMotionController::*_t)(const bool & ) const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_MCHomeIndicated)) {
                 *result = 3;
                 return;
             }
         }
         {
-            using _t = void (SPIIMotionController::*)(const bool & ) const;
+            typedef void (SPIIMotionController::*_t)(const bool & ) const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_MCTouchoffIndicated)) {
                 *result = 4;
                 return;
             }
         }
         {
-            using _t = void (SPIIMotionController::*)(const common::TuplePositionalString & , const bool & );
+            typedef void (SPIIMotionController::*_t)(const common::TuplePositionalString & , const bool & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_MCNewPositionalPlottable)) {
                 *result = 5;
                 return;
             }
         }
         {
-            using _t = void (SPIIMotionController::*)(const common::TupleProfileVariableString & , const bool & );
+            typedef void (SPIIMotionController::*_t)(const common::TupleProfileVariableString & , const bool & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_MCNewVariablePlottable)) {
                 *result = 6;
                 return;
             }
         }
         {
-            using _t = void (SPIIMotionController::*)(const common::TupleProfileVariableString & , const common_data::MotionProfileVariableState & ) const;
+            typedef void (SPIIMotionController::*_t)(const common::TupleProfileVariableString & , const common_data::MotionProfileVariableState & ) const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_MCNewProfileVariableValue)) {
                 *result = 7;
                 return;
             }
         }
         {
-            using _t = void (SPIIMotionController::*)(const MotionProfileState & ) const;
+            typedef void (SPIIMotionController::*_t)(const MotionProfileState & ) const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_GalilUpdatedProfileState)) {
                 *result = 8;
                 return;
             }
         }
         {
-            using _t = void (SPIIMotionController::*)(const CommandType & , const std::string & );
+            typedef void (SPIIMotionController::*_t)(const CommandType & , const std::string & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_ErrorCommandCode)) {
                 *result = 9;
                 return;
             }
         }
         {
-            using _t = void (SPIIMotionController::*)(const RequestTypes & , const std::string & );
+            typedef void (SPIIMotionController::*_t)(const RequestTypes & , const std::string & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_ErrorRequestCode)) {
                 *result = 10;
                 return;
             }
         }
         {
-            using _t = void (SPIIMotionController::*)(const std::string & , const std::string & );
+            typedef void (SPIIMotionController::*_t)(const std::string & , const std::string & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_CustomUserRequestReceived)) {
                 *result = 11;
                 return;

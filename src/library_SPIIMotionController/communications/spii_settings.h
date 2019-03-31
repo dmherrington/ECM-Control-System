@@ -27,6 +27,9 @@ public:
 
     unsigned int getDBufferIndex() const;
 
+    unsigned int getLabelBufferIndex() const;
+
+
 public:
     SPII_Settings& operator = (const SPII_Settings &rhs)
     {
@@ -34,6 +37,7 @@ public:
         this->axisCount = rhs.axisCount;
         this->buffersCount = rhs.buffersCount;
         this->dBufferIndex = rhs.dBufferIndex;
+        this->labelBufferIndex = rhs.labelBufferIndex;
         return *this;
     }
 
@@ -48,6 +52,9 @@ public:
             return false;
         }
         if(this->dBufferIndex != rhs.dBufferIndex){
+            return false;
+        }
+        if(this->labelBufferIndex != rhs.labelBufferIndex){
             return false;
         }
         return true;
@@ -65,6 +72,8 @@ private:
     unsigned int buffersCount = 0;
 
     unsigned int dBufferIndex = 0;
+
+    unsigned int labelBufferIndex = 1;
 };
 
 #endif // SPII_SETTINGS_H

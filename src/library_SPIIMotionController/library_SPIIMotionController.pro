@@ -61,7 +61,8 @@ SOURCES += \
     requests/request_motor_status.cpp \
     requests/request_axis_status.cpp \
     commands/spii_command_upload_program.cpp \
-    status/status_buffer_state.cpp
+    status/status_buffer_state.cpp \
+    buffers/buffer_label_values.cpp
 
 HEADERS += \
         spii_motion_controller.h \
@@ -113,7 +114,8 @@ HEADERS += \
     requests/request_axis_status.h \
     spii_device_interface_motion_control.h \
     commands/spii_command_upload_program.h \
-    status/status_buffer_state.h
+    status/status_buffer_state.h \
+    buffers/buffer_label_values.h
 
 # Unix lib Install
 unix:!symbian {

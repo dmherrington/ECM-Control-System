@@ -45,3 +45,8 @@ unsigned int SPII_Settings::getDBufferIndex() const
 {
     return this->dBufferIndex;
 }
+
+unsigned int SPII_Settings::getLabelBufferIndex() const
+{
+    return this->labelBufferIndex;
+}
