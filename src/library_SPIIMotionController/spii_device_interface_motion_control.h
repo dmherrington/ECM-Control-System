@@ -8,7 +8,7 @@
 #include <mutex>
 
 #include "data/motion_profile_state.h"
-#include "operation/operation_current.h"
+#include "common/operation/operation_current.h"
 #include "common/operation/operation_variable_list.h"
 
 class SPIIDeviceInterface_MotionControl

@@ -75,7 +75,20 @@ private:
 
     void ConnectionUpdate(const common::comms::CommunicationUpdate &update) const override;
 
-    void NewBufferState(const Status_BufferState &state)const override;
+
+private:
+    //////////////////////////////////////////////////////////////
+    /// Virtual methods imposed from IProtocolSPIIEvents
+    //////////////////////////////////////////////////////////////
+
+    void NewBufferState(const Status_BufferState &state) const override;
+
+    void NewStatusMotor(const Status_Motor &status) const override;
+
+    void NewStatus_OperationalLabels(const Operation_LabelList &labelList) const override;
+
+    void NewStatus_OperationalVariables(const Operation_VariableList &variableList) override;
+
 
 
 private:

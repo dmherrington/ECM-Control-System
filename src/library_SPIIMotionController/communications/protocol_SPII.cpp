@@ -14,6 +14,29 @@ SPIIProtocol::SPIIProtocol():
 
 }
 
+void SPIIProtocol::testObject()
+{
+    std::string begin = "#";
+    std::string end = "VG\r";
+    std::string dBuffer = std::to_string(m_SPIISettings.getDBufferIndex());
+    std::string concatenatedRequest = begin + dBuffer + end;
+
+    char *cstr = new char[concatenatedRequest.length() + 1];
+    strcpy(cstr, concatenatedRequest.c_str());
+    // do stuff
+    char buf[1000];
+    int received, ret;
+    ret = acsc_Transaction(*m_SPIIDevice.get(),cstr, strlen(cstr), buf, 1000, &received, NULL);
+
+    std::string newString(buf);
+    newString.erase(newString.begin()+received, newString.end());
+
+    QString newQString = QString::fromStdString(newString);
+    QStringList stringList = newQString.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
+
+    delete [] cstr;
+}
+
 void SPIIProtocol::updateDeviceSettings(const SPII_Settings &settings)
 {
     m_SPIISettings = settings;
@@ -34,6 +57,7 @@ BufferVariableValues SPIIProtocol::updateBufferVariables(const unsigned int &buf
 
 void SPIIProtocol::uploadProgramToBuffer(const SPIICommand_UploadProgram *uploadProgram)
 {
+
     Status_BufferState newBufferState;
     newBufferState.setBufferIndex(uploadProgram->getBufferIndex());
     newBufferState.setProgramString(uploadProgram->getCurrentScript());
@@ -101,6 +125,9 @@ bool SPIIProtocol::requestNumberofAxes(double &value)
         return false;
 
     bool rtnValidity = acsc_GetAxesCount(*m_SPIIDevice.get(),&value,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+
+    m_SPIISettings.setAxisCount(value);
+
     return rtnValidity;
 }
 
@@ -110,6 +137,9 @@ bool SPIIProtocol::requestDBufferIndex(double &index)
         return false;
 
     bool rtnValidity = acsc_GetDBufferIndex(*m_SPIIDevice.get(),&index,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+
+    m_SPIISettings.setDBufferIndex(index);
+
     return rtnValidity;
 }
 

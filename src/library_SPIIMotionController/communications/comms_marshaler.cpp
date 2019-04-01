@@ -42,6 +42,8 @@ bool CommsMarshaler::ConnectToSimulation(SPII_Settings &deviceSettings)
             deviceSettings.setDBufferIndex(static_cast<unsigned int>(dBufferIndex));
         if(protocol->requestNumberofBuffers(numOfBuffers))
             deviceSettings.setBufferCount(static_cast<unsigned int>(numOfBuffers));
+
+        protocol->testObject();
     }
 
     return link->isConnected();
@@ -299,10 +301,30 @@ std::vector<Status_PositionPerAxis> CommsMarshaler::requestPosition(const Reques
     return rtnPosition;
 }
 
+//////////////////////////////////////////////////////////////
+/// Virtual methods imposed from IProtocolSPIIEvents
+//////////////////////////////////////////////////////////////
+
 void CommsMarshaler::NewBufferState(const Status_BufferState &state) const
 {
 
 }
+
+void CommsMarshaler::NewStatusMotor(const Status_Motor &status) const
+{
+
+}
+
+void CommsMarshaler::NewStatus_OperationalLabels(const Operation_LabelList &labelList) const
+{
+
+}
+
+void CommsMarshaler::NewStatus_OperationalVariables(const Operation_VariableList &variableList)
+{
+
+}
+
 
 template void CommsMarshaler::SendSPIIMessage<double>(const double&);
 

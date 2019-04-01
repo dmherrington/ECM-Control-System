@@ -46,6 +46,8 @@ public:
 
     void SendCustomProtocolCommand(const std::vector<std::string> &stringCommands);
 
+    void testObject();
+
 
 public:
     bool WriteVariableValue(const Command_Variable &value);
