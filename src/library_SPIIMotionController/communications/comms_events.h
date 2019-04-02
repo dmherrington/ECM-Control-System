@@ -4,9 +4,13 @@
 #include <string>
 #include "common/common.h"
 
+#include "common/operation/operation_items.h"
+
 #include "common/comms/communication_update.h"
 
 #include "status/status_components.h"
+
+#include "../buffers/buffer_data.h"
 
 namespace Comms
 {
@@ -38,6 +42,21 @@ public:
     virtual void NewBufferState(const Status_BufferState &state)
     {
         UNUSED(state);
+    }
+
+    virtual void NewBuffer_AvailableData(const BufferData &bufferData)
+    {
+        UNUSED(bufferData);
+    }
+
+    virtual void NewStatus_OperationalLabels(const Operation_LabelList &labelList)
+    {
+        UNUSED(labelList);
+    }
+
+    virtual void NewStatus_OperationalVariables(const Operation_VariableList &variableList)
+    {
+        UNUSED(variableList);
     }
 
 };

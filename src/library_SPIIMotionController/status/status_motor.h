@@ -88,11 +88,15 @@ public:
 
     ~Status_Motor();
 
+    void updateMotorStatus(const Status_Motor &updateStatus);
+
     bool updateMotorStatus(const std::vector<Status_MotorPerAxis> &status);
 
     Status_MotorPerAxis* getAxisStatus(const MotorAxis &axis);
 
     bool areAnyMotorsEnabled() const;
+
+    bool areAnyMotorsMoving() const;
 
 public:
     Status_Motor& operator = (const Status_Motor &rhs)

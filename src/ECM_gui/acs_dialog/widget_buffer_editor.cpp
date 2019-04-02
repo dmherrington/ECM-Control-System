@@ -41,6 +41,10 @@ void Widget_BufferEditor::updateProgramText(const std::string &text)
     ui->codeTextEdit->clear();
     ui->codeTextEdit->document()->setPlainText(QString::fromStdString(text));
     ui->codeTextEdit->blockSignals(oldState);
+
+    updateCurrentLineCount();
+
+    m_EditData->setProgramString(text);
 }
 
 void Widget_BufferEditor::updateCurrentLED(const bool &current)
@@ -70,11 +74,19 @@ void Widget_BufferEditor::updateBufferIndex(const unsigned int &index)
     ui->label_BufferIndexNumber->setText(QString::number(index));
 }
 
-void Widget_BufferEditor::updateCodeText(const std::string &programText)
+void Widget_BufferEditor::updateCurrentLineCount()
 {
-    ui->codeTextEdit->clear();
-}
+    std::string programString = ui->codeTextEdit->toPlainText().toStdString();
+    unsigned int currentLineCount = 0;
+    if(!programString.empty())
+        currentLineCount = static_cast<unsigned int>(ui->codeTextEdit->document()->lineCount());
 
+    if(previousLineCount != static_cast<int>(currentLineCount))
+    {
+        previousLineCount = static_cast<int>(currentLineCount);
+        emit signal_BufferUpdatedLineCount(previousLineCount);
+    }
+}
 
 void Widget_BufferEditor::on_lineEdit_BufferName_textChanged(const QString &arg1)
 {
@@ -83,12 +95,13 @@ void Widget_BufferEditor::on_lineEdit_BufferName_textChanged(const QString &arg1
 
 void Widget_BufferEditor::on_codeTextEdit_textChanged()
 {
-    unsigned int currentLineCount = static_cast<unsigned int>(ui->codeTextEdit->document()->lineCount());
-    if(previousLineCount != currentLineCount)
-    {
-        previousLineCount = currentLineCount;
-        emit signal_BufferUpdatedLineCount(previousLineCount);
-    }
+    updateCurrentLineCount();
+
+    std::string programString = ui->codeTextEdit->toPlainText().toStdString();
+    if(m_EditData->getProgramString() == programString)
+        updateCurrentLED(true);
+    else
+        updateCurrentLED(false);
 }
 
 void Widget_BufferEditor::on_pushButton_Upload_released()
@@ -113,5 +126,11 @@ void Widget_BufferEditor::on_pushButton_Execute_released()
 
 void Widget_BufferEditor::on_pushButton_Clear_released()
 {
+    ui->codeTextEdit->clear();
 
+    SPIICommand_UploadProgramPtr commandUploadProgram = std::make_shared<SPIICommand_UploadProgram>();
+    commandUploadProgram->setCurrentScript("");
+    commandUploadProgram->setBufferIndex(m_EditData->getBufferIndex());
+
+    m_SPIIDevice->executeCommand(commandUploadProgram);
 }

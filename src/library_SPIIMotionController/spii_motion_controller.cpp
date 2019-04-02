@@ -28,6 +28,13 @@ SPIIMotionController::~SPIIMotionController()
 
 }
 
+BufferData SPIIMotionController::retrieveBufferData(const unsigned int &bufferIndex)
+{
+    BufferData bufferData;
+    m_StateInterface->m_BufferManager->getBufferData(bufferIndex, bufferData);
+    return bufferData;
+}
+
 void SPIIMotionController::executeCommand(const AbstractCommandPtr command)
 {
     ECM::SPII::AbstractStateSPII* currentState = static_cast<ECM::SPII::AbstractStateSPII*>(stateMachine->getCurrentState());
@@ -128,6 +135,7 @@ void SPIIMotionController::initializeMotionController()
     CommandMotorDisablePtr commandMotorDisable = std::make_shared<CommandMotorDisable>();
     m_CommsMarshaler->commandMotorDisable(*commandMotorDisable.get());
 
+
     //Add items to the ACS polling queue so that we can stay up to date
     // 1: Request the position of the ACS unit
     RequestTellPositionPtr requestTP = std::make_shared<RequestTellPosition>();
@@ -147,17 +155,22 @@ void SPIIMotionController::initializeMotionController()
     requestMS->setTupleDescription(common::TupleECMData(tupleMotor));
     m_DevicePolling->addRequest(requestMS,500);
 
+    //Retrieve the current contents aboard the device
+    m_CommsMarshaler->initializeBufferContents();
+
     m_DevicePolling->beginPolling();
 }
 
 void SPIIMotionController::cbi_AbstractSPIICommand(const AbstractCommandPtr command)
 {
-
+    m_CommsMarshaler->sendAbstractSPIICommand(command);
 }
+
 void SPIIMotionController::cbi_AbstractSPIIMotionCommand(const AbstractCommandPtr command)
 {
-
+    m_CommsMarshaler->sendAbstractSPIIMotionCommand(command);
 }
+
 void SPIIMotionController::cbi_AbstractSPIIRequest(const AbstractRequestPtr request)
 {
 
@@ -191,7 +204,7 @@ void SPIIMotionController::cbi_SPIIMotionProfileState(const MotionProfileState &
 
 void SPIIMotionController::cbi_SPIINewMachineState(const ECM::SPII::SPIIState &state)
 {
-
+    emit signal_MCNewMotionState(state, QString::fromStdString(ECM::SPII::ECMStateToString(state)));
 }
 
 void SPIIMotionController::cbi_SPIIUploadProgram(const AbstractCommandPtr command)
@@ -240,7 +253,26 @@ void SPIIMotionController::SPIIPolling_MotorUpdate(const std::vector<Status_Moto
 
 void SPIIMotionController::SPIIPolling_PositionUpdate(const std::vector<Status_PositionPerAxis> &position)
 {
-    m_StateInterface->m_AxisPosition->updatePositionStatus(position);
+    if(position.empty())
+        return;
+
+    common::TuplePositionalString tuple;
+    tuple.axisName = QString::fromStdString(AxisToString(MotorAxis::Z));
+
+    common_data::PositionalStatePtr positionalState = std::make_shared<common_data::PositionalState>();
+    for(size_t index = 0; index < position.size(); index++)
+        positionalState->setAxisPosition(position.at(index).getAxis(), position.at(index).getPosition());
+
+    common_data::MachinePositionalState state;
+    state.setObservationTime(position.at(0).getTime());
+    state.setPositionalState(positionalState);
+
+    if(m_StateInterface->m_AxisPosition->updatePositionStatus(position))
+        emit signal_MCNewPosition(tuple, state, true);
+    else
+        emit signal_MCNewPosition(tuple, state, false);
+
+    ProgressStateMachineStates();
 }
 
 ECM::SPII::SPIIState SPIIMotionController::getCurrentMCState() const
@@ -269,6 +301,30 @@ void SPIIMotionController::NewBufferState(const Status_BufferState &state)
 {
     m_StateInterface->m_BufferManager->statusBufferUpdate(state);
     emit signal_MCBufferUpdate(state);
+}
+
+void SPIIMotionController::NewBuffer_AvailableData(const BufferData &bufferData)
+{
+    m_StateInterface->m_BufferManager->updateBufferData(bufferData.getBufferIndex(),bufferData);
+
+    Status_BufferState newBufferState;
+    newBufferState.setBufferIndex(bufferData.getBufferIndex());
+    newBufferState.setProgramString(bufferData.getProgramString());
+    if(bufferData.isBufferCompiled())
+        newBufferState.setBufferState(Status_BufferState::ENUM_BUFFERSTATE::COMPILED);
+    else
+        newBufferState.setBufferState(Status_BufferState::ENUM_BUFFERSTATE::CURRENT);
+    emit signal_MCBufferUpdate(newBufferState);
+}
+
+void SPIIMotionController::NewStatus_OperationalLabels(const Operation_LabelList &labelList)
+{
+    emit signal_MCNewProgramLabelList(labelList);
+}
+
+void SPIIMotionController::NewStatus_OperationalVariables(const Operation_VariableList &variableList)
+{
+    emit signal_MCNewProgramVariableList(variableList);
 }
 
 

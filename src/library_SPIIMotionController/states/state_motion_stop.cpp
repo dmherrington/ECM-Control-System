@@ -83,7 +83,7 @@ void State_MotionStop::OnEnter()
     Owner().issueNewSPIIState(SPIIState::STATE_MOTION_STOP);
 
     CommandStopPtr castCommand = std::make_shared<CommandStop>(); //the axis is defaulted to Z with no args
-    Owner().issueSPIICommand(castCommand);
+    Owner().issueSPIIMotionCommand(castCommand);
 
     //If the motor has already ceased motion we can exit this state
     if(!Owner().isMotorInMotion()) //the exit condition for this state is that the machine motion has stopped on all axis

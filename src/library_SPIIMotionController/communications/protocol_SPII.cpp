@@ -14,73 +14,38 @@ SPIIProtocol::SPIIProtocol():
 
 }
 
-void SPIIProtocol::testObject()
+void SPIIProtocol::AddListner(const IProtocolSPIIEvents* listener)
 {
-    std::string begin = "#";
-    std::string end = "VG\r";
-    std::string dBuffer = std::to_string(m_SPIISettings.getDBufferIndex());
-    std::string concatenatedRequest = begin + dBuffer + end;
+    m_Listners.push_back(listener);
+}
 
-    char *cstr = new char[concatenatedRequest.length() + 1];
-    strcpy(cstr, concatenatedRequest.c_str());
-    // do stuff
-    char buf[1000];
-    int received, ret;
-    ret = acsc_Transaction(*m_SPIIDevice.get(),cstr, strlen(cstr), buf, 1000, &received, NULL);
+void SPIIProtocol::initializeBufferContents()
+{
+    for(size_t bufferIndex = 0; bufferIndex < m_SPIISettings.getBufferCount() + 1; bufferIndex++)
+    {
+        BufferData newData;
+        newData.setBufferIndex(bufferIndex);
+        newData.setBufferCurrent(true);
 
-    std::string newString(buf);
-    newString.erase(newString.begin()+received, newString.end());
+        if(m_SPIISettings.getDBufferIndex() == bufferIndex)
+            newData.setIsDBuffer(true);
+        else
+            newData.setIsDBuffer(false);
 
-    QString newQString = QString::fromStdString(newString);
-    QStringList stringList = newQString.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
+        retrieveBufferData(bufferIndex,newData);
+        Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewBuffer_AvailableData(newData);});
+    }
+}
 
-    delete [] cstr;
+void SPIIProtocol::testObject(Operation_VariableList &privateVariables, Operation_VariableList &userVariables)
+{
+
 }
 
 void SPIIProtocol::updateDeviceSettings(const SPII_Settings &settings)
 {
     m_SPIISettings = settings;
     m_SPIIDevice = settings.getDeviceHandle();
-}
-
-BufferLabelValues SPIIProtocol::updateBufferLabels()
-{
-    BufferLabelValues labels;
-
-}
-
-BufferVariableValues SPIIProtocol::updateBufferVariables(const unsigned int &bufferIndex)
-{
-    BufferVariableValues vars;
-
-}
-
-void SPIIProtocol::uploadProgramToBuffer(const SPIICommand_UploadProgram *uploadProgram)
-{
-
-    Status_BufferState newBufferState;
-    newBufferState.setBufferIndex(uploadProgram->getBufferIndex());
-    newBufferState.setProgramString(uploadProgram->getCurrentScript());
-
-    bool uploadSuccessful = bufferUpload(uploadProgram->getBufferIndex(), uploadProgram->getCurrentScript());
-
-    if(uploadSuccessful && (uploadProgram->shouldCompileImmediately()))
-    {
-        if(bufferCompile(uploadProgram->getBufferIndex(), newBufferState))
-        {
-            //there was no error and therefore we can resume
-            //If we basically had uploaded and compiled the DBuffer, we are going to reset all of the available variables
-            if(m_SPIISettings.getDBufferIndex() == uploadProgram->getBufferIndex())
-            {
-                updateBufferVariables(uploadProgram->getBufferIndex());
-            }
-            //If we had uploaded and compiled the buffer containing the labels, let us regrab all of the labels
-            else if(m_SPIISettings.getLabelBufferIndex() == uploadProgram->getBufferIndex())
-            {
-                updateBufferVariables(uploadProgram->getBufferIndex());
-            }
-        }
-    }
 }
 
 bool SPIIProtocol::requestPosition(const int &axisRequest, double &value)
@@ -170,10 +135,6 @@ void SPIIProtocol::SendProtocolCommand(const AbstractCommandPtr command)
         commandMotorDisable(*commandDisable);
         break;
     }
-    case CommandType::JOG_MOVE:
-    {
-        break;
-    }
     default:
     {
         break;
@@ -183,7 +144,24 @@ void SPIIProtocol::SendProtocolCommand(const AbstractCommandPtr command)
 
 void SPIIProtocol::SendProtocolMotionCommand(const AbstractCommandPtr command)
 {
-
+    switch (command->getCommandType()) {
+    case CommandType::JOG_MOVE:
+    {
+        CommandJog* commandJog = command->as<CommandJog>();
+        commandJogMotion(*commandJog);
+        break;
+    }
+    case CommandType::STOP:
+    {
+        CommandStop* commandStop = command->as<CommandStop>();
+        commandKillMotion(*commandStop);
+        break;
+    }
+    default:
+    {
+        break;
+    }
+    }
 }
 
 void SPIIProtocol::SendCustomProtocolCommand(const std::vector<std::string> &stringCommands)
@@ -326,9 +304,27 @@ bool SPIIProtocol::commandKillMotion(const CommandStop &stop)
     return rtnValidity;
 }
 
-bool SPIIProtocol::programUpload(const CommandUploadProgram &program)
+bool SPIIProtocol::bufferRun(const unsigned int &index, const std::string &label)
 {
+    bool validExecution = false;
 
+    if(label.empty())
+        validExecution = acsc_RunBuffer(*m_SPIIDevice.get(),static_cast<int>(index),NULL,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+    else
+    {
+        char *cstr = new char[label.length() + 1];
+        strcpy(cstr, label.c_str());
+        validExecution = acsc_RunBuffer(*m_SPIIDevice.get(),static_cast<int>(index),cstr,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+    }
+
+    return validExecution;
+}
+
+bool SPIIProtocol::bufferStop(const unsigned int &index)
+{
+    bool validExecution = acsc_StopBuffer(*m_SPIIDevice.get(),static_cast<int>(index),static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+
+    return validExecution;
 }
 
 bool SPIIProtocol::bufferUpload(const unsigned int &index, const std::string &text)
@@ -367,27 +363,37 @@ bool SPIIProtocol::bufferCompile(const unsigned int &index, Status_BufferState &
     if(m_SPIIDevice == nullptr)
         return false;
 
+    bool validCompile = false;
+
     newState.setBufferIndex(index);
 
-    bool validCompile = acsc_CompileBuffer(*m_SPIIDevice.get(), static_cast<int>(index), static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+    bool validCompileCommand = acsc_CompileBuffer(*m_SPIIDevice.get(), static_cast<int>(index), static_cast<LP_ACSC_WAITBLOCK>(nullptr));
 
-    if(validCompile)
-        newState.setBufferState(Status_BufferState::ENUM_BUFFERSTATE::COMPILED);
-    else {
-        newState.setBufferState(Status_BufferState::ENUM_BUFFERSTATE::ERROR_COMPILING);
-        int bufferSent = 100, bufferReceived = 100;
-        char errorBuf[bufferSent];
-
+    if(validCompileCommand)
+    {
         int errorCode = checkForBufferCompilation(index);
-        if(errorCode != 0)
+        if(errorCode == 0)
         {
+            newState.setBufferState(Status_BufferState::ENUM_BUFFERSTATE::COMPILED);
+            validCompile = true;
+        }
+        else
+        {
+            int bufferSent = 100, bufferReceived = 100;
+            char errorBuf[bufferSent];
+
+            newState.setBufferState(Status_BufferState::ENUM_BUFFERSTATE::ERROR_COMPILING);
             acsc_GetErrorString(*m_SPIIDevice.get(),errorCode,errorBuf,bufferSent,&bufferReceived);
             std::string errorString(errorBuf);
+            errorString.erase(errorString.begin() + bufferReceived - 1, errorString.end());
             newState.setErrorString(errorString);
 
             unsigned int errorLine = checkForBufferLineError(index);
             newState.setErrorLine(errorLine);
         }
+    }
+    else {
+        newState.setBufferState(Status_BufferState::ENUM_BUFFERSTATE::ERROR_COMPILING);
     }
 
     Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewBufferState(newState);});
@@ -418,13 +424,207 @@ unsigned int SPIIProtocol::checkForBufferLineError(const unsigned int &index)
     return -1;
 }
 
-bool SPIIProtocol::bufferRun(const unsigned int &index, const std::string &label)
+void SPIIProtocol::uploadProgramToBuffer(const SPIICommand_UploadProgram *uploadProgram)
 {
-    //acsc_RunBuffer()
+    Status_BufferState newBufferState;
+    newBufferState.setBufferIndex(uploadProgram->getBufferIndex());
+    newBufferState.setProgramString(uploadProgram->getCurrentScript());
+
+    bool uploadSuccessful = bufferUpload(uploadProgram->getBufferIndex(), uploadProgram->getCurrentScript());
+
+    if(uploadSuccessful && (uploadProgram->shouldCompileImmediately()))
+    {
+        if(bufferCompile(uploadProgram->getBufferIndex(), newBufferState))
+        {
+            //there was no error and therefore we can resume
+            //If we basically had uploaded and compiled the DBuffer, we are going to reset all of the available variables
+            if(m_SPIISettings.getDBufferIndex() == uploadProgram->getBufferIndex())
+            {
+                Operation_VariableList privateVariables, userVariables;
+                retrieveDBufferVariables(m_SPIISettings.getDBufferIndex(), privateVariables, userVariables);
+                Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_OperationalVariables(userVariables);});
+            }
+            //If we had uploaded and compiled the buffer containing the labels, let us regrab all of the labels
+            else if(m_SPIISettings.getLabelBufferIndex() == uploadProgram->getBufferIndex())
+            {
+                Operation_LabelList relevantLabels;
+                retrieveBufferLabels(m_SPIISettings.getLabelBufferIndex(), relevantLabels);
+                Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_OperationalLabels(relevantLabels);});
+            }
+        }
+    }
 }
 
-bool SPIIProtocol::bufferStop(const unsigned int &index)
+void SPIIProtocol::retrieveBufferData(const unsigned int &bufferIndex, BufferData &bufferContents)
 {
-    //acsc_StopBuffer()
+    bufferContents.setProgramString(requestBufferContents(bufferIndex));
+    if(checkForBufferCompilation(bufferIndex) == 0)
+        bufferContents.setBufferCompiled(true);
+    else
+        bufferContents.setBufferCompiled(false);
 }
+
+void SPIIProtocol::retrieveBufferLabels(const unsigned int &bufferIndex, Operation_LabelList &bufferLabels)
+{
+    std::string bufferContents = requestBufferContents(bufferIndex);
+
+    QString newQString = QString::fromStdString(bufferContents);
+    QStringList lineList = newQString.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
+    QRegExp rx("(:$)");
+    QStringList labelList = lineList.filter(rx);
+    for (int labelIndex = 0; labelIndex < labelList.size(); labelIndex++)
+    {
+        QString labelString = labelList.at(labelIndex);
+        labelString.remove(rx);
+        bufferLabels.addLabel(labelString.toStdString(),0);
+    }
+}
+
+void SPIIProtocol::retrieveDBufferVariables(const unsigned int &bufferIndex, Operation_VariableList &privateVariables, Operation_VariableList &userVariables)
+{
+    QStringList bufferVariableList = requestBufferVariables(bufferIndex);
+
+    privateVariables.clearVariableList();
+    userVariables.clearVariableList();
+
+    int beginPrivateCount = bufferVariableList.count("beginOfPrivateVariables");
+    int endPrivateCount = bufferVariableList.count("endOfPrivateVariables");
+
+    int beginUserCount = bufferVariableList.count("beginOfUserVariables");
+    int endUserCount = bufferVariableList.count("endOfUserVariables");
+
+    bool errorUser = false, errorPrivate = false;
+
+    if((beginPrivateCount == 1) && (endPrivateCount == 1))
+    {
+        int beginPrivate = bufferVariableList.indexOf("beginOfPrivateVariables");
+        int endPrivate = bufferVariableList.indexOf("endOfPrivateVariables");
+        for(int privateIndex = beginPrivate + 1; privateIndex < endPrivate; privateIndex++)
+        {
+            QString privateVariable = bufferVariableList.at(privateIndex);
+            privateVariables.addVariable(privateVariable.toStdString(), 0.0);
+        }
+    }
+    else {
+        errorPrivate = true;
+    }
+
+    if((beginUserCount == 1) && (endUserCount == 1))
+    {
+        int beginUser = bufferVariableList.indexOf("beginOfUserVariables");
+        int endUser = bufferVariableList.indexOf("endOfUserVariables");
+
+        for(int userIndex = beginUser + 1; userIndex < endUser; userIndex++)
+        {
+            QString userVariable = bufferVariableList.at(userIndex);
+            userVariables.addVariable(userVariable.toStdString(), 0.0);
+        }
+    }
+    else {
+        errorUser = true;
+    }
+}
+
+QStringList SPIIProtocol::requestBufferVariables(const unsigned int &bufferNumber, const int &attempts, const unsigned int &startingBufferSize)
+{
+    std::string begin = "#";
+    std::string end = "VG\r";
+    std::string dBuffer = std::to_string(bufferNumber);
+    std::string concatenatedRequest = begin + dBuffer + end;
+
+    char *cstr = new char[concatenatedRequest.length() + 1];
+    strcpy(cstr, concatenatedRequest.c_str());
+
+    int bufferSize = static_cast<int>(startingBufferSize);
+    int currentAttempt = 1;
+    bool validAttempt = true, retry = true;
+    int received = 0;
+
+    std::string bufString;
+
+    while (validAttempt && retry)
+    {
+        char* buf = new char[bufferSize]();
+        validAttempt = acsc_Transaction(*m_SPIIDevice.get(),cstr, strlen(cstr), buf, bufferSize, &received, NULL);
+
+        if(!validAttempt)
+            break;
+
+        if(received == bufferSize)
+        {
+            if((currentAttempt < attempts) || (attempts == -1))
+            {
+                currentAttempt++;
+                bufferSize = bufferSize * 2;
+            }
+            else {
+                retry = false;
+                bufString = std::string(buf);
+            }
+        }
+        else {
+            retry = false;
+            bufString = std::string(buf);
+        }
+
+        delete[] buf;
+    }
+
+    bufString.erase(bufString.begin()+received, bufString.end());
+    QString newQString = QString::fromStdString(bufString);
+    QStringList stringList = newQString.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
+    return stringList;
+}
+
+std::string SPIIProtocol::requestBufferContents(const unsigned int &bufferNumber, const int &attempts, const unsigned int &startingBufferSize)
+{
+    int bufferSize = static_cast<int>(startingBufferSize);
+    int currentAttempt = 1;
+    bool validAttempt = true, retry = true;
+    int received = 0;
+
+    std::string rtnString;
+
+    while (validAttempt && retry)
+    {
+        char* buf = new char[bufferSize]();
+        validAttempt = acsc_UploadBuffer(*m_SPIIDevice.get(),static_cast<int>(bufferNumber),0,buf,bufferSize,&received,NULL);
+        if(!validAttempt)
+            break;
+
+        if(received == bufferSize)
+        {
+            if((currentAttempt < attempts) || (attempts == -1))
+            {
+                currentAttempt++;
+                bufferSize = bufferSize * 2;
+            }
+            else {
+                retry = false;
+                rtnString = std::string(buf);
+            }
+        }
+        else {
+            retry = false;
+            rtnString = std::string(buf);
+        }
+        delete[] buf;
+    }
+
+    return rtnString;
+}
+
+bool SPIIProtocol::requestRealScalarVariable(const std::string &variableName, double &value)
+{
+    double currentValue[0];
+
+    char *cstr = new char[variableName.length() + 1];
+    strcpy(cstr, variableName.c_str());
+
+    bool validRequest = acsc_ReadReal(*m_SPIIDevice.get(),ACSC_NONE,cstr,ACSC_NONE,ACSC_NONE,ACSC_NONE,ACSC_NONE,currentValue,NULL);
+    value = currentValue[0];
+    return validRequest;
+}
+
+
 } //END Comms

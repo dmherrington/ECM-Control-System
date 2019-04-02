@@ -49,17 +49,17 @@ void BufferData::setBufferIndex(const unsigned int &bufferIndex)
 
 void BufferData::updateLineCount(const unsigned int &count)
 {
-
+    this->lineCount = count;
 }
 
 void BufferData::setBufferCurrent(const bool &current)
 {
-
+    this->isCurrent = current;
 }
 
 void BufferData::setBufferCompiled(const bool &compiled)
 {
-
+    this->isCompiled = compiled;
 }
 
 void BufferData::setIsDBuffer(const bool &value)
@@ -69,12 +69,12 @@ void BufferData::setIsDBuffer(const bool &value)
 
 bool BufferData::isBufferCurrent() const
 {
-
+    return this->isCurrent;
 }
 
 bool BufferData::isBufferCompiled() const
 {
-
+    return this->isCompiled;
 }
 
 bool BufferData::isDBuffer() const

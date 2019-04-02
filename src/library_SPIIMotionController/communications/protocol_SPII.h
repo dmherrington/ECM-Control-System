@@ -24,6 +24,7 @@
 #include "common/commands/command_components.h"
 #include "../commands/spii_command_upload_program.h"
 
+#include "../buffers/buffer_data.h"
 #include "../buffers/buffer_label_values.h"
 #include "../buffers/buffer_variable_values.h"
 
@@ -36,6 +37,11 @@ class SPIIProtocol : public IProtocol
 public:
     SPIIProtocol();
 
+    void AddListner(const IProtocolSPIIEvents* listener);
+
+
+    void initializeBufferContents();
+
     //////////////////////////////////////////////////////////////
     /// Methods issuing an explicit galil command
     //////////////////////////////////////////////////////////////
@@ -46,7 +52,7 @@ public:
 
     void SendCustomProtocolCommand(const std::vector<std::string> &stringCommands);
 
-    void testObject();
+    void testObject(Operation_VariableList &privateVariables, Operation_VariableList &userVariables);
 
 
 public:
@@ -61,20 +67,33 @@ public:
 
     bool commandKillMotion(const CommandStop &stop);
 
-public:
-    bool programUpload(const CommandUploadProgram &program);
 
+public:
     bool bufferUpload(const unsigned int &index, const std::string &text);
 
     bool bufferCompile(const unsigned int &index, Status_BufferState &newState);
 
-    bool bufferRun(const unsigned int &index, const std::string &label);
+    bool bufferRun(const unsigned int &index, const std::string &label = "");
 
     bool bufferStop(const unsigned int &index);
 
     int checkForBufferCompilation(const unsigned int &index);
 
     unsigned int checkForBufferLineError(const unsigned int &index);
+
+private:
+    void uploadProgramToBuffer(const SPIICommand_UploadProgram* uploadProgram);
+
+    void retrieveBufferData(const unsigned int &bufferIndex, BufferData &bufferContents);
+
+    void retrieveBufferLabels(const unsigned int &bufferIndex, Operation_LabelList &bufferLabels);
+
+    void retrieveDBufferVariables(const unsigned int &bufferIndex, Operation_VariableList &privateVariables, Operation_VariableList &userVariables);
+
+    QStringList requestBufferVariables(const unsigned int &bufferNumber, const int &attempts = -1, const unsigned int &startingBufferSize = 1000);
+
+    std::string requestBufferContents(const unsigned int &bufferNumber, const int &attempts = -1, const unsigned int &startingBufferSize = 1000);
+
 
 public:
     void updateDeviceSettings(const SPII_Settings &settings);
@@ -91,16 +110,12 @@ public:
 
     bool requestDBufferIndex(double &index);
 
+    bool requestRealScalarVariable(const std::string &variableName, double &value);
+
+
 public:
     void ReceiveData(ILink *link, const std::vector<uint8_t> &buffer) override;
 
-private:
-    BufferLabelValues updateBufferLabels();
-
-    BufferVariableValues updateBufferVariables(const unsigned int &bufferIndex);
-
-
-    void uploadProgramToBuffer(const SPIICommand_UploadProgram* uploadProgram);
 
 private:
 

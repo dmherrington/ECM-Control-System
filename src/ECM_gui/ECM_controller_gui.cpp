@@ -136,7 +136,6 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_WindowBufferManager = new Window_BufferManager(m_API->m_MotionController);
     m_WindowBufferManager->show();
 
-    /*
     std::vector<common::TupleECMData> plottables = m_API->m_MotionController->getPlottables();
     for(unsigned int i = 0; i < plottables.size(); i++)
     {
@@ -157,6 +156,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     stateMachine = new hsm::StateMachine();
     stateMachine->Initialize<ECM::API::ECMState_Idle>(m_API);
 
+    /*
     readSettings();
 
     setupUploadCallbacks();
@@ -326,7 +326,7 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &senso
 
 void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state, const bool &valueChanged)
 {
-    ProgressStateMachineStates();
+    //ProgressStateMachineStates();
 
     if(valueChanged)
         m_API->m_Log->WriteLogMachinePositionalState(tuple,state);
@@ -460,6 +460,7 @@ void ECMControllerGUI::on_pushButton_MotorEnable_released()
 void ECMControllerGUI::on_pushButton_MotorDisable_released()
 {
     CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();
+    command->addAxis(MotorAxis::Z);
     m_API->m_MotionController->executeCommand(command);
 }
 

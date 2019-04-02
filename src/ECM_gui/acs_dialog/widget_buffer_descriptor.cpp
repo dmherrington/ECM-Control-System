@@ -14,8 +14,8 @@ Widget_BufferDescriptor::Widget_BufferDescriptor(SPIIMotionController *motionCon
     connect(m_BufferEditor, SIGNAL(signal_BufferNameChanged(const std::string&)),
             this, SLOT(slot_UpdateBufferName(const std::string&)));
 
-    connect(m_BufferEditor, SIGNAL(signal_BufferUpdatedLineCount(const unsigned int &)),
-            this, SLOT(slot_UpdateBufferLineCount(const unsigned int&)));
+    connect(m_BufferEditor, SIGNAL(signal_BufferUpdatedLineCount(const int &)),
+            this, SLOT(slot_UpdateBufferLineCount(const int&)));
 
     slot_UpdateBufferName(m_BufferEditor->getCurrentBufferName());
 
@@ -70,7 +70,7 @@ void Widget_BufferDescriptor::slot_UpdateBufferName(const std::string &name)
     ui->label_BufferName->setText(QString::fromStdString(name));
 }
 
-void Widget_BufferDescriptor::slot_UpdateBufferLineCount(const unsigned int &count)
+void Widget_BufferDescriptor::slot_UpdateBufferLineCount(const int &count)
 {
     ui->label_Lines->setText(QString::number(count));
 }

@@ -93,8 +93,8 @@ void Window_MotionControl::slot_NewPositionalData(const common::TuplePositionalS
 
     if(valueChanged)
     {
-        double currentPosition = state.getPositionalState()->getAxisPosition(common_data::PositionUnit::UNIT_POSITION_MICRO_METER);
-        ui->lineEdit_MachinePosition->setText(QString::number(currentPosition));
+        //double currentPosition = state.getPositionalState()->getAxisPosition(common_data::PositionUnit::UNIT_POSITION_MICRO_METER);
+        //ui->lineEdit_MachinePosition->setText(QString::number(currentPosition));
     }
 }
 

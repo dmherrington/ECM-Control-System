@@ -53,17 +53,12 @@ bool SPIIStateInterface::isTouchoffIndicated() const
 
 bool SPIIStateInterface::isMotorInMotion() const
 {
-    bool isInMotion = false;
-
-    return isInMotion;
+    return m_MotorStatus->areAnyMotorsMoving();
 }
 
 bool SPIIStateInterface::isMotorEnabled() const
-{
-    bool isArmed = false;
-
-
-    return isArmed;
+{       
+    return m_MotorStatus->areAnyMotorsEnabled();
 }
 
 bool SPIIStateInterface::isEStopEngaged() const

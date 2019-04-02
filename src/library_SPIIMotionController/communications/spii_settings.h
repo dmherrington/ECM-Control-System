@@ -71,9 +71,9 @@ private:
 
     unsigned int buffersCount = 0;
 
-    unsigned int dBufferIndex = 0;
+    unsigned int dBufferIndex = 64;
 
-    unsigned int labelBufferIndex = 1;
+    unsigned int labelBufferIndex = 0;
 };
 
 #endif // SPII_SETTINGS_H

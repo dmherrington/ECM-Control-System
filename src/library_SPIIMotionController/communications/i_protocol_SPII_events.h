@@ -8,6 +8,7 @@
 
 #include "../status/status_components.h"
 
+#include "../buffers/buffer_data.h"
 
 namespace Comms
 {
@@ -23,11 +24,11 @@ public:
 public:
     virtual void NewBufferState(const Status_BufferState &state) const = 0;
 
-    virtual void NewStatusMotor(const Status_Motor &status) const = 0;
-
     virtual void NewStatus_OperationalLabels(const Operation_LabelList &labelList) const = 0;
 
-    virtual void NewStatus_OperationalVariables(const Operation_VariableList &variableList) = 0;
+    virtual void NewStatus_OperationalVariables(const Operation_VariableList &variableList) const = 0;
+
+    virtual void NewBuffer_AvailableData(const BufferData &bufferData) const = 0;
 };
 
 

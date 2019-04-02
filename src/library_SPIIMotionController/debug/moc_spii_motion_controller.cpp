@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_SPIIMotionController_t {
-    QByteArrayData data[35];
-    char stringdata0[690];
+    QByteArrayData data[45];
+    char stringdata0[893];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -42,30 +42,40 @@ QT_MOC_LITERAL(7, 142, 5), // "state"
 QT_MOC_LITERAL(8, 148, 11), // "stateString"
 QT_MOC_LITERAL(9, 160, 21), // "signal_MCBufferUpdate"
 QT_MOC_LITERAL(10, 182, 18), // "Status_BufferState"
-QT_MOC_LITERAL(11, 201, 22), // "signal_MCHomeIndicated"
-QT_MOC_LITERAL(12, 224, 9), // "indicated"
-QT_MOC_LITERAL(13, 234, 26), // "signal_MCTouchoffIndicated"
-QT_MOC_LITERAL(14, 261, 31), // "signal_MCNewPositionalPlottable"
-QT_MOC_LITERAL(15, 293, 29), // "common::TuplePositionalString"
-QT_MOC_LITERAL(16, 323, 13), // "variableTuple"
-QT_MOC_LITERAL(17, 337, 6), // "on_off"
-QT_MOC_LITERAL(18, 344, 29), // "signal_MCNewVariablePlottable"
-QT_MOC_LITERAL(19, 374, 34), // "common::TupleProfileVariableS..."
-QT_MOC_LITERAL(20, 409, 32), // "signal_MCNewProfileVariableValue"
-QT_MOC_LITERAL(21, 442, 39), // "common_data::MotionProfileVar..."
-QT_MOC_LITERAL(22, 482, 4), // "data"
-QT_MOC_LITERAL(23, 487, 31), // "signal_GalilUpdatedProfileState"
-QT_MOC_LITERAL(24, 519, 18), // "MotionProfileState"
-QT_MOC_LITERAL(25, 538, 23), // "signal_ErrorCommandCode"
-QT_MOC_LITERAL(26, 562, 11), // "CommandType"
-QT_MOC_LITERAL(27, 574, 4), // "type"
-QT_MOC_LITERAL(28, 579, 11), // "std::string"
-QT_MOC_LITERAL(29, 591, 11), // "errorString"
-QT_MOC_LITERAL(30, 603, 23), // "signal_ErrorRequestCode"
-QT_MOC_LITERAL(31, 627, 12), // "RequestTypes"
-QT_MOC_LITERAL(32, 640, 32), // "signal_CustomUserRequestReceived"
-QT_MOC_LITERAL(33, 673, 7), // "request"
-QT_MOC_LITERAL(34, 681, 8) // "response"
+QT_MOC_LITERAL(11, 201, 28), // "signal_MCNewProgramLabelList"
+QT_MOC_LITERAL(12, 230, 19), // "Operation_LabelList"
+QT_MOC_LITERAL(13, 250, 9), // "labelList"
+QT_MOC_LITERAL(14, 260, 31), // "signal_MCNewProgramVariableList"
+QT_MOC_LITERAL(15, 292, 22), // "Operation_VariableList"
+QT_MOC_LITERAL(16, 315, 12), // "variableList"
+QT_MOC_LITERAL(17, 328, 20), // "signal_MCNewPosition"
+QT_MOC_LITERAL(18, 349, 29), // "common::TuplePositionalString"
+QT_MOC_LITERAL(19, 379, 5), // "tuple"
+QT_MOC_LITERAL(20, 385, 35), // "common_data::MachinePositiona..."
+QT_MOC_LITERAL(21, 421, 4), // "data"
+QT_MOC_LITERAL(22, 426, 12), // "valueChanged"
+QT_MOC_LITERAL(23, 439, 22), // "signal_MCHomeIndicated"
+QT_MOC_LITERAL(24, 462, 9), // "indicated"
+QT_MOC_LITERAL(25, 472, 26), // "signal_MCTouchoffIndicated"
+QT_MOC_LITERAL(26, 499, 31), // "signal_MCNewPositionalPlottable"
+QT_MOC_LITERAL(27, 531, 13), // "variableTuple"
+QT_MOC_LITERAL(28, 545, 6), // "on_off"
+QT_MOC_LITERAL(29, 552, 29), // "signal_MCNewVariablePlottable"
+QT_MOC_LITERAL(30, 582, 34), // "common::TupleProfileVariableS..."
+QT_MOC_LITERAL(31, 617, 32), // "signal_MCNewProfileVariableValue"
+QT_MOC_LITERAL(32, 650, 39), // "common_data::MotionProfileVar..."
+QT_MOC_LITERAL(33, 690, 31), // "signal_GalilUpdatedProfileState"
+QT_MOC_LITERAL(34, 722, 18), // "MotionProfileState"
+QT_MOC_LITERAL(35, 741, 23), // "signal_ErrorCommandCode"
+QT_MOC_LITERAL(36, 765, 11), // "CommandType"
+QT_MOC_LITERAL(37, 777, 4), // "type"
+QT_MOC_LITERAL(38, 782, 11), // "std::string"
+QT_MOC_LITERAL(39, 794, 11), // "errorString"
+QT_MOC_LITERAL(40, 806, 23), // "signal_ErrorRequestCode"
+QT_MOC_LITERAL(41, 830, 12), // "RequestTypes"
+QT_MOC_LITERAL(42, 843, 32), // "signal_CustomUserRequestReceived"
+QT_MOC_LITERAL(43, 876, 7), // "request"
+QT_MOC_LITERAL(44, 884, 8) // "response"
 
     },
     "SPIIMotionController\0signal_MCCommunicationUpdate\0"
@@ -73,15 +83,20 @@ QT_MOC_LITERAL(34, 681, 8) // "response"
     "connection\0signal_MCNewMotionState\0"
     "ECM::SPII::SPIIState\0state\0stateString\0"
     "signal_MCBufferUpdate\0Status_BufferState\0"
-    "signal_MCHomeIndicated\0indicated\0"
-    "signal_MCTouchoffIndicated\0"
+    "signal_MCNewProgramLabelList\0"
+    "Operation_LabelList\0labelList\0"
+    "signal_MCNewProgramVariableList\0"
+    "Operation_VariableList\0variableList\0"
+    "signal_MCNewPosition\0common::TuplePositionalString\0"
+    "tuple\0common_data::MachinePositionalState\0"
+    "data\0valueChanged\0signal_MCHomeIndicated\0"
+    "indicated\0signal_MCTouchoffIndicated\0"
     "signal_MCNewPositionalPlottable\0"
-    "common::TuplePositionalString\0"
     "variableTuple\0on_off\0signal_MCNewVariablePlottable\0"
     "common::TupleProfileVariableString\0"
     "signal_MCNewProfileVariableValue\0"
     "common_data::MotionProfileVariableState\0"
-    "data\0signal_GalilUpdatedProfileState\0"
+    "signal_GalilUpdatedProfileState\0"
     "MotionProfileState\0signal_ErrorCommandCode\0"
     "CommandType\0type\0std::string\0errorString\0"
     "signal_ErrorRequestCode\0RequestTypes\0"
@@ -96,40 +111,46 @@ static const uint qt_meta_data_SPIIMotionController[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+      15,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-      12,       // signalCount
+      15,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   74,    2, 0x06 /* Public */,
-       5,    2,   77,    2, 0x06 /* Public */,
-       9,    1,   82,    2, 0x06 /* Public */,
-      11,    1,   85,    2, 0x06 /* Public */,
-      13,    1,   88,    2, 0x06 /* Public */,
-      14,    2,   91,    2, 0x06 /* Public */,
-      18,    2,   96,    2, 0x06 /* Public */,
-      20,    2,  101,    2, 0x06 /* Public */,
-      23,    1,  106,    2, 0x06 /* Public */,
-      25,    2,  109,    2, 0x06 /* Public */,
-      30,    2,  114,    2, 0x06 /* Public */,
-      32,    2,  119,    2, 0x06 /* Public */,
+       1,    1,   89,    2, 0x06 /* Public */,
+       5,    2,   92,    2, 0x06 /* Public */,
+       9,    1,   97,    2, 0x06 /* Public */,
+      11,    1,  100,    2, 0x06 /* Public */,
+      14,    1,  103,    2, 0x06 /* Public */,
+      17,    3,  106,    2, 0x06 /* Public */,
+      23,    1,  113,    2, 0x06 /* Public */,
+      25,    1,  116,    2, 0x06 /* Public */,
+      26,    2,  119,    2, 0x06 /* Public */,
+      29,    2,  124,    2, 0x06 /* Public */,
+      31,    2,  129,    2, 0x06 /* Public */,
+      33,    1,  134,    2, 0x06 /* Public */,
+      35,    2,  137,    2, 0x06 /* Public */,
+      40,    2,  142,    2, 0x06 /* Public */,
+      42,    2,  147,    2, 0x06 /* Public */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
     QMetaType::Void, 0x80000000 | 6, QMetaType::QString,    7,    8,
     QMetaType::Void, 0x80000000 | 10,    7,
-    QMetaType::Void, QMetaType::Bool,   12,
-    QMetaType::Void, QMetaType::Bool,   12,
-    QMetaType::Void, 0x80000000 | 15, QMetaType::Bool,   16,   17,
-    QMetaType::Void, 0x80000000 | 19, QMetaType::Bool,   16,   17,
-    QMetaType::Void, 0x80000000 | 19, 0x80000000 | 21,   16,   22,
-    QMetaType::Void, 0x80000000 | 24,    7,
-    QMetaType::Void, 0x80000000 | 26, 0x80000000 | 28,   27,   29,
-    QMetaType::Void, 0x80000000 | 31, 0x80000000 | 28,   27,   29,
-    QMetaType::Void, 0x80000000 | 28, 0x80000000 | 28,   33,   34,
+    QMetaType::Void, 0x80000000 | 12,   13,
+    QMetaType::Void, 0x80000000 | 15,   16,
+    QMetaType::Void, 0x80000000 | 18, 0x80000000 | 20, QMetaType::Bool,   19,   21,   22,
+    QMetaType::Void, QMetaType::Bool,   24,
+    QMetaType::Void, QMetaType::Bool,   24,
+    QMetaType::Void, 0x80000000 | 18, QMetaType::Bool,   27,   28,
+    QMetaType::Void, 0x80000000 | 30, QMetaType::Bool,   27,   28,
+    QMetaType::Void, 0x80000000 | 30, 0x80000000 | 32,   27,   21,
+    QMetaType::Void, 0x80000000 | 34,    7,
+    QMetaType::Void, 0x80000000 | 36, 0x80000000 | 38,   37,   39,
+    QMetaType::Void, 0x80000000 | 41, 0x80000000 | 38,   37,   39,
+    QMetaType::Void, 0x80000000 | 38, 0x80000000 | 38,   43,   44,
 
        0        // eod
 };
@@ -143,15 +164,18 @@ void SPIIMotionController::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
         case 0: _t->signal_MCCommunicationUpdate((*reinterpret_cast< const common::comms::CommunicationUpdate(*)>(_a[1]))); break;
         case 1: _t->signal_MCNewMotionState((*reinterpret_cast< const ECM::SPII::SPIIState(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2]))); break;
         case 2: _t->signal_MCBufferUpdate((*reinterpret_cast< const Status_BufferState(*)>(_a[1]))); break;
-        case 3: _t->signal_MCHomeIndicated((*reinterpret_cast< const bool(*)>(_a[1]))); break;
-        case 4: _t->signal_MCTouchoffIndicated((*reinterpret_cast< const bool(*)>(_a[1]))); break;
-        case 5: _t->signal_MCNewPositionalPlottable((*reinterpret_cast< const common::TuplePositionalString(*)>(_a[1])),(*reinterpret_cast< const bool(*)>(_a[2]))); break;
-        case 6: _t->signal_MCNewVariablePlottable((*reinterpret_cast< const common::TupleProfileVariableString(*)>(_a[1])),(*reinterpret_cast< const bool(*)>(_a[2]))); break;
-        case 7: _t->signal_MCNewProfileVariableValue((*reinterpret_cast< const common::TupleProfileVariableString(*)>(_a[1])),(*reinterpret_cast< const common_data::MotionProfileVariableState(*)>(_a[2]))); break;
-        case 8: _t->signal_GalilUpdatedProfileState((*reinterpret_cast< const MotionProfileState(*)>(_a[1]))); break;
-        case 9: _t->signal_ErrorCommandCode((*reinterpret_cast< const CommandType(*)>(_a[1])),(*reinterpret_cast< const std::string(*)>(_a[2]))); break;
-        case 10: _t->signal_ErrorRequestCode((*reinterpret_cast< const RequestTypes(*)>(_a[1])),(*reinterpret_cast< const std::string(*)>(_a[2]))); break;
-        case 11: _t->signal_CustomUserRequestReceived((*reinterpret_cast< const std::string(*)>(_a[1])),(*reinterpret_cast< const std::string(*)>(_a[2]))); break;
+        case 3: _t->signal_MCNewProgramLabelList((*reinterpret_cast< const Operation_LabelList(*)>(_a[1]))); break;
+        case 4: _t->signal_MCNewProgramVariableList((*reinterpret_cast< const Operation_VariableList(*)>(_a[1]))); break;
+        case 5: _t->signal_MCNewPosition((*reinterpret_cast< const common::TuplePositionalString(*)>(_a[1])),(*reinterpret_cast< const common_data::MachinePositionalState(*)>(_a[2])),(*reinterpret_cast< const bool(*)>(_a[3]))); break;
+        case 6: _t->signal_MCHomeIndicated((*reinterpret_cast< const bool(*)>(_a[1]))); break;
+        case 7: _t->signal_MCTouchoffIndicated((*reinterpret_cast< const bool(*)>(_a[1]))); break;
+        case 8: _t->signal_MCNewPositionalPlottable((*reinterpret_cast< const common::TuplePositionalString(*)>(_a[1])),(*reinterpret_cast< const bool(*)>(_a[2]))); break;
+        case 9: _t->signal_MCNewVariablePlottable((*reinterpret_cast< const common::TupleProfileVariableString(*)>(_a[1])),(*reinterpret_cast< const bool(*)>(_a[2]))); break;
+        case 10: _t->signal_MCNewProfileVariableValue((*reinterpret_cast< const common::TupleProfileVariableString(*)>(_a[1])),(*reinterpret_cast< const common_data::MotionProfileVariableState(*)>(_a[2]))); break;
+        case 11: _t->signal_GalilUpdatedProfileState((*reinterpret_cast< const MotionProfileState(*)>(_a[1]))); break;
+        case 12: _t->signal_ErrorCommandCode((*reinterpret_cast< const CommandType(*)>(_a[1])),(*reinterpret_cast< const std::string(*)>(_a[2]))); break;
+        case 13: _t->signal_ErrorRequestCode((*reinterpret_cast< const RequestTypes(*)>(_a[1])),(*reinterpret_cast< const std::string(*)>(_a[2]))); break;
+        case 14: _t->signal_CustomUserRequestReceived((*reinterpret_cast< const std::string(*)>(_a[1])),(*reinterpret_cast< const std::string(*)>(_a[2]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -169,16 +193,25 @@ void SPIIMotionController::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
                 *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< common::TuplePositionalString >(); break;
+            case 1:
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< common_data::MachinePositionalState >(); break;
             }
             break;
-        case 6:
+        case 8:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+            case 0:
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< common::TuplePositionalString >(); break;
+            }
+            break;
+        case 9:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
                 *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< common::TupleProfileVariableString >(); break;
             }
             break;
-        case 7:
+        case 10:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
@@ -187,7 +220,7 @@ void SPIIMotionController::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
                 *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< common_data::MotionProfileVariableState >(); break;
             }
             break;
-        case 8:
+        case 11:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
@@ -219,65 +252,86 @@ void SPIIMotionController::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
             }
         }
         {
+            using _t = void (SPIIMotionController::*)(const Operation_LabelList & );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_MCNewProgramLabelList)) {
+                *result = 3;
+                return;
+            }
+        }
+        {
+            using _t = void (SPIIMotionController::*)(const Operation_VariableList & );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_MCNewProgramVariableList)) {
+                *result = 4;
+                return;
+            }
+        }
+        {
+            using _t = void (SPIIMotionController::*)(const common::TuplePositionalString & , const common_data::MachinePositionalState & , const bool & ) const;
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_MCNewPosition)) {
+                *result = 5;
+                return;
+            }
+        }
+        {
             using _t = void (SPIIMotionController::*)(const bool & ) const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_MCHomeIndicated)) {
-                *result = 3;
+                *result = 6;
                 return;
             }
         }
         {
             using _t = void (SPIIMotionController::*)(const bool & ) const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_MCTouchoffIndicated)) {
-                *result = 4;
+                *result = 7;
                 return;
             }
         }
         {
             using _t = void (SPIIMotionController::*)(const common::TuplePositionalString & , const bool & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_MCNewPositionalPlottable)) {
-                *result = 5;
+                *result = 8;
                 return;
             }
         }
         {
             using _t = void (SPIIMotionController::*)(const common::TupleProfileVariableString & , const bool & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_MCNewVariablePlottable)) {
-                *result = 6;
+                *result = 9;
                 return;
             }
         }
         {
             using _t = void (SPIIMotionController::*)(const common::TupleProfileVariableString & , const common_data::MotionProfileVariableState & ) const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_MCNewProfileVariableValue)) {
-                *result = 7;
+                *result = 10;
                 return;
             }
         }
         {
             using _t = void (SPIIMotionController::*)(const MotionProfileState & ) const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_GalilUpdatedProfileState)) {
-                *result = 8;
+                *result = 11;
                 return;
             }
         }
         {
             using _t = void (SPIIMotionController::*)(const CommandType & , const std::string & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_ErrorCommandCode)) {
-                *result = 9;
+                *result = 12;
                 return;
             }
         }
         {
             using _t = void (SPIIMotionController::*)(const RequestTypes & , const std::string & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_ErrorRequestCode)) {
-                *result = 10;
+                *result = 13;
                 return;
             }
         }
         {
             using _t = void (SPIIMotionController::*)(const std::string & , const std::string & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SPIIMotionController::signal_CustomUserRequestReceived)) {
-                *result = 11;
+                *result = 14;
                 return;
             }
         }
@@ -313,13 +367,13 @@ int SPIIMotionController::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 12)
+        if (_id < 15)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 15;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 12)
+        if (_id < 15)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 15;
     }
     return _id;
 }
@@ -346,66 +400,87 @@ void SPIIMotionController::signal_MCBufferUpdate(const Status_BufferState & _t1)
 }
 
 // SIGNAL 3
-void SPIIMotionController::signal_MCHomeIndicated(const bool & _t1)const
+void SPIIMotionController::signal_MCNewProgramLabelList(const Operation_LabelList & _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(const_cast< SPIIMotionController *>(this), &staticMetaObject, 3, _a);
+    QMetaObject::activate(this, &staticMetaObject, 3, _a);
 }
 
 // SIGNAL 4
-void SPIIMotionController::signal_MCTouchoffIndicated(const bool & _t1)const
+void SPIIMotionController::signal_MCNewProgramVariableList(const Operation_VariableList & _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(const_cast< SPIIMotionController *>(this), &staticMetaObject, 4, _a);
+    QMetaObject::activate(this, &staticMetaObject, 4, _a);
 }
 
 // SIGNAL 5
-void SPIIMotionController::signal_MCNewPositionalPlottable(const common::TuplePositionalString & _t1, const bool & _t2)
+void SPIIMotionController::signal_MCNewPosition(const common::TuplePositionalString & _t1, const common_data::MachinePositionalState & _t2, const bool & _t3)const
 {
-    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
-    QMetaObject::activate(this, &staticMetaObject, 5, _a);
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)) };
+    QMetaObject::activate(const_cast< SPIIMotionController *>(this), &staticMetaObject, 5, _a);
 }
 
 // SIGNAL 6
-void SPIIMotionController::signal_MCNewVariablePlottable(const common::TupleProfileVariableString & _t1, const bool & _t2)
+void SPIIMotionController::signal_MCHomeIndicated(const bool & _t1)const
 {
-    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
-    QMetaObject::activate(this, &staticMetaObject, 6, _a);
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(const_cast< SPIIMotionController *>(this), &staticMetaObject, 6, _a);
 }
 
 // SIGNAL 7
-void SPIIMotionController::signal_MCNewProfileVariableValue(const common::TupleProfileVariableString & _t1, const common_data::MotionProfileVariableState & _t2)const
+void SPIIMotionController::signal_MCTouchoffIndicated(const bool & _t1)const
 {
-    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(const_cast< SPIIMotionController *>(this), &staticMetaObject, 7, _a);
 }
 
 // SIGNAL 8
-void SPIIMotionController::signal_GalilUpdatedProfileState(const MotionProfileState & _t1)const
+void SPIIMotionController::signal_MCNewPositionalPlottable(const common::TuplePositionalString & _t1, const bool & _t2)
 {
-    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(const_cast< SPIIMotionController *>(this), &staticMetaObject, 8, _a);
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 8, _a);
 }
 
 // SIGNAL 9
-void SPIIMotionController::signal_ErrorCommandCode(const CommandType & _t1, const std::string & _t2)
+void SPIIMotionController::signal_MCNewVariablePlottable(const common::TupleProfileVariableString & _t1, const bool & _t2)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
     QMetaObject::activate(this, &staticMetaObject, 9, _a);
 }
 
 // SIGNAL 10
-void SPIIMotionController::signal_ErrorRequestCode(const RequestTypes & _t1, const std::string & _t2)
+void SPIIMotionController::signal_MCNewProfileVariableValue(const common::TupleProfileVariableString & _t1, const common_data::MotionProfileVariableState & _t2)const
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
-    QMetaObject::activate(this, &staticMetaObject, 10, _a);
+    QMetaObject::activate(const_cast< SPIIMotionController *>(this), &staticMetaObject, 10, _a);
 }
 
 // SIGNAL 11
+void SPIIMotionController::signal_GalilUpdatedProfileState(const MotionProfileState & _t1)const
+{
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(const_cast< SPIIMotionController *>(this), &staticMetaObject, 11, _a);
+}
+
+// SIGNAL 12
+void SPIIMotionController::signal_ErrorCommandCode(const CommandType & _t1, const std::string & _t2)
+{
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 12, _a);
+}
+
+// SIGNAL 13
+void SPIIMotionController::signal_ErrorRequestCode(const RequestTypes & _t1, const std::string & _t2)
+{
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 13, _a);
+}
+
+// SIGNAL 14
 void SPIIMotionController::signal_CustomUserRequestReceived(const std::string & _t1, const std::string & _t2)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
-    QMetaObject::activate(this, &staticMetaObject, 11, _a);
+    QMetaObject::activate(this, &staticMetaObject, 14, _a);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

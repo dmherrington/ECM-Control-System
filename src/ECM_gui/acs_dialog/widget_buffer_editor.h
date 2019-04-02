@@ -39,7 +39,8 @@ public:
 
     void updateBufferIndex(const unsigned int &index);
 
-    void updateCodeText(const std::string &programText);
+private:
+    void updateCurrentLineCount();
 
 private slots:
 
@@ -57,18 +58,18 @@ private slots:
 
 signals:
     void signal_BufferNameChanged(const std::string &name);
-    void signal_BufferUpdatedLineCount(const unsigned int &count);
+    void signal_BufferUpdatedLineCount(const int &count);
 
 private:
     Ui::Widget_BufferEditor *ui;
 
     SPIIMotionController* m_SPIIDevice;
 
-    BufferData* m_EditData;
+    BufferData* m_EditData; //! Holds the data that we know is previous in the ACS
 
     bool lockBufferName = false;
 
-    unsigned int previousLineCount = 0;
+    int previousLineCount = -1;
 };
 
 #endif // WIDGET_BUFFER_EDITOR_H

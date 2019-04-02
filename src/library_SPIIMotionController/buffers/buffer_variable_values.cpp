@@ -18,7 +18,6 @@ BufferVariableValues::BufferVariableValues(const BufferVariableValues &copy)
 
 void BufferVariableValues::addVariable(const Status_VariableValue &var)
 {
-
     DataGetSetNotifier<Status_VariableValue>* newVar = new DataGetSetNotifier<Status_VariableValue>();
     newVar->set(var);
     this->variableMap[var.getVariableName()] = newVar;

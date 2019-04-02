@@ -23,6 +23,7 @@
 #include "states/state_components.h"
 #include "status/status_components.h"
 
+#include "data/machine_positional_state.h"
 
 #include "spii_state_interface.h"
 #include "spii_device_interface_motion_control.h"
@@ -37,6 +38,8 @@ public:
     SPIIMotionController();
 
     ~SPIIMotionController() override;
+
+    BufferData retrieveBufferData(const unsigned int &bufferIndex);
 
 public:
     ECM::SPII::SPIIState getCurrentMCState() const;
@@ -75,8 +78,15 @@ public:
     void cbi_SPIIDownloadProgram(const AbstractCommandPtr command);
 
 
+    //////////////////////////////////////////////////////////////
+    /// Virtual methods overriden from Comms::CommsEvents
+    //////////////////////////////////////////////////////////////
 private:
     void NewBufferState(const Status_BufferState &state) override;
+    void NewBuffer_AvailableData(const BufferData &bufferData) override;
+    void NewStatus_OperationalLabels(const Operation_LabelList &labelList) override;
+    void NewStatus_OperationalVariables(const Operation_VariableList &variableList) override;
+
 
 private:
     void initializeMotionController();
@@ -109,6 +119,19 @@ signals:
     //! \param state
     //!
     void signal_MCBufferUpdate(const Status_BufferState &state);
+
+signals:
+    void signal_MCNewProgramLabelList(const Operation_LabelList &labelList);
+
+    void signal_MCNewProgramVariableList(const Operation_VariableList &variableList);
+
+    //!
+    //! \brief signal_MCNewPoition
+    //! \param tuple
+    //! \param data
+    //!
+    void signal_MCNewPosition(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &data, const bool &valueChanged) const;
+
 
 signals:
 

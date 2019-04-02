@@ -9,7 +9,11 @@ Status_MotorPerAxis::Status_MotorPerAxis():
 Status_MotorPerAxis::Status_MotorPerAxis(const Status_MotorPerAxis &copy):
     AbstractStatus (copy)
 {
-
+    this->currentAxis = copy.currentAxis;
+    this->isEnabled = copy.isEnabled;
+    this->hasReachedTarget = copy.hasReachedTarget;
+    this->isMoving = copy.isMoving;
+    this->isAccelerating = copy.isAccelerating;
 }
 
 void Status_MotorPerAxis::setAxis(const MotorAxis &axis)
@@ -86,6 +90,17 @@ bool Status_Motor::areAnyMotorsEnabled() const
     for (std::map<MotorAxis, DataGetSetNotifier<Status_MotorPerAxis>*>::const_iterator it=m_MotorStatus.begin(); it!=m_MotorStatus.end(); ++it)
     {
         if(it->second->get().isMotorEnabled())
+            return true;
+    }
+
+    return false;
+}
+
+bool Status_Motor::areAnyMotorsMoving() const
+{
+    for (std::map<MotorAxis, DataGetSetNotifier<Status_MotorPerAxis>*>::const_iterator it=m_MotorStatus.begin(); it!=m_MotorStatus.end(); ++it)
+    {
+        if(it->second->get().isMotorMoving())
             return true;
     }
 

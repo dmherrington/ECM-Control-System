@@ -16,9 +16,20 @@ CommsMarshaler::CommsMarshaler()
 
     //let us simplify this and do this upon constuction as there will only be one protocol
     protocol = std::make_shared<SPIIProtocol>();
-    //protocol->AddListner(this);
+    protocol->AddListner(this);
 }
 
+void CommsMarshaler::initializeBufferContents()
+{
+    auto func = [this]() {
+        if(!link->isConnected())
+            return;
+
+            protocol->initializeBufferContents();
+    };
+
+    link->MarshalOnThread(func);
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /// Connect/Disconnect from Galil Methods
@@ -43,7 +54,8 @@ bool CommsMarshaler::ConnectToSimulation(SPII_Settings &deviceSettings)
         if(protocol->requestNumberofBuffers(numOfBuffers))
             deviceSettings.setBufferCount(static_cast<unsigned int>(numOfBuffers));
 
-        protocol->testObject();
+        protocol->updateDeviceSettings(deviceSettings);
+
     }
 
     return link->isConnected();
@@ -307,22 +319,22 @@ std::vector<Status_PositionPerAxis> CommsMarshaler::requestPosition(const Reques
 
 void CommsMarshaler::NewBufferState(const Status_BufferState &state) const
 {
-
+    Emit([&](CommsEvents *ptr){ptr->NewBufferState(state);});
 }
 
-void CommsMarshaler::NewStatusMotor(const Status_Motor &status) const
+void CommsMarshaler::NewBuffer_AvailableData(const BufferData &bufferData) const
 {
-
+    Emit([&](CommsEvents *ptr){ptr->NewBuffer_AvailableData(bufferData);});
 }
 
 void CommsMarshaler::NewStatus_OperationalLabels(const Operation_LabelList &labelList) const
 {
-
+    Emit([&](CommsEvents *ptr){ptr->NewStatus_OperationalLabels(labelList);});
 }
 
-void CommsMarshaler::NewStatus_OperationalVariables(const Operation_VariableList &variableList)
+void CommsMarshaler::NewStatus_OperationalVariables(const Operation_VariableList &variableList) const
 {
-
+    Emit([&](CommsEvents *ptr){ptr->NewStatus_OperationalVariables(variableList);});
 }
 
 
