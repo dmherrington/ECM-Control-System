@@ -449,7 +449,7 @@ public:
 
     void retranslateUi(QMainWindow *Window_MotionControl)
     {
-        Window_MotionControl->setWindowTitle(QApplication::translate("Window_MotionControl", "Galil Motion Control", nullptr));
+        Window_MotionControl->setWindowTitle(QApplication::translate("Window_MotionControl", "Motion Control", nullptr));
         actionClose->setText(QApplication::translate("Window_MotionControl", "Close", nullptr));
         label_ManualControl->setText(QApplication::translate("Window_MotionControl", "Manual Control", nullptr));
         label->setText(QApplication::translate("Window_MotionControl", "Current Position (um):", nullptr));

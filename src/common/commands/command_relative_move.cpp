@@ -35,7 +35,7 @@ void CommandRelativeMove::setRelativeDirection(const MotorAxis &axis, const Dire
     setMoveDirection(axis,direction);
 }
 
-void CommandRelativeMove::setRelativeDistance(const MotorAxis &axis, const int &distance)
+void CommandRelativeMove::setRelativeDistance(const MotorAxis &axis, const double &distance)
 {
     if(axis == MotorAxis::ALL)
     {
@@ -50,12 +50,28 @@ void CommandRelativeMove::setRelativeDistance(const MotorAxis &axis, const int &
     }
 
     if(distance <= 0.0)
-        this->setMoveDirection(axis, Direction::DIRECTION_UP); //this direction has negative values
+        this->setMoveDirection(axis, Direction::DIRECTION_POSITIVE); //this direction has negative values
     else
-        this->setMoveDirection(axis, Direction::DIRECION_DOWN); //this direction has positive values
+        this->setMoveDirection(axis, Direction::DIRECTION_NEGATIVE); //this direction has positive values
 }
 
-int CommandRelativeMove::getRelativeDistance(const MotorAxis &axis) const
+
+std::map<MotorAxis, double> CommandRelativeMove::getDirectedRelativeMove() const
+{
+    std::map<MotorAxis, double> rtnMoveMap;
+    std::map<MotorAxis, Direction> directionMap = getMoveDirection();
+    for (std::map<MotorAxis, double>::const_iterator it=relativeMove.begin(); it!=relativeMove.end(); ++it)
+    {
+        if(directionMap.at(it->first) == Direction::DIRECTION_NEGATIVE)
+            rtnMoveMap.insert(std::pair<MotorAxis, double>(it->first,-1.0 * it->second));
+        else
+            rtnMoveMap.insert(std::pair<MotorAxis, double>(it->first,it->second));
+    }
+
+    return rtnMoveMap;
+}
+
+double CommandRelativeMove::getRelativeDistance(const MotorAxis &axis) const
 {
     int targetPosition = 0;
     if(axis == MotorAxis::ALL)
@@ -64,7 +80,7 @@ int CommandRelativeMove::getRelativeDistance(const MotorAxis &axis) const
     }
     else
     {
-        if(this->moveDirection.at(axis) == Direction::DIRECTION_UP)
+        if(this->moveDirection.at(axis) == Direction::DIRECTION_POSITIVE)
             targetPosition = this->relativeMove.at(axis) * -10;
         else
             targetPosition = this->relativeMove.at(axis) * 10;
@@ -80,7 +96,7 @@ std::string CommandRelativeMove::getCommandString() const
         str.append(CommandToString(this->getCommandType()));
         str.append(" ");
 
-        std::map<MotorAxis, int>::const_iterator it = relativeMove.begin();
+        std::map<MotorAxis, double>::const_iterator it = relativeMove.begin();
         while (it!= relativeMove.end()) {
             str.append(std::to_string(it->second));
             if(++it != relativeMove.end())
@@ -93,7 +109,7 @@ std::string CommandRelativeMove::getCommandString() const
         str.append("");
         str.append(AxisToString(moveAxis));
         str.append("=");
-        if(moveDirection.at(moveAxis) == Direction::DIRECTION_UP)
+        if(moveDirection.at(moveAxis) == Direction::DIRECTION_POSITIVE)
             str.append("-");
         str.append(std::to_string(relativeMove.at(moveAxis) * 10));
     }

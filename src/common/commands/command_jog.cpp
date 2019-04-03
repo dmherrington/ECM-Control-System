@@ -50,7 +50,8 @@ void CommandJog::setJogDirection(const MotorAxis &axis, const Direction &directi
 
 void CommandJog::setJogResolution(const double &resolution)
 {
-
+    std::map<MotorAxis,Direction> mapDirection =
+    this->getMoveDirection();
 }
 
 void CommandJog::setJogSpeed(const MotorAxis &axis, const double &speed)
@@ -67,10 +68,26 @@ void CommandJog::setJogSpeed(const MotorAxis &axis, const double &speed)
     }
 
     if(speed <= 0.0)
-        this->setMoveDirection(axis, Direction::DIRECTION_UP); //this direction has negative values
+        this->setMoveDirection(axis, Direction::DIRECTION_NEGATIVE); //this direction has negative values
     else
-        this->setMoveDirection(axis, Direction::DIRECION_DOWN); //this direction has positive values
+        this->setMoveDirection(axis, Direction::DIRECTION_POSITIVE); //this direction has positive values
 }
+
+std::map<MotorAxis, double> CommandJog::getJogDirectedAction() const
+{
+    std::map<MotorAxis, double> rtnJogMap;
+    std::map<MotorAxis, Direction> directionMap = getMoveDirection();
+    for (std::map<MotorAxis, double>::const_iterator it=jogSpeed.begin(); it!=jogSpeed.end(); ++it)
+    {
+        if(directionMap.at(it->first) == Direction::DIRECTION_NEGATIVE)
+            rtnJogMap.insert(std::pair<MotorAxis, double>(it->first,-1.0 * it->second));
+        else
+            rtnJogMap.insert(std::pair<MotorAxis, double>(it->first,it->second));
+    }
+
+    return rtnJogMap;
+}
+
 std::map<MotorAxis, double> CommandJog::getJogAction() const
 {
     return this->jogSpeed;
@@ -96,7 +113,7 @@ std::string CommandJog::getCommandString() const
         str.append(CommandToString(this->getCommandType()));
         str.append(AxisToString(moveAxis));
         str.append("=");
-        if(moveDirection.at(moveAxis) == Direction::DIRECTION_UP)
+        if(moveDirection.at(moveAxis) == Direction::DIRECTION_NEGATIVE)
             str.append("-");
         str.append(std::to_string((int)jogSpeed.at(moveAxis)*10));
     }

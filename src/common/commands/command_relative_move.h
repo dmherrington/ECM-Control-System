@@ -56,9 +56,11 @@ public:
 
 public:
     void setRelativeDirection(const MotorAxis &axis, const Direction &direction);
-    void setRelativeDistance(const MotorAxis &axis, const int &distance);
+    void setRelativeDistance(const MotorAxis &axis, const double &distance);
 
-    int getRelativeDistance(const MotorAxis &axis) const;
+    double getRelativeDistance(const MotorAxis &axis) const;
+
+    std::map<MotorAxis, double> getDirectedRelativeMove() const;
 
 public:
     std::string getCommandString() const override;
@@ -101,7 +103,7 @@ public:
     }
 
 private:
-    std::map<MotorAxis, int> relativeMove; /**< Value of the relative move in micrometers */
+    std::map<MotorAxis, double> relativeMove; /**< Value of the relative move in micrometers */
 };
 
 #endif // COMMAND_RELATIVE_MOVE_H

@@ -151,6 +151,12 @@ void SPIIProtocol::SendProtocolMotionCommand(const AbstractCommandPtr command)
         commandJogMotion(*commandJog);
         break;
     }
+    case CommandType::RELATIVE_MOVE:
+    {
+        CommandRelativeMove* commandRM = command->as<CommandRelativeMove>();
+        commandRelativeMove(*commandRM);
+        break;
+    }
     case CommandType::STOP:
     {
         CommandStop* commandStop = command->as<CommandStop>();
@@ -268,7 +274,8 @@ bool SPIIProtocol::commandJogMotion(const CommandJog &jog)
     if(m_SPIIDevice == nullptr)
         return false;
 
-    std::map<MotorAxis, double> jogActionMap = jog.getJogAction();
+    std::map<MotorAxis, double> jogActionMap = jog.getJogDirectedAction();
+
     if(jogActionMap.size() > 1)
     {
         //this would be a multiaxis jog
@@ -284,6 +291,35 @@ bool SPIIProtocol::commandJogMotion(const CommandJog &jog)
     }
     else {
         //there is simply no jog command
+    }
+
+    return rtnValidity;
+}
+
+bool SPIIProtocol::commandRelativeMove(const CommandRelativeMove &relativeMove)
+{
+    bool rtnValidity = false;
+
+    if(m_SPIIDevice == nullptr)
+        return false;
+
+    std::map<MotorAxis, double> moveActionMap = relativeMove.getDirectedRelativeMove();
+
+    if(moveActionMap.size() > 1)
+    {
+        //this would be a multiaxis jog
+        //for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+        //std::cout << it->first << " => " << it->second << '\n';
+        //rtnValidity = acsc_JogM(*m_SPIIDevice.get(),&index,ACSC_SYNCHRONOUS);
+    }
+    else if(moveActionMap.size() == 1)
+    {
+        std::map<MotorAxis, double>::iterator it=moveActionMap.begin();
+        //this would imply a single axis jog
+        rtnValidity = acsc_ToPoint(*m_SPIIDevice.get(),ACSC_AMF_RELATIVE,it->first,it->second,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+    }
+    else {
+        //there is simply no relative move command that is applicable at this time
     }
 
     return rtnValidity;

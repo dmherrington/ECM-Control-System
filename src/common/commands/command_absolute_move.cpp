@@ -54,9 +54,9 @@ void CommandAbsoluteMove::setAbsolutePosition(const MotorAxis &axis, const int &
     }
 
     if(position <= 0.0)
-        this->setMoveDirection(axis, Direction::DIRECTION_UP); //this direction has negative values
+        this->setMoveDirection(axis, Direction::DIRECTION_POSITIVE); //this direction has negative values
     else
-        this->setMoveDirection(axis, Direction::DIRECION_DOWN); //this direction has positive values
+        this->setMoveDirection(axis, Direction::DIRECTION_NEGATIVE); //this direction has positive values
 }
 
 std::string CommandAbsoluteMove::getCommandString() const

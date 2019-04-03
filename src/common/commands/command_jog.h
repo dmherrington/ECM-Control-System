@@ -61,6 +61,7 @@ public:
     void setJogResolution(const double &resolution);
     void setJogSpeed(const MotorAxis &axis, const double &speed);
 
+    std::map<MotorAxis, double> getJogDirectedAction() const;
     std::map<MotorAxis, double> getJogAction() const;
 
 public:

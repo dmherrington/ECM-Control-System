@@ -20,9 +20,21 @@
 \*/
 
 enum class Direction{
-    DIRECTION_UP = 0, /**< */
-    DIRECION_DOWN= 1 /**< */
+    DIRECTION_POSITIVE = 0, /**< */
+    DIRECTION_NEGATIVE = 1 /**< */
 };
+
+inline int DirectionToSign(const Direction &direction)
+{
+    switch (direction) {
+    case Direction::DIRECTION_POSITIVE:
+        return -1;
+    case Direction::DIRECTION_NEGATIVE:
+        return 1;
+    default:
+        throw std::runtime_error("Unknown direction type seen");
+    }
+}
 
 //!
 //! \brief DirectionToString
@@ -30,14 +42,12 @@ enum class Direction{
 //! \return
 //!
 inline std::string DirectionToString(const Direction &direction) {
-    switch (direction) {
-    case Direction::DIRECTION_UP:
+
+    int signValue = DirectionToSign(direction);
+    if(signValue < 0)
         return "-";
-    case Direction::DIRECION_DOWN:
+    else
         return "";
-    default:
-        throw std::runtime_error("Unknown direction type seen");
-    }
 }
 
 //!
@@ -47,9 +57,9 @@ inline std::string DirectionToString(const Direction &direction) {
 //!
 inline Direction DirectionFromString(const std::string &str) {
     if(str == "-")
-        return Direction::DIRECTION_UP;
+        return Direction::DIRECTION_NEGATIVE;
     if(str == "")
-        return Direction::DIRECION_DOWN;
+        return Direction::DIRECTION_POSITIVE;
     throw std::runtime_error("Unknown direction type seen");
 }
 

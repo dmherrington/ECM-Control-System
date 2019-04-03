@@ -65,6 +65,8 @@ public:
 
     bool commandJogMotion(const CommandJog &jog);
 
+    bool commandRelativeMove(const CommandRelativeMove &relativeMove);
+
     bool commandKillMotion(const CommandStop &stop);
 
 

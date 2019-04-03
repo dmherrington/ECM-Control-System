@@ -34,9 +34,9 @@ public:
     {
         this->moveType = type;
         this->moveAxis = axis;
-        moveDirection[MotorAxis::X] = Direction::DIRECTION_UP;
-        moveDirection[MotorAxis::Y] = Direction::DIRECTION_UP;
-        moveDirection[MotorAxis::Z] = Direction::DIRECTION_UP;
+        moveDirection[MotorAxis::X] = Direction::DIRECTION_POSITIVE;
+        moveDirection[MotorAxis::Y] = Direction::DIRECTION_POSITIVE;
+        moveDirection[MotorAxis::Z] = Direction::DIRECTION_POSITIVE;
     }
 
     virtual ~AbstractMoveCommand() = default;
