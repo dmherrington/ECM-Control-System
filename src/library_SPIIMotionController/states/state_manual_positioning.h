@@ -1,6 +1,8 @@
 #ifndef STATE_MANUAL_POSITIONING_H
 #define STATE_MANUAL_POSITIONING_H
 
+#include <map>
+
 #include "states/state_abstract_spii.h"
 
 namespace ECM{
@@ -37,7 +39,17 @@ public:
     void OnEnter(const AbstractCommandPtr command);
 
 private:
-    int targetPosition;
+    void populateMotionComplete();
+
+    bool allMotionComplete() const;
+
+    void setupSubscribers();
+
+
+private:
+    std::map<MotorAxis,double> targetPosition;
+    std::map<MotorAxis,bool> motionComplete;
+
 };
 
 } //end of namespace SPII

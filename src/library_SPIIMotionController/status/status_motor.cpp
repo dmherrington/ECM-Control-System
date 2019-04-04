@@ -1,4 +1,4 @@
-#include "status_motor.h"
+﻿#include "status_motor.h"
 
 Status_MotorPerAxis::Status_MotorPerAxis():
     AbstractStatus(StatusTypes::STATUS_PER_MOTOR_AXIS)
@@ -109,7 +109,6 @@ bool Status_Motor::areAnyMotorsMoving() const
 
 bool Status_Motor::updateMotorStatus(const std::vector<Status_MotorPerAxis> &status)
 {
-
     bool motorChanged = false;
     for(size_t index = 0; index < status.size(); index++)
     {
@@ -138,7 +137,30 @@ bool Status_Motor::updateMotorStatus(const std::vector<Status_MotorPerAxis> &sta
 
 
 
-Status_MotorPerAxis* Status_Motor::getAxisStatus(const MotorAxis &axis)
+bool Status_Motor::getAxisStatus(const MotorAxis &axis, Status_MotorPerAxis &status) const
 {
+    std::map<MotorAxis, DataGetSetNotifier<Status_MotorPerAxis>*>::const_iterator iter = m_MotorStatus.find(axis);
 
+    if(iter != m_MotorStatus.end()) //item is already in the map and therefore we just need to update it
+    {
+        status = iter->second->get();
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+bool Status_Motor::getAxisStatusNotifier(const MotorAxis &axis, DataGetSetNotifier<Status_MotorPerAxis> *status)
+{
+    std::map<MotorAxis, DataGetSetNotifier<Status_MotorPerAxis>*>::const_iterator iter = m_MotorStatus.find(axis);
+
+    if(iter != m_MotorStatus.end()) //item is already in the map and therefore we just need to update it
+    {
+        status = iter->second;
+        return true;
+    }
+    else {
+        return false;
+    }
 }

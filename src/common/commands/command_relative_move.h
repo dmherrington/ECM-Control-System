@@ -33,8 +33,6 @@ class CommandRelativeMove : public AbstractMoveCommand
 public:
     CommandRelativeMove();
 
-    CommandRelativeMove(const MotorAxis &axis, const int &distance);
-
     CommandRelativeMove(const CommandRelativeMove &copy);
 
     /**
@@ -56,11 +54,11 @@ public:
 
 public:
     void setRelativeDirection(const MotorAxis &axis, const Direction &direction);
-    void setRelativeDistance(const MotorAxis &axis, const double &distance);
+    void addRelativeMoveDistance(const MotorAxis &axis, const double &distance, const Direction &direction);
 
     double getRelativeDistance(const MotorAxis &axis) const;
 
-    std::map<MotorAxis, double> getDirectedRelativeMove() const;
+    std::map<MotorAxis, double> getRelativeMoveDistance() const;
 
 public:
     std::string getCommandString() const override;

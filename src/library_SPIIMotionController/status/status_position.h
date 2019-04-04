@@ -56,7 +56,7 @@ public:
 
 private:
     MotorAxis currentAxis = MotorAxis::Z;
-    int position = 0;
+    double position = 0;
 
 };
 

@@ -3,15 +3,7 @@
 CommandRelativeMove::CommandRelativeMove():
     AbstractMoveCommand(CommandType::RELATIVE_MOVE, MotorAxis::ALL)
 {
-    relativeMove[MotorAxis::X] = 0.0;
-    relativeMove[MotorAxis::Y] = 0.0;
-    relativeMove[MotorAxis::Z] = 0.0;
-}
 
-CommandRelativeMove::CommandRelativeMove(const MotorAxis &axis, const int &distance):
-    AbstractMoveCommand(CommandType::RELATIVE_MOVE, MotorAxis::ALL)
-{
-    this->setRelativeDistance(axis, distance);
 }
 
 CommandRelativeMove::CommandRelativeMove(const CommandRelativeMove &copy):
@@ -35,28 +27,25 @@ void CommandRelativeMove::setRelativeDirection(const MotorAxis &axis, const Dire
     setMoveDirection(axis,direction);
 }
 
-void CommandRelativeMove::setRelativeDistance(const MotorAxis &axis, const double &distance)
+void CommandRelativeMove::addRelativeMoveDistance(const MotorAxis &axis, const double &distance, const Direction &direction)
 {
     if(axis == MotorAxis::ALL)
     {
-        relativeMove[MotorAxis::X] = fabs(distance);
-        relativeMove[MotorAxis::Y] = fabs(distance);
-        relativeMove[MotorAxis::Z] = fabs(distance);
+
     }
     else
     {
-        moveAxis = axis;
-        relativeMove[axis] = fabs(distance);
+        std::pair<std::map<MotorAxis,double>::iterator,bool> ret;
+        ret = relativeMove.insert (std::pair<MotorAxis,double>(axis,distance));
+        if (ret.second==false) {
+            relativeMove[axis] = fabs(distance);
+            this->setMoveDirection(axis, direction);
+        }
     }
-
-    if(distance <= 0.0)
-        this->setMoveDirection(axis, Direction::DIRECTION_POSITIVE); //this direction has negative values
-    else
-        this->setMoveDirection(axis, Direction::DIRECTION_NEGATIVE); //this direction has positive values
 }
 
 
-std::map<MotorAxis, double> CommandRelativeMove::getDirectedRelativeMove() const
+std::map<MotorAxis, double> CommandRelativeMove::getRelativeMoveDistance() const
 {
     std::map<MotorAxis, double> rtnMoveMap;
     std::map<MotorAxis, Direction> directionMap = getMoveDirection();

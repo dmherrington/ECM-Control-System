@@ -7,15 +7,7 @@
 CommandAbsoluteMove::CommandAbsoluteMove():
     AbstractMoveCommand(CommandType::ABSOLUTE_MOVE, MotorAxis::ALL)
 {
-    absoluteMove[MotorAxis::X] = 0.0;
-    absoluteMove[MotorAxis::Y] = 0.0;
-    absoluteMove[MotorAxis::Z] = 0.0;
-}
 
-CommandAbsoluteMove::CommandAbsoluteMove(const MotorAxis &axis, const int &position):
-    AbstractMoveCommand(CommandType::ABSOLUTE_MOVE, MotorAxis::ALL)
-{
-    this->setAbsolutePosition(axis, position);
 }
 
 CommandAbsoluteMove::CommandAbsoluteMove(const CommandAbsoluteMove &copy):
@@ -35,28 +27,36 @@ void CommandAbsoluteMove::getClone(AbstractCommand** state) const
     *state = new CommandAbsoluteMove(*this);
 }
 
-void CommandAbsoluteMove::setAbsoluteDirection(const MotorAxis &axis, const Direction &direction)
-{
-    setMoveDirection(axis,direction);
-}
-
-void CommandAbsoluteMove::setAbsolutePosition(const MotorAxis &axis, const int &position)
+void CommandAbsoluteMove::addAbsoluteMovePosition(const MotorAxis &axis, const double &position, const Direction &direction)
 {
     if(axis == MotorAxis::ALL)
     {
-        absoluteMove[MotorAxis::X] = fabs(position);
-        absoluteMove[MotorAxis::Y] = fabs(position);
-        absoluteMove[MotorAxis::Z] = fabs(position);
+
     }
     else
     {
-        absoluteMove[axis] = fabs(position);
+        std::pair<std::map<MotorAxis,double>::iterator,bool> ret;
+        ret = absoluteMove.insert (std::pair<MotorAxis,double>(axis,position));
+        if (ret.second==false) {
+            absoluteMove[axis] = fabs(position);
+            this->setMoveDirection(axis, direction);
+        }
+     }
+}
+
+std::map<MotorAxis, double> CommandAbsoluteMove::getAbsoluteMovePosition() const
+{
+    std::map<MotorAxis, double> rtnMoveMap;
+    std::map<MotorAxis, Direction> directionMap = getMoveDirection();
+    for (std::map<MotorAxis, double>::const_iterator it=absoluteMove.begin(); it!=absoluteMove.end(); ++it)
+    {
+        if(directionMap.at(it->first) == Direction::DIRECTION_NEGATIVE)
+            rtnMoveMap.insert(std::pair<MotorAxis, double>(it->first,-1.0 * it->second));
+        else
+            rtnMoveMap.insert(std::pair<MotorAxis, double>(it->first,it->second));
     }
 
-    if(position <= 0.0)
-        this->setMoveDirection(axis, Direction::DIRECTION_POSITIVE); //this direction has negative values
-    else
-        this->setMoveDirection(axis, Direction::DIRECTION_NEGATIVE); //this direction has positive values
+    return rtnMoveMap;
 }
 
 std::string CommandAbsoluteMove::getCommandString() const
@@ -67,7 +67,7 @@ std::string CommandAbsoluteMove::getCommandString() const
         str.append(CommandToString(this->getCommandType()));
         str.append(" ");
 
-        std::map<MotorAxis, int>::const_iterator it = absoluteMove.begin();
+        std::map<MotorAxis, double>::const_iterator it = absoluteMove.begin();
         while (it!= absoluteMove.end()) {
             str.append(std::to_string(it->second));
             if(++it != absoluteMove.end())

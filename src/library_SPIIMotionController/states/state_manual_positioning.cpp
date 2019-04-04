@@ -63,11 +63,17 @@ void State_ManualPositioning::handleCommand(const AbstractCommandPtr command)
     switch (command->getCommandType()) {
     case CommandType::ABSOLUTE_MOVE:
     {
+        CommandAbsoluteMove* castCommand = command->as<CommandAbsoluteMove>();
+        targetPosition = castCommand->getAbsoluteMovePosition();
+        populateMotionComplete();
         Owner().issueSPIIMotionCommand(command);
         break;
     }
     case CommandType::RELATIVE_MOVE:
     {
+        CommandRelativeMove* castCommand = command->as<CommandRelativeMove>();
+        targetPosition = castCommand->getRelativeMoveDistance();
+        populateMotionComplete();
         Owner().issueSPIIMotionCommand(command);
         break;
     }
@@ -105,11 +111,11 @@ void State_ManualPositioning::Update()
     }
     else
     {
-        int currentPosition = 0.0; // = Owner().getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
-        if(abs(currentPosition - this->targetPosition) < 2)
-        {
-            this->desiredState = SPIIState::STATE_READY;
-        }
+//        int currentPosition = 0.0; // = Owner().getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
+//        if(abs(currentPosition - this->targetPosition) < 2)
+//        {
+//            this->desiredState = SPIIState::STATE_READY;
+//        }
     }
 }
 
@@ -166,6 +172,49 @@ void State_ManualPositioning::OnEnter(const AbstractCommandPtr command)
     else{
         //For some reason the command was null. This is an interesting case.
         this->desiredState = SPIIState::STATE_READY;
+    }
+}
+
+
+void State_ManualPositioning::populateMotionComplete()
+{
+    motionComplete.clear();
+
+    for (std::map<MotorAxis,double>::iterator it=targetPosition.begin(); it!=targetPosition.end(); ++it)
+      motionComplete.insert(std::pair<MotorAxis,bool>(it->first,false));
+}
+
+bool State_ManualPositioning::allMotionComplete() const
+{
+    for (std::map<MotorAxis,bool>::const_iterator it=motionComplete.begin(); it!=motionComplete.end(); ++it)
+    {
+        if(!it->second)
+            return false;
+    }
+    return true;
+}
+
+void State_ManualPositioning::setupSubscribers()
+{
+    for (std::map<MotorAxis,double>::iterator it=targetPosition.begin(); it!=targetPosition.end(); ++it)
+    {
+        MotorAxis currentAxis = it->first;
+        motionComplete.insert(std::pair<MotorAxis,bool>(currentAxis,false));
+
+        DataGetSetNotifier<Status_MotorPerAxis>* notifier;
+        Owner().m_MotorStatus->getAxisStatusNotifier(currentAxis,notifier);
+
+        notifier->AddNotifier(this,[this, currentAxis]
+        {
+            Status_MotorPerAxis newStatus;
+            if(!Owner().m_MotorStatus->getAxisStatus(currentAxis,newStatus))
+                return;
+
+            if(newStatus.hasMotorReachedTarget())
+                this->motionComplete.at(currentAxis) = true;
+            if(allMotionComplete())
+                desiredState = SPIIState::STATE_MOTION_STOP;
+        });
     }
 }
 

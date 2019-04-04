@@ -33,8 +33,6 @@ class CommandAbsoluteMove : public AbstractMoveCommand
 public:
     CommandAbsoluteMove();
 
-    CommandAbsoluteMove(const MotorAxis &axis, const int &position);
-
     CommandAbsoluteMove(const CommandAbsoluteMove &copy);
 
     /**
@@ -55,8 +53,10 @@ public:
     void getClone(AbstractCommand** state) const override;
 
 public:
-    void setAbsoluteDirection(const MotorAxis &axis, const Direction &direction);
-    void setAbsolutePosition(const MotorAxis &axis, const int &position);
+    void addAbsoluteMovePosition(const MotorAxis &axis, const double &position, const Direction &direction);
+
+public:
+    std::map<MotorAxis, double> getAbsoluteMovePosition() const;
 
 public:
     std::string getCommandString() const override;
@@ -99,7 +99,7 @@ public:
     }
 
 private:
-    std::map<MotorAxis, int> absoluteMove; /**< Value of the relative move */
+    std::map<MotorAxis, double> absoluteMove; /**< Value of the relative move */
 };
 
 #endif // COMMAND_ABSOLUTE_MOVE_H

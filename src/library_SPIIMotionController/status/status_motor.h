@@ -92,7 +92,9 @@ public:
 
     bool updateMotorStatus(const std::vector<Status_MotorPerAxis> &status);
 
-    Status_MotorPerAxis* getAxisStatus(const MotorAxis &axis);
+    bool getAxisStatus(const MotorAxis &axis, Status_MotorPerAxis &status) const;
+
+    bool getAxisStatusNotifier(const MotorAxis &axis, DataGetSetNotifier<Status_MotorPerAxis>* status);
 
     bool areAnyMotorsEnabled() const;
 

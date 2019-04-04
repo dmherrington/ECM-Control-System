@@ -34,9 +34,6 @@ public:
     {
         this->moveType = type;
         this->moveAxis = axis;
-        moveDirection[MotorAxis::X] = Direction::DIRECTION_POSITIVE;
-        moveDirection[MotorAxis::Y] = Direction::DIRECTION_POSITIVE;
-        moveDirection[MotorAxis::Z] = Direction::DIRECTION_POSITIVE;
     }
 
     virtual ~AbstractMoveCommand() = default;
@@ -93,13 +90,11 @@ public:
 
     virtual void setMoveDirection(const MotorAxis &axis, const Direction &direction)
     {
-        if(axis == MotorAxis::ALL)
-        {
-            moveDirection[MotorAxis::X] = direction;
-            moveDirection[MotorAxis::Y] = direction;
-            moveDirection[MotorAxis::Z] = direction;
+        std::pair<std::map<MotorAxis,Direction>::iterator,bool> ret;
+        ret = moveDirection.insert (std::pair<MotorAxis,Direction>(axis,direction));
+        if (ret.second==false) {
+            moveDirection[axis] = direction;
         }
-        this->moveDirection[axis] = direction;
     }
 
 public:

@@ -303,7 +303,7 @@ bool SPIIProtocol::commandRelativeMove(const CommandRelativeMove &relativeMove)
     if(m_SPIIDevice == nullptr)
         return false;
 
-    std::map<MotorAxis, double> moveActionMap = relativeMove.getDirectedRelativeMove();
+    std::map<MotorAxis, double> moveActionMap = relativeMove.getRelativeMoveDistance();
 
     if(moveActionMap.size() > 1)
     {
