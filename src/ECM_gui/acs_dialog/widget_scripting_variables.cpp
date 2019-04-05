@@ -7,27 +7,15 @@ Widget_ScriptingVariables::Widget_ScriptingVariables(SPIIMotionController *motio
 {
     ui->setupUi(this);
 
-    m_Galil = motionControllerObject;
+    m_MotionController = motionControllerObject;
 
-    ui->doubleSpinBox_CutDepth->setToolTip("Profile Variable: maxdepth");
-    ui->doubleSpinBox_RetractDistance->setToolTip("Profile Variable: rtdist");
-    ui->doubleSpinBox_StepSize->setToolTip("Profile Variable: step");
-    ui->spinBox_RetractSpeed->setToolTip("Profile Variable: backsp");
-    ui->spinBox_PlungeSpeed->setToolTip("Profile Variable: forsp");
-    ui->doubleSpinBox_CutSpeed->setToolTip("Profile Variable: speed");
-    ui->spinBox_RetractPeriod->setToolTip("Profile Variable: rtfq");
-    ui->spinBox_Pause->setToolTip("Profile Variable: rtpause");
+    connect(m_MotionController, SIGNAL(signal_MCNewProgramLabelList(Operation_LabelList)),
+            this, SLOT(slot_onNewlyAvailableLabels(Operation_LabelList)));
 
-//    m_OperationalProgram.updateVariableValue("maxdepth",ui->doubleSpinBox_CutDepth->value() * 10.0);
-//    m_OperationalProgram.updateVariableValue("rtdist",ui->doubleSpinBox_RetractDistance->value() * 10.0);
-//    m_OperationalProgram.updateVariableValue("step",ui->doubleSpinBox_StepSize->value() * 10.0);
-//    m_OperationalProgram.updateVariableValue("backsp",ui->spinBox_RetractSpeed->value() * 10.0);
-//    m_OperationalProgram.updateVariableValue("forsp",ui->spinBox_PlungeSpeed->value() * 10.0);
-//    m_OperationalProgram.updateVariableValue("speed",ui->doubleSpinBox_CutSpeed->value() * 10.0);
-//    m_OperationalProgram.updateVariableValue("rtfq",ui->spinBox_RetractPeriod->value());
-//    m_OperationalProgram.updateVariableValue("rtpause",ui->spinBox_Pause->value());
+    connect(m_MotionController, SIGNAL(signal_MCNewProgramVariableList(Operation_VariableList)),
+            this, SLOT(slot_onNewlyAvailableUserVariables(Operation_VariableList)));
 
-    if(m_Galil->isDeviceConnected())
+    if(m_MotionController->isDeviceConnected())
     {
         //loadFromCurrentProgram(m_Galil->getCurrentMCProgram());
     }
@@ -43,31 +31,29 @@ Widget_ScriptingVariables::Widget_ScriptingVariables(SPIIMotionController *motio
 
 Widget_ScriptingVariables::~Widget_ScriptingVariables()
 {
-    m_Galil->RemoveHost(this);
+    m_MotionController->RemoveHost(this);
 
     delete ui;
 }
 
-//void Widget_ScriptingVariables::loadFromCurrentProgram(const GalilCurrentProgram &program, const std::string &profileName, const bool &useLoadedVars)
-//{
-//    //This will allow us to save the old variables first
-//    ProgramVariableList oldVariableList = m_OperationalProgram.getVariableList();
+void Widget_ScriptingVariables::loadFromCurrentProgram(const Operation_LabelList &labels, const Operation_VariableList &vars,
+                                                       const std::string &profileName, const bool &useLoadedVars)
+{
+    //Load what we can from the new program
+    updateProgramLabels(labels);
+    updateProgramVariables(vars);
 
-//    //Load what we can from the new program
-//    m_OperationalProgram = program;
-//    updateProgramVariables(m_OperationalProgram.getVariableList());
-//    updateProgramLabels(m_OperationalProgram.getLabelList());
-//    if(!profileName.empty())
-//        this->setProfileName(profileName);
+    if(!profileName.empty())
+        this->setProfileName(profileName);
 
-//    if(!useLoadedVars)
-//    {
-//        //Set the old variable list to the current config
-//        m_OperationalProgram.setVariableList(oldVariableList);
-//        //Restore the old variable list visually
-//        updateProgramVariables(oldVariableList);
-//    }
-//}
+    if(!useLoadedVars)
+    {
+        //Set the old variable list to the current config
+        //m_OperationalProgram.setVariableList(oldVariableList);
+        //Restore the old variable list visually
+        //updateProgramVariables(oldVariableList);
+    }
+}
 
 void Widget_ScriptingVariables::setProfileName(const std::string &name)
 {
@@ -91,30 +77,42 @@ std::string Widget_ScriptingVariables::getProfileName() const
 //    return m_OperationalProgram.getVariableList();
 //}
 
-//void Widget_ScriptingVariables::updateProgramLabels(const ProgramLabelList &list)
-//{
-//    if(list.getLabelList().isEmpty())
-//        return;
+void Widget_ScriptingVariables::slot_onNewlyAvailableLabels(const Operation_LabelList &list)
+{
+    updateProgramLabels(list);
+}
 
-//    m_OperationalProgram.setLabelList(list);
+void Widget_ScriptingVariables::slot_onNewlyAvailableUserVariables(const Operation_VariableList &vars)
+{
+    updateProgramVariables(vars);
+}
 
-//    QString currentLabel = ui->comboBox_ProgramLabels->currentText();
-//    ui->comboBox_ProgramLabels->clear();
+void Widget_ScriptingVariables::updateProgramLabels(const Operation_LabelList &list)
+{
+    QString currentLabel = ui->comboBox_ProgramLabels->currentText();
+    ui->comboBox_ProgramLabels->clear();
 
-//    std::map<std::string,int> programLabels = list.getLabelMap();
-//    std::map<std::string,int>::iterator it = programLabels.begin();
-//    for(;it!=programLabels.end();++it)
-//    {
-//        ui->comboBox_ProgramLabels->addItem(QString::fromStdString(it->first));
-//    }
+    if(list.getLabelList().isEmpty())
+    {
+        return;
+    }
+    //m_OperationalProgram.setLabelList(list);
 
-//    int foundIndex = ui->comboBox_ProgramLabels->findText(currentLabel);
-//    if(foundIndex > -1)
-//    {
-//        ui->comboBox_ProgramLabels->setCurrentIndex(foundIndex);
-//    }
-//}
+    std::map<std::string,int> programLabels = list.getLabelMap();
+    std::map<std::string,int>::iterator it = programLabels.begin();
+    for(;it!=programLabels.end();++it)
+    {
+        ui->comboBox_ProgramLabels->addItem(QString::fromStdString(it->first));
+    }
 
+    int foundIndex = ui->comboBox_ProgramLabels->findText(currentLabel);
+    if(foundIndex > -1)
+    {
+        ui->comboBox_ProgramLabels->setCurrentIndex(foundIndex);
+    }
+}
+
+/*
 void Widget_ScriptingVariables::on_doubleSpinBox_CutDepth_editingFinished()
 {
     double currentVariableValue = ui->doubleSpinBox_CutDepth->value() * 10.0;
@@ -170,25 +168,38 @@ void Widget_ScriptingVariables::on_spinBox_Pause_editingFinished()
     //m_OperationalProgram.updateVariableValue("maxdepth",currentVariableValue);
     Command_VariablePtr command = std::make_shared<Command_Variable>("rtpause",currentVariableValue);
 }
+*/
 
-//void Widget_ScriptingVariables::updateProgramVariables(const ProgramVariableList &list)
-//{
-//    double value = 0;
-//    if(list.getVariableValue("maxdepth",value))
-//        ui->doubleSpinBox_CutDepth->setValue(value / 10.0);
-//    if(list.getVariableValue("rtdist",value))
-//        ui->doubleSpinBox_RetractDistance->setValue(value / 10.0);
-//    if(list.getVariableValue("step",value))
-//        ui->doubleSpinBox_StepSize->setValue(value / 10.0);
-//    if(list.getVariableValue("backsp",value))
-//        ui->spinBox_RetractSpeed->setValue(static_cast<int>(value / 10.0));
-//    if(list.getVariableValue("forsp",value))
-//        ui->spinBox_PlungeSpeed->setValue(static_cast<int>(value / 10.0));
-//    if(list.getVariableValue("speed",value))
-//        ui->doubleSpinBox_CutSpeed->setValue(value / 10.0);
-//    if(list.getVariableValue("rtfq",value))
-//        ui->spinBox_RetractPeriod->setValue(static_cast<int>(value));
-//    if(list.getVariableValue("rtpause",value))
-//        ui->spinBox_Pause->setValue(static_cast<int>(value));
-//}
+
+void Widget_ScriptingVariables::clearVariableTable()
+{
+    ui->listWidget_Variables->clear();
+
+    for (std::map<std::string, Widget_VariableDescriptor*>::iterator it=m_VariableDescriptors.begin(); it!=m_VariableDescriptors.end();)
+    {
+        Widget_VariableDescriptor* currentWidget = it->second;
+        delete currentWidget;
+        m_VariableDescriptors.erase(it++);
+    }
+}
+
+void Widget_ScriptingVariables::updateProgramVariables(const Operation_VariableList &list)
+{
+    //This will allow us to save the old variables first
+    Operation_VariableList oldVariableList = m_ConfiguredVariables;
+
+
+    std::map<std::string, double> currentVariableList = list.getVariableMap();
+
+    for (std::map<std::string, double>::iterator it=currentVariableList.begin(); it!=currentVariableList.end(); ++it)
+    {
+        Widget_VariableDescriptor* tableVariable = new Widget_VariableDescriptor(it->first, it->second);
+        QListWidgetItem* newItem = new QListWidgetItem();
+        newItem->setSizeHint(tableVariable->sizeHint());
+        ui->listWidget_Variables->addItem(newItem);
+        ui->listWidget_Variables->setItemWidget(newItem,tableVariable);
+    }
+
+
+}
 

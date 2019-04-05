@@ -31,11 +31,11 @@ enum MotorAxis
 inline std::string AxisToString(const MotorAxis &axis) {
     switch (axis) {
     case MotorAxis::X:
-        return "C";
+        return "X";
     case MotorAxis::Y:
-        return "B";
+        return "Y";
     case MotorAxis::Z:
-        return "A";
+        return "Z";
     default:
         throw std::runtime_error("Unknown direction type seen");
     }
@@ -43,11 +43,11 @@ inline std::string AxisToString(const MotorAxis &axis) {
 
 inline MotorAxis AxisFromString(const std::string &str)
 {
-    if(str == "C")
+    if(str == "X")
         return MotorAxis::X;
-    else if(str == "B")
+    else if(str == "Y")
         return MotorAxis::Y;
-    else if(str == "A")
+    else if(str == "Z")
         return MotorAxis::Z;
     else
         throw std::runtime_error("Unknown axis string seen");

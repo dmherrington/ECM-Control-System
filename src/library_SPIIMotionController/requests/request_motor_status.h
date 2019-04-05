@@ -49,7 +49,12 @@ public:
     //!
     std::list<MotorAxis> getAxis() const;
 
+    void setRequestAllAxes(const bool &requestAll);
+
+    bool shouldRequestAllAxes() const;
+
 private:
+    bool requestAllAxis = true;
     std::list<MotorAxis> tellAxis; /**< Value of the axis to be position requested */
 
 };

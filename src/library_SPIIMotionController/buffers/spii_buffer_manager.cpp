@@ -5,6 +5,13 @@ BufferManager::BufferManager()
 
 }
 
+BufferManager::BufferManager(const BufferManager &copy)
+{
+    this->indexDBuffer = copy.indexDBuffer;
+    this->maxBufferSize = copy.maxBufferSize;
+    this->m_ProgramBuffers = copy.m_ProgramBuffers;
+}
+
 void BufferManager::setDBufferIndex(const unsigned int &index)
 {
     m_ProgramBuffers.at(index)->setIsDBuffer(true);
@@ -81,3 +88,4 @@ void BufferManager::statusBufferUpdate(const Status_BufferState &state)
         break;
     }
 }
+

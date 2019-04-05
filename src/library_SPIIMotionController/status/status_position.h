@@ -25,7 +25,7 @@ public:
 
     MotorAxis getAxis() const;
 
-    int getPosition() const;
+    double getPosition() const;
 
 public:
     Status_PositionPerAxis& operator = (const Status_PositionPerAxis &rhs)

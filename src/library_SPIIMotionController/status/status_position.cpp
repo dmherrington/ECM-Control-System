@@ -29,7 +29,7 @@ MotorAxis Status_PositionPerAxis::getAxis() const
     return this->currentAxis;
 }
 
-int Status_PositionPerAxis::getPosition() const
+double Status_PositionPerAxis::getPosition() const
 {
     return position;
 }

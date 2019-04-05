@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "widget_variable_descriptor.h"
+
 #include "library_SPIIMotionController/spii_motion_controller.h"
 
 namespace Ui {
@@ -20,7 +22,7 @@ public:
 
 public:
 
-    //void loadFromCurrentProgram(const GalilCurrentProgram &program, const std::string &profileName = "", const bool &useLoadedVars = true);
+    void loadFromCurrentProgram(const Operation_LabelList &labels, const Operation_VariableList &program, const std::string &profileName = "", const bool &useLoadedVars = true);
 
     std::string getProfileName() const;
 
@@ -31,35 +33,27 @@ public:
 public:
     void setProfileName(const std::string &name);
 
-    //void updateProgramLabels(const ProgramLabelList &list);
+    void updateProgramLabels(const Operation_LabelList &list);
 
-    //void updateProgramVariables(const ProgramVariableList &list);
+    void updateProgramVariables(const Operation_VariableList &list);
+
+private:
+    void clearVariableTable();
 
 private slots:
 
-    void on_doubleSpinBox_CutDepth_editingFinished();
+    void slot_onNewlyAvailableLabels(const Operation_LabelList &labels);
 
-    void on_doubleSpinBox_RetractDistance_editingFinished();
-
-    void on_doubleSpinBox_StepSize_editingFinished();
-
-    void on_spinBox_RetractSpeed_editingFinished();
-
-    void on_spinBox_PlungeSpeed_editingFinished();
-
-    void on_doubleSpinBox_CutSpeed_editingFinished();
-
-    void on_spinBox_RetractPeriod_editingFinished();
-
-    void on_spinBox_Pause_editingFinished();
-
+    void slot_onNewlyAvailableUserVariables(const Operation_VariableList &vars);
 
 private:
     Ui::Widget_ScriptingVariables *ui;
 
-    SPIIMotionController* m_Galil;
+    SPIIMotionController* m_MotionController;
 
-    //GalilCurrentProgram m_OperationalProgram;
+    std::map<std::string, Widget_VariableDescriptor*> m_VariableDescriptors;
+
+    Operation_VariableList m_ConfiguredVariables;
 };
 
 #endif // WIDGET_SCRIPTING_VARIABLES_H

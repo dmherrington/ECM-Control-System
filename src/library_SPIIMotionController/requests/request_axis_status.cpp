@@ -40,3 +40,13 @@ std::list<MotorAxis> RequestAxisStatus::getAxis() const
 {
     return tellAxis;
 }
+
+void RequestAxisStatus::setRequestAllAxes(const bool &requestAll)
+{
+    this->requestAllAxis = requestAll;
+}
+
+bool RequestAxisStatus::shouldRequestAllAxes() const
+{
+    return this->requestAllAxis;
+}

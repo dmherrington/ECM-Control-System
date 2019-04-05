@@ -48,7 +48,6 @@ public:
     //!
     Operation_CurrentProgram& operator = (const Operation_CurrentProgram &rhs)
     {
-        //GalilCurrentProgram::operator =(rhs);
         this->operationIndex = rhs.operationIndex;
         this->operationName = rhs.operationName;
         this->profileName = rhs.profileName;
@@ -62,9 +61,6 @@ public:
     //!
     bool operator == (const Operation_CurrentProgram &rhs)
     {
-//        if(!GalilCurrentProgram::operator ==(rhs)){
-//            return false;
-//        }
         if(this->operationIndex != rhs.operationIndex){
             return false;
         }

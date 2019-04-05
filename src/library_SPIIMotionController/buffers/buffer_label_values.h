@@ -28,12 +28,12 @@ public:
 public:
     BufferLabelValues& operator = (const BufferLabelValues &rhs)
     {
-        this->variableMap = rhs.variableMap;
+        this->labelMap = rhs.labelMap;
         return *this;
     }
 
     bool operator == (const BufferLabelValues &rhs) {
-        if(this->variableMap != rhs.variableMap){
+        if(this->labelMap != rhs.labelMap){
             return false;
         }
         return true;
@@ -44,7 +44,7 @@ public:
     }
 
 private:
-    std::vector<std::string> variableMap;
+    std::vector<std::string> labelMap;
 
 };
 

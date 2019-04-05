@@ -9,13 +9,19 @@
 
 #include "buffer_data.h"
 
+#include "common/operation/operation_label_list.h"
+#include "common/operation/operation_variable_list.h"
+
 class BufferManager
 {
 public:
     BufferManager();
 
+    BufferManager(const BufferManager &copy);
+
     ~BufferManager() = default;
 
+public:
     void setDBufferIndex(const unsigned int &index);
     unsigned int getDBufferIndex() const;
 
@@ -27,12 +33,13 @@ public:
 
     void statusBufferUpdate(const Status_BufferState &state);
 
-private:
+protected:
     unsigned int indexDBuffer;
     unsigned int maxBufferSize;
 
-private:
+protected:
     std::map<unsigned int, BufferData*> m_ProgramBuffers;
+
 
 };
 

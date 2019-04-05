@@ -28,12 +28,25 @@ void SPIIProtocol::initializeBufferContents()
         newData.setBufferCurrent(true);
 
         if(m_SPIISettings.getDBufferIndex() == bufferIndex)
+        {
             newData.setIsDBuffer(true);
+
+            //we need to also retrieve the variables on load
+            Operation_VariableList privateVars, userVars;
+            retrieveDBufferVariables(m_SPIISettings.getDBufferIndex(), privateVars, userVars);
+            Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_OperationalVariables(userVars);});
+        }
         else
             newData.setIsDBuffer(false);
 
+        if(m_SPIISettings.getLabelBufferIndex() == bufferIndex)
+        {
+            Operation_LabelList relevantLabels;
+            retrieveBufferLabels(m_SPIISettings.getLabelBufferIndex(), relevantLabels);
+            Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_OperationalLabels(relevantLabels);});
+        }
+
         retrieveBufferData(bufferIndex,newData);
-        Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewBuffer_AvailableData(newData);});
     }
 }
 

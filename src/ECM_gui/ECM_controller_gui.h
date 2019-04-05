@@ -33,6 +33,8 @@
 #include "acs_dialog/window_motion_control.h"
 #include "acs_dialog/window_buffer_manager.h"
 
+#include "motion_dialog/widget_front_panel_motion_control.h"
+
 namespace Ui {
 class ECMControllerGUI;
 }

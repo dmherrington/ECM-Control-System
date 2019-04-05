@@ -79,7 +79,13 @@ SOURCES += \
     acs_dialog/window_touchoff.cpp \
     acs_dialog/widget_buffer_editor.cpp \
     acs_dialog/window_buffer_manager.cpp \
-    acs_dialog/widget_buffer_descriptor.cpp
+    acs_dialog/widget_buffer_descriptor.cpp \
+    motion_dialog/widget_front_panel_motion_control.cpp \
+    motion_dialog/widget_front_panel_touchoff.cpp \
+    motion_dialog/widget_front_panel_axis_motion_control.cpp \
+    motion_dialog/widget_axis_vertical_control.cpp \
+    motion_dialog/widget_axis_horizontal_control.cpp \
+    acs_dialog/widget_variable_descriptor.cpp
 
 HEADERS += \
     misc_dialogs/code_edit_widget.h \
@@ -118,7 +124,14 @@ HEADERS += \
     acs_dialog/window_touchoff.h \
     acs_dialog/widget_buffer_editor.h \
     acs_dialog/window_buffer_manager.h \
-    acs_dialog/widget_buffer_descriptor.h
+    acs_dialog/widget_buffer_descriptor.h \
+    motion_dialog/widget_front_panel_motion_control.h \
+    motion_dialog/widget_front_panel_touchoff.h \
+    motion_dialog/widget_front_panel_axis_motion_control.h \
+    motion_dialog/widget_axis_vertical_control.h \
+    motion_dialog/widget_axis_horizontal_control.h \
+    motion_dialog/widget_abstract_axis_control.h \
+    acs_dialog/widget_variable_descriptor.h
 
 FORMS += \
     misc_dialogs/table_widget_operation_descriptor.ui \
@@ -145,7 +158,13 @@ FORMS += \
     acs_dialog/window_touchoff.ui \
     acs_dialog/widget_buffer_editor.ui \
     acs_dialog/window_buffer_manager.ui \
-    acs_dialog/widget_buffer_descriptor.ui
+    acs_dialog/widget_buffer_descriptor.ui \
+    motion_dialog/widget_front_panel_motion_control.ui \
+    motion_dialog/widget_front_panel_touchoff.ui \
+    motion_dialog/widget_front_panel_axis_motion_control.ui \
+    motion_dialog/widget_axis_vertical_control.ui \
+    motion_dialog/widget_axis_horizontal_control.ui \
+    acs_dialog/widget_variable_descriptor.ui
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

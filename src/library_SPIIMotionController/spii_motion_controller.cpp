@@ -140,6 +140,7 @@ void SPIIMotionController::initializeMotionController()
     // 1: Request the position of the ACS unit
     RequestTellPositionPtr requestTP = std::make_shared<RequestTellPosition>();
     common::TupleGeneralDescriptorString tuplePos("PositionStatus");
+    requestTP->addAxis(MotorAxis::X); requestTP->addAxis(MotorAxis::Y); requestTP->addAxis(MotorAxis::Z);
     requestTP->setTupleDescription(common::TupleECMData(tuplePos));
     m_DevicePolling->addRequest(requestTP,20);
 
@@ -147,12 +148,14 @@ void SPIIMotionController::initializeMotionController()
     RequestAxisStatusPtr requestAS = std::make_shared<RequestAxisStatus>();
     common::TupleGeneralDescriptorString tupleAxis("AxisStatus");
     requestAS->setTupleDescription(common::TupleECMData(tupleAxis));
+    requestAS->addAxis(MotorAxis::X); requestAS->addAxis(MotorAxis::Y); requestAS->addAxis(MotorAxis::Z);
     m_DevicePolling->addRequest(requestAS,100);
 
     // 1: Request the motor status of the ACS unit
     RequestMotorStatusPtr requestMS = std::make_shared<RequestMotorStatus>();
     common::TupleGeneralDescriptorString tupleMotor("MotorStatus");
     requestMS->setTupleDescription(common::TupleECMData(tupleMotor));
+    requestMS->addAxis(MotorAxis::X); requestMS->addAxis(MotorAxis::Y); requestMS->addAxis(MotorAxis::Z);
     m_DevicePolling->addRequest(requestMS,500);
 
     //Retrieve the current contents aboard the device
@@ -220,35 +223,20 @@ void SPIIMotionController::cbi_SPIIDownloadProgram(const AbstractCommandPtr comm
 
 void SPIIMotionController::SPIIPolling_AxisUpdate(const std::vector<Status_PerAxis> &axis)
 {
+    if(axis.empty())
+        return;
+
     m_StateInterface->m_AxisStatus->updateAxisStatus(axis);
-
-    /*
-    GalilStatus* ptr = stateInterface->getAxisStatus(status.getAxis());
-
-    common::TuplePositionalString tuple;
-    tuple.axisName = QString::fromStdString(AxisToString(status.getAxis()));
-    common_data::PositionalStatePtr position = std::make_shared<common_data::PositionalState>();
-    position->setStateAxis(status.getAxis());
-    position->setAxisPosition(status.getPosition());
-    common_data::MachinePositionalState state;
-    state.setObservationTime(status.getTime());
-    state.setPositionalState(position);
-
-    if(ptr->setPosition(status))
-    {
-        emit signal_MCNewPosition(tuple,state, true);
-    }
-    else
-    {
-        emit signal_MCNewPosition(tuple,state, false);
-    }
     ProgressStateMachineStates();
-    */
 }
 
 void SPIIMotionController::SPIIPolling_MotorUpdate(const std::vector<Status_MotorPerAxis> &motor)
 {
+    if(motor.empty())
+        return;
+
     m_StateInterface->m_MotorStatus->updateMotorStatus(motor);
+    ProgressStateMachineStates();
 }
 
 void SPIIMotionController::SPIIPolling_PositionUpdate(const std::vector<Status_PositionPerAxis> &position)

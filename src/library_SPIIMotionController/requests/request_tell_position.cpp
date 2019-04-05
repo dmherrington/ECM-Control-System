@@ -1,14 +1,15 @@
 #include "request_tell_position.h"
 
-RequestTellPosition::RequestTellPosition(const MotorAxis &axis):
+RequestTellPosition::RequestTellPosition():
     AbstractRequest(RequestTypes::TELL_POSITION,20)
 {
-    addAxis(axis);
+
 }
 
 RequestTellPosition::RequestTellPosition(const RequestTellPosition &copy):
     AbstractRequest(copy)
 {
+    this->requestAllAxis = copy.requestAllAxis;
     this->tellAxis = copy.tellAxis;
 }
 
@@ -30,6 +31,7 @@ void RequestTellPosition::addAxis(const MotorAxis &axis)
 {
     tellAxis.push_back(axis);
     tellAxis.unique();
+    requestAllAxis = false;
 }
 
 //!
@@ -39,5 +41,15 @@ void RequestTellPosition::addAxis(const MotorAxis &axis)
 std::list<MotorAxis> RequestTellPosition::getAxis() const
 {
     return tellAxis;
+}
+
+void RequestTellPosition::setRequestAllAxes(const bool &requestAll)
+{
+    this->requestAllAxis = requestAll;
+}
+
+bool RequestTellPosition::shouldRequestAllAxes() const
+{
+    return this->requestAllAxis;
 }
 

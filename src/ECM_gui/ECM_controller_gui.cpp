@@ -10,6 +10,11 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_SensorDisplays(&m_PlotCollection)
 {
 
+    std::vector<MotorAxis> applicableAxis;
+    applicableAxis.push_back(MotorAxis::X);
+    applicableAxis.push_back(MotorAxis::Y);
+    applicableAxis.push_back(MotorAxis::Z);
+
     /*
      * Let us first setup the operational timers as related to
      * operation and the configuration.
@@ -85,6 +90,13 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     connect(m_API, SIGNAL(signal_InPauseEvent(std::string)),
             this, SLOT(slot_OnExecutionPause(std::string)));
+
+    QDockWidget *dock = new QDockWidget(tr("Motion Utility"), this);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    WidgetFrontPanel_MotionControl * dockUtility_MotionControl = new WidgetFrontPanel_MotionControl(applicableAxis, m_API->m_MotionController);
+    dock->setWidget(dockUtility_MotionControl);
+    addDockWidget(Qt::RightDockWidgetArea, dock, Qt::Orientation::Vertical);
+
 
     //API Connections
     connect(m_API->m_Rigol, SIGNAL(signal_RigolPlottable(common::TupleSensorString,bool)), this, SLOT(slot_NewlyAvailableRigolData(common::TupleSensorString,bool)));

@@ -16,7 +16,7 @@ ECM_CLASS_FORWARD(RequestTellPosition);
 class RequestTellPosition : public AbstractRequest
 {
 public:
-    RequestTellPosition(const MotorAxis &axis = MotorAxis::Z);
+    RequestTellPosition();
 
     RequestTellPosition(const RequestTellPosition &copy);
 
@@ -51,7 +51,12 @@ public:
     //!
     std::list<MotorAxis> getAxis() const;
 
+    void setRequestAllAxes(const bool &requestAll);
+
+    bool shouldRequestAllAxes() const;
+
 private:
+    bool requestAllAxis = true;
     std::list<MotorAxis> tellAxis; /**< Value of the axis to be position requested */
 
 };
