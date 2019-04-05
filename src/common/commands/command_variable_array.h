@@ -23,7 +23,6 @@
 
 ECM_CLASS_FORWARD(Command_Variable);
 
-template <typedef Dim>
 class Command_VariableArray : public AbstractCommand
 {
 public:

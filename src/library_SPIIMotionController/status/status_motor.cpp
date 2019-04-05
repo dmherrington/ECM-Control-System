@@ -151,16 +151,12 @@ bool Status_Motor::getAxisStatus(const MotorAxis &axis, Status_MotorPerAxis &sta
     }
 }
 
-bool Status_Motor::getAxisStatusNotifier(const MotorAxis &axis, DataGetSetNotifier<Status_MotorPerAxis> *status)
+DataGetSetNotifier<Status_MotorPerAxis> *Status_Motor::getAxisStatusNotifier(const MotorAxis &axis)
 {
     std::map<MotorAxis, DataGetSetNotifier<Status_MotorPerAxis>*>::const_iterator iter = m_MotorStatus.find(axis);
 
     if(iter != m_MotorStatus.end()) //item is already in the map and therefore we just need to update it
-    {
-        status = iter->second;
-        return true;
-    }
-    else {
-        return false;
-    }
+        return iter->second;
+    else
+        return nullptr;
 }

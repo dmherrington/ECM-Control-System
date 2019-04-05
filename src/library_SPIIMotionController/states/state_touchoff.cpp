@@ -12,9 +12,9 @@ State_Touchoff::State_Touchoff():
 
 void State_Touchoff::OnExit()
 {
-    Owner().m_MasterVariableValues->removeVariableNotifier("touchst",this);
+    Owner().m_MasterVariableValues->removeVariableNotifier("touchOffStatus",this);
 
-    common::TupleProfileVariableString tupleVariable("Default","Touchoff","touchst");
+    common::TupleProfileVariableString tupleVariable("Default","Touchoff","touchOffStatus");
     Owner().issueSPIIRemovePollingRequest(tupleVariable);
 }
 
@@ -81,7 +81,7 @@ void State_Touchoff::handleCommand(const AbstractCommandPtr command)
     case CommandType::STOP:
     {
         //we have aborted the touchoff routine
-        ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+        ProfileState_Touchoff newState("Touchoff Routine", "TOUCHOFF");
         newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ABORTED);
         MotionProfileState newProfileState;
         newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
@@ -93,7 +93,7 @@ void State_Touchoff::handleCommand(const AbstractCommandPtr command)
     case CommandType::ESTOP:
     {
         //we have aborted the touchoff routine
-        ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+        ProfileState_Touchoff newState("Touchoff Routine", "TOUCHOFF");
         newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ABORTED);
         MotionProfileState newProfileState;
         newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
@@ -133,7 +133,7 @@ void State_Touchoff::OnEnter(const AbstractCommandPtr command)
     {
         Owner().issueNewSPIIState(SPIIState::STATE_TOUCHOFF);
 
-        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Touchoff Status","touchst");
+        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Touchoff Status","touchOffStatus");
         common::TupleProfileVariableString tupleVariable("Default","Touchoff","touchst");
         request->setTupleDescription(tupleVariable);
         Owner().issueSPIIAddPollingRequest(request,1000);
@@ -149,7 +149,7 @@ void State_Touchoff::stateSetup()
 {
     Owner().m_MasterVariableValues->addVariableNotifier("touchst",this,[this]{
         double varValue = 0.0;
-        bool valid = Owner().m_MasterVariableValues->getVariableValue("touchst",varValue);
+        bool valid = Owner().m_MasterVariableValues->getVariableValue("touchOffStatus",varValue);
         if(!valid)
         {
             std::cout<<"The variable homest does not exist and therefore we do not know how to handle this case."<<std::endl;
@@ -160,7 +160,7 @@ void State_Touchoff::stateSetup()
         case (int)ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING:
         {
             //continue searching for touchoff position
-            ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+            ProfileState_Touchoff newState("Touchoff Routine", "TOUCHOFF");
             newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING);
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
@@ -172,7 +172,7 @@ void State_Touchoff::stateSetup()
 
             Owner().setTouchoffIndicated(true);
             //we have finished the touchoff routine
-            ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+            ProfileState_Touchoff newState("Touchoff Routine", "TOUCHOFF");
             newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::FINISHED);
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
@@ -183,7 +183,7 @@ void State_Touchoff::stateSetup()
         case (int)ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_POSITIONAL:
         {
             //ERROR: inconsistent or positional limit exceeded
-            ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+            ProfileState_Touchoff newState("Touchoff Routine", "TOUCHOFF");
             newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_POSITIONAL);
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
@@ -194,7 +194,7 @@ void State_Touchoff::stateSetup()
         case (int)ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_INCONSISTENT:
         {
             //ERROR: inconsistent or positional limit exceeded
-            ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+            ProfileState_Touchoff newState("Touchoff Routine", "TOUCHOFF");
             newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_INCONSISTENT);
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
@@ -205,7 +205,7 @@ void State_Touchoff::stateSetup()
         case (int)ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_TOUCHING:
         {
             //ERROR: already touch part
-            ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+            ProfileState_Touchoff newState("Touchoff Routine", "TOUCHOFF");
             newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_TOUCHING);
             MotionProfileState newProfileState;
             newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));
@@ -222,7 +222,7 @@ void State_Touchoff::stateSetup()
     });
 
     //Issue the current command based on what we are doing
-    ProfileState_Touchoff newState("Touchoff Routine", "touchof");
+    ProfileState_Touchoff newState("Touchoff Routine", "TOUCHOFF");
     newState.setCurrentCode(ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING);
     MotionProfileState newProfileState;
     newProfileState.setProfileState(std::make_shared<ProfileState_Touchoff>(newState));

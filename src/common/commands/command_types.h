@@ -39,7 +39,8 @@ enum class CommandType{
     SPEED,
     STOP,
     UPLOAD_PROGRAM,
-    SET_VARIABLE
+    SET_VARIABLE,
+    SET_VARIABLE_ARRAY
 };
 
 //!
@@ -79,6 +80,8 @@ inline std::string CommandToString(const CommandType &type) {
         return "SP";
     case CommandType::SET_VARIABLE:
         return "SET VARIABLE";
+    case CommandType::SET_VARIABLE_ARRAY:
+        return "SET VARIABLE ARRAY";
     default:
         throw std::runtime_error("Unknown command type seen");
     }

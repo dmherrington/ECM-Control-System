@@ -39,8 +39,8 @@ void CommandAbsoluteMove::addAbsoluteMovePosition(const MotorAxis &axis, const d
         ret = absoluteMove.insert (std::pair<MotorAxis,double>(axis,position));
         if (ret.second==false) {
             absoluteMove[axis] = fabs(position);
-            this->setMoveDirection(axis, direction);
         }
+        this->setMoveDirection(axis, direction);
      }
 }
 

@@ -39,8 +39,8 @@ void CommandRelativeMove::addRelativeMoveDistance(const MotorAxis &axis, const d
         ret = relativeMove.insert (std::pair<MotorAxis,double>(axis,distance));
         if (ret.second==false) {
             relativeMove[axis] = fabs(distance);
-            this->setMoveDirection(axis, direction);
         }
+        this->setMoveDirection(axis, direction);
     }
 }
 

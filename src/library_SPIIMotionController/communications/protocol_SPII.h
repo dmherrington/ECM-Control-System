@@ -58,6 +58,8 @@ public:
 public:
     bool WriteVariableValue(const Command_Variable &value);
 
+    bool WriteVariableArray(const Command_VariableArray &value);
+
 public:
     bool commandMotorEnable(const CommandMotorEnable &enable);
 

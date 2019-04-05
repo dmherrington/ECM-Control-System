@@ -124,7 +124,7 @@ void ECMState_SetupMachineTouchoffExecute::OnEnter(ECMCommand_AbstractProfileCon
             }
         });
 
-        CommandExecuteProfilePtr commandTouchoffExecute = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::TOUCHOFF,"touchof");
+        CommandExecuteProfilePtr commandTouchoffExecute = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::TOUCHOFF,"TOUCHOFF");
         Owner().m_MotionController->executeCommand(commandTouchoffExecute);
         break;
     }

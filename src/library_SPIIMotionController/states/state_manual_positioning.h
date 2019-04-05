@@ -43,7 +43,9 @@ private:
 
     bool allMotionComplete() const;
 
-    void setupSubscribers();
+    void setupNotifiers();
+
+    void removeNotifiers();
 
 
 private:

@@ -12,8 +12,7 @@ State_ManualPositioning::State_ManualPositioning():
 
 void State_ManualPositioning::OnExit()
 {
-    //Owner().getAxisStatus(MotorAxis::Z)->stopCode.RemoveNotifier(this);
-    //Owner().getAxisStatus(MotorAxis::Z)->position.RemoveNotifier(this);
+    removeNotifiers();
 }
 
 AbstractStateSPII* State_ManualPositioning::getClone() const
@@ -66,6 +65,7 @@ void State_ManualPositioning::handleCommand(const AbstractCommandPtr command)
         CommandAbsoluteMove* castCommand = command->as<CommandAbsoluteMove>();
         targetPosition = castCommand->getAbsoluteMovePosition();
         populateMotionComplete();
+        setupNotifiers();
         Owner().issueSPIIMotionCommand(command);
         break;
     }
@@ -74,6 +74,7 @@ void State_ManualPositioning::handleCommand(const AbstractCommandPtr command)
         CommandRelativeMove* castCommand = command->as<CommandRelativeMove>();
         targetPosition = castCommand->getRelativeMoveDistance();
         populateMotionComplete();
+        setupNotifiers();
         Owner().issueSPIIMotionCommand(command);
         break;
     }
@@ -194,16 +195,14 @@ bool State_ManualPositioning::allMotionComplete() const
     return true;
 }
 
-void State_ManualPositioning::setupSubscribers()
+void State_ManualPositioning::setupNotifiers()
 {
     for (std::map<MotorAxis,double>::iterator it=targetPosition.begin(); it!=targetPosition.end(); ++it)
     {
         MotorAxis currentAxis = it->first;
         motionComplete.insert(std::pair<MotorAxis,bool>(currentAxis,false));
 
-        DataGetSetNotifier<Status_MotorPerAxis>* notifier;
-        Owner().m_MotorStatus->getAxisStatusNotifier(currentAxis,notifier);
-
+        DataGetSetNotifier<Status_MotorPerAxis>* notifier = Owner().m_MotorStatus->getAxisStatusNotifier(currentAxis);
         notifier->AddNotifier(this,[this, currentAxis]
         {
             Status_MotorPerAxis newStatus;
@@ -212,9 +211,19 @@ void State_ManualPositioning::setupSubscribers()
 
             if(newStatus.hasMotorReachedTarget())
                 this->motionComplete.at(currentAxis) = true;
-            if(allMotionComplete())
+            if(this->allMotionComplete())
                 desiredState = SPIIState::STATE_MOTION_STOP;
         });
+    }
+}
+
+void State_ManualPositioning::removeNotifiers()
+{
+    for (std::map<MotorAxis,double>::iterator it=targetPosition.begin(); it!=targetPosition.end(); ++it)
+    {
+        MotorAxis currentAxis = it->first;
+        DataGetSetNotifier<Status_MotorPerAxis>* notifier = Owner().m_MotorStatus->getAxisStatusNotifier(currentAxis);
+        notifier->RemoveNotifier(this);
     }
 }
 

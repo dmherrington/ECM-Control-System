@@ -47,8 +47,5 @@ std::vector<double> Command_VariableArray::getVariableValue() const
 std::string Command_VariableArray::getCommandString() const
 {
     std::string str;
-    str += variableName;
-    str +="=";
-    str +=std::to_string(variableValue);
     return str;
 }

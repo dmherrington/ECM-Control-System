@@ -478,8 +478,8 @@ void ECMControllerGUI::on_pushButton_MoveHome_released()
     m_API->m_MotionController->executeCommand(commandSpeed);
 
     //Next, transmit the move to home command
-    CommandAbsoluteMovePtr command = std::make_shared<CommandAbsoluteMove>(MotorAxis::Z,0);
-    m_API->m_MotionController->executeCommand(command);
+    //CommandAbsoluteMovePtr command = std::make_shared<CommandAbsoluteMove>(MotorAxis::Z,0);
+    //m_API->m_MotionController->executeCommand(command);
 }
 
 

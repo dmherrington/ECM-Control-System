@@ -189,6 +189,22 @@ bool SPIIProtocol::WriteVariableValue(const Command_Variable &value)
     return rtnValidity;
 }
 
+bool SPIIProtocol::WriteVariableArray(const Command_VariableArray &value)
+{
+    bool rtnValidity = false;
+
+    /*
+    double values[1] = {value.getVariableValue()};
+
+    char ctext[value.getVariableName().size()];
+    strcpy(ctext, value.getVariableName().c_str());
+
+    rtnValidity = acsc_WriteReal(*m_SPIIDevice.get(),ACSC_NONE,ctext,0,0,ACSC_NONE,ACSC_NONE,values,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+    */
+
+    return rtnValidity;
+}
+
 bool SPIIProtocol::commandMotorEnable(const CommandMotorEnable &enable)
 {
     bool rtnValidity = false;

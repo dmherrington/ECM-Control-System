@@ -94,7 +94,7 @@ public:
 
     bool getAxisStatus(const MotorAxis &axis, Status_MotorPerAxis &status) const;
 
-    bool getAxisStatusNotifier(const MotorAxis &axis, DataGetSetNotifier<Status_MotorPerAxis>* status);
+    DataGetSetNotifier<Status_MotorPerAxis>* getAxisStatusNotifier(const MotorAxis &axis);
 
     bool areAnyMotorsEnabled() const;
 
