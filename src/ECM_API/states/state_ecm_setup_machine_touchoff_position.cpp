@@ -78,7 +78,8 @@ void ECMState_SetupMachineTouchoffPosition::OnEnter(ECMCommand_ProfileConfigurat
     }
     else
     {
-        int touchoffPosition = this->m_Config->m_Touchoff.getTouchoffRef();
+        std::map<MotorAxis,double> touchoffPosition = this->m_Config->m_Touchoff.getTouchoffRef();
+
         //Next, transmit the move to home command
         //CommandAbsoluteMovePtr command = std::make_shared<CommandAbsoluteMove>(MotorAxis::Z,touchoffPosition);
         CommandAbsoluteMovePtr command = std::make_shared<CommandAbsoluteMove>();
