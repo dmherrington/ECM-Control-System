@@ -12,10 +12,20 @@ Widget_VariableDescriptor::Widget_VariableDescriptor(const std::string &name, co
     ui->doubleSpinBox_VariableValue->setValue(value);
 }
 
-void Widget_VariableDescriptor::getVariableProperties(std::string &name, double &value)
+void Widget_VariableDescriptor::setVariableValue(const double &value)
+{
+    ui->doubleSpinBox_VariableValue->setValue(value);
+}
+
+std::string Widget_VariableDescriptor::getVariableName() const
+{
+    return this->variableName;
+}
+
+void Widget_VariableDescriptor::getVariableProperties(std::string &name, double &value) const
 {
     name = this->variableName;
-
+    value = ui->doubleSpinBox_VariableValue->value();
 }
 
 Widget_VariableDescriptor::~Widget_VariableDescriptor()

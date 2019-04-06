@@ -35,7 +35,7 @@ public:
 
     void updateProgramLabels(const Operation_LabelList &list);
 
-    void updateProgramVariables(const Operation_VariableList &list);
+    void updateProgramVariables(const Operation_VariableList &list, const bool &restoreVariables = false);
 
 private:
     void clearVariableTable();

@@ -12,6 +12,41 @@ BufferManager::BufferManager(const BufferManager &copy)
     this->m_ProgramBuffers = copy.m_ProgramBuffers;
 }
 
+void BufferManager::writeToJSON(QJsonObject &bufferDataObject)
+{
+    QJsonArray bufferDataArray;
+
+    bufferDataObject["indexDBuffer"] = (int)this->getDBufferIndex();
+    bufferDataObject["maxBufferSize"] = (int)this->maxBufferSize;
+
+    std::map<unsigned int, BufferData*>::iterator it;
+    for (it = m_ProgramBuffers.begin(); it!=m_ProgramBuffers.end(); ++it)
+    {
+            BufferData* currentData = it->second;
+            currentData->writeToJSON(bufferDataArray);
+    }
+
+    bufferDataObject["BufferDataArray"] = bufferDataArray;
+}
+
+void BufferManager::readFromJSON(const QJsonObject &bufferDataObject)
+{
+    clearExistingBufferMap();
+
+    this->setDBufferIndex(bufferDataObject["indexDBuffer"].toInt());
+    this->setMaxBufferSize(bufferDataObject["maxBufferSize"].toInt());
+
+    QJsonArray bufferDataArray = bufferDataObject["BufferDataArray"].toArray();
+
+    if(!bufferDataArray.isEmpty())
+    {
+        for (size_t index = 0; index < bufferDataArray.size(); index++) {
+            m_ProgramBuffers.at(index)->readFromJSON(bufferDataArray.at(index).toObject());
+        }
+    }
+}
+
+
 void BufferManager::setDBufferIndex(const unsigned int &index)
 {
     m_ProgramBuffers.at(index)->setIsDBuffer(true);
@@ -19,12 +54,12 @@ void BufferManager::setDBufferIndex(const unsigned int &index)
 
 unsigned int BufferManager::getDBufferIndex() const
 {
-
+    return this->indexDBuffer;
 }
 
 void BufferManager::setMaxBufferSize(const unsigned int &numBuffers)
 {
-    m_ProgramBuffers.clear();
+    clearExistingBufferMap();
 
     for(size_t index = 0; index < numBuffers; index++)
     {
@@ -41,7 +76,13 @@ void BufferManager::updateBufferData(const unsigned int &bufferIndex, const Buff
 {
 
 }
-void BufferManager::getBufferData(const unsigned int &bufferIndex, BufferData &data)
+
+bool BufferManager::getBufferData(const unsigned int &bufferIndex, BufferData &data)
+{
+
+}
+
+void BufferManager::clearExistingBufferMap()
 {
 
 }

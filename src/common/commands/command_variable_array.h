@@ -21,11 +21,18 @@
 \*
 \*/
 
-ECM_CLASS_FORWARD(Command_Variable);
+ECM_CLASS_FORWARD(Command_VariableArray);
 
 class Command_VariableArray : public AbstractCommand
 {
 public:
+
+    Command_VariableArray():
+        AbstractCommand(CommandType::SET_VARIABLE_ARRAY)
+    {
+
+    }
+
     Command_VariableArray(const std::string &name, const std::vector<double> &value);
 
     Command_VariableArray(const Command_VariableArray &copy);

@@ -1,7 +1,7 @@
 #include "command_variable_array.h"
 
 Command_VariableArray::Command_VariableArray(const std::string &name, const std::vector<double> &value):
-    AbstractCommand(CommandType::SET_VARIABLE)
+    AbstractCommand(CommandType::SET_VARIABLE_ARRAY)
 {
     this->variableName = name;
     this->variableValue = value;

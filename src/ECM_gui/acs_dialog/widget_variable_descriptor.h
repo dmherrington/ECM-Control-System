@@ -17,7 +17,11 @@ public:
     explicit Widget_VariableDescriptor(const std::string &name, const double &value, QWidget *parent = nullptr);
     ~Widget_VariableDescriptor();
 
-    void getVariableProperties(std::string &name, double &value);
+    void setVariableValue(const double &value);
+
+    std::string getVariableName() const;
+
+    void getVariableProperties(std::string &name, double &value) const;
 
 signals:
     void signal_UpdatedVariableValue(const std::string name, const double &value);

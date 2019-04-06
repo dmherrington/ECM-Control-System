@@ -69,7 +69,8 @@ void Operation_VariableList::updateVariable(const std::string &name, const doubl
 
 bool Operation_VariableList::getVariableValue(const std::string &name, double &value) const
 {
-    if(this->variableMap.count(name) > 0)
+    std::map<std::string, double>::const_iterator it = variableMap.find(name);
+    if(it != variableMap.end())
     {
         value = this->variableMap.at(name);
         return true;

@@ -3,7 +3,7 @@
 SPIIStateInterface::SPIIStateInterface(const std::vector<MotorAxis> &availableAxis):
     m_CB(nullptr)
 {
-    m_BufferManager = new BufferManager();
+    m_BufferManager = new SPII_CurrentProgram();
 
     m_MasterVariableValues = new BufferVariableValues();
 

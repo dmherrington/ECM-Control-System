@@ -332,9 +332,9 @@ void CommsMarshaler::NewStatus_OperationalLabels(const Operation_LabelList &labe
     Emit([&](CommsEvents *ptr){ptr->NewStatus_OperationalLabels(labelList);});
 }
 
-void CommsMarshaler::NewStatus_OperationalVariables(const Operation_VariableList &variableList) const
+void CommsMarshaler::NewStatus_OperationalVariables(const bool &success, const Operation_VariableList &variableList) const
 {
-    Emit([&](CommsEvents *ptr){ptr->NewStatus_OperationalVariables(variableList);});
+    Emit([&](CommsEvents *ptr){ptr->NewStatus_OperationalVariables(success, variableList);});
 }
 
 

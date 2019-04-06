@@ -70,7 +70,7 @@ void State_ScriptExecution::handleCommand(const AbstractCommandPtr command)
         {
             this->profileExecuting = true;
             CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
-            Owner().issueSPIICommand(castCommand);
+            Owner().issueSPIIMotionCommand(castCommand);
         }
         break;
     }

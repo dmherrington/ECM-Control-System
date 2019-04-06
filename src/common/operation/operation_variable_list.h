@@ -38,7 +38,7 @@ public:
 
     size_t sizeOfVariableList() const;
 
-     std::map<std::string,double> getVariableMap() const;
+    std::map<std::string,double> getVariableMap() const;
 
 public:
     Operation_VariableList& operator = (const Operation_VariableList &rhs)

@@ -73,17 +73,17 @@ void ECMState_SetupMachineTouchoffExecute::OnEnter(ECMCommand_AbstractProfileCon
         /*
          * First, lets setup the necessary touchoff ref and gap variables per the configuration
          */
-        Command_VariablePtr commandTouchRef = nullptr;
+        Command_VariableArrayPtr commandTouchRef = nullptr;
 
         if(castConfig->m_Touchoff.shouldTouchoffUtilizePreviousPosition())
         {
-            int currentPosition = Owner().m_MotionController->m_StateInterface->m_AxisPosition->getAxisPosition(MotorAxis::Z)->getPosition();
-            commandTouchRef = std::make_shared<Command_Variable>("touchref",currentPosition);
+            std::vector<double> axisPosition = Owner().m_MotionController->m_StateInterface->m_AxisPosition->getAxisPositionVector();
+            commandTouchRef = std::make_shared<Command_Variable>("", axisPosition);
         }
         else{
             commandTouchRef = std::make_shared<Command_Variable>(castConfig->m_Touchoff.getTouchoffRefCommand());
         }
-        Command_VariablePtr commandTouchGap = std::make_shared<Command_Variable>(castConfig->m_Touchoff.getTouchoffGapCommand());
+        Command_VariableArrayPtr commandTouchGap = std::make_shared<Command_VariableArray>(castConfig->m_Touchoff.getTouchoffGapCommand());
 
         Owner().m_MotionController->executeCommand(commandTouchRef);
         Owner().m_MotionController->executeCommand(commandTouchGap);

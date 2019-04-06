@@ -1,10 +1,12 @@
 #ifndef CONFIGURATION_TOUCHOFF_H
 #define CONFIGURATION_TOUCHOFF_H
 
+#include <map>
+
 #include <QJsonObject>
 #include <QJsonArray>
 
-#include "../commands/command_variable.h"
+#include "../commands/command_variable_array.h"
 
 class Configuration_Touchoff
 {
@@ -21,18 +23,18 @@ public:
 public:
     void setTouchoffUtilization(const bool &usage);
     void setTouchoffUtilizePreviousPosition(const bool &usage);
-    void setTouchoffRef(const double &distance);
-    void setTouchoffGap(const double &distance);
+    void setTouchoffRef(const std::map<MotorAxis,double> &distance);
+    void setTouchoffGap(const std::map<MotorAxis,double> &distance);
 
 public:
     bool shouldTouchoffBeUtilized() const;
     bool shouldTouchoffUtilizePreviousPosition() const;
-    double getTouchoffRef() const;
-    double getTouchoffGap() const;
+    std::map<MotorAxis,double> getTouchoffRef() const;
+    std::map<MotorAxis,double> getTouchoffGap() const;
 
 public:
-    Command_Variable getTouchoffRefCommand() const;
-    Command_Variable getTouchoffGapCommand() const;
+    Command_VariableArray getTouchoffRefCommand() const;
+    Command_VariableArray getTouchoffGapCommand() const;
 
 public:
     //!
@@ -82,8 +84,8 @@ public:
 private:
     bool utilizeTouchoff = false;
     bool utilizeExistingPosition = false;
-    double touchoffRef = 0.0;
-    double touchoffGap = 0.0;
+    std::map<MotorAxis,double> touchoffRef;
+    std::map<MotorAxis,double> touchoffGap;
 };
 
 

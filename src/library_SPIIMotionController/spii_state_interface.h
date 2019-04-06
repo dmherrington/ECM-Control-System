@@ -18,7 +18,7 @@
 #include "requests/request_components.h"
 #include "status/status_components.h"
 
-#include "buffers/spii_buffer_manager.h"
+#include "buffers/spii_current_program.h"
 #include "buffers/buffer_variable_values.h"
 
 class SPIICallback_StateInterface
@@ -149,7 +149,7 @@ Eventually this should change to be pulled from a configuraiton.*/
 based on the program that is currently on the SPII Unit. Values of this may be updated per the
 the request of the polling status function.*/
 
-    BufferManager* m_BufferManager; /**< Member variable containing the current program, labels,
+    SPII_CurrentProgram* m_BufferManager; /**< Member variable containing the current program, labels,
 and variables actually aboard the SPII. This can be used as a comparison for determining if the
 current program matches what the user witnesses. Also, this can be used to restore the current state
 of the program.*/

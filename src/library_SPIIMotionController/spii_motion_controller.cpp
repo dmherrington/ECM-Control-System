@@ -28,6 +28,11 @@ SPIIMotionController::~SPIIMotionController()
 
 }
 
+void SPIIMotionController::uploadOperationalVariables(const Operation_VariableList &variableList)
+{
+
+}
+
 BufferData SPIIMotionController::retrieveBufferData(const unsigned int &bufferIndex)
 {
     BufferData bufferData;
@@ -307,12 +312,21 @@ void SPIIMotionController::NewBuffer_AvailableData(const BufferData &bufferData)
 
 void SPIIMotionController::NewStatus_OperationalLabels(const Operation_LabelList &labelList)
 {
+    m_StateInterface->m_BufferManager->updateOperationalLabels(labelList);
+
     emit signal_MCNewProgramLabelList(labelList);
 }
 
-void SPIIMotionController::NewStatus_OperationalVariables(const Operation_VariableList &variableList)
+void SPIIMotionController::NewStatus_OperationalVariables(const bool &success, const Operation_VariableList &variableList)
 {
-    emit signal_MCNewProgramVariableList(variableList);
+    if(success)
+    {
+        m_StateInterface->m_BufferManager->updateUserVariables(variableList);
+
+        this->onFinishedUploadingVariables(success,variableList);
+
+        emit signal_MCNewProgramVariableList(variableList);
+    }
 }
 
 

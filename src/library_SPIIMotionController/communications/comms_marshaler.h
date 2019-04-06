@@ -89,7 +89,7 @@ private:
 
     void NewStatus_OperationalLabels(const Operation_LabelList &labelList) const override;
 
-    void NewStatus_OperationalVariables(const Operation_VariableList &variableList) const override;
+    void NewStatus_OperationalVariables(const bool &success, const Operation_VariableList &variableList) const override;
 
 
 

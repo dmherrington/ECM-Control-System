@@ -22,6 +22,11 @@ public:
     ~BufferManager() = default;
 
 public:
+    void writeToJSON(QJsonObject &bufferDataObject);
+
+    void readFromJSON(const QJsonObject &bufferDataObject);
+
+public:
     void setDBufferIndex(const unsigned int &index);
     unsigned int getDBufferIndex() const;
 
@@ -29,9 +34,12 @@ public:
     unsigned int getBufferSize() const;
 
     void updateBufferData(const unsigned int &bufferIndex, const BufferData &data);
-    void getBufferData(const unsigned int &bufferIndex, BufferData &data);
+    bool getBufferData(const unsigned int &bufferIndex, BufferData &data);
 
     void statusBufferUpdate(const Status_BufferState &state);
+
+private:
+    void clearExistingBufferMap();
 
 protected:
     unsigned int indexDBuffer;

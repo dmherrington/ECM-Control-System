@@ -47,6 +47,9 @@ public:
     std::vector<common::TupleECMData> getPlottables() const;
 
 public:
+    void uploadOperationalVariables(const Operation_VariableList &variableList);
+
+public:
     void executeCommand(const AbstractCommandPtr command);
     void executeCustomCommands(const std::vector<std::string> &stringCommands);
 public:
@@ -85,7 +88,7 @@ private:
     void NewBufferState(const Status_BufferState &state) override;
     void NewBuffer_AvailableData(const BufferData &bufferData) override;
     void NewStatus_OperationalLabels(const Operation_LabelList &labelList) override;
-    void NewStatus_OperationalVariables(const Operation_VariableList &variableList) override;
+    void NewStatus_OperationalVariables(const bool &success, const Operation_VariableList &variableList) override;
 
 
 private:

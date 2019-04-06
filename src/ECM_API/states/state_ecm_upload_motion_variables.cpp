@@ -93,7 +93,7 @@ void ECMState_UploadMotionVariables::OnEnter(ECMCommand_AbstractProfileConfigPtr
 
         });
         //KEN FIX
-        //Owner().m_Galil->uploadProgramVariableList(castConfig->m_GalilOperation.getVariableList());
+        Owner().m_MotionController->uploadProgramVariableList(castConfig->m_GalilOperation.getVariableList());
         break;
     }
     default:

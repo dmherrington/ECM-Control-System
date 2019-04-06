@@ -26,7 +26,7 @@ ECM_CLASS_FORWARD(Command_Variable);
 class Command_Variable : public AbstractCommand
 {
 public:
-    Command_Variable(const std::string &name, const double &value);
+    Command_Variable(const std::string &name, const double &value = 0.0);
 
     Command_Variable(const Command_Variable &copy);
 

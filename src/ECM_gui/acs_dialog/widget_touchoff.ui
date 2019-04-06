@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>506</width>
+    <width>580</width>
     <height>160</height>
    </rect>
   </property>
@@ -18,13 +18,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>506</width>
+    <width>580</width>
     <height>160</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>506</width>
+    <width>580</width>
     <height>160</height>
    </size>
   </property>
@@ -221,7 +221,7 @@ width:20px;
    <item row="1" column="0">
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
-      <layout class="QHBoxLayout" name="horizontalLayout_9">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
         <widget class="QPushButton" name="pushButton_TouchoffRef">
          <property name="sizePolicy">
@@ -248,12 +248,12 @@ width:20px;
           </font>
          </property>
          <property name="text">
-          <string>Set Touchoff Ref</string>
+          <string>Get Touchoff Ref</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="doubleSpinBox_TouchoffRef">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_TouchoffRefX">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -293,33 +293,89 @@ width:20px;
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_3">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_TouchoffRefY">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="minimumSize">
           <size>
-           <width>32</width>
+           <width>120</width>
            <height>25</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>32</width>
+           <width>120</width>
            <height>25</height>
           </size>
          </property>
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <family>MS Shell Dlg 2</family>
+           <pointsize>11</pointsize>
           </font>
          </property>
-         <property name="text">
-          <string>um</string>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="decimals">
+          <number>1</number>
+         </property>
+         <property name="minimum">
+          <double>0.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>500000.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_TouchoffRefZ">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>120</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>120</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>MS Shell Dlg 2</family>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="decimals">
+          <number>1</number>
+         </property>
+         <property name="minimum">
+          <double>0.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>500000.000000000000000</double>
          </property>
         </widget>
        </item>
       </layout>
      </item>
      <item row="1" column="0">
-      <layout class="QHBoxLayout" name="horizontalLayout_10">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
         <widget class="QPushButton" name="pushButton_TouchoffGap">
          <property name="sizePolicy">
@@ -346,12 +402,12 @@ width:20px;
           </font>
          </property>
          <property name="text">
-          <string>Set Initial Gap</string>
+          <string>Initial Gap</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="doubleSpinBox_InitialGap">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_InitialGapX">
          <property name="minimumSize">
           <size>
            <width>120</width>
@@ -381,26 +437,62 @@ width:20px;
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_4">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_InitialGapY">
          <property name="minimumSize">
           <size>
-           <width>32</width>
+           <width>120</width>
            <height>25</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>32</width>
+           <width>120</width>
            <height>25</height>
           </size>
          </property>
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>11</pointsize>
           </font>
          </property>
-         <property name="text">
-          <string>um</string>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="decimals">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <double>100000.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_InitialGapZ">
+         <property name="minimumSize">
+          <size>
+           <width>120</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>120</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="decimals">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <double>100000.000000000000000</double>
          </property>
         </widget>
        </item>

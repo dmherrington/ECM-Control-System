@@ -60,6 +60,8 @@ public:
 
     bool WriteVariableArray(const Command_VariableArray &value);
 
+    bool WriteOperationalVariables(const Operation_VariableList &variableList);
+
 public:
     bool commandMotorEnable(const CommandMotorEnable &enable);
 

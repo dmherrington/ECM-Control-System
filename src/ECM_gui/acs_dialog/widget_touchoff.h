@@ -26,11 +26,11 @@ public:
     Configuration_Touchoff getCurrentTouchoffConfig() const;
 
 public:
-    void setTouchoffRef(const double &value);
-
-    void setTouchoffGap(const double &value);
-
     void setTouchoffUtilization(const bool &execute);
+
+public:
+    std::map<MotorAxis, double> getTouchoffRefMap() const;
+    std::map<MotorAxis, double> getTouchoffGapMap() const;
 
 private slots:
 
@@ -45,7 +45,7 @@ private slots:
 private:
     Ui::Widget_Touchoff *ui;
 
-    SPIIMotionController* m_Galil;
+    SPIIMotionController* m_MotionController;
 
 };
 

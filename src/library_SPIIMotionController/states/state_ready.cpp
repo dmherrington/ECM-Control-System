@@ -180,6 +180,13 @@ void State_Ready::handleCommand(const AbstractCommandPtr command)
         Owner().issueSPIICommand(command);
         break;
     }
+    case CommandType::SET_VARIABLE_ARRAY:
+    {
+        //const Command_Variable* castCommand = copyCommand->as<Command_Variable>();
+        //Command_VariablePtr command = std::make_shared<Command_Variable>(*castCommand);
+        Owner().issueSPIICommand(command);
+        break;
+    }
     default:
         break;
     }

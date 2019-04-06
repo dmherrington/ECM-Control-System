@@ -38,12 +38,12 @@ ECMCommand_AbstractProfileConfigPtr Widget_ProfileParameters::getCurrentProfileC
 //    currentConfiguration->m_GalilOperation.fromProgram(this->m_ScriptingVariables->getDesiredProgram());
 //    currentConfiguration->m_GalilOperation.setProfileName(this->m_ScriptingVariables->getProfileName());
 
-//    currentConfiguration->m_Touchoff = this->m_MCTouchoff->getCurrentTouchoffConfig();
+    currentConfiguration->m_Touchoff = this->m_MCTouchoff->getCurrentTouchoffConfig();
 
-//    currentConfiguration->m_ConfigPowerSupply.m_MunkPulseMode = this->m_PowerSupply->getPulseModeRegister();
-//    currentConfiguration->m_ConfigPowerSupply.m_MunkSegment = this->m_PowerSupply->getSegmentRegister();
+    currentConfiguration->m_ConfigPowerSupply.m_MunkPulseMode = this->m_PowerSupply->getPulseModeRegister();
+    currentConfiguration->m_ConfigPowerSupply.m_MunkSegment = this->m_PowerSupply->getSegmentRegister();
 
-//    currentConfiguration->m_PumpParameters = this->m_PumpControl->getPumpProperties();
+    currentConfiguration->m_PumpParameters = this->m_PumpControl->getPumpProperties();
 
     return currentConfiguration;
 }
@@ -52,7 +52,7 @@ void Widget_ProfileParameters::loadFromProfileConfiguration(const ECMCommand_Abs
 {
     ECMCommand_ProfileConfigurationPtr castConfiguration = static_pointer_cast<ECMCommand_ProfileConfiguration>(config);
 
-    //this->m_MCTouchoff->loadFromTouchoffConfig(castConfiguration->m_Touchoff);
+    this->m_MCTouchoff->loadFromTouchoffConfig(castConfiguration->m_Touchoff);
     this->m_PumpControl->loadFromPumpProperties(castConfiguration->m_PumpParameters);
     this->m_PowerSupply->loadFromConfig(castConfiguration->m_ConfigPowerSupply);
     //this->m_ScriptingVariables->loadFromCurrentProgram(castConfiguration->m_GalilOperation, castConfiguration->getProfileName());

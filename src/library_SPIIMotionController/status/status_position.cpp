@@ -79,9 +79,25 @@ bool Status_Position::updatePositionStatus(const std::vector<Status_PositionPerA
     return positionChanged;
 }
 
-Status_PositionPerAxis* Status_Position::getAxisPosition(const MotorAxis &axis)
+bool Status_Position::getAxisPosition(const MotorAxis &axis, Status_PositionPerAxis &status) const
 {
+    std::map<MotorAxis, DataGetSetNotifier<Status_PositionPerAxis>*>::const_iterator it = m_PositionStatus.find(axis);
+    if(it != m_PositionStatus.end())
+    {
+        DataGetSetNotifier<Status_PositionPerAxis>* obj = it->second;
+        status = obj->get();
+        return true;
+    }
+    return false;
+}
 
+std::vector<double> Status_Position::getAxisPositionVector() const
+{
+    std::vector<double> rtnObj;
+    rtnObj.push_back(m_PositionStatus.at(MotorAxis::X)->get().getPosition());
+    rtnObj.push_back(m_PositionStatus.at(MotorAxis::Y)->get().getPosition());
+    rtnObj.push_back(m_PositionStatus.at(MotorAxis::Z)->get().getPosition());
+    return rtnObj;
 }
 
 DataGetSetNotifier<Status_PositionPerAxis>* Status_Position::getAxisPositionNotifier(const MotorAxis &axis)

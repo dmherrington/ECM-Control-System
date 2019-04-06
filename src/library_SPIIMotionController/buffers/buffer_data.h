@@ -1,6 +1,9 @@
 #ifndef BUFFER_DATA_H
 #define BUFFER_DATA_H
 
+#include <QJsonArray>
+#include <QJsonObject>
+
 #include <string>
 
 #include "buffer_label_values.h"
@@ -14,7 +17,11 @@ public:
     ~BufferData() = default;
 
 public:
+    void writeToJSON(QJsonArray &bufferDataArray);
 
+    void readFromJSON(const QJsonObject &bufferDataObject);
+
+public:
     std::string setBufferName(const std::string &value);
     std::string getBufferName() const;
 

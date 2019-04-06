@@ -34,7 +34,7 @@ void SPIIProtocol::initializeBufferContents()
             //we need to also retrieve the variables on load
             Operation_VariableList privateVars, userVars;
             retrieveDBufferVariables(m_SPIISettings.getDBufferIndex(), privateVars, userVars);
-            Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_OperationalVariables(userVars);});
+            Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_OperationalVariables(true, userVars);});
         }
         else
             newData.setIsDBuffer(false);
@@ -148,6 +148,18 @@ void SPIIProtocol::SendProtocolCommand(const AbstractCommandPtr command)
         commandMotorDisable(*commandDisable);
         break;
     }
+    case CommandType::SET_VARIABLE:
+    {
+        Command_Variable* commandVariable = command->as<Command_Variable>();
+        WriteVariableValue(*commandVariable);
+        break;
+    }
+    case CommandType::SET_VARIABLE_ARRAY:
+    {
+        Command_VariableArray* commandVariable = command->as<Command_VariableArray>();
+        WriteVariableArray(*commandVariable);
+        break;
+    }
     default:
     {
         break;
@@ -168,6 +180,12 @@ void SPIIProtocol::SendProtocolMotionCommand(const AbstractCommandPtr command)
     {
         CommandRelativeMove* commandRM = command->as<CommandRelativeMove>();
         commandRelativeMove(*commandRM);
+        break;
+    }
+    case CommandType::EXECUTE_PROGRAM:
+    {
+        CommandExecuteProfile* commandExecute = command->as<CommandExecuteProfile>();
+        bufferRun(0,commandExecute->getProfileName());
         break;
     }
     case CommandType::STOP:
@@ -205,17 +223,41 @@ bool SPIIProtocol::WriteVariableValue(const Command_Variable &value)
 bool SPIIProtocol::WriteVariableArray(const Command_VariableArray &value)
 {
     bool rtnValidity = false;
+    std::vector<double> valueVector = value.getVariableValue();
 
-    /*
-    double values[1] = {value.getVariableValue()};
+    double valueArray[valueVector.size()];
+    std::copy(valueVector.begin(), valueVector.end(), valueArray);
 
     char ctext[value.getVariableName().size()];
     strcpy(ctext, value.getVariableName().c_str());
 
-    rtnValidity = acsc_WriteReal(*m_SPIIDevice.get(),ACSC_NONE,ctext,0,0,ACSC_NONE,ACSC_NONE,values,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
-    */
+    rtnValidity = acsc_WriteReal(*m_SPIIDevice.get(),ACSC_NONE,ctext,0,valueVector.size() - 1,ACSC_NONE,ACSC_NONE,valueArray,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
 
     return rtnValidity;
+}
+
+bool SPIIProtocol::WriteOperationalVariables(const Operation_VariableList &variableList)
+{
+    bool validity = true;
+    std::map<std::string, double> currentVarMap = variableList.getVariableMap();
+    std::map<std::string, double>::iterator it = currentVarMap.begin();
+
+    Command_VariablePtr newVariable = std::make_shared<Command_Variable>("",0.0);
+
+    for (; it!=currentVarMap.end(); ++it)
+    {
+        newVariable->setVariableName(it->first);
+        newVariable->setVariableValue(it->second);
+
+        validity = WriteVariableValue(*newVariable.get());
+        if(!validity)
+            break;
+    }
+
+    if(validity)
+        Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_OperationalVariables(true,variableList);});
+    else
+        Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_OperationalVariables(false);});
 }
 
 bool SPIIProtocol::commandMotorEnable(const CommandMotorEnable &enable)
@@ -507,7 +549,7 @@ void SPIIProtocol::uploadProgramToBuffer(const SPIICommand_UploadProgram *upload
             {
                 Operation_VariableList privateVariables, userVariables;
                 retrieveDBufferVariables(m_SPIISettings.getDBufferIndex(), privateVariables, userVariables);
-                Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_OperationalVariables(userVariables);});
+                Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_OperationalVariables(true, userVariables);});
             }
             //If we had uploaded and compiled the buffer containing the labels, let us regrab all of the labels
             else if(m_SPIISettings.getLabelBufferIndex() == uploadProgram->getBufferIndex())
