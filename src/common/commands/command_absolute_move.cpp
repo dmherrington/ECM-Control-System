@@ -27,6 +27,11 @@ void CommandAbsoluteMove::getClone(AbstractCommand** state) const
     *state = new CommandAbsoluteMove(*this);
 }
 
+void CommandAbsoluteMove::setAbsoluteMovePosition(const std::map<MotorAxis, double> &move)
+{
+    this->absoluteMove = move;
+}
+
 void CommandAbsoluteMove::addAbsoluteMovePosition(const MotorAxis &axis, const double &position, const Direction &direction)
 {
     if(axis == MotorAxis::ALL)

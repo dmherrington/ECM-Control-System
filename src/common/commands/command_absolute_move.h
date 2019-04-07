@@ -55,6 +55,8 @@ public:
 public:
     void addAbsoluteMovePosition(const MotorAxis &axis, const double &position, const Direction &direction);
 
+    void setAbsoluteMovePosition(const std::map<MotorAxis, double> &move);
+
 public:
     std::map<MotorAxis, double> getAbsoluteMovePosition() const;
 
