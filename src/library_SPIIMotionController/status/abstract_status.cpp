@@ -17,6 +17,11 @@ void AbstractStatus::setStatusType(const StatusTypes &type)
     this->statusType = type;
 }
 
+void AbstractStatus::setStatusValidity(const bool &valid)
+{
+    this->validStatus = valid;
+}
+
 StatusTypes AbstractStatus::getStatusType() const
 {
     return this->statusType;
@@ -34,7 +39,7 @@ common::EnvironmentTime AbstractStatus::getTime() const
 
 bool AbstractStatus::isStatusValid() const
 {
-    return true;
+    return validStatus;
 }
 
 //void AbstractStatus::setTupleDescription(const common::TupleECMData &tuple)

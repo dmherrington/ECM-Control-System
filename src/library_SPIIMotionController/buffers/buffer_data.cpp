@@ -25,24 +25,22 @@ void BufferData::updateBufferData(const BufferData &data)
     this->programText = data.programText;
 }
 
-void BufferData::writeToJSON(QJsonArray &bufferDataArray)
+void BufferData::writeToJSON(QJsonObject &jsonObject)
 {
-    QJsonObject segmentObject;
+    jsonObject["bufferIndex"] = (int)this->getBufferIndex();
+    jsonObject["dBuffer"] = this->isDBuffer();
 
-    segmentObject["bufferIndex"] = (int)this->getBufferIndex();
-    segmentObject["dBuffer"] = this->isDBuffer();
-    segmentObject["bufferName"] = QString::fromStdString(this->getBufferName());
-    segmentObject["bufferText"] = QString::fromStdString(this->getProgramString());
-
-    bufferDataArray.append(segmentObject);
+    jsonObject["bufferName"] = QString::fromStdString(this->getBufferName());
+    jsonObject["programText"] = QString::fromStdString(this->getProgramString());
 }
 
 void BufferData::readFromJSON(const QJsonObject &bufferDataObject)
 {
     this->setBufferIndex(bufferDataObject["bufferIndex"].toInt());
     this->setIsDBuffer(bufferDataObject["dBuffer"].toBool());
+
     this->setBufferName(bufferDataObject["bufferName"].toString().toStdString());
-    this->setProgramString(bufferDataObject["bufferText"].toString().toStdString());
+    this->setProgramString(bufferDataObject["programText"].toString().toStdString());
 }
 
 std::string BufferData::setBufferName(const std::string &value)

@@ -34,7 +34,8 @@ void SPIIProtocol::initializeBufferContents()
             //we need to also retrieve the variables on load
             Operation_VariableList privateVars, userVars;
             retrieveDBufferVariables(m_SPIISettings.getDBufferIndex(), privateVars, userVars);
-            Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_OperationalVariables(true, userVars);});
+            Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_PrivateOperationalVariables(true, privateVars);});
+            Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_UserOperationalVariables(true, userVars);});
         }
         else
             newData.setIsDBuffer(false);
@@ -47,6 +48,8 @@ void SPIIProtocol::initializeBufferContents()
         }
 
         retrieveBufferData(bufferIndex,newData);
+
+        Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewBuffer_AvailableData(newData);});
     }
 }
 
@@ -204,7 +207,76 @@ void SPIIProtocol::SendProtocolMotionCommand(const AbstractCommandPtr command)
 
 void SPIIProtocol::SendCustomProtocolCommand(const std::vector<std::string> &stringCommands)
 {
+    /*
+    std::string begin = "#";
+    std::string end = "VG\r";
+    std::string dBuffer = std::to_string(bufferNumber);
+    std::string concatenatedRequest = begin + dBuffer + end;
 
+    char *cstr = new char[concatenatedRequest.length() + 1];
+    strcpy(cstr, concatenatedRequest.c_str());
+
+    int bufferSize = static_cast<int>(startingBufferSize);
+    int currentAttempt = 1;
+    bool validAttempt = true, retry = true;
+    int received = 0;
+
+    std::string bufString;
+
+    while (validAttempt && retry)
+    {
+        char* buf = new char[bufferSize]();
+        validAttempt = acsc_Transaction(*m_SPIIDevice.get(),cstr, strlen(cstr), buf, bufferSize, &received, NULL);
+
+        if(!validAttempt)
+            break;
+
+        if(received == bufferSize)
+        {
+            if((currentAttempt < attempts) || (attempts == -1))
+            {
+                currentAttempt++;
+                bufferSize = bufferSize * 2;
+            }
+            else {
+                retry = false;
+                bufString = std::string(buf);
+            }
+        }
+        else {
+            retry = false;
+            bufString = std::string(buf);
+        }
+
+        delete[] buf;
+    }
+
+    bufString.erase(bufString.begin()+received, bufString.end());
+    QString newQString = QString::fromStdString(bufString);
+    QStringList stringList = newQString.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
+    return stringList;
+    */
+}
+
+bool SPIIProtocol::ReadIntegerVariableValue(const Request_TellVariable &tellVariable, Status_VariableValue &responseValue)
+{
+    bool rtnValidity = false;
+
+    int values[1] = {0};
+
+    responseValue.setVariableName(tellVariable.getVariableName());
+    responseValue.setVariableUnit(tellVariable.getUnitName());
+
+    char ctext[tellVariable.getVariableName().size()];
+    strcpy(ctext, tellVariable.getVariableName().c_str());
+
+    rtnValidity = acsc_ReadInteger(*m_SPIIDevice.get(),ACSC_NONE,ctext,0,0,ACSC_NONE,ACSC_NONE,values,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+
+    responseValue.setVariableValue(values[0]);
+
+    responseValue.setStatusValidity(rtnValidity);
+
+    return rtnValidity;
 }
 
 bool SPIIProtocol::WriteVariableValue(const Command_Variable &value)
@@ -256,9 +328,9 @@ bool SPIIProtocol::WriteOperationalVariables(const Operation_VariableList &varia
     }
 
     if(validity)
-        Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_OperationalVariables(true,variableList);});
+        Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_UserOperationalVariables(true,variableList);});
     else
-        Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_OperationalVariables(false);});
+        Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_UserOperationalVariables(false);});
 }
 
 bool SPIIProtocol::commandMotorEnable(const CommandMotorEnable &enable)
@@ -550,7 +622,9 @@ void SPIIProtocol::uploadProgramToBuffer(const SPIICommand_UploadProgramBuffer *
             {
                 Operation_VariableList privateVariables, userVariables;
                 retrieveDBufferVariables(m_SPIISettings.getDBufferIndex(), privateVariables, userVariables);
-                Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_OperationalVariables(true, userVariables);});
+
+                Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_PrivateOperationalVariables(true, privateVariables);});
+                Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_UserOperationalVariables(true, userVariables);});
             }
             //If we had uploaded and compiled the buffer containing the labels, let us regrab all of the labels
             else if(m_SPIISettings.getLabelBufferIndex() == uploadProgram->getBufferIndex())

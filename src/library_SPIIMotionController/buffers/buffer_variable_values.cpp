@@ -15,6 +15,19 @@ BufferVariableValues::BufferVariableValues(const BufferVariableValues &copy)
     this->variableMap = copy.variableMap;
 }
 
+void BufferVariableValues::fromVariableList(const Operation_VariableList &list)
+{
+   std::map<std::string,double> variableMap = list.getVariableMap();
+   std::map<std::string,double>::iterator it = variableMap.begin();
+
+   for(;it!=variableMap.end();++it)
+   {
+       Status_VariableValue newVar;
+       newVar.setVariableName(it->first);
+       newVar.setVariableValue(it->second);
+       this->addVariable(newVar);
+   }
+}
 
 void BufferVariableValues::addVariable(const Status_VariableValue &var)
 {

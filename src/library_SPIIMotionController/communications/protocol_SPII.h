@@ -53,6 +53,9 @@ public:
     void SendCustomProtocolCommand(const std::vector<std::string> &stringCommands);
 
 public:
+
+    bool ReadIntegerVariableValue(const Request_TellVariable &tellVariable, Status_VariableValue &responseValue);
+
     bool WriteVariableValue(const Command_Variable &value);
 
     bool WriteVariableArray(const Command_VariableArray &value);

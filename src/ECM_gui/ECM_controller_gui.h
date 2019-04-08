@@ -146,6 +146,8 @@ private slots:
 
     void on_actionProfile_Configuration_triggered(bool checked);
 
+    void on_actionBuffer_Manager_triggered(bool checked);
+
     void on_actionMotion_Control_triggered(bool checked);
 
     void on_actionConnections_triggered(bool checked);
@@ -199,7 +201,9 @@ private:
     /*
      * The following are all related to independent windows within the GUI
      */
-    Window_MotionControl* m_WindowMotionControl;
+    //Window_MotionControl* m_WindowMotionControl;
+
+    Window_BufferManager* m_WindowBufferManager;
 
     Window_Touchoff* m_WindowTouchoffControl;
 
@@ -212,8 +216,6 @@ private:
     Window_DeviceConnections* m_WindowConnections;
 
     Window_CustomMotionCommands* m_WindowCustomMotionCommands;
-
-    Window_BufferManager* m_WindowBufferManager;
 
 private:
     void ProgressStateMachineStates();

@@ -47,7 +47,7 @@ public slots:
     void slot_PumpConnectionUpdate(const common::comms::CommunicationUpdate &update);
     void slot_RigolConnectionUpdate(const common::comms::CommunicationUpdate &update);
     void slot_MunkConnectionUpdate(const common::comms::CommunicationUpdate &update);
-    void slot_GalilConnectionUpdate(const common::comms::CommunicationUpdate &update);
+    void slot_MCConnectionUpdate(const common::comms::CommunicationUpdate &update);
 
 private slots:
 

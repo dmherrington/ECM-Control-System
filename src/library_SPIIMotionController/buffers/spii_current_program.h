@@ -21,6 +21,8 @@ public:
 
     void updateOperationalLabels(const Operation_LabelList &labels);
 
+    void updatePrivateVariables(const Operation_VariableList &vars);
+
     void updateUserVariables(const Operation_VariableList &vars);
 
     Operation_LabelList getCurrentOperationLabels() const;
@@ -32,6 +34,7 @@ public:
     {
         BufferManager::operator =(rhs);
         this->m_OperationalLabels = rhs.m_OperationalLabels;
+        this->m_PrivateVariableList = rhs.m_PrivateVariableList;
         this->m_UserVariableList = rhs.m_UserVariableList;
         return *this;
     }
@@ -43,6 +46,11 @@ public:
         if(this->m_OperationalLabels != rhs.m_OperationalLabels){
             return false;
         }
+
+        if(this->m_PrivateVariableList != rhs.m_PrivateVariableList){
+            return false;
+        }
+
         if(this->m_UserVariableList != rhs.m_UserVariableList){
             return false;
         }
@@ -55,6 +63,8 @@ public:
 
 private:
     Operation_LabelList m_OperationalLabels;
+
+    Operation_VariableList m_PrivateVariableList;
 
     Operation_VariableList m_UserVariableList;
 };

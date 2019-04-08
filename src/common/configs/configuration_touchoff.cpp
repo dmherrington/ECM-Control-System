@@ -95,7 +95,7 @@ std::map<MotorAxis,double> Configuration_Touchoff::getTouchoffGap() const
 Command_VariableArray Configuration_Touchoff::getTouchoffRefCommand() const
 {
     Command_VariableArray newVariable;
-    newVariable.setVariableName("");
+    newVariable.setVariableName("startTouchOffPosition");
 
     std::vector<double> refVector;
     std::map<MotorAxis,double>::const_iterator it;
@@ -111,7 +111,7 @@ Command_VariableArray Configuration_Touchoff::getTouchoffRefCommand() const
 Command_VariableArray Configuration_Touchoff::getTouchoffGapCommand() const
 {
     Command_VariableArray newVariable;
-    newVariable.setVariableName("");
+    newVariable.setVariableName("startingGap");
 
     std::vector<double> gapVector;
     std::map<MotorAxis,double>::const_iterator it;

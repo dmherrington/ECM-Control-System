@@ -28,6 +28,7 @@ public:
     virtual void SPIIPolling_PositionUpdate(const std::vector<Status_PositionPerAxis> &position) = 0;
     virtual void SPIIPolling_AxisUpdate(const std::vector<Status_PerAxis> &axis) = 0;
     virtual void SPIIPolling_MotorUpdate(const std::vector<Status_MotorPerAxis> &motor) = 0;
+    virtual void SPIIPolling_VariableUpdate(const std::vector<Status_VariableValue> &variable) = 0;
 
 };
 

@@ -125,7 +125,7 @@ void Window_Touchoff::openFromFile(const QString &filePath)
 void Window_Touchoff::transmitTouchoffReference()
 {
     Command_VariableArrayPtr command = std::make_shared<Command_VariableArray>();
-    command->setVariableName("");
+    command->setVariableName("startTouchOffPosition");
 
     std::vector<double> refVector;
     refVector.push_back(ui->doubleSpinBox_TouchoffRefX->value());
@@ -138,7 +138,7 @@ void Window_Touchoff::transmitTouchoffReference()
 void Window_Touchoff::transmitTouchoffGap()
 {
     Command_VariableArrayPtr command = std::make_shared<Command_VariableArray>();
-    command->setVariableName("");
+    command->setVariableName("startingGap");
 
     std::vector<double> refVector;
     refVector.push_back(ui->doubleSpinBox_InitialGapX->value());

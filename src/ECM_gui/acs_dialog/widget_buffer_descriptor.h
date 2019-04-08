@@ -2,6 +2,7 @@
 #define WIDGET_BUFFER_DESCRIPTOR_H
 
 #include <QWidget>
+#include <QJsonObject>
 
 #include "library_SPIIMotionController/buffers/buffer_data.h"
 #include "library_SPIIMotionController/communications/comms_marshaler.h"
@@ -18,6 +19,9 @@ class Widget_BufferDescriptor : public QWidget
 
 public:
     explicit Widget_BufferDescriptor(SPIIMotionController *motionControlObject, const unsigned int &bufferIndex = 0, const bool &isDBuffer = false, QWidget *parent = nullptr);
+
+    Widget_BufferDescriptor(SPIIMotionController *motionControlObject, const BufferData &data, QWidget *parent = nullptr);
+
     ~Widget_BufferDescriptor();
 
 public:

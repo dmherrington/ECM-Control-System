@@ -6,7 +6,6 @@ Widget_BufferDescriptor::Widget_BufferDescriptor(SPIIMotionController *motionCon
     QWidget(parent),
     ui(new Ui::Widget_BufferDescriptor)
 {
-
     ui->setupUi(this);
 
     m_BufferEditor = new Widget_BufferEditor(motionControlObject, bufferIndex, isDBuffer);
@@ -20,6 +19,27 @@ Widget_BufferDescriptor::Widget_BufferDescriptor(SPIIMotionController *motionCon
     slot_UpdateBufferName(m_BufferEditor->getCurrentBufferName());
 
     updateBufferIndex(bufferIndex);
+}
+
+Widget_BufferDescriptor::Widget_BufferDescriptor(SPIIMotionController *motionControlObject, const BufferData &data, QWidget *parent):
+    QWidget(parent),
+    ui(new Ui::Widget_BufferDescriptor)
+{
+    ui->setupUi(this);
+
+    updateBufferIndex(data.getBufferIndex());
+
+    m_BufferEditor = new Widget_BufferEditor(motionControlObject, data.getBufferIndex(), data.isDBuffer());
+
+    connect(m_BufferEditor, SIGNAL(signal_BufferNameChanged(const std::string&)),
+            this, SLOT(slot_UpdateBufferName(const std::string&)));
+
+    connect(m_BufferEditor, SIGNAL(signal_BufferUpdatedLineCount(const int &)),
+            this, SLOT(slot_UpdateBufferLineCount(const int&)));
+
+    m_BufferEditor->updateFromBufferData(data);
+
+    //slot_UpdateBufferName(m_BufferEditor->getCurrentBufferName());
 }
 
 Widget_BufferDescriptor::~Widget_BufferDescriptor()

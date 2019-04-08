@@ -25,7 +25,7 @@ Window_DeviceConnections::Window_DeviceConnections(ECM_API *obj, QWidget *parent
 
     connect(m_API->m_Sensoray,SIGNAL(signal_SensorayCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_SensorayConnectionUpdate(common::comms::CommunicationUpdate)));
     connect(m_API->m_Pump,SIGNAL(signal_PumpCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_PumpConnectionUpdate(common::comms::CommunicationUpdate)));
-    connect(m_API->m_MotionController,SIGNAL(signal_MotionControllerCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_GalilConnectionUpdate(common::comms::CommunicationUpdate)));
+    connect(m_API->m_MotionController,SIGNAL(signal_MCCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_MCConnectionUpdate(common::comms::CommunicationUpdate)));
     connect(m_API->m_Munk,SIGNAL(signal_MunkCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_MunkConnectionUpdate(common::comms::CommunicationUpdate)));
     connect(m_API->m_Rigol,SIGNAL(signal_RigolCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_RigolConnectionUpdate(common::comms::CommunicationUpdate)));
 
@@ -268,7 +268,7 @@ void Window_DeviceConnections::slot_MunkConnectionUpdate(const common::comms::Co
     this->updateLEDConnectionColor(ui->widget_MunkConnection,update);
 }
 
-void Window_DeviceConnections::slot_GalilConnectionUpdate(const common::comms::CommunicationUpdate &update)
+void Window_DeviceConnections::slot_MCConnectionUpdate(const common::comms::CommunicationUpdate &update)
 {
     if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
     {

@@ -27,6 +27,11 @@ void Window_ProfileConfiguration::closeEvent(QCloseEvent *event)
     GeneralDialogWindow::closeEvent(event);
 }
 
+void Window_ProfileConfiguration::on_actionClose_triggered()
+{
+    GeneralDialogWindow::onCloseAction();
+}
+
 bool Window_ProfileConfiguration::checkGalilScript(bool &shouldUpload)
 {
     bool continueExecution = true;
@@ -54,11 +59,6 @@ bool Window_ProfileConfiguration::checkGalilScript(bool &shouldUpload)
 //    }
 
     return continueExecution;
-}
-
-void Window_ProfileConfiguration::on_actionClose_triggered()
-{
-    GeneralDialogWindow::onCloseAction();
 }
 
 void Window_ProfileConfiguration::executingProfileIndex(const unsigned int &index)

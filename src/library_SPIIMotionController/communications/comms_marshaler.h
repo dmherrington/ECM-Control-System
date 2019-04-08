@@ -38,6 +38,8 @@ public:
 
     std::vector<Status_PositionPerAxis> requestPosition(const RequestTellPosition* request);
 
+    std::vector<Status_VariableValue>  requestVariableValue(const Request_TellVariable* request);
+
     //////////////////////////////////////////////////////////////
     /// Connect/Disconnect from SPII Methods
     //////////////////////////////////////////////////////////////
@@ -89,7 +91,9 @@ private:
 
     void NewStatus_OperationalLabels(const Operation_LabelList &labelList) const override;
 
-    void NewStatus_OperationalVariables(const bool &success, const Operation_VariableList &variableList) const override;
+    void NewStatus_PrivateOperationalVariables(const bool &success, const Operation_VariableList &variableList) const override;
+
+    void NewStatus_UserOperationalVariables(const bool &success, const Operation_VariableList &variableList) const override;
 
 
 

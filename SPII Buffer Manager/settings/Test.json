@@ -1,0 +1,394 @@
+{
+    "BufferData": [
+        {
+            "bufferIndex": 0,
+            "bufferName": "Buffer #0",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 1,
+            "bufferName": "Buffer #1",
+            "dBuffer": false,
+            "programText": "!Homing Program 29922\n!\n!Home to negative limit then out to centerstroke index\n!modified for use with 1Vpp encoders\n\n!revisions:\n!A | 20181128 | JG | Added halt after index found\n\nint axis\nreal home_speed, home_offset, travel, rapid_speed\n\n\n!---------------------\n!Program Settings\n!modify to suit application\n\n\n!axis to home\naxis = 0\n\n!speed to home at (mm/s)\nhome_speed = 20\n\n!rapid speed (mm/s)\nrapid_speed = 50\n\n!home offset (mm)\n!must be zero for error comp\nhome_offset = 0.00000\n\n\n!stage full travel (mm)\ntravel = 150\n!-----------\n\n\n\n\n\n\n\n\n\n\n\n\n\n!**********************************\n!Main Program to home stage\nmain:\ndisp \"Homing axis: \",axis\n\nENABLE(axis)\n\n!set velocity profile for program\nACC(axis) = 500\nDEC(axis) = ACC(axis)\nJERK(axis) = 4000\nVEL(axis) = home_speed\nKDEC(axis) = 4000\n\n!change limit fault behavior for homing\nFDEF(axis).#LL = 0\n\n!jog towards negative limit\nJOG/v (axis), -home_speed\nTILL (FAULT(axis).#LL = 1)\nKILL(axis)\n\n\n\n!VEL(axis) = home_speed\n!JOG/v (axis), home_speed\nVEL(axis) = rapid_speed\nPTP/r (axis), ((travel/2) -8)\n\nTILL (FAULT(axis).#LL = 0)\nwait 500\n!reset limit switch behavior\nFDEF(axis).#LL = 1\n\n\ntill (^AST(axis).#MOVE)\n\nIST(axis).#IND = 1\nIST(axis).#IND = 0\n\nVEL(axis) = 5\nptp/r (axis), 16\n\ntill ((^AST(axis).#MOVE) | (IST(axis).#IND))\nhalt (axis)\n!DISP \"#IND=\",IST(axis).#IND, IND(axis)\n\nif(IST(axis).#IND = 0)\n  disp \"error, did not find index\"\n  stop\nend\n\n!TILL IST(axis).#IND; !Index was found\n! Move to a middle of a quadrant, close to the index location\nPTP(axis), IND(axis) + POW(2,(E_SCMUL(axis)-3))*EFAC(axis)\nTILL ^MST(axis).#MOVE\nWAIT 1000\n! Repeatability correction\nSET FPOS(axis) = FPOS(axis) - IND(axis) - GETCONF(265,axis) - home_offset\n!SET FPOS(axis) = FPOS(axis) - (IND(axis) - home_offset)\n\nVEL(axis) = rapid_speed\nPTP/e (axis),0\n\ndisp \"Axis Home:\",axis\n\nSTOP\n!end main:\n"
+        },
+        {
+            "bufferIndex": 2,
+            "bufferName": "Buffer #2",
+            "dBuffer": false,
+            "programText": "!Homing Program 29922\n!\n!Home to negative limit then out to centerstroke index\n!modified for use with 1Vpp encoders\n\n!revisions:\n!A | 20181128 | JG | Added halt after index found\n\nint axis\nreal home_speed, home_offset, travel, rapid_speed\n\n\n!---------------------\n!Program Settings\n!modify to suit application\n\n\n!axis to home\naxis = 1\n\n!speed to home at (mm/s)\nhome_speed = 20\n\n!rapid speed (mm/s)\nrapid_speed = 50\n\n!home offset (mm)\n!must be zero for error comp\nhome_offset = 0.00000\n\n\n!stage full travel (mm)\ntravel = 150\n!-----------\n\n\n\n\n\n\n\n\n\n\n\n\n\n!**********************************\n!Main Program to home stage\nmain:\ndisp \"Homing axis: \",axis\n\nENABLE(axis)\n\n!set velocity profile for program\nACC(axis) = 500\nDEC(axis) = ACC(axis)\nJERK(axis) = 4000\nVEL(axis) = home_speed\nKDEC(axis) = 4000\n\n!change limit fault behavior for homing\nFDEF(axis).#LL = 0\n\n!jog towards negative limit\nJOG/v (axis), -home_speed\nTILL (FAULT(axis).#LL = 1)\nKILL(axis)\n\n\n\n!VEL(axis) = home_speed\n!JOG/v (axis), home_speed\nVEL(axis) = rapid_speed\nPTP/r (axis), ((travel/2) -8)\n\nTILL (FAULT(axis).#LL = 0)\nwait 500\n!reset limit switch behavior\nFDEF(axis).#LL = 1\n\n\ntill (^AST(axis).#MOVE)\n\nIST(axis).#IND = 1\nIST(axis).#IND = 0\n\nVEL(axis) = 5\nptp/r (axis), 16\n\ntill ((^AST(axis).#MOVE) | (IST(axis).#IND))\nhalt (axis)\n!DISP \"#IND=\",IST(axis).#IND, IND(axis)\n\nif(IST(axis).#IND = 0)\n  disp \"error, did not find index\"\n  stop\nend\n\n!TILL IST(axis).#IND; !Index was found\n! Move to a middle of a quadrant, close to the index location\nPTP(axis), IND(axis) + POW(2,(E_SCMUL(axis)-3))*EFAC(axis)\nTILL ^MST(axis).#MOVE\nWAIT 1000\n! Repeatability correction\nSET FPOS(axis) = FPOS(axis) - IND(axis) - GETCONF(265,axis) - home_offset\n!SET FPOS(axis) = FPOS(axis) - (IND(axis) - home_offset)\n\nVEL(axis) = rapid_speed\nPTP/e (axis),0\n\ndisp \"Axis Home:\",axis\n\nSTOP\n!end main:\n"
+        },
+        {
+            "bufferIndex": 3,
+            "bufferName": "Buffer #3",
+            "dBuffer": false,
+            "programText": "!X-Y Jiggly\n\nint X, Y\nreal speed, distance\n\nX = 0\nY = 1\nspeed = 1\ndistance = 100\n\nENABLE(X)\nENABLE(Y)\n\nFDEF(X).#LL = 0\nFDEF(Y).#LL = 0\nFDEF(X).#RL = 0\nFDEF(Y).#RL = 0\n\n!set velocity profile for program\nACC(X) = 500\nDEC(X) = ACC(X)\nJERK(X) = 4000\nVEL(X) = speed\nKDEC(X) = 4000\n\nACC(Y) = 500\nDEC(Y) = ACC(X)\nJERK(Y) = 4000\nVEL(Y) = speed\nKDEC(Y) = 4000\n\n!Move diagonally\nPTP/rw X, -distance\nPTP/rw Y, -distance\n\nGO X; GO Y\n\nTILL MST(X).#INPOS\nTILL MST(Y).#INPOS\n\n!Return to starting position\nPTP/rw X, distance\nPTP/rw Y, distance\n\nGO X; GO Y\nTILL MST(X).#INPOS\nTILL MST(Y).#INPOS\n\nDISABLE(X)\nDISABLE(Y)\nSTOP\n"
+        },
+        {
+            "bufferIndex": 4,
+            "bufferName": "Buffer #4",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 5,
+            "bufferName": "Buffer #5",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 6,
+            "bufferName": "Buffer #6",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 7,
+            "bufferName": "Buffer #7",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 8,
+            "bufferName": "Buffer #8",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 9,
+            "bufferName": "Buffer #9",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 10,
+            "bufferName": "Buffer #10",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 11,
+            "bufferName": "Buffer #11",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 12,
+            "bufferName": "Buffer #12",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 13,
+            "bufferName": "Buffer #13",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 14,
+            "bufferName": "Buffer #14",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 15,
+            "bufferName": "Buffer #15",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 16,
+            "bufferName": "Buffer #16",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 17,
+            "bufferName": "Buffer #17",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 18,
+            "bufferName": "Buffer #18",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 19,
+            "bufferName": "Buffer #19",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 20,
+            "bufferName": "Buffer #20",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 21,
+            "bufferName": "Buffer #21",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 22,
+            "bufferName": "Buffer #22",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 23,
+            "bufferName": "Buffer #23",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 24,
+            "bufferName": "Buffer #24",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 25,
+            "bufferName": "Buffer #25",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 26,
+            "bufferName": "Buffer #26",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 27,
+            "bufferName": "Buffer #27",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 28,
+            "bufferName": "Buffer #28",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 29,
+            "bufferName": "Buffer #29",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 30,
+            "bufferName": "Buffer #30",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 31,
+            "bufferName": "Buffer #31",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 32,
+            "bufferName": "Buffer #32",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 33,
+            "bufferName": "Buffer #33",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 34,
+            "bufferName": "Buffer #34",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 35,
+            "bufferName": "Buffer #35",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 36,
+            "bufferName": "Buffer #36",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 37,
+            "bufferName": "Buffer #37",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 38,
+            "bufferName": "Buffer #38",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 39,
+            "bufferName": "Buffer #39",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 40,
+            "bufferName": "Buffer #40",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 41,
+            "bufferName": "Buffer #41",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 42,
+            "bufferName": "Buffer #42",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 43,
+            "bufferName": "Buffer #43",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 44,
+            "bufferName": "Buffer #44",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 45,
+            "bufferName": "Buffer #45",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 46,
+            "bufferName": "Buffer #46",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 47,
+            "bufferName": "Buffer #47",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 48,
+            "bufferName": "Buffer #48",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 49,
+            "bufferName": "Buffer #49",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 50,
+            "bufferName": "Buffer #50",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 51,
+            "bufferName": "Buffer #51",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 52,
+            "bufferName": "Buffer #52",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 53,
+            "bufferName": "Buffer #53",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 54,
+            "bufferName": "Buffer #54",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 55,
+            "bufferName": "Buffer #55",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 56,
+            "bufferName": "Buffer #56",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 57,
+            "bufferName": "Buffer #57",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 58,
+            "bufferName": "Buffer #58",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 59,
+            "bufferName": "Buffer #59",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 60,
+            "bufferName": "Buffer #60",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 61,
+            "bufferName": "Buffer #61",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 62,
+            "bufferName": "Buffer #62",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 63,
+            "bufferName": "Buffer #63",
+            "dBuffer": false,
+            "programText": ""
+        },
+        {
+            "bufferIndex": 64,
+            "bufferName": "DBuffer",
+            "dBuffer": true,
+            "programText": "!axisdef X=0,Y=1,Z=2,T=3,A=4,B=5,C=6,D=7\n!axisdef x=0,y=1,z=2,t=3,a=4,b=5,c=6,d=7\nglobal int I(100),I0,I1,I2,I3,I4,I5,I6,I7,I8,I9,I90,I91,I92,I93,I94,I95,I96,I97,I98,I99\nglobal real V(100),V0,V1,V2,V3,V4,V5,V6,V7,V8,V9,V90,V91,V92,V93,V94,V95,V96,V97,V98,V99\n"
+        }
+    ]
+}

@@ -22,7 +22,7 @@ public:
     void updateBufferData(const BufferData &data);
 
 public:
-    void writeToJSON(QJsonArray &bufferDataArray);
+    void writeToJSON(QJsonObject &jsonObject);
 
     void readFromJSON(const QJsonObject &bufferDataObject);
 

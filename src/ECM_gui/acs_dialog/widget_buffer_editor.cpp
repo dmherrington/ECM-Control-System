@@ -20,9 +20,10 @@ Widget_BufferEditor::~Widget_BufferEditor()
     delete ui;
 }
 
-void Widget_BufferEditor::updateFromBufferData(const BufferData* data)
+void Widget_BufferEditor::updateFromBufferData(const BufferData &data)
 {
-
+    updateProgramText(data.getProgramString());
+    updateBufferName(data.getBufferName());
 }
 
 std::string Widget_BufferEditor::getCurrentBufferName() const
@@ -72,6 +73,11 @@ void Widget_BufferEditor::updateBufferName(const std::string &name)
 void Widget_BufferEditor::updateBufferIndex(const unsigned int &index)
 {
     ui->label_BufferIndexNumber->setText(QString::number(index));
+}
+
+BufferData Widget_BufferEditor::getBufferData() const
+{
+    return *m_EditData;
 }
 
 void Widget_BufferEditor::updateCurrentLineCount()

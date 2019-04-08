@@ -17,17 +17,20 @@ void BufferManager::writeToJSON(QJsonObject &saveObject)
     QJsonArray MCDataArray;
     QJsonObject dataObject;
 
-    QJsonArray bufferDataArray;
-
     dataObject["indexDBuffer"] = (int)this->getDBufferIndex();
     dataObject["maxBufferSize"] = (int)this->maxBufferSize;
+    QJsonArray MCBufferArray;
 
     std::map<unsigned int, BufferData*>::iterator it;
     for (it = m_ProgramBuffers.begin(); it!=m_ProgramBuffers.end(); ++it)
     {
-            BufferData* currentData = it->second;
-            currentData->writeToJSON(bufferDataArray);
+        QJsonObject bufferObject;
+        BufferData* currentData = it->second;
+        currentData->writeToJSON(bufferObject);
+        MCBufferArray.append(bufferObject);
     }
+    dataObject["bufferDataArray"] = MCBufferArray;
+
     MCDataArray.append(dataObject);
     saveObject["MotionControlData"] = MCDataArray;
 }

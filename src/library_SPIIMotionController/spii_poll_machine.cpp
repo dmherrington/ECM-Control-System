@@ -152,6 +152,14 @@ void SPIIPollMachine::processRequest(AbstractRequestPtr request)
             Emit([&](SPIIPollingEvents_Interface *ptr){ptr->SPIIPolling_PositionUpdate(updatedStatus);});
         break;
     }
+    case RequestTypes::TELL_VARIABLE:
+    {
+        const Request_TellVariable* currentRequest = request->as<Request_TellVariable>();
+        std::vector<Status_VariableValue> updatedStatus = m_SPIIDevice->requestVariableValue(currentRequest);
+        if(updatedStatus.size() > 0)
+            Emit([&](SPIIPollingEvents_Interface *ptr){ptr->SPIIPolling_VariableUpdate(updatedStatus);});
+        break;
+    }
     default:
     {
         break;

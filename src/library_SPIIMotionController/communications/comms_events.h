@@ -54,7 +54,13 @@ public:
         UNUSED(labelList);
     }
 
-    virtual void NewStatus_OperationalVariables(const bool &success, const Operation_VariableList &variableList)
+    virtual void NewStatus_PrivateOperationalVariables(const bool &success, const Operation_VariableList &variableList)
+    {
+        UNUSED(success);
+        UNUSED(variableList);
+    }
+
+    virtual void NewStatus_UserOperationalVariables(const bool &success, const Operation_VariableList &variableList)
     {
         UNUSED(success);
         UNUSED(variableList);

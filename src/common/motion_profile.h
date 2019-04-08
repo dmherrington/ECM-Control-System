@@ -15,6 +15,7 @@ public:
     {
         SETUP,
         HOMING,
+        MOVE_TO_HOME,
         TOUCHOFF,
         PROFILE
     };

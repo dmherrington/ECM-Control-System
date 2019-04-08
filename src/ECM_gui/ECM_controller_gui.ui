@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -24,7 +24,7 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>1046</width>
+    <width>1800</width>
     <height>16777215</height>
    </size>
   </property>
@@ -871,7 +871,7 @@ width:20px;
         </spacer>
        </item>
        <item row="3" column="0">
-        <widget class="QLineEdit" name="lineEdit_GalilState">
+        <widget class="QLineEdit" name="lineEdit_MCState">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -1937,6 +1937,7 @@ width:20px;
      <string>Tools</string>
     </property>
     <addaction name="actionConnections"/>
+    <addaction name="actionBuffer_Manager"/>
     <addaction name="actionProfile_Configuration"/>
     <addaction name="separator"/>
     <addaction name="actionPower_Supply"/>
@@ -2028,6 +2029,9 @@ width:20px;
    </property>
   </action>
   <action name="actionMotion_Control">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Motion Control</string>
    </property>
@@ -2035,6 +2039,11 @@ width:20px;
   <action name="actionProfile_Configuration">
    <property name="text">
     <string>Profile Configuration</string>
+   </property>
+  </action>
+  <action name="actionBuffer_Manager">
+   <property name="text">
+    <string>Buffer Manager</string>
    </property>
   </action>
  </widget>

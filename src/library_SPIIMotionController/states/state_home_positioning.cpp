@@ -13,9 +13,9 @@ State_HomePositioning::State_HomePositioning():
 
 void State_HomePositioning::OnExit()
 {
-    Owner().m_MasterVariableValues->removeVariableNotifier("homest",this);
+    Owner().m_MasterVariableValues->removeVariableNotifier("homeStatus",this);
 
-    common::TupleProfileVariableString tupleVariable("Default","Homing","homest");
+    common::TupleProfileVariableString tupleVariable("Default","Homing","homeStatus");
     Owner().issueSPIIRemovePollingRequest(tupleVariable);
 }
 
@@ -73,9 +73,9 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
         if(!this->homeExecuting)
         {
             this->homeExecuting = true;
-            Owner().m_MasterVariableValues->addVariableNotifier("homest",this,[this]{
+            Owner().m_MasterVariableValues->addVariableNotifier("homeStatus",this,[this]{
                 double varValue = 0.0;
-                bool valid = Owner().m_MasterVariableValues->getVariableValue("homest",varValue);
+                bool valid = Owner().m_MasterVariableValues->getVariableValue("homeStatus",varValue);
                 if(!valid)
                 {
                     std::cout<<"The variable homest does not exist and therefore we do not know how to handle this case."<<std::endl;
@@ -87,7 +87,7 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
                 case 0:
                 {
                     //continue searching for home
-                    ProfileState_Homing newState("Homing Routine", "homest");
+                    ProfileState_Homing newState("Homing Routine", "FIND_HOME");
                     newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE);
                     MotionProfileState newProfileState;
                     newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
@@ -98,7 +98,7 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
                 {
                     Owner().setHomeInidcated(true);
                     //a home position has been found
-                    ProfileState_Homing newState("Homing Routine", "homest");
+                    ProfileState_Homing newState("Homing Routine", "FIND_HOME");
                     newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::COMPLETE);
                     MotionProfileState newProfileState;
                     newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
@@ -108,7 +108,7 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
                 }
                 } //end of switch statement
             });
-            Owner().issueSPIICommand(command); //this will not be considered a motion command as the profile contains the BG parameters
+            Owner().issueSPIIMotionCommand(command); //this will not be considered a motion command as the profile contains the BG parameters
         }
         break;
     }
@@ -156,8 +156,8 @@ void State_HomePositioning::OnEnter(const AbstractCommandPtr command)
     if(command != nullptr)
     {
         Owner().issueNewSPIIState(SPIIState::STATE_HOME_POSITIONING);
-        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Home Status","homest");
-        common::TupleProfileVariableString tupleVariable("Default","Homing","homest");
+        Request_TellVariablePtr request = std::make_shared<Request_TellVariable>("Home Status","homeStatus");
+        common::TupleProfileVariableString tupleVariable("Default","Homing","homeStatus");
         request->setTupleDescription(tupleVariable);
         Owner().issueSPIIAddPollingRequest(request,1000);
 

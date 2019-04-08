@@ -22,7 +22,7 @@ public:
     ~Widget_BufferEditor();
 
 public:
-    void updateFromBufferData(const BufferData* data);
+    void updateFromBufferData(const BufferData &data);
 
     std::string getCurrentBufferName() const;
 
@@ -38,6 +38,9 @@ public:
     void updateBufferName(const std::string &name = "");
 
     void updateBufferIndex(const unsigned int &index);
+
+public:
+    BufferData getBufferData() const;
 
 private:
     void updateCurrentLineCount();

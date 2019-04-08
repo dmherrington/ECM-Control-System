@@ -26,6 +26,8 @@ public:
     //!
     void setStatusType(const StatusTypes &type);
 
+    void setStatusValidity(const bool &valid);
+
     //!
     //! \brief getStatusType
     //! \return
@@ -73,11 +75,16 @@ public:
     {
         this->statusType = rhs.statusType;
         this->latestUpdate = rhs.latestUpdate;
+        this->validStatus = rhs.validStatus;
+
         return *this;
     }
 
     bool operator == (const AbstractStatus &rhs) {
         if(this->statusType != rhs.statusType){
+            return false;
+        }
+        if(this->validStatus != rhs.validStatus){
             return false;
         }
         return true;
@@ -90,6 +97,7 @@ public:
 protected:
     StatusTypes statusType;
     common::EnvironmentTime latestUpdate;
+    bool validStatus = true;
 };
 
 #endif // SPII_ABSTRACT_STATUS_H

@@ -79,7 +79,7 @@ void ECMState_SetupMachineTouchoffExecute::OnEnter(ECMCommand_AbstractProfileCon
         {
             std::vector<double> axisPosition = Owner().m_MotionController->m_StateInterface->m_AxisPosition->getAxisPositionVector();
             commandTouchRef = std::make_shared<Command_VariableArray>();
-            commandTouchRef->setVariableName("");
+            commandTouchRef->setVariableName("startTouchOffPosition");
             commandTouchRef->setVariableValue(axisPosition);
         }
         else{

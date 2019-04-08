@@ -12,12 +12,13 @@ WidgetFrontPanel_AxisMotionControl::WidgetFrontPanel_AxisMotionControl(const Mot
     ui->label_AxisControl->setText(QString::fromStdString(AxisToString(axis)));
 
     pertinentAxis = axis;
+
     m_MotionController = motionControlObject;
 
     switch (axis) {
     case MotorAxis::X:
     {
-        Widget_AxisHorizontalControl* tmpObject = new Widget_AxisHorizontalControl(axis,motionControlObject);
+        Widget_AxisHorizontalControl* tmpObject = new Widget_AxisHorizontalControl(axis,m_MotionController);
         m_ControlWidget = tmpObject;
         ui->frame->layout()->addWidget(tmpObject);
         break;
@@ -25,7 +26,7 @@ WidgetFrontPanel_AxisMotionControl::WidgetFrontPanel_AxisMotionControl(const Mot
     case MotorAxis::Y:
     case MotorAxis::Z:
     {
-        Widget_AxisVerticalControl* tmpObject = new Widget_AxisVerticalControl(axis,motionControlObject);
+        Widget_AxisVerticalControl* tmpObject = new Widget_AxisVerticalControl(axis,m_MotionController);
         m_ControlWidget = tmpObject;
         ui->frame->layout()->addWidget(tmpObject);
         break;
@@ -97,7 +98,7 @@ void WidgetFrontPanel_AxisMotionControl::slot_MCNewMotionState(const ECM::SPII::
         //We do not want to change the state condition of the button in this state
         //This is because if we go to lock the buttons the release event will either
         //trigger immediately or never be emitted.
-        m_ControlWidget->lockRelativeMove(true);
+        //m_ControlWidget->lockRelativeMove(true);
         break;
     }
     default:

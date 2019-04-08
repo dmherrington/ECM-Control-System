@@ -7,6 +7,9 @@ Widget_AxisHorizontalControl::Widget_AxisHorizontalControl(const MotorAxis &axis
 {
     ui->setupUi(this);
 
+    pertinentAxis = axis;
+    m_MotionController = motionObject;
+
     ui->spinBox_Jog->setToolTip("Jogging Speed");
     ui->spinBox_RelativeMoveSpeed->setToolTip("Relative Move Speed");
     ui->spinBox_RelativeMove->setToolTip("Relative Move Distance");

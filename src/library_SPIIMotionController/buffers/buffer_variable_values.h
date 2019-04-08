@@ -5,6 +5,7 @@
 
 #include "common/class_forward.h"
 #include "common/data_get_set_notifier.h"
+#include "common/operation/operation_variable_list.h"
 
 #include "../status/abstract_status.h"
 #include "../status/status_variable_value.h"
@@ -19,6 +20,8 @@ public:
     BufferVariableValues(const BufferVariableValues &copy);
 
     ~BufferVariableValues();
+
+    void fromVariableList(const Operation_VariableList &list);
 
     void addVariable(const Status_VariableValue &var);
 

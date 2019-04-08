@@ -65,20 +65,20 @@ public:
     void LinkConnectionUpdate(const common::comms::CommunicationUpdate &update) override;
 
 public:
-    void cbi_AbstractSPIICommand(const AbstractCommandPtr command);
-    void cbi_AbstractSPIIMotionCommand(const AbstractCommandPtr command);
-    void cbi_AbstractSPIIRequest(const AbstractRequestPtr request);
-    void cbi_AbstractSPIIAddPolled(const AbstractRequestPtr request, const int &period);
-    void cbi_AbstractSPIIRemovePolled(const common::TupleECMData &tuple);
-    void cbi_SPIIControllerGains(const CommandControllerGain &gains);
+    void cbi_AbstractSPIICommand(const AbstractCommandPtr command) override;
+    void cbi_AbstractSPIIMotionCommand(const AbstractCommandPtr command) override;
+    void cbi_AbstractSPIIRequest(const AbstractRequestPtr request) override;
+    void cbi_AbstractSPIIAddPolled(const AbstractRequestPtr request, const int &period) override;
+    void cbi_AbstractSPIIRemovePolled(const common::TupleECMData &tuple) override;
+    void cbi_SPIIControllerGains(const CommandControllerGain &gains) override;
 
-    void cbi_SPIIHomeIndicated(const bool &indicated);
-    void cbi_SPIITouchoffIndicated(const bool &indicated);
-    void cbi_SPIIMotionProfileState(const MotionProfileState &state, const bool &processTransitions);
-    void cbi_SPIINewMachineState(const ECM::SPII::SPIIState &state);
+    void cbi_SPIIHomeIndicated(const bool &indicated) override;
+    void cbi_SPIITouchoffIndicated(const bool &indicated) override;
+    void cbi_SPIIMotionProfileState(const MotionProfileState &state, const bool &processTransitions) override;
+    void cbi_SPIINewMachineState(const ECM::SPII::SPIIState &state) override;
 
-    void cbi_SPIIUploadProgram(const AbstractCommandPtr command);
-    void cbi_SPIIDownloadProgram(const AbstractCommandPtr command);
+    void cbi_SPIIUploadProgram(const AbstractCommandPtr command) override;
+    void cbi_SPIIDownloadProgram(const AbstractCommandPtr command) override;
 
 
     //////////////////////////////////////////////////////////////
@@ -88,7 +88,8 @@ private:
     void NewBufferState(const Status_BufferState &state) override;
     void NewBuffer_AvailableData(const BufferData &bufferData) override;
     void NewStatus_OperationalLabels(const Operation_LabelList &labelList) override;
-    void NewStatus_OperationalVariables(const bool &success, const Operation_VariableList &variableList) override;
+    void NewStatus_PrivateOperationalVariables(const bool &success, const Operation_VariableList &variableList) override;
+    void NewStatus_UserOperationalVariables(const bool &success, const Operation_VariableList &variableList) override;
 
 
 private:
@@ -101,6 +102,8 @@ private:
     void SPIIPolling_AxisUpdate(const std::vector<Status_PerAxis> &axis) override;
 
     void SPIIPolling_MotorUpdate(const std::vector<Status_MotorPerAxis> &motor) override;
+
+    void SPIIPolling_VariableUpdate(const std::vector<Status_VariableValue> &variable) override;
 
 signals:
 

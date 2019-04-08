@@ -313,6 +313,19 @@ std::vector<Status_PositionPerAxis> CommsMarshaler::requestPosition(const Reques
     return rtnPosition;
 }
 
+std::vector<Status_VariableValue> CommsMarshaler::requestVariableValue(const Request_TellVariable* request)
+{
+
+    std::vector<Status_VariableValue> rtnStatus;
+
+    Status_VariableValue variableStatus;
+
+    if(protocol->ReadIntegerVariableValue(*request, variableStatus))
+        rtnStatus.push_back(variableStatus);
+
+    return rtnStatus;
+}
+
 //////////////////////////////////////////////////////////////
 /// Virtual methods imposed from IProtocolSPIIEvents
 //////////////////////////////////////////////////////////////
@@ -332,10 +345,16 @@ void CommsMarshaler::NewStatus_OperationalLabels(const Operation_LabelList &labe
     Emit([&](CommsEvents *ptr){ptr->NewStatus_OperationalLabels(labelList);});
 }
 
-void CommsMarshaler::NewStatus_OperationalVariables(const bool &success, const Operation_VariableList &variableList) const
+void CommsMarshaler::NewStatus_PrivateOperationalVariables(const bool &success, const Operation_VariableList &variableList) const
 {
-    Emit([&](CommsEvents *ptr){ptr->NewStatus_OperationalVariables(success, variableList);});
+    Emit([&](CommsEvents *ptr){ptr->NewStatus_PrivateOperationalVariables(success, variableList);});
 }
+
+void CommsMarshaler::NewStatus_UserOperationalVariables(const bool &success, const Operation_VariableList &variableList) const
+{
+    Emit([&](CommsEvents *ptr){ptr->NewStatus_UserOperationalVariables(success, variableList);});
+}
+
 
 
 template void CommsMarshaler::SendSPIIMessage<double>(const double&);

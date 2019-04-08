@@ -252,6 +252,18 @@ void SPIIMotionController::SPIIPolling_MotorUpdate(const std::vector<Status_Moto
     ProgressStateMachineStates();
 }
 
+void SPIIMotionController::SPIIPolling_VariableUpdate(const std::vector<Status_VariableValue> &variable)
+{
+    if(variable.empty())
+        return;
+
+    for(size_t index = 0; index < variable.size(); index++)
+        m_StateInterface->m_MasterVariableValues->updateVariable(variable.at(index));
+
+    ProgressStateMachineStates();
+}
+
+
 void SPIIMotionController::SPIIPolling_PositionUpdate(const std::vector<Status_PositionPerAxis> &position)
 {
     if(position.empty())
@@ -325,10 +337,26 @@ void SPIIMotionController::NewStatus_OperationalLabels(const Operation_LabelList
     emit signal_MCNewProgramLabelList(labelList);
 }
 
-void SPIIMotionController::NewStatus_OperationalVariables(const bool &success, const Operation_VariableList &variableList)
+void SPIIMotionController::NewStatus_PrivateOperationalVariables(const bool &success, const Operation_VariableList &variableList)
 {
     if(success)
     {
+        m_StateInterface->m_MasterVariableValues->fromVariableList(variableList);
+
+        m_StateInterface->m_BufferManager->updatePrivateVariables(variableList);
+
+        this->onFinishedUploadingVariables(success,variableList);
+
+        emit signal_MCNewProgramVariableList(variableList);
+    }
+}
+
+void SPIIMotionController::NewStatus_UserOperationalVariables(const bool &success, const Operation_VariableList &variableList)
+{
+    if(success)
+    {
+        m_StateInterface->m_MasterVariableValues->fromVariableList(variableList);
+
         m_StateInterface->m_BufferManager->updateUserVariables(variableList);
 
         this->onFinishedUploadingVariables(success,variableList);

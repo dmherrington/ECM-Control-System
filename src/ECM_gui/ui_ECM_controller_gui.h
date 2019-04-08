@@ -46,6 +46,7 @@ public:
     QAction *actionClear_All_Data;
     QAction *actionMotion_Control;
     QAction *actionProfile_Configuration;
+    QAction *actionBuffer_Manager;
     QWidget *centralWidget;
     QGridLayout *gridLayout_3;
     QFrame *frame_MaunalControl;
@@ -83,7 +84,7 @@ public:
     QPushButton *pushButton_ClearMunkError;
     QLineEdit *lineEdit_OuterState;
     QSpacerItem *verticalSpacer_3;
-    QLineEdit *lineEdit_GalilState;
+    QLineEdit *lineEdit_MCState;
     QGridLayout *gridLayout_4;
     graphing::PlotHandler *widget_primaryPlot;
     graphing::PlotHandler *widget_primaryPlotVoltage;
@@ -144,13 +145,13 @@ public:
         if (ECMControllerGUI->objectName().isEmpty())
             ECMControllerGUI->setObjectName(QStringLiteral("ECMControllerGUI"));
         ECMControllerGUI->resize(1045, 1004);
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
+        QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(ECMControllerGUI->sizePolicy().hasHeightForWidth());
         ECMControllerGUI->setSizePolicy(sizePolicy);
         ECMControllerGUI->setMinimumSize(QSize(1045, 0));
-        ECMControllerGUI->setMaximumSize(QSize(1046, 16777215));
+        ECMControllerGUI->setMaximumSize(QSize(1800, 16777215));
         ECMControllerGUI->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
@@ -290,8 +291,11 @@ public:
         actionClear_All_Data->setObjectName(QStringLiteral("actionClear_All_Data"));
         actionMotion_Control = new QAction(ECMControllerGUI);
         actionMotion_Control->setObjectName(QStringLiteral("actionMotion_Control"));
+        actionMotion_Control->setEnabled(false);
         actionProfile_Configuration = new QAction(ECMControllerGUI);
         actionProfile_Configuration->setObjectName(QStringLiteral("actionProfile_Configuration"));
+        actionBuffer_Manager = new QAction(ECMControllerGUI);
+        actionBuffer_Manager->setObjectName(QStringLiteral("actionBuffer_Manager"));
         centralWidget = new QWidget(ECMControllerGUI);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout_3 = new QGridLayout(centralWidget);
@@ -592,18 +596,18 @@ public:
 
         gridLayout_5->addItem(verticalSpacer_3, 2, 0, 1, 1);
 
-        lineEdit_GalilState = new QLineEdit(frame_Status);
-        lineEdit_GalilState->setObjectName(QStringLiteral("lineEdit_GalilState"));
-        lineEdit_GalilState->setEnabled(false);
-        sizePolicy1.setHeightForWidth(lineEdit_GalilState->sizePolicy().hasHeightForWidth());
-        lineEdit_GalilState->setSizePolicy(sizePolicy1);
-        lineEdit_GalilState->setMinimumSize(QSize(160, 32));
-        lineEdit_GalilState->setMaximumSize(QSize(160, 32));
-        lineEdit_GalilState->setFont(font2);
-        lineEdit_GalilState->setAlignment(Qt::AlignCenter);
-        lineEdit_GalilState->setReadOnly(true);
+        lineEdit_MCState = new QLineEdit(frame_Status);
+        lineEdit_MCState->setObjectName(QStringLiteral("lineEdit_MCState"));
+        lineEdit_MCState->setEnabled(false);
+        sizePolicy1.setHeightForWidth(lineEdit_MCState->sizePolicy().hasHeightForWidth());
+        lineEdit_MCState->setSizePolicy(sizePolicy1);
+        lineEdit_MCState->setMinimumSize(QSize(160, 32));
+        lineEdit_MCState->setMaximumSize(QSize(160, 32));
+        lineEdit_MCState->setFont(font2);
+        lineEdit_MCState->setAlignment(Qt::AlignCenter);
+        lineEdit_MCState->setReadOnly(true);
 
-        gridLayout_5->addWidget(lineEdit_GalilState, 3, 0, 1, 1);
+        gridLayout_5->addWidget(lineEdit_MCState, 3, 0, 1, 1);
 
 
         gridLayout_3->addWidget(frame_Status, 1, 2, 1, 1);
@@ -1023,6 +1027,7 @@ public:
         menuBar->addAction(menuHelp->menuAction());
         menuFile->addAction(actionClose);
         menuTools->addAction(actionConnections);
+        menuTools->addAction(actionBuffer_Manager);
         menuTools->addAction(actionProfile_Configuration);
         menuTools->addSeparator();
         menuTools->addAction(actionPower_Supply);
@@ -1058,6 +1063,7 @@ public:
         actionClear_All_Data->setText(QApplication::translate("ECMControllerGUI", "Clear All Data", nullptr));
         actionMotion_Control->setText(QApplication::translate("ECMControllerGUI", "Motion Control", nullptr));
         actionProfile_Configuration->setText(QApplication::translate("ECMControllerGUI", "Profile Configuration", nullptr));
+        actionBuffer_Manager->setText(QApplication::translate("ECMControllerGUI", "Buffer Manager", nullptr));
 #ifndef QT_NO_TOOLTIP
         pushButton_LoadAutomatedProfile->setToolTip(QString());
 #endif // QT_NO_TOOLTIP
