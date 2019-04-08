@@ -117,7 +117,6 @@ HEADERS += \
     spii_device_interface_motion_control.h \
     status/status_buffer_state.h \
     buffers/buffer_label_values.h \
-    device_interface_motion_control.h \
     buffers/spii_current_program.h \
     commands/spii_command_upload_program_buffer.h \
     commands/spii_command_upload_program_suite.h \

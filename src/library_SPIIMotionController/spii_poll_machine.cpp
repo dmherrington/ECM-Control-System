@@ -152,5 +152,9 @@ void SPIIPollMachine::processRequest(AbstractRequestPtr request)
             Emit([&](SPIIPollingEvents_Interface *ptr){ptr->SPIIPolling_PositionUpdate(updatedStatus);});
         break;
     }
+    default:
+    {
+        break;
+    }
     }
 }

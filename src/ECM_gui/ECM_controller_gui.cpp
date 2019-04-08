@@ -186,7 +186,7 @@ ECMControllerGUI::~ECMControllerGUI()
 
 void ECMControllerGUI::setupUploadCallbacks()
 {
-    m_API->m_MotionController->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const Operation_CurrentProgram &program){
+    m_API->m_MotionController->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const SPII_CurrentProgram &program){
         UNUSED(completed);UNUSED(program);UNUSED(this);
     });
 

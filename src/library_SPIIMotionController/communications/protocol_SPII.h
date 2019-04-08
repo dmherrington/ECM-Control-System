@@ -52,9 +52,6 @@ public:
 
     void SendCustomProtocolCommand(const std::vector<std::string> &stringCommands);
 
-    void testObject(Operation_VariableList &privateVariables, Operation_VariableList &userVariables);
-
-
 public:
     bool WriteVariableValue(const Command_Variable &value);
 

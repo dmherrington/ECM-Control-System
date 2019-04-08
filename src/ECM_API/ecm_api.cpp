@@ -133,7 +133,7 @@ void ECM_API::beginOperationalProfile(const ECMCommand_AbstractProfileConfigPtr 
     //Assemble a message to notify any listeners that we are about to execute an operation
     ExecuteOperationProperties props(profileConfig->getOperationName(), profileConfig->getOperationIndex());
     props.setOperatingCondition(condition);
-    props.setTime(profileConfig->execProperties.getStartTime());
+    props.setTime(profileConfig->m_ExecProperties.getStartTime());
 
     //int position = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
     int position = 0;
@@ -172,8 +172,8 @@ void ECM_API::concludeExecutingOperation(const ECMCommand_AbstractProfileConfigP
     //int concludingPosition = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
     int concludingPosition = 0;
     //Conclude writing to the logs with any wrap up data that we need
-    m_Log->WriteConcludingOperationStats(profileConfig->execProperties.getElapsedTime(),
-                                         concludingPosition, profileConfig->execProperties.getProfileCode());
+    m_Log->WriteConcludingOperationStats(profileConfig->m_ExecProperties.getElapsedTime(),
+                                         concludingPosition, profileConfig->m_ExecProperties.getProfileCode());
 
     //Disable the logs so no more contents are written post the machining operation
     m_Log->enableLogging(false);
@@ -181,7 +181,7 @@ void ECM_API::concludeExecutingOperation(const ECMCommand_AbstractProfileConfigP
     //Assemble a message to notify any listeners that we are finished executing an operation
     ExecuteOperationProperties props(profileConfig->getOperationName(), profileConfig->getOperationIndex());
     props.setOperatingCondition(ExecutionProperties::ExecutionCondition::ENDING);
-    props.setTime(profileConfig->execProperties.getEndTime());
+    props.setTime(profileConfig->m_ExecProperties.getEndTime());
 
     //int position = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
     int position = 0;

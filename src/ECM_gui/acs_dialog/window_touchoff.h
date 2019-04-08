@@ -35,6 +35,9 @@ private:
 private:
     void transmitTouchoffReference();
 
+    void transmitTouchoffGap();
+
+
 private slots:
     void slot_UpdateMotionProfileState(const MotionProfileState &state);
 

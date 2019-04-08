@@ -181,19 +181,22 @@ void SPIIMotionController::cbi_AbstractSPIIMotionCommand(const AbstractCommandPt
 
 void SPIIMotionController::cbi_AbstractSPIIRequest(const AbstractRequestPtr request)
 {
-
+    UNUSED(request);
 }
+
 void SPIIMotionController::cbi_AbstractSPIIAddPolled(const AbstractRequestPtr request, const int &period)
 {
-
+    m_DevicePolling->addRequest(request,period);
 }
+
 void SPIIMotionController::cbi_AbstractSPIIRemovePolled(const common::TupleECMData &tuple)
 {
-
+    m_DevicePolling->removeRequest(tuple);
 }
+
 void SPIIMotionController::cbi_SPIIControllerGains(const CommandControllerGain &gains)
 {
-
+    UNUSED(gains);
 }
 
 void SPIIMotionController::cbi_SPIIHomeIndicated(const bool &indicated)
@@ -203,11 +206,16 @@ void SPIIMotionController::cbi_SPIIHomeIndicated(const bool &indicated)
 
 void SPIIMotionController::cbi_SPIITouchoffIndicated(const bool &indicated)
 {
-
+    emit signal_MCTouchoffIndicated(indicated);
 }
+
 void SPIIMotionController::cbi_SPIIMotionProfileState(const MotionProfileState &state, const bool &processTransitions)
 {
+    if(processTransitions)
+        ProgressStateMachineStates();
 
+    emit signal_MCUpdatedProfileState(state);
+    this->onNewMotionProfileState(state);
 }
 
 void SPIIMotionController::cbi_SPIINewMachineState(const ECM::SPII::SPIIState &state)

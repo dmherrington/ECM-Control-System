@@ -56,6 +56,7 @@ public:
 
     virtual void NewStatus_OperationalVariables(const bool &success, const Operation_VariableList &variableList)
     {
+        UNUSED(success);
         UNUSED(variableList);
     }
 

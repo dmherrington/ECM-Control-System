@@ -89,7 +89,7 @@ void ECMState_ProfileMachineProcess::OnEnter(ECMCommand_AbstractProfileConfigPtr
             case MotionProfile::ProfileType::PROFILE:
             {
                 ProfileState_Machining* castState = (ProfileState_Machining*)profileState.getProfileState().get();
-                m_Config->execProperties.setProfileCode(castState->getCurrentCode());
+                m_Config->m_ExecProperties.setProfileCode(castState->getCurrentCode());
 
                 switch (castState->getCurrentCode()) {
                 case(ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE):

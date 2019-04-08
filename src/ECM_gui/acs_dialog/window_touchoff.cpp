@@ -10,21 +10,21 @@ Window_Touchoff::Window_Touchoff(SPIIMotionController *obj, QWidget *parent) :
 
     connect(m_MotionController,SIGNAL(signal_GalilUpdatedProfileState(MotionProfileState)),this,SLOT(slot_UpdateMotionProfileState(MotionProfileState)));
 
-    m_MotionController->m_StateInterface->m_MasterVariableValues->addVariableNotifier("touchref",this,[this]{
-        bool oldState = ui->doubleSpinBox_TouchoffRef->blockSignals(true);
-        double value = 0.0;
-        m_MotionController->m_StateInterface->m_MasterVariableValues->getVariableValue("touchref",value);
-        ui->doubleSpinBox_TouchoffRef->setValue(value);
-        ui->doubleSpinBox_TouchoffRef->blockSignals(oldState);
-    });
+//    m_MotionController->m_StateInterface->m_MasterVariableValues->addVariableNotifier("touchref",this,[this]{
+//        bool oldState = ui->doubleSpinBox_TouchoffRef->blockSignals(true);
+//        double value = 0.0;
+//        m_MotionController->m_StateInterface->m_MasterVariableValues->getVariableValue("touchref",value);
+//        ui->doubleSpinBox_TouchoffRef->setValue(value);
+//        ui->doubleSpinBox_TouchoffRef->blockSignals(oldState);
+//    });
 
-    m_MotionController->m_StateInterface->m_MasterVariableValues->addVariableNotifier("initgap",this,[this]{
-        bool oldState = ui->doubleSpinBox_InitialGap->blockSignals(true);
-        double value = 0.0;
-        m_MotionController->m_StateInterface->m_MasterVariableValues->getVariableValue("initgap",value);
-        ui->doubleSpinBox_InitialGap->setValue(value);
-        ui->doubleSpinBox_InitialGap->blockSignals(oldState);
-    });
+//    m_MotionController->m_StateInterface->m_MasterVariableValues->addVariableNotifier("initgap",this,[this]{
+//        bool oldState = ui->doubleSpinBox_InitialGap->blockSignals(true);
+//        double value = 0.0;
+//        m_MotionController->m_StateInterface->m_MasterVariableValues->getVariableValue("initgap",value);
+//        ui->doubleSpinBox_InitialGap->setValue(value);
+//        ui->doubleSpinBox_InitialGap->blockSignals(oldState);
+//    });
 
     GeneralDialogWindow::readWindowSettings();
 }
@@ -43,15 +43,11 @@ void Window_Touchoff::closeEvent(QCloseEvent *event)
 void Window_Touchoff::on_pushButton_ExecuteTouchoff_released()
 {
 
-    uint64_t position = static_cast<uint64_t>(ui->doubleSpinBox_TouchoffRef->value() * 10.0); //this conversion will take um to counts
-    Command_VariablePtr commandTouchoffRef = std::make_shared<Command_Variable>("touchref",position);
-    m_MotionController->executeCommand(commandTouchoffRef);
+    transmitTouchoffReference();
 
-    int desiredGap = static_cast<int>(ui->doubleSpinBox_InitialGap->value() * 10.0); //this conversion will take um to counts
-    Command_VariablePtr commandTouchoffGap = std::make_shared<Command_Variable>("initgap",desiredGap);
-    m_MotionController->executeCommand(commandTouchoffGap);
+    transmitTouchoffGap();
 
-    CommandExecuteProfilePtr commandTouchoffExecute = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::TOUCHOFF,"touchof");
+    CommandExecuteProfilePtr commandTouchoffExecute = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::TOUCHOFF,"TOUCHOFF");
     m_MotionController->executeCommand(commandTouchoffExecute);
 }
 
@@ -101,8 +97,6 @@ void Window_Touchoff::on_pushButton_TouchoffRef_released()
     ui->doubleSpinBox_TouchoffRefY->setValue(posY.getPosition());
     ui->doubleSpinBox_TouchoffRefZ->setValue(posZ.getPosition());
 
-    transmitTouchoffReference();
-
     ui->doubleSpinBox_TouchoffRefX->blockSignals(false);
     ui->doubleSpinBox_TouchoffRefY->blockSignals(false);
     ui->doubleSpinBox_TouchoffRefZ->blockSignals(false);
@@ -110,15 +104,7 @@ void Window_Touchoff::on_pushButton_TouchoffRef_released()
 
 void Window_Touchoff::on_pushButton_TouchoffGap_released()
 {
-    Command_VariableArrayPtr command = std::make_shared<Command_VariableArray>();
-    command->setVariableName("");
-
-    std::vector<double> refVector;
-    refVector.push_back(ui->doubleSpinBox_InitialGapX->value());
-    refVector.push_back(ui->doubleSpinBox_InitialGapY->value());
-    refVector.push_back(ui->doubleSpinBox_InitialGapZ->value());
-
-    command->setVariableValue(refVector);
+    transmitTouchoffGap();
 }
 
 void Window_Touchoff::on_actionClose_triggered()
@@ -145,6 +131,19 @@ void Window_Touchoff::transmitTouchoffReference()
     refVector.push_back(ui->doubleSpinBox_TouchoffRefX->value());
     refVector.push_back(ui->doubleSpinBox_TouchoffRefY->value());
     refVector.push_back(ui->doubleSpinBox_TouchoffRefZ->value());
+
+    command->setVariableValue(refVector);
+}
+
+void Window_Touchoff::transmitTouchoffGap()
+{
+    Command_VariableArrayPtr command = std::make_shared<Command_VariableArray>();
+    command->setVariableName("");
+
+    std::vector<double> refVector;
+    refVector.push_back(ui->doubleSpinBox_InitialGapX->value());
+    refVector.push_back(ui->doubleSpinBox_InitialGapY->value());
+    refVector.push_back(ui->doubleSpinBox_InitialGapZ->value());
 
     command->setVariableValue(refVector);
 }

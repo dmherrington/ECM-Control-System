@@ -39,13 +39,7 @@ void ECMCommand_ProfileConfiguration::readFromJSON(const QJsonObject &obj)
 ECMCommand_ProfileConfiguration::ECMCommand_ProfileConfiguration(const ECMCommand_ProfileConfiguration &copy):
     ECMCommand_AbstractProfileConfig(copy)
 {
-    this->operationIndex = copy.operationIndex;
-    this->operationName = copy.operationName;
-    this->indicateHome = copy.indicateHome;
-    this->shouldExecute = copy.shouldExecute;
-    this->m_ExecProperties = copy.m_ExecProperties;
-
-    //this->m_GalilOperation = copy.m_GalilOperation;
+    this->m_DesiredProgram = copy.m_DesiredProgram;
     this->m_ConfigPowerSupply = copy.m_ConfigPowerSupply;
     this->m_PumpParameters = copy.m_PumpParameters;
     this->m_Touchoff = copy.m_Touchoff;

@@ -50,11 +50,6 @@ void SPIIProtocol::initializeBufferContents()
     }
 }
 
-void SPIIProtocol::testObject(Operation_VariableList &privateVariables, Operation_VariableList &userVariables)
-{
-
-}
-
 void SPIIProtocol::updateDeviceSettings(const SPII_Settings &settings)
 {
     m_SPIISettings = settings;

@@ -171,7 +171,7 @@ signals:
     //!
     void signal_MCNewProfileVariableValue(const common::TupleProfileVariableString &variableTuple, const common_data::MotionProfileVariableState &data) const;
 
-    void signal_GalilUpdatedProfileState(const MotionProfileState &state) const;
+    void signal_MCUpdatedProfileState(const MotionProfileState &state) const;
 
     void signal_ErrorCommandCode(const CommandType &type, const std::string &errorString);
 

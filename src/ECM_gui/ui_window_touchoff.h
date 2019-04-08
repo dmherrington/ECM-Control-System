@@ -37,17 +37,21 @@ public:
     QAction *actionClose;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
-    QHBoxLayout *horizontalLayout;
+    QVBoxLayout *verticalLayout;
+    QHBoxLayout *horizontalLayout_9;
     QPushButton *pushButton_TouchoffRef;
-    QDoubleSpinBox *doubleSpinBox_TouchoffRef;
-    QLabel *label;
+    QDoubleSpinBox *doubleSpinBox_TouchoffRefX;
+    QDoubleSpinBox *doubleSpinBox_TouchoffRefY;
+    QDoubleSpinBox *doubleSpinBox_TouchoffRefZ;
+    QHBoxLayout *horizontalLayout_10;
+    QPushButton *pushButton_TouchoffGap;
+    QDoubleSpinBox *doubleSpinBox_InitialGapX;
+    QDoubleSpinBox *doubleSpinBox_InitialGapY;
+    QDoubleSpinBox *doubleSpinBox_InitialGapZ;
     QVBoxLayout *verticalLayout_2;
     QLabel *label_Connection;
     LED *widget_TouchoffComplete;
-    QHBoxLayout *horizontalLayout_2;
-    QPushButton *pushButton_TouchoffGap;
-    QDoubleSpinBox *doubleSpinBox_InitialGap;
-    QLabel *label_2;
+    QHBoxLayout *horizontalLayout;
     QPushButton *pushButton_ExecuteTouchoff;
     QLineEdit *lineEdit_TouchoffCode;
     QMenuBar *menubar;
@@ -61,14 +65,14 @@ public:
     {
         if (Window_Touchoff->objectName().isEmpty())
             Window_Touchoff->setObjectName(QStringLiteral("Window_Touchoff"));
-        Window_Touchoff->resize(450, 195);
+        Window_Touchoff->resize(680, 195);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Window_Touchoff->sizePolicy().hasHeightForWidth());
         Window_Touchoff->setSizePolicy(sizePolicy);
-        Window_Touchoff->setMinimumSize(QSize(450, 195));
-        Window_Touchoff->setMaximumSize(QSize(452, 195));
+        Window_Touchoff->setMinimumSize(QSize(680, 195));
+        Window_Touchoff->setMaximumSize(QSize(680, 195));
         Window_Touchoff->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
@@ -198,8 +202,10 @@ public:
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        horizontalLayout_9 = new QHBoxLayout();
+        horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
         pushButton_TouchoffRef = new QPushButton(centralwidget);
         pushButton_TouchoffRef->setObjectName(QStringLiteral("pushButton_TouchoffRef"));
         sizePolicy.setHeightForWidth(pushButton_TouchoffRef->sizePolicy().hasHeightForWidth());
@@ -210,33 +216,108 @@ public:
         font.setPointSize(12);
         pushButton_TouchoffRef->setFont(font);
 
-        horizontalLayout->addWidget(pushButton_TouchoffRef);
+        horizontalLayout_9->addWidget(pushButton_TouchoffRef);
 
-        doubleSpinBox_TouchoffRef = new QDoubleSpinBox(centralwidget);
-        doubleSpinBox_TouchoffRef->setObjectName(QStringLiteral("doubleSpinBox_TouchoffRef"));
-        sizePolicy.setHeightForWidth(doubleSpinBox_TouchoffRef->sizePolicy().hasHeightForWidth());
-        doubleSpinBox_TouchoffRef->setSizePolicy(sizePolicy);
-        doubleSpinBox_TouchoffRef->setMinimumSize(QSize(120, 25));
-        doubleSpinBox_TouchoffRef->setMaximumSize(QSize(120, 25));
+        doubleSpinBox_TouchoffRefX = new QDoubleSpinBox(centralwidget);
+        doubleSpinBox_TouchoffRefX->setObjectName(QStringLiteral("doubleSpinBox_TouchoffRefX"));
+        sizePolicy.setHeightForWidth(doubleSpinBox_TouchoffRefX->sizePolicy().hasHeightForWidth());
+        doubleSpinBox_TouchoffRefX->setSizePolicy(sizePolicy);
+        doubleSpinBox_TouchoffRefX->setMinimumSize(QSize(120, 25));
+        doubleSpinBox_TouchoffRefX->setMaximumSize(QSize(120, 25));
         QFont font1;
         font1.setFamily(QStringLiteral("MS Shell Dlg 2"));
         font1.setPointSize(11);
-        doubleSpinBox_TouchoffRef->setFont(font1);
-        doubleSpinBox_TouchoffRef->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox_TouchoffRef->setDecimals(1);
-        doubleSpinBox_TouchoffRef->setMaximum(500000);
+        doubleSpinBox_TouchoffRefX->setFont(font1);
+        doubleSpinBox_TouchoffRefX->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        doubleSpinBox_TouchoffRefX->setDecimals(1);
+        doubleSpinBox_TouchoffRefX->setMinimum(0);
+        doubleSpinBox_TouchoffRefX->setMaximum(500000);
 
-        horizontalLayout->addWidget(doubleSpinBox_TouchoffRef);
+        horizontalLayout_9->addWidget(doubleSpinBox_TouchoffRefX);
 
-        label = new QLabel(centralwidget);
-        label->setObjectName(QStringLiteral("label"));
-        label->setMinimumSize(QSize(32, 25));
-        label->setMaximumSize(QSize(32, 25));
+        doubleSpinBox_TouchoffRefY = new QDoubleSpinBox(centralwidget);
+        doubleSpinBox_TouchoffRefY->setObjectName(QStringLiteral("doubleSpinBox_TouchoffRefY"));
+        sizePolicy.setHeightForWidth(doubleSpinBox_TouchoffRefY->sizePolicy().hasHeightForWidth());
+        doubleSpinBox_TouchoffRefY->setSizePolicy(sizePolicy);
+        doubleSpinBox_TouchoffRefY->setMinimumSize(QSize(120, 25));
+        doubleSpinBox_TouchoffRefY->setMaximumSize(QSize(120, 25));
+        doubleSpinBox_TouchoffRefY->setFont(font1);
+        doubleSpinBox_TouchoffRefY->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        doubleSpinBox_TouchoffRefY->setDecimals(1);
+        doubleSpinBox_TouchoffRefY->setMinimum(0);
+        doubleSpinBox_TouchoffRefY->setMaximum(500000);
 
-        horizontalLayout->addWidget(label);
+        horizontalLayout_9->addWidget(doubleSpinBox_TouchoffRefY);
+
+        doubleSpinBox_TouchoffRefZ = new QDoubleSpinBox(centralwidget);
+        doubleSpinBox_TouchoffRefZ->setObjectName(QStringLiteral("doubleSpinBox_TouchoffRefZ"));
+        sizePolicy.setHeightForWidth(doubleSpinBox_TouchoffRefZ->sizePolicy().hasHeightForWidth());
+        doubleSpinBox_TouchoffRefZ->setSizePolicy(sizePolicy);
+        doubleSpinBox_TouchoffRefZ->setMinimumSize(QSize(120, 25));
+        doubleSpinBox_TouchoffRefZ->setMaximumSize(QSize(120, 25));
+        doubleSpinBox_TouchoffRefZ->setFont(font1);
+        doubleSpinBox_TouchoffRefZ->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        doubleSpinBox_TouchoffRefZ->setDecimals(1);
+        doubleSpinBox_TouchoffRefZ->setMinimum(0);
+        doubleSpinBox_TouchoffRefZ->setMaximum(500000);
+
+        horizontalLayout_9->addWidget(doubleSpinBox_TouchoffRefZ);
 
 
-        gridLayout->addLayout(horizontalLayout, 0, 0, 1, 2);
+        verticalLayout->addLayout(horizontalLayout_9);
+
+        horizontalLayout_10 = new QHBoxLayout();
+        horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
+        pushButton_TouchoffGap = new QPushButton(centralwidget);
+        pushButton_TouchoffGap->setObjectName(QStringLiteral("pushButton_TouchoffGap"));
+        sizePolicy.setHeightForWidth(pushButton_TouchoffGap->sizePolicy().hasHeightForWidth());
+        pushButton_TouchoffGap->setSizePolicy(sizePolicy);
+        pushButton_TouchoffGap->setMinimumSize(QSize(180, 25));
+        pushButton_TouchoffGap->setMaximumSize(QSize(16777215, 25));
+        pushButton_TouchoffGap->setFont(font);
+
+        horizontalLayout_10->addWidget(pushButton_TouchoffGap);
+
+        doubleSpinBox_InitialGapX = new QDoubleSpinBox(centralwidget);
+        doubleSpinBox_InitialGapX->setObjectName(QStringLiteral("doubleSpinBox_InitialGapX"));
+        doubleSpinBox_InitialGapX->setMinimumSize(QSize(120, 25));
+        doubleSpinBox_InitialGapX->setMaximumSize(QSize(120, 25));
+        QFont font2;
+        font2.setPointSize(11);
+        doubleSpinBox_InitialGapX->setFont(font2);
+        doubleSpinBox_InitialGapX->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        doubleSpinBox_InitialGapX->setDecimals(1);
+        doubleSpinBox_InitialGapX->setMaximum(100000);
+
+        horizontalLayout_10->addWidget(doubleSpinBox_InitialGapX);
+
+        doubleSpinBox_InitialGapY = new QDoubleSpinBox(centralwidget);
+        doubleSpinBox_InitialGapY->setObjectName(QStringLiteral("doubleSpinBox_InitialGapY"));
+        doubleSpinBox_InitialGapY->setMinimumSize(QSize(120, 25));
+        doubleSpinBox_InitialGapY->setMaximumSize(QSize(120, 25));
+        doubleSpinBox_InitialGapY->setFont(font2);
+        doubleSpinBox_InitialGapY->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        doubleSpinBox_InitialGapY->setDecimals(1);
+        doubleSpinBox_InitialGapY->setMaximum(100000);
+
+        horizontalLayout_10->addWidget(doubleSpinBox_InitialGapY);
+
+        doubleSpinBox_InitialGapZ = new QDoubleSpinBox(centralwidget);
+        doubleSpinBox_InitialGapZ->setObjectName(QStringLiteral("doubleSpinBox_InitialGapZ"));
+        doubleSpinBox_InitialGapZ->setMinimumSize(QSize(120, 25));
+        doubleSpinBox_InitialGapZ->setMaximumSize(QSize(120, 25));
+        doubleSpinBox_InitialGapZ->setFont(font2);
+        doubleSpinBox_InitialGapZ->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        doubleSpinBox_InitialGapZ->setDecimals(1);
+        doubleSpinBox_InitialGapZ->setMaximum(100000);
+
+        horizontalLayout_10->addWidget(doubleSpinBox_InitialGapZ);
+
+
+        verticalLayout->addLayout(horizontalLayout_10);
+
+
+        gridLayout->addLayout(verticalLayout, 0, 0, 1, 1);
 
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
@@ -246,9 +327,9 @@ public:
         label_Connection->setSizePolicy(sizePolicy);
         label_Connection->setMinimumSize(QSize(80, 18));
         label_Connection->setMaximumSize(QSize(80, 18));
-        QFont font2;
-        font2.setPointSize(10);
-        label_Connection->setFont(font2);
+        QFont font3;
+        font3.setPointSize(10);
+        label_Connection->setFont(font3);
         label_Connection->setAlignment(Qt::AlignCenter);
 
         verticalLayout_2->addWidget(label_Connection);
@@ -263,43 +344,10 @@ public:
         verticalLayout_2->addWidget(widget_TouchoffComplete);
 
 
-        gridLayout->addLayout(verticalLayout_2, 0, 2, 2, 1);
+        gridLayout->addLayout(verticalLayout_2, 0, 1, 2, 1);
 
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        pushButton_TouchoffGap = new QPushButton(centralwidget);
-        pushButton_TouchoffGap->setObjectName(QStringLiteral("pushButton_TouchoffGap"));
-        sizePolicy.setHeightForWidth(pushButton_TouchoffGap->sizePolicy().hasHeightForWidth());
-        pushButton_TouchoffGap->setSizePolicy(sizePolicy);
-        pushButton_TouchoffGap->setMinimumSize(QSize(180, 25));
-        pushButton_TouchoffGap->setMaximumSize(QSize(16777215, 25));
-        pushButton_TouchoffGap->setFont(font);
-
-        horizontalLayout_2->addWidget(pushButton_TouchoffGap);
-
-        doubleSpinBox_InitialGap = new QDoubleSpinBox(centralwidget);
-        doubleSpinBox_InitialGap->setObjectName(QStringLiteral("doubleSpinBox_InitialGap"));
-        doubleSpinBox_InitialGap->setMinimumSize(QSize(120, 25));
-        doubleSpinBox_InitialGap->setMaximumSize(QSize(120, 25));
-        QFont font3;
-        font3.setPointSize(11);
-        doubleSpinBox_InitialGap->setFont(font3);
-        doubleSpinBox_InitialGap->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox_InitialGap->setDecimals(1);
-        doubleSpinBox_InitialGap->setMaximum(100000);
-
-        horizontalLayout_2->addWidget(doubleSpinBox_InitialGap);
-
-        label_2 = new QLabel(centralwidget);
-        label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setMinimumSize(QSize(32, 25));
-        label_2->setMaximumSize(QSize(32, 25));
-
-        horizontalLayout_2->addWidget(label_2);
-
-
-        gridLayout->addLayout(horizontalLayout_2, 1, 0, 1, 2);
-
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         pushButton_ExecuteTouchoff = new QPushButton(centralwidget);
         pushButton_ExecuteTouchoff->setObjectName(QStringLiteral("pushButton_ExecuteTouchoff"));
         sizePolicy.setHeightForWidth(pushButton_ExecuteTouchoff->sizePolicy().hasHeightForWidth());
@@ -308,7 +356,7 @@ public:
         pushButton_ExecuteTouchoff->setMaximumSize(QSize(100, 30));
         pushButton_ExecuteTouchoff->setFont(font);
 
-        gridLayout->addWidget(pushButton_ExecuteTouchoff, 2, 0, 1, 1);
+        horizontalLayout->addWidget(pushButton_ExecuteTouchoff);
 
         lineEdit_TouchoffCode = new QLineEdit(centralwidget);
         lineEdit_TouchoffCode->setObjectName(QStringLiteral("lineEdit_TouchoffCode"));
@@ -320,12 +368,15 @@ public:
         lineEdit_TouchoffCode->setAlignment(Qt::AlignCenter);
         lineEdit_TouchoffCode->setReadOnly(true);
 
-        gridLayout->addWidget(lineEdit_TouchoffCode, 2, 1, 1, 2);
+        horizontalLayout->addWidget(lineEdit_TouchoffCode);
+
+
+        gridLayout->addLayout(horizontalLayout, 1, 0, 1, 1);
 
         Window_Touchoff->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Window_Touchoff);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 450, 40));
+        menubar->setGeometry(QRect(0, 0, 680, 40));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menubar);
@@ -338,10 +389,6 @@ public:
         statusbar = new QStatusBar(Window_Touchoff);
         statusbar->setObjectName(QStringLiteral("statusbar"));
         Window_Touchoff->setStatusBar(statusbar);
-        QWidget::setTabOrder(doubleSpinBox_TouchoffRef, pushButton_TouchoffRef);
-        QWidget::setTabOrder(pushButton_TouchoffRef, doubleSpinBox_InitialGap);
-        QWidget::setTabOrder(doubleSpinBox_InitialGap, pushButton_TouchoffGap);
-        QWidget::setTabOrder(pushButton_TouchoffGap, pushButton_ExecuteTouchoff);
         QWidget::setTabOrder(pushButton_ExecuteTouchoff, lineEdit_TouchoffCode);
 
         menubar->addAction(menuFile->menuAction());
@@ -367,11 +414,9 @@ public:
         actionSave->setText(QApplication::translate("Window_Touchoff", "Save", nullptr));
         actionSave_As->setText(QApplication::translate("Window_Touchoff", "Save As", nullptr));
         actionClose->setText(QApplication::translate("Window_Touchoff", "Close", nullptr));
-        pushButton_TouchoffRef->setText(QApplication::translate("Window_Touchoff", "Set Touchoff Ref", nullptr));
-        label->setText(QApplication::translate("Window_Touchoff", "um", nullptr));
+        pushButton_TouchoffRef->setText(QApplication::translate("Window_Touchoff", "Get Touchoff Ref", nullptr));
+        pushButton_TouchoffGap->setText(QApplication::translate("Window_Touchoff", "Set Touchoff Gap", nullptr));
         label_Connection->setText(QApplication::translate("Window_Touchoff", "Completed:", nullptr));
-        pushButton_TouchoffGap->setText(QApplication::translate("Window_Touchoff", "Set Initial Gap", nullptr));
-        label_2->setText(QApplication::translate("Window_Touchoff", "um", nullptr));
         pushButton_ExecuteTouchoff->setText(QApplication::translate("Window_Touchoff", "Execute", nullptr));
         menuFile->setTitle(QApplication::translate("Window_Touchoff", "File", nullptr));
         menuEdit->setTitle(QApplication::translate("Window_Touchoff", "Edit", nullptr));

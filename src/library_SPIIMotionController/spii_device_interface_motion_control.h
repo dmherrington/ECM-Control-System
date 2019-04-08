@@ -11,6 +11,8 @@
 #include "common/operation/operation_current.h"
 #include "common/operation/operation_variable_list.h"
 
+#include "buffers/spii_current_program.h"
+
 class SPIIDeviceInterface_MotionControl
 {
 
@@ -43,7 +45,7 @@ public:
         m_MutexNewMotionProfileStateLambda.unlock();
     }
 
-    void setLambda_FinishedUploadingScript(const std::function<void(const bool &success, const Operation_CurrentProgram &program)> &lambda){
+    void setLambda_FinishedUploadingScript(const std::function<void(const bool &success, const SPII_CurrentProgram &program)> &lambda){
         if(m_FinishScriptLambda.find(0) != m_FinishScriptLambda.cend())
         {
             printf("Warning!!!! A finish procedure already exists, replacing old with new\n");
@@ -75,7 +77,7 @@ public:
         m_NewMotionProfileStateLambda.insert({0, lambda});
     }
 
-    void AddLambda_FinishedUploadingScript(void* host, const std::function<void(const bool &success, const Operation_CurrentProgram &program)> &lambda){
+    void AddLambda_FinishedUploadingScript(void* host, const std::function<void(const bool &success, const SPII_CurrentProgram &program)> &lambda){
         m_MutexFinishScriptLambda.lock();
         m_FinishScriptLambda.insert({host, lambda});
         m_MutexFinishScriptLambda.unlock();
@@ -94,7 +96,7 @@ public:
     }
 
 protected:
-    void onFinishedUploadingScript(const bool &success, const Operation_CurrentProgram &program){
+    void onFinishedUploadingScript(const bool &success, const SPII_CurrentProgram &program){
 
         m_MutexFinishScriptLambda.lock();
         for(auto it = m_FinishScriptLambda.cbegin() ; it != m_FinishScriptLambda.cend() ; ++it)
@@ -145,7 +147,7 @@ signals:
     //void signal_DeviceConfigured(const ECMDevice &device);
 
 protected:
-    std::unordered_map<void*, std::function<void(const bool &success, const Operation_CurrentProgram &program)>> m_FinishScriptLambda;
+    std::unordered_map<void*, std::function<void(const bool &success, const SPII_CurrentProgram &program)>> m_FinishScriptLambda;
     std::unordered_map<void*, std::function<void(const bool success, const Operation_VariableList &variableList)>> m_FinishVariablesLambda;
     std::unordered_map<void*, std::function<void(const MotionProfileState &profileState)>> m_NewMotionProfileStateLambda;
 

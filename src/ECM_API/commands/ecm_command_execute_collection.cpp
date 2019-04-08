@@ -82,7 +82,7 @@ bool ECMCommand_ExecuteCollection::doActiveOperationsRemain()
     for (; it!=m_Collection.end(); ++it)
     {
         ECMCommand_AbstractProfileConfigPtr currentConfig = it->second;
-        if(currentConfig->shouldProfileExecute() && !currentConfig->execProperties.hasProfileBeenExecuted())
+        if(currentConfig->shouldProfileExecute() && !currentConfig->m_ExecProperties.hasProfileBeenExecuted())
         {
             this->activeIndex = currentConfig->getOperationIndex();
             isCollectionIncomplete = true;
@@ -110,7 +110,7 @@ void ECMCommand_ExecuteCollection::setOverwriteLogs(const bool &overwrite)
 
 void ECMCommand_ExecuteCollection::initializeProfileExecution()
 {
-    this->m_Collection.at(activeIndex)->execProperties.initializeExecution();
+    this->m_Collection.at(activeIndex)->m_ExecProperties.initializeExecution();
 }
 
 void ECMCommand_ExecuteCollection::setWritingMotionScript(const bool &write)

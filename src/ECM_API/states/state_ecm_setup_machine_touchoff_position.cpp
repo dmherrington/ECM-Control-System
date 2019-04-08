@@ -108,15 +108,15 @@ void ECMState_SetupMachineTouchoffPosition::stopProcess()
 
 void ECMState_SetupMachineTouchoffPosition::populateMotionComplete()
 {
-//    touchoffPosition.clear();
+    motionComplete.clear();
 
-//    for (std::map<MotorAxis,double>::iterator it=touchoffPosition.begin(); it!=targetPosition.end(); ++it)
-//      touchoffPosition.insert(std::pair<MotorAxis,bool>(it->first,false));
+    for (std::map<MotorAxis,double>::iterator it=touchoffPosition.begin(); it!=touchoffPosition.end(); ++it)
+      motionComplete.insert(std::pair<MotorAxis,bool>(it->first,false));
 }
 
 bool ECMState_SetupMachineTouchoffPosition::allMotionComplete() const
 {
-    for (std::map<MotorAxis,bool>::const_iterator it=touchoffPosition.begin(); it!=touchoffPosition.end(); ++it)
+    for (std::map<MotorAxis,bool>::const_iterator it=motionComplete.cbegin(); it!=motionComplete.cend(); ++it)
     {
         if(!it->second)
             return false;
@@ -126,7 +126,7 @@ bool ECMState_SetupMachineTouchoffPosition::allMotionComplete() const
 
 void ECMState_SetupMachineTouchoffPosition::setupNotifiers()
 {
-    for (std::map<MotorAxis,double>::iterator it=touchoffPosition.begin(); it!=targetPosition.end(); ++it)
+    for (std::map<MotorAxis,double>::iterator it=touchoffPosition.begin(); it!=touchoffPosition.end(); ++it)
     {
         MotorAxis currentAxis = it->first;
         touchoffPosition.insert(std::pair<MotorAxis,bool>(currentAxis,false));
@@ -139,7 +139,7 @@ void ECMState_SetupMachineTouchoffPosition::setupNotifiers()
                 return;
 
             if(newStatus.hasMotorReachedTarget())
-                this->touchoffPosition.at(currentAxis) = true;
+                this->motionComplete.at(currentAxis) = true;
             if(this->allMotionComplete())
             {
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -151,10 +151,10 @@ void ECMState_SetupMachineTouchoffPosition::setupNotifiers()
 
 void ECMState_SetupMachineTouchoffPosition::removeNotifiers()
 {
-    for (std::map<MotorAxis,double>::iterator it=targetPosition.begin(); it!=targetPosition.end(); ++it)
+    for (std::map<MotorAxis,double>::iterator it=touchoffPosition.begin(); it!=touchoffPosition.end(); ++it)
     {
         MotorAxis currentAxis = it->first;
-        DataGetSetNotifier<Status_MotorPerAxis>* notifier = Owner().m_MotorStatus->getAxisStatusNotifier(currentAxis);
+        DataGetSetNotifier<Status_MotorPerAxis>* notifier = Owner().m_MotionController->m_StateInterface->m_MotorStatus->getAxisStatusNotifier(currentAxis);
         notifier->RemoveNotifier(this);
     }
 }

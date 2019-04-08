@@ -60,7 +60,7 @@ public:
 private:
     void populateMotionComplete();
 
-    bool allMotionComplete();
+    bool allMotionComplete() const;
 
     void setupNotifiers();
 
@@ -70,6 +70,7 @@ private:
     ECMCommand_ProfileConfigurationPtr m_Config;
 
     std::map<MotorAxis,double> touchoffPosition;
+    std::map<MotorAxis,bool> motionComplete;
 
 };
 
