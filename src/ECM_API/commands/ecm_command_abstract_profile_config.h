@@ -6,6 +6,7 @@
 
 #include "common/class_forward.h"
 #include "common/profile_operation_type.h"
+#include "common/operation/operation_items.h"
 
 #include "ecm_command_execution_properties.h"
 
@@ -14,7 +15,7 @@ ECM_CLASS_FORWARD(ECMCommand_AbstractProfileConfig);
 class ECMCommand_AbstractProfileConfig
 {
 public:
-    ECMCommand_AbstractProfileConfig(const ProfileOpType &configType);
+    ECMCommand_AbstractProfileConfig(const ProfileOpType &opType);
 
     ECMCommand_AbstractProfileConfig(const ECMCommand_AbstractProfileConfig &copy);
 
@@ -25,7 +26,7 @@ public:
 
     ProfileOpType getConfigType() const
     {
-        return this->configType;
+        return m_ProfileSettings.getOperationType();
     }
 
 public:
@@ -73,13 +74,11 @@ public:
     //!
     ECMCommand_AbstractProfileConfig& operator = (const ECMCommand_AbstractProfileConfig &rhs)
     {
-        this->configType = rhs.configType;
-        this->operationIndex = rhs.operationIndex;
-        this->operationName = rhs.operationName;
+        this->m_ProfileSettings = rhs.m_ProfileSettings;
         this->indicateHome = rhs.indicateHome;
         this->shouldExecute = rhs.shouldExecute;
 
-        this->execProperties = rhs.execProperties;
+        this->m_ExecProperties = rhs.m_ExecProperties;
 
         return *this;
     }
@@ -91,13 +90,7 @@ public:
     //!
     bool operator == (const ECMCommand_AbstractProfileConfig &rhs)
     {
-        if(this->configType != rhs.configType){
-            return false;
-        }
-        if(this->operationIndex != rhs.operationIndex){
-            return false;
-        }
-        if(this->operationName != rhs.operationName){
+        if(this->m_ProfileSettings != rhs.m_ProfileSettings){
             return false;
         }
         if(this->indicateHome != rhs.indicateHome){
@@ -106,7 +99,7 @@ public:
         if(this->shouldExecute != rhs.shouldExecute){
             return false;
         }
-        if(this->execProperties != rhs.execProperties)
+        if(this->m_ExecProperties != rhs.m_ExecProperties)
         {
             return false;
         }
@@ -123,16 +116,17 @@ public:
     }
 
 
+public:
+    Operation_CurrentProgram m_ProfileSettings;
+
+    ECMCommand_ExecutionProperties m_ExecProperties;
 
 protected:
-    ProfileOpType configType;
-    unsigned int operationIndex = 0;
-    std::string operationName = "";
+//    ProfileOpType configType;
+//    unsigned int operationIndex = 0;
+//    std::string operationName = "";
     bool indicateHome = false;
     bool shouldExecute = false;
-
-public:
-    ECMCommand_ExecutionProperties execProperties;
 };
 
 

@@ -13,6 +13,11 @@ public:
      ~SPII_CurrentProgram() = default;
 
 public:
+    void writeToJSON(QJsonObject &bufferDataObject) override;
+
+    void readFromJSON(const QJsonObject &bufferDataObject) override;
+
+public:
 
     void updateOperationalLabels(const Operation_LabelList &labels);
 
@@ -21,6 +26,32 @@ public:
     Operation_LabelList getCurrentOperationLabels() const;
 
     Operation_VariableList getCurrentUserVariables() const;
+
+public:
+    SPII_CurrentProgram& operator = (const SPII_CurrentProgram &rhs)
+    {
+        BufferManager::operator =(rhs);
+        this->m_OperationalLabels = rhs.m_OperationalLabels;
+        this->m_UserVariableList = rhs.m_UserVariableList;
+        return *this;
+    }
+
+    bool operator == (const SPII_CurrentProgram &rhs) {
+        if(!BufferManager::operator ==(rhs)){
+            return false;
+        }
+        if(this->m_OperationalLabels != rhs.m_OperationalLabels){
+            return false;
+        }
+        if(this->m_UserVariableList != rhs.m_UserVariableList){
+            return false;
+        }
+        return true;
+    }
+
+    bool operator != (const SPII_CurrentProgram &rhs) {
+        return !(*this == rhs);
+    }
 
 private:
     Operation_LabelList m_OperationalLabels;

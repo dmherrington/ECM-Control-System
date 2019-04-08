@@ -67,7 +67,7 @@ void ECMState_ProfileMachineAbort::OnEnter(ECMCommand_AbstractProfileConfigPtr c
 
     this->OnEnter();
 
-    m_Config->execProperties.completeExecution();
+    m_Config->m_ExecProperties.completeExecution();
     Owner().concludeExecutingOperation(m_Config);
 
     Owner().action_StopMachine();

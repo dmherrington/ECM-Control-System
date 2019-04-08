@@ -132,7 +132,7 @@ void SPIIProtocol::SendProtocolCommand(const AbstractCommandPtr command)
     switch (command->getCommandType()) {
     case CommandType::UPLOAD_PROGRAM:
     {
-        SPIICommand_UploadProgram* uploadProgram = command->as<SPIICommand_UploadProgram>();
+        SPIICommand_UploadProgramBuffer* uploadProgram = command->as<SPIICommand_UploadProgramBuffer>();
         uploadProgramToBuffer(uploadProgram);
         break;
     }
@@ -158,6 +158,12 @@ void SPIIProtocol::SendProtocolCommand(const AbstractCommandPtr command)
     {
         Command_VariableArray* commandVariable = command->as<Command_VariableArray>();
         WriteVariableArray(*commandVariable);
+        break;
+    }
+    case CommandType::UPLOAD_OPERATIONAL_VARIABLES:
+    {
+        Command_UploadOperationalVariables* operationalVariables = command->as<Command_UploadOperationalVariables>();
+        WriteOperationalVariables(operationalVariables->getOperationalVariables());
         break;
     }
     default:
@@ -531,7 +537,7 @@ unsigned int SPIIProtocol::checkForBufferLineError(const unsigned int &index)
     return -1;
 }
 
-void SPIIProtocol::uploadProgramToBuffer(const SPIICommand_UploadProgram *uploadProgram)
+void SPIIProtocol::uploadProgramToBuffer(const SPIICommand_UploadProgramBuffer *uploadProgram)
 {
     Status_BufferState newBufferState;
     newBufferState.setBufferIndex(uploadProgram->getBufferIndex());

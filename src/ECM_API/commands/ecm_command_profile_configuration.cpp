@@ -43,7 +43,7 @@ ECMCommand_ProfileConfiguration::ECMCommand_ProfileConfiguration(const ECMComman
     this->operationName = copy.operationName;
     this->indicateHome = copy.indicateHome;
     this->shouldExecute = copy.shouldExecute;
-    this->execProperties = copy.execProperties;
+    this->m_ExecProperties = copy.m_ExecProperties;
 
     //this->m_GalilOperation = copy.m_GalilOperation;
     this->m_ConfigPowerSupply = copy.m_ConfigPowerSupply;

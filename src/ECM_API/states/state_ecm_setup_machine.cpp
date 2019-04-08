@@ -46,7 +46,7 @@ hsm::Transition ECMState_SetupMachine::GetTransition()
         {
 
             ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection->getActiveConfiguration(); //find the current configuration we had been working on
-            activeConfiguration->execProperties.completeExecution();
+            activeConfiguration->m_ExecProperties.completeExecution();
             Owner().concludeExecutingOperation(activeConfiguration);
 
             this->m_ECMCollection->establishEndTime();

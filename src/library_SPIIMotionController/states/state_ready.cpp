@@ -187,6 +187,12 @@ void State_Ready::handleCommand(const AbstractCommandPtr command)
         Owner().issueSPIICommand(command);
         break;
     }
+
+    case CommandType::UPLOAD_OPERATIONAL_VARIABLES:
+    {
+        Owner().issueSPIICommand(command);
+        break;
+    }
     default:
         break;
     }

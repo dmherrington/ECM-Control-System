@@ -6,9 +6,9 @@ namespace API {
 ECMState_ProfileMachinePause::ECMState_ProfileMachinePause():
     AbstractStateECMProcess()
 {
-    std::cout<<"We are currently in the constructor of STATE_ECM_PROFILE_MACHINE_PROCESS."<<std::endl;
-    this->currentState = ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS;
-    this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_PROCESS;
+    std::cout<<"We are currently in the constructor of STATE_ECM_PROFILE_MACHINE_PAUSED."<<std::endl;
+    this->currentState = ECMState::STATE_ECM_PROFILE_MACHINE_PAUSED;
+    this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_PAUSED;
 }
 
 void ECMState_ProfileMachinePause::OnExit()
@@ -93,7 +93,7 @@ void ECMState_ProfileMachinePause::OnEnter(ECMCommand_AbstractProfileConfigPtr c
 
 void ECMState_ProfileMachinePause::continueProcess()
 {
-    m_Config->execProperties.setProfileCode(ProfileState_Machining::MACHININGProfileCodes::COMPLETE);
+    m_Config->m_ExecProperties.setProfileCode(ProfileState_Machining::MACHININGProfileCodes::COMPLETE);
     desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION;
 }
 

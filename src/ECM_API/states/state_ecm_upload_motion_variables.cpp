@@ -83,6 +83,7 @@ void ECMState_UploadMotionVariables::OnEnter(ECMCommand_AbstractProfileConfigPtr
 
         Owner().m_MotionController->AddLambda_FinishedUploadingVariables(this,[this](const bool completed, const Operation_VariableList &variableList){
             UNUSED(variableList);
+
             if(completed)
             {
                 desiredState = ECMState::STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS;
@@ -92,8 +93,10 @@ void ECMState_UploadMotionVariables::OnEnter(ECMCommand_AbstractProfileConfigPtr
             }
 
         });
-        //KEN FIX
-        //Owner().m_MotionController->uploadOperationalVariables(castConfig->m_GalilOperation.getVariableList());
+        Command_UploadOperationalVariablesPtr cmdProgram = std::make_shared<Command_UploadOperationalVariables>();
+        cmdProgram->setOperationalVariables(castConfig->m_DesiredProgram.getCurrentUserVariables());
+        Owner().m_MotionController->executeCommand(cmdProgram);
+
         break;
     }
     default:

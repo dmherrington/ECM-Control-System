@@ -67,7 +67,7 @@ void ECMState_ProfileMachineCompleteExecution::OnEnter(ECMCommand_AbstractProfil
 
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
-    this->m_Config->execProperties.completeExecution();
+    this->m_Config->m_ExecProperties.completeExecution();
 
     Owner().concludeExecutingOperation(this->m_Config);
 

@@ -14,7 +14,12 @@ class BufferData
 public:
     BufferData(const unsigned int &bufferIndex = 0, const bool &dBuffer = false);
 
+    BufferData(const BufferData &copy);
+
     ~BufferData() = default;
+
+public:
+    void updateBufferData(const BufferData &data);
 
 public:
     void writeToJSON(QJsonArray &bufferDataArray);

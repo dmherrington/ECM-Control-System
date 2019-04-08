@@ -81,7 +81,7 @@ void ECMState_UploadMotionProfile::OnEnter(ECMCommand_AbstractProfileConfigPtr c
     {
         ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(config);
 
-        Owner().m_MotionController->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const Operation_CurrentProgram &program){
+        Owner().m_MotionController->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const SPII_CurrentProgram &program){
             UNUSED(program);
 
             if(completed)
@@ -93,10 +93,10 @@ void ECMState_UploadMotionProfile::OnEnter(ECMCommand_AbstractProfileConfigPtr c
             }
         });
 
-        CommandUploadProgramPtr cmdProgram = std::make_shared<CommandUploadProgram>();
-        //KEN FIX
-//        cmdProgram->setCurrentScript(castConfig->m_MotionController.getProgram());
-//        Owner().m_MotionController->executeCommand(cmdProgram);
+        SPIICommand_UploadProgramSuitePtr cmdProgram = std::make_shared<SPIICommand_UploadProgramSuite>();
+        cmdProgram->setProgram(castConfig->m_DesiredProgram);
+        Owner().m_MotionController->executeCommand(cmdProgram);
+
         break;
     }
     default:

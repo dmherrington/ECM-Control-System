@@ -5,6 +5,8 @@
 
 #include "../general_dialog_window.h"
 
+#include "common/commands/command_components.h"
+
 #include "library_SPIIMotionController/spii_motion_controller.h"
 
 namespace Ui {
@@ -30,6 +32,12 @@ private:
 
     void openFromFile(const QString &filePath);
 
+private:
+    void transmitTouchoffReference();
+
+private slots:
+    void slot_UpdateMotionProfileState(const MotionProfileState &state);
+
 private slots:
     void on_actionClose_triggered();
 
@@ -37,13 +45,19 @@ private slots:
 
     void on_pushButton_TouchoffRef_released();
 
-    void slot_UpdateMotionProfileState(const MotionProfileState &state);
-
     void on_pushButton_TouchoffGap_released();
 
-    void on_doubleSpinBox_TouchoffRef_valueChanged(double arg1);
+    void on_doubleSpinBox_TouchoffRefX_editingFinished();
 
-    void on_doubleSpinBox_InitialGap_valueChanged(double arg1);
+    void on_doubleSpinBox_TouchoffRefY_editingFinished();
+
+    void on_doubleSpinBox_TouchoffRefZ_editingFinished();
+
+    void on_doubleSpinBox_InitialGapX_editingFinished();
+
+    void on_doubleSpinBox_InitialGapY_editingFinished();
+
+    void on_doubleSpinBox_InitialGapZ_editingFinished();
 
 private:
     Ui::Window_Touchoff *ui;

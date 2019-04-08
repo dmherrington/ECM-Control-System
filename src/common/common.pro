@@ -59,7 +59,8 @@ SOURCES += common.cpp \
     operation/operation_variable_list.cpp \
     operation/operation_label_list.cpp \
     commands/command_compile_buffer.cpp \
-    commands/command_variable_array.cpp
+    commands/command_variable_array.cpp \
+    commands/command_upload_operational_variables.cpp
 
 HEADERS += common.h\
         common_global.h \
@@ -120,7 +121,8 @@ HEADERS += common.h\
     operation/operation_label_list.h \
     commands/command_compile_buffer.h \
     operation/operation_items.h \
-    commands/command_variable_array.h
+    commands/command_variable_array.h \
+    commands/command_upload_operational_variables.h
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

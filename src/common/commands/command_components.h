@@ -18,6 +18,7 @@
 #include "command_speed.h"
 #include "command_stop.h"
 #include "command_types.h"
+#include "command_upload_operational_variables.h"
 #include "command_upload_program.h"
 #include "command_variable.h"
 #include "command_variable_array.h"

@@ -107,7 +107,7 @@ void Widget_BufferEditor::on_codeTextEdit_textChanged()
 void Widget_BufferEditor::on_pushButton_Upload_released()
 {
     std::string programString = ui->codeTextEdit->toPlainText().toStdString();
-    SPIICommand_UploadProgramPtr commandUploadProgram = std::make_shared<SPIICommand_UploadProgram>();
+    SPIICommand_UploadProgramPtr commandUploadProgram = std::make_shared<SPIICommand_UploadProgramBuffer>();
     commandUploadProgram->setCurrentScript(programString);
     commandUploadProgram->setBufferIndex(m_EditData->getBufferIndex());
 
@@ -128,7 +128,7 @@ void Widget_BufferEditor::on_pushButton_Clear_released()
 {
     ui->codeTextEdit->clear();
 
-    SPIICommand_UploadProgramPtr commandUploadProgram = std::make_shared<SPIICommand_UploadProgram>();
+    SPIICommand_UploadProgramPtr commandUploadProgram = std::make_shared<SPIICommand_UploadProgramBuffer>();
     commandUploadProgram->setCurrentScript("");
     commandUploadProgram->setBufferIndex(m_EditData->getBufferIndex());
 

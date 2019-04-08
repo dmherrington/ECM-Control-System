@@ -1,16 +1,16 @@
-#ifndef SPII_COMMAND_UPLOAD_PROGRAM_H
-#define SPII_COMMAND_UPLOAD_PROGRAM_H
+#ifndef SPII_COMMAND_UPLOAD_PROGRAM_BUFFER_H
+#define SPII_COMMAND_UPLOAD_PROGRAM_BUFFER_H
 
 #include "common/commands/command_upload_program.h"
 
-ECM_CLASS_FORWARD(SPIICommand_UploadProgram);
+ECM_CLASS_FORWARD(SPIICommand_UploadProgramBuffer);
 
-class SPIICommand_UploadProgram : public CommandUploadProgram
+class SPIICommand_UploadProgramBuffer : public CommandUploadProgram
 {
 public:
-    SPIICommand_UploadProgram();
+    SPIICommand_UploadProgramBuffer();
 
-    SPIICommand_UploadProgram(const SPIICommand_UploadProgram &copy);
+    SPIICommand_UploadProgramBuffer(const SPIICommand_UploadProgramBuffer &copy);
 
 public:
     /**
@@ -33,7 +33,7 @@ public:
     bool shouldCompileImmediately() const;
 
 public:
-    SPIICommand_UploadProgram& operator = (const SPIICommand_UploadProgram &rhs)
+    SPIICommand_UploadProgramBuffer& operator = (const SPIICommand_UploadProgramBuffer &rhs)
     {
         CommandUploadProgram::operator =(rhs);
         this->bufferIndex = rhs.bufferIndex;
@@ -46,7 +46,7 @@ public:
     //! \param rhs
     //! \return
     //!
-    bool operator == (const SPIICommand_UploadProgram &rhs)
+    bool operator == (const SPIICommand_UploadProgramBuffer &rhs)
     {
         if(!CommandUploadProgram::operator ==(rhs)){
             return false;
@@ -65,7 +65,7 @@ public:
     //! \param rhs
     //! \return
     //!
-    bool operator != (const SPIICommand_UploadProgram &rhs) {
+    bool operator != (const SPIICommand_UploadProgramBuffer &rhs) {
         return !(*this == rhs);
     }
 
@@ -76,4 +76,4 @@ private:
     bool compileImmediately = true;
 };
 
-#endif // SPII_COMMAND_UPLOAD_PROGRAM_H
+#endif // SPII_COMMAND_UPLOAD_PROGRAM_BUFFER_H

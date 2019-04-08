@@ -5,7 +5,7 @@
 
 #include "library_SPIIMotionController/spii_motion_controller.h"
 #include "library_SPIIMotionController/buffers/buffer_data.h"
-#include "library_SPIIMotionController/commands/spii_command_upload_program.h"
+#include "library_SPIIMotionController/commands/spii_command_upload_program_buffer.h"
 
 namespace Ui {
 class Widget_BufferEditor;

@@ -69,7 +69,7 @@ void ECM_API::initializeLoggingOperation(const std::string &partNumber, const st
 
         m_Log->writeProfileLoggingHeader(partNumber,serialNumber,castConfig->getOperationName(),
                                   castConfig->getProfileName(),description,
-                                  castConfig->execProperties.getStartTime());
+                                  castConfig->m_ExecProperties.getStartTime());
         break;
     }
     case ProfileOpType::PAUSE:
@@ -77,7 +77,7 @@ void ECM_API::initializeLoggingOperation(const std::string &partNumber, const st
         ECMCommand_ProfilePausePtr castConfig = static_pointer_cast<ECMCommand_ProfilePause>(configuration);
 
         m_Log->writePauseLoggingHeader(partNumber,serialNumber,castConfig->getOperationName(),
-                                  description, castConfig->execProperties.getStartTime());
+                                  description, castConfig->m_ExecProperties.getStartTime());
 
         break;
     }

@@ -6,6 +6,25 @@ BufferData::BufferData(const unsigned int &bufferIndex, const bool &dBuffer)
     setIsDBuffer(dBuffer);
 }
 
+BufferData::BufferData(const BufferData &copy)
+{
+    this->updateBufferData(copy);
+}
+
+void BufferData::updateBufferData(const BufferData &data)
+{
+    this->m_BufferVariables = data.m_BufferVariables;
+    this->bufferIndex = data.bufferIndex;
+    this->bufferName = data.bufferName;
+    this->lockBufferName = data.lockBufferName;
+    this->dBuffer = data.dBuffer;
+    this->lineCount = data.lineCount;
+    this->bufferProfile = data.bufferProfile;
+    this->isCurrent = data.isCurrent;
+    this->isCompiled = data.isCompiled;
+    this->programText = data.programText;
+}
+
 void BufferData::writeToJSON(QJsonArray &bufferDataArray)
 {
     QJsonObject segmentObject;

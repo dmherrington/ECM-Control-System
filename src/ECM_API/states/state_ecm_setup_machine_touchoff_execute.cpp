@@ -78,12 +78,13 @@ void ECMState_SetupMachineTouchoffExecute::OnEnter(ECMCommand_AbstractProfileCon
         if(castConfig->m_Touchoff.shouldTouchoffUtilizePreviousPosition())
         {
             std::vector<double> axisPosition = Owner().m_MotionController->m_StateInterface->m_AxisPosition->getAxisPositionVector();
-            commandTouchRef = std::make_shared<Command_Variable>("", axisPosition);
+            commandTouchRef = std::make_shared<Command_VariableArray>("", axisPosition);
         }
         else{
-            commandTouchRef = std::make_shared<Command_Variable>(castConfig->m_Touchoff.getTouchoffRefCommand());
+            commandTouchRef = std::make_shared<Command_VariableArray>("", castConfig->m_Touchoff.getTouchoffRefCommand());
         }
-        Command_VariableArrayPtr commandTouchGap = std::make_shared<Command_VariableArray>(castConfig->m_Touchoff.getTouchoffGapCommand());
+
+        Command_VariableArrayPtr commandTouchGap = std::make_shared<Command_VariableArray>("", castConfig->m_Touchoff.getTouchoffGapCommand());
 
         Owner().m_MotionController->executeCommand(commandTouchRef);
         Owner().m_MotionController->executeCommand(commandTouchGap);

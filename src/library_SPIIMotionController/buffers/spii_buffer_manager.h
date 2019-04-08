@@ -22,9 +22,9 @@ public:
     ~BufferManager() = default;
 
 public:
-    void writeToJSON(QJsonObject &bufferDataObject);
+    virtual void writeToJSON(QJsonObject &saveObject);
 
-    void readFromJSON(const QJsonObject &bufferDataObject);
+    virtual void readFromJSON(const QJsonObject &loadObject);
 
 public:
     void setDBufferIndex(const unsigned int &index);
@@ -34,12 +34,38 @@ public:
     unsigned int getBufferSize() const;
 
     void updateBufferData(const unsigned int &bufferIndex, const BufferData &data);
-    bool getBufferData(const unsigned int &bufferIndex, BufferData &data);
+    bool getBufferData(const unsigned int &bufferIndex, BufferData &data) const;
 
     void statusBufferUpdate(const Status_BufferState &state);
 
 private:
     void clearExistingBufferMap();
+
+public:
+    BufferManager& operator = (const BufferManager &rhs)
+    {
+        this->indexDBuffer = rhs.indexDBuffer;
+        this->maxBufferSize = rhs.maxBufferSize;
+        this->m_ProgramBuffers = rhs.m_ProgramBuffers;
+        return *this;
+    }
+
+    bool operator == (const BufferManager &rhs) {
+        if(this->indexDBuffer != rhs.indexDBuffer){
+            return false;
+        }
+        if(this->maxBufferSize != rhs.maxBufferSize){
+            return false;
+        }
+        if(this->m_ProgramBuffers != rhs.m_ProgramBuffers){
+            return false;
+        }
+        return true;
+    }
+
+    bool operator != (const BufferManager &rhs) {
+        return !(*this == rhs);
+    }
 
 protected:
     unsigned int indexDBuffer;

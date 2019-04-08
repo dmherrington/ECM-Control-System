@@ -168,6 +168,11 @@ void State_Idle::handleCommand(const AbstractCommandPtr command)
         Owner().issueSPIICommand(command);
         break;
     }
+    case CommandType::UPLOAD_OPERATIONAL_VARIABLES:
+    {
+        Owner().issueSPIICommand(command);
+        break;
+    }
     default:
         std::cout<<"The command type of: "<<CommandToString(command->getCommandType())<<" has no explicit support from the idle state."<<std::endl;
         break;

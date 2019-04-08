@@ -22,7 +22,7 @@
 #include "i_link.h"
 
 #include "common/commands/command_components.h"
-#include "../commands/spii_command_upload_program.h"
+#include "../commands/spii_command_upload_program_buffer.h"
 
 #include "../buffers/buffer_data.h"
 #include "../buffers/buffer_label_values.h"
@@ -88,7 +88,7 @@ public:
     unsigned int checkForBufferLineError(const unsigned int &index);
 
 private:
-    void uploadProgramToBuffer(const SPIICommand_UploadProgram* uploadProgram);
+    void uploadProgramToBuffer(const SPIICommand_UploadProgramBuffer* uploadProgram);
 
     void retrieveBufferData(const unsigned int &bufferIndex, BufferData &bufferContents);
 

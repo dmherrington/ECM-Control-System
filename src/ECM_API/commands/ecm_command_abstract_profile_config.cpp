@@ -1,19 +1,17 @@
 #include "ecm_command_abstract_profile_config.h"
 
-ECMCommand_AbstractProfileConfig::ECMCommand_AbstractProfileConfig(const ProfileOpType &configType)
+ECMCommand_AbstractProfileConfig::ECMCommand_AbstractProfileConfig(const ProfileOpType &opType)
 {
-    this->configType = configType;
+    m_ProfileSettings.setOperationType(opType);
 }
 
 ECMCommand_AbstractProfileConfig::ECMCommand_AbstractProfileConfig(const ECMCommand_AbstractProfileConfig &copy)
 {
-    this->configType = copy.configType;
-    this->operationIndex = copy.operationIndex;
-    this->operationName = copy.operationName;
+    this->m_ProfileSettings = copy.m_ProfileSettings;
+    this->m_ExecProperties = copy.m_ExecProperties;
+
     this->indicateHome = copy.indicateHome;
     this->shouldExecute = copy.shouldExecute;
-
-    this->execProperties = copy.execProperties;
 }
 
 void ECMCommand_AbstractProfileConfig::writeToJSON(QJsonObject &obj)
@@ -34,12 +32,12 @@ void ECMCommand_AbstractProfileConfig::readFromJSON(const QJsonObject &obj)
 
 unsigned int ECMCommand_AbstractProfileConfig::getOperationIndex() const
 {
-    return this->operationIndex;
+    return m_ProfileSettings.getOperationIndex();
 }
 
 std::string ECMCommand_AbstractProfileConfig::getOperationName() const
 {
-    return this->operationName;
+    return m_ProfileSettings.getOperationName();
 }
 
 bool ECMCommand_AbstractProfileConfig::shouldHomeBeIndicated() const
@@ -54,17 +52,17 @@ bool ECMCommand_AbstractProfileConfig::shouldProfileExecute() const
 
 bool ECMCommand_AbstractProfileConfig::hasProfileCompleted() const
 {
-    return this->execProperties.hasProfileBeenCompleted();
+    return this->m_ExecProperties.hasProfileBeenCompleted();
 }
 
 void ECMCommand_AbstractProfileConfig::setOperationIndex(const unsigned int &index)
 {
-    this->operationIndex = index;
+    m_ProfileSettings.setOperationIndex(index);
 }
 
 void ECMCommand_AbstractProfileConfig::setOperationName(const std::string &name)
 {
-    this->operationName = name;
+    m_ProfileSettings.setOperationName(name);
 }
 
 void ECMCommand_AbstractProfileConfig::setIndicateHomeAutomatically(const bool &homeExecute)

@@ -827,12 +827,12 @@ void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ExecuteColle
      * This is done within the profile configuration window as the associated script is in the front panel
      * there at the current time.
      */
-    bool shouldUploadScript = executeCollection.shouldWriteGalilScript();
+    bool shouldUploadScript = executeCollection.shouldWriteMotionScript();
 
     if(!m_WindowProfileConfiguration->checkGalilScript(shouldUploadScript))
         return;
 
-    executeCollection.setWritingGalilScript(shouldUploadScript);
+    executeCollection.setWritingMotionScript(shouldUploadScript);
 
     //first check that we can log where we want to
     QString partNumber = ui->lineEdit_PartNumber->text();

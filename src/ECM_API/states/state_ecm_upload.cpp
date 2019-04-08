@@ -123,7 +123,7 @@ void ECMState_Upload::OnEnter(ECMCommand_ExecuteCollectionPtr collection)
          * Otherwise, we should set the appropriate variables related to the
          * motion profile.
          */
-        if(this->m_ECMCollection->isFirstOperation(this->m_ECMCollection->getActiveIndex()) && this->m_ECMCollection->shouldWriteGalilScript())
+        if(this->m_ECMCollection->isFirstOperation(this->m_ECMCollection->getActiveIndex()) && this->m_ECMCollection->shouldWriteMotionScript())
         {
             this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE;
         }
