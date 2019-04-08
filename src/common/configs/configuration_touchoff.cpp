@@ -31,12 +31,12 @@ void Configuration_Touchoff::writeToJSON(QJsonObject &saveObject)
 
     segmentDataArray.append(segmentObject);
 
-    saveObject["touchoffData"] = segmentDataArray;
+    saveObject["TouchoffData"] = segmentDataArray;
 }
 
 void Configuration_Touchoff::readFromJSON(const QJsonObject &openObject)
 {
-    QJsonArray touchoffDataArray = openObject["touchoffData"].toArray();
+    QJsonArray touchoffDataArray = openObject["TouchoffData"].toArray();
     QJsonObject touchoffObject = touchoffDataArray[0].toObject();
 
     setTouchoffUtilization(touchoffObject["touchoffExecute"].toBool());
