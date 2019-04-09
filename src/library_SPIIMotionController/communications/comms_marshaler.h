@@ -50,7 +50,7 @@ public:
 
     bool ConnectToSimulation(SPII_Settings &deviceSettings);
     SPII_Settings ConnectToSerialPort(const common::comms::SerialConfiguration &linkConfig);
-    SPII_Settings ConnectToEthernetPort(const common::comms::TCPConfiguration &linkConfig);
+    bool ConnectToEthernetPort(const common::comms::TCPConfiguration &linkConfig, SPII_Settings &deviceSettings);
     SPII_Settings ConnectToPCIPort(const ACSC_PCI_SLOT &linkConfig);
 
 

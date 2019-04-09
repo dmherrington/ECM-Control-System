@@ -1,7 +1,10 @@
 #ifndef COMMAND_JOG_H
 #define COMMAND_JOG_H
+
 #include <map>
 #include <math.h>
+
+#include "../common.h"
 
 #include "../class_forward.h"
 #include "../axis_definitions.h"
@@ -61,7 +64,6 @@ public:
     void setJogResolution(const double &resolution);
     void setJogSpeed(const MotorAxis &axis, const double &speed);
 
-    std::map<MotorAxis, double> getJogDirectedAction() const;
     std::map<MotorAxis, double> getJogAction() const;
 
 public:

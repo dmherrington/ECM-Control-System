@@ -61,7 +61,7 @@ private slots:
 
     void on_pushButton_connectMunk_released();
 
-    void on_pushButton_connectGalil_released();
+    void on_pushButton_connectMC_released();
 
     void on_pushButton_Close_released();
 

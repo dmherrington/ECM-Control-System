@@ -86,10 +86,8 @@ SPII_Settings CommsMarshaler::ConnectToSerialPort(const common::comms::SerialCon
     return deviceSettings;
 }
 
-SPII_Settings CommsMarshaler::ConnectToEthernetPort(const common::comms::TCPConfiguration &linkConfig)
+bool CommsMarshaler::ConnectToEthernetPort(const common::comms::TCPConfiguration &linkConfig, SPII_Settings &deviceSettings)
 {
-    SPII_Settings deviceSettings;
-
     HANDLE* commsLink = nullptr;
 
     link->SetEthernetConnection(linkConfig);
@@ -103,12 +101,15 @@ SPII_Settings CommsMarshaler::ConnectToEthernetPort(const common::comms::TCPConf
         if(protocol->requestNumberofAxes(numberOfAxis))
             deviceSettings.setAxisCount(static_cast<unsigned int>(numberOfAxis));
         if(protocol->requestDBufferIndex(dBufferIndex))
-            deviceSettings.setAxisCount(static_cast<unsigned int>(numberOfAxis));
+            deviceSettings.setDBufferIndex(static_cast<unsigned int>(dBufferIndex));
         if(protocol->requestNumberofBuffers(numOfBuffers))
-            deviceSettings.setAxisCount(static_cast<unsigned int>(numOfBuffers));
+            deviceSettings.setBufferCount(static_cast<unsigned int>(numOfBuffers));
+
+        protocol->updateDeviceSettings(deviceSettings);
+
     }
 
-    return deviceSettings;
+    return link->isConnected();
 }
 
 SPII_Settings CommsMarshaler::ConnectToPCIPort(const ACSC_PCI_SLOT &linkConfig)

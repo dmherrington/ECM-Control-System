@@ -55,7 +55,7 @@ std::map<MotorAxis, double> CommandAbsoluteMove::getAbsoluteMovePosition() const
     std::map<MotorAxis, Direction> directionMap = getMoveDirection();
     for (std::map<MotorAxis, double>::const_iterator it=absoluteMove.begin(); it!=absoluteMove.end(); ++it)
     {
-        if(directionMap.at(it->first) == Direction::DIRECTION_NEGATIVE)
+        if(directionMap.at(it->first) == Direction::DIRECTION_DECREASE)
             rtnMoveMap.insert(std::pair<MotorAxis, double>(it->first,-1.0 * it->second));
         else
             rtnMoveMap.insert(std::pair<MotorAxis, double>(it->first,it->second));

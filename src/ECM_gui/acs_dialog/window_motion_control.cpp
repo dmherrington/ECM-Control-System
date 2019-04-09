@@ -74,7 +74,7 @@ void Window_MotionControl::on_pushButton_IncreaseRelativeMove_released()
     int relativeDistance = abs(ui->spinBox_RelativeMove->value()) * (-1);
     //CommandRelativeMovePtr startIncreaseRelativeMove = std::make_shared<CommandRelativeMove>(MotorAxis::Z, relativeDistance);
     CommandRelativeMovePtr startIncreaseRelativeMove = std::make_shared<CommandRelativeMove>();
-    startIncreaseRelativeMove->addRelativeMoveDistance(MotorAxis::Z,relativeDistance,Direction::DIRECTION_NEGATIVE);
+    startIncreaseRelativeMove->addRelativeMoveDistance(MotorAxis::Z,relativeDistance);
     m_MotionController->executeCommand(startIncreaseRelativeMove);
 }
 
@@ -87,7 +87,7 @@ void Window_MotionControl::on_pushButton_DecreaseRelativeMove_released()
     int relativeDistance = abs(ui->spinBox_RelativeMove->value());
     //CommandRelativeMovePtr startDecreaseRelativeMove = std::make_shared<CommandRelativeMove>(MotorAxis::Z, relativeDistance);
     CommandRelativeMovePtr startDecreaseRelativeMove = std::make_shared<CommandRelativeMove>();
-    startDecreaseRelativeMove->addRelativeMoveDistance(MotorAxis::Z,relativeDistance,Direction::DIRECTION_POSITIVE);
+    startDecreaseRelativeMove->addRelativeMoveDistance(MotorAxis::Z,relativeDistance);
     m_MotionController->executeCommand(startDecreaseRelativeMove);
 }
 

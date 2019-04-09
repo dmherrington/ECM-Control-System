@@ -58,14 +58,15 @@ void Window_DeviceConnections::connect_MotionController(const bool &connect)
     }
     else if(connect && (!m_API->m_MotionController->isDeviceConnected()))
     {
-        QString ipAddress = ui->lineEdit_IPGalil->text();
+        QString ipAddress = ui->lineEdit_IPMC->text();
 
         if(ipAddress.isEmpty())
             return;
 
         ipAddress += " -d";
-        m_API->m_MotionController->ConnectToSimulation();
-
+        //m_API->m_MotionController->ConnectToSimulation();
+        common::comms::TCPConfiguration newConfig(ipAddress.toStdString(), 701);
+        m_API->m_MotionController->ConnectToEthernetPort(newConfig);
         //m_API->m_MotionController->openConnection(ipAddress.toStdString());
     }
 }
@@ -172,7 +173,7 @@ void Window_DeviceConnections::on_pushButton_Close_released()
 void Window_DeviceConnections::saveCommunicationSettings()
 {
     QSettings settings("Communication Settings", "ECM Application");
-    settings.setValue("IPGalil", ui->lineEdit_IPGalil->text());
+    settings.setValue("IPGalil", ui->lineEdit_IPMC->text());
     settings.setValue("IPRigol", ui->lineEdit_IPRigol->text());
     settings.setValue("IPSensoray", ui->lineEdit_IPSensoray->text());
     settings.setValue("PortMunk", ui->comboBox_PortMunk->currentText());
@@ -182,7 +183,7 @@ void Window_DeviceConnections::saveCommunicationSettings()
 void Window_DeviceConnections::readCommunicationSettings()
 {
     QSettings settings("Communication Settings", "ECM Application");
-    ui->lineEdit_IPGalil->setText(settings.value("IPGalil").toString());
+    ui->lineEdit_IPMC->setText(settings.value("IPGalil").toString());
     ui->lineEdit_IPRigol->setText(settings.value("IPRigol").toString());
     ui->lineEdit_IPSensoray->setText(settings.value("IPSensoray").toString());
 
@@ -272,13 +273,13 @@ void Window_DeviceConnections::slot_MCConnectionUpdate(const common::comms::Comm
 {
     if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
     {
-        ui->lineEdit_IPGalil->setDisabled(true);
-        ui->pushButton_connectGalil->setText("DISCONNECT");
+        ui->lineEdit_IPMC->setDisabled(true);
+        ui->pushButton_connectMC->setText("DISCONNECT");
     }
     else if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED)
     {
-        ui->lineEdit_IPGalil->setEnabled(true);
-        ui->pushButton_connectGalil->setText("CONNECT");
+        ui->lineEdit_IPMC->setEnabled(true);
+        ui->pushButton_connectMC->setText("CONNECT");
     }
 
     emit signal_DeviceConnectionComplete(areAllDevicesConnected());
@@ -317,7 +318,7 @@ void Window_DeviceConnections::on_pushButton_connectMunk_released()
         this->connect_PowerSupply(true);
 }
 
-void Window_DeviceConnections::on_pushButton_connectGalil_released()
+void Window_DeviceConnections::on_pushButton_connectMC_released()
 {
     if(m_API->m_MotionController->isDeviceConnected())
         this->connect_MotionController(false);
