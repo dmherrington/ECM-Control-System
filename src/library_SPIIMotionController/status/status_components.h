@@ -6,6 +6,7 @@
 #include "status_axis_state.h"
 #include "status/status_buffer_state.h"
 #include "status/status_motor.h"
+#include "status/status_motor_fault.h"
 #include "status/status_position.h"
 #include "status/status_types.h"
 #include "status/status_variable_value.h"

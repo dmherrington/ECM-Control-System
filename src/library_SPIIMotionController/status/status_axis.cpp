@@ -9,17 +9,25 @@ Status_PerAxis::Status_PerAxis():
 Status_PerAxis::Status_PerAxis(const Status_PerAxis &copy):
     AbstractStatus(copy)
 {
-
+    this->currentAxis = copy.currentAxis;
+    this->axisLeading = copy.axisLeading;
+    this->axisDataCollection = copy.axisDataCollection;
+    this->axisPEG = copy.axisPEG;
+    this->axisMoving = copy.axisMoving;
+    this->axisAccelerating = copy.axisAccelerating;
+    this->axisSegmentedMotion = copy.axisSegmentedMotion;
+    this->axisVelLock = copy.axisVelLock;
+    this->axisPosLock = copy.axisPosLock;
 }
 
 void Status_PerAxis::setAxis(const MotorAxis &axis)
 {
-
+    currentAxis = axis;
 }
 
 MotorAxis Status_PerAxis::getAxis() const
 {
-
+    return this->currentAxis;
 }
 
 bool Status_PerAxis::isAxisMoving() const
@@ -83,7 +91,7 @@ Status_Axis::Status_Axis():
 Status_Axis::Status_Axis(const Status_Axis &copy):
     AbstractStatus(copy)
 {
-
+    this->m_AxisStatus = copy.m_AxisStatus;
 }
 
 Status_Axis::~Status_Axis()

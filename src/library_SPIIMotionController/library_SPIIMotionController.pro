@@ -64,7 +64,9 @@ SOURCES += \
     buffers/buffer_label_values.cpp \
     buffers/spii_current_program.cpp \
     commands/spii_command_upload_program_buffer.cpp \
-    commands/spii_command_upload_program_suite.cpp
+    commands/spii_command_upload_program_suite.cpp \
+    requests/request_axis_fault.cpp \
+    status/status_motor_fault.cpp
 
 HEADERS += \
         spii_motion_controller.h \
@@ -120,7 +122,9 @@ HEADERS += \
     buffers/spii_current_program.h \
     commands/spii_command_upload_program_buffer.h \
     commands/spii_command_upload_program_suite.h \
-    commands/spii_command_components.h
+    commands/spii_command_components.h \
+    status/status_motor_fault.h \
+    requests/request_motor_fault.h
 
 # Unix lib Install
 unix:!symbian {

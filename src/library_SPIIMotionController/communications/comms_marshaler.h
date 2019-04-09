@@ -34,6 +34,8 @@ public:
 public:
     std::vector<Status_PerAxis> requestAxisState(const RequestAxisStatus* request);
 
+    std::vector<Status_MotorAxisFault> requestMotorFaultStatus(const Request_MotorFault* request);
+
     std::vector<Status_MotorPerAxis> requestMotorState(const RequestMotorStatus* request);
 
     std::vector<Status_PositionPerAxis> requestPosition(const RequestTellPosition* request);

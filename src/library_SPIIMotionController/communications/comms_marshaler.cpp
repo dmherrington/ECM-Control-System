@@ -268,6 +268,28 @@ std::vector<Status_PerAxis> CommsMarshaler::requestAxisState(const RequestAxisSt
     return rtnAxis;
 }
 
+std::vector<Status_MotorAxisFault> CommsMarshaler::requestMotorFaultStatus(const Request_MotorFault* request)
+{
+    std::vector<Status_MotorAxisFault> rtnAxis;
+    if(!link->isConnected())
+        return rtnAxis;
+
+    std::list<MotorAxis>::iterator it;
+    std::list<MotorAxis> axisList = request->getAxis();
+
+    for (it = axisList.begin(); it != axisList.end(); ++it){
+        int binaryState;
+        if(protocol->requestMotorFaults(*it,binaryState))
+        {
+            Status_MotorAxisFault motorFaultState;
+            motorFaultState.setAxis(*it);
+            motorFaultState.updateMotorFaultState(binaryState);
+            rtnAxis.push_back(motorFaultState);
+        }
+    }
+    return rtnAxis;
+}
+
 std::vector<Status_MotorPerAxis> CommsMarshaler::requestMotorState(const RequestMotorStatus* request)
 {
     std::vector<Status_MotorPerAxis> rtnMotor;

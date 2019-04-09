@@ -112,6 +112,8 @@ public:
 
     bool requestMotorStatus(const int &axisRequest, int &value);
 
+    bool requestMotorFaults(const int &axisRequest, int &value);
+
     bool requestNumberofBuffers(double &count);
 
     bool requestNumberofAxes(double &count);

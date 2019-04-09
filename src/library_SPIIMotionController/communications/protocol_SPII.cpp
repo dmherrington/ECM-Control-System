@@ -86,6 +86,14 @@ bool SPIIProtocol::requestMotorStatus(const int &axisRequest, int &value)
     return rtnValidity;
 }
 
+bool SPIIProtocol::requestMotorFaults(const int &axisRequest, int &value)
+{
+    if(m_SPIIDevice == nullptr)
+        return false;
+    bool rtnValidity = acsc_GetFault(*m_SPIIDevice.get(),axisRequest,&value,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+    return rtnValidity;
+}
+
 bool SPIIProtocol::requestNumberofBuffers(double &value)
 {
     if(m_SPIIDevice == nullptr)

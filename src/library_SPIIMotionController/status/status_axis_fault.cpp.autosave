@@ -1,0 +1,81 @@
+#include "status_axis_fault.h"
+
+Status_PerAxisFault::Status_PerAxisFault():
+    AbstractStatus(StatusTypes::STATUS_)
+{
+
+}
+
+Status_PerAxisFault::Status_PerAxisFault(const Status_PerAxisFault &copy):
+    AbstractStatus(copy)
+{
+    this->currentAxis = copy.currentAxis;
+    this->axisLeading = copy.axisLeading;
+    this->axisDataCollection = copy.axisDataCollection;
+    this->axisPEG = copy.axisPEG;
+    this->axisMoving = copy.axisMoving;
+    this->axisAccelerating = copy.axisAccelerating;
+    this->axisSegmentedMotion = copy.axisSegmentedMotion;
+    this->axisVelLock = copy.axisVelLock;
+    this->axisPosLock = copy.axisPosLock;
+}
+
+void Status_PerAxisFault::setAxis(const MotorAxis &axis)
+{
+    currentAxis = axis;
+}
+
+MotorAxis Status_PerAxisFault::getAxis() const
+{
+    return this->currentAxis;
+}
+
+bool Status_PerAxis::isAxisMoving() const
+{
+    return this->axisMoving;
+}
+
+
+void Status_PerAxisFault::updateAxisStatus(const int &value)
+{
+    if(value & ACSC_AST_LEAD)
+        this->axisLeading = true;
+    else
+        this->axisLeading = false;
+
+    if(value & ACSC_AST_DC)
+        this->axisDataCollection = true;
+    else
+        this->axisDataCollection = false;
+
+    if(value & ACSC_AST_PEG)
+        this->axisPEG = true;
+    else
+        this->axisPEG = false;
+
+    if(value & ACSC_AST_MOVE)
+        this->axisMoving = true;
+    else
+        this->axisMoving = false;
+
+    if(value & ACSC_AST_ACC)
+        this->axisAccelerating = true;
+    else
+        this->axisAccelerating = false;
+
+    if(value & ACSC_AST_SEGMENT)
+        this->axisSegmentedMotion = true;
+    else
+        this->axisSegmentedMotion = false;
+
+    if(value & ACSC_AST_VELLOCK)
+        this->axisVelLock = true;
+    else
+        this->axisVelLock = false;
+
+    if(value & ACSC_AST_POSLOCK)
+        this->axisPosLock = true;
+    else
+        this->axisPosLock = false;
+}
+

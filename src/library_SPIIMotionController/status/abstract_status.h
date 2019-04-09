@@ -7,7 +7,7 @@
 
 #include "common/tuple_ecm_data.h"
 
-#include "status/status_types.h"
+#include "status_types.h"
 
 ECM_CLASS_FORWARD(AbstractStatus);
 class AbstractStatus

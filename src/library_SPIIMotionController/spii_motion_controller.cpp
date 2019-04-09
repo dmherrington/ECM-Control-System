@@ -163,6 +163,13 @@ void SPIIMotionController::initializeMotionController()
     requestMS->addAxis(MotorAxis::X); requestMS->addAxis(MotorAxis::Y); requestMS->addAxis(MotorAxis::Z);
     m_DevicePolling->addRequest(requestMS,500);
 
+    // 1: Request the motor faults of the ACS unit
+    Request_MotorFaultPtr requestMF = std::make_shared<Request_MotorFault>();
+    common::TupleGeneralDescriptorString tupleMotorFaults("MotorFaults");
+    requestMF->setTupleDescription(common::TupleECMData(tupleMotorFaults));
+    requestMF->addAxis(MotorAxis::X); requestMF->addAxis(MotorAxis::Y); requestMF->addAxis(MotorAxis::Z);
+    m_DevicePolling->addRequest(requestMF,500);
+
     //Retrieve the current contents aboard the device
     m_CommsMarshaler->initializeBufferContents();
 

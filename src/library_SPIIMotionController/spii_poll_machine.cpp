@@ -136,6 +136,14 @@ void SPIIPollMachine::processRequest(AbstractRequestPtr request)
             Emit([&](SPIIPollingEvents_Interface *ptr){ptr->SPIIPolling_AxisUpdate(updatedStatus);});
         break;
     }
+    case RequestTypes::TELL_MOTOR_FAULTS:
+    {
+        const Request_MotorFault* currentRequest = request->as<Request_MotorFault>();
+        std::vector<Status_MotorAxisFault> updatedStatus = m_SPIIDevice->requestMotorFaultStatus(currentRequest);
+        if(updatedStatus.size() > 0)
+            Emit([&](SPIIPollingEvents_Interface *ptr){ptr->SPIIPolling_MotorFaultUpdate(updatedStatus);});
+        break;
+    }
     case RequestTypes::TELL_MOTOR:
     {
         const RequestMotorStatus* currentRequest = request->as<RequestMotorStatus>();
