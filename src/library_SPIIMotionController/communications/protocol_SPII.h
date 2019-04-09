@@ -67,6 +67,8 @@ public:
 
     bool commandMotorDisable(const CommandMotorDisable &disable);
 
+    bool commandAxisSpeed(const CommandSpeed &speed);
+
     bool commandJogMotion(const CommandJog &jog);
 
     bool commandRelativeMove(const CommandRelativeMove &relativeMove);
