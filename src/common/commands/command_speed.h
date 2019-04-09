@@ -55,6 +55,8 @@ public:
 public:
     void setAxisSpeed(const MotorAxis &axis, const unsigned int &speed);
 
+    std::map<MotorAxis, unsigned int> getAxisSpeedMap() const;
+
 public:
     //!
     //! \brief getCommandString

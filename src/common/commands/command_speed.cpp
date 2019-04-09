@@ -41,7 +41,13 @@ void CommandSpeed::setAxisSpeed(const MotorAxis &axis, const unsigned int &speed
     else
     {
         axisSpeed[axis] = speed;
-    }}
+    }
+}
+
+std::map<MotorAxis, unsigned int> CommandSpeed::getAxisSpeedMap() const
+{
+    return this->axisSpeed;
+}
 
 std::string CommandSpeed::getCommandString() const
 {

@@ -146,6 +146,11 @@ void SPIIProtocol::SendProtocolCommand(const AbstractCommandPtr command)
         commandMotorDisable(*commandDisable);
         break;
     }
+    case CommandType::SPEED:
+    {
+        CommandSpeed* commandSpeed = command->as<CommandSpeed>();
+        commandAxisSpeed(*commandSpeed);
+    }
     case CommandType::SET_VARIABLE:
     {
         Command_Variable* commandVariable = command->as<Command_Variable>();
@@ -410,6 +415,26 @@ bool SPIIProtocol::commandMotorDisable(const CommandMotorDisable &disable)
     }
 
     return rtnValidity;
+}
+
+bool SPIIProtocol::commandAxisSpeed(const CommandSpeed &speed)
+{
+    bool rtnValidity = false;
+
+    if(m_SPIIDevice == nullptr)
+        return false;
+
+    std::map<MotorAxis, unsigned int> speedMap = speed.getAxisSpeedMap();
+    std::map<MotorAxis, unsigned int>::iterator it;
+
+    for(it = speedMap.begin(); it != speedMap.end(); ++it)
+    {
+        rtnValidity = acsc_SetVelocity(*m_SPIIDevice.get(), it->first, it->second, static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+        if(!rtnValidity)
+            break;
+    }
+    return rtnValidity;
+
 }
 
 bool SPIIProtocol::commandJogMotion(const CommandJog &jog)
