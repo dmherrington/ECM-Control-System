@@ -35,5 +35,5 @@ Widget_VariableDescriptor::~Widget_VariableDescriptor()
 
 void Widget_VariableDescriptor::on_doubleSpinBox_VariableValue_valueChanged(double arg1)
 {
-    UNUSED(arg1);
+    emit signal_UpdatedVariableValue(variableName, arg1);
 }

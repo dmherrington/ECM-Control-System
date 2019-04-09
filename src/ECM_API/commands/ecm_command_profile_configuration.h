@@ -42,7 +42,9 @@ public:
     ECMCommand_ProfileConfiguration& operator = (const ECMCommand_ProfileConfiguration &rhs)
     {
         ECMCommand_AbstractProfileConfig::operator =(rhs);
+        this->executeProfile = rhs.executeProfile;
         this->m_DesiredProgram = rhs.m_DesiredProgram;
+        this->m_DesriedVariables = rhs.m_DesriedVariables;
         this->m_Touchoff = rhs.m_Touchoff;
         this->m_ConfigPowerSupply = rhs.m_ConfigPowerSupply;
         this->m_PumpParameters = rhs.m_PumpParameters;
@@ -60,11 +62,15 @@ public:
         if(!ECMCommand_AbstractProfileConfig::operator ==(rhs)){
             return false;
         }
-
+        if(this->executeProfile != rhs.executeProfile){
+            return false;
+        }
         if(this->m_DesiredProgram != rhs.m_DesiredProgram){
             return false;
         }
-
+        if(this->m_DesriedVariables != rhs.m_DesriedVariables){
+            return false;
+        }
         if(this->m_Touchoff != rhs.m_Touchoff){
             return false;
         }
@@ -87,7 +93,11 @@ public:
     }
 
 public:
+    std::string executeProfile;
+
     SPII_CurrentProgram m_DesiredProgram;
+
+    Operation_VariableList m_DesriedVariables;
 
     Configuration_Touchoff m_Touchoff;
 

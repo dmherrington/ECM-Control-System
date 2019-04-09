@@ -38,6 +38,9 @@ ECMCommand_AbstractProfileConfigPtr Widget_ProfileParameters::getCurrentProfileC
 //    currentConfiguration->m_GalilOperation.fromProgram(this->m_ScriptingVariables->getDesiredProgram());
 //    currentConfiguration->m_GalilOperation.setProfileName(this->m_ScriptingVariables->getProfileName());
 
+    currentConfiguration->m_ProfileSettings.setProfileName(this->m_ScriptingVariables->getProfileName());
+    currentConfiguration->m_DesriedVariables = this->m_ScriptingVariables->getVariableList();
+
     currentConfiguration->m_Touchoff = this->m_MCTouchoff->getCurrentTouchoffConfig();
 
     currentConfiguration->m_ConfigPowerSupply.m_MunkPulseMode = this->m_PowerSupply->getPulseModeRegister();

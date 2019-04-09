@@ -144,6 +144,8 @@ private slots:
 
     void slot_ChangedWindowVisibility(const GeneralDialogWindow::DialogWindowTypes &type, const bool visibility);
 
+    void on_actionPower_Supply_triggered(bool checked);
+
     void on_actionProfile_Configuration_triggered(bool checked);
 
     void on_actionBuffer_Manager_triggered(bool checked);

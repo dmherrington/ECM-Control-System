@@ -183,6 +183,8 @@ public:
         doubleSpinBox_VariableValue->setMaximumSize(QSize(80, 20));
         doubleSpinBox_VariableValue->setFont(font);
         doubleSpinBox_VariableValue->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+        doubleSpinBox_VariableValue->setMinimum(-1e+6);
+        doubleSpinBox_VariableValue->setMaximum(1e+6);
 
         horizontalLayout->addWidget(doubleSpinBox_VariableValue);
 

@@ -173,7 +173,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     setupUploadCallbacks();
 
-    //m_WindowConnections->connectToAllDevices();
+    m_WindowConnections->connectToAllDevices();
 
     ProgressStateMachineStates();
 }
@@ -337,7 +337,7 @@ void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &senso
 
 void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalString &tuple, const common_data::MachinePositionalState &state, const bool &valueChanged)
 {
-    //ProgressStateMachineStates();
+    ProgressStateMachineStates();
 
     if(valueChanged)
         m_API->m_Log->WriteLogMachinePositionalState(tuple,state);
@@ -587,6 +587,11 @@ void ECMControllerGUI::on_actionTouchoff_Window_triggered(bool checked)
         m_WindowTouchoffControl->activateWindow();
         m_WindowTouchoffControl->raise();
     }
+}
+
+void ECMControllerGUI::on_actionPower_Supply_triggered(bool checked)
+{
+
 }
 
 void ECMControllerGUI::on_actionProfile_Configuration_triggered(bool checked)

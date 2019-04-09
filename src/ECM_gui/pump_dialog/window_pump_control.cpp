@@ -13,6 +13,13 @@ Window_PumpControl::Window_PumpControl(Westinghouse510* obj, QWidget *parent) :
     connect(m_Pump, SIGNAL(signal_PumpFlowUpdated(double)), this, SLOT(slot_updatedFlowRate(double)));
     connect(m_Pump, SIGNAL(signal_PumpOperating(bool)), this, SLOT(slot_updatedPumpOn(bool)));
 
+    m_Pump->AddLambda_FinishedPumpInitialization(this,[this](const bool completed){
+        if(completed)
+            ui->widget_PumpInitialized->setColor(QColor(0,255,0));
+        else
+            ui->widget_PumpInitialized->setColor(QColor(255,0,0));
+    });
+
     //GeneralDialogWindow::readWindowSettings();
 
     //openFromFile(GeneralDialogWindow::getPreviousSettingsPath());
@@ -52,7 +59,6 @@ void Window_PumpControl::slot_updatedPumpOn(const bool &value)
     {
         ui->widget_PumpRunning->setColor(QColor(255,0,0));
         ui->widget_PumpInitialized->setColor(QColor(255,0,0));
-        ui->doubleSpinBox_flowRate->setStyleSheet("background-color: red");
         ui->pushButton_PumpRunning->setText("ON");
         ui->statusbar->showMessage(tr("The pump has been turned off."),2500);
     }

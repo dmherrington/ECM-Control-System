@@ -94,7 +94,7 @@ void ECMState_UploadMotionVariables::OnEnter(ECMCommand_AbstractProfileConfigPtr
 
         });
         Command_UploadOperationalVariablesPtr cmdProgram = std::make_shared<Command_UploadOperationalVariables>();
-        cmdProgram->setOperationalVariables(castConfig->m_DesiredProgram.getCurrentUserVariables());
+        cmdProgram->setOperationalVariables(castConfig->m_DesriedVariables);
         Owner().m_MotionController->executeCommand(cmdProgram);
 
         break;

@@ -19,6 +19,7 @@ bool BufferData::doesBufferAccuratelyReflect(const BufferData &data)
     if(this->programText != data.programText){
         return false;
     }
+    return true;
 }
 
 void BufferData::updateBufferData(const BufferData &data)

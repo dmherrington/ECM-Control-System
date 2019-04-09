@@ -70,15 +70,21 @@ std::string Widget_ScriptingVariables::getProfileName() const
     return this->ui->comboBox_ProgramLabels->currentText().toStdString();
 }
 
-//GalilCurrentProgram Widget_ScriptingVariables::getDesiredProgram() const
-//{
-//    return this->m_OperationalProgram;
-//}
+Operation_VariableList Widget_ScriptingVariables::getVariableList() const
+{
+    Operation_VariableList currentVars;
 
-//ProgramVariableList Widget_ScriptingVariables::getVariableList() const
-//{
-//    return m_OperationalProgram.getVariableList();
-//}
+    std::map<std::string, Widget_VariableDescriptor*>::const_iterator it;
+    for (it=m_VariableDescriptors.begin(); it!=m_VariableDescriptors.end(); ++it)
+    {
+        Widget_VariableDescriptor* currentWidget = it->second;
+        std::string variableName; double variableValue;
+        currentWidget->getVariableProperties(variableName, variableValue);
+        currentVars.addVariable(variableName, variableValue);
+    }
+
+    return currentVars;
+}
 
 void Widget_ScriptingVariables::slot_onNewlyAvailableLabels(const Operation_LabelList &list)
 {
@@ -148,8 +154,8 @@ void Widget_ScriptingVariables::updateProgramVariables(const Operation_VariableL
         newItem->setSizeHint(tableVariable->sizeHint());
         ui->listWidget_Variables->addItem(newItem);
         ui->listWidget_Variables->setItemWidget(newItem,tableVariable);
+
+        m_VariableDescriptors.insert(std::pair<std::string, Widget_VariableDescriptor*>(it->first,tableVariable));
     }
-
-
 }
 

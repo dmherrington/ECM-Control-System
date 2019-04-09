@@ -26,9 +26,7 @@ public:
 
     std::string getProfileName() const;
 
-    BufferManager getDesiredProgram() const;
-
-    //ProgramVariableList getVariableList() const;
+    Operation_VariableList getVariableList() const;
 
 public:
     void setProfileName(const std::string &name);

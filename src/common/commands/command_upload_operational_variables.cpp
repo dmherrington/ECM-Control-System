@@ -1,7 +1,7 @@
 #include "command_upload_operational_variables.h"
 
 Command_UploadOperationalVariables::Command_UploadOperationalVariables():
-    AbstractCommand(CommandType::UPLOAD_PROGRAM)
+    AbstractCommand(CommandType::UPLOAD_OPERATIONAL_VARIABLES)
 {
 
 }

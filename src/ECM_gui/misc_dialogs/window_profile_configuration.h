@@ -75,8 +75,6 @@ public:
 
     void openFromFile(const QString &filePath);
 
-    bool checkGalilScript(bool &shouldUpload);
-
 private slots:
     void on_actionOpen_triggered();
 

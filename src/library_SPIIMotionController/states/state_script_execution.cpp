@@ -116,8 +116,7 @@ void State_ScriptExecution::Update()
 
 void State_ScriptExecution::OnExit()
 {
-    Owner().m_MasterVariableValues->removeVariableNotifier("ppos",this);
-    Owner().m_MasterVariableValues->removeVariableNotifier("cutdone",this);
+    Owner().m_MasterVariableValues->removeVariableNotifier("operationStatus",this);
 
     //Ken we need to remove the polling measurements here
     for(size_t i = 0; i < currentScriptRequests.size(); i++)
@@ -151,16 +150,16 @@ void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
 //        currentScriptRequests.push_back(tupleVariablePPOS);
 
 
-//        Request_TellVariablePtr requestCutting = std::make_shared<Request_TellVariable>("Machining Complete","cutdone");
-//        common::TupleProfileVariableString tupleVariableCUTTING("",profileName,"cutdone");
-//        requestCutting->setTupleDescription(tupleVariableCUTTING);
-//        Owner().issueSPIIAddPollingRequest(requestCutting);
-//        currentScriptRequests.push_back(tupleVariableCUTTING);
+        Request_TellVariablePtr requestCutting = std::make_shared<Request_TellVariable>("Machining Complete","operationStatus");
+        common::TupleProfileVariableString tupleVariableCUTTING("",profileName,"operationStatus");
+        requestCutting->setTupleDescription(tupleVariableCUTTING);
+        Owner().issueSPIIAddPollingRequest(requestCutting);
+        currentScriptRequests.push_back(tupleVariableCUTTING);
 
-        Owner().m_MasterVariableValues->addVariableNotifier("cutdone",this,[this]
+        Owner().m_MasterVariableValues->addVariableNotifier("operationStatus",this,[this]
         {
             double varValue = 0.0;
-            bool valid = Owner().m_MasterVariableValues->getVariableValue("cutdone",varValue);
+            bool valid = Owner().m_MasterVariableValues->getVariableValue("operationStatus",varValue);
             switch ((ProfileState_Machining::MACHININGProfileCodes)varValue) {
             case ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE:
             {
@@ -169,7 +168,7 @@ void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
                 newState.setCurrentCode(ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE);
                 MotionProfileState newProfileState;
                 newProfileState.setProfileState(std::make_shared<ProfileState_Machining>(newState));
-                //Owner().issueUpdatedMotionProfileState(newProfileState);
+                Owner().issueUpdatedMotionProfileState(newProfileState);
 
                 break;
             }
@@ -181,8 +180,7 @@ void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
                 MotionProfileState newProfileState;
                 newProfileState.setProfileState(std::make_shared<ProfileState_Machining>(newState));
                 desiredState = SPIIState::STATE_READY;
-
-                //Owner().issueUpdatedMotionProfileState(newProfileState);
+                Owner().issueUpdatedMotionProfileState(newProfileState);
                 break;
             }
             default:
