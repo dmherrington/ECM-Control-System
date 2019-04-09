@@ -123,10 +123,14 @@ void BufferManager::statusBufferUpdate(const Status_BufferState &state)
     case Status_BufferState::ENUM_BUFFERSTATE::CLEARED:
     {
         currentData->markBufferAsCleared();
+        currentData->setBufferCurrent(true);
+        currentData->setBufferCompiled(false);
         break;
     }
     case Status_BufferState::ENUM_BUFFERSTATE::COMPILED:
     {
+        currentData->setProgramString(state.getProgramString());
+        currentData->setBufferCurrent(true);
         currentData->setBufferCompiled(true);
         break;
     }

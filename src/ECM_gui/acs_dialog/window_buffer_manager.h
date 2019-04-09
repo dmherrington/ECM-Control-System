@@ -30,6 +30,7 @@ private:
     void closeEvent(QCloseEvent *event) override;
 
 public:
+    bool isDisplayCurrentAndCompiled() const;
 
     void setInitialBufferCount(const unsigned int &count, const unsigned int &dBuffer);
 

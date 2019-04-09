@@ -42,7 +42,9 @@ public:
 public:
     BufferData getBufferData() const;
 
-    bool doesProgramMatch() const;
+    bool isAccurateReflection() const;
+
+    bool doesProgramMatch();
 
 private:
     void updateCurrentLineCount();

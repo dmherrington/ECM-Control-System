@@ -133,9 +133,9 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_WindowProfileConfiguration, SIGNAL(signal_ExecuteProfileCollection(ECMCommand_ExecuteCollection)), this, SLOT(on_ExecuteProfileCollection(ECMCommand_ExecuteCollection)));
     connect(m_WindowProfileConfiguration, SIGNAL(signal_LoadedConfigurationCollection(std::string)), this, SLOT(slot_OnLoadedConfigurationCollection(std::string)));
 
-//    m_WindowMotionControl = new Window_MotionControl(m_API->m_MotionController);
-//    m_WindowMotionControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
-//    connect(m_WindowMotionControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
+    //    m_WindowMotionControl = new Window_MotionControl(m_API->m_MotionController);
+    //    m_WindowMotionControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
+    //    connect(m_WindowMotionControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
     m_WindowPumpControl = new Window_PumpControl(m_API->m_Pump);
     m_WindowPumpControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
@@ -392,8 +392,8 @@ void ECMControllerGUI::readSettings()
     if(!windowBufferManager)
         m_WindowBufferManager->show();
 
-//    if(!motionControlDisplayHidden)
-//        m_WindowMotionControl->show();
+    //    if(!motionControlDisplayHidden)
+    //        m_WindowMotionControl->show();
 
     if(!touchoffControlDisplayHidden)
         m_WindowTouchoffControl->show();
@@ -845,10 +845,28 @@ void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ExecuteColle
      * This is done within the profile configuration window as the associated script is in the front panel
      * there at the current time.
      */
-    //Ken Fix
-    bool shouldUploadScript = executeCollection.shouldWriteMotionScript();
+    bool windowDisplaysAccurately = m_WindowBufferManager->isDisplayCurrentAndCompiled();
 
-    executeCollection.setWritingMotionScript(false);
+    if(!windowDisplaysAccurately) //the window does not accurately reflect what is currently aboard the ACS
+    {
+        QMessageBox msgBox;
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setText("The program script associated with this collection does not match currently what is aboard the motion control unit.");
+        msgBox.setInformativeText("Do you want the script to be automatically uploaded? This will cause the homing routine to execute and software to recompile.");
+        QAbstractButton* pButtonAccept = msgBox.addButton(tr("Accept"), QMessageBox::AcceptRole);
+        QAbstractButton* pButtonReject = msgBox.addButton(tr("Reject"), QMessageBox::RejectRole);
+        msgBox.exec();
+
+        if(msgBox.clickedButton() == pButtonAccept)
+        {
+            executeCollection.setWritingMotionScript(true);
+        }
+        else if(msgBox.clickedButton() == pButtonReject)
+        {
+            return;
+        }
+    }
+
 
     //first check that we can log where we want to
     QString partNumber = ui->lineEdit_PartNumber->text();

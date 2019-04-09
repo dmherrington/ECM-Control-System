@@ -99,15 +99,38 @@ void Widget_BufferEditor::on_lineEdit_BufferName_textChanged(const QString &arg1
     updateBufferName(arg1.toStdString());
 }
 
-bool Widget_BufferEditor::doesProgramMatch() const
+bool Widget_BufferEditor::isAccurateReflection() const
 {
-    BufferData currentData;
-    if(m_SPIIDevice->m_StateInterface->m_BufferManager->getBufferData(m_EditData->getBufferIndex(),currentData))
+    BufferData currentBufferData;
+    if(m_SPIIDevice->m_StateInterface->m_BufferManager->getBufferData(m_EditData->getBufferIndex(),currentBufferData))
     {
-        return *m_EditData == currentData;
+        return currentBufferData.doesBufferAccuratelyReflect(*m_EditData);
+    }
+    return false;
+}
+
+bool Widget_BufferEditor::doesProgramMatch()
+{
+    bool accurateReflection = isAccurateReflection();
+
+    if(!accurateReflection)
+    {
+        m_EditData->setBufferCurrent(false);
+        updateCurrentLED(false);
+        m_EditData->setBufferCompiled(false);
+        updateCompiledLED(false);
     }
     else
-        return false;
+    {
+        BufferData currentBufferData;
+        m_SPIIDevice->m_StateInterface->m_BufferManager->getBufferData(m_EditData->getBufferIndex(),currentBufferData);
+
+        m_EditData->setBufferCurrent(currentBufferData.isBufferCurrent());
+        updateCurrentLED(currentBufferData.isBufferCurrent());
+        m_EditData->setBufferCompiled(currentBufferData.isBufferCompiled());
+        updateCompiledLED(currentBufferData.isBufferCompiled());
+    }
+    return accurateReflection;
 }
 
 void Widget_BufferEditor::on_codeTextEdit_textChanged()
@@ -115,10 +138,9 @@ void Widget_BufferEditor::on_codeTextEdit_textChanged()
     updateCurrentLineCount();
 
     std::string programString = ui->codeTextEdit->toPlainText().toStdString();
-    if(m_EditData->getProgramString() == programString)
-        updateCurrentLED(true);
-    else
-        updateCurrentLED(false);
+    m_EditData->setProgramString(programString);
+
+    doesProgramMatch();
 }
 
 void Widget_BufferEditor::on_pushButton_Upload_released()

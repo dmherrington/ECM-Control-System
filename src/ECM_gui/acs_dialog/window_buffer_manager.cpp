@@ -72,6 +72,41 @@ void Window_BufferManager::setInitialBufferCount(const unsigned int &count, cons
 
 }
 
+bool Window_BufferManager::isDisplayCurrentAndCompiled() const
+{
+    bool valid = true;
+
+    std::map<unsigned int, Widget_BufferDescriptor*>::const_iterator it;
+
+    for(it = m_BufferDescriptors.cbegin(); it != m_BufferDescriptors.cend(); ++it)
+    {
+        BufferData currentDeviceData;
+        bool validRequest = m_SPIIDevice->m_StateInterface->m_BufferManager->getBufferData(it->first,currentDeviceData);
+
+        if(validRequest)
+        {
+            if(currentDeviceData.isBufferCompiled() && currentDeviceData.isBufferCurrent())
+            {
+                Widget_BufferDescriptor* currentWidet = it->second;
+                if(!currentWidet->getBufferEditor()->isAccurateReflection())
+                {
+                    valid = false;
+                    break;
+                }
+            }
+            else
+            {
+                valid = false;
+                break;
+            }
+        }
+        else
+            valid = false;
+    }
+
+    return valid;
+}
+
 void Window_BufferManager::slot_OnMCCommunicationUpdate(const common::comms::CommunicationUpdate &update)
 {
     switch (update.getUpdateType()) {
