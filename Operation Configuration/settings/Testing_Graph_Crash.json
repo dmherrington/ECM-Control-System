@@ -66,7 +66,7 @@
                             "kitoff": 2,
                             "kpdef": 3,
                             "kptoff": 30,
-                            "maxdepth": 3000,
+                            "maxdepth": 25250,
                             "mvnow": 2,
                             "n": 0,
                             "nextpos": 980199.9997,
@@ -130,15 +130,15 @@
                 {
                     "pumpDelayTime": 2000,
                     "pumpFlowRate": 2.5,
-                    "pumpUtilized": true,
-                    "pumpWaitForDelay": true
+                    "pumpWaitForDelay": true,
+                    "utilizePump": true
                 }
             ],
             "touchoffData": [
                 {
                     "touchoffExecute": true,
                     "touchoffGap": 40000,
-                    "touchoffRef": 665000,
+                    "touchoffRef": 644940,
                     "touchoffRefPrevious": false
                 }
             ],
@@ -210,7 +210,7 @@
                             "kitoff": 2,
                             "kpdef": 3,
                             "kptoff": 30,
-                            "maxdepth": 1000,
+                            "maxdepth": 12700,
                             "mvnow": 2,
                             "n": 0,
                             "nextpos": 980199.9997,
@@ -221,7 +221,7 @@
                             "rtpause": 1000,
                             "secdone": 0,
                             "secmv": 770683,
-                            "speed": 86,
+                            "speed": 90,
                             "startpos": 1102771,
                             "step": 1,
                             "steps": 100,
@@ -274,8 +274,8 @@
                 {
                     "pumpDelayTime": 2000,
                     "pumpFlowRate": 2.5,
-                    "pumpUtilized": true,
-                    "pumpWaitForDelay": true
+                    "pumpWaitForDelay": true,
+                    "utilizePump": true
                 }
             ],
             "touchoffData": [
@@ -418,19 +418,19 @@
                 {
                     "pumpDelayTime": 5000,
                     "pumpFlowRate": 1,
-                    "pumpUtilized": true,
-                    "pumpWaitForDelay": true
+                    "pumpWaitForDelay": true,
+                    "utilizePump": true
                 }
             ],
             "touchoffData": [
                 {
                     "touchoffExecute": true,
-                    "touchoffGap": 1000,
-                    "touchoffRef": 1066000,
+                    "touchoffGap": 40000,
+                    "touchoffRef": 644940,
                     "touchoffRefPrevious": false
                 }
             ],
-            "useOperation": false
+            "useOperation": true
         },
         {
             "MotionControlData": [
@@ -562,8 +562,8 @@
                 {
                     "pumpDelayTime": 2000,
                     "pumpFlowRate": 1,
-                    "pumpUtilized": true,
-                    "pumpWaitForDelay": true
+                    "pumpWaitForDelay": true,
+                    "utilizePump": true
                 }
             ],
             "touchoffData": [
@@ -574,7 +574,7 @@
                     "touchoffRefPrevious": false
                 }
             ],
-            "useOperation": false
+            "useOperation": true
         },
         {
             "MotionControlData": [
@@ -706,15 +706,15 @@
                 {
                     "pumpDelayTime": 3000,
                     "pumpFlowRate": 5,
-                    "pumpUtilized": true,
-                    "pumpWaitForDelay": true
+                    "pumpWaitForDelay": true,
+                    "utilizePump": true
                 }
             ],
             "touchoffData": [
                 {
                     "touchoffExecute": true,
-                    "touchoffGap": 2000,
-                    "touchoffRef": 1046500,
+                    "touchoffGap": 50000,
+                    "touchoffRef": 644940,
                     "touchoffRefPrevious": false
                 }
             ],
@@ -843,16 +843,16 @@
                 {
                     "pumpDelayTime": 3000,
                     "pumpFlowRate": 5,
-                    "pumpUtilized": true,
-                    "pumpWaitForDelay": true
+                    "pumpWaitForDelay": true,
+                    "utilizePump": true
                 }
             ],
             "touchoffData": [
                 {
-                    "touchoffExecute": true,
+                    "touchoffExecute": false,
                     "touchoffGap": 500,
                     "touchoffRef": 0,
-                    "touchoffRefPrevious": true
+                    "touchoffRefPrevious": false
                 }
             ],
             "useOperation": false
@@ -980,8 +980,8 @@
                 {
                     "pumpDelayTime": 3000,
                     "pumpFlowRate": 2.3,
-                    "pumpUtilized": true,
-                    "pumpWaitForDelay": true
+                    "pumpWaitForDelay": true,
+                    "utilizePump": true
                 }
             ],
             "touchoffData": [
