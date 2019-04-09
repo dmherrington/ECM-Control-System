@@ -99,6 +99,17 @@ void Widget_BufferEditor::on_lineEdit_BufferName_textChanged(const QString &arg1
     updateBufferName(arg1.toStdString());
 }
 
+bool Widget_BufferEditor::doesProgramMatch() const
+{
+    BufferData currentData;
+    if(m_SPIIDevice->m_StateInterface->m_BufferManager->getBufferData(m_EditData->getBufferIndex(),currentData))
+    {
+        return *m_EditData == currentData;
+    }
+    else
+        return false;
+}
+
 void Widget_BufferEditor::on_codeTextEdit_textChanged()
 {
     updateCurrentLineCount();

@@ -299,7 +299,7 @@ void ECMControllerGUI::slot_NewProfileVariableData(const common::TupleProfileVar
     if(variable == tupleVariablePPOS)
     {
         double countPosition = state.getProfileStateVariable()->getVariableValue();
-        state.getProfileStateVariable()->setVariableValue(countPosition/10.0);
+        state.getProfileStateVariable()->setVariableValue(countPosition);
         state.getProfileStateVariable()->setVariableUnit("um");
     }
 
@@ -470,7 +470,7 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
 void ECMControllerGUI::on_pushButton_MotorEnable_released()
 {
     CommandMotorEnablePtr command = std::make_shared<CommandMotorEnable>();
-    command->addAxis(MotorAxis::Z);
+    command->addAxis(MotorAxis::X); command->addAxis(MotorAxis::Y); command->addAxis(MotorAxis::Z);
     m_API->m_MotionController->executeCommand(command);
 }
 
@@ -764,7 +764,7 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
     }
     case ExecutionProperties::ExecutionCondition::EXECUTING:
     {
-        ui->lineEdit_CurrentStartPosition->setText(QString::number(props.getCurrentPosition() / 10.0));
+        ui->lineEdit_CurrentStartPosition->setText(QString::number(props.getCurrentPosition()));
 
         QString executionString = QString::fromStdString(props.getOperationName()) + " is starting to execute.";
         ui->statusBar->showMessage(executionString,3000);
@@ -772,7 +772,7 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
     }
     case ExecutionProperties::ExecutionCondition::ENDING:
     {
-        ui->lineEdit_PreviousEndPosition->setText(QString::number(props.getCurrentPosition() / 10.0));
+        ui->lineEdit_PreviousEndPosition->setText(QString::number(props.getCurrentPosition()));
         elapsedOperationTimer->stop();
 
         QString executionString = QString::fromStdString(props.getOperationName()) + " has finished executing.";
@@ -845,12 +845,10 @@ void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ExecuteColle
      * This is done within the profile configuration window as the associated script is in the front panel
      * there at the current time.
      */
+    //Ken Fix
     bool shouldUploadScript = executeCollection.shouldWriteMotionScript();
 
-    if(!m_WindowProfileConfiguration->checkGalilScript(shouldUploadScript))
-        return;
-
-    executeCollection.setWritingMotionScript(shouldUploadScript);
+    executeCollection.setWritingMotionScript(false);
 
     //first check that we can log where we want to
     QString partNumber = ui->lineEdit_PartNumber->text();

@@ -357,9 +357,10 @@ bool SPIIProtocol::commandMotorEnable(const CommandMotorEnable &enable)
 
     if(changeAxisVector.size() > 1) //this would be a multiaxis enabling
     {
-        int changeAxisArray[changeAxisVector.size()];
+        int* changeAxisArray = new int [changeAxisVector.size()];
         std::copy(changeAxisVector.begin(), changeAxisVector.end(), changeAxisArray);
         rtnValidity = acsc_EnableM(*m_SPIIDevice.get(),changeAxisArray,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+        delete [] changeAxisArray;
     }
     else if(changeAxisVector.size() == 1) //this would be a single axis enabling
     {
@@ -418,7 +419,7 @@ bool SPIIProtocol::commandJogMotion(const CommandJog &jog)
     if(m_SPIIDevice == nullptr)
         return false;
 
-    std::map<MotorAxis, double> jogActionMap = jog.getJogDirectedAction();
+    std::map<MotorAxis, double> jogActionMap = jog.getJogAction();
 
     if(jogActionMap.size() > 1)
     {

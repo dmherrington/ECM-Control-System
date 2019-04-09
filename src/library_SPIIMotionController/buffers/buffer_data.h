@@ -19,6 +19,8 @@ public:
     ~BufferData() = default;
 
 public:
+    bool doesBufferAccuratelyReflect(const BufferData &data);
+
     void updateBufferData(const BufferData &data);
 
 public:

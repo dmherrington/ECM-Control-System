@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'window_device_connections.ui'
 **
-** Created by: Qt User Interface Compiler version 5.11.3
+** Created by: Qt User Interface Compiler version 5.10.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -12,9 +12,11 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
@@ -40,8 +42,8 @@ public:
     QHBoxLayout *horizontalLayout;
     LED *widget_GalilConnection;
     QLabel *label_GalilConnection;
-    QLineEdit *lineEdit_IPGalil;
-    QPushButton *pushButton_connectGalil;
+    QLineEdit *lineEdit_IPMC;
+    QPushButton *pushButton_connectMC;
     QHBoxLayout *horizontalLayout_5;
     LED *widget_WestinghouseConnection;
     QLabel *label_WestinghouseConnection;
@@ -241,23 +243,23 @@ public:
 
         horizontalLayout->addWidget(label_GalilConnection);
 
-        lineEdit_IPGalil = new QLineEdit(centralwidget);
-        lineEdit_IPGalil->setObjectName(QStringLiteral("lineEdit_IPGalil"));
-        sizePolicy1.setHeightForWidth(lineEdit_IPGalil->sizePolicy().hasHeightForWidth());
-        lineEdit_IPGalil->setSizePolicy(sizePolicy1);
-        lineEdit_IPGalil->setMinimumSize(QSize(100, 0));
-        lineEdit_IPGalil->setMaximumSize(QSize(100, 16777215));
-        lineEdit_IPGalil->setFont(font);
-        lineEdit_IPGalil->setAlignment(Qt::AlignCenter);
+        lineEdit_IPMC = new QLineEdit(centralwidget);
+        lineEdit_IPMC->setObjectName(QStringLiteral("lineEdit_IPMC"));
+        sizePolicy1.setHeightForWidth(lineEdit_IPMC->sizePolicy().hasHeightForWidth());
+        lineEdit_IPMC->setSizePolicy(sizePolicy1);
+        lineEdit_IPMC->setMinimumSize(QSize(100, 0));
+        lineEdit_IPMC->setMaximumSize(QSize(100, 16777215));
+        lineEdit_IPMC->setFont(font);
+        lineEdit_IPMC->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout->addWidget(lineEdit_IPGalil);
+        horizontalLayout->addWidget(lineEdit_IPMC);
 
-        pushButton_connectGalil = new QPushButton(centralwidget);
-        pushButton_connectGalil->setObjectName(QStringLiteral("pushButton_connectGalil"));
-        pushButton_connectGalil->setMinimumSize(QSize(75, 25));
-        pushButton_connectGalil->setMaximumSize(QSize(75, 25));
+        pushButton_connectMC = new QPushButton(centralwidget);
+        pushButton_connectMC->setObjectName(QStringLiteral("pushButton_connectMC"));
+        pushButton_connectMC->setMinimumSize(QSize(75, 25));
+        pushButton_connectMC->setMaximumSize(QSize(75, 25));
 
-        horizontalLayout->addWidget(pushButton_connectGalil);
+        horizontalLayout->addWidget(pushButton_connectMC);
 
 
         gridLayout->addLayout(horizontalLayout, 0, 0, 1, 1);
@@ -475,9 +477,9 @@ public:
         statusbar = new QStatusBar(Window_DeviceConnections);
         statusbar->setObjectName(QStringLiteral("statusbar"));
         Window_DeviceConnections->setStatusBar(statusbar);
-        QWidget::setTabOrder(pushButton_ConnectAll, lineEdit_IPGalil);
-        QWidget::setTabOrder(lineEdit_IPGalil, pushButton_connectGalil);
-        QWidget::setTabOrder(pushButton_connectGalil, comboBox_PortPump);
+        QWidget::setTabOrder(pushButton_ConnectAll, lineEdit_IPMC);
+        QWidget::setTabOrder(lineEdit_IPMC, pushButton_connectMC);
+        QWidget::setTabOrder(pushButton_connectMC, comboBox_PortPump);
         QWidget::setTabOrder(comboBox_PortPump, pushButton_connectPump);
         QWidget::setTabOrder(pushButton_connectPump, comboBox_PortMunk);
         QWidget::setTabOrder(comboBox_PortMunk, pushButton_connectMunk);
@@ -510,9 +512,9 @@ public:
         actionSave->setText(QApplication::translate("Window_DeviceConnections", "Save", nullptr));
         actionSave_As->setText(QApplication::translate("Window_DeviceConnections", "Save As", nullptr));
         actionClose->setText(QApplication::translate("Window_DeviceConnections", "Close", nullptr));
-        label_GalilConnection->setText(QApplication::translate("Window_DeviceConnections", "Connection Galil Motion Controller", nullptr));
-        lineEdit_IPGalil->setText(QApplication::translate("Window_DeviceConnections", "169.254.78.101", nullptr));
-        pushButton_connectGalil->setText(QApplication::translate("Window_DeviceConnections", "CONNECT", nullptr));
+        label_GalilConnection->setText(QApplication::translate("Window_DeviceConnections", "Connection Motion Controller", nullptr));
+        lineEdit_IPMC->setText(QApplication::translate("Window_DeviceConnections", "192.168.15.101", nullptr));
+        pushButton_connectMC->setText(QApplication::translate("Window_DeviceConnections", "CONNECT", nullptr));
         label_WestinghouseConnection->setText(QApplication::translate("Window_DeviceConnections", "Connection Westinghouse Pump", nullptr));
         pushButton_connectPump->setText(QApplication::translate("Window_DeviceConnections", "CONNECT", nullptr));
         label_MunkConnection->setText(QApplication::translate("Window_DeviceConnections", "Connection Munk Power Supply", nullptr));

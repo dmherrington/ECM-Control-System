@@ -40,7 +40,7 @@ void Widget_AxisHorizontalControl::lockJogMove(const bool &shouldLock)
 
 void Widget_AxisHorizontalControl::on_pushButton_IncreaseJog_pressed()
 {
-    int jogRate = abs(ui->spinBox_Jog->value()) * (-1);
+    int jogRate = abs(ui->spinBox_Jog->value()) * (getAxisSign(pertinentAxis, Direction::DIRECTION_DECREASE));
     CommandJogPtr beginJog = std::make_shared<CommandJog>(pertinentAxis,jogRate);
     m_MotionController->executeCommand(beginJog);
 }
@@ -53,7 +53,7 @@ void Widget_AxisHorizontalControl::on_pushButton_IncreaseJog_released()
 
 void Widget_AxisHorizontalControl::on_pushButton_DecreaseJog_pressed()
 {
-    int jogRate = abs(ui->spinBox_Jog->value());
+    int jogRate = abs(ui->spinBox_Jog->value()) * (getAxisSign(pertinentAxis, Direction::DIRECTION_DECREASE));;
     CommandJogPtr beginJog = std::make_shared<CommandJog>(pertinentAxis,jogRate);
     m_MotionController->executeCommand(beginJog);
 }
@@ -70,9 +70,9 @@ void Widget_AxisHorizontalControl::on_pushButton_IncreaseRelativeMove_released()
     CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(pertinentAxis, relativeMoveSpeed);
     m_MotionController->executeCommand(commandSpeed);
 
-    int relativeDistance = abs(ui->spinBox_RelativeMove->value()) * (-1);
+    int relativeDistance = abs(ui->spinBox_RelativeMove->value()) * (getAxisSign(pertinentAxis, Direction::DIRECTION_INCREASE));
     CommandRelativeMovePtr startIncreaseRelativeMove = std::make_shared<CommandRelativeMove>();
-    startIncreaseRelativeMove->addRelativeMoveDistance(pertinentAxis, relativeDistance, Direction::DIRECTION_POSITIVE);
+    startIncreaseRelativeMove->addRelativeMoveDistance(pertinentAxis, relativeDistance);
     m_MotionController->executeCommand(startIncreaseRelativeMove);
 }
 
@@ -82,8 +82,8 @@ void Widget_AxisHorizontalControl::on_pushButton_DecreaseRelativeMove_released()
     CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(pertinentAxis, relativeMoveSpeed);
     m_MotionController->executeCommand(commandSpeed);
 
-    int relativeDistance = abs(ui->spinBox_RelativeMove->value());
+    int relativeDistance = abs(ui->spinBox_RelativeMove->value()) * (getAxisSign(pertinentAxis, Direction::DIRECTION_DECREASE));
     CommandRelativeMovePtr startDecreaseRelativeMove = std::make_shared<CommandRelativeMove>();
-    startDecreaseRelativeMove->addRelativeMoveDistance(pertinentAxis, relativeDistance, Direction::DIRECTION_NEGATIVE);
+    startDecreaseRelativeMove->addRelativeMoveDistance(pertinentAxis, relativeDistance);
     m_MotionController->executeCommand(startDecreaseRelativeMove);
 }

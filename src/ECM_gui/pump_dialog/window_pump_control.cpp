@@ -10,15 +10,8 @@ Window_PumpControl::Window_PumpControl(Westinghouse510* obj, QWidget *parent) :
     ui->widget_PumpInitialized->setDiameter(6);
     ui->widget_PumpRunning->setDiameter(6);
 
-//    this->m_Pump->m_State->flowRate.AddNotifier(this,[this]
-//    {
-//        this->slot_updatedFlowRate(m_Pump->m_State->flowRate.get());
-//    });
-
-//    this->m_Pump->m_State->pumpON.AddNotifier(this,[this]
-//    {
-//        this->slot_updatedPumpOn(m_Pump->m_State->pumpON.get());
-//    });
+    connect(m_Pump, SIGNAL(signal_PumpFlowUpdated(double)), this, SLOT(slot_updatedFlowRate(double)));
+    connect(m_Pump, SIGNAL(signal_PumpOperating(bool)), this, SLOT(slot_updatedPumpOn(bool)));
 
     //GeneralDialogWindow::readWindowSettings();
 
@@ -74,7 +67,7 @@ void Window_PumpControl::slot_updatedFlowRate(const double &value)
     else{
         ui->doubleSpinBox_flowRate->setStyleSheet("background-color: red");
     }
-    ui->statusbar->showMessage(tr("Flow rate has been updated."),2500);
+    //ui->statusbar->showMessage(tr("Flow rate has been updated."),2500);
 }
 
 void Window_PumpControl::slot_updatedDelayTime(const double &value)

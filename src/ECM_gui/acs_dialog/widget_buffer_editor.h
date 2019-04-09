@@ -42,6 +42,8 @@ public:
 public:
     BufferData getBufferData() const;
 
+    bool doesProgramMatch() const;
+
 private:
     void updateCurrentLineCount();
 

@@ -5,6 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
+#include "type_direction.h"
+
 /**
 \* @file  axis_definitions.h
 \*
@@ -37,7 +39,7 @@ inline std::string AxisToString(const MotorAxis &axis) {
     case MotorAxis::Z:
         return "Z";
     default:
-        throw std::runtime_error("Unknown direction type seen");
+        throw std::runtime_error("Unknown axis type seen");
     }
 }
 
@@ -51,6 +53,35 @@ inline MotorAxis AxisFromString(const std::string &str)
         return MotorAxis::Z;
     else
         throw std::runtime_error("Unknown axis string seen");
+}
+
+inline int getAxisSign(const MotorAxis &axis, const Direction &direction)
+{
+    switch (axis) {
+    case MotorAxis::X:
+    {
+        if(direction == Direction::DIRECTION_INCREASE)
+            return -1;
+        else
+            return 1;
+    }
+    case MotorAxis::Y:
+    {
+        if(direction == Direction::DIRECTION_INCREASE)
+            return -1;
+        else
+            return 1;
+    }
+    case MotorAxis::Z:
+    {
+        if(direction == Direction::DIRECTION_INCREASE)
+            return -1;
+        else
+            return 1;
+    }
+    default:
+        throw std::runtime_error("Unknown axis type seen");
+    }
 }
 
 inline std::vector<MotorAxis> GetAxisVector()

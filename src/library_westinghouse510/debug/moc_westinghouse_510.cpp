@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'westinghouse_510.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.11.3)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.10.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'westinghouse_510.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.11.3. It"
+#error "This file was generated using the moc from 5.10.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -131,21 +131,21 @@ void Westinghouse510::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _t = void (Westinghouse510::*)(const common::comms::CommunicationUpdate & );
+            typedef void (Westinghouse510::*_t)(const common::comms::CommunicationUpdate & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Westinghouse510::signal_PumpCommunicationUpdate)) {
                 *result = 0;
                 return;
             }
         }
         {
-            using _t = void (Westinghouse510::*)(const double & );
+            typedef void (Westinghouse510::*_t)(const double & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Westinghouse510::signal_PumpFlowUpdated)) {
                 *result = 1;
                 return;
             }
         }
         {
-            using _t = void (Westinghouse510::*)(const bool & );
+            typedef void (Westinghouse510::*_t)(const bool & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Westinghouse510::signal_PumpOperating)) {
                 *result = 2;
                 return;

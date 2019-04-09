@@ -79,8 +79,19 @@ void SPIIMotionController::ConnectToSerialPort(const common::comms::SerialConfig
 
 void SPIIMotionController::ConnectToEthernetPort(const common::comms::TCPConfiguration &linkConfig)
 {
-    UNUSED(linkConfig);
-}
+    if(m_CommsMarshaler->ConnectToEthernetPort(linkConfig, m_SPIIDevice))
+    {
+        m_StateInterface->m_BufferManager->setMaxBufferSize(m_SPIIDevice.getBufferCount() + 1);
+        m_StateInterface->m_BufferManager->setDBufferIndex(m_SPIIDevice.getDBufferIndex());
+
+        initializeMotionController();
+
+        //Now we can notify the remaining parties that the
+        common::comms::CommunicationUpdate commsUpdate("Motion Controller Link");
+        commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
+        commsUpdate.setPeripheralMessage("SPII Motor Controller Connected.");
+        emit signal_MCCommunicationUpdate(commsUpdate);
+    }}
 
 void SPIIMotionController::ConnectToPCIPort(const ACSC_PCI_SLOT &linkConfig)
 {

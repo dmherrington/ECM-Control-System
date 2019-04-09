@@ -53,8 +53,7 @@ public:
     void getClone(AbstractCommand** state) const override;
 
 public:
-    void setRelativeDirection(const MotorAxis &axis, const Direction &direction);
-    void addRelativeMoveDistance(const MotorAxis &axis, const double &distance, const Direction &direction);
+    void addRelativeMoveDistance(const MotorAxis &axis, const double &distance);
 
     double getRelativeDistance(const MotorAxis &axis) const;
 

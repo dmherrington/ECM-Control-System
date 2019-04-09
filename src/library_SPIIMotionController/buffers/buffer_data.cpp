@@ -11,6 +11,22 @@ BufferData::BufferData(const BufferData &copy)
     this->updateBufferData(copy);
 }
 
+bool BufferData::doesBufferAccuratelyReflect(const BufferData &data)
+{
+    if(this->bufferIndex != data.bufferIndex){
+        return false;
+    }
+    if(this->isCurrent != data.isCurrent){
+        return false;
+    }
+    if(this->isCompiled != data.isCompiled){
+        return false;
+    }
+    if(this->programText != data.programText){
+        return false;
+    }
+}
+
 void BufferData::updateBufferData(const BufferData &data)
 {
     this->m_BufferVariables = data.m_BufferVariables;
