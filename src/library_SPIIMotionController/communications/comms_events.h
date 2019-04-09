@@ -66,6 +66,13 @@ public:
         UNUSED(variableList);
     }
 
+    virtual void NewStatus_CustomCommandReceived(const std::string &command, const std::string &response)
+    {
+        UNUSED(command);
+        UNUSED(response);
+    }
+
+
 };
 
 }

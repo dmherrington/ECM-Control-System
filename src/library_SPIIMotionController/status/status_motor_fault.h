@@ -47,6 +47,7 @@ private:
     Status_MotorAxisFault& operator = (const Status_MotorAxisFault &rhs)
     {
         AbstractStatus::operator =(rhs);
+        this->currentAxis = rhs.currentAxis;
         this->faultValue = rhs.faultValue;
         return *this;
     }

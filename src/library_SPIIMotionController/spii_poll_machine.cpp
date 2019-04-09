@@ -144,6 +144,14 @@ void SPIIPollMachine::processRequest(AbstractRequestPtr request)
             Emit([&](SPIIPollingEvents_Interface *ptr){ptr->SPIIPolling_MotorFaultUpdate(updatedStatus);});
         break;
     }
+    case RequestTypes::TELL_SYSTEM_FAULTS:
+    {
+        const Request_SystemFaults* currentRequest = request->as<Request_SystemFaults>();
+        Status_SystemFault updatedStatus;
+        if(m_SPIIDevice->requestSystemFaults(currentRequest, updatedStatus))
+            Emit([&](SPIIPollingEvents_Interface *ptr){ptr->SPIIPolling_SystemFaultUpdate(updatedStatus);});
+        break;
+    }
     case RequestTypes::TELL_MOTOR:
     {
         const RequestMotorStatus* currentRequest = request->as<RequestMotorStatus>();

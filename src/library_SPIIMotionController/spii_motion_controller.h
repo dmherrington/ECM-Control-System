@@ -90,6 +90,7 @@ private:
     void NewStatus_OperationalLabels(const Operation_LabelList &labelList) override;
     void NewStatus_PrivateOperationalVariables(const bool &success, const Operation_VariableList &variableList) override;
     void NewStatus_UserOperationalVariables(const bool &success, const Operation_VariableList &variableList) override;
+    void NewStatus_CustomCommandReceived(const std::string &command, const std::string &response) override;
 
 
 private:
@@ -104,6 +105,10 @@ private:
     void SPIIPolling_MotorUpdate(const std::vector<Status_MotorPerAxis> &motor) override;
 
     void SPIIPolling_VariableUpdate(const std::vector<Status_VariableValue> &variable) override;
+
+    void SPIIPolling_MotorFaultUpdate(const std::vector<Status_MotorAxisFault> &motor) override;
+
+    void SPIIPolling_SystemFaultUpdate(const Status_SystemFault &status) override;
 
 signals:
 

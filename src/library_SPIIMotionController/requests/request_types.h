@@ -31,7 +31,8 @@ enum class RequestTypes{
     TELL_VARIABLE = 7,
     TELL_MOTOR = 8,
     TELL_AXIS = 9,
-    TELL_MOTOR_FAULTS = 10
+    TELL_MOTOR_FAULTS = 10,
+    TELL_SYSTEM_FAULTS = 11
 };
 
 //!

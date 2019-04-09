@@ -170,6 +170,12 @@ void SPIIMotionController::initializeMotionController()
     requestMF->addAxis(MotorAxis::X); requestMF->addAxis(MotorAxis::Y); requestMF->addAxis(MotorAxis::Z);
     m_DevicePolling->addRequest(requestMF,500);
 
+    // 1: Request the system faults of the ACS unit
+    Request_SystemFaultsPtr requestSF = std::make_shared<Request_SystemFaults>();
+    common::TupleGeneralDescriptorString tupleSystemFaults("SystemFaults");
+    requestSF->setTupleDescription(common::TupleECMData(tupleSystemFaults));
+    m_DevicePolling->addRequest(requestMF,500);
+
     //Retrieve the current contents aboard the device
     m_CommsMarshaler->initializeBufferContents();
 
@@ -266,6 +272,22 @@ void SPIIMotionController::SPIIPolling_VariableUpdate(const std::vector<Status_V
 
     for(size_t index = 0; index < variable.size(); index++)
         m_StateInterface->m_MasterVariableValues->updateVariable(variable.at(index));
+
+    ProgressStateMachineStates();
+}
+
+void SPIIMotionController::SPIIPolling_MotorFaultUpdate(const std::vector<Status_MotorAxisFault> &motor)
+{
+    if(motor.empty())
+        return;
+
+    ProgressStateMachineStates();
+}
+
+void SPIIMotionController::SPIIPolling_SystemFaultUpdate(const Status_SystemFault &status)
+{
+    if(!status.isStatusValid())
+        return;
 
     ProgressStateMachineStates();
 }
@@ -371,5 +393,11 @@ void SPIIMotionController::NewStatus_UserOperationalVariables(const bool &succes
         emit signal_MCNewProgramVariableList(variableList);
     }
 }
+
+void SPIIMotionController::NewStatus_CustomCommandReceived(const std::string &command, const std::string &response)
+{
+  emit signal_CustomUserRequestReceived(command,response);
+}
+
 
 

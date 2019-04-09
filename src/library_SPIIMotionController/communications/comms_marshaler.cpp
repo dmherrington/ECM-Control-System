@@ -348,6 +348,23 @@ std::vector<Status_VariableValue> CommsMarshaler::requestVariableValue(const Req
     return rtnStatus;
 }
 
+bool CommsMarshaler::requestSystemFaults(const Request_SystemFaults *request, Status_SystemFault &status)
+{
+    if(!link->isConnected())
+        return false;
+
+    int binaryState = 0;
+
+    if(protocol->requestSystemFaults(binaryState))
+    {
+        status.setStatusValidity(true);
+        status.updateSystemFaultState(binaryState);
+        return true;
+    }
+
+    return false;
+}
+
 //////////////////////////////////////////////////////////////
 /// Virtual methods imposed from IProtocolSPIIEvents
 //////////////////////////////////////////////////////////////
@@ -375,6 +392,11 @@ void CommsMarshaler::NewStatus_PrivateOperationalVariables(const bool &success, 
 void CommsMarshaler::NewStatus_UserOperationalVariables(const bool &success, const Operation_VariableList &variableList) const
 {
     Emit([&](CommsEvents *ptr){ptr->NewStatus_UserOperationalVariables(success, variableList);});
+}
+
+void CommsMarshaler::NewStatus_CustomCommandReceived(const std::string &command, const std::string &response) const
+{
+    Emit([&](CommsEvents *ptr){ptr->NewStatus_CustomCommandReceived(command, response);});
 }
 
 

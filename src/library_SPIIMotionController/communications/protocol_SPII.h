@@ -75,6 +75,7 @@ public:
 
     bool commandKillMotion(const CommandStop &stop);
 
+    bool commandCustomString(const std::string &command, std::string &response, const unsigned int startingBufferSize = 100, const int &attempts = -1);
 
 public:
     bool bufferUpload(const unsigned int &index, const std::string &text);
@@ -113,6 +114,8 @@ public:
     bool requestMotorStatus(const int &axisRequest, int &value);
 
     bool requestMotorFaults(const int &axisRequest, int &value);
+
+    bool requestSystemFaults(int &value);
 
     bool requestNumberofBuffers(double &count);
 

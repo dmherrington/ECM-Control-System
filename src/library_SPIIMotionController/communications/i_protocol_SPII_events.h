@@ -31,6 +31,8 @@ public:
     virtual void NewStatus_UserOperationalVariables(const bool &success, const Operation_VariableList &variableList = Operation_VariableList()) const = 0;
 
     virtual void NewBuffer_AvailableData(const BufferData &bufferData) const = 0;
+
+    virtual void NewStatus_CustomCommandReceived(const std::string &command, const std::string &response) const = 0;
 };
 
 

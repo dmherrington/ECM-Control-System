@@ -42,6 +42,8 @@ public:
 
     std::vector<Status_VariableValue>  requestVariableValue(const Request_TellVariable* request);
 
+    bool requestSystemFaults(const Request_SystemFaults* request, Status_SystemFault &status);
+
     //////////////////////////////////////////////////////////////
     /// Connect/Disconnect from SPII Methods
     //////////////////////////////////////////////////////////////
@@ -97,7 +99,7 @@ private:
 
     void NewStatus_UserOperationalVariables(const bool &success, const Operation_VariableList &variableList) const override;
 
-
+    void NewStatus_CustomCommandReceived(const std::string &command, const std::string &response) const override;
 
 private:
     std::shared_ptr<ILink> link;

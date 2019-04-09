@@ -94,6 +94,14 @@ bool SPIIProtocol::requestMotorFaults(const int &axisRequest, int &value)
     return rtnValidity;
 }
 
+bool SPIIProtocol::requestSystemFaults(int &value)
+{
+    if(m_SPIIDevice == nullptr)
+        return false;
+    bool rtnValidity = acsc_GetFault(*m_SPIIDevice.get(),0,&value,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+    return rtnValidity;
+}
+
 bool SPIIProtocol::requestNumberofBuffers(double &value)
 {
     if(m_SPIIDevice == nullptr)
@@ -220,55 +228,12 @@ void SPIIProtocol::SendProtocolMotionCommand(const AbstractCommandPtr command)
 
 void SPIIProtocol::SendCustomProtocolCommand(const std::vector<std::string> &stringCommands)
 {
-    /*
-    std::string begin = "#";
-    std::string end = "VG\r";
-    std::string dBuffer = std::to_string(bufferNumber);
-    std::string concatenatedRequest = begin + dBuffer + end;
-
-    char *cstr = new char[concatenatedRequest.length() + 1];
-    strcpy(cstr, concatenatedRequest.c_str());
-
-    int bufferSize = static_cast<int>(startingBufferSize);
-    int currentAttempt = 1;
-    bool validAttempt = true, retry = true;
-    int received = 0;
-
-    std::string bufString;
-
-    while (validAttempt && retry)
+    for(unsigned int index = 0; index < stringCommands.size(); index++)
     {
-        char* buf = new char[bufferSize]();
-        validAttempt = acsc_Transaction(*m_SPIIDevice.get(),cstr, strlen(cstr), buf, bufferSize, &received, NULL);
-
-        if(!validAttempt)
-            break;
-
-        if(received == bufferSize)
-        {
-            if((currentAttempt < attempts) || (attempts == -1))
-            {
-                currentAttempt++;
-                bufferSize = bufferSize * 2;
-            }
-            else {
-                retry = false;
-                bufString = std::string(buf);
-            }
-        }
-        else {
-            retry = false;
-            bufString = std::string(buf);
-        }
-
-        delete[] buf;
+        std::string receivedResponse;
+        commandCustomString(stringCommands.at(index),receivedResponse, 100,-1);
+        Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_CustomCommandReceived(stringCommands.at(index),receivedResponse);});
     }
-
-    bufString.erase(bufString.begin()+received, bufString.end());
-    QString newQString = QString::fromStdString(bufString);
-    QStringList stringList = newQString.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
-    return stringList;
-    */
 }
 
 bool SPIIProtocol::ReadIntegerVariableValue(const Request_TellVariable &tellVariable, Status_VariableValue &responseValue)
@@ -515,6 +480,47 @@ bool SPIIProtocol::commandKillMotion(const CommandStop &stop)
     }
 
     return rtnValidity;
+}
+
+bool SPIIProtocol::commandCustomString(const std::string &command, std::string &response, const unsigned int startingBufferSize, const int &attempts)
+{
+    char *cstr = new char[command.length() + 1];
+    strcpy(cstr, command.c_str());
+
+    int bufferSize = static_cast<int>(startingBufferSize);
+    int currentAttempt = 1;
+    bool validAttempt = true, retry = true;
+    int received = 0;
+
+    while (validAttempt && retry)
+    {
+        char* buf = new char[bufferSize]();
+        validAttempt = acsc_Transaction(*m_SPIIDevice.get(),cstr, strlen(cstr), buf, bufferSize, &received, NULL);
+
+        if(!validAttempt)
+            break;
+
+        if(received == bufferSize)
+        {
+            if((currentAttempt < attempts) || (attempts == -1))
+            {
+                currentAttempt++;
+                bufferSize = bufferSize * 2;
+            }
+            else {
+                retry = false;
+                response = std::string(buf);
+                response.erase(response.begin()+received, response.end());
+            }
+        }
+        else {
+            retry = false;
+            response = std::string(buf);
+            response.erase(response.begin()+received, response.end());
+        }
+
+        delete[] buf;
+    }
 }
 
 bool SPIIProtocol::bufferRun(const unsigned int &index, const std::string &label)

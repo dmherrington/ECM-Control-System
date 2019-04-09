@@ -9,7 +9,7 @@
 #include "common/class_forward.h"
 #include "common/environment_time.h"
 
-#include "requests/request_types.h"
+#include "request_types.h"
 #include "status/abstract_status.h"
 
 /**
