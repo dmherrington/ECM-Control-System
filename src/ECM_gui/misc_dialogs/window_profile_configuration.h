@@ -15,6 +15,8 @@
 #include "ECM_API/commands/ecm_command_execute_collection.h"
 #include "ECM_API/commands/ecm_command_profile_collection.h"
 
+#include "acs_dialog/window_buffer_manager.h"
+
 namespace Ui {
 class Window_ProfileConfiguration;
 }
@@ -75,6 +77,8 @@ public:
 
     void openFromFile(const QString &filePath);
 
+    bool checkBufferContents(bool &shouldUpload);
+
 private slots:
     void on_actionOpen_triggered();
 
@@ -102,6 +106,9 @@ private:
     std::map<QListWidgetItem*,TableWidget_OperationDescriptor*> m_MapOperations;
 
     QListWidgetItem* previousItem;
+
+    Window_BufferManager* m_WindowBufferManager;
+
 };
 
 #endif // WINDOW_PROFILE_CONFIGURATION_H

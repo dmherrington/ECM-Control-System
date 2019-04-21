@@ -9,9 +9,10 @@ Window_ProfileConfiguration::Window_ProfileConfiguration(ECM_API* apiObject, QWi
     ui->setupUi(this);
     m_API = apiObject;
 
-    //    m_WindowMotionProfile = new Window_MotionProfile(m_API->m_Galil);
-    //    m_WindowMotionProfile->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
-    //    connect(m_WindowMotionProfile,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
+    m_WindowBufferManager = new Window_BufferManager(m_API->m_MotionController);
+    m_WindowBufferManager->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
+    connect(m_WindowBufferManager,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),
+            this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
     connect(ui->listWidget->model(),SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),this,SLOT(on_ListWidgetRowMoved()));
 }
@@ -23,7 +24,7 @@ Window_ProfileConfiguration::~Window_ProfileConfiguration()
 
 void Window_ProfileConfiguration::closeEvent(QCloseEvent *event)
 {
-    //    m_WindowMotionProfile->close();
+    m_WindowBufferManager->close();
     GeneralDialogWindow::closeEvent(event);
 }
 
@@ -130,6 +131,7 @@ void Window_ProfileConfiguration::slot_OnExecuteExplicitProfileConfig(const ECMC
 {
     ECMCommand_ExecuteCollection newExecutionCollection;
     newExecutionCollection.insertProfile(config);
+    //The current motion script needs to go here
     //Ken Fix This
     //newExecutionCollection.setAssociatedMotionScript(m_WindowMotionProfile->getCurrentGalilScript());
     newExecutionCollection.setHomeShouldIndicate(ui->checkBox_ShouldHomeBeIndicated->isChecked());
@@ -374,7 +376,7 @@ void Window_ProfileConfiguration::setIndicateHome(const bool &checked)
 void Window_ProfileConfiguration::slot_ChangedWindowVisibility(const GeneralDialogWindow::DialogWindowTypes &type, const bool visibility)
 {
     switch (type) {
-    case GeneralDialogWindow::DialogWindowTypes::WINDOW_MOTION_PROFILE:
+    case GeneralDialogWindow::DialogWindowTypes::WINDOW_BUFFER_MANAGER:
         ui->actionMotion_Profile->setChecked(visibility);
         break;
     default:
@@ -385,10 +387,10 @@ void Window_ProfileConfiguration::slot_ChangedWindowVisibility(const GeneralDial
 
 void Window_ProfileConfiguration::on_actionMotion_Profile_triggered(bool checked)
 {
-    //    if(checked)
-    //        m_WindowMotionProfile->show();
-    //    else
-    //        m_WindowMotionProfile->hide();
+        if(checked)
+            m_WindowBufferManager->show();
+        else
+            m_WindowBufferManager->hide();
 }
 
 void Window_ProfileConfiguration::on_actionNew_triggered(bool checked)
@@ -396,4 +398,34 @@ void Window_ProfileConfiguration::on_actionNew_triggered(bool checked)
     UNUSED(checked);
     ui->lineEdit_ConfugrationPath->clear();
     clearExistingOperations();
+}
+
+bool Window_ProfileConfiguration::checkBufferContents(bool &shouldUpload)
+{
+    bool continueExecution = true;
+
+    bool windowDisplaysAccurately = m_WindowBufferManager->isDisplayCurrentAndCompiled();
+
+    if(!windowDisplaysAccurately) //the window does not accurately reflect what is currently aboard the ACS
+    {
+        QMessageBox msgBox;
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setText("The script associated with this script does not match currently what is aboard the galil unit.");
+        msgBox.setInformativeText("Do you want the script to be automatically uploaded? This will cause the homing routine to execute.");
+        QAbstractButton* pButtonAccept = msgBox.addButton(tr("Accept"), QMessageBox::AcceptRole);
+        QAbstractButton* pButtonReject = msgBox.addButton(tr("Reject"), QMessageBox::RejectRole);
+        msgBox.exec();
+
+        if(msgBox.clickedButton() == pButtonAccept)
+        {
+            shouldUpload = true;
+            continueExecution = true;
+        }
+        else if(msgBox.clickedButton() == pButtonReject)
+
+        {
+            continueExecution = false;
+        }
+    }
+    return continueExecution;
 }

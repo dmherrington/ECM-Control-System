@@ -29,7 +29,14 @@ void Window_BufferManager::closeEvent(QCloseEvent *event)
 
 void Window_BufferManager::clearBufferData()
 {
-    for(int stackedIndex = ui->stackedWidget_BufferContents->count(); stackedIndex > 0; stackedIndex--)
+    //first delete the widget data
+    for (auto it = m_BufferDescriptors.cbegin(); it != m_BufferDescriptors.cend() /* not hoisted */; /* no increment */)
+    {
+        it = m_BufferDescriptors.erase(it);
+    }
+
+    //then delete the list widget
+    for(int stackedIndex = ui->stackedWidget_BufferContents->count(); stackedIndex >= 0; stackedIndex--)
     {
         //first delete the stacked index
         QWidget* widget = ui->stackedWidget_BufferContents->widget(stackedIndex);
@@ -39,6 +46,7 @@ void Window_BufferManager::clearBufferData()
 
     //next delete the list widget
     ui->listWidget_Buffers->clear();
+
     //lastly, clear all of the old data
     m_BufferDescriptors.clear();
 }
@@ -194,6 +202,7 @@ void Window_BufferManager::openFromFile(const QString &filePath)
      if (!loadFile.open(QIODevice::ReadOnly)) return;
 
     clearBufferData();
+
 
     QByteArray loadData = loadFile.readAll();
     loadFile.close();

@@ -31,7 +31,6 @@
 #include "acs_dialog/dialog_execution_paused.h"
 #include "acs_dialog/window_touchoff.h"
 #include "acs_dialog/window_motion_control.h"
-#include "acs_dialog/window_buffer_manager.h"
 
 #include "motion_dialog/widget_front_panel_motion_control.h"
 
@@ -204,8 +203,6 @@ private:
      * The following are all related to independent windows within the GUI
      */
     //Window_MotionControl* m_WindowMotionControl;
-
-    Window_BufferManager* m_WindowBufferManager;
 
     Window_Touchoff* m_WindowTouchoffControl;
 

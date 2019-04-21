@@ -45,6 +45,7 @@ signals:
 private slots:
     void slot_UpdateBufferName(const std::string &name);
     void slot_UpdateBufferLineCount(const int &count);
+    void slot_BufferCurrent(const bool &current);
 
     void on_pushButton_DisplayBuffer_released();
 

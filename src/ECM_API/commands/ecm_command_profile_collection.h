@@ -28,6 +28,9 @@ public:
     virtual void getClone(ECMCommand_AbstractCollectionPtr &command) const override;
 
 public:
+    void setDesiredBufferSuite(const SPII_CurrentProgram &desiredBufferPrograms);
+
+public:
     virtual void insertProfile(const ECMCommand_AbstractProfileConfigPtr profile);
 
     ECMCommand_AbstractProfileConfigPtr getLeadingProfile() const;
@@ -42,6 +45,8 @@ public:
 
     unsigned int getCollectionSize() const;
 
+    SPII_CurrentProgram getDesiredBufferSuite();
+
 public:
     void setAssociatedMotionScript(const std::string &script);
 
@@ -53,6 +58,7 @@ public:
     ECMCommand_ProfileCollection& operator = (const ECMCommand_ProfileCollection &rhs)
     {
         ECMCommand_AbstractCollection::operator =(rhs);
+        this->m_DesiredBuffers = rhs.m_DesiredBuffers;
         this->m_Collection = rhs.m_Collection;
         return *this;
     }
@@ -67,7 +73,7 @@ public:
         if(!ECMCommand_AbstractCollection::operator ==(rhs)){
             return false;
         }
-//        if(this->m_Collection != rhs.m_Collection){
+//        if(this->m_DesiredBuffers != rhs.m_DesiredBuffers){
 //            return false;
 //        }
         return true;
@@ -83,6 +89,7 @@ public:
     }
 
 protected:
+    SPII_CurrentProgram m_DesiredBuffers;
     std::map<unsigned int, ECMCommand_AbstractProfileConfigPtr> m_Collection;
 };
 

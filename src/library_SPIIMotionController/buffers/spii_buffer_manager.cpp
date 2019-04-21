@@ -104,6 +104,19 @@ bool BufferManager::getBufferData(const unsigned int &bufferIndex, BufferData &d
         return false;
 }
 
+std::map<unsigned int, BufferData> BufferManager::getBufferData() const
+{
+    std::map<unsigned int, BufferData> rtnData;
+    std::map<unsigned int, BufferData*>::const_iterator it = m_ProgramBuffers.cbegin();
+
+    for(;it!=m_ProgramBuffers.cend();++it)
+    {
+        rtnData.insert(std::pair<unsigned int, BufferData>(it->first,*it->second));
+    }
+    return rtnData;
+}
+
+
 void BufferManager::clearExistingBufferMap()
 {
     std::map<unsigned int, BufferData*>::iterator it;

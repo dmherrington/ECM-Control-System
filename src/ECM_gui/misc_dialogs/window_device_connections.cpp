@@ -45,9 +45,9 @@ Window_DeviceConnections::~Window_DeviceConnections()
 void Window_DeviceConnections::connectToAllDevices()
 {
     this->connect_MotionController(true);
-    this->connect_Oscilliscope(true);
-    this->connect_PowerSupply(true);
-    this->connect_Pump(true);
+//    this->connect_Oscilliscope(true);
+//    this->connect_PowerSupply(true);
+//    this->connect_Pump(true);
 }
 
 void Window_DeviceConnections::connect_MotionController(const bool &connect)
@@ -64,10 +64,9 @@ void Window_DeviceConnections::connect_MotionController(const bool &connect)
             return;
 
         ipAddress += " -d";
-        //m_API->m_MotionController->ConnectToSimulation();
-        common::comms::TCPConfiguration newConfig(ipAddress.toStdString(), 701);
-        m_API->m_MotionController->ConnectToEthernetPort(newConfig);
-        //m_API->m_MotionController->openConnection(ipAddress.toStdString());
+        m_API->m_MotionController->ConnectToSimulation();
+//        common::comms::TCPConfiguration newConfig(ipAddress.toStdString(), 701);
+//        m_API->m_MotionController->ConnectToEthernetPort(newConfig);
     }
 }
 

@@ -145,9 +145,6 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_WindowTouchoffControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
     connect(m_WindowTouchoffControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
-    m_WindowBufferManager = new Window_BufferManager(m_API->m_MotionController);
-    m_WindowBufferManager->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
-
     std::vector<common::TupleECMData> plottables = m_API->m_MotionController->getPlottables();
     for(unsigned int i = 0; i < plottables.size(); i++)
     {
@@ -374,7 +371,6 @@ void ECMControllerGUI::readSettings()
 
     bool sensorDisplayHidden = settings.value("sensorDisplayed", false).toBool();
     bool windowProfileConfigurationHidden = settings.value("profileConfigurationDisplayed",false).toBool();
-    bool windowBufferManager = settings.value("bufferManagerDisplayed",false).toBool();
     //bool motionControlDisplayHidden = settings.value("motionControlDisplayed", false).toBool();
     bool touchoffControlDisplayHidden = settings.value("touchoffControlDisplayed", false).toBool();
     bool pumpControlDisplayHidden = settings.value("pumpControlDisplayed", false).toBool();
@@ -388,9 +384,6 @@ void ECMControllerGUI::readSettings()
 
     if(!windowProfileConfigurationHidden)
         m_WindowProfileConfiguration->show();
-
-    if(!windowBufferManager)
-        m_WindowBufferManager->show();
 
     //    if(!motionControlDisplayHidden)
     //        m_WindowMotionControl->show();
@@ -427,7 +420,6 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
 
         settings.setValue("sensorDisplayed",m_additionalSensorDisplay->isWindowHidden());
         settings.setValue("profileConfigurationDisplayed",m_WindowProfileConfiguration->isWindowHidden());
-        settings.setValue("bufferManagerDisplayed",m_WindowBufferManager->isWindowHidden());
         //settings.setValue("motionControlDisplayed",m_WindowMotionControl->isWindowHidden());
         settings.setValue("touchoffControlDisplayed",m_WindowTouchoffControl->isWindowHidden());
         settings.setValue("pumpControlDisplayed",m_WindowPumpControl->isWindowHidden());
@@ -438,7 +430,6 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
 
         m_additionalSensorDisplay->close();
         m_WindowProfileConfiguration->close();
-        m_WindowBufferManager->close();
         //m_WindowMotionControl->close();
         m_WindowTouchoffControl->close();
         m_WindowPumpControl->close();
@@ -608,14 +599,14 @@ void ECMControllerGUI::on_actionProfile_Configuration_triggered(bool checked)
 
 void ECMControllerGUI::on_actionBuffer_Manager_triggered(bool checked)
 {
-    UNUSED(checked);
-    if(m_WindowBufferManager->isWindowHidden())
-        m_WindowBufferManager->show();
-    else
-    {
-        m_WindowBufferManager->activateWindow();
-        m_WindowBufferManager->raise();
-    }
+//    UNUSED(checked);
+//    if(m_WindowBufferManager->isWindowHidden())
+//        m_WindowBufferManager->show();
+//    else
+//    {
+//        m_WindowBufferManager->activateWindow();
+//        m_WindowBufferManager->raise();
+//    }
 }
 
 void ECMControllerGUI::on_actionMotion_Control_triggered(bool checked)
@@ -850,27 +841,13 @@ void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ExecuteColle
      * This is done within the profile configuration window as the associated script is in the front panel
      * there at the current time.
      */
-    bool windowDisplaysAccurately = m_WindowBufferManager->isDisplayCurrentAndCompiled();
 
-    if(!windowDisplaysAccurately) //the window does not accurately reflect what is currently aboard the ACS
-    {
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Warning);
-        msgBox.setText("The program script associated with this collection does not match currently what is aboard the motion control unit.");
-        msgBox.setInformativeText("Do you want the script to be automatically uploaded? This will cause the homing routine to execute and software to recompile.");
-        QAbstractButton* pButtonAccept = msgBox.addButton(tr("Accept"), QMessageBox::AcceptRole);
-        QAbstractButton* pButtonReject = msgBox.addButton(tr("Reject"), QMessageBox::RejectRole);
-        msgBox.exec();
+    bool shouldUploadScript = executeCollection.shouldWriteMotionScript();
 
-        if(msgBox.clickedButton() == pButtonAccept)
-        {
-            executeCollection.setWritingMotionScript(true);
-        }
-        else if(msgBox.clickedButton() == pButtonReject)
-        {
-            return;
-        }
-    }
+    if(!m_WindowProfileConfiguration->checkBufferContents(shouldUploadScript))
+        return;
+
+    executeCollection.setWritingMotionScript(shouldUploadScript);
 
 
     //first check that we can log where we want to
