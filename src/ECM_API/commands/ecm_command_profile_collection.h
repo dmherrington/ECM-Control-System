@@ -45,7 +45,7 @@ public:
 
     unsigned int getCollectionSize() const;
 
-    SPII_CurrentProgram getDesiredBufferSuite();
+    SPII_CurrentProgram getDesiredBufferSuite() const;
 
 public:
     void setAssociatedMotionScript(const std::string &script);

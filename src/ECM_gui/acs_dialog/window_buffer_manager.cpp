@@ -80,6 +80,38 @@ void Window_BufferManager::setInitialBufferCount(const unsigned int &count, cons
 
 }
 
+SPII_CurrentProgram Window_BufferManager::getDesiredBufferContents() const
+{
+    SPII_CurrentProgram bufferEditor;
+    bufferEditor.setMaxBufferSize(m_BufferDescriptors.size());
+    bufferEditor.setDBufferIndex(m_SPIIDevice->m_StateInterface->m_BufferManager->getDBufferIndex());
+
+    std::map<unsigned int, Widget_BufferDescriptor*>::const_iterator it = m_BufferDescriptors.cbegin();
+    for(; it != m_BufferDescriptors.cend(); ++it)
+    {
+        Widget_BufferDescriptor* currentBufferDescriptor = it->second;
+        BufferData currentData = currentBufferDescriptor->getBufferEditor()->getBufferData();
+        bufferEditor.updateBufferData(it->first, currentData);
+    }
+
+    return bufferEditor;
+}
+
+void Window_BufferManager::loadBufferContents(const SPII_CurrentProgram &desiredBufferContents)
+{
+    setInitialBufferCount(desiredBufferContents.getBufferSize(), desiredBufferContents.getDBufferIndex());
+
+    std::map<unsigned int, Widget_BufferDescriptor*>::iterator it = m_BufferDescriptors.begin();
+    for(; it != m_BufferDescriptors.end(); ++it)
+    {
+        Widget_BufferDescriptor* currentBufferDescriptor = it->second;
+        BufferData currentBufferData;
+        bool current, compiled;
+        desiredBufferContents.getBufferData(it->first,currentBufferData);
+        currentBufferDescriptor->getBufferEditor()->updateFromBufferData(currentBufferData,current,compiled);
+    }
+}
+
 bool Window_BufferManager::isDisplayCurrentAndCompiled() const
 {
     bool valid = true;

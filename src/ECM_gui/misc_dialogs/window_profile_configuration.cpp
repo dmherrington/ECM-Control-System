@@ -71,6 +71,10 @@ ECMCommand_ExecuteCollection Window_ProfileConfiguration::getCurrentCollection()
     }
     executeCollection.setHomeShouldIndicate(ui->checkBox_ShouldHomeBeIndicated->isChecked());
 
+    //The current motion script needs to go here
+    SPII_CurrentProgram desiredBufferContents = m_WindowBufferManager->getDesiredBufferContents();
+    executeCollection.setDesiredBufferSuite(desiredBufferContents);
+
     return executeCollection;
 }
 
@@ -131,9 +135,11 @@ void Window_ProfileConfiguration::slot_OnExecuteExplicitProfileConfig(const ECMC
 {
     ECMCommand_ExecuteCollection newExecutionCollection;
     newExecutionCollection.insertProfile(config);
+
     //The current motion script needs to go here
-    //Ken Fix This
-    //newExecutionCollection.setAssociatedMotionScript(m_WindowMotionProfile->getCurrentGalilScript());
+    SPII_CurrentProgram desiredBufferContents = m_WindowBufferManager->getDesiredBufferContents();
+    newExecutionCollection.setDesiredBufferSuite(desiredBufferContents);
+
     newExecutionCollection.setHomeShouldIndicate(ui->checkBox_ShouldHomeBeIndicated->isChecked());
     emit signal_ExecuteProfileCollection(newExecutionCollection);
 }
@@ -302,7 +308,8 @@ void Window_ProfileConfiguration::saveToFile(const QString &filePath)
 
     saveObject["configData"] = segmentDataArray;
     saveObject["configureHome"] = ui->checkBox_ShouldHomeBeIndicated->isChecked();
-    //    saveObject["galilScript"] = QString::fromStdString(m_WindowMotionProfile->getCurrentGalilScript());
+    SPII_CurrentProgram desiredBufferContents = m_WindowBufferManager->getDesiredBufferContents();
+    desiredBufferContents.writeToJSON(saveObject);
     QJsonDocument saveDoc(saveObject);
     saveFile.write(saveDoc.toJson());
     saveFile.close();
@@ -325,8 +332,10 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
     QJsonObject jsonObject = loadDoc.object();
 
     this->setIndicateHome(jsonObject["configureHome"].toBool());
-    //    m_WindowMotionProfile->setFilePath(filePath.toStdString());
-    //    m_WindowMotionProfile->setProgramText(jsonObject["galilScript"].toString().toStdString());
+
+    SPII_CurrentProgram loadBufferContents;
+    loadBufferContents.readFromJSON(jsonObject);
+    m_WindowBufferManager->loadBufferContents(loadBufferContents);
 
     QJsonArray configArray = jsonObject["configData"].toArray();
 

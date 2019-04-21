@@ -42,8 +42,8 @@ void BufferManager::readFromJSON(const QJsonObject &loadObject)
     QJsonArray MCDataArray = loadObject["MotionControlData"].toArray();
     QJsonObject MCObject = MCDataArray[0].toObject();
 
-    this->setDBufferIndex(MCObject["indexDBuffer"].toInt());
     this->setMaxBufferSize(MCObject["maxBufferSize"].toInt());
+    this->setDBufferIndex(MCObject["indexDBuffer"].toInt());
 
     QJsonArray bufferDataArray = MCObject["bufferDataArray"].toArray();
 
@@ -74,6 +74,8 @@ void BufferManager::setMaxBufferSize(const unsigned int &numBuffers)
         BufferData* newData = new BufferData(index);
         m_ProgramBuffers.insert(std::pair<unsigned int, BufferData*>(index,newData));
     }
+
+    maxBufferSize = numBuffers;
 }
 unsigned int BufferManager::getBufferSize() const
 {

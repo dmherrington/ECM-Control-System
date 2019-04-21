@@ -111,7 +111,7 @@ void ECM_API::logCurrentOperationalSettings()
     this->writeHeaderBreaker(operationsString, 100);
     operationsString += "MOTION CONTROLLER OPERATIONAL VARIABLES: \n";
     this->writeHeaderBreaker(operationsString, 100);
-    //operationsString += m_MotionController->stateInterface->galilProgram->getVariableList().getLoggingString();
+    operationsString += m_MotionController->m_StateInterface->m_BufferManager->getCurrentUserVariables().getLoggingString();
     operationsString += "\r\n";
 
     m_Log->writeCurrentOperationalSettings(operationsString);

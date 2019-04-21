@@ -170,7 +170,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     setupUploadCallbacks();
 
-    m_WindowConnections->connectToAllDevices();
+    //m_WindowConnections->connectToAllDevices();
 
     ProgressStateMachineStates();
 }
