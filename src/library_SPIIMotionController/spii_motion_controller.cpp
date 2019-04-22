@@ -28,11 +28,6 @@ SPIIMotionController::~SPIIMotionController()
 
 }
 
-void SPIIMotionController::uploadOperationalVariables(const Operation_VariableList &variableList)
-{
-
-}
-
 BufferData SPIIMotionController::retrieveBufferData(const unsigned int &bufferIndex)
 {
     BufferData bufferData;
@@ -49,9 +44,7 @@ void SPIIMotionController::executeCommand(const AbstractCommandPtr command)
 
 void SPIIMotionController::executeCustomCommands(const std::vector<std::string> &stringCommands)
 {
-    char* cmd = "enable X\r";
-
-    //acsc_Command(handle,cmd,strlen(cmd),NULL);
+    m_CommsMarshaler->sendCustomSPIICommands(stringCommands);
 }
 
 

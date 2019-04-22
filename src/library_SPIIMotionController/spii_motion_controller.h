@@ -47,9 +47,6 @@ public:
     std::vector<common::TupleECMData> getPlottables() const;
 
 public:
-    void uploadOperationalVariables(const Operation_VariableList &variableList);
-
-public:
     void executeCommand(const AbstractCommandPtr command);
     void executeCustomCommands(const std::vector<std::string> &stringCommands);
 public:
