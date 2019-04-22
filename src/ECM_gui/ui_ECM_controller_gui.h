@@ -148,14 +148,14 @@ public:
     {
         if (ECMControllerGUI->objectName().isEmpty())
             ECMControllerGUI->setObjectName(QStringLiteral("ECMControllerGUI"));
-        ECMControllerGUI->resize(1111, 1010);
+        ECMControllerGUI->resize(1045, 1010);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(ECMControllerGUI->sizePolicy().hasHeightForWidth());
         ECMControllerGUI->setSizePolicy(sizePolicy);
-        ECMControllerGUI->setMinimumSize(QSize(1045, 0));
-        ECMControllerGUI->setMaximumSize(QSize(1800, 16777215));
+        ECMControllerGUI->setMinimumSize(QSize(1045, 1010));
+        ECMControllerGUI->setMaximumSize(QSize(3000, 16777215));
         ECMControllerGUI->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
@@ -1013,7 +1013,7 @@ public:
         ECMControllerGUI->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(ECMControllerGUI);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1111, 40));
+        menuBar->setGeometry(QRect(0, 0, 1045, 40));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menuBar);

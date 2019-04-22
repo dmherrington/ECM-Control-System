@@ -185,7 +185,7 @@ void Window_BufferManager::slot_MCBufferStatusUpdate(const Status_BufferState &s
 
 void Window_BufferManager::on_actionOpen_triggered()
 {
-    QString filePath = GeneralDialogWindow::onOpenAction();
+    QString filePath = GeneralDialogWindow::onOpenAction("Open Buffer Configuration Files (*.bufferConfig)");
     if(!filePath.isEmpty() && !filePath.isNull()){
         openFromFile(filePath);
     }
@@ -193,13 +193,13 @@ void Window_BufferManager::on_actionOpen_triggered()
 
 void Window_BufferManager::on_actionSave_triggered()
 {
-    QString settingsPath = GeneralDialogWindow::onSaveAction();
+    QString settingsPath = GeneralDialogWindow::onSaveAction("bufferConfig");
     saveToFile(settingsPath);
 }
 
 void Window_BufferManager::on_actionSave_As_triggered()
 {
-    QString settingsPath = GeneralDialogWindow::onSaveAsAction();
+    QString settingsPath = GeneralDialogWindow::onSaveAsAction("bufferConfig");
     saveToFile(settingsPath);
 }
 

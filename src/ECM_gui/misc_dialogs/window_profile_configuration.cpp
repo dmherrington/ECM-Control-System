@@ -257,7 +257,7 @@ void Window_ProfileConfiguration::on_listWidget_itemClicked(QListWidgetItem *ite
 
 void Window_ProfileConfiguration::on_actionOpen_triggered()
 {
-    QString filePath = GeneralDialogWindow::onOpenAction();
+    QString filePath = GeneralDialogWindow::onOpenAction("Open Buffer Configuration Files (*.profileConfig)");
     if(!filePath.isEmpty() && !filePath.isNull()){
         openFromFile(filePath);
     }
@@ -265,13 +265,13 @@ void Window_ProfileConfiguration::on_actionOpen_triggered()
 
 void Window_ProfileConfiguration::on_actionSave_triggered()
 {
-    QString settingsPath = GeneralDialogWindow::onSaveAction();
+    QString settingsPath = GeneralDialogWindow::onSaveAction("profileConfig");
     saveToFile(settingsPath);
 }
 
 void Window_ProfileConfiguration::on_actionSave_As_triggered()
 {
-    QString settingsPath = GeneralDialogWindow::onSaveAsAction();
+    QString settingsPath = GeneralDialogWindow::onSaveAsAction("profileConfig");
     saveToFile(settingsPath);
 }
 
