@@ -36,10 +36,6 @@ private slots:
 
     void on_pushButton_TouchoffRef_released();
 
-    void on_doubleSpinBox_TouchoffRef_valueChanged(double arg1);
-
-    void on_doubleSpinBox_InitialGap_valueChanged(double arg1);
-
     void on_checkBox_ReferenceOldPosition_toggled(bool val);
 
 private:

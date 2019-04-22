@@ -18,6 +18,10 @@ void ECMState_Upload::OnExit()
 
 void ECMState_Upload::stopProcess()
 {
+
+//    ECM::API::AbstractStateECMProcess* currentInnerState = static_cast<ECM::API::AbstractStateECMProcess*>(this->GetInnerState());
+//    currentInnerState->stopProcess();
+
     desiredState = ECMState::STATE_ECM_IDLE;
 }
 

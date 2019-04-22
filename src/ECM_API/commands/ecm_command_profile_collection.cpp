@@ -10,6 +10,7 @@ ECMCommand_ProfileCollection::ECMCommand_ProfileCollection(const ECMCommand_Prof
     ECMCommand_AbstractCollection(copy)
 {
     this->m_Collection = copy.m_Collection;
+    this->m_DesiredBuffers = copy.m_DesiredBuffers;
 }
 
 ECMCommand_ProfileCollection::~ECMCommand_ProfileCollection()
@@ -25,6 +26,16 @@ ECMCommand_AbstractCollectionPtr ECMCommand_ProfileCollection::getClone() const
 void ECMCommand_ProfileCollection::getClone(ECMCommand_AbstractCollectionPtr &collection) const
 {
     collection = std::make_shared<ECMCommand_ProfileCollection>(*this);
+}
+
+void ECMCommand_ProfileCollection::setDesiredBufferSuite(const SPII_CurrentProgram &desiredBufferPrograms)
+{
+    m_DesiredBuffers = desiredBufferPrograms;
+}
+
+SPII_CurrentProgram ECMCommand_ProfileCollection::getDesiredBufferSuite() const
+{
+    return this->m_DesiredBuffers;
 }
 
 void ECMCommand_ProfileCollection::insertProfile(const ECMCommand_AbstractProfileConfigPtr profile)

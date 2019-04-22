@@ -20,10 +20,11 @@ Widget_BufferEditor::~Widget_BufferEditor()
     delete ui;
 }
 
-void Widget_BufferEditor::updateFromBufferData(const BufferData &data)
+void Widget_BufferEditor::updateFromBufferData(const BufferData &data, bool &current, bool &compiled)
 {
     updateProgramText(data.getProgramString());
     updateBufferName(data.getBufferName());
+    doesProgramMatch(current, compiled);
 }
 
 std::string Widget_BufferEditor::getCurrentBufferName() const
@@ -109,12 +110,13 @@ bool Widget_BufferEditor::isAccurateReflection() const
     return false;
 }
 
-bool Widget_BufferEditor::doesProgramMatch()
+void Widget_BufferEditor::doesProgramMatch(bool &current, bool &compiled)
 {
     bool accurateReflection = isAccurateReflection();
 
     if(!accurateReflection)
     {
+        current = false; compiled = false;
         m_EditData->setBufferCurrent(false);
         updateCurrentLED(false);
         m_EditData->setBufferCompiled(false);
@@ -125,12 +127,14 @@ bool Widget_BufferEditor::doesProgramMatch()
         BufferData currentBufferData;
         m_SPIIDevice->m_StateInterface->m_BufferManager->getBufferData(m_EditData->getBufferIndex(),currentBufferData);
 
-        m_EditData->setBufferCurrent(currentBufferData.isBufferCurrent());
-        updateCurrentLED(currentBufferData.isBufferCurrent());
-        m_EditData->setBufferCompiled(currentBufferData.isBufferCompiled());
-        updateCompiledLED(currentBufferData.isBufferCompiled());
+        current = currentBufferData.isBufferCurrent();
+        updateCurrentLED(current);
+        m_EditData->setBufferCurrent(current);
+
+        compiled = currentBufferData.isBufferCompiled();
+        updateCompiledLED(compiled);
+        m_EditData->setBufferCompiled(compiled);
     }
-    return accurateReflection;
 }
 
 void Widget_BufferEditor::on_codeTextEdit_textChanged()
@@ -140,7 +144,10 @@ void Widget_BufferEditor::on_codeTextEdit_textChanged()
     std::string programString = ui->codeTextEdit->toPlainText().toStdString();
     m_EditData->setProgramString(programString);
 
-    doesProgramMatch();
+    bool current, compiled;
+    doesProgramMatch(current, compiled);
+
+    emit signal_BufferCurrent(current);
 }
 
 void Widget_BufferEditor::on_pushButton_Upload_released()

@@ -16,6 +16,9 @@ Widget_BufferDescriptor::Widget_BufferDescriptor(SPIIMotionController *motionCon
     connect(m_BufferEditor, SIGNAL(signal_BufferUpdatedLineCount(const int &)),
             this, SLOT(slot_UpdateBufferLineCount(const int&)));
 
+    connect(m_BufferEditor, SIGNAL(signal_BufferCurrent(const bool &)),
+            this, SLOT(slot_BufferCurrent(const bool&)));
+
     slot_UpdateBufferName(m_BufferEditor->getCurrentBufferName());
 
     updateBufferIndex(bufferIndex);
@@ -37,8 +40,14 @@ Widget_BufferDescriptor::Widget_BufferDescriptor(SPIIMotionController *motionCon
     connect(m_BufferEditor, SIGNAL(signal_BufferUpdatedLineCount(const int &)),
             this, SLOT(slot_UpdateBufferLineCount(const int&)));
 
-    m_BufferEditor->updateFromBufferData(data);
+    connect(m_BufferEditor, SIGNAL(signal_BufferCurrent(const bool &)),
+            this, SLOT(slot_BufferCurrent(const bool&)));
 
+    bool current, compiled;
+    m_BufferEditor->updateFromBufferData(data, current, compiled);
+
+    updateCurrentLED(current);
+    updateCompiledLED(compiled);
     //slot_UpdateBufferName(m_BufferEditor->getCurrentBufferName());
 }
 
@@ -65,6 +74,11 @@ Widget_BufferEditor* Widget_BufferDescriptor::getBufferEditor() const
 void Widget_BufferDescriptor::updateBufferIndex(const unsigned int &index)
 {
     ui->label_BufferIndex->setText(QString::number(index));
+}
+
+void Widget_BufferDescriptor::slot_BufferCurrent(const bool &current)
+{
+    updateCurrentLED(current);
 }
 
 void Widget_BufferDescriptor::updateCurrentLED(const bool &current)

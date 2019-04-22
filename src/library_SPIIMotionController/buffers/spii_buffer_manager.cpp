@@ -42,8 +42,13 @@ void BufferManager::readFromJSON(const QJsonObject &loadObject)
     QJsonArray MCDataArray = loadObject["MotionControlData"].toArray();
     QJsonObject MCObject = MCDataArray[0].toObject();
 
-    this->setDBufferIndex(MCObject["indexDBuffer"].toInt());
     this->setMaxBufferSize(MCObject["maxBufferSize"].toInt());
+    if(MCObject["indexDBuffer"].toInt() > maxBufferSize - 1)
+    {
+        this->setDBufferIndex(maxBufferSize - 1);
+    }
+    else
+        this->setDBufferIndex(MCObject["indexDBuffer"].toInt());
 
     QJsonArray bufferDataArray = MCObject["bufferDataArray"].toArray();
 
@@ -74,6 +79,8 @@ void BufferManager::setMaxBufferSize(const unsigned int &numBuffers)
         BufferData* newData = new BufferData(index);
         m_ProgramBuffers.insert(std::pair<unsigned int, BufferData*>(index,newData));
     }
+
+    maxBufferSize = numBuffers;
 }
 unsigned int BufferManager::getBufferSize() const
 {
@@ -103,6 +110,19 @@ bool BufferManager::getBufferData(const unsigned int &bufferIndex, BufferData &d
     else
         return false;
 }
+
+std::map<unsigned int, BufferData> BufferManager::getBufferData() const
+{
+    std::map<unsigned int, BufferData> rtnData;
+    std::map<unsigned int, BufferData*>::const_iterator it = m_ProgramBuffers.cbegin();
+
+    for(;it!=m_ProgramBuffers.cend();++it)
+    {
+        rtnData.insert(std::pair<unsigned int, BufferData>(it->first,*it->second));
+    }
+    return rtnData;
+}
+
 
 void BufferManager::clearExistingBufferMap()
 {

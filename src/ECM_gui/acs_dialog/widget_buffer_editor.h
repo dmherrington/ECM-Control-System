@@ -22,7 +22,7 @@ public:
     ~Widget_BufferEditor();
 
 public:
-    void updateFromBufferData(const BufferData &data);
+    void updateFromBufferData(const BufferData &data, bool &current, bool &compiled);
 
     std::string getCurrentBufferName() const;
 
@@ -44,7 +44,7 @@ public:
 
     bool isAccurateReflection() const;
 
-    bool doesProgramMatch();
+    void doesProgramMatch(bool &current, bool &compiled);
 
 private:
     void updateCurrentLineCount();
@@ -65,7 +65,10 @@ private slots:
 
 signals:
     void signal_BufferNameChanged(const std::string &name);
+
     void signal_BufferUpdatedLineCount(const int &count);
+
+    void signal_BufferCurrent(const bool &current);
 
 private:
     Ui::Widget_BufferEditor *ui;

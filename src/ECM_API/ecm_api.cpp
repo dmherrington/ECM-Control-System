@@ -111,7 +111,7 @@ void ECM_API::logCurrentOperationalSettings()
     this->writeHeaderBreaker(operationsString, 100);
     operationsString += "MOTION CONTROLLER OPERATIONAL VARIABLES: \n";
     this->writeHeaderBreaker(operationsString, 100);
-    //operationsString += m_MotionController->stateInterface->galilProgram->getVariableList().getLoggingString();
+    operationsString += m_MotionController->m_StateInterface->m_BufferManager->getCurrentUserVariables().getLoggingString();
     operationsString += "\r\n";
 
     m_Log->writeCurrentOperationalSettings(operationsString);
@@ -146,7 +146,7 @@ void ECM_API::beginOperationalProfile(const ECMCommand_AbstractProfileConfigPtr 
 void ECM_API::executeExplicitProfile(const ECMCommand_ProfileConfigurationPtr profileConfig)
 {
     //Begin requesting of information from the oscilliscope
-    //m_Rigol->executeMeasurementPolling(true);
+    m_Rigol->executeMeasurementPolling(true);
 
     CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,
                                                                                profileConfig->getProfileName());

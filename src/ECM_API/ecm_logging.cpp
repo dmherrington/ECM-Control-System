@@ -54,6 +54,10 @@ void ECMLogging::writeExecutionCollection(const ECMCommand_ExecuteCollectionPtr 
     }
 
     saveObject["configData"] = segmentDataArray;
+
+    SPII_CurrentProgram executionBufferSuite = collection->getDesiredBufferSuite();
+    executionBufferSuite.writeToJSON(saveObject,false);
+
     QJsonDocument saveDoc(saveObject);
     configurationFile->write(saveDoc.toJson());
     configurationFile->close();

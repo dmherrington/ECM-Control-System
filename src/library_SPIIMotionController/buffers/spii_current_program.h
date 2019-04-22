@@ -13,7 +13,7 @@ public:
      ~SPII_CurrentProgram() = default;
 
 public:
-    void writeToJSON(QJsonObject &bufferDataObject) override;
+    void writeToJSON(QJsonObject &bufferDataObject, const bool &writeVariableData = true);
 
     void readFromJSON(const QJsonObject &bufferDataObject) override;
 

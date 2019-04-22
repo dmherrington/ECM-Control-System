@@ -34,6 +34,9 @@ public:
 
     void setInitialBufferCount(const unsigned int &count, const unsigned int &dBuffer);
 
+    SPII_CurrentProgram getDesiredBufferContents() const;
+
+    void loadBufferContents(const SPII_CurrentProgram &desiredBufferContents);
 signals:
     void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility) override;
 

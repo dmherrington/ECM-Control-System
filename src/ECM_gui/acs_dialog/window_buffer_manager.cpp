@@ -29,7 +29,14 @@ void Window_BufferManager::closeEvent(QCloseEvent *event)
 
 void Window_BufferManager::clearBufferData()
 {
-    for(int stackedIndex = ui->stackedWidget_BufferContents->count(); stackedIndex > 0; stackedIndex--)
+    //first delete the widget data
+    for (auto it = m_BufferDescriptors.cbegin(); it != m_BufferDescriptors.cend() /* not hoisted */; /* no increment */)
+    {
+        it = m_BufferDescriptors.erase(it);
+    }
+
+    //then delete the list widget
+    for(int stackedIndex = ui->stackedWidget_BufferContents->count(); stackedIndex >= 0; stackedIndex--)
     {
         //first delete the stacked index
         QWidget* widget = ui->stackedWidget_BufferContents->widget(stackedIndex);
@@ -39,6 +46,7 @@ void Window_BufferManager::clearBufferData()
 
     //next delete the list widget
     ui->listWidget_Buffers->clear();
+
     //lastly, clear all of the old data
     m_BufferDescriptors.clear();
 }
@@ -70,6 +78,48 @@ void Window_BufferManager::setInitialBufferCount(const unsigned int &count, cons
     m_BufferDescriptors.at(0)->setOpenInEditor(true);
     ui->stackedWidget_BufferContents->setCurrentIndex(0);
 
+}
+
+SPII_CurrentProgram Window_BufferManager::getDesiredBufferContents() const
+{
+    SPII_CurrentProgram bufferEditor;
+    bufferEditor.setMaxBufferSize(m_BufferDescriptors.size());
+
+    std::map<unsigned int, Widget_BufferDescriptor*>::const_iterator it = m_BufferDescriptors.cbegin();
+    for(; it != m_BufferDescriptors.cend(); ++it)
+    {
+        Widget_BufferDescriptor* currentBufferDescriptor = it->second;
+        BufferData currentData = currentBufferDescriptor->getBufferEditor()->getBufferData();
+        if(currentData.isDBuffer())
+            bufferEditor.setDBufferIndex(currentData.getBufferIndex());
+        bufferEditor.updateBufferData(it->first, currentData);
+    }
+
+    return bufferEditor;
+}
+
+void Window_BufferManager::loadBufferContents(const SPII_CurrentProgram &desiredBufferContents)
+{
+    unsigned int correctDBuffer = 0;
+    if(m_SPIIDevice->isDeviceConnected())
+    {
+        unsigned int connectedDBufferIndex = m_SPIIDevice->m_StateInterface->m_BufferManager->getDBufferIndex();
+        if(connectedDBufferIndex != desiredBufferContents.getDBufferIndex())
+            correctDBuffer = connectedDBufferIndex;
+        else
+            correctDBuffer = desiredBufferContents.getDBufferIndex();
+    }
+    setInitialBufferCount(desiredBufferContents.getBufferSize(), correctDBuffer);
+
+    std::map<unsigned int, Widget_BufferDescriptor*>::iterator it = m_BufferDescriptors.begin();
+    for(; it != m_BufferDescriptors.end(); ++it)
+    {
+        Widget_BufferDescriptor* currentBufferDescriptor = it->second;
+        BufferData currentBufferData;
+        bool current, compiled;
+        desiredBufferContents.getBufferData(it->first,currentBufferData);
+        currentBufferDescriptor->getBufferEditor()->updateFromBufferData(currentBufferData,current,compiled);
+    }
 }
 
 bool Window_BufferManager::isDisplayCurrentAndCompiled() const
@@ -194,6 +244,7 @@ void Window_BufferManager::openFromFile(const QString &filePath)
      if (!loadFile.open(QIODevice::ReadOnly)) return;
 
     clearBufferData();
+
 
     QByteArray loadData = loadFile.readAll();
     loadFile.close();

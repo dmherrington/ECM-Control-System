@@ -62,6 +62,8 @@ public:
     //////////////////////////////////////////////////////////////
     void resetSensorayIO();
 
+    void readSensorayADC();
+
     void updateCurrentSession(SensoraySession* session);
 private:
 

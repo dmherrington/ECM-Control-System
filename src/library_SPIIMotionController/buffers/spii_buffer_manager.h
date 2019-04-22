@@ -36,6 +36,8 @@ public:
     void updateBufferData(const unsigned int &bufferIndex, const BufferData &data);
     bool getBufferData(const unsigned int &bufferIndex, BufferData &data) const;
 
+    std::map<unsigned int, BufferData> getBufferData() const;
+
     void statusBufferUpdate(const Status_BufferState &state);
 
 private:
