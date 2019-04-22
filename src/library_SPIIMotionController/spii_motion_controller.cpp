@@ -65,7 +65,7 @@ void SPIIMotionController::ConnectToSimulation()
         initializeMotionController();
 
         //Now we can notify the remaining parties that the
-        common::comms::CommunicationUpdate commsUpdate("Motion Controller Link");
+        common::comms::CommunicationUpdate commsUpdate("Motion Controller Link", ECMDevice::DEVICE_MOTIONCONTROL);
         commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
         commsUpdate.setPeripheralMessage("SPII Motor Controller Connected.");
         emit signal_MCCommunicationUpdate(commsUpdate);
@@ -87,7 +87,7 @@ void SPIIMotionController::ConnectToEthernetPort(const common::comms::TCPConfigu
         initializeMotionController();
 
         //Now we can notify the remaining parties that the
-        common::comms::CommunicationUpdate commsUpdate("Motion Controller Link");
+        common::comms::CommunicationUpdate commsUpdate("Motion Controller Link", ECMDevice::DEVICE_MOTIONCONTROL);
         commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
         commsUpdate.setPeripheralMessage("SPII Motor Controller Connected.");
         emit signal_MCCommunicationUpdate(commsUpdate);

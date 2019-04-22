@@ -32,6 +32,19 @@ void SensorayProtocol::resetSensorayIO()
         s2426_WritePwm( m_Session->handle, &errorCode, dioChan, (u16)( ( 23 * ( dioChan + 1 ) ) & 255 ), (u16)( ( 39 * ( dioChan + 1 ) ) & 511 ) );
     }
 }
+void SensorayProtocol::readSensorayADC()
+{
+    // Read and display the six external analog input channels.
+    int i;
+    S24XXERR errorCode = S24XXERR::ERR_NONE;
+    S2426_ADC_SAMPLE samp;
+    // allocate space for 8 chans
+    if ( !s2426_ReadAdc( m_Session->handle, &errorCode, &samp, true ) )
+    {
+
+    }
+}
+
 
 bool SensorayProtocol::openSerialPort(const common::comms::SerialConfiguration &config)
 {

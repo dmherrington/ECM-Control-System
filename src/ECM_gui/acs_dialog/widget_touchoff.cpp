@@ -77,16 +77,6 @@ void Widget_Touchoff::on_pushButton_TouchoffRef_released()
     ui->doubleSpinBox_TouchoffRefZ->setValue(posZ.getPosition());
 }
 
-void Widget_Touchoff::on_doubleSpinBox_TouchoffRef_valueChanged(double arg1)
-{
-    UNUSED(arg1);
-}
-
-void Widget_Touchoff::on_doubleSpinBox_InitialGap_valueChanged(double arg1)
-{
-    UNUSED(arg1);
-}
-
 void Widget_Touchoff::on_checkBox_ReferenceOldPosition_toggled(bool val)
 {
     if(val)

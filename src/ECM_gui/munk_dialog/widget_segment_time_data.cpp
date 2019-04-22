@@ -96,7 +96,7 @@ void WidgetSegmentTimeData::on_doubleSpinBox_Current_valueChanged(const double a
 
 void WidgetSegmentTimeData::on_doubleSpinBox_Time_valueChanged(const double arg1)
 {
-    data->setTimeValue(arg1 * 1000.0);
+    data->setTimeValue(static_cast<uint32_t>(arg1 * 1000.0));
     emitCallback();
 }
 

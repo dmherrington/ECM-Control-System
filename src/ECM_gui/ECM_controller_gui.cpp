@@ -786,7 +786,7 @@ void ECMControllerGUI::on_pushButton_Stop_released()
 {
     m_API->action_StopMachine();
 
-    ECM::API::AbstractStateECMProcess* currentState = static_cast<ECM::API::AbstractStateECMProcess*>(stateMachine->getCurrentOuterState());
+    ECM::API::AbstractStateECMProcess* currentState = static_cast<ECM::API::AbstractStateECMProcess*>(stateMachine->getCurrentState());
     currentState->stopProcess();
 
     ProgressStateMachineStates();

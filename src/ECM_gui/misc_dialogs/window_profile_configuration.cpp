@@ -309,7 +309,7 @@ void Window_ProfileConfiguration::saveToFile(const QString &filePath)
     saveObject["configData"] = segmentDataArray;
     saveObject["configureHome"] = ui->checkBox_ShouldHomeBeIndicated->isChecked();
     SPII_CurrentProgram desiredBufferContents = m_WindowBufferManager->getDesiredBufferContents();
-    desiredBufferContents.writeToJSON(saveObject);
+    desiredBufferContents.writeToJSON(saveObject, false);
     QJsonDocument saveDoc(saveObject);
     saveFile.write(saveDoc.toJson());
     saveFile.close();

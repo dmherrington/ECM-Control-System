@@ -43,7 +43,12 @@ void BufferManager::readFromJSON(const QJsonObject &loadObject)
     QJsonObject MCObject = MCDataArray[0].toObject();
 
     this->setMaxBufferSize(MCObject["maxBufferSize"].toInt());
-    this->setDBufferIndex(MCObject["indexDBuffer"].toInt());
+    if(MCObject["indexDBuffer"].toInt() > maxBufferSize - 1)
+    {
+        this->setDBufferIndex(maxBufferSize - 1);
+    }
+    else
+        this->setDBufferIndex(MCObject["indexDBuffer"].toInt());
 
     QJsonArray bufferDataArray = MCObject["bufferDataArray"].toArray();
 

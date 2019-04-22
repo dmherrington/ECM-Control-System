@@ -84,13 +84,14 @@ SPII_CurrentProgram Window_BufferManager::getDesiredBufferContents() const
 {
     SPII_CurrentProgram bufferEditor;
     bufferEditor.setMaxBufferSize(m_BufferDescriptors.size());
-    bufferEditor.setDBufferIndex(m_SPIIDevice->m_StateInterface->m_BufferManager->getDBufferIndex());
 
     std::map<unsigned int, Widget_BufferDescriptor*>::const_iterator it = m_BufferDescriptors.cbegin();
     for(; it != m_BufferDescriptors.cend(); ++it)
     {
         Widget_BufferDescriptor* currentBufferDescriptor = it->second;
         BufferData currentData = currentBufferDescriptor->getBufferEditor()->getBufferData();
+        if(currentData.isDBuffer())
+            bufferEditor.setDBufferIndex(currentData.getBufferIndex());
         bufferEditor.updateBufferData(it->first, currentData);
     }
 
@@ -99,7 +100,16 @@ SPII_CurrentProgram Window_BufferManager::getDesiredBufferContents() const
 
 void Window_BufferManager::loadBufferContents(const SPII_CurrentProgram &desiredBufferContents)
 {
-    setInitialBufferCount(desiredBufferContents.getBufferSize(), desiredBufferContents.getDBufferIndex());
+    unsigned int correctDBuffer = 0;
+    if(m_SPIIDevice->isDeviceConnected())
+    {
+        unsigned int connectedDBufferIndex = m_SPIIDevice->m_StateInterface->m_BufferManager->getDBufferIndex();
+        if(connectedDBufferIndex != desiredBufferContents.getDBufferIndex())
+            correctDBuffer = connectedDBufferIndex;
+        else
+            correctDBuffer = desiredBufferContents.getDBufferIndex();
+    }
+    setInitialBufferCount(desiredBufferContents.getBufferSize(), correctDBuffer);
 
     std::map<unsigned int, Widget_BufferDescriptor*>::iterator it = m_BufferDescriptors.begin();
     for(; it != m_BufferDescriptors.end(); ++it)
