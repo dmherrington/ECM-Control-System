@@ -88,11 +88,6 @@ border:none;
 background-color:#149ED9;
 }
 
-QListWidget{
-background-color:#3d3d3d;
-color:#fff;
-}
-
 QMenu{
 background-color:#3d3d3d;
 }

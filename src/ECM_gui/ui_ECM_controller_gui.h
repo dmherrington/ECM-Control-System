@@ -1039,7 +1039,6 @@ public:
         menuBar->addAction(menuHelp->menuAction());
         menuFile->addAction(actionClose);
         menuTools->addAction(actionConnections);
-        menuTools->addAction(actionBuffer_Manager);
         menuTools->addAction(actionProfile_Configuration);
         menuTools->addSeparator();
         menuTools->addAction(actionPower_Supply);

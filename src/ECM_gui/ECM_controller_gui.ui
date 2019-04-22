@@ -1963,7 +1963,6 @@ width:20px;
      <string>Tools</string>
     </property>
     <addaction name="actionConnections"/>
-    <addaction name="actionBuffer_Manager"/>
     <addaction name="actionProfile_Configuration"/>
     <addaction name="separator"/>
     <addaction name="actionPower_Supply"/>
