@@ -1,15 +1,13 @@
 #ifndef NOTIFICATION_UPDATE_H
 #define NOTIFICATION_UPDATE_H
 
-
 #include <QMetaType>
 
 #include "string"
 
-#include "../ecm_devices.h"
+#include "ecm_devices.h"
 
 namespace common {
-namespace comms {
 
 class NotificationUpdate
 {
@@ -22,7 +20,7 @@ public:
     };
 
 public:
-    CommunicationUpdate(const std::string &source = "", const ECMDevice &sourceType = ECMDevice::DEVICE_UNKNOWN, const UpdateTypes &status = UpdateTypes::NOTIFICATION, const std::string &msg = "")
+    NotificationUpdate(const std::string &source = "", const ECMDevice &sourceType = ECMDevice::DEVICE_UNKNOWN, const UpdateTypes &status = UpdateTypes::NOTIFICATION, const std::string &msg = "")
     {
         this->sourceName = source;
         this->sourceType = sourceType;
@@ -30,7 +28,7 @@ public:
         this->message = msg;
     }
 
-    CommunicationUpdate(const NotificationUpdate &copy)
+    NotificationUpdate(const NotificationUpdate &copy)
     {
         this->sourceName = copy.sourceName;
         this->sourceType = copy.sourceType;
@@ -38,7 +36,7 @@ public:
         this->message = copy.message;
     }
 
-    ~CommunicationUpdate() = default;
+    ~NotificationUpdate() = default;
 
 public:
     void setSourceName(const std::string &source)
@@ -77,7 +75,7 @@ public:
     }
 
 public:
-    CommunicationUpdate& operator = (const NotificationUpdate &rhs)
+    NotificationUpdate& operator = (const NotificationUpdate &rhs)
     {
         this->sourceName = rhs.sourceName;
         this->sourceType = rhs.sourceType;
@@ -94,9 +92,8 @@ private:
 
 };
 
-} //end of namespace comms
 } //end of namespace common
 
-Q_DECLARE_METATYPE(common::comms::NotificationUpdate)
+Q_DECLARE_METATYPE(common::NotificationUpdate)
 
 #endif // NOTIFICATION_UPDATE_H

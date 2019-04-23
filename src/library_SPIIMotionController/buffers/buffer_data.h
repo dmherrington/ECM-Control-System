@@ -24,6 +24,9 @@ public:
     void updateBufferData(const BufferData &data);
 
 public:
+
+    void writeToText(QString &stringObject);
+
     void writeToJSON(QJsonObject &jsonObject);
 
     void readFromJSON(const QJsonObject &bufferDataObject);

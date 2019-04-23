@@ -68,7 +68,8 @@ SOURCES += \
     requests/request_axis_fault.cpp \
     status/status_motor_fault.cpp \
     status/status_system_fault.cpp \
-    requests/request_system_faults.cpp
+    requests/request_system_faults.cpp \
+    buffers/spii_prg_handle.cpp
 
 HEADERS += \
         spii_motion_controller.h \
@@ -128,7 +129,8 @@ HEADERS += \
     status/status_motor_fault.h \
     requests/request_motor_fault.h \
     status/status_system_fault.h \
-    requests/request_system_faults.h
+    requests/request_system_faults.h \
+    buffers/spii_prg_handle.h
 
 # Unix lib Install
 unix:!symbian {

@@ -63,6 +63,7 @@ void BufferManager::readFromJSON(const QJsonObject &loadObject)
 void BufferManager::setDBufferIndex(const unsigned int &index)
 {
     m_ProgramBuffers.at(index)->setIsDBuffer(true);
+    indexDBuffer = index;
 }
 
 unsigned int BufferManager::getDBufferIndex() const
@@ -85,6 +86,25 @@ void BufferManager::setMaxBufferSize(const unsigned int &numBuffers)
 unsigned int BufferManager::getBufferSize() const
 {
     return m_ProgramBuffers.size();
+}
+
+void BufferManager::appendBufferData(const unsigned int &bufferIndex, const BufferData &data)
+{
+    if(data.isDBuffer())
+        indexDBuffer = bufferIndex;
+
+    std::map<unsigned int, BufferData*>::iterator it;
+    it = m_ProgramBuffers.find(bufferIndex);
+    if(it != m_ProgramBuffers.end())
+    {
+        BufferData* currentData = it->second;
+        currentData->updateBufferData(data);
+    }
+    else {
+        maxBufferSize++;
+        BufferData* newData = new BufferData(data);
+        m_ProgramBuffers.insert(std::pair<unsigned int, BufferData*>(bufferIndex,newData));
+    }
 }
 
 void BufferManager::updateBufferData(const unsigned int &bufferIndex, const BufferData &data)

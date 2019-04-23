@@ -33,6 +33,7 @@ public:
     void setMaxBufferSize(const unsigned int &numBuffers);
     unsigned int getBufferSize() const;
 
+    void appendBufferData(const unsigned int &bufferIndex, const BufferData &data);
     void updateBufferData(const unsigned int &bufferIndex, const BufferData &data);
     bool getBufferData(const unsigned int &bufferIndex, BufferData &data) const;
 
@@ -40,7 +41,6 @@ public:
 
     void statusBufferUpdate(const Status_BufferState &state);
 
-private:
     void clearExistingBufferMap();
 
 public:

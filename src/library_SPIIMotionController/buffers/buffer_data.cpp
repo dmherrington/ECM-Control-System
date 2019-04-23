@@ -36,6 +36,19 @@ void BufferData::updateBufferData(const BufferData &data)
     this->programText = data.programText;
 }
 
+void BufferData::writeToText(QString &stringObject)
+{
+    if(programText.empty())
+        return;
+
+    if(dBuffer)
+        stringObject += "#A \r\n";
+    else
+        stringObject += "#" + QString::number(bufferIndex) + "\r\n";
+
+    stringObject += QString::fromStdString(programText);
+}
+
 void BufferData::writeToJSON(QJsonObject &jsonObject)
 {
     jsonObject["bufferIndex"] = (int)this->getBufferIndex();
