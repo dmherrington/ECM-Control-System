@@ -85,7 +85,9 @@ SOURCES += \
     motion_dialog/widget_front_panel_axis_motion_control.cpp \
     motion_dialog/widget_axis_vertical_control.cpp \
     motion_dialog/widget_axis_horizontal_control.cpp \
-    acs_dialog/widget_variable_descriptor.cpp
+    acs_dialog/widget_variable_descriptor.cpp \
+    misc_dialogs/widget_detailed_notification.cpp \
+    misc_dialogs/window_notifications.cpp
 
 HEADERS += \
     misc_dialogs/code_edit_widget.h \
@@ -131,7 +133,9 @@ HEADERS += \
     motion_dialog/widget_axis_vertical_control.h \
     motion_dialog/widget_axis_horizontal_control.h \
     motion_dialog/widget_abstract_axis_control.h \
-    acs_dialog/widget_variable_descriptor.h
+    acs_dialog/widget_variable_descriptor.h \
+    misc_dialogs/widget_detailed_notification.h \
+    misc_dialogs/window_notifications.h
 
 FORMS += \
     misc_dialogs/table_widget_operation_descriptor.ui \
@@ -164,7 +168,9 @@ FORMS += \
     motion_dialog/widget_front_panel_axis_motion_control.ui \
     motion_dialog/widget_axis_vertical_control.ui \
     motion_dialog/widget_axis_horizontal_control.ui \
-    acs_dialog/widget_variable_descriptor.ui
+    acs_dialog/widget_variable_descriptor.ui \
+    misc_dialogs/widget_detailed_notification.ui \
+    misc_dialogs/window_notifications.ui
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET
