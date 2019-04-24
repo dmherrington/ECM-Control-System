@@ -185,6 +185,12 @@ void SPIIProtocol::SendProtocolCommand(const AbstractCommandPtr command)
         WriteOperationalVariables(operationalVariables->getOperationalVariables());
         break;
     }
+    case CommandType::UPLOAD_PROGRAM_SUITE:
+    {
+        SPIICommand_UploadProgramSuite* programSuite = command->as<SPIICommand_UploadProgramSuite>();
+
+        break;
+    }
     default:
     {
         break;
@@ -643,9 +649,33 @@ unsigned int SPIIProtocol::checkForBufferLineError(const unsigned int &index)
 
     return -1;
 }
-
-void SPIIProtocol::uploadProgramToBuffer(const SPIICommand_UploadProgramBuffer *uploadProgram)
+void SPIIProtocol::uploadProgramSuite(const SPIICommand_UploadProgramSuite *uploadSuite)
 {
+    SPII_CurrentProgram desiredProgram = uploadSuite->getProgram();
+    for(unsigned int index = 0; desiredProgram.getBufferSize(); index++)
+    {
+        BufferData newData;
+        if(desiredProgram.getBufferData(index,newData))
+        {
+            SPIICommand_UploadProgramBuffer newCommand;
+            newCommand.setBufferIndex(index);
+            newCommand.setCurrentScript(newData.getProgramString());
+            newCommand.setShouldCompile(true);
+
+            if(!uploadProgramToBuffer(&newCommand))
+            {
+                Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewBuffer_ProgramSuite(false, desiredProgram);});
+                return;
+            }
+        }
+    }
+    Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewBuffer_ProgramSuite(true, desiredProgram);});
+}
+
+bool SPIIProtocol::uploadProgramToBuffer(const SPIICommand_UploadProgramBuffer *uploadProgram)
+{
+    bool rtnStatus = false;
+
     Status_BufferState newBufferState;
     newBufferState.setBufferIndex(uploadProgram->getBufferIndex());
     newBufferState.setProgramString(uploadProgram->getCurrentScript());
@@ -673,8 +703,15 @@ void SPIIProtocol::uploadProgramToBuffer(const SPIICommand_UploadProgramBuffer *
                 retrieveBufferLabels(m_SPIISettings.getLabelBufferIndex(), relevantLabels);
                 Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_OperationalLabels(relevantLabels);});
             }
+            rtnStatus = true;
         }
     }
+    else if(uploadSuccessful)
+    {
+        rtnStatus = true;
+    }
+
+    return rtnStatus;
 }
 
 void SPIIProtocol::retrieveBufferData(const unsigned int &bufferIndex, BufferData &bufferContents)

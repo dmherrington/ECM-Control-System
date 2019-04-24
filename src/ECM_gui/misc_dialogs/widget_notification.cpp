@@ -1,19 +1,19 @@
-#include "window_notifications.h"
-#include "ui_window_notifications.h"
+#include "widget_notification.h"
+#include "ui_widget_notification.h"
 
-Window_Notifications::Window_Notifications(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::Window_Notifications)
+Widget_Notification::Widget_Notification(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::Widget_Notification)
 {
     ui->setupUi(this);
 }
 
-Window_Notifications::~Window_Notifications()
+Widget_Notification::~Widget_Notification()
 {
     delete ui;
 }
 
-void Window_Notifications::addNewNotification(const common::NotificationUpdate &update)
+void Widget_Notification::addNewNotification(const common::NotificationUpdate &update)
 {
     Widget_DetailedNotification* widgetDetailedNotification = new Widget_DetailedNotification();
     widgetDetailedNotification->setNotification(update);
@@ -24,7 +24,4 @@ void Window_Notifications::addNewNotification(const common::NotificationUpdate &
 
     ui->listWidget_Notifications->addItem(newItem);
     ui->listWidget_Notifications->setItemWidget(newItem,widgetDetailedNotification);
-
-//    this->m_MapOperations.insert(std::pair<QListWidgetItem*,TableWidget_OperationDescriptor*>(newItem,tableDescriptor));
 }
-

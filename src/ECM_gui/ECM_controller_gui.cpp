@@ -91,12 +91,17 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API, SIGNAL(signal_InPauseEvent(std::string)),
             this, SLOT(slot_OnExecutionPause(std::string)));
 
+    QDockWidget *dockNotification = new QDockWidget(tr("Notification Utility"), this);
+    m_WidgetNotification = new Widget_Notification();
+    dockNotification->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    dockNotification->setWidget(m_WidgetNotification);
+    addDockWidget(Qt::LeftDockWidgetArea, dockNotification, Qt::Orientation::Vertical);
+
     QDockWidget *dock = new QDockWidget(tr("Motion Utility"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     WidgetFrontPanel_MotionControl * dockUtility_MotionControl = new WidgetFrontPanel_MotionControl(applicableAxis, m_API->m_MotionController);
     dock->setWidget(dockUtility_MotionControl);
     addDockWidget(Qt::RightDockWidgetArea, dock, Qt::Orientation::Vertical);
-
 
     //API Connections
     connect(m_API->m_Rigol, SIGNAL(signal_RigolPlottable(common::TupleSensorString,bool)), this, SLOT(slot_NewlyAvailableRigolData(common::TupleSensorString,bool)));
@@ -170,7 +175,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     setupUploadCallbacks();
 
-    m_WindowConnections->connectToAllDevices();
+    //m_WindowConnections->connectToAllDevices();
 
     ProgressStateMachineStates();
 }
@@ -833,7 +838,18 @@ void ECMControllerGUI::slot_MCCommandError(const CommandType &type, const std::s
 
 void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ExecuteCollection &collection)
 {
-    //First copy the contents to something local that we can manipulate
+    //First, let us check the state of the machine
+    if(m_API->m_MotionController->getCurrentMCState() != ECM::SPII::SPIIState::STATE_READY)
+    {
+        //We cannot start machining from the machine within this state
+        QMessageBox msgBox;
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.setText("The ACS is not in a state ready to begin machining.");
+        msgBox.setInformativeText("This is most likely the case of the state machine believing the machine is in motion or errored.");
+        msgBox.exec();
+        return;
+    }
+    //Second, copy the contents to something local that we can manipulate
     ECMCommand_ExecuteCollection executeCollection(collection);
 
     /*

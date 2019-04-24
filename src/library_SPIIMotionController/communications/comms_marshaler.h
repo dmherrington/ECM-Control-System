@@ -89,6 +89,8 @@ private:
     /// Virtual methods imposed from IProtocolSPIIEvents
     //////////////////////////////////////////////////////////////
 
+    void NewBuffer_ProgramSuite(const bool &success, const SPII_CurrentProgram &program) const override;
+
     void NewBufferState(const Status_BufferState &state) const override;
 
     void NewBuffer_AvailableData(const BufferData &bufferData) const override;

@@ -14,6 +14,7 @@
 #include "rigol_dialog/window_rigol_control.h"
 #include "misc_dialogs/window_device_connections.h"
 #include "misc_dialogs/window_custom_motion_commands.h"
+#include "misc_dialogs/widget_notification.h"
 
 #include "additional_sensor_display.h"
 #include "common/threadmanager.h"
@@ -215,6 +216,8 @@ private:
     Window_DeviceConnections* m_WindowConnections;
 
     Window_CustomMotionCommands* m_WindowCustomMotionCommands;
+
+    Widget_Notification* m_WidgetNotification;
 
 private:
     void ProgressStateMachineStates();

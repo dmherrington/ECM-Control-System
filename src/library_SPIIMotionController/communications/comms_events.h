@@ -39,6 +39,12 @@ public:
         UNUSED(response);
     }
 
+    virtual void NewBuffer_ProgramSuite(const bool &success, const SPII_CurrentProgram &program)
+    {
+        UNUSED(success);
+        UNUSED(program);
+    }
+
     virtual void NewBufferState(const Status_BufferState &state)
     {
         UNUSED(state);

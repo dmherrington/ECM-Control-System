@@ -137,7 +137,10 @@ void Widget_ScriptingVariables::updateProgramVariables(const Operation_VariableL
 {
     //This will allow us to save the old variables first
     Operation_VariableList oldVariableList = m_ConfiguredVariables;
+    m_ConfiguredVariables = list;
 
+    //clear the old table
+    clearVariableTable();
 
     std::map<std::string, double> currentVariableList = list.getVariableMap();
 

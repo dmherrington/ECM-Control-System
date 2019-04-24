@@ -349,6 +349,11 @@ void SPIIMotionController::NewBufferState(const Status_BufferState &state)
     emit signal_MCBufferUpdate(state);
 }
 
+void SPIIMotionController::NewBuffer_ProgramSuite(const bool &success, const SPII_CurrentProgram &program)
+{
+    this->onFinishedUploadingScript(success,program);
+}
+
 void SPIIMotionController::NewBuffer_AvailableData(const BufferData &bufferData)
 {
     m_StateInterface->m_BufferManager->updateBufferData(bufferData.getBufferIndex(),bufferData);

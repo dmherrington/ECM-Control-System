@@ -6,22 +6,24 @@
 #include "string"
 
 #include "ecm_devices.h"
+#include "environment_time.h"
 
 namespace common {
 
 class NotificationUpdate
 {
 public:
-    enum class UpdateTypes
+    enum class NotificationTypes
     {
-        NOTIFICATION,
-        ALERT,
-        ERROR
+        NOTIFICATION_GENERAL,
+        NOTIFICATION_ALERT,
+        NOTIFICATION_ERROR
     };
 
 public:
-    NotificationUpdate(const std::string &source = "", const ECMDevice &sourceType = ECMDevice::DEVICE_UNKNOWN, const UpdateTypes &status = UpdateTypes::NOTIFICATION, const std::string &msg = "")
+    NotificationUpdate(const std::string &source = "", const ECMDevice &sourceType = ECMDevice::DEVICE_UNKNOWN, const NotificationTypes &status = NotificationTypes::NOTIFICATION_GENERAL, const std::string &msg = "")
     {
+        common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,time);
         this->sourceName = source;
         this->sourceType = sourceType;
         this->type = status;
@@ -30,6 +32,7 @@ public:
 
     NotificationUpdate(const NotificationUpdate &copy)
     {
+        this->time = copy.time;
         this->sourceName = copy.sourceName;
         this->sourceType = copy.sourceType;
         this->type = copy.type;
@@ -47,7 +50,7 @@ public:
     {
         this->sourceType = type;
     }
-    void setUpdateType(const UpdateTypes &status)
+    void setUpdateType(const NotificationTypes &status)
     {
         this->type = status;
     }
@@ -57,6 +60,10 @@ public:
     }
 
 public:
+    EnvironmentTime getNotificationTime() const
+    {
+        return this->time;
+    }
     std::string getSourceName() const
     {
         return this->sourceName;
@@ -65,7 +72,7 @@ public:
     {
         return this->sourceType;
     }
-    UpdateTypes getUpdateType() const
+    NotificationTypes getUpdateType() const
     {
         return this->type;
     }
@@ -77,6 +84,7 @@ public:
 public:
     NotificationUpdate& operator = (const NotificationUpdate &rhs)
     {
+        this->time = rhs.time;
         this->sourceName = rhs.sourceName;
         this->sourceType = rhs.sourceType;
         this->type = rhs.type;
@@ -85,9 +93,10 @@ public:
     }
 
 private:
+    EnvironmentTime time;
     std::string sourceName;
     ECMDevice sourceType;
-    UpdateTypes type;
+    NotificationTypes type;
     std::string message;
 
 };

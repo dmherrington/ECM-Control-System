@@ -83,6 +83,7 @@ public:
     //////////////////////////////////////////////////////////////
 private:
     void NewBufferState(const Status_BufferState &state) override;
+    void NewBuffer_ProgramSuite(const bool &success, const SPII_CurrentProgram &program) override;
     void NewBuffer_AvailableData(const BufferData &bufferData) override;
     void NewStatus_OperationalLabels(const Operation_LabelList &labelList) override;
     void NewStatus_PrivateOperationalVariables(const bool &success, const Operation_VariableList &variableList) override;

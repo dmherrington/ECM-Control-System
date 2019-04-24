@@ -8,6 +8,7 @@
 
 #include "../status/status_components.h"
 
+#include "../buffers/spii_current_program.h"
 #include "../buffers/buffer_data.h"
 
 namespace Comms
@@ -23,6 +24,8 @@ public:
 
 public:
     virtual void NewBufferState(const Status_BufferState &state) const = 0;
+
+    virtual void NewBuffer_ProgramSuite(const bool &success, const SPII_CurrentProgram &program) const = 0;
 
     virtual void NewStatus_OperationalLabels(const Operation_LabelList &labelList) const = 0;
 

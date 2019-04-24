@@ -370,6 +370,11 @@ bool CommsMarshaler::requestSystemFaults(const Request_SystemFaults *request, St
 /// Virtual methods imposed from IProtocolSPIIEvents
 //////////////////////////////////////////////////////////////
 
+void CommsMarshaler::NewBuffer_ProgramSuite(const bool &success, const SPII_CurrentProgram &program) const
+{
+    Emit([&](CommsEvents *ptr){ptr->NewBuffer_ProgramSuite(success,program);});
+}
+
 void CommsMarshaler::NewBufferState(const Status_BufferState &state) const
 {
     Emit([&](CommsEvents *ptr){ptr->NewBufferState(state);});

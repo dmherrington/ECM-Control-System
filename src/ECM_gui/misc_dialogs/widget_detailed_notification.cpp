@@ -13,7 +13,7 @@ Widget_DetailedNotification::~Widget_DetailedNotification()
     delete ui;
 }
 
-void Widget_DetailedNotification::setDetailedNotification(const Detailed_Notification &notice)
+void Widget_DetailedNotification::setNotification(const common::NotificationUpdate &notice)
 {
     setNotificationType(notice.getUpdateType());
     setNotificationTime();
@@ -21,40 +21,41 @@ void Widget_DetailedNotification::setDetailedNotification(const Detailed_Notific
 }
 
 
-void Widget_DetailedNotification::setNotificationType(const common::NotificationUpdate::UpdateTypes &type)
+void Widget_DetailedNotification::setNotificationType(const common::NotificationUpdate::NotificationTypes &type)
 {
     switch (type) {
-    case common::NotificationUpdate::UpdateTypes::ALERT:
+    case common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL:
     {
         break;
     }
-    case common::NotificationUpdate::UpdateTypes::ERROR:
+    case common::NotificationUpdate::NotificationTypes::NOTIFICATION_ALERT:
     {
         break;
     }
-    case common::NotificationUpdate::UpdateTypes::NOTIFICATION:
+    case common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR:
     {
         break;
     }
     }
 }
+
 void Widget_DetailedNotification::setNotificationTime()
 {
 
 }
-void Widget_DetailedNotification::setNotificationMessage(const common::NotificationUpdate::UpdateTypes &type, const std::string &msg)
+void Widget_DetailedNotification::setNotificationMessage(const common::NotificationUpdate::NotificationTypes &type, const std::string &msg)
 {
     ui->plainTextEdit_Message->setPlainText(QString::fromStdString(msg));
     switch (type) {
-    case common::NotificationUpdate::UpdateTypes::ALERT:
+    case common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL:
     {
         break;
     }
-    case common::NotificationUpdate::UpdateTypes::ERROR:
+    case common::NotificationUpdate::NotificationTypes::NOTIFICATION_ALERT:
     {
         break;
     }
-    case common::NotificationUpdate::UpdateTypes::NOTIFICATION:
+    case common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR:
     {
         break;
     }
