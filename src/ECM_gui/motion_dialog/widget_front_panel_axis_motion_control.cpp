@@ -83,13 +83,13 @@ void WidgetFrontPanel_AxisMotionControl::slot_MCNewMotionState(const ECM::SPII::
     case ECM::SPII::SPIIState::STATE_UNKNOWN:
     {
 
-        m_ControlWidget->lockAllMotionButtons(false);
+        m_ControlWidget->lockAllMotionButtons(true);
         break;
     }
     case ECM::SPII::SPIIState::STATE_IDLE:
     case ECM::SPII::SPIIState::STATE_READY:
     {
-        m_ControlWidget->lockRelativeMove(false);
+        m_ControlWidget->lockAllMotionButtons(false);
         break;
     }
     case ECM::SPII::SPIIState::STATE_JOGGING:
