@@ -75,7 +75,13 @@ public:
 
     bool commandKillMotion(const CommandStop &stop);
 
+    bool commandSetDigitalOutput(const unsigned int &port, const unsigned int &bit, const bool &value);
+
+    bool commandStopBufferExecution(const int &bufferIndex = -1);
+
     bool commandCustomString(const std::string &command, std::string &response, const unsigned int startingBufferSize = 100, const int &attempts = -1);
+
+    bool commandCustomString_LessResponse(const std::string &command);
 
 public:
     bool bufferUpload(const unsigned int &index, const std::string &text);
@@ -91,6 +97,9 @@ public:
     unsigned int checkForBufferLineError(const unsigned int &index);
 
 private:
+
+    void ceaseMachineMotion(const CommandStop &command);
+
     void uploadProgramToBuffer(const SPIICommand_UploadProgramBuffer* uploadProgram);
 
     void retrieveBufferData(const unsigned int &bufferIndex, BufferData &bufferContents);

@@ -216,7 +216,7 @@ void SPIIProtocol::SendProtocolMotionCommand(const AbstractCommandPtr command)
     case CommandType::STOP:
     {
         CommandStop* commandStop = command->as<CommandStop>();
-        commandKillMotion(*commandStop);
+        ceaseMachineMotion(*commandStop);
         break;
     }
     default:
@@ -483,6 +483,33 @@ bool SPIIProtocol::commandKillMotion(const CommandStop &stop)
     return rtnValidity;
 }
 
+bool SPIIProtocol::commandSetDigitalOutput(const unsigned int &port, const unsigned int &bit, const bool &value)
+{
+    bool rtnValidity = false;
+
+    if(m_SPIIDevice == nullptr)
+        return false;
+
+    rtnValidity = acsc_SetOutput(*m_SPIIDevice.get(),port,bit,value,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+
+    return rtnValidity;
+}
+
+bool SPIIProtocol::commandStopBufferExecution(const int &bufferIndex)
+{
+    bool rtnValidity = false;
+
+    if(m_SPIIDevice == nullptr)
+        return false;
+
+    if(bufferIndex == -1)
+        rtnValidity = acsc_StopBuffer(*m_SPIIDevice.get(),ACSC_NONE,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+    else
+        rtnValidity = acsc_StopBuffer(*m_SPIIDevice.get(),bufferIndex,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+
+    return rtnValidity;
+}
+
 bool SPIIProtocol::commandCustomString(const std::string &command, std::string &response, const unsigned int startingBufferSize, const int &attempts)
 {
     char *cstr = new char[command.length() + 1];
@@ -522,6 +549,16 @@ bool SPIIProtocol::commandCustomString(const std::string &command, std::string &
 
         delete[] buf;
     }
+}
+
+bool SPIIProtocol::commandCustomString_LessResponse(const std::string &command)
+{
+    bool validAttempt;
+
+    char *cstr = new char[command.length() + 1];
+    strcpy(cstr, command.c_str());
+
+    validAttempt = acsc_Command(*m_SPIIDevice.get(),cstr, static_cast<int>(strlen(cstr)), NULL);
 }
 
 bool SPIIProtocol::bufferRun(const unsigned int &index, const std::string &label)
@@ -642,6 +679,14 @@ unsigned int SPIIProtocol::checkForBufferLineError(const unsigned int &index)
         return bufferError[0];
 
     return -1;
+}
+
+void SPIIProtocol::ceaseMachineMotion(const CommandStop &command)
+{
+    commandKillMotion(command);
+    commandStopBufferExecution();
+    commandSetDigitalOutput(0,2,false);
+    commandCustomString_LessResponse("start 2, SET_DEFAULTS_GOTO\r");
 }
 
 void SPIIProtocol::uploadProgramToBuffer(const SPIICommand_UploadProgramBuffer *uploadProgram)
