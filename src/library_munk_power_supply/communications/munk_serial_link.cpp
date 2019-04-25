@@ -81,10 +81,6 @@ void MunkSerialLink::setSerialConfiguration(const SerialConfiguration &config)
         Disconnect();
     _config = config;
     _config.setDynamic();
-
-    std::cout << "Create SerialLink " << config.portName() << config.baud() << config.flowControl()
-             << config.parity() << config.dataBits() << config.stopBits() << std::endl;
-    std::cout <<  "portName: " << config.portName() << std::endl;
 }
 
 bool MunkSerialLink::Connect(void)
@@ -142,8 +138,6 @@ bool MunkSerialLink::_hardwareConnect(QSerialPort::SerialPortError& error, QStri
         delete m_port;
         m_port = NULL;
     }
-
-    std::cout << "MunkSerialLink: hardwareConnect to " << _config.portName() << std::endl;
 
     //m_port = new QSerialPort(QString::fromStdString(_config.portName()).trimmed(),0);
     std::cout << "Configuring port" << std::endl;

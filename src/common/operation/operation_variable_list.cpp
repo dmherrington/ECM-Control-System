@@ -31,7 +31,7 @@ void Operation_VariableList::writeToJSON(QJsonObject &saveObject)
 
 void Operation_VariableList::readFromJSON(const QJsonObject &openObject)
 {
-    if(!openObject.contains("variableData"));
+    if(!openObject.contains("variableData"))
         return;
 
     QJsonArray MCVariableArray = openObject["variableData"].toArray();

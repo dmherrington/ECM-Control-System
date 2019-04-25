@@ -1,32 +1,32 @@
-#include "state_ecm_profile_machine_abort.h"
+#include "state_ecm_profile_machine_estop.h"
 
 namespace ECM{
 namespace API {
 
-ECMState_ProfileMachineAbort::ECMState_ProfileMachineAbort():
+ECMState_ProfileMachineEStop::ECMState_ProfileMachineEStop():
     ECMState_ProfileMachineBase()
 {
-    std::cout<<"We are currently in the constructor of STATE_ECM_PROFILE_MACHINE_ABORT."<<std::endl;
-    this->currentState = ECMState::STATE_ECM_PROFILE_MACHINE_ABORT;
-    this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_ABORT;
+    std::cout<<"We are currently in the constructor of STATE_ECM_PROFILE_MACHINE_ESTOP."<<std::endl;
+    this->currentState = ECMState::STATE_ECM_PROFILE_MACHINE_ESTOP;
+    this->desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_ESTOP;
 }
 
-void ECMState_ProfileMachineAbort::OnExit()
+void ECMState_ProfileMachineEStop::OnExit()
 {
 
 }
 
-AbstractStateECMProcess* ECMState_ProfileMachineAbort::getClone() const
+AbstractStateECMProcess* ECMState_ProfileMachineEStop::getClone() const
 {
-    return (new ECMState_ProfileMachineAbort(*this));
+    return (new ECMState_ProfileMachineEStop(*this));
 }
 
-void ECMState_ProfileMachineAbort::getClone(AbstractStateECMProcess** state) const
+void ECMState_ProfileMachineEStop::getClone(AbstractStateECMProcess** state) const
 {
-    *state = new ECMState_ProfileMachineAbort(*this);
+    *state = new ECMState_ProfileMachineEStop(*this);
 }
 
-hsm::Transition ECMState_ProfileMachineAbort::GetTransition()
+hsm::Transition ECMState_ProfileMachineEStop::GetTransition()
 {
     hsm::Transition rtn = hsm::NoTransition();
     if(currentState != desiredState)
@@ -51,24 +51,23 @@ hsm::Transition ECMState_ProfileMachineAbort::GetTransition()
     return rtn;
 }
 
-void ECMState_ProfileMachineAbort::Update()
+void ECMState_ProfileMachineEStop::Update()
 {
 
 }
 
-void ECMState_ProfileMachineAbort::OnEnter()
+void ECMState_ProfileMachineEStop::OnEnter()
 {
     AbstractStateECMProcess::notifyOwnerStateTransition();
 }
 
-void ECMState_ProfileMachineAbort::OnEnter(ECMCommand_AbstractProfileConfigPtr configuration)
+void ECMState_ProfileMachineEStop::OnEnter(ECMCommand_AbstractProfileConfigPtr configuration)
 {
     this->m_Config = configuration;
 
     this->OnEnter();
 
-    Owner().action_StopMachine();
-
+    Owner().action_EStopMachine();
 
     m_Config->m_ExecProperties.completeExecution();
     Owner().concludeExecutingOperation(m_Config);

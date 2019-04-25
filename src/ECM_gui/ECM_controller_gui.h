@@ -4,6 +4,7 @@
 #include "gui_verison.h"
 
 #include <QMainWindow>
+#include <iomanip>
 
 #include "ECM_plot_collection.h"
 #include "ECM_plot_identifier.h"

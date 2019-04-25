@@ -26,6 +26,20 @@ public:
         m_MutexFinishPulseModeLambda.lock();
         m_FinishedUploadingPulseMode.erase(ptr);
         m_MutexFinishPulseModeLambda.unlock();
+
+        m_MutexAbortExecutionLambda.lock();
+        m_AbortExecutionLambda.erase(ptr);
+        m_MutexAbortExecutionLambda.unlock();
+    }
+
+    void setLambda_AbortExection(const std::function<void()> &lambda){
+        if(m_AbortExecutionLambda.find(0) != m_AbortExecutionLambda.cend())
+        {
+            printf("Warning!!!! An abort execution already exists, replacing old with new\n");
+            m_AbortExecutionLambda.erase(0);
+        }
+
+        m_AbortExecutionLambda.insert({0, lambda});
     }
 
     void setLambda_FinishedUploadingSegments(const std::function<void(const bool completed, const FINISH_CODE &finishCode)> &lambda){
@@ -54,6 +68,12 @@ public:
         m_MutexFinishPulseModeLambda.unlock();
     }
 
+    void AddLambda_AbortExecution(void* host, const std::function<void()> &lambda){
+        m_MutexAbortExecutionLambda.lock();
+        m_AbortExecutionLambda.insert({host, lambda});
+        m_MutexAbortExecutionLambda.unlock();
+    }
+
     void AddLambda_FinishedUploadingSegments(void* host, const std::function<void(const bool completed, const FINISH_CODE &finishCode)> &lambda){
         m_MutexFinishSegmentsLambda.lock();
         m_FinishedUploadingSegments.insert({host, lambda});
@@ -67,6 +87,16 @@ public:
     }
 
 protected:
+
+    void onAbortExecution(){
+        m_MutexAbortExecutionLambda.lock();
+        for(auto it = m_AbortExecutionLambda.cbegin() ; it != m_AbortExecutionLambda.cend() ; ++it)
+        {
+            it->second();
+        }
+        m_MutexAbortExecutionLambda.unlock();
+    }
+
     void onFinishedUploadingSegments(const bool completed, const FINISH_CODE &finishCode = FINISH_CODE::UNKNOWN){
 
         m_MutexFinishSegmentsLambda.lock();
@@ -87,15 +117,14 @@ protected:
         m_MutexFinishPulseModeLambda.unlock();
     }
 
-signals:
-    void signal_DeviceConfigured(const ECMDevice &device);
-
 protected:
     std::unordered_map<void*, std::function<void(const bool completed, const FINISH_CODE finishCode)>> m_FinishedUploadingSegments;
     std::unordered_map<void*, std::function<void(const bool completed, const FINISH_CODE finishCode)>> m_FinishedUploadingPulseMode;
+    std::unordered_map<void*, std::function<void()>> m_AbortExecutionLambda;
 
     std::mutex m_MutexFinishSegmentsLambda;
     std::mutex m_MutexFinishPulseModeLambda;
+    std::mutex m_MutexAbortExecutionLambda;
 };
 
 #endif // DEVICE_INTERFACE_POWER_SUPPLY_H

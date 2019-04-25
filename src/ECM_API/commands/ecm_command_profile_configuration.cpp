@@ -32,7 +32,6 @@ void ECMCommand_ProfileConfiguration::readFromJSON(const QJsonObject &obj)
 {
     ECMCommand_AbstractProfileConfig::readFromJSON(obj);
 
-    //m_GalilOperation.readFromJSON(obj);
     m_DesriedVariables.readFromJSON(obj);
     m_ConfigPowerSupply.readFromJSON(obj);
     m_PumpParameters.readFromJSON(obj);

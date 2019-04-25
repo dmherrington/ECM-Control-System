@@ -7,6 +7,7 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QStackedWidget>
+#include <QMessageBox>
 
 #include "widget_buffer_descriptor.h"
 

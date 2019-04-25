@@ -22,7 +22,9 @@ public:
 
 public:
 
-    void loadFromCurrentProgram(const Operation_LabelList &labels, const Operation_VariableList &program, const std::string &profileName = "", const bool &useLoadedVars = true);
+    void loadFromProfileConfiguration(const Operation_VariableList &vars, const std::string &profileName = "");
+
+    void loadFromCurrentProgram(const Operation_LabelList &labels, const Operation_VariableList &vars, const std::string &profileName = "", const bool &useLoadedVars = true);
 
     std::string getProfileName() const;
 

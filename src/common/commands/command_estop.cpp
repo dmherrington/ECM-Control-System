@@ -1,7 +1,7 @@
 #include "command_estop.h"
 
 CommandEStop::CommandEStop():
-    AbstractCommand(CommandType::EXECUTE_PROGRAM)
+    AbstractCommand(CommandType::ESTOP)
 {
 
 }

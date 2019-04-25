@@ -241,7 +241,7 @@ void Window_DeviceConnections::slot_RigolConnectionUpdate(const common::comms::C
     }
     else if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED)
     {
-        ui->comboBox_PortPump->setEnabled(true);
+        ui->lineEdit_IPRigol->setEnabled(true);
         ui->pushButton_connect_Rigol->setText("CONNECT");
     }
 

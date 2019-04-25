@@ -58,7 +58,8 @@ void Widget_ProfileParameters::loadFromProfileConfiguration(const ECMCommand_Abs
     this->m_MCTouchoff->loadFromTouchoffConfig(castConfiguration->m_Touchoff);
     this->m_PumpControl->loadFromPumpProperties(castConfiguration->m_PumpParameters);
     this->m_PowerSupply->loadFromConfig(castConfiguration->m_ConfigPowerSupply);
-    //this->m_ScriptingVariables->loadFromCurrentProgram(castConfiguration->m_GalilOperation, castConfiguration->getProfileName());
+
+    this->m_ScriptingVariables->loadFromProfileConfiguration(castConfiguration->m_DesriedVariables, castConfiguration->getProfileName());
 }
 
 

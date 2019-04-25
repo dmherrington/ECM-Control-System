@@ -188,7 +188,15 @@ void SPIIProtocol::SendProtocolCommand(const AbstractCommandPtr command)
     case CommandType::UPLOAD_PROGRAM_SUITE:
     {
         SPIICommand_UploadProgramSuite* programSuite = command->as<SPIICommand_UploadProgramSuite>();
-
+        uploadProgramSuite(programSuite);
+        break;
+    }
+    case CommandType::SET_BIT:
+    {
+        CommandSetBit* commandSetBit = command->as<CommandSetBit>();
+        unsigned int port, bit; bool value;
+        commandSetBit->getValue(port,bit,value);
+        commandSetDigitalOutput(port,bit,value);
         break;
     }
     default:
@@ -711,8 +719,8 @@ void SPIIProtocol::uploadProgramSuite(const SPIICommand_UploadProgramSuite *uplo
 
 void SPIIProtocol::ceaseMachineMotion(const CommandStop &command)
 {
-    commandKillMotion(command);
     commandStopBufferExecution();
+    commandKillMotion(command);
     commandSetDigitalOutput(0,2,false);
     commandCustomString_LessResponse("start 2, SET_DEFAULTS_GOTO\r");
 }

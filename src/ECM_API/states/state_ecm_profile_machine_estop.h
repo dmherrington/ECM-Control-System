@@ -1,12 +1,8 @@
-#ifndef STATE_ECM_PROFILE_MACHINE_PROCESS_H
-#define STATE_ECM_PROFILE_MACHINE_PROCESS_H
+#ifndef STATE_ECM_PROFILE_MACHINE_ESTOP_H
+#define STATE_ECM_PROFILE_MACHINE_ESTOP_H
 
-#include "common/class_forward.h"
-#include "common/hsm.h"
 
-#include "../ecm_api.h"
-
-#include "state_abstract_ecm_process.h"
+#include "state_ecm_profile_machine_base.h"
 
 /**
 \* @file  state_ecm_touchoff.h
@@ -28,17 +24,14 @@
 namespace ECM{
 namespace API {
 
+ECM_CLASS_FORWARD(ECMState_ProfileMachineEStop);
 
-ECM_CLASS_FORWARD(ECMState_ProfileMachineProcess);
+class ECMState_ProfileMachineFailed;
 
-class ECMState_ProfileMachineAbort;
-class ECMState_ProfileMachineEStop;
-class ECMState_ProfileMachineCompleteExecution;
-
-class ECMState_ProfileMachineProcess : public AbstractStateECMProcess
+class ECMState_ProfileMachineEStop : public ECMState_ProfileMachineBase
 {
 public:
-    ECMState_ProfileMachineProcess();
+    ECMState_ProfileMachineEStop();
 
 public:
     AbstractStateECMProcess* getClone() const override;
@@ -54,16 +47,12 @@ public:
     void OnExit() override;
 
 public:
-    void stopProcess() override;
-
-public:
     void OnEnter(ECMCommand_AbstractProfileConfigPtr configuration);
 
-private:
-    ECMCommand_AbstractProfileConfigPtr m_Config;
 };
 
 } //end of namespace API
 } //end of namespace ECM
 
-#endif // STATE_ECM_PROFILE_MACHINE_PROCESS_H
+
+#endif // STATE_ECM_PROFILE_MACHINE_ESTOP_H

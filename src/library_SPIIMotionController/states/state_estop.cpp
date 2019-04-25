@@ -67,6 +67,13 @@ void State_EStop::Update()
 void State_EStop::OnEnter()
 {
     Owner().issueNewSPIIState(SPIIState::STATE_ESTOP);
+
+    if(Owner().isMotorInMotion())
+    {
+        CommandStopPtr command = std::make_shared<CommandStop>();
+        Owner().issueSPIIMotionCommand(command);
+    }
+
     //First check to see if the motor is already disarmed, and if not, disarm it
     if(Owner().isMotorEnabled())
     {
@@ -76,7 +83,7 @@ void State_EStop::OnEnter()
     }
     //Lastly, send a command to make sure the pulse command has been disengaged
     CommandSetBitPtr command = std::make_shared<CommandSetBit>();
-    command->appendAddress(2); //Ken: be careful in the event that this changes. This should be handled by settings or something
+    command->setValue(0,2,false);
     Owner().issueSPIICommand(command);
 }
 

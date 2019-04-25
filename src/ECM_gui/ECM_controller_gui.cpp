@@ -11,8 +11,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 {
 
     std::vector<MotorAxis> applicableAxis;
-    applicableAxis.push_back(MotorAxis::X);
-    applicableAxis.push_back(MotorAxis::Y);
+//    applicableAxis.push_back(MotorAxis::X);
+//    applicableAxis.push_back(MotorAxis::Y);
     applicableAxis.push_back(MotorAxis::Z);
 
     /*
@@ -35,6 +35,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     qRegisterMetaType<common::TupleSensorString>("TupleSensorString");
     qRegisterMetaType<common_data::SensorState>("SensorState");
+    qRegisterMetaType<MotionProfileState>("MotionProfileState");
 
     qRegisterMetaType<QCustomPlot::RefreshPriority>("QCustomPlot::RefreshPriority");
 
@@ -91,24 +92,24 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API, SIGNAL(signal_InPauseEvent(std::string)),
             this, SLOT(slot_OnExecutionPause(std::string)));
 
-//    QDockWidget *dockNotification = new QDockWidget(tr("Notification Utility"), this);
-//    m_WidgetNotification = new Widget_Notification();
-//    dockNotification->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-//    dockNotification->setWidget(m_WidgetNotification);
-//    addDockWidget(Qt::LeftDockWidgetArea, dockNotification, Qt::Orientation::Vertical);
-
     QDockWidget *dock = new QDockWidget(tr("Motion Utility"), this);
-    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
     WidgetFrontPanel_MotionControl * dockUtility_MotionControl = new WidgetFrontPanel_MotionControl(applicableAxis, m_API->m_MotionController);
     dock->setWidget(dockUtility_MotionControl);
     addDockWidget(Qt::RightDockWidgetArea, dock, Qt::Orientation::Vertical);
+
+    QDockWidget *dockNotification = new QDockWidget(tr("Notification Utility"), this);
+    m_WidgetNotification = new Widget_Notification();
+    dockNotification->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+    dockNotification->setWidget(m_WidgetNotification);
+    addDockWidget(Qt::RightDockWidgetArea, dockNotification, Qt::Orientation::Vertical);
 
     //API Connections
     connect(m_API->m_Rigol, SIGNAL(signal_RigolPlottable(common::TupleSensorString,bool)), this, SLOT(slot_NewlyAvailableRigolData(common::TupleSensorString,bool)));
     connect(m_API->m_Rigol, SIGNAL(signal_RigolNewSensorValue(common::TupleSensorString,common_data::SensorState)), this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
 
     //Galil Connections
-    connect(m_API->m_MotionController, SIGNAL(signal_MCNewDigitalInput(StatusInputs)), this, SLOT(slot_MCNewDigitalInput(StatusInputs)));
+    //connect(m_API->m_MotionController, SIGNAL(signal_MCNewDigitalInput(StatusInputs)), this, SLOT(slot_MCNewDigitalInput(StatusInputs)));
     connect(m_API->m_MotionController, SIGNAL(signal_MCNewPosition(common::TuplePositionalString,common_data::MachinePositionalState,bool)), this, SLOT(slot_NewPositionalData(common::TuplePositionalString,common_data::MachinePositionalState,bool)));
     connect(m_API->m_MotionController, SIGNAL(signal_MCNewProfileVariableValue(common::TupleProfileVariableString,common_data::MotionProfileVariableState)), this, SLOT(slot_NewProfileVariableData(common::TupleProfileVariableString,common_data::MotionProfileVariableState)));
     connect(m_API->m_MotionController, SIGNAL(signal_ErrorCommandCode(CommandType,std::string)), this, SLOT(slot_MCCommandError(CommandType,std::string)));
@@ -196,7 +197,7 @@ void ECMControllerGUI::setupUploadCallbacks()
     });
 
     m_API->m_MotionController->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
-        emit this->signal_newMotionProfileState(profileState);
+//        emit this->signal_newMotionProfileState(profileState);
         this->updateMCIndicators(profileState);
     });
 
@@ -587,7 +588,7 @@ void ECMControllerGUI::on_actionTouchoff_Window_triggered(bool checked)
 
 void ECMControllerGUI::on_actionPower_Supply_triggered(bool checked)
 {
-
+    UNUSED(checked);
 }
 
 void ECMControllerGUI::on_actionProfile_Configuration_triggered(bool checked)
@@ -604,6 +605,7 @@ void ECMControllerGUI::on_actionProfile_Configuration_triggered(bool checked)
 
 void ECMControllerGUI::on_actionBuffer_Manager_triggered(bool checked)
 {
+    UNUSED(checked);
 //    UNUSED(checked);
 //    if(m_WindowBufferManager->isWindowHidden())
 //        m_WindowBufferManager->show();
@@ -765,7 +767,25 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
     }
     case ExecutionProperties::ExecutionCondition::EXECUTING:
     {
-        ui->lineEdit_CurrentStartPosition->setText(QString::number(props.getCurrentPosition()));
+        std::vector<double> startingPosition = props.getCurrentPosition();
+        std::string msg;
+
+        std::ostringstream streamObj3;
+        streamObj3 << std::fixed;
+        streamObj3 << std::setprecision(2);
+
+        for(size_t i = 0; i < startingPosition.size(); i++)
+        {
+            streamObj3 << startingPosition.at(i);
+            std::string strObj = streamObj3.str();
+            streamObj3.clear();
+
+            if(i == 0)
+                msg += strObj;
+            else
+                msg += "," + strObj;
+        }
+        ui->lineEdit_CurrentStartPosition->setText(QString::fromStdString(msg));
 
         QString executionString = QString::fromStdString(props.getOperationName()) + " is starting to execute.";
         ui->statusBar->showMessage(executionString,3000);
@@ -773,7 +793,27 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
     }
     case ExecutionProperties::ExecutionCondition::ENDING:
     {
-        ui->lineEdit_PreviousEndPosition->setText(QString::number(props.getCurrentPosition()));
+        std::vector<double> endingPosition = props.getCurrentPosition();
+        std::string msg;
+
+        std::ostringstream streamObj3;
+        streamObj3 << std::fixed;
+        streamObj3 << std::setprecision(2);
+
+        for(size_t i = 0; i < endingPosition.size(); i++)
+        {
+            streamObj3 << endingPosition.at(i);
+            std::string strObj = streamObj3.str();
+            streamObj3.clear();
+
+            if(i == 0)
+                msg += strObj;
+            else
+                msg += "," + strObj;
+        }
+
+        ui->lineEdit_PreviousEndPosition->setText(QString::fromStdString(msg));
+
         elapsedOperationTimer->stop();
 
         QString executionString = QString::fromStdString(props.getOperationName()) + " has finished executing.";
@@ -1000,7 +1040,6 @@ void ECMControllerGUI::updateMCIndicators(const MotionProfileState &profileState
     case MotionProfile::ProfileType::TOUCHOFF:
     {
         ProfileState_Touchoff* castState = (ProfileState_Touchoff*)profileState.getProfileState().get();
-        ui->statusBar->showMessage(QString::fromStdString(ProfileState_Touchoff::TOUCHOFFCodesToString(castState->getCurrentCode())),3000);
 
         switch (castState->getCurrentCode()) {
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_POSITIONAL:

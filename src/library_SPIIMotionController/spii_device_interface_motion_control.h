@@ -43,6 +43,20 @@ public:
         m_MutexNewMotionProfileStateLambda.lock();
         m_NewMotionProfileStateLambda.erase(ptr);
         m_MutexNewMotionProfileStateLambda.unlock();
+
+        m_MutexAbortExecutionLambda.lock();
+        m_AbortExecutionLambda.erase(ptr);
+        m_MutexAbortExecutionLambda.unlock();
+    }
+
+    void setLambda_AbortExection(const std::function<void()> &lambda){
+        if(m_AbortExecutionLambda.find(0) != m_AbortExecutionLambda.cend())
+        {
+            printf("Warning!!!! An abort execution already exists, replacing old with new\n");
+            m_AbortExecutionLambda.erase(0);
+        }
+
+        m_AbortExecutionLambda.insert({0, lambda});
     }
 
     void setLambda_FinishedUploadingScript(const std::function<void(const bool &success, const SPII_CurrentProgram &program)> &lambda){
@@ -77,6 +91,12 @@ public:
         m_NewMotionProfileStateLambda.insert({0, lambda});
     }
 
+    void AddLambda_AbortExecution(void* host, const std::function<void()> &lambda){
+        m_MutexAbortExecutionLambda.lock();
+        m_AbortExecutionLambda.insert({host, lambda});
+        m_MutexAbortExecutionLambda.unlock();
+    }
+
     void AddLambda_FinishedUploadingScript(void* host, const std::function<void(const bool &success, const SPII_CurrentProgram &program)> &lambda){
         m_MutexFinishScriptLambda.lock();
         m_FinishScriptLambda.insert({host, lambda});
@@ -96,6 +116,16 @@ public:
     }
 
 protected:
+
+    void onAbortExecution(){
+        m_MutexAbortExecutionLambda.lock();
+        for(auto it = m_AbortExecutionLambda.cbegin() ; it != m_AbortExecutionLambda.cend() ; ++it)
+        {
+            it->second();
+        }
+        m_MutexAbortExecutionLambda.unlock();
+    }
+
     void onFinishedUploadingScript(const bool &success, const SPII_CurrentProgram &program){
 
         m_MutexFinishScriptLambda.lock();
@@ -150,11 +180,12 @@ protected:
     std::unordered_map<void*, std::function<void(const bool &success, const SPII_CurrentProgram &program)>> m_FinishScriptLambda;
     std::unordered_map<void*, std::function<void(const bool success, const Operation_VariableList &variableList)>> m_FinishVariablesLambda;
     std::unordered_map<void*, std::function<void(const MotionProfileState &profileState)>> m_NewMotionProfileStateLambda;
+    std::unordered_map<void*, std::function<void()>> m_AbortExecutionLambda;
 
     std::mutex m_MutexFinishScriptLambda;
     std::mutex m_MutexFinishVariablesLambda;
     std::mutex m_MutexNewMotionProfileStateLambda;
-
+    std::mutex m_MutexAbortExecutionLambda;
 };
 
 #endif // SPII_DEVICE_INTERFACE_MOTION_CONTOL_H

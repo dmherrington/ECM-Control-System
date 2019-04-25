@@ -22,6 +22,8 @@
 \*
 \*/
 
+ECM_CLASS_FORWARD(CommandEStop);
+
 class CommandEStop : public AbstractCommand
 {
 public:

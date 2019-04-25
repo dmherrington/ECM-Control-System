@@ -91,6 +91,10 @@ void ECMState_SetupMachineTouchoffExecute::OnEnter(ECMCommand_AbstractProfileCon
         Owner().m_MotionController->executeCommand(commandTouchRef);
         Owner().m_MotionController->executeCommand(commandTouchGap);
 
+        Owner().m_MotionController->AddLambda_AbortExecution(this,[this](){
+            desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
+        });
+
         Owner().m_MotionController->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
 
             switch (profileState.getProfileState()->getType()) {

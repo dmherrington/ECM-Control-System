@@ -14,13 +14,12 @@ SPII_CurrentProgram::SPII_CurrentProgram(const SPII_CurrentProgram &copy):
     this->m_UserVariableList = copy.m_UserVariableList;
 }
 
-void SPII_CurrentProgram::writeToJSON(QJsonObject &bufferDataObject, const bool &writeVariableData)
+void SPII_CurrentProgram::writeToJSON(QJsonObject &bufferDataObject, const bool &writeVariableData, const bool &writeLabelData)
 {
     if(writeVariableData)
-    {
         m_UserVariableList.writeToJSON(bufferDataObject);
+    if(writeLabelData)
         m_OperationalLabels.writeToJSON(bufferDataObject);
-    }
 
     BufferManager::writeToJSON(bufferDataObject);
 }

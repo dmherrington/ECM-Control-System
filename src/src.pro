@@ -17,8 +17,8 @@ SUBDIRS += \
     window_munk_power_supply
 data.depends = common
 graphing.depends = data
-library_galilMotionController.depends = graphing
-library_munk_power_supply.depends = library_galilMotionController
+library_SPIIMotionController.depends = graphing
+library_munk_power_supply.depends = library_SPIIMotionController
 library_rigol_oscilloscope.depends = library_munk_power_supply
 library_sensoray.depends = library_rigol_oscilloscope
 library_qModBus.depends = library_sensoray

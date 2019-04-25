@@ -46,6 +46,12 @@ Widget_ScriptingVariables::~Widget_ScriptingVariables()
 
     delete ui;
 }
+void Widget_ScriptingVariables::loadFromProfileConfiguration(const Operation_VariableList &vars, const std::string &profileName)
+{
+    updateProgramVariables(vars , false);
+    if(!profileName.empty())
+        this->setProfileName(profileName);
+}
 
 void Widget_ScriptingVariables::loadFromCurrentProgram(const Operation_LabelList &labels, const Operation_VariableList &vars,
                                                        const std::string &profileName, const bool &useLoadedVars)

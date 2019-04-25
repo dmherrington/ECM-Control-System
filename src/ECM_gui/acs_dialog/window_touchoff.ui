@@ -340,6 +340,9 @@ width:20px;
         </item>
         <item>
          <widget class="QDoubleSpinBox" name="doubleSpinBox_InitialGapX">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="minimumSize">
            <size>
             <width>120</width>
@@ -370,6 +373,9 @@ width:20px;
         </item>
         <item>
          <widget class="QDoubleSpinBox" name="doubleSpinBox_InitialGapY">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="minimumSize">
            <size>
             <width>120</width>

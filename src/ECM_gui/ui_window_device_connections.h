@@ -520,10 +520,10 @@ public:
         label_MunkConnection->setText(QApplication::translate("Window_DeviceConnections", "Connection Munk Power Supply", nullptr));
         pushButton_connectMunk->setText(QApplication::translate("Window_DeviceConnections", "CONNECT", nullptr));
         label_RigolConnection->setText(QApplication::translate("Window_DeviceConnections", "Connection Rigol Oscilliscope", nullptr));
-        lineEdit_IPRigol->setText(QApplication::translate("Window_DeviceConnections", "192.168.1.17", nullptr));
+        lineEdit_IPRigol->setText(QApplication::translate("Window_DeviceConnections", "192.168.15.15", nullptr));
         pushButton_connect_Rigol->setText(QApplication::translate("Window_DeviceConnections", "CONNECT", nullptr));
         label_SensorayConnection->setText(QApplication::translate("Window_DeviceConnections", "Connection Sensoray ", nullptr));
-        lineEdit_IPSensoray->setText(QApplication::translate("Window_DeviceConnections", "192.168.1.10", nullptr));
+        lineEdit_IPSensoray->setText(QApplication::translate("Window_DeviceConnections", "192.168.15.16", nullptr));
         pushButton_connectSensoray->setText(QApplication::translate("Window_DeviceConnections", "CONNECT", nullptr));
         pushButton_ConnectAll->setText(QApplication::translate("Window_DeviceConnections", "CONNECT ALL", nullptr));
         pushButton_Close->setText(QApplication::translate("Window_DeviceConnections", "CLOSE", nullptr));

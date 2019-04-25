@@ -50,9 +50,10 @@ public:
     void getClone(AbstractCommand** state) const override;
 
 public:
-    void appendAddress(const unsigned int &address);
+    void setValue(const unsigned int &port, const unsigned int &bit, const bool &value);
 
-     std::vector<unsigned int> getDigitalAddress() const;
+    void getValue(unsigned int &port, unsigned int &bit, bool &value) const;
+
 public:
     //!
     //! \brief getCommandString
@@ -68,7 +69,9 @@ public:
     CommandSetBit& operator = (const CommandSetBit &rhs)
     {
         AbstractCommand::operator =(rhs);
-        this->digitalAddr = rhs.digitalAddr;
+        this->digitalPort = rhs.digitalPort;
+        this->digitalBit = rhs.digitalBit;
+        this->value = rhs.value;
         return *this;
     }
 
@@ -82,7 +85,13 @@ public:
         if(!AbstractCommand::operator ==(rhs)){
             return false;
         }
-        if(this->digitalAddr != rhs.digitalAddr){
+        if(this->digitalPort != rhs.digitalPort){
+            return false;
+        }
+        if(this->digitalBit != rhs.digitalBit){
+            return false;
+        }
+        if(this->value != rhs.value){
             return false;
         }
         return true;
@@ -98,7 +107,10 @@ public:
     }
 
 private:
-    std::vector<unsigned int> digitalAddr; /**< Value of the IO address to set high/low */
+    unsigned int digitalPort; /**< Value of the IO address to set high/low */
+    unsigned int digitalBit; /**< Value of the IO address to set high/low */
+    bool value; /**< Value of the IO address to set high/low */
+
 };
 
 #endif // COMMAND_SET_BIT_H

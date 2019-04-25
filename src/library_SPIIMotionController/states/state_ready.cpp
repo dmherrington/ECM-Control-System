@@ -193,6 +193,11 @@ void State_Ready::handleCommand(const AbstractCommandPtr command)
         Owner().issueSPIICommand(command);
         break;
     }
+    case CommandType::UPLOAD_PROGRAM_SUITE:
+    {
+        Owner().issueSPIICommand(command);
+        break;
+    }
     default:
         break;
     }

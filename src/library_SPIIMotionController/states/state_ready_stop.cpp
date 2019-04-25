@@ -92,9 +92,9 @@ void State_ReadyStop::OnEnter()
         this->desiredState = SPIIState::STATE_IDLE;
     }
 
-    //Lastly, send a command to make sure the airbrake has been engaged
+    //Lastly, send a command to make sure the power supply is off
     CommandSetBitPtr command = std::make_shared<CommandSetBit>();
-    command->appendAddress(2); //Ken: be careful in the event that this changes. This should be handled by settings or something
+    command->setValue(0,2,false);
     Owner().issueSPIICommand(command);
 }
 

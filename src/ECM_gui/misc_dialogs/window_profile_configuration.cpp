@@ -333,12 +333,13 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
 
     this->setIndicateHome(jsonObject["configureHome"].toBool());
 
+    QJsonArray configArray = jsonObject["configData"].toArray();
+
     SPII_CurrentProgram loadBufferContents;
     loadBufferContents.readFromJSON(jsonObject);
     m_WindowBufferManager->loadBufferContents(loadBufferContents);
 
-    QJsonArray configArray = jsonObject["configData"].toArray();
-
+    //Let us first setup the configuration
     if(!configArray.isEmpty())
     {
         ECMCommand_ProfileCollection profileCollection;
@@ -374,6 +375,7 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
             profileCollection.insertProfile(loadConfig);
         }
     }
+
     emit signal_LoadedConfigurationCollection(filePath.toStdString());
 }
 

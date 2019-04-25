@@ -67,8 +67,6 @@ void RigolTCPLink::setTCPConfiguration(const TCPConfiguration &config)
     if(isConnected())
         Disconnect();
     _config = config;
-
-    std::cout << "Create RigolTCPLink " << _config.listenAddress() << config.listenPortNumber() << std::endl;
 }
 
 

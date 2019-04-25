@@ -44,6 +44,8 @@ public:
 public:
     void action_StopMachine();
 
+    void action_EStopMachine();
+
 public:
 
     bool checkLoggingPathValidity(const std::string &partNumber, const std::string &serialNumber) const;

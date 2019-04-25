@@ -4,7 +4,7 @@
 SPIIMotionController::SPIIMotionController()
 {
     std::vector<MotorAxis> availableAxis;
-    availableAxis.push_back(MotorAxis::X);
+    availableAxis.push_back(MotorAxis::Z);
 
     m_CommsMarshaler = std::make_shared<Comms::CommsMarshaler>();
     m_CommsMarshaler->AddSubscriber(this);
@@ -171,7 +171,9 @@ void SPIIMotionController::initializeMotionController()
     Request_MotorFaultPtr requestMF = std::make_shared<Request_MotorFault>();
     common::TupleGeneralDescriptorString tupleMotorFaults("MotorFaults");
     requestMF->setTupleDescription(common::TupleECMData(tupleMotorFaults));
-    requestMF->addAxis(MotorAxis::X); requestMF->addAxis(MotorAxis::Y); requestMF->addAxis(MotorAxis::Z);
+    //requestMF->addAxis(MotorAxis::X); requestMF->addAxis(MotorAxis::Y); requestMF->addAxis(MotorAxis::Z);
+    requestMF->addAxis(MotorAxis::Z);
+    requestMF->setRequestAllAxes(false);
     m_DevicePolling->addRequest(requestMF,500);
 
     // 1: Request the system faults of the ACS unit
@@ -285,6 +287,24 @@ void SPIIMotionController::SPIIPolling_MotorFaultUpdate(const std::vector<Status
     if(motor.empty())
         return;
 
+    for(size_t index = 0; index < motor.size(); index++)
+    {
+        bool errorExists = false;
+
+        if(!motor.at(index).isStatusValid())
+            continue;
+
+        if(motor.at(index).doesMotorFaultExist())
+        {
+            errorExists = true;
+            common::NotificationUpdate newUpdate("ACS Motion Controller",ECMDevice::DEVICE_MOTIONCONTROL,
+                                                 common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR,
+                                                 "Motor Fault Error");
+        }
+        if(errorExists)
+            this->onAbortExecution();
+    }
+
     ProgressStateMachineStates();
 }
 
@@ -292,6 +312,14 @@ void SPIIMotionController::SPIIPolling_SystemFaultUpdate(const Status_SystemFaul
 {
     if(!status.isStatusValid())
         return;
+
+    if(status.doesSystemFaultExist())
+    {
+        common::NotificationUpdate newUpdate("ACS Motion Controller",ECMDevice::DEVICE_MOTIONCONTROL,
+                                             common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR,
+                                             "System Fault Error");
+        this->onAbortExecution();
+    }
 
     ProgressStateMachineStates();
 }
@@ -347,6 +375,24 @@ void SPIIMotionController::NewBufferState(const Status_BufferState &state)
 {
     m_StateInterface->m_BufferManager->statusBufferUpdate(state);
     emit signal_MCBufferUpdate(state);
+
+    switch (state.getBufferStatus()) {
+        case Status_BufferState::ENUM_BUFFERSTATE::ERROR_UPLOAD:
+        case Status_BufferState::ENUM_BUFFERSTATE::ERROR_COMPILING:
+
+    {
+        std::string msg = "Buffer: " + std::to_string(state.getBufferIndex()) + " Line Number: " + std::to_string(state.getErrorLine()) ;
+        msg+=" " + state.getErrorString();
+        common::NotificationUpdate newUpdate("ACS Motion Controller",ECMDevice::DEVICE_MOTIONCONTROL,
+                                             common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR,
+                                             msg);
+        break;
+    }
+     default:
+    {
+        break;
+    }
+    }
 }
 
 void SPIIMotionController::NewBuffer_ProgramSuite(const bool &success, const SPII_CurrentProgram &program)
@@ -365,6 +411,7 @@ void SPIIMotionController::NewBuffer_AvailableData(const BufferData &bufferData)
         newBufferState.setBufferState(Status_BufferState::ENUM_BUFFERSTATE::COMPILED);
     else
         newBufferState.setBufferState(Status_BufferState::ENUM_BUFFERSTATE::CURRENT);
+
     emit signal_MCBufferUpdate(newBufferState);
 }
 

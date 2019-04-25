@@ -135,9 +135,8 @@ void ECM_API::beginOperationalProfile(const ECMCommand_AbstractProfileConfigPtr 
     props.setOperatingCondition(condition);
     props.setTime(profileConfig->m_ExecProperties.getStartTime());
 
-    //int position = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
-    int position = 0;
-    props.setCurrentPosition(position);
+    std::vector<double> machinePosition = m_MotionController->m_StateInterface->m_AxisPosition->getAxisPositionVector();
+    props.setCurrentPosition(machinePosition);
 
     //Emit the signal notifying the listeners of a new operational profile
     emit signal_ExecutingOperation(props);
@@ -146,7 +145,7 @@ void ECM_API::beginOperationalProfile(const ECMCommand_AbstractProfileConfigPtr 
 void ECM_API::executeExplicitProfile(const ECMCommand_ProfileConfigurationPtr profileConfig)
 {
     //Begin requesting of information from the oscilliscope
-    //m_Rigol->executeMeasurementPolling(true);
+    m_Rigol->executeMeasurementPolling(true);
 
     CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::PROFILE,
                                                                                profileConfig->getProfileName());
@@ -158,9 +157,9 @@ void ECM_API::executePauseProfile(const ECMCommand_ProfilePausePtr profileConfig
     //Stop requesting of information from the oscilliscope
     m_Rigol->executeMeasurementPolling(false);
 
-    //Lastly, send a command to make sure the airbrake has been engaged
+    //Lastly, send a command to make sure the power supply has been stopped
     CommandSetBitPtr command = std::make_shared<CommandSetBit>();
-    command->appendAddress(2); //Ken: be careful in the event that this changes. This should be handled by settings or something
+    command->setValue(0,2,false);
     m_MotionController->executeCommand(command);
 }
 
@@ -183,9 +182,8 @@ void ECM_API::concludeExecutingOperation(const ECMCommand_AbstractProfileConfigP
     props.setOperatingCondition(ExecutionProperties::ExecutionCondition::ENDING);
     props.setTime(profileConfig->m_ExecProperties.getEndTime());
 
-    //int position = m_MotionController->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
-    int position = 0;
-    props.setCurrentPosition(position);
+    std::vector<double> machinePosition = m_MotionController->m_StateInterface->m_AxisPosition->getAxisPositionVector();
+    props.setCurrentPosition(machinePosition);
 
     //Emit the signal notifying the listeners of a completed operational profile
     emit signal_ExecutingOperation(props);
@@ -218,8 +216,16 @@ void ECM_API::notifyPausedEvent(const std::string notificationText)
 
 void ECM_API::action_StopMachine()
 {
-    CommandStopPtr commandGalilStop = std::make_shared<CommandStop>();
-    m_MotionController->executeCommand(commandGalilStop);
+    CommandStopPtr commandMotionStop = std::make_shared<CommandStop>();
+    m_MotionController->executeCommand(commandMotionStop);
+
+    m_Pump->ceasePumpOperations();
+}
+
+void ECM_API::action_EStopMachine()
+{
+    CommandEStopPtr commandEStop = std::make_shared<CommandEStop>();
+    m_MotionController->executeCommand(commandEStop);
 
     m_Pump->ceasePumpOperations();
 }

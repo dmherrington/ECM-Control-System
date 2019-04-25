@@ -181,6 +181,26 @@ void Window_BufferManager::slot_OnDisplayBufferContents(const unsigned int &inde
 void Window_BufferManager::slot_MCBufferStatusUpdate(const Status_BufferState &state)
 {
     m_BufferDescriptors.at(state.getBufferIndex())->updateFromBufferStatus(state);
+
+    switch(state.getBufferStatus())
+    {
+        case Status_BufferState::ENUM_BUFFERSTATE::ERROR_UPLOAD:
+        case Status_BufferState::ENUM_BUFFERSTATE::ERROR_COMPILING:
+    {
+        std::string msg = "Error in Buffer: " + std::to_string(state.getBufferIndex()) + " at Line Number: " + std::to_string(state.getErrorLine());
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Buffer Manager");
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setText(QString::fromStdString(msg));
+        msgBox.setInformativeText(QString::fromStdString(state.getErrorString()));
+        msgBox.exec();
+        break;
+    }
+    default:
+    {
+
+    }
+    }
 }
 
 void Window_BufferManager::on_actionOpen_triggered()

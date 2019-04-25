@@ -28,6 +28,8 @@
 #include "spii_state_interface.h"
 #include "spii_device_interface_motion_control.h"
 
+#include "common/notification_update.h"
+
 class LIBRARY_SPIIMOTIONCONTROLLERSHARED_EXPORT SPIIMotionController : public QObject,
         private Comms::CommsEvents, private SPIIPollingEvents_Interface, public SPIIDeviceInterface_MotionControl,
         public SPIICallback_StateInterface

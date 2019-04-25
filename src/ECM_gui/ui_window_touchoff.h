@@ -282,6 +282,7 @@ public:
 
         doubleSpinBox_InitialGapX = new QDoubleSpinBox(centralwidget);
         doubleSpinBox_InitialGapX->setObjectName(QStringLiteral("doubleSpinBox_InitialGapX"));
+        doubleSpinBox_InitialGapX->setEnabled(false);
         doubleSpinBox_InitialGapX->setMinimumSize(QSize(120, 25));
         doubleSpinBox_InitialGapX->setMaximumSize(QSize(120, 25));
         QFont font2;
@@ -295,6 +296,7 @@ public:
 
         doubleSpinBox_InitialGapY = new QDoubleSpinBox(centralwidget);
         doubleSpinBox_InitialGapY->setObjectName(QStringLiteral("doubleSpinBox_InitialGapY"));
+        doubleSpinBox_InitialGapY->setEnabled(false);
         doubleSpinBox_InitialGapY->setMinimumSize(QSize(120, 25));
         doubleSpinBox_InitialGapY->setMaximumSize(QSize(120, 25));
         doubleSpinBox_InitialGapY->setFont(font2);

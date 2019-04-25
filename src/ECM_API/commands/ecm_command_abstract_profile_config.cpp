@@ -20,6 +20,7 @@ void ECMCommand_AbstractProfileConfig::writeToJSON(QJsonObject &obj)
     obj["opIndex"] = static_cast<int>(this->getOperationIndex());
     obj["opName"] = QString::fromStdString(this->getOperationName());
     obj["useOperation"] = this->shouldProfileExecute();
+    obj["profileName"] = QString::fromStdString(m_ProfileSettings.getProfileName());
 }
 
 void ECMCommand_AbstractProfileConfig::readFromJSON(const QJsonObject &obj)
@@ -27,6 +28,7 @@ void ECMCommand_AbstractProfileConfig::readFromJSON(const QJsonObject &obj)
     this->setOperationIndex(obj["opIndex"].toInt());
     this->setOperationName(obj["opName"].toString().toStdString());
     this->setProfileExecution(obj["useOperation"].toBool());
+    this->m_ProfileSettings.setProfileName(obj["profileName"].toString().toStdString());
 }
 
 

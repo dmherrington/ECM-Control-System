@@ -23,23 +23,23 @@ void Widget_DetailedNotification::setNotification(const common::NotificationUpda
 
 void Widget_DetailedNotification::setNotificationType(const common::NotificationUpdate::NotificationTypes &type)
 {
-    switch (type) {
-    case common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL:
-    {
-        ui->lineEdit_NotificationType->setText("GENERAL");
-        break;
-    }
-    case common::NotificationUpdate::NotificationTypes::NOTIFICATION_ALERT:
-    {
-        ui->lineEdit_NotificationType->setText("ALERT");
-        break;
-    }
-    case common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR:
-    {
-        ui->lineEdit_NotificationType->setText("ERROR");
-        break;
-    }
-    }
+//    switch (type) {
+//    case common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL:
+//    {
+//        ui->lineEdit_NotificationType->setText("GENERAL");
+//        break;
+//    }
+//    case common::NotificationUpdate::NotificationTypes::NOTIFICATION_ALERT:
+//    {
+//        ui->lineEdit_NotificationType->setText("ALERT");
+//        break;
+//    }
+//    case common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR:
+//    {
+//        ui->lineEdit_NotificationType->setText("ERROR");
+//        break;
+//    }
+//    }
 }
 
 void Widget_DetailedNotification::setNotificationTime(const common::EnvironmentTime &noticeTime)

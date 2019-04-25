@@ -25,7 +25,6 @@ class Ui_Widget_DetailedNotification
 {
 public:
     QGridLayout *gridLayout;
-    QLineEdit *lineEdit_NotificationType;
     QLineEdit *lineEdit_Time;
     QPlainTextEdit *plainTextEdit_Message;
 
@@ -33,56 +32,44 @@ public:
     {
         if (Widget_DetailedNotification->objectName().isEmpty())
             Widget_DetailedNotification->setObjectName(QStringLiteral("Widget_DetailedNotification"));
-        Widget_DetailedNotification->resize(500, 32);
+        Widget_DetailedNotification->resize(350, 27);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Widget_DetailedNotification->sizePolicy().hasHeightForWidth());
         Widget_DetailedNotification->setSizePolicy(sizePolicy);
-        Widget_DetailedNotification->setMinimumSize(QSize(500, 32));
+        Widget_DetailedNotification->setMinimumSize(QSize(350, 27));
         Widget_DetailedNotification->setMaximumSize(QSize(16777215, 32));
         gridLayout = new QGridLayout(Widget_DetailedNotification);
         gridLayout->setSpacing(0);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         gridLayout->setContentsMargins(0, 0, 0, 0);
-        lineEdit_NotificationType = new QLineEdit(Widget_DetailedNotification);
-        lineEdit_NotificationType->setObjectName(QStringLiteral("lineEdit_NotificationType"));
-        lineEdit_NotificationType->setEnabled(false);
-        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(lineEdit_NotificationType->sizePolicy().hasHeightForWidth());
-        lineEdit_NotificationType->setSizePolicy(sizePolicy1);
-        lineEdit_NotificationType->setMinimumSize(QSize(80, 25));
-        lineEdit_NotificationType->setMaximumSize(QSize(80, 25));
-        QFont font;
-        font.setPointSize(8);
-        lineEdit_NotificationType->setFont(font);
-        lineEdit_NotificationType->setAlignment(Qt::AlignCenter);
-
-        gridLayout->addWidget(lineEdit_NotificationType, 0, 0, 1, 1);
-
         lineEdit_Time = new QLineEdit(Widget_DetailedNotification);
         lineEdit_Time->setObjectName(QStringLiteral("lineEdit_Time"));
         lineEdit_Time->setEnabled(false);
+        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(lineEdit_Time->sizePolicy().hasHeightForWidth());
         lineEdit_Time->setSizePolicy(sizePolicy1);
         lineEdit_Time->setMinimumSize(QSize(90, 25));
         lineEdit_Time->setMaximumSize(QSize(90, 25));
+        QFont font;
+        font.setPointSize(8);
         lineEdit_Time->setFont(font);
         lineEdit_Time->setAlignment(Qt::AlignCenter);
 
-        gridLayout->addWidget(lineEdit_Time, 0, 1, 1, 1);
+        gridLayout->addWidget(lineEdit_Time, 0, 0, 1, 1);
 
         plainTextEdit_Message = new QPlainTextEdit(Widget_DetailedNotification);
         plainTextEdit_Message->setObjectName(QStringLiteral("plainTextEdit_Message"));
         plainTextEdit_Message->setEnabled(false);
-        plainTextEdit_Message->setMinimumSize(QSize(250, 25));
+        plainTextEdit_Message->setMinimumSize(QSize(200, 25));
         plainTextEdit_Message->setMaximumSize(QSize(16777215, 25));
         plainTextEdit_Message->setFont(font);
         plainTextEdit_Message->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-        gridLayout->addWidget(plainTextEdit_Message, 0, 2, 1, 1);
+        gridLayout->addWidget(plainTextEdit_Message, 0, 1, 1, 1);
 
 
         retranslateUi(Widget_DetailedNotification);
@@ -93,7 +80,6 @@ public:
     void retranslateUi(QWidget *Widget_DetailedNotification)
     {
         Widget_DetailedNotification->setWindowTitle(QApplication::translate("Widget_DetailedNotification", "Form", nullptr));
-        lineEdit_NotificationType->setText(QApplication::translate("Widget_DetailedNotification", "NOTIFICATION", nullptr));
         lineEdit_Time->setText(QApplication::translate("Widget_DetailedNotification", "Time", nullptr));
     } // retranslateUi
 

@@ -59,9 +59,9 @@ BufferManager SPII_PrgHandle::parsePRG(const QString &prgString)
 
     QStringList bufferLineList = lineList.mid(startingLineNumber + 1, lineList.size() - (startingLineNumber + 2));
 
-    BufferData newBuffer(64,isDBuffer);
+    BufferData newBuffer(32,isDBuffer);
     newBuffer.setProgramString(bufferLineList.join("\n").toStdString());
-    parsedBuffers.updateBufferData(64,newBuffer);
+    parsedBuffers.updateBufferData(32,newBuffer);
 
     return parsedBuffers;
 }

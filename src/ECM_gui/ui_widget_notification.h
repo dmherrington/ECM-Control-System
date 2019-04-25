@@ -30,13 +30,13 @@ public:
     {
         if (Widget_Notification->objectName().isEmpty())
             Widget_Notification->setObjectName(QStringLiteral("Widget_Notification"));
-        Widget_Notification->resize(550, 64);
+        Widget_Notification->resize(350, 64);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Widget_Notification->sizePolicy().hasHeightForWidth());
         Widget_Notification->setSizePolicy(sizePolicy);
-        Widget_Notification->setMinimumSize(QSize(550, 64));
+        Widget_Notification->setMinimumSize(QSize(350, 64));
         gridLayout = new QGridLayout(Widget_Notification);
         gridLayout->setSpacing(0);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
