@@ -13,6 +13,7 @@
 #include "../general_dialog_window.h"
 
 #include "library_SPIIMotionController/spii_motion_controller.h"
+#include "library_SPIIMotionController/buffers/spii_prg_handle.h"
 
 namespace Ui {
 class Window_BufferManager;

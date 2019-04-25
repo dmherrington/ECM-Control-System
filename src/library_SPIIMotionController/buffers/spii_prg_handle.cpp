@@ -8,9 +8,16 @@ SPII_PrgHandle::SPII_PrgHandle()
 BufferManager SPII_PrgHandle::parsePRG(const QString &prgString)
 {
     BufferManager parsedBuffers;
+    parsedBuffers.setMaxBufferSize(65);
 
-    QString copyString = prgString;
-    QStringList lineList = copyString.split(QRegExp("[\r\n]"));
+    QString copyString = prgString;    
+    QStringList lineList = copyString.split(QRegExp("[\n]"));
+
+    for (QStringList::iterator it = lineList.begin(); it != lineList.end(); ++it)
+    {
+        it->remove(QRegExp("[\r]"));
+    }
+
     QRegExp rx("(^#\\w)");
     QRegExp removeRX("(^#)");
 
@@ -31,28 +38,30 @@ BufferManager SPII_PrgHandle::parsePRG(const QString &prgString)
 
             QString endingBufferString = bufferList.at(endingBuffer);
             startingLineNumber = lineList.indexOf(startingBufferString);
-            endingLineNumber = lineList.indexOf(endingBufferString);
+            endingLineNumber = lineList.indexOf(endingBufferString) - 1;
             startingBufferString.remove(removeRX);
 
             QStringList bufferLineList = lineList.mid(startingLineNumber + 1,endingLineNumber - startingLineNumber);
 
             BufferData newBuffer(static_cast<unsigned int>(startingBufferString.toInt()),isDBuffer);
-            newBuffer.setProgramString(bufferLineList.join("").toStdString());
-            parsedBuffers.appendBufferData(static_cast<unsigned int>(startingBufferString.toInt()),newBuffer);
+            newBuffer.setProgramString(bufferLineList.join("\n").toStdString());
+            parsedBuffers.updateBufferData(static_cast<unsigned int>(startingBufferString.toInt()),newBuffer);
+            //parsedBuffers.appendBufferData(static_cast<unsigned int>(startingBufferString.toInt()),newBuffer);
         }
     }
 
     int startingBuffer = bufferIndex - 1; //this should yield the dBuffer index
     QString startingBufferString = bufferList.at(startingBuffer);
     bool isDBuffer = startingBufferString == "#A";
-    int startingLineNumber = lineList.indexOf(startingBufferString + 1);
+    int startingLineNumber = lineList.indexOf(startingBufferString);
     startingBufferString.remove(removeRX);
 
-    QStringList bufferLineList = lineList.mid(startingLineNumber);
+
+    QStringList bufferLineList = lineList.mid(startingLineNumber + 1, lineList.size() - (startingLineNumber + 2));
 
     BufferData newBuffer(64,isDBuffer);
-    newBuffer.setProgramString(bufferLineList.join("").toStdString());
-    parsedBuffers.appendBufferData(64,newBuffer);
+    newBuffer.setProgramString(bufferLineList.join("\n").toStdString());
+    parsedBuffers.updateBufferData(64,newBuffer);
 
     return parsedBuffers;
 }

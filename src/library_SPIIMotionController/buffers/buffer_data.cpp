@@ -4,6 +4,7 @@ BufferData::BufferData(const unsigned int &bufferIndex, const bool &dBuffer)
 {
     setBufferIndex(bufferIndex);
     setIsDBuffer(dBuffer);
+    setBufferName("Buffer #" + std::to_string(bufferIndex));
 }
 
 BufferData::BufferData(const BufferData &copy)

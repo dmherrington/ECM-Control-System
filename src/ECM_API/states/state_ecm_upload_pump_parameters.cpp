@@ -80,12 +80,17 @@ void ECMState_UploadPumpParameters::OnEnter(ECMCommand_AbstractProfileConfigPtr 
 
         Owner().m_Pump->AddLambda_FinishedUploadingParameters(this,[this](const bool completed, const DeviceInterface_Pump::FINISH_CODE finishCode){
             UNUSED(finishCode);
+            NotificationUpdate APIUpdate("API",ECMDevice::DEVICE_PUMP);
 
             if(completed)
             {
+                APIUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL);
+                APIUpdate.setPeripheralMessage("Upload to pump was successful.");
                 desiredState = ECMState::STATE_ECM_UPLOAD_COMPLETE;
             }else
             {
+                APIUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR);
+                APIUpdate.setPeripheralMessage("Upload to pump has failed.");
                 desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
             }
         });

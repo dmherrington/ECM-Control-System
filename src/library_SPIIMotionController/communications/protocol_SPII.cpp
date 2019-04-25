@@ -717,7 +717,7 @@ void SPIIProtocol::ceaseMachineMotion(const CommandStop &command)
     commandCustomString_LessResponse("start 2, SET_DEFAULTS_GOTO\r");
 }
 
-void SPIIProtocol::uploadProgramToBuffer(const SPIICommand_UploadProgramBuffer *uploadProgram)
+bool SPIIProtocol::uploadProgramToBuffer(const SPIICommand_UploadProgramBuffer *uploadProgram)
 {
     bool rtnStatus = false;
 

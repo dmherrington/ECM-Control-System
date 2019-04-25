@@ -3,6 +3,7 @@
 
 enum class ECMDevice
 {
+    DEVICE_API,
     DEVICE_POWERSUPPLY,
     DEVICE_PUMP,
     DEVICE_OSCOPE,

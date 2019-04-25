@@ -82,13 +82,20 @@ void ECMState_UploadPowerPulseMode::OnEnter(ECMCommand_AbstractProfileConfigPtr 
         ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(this->m_Config);
 
         Owner().m_Munk->AddLambda_FinishedUploadingPulseMode(this,[this](const bool completed, const DeviceInterface_PowerSupply::FINISH_CODE finishCode){
+            NotificationUpdate APIUpdate("API",ECMDevice::DEVICE_POWERSUPPLY);
+
                 if(completed)
                 {
+                    APIUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL);
+                    APIUpdate.setPeripheralMessage("Upload of power pulse mode was successful.");
                     desiredState = ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS;
                 }else
                 {
+                    APIUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR);
+                    APIUpdate.setPeripheralMessage("Upload of power pulse mode has failed.");
                     desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
                 }
+                emit Owner().signal_APINotification(APIUpdate);
         });
 
         Owner().m_Munk->writeRegisterPulseMode(castConfig->m_ConfigPowerSupply.m_MunkPulseMode);

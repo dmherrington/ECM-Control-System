@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QListWidgetItem>
 
+#include "common/environment_time.h"
 #include "common/notification_update.h"
 
 namespace Ui {
@@ -31,7 +32,7 @@ public:
     }
 private:
     void setNotificationType(const common::NotificationUpdate::NotificationTypes &type);
-    void setNotificationTime();
+    void setNotificationTime(const common::EnvironmentTime &noticeTime);
     void setNotificationMessage(const common::NotificationUpdate::NotificationTypes &type, const std::string &msg);
 
 private:

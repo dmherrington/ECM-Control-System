@@ -83,14 +83,20 @@ void ECMState_UploadMotionProfile::OnEnter(ECMCommand_AbstractProfileConfigPtr c
 
         Owner().m_MotionController->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const SPII_CurrentProgram &program){
             UNUSED(program);
+            NotificationUpdate APIUpdate("API",ECMDevice::DEVICE_MOTIONCONTROL);
 
             if(completed)
             {
+                APIUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL);
+                APIUpdate.setPeripheralMessage("Upload of motion profile was successful.");
                 desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES;
             }else
             {
+                APIUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR);
+                APIUpdate.setPeripheralMessage("Upload of motion profile has failed.");
                 desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
             }
+            emit Owner().signal_APINotification(APIUpdate);
         });
 
         SPIICommand_UploadProgramSuitePtr cmdProgram = std::make_shared<SPIICommand_UploadProgramSuite>();

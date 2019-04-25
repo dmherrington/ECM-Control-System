@@ -16,8 +16,8 @@ Widget_DetailedNotification::~Widget_DetailedNotification()
 void Widget_DetailedNotification::setNotification(const common::NotificationUpdate &notice)
 {
     setNotificationType(notice.getUpdateType());
-    setNotificationTime();
-    setNotificationMessage(notice.getUpdateType(), notice.getPeripheralMessage());
+    setNotificationTime(notice.getNotificationTime());
+    setNotificationMessage(notice.getUpdateType(), notice.getSourceName() + notice.getPeripheralMessage());
 }
 
 
@@ -26,22 +26,25 @@ void Widget_DetailedNotification::setNotificationType(const common::Notification
     switch (type) {
     case common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL:
     {
+        ui->lineEdit_NotificationType->setText("GENERAL");
         break;
     }
     case common::NotificationUpdate::NotificationTypes::NOTIFICATION_ALERT:
     {
+        ui->lineEdit_NotificationType->setText("ALERT");
         break;
     }
     case common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR:
     {
+        ui->lineEdit_NotificationType->setText("ERROR");
         break;
     }
     }
 }
 
-void Widget_DetailedNotification::setNotificationTime()
+void Widget_DetailedNotification::setNotificationTime(const common::EnvironmentTime &noticeTime)
 {
-
+    ui->lineEdit_Time->setText(QString::fromStdString(noticeTime.timeString()));
 }
 void Widget_DetailedNotification::setNotificationMessage(const common::NotificationUpdate::NotificationTypes &type, const std::string &msg)
 {

@@ -24,6 +24,8 @@
 
 #include "states/state_ecm_types.h"
 
+#include "common/notification_update.h"
+
 ECM_CLASS_FORWARD(ECM_API);
 
 class ECM_APISHARED_EXPORT ECM_API: public QObject
@@ -82,6 +84,9 @@ signals:
     void signal_InPauseEvent(const std::string notificationText);
     void signal_ExecutingCollection(const ExecutionProperties &props);
     void signal_ExecutingOperation(const ExecuteOperationProperties &props);
+
+    void signal_APINotification(const NotificationUpdate &update);
+
 
 public:
 

@@ -91,11 +91,11 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API, SIGNAL(signal_InPauseEvent(std::string)),
             this, SLOT(slot_OnExecutionPause(std::string)));
 
-    QDockWidget *dockNotification = new QDockWidget(tr("Notification Utility"), this);
-    m_WidgetNotification = new Widget_Notification();
-    dockNotification->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    dockNotification->setWidget(m_WidgetNotification);
-    addDockWidget(Qt::LeftDockWidgetArea, dockNotification, Qt::Orientation::Vertical);
+//    QDockWidget *dockNotification = new QDockWidget(tr("Notification Utility"), this);
+//    m_WidgetNotification = new Widget_Notification();
+//    dockNotification->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+//    dockNotification->setWidget(m_WidgetNotification);
+//    addDockWidget(Qt::LeftDockWidgetArea, dockNotification, Qt::Orientation::Vertical);
 
     QDockWidget *dock = new QDockWidget(tr("Motion Utility"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -175,7 +175,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     setupUploadCallbacks();
 
-    //m_WindowConnections->connectToAllDevices();
+    m_WindowConnections->connectToAllDevices();
 
     ProgressStateMachineStates();
 }

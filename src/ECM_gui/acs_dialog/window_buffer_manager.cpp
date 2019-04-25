@@ -245,7 +245,29 @@ void Window_BufferManager::openFromFile(const QString &filePath)
 
     clearBufferData();
 
+    QTextStream in(&loadFile);
+    QString programText = in.readAll();
+    loadFile.close();
 
+    BufferManager loadProgram = SPII_PrgHandle::parsePRG(programText);
+
+    for(unsigned int bufferIndex = 0; bufferIndex < loadProgram.getBufferSize(); bufferIndex++)
+    {
+        BufferData loadBufferData;
+        if(loadProgram.getBufferData(bufferIndex,loadBufferData))
+        {
+            Widget_BufferDescriptor* tableDescriptor = new Widget_BufferDescriptor(m_SPIIDevice, loadBufferData);
+            connect(tableDescriptor, SIGNAL(singal_DisplayBufferCode(const unsigned int&)),
+                    this, SLOT(slot_OnDisplayBufferContents(const unsigned int&)));
+            QListWidgetItem* newItem = new QListWidgetItem();
+            newItem->setSizeHint(tableDescriptor->sizeHint());
+            ui->listWidget_Buffers->addItem(newItem);
+            ui->listWidget_Buffers->setItemWidget(newItem,tableDescriptor);
+            m_BufferDescriptors.insert(std::pair<unsigned int, Widget_BufferDescriptor*>(loadBufferData.getBufferIndex() ,tableDescriptor));
+            ui->stackedWidget_BufferContents->addWidget(tableDescriptor->getBufferEditor());
+        }
+    }
+    /*
     QByteArray loadData = loadFile.readAll();
     loadFile.close();
 
@@ -278,6 +300,7 @@ void Window_BufferManager::openFromFile(const QString &filePath)
 
     m_BufferDescriptors.at(0)->setOpenInEditor(true);
     ui->stackedWidget_BufferContents->setCurrentIndex(0);
+    */
 
     //emit signal_LoadedConfigurationCollection(filePath.toStdString());
 }
