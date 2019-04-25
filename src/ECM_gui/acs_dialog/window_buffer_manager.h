@@ -64,6 +64,8 @@ private slots:
 
     void on_actionClose_triggered();
 
+    void on_pushButton_Sync_released();
+
 private:
     Ui::Window_BufferManager *ui;
 

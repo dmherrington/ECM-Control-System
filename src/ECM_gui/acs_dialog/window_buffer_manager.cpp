@@ -324,3 +324,7 @@ void Window_BufferManager::openFromFile(const QString &filePath)
     //emit signal_LoadedConfigurationCollection(filePath.toStdString());
 }
 
+void Window_BufferManager::on_pushButton_Sync_released()
+{
+
+}
