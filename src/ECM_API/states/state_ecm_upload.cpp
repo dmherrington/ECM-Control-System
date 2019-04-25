@@ -69,6 +69,7 @@ hsm::Transition ECMState_Upload::GetTransition()
             {
                 ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection->getActiveConfiguration();
                 ECMCommand_ProfileConfigurationPtr castConfiguration = static_pointer_cast<ECMCommand_ProfileConfiguration>(activeConfiguration);
+                castConfiguration->m_DesiredProgram = m_ECMCollection->getDesiredBufferSuite();
                 rtn = hsm::InnerEntryTransition<ECMState_UploadMotionProfile>(castConfiguration);
                 break;
             }

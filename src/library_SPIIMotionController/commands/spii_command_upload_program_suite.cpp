@@ -9,7 +9,7 @@ SPIICommand_UploadProgramSuite::SPIICommand_UploadProgramSuite():
 SPIICommand_UploadProgramSuite::SPIICommand_UploadProgramSuite(const SPIICommand_UploadProgramSuite &copy):
     AbstractCommand(copy)
 {
-
+    this->m_Program = copy.m_Program;
 }
 
 AbstractCommand* SPIICommand_UploadProgramSuite::getClone() const

@@ -34,6 +34,8 @@ public:
 
     void updateFromBufferStatus(const Status_BufferState &state);
 
+    void updateFromBufferData(const BufferData &data);
+
 private:
     void updateCurrentLED(const bool &current);
 

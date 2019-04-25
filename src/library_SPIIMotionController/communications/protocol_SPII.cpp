@@ -712,6 +712,10 @@ void SPIIProtocol::uploadProgramSuite(const SPIICommand_UploadProgramSuite *uplo
                 Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewBuffer_ProgramSuite(false, desiredProgram);});
                 return;
             }
+            else
+            {
+
+            }
         }
     }
     Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewBuffer_ProgramSuite(true, desiredProgram);});
@@ -735,7 +739,7 @@ bool SPIIProtocol::uploadProgramToBuffer(const SPIICommand_UploadProgramBuffer *
 
     bool uploadSuccessful = bufferUpload(uploadProgram->getBufferIndex(), uploadProgram->getCurrentScript());
 
-    if(uploadSuccessful && (uploadProgram->shouldCompileImmediately()))
+    if(uploadSuccessful && uploadProgram->shouldCompileImmediately() && !uploadProgram->getCurrentScript().empty())
     {
         if(bufferCompile(uploadProgram->getBufferIndex(), newBufferState))
         {

@@ -116,9 +116,8 @@ void Window_BufferManager::loadBufferContents(const SPII_CurrentProgram &desired
     {
         Widget_BufferDescriptor* currentBufferDescriptor = it->second;
         BufferData currentBufferData;
-        bool current, compiled;
         desiredBufferContents.getBufferData(it->first,currentBufferData);
-        currentBufferDescriptor->getBufferEditor()->updateFromBufferData(currentBufferData,current,compiled);
+        currentBufferDescriptor->updateFromBufferData(currentBufferData);
     }
 }
 

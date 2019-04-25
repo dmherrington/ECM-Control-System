@@ -114,6 +114,14 @@ void Widget_BufferDescriptor::on_pushButton_DisplayBuffer_released()
     emit singal_DisplayBufferCode(m_BufferEditor->getBufferIndex());
 }
 
+void Widget_BufferDescriptor::updateFromBufferData(const BufferData &data)
+{
+    bool current, compiled;
+    m_BufferEditor->updateFromBufferData(data,current,compiled);
+    updateCurrentLED(current);
+    updateCompiledLED(compiled);
+}
+
 void Widget_BufferDescriptor::updateFromBufferStatus(const Status_BufferState &state)
 {
     switch (state.getBufferStatus()) {
