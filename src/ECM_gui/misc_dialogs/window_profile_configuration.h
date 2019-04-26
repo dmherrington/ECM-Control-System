@@ -61,8 +61,6 @@ private slots:
 
     void on_ListWidgetRowMoved();
 
-    void on_pushButton_OpenMotionScript_released();
-
     void on_listWidget_itemClicked(QListWidgetItem *item);
 
     void slot_MCNewProgramLabels(const Operation_VariableList &labels);
@@ -94,6 +92,12 @@ private slots:
 
     void on_actionNew_triggered(bool checked);
 
+    void on_pushButton_OpenMotionScript_released();
+
+    void on_pushButton_UploadCurrentBuffers_released();
+
+    void on_pushButton_SyncCurrentBuffers_released();
+
 private:
     void setIndicateHome(const bool &checked);
 
@@ -108,7 +112,6 @@ private:
     QListWidgetItem* previousItem;
 
     Window_BufferManager* m_WindowBufferManager;
-
 };
 
 #endif // WINDOW_PROFILE_CONFIGURATION_H

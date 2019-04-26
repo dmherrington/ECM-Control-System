@@ -7,6 +7,7 @@ Operation_VariableList::Operation_VariableList()
 
 Operation_VariableList::Operation_VariableList(const Operation_VariableList &copy)
 {
+    this->variableListType = copy.variableListType;
     this->variableMap = copy.variableMap;
 }
 
@@ -42,6 +43,11 @@ void Operation_VariableList::readFromJSON(const QJsonObject &openObject)
         double variableValue = variableObject.value(variableKey).toDouble();
         addVariable(variableKey.toStdString(),variableValue);
     }
+}
+
+void Operation_VariableList::setVariableListType(const VariableType &type)
+{
+    this->variableListType = type;
 }
 
 bool Operation_VariableList::doesVariableExist(const std::string &name) const
@@ -94,6 +100,11 @@ size_t Operation_VariableList::sizeOfVariableList() const
  std::map<std::string, double> Operation_VariableList::getVariableMap() const
  {
      return this->variableMap;
+ }
+
+ Operation_VariableList::VariableType Operation_VariableList::getVariableListType() const
+ {
+     return this->variableListType;
  }
 
  std::string Operation_VariableList::getLoggingString() const

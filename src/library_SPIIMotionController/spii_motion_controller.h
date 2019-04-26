@@ -51,6 +51,8 @@ public:
 public:
     void executeCommand(const AbstractCommandPtr command);
     void executeCustomCommands(const std::vector<std::string> &stringCommands);
+    void executeSynchronizationRequest();
+
 public:
     void ConnectToSimulation();
     void ConnectToSerialPort(const common::comms::SerialConfiguration &linkConfig);
@@ -89,6 +91,7 @@ private:
     void NewBuffer_AvailableData(const BufferData &bufferData) override;
     void NewStatus_OperationalLabels(const Operation_LabelList &labelList) override;
     void NewStatus_PrivateOperationalVariables(const bool &success, const Operation_VariableList &variableList) override;
+    void NewStatus_UploadedOperationalVariables(const bool &success, const Operation_VariableList &variableList) override;
     void NewStatus_UserOperationalVariables(const bool &success, const Operation_VariableList &variableList) override;
     void NewStatus_CustomCommandReceived(const std::string &command, const std::string &response) override;
 
@@ -135,6 +138,9 @@ signals:
     void signal_MCNewProgramLabelList(const Operation_LabelList &labelList);
 
     void signal_MCNewProgramVariableList(const Operation_VariableList &variableList);
+
+    void signal_MCNewUserVariableList(const Operation_VariableList &variableList);
+
 
     //!
     //! \brief signal_MCNewPoition

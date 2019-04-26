@@ -97,6 +97,8 @@ private:
 
     void NewStatus_OperationalLabels(const Operation_LabelList &labelList) const override;
 
+    void NewStatus_UploadedOperationalVariables(const bool &success, const Operation_VariableList &variableList = Operation_VariableList()) const override;
+
     void NewStatus_PrivateOperationalVariables(const bool &success, const Operation_VariableList &variableList) const override;
 
     void NewStatus_UserOperationalVariables(const bool &success, const Operation_VariableList &variableList) const override;

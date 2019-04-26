@@ -60,6 +60,12 @@ public:
         UNUSED(labelList);
     }
 
+    virtual void NewStatus_UploadedOperationalVariables(const bool &success, const Operation_VariableList &variableList)
+    {
+        UNUSED(success);
+        UNUSED(variableList);
+    }
+
     virtual void NewStatus_PrivateOperationalVariables(const bool &success, const Operation_VariableList &variableList)
     {
         UNUSED(success);

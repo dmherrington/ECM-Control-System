@@ -40,7 +40,7 @@ public:
     void AddListner(const IProtocolSPIIEvents* listener);
 
 
-    void initializeBufferContents();
+    void synchronizeBufferContents();
 
     //////////////////////////////////////////////////////////////
     /// Methods issuing an explicit galil command

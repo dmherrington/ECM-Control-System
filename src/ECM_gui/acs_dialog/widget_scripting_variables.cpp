@@ -12,8 +12,8 @@ Widget_ScriptingVariables::Widget_ScriptingVariables(SPIIMotionController *motio
     connect(m_MotionController, SIGNAL(signal_MCNewProgramLabelList(Operation_LabelList)),
             this, SLOT(slot_onNewlyAvailableLabels(Operation_LabelList)));
 
-//    connect(m_MotionController, SIGNAL(signal_MCNewProgramVariableList(Operation_VariableList)),
-//            this, SLOT(slot_onNewlyAvailableUserVariables(Operation_VariableList)));
+    connect(m_MotionController, SIGNAL(signal_MCNewUserVariableList(Operation_VariableList)),
+            this, SLOT(slot_onNewlyAvailableUserVariables(Operation_VariableList)));
 
     if(m_MotionController->isDeviceConnected())
     {
@@ -26,7 +26,7 @@ Widget_ScriptingVariables::Widget_ScriptingVariables(SPIIMotionController *motio
     m_MotionController->AddLambda_FinishedUploadingVariables(this,[this](const bool &success, const Operation_VariableList &variableList){
         if(success)
         {
-            updateProgramVariables(variableList);
+
         }
     });
 
@@ -58,7 +58,7 @@ void Widget_ScriptingVariables::loadFromCurrentProgram(const Operation_LabelList
 {
     //Load what we can from the new program
     updateProgramLabels(labels);
-    updateProgramVariables(vars , useLoadedVars);
+    updateProgramVariables(vars);
 
     if(!profileName.empty())
         this->setProfileName(profileName);
@@ -142,7 +142,7 @@ void Widget_ScriptingVariables::clearVariableTable()
 void Widget_ScriptingVariables::updateProgramVariables(const Operation_VariableList &list, const bool &restoreVariables)
 {
     //This will allow us to save the old variables first
-    Operation_VariableList oldVariableList = m_ConfiguredVariables;
+    Operation_VariableList oldVariableList = getVariableList();
     m_ConfiguredVariables = list;
 
     //clear the old table

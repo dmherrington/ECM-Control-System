@@ -38,7 +38,7 @@ public:
     QGridLayout *gridLayout;
     QHBoxLayout *horizontalLayout;
     QPushButton *pushButton;
-    QPushButton *pushButton_2;
+    QPushButton *pushButton_Sync;
     QStackedWidget *stackedWidget_BufferContents;
     QListWidget *listWidget_Buffers;
     QMenuBar *menubar;
@@ -178,13 +178,19 @@ public:
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         pushButton = new QPushButton(centralwidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setMinimumSize(QSize(0, 24));
+        QFont font;
+        font.setPointSize(10);
+        pushButton->setFont(font);
 
         horizontalLayout->addWidget(pushButton);
 
-        pushButton_2 = new QPushButton(centralwidget);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+        pushButton_Sync = new QPushButton(centralwidget);
+        pushButton_Sync->setObjectName(QStringLiteral("pushButton_Sync"));
+        pushButton_Sync->setMinimumSize(QSize(0, 24));
+        pushButton_Sync->setFont(font);
 
-        horizontalLayout->addWidget(pushButton_2);
+        horizontalLayout->addWidget(pushButton_Sync);
 
 
         gridLayout->addLayout(horizontalLayout, 0, 0, 1, 1);
@@ -239,7 +245,7 @@ public:
         actionSave_As->setText(QApplication::translate("Window_BufferManager", "Save As", nullptr));
         actionClose->setText(QApplication::translate("Window_BufferManager", "Close", nullptr));
         pushButton->setText(QString());
-        pushButton_2->setText(QString());
+        pushButton_Sync->setText(QApplication::translate("Window_BufferManager", "SYNC BUFFERS TO ACS", nullptr));
         menuFile->setTitle(QApplication::translate("Window_BufferManager", "File", nullptr));
     } // retranslateUi
 

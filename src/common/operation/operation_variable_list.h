@@ -13,6 +13,13 @@
 class Operation_VariableList
 {
 public:
+    enum class VariableType
+    {
+        VARIABLES_PRIVATE,
+        VARIABLES_USER
+    };
+
+public:
     Operation_VariableList();
 
     Operation_VariableList(const Operation_VariableList &copy);
@@ -23,6 +30,8 @@ public:
     void readFromJSON(const QJsonObject &openObject);
 
 public:
+
+    void setVariableListType(const VariableType &type);
 
     bool doesVariableExist(const std::string &name) const;
 
@@ -39,6 +48,8 @@ public:
     size_t sizeOfVariableList() const;
 
     std::map<std::string,double> getVariableMap() const;
+
+    VariableType getVariableListType() const;
 
 public:
     Operation_VariableList& operator = (const Operation_VariableList &rhs)
@@ -73,6 +84,7 @@ public:
     }
 
 private:
+    VariableType variableListType = VariableType::VARIABLES_PRIVATE;
     std::map<std::string,double> variableMap;
 };
 

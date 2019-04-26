@@ -25,7 +25,7 @@ void CommsMarshaler::initializeBufferContents()
         if(!link->isConnected())
             return;
 
-            protocol->initializeBufferContents();
+            protocol->synchronizeBufferContents();
     };
 
     link->MarshalOnThread(func);
@@ -388,6 +388,11 @@ void CommsMarshaler::NewBuffer_AvailableData(const BufferData &bufferData) const
 void CommsMarshaler::NewStatus_OperationalLabels(const Operation_LabelList &labelList) const
 {
     Emit([&](CommsEvents *ptr){ptr->NewStatus_OperationalLabels(labelList);});
+}
+
+void CommsMarshaler::NewStatus_UploadedOperationalVariables(const bool &success, const Operation_VariableList &variableList) const
+{
+    Emit([&](CommsEvents *ptr){ptr->NewStatus_UploadedOperationalVariables(success, variableList);});
 }
 
 void CommsMarshaler::NewStatus_PrivateOperationalVariables(const bool &success, const Operation_VariableList &variableList) const

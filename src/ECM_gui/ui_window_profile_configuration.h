@@ -65,8 +65,8 @@ public:
     QSpacerItem *horizontalSpacer_7;
     QHBoxLayout *horizontalLayout_2;
     QPushButton *pushButton_OpenMotionScript;
-    QPushButton *pushButton_UploadMotionScript;
-    QPushButton *pushButton_DownloadMotionScript;
+    QPushButton *pushButton_UploadCurrentBuffers;
+    QPushButton *pushButton_SyncCurrentBuffers;
     QSpacerItem *horizontalSpacer_6;
     QGridLayout *gridLayout;
     QLabel *label;
@@ -455,27 +455,27 @@ public:
 
         horizontalLayout_2->addWidget(pushButton_OpenMotionScript);
 
-        pushButton_UploadMotionScript = new QPushButton(centralwidget);
-        pushButton_UploadMotionScript->setObjectName(QStringLiteral("pushButton_UploadMotionScript"));
-        sizePolicy.setHeightForWidth(pushButton_UploadMotionScript->sizePolicy().hasHeightForWidth());
-        pushButton_UploadMotionScript->setSizePolicy(sizePolicy);
-        pushButton_UploadMotionScript->setMinimumSize(QSize(140, 20));
-        pushButton_UploadMotionScript->setMaximumSize(QSize(140, 20));
-        pushButton_UploadMotionScript->setFont(font1);
-        pushButton_UploadMotionScript->setIcon(icon);
+        pushButton_UploadCurrentBuffers = new QPushButton(centralwidget);
+        pushButton_UploadCurrentBuffers->setObjectName(QStringLiteral("pushButton_UploadCurrentBuffers"));
+        sizePolicy.setHeightForWidth(pushButton_UploadCurrentBuffers->sizePolicy().hasHeightForWidth());
+        pushButton_UploadCurrentBuffers->setSizePolicy(sizePolicy);
+        pushButton_UploadCurrentBuffers->setMinimumSize(QSize(140, 20));
+        pushButton_UploadCurrentBuffers->setMaximumSize(QSize(140, 20));
+        pushButton_UploadCurrentBuffers->setFont(font1);
+        pushButton_UploadCurrentBuffers->setIcon(icon);
 
-        horizontalLayout_2->addWidget(pushButton_UploadMotionScript);
+        horizontalLayout_2->addWidget(pushButton_UploadCurrentBuffers);
 
-        pushButton_DownloadMotionScript = new QPushButton(centralwidget);
-        pushButton_DownloadMotionScript->setObjectName(QStringLiteral("pushButton_DownloadMotionScript"));
-        sizePolicy.setHeightForWidth(pushButton_DownloadMotionScript->sizePolicy().hasHeightForWidth());
-        pushButton_DownloadMotionScript->setSizePolicy(sizePolicy);
-        pushButton_DownloadMotionScript->setMinimumSize(QSize(140, 20));
-        pushButton_DownloadMotionScript->setMaximumSize(QSize(140, 20));
-        pushButton_DownloadMotionScript->setFont(font1);
-        pushButton_DownloadMotionScript->setIcon(icon);
+        pushButton_SyncCurrentBuffers = new QPushButton(centralwidget);
+        pushButton_SyncCurrentBuffers->setObjectName(QStringLiteral("pushButton_SyncCurrentBuffers"));
+        sizePolicy.setHeightForWidth(pushButton_SyncCurrentBuffers->sizePolicy().hasHeightForWidth());
+        pushButton_SyncCurrentBuffers->setSizePolicy(sizePolicy);
+        pushButton_SyncCurrentBuffers->setMinimumSize(QSize(140, 20));
+        pushButton_SyncCurrentBuffers->setMaximumSize(QSize(140, 20));
+        pushButton_SyncCurrentBuffers->setFont(font1);
+        pushButton_SyncCurrentBuffers->setIcon(icon);
 
-        horizontalLayout_2->addWidget(pushButton_DownloadMotionScript);
+        horizontalLayout_2->addWidget(pushButton_SyncCurrentBuffers);
 
 
         horizontalLayout_5->addLayout(horizontalLayout_2);
@@ -570,7 +570,7 @@ public:
         QFont font2;
         font2.setPointSize(12);
         checkBox_ShouldHomeBeIndicated->setFont(font2);
-        checkBox_ShouldHomeBeIndicated->setChecked(true);
+        checkBox_ShouldHomeBeIndicated->setChecked(false);
 
         gridLayout_5->addWidget(checkBox_ShouldHomeBeIndicated, 0, 0, 1, 1);
 
@@ -647,10 +647,10 @@ public:
         actionNew->setText(QApplication::translate("Window_ProfileConfiguration", "New", nullptr));
         label_ManualControl_6->setText(QApplication::translate("Window_ProfileConfiguration", "Profile Configuration", nullptr));
         label_3->setText(QApplication::translate("Window_ProfileConfiguration", "Current Configuration:", nullptr));
-        label_2->setText(QApplication::translate("Window_ProfileConfiguration", "Galil Script:", nullptr));
-        pushButton_OpenMotionScript->setText(QApplication::translate("Window_ProfileConfiguration", "Open New Script", nullptr));
-        pushButton_UploadMotionScript->setText(QApplication::translate("Window_ProfileConfiguration", "Upload Script", nullptr));
-        pushButton_DownloadMotionScript->setText(QApplication::translate("Window_ProfileConfiguration", "Download Script", nullptr));
+        label_2->setText(QApplication::translate("Window_ProfileConfiguration", "Program Buffers:", nullptr));
+        pushButton_OpenMotionScript->setText(QApplication::translate("Window_ProfileConfiguration", "Open New Buffer PRG", nullptr));
+        pushButton_UploadCurrentBuffers->setText(QApplication::translate("Window_ProfileConfiguration", "Upload Current Buffers", nullptr));
+        pushButton_SyncCurrentBuffers->setText(QApplication::translate("Window_ProfileConfiguration", "Sync Current Buffers", nullptr));
         label->setText(QApplication::translate("Window_ProfileConfiguration", "Operations:", nullptr));
         pushButton_AddOperation->setText(QApplication::translate("Window_ProfileConfiguration", "Add Operation", nullptr));
         pushButton_RemoveOperation->setText(QApplication::translate("Window_ProfileConfiguration", "Remove Operation", nullptr));

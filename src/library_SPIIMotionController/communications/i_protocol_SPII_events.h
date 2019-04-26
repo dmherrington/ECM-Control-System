@@ -29,6 +29,8 @@ public:
 
     virtual void NewStatus_OperationalLabels(const Operation_LabelList &labelList) const = 0;
 
+    virtual void NewStatus_UploadedOperationalVariables(const bool &success, const Operation_VariableList &variableList = Operation_VariableList()) const = 0;
+
     virtual void NewStatus_PrivateOperationalVariables(const bool &success, const Operation_VariableList &variableList = Operation_VariableList()) const = 0;
 
     virtual void NewStatus_UserOperationalVariables(const bool &success, const Operation_VariableList &variableList = Operation_VariableList()) const = 0;

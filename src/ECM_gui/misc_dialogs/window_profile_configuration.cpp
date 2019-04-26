@@ -11,8 +11,11 @@ Window_ProfileConfiguration::Window_ProfileConfiguration(ECM_API* apiObject, QWi
 
     m_WindowBufferManager = new Window_BufferManager(m_API->m_MotionController);
     m_WindowBufferManager->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
+
     connect(m_WindowBufferManager,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),
             this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
+//    connect(m_WindowBufferManager,SIGNAL(signal_BufferManagerSynchronization),
+//            this,SLOT(slot_SynchronizationRequest()));
 
     connect(ui->listWidget->model(),SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),this,SLOT(on_ListWidgetRowMoved()));
 }
@@ -225,11 +228,6 @@ void Window_ProfileConfiguration::slot_OperationNameChanged(const std::string &n
     ui->tabWidget_OperationParameters->setTabText(index,QString::fromStdString(name));
 }
 
-void Window_ProfileConfiguration::on_pushButton_OpenMotionScript_released()
-{
-    //    m_WindowMotionProfile->openGalilScript();
-}
-
 void Window_ProfileConfiguration::on_ListWidgetRowMoved()
 {
     //let us reorder all of the operation numbers
@@ -439,4 +437,19 @@ bool Window_ProfileConfiguration::checkBufferContents(bool &shouldUpload)
         }
     }
     return continueExecution;
+}
+
+void Window_ProfileConfiguration::on_pushButton_OpenMotionScript_released()
+{
+
+}
+
+void Window_ProfileConfiguration::on_pushButton_UploadCurrentBuffers_released()
+{
+
+}
+
+void Window_ProfileConfiguration::on_pushButton_SyncCurrentBuffers_released()
+{
+    m_API->m_MotionController->executeSynchronizationRequest();
 }

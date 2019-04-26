@@ -19,7 +19,7 @@ void SPIIProtocol::AddListner(const IProtocolSPIIEvents* listener)
     m_Listners.push_back(listener);
 }
 
-void SPIIProtocol::initializeBufferContents()
+void SPIIProtocol::synchronizeBufferContents()
 {
     for(size_t bufferIndex = 0; bufferIndex < m_SPIISettings.getBufferCount() + 1; bufferIndex++)
     {
@@ -34,6 +34,8 @@ void SPIIProtocol::initializeBufferContents()
             //we need to also retrieve the variables on load
             Operation_VariableList privateVars, userVars;
             retrieveDBufferVariables(m_SPIISettings.getDBufferIndex(), privateVars, userVars);
+            userVars.setVariableListType(Operation_VariableList::VariableType::VARIABLES_USER);
+
             Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_PrivateOperationalVariables(true, privateVars);});
             Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_UserOperationalVariables(true, userVars);});
         }
@@ -320,9 +322,9 @@ bool SPIIProtocol::WriteOperationalVariables(const Operation_VariableList &varia
     }
 
     if(validity)
-        Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_UserOperationalVariables(true,variableList);});
+        Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_UploadedOperationalVariables(true,variableList);});
     else
-        Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_UserOperationalVariables(false);});
+        Emit([&](const IProtocolSPIIEvents* ptr){ptr->NewStatus_UploadedOperationalVariables(false);});
 }
 
 bool SPIIProtocol::commandMotorEnable(const CommandMotorEnable &enable)

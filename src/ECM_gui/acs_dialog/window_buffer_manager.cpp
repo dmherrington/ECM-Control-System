@@ -326,5 +326,5 @@ void Window_BufferManager::openFromFile(const QString &filePath)
 
 void Window_BufferManager::on_pushButton_Sync_released()
 {
-
+    m_SPIIDevice->executeSynchronizationRequest();
 }

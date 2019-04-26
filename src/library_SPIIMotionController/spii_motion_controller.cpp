@@ -47,6 +47,10 @@ void SPIIMotionController::executeCustomCommands(const std::vector<std::string> 
     m_CommsMarshaler->sendCustomSPIICommands(stringCommands);
 }
 
+void SPIIMotionController::executeSynchronizationRequest()
+{
+    m_CommsMarshaler->initializeBufferContents();
+}
 
 void SPIIMotionController::ConnectToSimulation()
 {
@@ -436,7 +440,7 @@ void SPIIMotionController::NewStatus_PrivateOperationalVariables(const bool &suc
     }
 }
 
-void SPIIMotionController::NewStatus_UserOperationalVariables(const bool &success, const Operation_VariableList &variableList)
+void SPIIMotionController::NewStatus_UploadedOperationalVariables(const bool &success, const Operation_VariableList &variableList)
 {
     if(success)
     {
@@ -445,8 +449,18 @@ void SPIIMotionController::NewStatus_UserOperationalVariables(const bool &succes
         m_StateInterface->m_BufferManager->updateUserVariables(variableList);
 
         this->onFinishedUploadingVariables(success,variableList);
+    }
+}
 
-        emit signal_MCNewProgramVariableList(variableList);
+void SPIIMotionController::NewStatus_UserOperationalVariables(const bool &success, const Operation_VariableList &variableList)
+{
+    if(success)
+    {
+        m_StateInterface->m_MasterVariableValues->fromVariableList(variableList);
+
+        m_StateInterface->m_BufferManager->updateUserVariables(variableList);
+
+        emit signal_MCNewUserVariableList(variableList);
     }
 }
 
