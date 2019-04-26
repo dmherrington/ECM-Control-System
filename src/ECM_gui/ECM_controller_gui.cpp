@@ -11,8 +11,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 {
 
     std::vector<MotorAxis> applicableAxis;
-//    applicableAxis.push_back(MotorAxis::X);
-//    applicableAxis.push_back(MotorAxis::Y);
+    //    applicableAxis.push_back(MotorAxis::X);
+    //    applicableAxis.push_back(MotorAxis::Y);
     applicableAxis.push_back(MotorAxis::Z);
 
     /*
@@ -197,7 +197,7 @@ void ECMControllerGUI::setupUploadCallbacks()
     });
 
     m_API->m_MotionController->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
-//        emit this->signal_newMotionProfileState(profileState);
+        //        emit this->signal_newMotionProfileState(profileState);
         this->updateMCIndicators(profileState);
     });
 
@@ -606,14 +606,14 @@ void ECMControllerGUI::on_actionProfile_Configuration_triggered(bool checked)
 void ECMControllerGUI::on_actionBuffer_Manager_triggered(bool checked)
 {
     UNUSED(checked);
-//    UNUSED(checked);
-//    if(m_WindowBufferManager->isWindowHidden())
-//        m_WindowBufferManager->show();
-//    else
-//    {
-//        m_WindowBufferManager->activateWindow();
-//        m_WindowBufferManager->raise();
-//    }
+    //    UNUSED(checked);
+    //    if(m_WindowBufferManager->isWindowHidden())
+    //        m_WindowBufferManager->show();
+    //    else
+    //    {
+    //        m_WindowBufferManager->activateWindow();
+    //        m_WindowBufferManager->raise();
+    //    }
 }
 
 void ECMControllerGUI::on_actionMotion_Control_triggered(bool checked)
@@ -778,7 +778,7 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
         {
             streamObj3 << startingPosition.at(i);
             std::string strObj = streamObj3.str();
-            streamObj3.clear();
+            streamObj3.str(std::string());
 
             if(i == 0)
                 msg += strObj;
@@ -804,7 +804,7 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
         {
             streamObj3 << endingPosition.at(i);
             std::string strObj = streamObj3.str();
-            streamObj3.clear();
+            streamObj3.str(std::string());
 
             if(i == 0)
                 msg += strObj;
@@ -1085,6 +1085,16 @@ void ECMControllerGUI::updateMCIndicators(const MotionProfileState &profileState
     default:
         break;
     }
+}
+
+void ECMControllerGUI::lockFrontPanelButtons(const bool &lock)
+{
+    ui->pushButton_RunAutomatedProfile->setDisabled(lock);
+    ui->pushButton_ResetHome->setDisabled(lock);
+    ui->pushButton_MoveHome->setDisabled(lock);
+    ui->pushButton_LoadAutomatedProfile->setDisabled(lock);
+    ui->pushButton_MotorDisable->setDisabled(lock);
+    ui->pushButton_MotorEnable->setDisabled(lock);
 }
 
 void ECMControllerGUI::on_pushButton_RunAutomatedProfile_released()

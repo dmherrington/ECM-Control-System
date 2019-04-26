@@ -53,6 +53,8 @@ private:
 
     void updateMCIndicators(const MotionProfileState &profileState);
 
+    void lockFrontPanelButtons(const bool &lock);
+
 signals:
     void signal_newMotionProfileState(const MotionProfileState &profileState);
 private slots:
