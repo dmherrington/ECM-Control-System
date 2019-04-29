@@ -17,7 +17,7 @@ void Widget_DetailedNotification::setNotification(const common::NotificationUpda
 {
     setNotificationType(notice.getUpdateType());
     setNotificationTime(notice.getNotificationTime());
-    setNotificationMessage(notice.getUpdateType(), notice.getSourceName() + notice.getPeripheralMessage());
+    setNotificationMessage(notice.getUpdateType(), notice.getSourceName() + ":" + notice.getPeripheralMessage());
 }
 
 

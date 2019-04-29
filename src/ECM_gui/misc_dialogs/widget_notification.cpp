@@ -5,10 +5,15 @@ Widget_Notification::Widget_Notification(const ECM_API *apiObject, QWidget *pare
     QWidget(parent),
     ui(new Ui::Widget_Notification)
 {
+    qRegisterMetaType<common::NotificationUpdate>("NotificationUpdate");
+
     ui->setupUi(this);
     m_API = apiObject;
 
     connect(m_API->m_MotionController, SIGNAL(signal_MCNotification(common::NotificationUpdate)),
+            this, SLOT(slot_NewNotification(common::NotificationUpdate)));
+
+    connect(m_API->m_Munk, SIGNAL(signal_MunkNotification(common::NotificationUpdate)),
             this, SLOT(slot_NewNotification(common::NotificationUpdate)));
 }
 

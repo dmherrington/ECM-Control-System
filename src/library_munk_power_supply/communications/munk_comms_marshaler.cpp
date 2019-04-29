@@ -43,10 +43,14 @@ void MunkCommsMarshaler::ConnectToLink(const SerialConfiguration &linkConfig)
             if(link->isConnected())
             {
                 registers_Munk::Register_SupplyIdentifier registerRequest;
+                registerRequest.setSlaveAddress(1);
                 if(!protocol->sendRegisterSupplyIdentifier(link.get(),registerRequest))
                     link->Disconnect(); //we are either connected to the wrong port or something else is wrong
                 else
+                {
+                    Emit([&](CommsEvents *ptr){ptr->ConnectionOpened();});
                     validLink = true;
+                }
             }
         };
 
