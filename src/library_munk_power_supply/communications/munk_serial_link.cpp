@@ -164,9 +164,6 @@ bool MunkSerialLink::_hardwareConnect(QSerialPort::SerialPortError& error, QStri
         return false; // couldn't open serial port
     }
 
-    //EmitEvent([this](const ILinkEvents *ptr){ptr->CommunicationUpdate(getPortName(), "Opened port!");});
-    EmitEvent([this](const ILinkEvents *ptr){ptr->ConnectionOpened();});
-
     m_port->setBaudRate     (_config.baud());
     m_port->setDataBits     (static_cast<QSerialPort::DataBits>     (_config.dataBits()));
     m_port->setFlowControl  (static_cast<QSerialPort::FlowControl>  (_config.flowControl()));
@@ -181,6 +178,8 @@ bool MunkSerialLink::_hardwareConnect(QSerialPort::SerialPortError& error, QStri
     });
     m_port->moveToThread(m_ListenThread);
     m_ListenThread->start();
+
+    EmitEvent([this](const ILinkEvents *ptr){ptr->ConnectionOpened();});
 
     return true; // successful connection
 }

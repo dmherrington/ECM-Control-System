@@ -361,6 +361,35 @@ void MunkProtocol::sendPulseMode(const ILink *link, const registers_Munk::Regist
     Emit([&](const IProtocolMunkEvents* ptr){ptr->RegisterPulseModeUpdated(false);});
 }
 
+bool MunkProtocol::sendRegisterSupplyIdentifier(const ILink *link, const registers_Munk::Register_SupplyIdentifier &identifier)
+{
+    bool deviceValidated = false;
+    if(link->isConnected())
+    {
+        MunkMessage receivedMSG;
+        if(link->WriteBytes(identifier.getFullMessage()))
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(20));
+            if(this->ReceiveData(link,receivedMSG))
+            {
+                if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
+                {
+                    parseForException(link, receivedMSG);
+                }
+                else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::READ)
+                {
+                    parseForSupplyIdentifier(link,&identifier,receivedMSG);
+                    deviceValidated = true;
+                }
+                else
+                {
+                    //there is something wrong here and the munk is therefore not connected
+                }
+            }
+        }
+    }
+    return deviceValidated;
+}
 
 //!
 //! \brief Read data incoming from some link
@@ -393,10 +422,27 @@ bool MunkProtocol::ReceiveData(const ILink *link, MunkMessage &returnMessage)
 void MunkProtocol::parseForReadMessage(const ILink *link, const MunkMessage &msg)
 {
     registers_Munk::AbstractParameter* currentRead = readVector.front();
-    if(currentRead->getParameterType() == registers_Munk::ParameterType::FAULT_STATE)
+    switch (currentRead->getParameterType()) {
+    case registers_Munk::ParameterType::FAULT_STATE:
     {
         parseForFaultStateCode(link,currentRead,msg);
+        break;
     }
+    case registers_Munk::ParameterType::SUPPLY_IDENTIFIER:
+    {
+        parseForSupplyIdentifier(link,currentRead,msg);
+        break;
+    }
+    default:
+        break;
+    }
+
+
+//    if(currentRead->getParameterType() == registers_Munk::ParameterType::FAULT_STATE)
+//    {
+//        parseForFaultStateCode(link,currentRead,msg);
+//    }
+
 }
 
 
@@ -414,6 +460,11 @@ void MunkProtocol::parseForFaultStateCode(const ILink *link, const registers_Mun
     int faultCode = dataLo | (dataHi<<8);
 
     Emit([&](const IProtocolMunkEvents* ptr){ptr->FaultCodeReceived(link,type,faultCode);});
+}
+
+void MunkProtocol::parseForSupplyIdentifier(const ILink *link, const registers_Munk::AbstractParameter* parameter, const MunkMessage &msg)
+{
+
 }
 
 } //end of namespace comms_Munk

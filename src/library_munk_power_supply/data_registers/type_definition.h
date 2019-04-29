@@ -19,7 +19,8 @@ enum class ParameterType{
     FAULT_STATE,
     STATUS_STATE,
     FAULT_DETAILED,
-    PULSE_MODE
+    PULSE_MODE,
+    SUPPLY_IDENTIFIER
 };
 
 inline std::string ParameterTypeToString(const ParameterType &type) {

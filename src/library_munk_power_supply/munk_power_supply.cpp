@@ -234,6 +234,14 @@ void MunkPowerSupply::generateMessages(const SegmentTimeDetailed &detailedSegmen
 
 void MunkPowerSupply::ConnectionOpened() const
 {
+    if(commsMarshaler->ValidateConnection())
+    {
+        std::cout<<"The link is valid"<<std::endl;
+    }
+    else
+    {
+        std::cout<<"There is a problem with the link"<<std::endl;
+    }
     common::comms::CommunicationUpdate connection;
     connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
     emit signal_MunkCommunicationUpdate(connection);

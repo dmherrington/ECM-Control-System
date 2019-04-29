@@ -20,6 +20,7 @@
 #include "data_registers/parameter_memory_write.h"
 #include "data_registers/register_fault_state.h"
 #include "data_registers/register_fault_reset.h"
+#include "data_registers/register_supply_identifier.h"
 #include "data_registers/type_definition.h"
 
 #include "munk_data_framing.h"
@@ -83,6 +84,8 @@ public:
 
     void sendPulseMode(const ILink *link, const registers_Munk::Register_PulseMode &mode);
 
+    bool sendRegisterSupplyIdentifier(const ILink *link, const registers_Munk::Register_SupplyIdentifier &identifier);
+
 public:
 
     //!
@@ -99,6 +102,8 @@ public:
     void parseForReadMessage(const ILink *link, const MunkMessage &msg);
 
     void parseForFaultStateCode(const ILink *link, const registers_Munk::AbstractParameter *parameter, const MunkMessage &msg);
+
+    void parseForSupplyIdentifier(const ILink *link, const registers_Munk::AbstractParameter *parameter, const MunkMessage &msg);
 
 private:
 

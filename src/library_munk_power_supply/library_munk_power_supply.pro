@@ -51,7 +51,8 @@ SOURCES += munk_power_supply.cpp \
     munk_machine_state.cpp \
     data_response/fault_register_state.cpp \
     data_registers/register_pulse_mode.cpp \
-    power_supply_setup_config.cpp
+    power_supply_setup_config.cpp \
+    data_registers/register_supply_identifier.cpp
 
 HEADERS += \
     library_munk_power_supply_global.h \
@@ -109,7 +110,8 @@ HEADERS += \
     data_registers/register_pulse_mode.h \
     data/type_pulse_mode.h \
     device_interface_power_supply.h \
-    power_supply_setup_config.h
+    power_supply_setup_config.h \
+    data_registers/register_supply_identifier.h
 
 # Unix lib Install
 unix:!symbian {
