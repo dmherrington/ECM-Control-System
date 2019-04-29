@@ -66,6 +66,10 @@ void SPIIMotionController::ConnectToSimulation()
         commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
         commsUpdate.setPeripheralMessage("SPII Motor Controller Connected.");
         emit signal_MCCommunicationUpdate(commsUpdate);
+
+        common::NotificationUpdate newUpdate("ACS Controller",ECMDevice::DEVICE_MOTIONCONTROL,common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL);
+        newUpdate.setPeripheralMessage("SPII Motor Controller Connected.");
+        emit signal_MCNotification(newUpdate);
     }
 }
 
@@ -88,6 +92,10 @@ void SPIIMotionController::ConnectToEthernetPort(const common::comms::TCPConfigu
         commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
         commsUpdate.setPeripheralMessage("SPII Motor Controller Connected.");
         emit signal_MCCommunicationUpdate(commsUpdate);
+
+        common::NotificationUpdate newUpdate("ACS Controller",ECMDevice::DEVICE_MOTIONCONTROL,common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL);
+        newUpdate.setPeripheralMessage("SPII Motor Controller Connected.");
+        emit signal_MCNotification(newUpdate);
     }}
 
 void SPIIMotionController::ConnectToPCIPort(const ACSC_PCI_SLOT &linkConfig)

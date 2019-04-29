@@ -193,6 +193,8 @@ signals:
 
     void signal_CustomUserRequestReceived(const std::string &request, const std::string &response);
 
+    void signal_MCNotification(const common::NotificationUpdate &update);
+
 public:
     std::shared_ptr<Comms::CommsMarshaler> m_CommsMarshaler; /**< Member variable handling the communications with the
 actual Galil unit. This parent class will be subscribing to published events from the marshaller. This

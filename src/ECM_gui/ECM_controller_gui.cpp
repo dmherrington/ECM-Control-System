@@ -99,7 +99,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     addDockWidget(Qt::RightDockWidgetArea, dock, Qt::Orientation::Vertical);
 
     QDockWidget *dockNotification = new QDockWidget(tr("Notification Utility"), this);
-    m_WidgetNotification = new Widget_Notification();
+    m_WidgetNotification = new Widget_Notification(m_API);
     dockNotification->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
     dockNotification->setWidget(m_WidgetNotification);
     addDockWidget(Qt::RightDockWidgetArea, dockNotification, Qt::Orientation::Vertical);
