@@ -50,6 +50,8 @@
 #include "ECM_API/states/state_ecm_upload_motion_variables.h"
 #include "ECM_API/states/state_ecm_upload_power_pulse_mode.h"
 #include "ECM_API/states/state_ecm_upload_power_register_segments.h"
+#include "ECM_API/states/state_ecm_upload_power_supply.h"
+#include "ECM_API/states/state_ecm_upload_power_supply_pause.h"
 #include "ECM_API/states/state_ecm_upload_pump_parameters.h"
 
 #include "ECM_API/states/state_test.h"

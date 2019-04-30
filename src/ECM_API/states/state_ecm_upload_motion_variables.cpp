@@ -45,9 +45,9 @@ hsm::Transition ECMState_UploadMotionVariables::GetTransition()
             rtn = hsm::SiblingTransition<ECMState_UploadFailed>();
             break;
         }
-        case ECMState::STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS:
+        case ECMState::STATE_ECM_UPLOAD_POWER_SUPPLY:
         {
-            rtn = hsm::SiblingTransition<ECMState_UploadPowerRegisterSegments>(this->m_Config);
+            rtn = hsm::SiblingTransition<ECMState_UploadPowerSupply>(this->m_Config);
             break;
         }
         default:
@@ -89,7 +89,7 @@ void ECMState_UploadMotionVariables::OnEnter(ECMCommand_AbstractProfileConfigPtr
             {
                 APIUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL);
                 APIUpdate.setPeripheralMessage("Upload of motion profile was successful.");
-                desiredState = ECMState::STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS;
+                desiredState = ECMState::STATE_ECM_UPLOAD_POWER_SUPPLY;
             }else
             {
                 APIUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL);
@@ -115,5 +115,5 @@ void ECMState_UploadMotionVariables::OnEnter(ECMCommand_AbstractProfileConfigPtr
 } //end of namespace Galil
 } //end of namespace ECM
 
-#include "states/state_ecm_upload_power_register_segments.h"
+#include "states/state_ecm_upload_power_supply.h"
 #include "states/state_ecm_upload_failed.h"

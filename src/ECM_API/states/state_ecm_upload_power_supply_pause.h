@@ -1,8 +1,9 @@
-#ifndef STATE_ECM_UPLOAD_MOTION_VARIABLES_H
-#define STATE_ECM_UPLOAD_MOTION_VARIABLES_H
+#ifndef STATE_ECM_UPLOAD_POWER_SUPPLY_PAUSE_H
+#define STATE_ECM_UPLOAD_POWER_SUPPLY_PAUSE_H
 
 #include "states/state_abstract_ecm_process.h"
-#include "commands/ecm_command_execute_collection.h"
+
+#include "library_munk_power_supply/munk_power_supply.h"
 
 /**
 \* @file  state_ecm_touchoff.h
@@ -20,15 +21,15 @@
 namespace ECM{
 namespace API {
 
-class ECMState_UploadPowerSupply;
-class ECMState_UploadFailed;
+class ECMState_UploadPowerSupplySucceeded;
+class ECMState_UploadPowerSupplyFailed;
 
-ECM_CLASS_FORWARD(ECMState_UploadMotionVariables);
+ECM_CLASS_FORWARD(ECMState_UploadPowerSupplyPause);
 
-class ECMState_UploadMotionVariables : public AbstractStateECMProcess
+class ECMState_UploadPowerSupplyPause : public AbstractStateECMProcess
 {
 public:
-    ECMState_UploadMotionVariables();
+    ECMState_UploadPowerSupplyPause();
 
 public:
     AbstractStateECMProcess* getClone() const override;
@@ -43,7 +44,10 @@ public:
     void Update() override;
     void OnExit() override;
 
+public:
     void stopProcess() override;
+
+    void continueProcess() override;
 
 public:
     void OnEnter(ECMCommand_AbstractProfileConfigPtr config);
@@ -55,4 +59,4 @@ private:
 } //end of namespace API
 } //end of namespace ECM
 
-#endif // STATE_ECM_UPLOAD_MOTION_VARIABLES_H
+#endif // STATE_ECM_UPLOAD_POWER_SUPPLY_PAUSE_H

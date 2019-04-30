@@ -71,7 +71,11 @@ SOURCES += \
     commands/ecm_command_abstract_profile_config.cpp \
     states/state_ecm_profile_machine_pause.cpp \
     states/state_ecm_profile_handling.cpp \
-    states/state_ecm_profile_machine_estop.cpp
+    states/state_ecm_profile_machine_estop.cpp \
+    states/state_ecm_upload_power_supply.cpp \
+    states/state_ecm_upload_power_supply_pause.cpp \
+    states/state_ecm_upload_power_supply_failed.cpp \
+    states/state_ecm_upload_power_supply_succeeded.cpp
 
 HEADERS += \
         ecm_api.h \
@@ -120,7 +124,11 @@ HEADERS += \
     commands/ecm_command_profile_pause.h \
     states/state_ecm_profile_machine_pause.h \
     states/state_ecm_profile_handling.h \
-    states/state_ecm_profile_machine_estop.h
+    states/state_ecm_profile_machine_estop.h \
+    states/state_ecm_upload_power_supply.h \
+    states/state_ecm_upload_power_supply_pause.h \
+    states/state_ecm_upload_power_supply_failed.h \
+    states/state_ecm_upload_power_supply_succeeded.h
 
 # Unix lib Install
 unix:!symbian {
