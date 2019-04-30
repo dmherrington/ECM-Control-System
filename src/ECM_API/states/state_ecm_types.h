@@ -127,10 +127,19 @@ inline std::string ECMStateToString(const ECMState &type) {
         return "Machine Upload Motion Profile";
     case ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES:
         return "Machine Upload Motion Variables";
+    case ECMState::STATE_ECM_UPLOAD_POWER_SUPPLY:
+        return "Machine Upload Power Supply";
+    case ECMState::STATE_ECM_UPLOAD_POWER_SUPPLY_FAILED:
+        return "Machine Upload Power Supply Failed";
+    case ECMState::STATE_ECM_UPLOAD_POWER_SUPPLY_PAUSED:
+        return "Machine Upload Power Supply Paused";
+    case ECMState::STATE_ECM_UPLOAD_POWER_SUPPLY_SUCCEEDED:
+        return "Machine Upload Power Supply Succeeded";
     case ECMState::STATE_ECM_UPLOAD_POWER_PULSE_MODE:
         return "Machine Upload Pulse Mode";
     case ECMState::STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS:
         return "Machine Upload Power Register";
+
     case ECMState::STATE_ECM_UPLOAD_PUMP_PARAMETERS:
         return "Machine Upload Pump Parameters";
 

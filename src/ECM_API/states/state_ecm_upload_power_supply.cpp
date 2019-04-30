@@ -16,6 +16,11 @@ void ECMState_UploadPowerSupply::OnExit()
 
 }
 
+void ECMState_UploadPowerSupply::stopProcess()
+{
+    desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
+}
+
 AbstractStateECMProcess* ECMState_UploadPowerSupply::getClone() const
 {
     return (new ECMState_UploadPowerSupply(*this));

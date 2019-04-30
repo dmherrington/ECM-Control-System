@@ -64,9 +64,9 @@ void Window_DeviceConnections::connect_MotionController(const bool &connect)
             return;
 
         ipAddress += " -d";
-        //m_API->m_MotionController->ConnectToSimulation();
-        common::comms::TCPConfiguration newConfig(ipAddress.toStdString(), 701);
-        m_API->m_MotionController->ConnectToEthernetPort(newConfig);
+        m_API->m_MotionController->ConnectToSimulation();
+//        common::comms::TCPConfiguration newConfig(ipAddress.toStdString(), 701);
+//        m_API->m_MotionController->ConnectToEthernetPort(newConfig);
     }
 }
 

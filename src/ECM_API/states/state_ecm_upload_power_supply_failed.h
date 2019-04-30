@@ -41,8 +41,6 @@ public:
     void Update() override;
     void OnExit() override;
 
-    void stopProcess() override;
-
 public:
     void OnEnter(const ECMCommand_AbstractProfileConfigPtr &config);
 
