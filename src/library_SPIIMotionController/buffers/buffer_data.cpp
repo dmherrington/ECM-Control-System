@@ -43,11 +43,12 @@ void BufferData::writeToText(QString &stringObject)
         return;
 
     if(dBuffer)
-        stringObject += "#A \r\n";
+        stringObject += "#A\r\n";
     else
         stringObject += "#" + QString::number(bufferIndex) + "\r\n";
 
     stringObject += QString::fromStdString(programText);
+    stringObject +="\r\n";
 }
 
 void BufferData::writeToJSON(QJsonObject &jsonObject)

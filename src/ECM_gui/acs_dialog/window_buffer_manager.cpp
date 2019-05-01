@@ -229,12 +229,18 @@ void Window_BufferManager::on_actionClose_triggered()
 
 void Window_BufferManager::saveToFile(const QString &filePath)
 {
+    /*
     QFile saveFile(filePath);
 
     if (!saveFile.open(QIODevice::WriteOnly)) {
         qWarning("Couldn't open save file.");
     }
+    */
 
+    SPII_CurrentProgram currentMotionProfile = getDesiredBufferContents();
+    SPII_PrgHandle::saveToPRG(filePath,*dynamic_cast<BufferManager*>(&currentMotionProfile));
+
+    /*
     QJsonObject saveObject;
     QJsonArray bufferDataArray;
 
@@ -254,6 +260,7 @@ void Window_BufferManager::saveToFile(const QString &filePath)
     QJsonDocument saveDoc(saveObject);
     saveFile.write(saveDoc.toJson());
     saveFile.close();
+    */
 }
 
 

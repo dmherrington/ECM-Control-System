@@ -69,8 +69,8 @@ BufferManager SPII_PrgHandle::parsePRG(const QString &prgString)
 bool SPII_PrgHandle::saveToPRG(const QString &filePath, const BufferManager &bufferData)
 {
     QString saveText = "#/ Controller version = 2.60 \r\n";
-    saveText += " #/ Date = 4/22/2019 11:02 AM \r\n";
-    saveText += " #/ User remarks = \r\n";
+    saveText += "#/ Date = 4/22/2019 11:02 AM \r\n";
+    saveText += "#/ User remarks = \r\n";
 
     for(unsigned int index = 0; index < bufferData.getBufferSize(); index++)
     {

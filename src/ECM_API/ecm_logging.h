@@ -23,6 +23,8 @@
 #include "commands/ecm_command_execute_collection.h"
 #include "commands/ecm_command_profile_collection.h"
 
+#include "library_SPIIMotionController/buffers/spii_prg_handle.h"
+
 #include <iostream>
 
 class ECMLogging
@@ -101,6 +103,8 @@ protected:
     QFile* masterLog;
 
     QFile* configurationFile;
+
+    QFile* prgFile;
 
     bool logReglativeTime = false;
 
