@@ -81,14 +81,17 @@ SOURCES += \
     acs_dialog/window_buffer_manager.cpp \
     acs_dialog/widget_buffer_descriptor.cpp \
     motion_dialog/widget_front_panel_motion_control.cpp \
-    motion_dialog/widget_front_panel_touchoff.cpp \
+    #motion_dialog/widget_front_panel_touchoff.cpp \
     motion_dialog/widget_front_panel_axis_motion_control.cpp \
     motion_dialog/widget_axis_vertical_control.cpp \
     motion_dialog/widget_axis_horizontal_control.cpp \
     acs_dialog/widget_variable_descriptor.cpp \
     misc_dialogs/widget_detailed_notification.cpp \
     misc_dialogs/window_notifications.cpp \
-    misc_dialogs/widget_notification.cpp
+    misc_dialogs/widget_notification.cpp \
+    touchoff_dialog/widget_front_panel_touchoff.cpp \
+    touchoff_dialog/touchoff_widget_axis_value.cpp \
+    pump_dialog/widget_front_panel_pump.cpp
 
 HEADERS += \
     misc_dialogs/code_edit_widget.h \
@@ -129,7 +132,7 @@ HEADERS += \
     acs_dialog/window_buffer_manager.h \
     acs_dialog/widget_buffer_descriptor.h \
     motion_dialog/widget_front_panel_motion_control.h \
-    motion_dialog/widget_front_panel_touchoff.h \
+    #motion_dialog/widget_front_panel_touchoff.h \
     motion_dialog/widget_front_panel_axis_motion_control.h \
     motion_dialog/widget_axis_vertical_control.h \
     motion_dialog/widget_axis_horizontal_control.h \
@@ -137,7 +140,10 @@ HEADERS += \
     acs_dialog/widget_variable_descriptor.h \
     misc_dialogs/widget_detailed_notification.h \
     misc_dialogs/window_notifications.h \
-    misc_dialogs/widget_notification.h
+    misc_dialogs/widget_notification.h \
+    touchoff_dialog/widget_front_panel_touchoff.h \
+    touchoff_dialog/touchoff_widget_axis_value.h \
+    pump_dialog/widget_front_panel_pump.h
 
 FORMS += \
     misc_dialogs/table_widget_operation_descriptor.ui \
@@ -166,14 +172,17 @@ FORMS += \
     acs_dialog/window_buffer_manager.ui \
     acs_dialog/widget_buffer_descriptor.ui \
     motion_dialog/widget_front_panel_motion_control.ui \
-    motion_dialog/widget_front_panel_touchoff.ui \
+    #motion_dialog/widget_front_panel_touchoff.ui \
     motion_dialog/widget_front_panel_axis_motion_control.ui \
     motion_dialog/widget_axis_vertical_control.ui \
     motion_dialog/widget_axis_horizontal_control.ui \
     acs_dialog/widget_variable_descriptor.ui \
     misc_dialogs/widget_detailed_notification.ui \
     misc_dialogs/window_notifications.ui \
-    misc_dialogs/widget_notification.ui
+    misc_dialogs/widget_notification.ui \
+    touchoff_dialog/widget_front_panel_touchoff.ui \
+    touchoff_dialog/touchoff_widget_axis_value.ui \
+    pump_dialog/widget_front_panel_pump.ui
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

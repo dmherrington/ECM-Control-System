@@ -83,6 +83,8 @@ public:
     ///////////////////////////////////////////////////////////////////
     void resetSensorayIO();
 
+    void readSensoaryADC();
+
 private:
     //////////////////////////////////////////////////////////////
     /// React to ILinkEvents
@@ -93,9 +95,24 @@ private:
     //////////////////////////////////////////////////////////////
     /// Virtual methods imposed from IProtocolSensorayEvents
     //////////////////////////////////////////////////////////////
+
+    //!
+    //! \brief SerialPortStatusUpdate
+    //! \param update
+    //!
     void SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const override;
 
+    //!
+    //! \brief ResponseReceived
+    //! \param buffer
+    //!
     void ResponseReceived(const QByteArray &buffer) const override;
+
+    //!
+    //! \brief UpdateFromADC
+    //! \param data
+    //!
+    void UpdateFromADC(const std::vector<S2426_ADC_SAMPLE> data) const override;
 
 private:
     SensoraySession* m_Session;

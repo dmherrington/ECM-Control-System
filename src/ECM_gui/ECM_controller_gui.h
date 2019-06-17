@@ -35,6 +35,8 @@
 #include "acs_dialog/window_motion_control.h"
 
 #include "motion_dialog/widget_front_panel_motion_control.h"
+#include "touchoff_dialog/widget_front_panel_touchoff.h"
+#include "pump_dialog/widget_front_panel_pump.h"
 
 namespace Ui {
 class ECMControllerGUI;

@@ -15,11 +15,9 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
-#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
-#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -28,11 +26,6 @@ class Ui_WidgetFrontPanel_AxisMotionControl
 {
 public:
     QGridLayout *gridLayout;
-    QHBoxLayout *horizontalLayout;
-    QSpacerItem *horizontalSpacer;
-    QLabel *label_ManualControl;
-    QLabel *label_AxisControl;
-    QSpacerItem *horizontalSpacer_2;
     QGridLayout *gridLayout_2;
     QLabel *label;
     QLineEdit *lineEdit_MachinePosition;
@@ -43,58 +36,18 @@ public:
     {
         if (WidgetFrontPanel_AxisMotionControl->objectName().isEmpty())
             WidgetFrontPanel_AxisMotionControl->setObjectName(QStringLiteral("WidgetFrontPanel_AxisMotionControl"));
-        WidgetFrontPanel_AxisMotionControl->resize(368, 234);
+        WidgetFrontPanel_AxisMotionControl->resize(368, 185);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(WidgetFrontPanel_AxisMotionControl->sizePolicy().hasHeightForWidth());
         WidgetFrontPanel_AxisMotionControl->setSizePolicy(sizePolicy);
-        WidgetFrontPanel_AxisMotionControl->setMinimumSize(QSize(368, 234));
-        WidgetFrontPanel_AxisMotionControl->setMaximumSize(QSize(368, 234));
+        WidgetFrontPanel_AxisMotionControl->setMinimumSize(QSize(368, 185));
+        WidgetFrontPanel_AxisMotionControl->setMaximumSize(QSize(368, 185));
         gridLayout = new QGridLayout(WidgetFrontPanel_AxisMotionControl);
+        gridLayout->setSpacing(1);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout->addItem(horizontalSpacer);
-
-        label_ManualControl = new QLabel(WidgetFrontPanel_AxisMotionControl);
-        label_ManualControl->setObjectName(QStringLiteral("label_ManualControl"));
-        QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(label_ManualControl->sizePolicy().hasHeightForWidth());
-        label_ManualControl->setSizePolicy(sizePolicy1);
-        label_ManualControl->setMinimumSize(QSize(0, 20));
-        label_ManualControl->setMaximumSize(QSize(16777215, 20));
-        QFont font;
-        font.setPointSize(12);
-        font.setBold(true);
-        font.setWeight(75);
-        label_ManualControl->setFont(font);
-        label_ManualControl->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-
-        horizontalLayout->addWidget(label_ManualControl);
-
-        label_AxisControl = new QLabel(WidgetFrontPanel_AxisMotionControl);
-        label_AxisControl->setObjectName(QStringLiteral("label_AxisControl"));
-        sizePolicy1.setHeightForWidth(label_AxisControl->sizePolicy().hasHeightForWidth());
-        label_AxisControl->setSizePolicy(sizePolicy1);
-        label_AxisControl->setMinimumSize(QSize(0, 20));
-        label_AxisControl->setMaximumSize(QSize(16777215, 20));
-        label_AxisControl->setFont(font);
-        label_AxisControl->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
-
-        horizontalLayout->addWidget(label_AxisControl);
-
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout->addItem(horizontalSpacer_2);
-
-
-        gridLayout->addLayout(horizontalLayout, 0, 0, 1, 1);
-
+        gridLayout->setContentsMargins(1, 1, 1, 1);
         gridLayout_2 = new QGridLayout();
         gridLayout_2->setSpacing(0);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
@@ -104,9 +57,9 @@ public:
         label->setSizePolicy(sizePolicy);
         label->setMinimumSize(QSize(130, 25));
         label->setMaximumSize(QSize(130, 25));
-        QFont font1;
-        font1.setPointSize(10);
-        label->setFont(font1);
+        QFont font;
+        font.setPointSize(10);
+        label->setFont(font);
 
         gridLayout_2->addWidget(label, 0, 0, 1, 1);
 
@@ -114,14 +67,14 @@ public:
         lineEdit_MachinePosition->setObjectName(QStringLiteral("lineEdit_MachinePosition"));
         lineEdit_MachinePosition->setMinimumSize(QSize(190, 25));
         lineEdit_MachinePosition->setMaximumSize(QSize(190, 25));
-        lineEdit_MachinePosition->setFont(font1);
+        lineEdit_MachinePosition->setFont(font);
         lineEdit_MachinePosition->setAlignment(Qt::AlignCenter);
         lineEdit_MachinePosition->setReadOnly(true);
 
         gridLayout_2->addWidget(lineEdit_MachinePosition, 0, 1, 1, 1);
 
 
-        gridLayout->addLayout(gridLayout_2, 1, 0, 1, 1);
+        gridLayout->addLayout(gridLayout_2, 0, 0, 1, 1);
 
         frame = new QFrame(WidgetFrontPanel_AxisMotionControl);
         frame->setObjectName(QStringLiteral("frame"));
@@ -132,9 +85,11 @@ public:
         frame->setFrameShape(QFrame::StyledPanel);
         frame->setFrameShadow(QFrame::Raised);
         gridLayout_4 = new QGridLayout(frame);
+        gridLayout_4->setSpacing(0);
         gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
+        gridLayout_4->setContentsMargins(0, 0, 0, 0);
 
-        gridLayout->addWidget(frame, 2, 0, 1, 1);
+        gridLayout->addWidget(frame, 1, 0, 1, 1);
 
 
         retranslateUi(WidgetFrontPanel_AxisMotionControl);
@@ -145,8 +100,6 @@ public:
     void retranslateUi(QWidget *WidgetFrontPanel_AxisMotionControl)
     {
         WidgetFrontPanel_AxisMotionControl->setWindowTitle(QApplication::translate("WidgetFrontPanel_AxisMotionControl", "Form", nullptr));
-        label_ManualControl->setText(QApplication::translate("WidgetFrontPanel_AxisMotionControl", "Axis: ", nullptr));
-        label_AxisControl->setText(QApplication::translate("WidgetFrontPanel_AxisMotionControl", "?", nullptr));
         label->setText(QApplication::translate("WidgetFrontPanel_AxisMotionControl", "Current Position (um):", nullptr));
     } // retranslateUi
 

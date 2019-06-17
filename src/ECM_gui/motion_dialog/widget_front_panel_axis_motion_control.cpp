@@ -9,7 +9,7 @@ WidgetFrontPanel_AxisMotionControl::WidgetFrontPanel_AxisMotionControl(const Mot
     qRegisterMetaType<common::TuplePositionalString>("TuplePositionalString");
 
     ui->setupUi(this);
-    ui->label_AxisControl->setText(QString::fromStdString(AxisToString(axis)));
+    //ui->label_AxisControl->setText(QString::fromStdString(AxisToString(axis)));
 
     pertinentAxis = axis;
 

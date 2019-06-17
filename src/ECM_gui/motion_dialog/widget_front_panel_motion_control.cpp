@@ -13,7 +13,9 @@ WidgetFrontPanel_MotionControl::WidgetFrontPanel_MotionControl(const std::vector
     {
         WidgetFrontPanel_AxisMotionControl* newAxisControl = new WidgetFrontPanel_AxisMotionControl(axis.at(index),motionControllerObject);
         m_WidgetAxisControl.insert(std::pair<MotorAxis,WidgetFrontPanel_AxisMotionControl*>(axis.at(index), newAxisControl));
-        ui->verticalLayout->insertWidget(static_cast<int>(index + 1), newAxisControl);
+        ui->tabWidget->addTab(newAxisControl, "AXIS: " + QString::fromStdString(AxisToString(axis.at(index))));
+
+        //ui->verticalLayout->insertWidget(static_cast<int>(index + 1), newAxisControl);
     }
 }
 

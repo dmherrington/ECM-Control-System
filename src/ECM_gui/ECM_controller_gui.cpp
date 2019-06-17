@@ -98,6 +98,18 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     dock->setWidget(dockUtility_MotionControl);
     addDockWidget(Qt::RightDockWidgetArea, dock, Qt::Orientation::Vertical);
 
+    QDockWidget *dock_touchoff = new QDockWidget(tr("Touchoff Utility"), this);
+    dock_touchoff->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+    WidgetFrontPanel_Touchoff * dockUtility_Touchoff = new WidgetFrontPanel_Touchoff(applicableAxis, m_API->m_MotionController);
+    dock_touchoff->setWidget(dockUtility_Touchoff);
+    addDockWidget(Qt::RightDockWidgetArea, dock_touchoff, Qt::Orientation::Vertical);
+
+    QDockWidget *dock_pump = new QDockWidget(tr("Pump Utility"), this);
+    dock_pump->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+    WidgetFrontPanel_Pump* dockUtility_Pump = new WidgetFrontPanel_Pump(m_API->m_Pump);
+    dock_pump->setWidget(dockUtility_Pump);
+    addDockWidget(Qt::RightDockWidgetArea, dock_pump, Qt::Orientation::Vertical);
+
     QDockWidget *dockNotification = new QDockWidget(tr("Notification Utility"), this);
     m_WidgetNotification = new Widget_Notification(m_API);
     dockNotification->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);

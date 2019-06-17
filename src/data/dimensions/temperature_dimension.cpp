@@ -1,4 +1,4 @@
-#include "voltage_dimension.h"
+#include "temperature_dimension.h"
 
 namespace common_data
 {
@@ -8,7 +8,7 @@ namespace common_data
 //! \brief Default Constructor
 //! \param unit Unit of dimension
 //!
-VoltageDimension::VoltageDimension(const VoltageUnit &unit)
+TemperatureDimension::TemperatureDimension(const TemperatureUnit &unit)
 {
     m_type = unit;
 }
@@ -18,12 +18,12 @@ VoltageDimension::VoltageDimension(const VoltageUnit &unit)
 //! \brief Construct position from existing IDimension object
 //! \param that existing IDimension object
 //!
-VoltageDimension::VoltageDimension(const IDimension &that)
+TemperatureDimension::TemperatureDimension(const IDimension &that)
 {
     if(this->getType() != that.getType())
         throw std::runtime_error("Uncompatable assignment");
 
-    m_type = ((VoltageDimension*)&that)->m_type;
+    m_type = ((TemperatureDimension*)&that)->m_type;
 }
 
 
@@ -32,12 +32,12 @@ VoltageDimension::VoltageDimension(const IDimension &that)
 //! \param rhs Right hand side of equivilance
 //! \return True if equal
 //!
-bool VoltageDimension::operator ==(const IDimension &rhs) const
+bool TemperatureDimension::operator ==(const IDimension &rhs) const
 {
     if(this->getType() != rhs.getType())
         return false;
 
-    if(m_type != ((VoltageDimension*)&rhs)->m_type)
+    if(m_type != ((TemperatureDimension*)&rhs)->m_type)
         return false;
 
     return true;
@@ -48,27 +48,25 @@ bool VoltageDimension::operator ==(const IDimension &rhs) const
 //! \brief Get the type of dimension.
 //! \return Type of dimension.
 //!
-Dimensions VoltageDimension::getType() const
+Dimensions TemperatureDimension::getType() const
 {
-    return VOLTAGE;
+    return TEMPERATURE;
 }
 
 //!
 //! \brief Short hand notation of dimension
 //! \return Short hand notation
 //!
-std::string VoltageDimension::ShortHand() const
+std::string TemperatureDimension::ShortHand() const
 {
     switch(m_type)
     {
-    case VoltageUnit::UNIT_VOLTAGE_VOLTS:
-        return "v";
-    case VoltageUnit::UNIT_VOLTAGE_MILLIVOLT:
-        return "mv";
-    case VoltageUnit::UNIT_VOLTAGE_MICROVOLT:
-        return "uv";
+    case TemperatureUnit::UNIT_FARENHEIT:
+        return "F";
+    case TemperatureUnit::UNIT_CELSIUS:
+        return "C";
     default:
-        throw new std::runtime_error("Unknown Unit");
+        throw new std::runtime_error("Unknown Voltage Unit");
     }
 }
 
@@ -79,9 +77,9 @@ std::string VoltageDimension::ShortHand() const
 //! The caller becomes responsible for deleting the created element.
 //! \return Pointer to new object
 //!
-IDimension* VoltageDimension::Copy() const
+IDimension* TemperatureDimension::Copy() const
 {
-    return new VoltageDimension(this->m_type);
+    return new TemperatureDimension(this->m_type);
 }
 
 
@@ -89,9 +87,9 @@ IDimension* VoltageDimension::Copy() const
 //! \brief Return the default unit for this dimension
 //! \return Default unit
 //!
-VoltageUnit VoltageDimension::BaseUnit() const
+TemperatureUnit TemperatureDimension::BaseUnit() const
 {
-    return VoltageUnit::UNIT_VOLTAGE_VOLTS;
+    return TemperatureUnit::UNIT_FARENHEIT;
 }
 
 
@@ -99,18 +97,16 @@ VoltageUnit VoltageDimension::BaseUnit() const
 //! \brief Return the amount of the supplied unit in the dimension's default unit.
 //! \return Ratio of default unit over unit known by object.
 //!
-double VoltageDimension::RatioToBaseUnit() const
+double TemperatureDimension::RatioToBaseUnit() const
 {
     switch(m_type)
     {
-    case VoltageUnit::UNIT_VOLTAGE_VOLTS:
+    case TemperatureUnit::UNIT_FARENHEIT:
         return 1.0;
-    case VoltageUnit::UNIT_VOLTAGE_MILLIVOLT:
+    case TemperatureUnit::UNIT_CELSIUS:
         return 1000.0;
-    case VoltageUnit::UNIT_VOLTAGE_MICROVOLT:
-        return 1000.0 * 1000.0;
     default:
-        throw new std::runtime_error("Unkown Unit");
+        throw new std::runtime_error("Unkown Temperature Unit");
     }
 }
 
@@ -120,7 +116,7 @@ double VoltageDimension::RatioToBaseUnit() const
 //! \param value Value to convert
 //! \return Converted value in unit of this object
 //!
-double VoltageDimension::ConvertToBase(const double &value) const
+double TemperatureDimension::ConvertToBase(const double &value) const
 {
     return value * RatioToBaseUnit();
 }
@@ -131,7 +127,7 @@ double VoltageDimension::ConvertToBase(const double &value) const
 //! \param value Value to convert
 //! \return Converted value in default unit of the dimension
 //!
-double VoltageDimension::ConvertFromBase(const double &value) const
+double TemperatureDimension::ConvertFromBase(const double &value) const
 {
     return value / RatioToBaseUnit();
 }

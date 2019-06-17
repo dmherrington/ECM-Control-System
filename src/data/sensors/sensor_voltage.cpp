@@ -71,4 +71,4 @@ void SensorVoltage::Assign(const Sensor *S)
     this->m_Volt = ((SensorVoltage*)S)->m_Volt;
 }
 
-}
+} //end of namespace common_data

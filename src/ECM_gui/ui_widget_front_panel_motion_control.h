@@ -14,11 +14,8 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QGridLayout>
-#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QSpacerItem>
-#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QTabWidget>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -26,18 +23,14 @@ QT_BEGIN_NAMESPACE
 class Ui_WidgetFrontPanel_MotionControl
 {
 public:
-    QVBoxLayout *verticalLayout;
-    QHBoxLayout *horizontalLayout_6;
-    QSpacerItem *horizontalSpacer;
-    QGridLayout *gridLayout_4;
-    QLabel *label_ManualControl;
-    QSpacerItem *horizontalSpacer_2;
+    QGridLayout *gridLayout;
+    QTabWidget *tabWidget;
 
     void setupUi(QWidget *WidgetFrontPanel_MotionControl)
     {
         if (WidgetFrontPanel_MotionControl->objectName().isEmpty())
             WidgetFrontPanel_MotionControl->setObjectName(QStringLiteral("WidgetFrontPanel_MotionControl"));
-        WidgetFrontPanel_MotionControl->resize(375, 100);
+        WidgetFrontPanel_MotionControl->resize(375, 216);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -45,46 +38,20 @@ public:
         WidgetFrontPanel_MotionControl->setSizePolicy(sizePolicy);
         WidgetFrontPanel_MotionControl->setMinimumSize(QSize(375, 100));
         WidgetFrontPanel_MotionControl->setMaximumSize(QSize(375, 16777215));
-        verticalLayout = new QVBoxLayout(WidgetFrontPanel_MotionControl);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        horizontalLayout_6 = new QHBoxLayout();
-        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        gridLayout = new QGridLayout(WidgetFrontPanel_MotionControl);
+        gridLayout->setSpacing(1);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setContentsMargins(1, 1, 1, 1);
+        tabWidget = new QTabWidget(WidgetFrontPanel_MotionControl);
+        tabWidget->setObjectName(QStringLiteral("tabWidget"));
 
-        horizontalLayout_6->addItem(horizontalSpacer);
-
-        gridLayout_4 = new QGridLayout();
-        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
-        label_ManualControl = new QLabel(WidgetFrontPanel_MotionControl);
-        label_ManualControl->setObjectName(QStringLiteral("label_ManualControl"));
-        QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(label_ManualControl->sizePolicy().hasHeightForWidth());
-        label_ManualControl->setSizePolicy(sizePolicy1);
-        label_ManualControl->setMinimumSize(QSize(0, 20));
-        label_ManualControl->setMaximumSize(QSize(16777215, 20));
-        QFont font;
-        font.setPointSize(12);
-        font.setBold(true);
-        font.setWeight(75);
-        label_ManualControl->setFont(font);
-        label_ManualControl->setAlignment(Qt::AlignCenter);
-
-        gridLayout_4->addWidget(label_ManualControl, 0, 0, 1, 1);
-
-
-        horizontalLayout_6->addLayout(gridLayout_4);
-
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_6->addItem(horizontalSpacer_2);
-
-
-        verticalLayout->addLayout(horizontalLayout_6);
+        gridLayout->addWidget(tabWidget, 0, 0, 1, 1);
 
 
         retranslateUi(WidgetFrontPanel_MotionControl);
+
+        tabWidget->setCurrentIndex(-1);
+
 
         QMetaObject::connectSlotsByName(WidgetFrontPanel_MotionControl);
     } // setupUi
@@ -92,7 +59,6 @@ public:
     void retranslateUi(QWidget *WidgetFrontPanel_MotionControl)
     {
         WidgetFrontPanel_MotionControl->setWindowTitle(QApplication::translate("WidgetFrontPanel_MotionControl", "Form", nullptr));
-        label_ManualControl->setText(QApplication::translate("WidgetFrontPanel_MotionControl", "Manual Control", nullptr));
     } // retranslateUi
 
 };

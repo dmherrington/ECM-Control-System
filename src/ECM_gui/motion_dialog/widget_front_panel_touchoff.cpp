@@ -1,7 +1,7 @@
 #include "widget_front_panel_touchoff.h"
 #include "ui_widget_front_panel_touchoff.h"
 
-WidgetFrontPanel_Touchoff::WidgetFrontPanel_Touchoff(SPIIMotionController *obj, QWidget *parent) :
+WidgetFrontPanel_Touchoff::WidgetFrontPanel_Touchoff(const std::vector<MotorAxis> &applicableAxis, SPIIMotionController *obj, QWidget *parent) :
     ui(new Ui::WidgetFrontPanel_Touchoff),
     m_MotionController(obj)
 {

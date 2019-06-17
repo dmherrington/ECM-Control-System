@@ -63,9 +63,13 @@ public:
         Widget_AxisVerticalControl->setMinimumSize(QSize(350, 153));
         Widget_AxisVerticalControl->setMaximumSize(QSize(350, 153));
         gridLayout_2 = new QGridLayout(Widget_AxisVerticalControl);
+        gridLayout_2->setSpacing(0);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        gridLayout_2->setContentsMargins(0, 0, 0, 0);
         gridLayout_6 = new QGridLayout();
+        gridLayout_6->setSpacing(1);
         gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
+        gridLayout_6->setContentsMargins(1, 1, 1, 1);
         label_ManualControl_3 = new QLabel(Widget_AxisVerticalControl);
         label_ManualControl_3->setObjectName(QStringLiteral("label_ManualControl_3"));
         QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
@@ -83,7 +87,9 @@ public:
         gridLayout_6->addWidget(label_ManualControl_3, 0, 0, 1, 1);
 
         gridLayout = new QGridLayout();
+        gridLayout->setSpacing(1);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setContentsMargins(1, 1, 1, 1);
         horizontalSpacer_7 = new QSpacerItem(5, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         gridLayout->addItem(horizontalSpacer_7, 0, 0, 1, 1);
@@ -142,7 +148,9 @@ public:
         gridLayout_2->addLayout(gridLayout_6, 0, 0, 1, 1);
 
         verticalLayout_5 = new QVBoxLayout();
+        verticalLayout_5->setSpacing(1);
         verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
+        verticalLayout_5->setContentsMargins(1, 1, 1, 1);
         label_ManualControl_4 = new QLabel(Widget_AxisVerticalControl);
         label_ManualControl_4->setObjectName(QStringLiteral("label_ManualControl_4"));
         sizePolicy1.setHeightForWidth(label_ManualControl_4->sizePolicy().hasHeightForWidth());
@@ -153,6 +161,7 @@ public:
         verticalLayout_5->addWidget(label_ManualControl_4);
 
         horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(0);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         horizontalSpacer_8 = new QSpacerItem(5, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -160,6 +169,7 @@ public:
 
         verticalLayout_SetpControlInner = new QVBoxLayout();
         verticalLayout_SetpControlInner->setObjectName(QStringLiteral("verticalLayout_SetpControlInner"));
+        verticalLayout_SetpControlInner->setContentsMargins(1, 1, 1, 1);
         pushButton_IncreaseRelativeMove = new QPushButton(Widget_AxisVerticalControl);
         pushButton_IncreaseRelativeMove->setObjectName(QStringLiteral("pushButton_IncreaseRelativeMove"));
         sizePolicy.setHeightForWidth(pushButton_IncreaseRelativeMove->sizePolicy().hasHeightForWidth());

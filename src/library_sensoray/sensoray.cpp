@@ -91,6 +91,11 @@ void Sensoray::NewDataReceived(const QByteArray &buffer) const
     emit signal_RXNewSerialData(buffer);
 }
 
+void Sensoray::ReceivedUpdatedADC(const std::vector<S2426_ADC_SAMPLE> data) const
+{
+
+}
+
 void Sensoray::initializeSensoray() const
 {
     //commsMarshaler->resetSensorayIO();

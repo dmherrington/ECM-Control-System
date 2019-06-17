@@ -83,6 +83,13 @@ public:
     //!
     void NewDataReceived(const QByteArray &buffer) const override;
 
+    //!
+    //! \brief ReceivedUpdatedADC
+    //! \param data
+    //!
+    void ReceivedUpdatedADC(const std::vector<S2426_ADC_SAMPLE> data) const override;
+
+
 signals:
     void signal_SensorayCommunicationUpdate(const common::comms::CommunicationUpdate &update) const;
 
