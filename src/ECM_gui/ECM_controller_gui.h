@@ -210,9 +210,9 @@ private:
      */
     //Window_MotionControl* m_WindowMotionControl;
 
-    Window_Touchoff* m_WindowTouchoffControl;
+    //Window_Touchoff* m_WindowTouchoffControl;
 
-    Window_PumpControl* m_WindowPumpControl;
+    //Window_PumpControl* m_WindowPumpControl;
 
     Window_ProfileConfiguration* m_WindowProfileConfiguration;
 

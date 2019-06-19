@@ -38,15 +38,12 @@ class Ui_ECMControllerGUI
 public:
     QAction *actionConnections;
     QAction *actionPower_Supply;
-    QAction *actionPump_Window;
     QAction *actionOscilliscope;
-    QAction *actionTouchoff_Window;
     QAction *actionOpen_Sensors_Window;
     QAction *actionClose;
     QAction *actionMotion_Profile;
     QAction *actionCustom_Motion_Commands;
     QAction *actionClear_All_Data;
-    QAction *actionMotion_Control;
     QAction *actionProfile_Configuration;
     QAction *actionBuffer_Manager;
     QWidget *centralWidget;
@@ -278,12 +275,8 @@ public:
         actionConnections->setObjectName(QStringLiteral("actionConnections"));
         actionPower_Supply = new QAction(ECMControllerGUI);
         actionPower_Supply->setObjectName(QStringLiteral("actionPower_Supply"));
-        actionPump_Window = new QAction(ECMControllerGUI);
-        actionPump_Window->setObjectName(QStringLiteral("actionPump_Window"));
         actionOscilliscope = new QAction(ECMControllerGUI);
         actionOscilliscope->setObjectName(QStringLiteral("actionOscilliscope"));
-        actionTouchoff_Window = new QAction(ECMControllerGUI);
-        actionTouchoff_Window->setObjectName(QStringLiteral("actionTouchoff_Window"));
         actionOpen_Sensors_Window = new QAction(ECMControllerGUI);
         actionOpen_Sensors_Window->setObjectName(QStringLiteral("actionOpen_Sensors_Window"));
         actionClose = new QAction(ECMControllerGUI);
@@ -294,9 +287,6 @@ public:
         actionCustom_Motion_Commands->setObjectName(QStringLiteral("actionCustom_Motion_Commands"));
         actionClear_All_Data = new QAction(ECMControllerGUI);
         actionClear_All_Data->setObjectName(QStringLiteral("actionClear_All_Data"));
-        actionMotion_Control = new QAction(ECMControllerGUI);
-        actionMotion_Control->setObjectName(QStringLiteral("actionMotion_Control"));
-        actionMotion_Control->setEnabled(false);
         actionProfile_Configuration = new QAction(ECMControllerGUI);
         actionProfile_Configuration->setObjectName(QStringLiteral("actionProfile_Configuration"));
         actionBuffer_Manager = new QAction(ECMControllerGUI);
@@ -1053,11 +1043,8 @@ public:
         menuTools->addAction(actionProfile_Configuration);
         menuTools->addSeparator();
         menuTools->addAction(actionPower_Supply);
-        menuTools->addAction(actionPump_Window);
         menuTools->addAction(actionOscilliscope);
         menuTools->addSeparator();
-        menuTools->addAction(actionTouchoff_Window);
-        menuTools->addAction(actionMotion_Control);
         menuTools->addSeparator();
         menuTools->addAction(actionCustom_Motion_Commands);
         menuView->addAction(actionOpen_Sensors_Window);
@@ -1075,15 +1062,12 @@ public:
         ECMControllerGUI->setWindowTitle(QApplication::translate("ECMControllerGUI", "ECMControllerGUI", nullptr));
         actionConnections->setText(QApplication::translate("ECMControllerGUI", "Connections", nullptr));
         actionPower_Supply->setText(QApplication::translate("ECMControllerGUI", "Power Supply", nullptr));
-        actionPump_Window->setText(QApplication::translate("ECMControllerGUI", "Pump", nullptr));
         actionOscilliscope->setText(QApplication::translate("ECMControllerGUI", "Oscilliscope", nullptr));
-        actionTouchoff_Window->setText(QApplication::translate("ECMControllerGUI", "Touchoff", nullptr));
         actionOpen_Sensors_Window->setText(QApplication::translate("ECMControllerGUI", "Open Sensors Window", nullptr));
         actionClose->setText(QApplication::translate("ECMControllerGUI", "Close", nullptr));
         actionMotion_Profile->setText(QApplication::translate("ECMControllerGUI", "Motion Profile", nullptr));
         actionCustom_Motion_Commands->setText(QApplication::translate("ECMControllerGUI", "Custom Motion Commands", nullptr));
         actionClear_All_Data->setText(QApplication::translate("ECMControllerGUI", "Clear All Data", nullptr));
-        actionMotion_Control->setText(QApplication::translate("ECMControllerGUI", "Motion Control", nullptr));
         actionProfile_Configuration->setText(QApplication::translate("ECMControllerGUI", "Profile Configuration", nullptr));
         actionBuffer_Manager->setText(QApplication::translate("ECMControllerGUI", "Buffer Manager", nullptr));
         label_PartNumber->setText(QApplication::translate("ECMControllerGUI", "Part Number:", nullptr));

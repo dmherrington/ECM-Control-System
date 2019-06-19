@@ -11,8 +11,11 @@ Sensoray::Sensoray(const std::string &name, QObject *parent):
 
     deviceName = name;
 
-    commsMarshaler = new comms_Sensoray::CommsMarshaler();
+    commsMarshaler = std::make_shared<comms_Sensoray::CommsMarshaler>();
     commsMarshaler->AddSubscriber(this);
+
+    m_PollingObj = new SensorayPollMachine();
+    m_PollingObj->updateCommsProtocol(commsMarshaler);
 }
 
 
@@ -28,6 +31,11 @@ void Sensoray::openConnection(const comms_Sensoray::SensorayTCPConfiguration &co
 void Sensoray::closeConnection()
 {
     commsMarshaler->DisconnetFromLink();
+}
+
+bool Sensoray::isDeviceConnected() const
+{
+    return commsMarshaler->isLinkConnected();
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -73,7 +81,7 @@ void Sensoray::ConnectionStatusUpdated(const common::comms::CommunicationUpdate 
     {
         this->initializeSensoray();
         emit signal_SensorayCommunicationUpdate(update);
-        emit signal_SerialPortReadyToConnect();
+        //emit signal_SerialPortReadyToConnect();
     }
     else
     {
@@ -93,7 +101,26 @@ void Sensoray::NewDataReceived(const QByteArray &buffer) const
 
 void Sensoray::ReceivedUpdatedADC(const std::vector<S2426_ADC_SAMPLE> data) const
 {
+    //Pull out the correct value corresponding to the temperature sensor
 
+    //Convert the value into the appropriate temperature
+
+    //Notify whoever is listening of a sensor update
+
+    //First let us construct the tuple describing the measurement
+    common::TupleSensorString sensorTuple(QString::fromStdString(this->deviceName),
+                                          "Temperature Probe",
+                                          "Coolant Line");
+
+    common::EnvironmentTime currentTime;
+    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,currentTime);
+
+    common_data::SensorState newSensorMeasurement;
+    newSensorMeasurement.setObservationTime(currentTime);
+
+    newSensorMeasurement.ConstructSensor(common_data::SENSOR_TEMPERATURE,"Temperature Coolant");
+    ((common_data::SensorTemperature*)newSensorMeasurement.getSensorData().get())->setTemperature(0.0,common_data::TemperatureUnit::UNIT_FARENHEIT);
+    emit signal_SensorayNewSensorValue(sensorTuple,newSensorMeasurement);
 }
 
 void Sensoray::initializeSensoray() const

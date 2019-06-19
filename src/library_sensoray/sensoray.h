@@ -8,12 +8,18 @@
 
 #include "common/common.h"
 #include "common/modbus_register.h"
+#include "common/tuple_sensor_string.h"
 #include "common/comms/abstract_communication.h"
 
 #include "communications/sensoray_tcp_configuration.h"
 #include "communications/sensoray_serial_configuration.h"
 
 #include "communications/sensoray_comms_marshaler.h"
+
+#include "data/sensor_state.h"
+#include "data/sensors/sensor_temperature.h"
+
+#include "sensoray_poll_machine.h"
 
 class LIBRARY_SENSORAYSHARED_EXPORT Sensoray : public QObject, public common::comms::ICommunication, public comms_Sensoray::CommsEvents
 {
@@ -46,6 +52,12 @@ public:
     //!
     void closeConnection();
 
+
+    //!
+    //! \brief isDeviceConnected
+    //! \return
+    //!
+    bool isDeviceConnected() const;
 
 
 public:
@@ -104,6 +116,8 @@ signals:
 
     void signal_RXNewSerialData(const QByteArray data) const override;
 
+    void signal_SensorayNewSensorValue(const common::TupleSensorString &sensorTuple, const common_data::SensorState &data) const;
+
 private:
     //!
     //! \brief initializeSensoray
@@ -111,7 +125,10 @@ private:
     void initializeSensoray() const;
 
 private:
-    comms_Sensoray::CommsMarshaler* commsMarshaler; /**< Member variable handling the communications with the
+
+    SensorayPollMachine* m_PollingObj;
+
+    std::shared_ptr<comms_Sensoray::CommsMarshaler> commsMarshaler; /**< Member variable handling the communications with the
 actual Galil unit. This parent class will be subscribing to published events from the marshaller. This
 should drive the event driven structure required to exceite the state machine.*/
 

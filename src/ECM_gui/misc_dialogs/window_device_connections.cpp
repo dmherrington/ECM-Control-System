@@ -48,6 +48,7 @@ void Window_DeviceConnections::connectToAllDevices()
     this->connect_Oscilliscope(true);
     this->connect_PowerSupply(true);
     this->connect_Pump(true);
+    this->connect_Sensoray(true);
 }
 
 void Window_DeviceConnections::connect_MotionController(const bool &connect)
@@ -140,6 +141,19 @@ void Window_DeviceConnections::connect_Pump(const bool &connect)
         }
 
         m_API->m_Pump->openPumpConnection(portNumber.toStdString());
+    }
+}
+
+void Window_DeviceConnections::connect_Sensoray(const bool &connect)
+{
+    if((!connect) && m_API->m_Sensoray->isDeviceConnected())
+    {
+        m_API->m_Sensoray->closeConnection();
+    }
+    else if(connect && (!m_API->m_Sensoray->isDeviceConnected()))
+    {
+        comms_Sensoray::SensorayTCPConfiguration openConfig;
+        m_API->m_Sensoray->openConnection(openConfig);
     }
 }
 
@@ -288,8 +302,8 @@ void Window_DeviceConnections::slot_MCConnectionUpdate(const common::comms::Comm
 
 void Window_DeviceConnections::on_pushButton_connectSensoray_released()
 {
+    comms_Sensoray::SensorayTCPConfiguration config;
 
-//    comms_Sensoray::SensorayTCPConfiguration config;
 //    m_API->m_Sensoray->openConnection(config);
 }
 

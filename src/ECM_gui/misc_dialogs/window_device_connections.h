@@ -31,6 +31,7 @@ private:
     void connect_Oscilliscope(const bool &connect);
     void connect_PowerSupply(const bool &connect);
     void connect_Pump(const bool &connect);
+    void connect_Sensoray(const bool &connect);
 
 private:
     void closeEvent(QCloseEvent *event) override;

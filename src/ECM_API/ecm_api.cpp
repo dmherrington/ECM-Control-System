@@ -16,6 +16,9 @@ ECM_API::ECM_API()
 
     m_Pump = new Westinghouse510(m_Modbus485,03);
 
+    connect(m_Sensoray, SIGNAL(signal_SensorayNewSensorValue(common::TupleSensorString,common_data::SensorState)),
+            this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
+
 }
 
 std::map<std::string, std::string> ECM_API::getSoftwareVersions() const
@@ -239,4 +242,10 @@ void ECM_API::writeHeaderBreaker(std::string &logString, const unsigned int &siz
     }
     //bump the header to the next line
     logString = logString + "\n";
+}
+
+
+void ECM_API::slot_NewSensorData(const TupleSensorString &sensorTuple, const common_data::SensorState &data)
+{
+    m_Log->WriteLogSensorState(sensorTuple,data);
 }

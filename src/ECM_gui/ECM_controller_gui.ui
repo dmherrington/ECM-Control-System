@@ -2033,11 +2033,8 @@ width:20px;
     <addaction name="actionProfile_Configuration"/>
     <addaction name="separator"/>
     <addaction name="actionPower_Supply"/>
-    <addaction name="actionPump_Window"/>
     <addaction name="actionOscilliscope"/>
     <addaction name="separator"/>
-    <addaction name="actionTouchoff_Window"/>
-    <addaction name="actionMotion_Control"/>
     <addaction name="separator"/>
     <addaction name="actionCustom_Motion_Commands"/>
    </widget>
@@ -2080,19 +2077,9 @@ width:20px;
     <string>Power Supply</string>
    </property>
   </action>
-  <action name="actionPump_Window">
-   <property name="text">
-    <string>Pump</string>
-   </property>
-  </action>
   <action name="actionOscilliscope">
    <property name="text">
     <string>Oscilliscope</string>
-   </property>
-  </action>
-  <action name="actionTouchoff_Window">
-   <property name="text">
-    <string>Touchoff</string>
    </property>
   </action>
   <action name="actionOpen_Sensors_Window">
@@ -2118,14 +2105,6 @@ width:20px;
   <action name="actionClear_All_Data">
    <property name="text">
     <string>Clear All Data</string>
-   </property>
-  </action>
-  <action name="actionMotion_Control">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Motion Control</string>
    </property>
   </action>
   <action name="actionProfile_Configuration">

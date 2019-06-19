@@ -155,13 +155,13 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     //    m_WindowMotionControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
     //    connect(m_WindowMotionControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
-    m_WindowPumpControl = new Window_PumpControl(m_API->m_Pump);
-    m_WindowPumpControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
-    connect(m_WindowPumpControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
+//    m_WindowPumpControl = new Window_PumpControl(m_API->m_Pump);
+//    m_WindowPumpControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
+//    connect(m_WindowPumpControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
-    m_WindowTouchoffControl = new Window_Touchoff(m_API->m_MotionController);
-    m_WindowTouchoffControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
-    connect(m_WindowTouchoffControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
+//    m_WindowTouchoffControl = new Window_Touchoff(m_API->m_MotionController);
+//    m_WindowTouchoffControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
+//    connect(m_WindowTouchoffControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
 
     std::vector<common::TupleECMData> plottables = m_API->m_MotionController->getPlottables();
     for(unsigned int i = 0; i < plottables.size(); i++)
@@ -406,11 +406,11 @@ void ECMControllerGUI::readSettings()
     //    if(!motionControlDisplayHidden)
     //        m_WindowMotionControl->show();
 
-    if(!touchoffControlDisplayHidden)
-        m_WindowTouchoffControl->show();
+//    if(!touchoffControlDisplayHidden)
+//        m_WindowTouchoffControl->show();
 
-    if(!pumpControlDisplayHidden)
-        m_WindowPumpControl->show();
+//    if(!pumpControlDisplayHidden)
+//        m_WindowPumpControl->show();
 
     if(!profileConfigurationDisplayHidden)
         m_WindowCustomMotionCommands->show();
@@ -439,8 +439,8 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
         settings.setValue("sensorDisplayed",m_additionalSensorDisplay->isWindowHidden());
         settings.setValue("profileConfigurationDisplayed",m_WindowProfileConfiguration->isWindowHidden());
         //settings.setValue("motionControlDisplayed",m_WindowMotionControl->isWindowHidden());
-        settings.setValue("touchoffControlDisplayed",m_WindowTouchoffControl->isWindowHidden());
-        settings.setValue("pumpControlDisplayed",m_WindowPumpControl->isWindowHidden());
+        //settings.setValue("touchoffControlDisplayed",m_WindowTouchoffControl->isWindowHidden());
+        //settings.setValue("pumpControlDisplayed",m_WindowPumpControl->isWindowHidden());
         settings.setValue("profileConfigurationDisplayed",m_WindowCustomMotionCommands->isWindowHidden());
         settings.setValue("rigolControlDisplayed",m_WindowRigol->isWindowHidden());
         settings.setValue("connectionsDisplayed",m_WindowConnections->isWindowHidden());
@@ -449,8 +449,8 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
         m_additionalSensorDisplay->close();
         m_WindowProfileConfiguration->close();
         //m_WindowMotionControl->close();
-        m_WindowTouchoffControl->close();
-        m_WindowPumpControl->close();
+        //m_WindowTouchoffControl->close();
+        //m_WindowPumpControl->close();
         m_WindowCustomMotionCommands->close();
         m_WindowRigol->close();
         m_WindowConnections->close();
@@ -577,25 +577,25 @@ void ECMControllerGUI::MarshalCreateSensorDisplay(const common::TupleSensorStrin
 void ECMControllerGUI::on_actionPump_Window_triggered(bool checked)
 {
     UNUSED(checked);
-    if(m_WindowPumpControl->isWindowHidden())
-        m_WindowPumpControl->show();
-    else
-    {
-        m_WindowPumpControl->activateWindow();
-        m_WindowPumpControl->raise();
-    }
+//    if(m_WindowPumpControl->isWindowHidden())
+//        m_WindowPumpControl->show();
+//    else
+//    {
+//        m_WindowPumpControl->activateWindow();
+//        m_WindowPumpControl->raise();
+//    }
 }
 
 void ECMControllerGUI::on_actionTouchoff_Window_triggered(bool checked)
 {
     UNUSED(checked);
-    if(m_WindowTouchoffControl->isWindowHidden())
-        m_WindowTouchoffControl->show();
-    else
-    {
-        m_WindowTouchoffControl->activateWindow();
-        m_WindowTouchoffControl->raise();
-    }
+//    if(m_WindowTouchoffControl->isWindowHidden())
+//        m_WindowTouchoffControl->show();
+//    else
+//    {
+//        m_WindowTouchoffControl->activateWindow();
+//        m_WindowTouchoffControl->raise();
+//    }
 }
 
 void ECMControllerGUI::on_actionPower_Supply_triggered(bool checked)
@@ -698,13 +698,13 @@ void ECMControllerGUI::slot_ChangedWindowVisibility(const GeneralDialogWindow::D
         ui->actionConnections->setChecked(visibility);
         break;
     case GeneralDialogWindow::DialogWindowTypes::WINDOW_PUMP:
-        ui->actionPump_Window->setChecked(visibility);
+        //ui->actionPump_Window->setChecked(visibility);
         break;
     case GeneralDialogWindow::DialogWindowTypes::WINDOW_OSCILLISCOPE:
         ui->actionOscilliscope->setChecked(visibility);
         break;
     case GeneralDialogWindow::DialogWindowTypes::WINDOW_TOUCHOFF:
-        ui->actionTouchoff_Window->setChecked(visibility);
+        //ui->actionTouchoff_Window->setChecked(visibility);
         break;
     case GeneralDialogWindow::DialogWindowTypes::WINDOW_MOTION_PROFILE:
         ui->actionMotion_Profile->setChecked(visibility);
@@ -713,7 +713,7 @@ void ECMControllerGUI::slot_ChangedWindowVisibility(const GeneralDialogWindow::D
         ui->actionCustom_Motion_Commands->setChecked(visibility);
         break;
     case GeneralDialogWindow::DialogWindowTypes::WINDOW_MOTION_CONTROL:
-        ui->actionMotion_Control->setChecked(visibility);
+        //ui->actionMotion_Control->setChecked(visibility);
         break;
     case GeneralDialogWindow::DialogWindowTypes::WINDOW_OPERATION_CONFIGURATION:
         ui->actionProfile_Configuration->setChecked(visibility);

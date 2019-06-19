@@ -89,6 +89,8 @@ signals:
 
     void signal_APINotification(const NotificationUpdate &update);
 
+private slots:
+    void slot_NewSensorData(const common::TupleSensorString &sensorTuple, const common_data::SensorState &data);
 
 public:
 
