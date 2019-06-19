@@ -155,8 +155,6 @@ private slots:
 
     void on_actionBuffer_Manager_triggered(bool checked);
 
-    void on_actionMotion_Control_triggered(bool checked);
-
     void on_actionConnections_triggered(bool checked);
 
     void on_actionOscilliscope_triggered(bool checked);
@@ -164,10 +162,6 @@ private slots:
     void on_actionCustom_Motion_Commands_triggered(bool checked);
 
     void on_actionOpen_Sensors_Window_triggered(bool checked);
-
-    void on_actionPump_Window_triggered(bool checked);
-
-    void on_actionTouchoff_Window_triggered(bool checked);
 
     void on_actionClear_All_Data_triggered();
 

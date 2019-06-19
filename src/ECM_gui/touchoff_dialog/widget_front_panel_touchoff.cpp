@@ -7,7 +7,9 @@ WidgetFrontPanel_Touchoff::WidgetFrontPanel_Touchoff(const std::vector<MotorAxis
 {
     ui->setupUi(this);
 
-    connect(m_MotionController,SIGNAL(signal_GalilUpdatedProfileState(MotionProfileState)),this,SLOT(slot_UpdateMotionProfileState(MotionProfileState)));
+    ui->widget_LEDTouchoffStatus->setDiameter(8);
+
+    connect(m_MotionController,SIGNAL(signal_MCUpdatedProfileState(MotionProfileState)),this,SLOT(slot_UpdateMotionProfileState(MotionProfileState)));
 
     for (size_t axisIndex = 0; axisIndex < applicableAxis.size(); axisIndex++)
     {
@@ -72,12 +74,20 @@ void WidgetFrontPanel_Touchoff::slot_UpdateMotionProfileState(const MotionProfil
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_POSITIONAL:
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_INCONSISTENT:
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_TOUCHING:
+            ui->widget_LEDTouchoffStatus->setColor(QColor(255,0,0));
+//            ui->lineEdit_TouchoffCode->setText(QString::fromStdString(ProfileState_Touchoff::TOUCHOFFCodesToString(castState->getCurrentCode())));
             break;
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING:
+            ui->widget_LEDTouchoffStatus->setColor(QColor(255,255,0));
+//            ui->lineEdit_TouchoffCode->setText(QString::fromStdString(ProfileState_Touchoff::TOUCHOFFCodesToString(castState->getCurrentCode())));
             break;
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::FINISHED:
+            ui->widget_LEDTouchoffStatus->setColor(QColor(0,255,0));
+//            ui->lineEdit_TouchoffCode->setText(QString::fromStdString(ProfileState_Touchoff::TOUCHOFFCodesToString(castState->getCurrentCode())));
             break;
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::ABORTED:
+            ui->widget_LEDTouchoffStatus->setColor(QColor(255,0,0));
+//            ui->lineEdit_TouchoffCode->setText("");
             break;
         default:
             break;

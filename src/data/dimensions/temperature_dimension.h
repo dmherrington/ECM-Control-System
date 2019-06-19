@@ -10,7 +10,7 @@ namespace common_data {
 //!
 enum class TemperatureUnit
 {
-    UNIT_FARENHEIT,
+    UNIT_FAHRENHEIT,
     UNIT_CELSIUS,
     UNIT_TEMPERATURE_NR
 };

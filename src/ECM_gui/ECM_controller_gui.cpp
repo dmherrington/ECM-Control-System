@@ -151,6 +151,11 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_WindowProfileConfiguration, SIGNAL(signal_ExecuteProfileCollection(ECMCommand_ExecuteCollection)), this, SLOT(on_ExecuteProfileCollection(ECMCommand_ExecuteCollection)));
     connect(m_WindowProfileConfiguration, SIGNAL(signal_LoadedConfigurationCollection(std::string)), this, SLOT(slot_OnLoadedConfigurationCollection(std::string)));
 
+
+    //Sensoray Connections
+    connect(m_API->m_Sensoray, SIGNAL(signal_SensorayNewSensorValue(common::TupleSensorString,common_data::SensorState)),
+            this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
+
     //    m_WindowMotionControl = new Window_MotionControl(m_API->m_MotionController);
     //    m_WindowMotionControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
     //    connect(m_WindowMotionControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
@@ -330,6 +335,11 @@ void ECMControllerGUI::slot_NewProfileVariableData(const common::TupleProfileVar
 
 void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &sensor, const common_data::SensorState &state)
 {
+    if((sensor.sourceName == "Sensoray") && (sensor.sensorName == "Temperature Probe") && (sensor.measurementName == "Channel 0"))
+    {
+        double value = ((common_data::SensorTemperature*)state.getSensorData().get())->getTemperature(common_data::TemperatureUnit::UNIT_FAHRENHEIT);
+        ui->lcdNumber_TempProbe0->display(value);
+    }
     //First, write the data to the logs
     m_API->m_Log->WriteLogSensorState(sensor,state);
 
@@ -574,30 +584,6 @@ void ECMControllerGUI::MarshalCreateSensorDisplay(const common::TupleSensorStrin
     m_CreatedSensors.insert(sensor, true);
 }
 
-void ECMControllerGUI::on_actionPump_Window_triggered(bool checked)
-{
-    UNUSED(checked);
-//    if(m_WindowPumpControl->isWindowHidden())
-//        m_WindowPumpControl->show();
-//    else
-//    {
-//        m_WindowPumpControl->activateWindow();
-//        m_WindowPumpControl->raise();
-//    }
-}
-
-void ECMControllerGUI::on_actionTouchoff_Window_triggered(bool checked)
-{
-    UNUSED(checked);
-//    if(m_WindowTouchoffControl->isWindowHidden())
-//        m_WindowTouchoffControl->show();
-//    else
-//    {
-//        m_WindowTouchoffControl->activateWindow();
-//        m_WindowTouchoffControl->raise();
-//    }
-}
-
 void ECMControllerGUI::on_actionPower_Supply_triggered(bool checked)
 {
     UNUSED(checked);
@@ -626,20 +612,6 @@ void ECMControllerGUI::on_actionBuffer_Manager_triggered(bool checked)
     //        m_WindowBufferManager->activateWindow();
     //        m_WindowBufferManager->raise();
     //    }
-}
-
-void ECMControllerGUI::on_actionMotion_Control_triggered(bool checked)
-{
-    UNUSED(checked);
-    /*
-    if(m_WindowMotionControl->isWindowHidden())
-        m_WindowMotionControl->show();
-    else
-    {
-        m_WindowMotionControl->activateWindow();
-        m_WindowMotionControl->raise();
-    }
-    */
 }
 
 void ECMControllerGUI::on_actionConnections_triggered(bool checked)

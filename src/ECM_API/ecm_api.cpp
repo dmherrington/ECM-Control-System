@@ -16,8 +16,8 @@ ECM_API::ECM_API()
 
     m_Pump = new Westinghouse510(m_Modbus485,03);
 
-    connect(m_Sensoray, SIGNAL(signal_SensorayNewSensorValue(common::TupleSensorString,common_data::SensorState)),
-            this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
+//    connect(m_Sensoray, SIGNAL(signal_SensorayNewSensorValue(common::TupleSensorString,common_data::SensorState)),
+//            this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
 
 }
 

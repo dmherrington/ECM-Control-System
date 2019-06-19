@@ -57,7 +57,7 @@ std::string SensorTemperature::getDescription() const
 
 std::string SensorTemperature::getLoggingString() const
 {
-    TemperatureDimension dimension(TemperatureUnit::UNIT_FARENHEIT);
+    TemperatureDimension dimension(TemperatureUnit::UNIT_FAHRENHEIT);
     std::string rtnStr = std::to_string(m_temp) + "\t" + dimension.ShortHand();
     return rtnStr;
 }

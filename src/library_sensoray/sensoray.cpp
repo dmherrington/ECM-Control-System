@@ -16,6 +16,7 @@ Sensoray::Sensoray(const std::string &name, QObject *parent):
 
     m_PollingObj = new SensorayPollMachine();
     m_PollingObj->updateCommsProtocol(commsMarshaler);
+    m_PollingObj->beginPolling();
 }
 
 
@@ -81,11 +82,18 @@ void Sensoray::ConnectionStatusUpdated(const common::comms::CommunicationUpdate 
     {
         this->initializeSensoray();
         emit signal_SensorayCommunicationUpdate(update);
-        //emit signal_SerialPortReadyToConnect();
+
+        common::NotificationUpdate newUpdate(deviceName,ECMDevice::DEVICE_SENSORAY,common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL);
+        newUpdate.setPeripheralMessage("Sensoray Device connected.");
+        emit signal_SensoryNotificationUpdate(newUpdate);
     }
     else
     {
         emit signal_SensorayCommunicationUpdate(update);
+
+        common::NotificationUpdate newUpdate(deviceName,ECMDevice::DEVICE_SENSORAY,common::NotificationUpdate::NotificationTypes::NOTIFICATION_ALERT);
+        newUpdate.setPeripheralMessage("Sensoray Device unable to connect.");
+        emit signal_SensoryNotificationUpdate(newUpdate);
     }
 }
 
@@ -101,26 +109,29 @@ void Sensoray::NewDataReceived(const QByteArray &buffer) const
 
 void Sensoray::ReceivedUpdatedADC(const std::vector<S2426_ADC_SAMPLE> data) const
 {
-    //Pull out the correct value corresponding to the temperature sensor
+    for(size_t i = 0; i < data.size(); i++)
+    {
+        std::string sensorName = "Channel " + std::to_string(i);
+        //First let us construct the tuple describing the measurement
+        common::TupleSensorString sensorTuple(QString::fromStdString(this->deviceName),
+                                              "Temperature Probe",
+                                              QString::fromStdString(sensorName));
+        //Pull out the correct value corresponding to the temperature sensor
+        double cTemperature = (data.at(i).volts - 1.258693)/0.094; //Function provided from Mike via Excel chart
+        //Convert the value into the appropriate temperature
+        double fTemperature = (cTemperature * (9.0/5.0)) + 32.0;
+        //Notify whoever is listening of a sensor update
 
-    //Convert the value into the appropriate temperature
+        common::EnvironmentTime currentTime;
+        common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,currentTime);
 
-    //Notify whoever is listening of a sensor update
+        common_data::SensorState newSensorMeasurement;
+        newSensorMeasurement.setObservationTime(currentTime);
 
-    //First let us construct the tuple describing the measurement
-    common::TupleSensorString sensorTuple(QString::fromStdString(this->deviceName),
-                                          "Temperature Probe",
-                                          "Coolant Line");
-
-    common::EnvironmentTime currentTime;
-    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,currentTime);
-
-    common_data::SensorState newSensorMeasurement;
-    newSensorMeasurement.setObservationTime(currentTime);
-
-    newSensorMeasurement.ConstructSensor(common_data::SENSOR_TEMPERATURE,"Temperature Coolant");
-    ((common_data::SensorTemperature*)newSensorMeasurement.getSensorData().get())->setTemperature(0.0,common_data::TemperatureUnit::UNIT_FARENHEIT);
-    emit signal_SensorayNewSensorValue(sensorTuple,newSensorMeasurement);
+        newSensorMeasurement.ConstructSensor(common_data::SENSOR_TEMPERATURE,"Temperature Coolant");
+        ((common_data::SensorTemperature*)newSensorMeasurement.getSensorData().get())->setTemperature(fTemperature,common_data::TemperatureUnit::UNIT_FAHRENHEIT);
+        emit signal_SensorayNewSensorValue(sensorTuple,newSensorMeasurement);
+    }
 }
 
 void Sensoray::initializeSensoray() const

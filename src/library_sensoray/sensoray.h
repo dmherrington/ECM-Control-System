@@ -10,6 +10,7 @@
 #include "common/modbus_register.h"
 #include "common/tuple_sensor_string.h"
 #include "common/comms/abstract_communication.h"
+#include "common/notification_update.h"
 
 #include "communications/sensoray_tcp_configuration.h"
 #include "communications/sensoray_serial_configuration.h"
@@ -117,6 +118,8 @@ signals:
     void signal_RXNewSerialData(const QByteArray data) const override;
 
     void signal_SensorayNewSensorValue(const common::TupleSensorString &sensorTuple, const common_data::SensorState &data) const;
+
+    void signal_SensoryNotificationUpdate(const common::NotificationUpdate &update) const;
 
 private:
     //!

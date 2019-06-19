@@ -15,6 +15,10 @@ Widget_Notification::Widget_Notification(const ECM_API *apiObject, QWidget *pare
 
     connect(m_API->m_Munk, SIGNAL(signal_MunkNotification(common::NotificationUpdate)),
             this, SLOT(slot_NewNotification(common::NotificationUpdate)));
+
+    connect(m_API->m_Sensoray, SIGNAL(signal_SensoryNotificationUpdate(common::NotificationUpdate)),
+            this, SLOT(slot_NewNotification(common::NotificationUpdate)));
+
 }
 
 Widget_Notification::~Widget_Notification()

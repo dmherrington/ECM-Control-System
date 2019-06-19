@@ -61,7 +61,7 @@ std::string TemperatureDimension::ShortHand() const
 {
     switch(m_type)
     {
-    case TemperatureUnit::UNIT_FARENHEIT:
+    case TemperatureUnit::UNIT_FAHRENHEIT:
         return "F";
     case TemperatureUnit::UNIT_CELSIUS:
         return "C";
@@ -89,7 +89,7 @@ IDimension* TemperatureDimension::Copy() const
 //!
 TemperatureUnit TemperatureDimension::BaseUnit() const
 {
-    return TemperatureUnit::UNIT_FARENHEIT;
+    return TemperatureUnit::UNIT_FAHRENHEIT;
 }
 
 
@@ -101,7 +101,7 @@ double TemperatureDimension::RatioToBaseUnit() const
 {
     switch(m_type)
     {
-    case TemperatureUnit::UNIT_FARENHEIT:
+    case TemperatureUnit::UNIT_FAHRENHEIT:
         return 1.0;
     case TemperatureUnit::UNIT_CELSIUS:
         return 1000.0;
