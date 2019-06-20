@@ -1,0 +1,271 @@
+{
+    "MotionControlData": [
+        {
+            "bufferDataArray": [
+                {
+                    "bufferIndex": 0,
+                    "bufferName": "Buffer #0",
+                    "dBuffer": false,
+                    "programText": "int buffer, i, j\n\nTOUCHOFF:\n\ttouchOffStatus = 0\n\tblock\n\t\tbuffer = 1\n\t\taxis = Z\n\tend\n\tstart buffer, TOUCHOFF\n\ttill ^PST(buffer).#RUN\n\tstart 2, SET_DEFAULTS_GOTO\n\ttouchOffStatus = 1\nGOTO END_EXECUTION\n\n!TOUCHOFF:\n!\ttouchOffStatus = 0\n!\twait 5000\n!\ttouchOffStatus = 1\n!GOTO END_EXECUTION\n\nRUN_VIB:\n\tblock\n\t\toperationStatus = 0\n\t\tbuffer = 2\n\t\taxis = Z\n\t\t\n\t\tsinkingRate = 3 \t!um/s\n\t\tfrequency = 6 \t\t!Hz\n\t\tdepth = 350\t\t!um\n\t\tamplitude = 50\t\t!um\n\t\tpowerOn = 1\n\tend\n\tblock\t\n\t\tSLVKP(Z) = 240\n\t\tSLVKI(Z) = 860\n\t\tSLPKP(Z) = 120\n\t\tSLVSOF(Z) = 800\n\t\tSLAFF(Z) = 1500\n\tend\n\tstart buffer, SINE_VIB\n\ttill ^PST(buffer).#RUN\n\tstart 2, SET_DEFAULTS_GOTO\n\toperationStatus = 1\nGOTO END_EXECUTION\n\nRUN_SQUARE_VIB:\n\tblock\n\t\toperationStatus = 0\n\t\tbuffer = 2\n\t\taxis = Z\n\t\t\n\t\t!sinkingRate = 7 \t!um/s\n\t\t!frequency = 20 \t\t!Hz\n\t\t!depth = 400\t\t!um\n\t\t!amplitude = 50\t\t!um\n\t\t!dwell = 0\n\t\t!powerOn = 1\n\t\t!powerContinuousOrPulsed = 1\n\tend\n\tblock\t\n\t\tSLVKP(axis) = 510\n\t\tSLVKI(axis) = 940\n\t\tSLPKP(axis) = 150\n\t\tSLVSOF(axis) = 800\n\t\tSLAFF(axis) = 1500\n\tend\n\tstart buffer, SQUARE_VIB\n\ttill ^PST(buffer).#RUN\n\tstart 2, SET_DEFAULTS_GOTO\n\ttill ^PST(2).#RUN\n\toperationStatus = 1\nGOTO END_EXECUTION\n\nRUN_LINEAR_SINK:\n\toperationStatus = 0\n\taxis = Z\n\tstart 2, LINEAR_SINK\n\ttill ^PST(2).#RUN\n\toperationStatus = 1\nGOTO END_EXECUTION\n\nRUN_TIMED_RUN:\n\toperationStatus = 0\n\tstart 2, POWER_ON_TIMER\n\ttill ^PST(2).#RUN\n\toperationStatus = 1\nGOTO END_EXECUTION\n\nEND_EXECUTION:\nSTOP\n"
+                },
+                {
+                    "bufferIndex": 1,
+                    "bufferName": "Buffer #1",
+                    "dBuffer": false,
+                    "programText": "real slowTouchOff, fastTouchOff, moveSpeed, touchOffRetract !movement variables\nreal startPosition, markPosition(3),touchOffSpot(2) !position variables\nreal allowableError, allowablePositionError\nint direction, i\n\n!Set Defaults, must be called at the beginning of all routines\nSET_DEFAULTS:\n\tblock\n\t\tslowTouchOff = 50 \t\t!microns/s\n\t\tfastTouchOff = 200\t \t!microns/s\n\t\tmoveSpeed = 10000\t\t!microns/s\n\t\ttouchOffRetract = 60 \t!microns\n\t\tdirection = 1\t\t\t!1 or -1\n\t\tallowableError = 10\t\t!microns\n\t\tallowablePositionError = 25 !microns\n\t\tfill(0,markPosition)\n\t\tfill(0,touchOffSpot)\n\n\t\tACC(axis) = 500000\n\t\tDEC(axis) = ACC(axis)\n\t\tJERK(axis) = 5000000\n\t\tVEL(axis) = slowTouchOff\n\t\tKDEC(axis) = 5000000\n\tend\nRET\n\n\n!!!The OG Touch-off!!!\n!Touches off in positive direction\nTOUCHOFF:\n\tcall SET_DEFAULTS\n\tcall GO_TOUCH\n\tptp/erv axis, -startingGap, moveSpeed\nGOTO END_TOUCHOFF\n\n!!!The OG Touch-off, but moves backwards!!!\n!Touches off in negative direction\nTOUCHOFF_REVERSE:\n\tcall SET_DEFAULTS\n\tdirection = -1\n\tcall GO_TOUCH\n\tptp/erv axis, startingGap, moveSpeed\nGOTO END_TOUCHOFF\n\n\n!!!Center-Point Touch-off!!!\n!Touches off in both direction for a given axis\n!Rests axis at the center point\nCENTER_POINT_FIND:\n\tcall SET_DEFAULTS\n\tstartPosition = FPOS(axis)\n\t!postive touch-off\n\tdirection = 1\n\tretry1:\n\tfill(0,markPosition)\n\tcall GO_TOUCH\n\tif cError\n\t\tgoto retry1\n\tend\n\ttouchOffSpot(0) = avg(markPosition)\n\tptp/ev axis, startPosition, moveSpeed\n\t!negative touch-off\n\tdirection = -1\n\tretry2:\n\tfill(0,markPosition)\n\tcall GO_TOUCH\n\tif cError\n\t\tgoto retry1\n\tend\n\ttouchOffSpot(1) = avg(markPosition)\n\tptp/ev axis, avg(touchOffSpot), moveSpeed\n\tdistance2Part = abs(touchOffSpot(1)-touchOffSpot(0))/2\nGOTO END_TOUCHOFF\n\n!!!Approaches part in specified direction and touches off to it!!!\n!touches off 4 times, averages the last 3\n!does not retract, leaves parts in contact\n!must be called from within this document as a sub-routine\nGO_TOUCH:\n\tjog/v axis, direction*fastTouchOff\n\tCERRV(axis) = allowablePositionError\n\ttill IN0.1\n\tkill axis\n\ti = 0\n\tloop 3\n\t\tptp/erv axis, -direction*touchOffRetract, moveSpeed\n\t\tjog/v axis, direction*slowTouchOff\n\t\ttill IN0.1\n\t\tkill axis\n\t\twait 100\n\t\tmarkPosition(i) = FPOS(axis)\n\t\ti = i +1\n\tend\n\tif ((max(markPosition)-min(markPosition))>allowableError)\n\t\tdisp \"Exceeded allowable touch-off error\"\n\t\tcError = 1\n\t\tkillall\n\t\tRET\n\tend\n\tcError = 0\n\tCERRV(axis) = 2000\nRET\n\nEND_TOUCHOFF:\nCERRV(axis) = 2000\nSTOP\n"
+                },
+                {
+                    "bufferIndex": 2,
+                    "bufferName": "Buffer #2",
+                    "dBuffer": false,
+                    "programText": "real position(1000), motion(1000), increment, waveStart, distancePerVib,totalSteps,calcTime, initTime\nreal slope, timePerPoint, startTime, delayTime, firingPosition, startPosition, finalPosition, adjustedFrequency, dwellPercent\nint i,j\n\n!!!Sine Wave Motion!!!\nSINE_VIB:\n\tblock\n\t\t!check parameters\n\t\tif frequency > 6\n\t\t\tdisp \"requested frequency can't be higher than 6\"\n\t\t\tgoto END_EXECUTION\n\t\tend\n\t\tif amplitude > 4000\n\t\t\tdisp \"requested amplitude can't be higher than 4000\"\n\t\t\tgoto END_EXECUTION\n\t\tend\n\t\tif ^(powerOn = 1 | powerOn = 0)\n\t\t\tdisp \"powerOn must be 0 or 1\"\n\t\t\tgoto END_EXECUTION\n\t\tend\n\t\tif ^(powerContinuousOrPulsed = 1 | powerContinuousOrPulsed = 0)\n\t\t\tdisp \"powerOn must be 0 or 1\"\n\t\t\tgoto END_EXECUTION\n\t\tend\n\t\tif (percentPulse > 1 | percentPulse < 0)\n\t\t\tdisp \"percentPulse must be between 0 and 1\"\n\t\t\tgoto END_EXECUTION\n\t\tend\n\t\t\n\t\t!calculate relevant variables\n\t\tincrement = 6.2831853/sizeof(motion)\n\t\twaveStart = (6.2831853/4)*3\n\t\tdistancePerVib = sinkingRate/frequency\n\t\tslope = distancePerVib/sizeof(motion)\n\t\tfiringPosition = FPOS(axis)-(amplitude*percentPulse)\n\t\ttotalSteps = depth/distancePerVib\n\t\ttimePerPoint = 1/frequency/sizeof(motion)*1000 !ms\n\t\tcalcTime = totalSteps/frequency*1000  !seconds\n\t\tfinalPosition = FPOS(axis)+depth\n\tend\n\n\t!Define Motion Path\n\ti = 0\n\tloop sizeof(motion)\n\t\tposition(i) = sin(waveStart+increment*i)*(amplitude/2)+(i+1)*slope\n\t\ti = i+1\n\tend\n\n\ti = 1\n\tmotion(0) = 0\n\tloop (sizeof(motion)-1)\n\t\tmotion(i) = (position(i)-position(i-1))\n\t\ti = i+1\n\tend\n\n\t!Retract Amplitude\n\tptp/erv axis, -amplitude, 1000\n\n\t!Initialize Motion\n\tpath/rwc axis,timePerPoint\n\t\tmpoint axis, motion, sizeof(motion)\n\tends axis\n\n\t!start motion\n\tgo axis;\n\n\t!Starting Time\n\tinitTime = TIME\n\tdisp \"estimated run time = %3.1f seconds\",calcTime/1000\n\t\n\t!Use the power supply?\n\tif powerOn\n\t\t!choose triggered power, or continuous power\n\t\tif ^powerContinuousOrPulsed\n\t\t\t!fire!\n\t\t\tdisp \"Running with Power in Triggered Mode\"\n\t\t\treload:\n\t\t\t\tOUT0.2 = 0\n\t\t\t\ttill (FPOS(axis)>firingPosition | (calcTime < (TIME-initTime)))\n\t\t\t\tif (calcTime < (TIME-initTime))\n\t\t\t\t\tgoto end_sine_vib\n\t\t\t\tend\n\t\t\t\tOUT0.2 = 1\n\t\t\t\ttill (FPOS(axis)<firingPosition | (calcTime < (TIME-initTime)))\n\t\t\t\tif (calcTime < (TIME-initTime))\n\t\t\t\t\tgoto end_sine_vib\n\t\t\t\tend\n\t\t\t\tfiringPosition = firingPosition + distancePerVib\n\t\t\tgoto reload\n\t\telse\n\t\t\tdisp \"Running with Power in Continuous Mode\"\n\t\t\t!fire!\n\t\t\tOUT0.2 = 1\n\t\t\twait calcTime\t\n\t\tend\n\telse\n\t\tdisp \"Running with Power Off\"\n\t\twait calcTime\n\tend\n\n\tend_sine_vib:\n\tkillall\n\tOUT0.2 = 0\n\tptp/ev axis, finalPosition, 1000\n\tdisp \"Profile Complete\"\nGOTO END_EXECUTION\n\n\n!!!Square Wave Motion with Dwell Time!!!\nSQUARE_VIB:\n\tblock\n\t\t!check parameters\n\t\tif frequency > 30\n\t\t\tdisp \"requested frequency can't be higher than 30\"\n\t\t\tgoto END_EXECUTION\n\t\tend\n\t\tif amplitude > 4000\n\t\t\tdisp \"requested amplitude can't be higher than 4000\"\n\t\t\tgoto END_EXECUTION\n\t\tend\n\t\tif ^(powerOn = 1 | powerOn = 0)\n\t\t\tdisp \"powerOn must be 0 or 1\"\n\t\t\tgoto END_EXECUTION\n\t\tend\n\t\tif ^(powerContinuousOrPulsed = 1 | powerContinuousOrPulsed = 0)\n\t\t\tdisp \"powerOn must be 0 or 1\"\n\t\t\tgoto END_EXECUTION\n\t\tend\n\t\tif (percentPulse > 1 | percentPulse < 0)\n\t\t\tdisp \"percentPulse must be between 0 and 1\"\n\t\t\tgoto END_EXECUTION\n\t\tend\n\t\t\n\t\t!calculate relevant variables\n\t\tdistancePerVib = sinkingRate/frequency\n\t\ttotalSteps = depth/distancePerVib\n\t\tcalcTime = depth/sinkingRate  !seconds\n\t\tdwellPercent = (frequency*dwell)/1000\n\t\tif dwellPercent > 1\n\t\t\tdisp \"frequency not attainable due to dwell time\"\n\t\tend\n\t\tadjustedFrequency = frequency*(1-dwellPercent)\n\t\tfinalPosition = FPOS(axis)+depth\n\tend\n\t\n\t!Display Mode to User\n\tblock\n\t\tif (powerOn & ^powerContinuousOrPulsed)\n\t\t\tdisp \"Running with Power in Triggered Mode\"\n\t\tend\n\t\tif (powerOn & powerContinuousOrPulsed)\n\t\t\tdisp \"Running with Power in Continuous Mode\"\n\t\tend\n\t\tif ^powerOn\n\t\t\tdisp \"Running with Power Off\"\n\t\tend\n\tend\n\t\n\tblock\n\t\tACC(axis) = 10000000\n\t\tDEC(axis) = ACC(axis)\n\t\tVEL(axis) = 1000000\n\t\tKDEC(axis) = ACC(axis)\n\t\t\n\t\tJERK(axis) = 297.722*POW((frequency*POW(amplitude,0.329)),3.02892)\n\tend\n\t!Starting Conditions\n\tdisp \"estimated run time = %3.1f seconds\",calcTime\n\tstartPosition = FPOS(axis)\n\tdelayTime = (1/frequency)*1000\n\t\n\ttotalSteps = 0 !for speed testing, remove later\n\tinitTime = TIME\n\t\n\tsquare_vib_routine:\n\t\tptp/er axis, -amplitude\n\t\tptp/e axis, (startPosition+(((TIME-initTime-delayTime)/1000)*sinkingRate))\n\t\tif powerOn\n\t\t\tOUT0.2 = 1\n\t\tend\n\t\twait dwell\n\t\tblock\n\t\t\tif ^powerContinuousOrPulsed\n\t\t\t\tOUT0.2 = 0\n\t\t\tend\n\t\t\tif (((TIME-initTime-delayTime)/1000)*sinkingRate) > depth\n\t\t\t\tgoto end_square_vib\n\t\t\tend\n\t\t\ttotalSteps = totalSteps+1\n\t\tend\n\tgoto square_vib_routine\n\n\tend_square_vib:\n\tkillall\n\tOUT0.2 = 0\n\tdisp \"frequency = %2.2f\",totalSteps/((TIME-initTime)/1000)\n\tcall SET_DEFAULTS\n\tdisp \"Profile Complete\"\nGOTO END_EXECUTION\n\nLINEAR_SINK:\n\tcall SET_DEFAULTS\n\tif powerOn\n\t\tOUT0.2 = 1\n\tend\n\tptp/erv axis, depth, sinkingRate\n\tOUT0.2 = 0\nGOTO END_EXECUTION\n\nPOWER_ON_TIMER:\n\tOUT0.2 = 1\n\twait intendedRunTime !ms\n\tOUT0.2 = 0\nGOTO END_EXECUTION\n\n!!!!!!EXECUATABLE FUNCTIONS!!!!!!!\n\nSET_DEFAULTS:\nj = 0\nloop 3\n\tblock\n\t\tACC(j) = 500000\n\t\tDEC(j) = ACC(j)\n\t\tJERK(j) = 5000000\n\t\tVEL(j) = 10000\n\t\tKDEC(j) = 5000000\n\t\tj = j+1\n\tend\nend\nblock\n\tSLVKP(X) = 297\n\tSLVKI(X) = 515\n\tSLPKP(X) = 79\n\tSLVSOF(X) = 500\n\tSLAFF(X) = 1738\n\t\n\tSLVKP(Y) = 84\n\tSLVKI(Y) = 515\n\tSLPKP(Y) = 79\n\tSLVSOF(Y) = 500\n\tSLAFF(Y) = 980\n\t\n\tSLVKP(Z) = 210\n\tSLVKI(Z) = 500\n\tSLPKP(Z) = 80\n\tSLVSOF(Z) = 500\n\tSLAFF(Z) = 1900\nend\n!GOTO END_EXECUTION\nRET\n\nSET_DEFAULTS_GOTO:\nj = 0\nloop 3\n\tblock\n\t\tACC(j) = 500000\n\t\tDEC(j) = ACC(j)\n\t\tJERK(j) = 5000000\n\t\tVEL(j) = 10000\n\t\tKDEC(j) = 5000000\n\t\tj = j+1\n\tend\nend\nblock\n\tSLVKP(X) = 297\n\tSLVKI(X) = 515\n\tSLPKP(X) = 79\n\tSLVSOF(X) = 500\n\tSLAFF(X) = 1738\n\t\n\tSLVKP(Y) = 84\n\tSLVKI(Y) = 515\n\tSLPKP(Y) = 79\n\tSLVSOF(Y) = 500\n\tSLAFF(Y) = 980\n\t\n\tSLVKP(Z) = 210\n\tSLVKI(Z) = 500\n\tSLPKP(Z) = 80\n\tSLVSOF(Z) = 500\n\tSLAFF(Z) = 1900\nend\nGOTO END_EXECUTION\n\n\nMOVE_ORIGIN:\n\tptp/e (X,Z), 0,0\nGOTO END_EXECUTION\n\nEND_EXECUTION:\nOUT0.2 =0\nstop\n"
+                },
+                {
+                    "bufferIndex": 3,
+                    "bufferName": "Buffer #3",
+                    "dBuffer": false,
+                    "programText": "!!!Used for Manual Touchoff!!!\n\nreal slowTouchOff, fastTouchOff, moveSpeed, touchOffRetract,stepDistance !movement variables\nreal startPosition, markPosition,touchOffSpot(2) !position variables\nreal allowableError, allowablePositionError\nint direction, i\n\n!Set Defaults, must be called at the beginning of all routines\nSET_DEFAULTS:\n\tblock\n\t\tslowTouchOff = 10 \t\t!microns/s\n\t\tfastTouchOff = 50\t \t!microns/s\n\t\tmoveSpeed = 10000\t\t!microns/s\n\t\ttouchOffRetract = 50 \t!microns\n\t\tstepDistance = 2\t\t!microns\n\t\tdirection = 1\t\t\t!1 or -1\n\t\tallowableError = 10\t\t!microns\n\t\tallowablePositionError = 25 !microns\n\t\tfill(0,touchOffSpot)\n\n\t\tACC(axis) = 500000\n\t\tDEC(axis) = ACC(axis)\n\t\tJERK(axis) = 5000000\n\t\tVEL(axis) = slowTouchOff\n\t\tKDEC(axis) = 5000000\n\tend\nRET\n\n\n!!!The OG Touch-off!!!\n!Touches off in positive direction\nTOUCHOFF:\n\tcall SET_DEFAULTS\n\twait 2000\n\tcall GO_TOUCH\n\tptp/erv axis, -startingGap, moveSpeed\nGOTO END_TOUCHOFF\n\n!!!The OG Touch-off, but moves backwards!!!\n!Touches off in negative direction\nTOUCHOFF_REVERSE:\n\tcall SET_DEFAULTS\n\tdirection = -1\n\tcall GO_TOUCH\n\tptp/erv axis, startingGap, moveSpeed\nGOTO END_TOUCHOFF\n\n\n!!!Center-Point Touch-off!!!\n!Touches off in both direction for a given axis\n!Rests axis at the center point\nCENTER_POINT_FIND:\n\tcall SET_DEFAULTS\n\tstartPosition = FPOS(axis)\n\t!postive touch-off\n\tdirection = 1\n\tcall GO_TOUCH\n\ttouchOffSpot(0) = markPosition\n\tptp/ev axis, startPosition, moveSpeed\n\t!negative touch-off\n\tdirection = -1\n\tcall GO_TOUCH\n\ttouchOffSpot(1) = markPosition\n\tptp/ev axis, avg(touchOffSpot), moveSpeed\n\tdistance2Part = abs(touchOffSpot(1)-touchOffSpot(0))/2\nGOTO END_TOUCHOFF\n\n!!!Approaches part in specified direction and touches off to it!!!\n!touches off 4 times, averages the last 3\n!does not retract, leaves parts in contact\n!must be called from within this document as a sub-routine\nGO_TOUCH:\n\tt1 = 0\n\tt2 = 0\n\tjog/v axis, direction*fastTouchOff\n\tCERRV(axis) = allowablePositionError\n\ttill t1\n\tkill axis\n\tt1 = 0\n\t\n\tptp/erv axis, -direction*touchOffRetract, moveSpeed\n\t\n\tstepAgain:\n\ttill t2\n\tif t1\n\t\tgoto touched\n\tend\n\tptp/erv axis, direction*stepDistance,slowTouchOff\n\tt2 = 0\n\tgoto stepAgain\n\t\n\ttouched:\n\tt1 = 0\n\tmarkPosition = FPOS(axis)\n\tCERRV(axis) = 2000\nRET\n\n\nEND_TOUCHOFF:\nCERRV(axis) = 2000\nSTOP\n"
+                },
+                {
+                    "bufferIndex": 4,
+                    "bufferName": "Buffer #4",
+                    "dBuffer": false,
+                    "programText": "PULSE:\n\tOUT0.2 = 0\n\twait 1\n\tOUT0.2 = 1\n\twait 200\nGOTO PULSE\nstop\n"
+                },
+                {
+                    "bufferIndex": 5,
+                    "bufferName": "Buffer #5",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 6,
+                    "bufferName": "Buffer #6",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 7,
+                    "bufferName": "Buffer #7",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 8,
+                    "bufferName": "Buffer #8",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 9,
+                    "bufferName": "Buffer #9",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 10,
+                    "bufferName": "Buffer #10",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 11,
+                    "bufferName": "Buffer #11",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 12,
+                    "bufferName": "Buffer #12",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 13,
+                    "bufferName": "Buffer #13",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 14,
+                    "bufferName": "Buffer #14",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 15,
+                    "bufferName": "Buffer #15",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 16,
+                    "bufferName": "Buffer #16",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 17,
+                    "bufferName": "Buffer #17",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 18,
+                    "bufferName": "Buffer #18",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 19,
+                    "bufferName": "Buffer #19",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 20,
+                    "bufferName": "Buffer #20",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 21,
+                    "bufferName": "Buffer #21",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 22,
+                    "bufferName": "Buffer #22",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 23,
+                    "bufferName": "Buffer #23",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 24,
+                    "bufferName": "Buffer #24",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 25,
+                    "bufferName": "Buffer #25",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 26,
+                    "bufferName": "Buffer #26",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 27,
+                    "bufferName": "Buffer #27",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 28,
+                    "bufferName": "Buffer #28",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 29,
+                    "bufferName": "Buffer #29",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 30,
+                    "bufferName": "Buffer #30",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 31,
+                    "bufferName": "Buffer #31",
+                    "dBuffer": false,
+                    "programText": ""
+                },
+                {
+                    "bufferIndex": 32,
+                    "bufferName": "DBuffer",
+                    "dBuffer": true,
+                    "programText": "!!!Required variables!!!\naxisdef X=0,Y=1,Z=2\nglobal int I(100),I0,I1,I2,I3,I4,I5,I6,I7,I8,I9,I90,I91,I92,I93,I94,I95,I96,I97,I98,I99\nglobal real V(100),V0,V1,V2,V3,V4,V5,V6,V7,V8,V9,V90,V91,V92,V93,V94,V95,V96,V97,V98,V99\n\nglobal int beginOfPrivateVariables\n!!!Private Variables!!!\n!!For External Software!!\n!progress monitoring\nglobal int homeStatus\t\t\t!parameter to denote the homing status of each motor\nglobal int touchOffStatus\t\t!parameter to denote the touchoff status of each motor\nglobal int operationStatus\t\t\t!parameter to denote the status of the PECM operation\n!touch off variables\nglobal real lastTouchOffPosition(3)\t\t!Last known touchoff position for each motor\nglobal real startTouchOffPosition(3)\t!Where to begin touchoff search for each motor\n\n!!For Internal Use!!\n!arrays for storing position data\nglobal real xmot(6000),ymot(6000), zmot(6000), adjusted(3)(6000)\n!error handling\nglobal int cError !most recent error !0 = none !1 = exceeded allowable touch-off error\n!process cross talk\nglobal real distance2Part\n!designating axis for single axis routines\nglobal int axis\n!misc\nglobal int t1\nglobal int t2\n!!!End of Private Variables!!!\nglobal int endOfPrivateVariables\n\n\n!!!Begin of User Variables!!!\nglobal int beginOfUserVariables\n!!!User Defined Variables!!!\n!Multipurpose Parameters\nglobal real sinkingRate !microns/second\nglobal real depth !microns\nglobal real startingGap\t!microns\nglobal real stepSize\t!microns\nglobal real intendedRunTime !ms\n\n!Parameters for Vibration\nglobal real frequency !Hz\nglobal real amplitude !microns\nglobal real dwell\t  !ms\n\n!Parameters specific to sine vibration\nglobal real percentPulse  !acceptable from 0..1, 1 equals always on, 0.1 = on during bottom 10%.\n\n!power supply status\nglobal int powerOn\t\t\t!Use Power Supply?\nglobal int powerContinuousOrPulsed\t!Continuous = 1, pulsed = 0\n\n!!!End of User Variables!!!\nglobal int endOfUserVariables\n"
+                }
+            ],
+            "indexDBuffer": 32,
+            "maxBufferSize": 33
+        }
+    ],
+    "configData": [
+        {
+            "MunkSettings": [
+                {
+                    "pulseMode": 1,
+                    "segmentData": [
+                        {
+                            "current": 0,
+                            "segmentMode": "DEAD",
+                            "supplyOutput": "OUTPUT1",
+                            "time": 100,
+                            "voltage": 0
+                        }
+                    ]
+                }
+            ],
+            "TouchoffData": [
+                {
+                    "touchoffExecute": true,
+                    "touchoffGapX": 0,
+                    "touchoffGapY": 0,
+                    "touchoffGapZ": 10,
+                    "touchoffRefPrevious": false,
+                    "touchoffRefX": 0,
+                    "touchoffRefY": 0.1,
+                    "touchoffRefZ": 36231.4
+                }
+            ],
+            "opIndex": 1,
+            "opName": "Operation 0",
+            "opType": 0,
+            "profileName": "RUN_SQUARE_VIB",
+            "pumpData": [
+                {
+                    "pumpDelayTime": 1000,
+                    "pumpFlowRate": 2,
+                    "pumpUtilized": true,
+                    "pumpWaitForDelay": true
+                }
+            ],
+            "useOperation": false,
+            "variableData": [
+                {
+                    "amplitude": 1,
+                    "depth": 2,
+                    "dwell": 3,
+                    "frequency": 4,
+                    "intendedRunTime": 0,
+                    "percentPulse": 0,
+                    "powerContinuousOrPulsed": 0,
+                    "powerOn": 0,
+                    "sinkingRate": 0,
+                    "startingGap": 0,
+                    "stepSize": 0
+                }
+            ]
+        }
+    ],
+    "configureHome": true,
+    "labelData": [
+        {
+        }
+    ]
+}
