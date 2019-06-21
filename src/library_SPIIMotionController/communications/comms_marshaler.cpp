@@ -44,6 +44,7 @@ bool CommsMarshaler::ConnectToSimulation(SPII_Settings &deviceSettings)
     {
         deviceSettings.setDeviceHandle(commsLink);
         protocol->updateDeviceSettings(deviceSettings);
+        protocol->openDeviceHandle();
 
         //If the device is connected we should get the remaining parameters describing the device
         double numberOfAxis, dBufferIndex, numOfBuffers;
@@ -94,7 +95,9 @@ bool CommsMarshaler::ConnectToEthernetPort(const common::comms::TCPConfiguration
     if(link->Connect(commsLink))
     {
         deviceSettings.setDeviceHandle(commsLink);
+
         protocol->updateDeviceSettings(deviceSettings);
+        protocol->openDeviceHandle();
 
         //If the device is connected we should get the remaining parameters describing the device
         double numberOfAxis, dBufferIndex, numOfBuffers;
@@ -245,6 +248,21 @@ bool CommsMarshaler::commandMotorEnable(const CommandMotorEnable &enable)
         return false;
 
     return protocol->commandMotorEnable(enable);
+}
+
+std::vector<std::string> CommsMarshaler::requestUnsolicitedMessages()
+{
+    std::vector<std::string> rtnVec;
+    if(!link->isConnected())
+        return rtnVec;
+
+    std::string messageContent = protocol->retrieveUnsolicitatedMessages();
+    //parse the message content for individual messages
+    if(!messageContent.empty())
+    {
+        std::cout<<"The message content looks like this"<<std::endl;
+        std::cout<<messageContent<<std::endl;
+    }
 }
 
 std::vector<Status_PerAxis> CommsMarshaler::requestAxisState(const RequestAxisStatus* request)

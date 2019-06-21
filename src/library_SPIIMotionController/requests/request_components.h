@@ -9,5 +9,6 @@
 #include "requests/request_tell_position.h"
 #include "requests/request_tell_variable.h"
 #include "requests/request_types.h"
+#include "requests/request_unsolicited_msgs.h"
 
 #endif // REQUEST_COMPONENTS_H

@@ -150,6 +150,7 @@ bool SPIILink::Connect(HANDLE* link)
     {
         link = m_SPII;
         this->connected = true;
+
     }
     return this->connected;
 }

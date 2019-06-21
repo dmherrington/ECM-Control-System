@@ -32,6 +32,8 @@ public:
     bool commandMotorEnable(const CommandMotorEnable &enable);
 
 public:
+    std::vector<std::string> requestUnsolicitedMessages();
+
     std::vector<Status_PerAxis> requestAxisState(const RequestAxisStatus* request);
 
     std::vector<Status_MotorAxisFault> requestMotorFaultStatus(const Request_MotorFault* request);

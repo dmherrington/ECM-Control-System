@@ -116,6 +116,10 @@ private:
 
 
 public:
+    void openDeviceHandle();
+    std::string retrieveUnsolicitatedMessages();
+
+public:
     void updateDeviceSettings(const SPII_Settings &settings);
 
     bool requestPosition(const int &axisRequest, double &value);
