@@ -25,6 +25,7 @@ void Window_Notifications::addNewNotification(const common::NotificationUpdate &
     ui->listWidget_Notifications->addItem(newItem);
     ui->listWidget_Notifications->setItemWidget(newItem,widgetDetailedNotification);
 
+    ui->listWidget_Notifications->scrollToBottom();
 //    this->m_MapOperations.insert(std::pair<QListWidgetItem*,TableWidget_OperationDescriptor*>(newItem,tableDescriptor));
 }
 

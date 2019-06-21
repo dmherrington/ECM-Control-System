@@ -31,6 +31,7 @@ public:
     virtual void SPIIPolling_MotorFaultUpdate(const std::vector<Status_MotorAxisFault> &motor) = 0;
     virtual void SPIIPolling_SystemFaultUpdate(const Status_SystemFault &status) = 0;
     virtual void SPIIPolling_VariableUpdate(const std::vector<Status_VariableValue> &variable) = 0;
+    virtual void SPIIPolling_UnsolicitedMsgs(const std::vector<std::string> &msgs) = 0;
 
 };
 

@@ -42,4 +42,6 @@ void Widget_Notification::addNewNotification(const common::NotificationUpdate &u
 
     ui->listWidget_Notifications->addItem(newItem);
     ui->listWidget_Notifications->setItemWidget(newItem,widgetDetailedNotification);
+
+    ui->listWidget_Notifications->scrollToBottom();
 }

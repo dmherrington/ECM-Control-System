@@ -113,6 +113,8 @@ private:
 
     void SPIIPolling_SystemFaultUpdate(const Status_SystemFault &status) override;
 
+    void SPIIPolling_UnsolicitedMsgs(const std::vector<std::string> &msgs) override;
+
 signals:
 
     //!

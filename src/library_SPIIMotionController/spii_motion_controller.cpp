@@ -318,6 +318,7 @@ void SPIIMotionController::SPIIPolling_MotorFaultUpdate(const std::vector<Status
             common::NotificationUpdate newUpdate("ACS Motion Controller",ECMDevice::DEVICE_MOTIONCONTROL,
                                                  common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR,
                                                  "Motor Fault Error");
+            emit signal_MCNotification(newUpdate);
         }
         if(errorExists)
             this->onAbortExecution();
@@ -336,10 +337,24 @@ void SPIIMotionController::SPIIPolling_SystemFaultUpdate(const Status_SystemFaul
         common::NotificationUpdate newUpdate("ACS Motion Controller",ECMDevice::DEVICE_MOTIONCONTROL,
                                              common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR,
                                              "System Fault Error");
+        emit signal_MCNotification(newUpdate);
+
         this->onAbortExecution();
     }
 
     ProgressStateMachineStates();
+}
+
+
+void SPIIMotionController::SPIIPolling_UnsolicitedMsgs(const std::vector<std::string> &msgs)
+{
+    for(size_t msgIndex = 0; msgIndex < msgs.size(); msgIndex++)
+    {
+        common::NotificationUpdate newUpdate("ACS Motion Controller",ECMDevice::DEVICE_MOTIONCONTROL,
+                                             common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL,
+                                             msgs.at(msgIndex));
+        emit signal_MCNotification(newUpdate);
+    }
 }
 
 

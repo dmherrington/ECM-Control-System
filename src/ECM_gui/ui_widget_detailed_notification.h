@@ -33,13 +33,13 @@ public:
         if (Widget_DetailedNotification->objectName().isEmpty())
             Widget_DetailedNotification->setObjectName(QStringLiteral("Widget_DetailedNotification"));
         Widget_DetailedNotification->resize(350, 27);
-        QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+        QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Widget_DetailedNotification->sizePolicy().hasHeightForWidth());
         Widget_DetailedNotification->setSizePolicy(sizePolicy);
         Widget_DetailedNotification->setMinimumSize(QSize(350, 27));
-        Widget_DetailedNotification->setMaximumSize(QSize(16777215, 32));
+        Widget_DetailedNotification->setMaximumSize(QSize(16777215, 110));
         gridLayout = new QGridLayout(Widget_DetailedNotification);
         gridLayout->setSpacing(0);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
@@ -64,10 +64,18 @@ public:
         plainTextEdit_Message = new QPlainTextEdit(Widget_DetailedNotification);
         plainTextEdit_Message->setObjectName(QStringLiteral("plainTextEdit_Message"));
         plainTextEdit_Message->setEnabled(false);
+        QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(plainTextEdit_Message->sizePolicy().hasHeightForWidth());
+        plainTextEdit_Message->setSizePolicy(sizePolicy2);
         plainTextEdit_Message->setMinimumSize(QSize(200, 25));
-        plainTextEdit_Message->setMaximumSize(QSize(16777215, 25));
+        plainTextEdit_Message->setMaximumSize(QSize(16777215, 100));
         plainTextEdit_Message->setFont(font);
+        plainTextEdit_Message->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         plainTextEdit_Message->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        plainTextEdit_Message->setLineWrapMode(QPlainTextEdit::WidgetWidth);
+        plainTextEdit_Message->setReadOnly(true);
 
         gridLayout->addWidget(plainTextEdit_Message, 0, 1, 1, 1);
 

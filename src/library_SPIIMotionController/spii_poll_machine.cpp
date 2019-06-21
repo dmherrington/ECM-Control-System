@@ -180,10 +180,8 @@ void SPIIPollMachine::processRequest(AbstractRequestPtr request)
     {
         std::vector<std::string> updatedStatus = m_SPIIDevice->requestUnsolicitedMessages();
         if(updatedStatus.size() > 0)
-        {
-            std::cout<<"We saw some messages."<<std::endl;
-        }
-            break;
+            Emit([&](SPIIPollingEvents_Interface *ptr){ptr->SPIIPolling_UnsolicitedMsgs(updatedStatus);});
+        break;
     }
     default:
     {

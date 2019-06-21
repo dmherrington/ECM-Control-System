@@ -43,6 +43,8 @@ public:
     bool isCurrentLimit() const;
     bool isServoProcessorAlarm() const;
 
+    void assembleFaultString();
+
 private:
     Status_MotorAxisFault& operator = (const Status_MotorAxisFault &rhs)
     {

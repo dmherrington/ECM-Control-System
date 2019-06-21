@@ -37,20 +37,10 @@ hsm::Transition ECMState_SetupMachineTouchoff::GetTransition()
 
     if(IsInInnerState<ECMState_SetupMachineTouchoffCompleted>())
     {
-        //Before returning to the idle state, let us ensure that we have turned off the touchoff
-        CommandSetBitPtr command = std::make_shared<CommandSetBit>();
-        command->setValue(0,0,false);
-        Owner().m_MotionController->executeCommand(command);
-
         rtn = hsm::SiblingTransition<ECMState_SetupMachinePump>(this->m_Config);
     }
     else if(IsInInnerState<ECMState_SetupMachineTouchoffFailed>())
     {
-        //Before leaving the touchoff state, let us ensure that we have turned off the touchoff
-        CommandSetBitPtr command = std::make_shared<CommandSetBit>();
-        command->setValue(0,0,false);
-        Owner().m_MotionController->executeCommand(command);
-
         rtn = hsm::SiblingTransition<ECMState_SetupMachineFailed>();
     }
     else{
@@ -64,11 +54,6 @@ hsm::Transition ECMState_SetupMachineTouchoff::GetTransition()
             }
             case ECMState::STATE_ECM_SETUP_MACHINE_PUMP:
             {
-                //Before returning to the idle state, let us ensure that we have turned off the touchoff
-                CommandSetBitPtr command = std::make_shared<CommandSetBit>();
-                command->setValue(0,0,false);
-                Owner().m_MotionController->executeCommand(command);
-
                 rtn = hsm::InnerEntryTransition<ECMState_SetupMachinePump>(this->m_Config);
                 break;
             }

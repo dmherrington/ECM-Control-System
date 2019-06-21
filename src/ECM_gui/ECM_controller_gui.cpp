@@ -128,6 +128,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_MotionController,SIGNAL(signal_MCHomeIndicated(bool)),this,SLOT(slot_UpdateHomeIndicated(bool)));
     connect(m_API->m_MotionController,SIGNAL(signal_MCTouchoffIndicated(bool)),this,SLOT(slot_UpdateTouchoff(bool)));
     connect(m_API->m_MotionController, SIGNAL(signal_MCNewMotionState(ECM::SPII::SPIIState, QString)), this, SLOT(slot_MCNewMotionState(ECM::SPII::SPIIState, QString)));
+
     ECM::SPII::SPIIState currentState = m_API->m_MotionController->getCurrentMCState();
     this->slot_MCNewMotionState(currentState, QString::fromStdString(ECMStateToString(currentState)));
     connect(m_API->m_Munk, SIGNAL(signal_MunkFaultCodeStatus(bool,std::vector<std::string>)),

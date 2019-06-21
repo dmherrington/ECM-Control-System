@@ -260,9 +260,13 @@ std::vector<std::string> CommsMarshaler::requestUnsolicitedMessages()
     //parse the message content for individual messages
     if(!messageContent.empty())
     {
-        std::cout<<"The message content looks like this"<<std::endl;
-        std::cout<<messageContent<<std::endl;
+        QStringList messageList = QString::fromStdString(messageContent).split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
+        for(size_t listIndex = 0; listIndex < messageList.size(); listIndex++)
+        {
+            rtnVec.push_back(messageList.at(listIndex).toStdString());
+        }
     }
+    return rtnVec;
 }
 
 std::vector<Status_PerAxis> CommsMarshaler::requestAxisState(const RequestAxisStatus* request)

@@ -13,6 +13,11 @@ Status_MotorAxisFault::Status_MotorAxisFault(const Status_MotorAxisFault &copy):
     faultValue = copy.faultValue;
 }
 
+void Status_MotorAxisFault::assembleFaultString()
+{
+    std::string faultString = "";
+}
+
 void Status_MotorAxisFault::setAxis(const MotorAxis &axis)
 {
     currentAxis = axis;

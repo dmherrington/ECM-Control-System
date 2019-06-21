@@ -16,6 +16,11 @@ void State_Touchoff::OnExit()
 
     common::TupleProfileVariableString tupleVariable("Default","Touchoff","touchOffStatus");
     Owner().issueSPIIRemovePollingRequest(tupleVariable);
+
+    //Before leaving this state, let us ensure that we have turned off the touchoff
+    CommandSetBitPtr command = std::make_shared<CommandSetBit>();
+    command->setValue(0,0,false);
+    Owner().issueSPIICommand(command);
 }
 
 AbstractStateSPII* State_Touchoff::getClone() const

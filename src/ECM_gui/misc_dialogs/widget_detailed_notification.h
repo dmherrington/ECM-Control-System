@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QListWidgetItem>
+#include <QFontMetrics>
 
 #include "common/environment_time.h"
 #include "common/notification_update.h"

@@ -136,20 +136,27 @@ void WidgetFrontPanel_Touchoff::transmitTouchoffReference()
 
 void WidgetFrontPanel_Touchoff::transmitTouchoffGap()
 {
-    Command_VariableArrayPtr command = std::make_shared<Command_VariableArray>();
-    command->setVariableName("startingGap");
 
-    std::map<MotorAxis,TouchoffWidget_AxisValue*>::iterator gapIterator = m_TouchoffGapValues.begin();
-
-    std::vector<double> refVector;
-
-    for(;gapIterator!=m_TouchoffGapValues.end();++gapIterator)
+    Command_VariablePtr command = std::make_shared<Command_Variable>("startingGap");
+    std::map<MotorAxis,TouchoffWidget_AxisValue*>::iterator gapIterator = m_TouchoffGapValues.find(MotorAxis::Z);
+    if(gapIterator != m_TouchoffGapValues.end())
     {
-        TouchoffWidget_AxisValue* currentWidget = gapIterator->second;
-        refVector.push_back(currentWidget->getAxisValue());
+        command->setVariableValue(gapIterator->second->getAxisValue());
     }
+//    Command_VariableArrayPtr command = std::make_shared<Command_VariableArray>();
+//    command->setVariableName("startingGap");
 
-    command->setVariableValue(refVector);
+//    std::map<MotorAxis,TouchoffWidget_AxisValue*>::iterator gapIterator = m_TouchoffGapValues.begin();
+
+//    std::vector<double> refVector;
+
+//    for(;gapIterator!=m_TouchoffGapValues.end();++gapIterator)
+//    {
+//        TouchoffWidget_AxisValue* currentWidget = gapIterator->second;
+//        refVector.push_back(currentWidget->getAxisValue());
+//    }
+
+//    command->setVariableValue(refVector);
 
     m_MotionController->executeCommand(command);
 }
