@@ -18,6 +18,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include "LED.h"
 
@@ -27,90 +28,134 @@ class Ui_WidgetFrontPanel_Touchoff
 {
 public:
     QGridLayout *gridLayout;
-    QHBoxLayout *horizontalLayout_initialGap;
-    QPushButton *pushButton_TouchoffGap;
-    QHBoxLayout *horizontalLayout_touchoffRef;
+    QVBoxLayout *verticalLayout_2;
+    QPushButton *pushButton_TouchoffRef_2;
+    QVBoxLayout *verticalLayout_initialGap;
+    QVBoxLayout *verticalLayout;
     QPushButton *pushButton_TouchoffRef;
-    QHBoxLayout *horizontalLayout;
+    QVBoxLayout *verticalLayout_touchoffRef;
+    QVBoxLayout *verticalLayout_3;
+    QHBoxLayout *horizontalLayout_2;
+    QSpacerItem *horizontalSpacer_2;
     QPushButton *pushButton_ExecuteTouchoff;
-    QSpacerItem *horizontalSpacer;
+    QSpacerItem *horizontalSpacer_3;
+    QHBoxLayout *horizontalLayout;
+    QSpacerItem *horizontalSpacer_4;
     LED *widget_LEDTouchoffStatus;
+    QSpacerItem *horizontalSpacer_5;
 
     void setupUi(QWidget *WidgetFrontPanel_Touchoff)
     {
         if (WidgetFrontPanel_Touchoff->objectName().isEmpty())
             WidgetFrontPanel_Touchoff->setObjectName(QStringLiteral("WidgetFrontPanel_Touchoff"));
-        WidgetFrontPanel_Touchoff->resize(375, 116);
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        WidgetFrontPanel_Touchoff->resize(375, 115);
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(WidgetFrontPanel_Touchoff->sizePolicy().hasHeightForWidth());
         WidgetFrontPanel_Touchoff->setSizePolicy(sizePolicy);
-        WidgetFrontPanel_Touchoff->setMinimumSize(QSize(375, 0));
-        WidgetFrontPanel_Touchoff->setMaximumSize(QSize(1000, 16777215));
+        WidgetFrontPanel_Touchoff->setMinimumSize(QSize(375, 115));
+        WidgetFrontPanel_Touchoff->setMaximumSize(QSize(375, 300));
         gridLayout = new QGridLayout(WidgetFrontPanel_Touchoff);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        horizontalLayout_initialGap = new QHBoxLayout();
-        horizontalLayout_initialGap->setSpacing(0);
-        horizontalLayout_initialGap->setObjectName(QStringLiteral("horizontalLayout_initialGap"));
-        pushButton_TouchoffGap = new QPushButton(WidgetFrontPanel_Touchoff);
-        pushButton_TouchoffGap->setObjectName(QStringLiteral("pushButton_TouchoffGap"));
-        sizePolicy.setHeightForWidth(pushButton_TouchoffGap->sizePolicy().hasHeightForWidth());
-        pushButton_TouchoffGap->setSizePolicy(sizePolicy);
-        pushButton_TouchoffGap->setMinimumSize(QSize(180, 25));
-        pushButton_TouchoffGap->setMaximumSize(QSize(16777215, 25));
+        verticalLayout_2 = new QVBoxLayout();
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        pushButton_TouchoffRef_2 = new QPushButton(WidgetFrontPanel_Touchoff);
+        pushButton_TouchoffRef_2->setObjectName(QStringLiteral("pushButton_TouchoffRef_2"));
+        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(pushButton_TouchoffRef_2->sizePolicy().hasHeightForWidth());
+        pushButton_TouchoffRef_2->setSizePolicy(sizePolicy1);
+        pushButton_TouchoffRef_2->setMinimumSize(QSize(110, 25));
+        pushButton_TouchoffRef_2->setMaximumSize(QSize(110, 25));
         QFont font;
-        font.setPointSize(12);
-        pushButton_TouchoffGap->setFont(font);
+        font.setPointSize(10);
+        pushButton_TouchoffRef_2->setFont(font);
 
-        horizontalLayout_initialGap->addWidget(pushButton_TouchoffGap);
+        verticalLayout_2->addWidget(pushButton_TouchoffRef_2);
+
+        verticalLayout_initialGap = new QVBoxLayout();
+        verticalLayout_initialGap->setSpacing(1);
+        verticalLayout_initialGap->setObjectName(QStringLiteral("verticalLayout_initialGap"));
+
+        verticalLayout_2->addLayout(verticalLayout_initialGap);
 
 
-        gridLayout->addLayout(horizontalLayout_initialGap, 0, 0, 1, 1);
+        gridLayout->addLayout(verticalLayout_2, 0, 0, 1, 1);
 
-        horizontalLayout_touchoffRef = new QHBoxLayout();
-        horizontalLayout_touchoffRef->setSpacing(0);
-        horizontalLayout_touchoffRef->setObjectName(QStringLiteral("horizontalLayout_touchoffRef"));
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         pushButton_TouchoffRef = new QPushButton(WidgetFrontPanel_Touchoff);
         pushButton_TouchoffRef->setObjectName(QStringLiteral("pushButton_TouchoffRef"));
-        sizePolicy.setHeightForWidth(pushButton_TouchoffRef->sizePolicy().hasHeightForWidth());
-        pushButton_TouchoffRef->setSizePolicy(sizePolicy);
-        pushButton_TouchoffRef->setMinimumSize(QSize(180, 25));
-        pushButton_TouchoffRef->setMaximumSize(QSize(180, 25));
+        sizePolicy1.setHeightForWidth(pushButton_TouchoffRef->sizePolicy().hasHeightForWidth());
+        pushButton_TouchoffRef->setSizePolicy(sizePolicy1);
+        pushButton_TouchoffRef->setMinimumSize(QSize(110, 25));
+        pushButton_TouchoffRef->setMaximumSize(QSize(110, 25));
         pushButton_TouchoffRef->setFont(font);
 
-        horizontalLayout_touchoffRef->addWidget(pushButton_TouchoffRef);
+        verticalLayout->addWidget(pushButton_TouchoffRef);
+
+        verticalLayout_touchoffRef = new QVBoxLayout();
+        verticalLayout_touchoffRef->setSpacing(1);
+        verticalLayout_touchoffRef->setObjectName(QStringLiteral("verticalLayout_touchoffRef"));
+
+        verticalLayout->addLayout(verticalLayout_touchoffRef);
 
 
-        gridLayout->addLayout(horizontalLayout_touchoffRef, 1, 0, 1, 1);
+        gridLayout->addLayout(verticalLayout, 0, 1, 1, 1);
+
+        verticalLayout_3 = new QVBoxLayout();
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        horizontalSpacer_2 = new QSpacerItem(2, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_2->addItem(horizontalSpacer_2);
+
+        pushButton_ExecuteTouchoff = new QPushButton(WidgetFrontPanel_Touchoff);
+        pushButton_ExecuteTouchoff->setObjectName(QStringLiteral("pushButton_ExecuteTouchoff"));
+        sizePolicy1.setHeightForWidth(pushButton_ExecuteTouchoff->sizePolicy().hasHeightForWidth());
+        pushButton_ExecuteTouchoff->setSizePolicy(sizePolicy1);
+        pushButton_ExecuteTouchoff->setMinimumSize(QSize(100, 30));
+        pushButton_ExecuteTouchoff->setMaximumSize(QSize(100, 30));
+        QFont font1;
+        font1.setPointSize(12);
+        pushButton_ExecuteTouchoff->setFont(font1);
+
+        horizontalLayout_2->addWidget(pushButton_ExecuteTouchoff);
+
+        horizontalSpacer_3 = new QSpacerItem(2, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_2->addItem(horizontalSpacer_3);
+
+
+        verticalLayout_3->addLayout(horizontalLayout_2);
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        pushButton_ExecuteTouchoff = new QPushButton(WidgetFrontPanel_Touchoff);
-        pushButton_ExecuteTouchoff->setObjectName(QStringLiteral("pushButton_ExecuteTouchoff"));
-        sizePolicy.setHeightForWidth(pushButton_ExecuteTouchoff->sizePolicy().hasHeightForWidth());
-        pushButton_ExecuteTouchoff->setSizePolicy(sizePolicy);
-        pushButton_ExecuteTouchoff->setMinimumSize(QSize(100, 30));
-        pushButton_ExecuteTouchoff->setMaximumSize(QSize(100, 30));
-        pushButton_ExecuteTouchoff->setFont(font);
+        horizontalSpacer_4 = new QSpacerItem(2, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        horizontalLayout->addWidget(pushButton_ExecuteTouchoff);
-
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout->addItem(horizontalSpacer);
+        horizontalLayout->addItem(horizontalSpacer_4);
 
         widget_LEDTouchoffStatus = new LED(WidgetFrontPanel_Touchoff);
         widget_LEDTouchoffStatus->setObjectName(QStringLiteral("widget_LEDTouchoffStatus"));
-        sizePolicy.setHeightForWidth(widget_LEDTouchoffStatus->sizePolicy().hasHeightForWidth());
-        widget_LEDTouchoffStatus->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(widget_LEDTouchoffStatus->sizePolicy().hasHeightForWidth());
+        widget_LEDTouchoffStatus->setSizePolicy(sizePolicy1);
         widget_LEDTouchoffStatus->setMinimumSize(QSize(40, 30));
         widget_LEDTouchoffStatus->setMaximumSize(QSize(40, 30));
 
         horizontalLayout->addWidget(widget_LEDTouchoffStatus);
 
+        horizontalSpacer_5 = new QSpacerItem(2, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout->addLayout(horizontalLayout, 2, 0, 1, 1);
+        horizontalLayout->addItem(horizontalSpacer_5);
+
+
+        verticalLayout_3->addLayout(horizontalLayout);
+
+
+        gridLayout->addLayout(verticalLayout_3, 0, 2, 1, 1);
 
 
         retranslateUi(WidgetFrontPanel_Touchoff);
@@ -121,7 +166,7 @@ public:
     void retranslateUi(QWidget *WidgetFrontPanel_Touchoff)
     {
         WidgetFrontPanel_Touchoff->setWindowTitle(QApplication::translate("WidgetFrontPanel_Touchoff", "Form", nullptr));
-        pushButton_TouchoffGap->setText(QApplication::translate("WidgetFrontPanel_Touchoff", "Set Initial Gap", nullptr));
+        pushButton_TouchoffRef_2->setText(QApplication::translate("WidgetFrontPanel_Touchoff", "Set Initial Gap", nullptr));
         pushButton_TouchoffRef->setText(QApplication::translate("WidgetFrontPanel_Touchoff", "Set Touchoff Ref", nullptr));
         pushButton_ExecuteTouchoff->setText(QApplication::translate("WidgetFrontPanel_Touchoff", "Execute", nullptr));
     } // retranslateUi

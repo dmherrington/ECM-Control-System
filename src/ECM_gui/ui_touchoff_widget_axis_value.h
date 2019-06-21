@@ -31,14 +31,14 @@ public:
     {
         if (TouchoffWidget_AxisValue->objectName().isEmpty())
             TouchoffWidget_AxisValue->setObjectName(QStringLiteral("TouchoffWidget_AxisValue"));
-        TouchoffWidget_AxisValue->resize(122, 27);
+        TouchoffWidget_AxisValue->resize(102, 27);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(TouchoffWidget_AxisValue->sizePolicy().hasHeightForWidth());
         TouchoffWidget_AxisValue->setSizePolicy(sizePolicy);
-        TouchoffWidget_AxisValue->setMinimumSize(QSize(122, 25));
-        TouchoffWidget_AxisValue->setMaximumSize(QSize(122, 27));
+        TouchoffWidget_AxisValue->setMinimumSize(QSize(102, 27));
+        TouchoffWidget_AxisValue->setMaximumSize(QSize(102, 27));
         gridLayout_2 = new QGridLayout(TouchoffWidget_AxisValue);
         gridLayout_2->setSpacing(0);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
@@ -50,8 +50,8 @@ public:
         doubleSpinBox_TouchoffRef->setObjectName(QStringLiteral("doubleSpinBox_TouchoffRef"));
         sizePolicy.setHeightForWidth(doubleSpinBox_TouchoffRef->sizePolicy().hasHeightForWidth());
         doubleSpinBox_TouchoffRef->setSizePolicy(sizePolicy);
-        doubleSpinBox_TouchoffRef->setMinimumSize(QSize(120, 25));
-        doubleSpinBox_TouchoffRef->setMaximumSize(QSize(120, 25));
+        doubleSpinBox_TouchoffRef->setMinimumSize(QSize(100, 25));
+        doubleSpinBox_TouchoffRef->setMaximumSize(QSize(100, 25));
         QFont font;
         font.setFamily(QStringLiteral("MS Shell Dlg 2"));
         font.setPointSize(11);

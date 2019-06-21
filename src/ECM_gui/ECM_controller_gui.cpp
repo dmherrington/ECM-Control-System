@@ -11,8 +11,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 {
 
     std::vector<MotorAxis> applicableAxis;
-    //    applicableAxis.push_back(MotorAxis::X);
-    //    applicableAxis.push_back(MotorAxis::Y);
+    applicableAxis.push_back(MotorAxis::X);
+    applicableAxis.push_back(MotorAxis::Y);
     applicableAxis.push_back(MotorAxis::Z);
 
     /*

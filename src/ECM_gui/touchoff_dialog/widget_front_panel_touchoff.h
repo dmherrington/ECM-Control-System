@@ -22,6 +22,8 @@ public:
 
     ~WidgetFrontPanel_Touchoff() override;
 
+    void executingAutomatedSequence(const bool &shouldBlock);
+
 private:
     void transmitTouchoffReference();
 

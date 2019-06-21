@@ -27,6 +27,8 @@ void Westinghouse510::setPumpProperties(const Command_PumpProperties &command)
     else
         initializationTimer->setInterval(1);
 
+    emit signal_PumpInitializationTimeUpdated(initializationTimer->interval());
+
     registers_WestinghousePump::Register_FlowRate newFlowRate;
     newFlowRate.setVolumetricFlow(command.getPumpFlowRate());
     this->setPumpFlowRate(newFlowRate);

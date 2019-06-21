@@ -21,6 +21,8 @@ public:
 
     void setAxisValue(const double &value);
 
+    void executingAutomatedSequence(const bool &shouldBlock);
+
 signals:
     void signal_AxisValueChanged();
 

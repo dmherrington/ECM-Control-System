@@ -5,7 +5,7 @@ namespace comms_Sensoray{
 
 SensorayTCPConfiguration::SensorayTCPConfiguration()
 {
-    _deviceAddress       = "192.168.1.101";
+    _deviceAddress       = "192.168.15.16";
     _telnetPortNumber    = 23;
     _model = 2426;
 }

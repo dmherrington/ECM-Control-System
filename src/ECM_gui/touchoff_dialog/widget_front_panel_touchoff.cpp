@@ -7,7 +7,7 @@ WidgetFrontPanel_Touchoff::WidgetFrontPanel_Touchoff(const std::vector<MotorAxis
 {
     ui->setupUi(this);
 
-    ui->widget_LEDTouchoffStatus->setDiameter(8);
+    ui->widget_LEDTouchoffStatus->setDiameter(7);
 
     connect(m_MotionController,SIGNAL(signal_MCUpdatedProfileState(MotionProfileState)),this,SLOT(slot_UpdateMotionProfileState(MotionProfileState)));
 
@@ -21,27 +21,26 @@ WidgetFrontPanel_Touchoff::WidgetFrontPanel_Touchoff(const std::vector<MotorAxis
         m_TouchoffRefValues.insert(std::pair<MotorAxis,TouchoffWidget_AxisValue*>(currentAxis, refValueWidget));
         m_TouchoffGapValues.insert(std::pair<MotorAxis,TouchoffWidget_AxisValue*>(currentAxis, gapValueWidget));
 
-        ui->horizontalLayout_touchoffRef->addWidget(refValueWidget);
-        ui->horizontalLayout_initialGap->addWidget(gapValueWidget);
+        ui->verticalLayout_touchoffRef->addWidget(refValueWidget);
+        ui->verticalLayout_initialGap->addWidget(gapValueWidget);
+    }
+}
+
+void WidgetFrontPanel_Touchoff::executingAutomatedSequence(const bool &shouldBlock)
+{
+    ui->pushButton_ExecuteTouchoff->setDisabled(shouldBlock);
+    ui->pushButton_TouchoffRef->setDisabled(shouldBlock);
+
+    std::map<MotorAxis,TouchoffWidget_AxisValue*>::iterator it;
+    for(it = m_TouchoffRefValues.begin(); it != m_TouchoffRefValues.end(); ++it)
+    {
+        it->second->executingAutomatedSequence(shouldBlock);
     }
 
-    /*
-    m_MotionController->stateInterface->statusVariableValues->addVariableNotifier("touchref",this,[this]{
-        bool oldState = ui->doubleSpinBox_TouchoffRef->blockSignals(true);
-        double value = 0.0;
-        m_MotionController->stateInterface->statusVariableValues->getVariableValue("touchref",value);
-        ui->doubleSpinBox_TouchoffRef->setValue(value);
-        ui->doubleSpinBox_TouchoffRef->blockSignals(oldState);
-    });
-
-    m_MotionController->stateInterface->statusVariableValues->addVariableNotifier("initgap",this,[this]{
-        bool oldState = ui->doubleSpinBox_InitialGap->blockSignals(true);
-        double value = 0.0;
-        m_MotionController->stateInterface->statusVariableValues->getVariableValue("initgap",value);
-        ui->doubleSpinBox_InitialGap->setValue(value);
-        ui->doubleSpinBox_InitialGap->blockSignals(oldState);
-    });
-    */
+    for(it = m_TouchoffGapValues.begin(); it != m_TouchoffGapValues.end(); ++it)
+    {
+        it->second->executingAutomatedSequence(shouldBlock);
+    }
 }
 
 WidgetFrontPanel_Touchoff::~WidgetFrontPanel_Touchoff()

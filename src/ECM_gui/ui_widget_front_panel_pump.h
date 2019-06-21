@@ -60,14 +60,14 @@ public:
     {
         if (WidgetFrontPanel_Pump->objectName().isEmpty())
             WidgetFrontPanel_Pump->setObjectName(QStringLiteral("WidgetFrontPanel_Pump"));
-        WidgetFrontPanel_Pump->resize(375, 200);
+        WidgetFrontPanel_Pump->resize(375, 150);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(WidgetFrontPanel_Pump->sizePolicy().hasHeightForWidth());
         WidgetFrontPanel_Pump->setSizePolicy(sizePolicy);
-        WidgetFrontPanel_Pump->setMinimumSize(QSize(375, 200));
-        WidgetFrontPanel_Pump->setMaximumSize(QSize(375, 200));
+        WidgetFrontPanel_Pump->setMinimumSize(QSize(375, 150));
+        WidgetFrontPanel_Pump->setMaximumSize(QSize(375, 150));
         gridLayout_2 = new QGridLayout(WidgetFrontPanel_Pump);
         gridLayout_2->setSpacing(1);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));

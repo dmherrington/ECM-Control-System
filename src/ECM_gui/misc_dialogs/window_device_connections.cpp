@@ -65,9 +65,9 @@ void Window_DeviceConnections::connect_MotionController(const bool &connect)
             return;
 
         ipAddress += " -d";
-        m_API->m_MotionController->ConnectToSimulation();
-//        common::comms::TCPConfiguration newConfig(ipAddress.toStdString(), 701);
-//        m_API->m_MotionController->ConnectToEthernetPort(newConfig);
+        //m_API->m_MotionController->ConnectToSimulation();
+        common::comms::TCPConfiguration newConfig(ipAddress.toStdString(), 701);
+        m_API->m_MotionController->ConnectToEthernetPort(newConfig);
     }
 }
 
@@ -169,6 +169,7 @@ bool Window_DeviceConnections::areAllDevicesConnected() const
         if(m_API->m_Munk->isConnected())
             if(m_API->m_Pump->isPumpConnected())
                 if(m_API->m_Rigol->isDeviceConnected())
+                    if(m_API->m_Sensoray->isDeviceConnected())
                     return true;
     return false;
 }
@@ -225,6 +226,19 @@ void Window_DeviceConnections::updateLEDConnectionColor(LED *ledWidget, const co
 
 void Window_DeviceConnections::slot_SensorayConnectionUpdate(const common::comms::CommunicationUpdate &update)
 {
+    if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
+    {
+        ui->lineEdit_IPSensoray->setDisabled(true);
+        ui->pushButton_connectSensoray->setText("DISCONNECT");
+    }
+    else if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED)
+    {
+        ui->lineEdit_IPSensoray->setEnabled(true);
+        ui->pushButton_connectSensoray->setText("CONNECT");
+    }
+
+    emit signal_DeviceConnectionComplete(areAllDevicesConnected());
+
     this->updateLEDConnectionColor(ui->widget_SensorayConnection,update);
 }
 

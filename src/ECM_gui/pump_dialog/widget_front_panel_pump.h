@@ -22,6 +22,8 @@ public:
     explicit WidgetFrontPanel_Pump(Westinghouse510 *obj, QWidget *parent = 0);
     ~WidgetFrontPanel_Pump();
 
+    void executingAutomatedSequence(const bool &shouldBlock);
+
 private:
     void setPumpFlowRate(const double &rate);
 
@@ -35,8 +37,6 @@ private slots:
 
     void slot_updatedFlowRate(const double &value);
 
-    void slot_PumpInitialized();
-
 private slots:
 
     void on_pushButton_PumpRunning_released();
@@ -49,6 +49,7 @@ private:
     Ui::WidgetFrontPanel_Pump *ui;
     Westinghouse510* m_Pump;
 
+    bool hasTransmitted = false;
 };
 
 #endif // WIDGET_FRONT_PANEL_PUMP_H

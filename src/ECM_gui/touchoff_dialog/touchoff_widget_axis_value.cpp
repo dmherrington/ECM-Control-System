@@ -15,6 +15,12 @@ TouchoffWidget_AxisValue::~TouchoffWidget_AxisValue()
     delete ui;
 }
 
+void TouchoffWidget_AxisValue::executingAutomatedSequence(const bool &shouldBlock)
+{
+    ui->doubleSpinBox_TouchoffRef->blockSignals(shouldBlock);
+    ui->doubleSpinBox_TouchoffRef->setDisabled(shouldBlock);
+}
+
 double TouchoffWidget_AxisValue::getAxisValue() const
 {
     return this->axisValue;

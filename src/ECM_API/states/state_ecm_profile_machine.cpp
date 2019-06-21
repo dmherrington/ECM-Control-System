@@ -86,6 +86,11 @@ void ECMState_ProfileMachine::OnEnter(ECMCommand_ExecuteCollectionPtr collection
     //First update the configuation per what was received upon entering the state
     this->m_ECMCollection = collection;
 
+    //Second, let us double check that the circuit board has disengaged the touchoff mechanism
+    CommandSetBitPtr command = std::make_shared<CommandSetBit>();
+    command->setValue(0,0,false);
+    Owner().m_MotionController->executeCommand(command);
+
     //Notify the world what state we are currently in
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
