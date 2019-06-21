@@ -64,13 +64,13 @@ public:
         plainTextEdit_Message = new QPlainTextEdit(Widget_DetailedNotification);
         plainTextEdit_Message->setObjectName(QStringLiteral("plainTextEdit_Message"));
         plainTextEdit_Message->setEnabled(false);
-        QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
         sizePolicy2.setHorizontalStretch(0);
         sizePolicy2.setVerticalStretch(0);
         sizePolicy2.setHeightForWidth(plainTextEdit_Message->sizePolicy().hasHeightForWidth());
         plainTextEdit_Message->setSizePolicy(sizePolicy2);
         plainTextEdit_Message->setMinimumSize(QSize(200, 25));
-        plainTextEdit_Message->setMaximumSize(QSize(16777215, 100));
+        plainTextEdit_Message->setMaximumSize(QSize(260, 100));
         plainTextEdit_Message->setFont(font);
         plainTextEdit_Message->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         plainTextEdit_Message->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

@@ -19,10 +19,8 @@ void Widget_DetailedNotification::setNotification(const common::NotificationUpda
     setNotificationTime(notice.getNotificationTime());
     setNotificationMessage(notice.getUpdateType(), notice.getSourceName() + ":" + notice.getPeripheralMessage());
 
-//    QFont currentFont = ui->plainTextEdit_Message->document()->defaultFont();
-//    QFontMetrics fontMetrics(currentFont);
-//    QSize currentSize = fontMetrics.size(0,ui->plainTextEdit_Message->document()->toPlainText());
-//    ui->plainTextEdit_Message->resize(currentSize.width() + 5, currentSize.height() + 5);
+    ui->plainTextEdit_Message->setMinimumHeight(ui->plainTextEdit_Message->height() + 4);
+    ui->lineEdit_Time->setMinimumHeight(ui->plainTextEdit_Message->height() + 4);
 
     ui->plainTextEdit_Message->sizeHint();
 }

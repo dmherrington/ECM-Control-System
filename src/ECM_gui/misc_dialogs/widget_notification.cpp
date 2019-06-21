@@ -37,7 +37,7 @@ void Widget_Notification::addNewNotification(const common::NotificationUpdate &u
     widgetDetailedNotification->setNotification(update);
 
     QListWidgetItem* newItem = new QListWidgetItem();
-    newItem->setSizeHint(widgetDetailedNotification->sizeHint());
+    newItem->setSizeHint(widgetDetailedNotification->minimumSizeHint());
     widgetDetailedNotification->setAssociatedWidget(newItem);
 
     ui->listWidget_Notifications->addItem(newItem);
