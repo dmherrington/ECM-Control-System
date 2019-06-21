@@ -22,7 +22,7 @@ void SPIIProtocol::openDeviceHandle()
 
 std::string SPIIProtocol::retrieveUnsolicitatedMessages()
 {
-    int count;
+    int count = 0;
     char buf[10000];
     std::string currentString = "";
 

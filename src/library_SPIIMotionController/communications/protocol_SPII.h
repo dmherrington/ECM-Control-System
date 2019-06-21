@@ -115,9 +115,8 @@ private:
     std::string requestBufferContents(const unsigned int &bufferNumber, const int &attempts = -1, const unsigned int &startingBufferSize = 1000);
 
 
-private:
-    void openDeviceHandle();
 public:
+    void openDeviceHandle();
     std::string retrieveUnsolicitatedMessages();
 
 public:
