@@ -12,6 +12,8 @@ public:
 
     void setDeviceHandle(HANDLE* device);
 
+    void setDeviceBuffer(LP_ACSC_HISTORYBUFFER buffer);
+
     void setAxisCount(const unsigned int &count);
 
     void setBufferCount(const unsigned int &count);
@@ -34,6 +36,7 @@ public:
     SPII_Settings& operator = (const SPII_Settings &rhs)
     {
         this->m_SPIIDevice = rhs.m_SPIIDevice;
+        this->messageBuffer = rhs.messageBuffer;
         this->axisCount = rhs.axisCount;
         this->buffersCount = rhs.buffersCount;
         this->dBufferIndex = rhs.dBufferIndex;
@@ -43,6 +46,9 @@ public:
 
     bool operator == (const SPII_Settings &rhs) {
         if(this->m_SPIIDevice != rhs.m_SPIIDevice){
+            return false;
+        }
+        if(this->messageBuffer != rhs.messageBuffer){
             return false;
         }
         if(this->axisCount != rhs.axisCount){
@@ -66,6 +72,8 @@ public:
 
 private:
     std::shared_ptr<HANDLE> m_SPIIDevice;
+
+    LP_ACSC_HISTORYBUFFER messageBuffer;
 
     unsigned int axisCount = 0;
 

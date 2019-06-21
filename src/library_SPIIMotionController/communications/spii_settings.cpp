@@ -11,6 +11,11 @@ void SPII_Settings::setDeviceHandle(HANDLE *device)
     this->m_SPIIDevice = std::make_shared<HANDLE>(device);
 }
 
+void SPII_Settings::setDeviceBuffer(LP_ACSC_HISTORYBUFFER buffer)
+{
+    messageBuffer = buffer;
+}
+
 void SPII_Settings::setAxisCount(const unsigned int &count)
 {
     this->axisCount = count;

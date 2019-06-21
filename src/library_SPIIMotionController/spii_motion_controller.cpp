@@ -194,6 +194,12 @@ void SPIIMotionController::initializeMotionController()
     requestSF->setTupleDescription(common::TupleECMData(tupleSystemFaults));
     m_DevicePolling->addRequest(requestMF,500);
 
+    // 1: Request the system faults of the ACS unit
+    Request_UnsolicitedMsgsPtr requestUNM = std::make_shared<Request_UnsolicitedMsgs>();
+    common::TupleGeneralDescriptorString tupleUnsolicitedMsgs("UnsolicitedMsgs");
+    requestUNM->setTupleDescription(common::TupleECMData(tupleUnsolicitedMsgs));
+    m_DevicePolling->addRequest(requestUNM,100);
+
     //Retrieve the current contents aboard the device
     m_CommsMarshaler->initializeBufferContents();
 

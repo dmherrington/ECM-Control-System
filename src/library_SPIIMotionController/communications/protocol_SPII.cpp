@@ -14,6 +14,25 @@ SPIIProtocol::SPIIProtocol():
 
 }
 
+void SPIIProtocol::openDeviceHandle()
+{
+    LP_ACSC_HISTORYBUFFER lpMessageBuf = acsc_OpenMessageBuffer(*m_SPIIDevice.get(), 10000);
+    m_SPIISettings.setDeviceBuffer(lpMessageBuf);
+}
+
+std::string SPIIProtocol::retrieveUnsolicitatedMessages()
+{
+    int count;
+    char buf[10000];
+    std::string currentString = "";
+
+    acsc_GetMessage(*m_SPIIDevice.get(), buf, 10000, &count, true);
+    if(count > 0)
+        currentString = std::string(buf,0,count);
+
+    return currentString;
+}
+
 void SPIIProtocol::AddListner(const IProtocolSPIIEvents* listener)
 {
     m_Listners.push_back(listener);

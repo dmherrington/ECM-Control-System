@@ -115,6 +115,11 @@ private:
     std::string requestBufferContents(const unsigned int &bufferNumber, const int &attempts = -1, const unsigned int &startingBufferSize = 1000);
 
 
+private:
+    void openDeviceHandle();
+public:
+    std::string retrieveUnsolicitatedMessages();
+
 public:
     void updateDeviceSettings(const SPII_Settings &settings);
 
