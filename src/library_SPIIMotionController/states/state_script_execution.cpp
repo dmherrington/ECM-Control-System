@@ -143,13 +143,6 @@ void State_ScriptExecution::OnEnter(const AbstractCommandPtr command)
 
         Owner().issueNewSPIIState(SPIIState::STATE_SCRIPT_EXECUTION);
 
-//        Request_TellVariablePtr requestPosition = std::make_shared<Request_TellVariable>("Bottom Position","ppos","counts");
-//        common::TupleProfileVariableString tupleVariablePPOS("", "", "ppos");
-//        requestPosition->setTupleDescription(tupleVariablePPOS);
-//        Owner().issueSPIIAddPollingRequest(requestPosition);
-//        currentScriptRequests.push_back(tupleVariablePPOS);
-
-
         Request_TellVariablePtr requestCutting = std::make_shared<Request_TellVariable>("Machining Complete","operationStatus");
         common::TupleProfileVariableString tupleVariableCUTTING("",profileName,"operationStatus");
         requestCutting->setTupleDescription(tupleVariableCUTTING);

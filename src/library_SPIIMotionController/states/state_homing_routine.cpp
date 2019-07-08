@@ -1,17 +1,17 @@
-#include "state_home_positioning.h"
+#include "state_homing_routine.h"
 
 namespace ECM{
 namespace SPII {
 
-State_HomePositioning::State_HomePositioning():
+State_HomingRoutine::State_HomingRoutine():
     AbstractStateSPII()
 {
-    std::cout<<"In constructor of STATE_HOME_POSITIONING"<<std::endl;
-    this->currentState = SPIIState::STATE_HOME_POSITIONING;
-    this->desiredState = SPIIState::STATE_HOME_POSITIONING;
+    std::cout<<"In constructor of STATE_HOMING_ROUTINE"<<std::endl;
+    this->currentState = SPIIState::STATE_HOMING_ROUTINE;
+    this->desiredState = SPIIState::STATE_HOMING_ROUTINE;
 }
 
-void State_HomePositioning::OnExit()
+void State_HomingRoutine::OnExit()
 {
     Owner().m_MasterVariableValues->removeVariableNotifier("operationStatus",this);
 
@@ -22,17 +22,17 @@ void State_HomePositioning::OnExit()
     }
 }
 
-AbstractStateSPII* State_HomePositioning::getClone() const
+AbstractStateSPII* State_HomingRoutine::getClone() const
 {
-    return (new State_HomePositioning(*this));
+    return (new State_HomingRoutine(*this));
 }
 
-void State_HomePositioning::getClone(AbstractStateSPII** state) const
+void State_HomingRoutine::getClone(AbstractStateSPII** state) const
 {
-    *state = new State_HomePositioning(*this);
+    *state = new State_HomingRoutine(*this);
 }
 
-hsm::Transition State_HomePositioning::GetTransition()
+hsm::Transition State_HomingRoutine::GetTransition()
 {
     hsm::Transition rtn = hsm::NoTransition();
 
@@ -64,7 +64,7 @@ hsm::Transition State_HomePositioning::GetTransition()
     return rtn;
 }
 
-void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
+void State_HomingRoutine::handleCommand(const AbstractCommandPtr command)
 {
     this->clearCommand(); //this way we have cleaned up the old pointer in the event we came here from a transition
 
@@ -87,7 +87,7 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
         newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
         desiredState = SPIIState::STATE_MOTION_STOP;
 
-        //Owner().issueUpdatedMotionProfileState(newProfileState);
+        Owner().issueUpdatedMotionProfileState(newProfileState);
         break;
     }
     case CommandType::ESTOP:
@@ -98,7 +98,7 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
         newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
         desiredState = SPIIState::STATE_ESTOP;
 
-        //Owner().issueUpdatedMotionProfileState(newProfileState);
+        Owner().issueUpdatedMotionProfileState(newProfileState);
         break;
     }
     default:
@@ -107,7 +107,7 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
     }
 }
 
-void State_HomePositioning::Update()
+void State_HomingRoutine::Update()
 {
     //Check the status of the estop state
     bool eStopState = this->checkEStop();
@@ -119,15 +119,15 @@ void State_HomePositioning::Update()
     }
 }
 
-void State_HomePositioning::OnEnter()
+void State_HomingRoutine::OnEnter()
 {
-    Owner().issueNewSPIIState(SPIIState::STATE_HOME_POSITIONING);
+    Owner().issueNewSPIIState(SPIIState::STATE_HOMING_ROUTINE);
     //this shouldn't really happen as how are we supposed to know the actual home position command
     //we therefore are going to do nothing other than change the state back to State_Ready
     this->desiredState = SPIIState::STATE_READY;
 }
 
-void State_HomePositioning::OnEnter(const AbstractCommandPtr command)
+void State_HomingRoutine::OnEnter(const AbstractCommandPtr command)
 {
     if((command != nullptr) && (command.get()->getCommandType()==CommandType::EXECUTE_PROGRAM))
     {
@@ -135,9 +135,9 @@ void State_HomePositioning::OnEnter(const AbstractCommandPtr command)
         QString profileName = QString::fromStdString(castCommand->getProfileName());
         this->scriptProfileName = profileName.toStdString();
 
-        Owner().issueNewSPIIState(SPIIState::STATE_HOME_POSITIONING);
+        Owner().issueNewSPIIState(SPIIState::STATE_HOMING_ROUTINE);
 
-        Request_TellVariablePtr requestHoming = std::make_shared<Request_TellVariable>("Home Positioning Complete","operationStatus");
+        Request_TellVariablePtr requestHoming = std::make_shared<Request_TellVariable>("Homing Routine Complete","operationStatus");
         common::TupleProfileVariableString tupleVariableHOMING("",profileName,"operationStatus");
         requestHoming->setTupleDescription(tupleVariableHOMING);
         Owner().issueSPIIAddPollingRequest(requestHoming);
@@ -153,7 +153,7 @@ void State_HomePositioning::OnEnter(const AbstractCommandPtr command)
             case ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE:
             {
                 //the part is still being cut
-                ProfileState_Homing newState("Home Positioning", scriptProfileName);
+                ProfileState_Homing newState("Homing Profile", scriptProfileName);
                 newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE);
                 MotionProfileState newProfileState;
                 newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
@@ -164,7 +164,7 @@ void State_HomePositioning::OnEnter(const AbstractCommandPtr command)
             case ProfileState_Homing::HOMINGProfileCodes::COMPLETE:
             {
                 //the part is finished being cut
-                ProfileState_Homing newState("Home Positioning", scriptProfileName);
+                ProfileState_Homing newState("Homing Profile", scriptProfileName);
                 newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::COMPLETE);
                 MotionProfileState newProfileState;
                 newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));

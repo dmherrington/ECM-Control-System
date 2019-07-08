@@ -14,7 +14,7 @@ public:
     enum class ProfileType
     {
         SETUP,
-        HOMING,
+        HOMING_ROUTINE,
         MOVE_TO_HOME,
         TOUCHOFF,
         PROFILE

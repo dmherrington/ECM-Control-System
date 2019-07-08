@@ -21,6 +21,8 @@
 #include "buffers/spii_current_program.h"
 #include "buffers/buffer_variable_values.h"
 
+#include "data/profiles/profile_state_homing.h"
+
 class SPIICallback_StateInterface
 {
 
@@ -116,6 +118,41 @@ public:
         if(m_CB)
             m_CB->cbi_SPIIMotionProfileState(state, performStateUpdate);
     }
+
+    void issueUpdatedHomingState(const ProfileState_Homing &state)
+    {
+        switch (state.getCurrentCode()) {
+        case ProfileState_Homing::HOMINGProfileCodes::COMPLETE:
+        {
+            setHomeInidcated(true);
+            if(m_CB)
+                m_CB->cbi_SPIIHomeIndicated(true);
+            break;
+        }
+        case ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE:
+        {
+            setHomeInidcated(false);
+            if(m_CB)
+                m_CB->cbi_SPIIHomeIndicated(false);
+            break;
+        }
+        }
+    }
+
+    void issueUpdatedHomePositioning(const ProfileState_Homing &state)
+    {
+        switch (state.getCurrentCode()) {
+        case ProfileState_Homing::HOMINGProfileCodes::COMPLETE:
+        {
+            break;
+        }
+        case ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE:
+        {
+            break;
+        }
+        }
+    }
+
 
 public:
     Status_PerAxis* getAxisStatus(const MotorAxis &axis);

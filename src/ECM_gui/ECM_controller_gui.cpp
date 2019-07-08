@@ -501,23 +501,30 @@ void ECMControllerGUI::on_pushButton_MotorDisable_released()
     m_API->m_MotionController->executeCommand(command);
 }
 
-void ECMControllerGUI::on_pushButton_ResetHome_released()
-{
-    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::HOMING,"FIND_HOME");
-    m_API->m_MotionController->executeCommand(command);
-}
-
 void ECMControllerGUI::on_pushButton_MoveHome_released()
 {
-    //First set the move to home speed based on the jog value
-    //int jogMoveSpeed = m_WindowMotionControl->getCurrentJogSpeed();
-    CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(MotorAxis::Z, 10000);
-    m_API->m_MotionController->executeCommand(commandSpeed);
-
-    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::MOVE_TO_HOME,"GO_TO_HOME");
-    m_API->m_MotionController->executeCommand(command);
+    if(m_API->m_MotionController->m_StateInterface->isHomeInidcated())
+    {
+        CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::MOVE_TO_HOME,"GO_TO_HOME");
+        m_API->m_MotionController->executeCommand(command);
+    }
+    else {
+        QMessageBox msgBox;
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.setText("The homing routine has yet to have been executed or indicated.");
+        msgBox.setInformativeText("Please execute the approprirate routine prior to calling a move to home operation.");
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        int ret = msgBox.exec();
+        UNUSED(ret);
+    }
 }
 
+void ECMControllerGUI::on_pushButton_HomeRoutine_released()
+{
+    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::HOMING_ROUTINE,"FIND_HOME");
+    m_API->m_MotionController->executeCommand(command);
+}
 
 void ECMControllerGUI::slot_NewlyAvailableRigolData(const common::TupleSensorString &sensor, const bool &val)
 {

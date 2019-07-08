@@ -12,15 +12,16 @@ namespace SPII {
 enum class SPIIState{
     STATE_ESTOP = 1, /**< */
     STATE_HOME_POSITIONING = 2, /**< */
-    STATE_IDLE = 3, /**< */
-    STATE_JOGGING = 4, /**< */
-    STATE_MANUAL_POSITIONING = 5, /**< */
-    STATE_MOTION_STOP = 6, /**< */
-    STATE_READY = 7, /**< */
-    STATE_READY_STOP = 8, /**< */
-    STATE_SCRIPT_EXECUTION = 9, /**< */
-    STATE_TOUCHOFF = 10, /**< */
-    STATE_UNKNOWN = 11 /**< */
+    STATE_HOMING_ROUTINE = 3, /**< */
+    STATE_IDLE = 4, /**< */
+    STATE_JOGGING = 5, /**< */
+    STATE_MANUAL_POSITIONING = 6, /**< */
+    STATE_MOTION_STOP = 7, /**< */
+    STATE_READY = 8, /**< */
+    STATE_READY_STOP = 9, /**< */
+    STATE_SCRIPT_EXECUTION = 10, /**< */
+    STATE_TOUCHOFF = 11, /**< */
+    STATE_UNKNOWN = 12 /**< */
 };
 
 //!
@@ -34,6 +35,8 @@ inline std::string ECMStateToString(const SPIIState &type) {
         return "Emergency Stop";
     case SPIIState::STATE_HOME_POSITIONING:
         return "Moving Home";
+    case SPIIState::STATE_HOMING_ROUTINE:
+        return "Finding Home";
     case SPIIState::STATE_IDLE:
         return "Idle";
     case SPIIState::STATE_JOGGING:
