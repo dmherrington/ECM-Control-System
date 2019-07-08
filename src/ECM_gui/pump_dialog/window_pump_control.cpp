@@ -10,15 +10,15 @@ Window_PumpControl::Window_PumpControl(Westinghouse510* obj, QWidget *parent) :
     ui->widget_PumpInitialized->setDiameter(6);
     ui->widget_PumpRunning->setDiameter(6);
 
-//    this->m_Pump->m_State->flowRate.AddNotifier(this,[this]
-//    {
-//        this->slot_updatedFlowRate(m_Pump->m_State->flowRate.get());
-//    });
+    connect(m_Pump, SIGNAL(signal_PumpFlowUpdated(double)), this, SLOT(slot_updatedFlowRate(double)));
+    connect(m_Pump, SIGNAL(signal_PumpOperating(bool)), this, SLOT(slot_updatedPumpOn(bool)));
 
-//    this->m_Pump->m_State->pumpON.AddNotifier(this,[this]
-//    {
-//        this->slot_updatedPumpOn(m_Pump->m_State->pumpON.get());
-//    });
+    m_Pump->AddLambda_FinishedPumpInitialization(this,[this](const bool completed){
+        if(completed)
+            ui->widget_PumpInitialized->setColor(QColor(0,255,0));
+        else
+            ui->widget_PumpInitialized->setColor(QColor(255,0,0));
+    });
 
     //GeneralDialogWindow::readWindowSettings();
 
@@ -59,7 +59,6 @@ void Window_PumpControl::slot_updatedPumpOn(const bool &value)
     {
         ui->widget_PumpRunning->setColor(QColor(255,0,0));
         ui->widget_PumpInitialized->setColor(QColor(255,0,0));
-        ui->doubleSpinBox_flowRate->setStyleSheet("background-color: red");
         ui->pushButton_PumpRunning->setText("ON");
         ui->statusbar->showMessage(tr("The pump has been turned off."),2500);
     }
@@ -74,7 +73,7 @@ void Window_PumpControl::slot_updatedFlowRate(const double &value)
     else{
         ui->doubleSpinBox_flowRate->setStyleSheet("background-color: red");
     }
-    ui->statusbar->showMessage(tr("Flow rate has been updated."),2500);
+    //ui->statusbar->showMessage(tr("Flow rate has been updated."),2500);
 }
 
 void Window_PumpControl::slot_updatedDelayTime(const double &value)

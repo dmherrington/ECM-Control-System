@@ -58,7 +58,20 @@ public:
     void OnEnter(ECMCommand_ProfileConfigurationPtr configuration);
 
 private:
+    void populateMotionComplete();
+
+    bool allMotionComplete() const;
+
+    void setupNotifiers();
+
+    void removeNotifiers();
+
+private:
     ECMCommand_ProfileConfigurationPtr m_Config;
+
+    std::map<MotorAxis,double> touchoffPosition;
+    std::map<MotorAxis,bool> motionComplete;
+
 };
 
 } //end of namespace API

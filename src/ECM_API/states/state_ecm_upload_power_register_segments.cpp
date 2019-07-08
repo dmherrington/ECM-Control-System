@@ -89,13 +89,20 @@ void ECMState_UploadPowerRegisterSegments::OnEnter(ECMCommand_AbstractProfileCon
         {
             Owner().m_Munk->AddLambda_FinishedUploadingSegments(this,[this](const bool completed, const DeviceInterface_PowerSupply::FINISH_CODE finishCode){
                 UNUSED(finishCode);
+                NotificationUpdate APIUpdate("API",ECMDevice::DEVICE_POWERSUPPLY);
+
                 if(completed)
                     {
+                    APIUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL);
+                    APIUpdate.setPeripheralMessage("Upload of power segments was successful.");
                         desiredState = ECMState::STATE_ECM_UPLOAD_POWER_PULSE_MODE;
                     }else
                     {
+                    APIUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR);
+                    APIUpdate.setPeripheralMessage("Upload of power segments has failed.");
                         desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
                     }
+                emit Owner().signal_APINotification(APIUpdate);
             });
 
             Owner().m_Munk->generateAndTransmitMessage(castConfig->m_ConfigPowerSupply.m_MunkSegment);

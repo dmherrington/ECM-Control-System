@@ -3,8 +3,8 @@
 
 #include <QWidget>
 
-#include "library_galilMotionController/galil_motion_controller.h"
-#include "library_galilMotionController/motion_command_touchoff_config.h"
+#include "library_SPIIMotionController/spii_motion_controller.h"
+#include "common/configs/configuration_touchoff.h"
 
 namespace Ui {
 class Widget_Touchoff;
@@ -15,14 +15,14 @@ class Widget_Touchoff : public QWidget
     Q_OBJECT
 
 public:
-    explicit Widget_Touchoff(GalilMotionController* galilObject, QWidget *parent = 0);
+    explicit Widget_Touchoff(SPIIMotionController* motionControlObject, QWidget *parent = 0);
     ~Widget_Touchoff();
 
 public:
 
-    void loadFromTouchoffConfig(const MotionCommand_TouchoffConfig &config);
+    void loadFromTouchoffConfig(const Configuration_Touchoff &config);
 
-    MotionCommand_TouchoffConfig getCurrentTouchoffConfig() const;
+    Configuration_Touchoff getCurrentTouchoffConfig() const;
 
 public:
     void setTouchoffRef(const double &value);
@@ -44,7 +44,7 @@ private slots:
 private:
     Ui::Widget_Touchoff *ui;
 
-    GalilMotionController* m_Galil;
+    SPIIMotionController* m_Galil;
 
 };
 

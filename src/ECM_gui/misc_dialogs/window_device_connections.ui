@@ -200,7 +200,7 @@ width:20px;
          </font>
         </property>
         <property name="text">
-         <string>Connection Galil Motion Controller</string>
+         <string>Connection Motion Controller</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -208,7 +208,7 @@ width:20px;
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_IPGalil">
+       <widget class="QLineEdit" name="lineEdit_IPMC">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -233,7 +233,7 @@ width:20px;
          </font>
         </property>
         <property name="text">
-         <string>169.254.78.101</string>
+         <string>192.168.15.101</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -241,7 +241,7 @@ width:20px;
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_connectGalil">
+       <widget class="QPushButton" name="pushButton_connectMC">
         <property name="minimumSize">
          <size>
           <width>75</width>
@@ -544,7 +544,7 @@ width:20px;
          </font>
         </property>
         <property name="text">
-         <string>192.168.1.17</string>
+         <string>192.168.15.15</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -655,7 +655,7 @@ width:20px;
          </font>
         </property>
         <property name="text">
-         <string>192.168.1.10</string>
+         <string>192.168.15.16</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -828,8 +828,8 @@ width:20px;
  </customwidgets>
  <tabstops>
   <tabstop>pushButton_ConnectAll</tabstop>
-  <tabstop>lineEdit_IPGalil</tabstop>
-  <tabstop>pushButton_connectGalil</tabstop>
+  <tabstop>lineEdit_IPMC</tabstop>
+  <tabstop>pushButton_connectMC</tabstop>
   <tabstop>comboBox_PortPump</tabstop>
   <tabstop>pushButton_connectPump</tabstop>
   <tabstop>comboBox_PortMunk</tabstop>

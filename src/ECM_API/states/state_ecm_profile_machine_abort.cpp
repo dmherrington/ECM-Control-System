@@ -67,10 +67,11 @@ void ECMState_ProfileMachineAbort::OnEnter(ECMCommand_AbstractProfileConfigPtr c
 
     this->OnEnter();
 
-    m_Config->execProperties.completeExecution();
-    Owner().concludeExecutingOperation(m_Config);
-
     Owner().action_StopMachine();
+
+
+    m_Config->m_ExecProperties.completeExecution();
+    Owner().concludeExecutingOperation(m_Config);
 
     desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_FAILED;
 }

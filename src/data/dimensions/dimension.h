@@ -19,6 +19,7 @@ enum Dimensions
     TIME,
     VOLTAGE,
     MAREA,
+    TEMPERATURE,
     DIMENSIONS_NR
 };
 

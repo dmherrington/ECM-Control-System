@@ -3,8 +3,11 @@
 
 #include "ecm_command_abstract_profile_config.h"
 
-#include "library_galilMotionController/programs/galil_current_operation.h"
-#include "library_galilMotionController/motion_command_touchoff_config.h"
+#include "common/operation/operation_items.h"
+
+#include "common/configs/configuration_touchoff.h"
+
+#include "library_SPIIMotionController/buffers/spii_current_program.h"
 
 #include "library_munk_power_supply/power_supply_setup_config.h"
 
@@ -39,7 +42,9 @@ public:
     ECMCommand_ProfileConfiguration& operator = (const ECMCommand_ProfileConfiguration &rhs)
     {
         ECMCommand_AbstractProfileConfig::operator =(rhs);
-        this->m_GalilOperation = rhs.m_GalilOperation;
+        this->executeProfile = rhs.executeProfile;
+        this->m_DesiredProgram = rhs.m_DesiredProgram;
+        this->m_DesriedVariables = rhs.m_DesriedVariables;
         this->m_Touchoff = rhs.m_Touchoff;
         this->m_ConfigPowerSupply = rhs.m_ConfigPowerSupply;
         this->m_PumpParameters = rhs.m_PumpParameters;
@@ -57,7 +62,13 @@ public:
         if(!ECMCommand_AbstractProfileConfig::operator ==(rhs)){
             return false;
         }
-        if(this->m_GalilOperation != rhs.m_GalilOperation){
+        if(this->executeProfile != rhs.executeProfile){
+            return false;
+        }
+        if(this->m_DesiredProgram != rhs.m_DesiredProgram){
+            return false;
+        }
+        if(this->m_DesriedVariables != rhs.m_DesriedVariables){
             return false;
         }
         if(this->m_Touchoff != rhs.m_Touchoff){
@@ -82,10 +93,13 @@ public:
     }
 
 public:
+    std::string executeProfile;
 
-    GalilCurrentOperation m_GalilOperation;
+    SPII_CurrentProgram m_DesiredProgram;
 
-    MotionCommand_TouchoffConfig m_Touchoff;
+    Operation_VariableList m_DesriedVariables;
+
+    Configuration_Touchoff m_Touchoff;
 
     PowerSupply_SetupConfig m_ConfigPowerSupply;
 

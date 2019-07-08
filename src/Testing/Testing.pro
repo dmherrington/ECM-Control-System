@@ -40,103 +40,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp
 
 INCLUDEPATH += $$PWD/../
-INCLUDEPATH += $$(ECM_ROOT)/include
-INCLUDEPATH += $$(ECM_ROOT)/tools/galil/include/
-INCLUDEPATH += $$(ECM_ROOT)/tools/sensoray/lib/
-INCLUDEPATH += $$(ECM_ROOT)/tools/libmodbus
-INCLUDEPATH += $$(ECM_ROOT)/tools/libmodbus/src
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
-else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
-
-INCLUDEPATH += $$PWD/../common
-DEPENDPATH += $$PWD/../common
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../data/release/ -ldata
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../data/debug/ -ldata
-else:unix:!macx: LIBS += -L$$OUT_PWD/../data/ -ldata
-
-INCLUDEPATH += $$PWD/../data
-DEPENDPATH += $$PWD/../data
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../graphing/release/ -lgraphing
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../graphing/debug/ -lgraphing
-else:unix:!macx: LIBS += -L$$OUT_PWD/../graphing/ -lgraphing
-
-INCLUDEPATH += $$PWD/../graphing
-DEPENDPATH += $$PWD/../graphing
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_munk_power_supply/release/ -llibrary_munk_power_supply
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_munk_power_supply/debug/ -llibrary_munk_power_supply
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_munk_power_supply/ -llibrary_munk_power_supply
-
-INCLUDEPATH += $$PWD/../library_munk_power_supply
-DEPENDPATH += $$PWD/../library_munk_power_supply
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_rigol_oscilloscope/release/ -llibrary_rigol_oscilloscope
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_rigol_oscilloscope/debug/ -llibrary_rigol_oscilloscope
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_rigol_oscilloscope/ -llibrary_rigol_oscilloscope
-
-INCLUDEPATH += $$PWD/../library_rigol_oscilloscope
-DEPENDPATH += $$PWD/../library_rigol_oscilloscope
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_qModBus/release/ -llibrary_qModBus
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_qModBus/debug/ -llibrary_qModBus
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_qModBus/ -llibrary_qModBus
-
-INCLUDEPATH += $$PWD/../library_qModBus
-DEPENDPATH += $$PWD/../library_qModBus
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/release/ -llibrary_westinghouse510
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/debug/ -llibrary_westinghouse510
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_westinghouse510/ -llibrary_westinghouse510
-
-INCLUDEPATH += $$PWD/../library_westinghouse510
-DEPENDPATH += $$PWD/../library_westinghouse510
-
-
-unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclib
-unix:!macx|win32: LIBS += -L$$PWD/../../tools/galil/lib/dynamic/x86/ -lgclibo
-
-INCLUDEPATH += $$PWD/../../tools/galil/lib/dynamic/x86
-DEPENDPATH += $$PWD/../../tools/galil/lib/dynamic/x86
-
-win32: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
-else:unix: LIBS += -L$(ECM_ROOT)/tools/galil/dll/x86/ -lgclib -lgclibo
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/release/ -llibrary_galilMotionController
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_galilMotionController/debug/ -llibrary_galilMotionController
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_galilMotionController/ -llibrary_galilMotionController
-
-INCLUDEPATH += $$PWD/../library_galilMotionController
-DEPENDPATH += $$PWD/../library_galilMotionController
+INCLUDEPATH += $$(ECM_ROOT)/tools/SPiiPlusADKSuite_v2_6/ACSC/C_CPP
 
 
 
-win32: LIBS += -L$$PWD/../../tools/sensoray/lib/ -ls24xx
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_SPIIMotionController/release/ -llibrary_SPIIMotionController
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_SPIIMotionController/debug/ -llibrary_SPIIMotionController
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_SPIIMotionController/ -llibrary_SPIIMotionController
 
-INCLUDEPATH += $$PWD/../../tools/sensoray
-DEPENDPATH += $$PWD/../../tools/sensoray
+INCLUDEPATH += $$PWD/../library_SPIIMotionController
+DEPENDPATH += $$PWD/../library_SPIIMotionController
 
+unix:!macx|win32: LIBS += -L$$PWD/../../tools/SPiiPlusADKSuite_v2_6/ACSC/C_CPP/ -lACSCL_x86
 
-unix:!macx: LIBS += -L$$PWD/../../tools/sensoray/lib/linux/x64/ -l24xx
-
-INCLUDEPATH += $$PWD/../../tools/sensoray/lib/linux/x64
-DEPENDPATH += $$PWD/../../tools/sensoray/lib/linux/x64
-
-unix:!macx: PRE_TARGETDEPS += $$PWD/../../tools/sensoray/lib/linux/x64/lib24xx.a
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/release/ -llibrary_sensoray
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_sensoray/debug/ -llibrary_sensoray
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_sensoray/ -llibrary_sensoray
-
-INCLUDEPATH += $$PWD/../library_sensoray
-DEPENDPATH += $$PWD/../library_sensoray
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../ECM_API/release/ -lECM_API
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../ECM_API/debug/ -lECM_API
-else:unix:!macx: LIBS += -L$$OUT_PWD/../ECM_API/ -lECM_API
-
-INCLUDEPATH += $$PWD/../ECM_API
-DEPENDPATH += $$PWD/../ECM_API
+INCLUDEPATH += $$PWD/../../tools/SPiiPlusADKSuite_v2_6/ACSC/C_CPP
+DEPENDPATH += $$PWD/../../tools/SPiiPlusADKSuite_v2_6/ACSC/C_CPP

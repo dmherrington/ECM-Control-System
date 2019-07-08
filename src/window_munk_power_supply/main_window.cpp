@@ -149,7 +149,7 @@ void MainWindow::on_actionSave_As_triggered()
 
 void MainWindow::on_actionOpen_Connection_triggered()
 {
-    m_PowerSupply->openSerialPort(ui->comboBox_comPort->currentText());
+    m_PowerSupply->openSerialPort(ui->comboBox_comPort->currentText().toStdString());
 }
 
 void MainWindow::on_actionClose_Connection_triggered()

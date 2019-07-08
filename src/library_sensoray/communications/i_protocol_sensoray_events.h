@@ -19,6 +19,8 @@
 #include <string>
 #include <memory>
 
+#include "s24xx.h"
+
 #include "i_link.h"
 
 #include "common/comms/communication_update.h"
@@ -44,6 +46,13 @@ public:
     //! \param buffer byte array containing the received message at the port
     //!
     virtual void ResponseReceived(const QByteArray &buffer) const = 0;
+
+    //!
+    //! \brief UpdateFromADC
+    //! \param data
+    //!
+    virtual void UpdateFromADC(const std::vector<S2426_ADC_SAMPLE> data) const = 0;
+
 };
 
 

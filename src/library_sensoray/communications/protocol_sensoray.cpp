@@ -33,6 +33,23 @@ void SensorayProtocol::resetSensorayIO()
     }
 }
 
+void SensorayProtocol::readSensorayADC()
+{
+    // Read and display the six external analog input channels.
+//    unsigned int ADCSize = 8;
+    S24XXERR errorCode = S24XXERR::ERR_NONE;
+
+    // allocate space for 8 chans
+    S2426_ADC_SAMPLE samp[8];
+
+    if (s2426_ReadAdc( m_Session->handle, &errorCode, samp, true ) )
+    {
+        std::vector<S2426_ADC_SAMPLE> currentSamples;
+        currentSamples.insert(currentSamples.begin(), std::begin(samp), std::end(samp));
+        Emit([&](const IProtocolSensorayEvents* ptr){ptr->UpdateFromADC(currentSamples);});
+    }
+}
+
 bool SensorayProtocol::openSerialPort(const common::comms::SerialConfiguration &config)
 {
     S24XXERR errorCode = S24XXERR::ERR_NONE;

@@ -13,7 +13,7 @@ ECMState_ProfileMachineProcess::ECMState_ProfileMachineProcess():
 
 void ECMState_ProfileMachineProcess::OnExit()
 {
-    Owner().m_Galil->RemoveHost(this);
+    Owner().m_MotionController->RemoveHost(this);
 }
 
 void ECMState_ProfileMachineProcess::stopProcess()
@@ -41,6 +41,11 @@ hsm::Transition ECMState_ProfileMachineProcess::GetTransition()
         case ECMState::STATE_ECM_PROFILE_MACHINE_ABORT:
         {
             rtn = hsm::SiblingTransition<ECMState_ProfileMachineAbort>(this->m_Config);
+            break;
+        }
+        case ECMState::STATE_ECM_PROFILE_MACHINE_ESTOP:
+        {
+            rtn = hsm::SiblingTransition<ECMState_ProfileMachineEStop>(this->m_Config);
             break;
         }
         case ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION:
@@ -83,13 +88,17 @@ void ECMState_ProfileMachineProcess::OnEnter(ECMCommand_AbstractProfileConfigPtr
     {
         ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(this->m_Config);
 
-        Owner().m_Galil->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
+        Owner().m_MotionController->AddLambda_AbortExecution(this,[this](){
+            desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_ESTOP;
+        });
+
+        Owner().m_MotionController->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
 
             switch (profileState.getProfileState()->getType()) {
             case MotionProfile::ProfileType::PROFILE:
             {
                 ProfileState_Machining* castState = (ProfileState_Machining*)profileState.getProfileState().get();
-                m_Config->execProperties.setProfileCode(castState->getCurrentCode());
+                m_Config->m_ExecProperties.setProfileCode(castState->getCurrentCode());
 
                 switch (castState->getCurrentCode()) {
                 case(ProfileState_Machining::MACHININGProfileCodes::INCOMPLETE):
@@ -120,8 +129,8 @@ void ECMState_ProfileMachineProcess::OnEnter(ECMCommand_AbstractProfileConfigPtr
         break;
     }
     default:
-        std::cout<<"We should not have gotten into STATE_ECM_UPLOAD_MOTION_PROFILE with the current command type."<<std::endl;
-        desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
+        std::cout<<"We should not have gotten into STATE_ECM_PROFILE_MACHINE_PROCESS with the current command type."<<std::endl;
+        desiredState = ECMState::STATE_ECM_PROFILE_MACHINE_ABORT;
         break;
     }
 
@@ -135,4 +144,5 @@ void ECMState_ProfileMachineProcess::OnEnter(ECMCommand_AbstractProfileConfigPtr
 } //end of namespace ECM
 
 #include "states/state_ecm_profile_machine_abort.h"
+#include "states/state_ecm_profile_machine_estop.h"
 #include "states/state_ecm_profile_machine_complete_execution.h"

@@ -1,16 +1,19 @@
 #include <QCoreApplication>
+#include <iostream>
 
-#include "common/hsm.h"
-#include "ECM_API/states/state_abstract_ecm_process.h"
-#include "ECM_API/states/state_ecm_components.h"
+#include <conio.h>
+
+#include "ACSC.h"
+
+#include <cstring>
+
+#include "library_SPIIMotionController/spii_motion_controller.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-
-    ECM_API* newAPI = new ECM_API();
-    hsm::StateMachine* stateMachine = new hsm::StateMachine();
-    stateMachine->Initialize<ECM::API::ECMState_Idle>(newAPI);
+    SPIIMotionController* newController = new SPIIMotionController();
+    newController->ConnectToSimulation();
 
     return a.exec();
 }

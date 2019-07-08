@@ -43,7 +43,7 @@ public:
     void setHomeShouldIndicate(const bool &indicate);
     void setOverwriteLogs(const bool &overwrite);
     void initializeProfileExecution();
-    void setWritingGalilScript(const bool &write);
+    void setWritingMotionScript(const bool &write);
 
 public:
     std::string getPartNumber() const;
@@ -52,7 +52,7 @@ public:
     bool shouldHomeBeIndicated() const;
     bool shouldOverwriteLogs() const;
     bool isFirstOperation(const unsigned int &index) const;
-    bool shouldWriteGalilScript() const;
+    bool shouldWriteMotionScript() const;
 
 public:
     //!
@@ -68,7 +68,7 @@ public:
         this->activeIndex = rhs.activeIndex;
         this->indicateHome = rhs.indicateHome;
         this->overwriteContents = rhs.overwriteContents;
-        this->writeGalilScript = rhs.writeGalilScript;
+        this->writeMotionScript = rhs.writeMotionScript;
         return *this;
     }
 
@@ -100,7 +100,7 @@ public:
         if(this->overwriteContents != rhs.overwriteContents){
             return false;
         }
-        if(this->writeGalilScript != rhs.writeGalilScript){
+        if(this->writeMotionScript != rhs.writeMotionScript){
             return false;
         }
         return true;
@@ -121,7 +121,7 @@ private:
     unsigned int activeIndex = 0;
     bool indicateHome = false;
     bool overwriteContents = false;
-    bool writeGalilScript = false;
+    bool writeMotionScript = false;
 };
 
 #endif // ECM_COMMAND_EXECUTE_COLLECTION_H

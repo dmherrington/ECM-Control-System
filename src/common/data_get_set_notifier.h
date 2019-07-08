@@ -88,6 +88,25 @@ public:
         this->set(rhs);
     }
 
+    //!
+    //! \brief operator ==
+    //! \param rhs
+    //! \return
+    //!
+    bool operator == (const DataGetSetNotifier<T> &rhs)
+    {
+        if(this->m_Funcs != rhs.m_Funcs){
+            return false;
+        }
+        if(this->m_Data != rhs.m_Data){
+            return false;
+        }
+        if(this->m_BeenSet != rhs.m_BeenSet){
+            return false;
+        }
+        return true;
+    }
+
 private:
     void callNotifications()
     {

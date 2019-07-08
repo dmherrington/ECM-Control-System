@@ -64,7 +64,7 @@ private slots:
 
 private:
     Ui::Window_MotionProfile *ui;
-    GalilMotionController* m_MotionController;
+    SPIIMotionController* m_MotionController;
     bool windowHidden = true;
 };
 

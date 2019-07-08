@@ -10,11 +10,12 @@
 
 #include "widget_pause_parameters.h"
 #include "widget_profile_parameters.h"
-#include "window_motion_profile.h"
 #include "table_widget_operation_descriptor.h"
 
 #include "ECM_API/commands/ecm_command_execute_collection.h"
 #include "ECM_API/commands/ecm_command_profile_collection.h"
+
+#include "acs_dialog/window_buffer_manager.h"
 
 namespace Ui {
 class Window_ProfileConfiguration;
@@ -60,11 +61,9 @@ private slots:
 
     void on_ListWidgetRowMoved();
 
-    void on_pushButton_OpenMotionScript_released();
-
     void on_listWidget_itemClicked(QListWidgetItem *item);
 
-    void slot_MCNewProgramLabels(const ProgramLabelList &labels);
+    void slot_MCNewProgramLabels(const Operation_VariableList &labels);
 
 private slots:
     void slot_OnExecuteExplicitProfileConfig(const ECMCommand_AbstractProfileConfigPtr config);
@@ -76,7 +75,7 @@ public:
 
     void openFromFile(const QString &filePath);
 
-    bool checkGalilScript(bool &shouldUpload);
+    bool checkBufferContents(bool &shouldUpload);
 
 private slots:
     void on_actionOpen_triggered();
@@ -93,13 +92,17 @@ private slots:
 
     void on_actionNew_triggered(bool checked);
 
+    void on_pushButton_OpenMotionScript_released();
+
+    void on_pushButton_UploadCurrentBuffers_released();
+
+    void on_pushButton_SyncCurrentBuffers_released();
+
 private:
     void setIndicateHome(const bool &checked);
 
 private:
     Ui::Window_ProfileConfiguration *ui;
-
-    Window_MotionProfile* m_WindowMotionProfile;
 
     ECM_API* m_API;
 
@@ -107,6 +110,8 @@ private:
     std::map<QListWidgetItem*,TableWidget_OperationDescriptor*> m_MapOperations;
 
     QListWidgetItem* previousItem;
+
+    Window_BufferManager* m_WindowBufferManager;
 };
 
 #endif // WINDOW_PROFILE_CONFIGURATION_H

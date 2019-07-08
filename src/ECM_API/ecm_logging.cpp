@@ -53,10 +53,20 @@ void ECMLogging::writeExecutionCollection(const ECMCommand_ExecuteCollectionPtr 
             segmentDataArray.append(operationObject);
     }
 
+
     saveObject["configData"] = segmentDataArray;
+    saveObject["configureHome"] = collection->shouldHomeBeIndicated();
+
+    SPII_CurrentProgram executionBufferSuite = collection->getDesiredBufferSuite();
+    executionBufferSuite.writeToJSON(saveObject,false);
+
     QJsonDocument saveDoc(saveObject);
     configurationFile->write(saveDoc.toJson());
     configurationFile->close();
+
+    SPII_CurrentProgram executingMotionProfile = collection->getDesiredBufferSuite();
+    QFileInfo fileInfo(*prgFile);
+    SPII_PrgHandle::saveToPRG(fileInfo.filePath(),*dynamic_cast<BufferManager*>(&executingMotionProfile));
 }
 
 void ECMLogging::enableLogging(const bool &enable)
@@ -88,10 +98,12 @@ void ECMLogging::initializeLogging(const std::string &partNumber, const std::str
     }
 
     QString fileName = QString::fromStdString(loggingPath) + QString::fromStdString(logName) + ".out";
-    QString fileNameConfig = QString::fromStdString(loggingPath) + "configuration" + ".json";
+    QString fileNameConfig = QString::fromStdString(loggingPath) + "configuration" + ".profileConfig";
+    QString prgNameConfig = QString::fromStdString(loggingPath) + "ACS" + ".prg";
 
     masterLog = new QFile(fileName);
     configurationFile = new QFile(fileNameConfig);
+    prgFile = new QFile(prgNameConfig);
 
     if(clearContents)
     {

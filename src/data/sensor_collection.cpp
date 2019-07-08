@@ -12,6 +12,8 @@ Sensor* SensorCollection::ConstructSensor(const SensorTypes &type, std::string n
             return new SensorVoltage(name);
         case(SENSOR_MAREA):
             return new SensorMAREA(name);
+        case(SENSOR_TEMPERATURE):
+            return new SensorTemperature(name);
         default:
             throw std::runtime_error("Unknown Sensor type seen when constructing sensor");
         }

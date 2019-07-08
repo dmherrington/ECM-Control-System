@@ -13,7 +13,7 @@ ECMState_UploadMotionVariables::ECMState_UploadMotionVariables():
 
 void ECMState_UploadMotionVariables::OnExit()
 {
-    Owner().m_Galil->RemoveHost(this);
+    Owner().m_MotionController->RemoveHost(this);
 }
 
 void ECMState_UploadMotionVariables::stopProcess()
@@ -81,19 +81,28 @@ void ECMState_UploadMotionVariables::OnEnter(ECMCommand_AbstractProfileConfigPtr
     {
         ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(config);
 
-        Owner().m_Galil->AddLambda_FinishedUploadingVariables(this,[this](const bool completed, const ProgramVariableList &variableList){
+        Owner().m_MotionController->AddLambda_FinishedUploadingVariables(this,[this](const bool completed, const Operation_VariableList &variableList){
             UNUSED(variableList);
+            NotificationUpdate APIUpdate("API",ECMDevice::DEVICE_MOTIONCONTROL);
+
             if(completed)
             {
+                APIUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL);
+                APIUpdate.setPeripheralMessage("Upload of motion profile was successful.");
                 desiredState = ECMState::STATE_ECM_UPLOAD_POWER_REGISTER_SEGMENTS;
             }else
             {
+                APIUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL);
+                APIUpdate.setPeripheralMessage("Upload of motion profile was successful.");
                 desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
             }
+            emit Owner().signal_APINotification(APIUpdate);
 
         });
+        Command_UploadOperationalVariablesPtr cmdProgram = std::make_shared<Command_UploadOperationalVariables>();
+        cmdProgram->setOperationalVariables(castConfig->m_DesriedVariables);
+        Owner().m_MotionController->executeCommand(cmdProgram);
 
-        Owner().m_Galil->uploadProgramVariableList(castConfig->m_GalilOperation.getVariableList());
         break;
     }
     default:

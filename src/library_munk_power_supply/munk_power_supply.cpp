@@ -238,6 +238,10 @@ void MunkPowerSupply::ConnectionOpened() const
     connection.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
     emit signal_MunkCommunicationUpdate(connection);
 
+    common::NotificationUpdate newUpdate("Munk PS",ECMDevice::DEVICE_POWERSUPPLY,common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL);
+    newUpdate.setPeripheralMessage("Munk Power Suppy Connected.");
+    emit signal_MunkNotification(newUpdate);
+
     pollStatus->beginPolling();
 }
 

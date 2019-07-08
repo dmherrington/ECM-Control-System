@@ -1,7 +1,7 @@
 #ifndef WINDOW_MOTION_CONTROL_H
 #define WINDOW_MOTION_CONTROL_H
 
-#include "library_galilMotionController/galil_motion_controller.h"
+#include "library_SPIIMotionController/spii_motion_controller.h"
 
 #include "../general_dialog_window.h"
 

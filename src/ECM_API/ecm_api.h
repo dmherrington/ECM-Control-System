@@ -10,20 +10,21 @@
 #include "graphing/graphing_global.h"
 
 #include "library_munk_power_supply/munk_power_supply.h"
-#include "library_galilMotionController/galil_motion_controller.h"
+#include "library_SPIIMotionController/spii_motion_controller.h"
 #include "library_sensoray/sensoray.h"
 #include "library_rigol_oscilloscope/rigol_oscilliscope.h"
 #include "library_westinghouse510/westinghouse_510.h"
 #include "library_qModBus/library_qmodbus.h"
 
 #include "ecm_logging.h"
-#include "ecm_modules.h"
 
 #include "commands/ecm_command_profile_pause.h"
 #include "commands/ecm_command_execute_collection.h"
 #include "commands/ecm_command_profile_collection.h"
 
 #include "states/state_ecm_types.h"
+
+#include "common/notification_update.h"
 
 ECM_CLASS_FORWARD(ECM_API);
 
@@ -42,6 +43,8 @@ public:
 
 public:
     void action_StopMachine();
+
+    void action_EStopMachine();
 
 public:
 
@@ -84,13 +87,20 @@ signals:
     void signal_ExecutingCollection(const ExecutionProperties &props);
     void signal_ExecutingOperation(const ExecuteOperationProperties &props);
 
+    void signal_APINotification(const NotificationUpdate &update);
+
+private slots:
+    void slot_NewSensorData(const common::TupleSensorString &sensorTuple, const common_data::SensorState &data);
+
 public:
 
     RigolOscilliscope* m_Rigol;
 
     MunkPowerSupply* m_Munk;
 
-    GalilMotionController* m_Galil;
+    SPIIMotionController* m_MotionController;
+
+    //GalilMotionController* m_Galil;
 
     Sensoray* m_Sensoray;
 

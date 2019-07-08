@@ -4,12 +4,10 @@
 #include "gui_verison.h"
 
 #include <QMainWindow>
+#include <iomanip>
 
 #include "ECM_plot_collection.h"
 #include "ECM_plot_identifier.h"
-
-#include "galil_dialog/window_motion_control.h"
-#include "galil_dialog/window_touchoff.h"
 
 #include "pump_dialog/window_pump_control.h"
 
@@ -17,7 +15,7 @@
 #include "rigol_dialog/window_rigol_control.h"
 #include "misc_dialogs/window_device_connections.h"
 #include "misc_dialogs/window_custom_motion_commands.h"
-#include "misc_dialogs/window_motion_profile.h"
+#include "misc_dialogs/widget_notification.h"
 
 #include "additional_sensor_display.h"
 #include "common/threadmanager.h"
@@ -32,7 +30,13 @@
 #include "common/hsm.h"
 #include "ECM_API/states/state_ecm_components.h"
 
-#include "galil_dialog/dialog_execution_paused.h"
+#include "acs_dialog/dialog_execution_paused.h"
+#include "acs_dialog/window_touchoff.h"
+#include "acs_dialog/window_motion_control.h"
+
+#include "motion_dialog/widget_front_panel_motion_control.h"
+#include "touchoff_dialog/widget_front_panel_touchoff.h"
+#include "pump_dialog/widget_front_panel_pump.h"
 
 namespace Ui {
 class ECMControllerGUI;
@@ -50,6 +54,8 @@ private:
     void setupUploadCallbacks();
 
     void updateMCIndicators(const MotionProfileState &profileState);
+
+    void lockFrontPanelButtons(const bool &lock);
 
 signals:
     void signal_newMotionProfileState(const MotionProfileState &profileState);
@@ -100,9 +106,9 @@ private slots:
 * Private Slots related to the motion controller
 */
 private slots:
-    void slot_MCNewMotionState(const ECM::Galil::GalilState &state, const QString &stateString);
+    void slot_MCNewMotionState(const ECM::SPII::SPIIState &state, const QString &stateString);
 
-    void slot_MCNewDigitalInput(const StatusInputs &status);
+//    void slot_MCNewDigitalInput(const StatusInputs &status);
 
     void slot_UpdateTouchoff(const bool &value);
 
@@ -143,9 +149,11 @@ private slots:
 
     void slot_ChangedWindowVisibility(const GeneralDialogWindow::DialogWindowTypes &type, const bool visibility);
 
+    void on_actionPower_Supply_triggered(bool checked);
+
     void on_actionProfile_Configuration_triggered(bool checked);
 
-    void on_actionMotion_Control_triggered(bool checked);
+    void on_actionBuffer_Manager_triggered(bool checked);
 
     void on_actionConnections_triggered(bool checked);
 
@@ -154,10 +162,6 @@ private slots:
     void on_actionCustom_Motion_Commands_triggered(bool checked);
 
     void on_actionOpen_Sensors_Window_triggered(bool checked);
-
-    void on_actionPump_Window_triggered(bool checked);
-
-    void on_actionTouchoff_Window_triggered(bool checked);
 
     void on_actionClear_All_Data_triggered();
 
@@ -198,11 +202,11 @@ private:
     /*
      * The following are all related to independent windows within the GUI
      */
-    Window_MotionControl* m_WindowMotionControl;
+    //Window_MotionControl* m_WindowMotionControl;
 
-    Window_Touchoff* m_WindowTouchoffControl;
+    //Window_Touchoff* m_WindowTouchoffControl;
 
-    Window_PumpControl* m_WindowPumpControl;
+    //Window_PumpControl* m_WindowPumpControl;
 
     Window_ProfileConfiguration* m_WindowProfileConfiguration;
 
@@ -211,6 +215,8 @@ private:
     Window_DeviceConnections* m_WindowConnections;
 
     Window_CustomMotionCommands* m_WindowCustomMotionCommands;
+
+    Widget_Notification* m_WidgetNotification;
 
 private:
     void ProgressStateMachineStates();

@@ -43,7 +43,9 @@ public:
     //! \param linkName Name of link to connect to
     //! \return True if connection successful, false otherwise
     //!
-    bool ConnectToLink(const SerialConfiguration &linkConfig);
+    void ConnectToLink(const SerialConfiguration &linkConfig);
+    bool ValidateConnection();
+
     bool DisconnetFromLink();
 
     bool isConnected() const;

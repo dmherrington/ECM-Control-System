@@ -55,12 +55,12 @@ public:
         return this->maxIndex;
     }
 
-    void setCurrentPosition(const int &position)
+    void setCurrentPosition(const std::vector<double> &position)
     {
         this->currentPosition = position;
     }
 
-    int getCurrentPosition() const
+    std::vector<double> getCurrentPosition() const
     {
         return this->currentPosition;
     }
@@ -113,7 +113,7 @@ protected:
     EnvironmentTime time;
     ExecutionCondition condition = ExecutionCondition::BEGINNING;
     unsigned int maxIndex = 0;
-    int currentPosition = 0;
+    std::vector<double> currentPosition;
 
 };
 

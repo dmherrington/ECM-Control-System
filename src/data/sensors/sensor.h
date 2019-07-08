@@ -18,6 +18,7 @@ enum SensorTypes
 {
     SENSOR_VOLTAGE,         //! A Voltage sensor
     SENSOR_MAREA,           //! A Current Area measurement
+    SENSOR_TEMPERATURE,
     SENSORTYPES_NR_ITEMS    //! The number of sensor types
 };
 

@@ -13,7 +13,7 @@ ECMState_UploadMotionProfile::ECMState_UploadMotionProfile():
 
 void ECMState_UploadMotionProfile::OnExit()
 {
-    Owner().m_Galil->RemoveHost(this);
+    Owner().m_MotionController->RemoveHost(this);
 }
 
 void ECMState_UploadMotionProfile::stopProcess()
@@ -81,21 +81,28 @@ void ECMState_UploadMotionProfile::OnEnter(ECMCommand_AbstractProfileConfigPtr c
     {
         ECMCommand_ProfileConfigurationPtr castConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(config);
 
-        Owner().m_Galil->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const GalilCurrentProgram &program){
+        Owner().m_MotionController->AddLambda_FinishedUploadingScript(this,[this](const bool &completed, const SPII_CurrentProgram &program){
             UNUSED(program);
+            NotificationUpdate APIUpdate("API",ECMDevice::DEVICE_MOTIONCONTROL);
 
             if(completed)
             {
+                APIUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL);
+                APIUpdate.setPeripheralMessage("Upload of motion profile was successful.");
                 desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_VARIABLES;
             }else
             {
+                APIUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR);
+                APIUpdate.setPeripheralMessage("Upload of motion profile has failed.");
                 desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
             }
+            emit Owner().signal_APINotification(APIUpdate);
         });
 
-        CommandUploadProgramPtr cmdProgram = std::make_shared<CommandUploadProgram>();
-        cmdProgram->setCurrentScript(castConfig->m_GalilOperation.getProgram());
-        Owner().m_Galil->executeCommand(cmdProgram);
+        SPIICommand_UploadProgramSuitePtr cmdProgram = std::make_shared<SPIICommand_UploadProgramSuite>();
+        cmdProgram->setProgram(castConfig->m_DesiredProgram);
+        Owner().m_MotionController->executeCommand(cmdProgram);
+
         break;
     }
     default:

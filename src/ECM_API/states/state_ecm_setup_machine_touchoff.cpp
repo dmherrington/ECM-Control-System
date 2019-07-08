@@ -37,7 +37,6 @@ hsm::Transition ECMState_SetupMachineTouchoff::GetTransition()
 
     if(IsInInnerState<ECMState_SetupMachineTouchoffCompleted>())
     {
-        //rtn = hsm::SiblingTransition<ECMState_SetupMachineComplete>();
         rtn = hsm::SiblingTransition<ECMState_SetupMachinePump>(this->m_Config);
     }
     else if(IsInInnerState<ECMState_SetupMachineTouchoffFailed>())

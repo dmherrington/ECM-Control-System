@@ -146,6 +146,12 @@ signals:
     //!
     void signal_PumpOperating(const bool &value);
 
+    //!
+    //! \brief signal_PumpInitializationTimeUpdated
+    //! \param value
+    //!
+    void signal_PumpInitializationTimeUpdated(const int &value);
+
 
 private slots:
     //!

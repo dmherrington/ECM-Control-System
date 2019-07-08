@@ -11,6 +11,7 @@
 #include "library_munk_power_supply_global.h"
 #include "common/comms/communication_update.h"
 #include "common/comms/communication_connection.h"
+#include "common/notification_update.h"
 
 #include "data/type_read_write.h"
 #include "data/type_exception_message.h"
@@ -105,6 +106,8 @@ signals:
     void signal_SegmentException(const std::string &RW, const std::string &meaning) const;
 
     void signal_SegmentWriteProgress(const int &completed, const int &required);
+
+    void signal_MunkNotification(const common::NotificationUpdate &update) const;
 
 private:
 

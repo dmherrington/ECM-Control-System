@@ -14,15 +14,13 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QComboBox>
-#include <QtWidgets/QDoubleSpinBox>
-#include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QScrollArea>
 #include <QtWidgets/QSpacerItem>
-#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QWidget>
 
@@ -39,40 +37,12 @@ public:
     QSpacerItem *horizontalSpacer_8;
     QComboBox *comboBox_ProgramLabels;
     QTabWidget *tabWidget;
-    QWidget *tab_linearParams;
-    QGridLayout *gridLayout_4;
-    QScrollArea *scrollArea_2;
-    QWidget *scrollAreaWidgetContents_2;
-    QGridLayout *gridLayout_7;
-    QFormLayout *formLayout_2;
-    QLabel *label_CutDepth;
-    QLabel *label_CutSpeed;
-    QDoubleSpinBox *doubleSpinBox_CutDepth;
-    QDoubleSpinBox *doubleSpinBox_CutSpeed;
-    QWidget *tab_vibrationParams;
-    QGridLayout *gridLayout_2;
-    QScrollArea *scrollArea;
-    QWidget *scrollAreaWidgetContents;
-    QGridLayout *gridLayout_5;
-    QFormLayout *formLayout;
-    QSpinBox *spinBox_RetractSpeed;
-    QLabel *label_PlungeSpeed;
-    QSpinBox *spinBox_PlungeSpeed;
-    QLabel *label_RetractDistance;
-    QDoubleSpinBox *doubleSpinBox_RetractDistance;
-    QLabel *label_StepSize;
-    QDoubleSpinBox *doubleSpinBox_StepSize;
-    QLabel *label_RetractPeriod;
-    QSpinBox *spinBox_RetractPeriod;
-    QLabel *label_Pause;
-    QSpinBox *spinBox_Pause;
-    QLabel *label_RetractSpeed;
     QWidget *tab;
     QGridLayout *gridLayout_3;
     QScrollArea *scrollArea_3;
     QWidget *scrollAreaWidgetContents_3;
     QGridLayout *gridLayout_18;
-    QFormLayout *formLayout_3;
+    QListWidget *listWidget_Variables;
 
     void setupUi(QWidget *Widget_ScriptingVariables)
     {
@@ -143,11 +113,6 @@ public:
 "background-color:#149ED9;\n"
 "}\n"
 "\n"
-"QListWidget{\n"
-"background-color:#3d3d3d;\n"
-"color:#fff;\n"
-"}\n"
-"\n"
 "QMenu{\n"
 "background-color:#3d3d3d;\n"
 "}\n"
@@ -175,8 +140,8 @@ public:
 "}\n"
 "\n"
 "QPushButton:pressed{\n"
-"background-color: qlineargrad"
-                        "ient(spread:pad, x1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(29, 29, 29, 255), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
+"background-color: qlineargradient(spread:pad, x1:0.517, y1:0, x2:0.517, y2:1, stop:0 rgba(29, 29, 29, 2"
+                        "55), stop:0.505682 rgba(45, 45, 45, 255), stop:1 rgba(29, 29, 29, 255));\n"
 "}\n"
 "\n"
 "\n"
@@ -263,248 +228,6 @@ public:
         tabWidget->setMinimumSize(QSize(550, 240));
         tabWidget->setMaximumSize(QSize(550, 350));
         tabWidget->setTabShape(QTabWidget::Triangular);
-        tab_linearParams = new QWidget();
-        tab_linearParams->setObjectName(QStringLiteral("tab_linearParams"));
-        gridLayout_4 = new QGridLayout(tab_linearParams);
-        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
-        scrollArea_2 = new QScrollArea(tab_linearParams);
-        scrollArea_2->setObjectName(QStringLiteral("scrollArea_2"));
-        scrollArea_2->setMinimumSize(QSize(0, 210));
-        scrollArea_2->setWidgetResizable(true);
-        scrollArea_2->setAlignment(Qt::AlignCenter);
-        scrollAreaWidgetContents_2 = new QWidget();
-        scrollAreaWidgetContents_2->setObjectName(QStringLiteral("scrollAreaWidgetContents_2"));
-        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 524, 208));
-        gridLayout_7 = new QGridLayout(scrollAreaWidgetContents_2);
-        gridLayout_7->setObjectName(QStringLiteral("gridLayout_7"));
-        formLayout_2 = new QFormLayout();
-        formLayout_2->setObjectName(QStringLiteral("formLayout_2"));
-        label_CutDepth = new QLabel(scrollAreaWidgetContents_2);
-        label_CutDepth->setObjectName(QStringLiteral("label_CutDepth"));
-        sizePolicy1.setHeightForWidth(label_CutDepth->sizePolicy().hasHeightForWidth());
-        label_CutDepth->setSizePolicy(sizePolicy1);
-        label_CutDepth->setMinimumSize(QSize(145, 25));
-        QFont font2;
-        font2.setPointSize(10);
-        font2.setBold(true);
-        font2.setWeight(75);
-        label_CutDepth->setFont(font2);
-        label_CutDepth->setAlignment(Qt::AlignCenter);
-
-        formLayout_2->setWidget(0, QFormLayout::LabelRole, label_CutDepth);
-
-        label_CutSpeed = new QLabel(scrollAreaWidgetContents_2);
-        label_CutSpeed->setObjectName(QStringLiteral("label_CutSpeed"));
-        sizePolicy1.setHeightForWidth(label_CutSpeed->sizePolicy().hasHeightForWidth());
-        label_CutSpeed->setSizePolicy(sizePolicy1);
-        label_CutSpeed->setMinimumSize(QSize(145, 25));
-        label_CutSpeed->setFont(font2);
-        label_CutSpeed->setAlignment(Qt::AlignCenter);
-
-        formLayout_2->setWidget(1, QFormLayout::LabelRole, label_CutSpeed);
-
-        doubleSpinBox_CutDepth = new QDoubleSpinBox(scrollAreaWidgetContents_2);
-        doubleSpinBox_CutDepth->setObjectName(QStringLiteral("doubleSpinBox_CutDepth"));
-        sizePolicy2.setHeightForWidth(doubleSpinBox_CutDepth->sizePolicy().hasHeightForWidth());
-        doubleSpinBox_CutDepth->setSizePolicy(sizePolicy2);
-        doubleSpinBox_CutDepth->setMinimumSize(QSize(100, 25));
-        doubleSpinBox_CutDepth->setFont(font1);
-        doubleSpinBox_CutDepth->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox_CutDepth->setDecimals(1);
-        doubleSpinBox_CutDepth->setMaximum(150000);
-        doubleSpinBox_CutDepth->setValue(50);
-
-        formLayout_2->setWidget(0, QFormLayout::FieldRole, doubleSpinBox_CutDepth);
-
-        doubleSpinBox_CutSpeed = new QDoubleSpinBox(scrollAreaWidgetContents_2);
-        doubleSpinBox_CutSpeed->setObjectName(QStringLiteral("doubleSpinBox_CutSpeed"));
-        sizePolicy2.setHeightForWidth(doubleSpinBox_CutSpeed->sizePolicy().hasHeightForWidth());
-        doubleSpinBox_CutSpeed->setSizePolicy(sizePolicy2);
-        doubleSpinBox_CutSpeed->setMinimumSize(QSize(100, 25));
-        doubleSpinBox_CutSpeed->setFont(font1);
-        doubleSpinBox_CutSpeed->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox_CutSpeed->setDecimals(1);
-        doubleSpinBox_CutSpeed->setMinimum(0);
-        doubleSpinBox_CutSpeed->setMaximum(1000);
-        doubleSpinBox_CutSpeed->setValue(0.4);
-
-        formLayout_2->setWidget(1, QFormLayout::FieldRole, doubleSpinBox_CutSpeed);
-
-
-        gridLayout_7->addLayout(formLayout_2, 0, 0, 1, 1);
-
-        scrollArea_2->setWidget(scrollAreaWidgetContents_2);
-
-        gridLayout_4->addWidget(scrollArea_2, 0, 0, 1, 1);
-
-        tabWidget->addTab(tab_linearParams, QString());
-        tab_vibrationParams = new QWidget();
-        tab_vibrationParams->setObjectName(QStringLiteral("tab_vibrationParams"));
-        gridLayout_2 = new QGridLayout(tab_vibrationParams);
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        scrollArea = new QScrollArea(tab_vibrationParams);
-        scrollArea->setObjectName(QStringLiteral("scrollArea"));
-        scrollArea->setMinimumSize(QSize(470, 210));
-        scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-        scrollArea->setWidgetResizable(true);
-        scrollArea->setAlignment(Qt::AlignCenter);
-        scrollAreaWidgetContents = new QWidget();
-        scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 524, 208));
-        gridLayout_5 = new QGridLayout(scrollAreaWidgetContents);
-        gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
-        formLayout = new QFormLayout();
-        formLayout->setObjectName(QStringLiteral("formLayout"));
-        spinBox_RetractSpeed = new QSpinBox(scrollAreaWidgetContents);
-        spinBox_RetractSpeed->setObjectName(QStringLiteral("spinBox_RetractSpeed"));
-        sizePolicy2.setHeightForWidth(spinBox_RetractSpeed->sizePolicy().hasHeightForWidth());
-        spinBox_RetractSpeed->setSizePolicy(sizePolicy2);
-        spinBox_RetractSpeed->setMinimumSize(QSize(100, 25));
-        spinBox_RetractSpeed->setFont(font1);
-        spinBox_RetractSpeed->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        spinBox_RetractSpeed->setMinimum(0);
-        spinBox_RetractSpeed->setMaximum(10000);
-        spinBox_RetractSpeed->setSingleStep(10);
-        spinBox_RetractSpeed->setValue(0);
-
-        formLayout->setWidget(0, QFormLayout::FieldRole, spinBox_RetractSpeed);
-
-        label_PlungeSpeed = new QLabel(scrollAreaWidgetContents);
-        label_PlungeSpeed->setObjectName(QStringLiteral("label_PlungeSpeed"));
-        sizePolicy1.setHeightForWidth(label_PlungeSpeed->sizePolicy().hasHeightForWidth());
-        label_PlungeSpeed->setSizePolicy(sizePolicy1);
-        label_PlungeSpeed->setMinimumSize(QSize(145, 25));
-        label_PlungeSpeed->setFont(font2);
-        label_PlungeSpeed->setAlignment(Qt::AlignCenter);
-
-        formLayout->setWidget(1, QFormLayout::LabelRole, label_PlungeSpeed);
-
-        spinBox_PlungeSpeed = new QSpinBox(scrollAreaWidgetContents);
-        spinBox_PlungeSpeed->setObjectName(QStringLiteral("spinBox_PlungeSpeed"));
-        sizePolicy2.setHeightForWidth(spinBox_PlungeSpeed->sizePolicy().hasHeightForWidth());
-        spinBox_PlungeSpeed->setSizePolicy(sizePolicy2);
-        spinBox_PlungeSpeed->setMinimumSize(QSize(100, 25));
-        spinBox_PlungeSpeed->setFont(font1);
-        spinBox_PlungeSpeed->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        spinBox_PlungeSpeed->setMinimum(0);
-        spinBox_PlungeSpeed->setMaximum(10000);
-        spinBox_PlungeSpeed->setSingleStep(10);
-        spinBox_PlungeSpeed->setValue(0);
-
-        formLayout->setWidget(1, QFormLayout::FieldRole, spinBox_PlungeSpeed);
-
-        label_RetractDistance = new QLabel(scrollAreaWidgetContents);
-        label_RetractDistance->setObjectName(QStringLiteral("label_RetractDistance"));
-        sizePolicy1.setHeightForWidth(label_RetractDistance->sizePolicy().hasHeightForWidth());
-        label_RetractDistance->setSizePolicy(sizePolicy1);
-        label_RetractDistance->setMinimumSize(QSize(145, 25));
-        label_RetractDistance->setFont(font2);
-        label_RetractDistance->setAlignment(Qt::AlignCenter);
-
-        formLayout->setWidget(2, QFormLayout::LabelRole, label_RetractDistance);
-
-        doubleSpinBox_RetractDistance = new QDoubleSpinBox(scrollAreaWidgetContents);
-        doubleSpinBox_RetractDistance->setObjectName(QStringLiteral("doubleSpinBox_RetractDistance"));
-        sizePolicy2.setHeightForWidth(doubleSpinBox_RetractDistance->sizePolicy().hasHeightForWidth());
-        doubleSpinBox_RetractDistance->setSizePolicy(sizePolicy2);
-        doubleSpinBox_RetractDistance->setMinimumSize(QSize(100, 25));
-        doubleSpinBox_RetractDistance->setFont(font1);
-        doubleSpinBox_RetractDistance->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox_RetractDistance->setDecimals(1);
-        doubleSpinBox_RetractDistance->setMaximum(150000);
-        doubleSpinBox_RetractDistance->setValue(100);
-
-        formLayout->setWidget(2, QFormLayout::FieldRole, doubleSpinBox_RetractDistance);
-
-        label_StepSize = new QLabel(scrollAreaWidgetContents);
-        label_StepSize->setObjectName(QStringLiteral("label_StepSize"));
-        sizePolicy1.setHeightForWidth(label_StepSize->sizePolicy().hasHeightForWidth());
-        label_StepSize->setSizePolicy(sizePolicy1);
-        label_StepSize->setMinimumSize(QSize(145, 25));
-        label_StepSize->setFont(font2);
-        label_StepSize->setAlignment(Qt::AlignCenter);
-
-        formLayout->setWidget(3, QFormLayout::LabelRole, label_StepSize);
-
-        doubleSpinBox_StepSize = new QDoubleSpinBox(scrollAreaWidgetContents);
-        doubleSpinBox_StepSize->setObjectName(QStringLiteral("doubleSpinBox_StepSize"));
-        sizePolicy2.setHeightForWidth(doubleSpinBox_StepSize->sizePolicy().hasHeightForWidth());
-        doubleSpinBox_StepSize->setSizePolicy(sizePolicy2);
-        doubleSpinBox_StepSize->setMinimumSize(QSize(100, 25));
-        doubleSpinBox_StepSize->setFont(font1);
-        doubleSpinBox_StepSize->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox_StepSize->setDecimals(3);
-        doubleSpinBox_StepSize->setMaximum(1000);
-        doubleSpinBox_StepSize->setValue(0.05);
-
-        formLayout->setWidget(3, QFormLayout::FieldRole, doubleSpinBox_StepSize);
-
-        label_RetractPeriod = new QLabel(scrollAreaWidgetContents);
-        label_RetractPeriod->setObjectName(QStringLiteral("label_RetractPeriod"));
-        sizePolicy1.setHeightForWidth(label_RetractPeriod->sizePolicy().hasHeightForWidth());
-        label_RetractPeriod->setSizePolicy(sizePolicy1);
-        label_RetractPeriod->setMinimumSize(QSize(145, 25));
-        label_RetractPeriod->setFont(font2);
-        label_RetractPeriod->setAlignment(Qt::AlignCenter);
-
-        formLayout->setWidget(4, QFormLayout::LabelRole, label_RetractPeriod);
-
-        spinBox_RetractPeriod = new QSpinBox(scrollAreaWidgetContents);
-        spinBox_RetractPeriod->setObjectName(QStringLiteral("spinBox_RetractPeriod"));
-        sizePolicy2.setHeightForWidth(spinBox_RetractPeriod->sizePolicy().hasHeightForWidth());
-        spinBox_RetractPeriod->setSizePolicy(sizePolicy2);
-        spinBox_RetractPeriod->setMinimumSize(QSize(100, 25));
-        spinBox_RetractPeriod->setFont(font1);
-        spinBox_RetractPeriod->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        spinBox_RetractPeriod->setMinimum(0);
-        spinBox_RetractPeriod->setMaximum(10000);
-        spinBox_RetractPeriod->setSingleStep(1);
-        spinBox_RetractPeriod->setValue(10);
-
-        formLayout->setWidget(4, QFormLayout::FieldRole, spinBox_RetractPeriod);
-
-        label_Pause = new QLabel(scrollAreaWidgetContents);
-        label_Pause->setObjectName(QStringLiteral("label_Pause"));
-        sizePolicy1.setHeightForWidth(label_Pause->sizePolicy().hasHeightForWidth());
-        label_Pause->setSizePolicy(sizePolicy1);
-        label_Pause->setMinimumSize(QSize(145, 25));
-        label_Pause->setFont(font2);
-        label_Pause->setAlignment(Qt::AlignCenter);
-
-        formLayout->setWidget(5, QFormLayout::LabelRole, label_Pause);
-
-        spinBox_Pause = new QSpinBox(scrollAreaWidgetContents);
-        spinBox_Pause->setObjectName(QStringLiteral("spinBox_Pause"));
-        sizePolicy2.setHeightForWidth(spinBox_Pause->sizePolicy().hasHeightForWidth());
-        spinBox_Pause->setSizePolicy(sizePolicy2);
-        spinBox_Pause->setMinimumSize(QSize(100, 25));
-        spinBox_Pause->setFont(font1);
-        spinBox_Pause->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        spinBox_Pause->setMinimum(0);
-        spinBox_Pause->setMaximum(10000);
-        spinBox_Pause->setSingleStep(1);
-        spinBox_Pause->setValue(8);
-
-        formLayout->setWidget(5, QFormLayout::FieldRole, spinBox_Pause);
-
-        label_RetractSpeed = new QLabel(scrollAreaWidgetContents);
-        label_RetractSpeed->setObjectName(QStringLiteral("label_RetractSpeed"));
-        sizePolicy1.setHeightForWidth(label_RetractSpeed->sizePolicy().hasHeightForWidth());
-        label_RetractSpeed->setSizePolicy(sizePolicy1);
-        label_RetractSpeed->setMinimumSize(QSize(145, 25));
-        label_RetractSpeed->setFont(font2);
-        label_RetractSpeed->setAlignment(Qt::AlignCenter);
-
-        formLayout->setWidget(0, QFormLayout::LabelRole, label_RetractSpeed);
-
-
-        gridLayout_5->addLayout(formLayout, 0, 0, 1, 1);
-
-        scrollArea->setWidget(scrollAreaWidgetContents);
-
-        gridLayout_2->addWidget(scrollArea, 0, 0, 1, 1);
-
-        tabWidget->addTab(tab_vibrationParams, QString());
         tab = new QWidget();
         tab->setObjectName(QStringLiteral("tab"));
         gridLayout_3 = new QGridLayout(tab);
@@ -520,10 +243,10 @@ public:
         scrollAreaWidgetContents_3->setGeometry(QRect(0, 0, 524, 208));
         gridLayout_18 = new QGridLayout(scrollAreaWidgetContents_3);
         gridLayout_18->setObjectName(QStringLiteral("gridLayout_18"));
-        formLayout_3 = new QFormLayout();
-        formLayout_3->setObjectName(QStringLiteral("formLayout_3"));
+        listWidget_Variables = new QListWidget(scrollAreaWidgetContents_3);
+        listWidget_Variables->setObjectName(QStringLiteral("listWidget_Variables"));
 
-        gridLayout_18->addLayout(formLayout_3, 0, 0, 1, 1);
+        gridLayout_18->addWidget(listWidget_Variables, 0, 0, 1, 1);
 
         scrollArea_3->setWidget(scrollAreaWidgetContents_3);
 
@@ -546,22 +269,6 @@ public:
     {
         Widget_ScriptingVariables->setWindowTitle(QApplication::translate("Widget_ScriptingVariables", "Form", nullptr));
         label_ManualControl_2->setText(QApplication::translate("Widget_ScriptingVariables", "Scripting Variables", nullptr));
-        label_CutDepth->setText(QApplication::translate("Widget_ScriptingVariables", "Depth of Cut (um)", nullptr));
-        label_CutSpeed->setText(QApplication::translate("Widget_ScriptingVariables", "Cut Speed (um/s)", nullptr));
-#ifndef QT_NO_TOOLTIP
-        doubleSpinBox_CutDepth->setToolTip(QString());
-#endif // QT_NO_TOOLTIP
-#ifndef QT_NO_STATUSTIP
-        doubleSpinBox_CutDepth->setStatusTip(QString());
-#endif // QT_NO_STATUSTIP
-        tabWidget->setTabText(tabWidget->indexOf(tab_linearParams), QApplication::translate("Widget_ScriptingVariables", "Linear Parameters", nullptr));
-        label_PlungeSpeed->setText(QApplication::translate("Widget_ScriptingVariables", "Plunge Speed (um/s)", nullptr));
-        label_RetractDistance->setText(QApplication::translate("Widget_ScriptingVariables", "Retract Distance (um)", nullptr));
-        label_StepSize->setText(QApplication::translate("Widget_ScriptingVariables", "Step Size (um)", nullptr));
-        label_RetractPeriod->setText(QApplication::translate("Widget_ScriptingVariables", "Retract Period (ms)", nullptr));
-        label_Pause->setText(QApplication::translate("Widget_ScriptingVariables", "Pause (ms)", nullptr));
-        label_RetractSpeed->setText(QApplication::translate("Widget_ScriptingVariables", "Retract Speed (um/s)", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab_vibrationParams), QApplication::translate("Widget_ScriptingVariables", "Vibration Parameters", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("Widget_ScriptingVariables", "Unmatched Parameters", nullptr));
     } // retranslateUi
 

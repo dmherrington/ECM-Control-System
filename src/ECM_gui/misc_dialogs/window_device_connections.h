@@ -31,6 +31,7 @@ private:
     void connect_Oscilliscope(const bool &connect);
     void connect_PowerSupply(const bool &connect);
     void connect_Pump(const bool &connect);
+    void connect_Sensoray(const bool &connect);
 
 private:
     void closeEvent(QCloseEvent *event) override;
@@ -47,7 +48,7 @@ public slots:
     void slot_PumpConnectionUpdate(const common::comms::CommunicationUpdate &update);
     void slot_RigolConnectionUpdate(const common::comms::CommunicationUpdate &update);
     void slot_MunkConnectionUpdate(const common::comms::CommunicationUpdate &update);
-    void slot_GalilConnectionUpdate(const common::comms::CommunicationUpdate &update);
+    void slot_MCConnectionUpdate(const common::comms::CommunicationUpdate &update);
 
 private slots:
 
@@ -61,7 +62,7 @@ private slots:
 
     void on_pushButton_connectMunk_released();
 
-    void on_pushButton_connectGalil_released();
+    void on_pushButton_connectMC_released();
 
     void on_pushButton_Close_released();
 

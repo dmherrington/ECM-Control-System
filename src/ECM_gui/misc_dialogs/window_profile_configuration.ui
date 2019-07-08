@@ -88,11 +88,6 @@ border:none;
 background-color:#149ED9;
 }
 
-QListWidget{
-background-color:#3d3d3d;
-color:#fff;
-}
-
 QMenu{
 background-color:#3d3d3d;
 }
@@ -299,7 +294,7 @@ width:20px;
            </font>
           </property>
           <property name="text">
-           <string>Galil Script:</string>
+           <string>Program Buffers:</string>
           </property>
          </widget>
         </item>
@@ -478,7 +473,7 @@ width:20px;
 }</string>
             </property>
             <property name="text">
-             <string>Open New Script</string>
+             <string>Open New Buffer PRG</string>
             </property>
             <property name="icon">
              <iconset>
@@ -487,7 +482,7 @@ width:20px;
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_UploadMotionScript">
+           <widget class="QPushButton" name="pushButton_UploadCurrentBuffers">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
               <horstretch>0</horstretch>
@@ -512,7 +507,7 @@ width:20px;
              </font>
             </property>
             <property name="text">
-             <string>Upload Script</string>
+             <string>Upload Current Buffers</string>
             </property>
             <property name="icon">
              <iconset>
@@ -521,7 +516,7 @@ width:20px;
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_DownloadMotionScript">
+           <widget class="QPushButton" name="pushButton_SyncCurrentBuffers">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
               <horstretch>0</horstretch>
@@ -546,7 +541,7 @@ width:20px;
              </font>
             </property>
             <property name="text">
-             <string>Download Script</string>
+             <string>Sync Current Buffers</string>
             </property>
             <property name="icon">
              <iconset>
@@ -771,7 +766,7 @@ width:20px;
             <string>Indicate Home Autonomously</string>
            </property>
            <property name="checked">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
           </widget>
          </item>

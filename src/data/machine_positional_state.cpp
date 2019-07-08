@@ -7,43 +7,45 @@ PositionalState::PositionalState()
 
 }
 
-PositionalState::PositionalState(const  MotorAxis &axis, const int &position)
-{
-    this->axis = axis;
-    this->position = position;
-}
-
 PositionalState::PositionalState(const PositionalState &copy)
 {
-    this->axis = copy.axis;
-    this->position = copy.position;
+    this->machinePosition = copy.machinePosition;
 }
 
-void PositionalState::setStateAxis(const MotorAxis &axis)
+void PositionalState::setAxisPosition(const MotorAxis &axis, const double &position)
 {
-    this->axis = axis;
+    std::pair<std::map<MotorAxis,double>::iterator,bool> ret;
+    ret = this->machinePosition.insert(std::pair<MotorAxis,double>(axis,position));
+    if(ret.second == false)
+    {
+        //the element was not unique
+        this->machinePosition.at(axis) = position;
+    }
 }
 
-void PositionalState::setAxisPosition(const int &position)
+bool PositionalState::getAxisPosition(const MotorAxis &axis, const PositionUnit &unit, double &position) const
 {
-    this->position = position;
-}
-
-MotorAxis PositionalState::getAxis() const
-{
-    return axis;
-}
-
-double PositionalState::getAxisPosition(const PositionUnit &unit) const
-{
-    double currentPosition = static_cast<double>(position) * common_data::PositionDimension(unit).RatioToBaseUnit();
-    return currentPosition;
+    bool validRequest = false;
+    std::map<MotorAxis,double>::const_iterator it = this->machinePosition.find(axis);
+    if(it != this->machinePosition.end())
+    {
+        //the item is in the map
+        position = it->second * common_data::PositionDimension(unit).RatioToBaseUnit();
+        validRequest = true;
+    }
+    return validRequest;
 }
 
 std::string PositionalState::getLoggingString() const
 {
-    PositionDimension dimension(PositionUnit::UNIT_POSITION_COUNTS);
-    std::string rtnStr = AxisToString(axis) + "\t" + std::to_string(position) + "\t" + dimension.ShortHand();
+    std::string rtnStr = "";
+
+    for (std::map<MotorAxis,double>::const_iterator it=machinePosition.begin(); it!=machinePosition.end(); ++it)
+        rtnStr += AxisToString(it->first) + " " + std::to_string(it->second) + "\t";
+
+    PositionDimension dimension(PositionUnit::UNIT_POSITION_MICRO_METER);
+    rtnStr += dimension.ShortHand();
+
     return rtnStr;
 }
 

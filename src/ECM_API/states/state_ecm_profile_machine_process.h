@@ -32,6 +32,7 @@ namespace API {
 ECM_CLASS_FORWARD(ECMState_ProfileMachineProcess);
 
 class ECMState_ProfileMachineAbort;
+class ECMState_ProfileMachineEStop;
 class ECMState_ProfileMachineCompleteExecution;
 
 class ECMState_ProfileMachineProcess : public AbstractStateECMProcess

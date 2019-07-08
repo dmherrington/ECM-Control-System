@@ -25,7 +25,8 @@ public:
         WINDOW_MOTION_PROFILE,
         WINDOW_CUSTOM_MOTION_COMMANDS,
         WINDOW_MOTION_CONTROL,
-        WINDOW_OPERATION_CONFIGURATION
+        WINDOW_OPERATION_CONFIGURATION,
+        WINDOW_BUFFER_MANAGER
     };
 
     GeneralDialogWindow(const DialogWindowTypes &type, const QString &name, QWidget *parent);

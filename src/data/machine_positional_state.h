@@ -24,31 +24,23 @@ class PositionalState
 public:
     PositionalState();
 
-    PositionalState(const  MotorAxis &axis, const int &position);
-
     PositionalState(const PositionalState &copy);
 
-    void setStateAxis(const MotorAxis &axis);
-    void setAxisPosition(const int &position);
+    void setAxisPosition(const MotorAxis &axis, const double &position);
 
-    MotorAxis getAxis() const;
-    double getAxisPosition(const PositionUnit &unit) const;
+    bool getAxisPosition(const MotorAxis &axis, const PositionUnit &unit, double &position) const;
 
     std::string getLoggingString() const;
 
 public:
     PositionalState& operator = (const PositionalState &rhs)
     {
-        this->axis = rhs.axis;
-        this->position = rhs.position;
+        this->machinePosition = rhs.machinePosition;
         return *this;
     }
 
     bool operator == (const PositionalState &rhs) {
-        if(this->axis != rhs.axis){
-            return false;
-        }
-        if(this->position != rhs.position){
+        if(this->machinePosition != rhs.machinePosition){
             return false;
         }
         return true;
@@ -59,8 +51,10 @@ public:
     }
 
 private:
-    MotorAxis axis;
-    int position;
+    std::map<MotorAxis, double> machinePosition;
+
+    //MotorAxis axis;
+    //int position;
 };
 
 

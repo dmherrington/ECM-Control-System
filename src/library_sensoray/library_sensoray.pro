@@ -35,7 +35,8 @@ SOURCES += \
     communications/protocol_sensoray.cpp \
     communications/sensoray_comms_marshaler.cpp \
     communications/sensoray_tcp_configuration.cpp \
-    communications/sensoray_link.cpp
+    communications/sensoray_link.cpp \
+    sensoray_poll_machine.cpp
 
 HEADERS += \
         sensoray.h \
@@ -51,7 +52,8 @@ HEADERS += \
     communications/sensoray_session.h \
     communications/sensoray_serial_configuration.h \
     communications/sensoray_link.h \
-    sensoray_version.h
+    sensoray_version.h \
+    sensoray_poll_machine.h
 
 # Unix lib Install
 unix:!symbian {

@@ -9,9 +9,13 @@ Window_ProfileConfiguration::Window_ProfileConfiguration(ECM_API* apiObject, QWi
     ui->setupUi(this);
     m_API = apiObject;
 
-    m_WindowMotionProfile = new Window_MotionProfile(m_API->m_Galil);
-    m_WindowMotionProfile->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
-    connect(m_WindowMotionProfile,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
+    m_WindowBufferManager = new Window_BufferManager(m_API->m_MotionController);
+    m_WindowBufferManager->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
+
+    connect(m_WindowBufferManager,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)),
+            this,SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
+//    connect(m_WindowBufferManager,SIGNAL(signal_BufferManagerSynchronization),
+//            this,SLOT(slot_SynchronizationRequest()));
 
     connect(ui->listWidget->model(),SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),this,SLOT(on_ListWidgetRowMoved()));
 }
@@ -23,37 +27,8 @@ Window_ProfileConfiguration::~Window_ProfileConfiguration()
 
 void Window_ProfileConfiguration::closeEvent(QCloseEvent *event)
 {
-    m_WindowMotionProfile->close();
+    m_WindowBufferManager->close();
     GeneralDialogWindow::closeEvent(event);
-}
-
-bool Window_ProfileConfiguration::checkGalilScript(bool &shouldUpload)
-{
-    bool continueExecution = true;
-
-    //First Check Profile Comparison
-    if(m_API->m_Galil->getCurrentMCProgram().getProgram() != m_WindowMotionProfile->getCurrentGalilScript())
-    {
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Warning);
-        msgBox.setText("The script associated with this script does not match currently what is aboard the galil unit.");
-        msgBox.setInformativeText("Do you want the script to be automatically uploaded? This will cause the homing routine to execute.");
-        QAbstractButton* pButtonAccept = msgBox.addButton(tr("Accept"), QMessageBox::AcceptRole);
-        QAbstractButton* pButtonReject = msgBox.addButton(tr("Reject"), QMessageBox::RejectRole);
-        msgBox.exec();
-
-        if(msgBox.clickedButton() == pButtonAccept)
-        {
-            shouldUpload = true;
-            continueExecution = true;
-        }
-        else if(msgBox.clickedButton() == pButtonReject)
-        {
-            continueExecution = false;
-        }
-    }
-
-    return continueExecution;
 }
 
 void Window_ProfileConfiguration::on_actionClose_triggered()
@@ -99,6 +74,10 @@ ECMCommand_ExecuteCollection Window_ProfileConfiguration::getCurrentCollection()
     }
     executeCollection.setHomeShouldIndicate(ui->checkBox_ShouldHomeBeIndicated->isChecked());
 
+    //The current motion script needs to go here
+    SPII_CurrentProgram desiredBufferContents = m_WindowBufferManager->getDesiredBufferContents();
+    executeCollection.setDesiredBufferSuite(desiredBufferContents);
+
     return executeCollection;
 }
 
@@ -119,18 +98,18 @@ TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const
     switch (type) {
     case ProfileOpType::OPERATION:
     {
-         operationalProfile = new Widget_ProfileParameters(m_API);
-         operationalProfile->setTabIndex(index);
-         int tabIndex = ui->tabWidget_OperationParameters->addTab(operationalProfile,QString::fromStdString(opName));
-         ui->tabWidget_OperationParameters->setCurrentIndex(tabIndex);
+        operationalProfile = new Widget_ProfileParameters(m_API);
+        operationalProfile->setTabIndex(index);
+        int tabIndex = ui->tabWidget_OperationParameters->addTab(operationalProfile,QString::fromStdString(opName));
+        ui->tabWidget_OperationParameters->setCurrentIndex(tabIndex);
         break;
     }
     case ProfileOpType::PAUSE:
     {
-         operationalProfile = new Widget_PauseParameters();
-         operationalProfile->setTabIndex(index);
-         int tabIndex = ui->tabWidget_OperationParameters->addTab(operationalProfile,QString::fromStdString(opName));
-         ui->tabWidget_OperationParameters->setCurrentIndex(tabIndex);
+        operationalProfile = new Widget_PauseParameters();
+        operationalProfile->setTabIndex(index);
+        int tabIndex = ui->tabWidget_OperationParameters->addTab(operationalProfile,QString::fromStdString(opName));
+        ui->tabWidget_OperationParameters->setCurrentIndex(tabIndex);
         break;
     }
     default:
@@ -143,7 +122,7 @@ TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const
 
     connect(tableDescriptor,SIGNAL(signal_OperationNameChanged(std::string,uint)),this,SLOT(slot_OperationNameChanged(std::string,uint)));
     connect(tableDescriptor,SIGNAL(signal_ExecuteExplicitProfileConfig(ECMCommand_AbstractProfileConfigPtr)),this,SLOT(slot_OnExecuteExplicitProfileConfig(ECMCommand_AbstractProfileConfigPtr)));
-    tableDescriptor->newlyAvailableProgramLabels(m_API->m_Galil->stateInterface->galilProgram->getLabelList());
+    //tableDescriptor->newlyAvailableProgramLabels(m_API->m_MotionController->stateInterface->galilProgram->getLabelList());
 
     QListWidgetItem* newItem = new QListWidgetItem();
     newItem->setSizeHint(tableDescriptor->sizeHint());
@@ -157,11 +136,15 @@ TableWidget_OperationDescriptor* Window_ProfileConfiguration::addOperation(const
 
 void Window_ProfileConfiguration::slot_OnExecuteExplicitProfileConfig(const ECMCommand_AbstractProfileConfigPtr config)
 {
-        ECMCommand_ExecuteCollection newExecutionCollection;
-        newExecutionCollection.insertProfile(config);
-        newExecutionCollection.setAssociatedMotionScript(m_WindowMotionProfile->getCurrentGalilScript());
-        newExecutionCollection.setHomeShouldIndicate(ui->checkBox_ShouldHomeBeIndicated->isChecked());
-       emit signal_ExecuteProfileCollection(newExecutionCollection);
+    ECMCommand_ExecuteCollection newExecutionCollection;
+    newExecutionCollection.insertProfile(config);
+
+    //The current motion script needs to go here
+    SPII_CurrentProgram desiredBufferContents = m_WindowBufferManager->getDesiredBufferContents();
+    newExecutionCollection.setDesiredBufferSuite(desiredBufferContents);
+
+    newExecutionCollection.setHomeShouldIndicate(ui->checkBox_ShouldHomeBeIndicated->isChecked());
+    emit signal_ExecuteProfileCollection(newExecutionCollection);
 }
 
 void Window_ProfileConfiguration::clearExistingOperations()
@@ -177,15 +160,15 @@ void Window_ProfileConfiguration::clearExistingOperations()
     m_MapOperations.clear();
 }
 
-void Window_ProfileConfiguration::slot_MCNewProgramLabels(const ProgramLabelList &labels)
+void Window_ProfileConfiguration::slot_MCNewProgramLabels(const Operation_VariableList &labels)
 {
     std::map<QListWidgetItem*,TableWidget_OperationDescriptor*>::iterator it = m_MapOperations.begin();
 
-    for (; it!=m_MapOperations.end(); ++it)
-    {
-        TableWidget_OperationDescriptor* currentOp = it->second;
-        currentOp->newlyAvailableProgramLabels(labels);
-    }
+    //    for (; it!=m_MapOperations.end(); ++it)
+    //    {
+    //        TableWidget_OperationDescriptor* currentOp = it->second;
+    //        currentOp->newlyAvailableProgramLabels(labels);
+    //    }
 }
 
 void Window_ProfileConfiguration::on_pushButton_AddOperation_released()
@@ -245,11 +228,6 @@ void Window_ProfileConfiguration::slot_OperationNameChanged(const std::string &n
     ui->tabWidget_OperationParameters->setTabText(index,QString::fromStdString(name));
 }
 
-void Window_ProfileConfiguration::on_pushButton_OpenMotionScript_released()
-{
-    m_WindowMotionProfile->openGalilScript();
-}
-
 void Window_ProfileConfiguration::on_ListWidgetRowMoved()
 {
     //let us reorder all of the operation numbers
@@ -277,7 +255,7 @@ void Window_ProfileConfiguration::on_listWidget_itemClicked(QListWidgetItem *ite
 
 void Window_ProfileConfiguration::on_actionOpen_triggered()
 {
-    QString filePath = GeneralDialogWindow::onOpenAction();
+    QString filePath = GeneralDialogWindow::onOpenAction("Open Buffer Configuration Files (*.profileConfig)");
     if(!filePath.isEmpty() && !filePath.isNull()){
         openFromFile(filePath);
     }
@@ -285,13 +263,13 @@ void Window_ProfileConfiguration::on_actionOpen_triggered()
 
 void Window_ProfileConfiguration::on_actionSave_triggered()
 {
-    QString settingsPath = GeneralDialogWindow::onSaveAction();
+    QString settingsPath = GeneralDialogWindow::onSaveAction("profileConfig");
     saveToFile(settingsPath);
 }
 
 void Window_ProfileConfiguration::on_actionSave_As_triggered()
 {
-    QString settingsPath = GeneralDialogWindow::onSaveAsAction();
+    QString settingsPath = GeneralDialogWindow::onSaveAsAction("profileConfig");
     saveToFile(settingsPath);
 }
 
@@ -328,7 +306,8 @@ void Window_ProfileConfiguration::saveToFile(const QString &filePath)
 
     saveObject["configData"] = segmentDataArray;
     saveObject["configureHome"] = ui->checkBox_ShouldHomeBeIndicated->isChecked();
-    saveObject["galilScript"] = QString::fromStdString(m_WindowMotionProfile->getCurrentGalilScript());
+    SPII_CurrentProgram desiredBufferContents = m_WindowBufferManager->getDesiredBufferContents();
+    desiredBufferContents.writeToJSON(saveObject, false);
     QJsonDocument saveDoc(saveObject);
     saveFile.write(saveDoc.toJson());
     saveFile.close();
@@ -338,11 +317,11 @@ void Window_ProfileConfiguration::saveToFile(const QString &filePath)
 void Window_ProfileConfiguration::openFromFile(const QString &filePath)
 {
     QFile loadFile(filePath);
-     if (!loadFile.open(QIODevice::ReadOnly)) return;
+    if (!loadFile.open(QIODevice::ReadOnly)) return;
 
     this->updateConfigurationPath(filePath.toStdString());
 
-     clearExistingOperations();
+    clearExistingOperations();
 
     QByteArray loadData = loadFile.readAll();
     loadFile.close();
@@ -351,11 +330,14 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
     QJsonObject jsonObject = loadDoc.object();
 
     this->setIndicateHome(jsonObject["configureHome"].toBool());
-    m_WindowMotionProfile->setFilePath(filePath.toStdString());
-    m_WindowMotionProfile->setProgramText(jsonObject["galilScript"].toString().toStdString());
 
     QJsonArray configArray = jsonObject["configData"].toArray();
 
+    SPII_CurrentProgram loadBufferContents;
+    loadBufferContents.readFromJSON(jsonObject);
+    m_WindowBufferManager->loadBufferContents(loadBufferContents);
+
+    //Let us first setup the configuration
     if(!configArray.isEmpty())
     {
         ECMCommand_ProfileCollection profileCollection;
@@ -371,7 +353,7 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
                 loadConfig = std::make_shared<ECMCommand_ProfileConfiguration>();
                 ECMCommand_ProfileConfigurationPtr castLoadConfig = static_pointer_cast<ECMCommand_ProfileConfiguration>(loadConfig);
                 castLoadConfig->readFromJSON(operationObject);
-                castLoadConfig->m_GalilOperation.setProgramLoaded(true,filePath.toStdString());
+                //                castLoadConfig->m_GalilOperation.setProgramLoaded(true,filePath.toStdString());
             }
             else if(opType == ProfileOpType::PAUSE)
             {
@@ -388,9 +370,10 @@ void Window_ProfileConfiguration::openFromFile(const QString &filePath)
             currentWidget->loadFromProfileConfiguration(loadConfig);
 
             //Object will contain all of the profiles used for the profile
-           profileCollection.insertProfile(loadConfig);
+            profileCollection.insertProfile(loadConfig);
         }
     }
+
     emit signal_LoadedConfigurationCollection(filePath.toStdString());
 }
 
@@ -402,7 +385,7 @@ void Window_ProfileConfiguration::setIndicateHome(const bool &checked)
 void Window_ProfileConfiguration::slot_ChangedWindowVisibility(const GeneralDialogWindow::DialogWindowTypes &type, const bool visibility)
 {
     switch (type) {
-    case GeneralDialogWindow::DialogWindowTypes::WINDOW_MOTION_PROFILE:
+    case GeneralDialogWindow::DialogWindowTypes::WINDOW_BUFFER_MANAGER:
         ui->actionMotion_Profile->setChecked(visibility);
         break;
     default:
@@ -413,10 +396,10 @@ void Window_ProfileConfiguration::slot_ChangedWindowVisibility(const GeneralDial
 
 void Window_ProfileConfiguration::on_actionMotion_Profile_triggered(bool checked)
 {
-    if(checked)
-        m_WindowMotionProfile->show();
-    else
-        m_WindowMotionProfile->hide();
+        if(checked)
+            m_WindowBufferManager->show();
+        else
+            m_WindowBufferManager->hide();
 }
 
 void Window_ProfileConfiguration::on_actionNew_triggered(bool checked)
@@ -424,4 +407,49 @@ void Window_ProfileConfiguration::on_actionNew_triggered(bool checked)
     UNUSED(checked);
     ui->lineEdit_ConfugrationPath->clear();
     clearExistingOperations();
+}
+
+bool Window_ProfileConfiguration::checkBufferContents(bool &shouldUpload)
+{
+    bool continueExecution = true;
+
+    bool windowDisplaysAccurately = m_WindowBufferManager->isDisplayCurrentAndCompiled();
+
+    if(!windowDisplaysAccurately) //the window does not accurately reflect what is currently aboard the ACS
+    {
+        QMessageBox msgBox;
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setText("The script associated with this script does not match currently what is aboard the galil unit.");
+        msgBox.setInformativeText("Do you want the script to be automatically uploaded? This will cause the homing routine to execute.");
+        QAbstractButton* pButtonAccept = msgBox.addButton(tr("Accept"), QMessageBox::AcceptRole);
+        QAbstractButton* pButtonReject = msgBox.addButton(tr("Reject"), QMessageBox::RejectRole);
+        msgBox.exec();
+
+        if(msgBox.clickedButton() == pButtonAccept)
+        {
+            shouldUpload = true;
+            continueExecution = true;
+        }
+        else if(msgBox.clickedButton() == pButtonReject)
+
+        {
+            continueExecution = false;
+        }
+    }
+    return continueExecution;
+}
+
+void Window_ProfileConfiguration::on_pushButton_OpenMotionScript_released()
+{
+
+}
+
+void Window_ProfileConfiguration::on_pushButton_UploadCurrentBuffers_released()
+{
+
+}
+
+void Window_ProfileConfiguration::on_pushButton_SyncCurrentBuffers_released()
+{
+    m_API->m_MotionController->executeSynchronizationRequest();
 }

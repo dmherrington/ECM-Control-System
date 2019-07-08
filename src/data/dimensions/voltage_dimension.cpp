@@ -137,4 +137,4 @@ double VoltageDimension::ConvertFromBase(const double &value) const
 }
 
 
-} //END DimensionalAnalysis
+} //end of namespace common_data

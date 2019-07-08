@@ -96,7 +96,6 @@ HEADERS += \
         galil_poll_status.h \
         galil_state_interface.h \
         library_galilmotioncontroller_global.h \
-        type_direction.h \
         commands/abstract_command.h \
         commands/abstract_move_command.h \
         commands/command_absolute_move.h \
@@ -179,6 +178,7 @@ HEADERS += \
     motion_command_touchoff_config.h \
     device_interface_motion_control.h \
     programs/galil_current_operation.h
+
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

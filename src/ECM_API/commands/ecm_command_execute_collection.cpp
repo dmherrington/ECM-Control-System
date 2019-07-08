@@ -19,7 +19,7 @@ ECMCommand_ExecuteCollection::ECMCommand_ExecuteCollection(const ECMCommand_Exec
     this->activeIndex = copy.activeIndex;
     this->indicateHome = copy.indicateHome;
     this->overwriteContents = copy.overwriteContents;
-    this->writeGalilScript = copy.writeGalilScript;
+    this->writeMotionScript = copy.writeMotionScript;
 }
 
 ECMCommand_ExecuteCollection::ECMCommand_ExecuteCollection(const ECMCommand_ProfileCollection &proCollection):
@@ -82,7 +82,7 @@ bool ECMCommand_ExecuteCollection::doActiveOperationsRemain()
     for (; it!=m_Collection.end(); ++it)
     {
         ECMCommand_AbstractProfileConfigPtr currentConfig = it->second;
-        if(currentConfig->shouldProfileExecute() && !currentConfig->execProperties.hasProfileBeenExecuted())
+        if(currentConfig->shouldProfileExecute() && !currentConfig->m_ExecProperties.hasProfileBeenExecuted())
         {
             this->activeIndex = currentConfig->getOperationIndex();
             isCollectionIncomplete = true;
@@ -110,12 +110,12 @@ void ECMCommand_ExecuteCollection::setOverwriteLogs(const bool &overwrite)
 
 void ECMCommand_ExecuteCollection::initializeProfileExecution()
 {
-    this->m_Collection.at(activeIndex)->execProperties.initializeExecution();
+    this->m_Collection.at(activeIndex)->m_ExecProperties.initializeExecution();
 }
 
-void ECMCommand_ExecuteCollection::setWritingGalilScript(const bool &write)
+void ECMCommand_ExecuteCollection::setWritingMotionScript(const bool &write)
 {
-    this->writeGalilScript = write;
+    this->writeMotionScript = write;
 }
 
 std::string ECMCommand_ExecuteCollection::getPartNumber() const
@@ -157,7 +157,7 @@ bool ECMCommand_ExecuteCollection::isFirstOperation(const unsigned int &index) c
     return true;
 }
 
-bool ECMCommand_ExecuteCollection::shouldWriteGalilScript() const
+bool ECMCommand_ExecuteCollection::shouldWriteMotionScript() const
 {
-    return this->writeGalilScript;
+    return this->writeMotionScript;
 }

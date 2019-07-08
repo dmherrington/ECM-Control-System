@@ -5,7 +5,7 @@
 
 #include "../general_dialog_window.h"
 
-#include "library_galilMotionController/galil_motion_controller.h"
+#include "library_SPIIMotionController/spii_motion_controller.h"
 
 namespace Ui {
 class Window_Touchoff;

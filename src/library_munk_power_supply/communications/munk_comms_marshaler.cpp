@@ -31,11 +31,36 @@ MunkCommsMarshaler::~MunkCommsMarshaler()
 //! \param linkName Name of link to connect to
 //! \return True if connection succesfull, false otherwise
 //!
-bool MunkCommsMarshaler::ConnectToLink(const SerialConfiguration &linkConfig)
+void MunkCommsMarshaler::ConnectToLink(const SerialConfiguration &linkConfig)
 {
     link->setSerialConfiguration(linkConfig);
     link->Connect();
-    return link->isConnected();
+
+    if(link->isConnected())
+    {
+        auto func = [this]() {
+            bool validLink = false;
+            if(link->isConnected())
+            {
+                registers_Munk::Register_SupplyIdentifier registerRequest;
+                registerRequest.setSlaveAddress(1);
+                if(!protocol->sendRegisterSupplyIdentifier(link.get(),registerRequest))
+                    link->Disconnect(); //we are either connected to the wrong port or something else is wrong
+                else
+                {
+                    Emit([&](CommsEvents *ptr){ptr->ConnectionOpened();});
+                    validLink = true;
+                }
+            }
+        };
+
+        link->MarshalOnThread(func);
+    }
+}
+
+bool MunkCommsMarshaler::ValidateConnection()
+{
+
 }
 
 bool MunkCommsMarshaler::DisconnetFromLink()
@@ -202,7 +227,7 @@ void MunkCommsMarshaler::sendRegisterPulseMode(const registers_Munk::Register_Pu
 
 void MunkCommsMarshaler::ConnectionOpened() const
 {
-    Emit([&](CommsEvents *ptr){ptr->ConnectionOpened();});
+    //Emit([&](CommsEvents *ptr){ptr->ConnectionOpened();});
 }
 
 void MunkCommsMarshaler::ConnectionClosed() const

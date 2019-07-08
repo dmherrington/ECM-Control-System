@@ -18,6 +18,10 @@ void ECMState_Upload::OnExit()
 
 void ECMState_Upload::stopProcess()
 {
+
+//    ECM::API::AbstractStateECMProcess* currentInnerState = static_cast<ECM::API::AbstractStateECMProcess*>(this->GetInnerState());
+//    currentInnerState->stopProcess();
+
     desiredState = ECMState::STATE_ECM_IDLE;
 }
 
@@ -50,7 +54,7 @@ hsm::Transition ECMState_Upload::GetTransition()
         else if(IsInInnerState<ECMState_UploadFailed>())
         {
             ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection->getActiveConfiguration(); //find the current configuration we had been working on
-            activeConfiguration->execProperties.completeExecution();
+            activeConfiguration->m_ExecProperties.completeExecution();
             Owner().concludeExecutingOperation(activeConfiguration);
 
             this->m_ECMCollection->establishEndTime();
@@ -65,6 +69,7 @@ hsm::Transition ECMState_Upload::GetTransition()
             {
                 ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection->getActiveConfiguration();
                 ECMCommand_ProfileConfigurationPtr castConfiguration = static_pointer_cast<ECMCommand_ProfileConfiguration>(activeConfiguration);
+                castConfiguration->m_DesiredProgram = m_ECMCollection->getDesiredBufferSuite();
                 rtn = hsm::InnerEntryTransition<ECMState_UploadMotionProfile>(castConfiguration);
                 break;
             }
@@ -123,7 +128,7 @@ void ECMState_Upload::OnEnter(ECMCommand_ExecuteCollectionPtr collection)
          * Otherwise, we should set the appropriate variables related to the
          * motion profile.
          */
-        if(this->m_ECMCollection->isFirstOperation(this->m_ECMCollection->getActiveIndex()) && this->m_ECMCollection->shouldWriteGalilScript())
+        if(this->m_ECMCollection->isFirstOperation(this->m_ECMCollection->getActiveIndex()) && this->m_ECMCollection->shouldWriteMotionScript())
         {
             this->desiredState = ECMState::STATE_ECM_UPLOAD_MOTION_PROFILE;
         }

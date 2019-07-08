@@ -35,8 +35,6 @@ hsm::Transition State_HomePositioning::GetTransition()
 
     if(currentState != desiredState)
     {
-        //        Owner().issueGalilRemovePollingRequest("homest"); This should be completed onExit
-
         //this means we want to chage the state for some reason
         //now initiate the state transition to the correct class
         switch (desiredState) {

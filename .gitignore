@@ -6,7 +6,11 @@ Makefile
 example/example
 *.user*
 *.a
+/tools/*
 
+
+/Operation Configuration/*
+/SPII Buffer Manager/*
 /build-src-Desktop_Qt_5_7_1_MinGW_32bit-Debug/*
 /build**
 
@@ -28,6 +32,7 @@ example/example
 "doxygen/html/"
 /src/common/debug/*
 /src/data/debug/*
+/src/library_SPIIMotionController/debug/*
 /src/library_galilMotionController/debug/*
 /src/window_GMC_variable_editor/debug/*
 /src/Window_GalilMotionController/debug/*

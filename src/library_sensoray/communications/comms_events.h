@@ -9,6 +9,8 @@
 #include "common/comms/communication_connection.h"
 #include "common/comms/communication_update.h"
 
+#include "s24xx.h"
+
 /**
 \* @file  comms_events.h
 \*
@@ -63,6 +65,11 @@ public:
     virtual void NewDataReceived(const QByteArray &buffer) const
     {
         UNUSED(buffer);
+    }
+
+    virtual void ReceivedUpdatedADC(const std::vector<S2426_ADC_SAMPLE> data) const
+    {
+        UNUSED(data);
     }
 
 };

@@ -32,9 +32,10 @@ enum class ECMState{
     STATE_ECM_PROFILE_MACHINE_ABORT = 21, /**< */
     STATE_ECM_PROFILE_MACHINE_COMPLETE = 22, /**< */
     STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION = 23, /**< */
-    STATE_ECM_PROFILE_MACHINE_FAILED = 24, /**< */
-    STATE_ECM_PROFILE_MACHINE_PAUSED = 25, /**< */
-    STATE_ECM_PROFILE_MACHINE_PROCESS = 26, /**< */
+    STATE_ECM_PROFILE_MACHINE_ESTOP = 24, /**< */
+    STATE_ECM_PROFILE_MACHINE_FAILED = 25, /**< */
+    STATE_ECM_PROFILE_MACHINE_PAUSED = 26, /**< */
+    STATE_ECM_PROFILE_MACHINE_PROCESS = 27, /**< */
     STATE_ECM_SETUP_MACHINE = 30, /**< */
     STATE_ECM_SETUP_MACHINE_COMPLETE = 31, /**< */
     STATE_ECM_SETUP_MACHINE_FAILED = 32, /**< */
@@ -78,6 +79,8 @@ inline std::string ECMStateToString(const ECMState &type) {
         return "Profile Machining Complete";
     case ECMState::STATE_ECM_PROFILE_MACHINE_COMPLETE_EXECUTION:
         return "Profile Machining Complete Execution";
+    case ECMState::STATE_ECM_PROFILE_MACHINE_ESTOP:
+        return "Profile Machining ESTOP Execution";
     case ECMState::STATE_ECM_PROFILE_MACHINE_FAILED:
         return "Profile Machining Failed";
     case ECMState::STATE_ECM_PROFILE_MACHINE_PAUSED:

@@ -81,10 +81,6 @@ void MunkSerialLink::setSerialConfiguration(const SerialConfiguration &config)
         Disconnect();
     _config = config;
     _config.setDynamic();
-
-    std::cout << "Create SerialLink " << config.portName() << config.baud() << config.flowControl()
-             << config.parity() << config.dataBits() << config.stopBits() << std::endl;
-    std::cout <<  "portName: " << config.portName() << std::endl;
 }
 
 bool MunkSerialLink::Connect(void)
@@ -143,8 +139,6 @@ bool MunkSerialLink::_hardwareConnect(QSerialPort::SerialPortError& error, QStri
         m_port = NULL;
     }
 
-    std::cout << "MunkSerialLink: hardwareConnect to " << _config.portName() << std::endl;
-
     //m_port = new QSerialPort(QString::fromStdString(_config.portName()).trimmed(),0);
     std::cout << "Configuring port" << std::endl;
     m_port = new QSerialPort(QString::fromStdString(_config.portName()).trimmed());
@@ -170,9 +164,6 @@ bool MunkSerialLink::_hardwareConnect(QSerialPort::SerialPortError& error, QStri
         return false; // couldn't open serial port
     }
 
-    //EmitEvent([this](const ILinkEvents *ptr){ptr->CommunicationUpdate(getPortName(), "Opened port!");});
-    EmitEvent([this](const ILinkEvents *ptr){ptr->ConnectionOpened();});
-
     m_port->setBaudRate     (_config.baud());
     m_port->setDataBits     (static_cast<QSerialPort::DataBits>     (_config.dataBits()));
     m_port->setFlowControl  (static_cast<QSerialPort::FlowControl>  (_config.flowControl()));
@@ -187,6 +178,8 @@ bool MunkSerialLink::_hardwareConnect(QSerialPort::SerialPortError& error, QStri
     });
     m_port->moveToThread(m_ListenThread);
     m_ListenThread->start();
+
+    EmitEvent([this](const ILinkEvents *ptr){ptr->ConnectionOpened();});
 
     return true; // successful connection
 }

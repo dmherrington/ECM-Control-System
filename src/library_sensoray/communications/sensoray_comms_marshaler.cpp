@@ -108,6 +108,15 @@ void CommsMarshaler::resetSensorayIO()
     link->MarshalOnThread(func);
 }
 
+void CommsMarshaler::readSensoaryADC()
+{
+    auto func = [this]() {
+        protocol->readSensorayADC();
+    };
+
+    link->MarshalOnThread(func);
+}
+
 //////////////////////////////////////////////////////////////
 /// React to Link Events
 //////////////////////////////////////////////////////////////
@@ -129,6 +138,11 @@ void CommsMarshaler::SerialPortStatusUpdate(const common::comms::CommunicationUp
 void CommsMarshaler::ResponseReceived(const QByteArray &buffer) const
 {
     Emit([&](CommsEvents *ptr){ptr->NewDataReceived(buffer);});
+}
+
+void CommsMarshaler::UpdateFromADC(const std::vector<S2426_ADC_SAMPLE> data) const
+{
+    Emit([&](CommsEvents *ptr){ptr->ReceivedUpdatedADC(data);});
 }
 
 } //end of namespace comms

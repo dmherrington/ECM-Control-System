@@ -13,7 +13,7 @@ ECMState_SetupMachineHome::ECMState_SetupMachineHome():
 
 void ECMState_SetupMachineHome::OnExit()
 {
-    Owner().m_Galil->RemoveHost(this);
+    Owner().m_MotionController->RemoveHost(this);
 }
 
 void ECMState_SetupMachineHome::stopProcess()
@@ -67,11 +67,12 @@ void ECMState_SetupMachineHome::OnEnter(ECMCommand_AbstractProfileConfigPtr conf
 
     AbstractStateECMProcess::notifyOwnerStateTransition();
 
-
     //check that we should indicate home and it has not previously completed
-    if(this->m_Config->shouldHomeBeIndicated() && !Owner().m_Galil->stateInterface->isHomeInidcated())
+    if(this->m_Config->shouldHomeBeIndicated() && !Owner().m_MotionController->m_StateInterface->isHomeInidcated())
     {
-        Owner().m_Galil->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
+        //at this time the homing sequence is no longer valid this check will persist in case it is desired in the future
+        /*
+        Owner().m_MotionController->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
 
             switch (profileState.getProfileState()->getType()) {
 
@@ -101,7 +102,10 @@ void ECMState_SetupMachineHome::OnEnter(ECMCommand_AbstractProfileConfigPtr conf
         }); //end of lambda expression
 
         CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::HOMING,"latch");
-        Owner().m_Galil->executeCommand(command);
+        Owner().m_MotionController->executeCommand(command);
+        */
+        desiredState = ECMState::STATE_ECM_SETUP_MACHINE_TOUCHOFF;
+
     } //end of if statement
     else{
         //the home function did not need to be executed at this time, therefore, we can move on to touchoff

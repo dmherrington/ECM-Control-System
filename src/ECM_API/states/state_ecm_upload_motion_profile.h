@@ -3,6 +3,7 @@
 
 #include "states/state_abstract_ecm_process.h"
 #include "commands/ecm_command_execute_collection.h"
+#include "library_SPIIMotionController/commands/spii_command_upload_program_suite.h"
 
 /**
 \* @file  state_ecm_touchoff.h

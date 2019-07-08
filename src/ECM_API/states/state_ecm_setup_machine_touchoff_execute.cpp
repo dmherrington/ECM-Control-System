@@ -13,7 +13,7 @@ ECMState_SetupMachineTouchoffExecute::ECMState_SetupMachineTouchoffExecute():
 
 void ECMState_SetupMachineTouchoffExecute::OnExit()
 {
-    Owner().m_Galil->RemoveHost(this);
+    Owner().m_MotionController->RemoveHost(this);
 }
 
 AbstractStateECMProcess* ECMState_SetupMachineTouchoffExecute::getClone() const
@@ -73,22 +73,29 @@ void ECMState_SetupMachineTouchoffExecute::OnEnter(ECMCommand_AbstractProfileCon
         /*
          * First, lets setup the necessary touchoff ref and gap variables per the configuration
          */
-        Command_VariablePtr commandTouchRef = nullptr;
+        Command_VariableArrayPtr commandTouchRef = nullptr;
 
         if(castConfig->m_Touchoff.shouldTouchoffUtilizePreviousPosition())
         {
-            int currentPosition = Owner().m_Galil->stateInterface->getAxisStatus(MotorAxis::Z)->getPosition().getPosition();
-            commandTouchRef = std::make_shared<Command_Variable>("touchref",currentPosition);
+            std::vector<double> axisPosition = Owner().m_MotionController->m_StateInterface->m_AxisPosition->getAxisPositionVector();
+            commandTouchRef = std::make_shared<Command_VariableArray>();
+            commandTouchRef->setVariableName("startTouchOffPosition");
+            commandTouchRef->setVariableValue(axisPosition);
         }
         else{
-            commandTouchRef = std::make_shared<Command_Variable>(castConfig->m_Touchoff.getTouchoffRefCommand());
+            commandTouchRef = std::make_shared<Command_VariableArray>(castConfig->m_Touchoff.getTouchoffRefCommand());
         }
-        Command_VariablePtr commandTouchGap = std::make_shared<Command_Variable>(castConfig->m_Touchoff.getTouchoffGapCommand());
 
-        Owner().m_Galil->executeCommand(commandTouchRef);
-        Owner().m_Galil->executeCommand(commandTouchGap);
+        Command_VariableArrayPtr commandTouchGap = std::make_shared<Command_VariableArray>(castConfig->m_Touchoff.getTouchoffGapCommand());
 
-        Owner().m_Galil->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
+        Owner().m_MotionController->executeCommand(commandTouchRef);
+        Owner().m_MotionController->executeCommand(commandTouchGap);
+
+        Owner().m_MotionController->AddLambda_AbortExecution(this,[this](){
+            desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
+        });
+
+        Owner().m_MotionController->AddLambda_NewMotionProfileState(this,[this](const MotionProfileState &profileState){
 
             switch (profileState.getProfileState()->getType()) {
             case MotionProfile::ProfileType::TOUCHOFF:
@@ -124,8 +131,8 @@ void ECMState_SetupMachineTouchoffExecute::OnEnter(ECMCommand_AbstractProfileCon
             }
         });
 
-        CommandExecuteProfilePtr commandTouchoffExecute = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::TOUCHOFF,"touchof");
-        Owner().m_Galil->executeCommand(commandTouchoffExecute);
+        CommandExecuteProfilePtr commandTouchoffExecute = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::TOUCHOFF,"TOUCHOFF");
+        Owner().m_MotionController->executeCommand(commandTouchoffExecute);
         break;
     }
     default:

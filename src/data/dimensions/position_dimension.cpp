@@ -97,7 +97,7 @@ IDimension* PositionDimension::Copy() const
 //!
 PositionUnit PositionDimension::BaseUnit() const
 {
-    return UNIT_POSITION_COUNTS;
+    return UNIT_POSITION_MICRO_METER;
 }
 
 
@@ -110,9 +110,9 @@ double PositionDimension::RatioToBaseUnit() const
     switch(m_type)
     {
     case UNIT_POSITION_COUNTS:
-        return 1.0;
+        return 10.0;
     case UNIT_POSITION_MICRO_METER:
-        return 0.1;
+        return 1.0;
     default:
         throw;
     }

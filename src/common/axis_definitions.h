@@ -5,6 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
+#include "type_direction.h"
+
 /**
 \* @file  axis_definitions.h
 \*
@@ -20,37 +22,66 @@
 \*
 \*/
 
-enum class MotorAxis
+enum MotorAxis
 {
-    ALL = 0,
-    X = 1,
-    Y = 2,
-    Z = 3
+    ALL = -1,
+    X = 0,
+    Y = 1,
+    Z = 2
 };
 
 inline std::string AxisToString(const MotorAxis &axis) {
     switch (axis) {
     case MotorAxis::X:
-        return "C";
+        return "X";
     case MotorAxis::Y:
-        return "B";
+        return "Y";
     case MotorAxis::Z:
-        return "A";
+        return "Z";
     default:
-        throw std::runtime_error("Unknown direction type seen");
+        throw std::runtime_error("Unknown axis type seen");
     }
 }
 
 inline MotorAxis AxisFromString(const std::string &str)
 {
-    if(str == "C")
+    if(str == "X")
         return MotorAxis::X;
-    else if(str == "B")
+    else if(str == "Y")
         return MotorAxis::Y;
-    else if(str == "A")
+    else if(str == "Z")
         return MotorAxis::Z;
     else
         throw std::runtime_error("Unknown axis string seen");
+}
+
+inline int getAxisSign(const MotorAxis &axis, const Direction &direction)
+{
+    switch (axis) {
+    case MotorAxis::X:
+    {
+        if(direction == Direction::DIRECTION_INCREASE)
+            return -1;
+        else
+            return 1;
+    }
+    case MotorAxis::Y:
+    {
+        if(direction == Direction::DIRECTION_INCREASE)
+            return -1;
+        else
+            return 1;
+    }
+    case MotorAxis::Z:
+    {
+        if(direction == Direction::DIRECTION_INCREASE)
+            return -1;
+        else
+            return 1;
+    }
+    default:
+        throw std::runtime_error("Unknown axis type seen");
+    }
 }
 
 inline std::vector<MotorAxis> GetAxisVector()
