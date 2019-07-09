@@ -43,6 +43,9 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     qRegisterMetaType<ECM::SPII::SPIIState>("ECM::SPII::SPIIState");
 
+    qRegisterMetaTypeStreamOperators<CustomType>("CustomType");
+
+
     ui->setupUi(this);
 
     common::EnvironmentTime startTime;
@@ -437,6 +440,11 @@ void ECMControllerGUI::readSettings()
 
     resize(size);
     move(pos);
+
+    QSettings globalConfigs("ECMController Config", QSettings::IniFormat);
+    QVariant runtimeValue = globalConfigs.value("runtime");
+    m_GlobalMachineTime = runtimeValue.value<common::SimplifiedTime>();
+
 }
 
 void ECMControllerGUI::closeEvent(QCloseEvent *event)
@@ -466,6 +474,9 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
         m_WindowRigol->close();
         m_WindowConnections->close();
         m_WindowCustomMotionCommands->close();
+
+        QSettings globalConfigs("ECMController Config", QSettings::IniFormat);
+        globalConfigs.setValue("runtime", QVariant::fromValue(m_GlobalMachineTime));
 
         event->accept();
     }
@@ -1164,4 +1175,9 @@ void ECMControllerGUI::slot_MunkFaultCodeStatus(const bool &status, const std::v
 void ECMControllerGUI::on_pushButton_ClearMunkError_released()
 {
     m_API->m_Munk->resetFaultState();
+}
+
+void ECMControllerGUI::on_actionRun_Statistics_triggered()
+{
+
 }

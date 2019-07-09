@@ -91,7 +91,8 @@ SOURCES += \
     misc_dialogs/widget_notification.cpp \
     touchoff_dialog/widget_front_panel_touchoff.cpp \
     touchoff_dialog/touchoff_widget_axis_value.cpp \
-    pump_dialog/widget_front_panel_pump.cpp
+    pump_dialog/widget_front_panel_pump.cpp \
+    misc_dialogs/dialog_run_statistics.cpp
 
 HEADERS += \
     misc_dialogs/code_edit_widget.h \
@@ -143,7 +144,8 @@ HEADERS += \
     misc_dialogs/widget_notification.h \
     touchoff_dialog/widget_front_panel_touchoff.h \
     touchoff_dialog/touchoff_widget_axis_value.h \
-    pump_dialog/widget_front_panel_pump.h
+    pump_dialog/widget_front_panel_pump.h \
+    misc_dialogs/dialog_run_statistics.h
 
 FORMS += \
     misc_dialogs/table_widget_operation_descriptor.ui \
@@ -182,7 +184,8 @@ FORMS += \
     misc_dialogs/widget_notification.ui \
     touchoff_dialog/widget_front_panel_touchoff.ui \
     touchoff_dialog/touchoff_widget_axis_value.ui \
-    pump_dialog/widget_front_panel_pump.ui
+    pump_dialog/widget_front_panel_pump.ui \
+    misc_dialogs/dialog_run_statistics.ui
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

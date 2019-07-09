@@ -2042,6 +2042,7 @@ width:20px;
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionRun_Statistics"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -2115,6 +2116,11 @@ width:20px;
   <action name="actionBuffer_Manager">
    <property name="text">
     <string>Buffer Manager</string>
+   </property>
+  </action>
+  <action name="actionRun_Statistics">
+   <property name="text">
+    <string>Run Statistics</string>
    </property>
   </action>
  </widget>

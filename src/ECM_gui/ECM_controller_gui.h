@@ -19,6 +19,8 @@
 
 #include "additional_sensor_display.h"
 #include "common/threadmanager.h"
+#include "common/simplified_time.h"
+
 #include "common/timer.h"
 
 #include "ECM_API/ecm_api.h"
@@ -228,10 +230,13 @@ private:
     EnvironmentTime configurationStart;
     QTimer* elapsedConfigurationTimer;
     QTimer* elapsedOperationTimer;
+    common::SimplifiedTime m_GlobalMachineTime;
+
 private slots:
     void slot_OnUpdateElapsedOperationTime();
     void slot_OnUpdateElapsedConfigurationTime();
     void on_pushButton_ClearMunkError_released();
+    void on_actionRun_Statistics_triggered();
 };
 
 #endif // ECM_CONTROLLER_GUI_H
