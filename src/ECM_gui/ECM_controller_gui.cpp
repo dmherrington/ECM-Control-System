@@ -50,6 +50,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     common::EnvironmentTime startTime;
     common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
+    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,m_SoftwareBootTime);
 
     QDate tmp_Date(startTime.year, startTime.month, startTime.dayOfMonth);
     QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond);
@@ -197,7 +198,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     setupUploadCallbacks();
 
-    m_WindowConnections->connectToAllDevices();
+    //m_WindowConnections->connectToAllDevices();
 
     ProgressStateMachineStates();
 }
@@ -276,7 +277,7 @@ void ECMControllerGUI::slot_RemovePlottable(const common::TupleECMData &data)
 void ECMControllerGUI::slot_DisplayActionTriggered()
 {
     //find the item that was selected
-    QAction* selectedObject = (QAction*)sender();
+    QAction* selectedObject = static_cast<QAction*>(sender());
 
     common::TupleECMData key;
 
@@ -789,6 +790,10 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
     }
     case ExecutionProperties::ExecutionCondition::ENDING:
     {
+        common::EnvironmentTime operationEnd = props.getTime();
+        common::SimplifiedTime operationTime(operationStart - operationEnd);
+        m_GlobalMachineTime = m_GlobalMachineTime + operationTime;
+
         std::vector<double> endingPosition = props.getCurrentPosition();
         std::string msg;
 
@@ -1179,7 +1184,13 @@ void ECMControllerGUI::on_pushButton_ClearMunkError_released()
 
 void ECMControllerGUI::on_actionRun_Statistics_triggered()
 {
-    common::SimplifiedTime localTime;
+    common::EnvironmentTime currentTime;
+    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,currentTime);
+
+    uint64_t dailyElapsed = currentTime - m_SoftwareBootTime;
+
+    common::SimplifiedTime localTime(dailyElapsed);
+
     Dialog_RunStatistics dialogWindow(m_GlobalMachineTime, localTime);
     dialogWindow.exec();
 }

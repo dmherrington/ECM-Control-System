@@ -6,8 +6,8 @@ Dialog_RunStatistics::Dialog_RunStatistics(const common::SimplifiedTime &globalR
     ui(new Ui::Dialog_RunStatistics)
 {
     ui->setupUi(this);
-    ui->label_totalTime->setText(globalRuntime.getQString());
-    ui->label_dailyTime->setText(dailyRuntime.getQString());
+    ui->lineEdit_totalTime->setText(globalRuntime.getQString());
+    ui->lineEdit_dailyTime->setText(dailyRuntime.getQString());
 }
 
 Dialog_RunStatistics::~Dialog_RunStatistics()

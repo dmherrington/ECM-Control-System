@@ -231,6 +231,9 @@ private:
     EnvironmentTime configurationStart;
     QTimer* elapsedConfigurationTimer;
     QTimer* elapsedOperationTimer;
+
+    EnvironmentTime m_SoftwareBootTime;
+    common::SimplifiedTime m_DailyMachineTime;
     common::SimplifiedTime m_GlobalMachineTime;
 
 private slots:
