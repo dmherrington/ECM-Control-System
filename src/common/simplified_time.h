@@ -3,6 +3,7 @@
 
 #include <QDataStream>
 #include <QMetaType>
+#include <QString>
 
 #include<iostream>
 
@@ -36,6 +37,15 @@ SimplifiedTime(const double &microseconds)
     currentSeconds=static_cast<int>(currentSeconds)%3600;
     min=currentSeconds/60;
     sec=static_cast<int>(currentSeconds)%60;
+}
+
+QString getQString() const
+{
+    QString hours = QString::number(hr) + " HRS : ";
+    QString mins = QString::number(min) + " MINS : ";
+    QString secs = QString::number(sec) + " SECS";
+
+    return hours + mins + secs;
 }
 
 SimplifiedTime& operator = (const SimplifiedTime &rhs)

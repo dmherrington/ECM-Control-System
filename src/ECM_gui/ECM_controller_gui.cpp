@@ -43,7 +43,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     qRegisterMetaType<ECM::SPII::SPIIState>("ECM::SPII::SPIIState");
 
-    qRegisterMetaTypeStreamOperators<CustomType>("CustomType");
+    qRegisterMetaTypeStreamOperators<common::SimplifiedTime>("SimplifiedTime");
 
 
     ui->setupUi(this);
@@ -1179,5 +1179,7 @@ void ECMControllerGUI::on_pushButton_ClearMunkError_released()
 
 void ECMControllerGUI::on_actionRun_Statistics_triggered()
 {
-
+    common::SimplifiedTime localTime;
+    Dialog_RunStatistics dialogWindow(m_GlobalMachineTime, localTime);
+    dialogWindow.exec();
 }

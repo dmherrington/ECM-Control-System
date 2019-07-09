@@ -16,6 +16,7 @@
 #include "misc_dialogs/window_device_connections.h"
 #include "misc_dialogs/window_custom_motion_commands.h"
 #include "misc_dialogs/widget_notification.h"
+#include "misc_dialogs/dialog_run_statistics.h"
 
 #include "additional_sensor_display.h"
 #include "common/threadmanager.h"
