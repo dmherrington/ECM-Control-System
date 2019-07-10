@@ -1054,7 +1054,7 @@ void ECMControllerGUI::updateMCIndicators(const MotionProfileState &profileState
         }
         break;
     }
-    case MotionProfile::ProfileType::HOMING:
+    case MotionProfile::ProfileType::HOMING_ROUTINE:
     {
         ProfileState_Homing* castState = (ProfileState_Homing*)profileState.getProfileState().get();
         ui->statusBar->showMessage(QString::fromStdString(ProfileState_Homing::HOMINGCodesToString(castState->getCurrentCode())),3000);
@@ -1082,7 +1082,7 @@ void ECMControllerGUI::updateMCIndicators(const MotionProfileState &profileState
 void ECMControllerGUI::lockFrontPanelButtons(const bool &lock)
 {
     ui->pushButton_RunAutomatedProfile->setDisabled(lock);
-    ui->pushButton_ResetHome->setDisabled(lock);
+    ui->pushButton_HomeRoutine->setDisabled(lock);
     ui->pushButton_MoveHome->setDisabled(lock);
     ui->pushButton_LoadAutomatedProfile->setDisabled(lock);
     ui->pushButton_MotorDisable->setDisabled(lock);

@@ -49,6 +49,11 @@ hsm::Transition State_Ready::GetTransition()
             rtn = hsm::SiblingTransition<State_HomePositioning>(currentCommand);
             break;
         }
+        case SPIIState::STATE_HOMING_ROUTINE:
+        {
+            rtn = hsm::SiblingTransition<State_HomingRoutine>(currentCommand);
+            break;
+        }
         case SPIIState::STATE_SCRIPT_EXECUTION:
         {
             rtn = hsm::SiblingTransition<State_ScriptExecution>(currentCommand);
@@ -269,6 +274,7 @@ void State_Ready::OnEnter(const AbstractCommandPtr command)
 
 #include "states/state_idle.h"
 #include "states/state_home_positioning.h"
+#include "states/state_homing_routine.h"
 #include "states/state_jogging.h"
 #include "states/state_manual_positioning.h"
 #include "states/state_script_execution.h"

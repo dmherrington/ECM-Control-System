@@ -9,6 +9,7 @@ namespace SPII {
 class State_Idle;
 class State_EStop;
 class State_HomePositioning;
+class State_HomingRoutine;
 class State_Jogging;
 class State_ManualPositioning;
 class State_ScriptExecution;

@@ -140,7 +140,7 @@ void State_HomePositioning::OnEnter(const AbstractCommandPtr command)
         Request_TellVariablePtr requestHoming = std::make_shared<Request_TellVariable>("Home Positioning Complete","operationStatus");
         common::TupleProfileVariableString tupleVariableHOMING("",profileName,"operationStatus");
         requestHoming->setTupleDescription(tupleVariableHOMING);
-        Owner().issueSPIIAddPollingRequest(requestHoming);
+        Owner().issueSPIIAddPollingRequest(requestHoming, 500);
         currentScriptRequests.push_back(tupleVariableHOMING);
 
         Owner().m_MasterVariableValues->addVariableNotifier("operationStatus",this,[this]
