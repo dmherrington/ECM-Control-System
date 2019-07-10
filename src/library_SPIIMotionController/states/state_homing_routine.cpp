@@ -13,7 +13,7 @@ State_HomingRoutine::State_HomingRoutine():
 
 void State_HomingRoutine::OnExit()
 {
-    Owner().m_MasterVariableValues->removeVariableNotifier("operationStatus",this);
+    Owner().m_MasterVariableValues->removeVariableNotifier("homeStatus",this);
 
     //Ken we need to remove the polling measurements here
     for(size_t i = 0; i < currentScriptRequests.size(); i++)
