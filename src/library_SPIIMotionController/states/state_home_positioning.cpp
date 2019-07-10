@@ -81,7 +81,7 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
     }
     case CommandType::STOP:
     {
-        ProfileState_Homing newState("Home Positioning", scriptProfileName);
+        ProfileState_Homing newState("Home Positioning", scriptProfileName, ProfileState_Homing::ProfileType::MOVE_TO_HOME);
         newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE);
         MotionProfileState newProfileState;
         newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
@@ -92,7 +92,7 @@ void State_HomePositioning::handleCommand(const AbstractCommandPtr command)
     }
     case CommandType::ESTOP:
     {
-        ProfileState_Homing newState("Home Positioning", scriptProfileName);
+        ProfileState_Homing newState("Home Positioning", scriptProfileName, ProfileState_Homing::ProfileType::MOVE_TO_HOME);
         newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE);
         MotionProfileState newProfileState;
         newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
@@ -153,23 +153,27 @@ void State_HomePositioning::OnEnter(const AbstractCommandPtr command)
             case ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE:
             {
                 //the part is still being cut
-                ProfileState_Homing newState("Home Positioning", scriptProfileName);
+                ProfileState_Homing newState("Home Positioning", scriptProfileName, ProfileState_Homing::ProfileType::MOVE_TO_HOME);
                 newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE);
+                Owner().issueUpdatedHomePositioning(newState);
+
                 MotionProfileState newProfileState;
                 newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
                 Owner().issueUpdatedMotionProfileState(newProfileState);
-
                 break;
             }
             case ProfileState_Homing::HOMINGProfileCodes::COMPLETE:
             {
                 //the part is finished being cut
-                ProfileState_Homing newState("Home Positioning", scriptProfileName);
+                ProfileState_Homing newState("Home Positioning", scriptProfileName, ProfileState_Homing::ProfileType::MOVE_TO_HOME);
                 newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::COMPLETE);
+                Owner().issueUpdatedHomePositioning(newState);
+
                 MotionProfileState newProfileState;
                 newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
                 desiredState = SPIIState::STATE_READY;
                 Owner().issueUpdatedMotionProfileState(newProfileState);
+
                 break;
             }
             default:

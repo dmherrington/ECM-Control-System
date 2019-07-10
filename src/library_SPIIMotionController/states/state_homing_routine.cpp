@@ -81,7 +81,7 @@ void State_HomingRoutine::handleCommand(const AbstractCommandPtr command)
     }
     case CommandType::STOP:
     {
-        ProfileState_Homing newState("Home Positioning", scriptProfileName);
+        ProfileState_Homing newState("Home Positioning", scriptProfileName, ProfileState_Homing::ProfileType::HOMING_ROUTINE);
         newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE);
         MotionProfileState newProfileState;
         newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
@@ -92,7 +92,7 @@ void State_HomingRoutine::handleCommand(const AbstractCommandPtr command)
     }
     case CommandType::ESTOP:
     {
-        ProfileState_Homing newState("Home Positioning", scriptProfileName);
+        ProfileState_Homing newState("Home Positioning", scriptProfileName, ProfileState_Homing::ProfileType::HOMING_ROUTINE);
         newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE);
         MotionProfileState newProfileState;
         newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
@@ -137,35 +137,38 @@ void State_HomingRoutine::OnEnter(const AbstractCommandPtr command)
 
         Owner().issueNewSPIIState(SPIIState::STATE_HOMING_ROUTINE);
 
-        Request_TellVariablePtr requestHoming = std::make_shared<Request_TellVariable>("Homing Routine Complete","operationStatus");
-        common::TupleProfileVariableString tupleVariableHOMING("",profileName,"operationStatus");
+        Request_TellVariablePtr requestHoming = std::make_shared<Request_TellVariable>("Homing Routine Complete","homeStatus");
+        common::TupleProfileVariableString tupleVariableHOMING("",profileName,"homeStatus");
         requestHoming->setTupleDescription(tupleVariableHOMING);
         Owner().issueSPIIAddPollingRequest(requestHoming);
         currentScriptRequests.push_back(tupleVariableHOMING);
 
-        Owner().m_MasterVariableValues->addVariableNotifier("operationStatus",this,[this]
+        Owner().m_MasterVariableValues->addVariableNotifier("homeStatus",this,[this]
         {
             double varValue = 0.0;
-            bool valid = Owner().m_MasterVariableValues->getVariableValue("operationStatus",varValue);
+            bool valid = Owner().m_MasterVariableValues->getVariableValue("homeStatus",varValue);
             UNUSED(valid);
 
             switch (static_cast<ProfileState_Homing::HOMINGProfileCodes>(varValue)) {
             case ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE:
             {
                 //the part is still being cut
-                ProfileState_Homing newState("Homing Profile", scriptProfileName);
+                ProfileState_Homing newState("Homing Profile", scriptProfileName, ProfileState_Homing::ProfileType::HOMING_ROUTINE);
                 newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE);
+                Owner().issueUpdatedHomingState(newState);
+
                 MotionProfileState newProfileState;
                 newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
                 Owner().issueUpdatedMotionProfileState(newProfileState);
-
                 break;
             }
             case ProfileState_Homing::HOMINGProfileCodes::COMPLETE:
             {
                 //the part is finished being cut
-                ProfileState_Homing newState("Homing Profile", scriptProfileName);
+                ProfileState_Homing newState("Homing Profile", scriptProfileName, ProfileState_Homing::ProfileType::HOMING_ROUTINE);
                 newState.setCurrentCode(ProfileState_Homing::HOMINGProfileCodes::COMPLETE);
+                Owner().issueUpdatedHomingState(newState);
+
                 MotionProfileState newProfileState;
                 newProfileState.setProfileState(std::make_shared<ProfileState_Homing>(newState));
                 desiredState = SPIIState::STATE_READY;
