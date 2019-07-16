@@ -29,7 +29,7 @@ public:
     }
 
 public:
-    ProfileState_Homing(const std::string &name, const std::string &tag);
+    ProfileState_Homing(const std::string &name, const std::string &tag, const ProfileType &type = ProfileType::MOVE_TO_HOME);
 
     ProfileType getType() const override;
 
@@ -38,6 +38,8 @@ public:
     HOMINGProfileCodes getCurrentCode() const;
 
 private:
+    ProfileType homingType;
+
     HOMINGProfileCodes currentCode;
 };
 

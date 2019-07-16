@@ -135,7 +135,7 @@ private slots:
 
     void on_pushButton_MotorDisable_released();
 
-    void on_pushButton_ResetHome_released();
+    void on_pushButton_HomeRoutine_released();
 
     void on_pushButton_MoveHome_released();
 

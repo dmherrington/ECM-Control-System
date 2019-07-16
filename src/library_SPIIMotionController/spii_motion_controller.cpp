@@ -260,6 +260,11 @@ void SPIIMotionController::cbi_SPIINewMachineState(const ECM::SPII::SPIIState &s
     emit signal_MCNewMotionState(state, QString::fromStdString(ECM::SPII::ECMStateToString(state)));
 }
 
+void SPIIMotionController::cbi_SPIINotificationUpdate(const common::NotificationUpdate &update)
+{
+    emit signal_MCNotification(update);
+}
+
 void SPIIMotionController::cbi_SPIIUploadProgram(const AbstractCommandPtr command)
 {
     m_CommsMarshaler->sendAbstractSPIICommand(command);

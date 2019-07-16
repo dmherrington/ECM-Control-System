@@ -112,7 +112,7 @@ public:
     QPushButton *pushButton_MotorDisable;
     QSpacerItem *verticalSpacer_4;
     QHBoxLayout *horizontalLayout_2;
-    QPushButton *pushButton_ResetHome;
+    QPushButton *pushButton_HomeRoutine;
     QPushButton *pushButton_MoveHome;
     QSpacerItem *verticalSpacer_5;
     QHBoxLayout *horizontalLayout_9;
@@ -807,15 +807,15 @@ public:
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        pushButton_ResetHome = new QPushButton(frame_MaunalControl);
-        pushButton_ResetHome->setObjectName(QStringLiteral("pushButton_ResetHome"));
-        sizePolicy2.setHeightForWidth(pushButton_ResetHome->sizePolicy().hasHeightForWidth());
-        pushButton_ResetHome->setSizePolicy(sizePolicy2);
-        pushButton_ResetHome->setMinimumSize(QSize(130, 35));
-        pushButton_ResetHome->setMaximumSize(QSize(130, 35));
-        pushButton_ResetHome->setFont(font2);
+        pushButton_HomeRoutine = new QPushButton(frame_MaunalControl);
+        pushButton_HomeRoutine->setObjectName(QStringLiteral("pushButton_HomeRoutine"));
+        sizePolicy2.setHeightForWidth(pushButton_HomeRoutine->sizePolicy().hasHeightForWidth());
+        pushButton_HomeRoutine->setSizePolicy(sizePolicy2);
+        pushButton_HomeRoutine->setMinimumSize(QSize(130, 35));
+        pushButton_HomeRoutine->setMaximumSize(QSize(130, 35));
+        pushButton_HomeRoutine->setFont(font2);
 
-        horizontalLayout_2->addWidget(pushButton_ResetHome);
+        horizontalLayout_2->addWidget(pushButton_HomeRoutine);
 
         pushButton_MoveHome = new QPushButton(frame_MaunalControl);
         pushButton_MoveHome->setObjectName(QStringLiteral("pushButton_MoveHome"));
@@ -1156,7 +1156,7 @@ public:
         lineEdit_ConfigurationPath->setText(QApplication::translate("ECMControllerGUI", "CONFIGURATION PATH", nullptr));
         pushButton_MotorEnable->setText(QApplication::translate("ECMControllerGUI", "ENABLE MOTOR", nullptr));
         pushButton_MotorDisable->setText(QApplication::translate("ECMControllerGUI", "DISABLE MOTOR", nullptr));
-        pushButton_ResetHome->setText(QApplication::translate("ECMControllerGUI", "RESET HOME", nullptr));
+        pushButton_HomeRoutine->setText(QApplication::translate("ECMControllerGUI", "HOME ROUTINE", nullptr));
         pushButton_MoveHome->setText(QApplication::translate("ECMControllerGUI", "MOVE HOME", nullptr));
         pushButton_Stop->setText(QApplication::translate("ECMControllerGUI", "STOP", nullptr));
         label_2->setText(QApplication::translate("ECMControllerGUI", "COMMUNICATION", nullptr));
