@@ -11,9 +11,9 @@ SUBDIRS += \
     library_sensoray \
     library_westinghouse510 \
     library_qModBus \
-    Testing \
-    library_SPIIMotionController \
-    window_munk_power_supply
+    #Testing \
+    library_SPIIMotionController
+    #window_munk_power_supply
 data.depends = common
 graphing.depends = data
 library_SPIIMotionController.depends = graphing

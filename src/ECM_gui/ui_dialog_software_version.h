@@ -97,6 +97,8 @@ public:
 
 
         retranslateUi(Dialog_SoftwareVersion);
+        QObject::connect(buttonBox, SIGNAL(accepted()), Dialog_SoftwareVersion, SLOT(accept()));
+        QObject::connect(buttonBox, SIGNAL(rejected()), Dialog_SoftwareVersion, SLOT(reject()));
 
         QMetaObject::connectSlotsByName(Dialog_SoftwareVersion);
     } // setupUi
