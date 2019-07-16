@@ -131,6 +131,11 @@ void State_HomePositioning::OnEnter(const AbstractCommandPtr command)
 {
     if((command != nullptr) && (command.get()->getCommandType()==CommandType::EXECUTE_PROGRAM))
     {
+        Status_VariableValue resetOperationStatus;
+        Owner().m_MasterVariableValues->getVariable("operationStatus",resetOperationStatus);
+        resetOperationStatus.setVariableValue(0);
+        Owner().m_MasterVariableValues->updateVariable(resetOperationStatus);
+
         CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
         QString profileName = QString::fromStdString(castCommand->getProfileName());
         this->scriptProfileName = profileName.toStdString();
@@ -140,7 +145,7 @@ void State_HomePositioning::OnEnter(const AbstractCommandPtr command)
         Request_TellVariablePtr requestHoming = std::make_shared<Request_TellVariable>("Home Positioning Complete","operationStatus");
         common::TupleProfileVariableString tupleVariableHOMING("",profileName,"operationStatus");
         requestHoming->setTupleDescription(tupleVariableHOMING);
-        Owner().issueSPIIAddPollingRequest(requestHoming, 500);
+        Owner().issueSPIIAddPollingRequest(requestHoming, 100);
         currentScriptRequests.push_back(tupleVariableHOMING);
 
         Owner().m_MasterVariableValues->addVariableNotifier("operationStatus",this,[this]

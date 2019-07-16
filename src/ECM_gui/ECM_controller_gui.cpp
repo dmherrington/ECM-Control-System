@@ -752,9 +752,6 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
 
         elapsedOperationTimer->start();
 
-        QString executionString = QString::fromStdString(props.getOperationName()) + " is being setup.";
-        ui->statusBar->showMessage(executionString,3000);
-
         break;
     }
     case ExecutionProperties::ExecutionCondition::EXECUTING:
@@ -779,8 +776,6 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
         }
         ui->lineEdit_CurrentStartPosition->setText(QString::fromStdString(msg));
 
-        QString executionString = QString::fromStdString(props.getOperationName()) + " is starting to execute.";
-        ui->statusBar->showMessage(executionString,3000);
         break;
     }
     case ExecutionProperties::ExecutionCondition::ENDING:
@@ -807,9 +802,6 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
         ui->lineEdit_PreviousEndPosition->setText(QString::fromStdString(msg));
 
         elapsedOperationTimer->stop();
-
-        QString executionString = QString::fromStdString(props.getOperationName()) + " has finished executing.";
-        ui->statusBar->showMessage(executionString,3000);
 
         break;
     }
@@ -862,8 +854,7 @@ void ECMControllerGUI::slot_MCCommandError(const CommandType &type, const std::s
         break;
     }
     default:
-        QString errorString = "There was an error reported by the Motion Controller: " + QString::fromStdString(description);
-        ui->statusBar->showMessage(errorString,3000);
+
         break;
     }
 }
@@ -1057,7 +1048,6 @@ void ECMControllerGUI::updateMCIndicators(const MotionProfileState &profileState
     case MotionProfile::ProfileType::HOMING_ROUTINE:
     {
         ProfileState_Homing* castState = (ProfileState_Homing*)profileState.getProfileState().get();
-        ui->statusBar->showMessage(QString::fromStdString(ProfileState_Homing::HOMINGCodesToString(castState->getCurrentCode())),3000);
         switch (castState->getCurrentCode()) {
         case ProfileState_Homing::HOMINGProfileCodes::COMPLETE:
         {
@@ -1161,8 +1151,7 @@ void ECMControllerGUI::slot_MunkFaultCodeStatus(const bool &status, const std::v
     if(status)
     {
         if(errors.size() > 0)
-            ui->statusBar->showMessage(QString::fromStdString(errors.at(0)),3000);
-        ui->widget_LEDMunkError->setColor(QColor(255,0,0));
+            ui->widget_LEDMunkError->setColor(QColor(255,0,0));
     }
     else
         ui->widget_LEDMunkError->setColor(QColor(0,255,0));
