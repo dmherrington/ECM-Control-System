@@ -17,6 +17,7 @@
 #include "misc_dialogs/window_custom_motion_commands.h"
 #include "misc_dialogs/widget_notification.h"
 #include "misc_dialogs/dialog_run_statistics.h"
+#include "misc_dialogs/dialog_software_version.h"
 
 #include "additional_sensor_display.h"
 #include "common/threadmanager.h"
@@ -241,6 +242,7 @@ private slots:
     void slot_OnUpdateElapsedConfigurationTime();
     void on_pushButton_ClearMunkError_released();
     void on_actionRun_Statistics_triggered();
+    void on_actionSoftware_Versioning_triggered();
 };
 
 #endif // ECM_CONTROLLER_GUI_H

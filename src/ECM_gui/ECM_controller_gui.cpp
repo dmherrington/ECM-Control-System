@@ -1194,3 +1194,10 @@ void ECMControllerGUI::on_actionRun_Statistics_triggered()
     Dialog_RunStatistics dialogWindow(m_GlobalMachineTime, localTime);
     dialogWindow.exec();
 }
+
+void ECMControllerGUI::on_actionSoftware_Versioning_triggered()
+{
+    std::map<std::string, std::string> softwareInfo = m_API->getSoftwareVersions();
+    Dialog_SoftwareVersion dialogWindow(softwareInfo);
+    dialogWindow.exec();
+}
