@@ -1,5 +1,5 @@
-#ifndef STATE_HOME_POSITIONING_H
-#define STATE_HOME_POSITIONING_H
+#ifndef STATE_HOME_EXECUTION_H
+#define STATE_HOME_EXECUTION_H
 
 #include "data/profiles/profile_state_homing.h"
 
@@ -8,16 +8,16 @@
 namespace ECM{
 namespace SPII {
 
-ECM_CLASS_FORWARD(State_HomePositioning);
+ECM_CLASS_FORWARD(State_HomingRoutine);
 
 class State_Ready;
 class State_MotionStop;
 class State_EStop;
 
-class State_HomePositioning : public AbstractStateSPII
+class State_HomingRoutine : public AbstractStateSPII
 {
 public:
-    State_HomePositioning();
+    State_HomingRoutine();
 
     void OnExit() override;
 
@@ -49,4 +49,4 @@ private:
 } //end of namespace SPII
 } //end of namespace ECM
 
-#endif // STATE_HOME_POSITIONING_H
+#endif // STATE_HOME_EXECUTION_H

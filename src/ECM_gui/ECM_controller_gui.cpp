@@ -501,23 +501,30 @@ void ECMControllerGUI::on_pushButton_MotorDisable_released()
     m_API->m_MotionController->executeCommand(command);
 }
 
-void ECMControllerGUI::on_pushButton_ResetHome_released()
-{
-    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::HOMING,"FIND_HOME");
-    m_API->m_MotionController->executeCommand(command);
-}
-
 void ECMControllerGUI::on_pushButton_MoveHome_released()
 {
-    //First set the move to home speed based on the jog value
-    //int jogMoveSpeed = m_WindowMotionControl->getCurrentJogSpeed();
-    CommandSpeedPtr commandSpeed = std::make_shared<CommandSpeed>(MotorAxis::Z, 10000);
-    m_API->m_MotionController->executeCommand(commandSpeed);
-
-    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::MOVE_TO_HOME,"GO_TO_HOME");
-    m_API->m_MotionController->executeCommand(command);
+    if(m_API->m_MotionController->m_StateInterface->isHomeInidcated())
+    {
+        CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::MOVE_TO_HOME,"GO_TO_HOME");
+        m_API->m_MotionController->executeCommand(command);
+    }
+    else {
+        QMessageBox msgBox;
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.setText("The homing routine has yet to have been executed or indicated.");
+        msgBox.setInformativeText("Please execute the approprirate routine prior to calling a move to home operation.");
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        int ret = msgBox.exec();
+        UNUSED(ret);
+    }
 }
 
+void ECMControllerGUI::on_pushButton_HomeRoutine_released()
+{
+    CommandExecuteProfilePtr command = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::HOMING_ROUTINE,"FIND_HOME");
+    m_API->m_MotionController->executeCommand(command);
+}
 
 void ECMControllerGUI::slot_NewlyAvailableRigolData(const common::TupleSensorString &sensor, const bool &val)
 {
@@ -745,9 +752,6 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
 
         elapsedOperationTimer->start();
 
-        QString executionString = QString::fromStdString(props.getOperationName()) + " is being setup.";
-        ui->statusBar->showMessage(executionString,3000);
-
         break;
     }
     case ExecutionProperties::ExecutionCondition::EXECUTING:
@@ -772,8 +776,6 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
         }
         ui->lineEdit_CurrentStartPosition->setText(QString::fromStdString(msg));
 
-        QString executionString = QString::fromStdString(props.getOperationName()) + " is starting to execute.";
-        ui->statusBar->showMessage(executionString,3000);
         break;
     }
     case ExecutionProperties::ExecutionCondition::ENDING:
@@ -800,9 +802,6 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
         ui->lineEdit_PreviousEndPosition->setText(QString::fromStdString(msg));
 
         elapsedOperationTimer->stop();
-
-        QString executionString = QString::fromStdString(props.getOperationName()) + " has finished executing.";
-        ui->statusBar->showMessage(executionString,3000);
 
         break;
     }
@@ -855,8 +854,7 @@ void ECMControllerGUI::slot_MCCommandError(const CommandType &type, const std::s
         break;
     }
     default:
-        QString errorString = "There was an error reported by the Motion Controller: " + QString::fromStdString(description);
-        ui->statusBar->showMessage(errorString,3000);
+
         break;
     }
 }
@@ -1047,10 +1045,9 @@ void ECMControllerGUI::updateMCIndicators(const MotionProfileState &profileState
         }
         break;
     }
-    case MotionProfile::ProfileType::HOMING:
+    case MotionProfile::ProfileType::HOMING_ROUTINE:
     {
         ProfileState_Homing* castState = (ProfileState_Homing*)profileState.getProfileState().get();
-        ui->statusBar->showMessage(QString::fromStdString(ProfileState_Homing::HOMINGCodesToString(castState->getCurrentCode())),3000);
         switch (castState->getCurrentCode()) {
         case ProfileState_Homing::HOMINGProfileCodes::COMPLETE:
         {
@@ -1075,7 +1072,7 @@ void ECMControllerGUI::updateMCIndicators(const MotionProfileState &profileState
 void ECMControllerGUI::lockFrontPanelButtons(const bool &lock)
 {
     ui->pushButton_RunAutomatedProfile->setDisabled(lock);
-    ui->pushButton_ResetHome->setDisabled(lock);
+    ui->pushButton_HomeRoutine->setDisabled(lock);
     ui->pushButton_MoveHome->setDisabled(lock);
     ui->pushButton_LoadAutomatedProfile->setDisabled(lock);
     ui->pushButton_MotorDisable->setDisabled(lock);
@@ -1154,8 +1151,7 @@ void ECMControllerGUI::slot_MunkFaultCodeStatus(const bool &status, const std::v
     if(status)
     {
         if(errors.size() > 0)
-            ui->statusBar->showMessage(QString::fromStdString(errors.at(0)),3000);
-        ui->widget_LEDMunkError->setColor(QColor(255,0,0));
+            ui->widget_LEDMunkError->setColor(QColor(255,0,0));
     }
     else
         ui->widget_LEDMunkError->setColor(QColor(0,255,0));

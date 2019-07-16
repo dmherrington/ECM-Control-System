@@ -49,6 +49,11 @@ hsm::Transition State_Ready::GetTransition()
             rtn = hsm::SiblingTransition<State_HomePositioning>(currentCommand);
             break;
         }
+        case SPIIState::STATE_HOMING_ROUTINE:
+        {
+            rtn = hsm::SiblingTransition<State_HomingRoutine>(currentCommand);
+            break;
+        }
         case SPIIState::STATE_SCRIPT_EXECUTION:
         {
             rtn = hsm::SiblingTransition<State_ScriptExecution>(currentCommand);
@@ -119,7 +124,14 @@ void State_Ready::handleCommand(const AbstractCommandPtr command)
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
         switch (castCommand->getProfileType()) {
-        case MotionProfile::ProfileType::HOMING:
+        case MotionProfile::ProfileType::HOMING_ROUTINE:
+        {
+            //This command will transition the machine to STATE_HOMING_ROUTINE
+            desiredState = SPIIState::STATE_HOMING_ROUTINE;
+            this->currentCommand = command;
+            break;
+        }
+        case MotionProfile::ProfileType::MOVE_TO_HOME:
         {
             //This command will transition the machine to STATE_HOME_POSITIONING
             desiredState = SPIIState::STATE_HOME_POSITIONING;
@@ -262,6 +274,7 @@ void State_Ready::OnEnter(const AbstractCommandPtr command)
 
 #include "states/state_idle.h"
 #include "states/state_home_positioning.h"
+#include "states/state_homing_routine.h"
 #include "states/state_jogging.h"
 #include "states/state_manual_positioning.h"
 #include "states/state_script_execution.h"

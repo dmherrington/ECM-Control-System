@@ -1,14 +1,14 @@
 #include "profile_state_homing.h"
 
-ProfileState_Homing::ProfileState_Homing(const std::string &name, const std::string &tag):
+ProfileState_Homing::ProfileState_Homing(const std::string &name, const std::string &tag, const ProfileType &type):
     MotionProfile(name,tag)
 {
-
+    homingType = type;
 }
 
 MotionProfile::ProfileType ProfileState_Homing::getType() const
 {
-    return ProfileType::HOMING;
+    return homingType;
 }
 
 void ProfileState_Homing::setCurrentCode(const HOMINGProfileCodes &code)

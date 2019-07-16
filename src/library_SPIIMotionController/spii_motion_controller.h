@@ -77,6 +77,7 @@ public:
     void cbi_SPIITouchoffIndicated(const bool &indicated) override;
     void cbi_SPIIMotionProfileState(const MotionProfileState &state, const bool &processTransitions) override;
     void cbi_SPIINewMachineState(const ECM::SPII::SPIIState &state) override;
+    void cbi_SPIINotificationUpdate(const common::NotificationUpdate &update) override;
 
     void cbi_SPIIUploadProgram(const AbstractCommandPtr command) override;
     void cbi_SPIIDownloadProgram(const AbstractCommandPtr command) override;

@@ -13,13 +13,15 @@
 
 #include "common/axis_definitions.h"
 #include "common/commands/abstract_command.h"
-
+#include "common/notification_update.h"
 #include "common/commands/command_components.h"
 #include "requests/request_components.h"
 #include "status/status_components.h"
 
 #include "buffers/spii_current_program.h"
 #include "buffers/buffer_variable_values.h"
+
+#include "data/profiles/profile_state_homing.h"
 
 class SPIICallback_StateInterface
 {
@@ -39,7 +41,7 @@ public:
     virtual void cbi_SPIITouchoffIndicated(const bool &indicated) = 0;
     virtual void cbi_SPIIMotionProfileState(const MotionProfileState &state, const bool &processTransitions) = 0;
     virtual void cbi_SPIINewMachineState(const ECM::SPII::SPIIState &state) = 0;
-
+    virtual void cbi_SPIINotificationUpdate(const common::NotificationUpdate &update) = 0;
     virtual void cbi_SPIIUploadProgram(const AbstractCommandPtr command) = 0;
     virtual void cbi_SPIIDownloadProgram(const AbstractCommandPtr command) = 0;
 };
@@ -55,6 +57,12 @@ public:
     void connectCallback(SPIICallback_StateInterface *cb)
     {
         m_CB = cb;
+    }
+
+    void issueSPIINotification(const common::NotificationUpdate &update)
+    {
+        if(m_CB)
+            m_CB->cbi_SPIINotificationUpdate(update);
     }
 
     void issueSPIIUploadProgram(const AbstractCommandPtr command)
@@ -116,6 +124,72 @@ public:
         if(m_CB)
             m_CB->cbi_SPIIMotionProfileState(state, performStateUpdate);
     }
+
+    void issueUpdatedHomingState(const ProfileState_Homing &state)
+    {
+        switch (state.getCurrentCode()) {
+        case ProfileState_Homing::HOMINGProfileCodes::COMPLETE:
+        {
+            setHomeInidcated(true);
+            if(m_CB)
+            {
+                common::NotificationUpdate newUpdate("ACS Motion Controller",ECMDevice::DEVICE_MOTIONCONTROL,
+                                                     common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL,
+                                                     "Homing routine has been completed.");
+
+                m_CB->cbi_SPIIHomeIndicated(true);
+                m_CB->cbi_SPIINotificationUpdate(newUpdate);
+            }
+            break;
+        }
+        case ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE:
+        {
+            setHomeInidcated(false);
+            if(m_CB)
+            {
+                common::NotificationUpdate newUpdate("ACS Motion Controller",ECMDevice::DEVICE_MOTIONCONTROL,
+                                                     common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL,
+                                                     "Homing routine has started.");
+
+                m_CB->cbi_SPIIHomeIndicated(true);
+                m_CB->cbi_SPIINotificationUpdate(newUpdate);
+            }
+            break;
+        }
+        }
+    }
+
+    void issueUpdatedHomePositioning(const ProfileState_Homing &state)
+    {
+        switch (state.getCurrentCode()) {
+        case ProfileState_Homing::HOMINGProfileCodes::COMPLETE:
+        {
+            if(m_CB)
+            {
+                common::NotificationUpdate newUpdate("ACS Motion Controller",ECMDevice::DEVICE_MOTIONCONTROL,
+                                                     common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL,
+                                                     "Machine has reached home position.");
+
+                m_CB->cbi_SPIINotificationUpdate(newUpdate);
+            }
+            break;
+        }
+        case ProfileState_Homing::HOMINGProfileCodes::INCOMPLETE:
+        {
+            if(m_CB)
+            {
+                common::NotificationUpdate newUpdate("ACS Motion Controller",ECMDevice::DEVICE_MOTIONCONTROL,
+                                                     common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL,
+                                                     "Moving machine to home position.");
+
+                m_CB->cbi_SPIINotificationUpdate(newUpdate);
+            }
+
+            break;
+        }
+        }
+    }
+
 
 public:
     Status_PerAxis* getAxisStatus(const MotorAxis &axis);
