@@ -445,7 +445,6 @@ void ECMControllerGUI::readSettings()
     QSettings globalConfigs("ECMController Config", QSettings::IniFormat);
     QVariant runtimeValue = globalConfigs.value("runtime");
     m_GlobalMachineTime = runtimeValue.value<common::SimplifiedTime>();
-
 }
 
 void ECMControllerGUI::closeEvent(QCloseEvent *event)
@@ -475,7 +474,7 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
         m_WindowRigol->close();
         m_WindowConnections->close();
         m_WindowCustomMotionCommands->close();
-
+        SimplifiedTime newTime(1,2,3);
         QSettings globalConfigs("ECMController Config", QSettings::IniFormat);
         globalConfigs.setValue("runtime", QVariant::fromValue(m_GlobalMachineTime));
 
@@ -793,7 +792,7 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
     case ExecutionProperties::ExecutionCondition::ENDING:
     {
         common::EnvironmentTime operationEnd = props.getTime();
-        common::SimplifiedTime operationTime(operationStart - operationEnd);
+        common::SimplifiedTime operationTime(operationEnd - operationStart);
         m_GlobalMachineTime = m_GlobalMachineTime + operationTime;
 
         std::vector<double> endingPosition = props.getCurrentPosition();

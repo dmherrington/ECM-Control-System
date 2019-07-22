@@ -99,9 +99,9 @@ public:
     }
 
 public:
-    int hr;
-    int min;
-    int sec;
+    int hr = 0;
+    int min = 0;
+    int sec = 0;
 };
 
 } //end of namespace common
