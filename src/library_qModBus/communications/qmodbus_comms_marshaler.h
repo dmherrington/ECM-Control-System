@@ -3,6 +3,7 @@
 
 #include "common/publisher.h"
 #include "common/comms/serial_configuration.h"
+#include "common/comms/tcp_configuration.h"
 
 #include <unordered_map>
 
@@ -50,6 +51,8 @@ public:
     //! \return
     //!
     bool ConnectToSerialPort(const common::comms::SerialConfiguration &config);
+
+    bool ConnectToEthernetPort(const common::comms::TCPConfiguration &config);
 
     //!
     //! \brief DisconnetFromSerialPort

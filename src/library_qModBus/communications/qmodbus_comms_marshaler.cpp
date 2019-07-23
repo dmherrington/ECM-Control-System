@@ -33,7 +33,7 @@ CommsMarshaler::~CommsMarshaler()
 //!
 bool CommsMarshaler::ConnectToSerialPort(const common::comms::SerialConfiguration &linkConfig)
 {
-    link->setSerialConfiguration(linkConfig);
+    link->SetSerialConnection(linkConfig);
     link->ConnectToDevice();
     return link->isConnected();
 }
