@@ -42,7 +42,6 @@ public:
 
     ///////////////////////////////////////////////////////////////////
     /// Methods supporting the Connect/Disconnect from of the QModBus Device
-    /// and accompanying RS485 port
     ///////////////////////////////////////////////////////////////////
 
     //!
@@ -58,9 +57,9 @@ public:
     //! \brief DisconnetFromSerialPort
     //! \return
     //!
-    bool DisconnectFromSerialPort();
+    bool DisconnectFromDevice();
 
-    bool isSerialPortConnected() const;
+    bool isDeviceConnected() const;
 
     void WriteToSingleRegister(const ModbusRegister &regMsg) const;
 

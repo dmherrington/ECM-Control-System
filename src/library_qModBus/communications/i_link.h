@@ -104,6 +104,12 @@ public:
     virtual void setSerialConfiguration(const common::comms::SerialConfiguration &config) = 0;
 
     //!
+    //! \brief setSerialConfiguration
+    //! \param config
+    //!
+    virtual void setTCPConfiguration(const common::comms::TCPConfiguration &config) = 0;
+
+    //!
     //! \brief Determine the connection status
     //! \return True if the connection is established, false otherwise
     //!
@@ -135,62 +141,6 @@ private:
 
 };
 
-//!
-//! \brief Set the name of the link
-//! \param str Name of link
-//!
-virtual void SetSerialConnection(const common::comms::SerialConfiguration &config)
-{
-    m_CommunicationSettings.type = COMMS_TYPE::SERIAL;
-    m_CommunicationSettings.serialPort = config;
-}
-
-//!
-//! \brief Set the name of the link
-//! \param str Name of link
-//!
-virtual void SetEthernetConnection(const common::comms::TCPConfiguration &config)
-{
-    m_CommunicationSettings.type = COMMS_TYPE::ETHERNET;
-    m_CommunicationSettings.ethernetPort = config;
-}
-
-//!
-//! \brief Set the name of the link
-//! \param str Name of link
-//!
-virtual void SetPCIConnection(const ACSC_PCI_SLOT &config)
-{
-    m_CommunicationSettings.type = COMMS_TYPE::PCI;
-    m_CommunicationSettings.PCISlot = config;
-}
-
-virtual COMM_SETTINGS GetConnectionSettings() const
-{
-    return this->m_CommunicationSettings;
-}
-
-//!
-//! \brief Determine the connection status
-//! \return True if the connection is established, false otherwise
-//!
-virtual bool isConnected() const = 0;
-
-
-virtual bool Connect(HANDLE* link = nullptr) = 0;
-virtual void Disconnect(void) = 0;
-
-virtual void MarshalOnThread(std::function<void()> func) = 0;
-
-
-
-private:
-std::vector<const ILinkEvents*> m_Listeners;
-};
-
 } //end of namespace Comms
-
-
-} //end of namespace comms_QModBus
 
 #endif // I_LINK_QMODBUS_H

@@ -33,7 +33,7 @@ void Library_QModBus::openSerialPortConnection(const common::comms::SerialConfig
 
 void Library_QModBus::closeSerialPortConnection() const
 {
-    commsMarshaler->DisconnectFromSerialPort();
+    commsMarshaler->DisconnectFromDevice();
 }
 void Library_QModBus::writeToSerialPort(const ModbusRegister &regMsg) const
 {
@@ -41,7 +41,7 @@ void Library_QModBus::writeToSerialPort(const ModbusRegister &regMsg) const
 }
 bool Library_QModBus::isSerialPortOpen() const
 {
-    return commsMarshaler->isSerialPortConnected();
+    return commsMarshaler->isDeviceConnected();
 }
 
 //////////////////////////////////////////////////////////////
