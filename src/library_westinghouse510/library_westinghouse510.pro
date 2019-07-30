@@ -33,8 +33,7 @@ SOURCES += \
     westinghouse_510_state.cpp \
     communications/westinghouse_510_data_framing.cpp \
     communications/westinghouse_message.cpp \
-    data_registers/register_run_source.cpp \
-    data_registers/register_loopback.cpp
+    data_registers/register_run_source.cpp
 
 HEADERS += \
     library_westinghouse510_global.h \
@@ -53,8 +52,7 @@ HEADERS += \
     data_registers/register_run_source.h \
     westinghouse_version.h \
     device_interface_pump.h \
-    command_pump_properties.h \
-    data_registers/register_loopback.h
+    command_pump_properties.h
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

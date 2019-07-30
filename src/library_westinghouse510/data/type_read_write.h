@@ -11,8 +11,7 @@ namespace data_WestinghousePump {
 //!
 enum class RWType{
     READ = 03, /**< */
-    WRITE = 06, /**< */
-    LOOP = 8 /**< */
+    WRITE = 06 /**< */
 };
 
 //!
@@ -26,8 +25,6 @@ inline std::string ReadWriteTypeToString(const RWType &type) {
         return "Read";
     case RWType::WRITE:
         return "Write";
-    case RWType::LOOP:
-        return "Loop";
     default:
         throw std::runtime_error("Unknown read or write type seen");
     }
@@ -43,8 +40,6 @@ inline RWType ReadWriteTypeFromString(const std::string &str) {
         return RWType::READ;
     if(str == "Write")
         return RWType::WRITE;
-    if(str == "Loop")
-        return RWType::LOOP;
     throw std::runtime_error("Unknown read or write type seen");
 }
 
@@ -57,7 +52,6 @@ inline std::vector<std::string> getListOfReadWriteType()
     std::vector<std::string> str;
     str.push_back(ReadWriteTypeToString(RWType::READ));
     str.push_back(ReadWriteTypeToString(RWType::WRITE));
-    str.push_back(ReadWriteTypeToString(RWType::LOOP));
     return str;
 }
 

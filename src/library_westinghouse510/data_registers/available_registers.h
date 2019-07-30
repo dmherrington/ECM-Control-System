@@ -12,7 +12,6 @@ enum class WestinhouseRegisterTypes{
     OPERATION_SIGNAL,
     FLOWRATE,
     RUN_SOURCE,
-    LOOPBACK,
     UNKNOWN
 };
 
@@ -24,8 +23,6 @@ inline std::string RegisterTypeToString(const WestinhouseRegisterTypes &type) {
         return "Flow Rate";
     case WestinhouseRegisterTypes::RUN_SOURCE:
         return "Run Source";
-    case WestinhouseRegisterTypes::LOOPBACK:
-        return "Loopback";
     default:
         throw std::runtime_error("Unknown register type seen");
     }
@@ -38,8 +35,6 @@ inline WestinhouseRegisterTypes RegisterTypeFromString(const std::string &str) {
         return WestinhouseRegisterTypes::FLOWRATE;
     if(str == "Run Source")
         return WestinhouseRegisterTypes::RUN_SOURCE;
-    if(str == "Loopback")
-        return WestinhouseRegisterTypes::LOOPBACK;
     throw std::runtime_error("Unknown register type seen");
 }
 
@@ -53,8 +48,6 @@ inline int RegisterTypeToInt(const WestinhouseRegisterTypes &type)
         return 1281;
     case WestinhouseRegisterTypes::RUN_SOURCE:
         return 0002;
-    case WestinhouseRegisterTypes::LOOPBACK:
-        return 0000;
     default:
         throw std::runtime_error("Unknown register type seen");
     }
