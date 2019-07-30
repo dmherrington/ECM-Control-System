@@ -98,17 +98,31 @@ public:
     virtual bool WriteSingleRegister(const unsigned long &dataRegister, const unsigned long &data) const = 0;
 
     //!
-    //! \brief setSerialConfiguration
-    //! \param config
+    //! \brief Set the name of the link
+    //! \param str Name of link
     //!
-    virtual void setSerialConfiguration(const common::comms::SerialConfiguration &config) = 0;
-
+    virtual void SetSerialConnection(const common::comms::SerialConfiguration &config)
+    {
+        m_CommunicationSettings.type = COMMS_TYPE::SERIAL;
+        m_CommunicationSettings.serialPort = config;
+    }
+    
     //!
-    //! \brief setSerialConfiguration
-    //! \param config
+    //! \brief Set the name of the link
+    //! \param str Name of link
     //!
-    virtual void setTCPConfiguration(const common::comms::TCPConfiguration &config) = 0;
-
+    virtual void SetEthernetConnection(const common::comms::TCPConfiguration &config)
+    {
+        m_CommunicationSettings.type = COMMS_TYPE::ETHERNET;
+        m_CommunicationSettings.ethernetPort = config;
+    }
+    
+    
+    virtual COMM_SETTINGS GetConnectionSettings() const
+    {
+        return this->m_CommunicationSettings;
+    }
+    
     //!
     //! \brief Determine the connection status
     //! \return True if the connection is established, false otherwise
@@ -142,5 +156,8 @@ private:
 };
 
 } //end of namespace Comms
+
+
+} //end of namespace comms_QModBus
 
 #endif // I_LINK_QMODBUS_H

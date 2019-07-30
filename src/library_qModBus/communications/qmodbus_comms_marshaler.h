@@ -3,6 +3,7 @@
 
 #include "common/publisher.h"
 #include "common/comms/serial_configuration.h"
+#include "common/comms/tcp_configuration.h"
 
 #include <unordered_map>
 
@@ -41,7 +42,6 @@ public:
 
     ///////////////////////////////////////////////////////////////////
     /// Methods supporting the Connect/Disconnect from of the QModBus Device
-    /// and accompanying RS485 port
     ///////////////////////////////////////////////////////////////////
 
     //!
@@ -51,13 +51,15 @@ public:
     //!
     bool ConnectToSerialPort(const common::comms::SerialConfiguration &config);
 
+    bool ConnectToEthernetPort(const common::comms::TCPConfiguration &config);
+
     //!
     //! \brief DisconnetFromSerialPort
     //! \return
     //!
-    bool DisconnectFromSerialPort();
+    bool DisconnectFromDevice();
 
-    bool isSerialPortConnected() const;
+    bool isDeviceConnected() const;
 
     void WriteToSingleRegister(const ModbusRegister &regMsg) const;
 

@@ -38,7 +38,14 @@ bool CommsMarshaler::ConnectToSerialPort(const common::comms::SerialConfiguratio
     return link->isConnected();
 }
 
-bool CommsMarshaler::DisconnectFromSerialPort()
+bool CommsMarshaler::ConnectToEthernetPort(const common::comms::TCPConfiguration &linkConfig)
+{
+    link->setTCPConfiguration(linkConfig);
+    link->ConnectToDevice();
+    return link->isConnected();
+}
+
+bool CommsMarshaler::DisconnectFromDevice()
 {
     auto func = [this]() {
         link->DisconnectFromDevice();
@@ -48,7 +55,7 @@ bool CommsMarshaler::DisconnectFromSerialPort()
     return link->isConnected();
 }
 
-bool CommsMarshaler::isSerialPortConnected() const
+bool CommsMarshaler::isDeviceConnected() const
 {
     return link->isConnected();
 }
