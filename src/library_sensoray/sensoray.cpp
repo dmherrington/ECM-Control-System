@@ -53,17 +53,17 @@ void Sensoray::openSerialPortConnection(const common::comms::SerialConfiguration
     commsMarshaler->ConnectToSerialPort(config);
 }
 
-void Sensoray::closeSerialPortConnection() const
+void Sensoray::closePortConnection() const
 {
     commsMarshaler->DisconnetFromSerialPort();
 }
 
-void Sensoray::writeToSerialPort(const ModbusRegister &regMsg) const
+void Sensoray::writeModbusDataPort(const ModbusRegister &regMsg) const
 {
     //commsMarshaler->WriteToSerialPort(msg);
 }
 
-bool Sensoray::isSerialPortOpen() const
+bool Sensoray::isModbusPortOpen() const
 {
     return false;
 }
@@ -99,12 +99,12 @@ void Sensoray::ConnectionStatusUpdated(const common::comms::CommunicationUpdate 
 
 void Sensoray::SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const
 {
-    emit signal_SerialPortUpdate(update);
+    emit signal_PortUpdate(update);
 }
 
 void Sensoray::NewDataReceived(const QByteArray &buffer) const
 {
-    emit signal_RXNewSerialData(buffer);
+    emit signal_RXNewPortData(buffer);
 }
 
 void Sensoray::ReceivedUpdatedADC(const std::vector<S2426_ADC_SAMPLE> data) const

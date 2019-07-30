@@ -11,6 +11,7 @@ SUBDIRS += \
     library_sensoray \
     library_westinghouse510 \
     library_qModBus \
+    library_plc\
     Testing \
     library_SPIIMotionController \
     window_munk_power_supply

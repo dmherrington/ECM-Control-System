@@ -69,9 +69,9 @@ public:
 
     bool isSerialDeviceReadyToConnect() const;
     void openSerialPortConnection(const common::comms::SerialConfiguration &config) const override;
-    void closeSerialPortConnection() const override;
-    void writeToSerialPort(const ModbusRegister &regMsg) const override;
-    bool isSerialPortOpen() const override;
+    void closePortConnection() const override;
+    void writeModbusDataPort(const ModbusRegister &regMsg) const override;
+    bool isModbusPortOpen() const override;
 
 public:
     //////////////////////////////////////////////////////////////
@@ -109,13 +109,13 @@ signals:
     ///////////////////////////////////////////////////////////////////////////
     /// Imposed virtual signals from common::comms::ICommunication
     ///////////////////////////////////////////////////////////////////////////
-    void signal_SerialPortReadyToConnect() const override;
+    void signal_PortReadyToConnect() const override;
 
-    void signal_SerialPortNotReady() const override;
+    void signal_PortNotReady() const override;
 
-    void signal_SerialPortUpdate(const common::comms::CommunicationUpdate update) const override;
+    void signal_PortUpdate(const common::comms::CommunicationUpdate update) const override;
 
-    void signal_RXNewSerialData(const QByteArray data) const override;
+    void signal_RXNewPortData(const QByteArray data) const override;
 
     void signal_SensorayNewSensorValue(const common::TupleSensorString &sensorTuple, const common_data::SensorState &data) const;
 

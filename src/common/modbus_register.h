@@ -29,7 +29,7 @@ public:
     //!
     ModbusRegister(const ModbusRegister &copy);
 
-    ~ModbusRegister() = default;
+    virtual ~ModbusRegister() = default;
 
 public:
 
@@ -43,7 +43,7 @@ public:
     //! \brief getRegisterCode
     //! \return
     //!
-    int getRegisterCode() const
+    unsigned int getRegisterCode() const
     {
         return this->registerAddress;
     }

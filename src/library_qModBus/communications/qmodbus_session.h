@@ -28,7 +28,7 @@ class QModBusSession : public QObject
 
 public:
     QModBusSession():
-        m_serialModbus(nullptr)
+        m_ModbusSession(nullptr)
     {
 
     }
@@ -38,10 +38,10 @@ public:
     ~QModBusSession() = default;
 
 public:
-    modbus_t* m_serialModbus;
+    modbus_t* m_ModbusSession;
 
-    void setSerialPortConnected(const bool &status) { connectedDevice = status;}
-    bool isSerialPortConnected() { return connectedDevice; }
+    void setDeviceConnected(const bool &status) { connectedDevice = status;}
+    bool isDeviceConnected() { return connectedDevice; }
 
 private:
     bool connectedDevice = false; /**< Boolean member variable capturing the status of the device connection*/

@@ -13,6 +13,8 @@
 #include "common/comms/serial_configuration.h"
 #include "common/modbus_register.h"
 
+#include "communications/comms_events.h"
+
 #include "communications/qmodbus_comms_marshaler.h"
 
 class LIBRARY_QMODBUSSHARED_EXPORT Library_QModBus : public QObject, public common::comms::ICommunication, public comms_QModBus::CommsEvents
@@ -27,7 +29,7 @@ public:
     //!
     explicit Library_QModBus(const std::string &name = "QModBus", QObject *parent = nullptr);
 
-    ~Library_QModBus() = default;
+    ~Library_QModBus() override = default;
 
 
 public:
@@ -36,11 +38,12 @@ public:
     /// Methods supporting the Connect/Disconnect from accompanying RS485 port
     ///////////////////////////////////////////////////////////////////////////
 
-    bool isSerialDeviceReadyToConnect() const;
+    bool isSerialDeviceReadyToConnect() const override;
+    void openEthernetPortConnection(const common::comms::TCPConfiguration &config) const override;
     void openSerialPortConnection(const common::comms::SerialConfiguration &config) const override;
-    void closeSerialPortConnection() const override;
-    void writeToSerialPort(const ModbusRegister &regMsg) const override;
-    bool isSerialPortOpen() const override;
+    void closePortConnection() const override;
+    void writeModbusDataPort(const ModbusRegister &regMsg) const override;
+    bool isModbusPortOpen() const override;
 
 public:
     //////////////////////////////////////////////////////////////
@@ -65,13 +68,13 @@ signals:
     ///////////////////////////////////////////////////////////////////////////
     /// Imposed virtual signals from common::comms::ICommunication
     ///////////////////////////////////////////////////////////////////////////
-    void signal_SerialPortReadyToConnect() const override;
+    void signal_PortReadyToConnect() const override;
 
-    void signal_SerialPortNotReady() const override;
+    void signal_PortNotReady() const override;
 
-    void signal_SerialPortUpdate(const common::comms::CommunicationUpdate update) const override;
+    void signal_PortUpdate(const common::comms::CommunicationUpdate update) const override;
 
-    void signal_RXNewSerialData(const QByteArray data) const override;
+    void signal_RXNewPortData(const QByteArray data) const override;
 
 private:
     comms_QModBus::CommsMarshaler* commsMarshaler; /**< Member variable handling the communications with the

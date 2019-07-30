@@ -52,6 +52,8 @@ public:
 
     }
 
+    virtual ~ILink() = default;
+
     //!
     //! \brief AddListener
     //! \param ptr
@@ -101,13 +103,21 @@ public:
     //! \brief setSerialConfiguration
     //! \param config
     //!
-    virtual void setSerialConfiguration(const common::comms::SerialConfiguration &config) = 0;
+    virtual void setSerialConfiguration(const common::comms::SerialConfiguration &config)
+    {
+        m_CommunicationSettings.type = COMMS_TYPE::SERIAL;
+        m_CommunicationSettings.serialPort = config;
+    }
 
     //!
     //! \brief setSerialConfiguration
     //! \param config
     //!
-    virtual void setTCPConfiguration(const common::comms::TCPConfiguration &config) = 0;
+    virtual void setTCPConfiguration(const common::comms::TCPConfiguration &config)
+    {
+        m_CommunicationSettings.type = COMMS_TYPE::ETHERNET;
+        m_CommunicationSettings.ethernetPort = config;
+    }
 
     //!
     //! \brief Determine the connection status

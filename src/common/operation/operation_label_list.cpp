@@ -31,7 +31,7 @@ void Operation_LabelList::writeToJSON(QJsonObject &saveObject)
 
 void Operation_LabelList::readFromJSON(const QJsonObject &openObject)
 {
-    if(!openObject.contains("labelData"));
+    if(!openObject.contains("labelData"))
         return;
 
     QJsonArray MCLabelArray = openObject["labelData"].toArray();

@@ -26,20 +26,25 @@ bool Library_QModBus::isSerialDeviceReadyToConnect() const
     return false;
 }
 
+void Library_QModBus::openEthernetPortConnection(const common::comms::TCPConfiguration &config) const
+{
+    commsMarshaler->ConnectToEthernetPort(config);
+}
+
 void Library_QModBus::openSerialPortConnection(const common::comms::SerialConfiguration &config) const
 {
     commsMarshaler->ConnectToSerialPort(config);
 }
 
-void Library_QModBus::closeSerialPortConnection() const
+void Library_QModBus::closePortConnection() const
 {
     commsMarshaler->DisconnectFromDevice();
 }
-void Library_QModBus::writeToSerialPort(const ModbusRegister &regMsg) const
+void Library_QModBus::writeModbusDataPort(const ModbusRegister &regMsg) const
 {
     commsMarshaler->WriteToSingleRegister(regMsg);
 }
-bool Library_QModBus::isSerialPortOpen() const
+bool Library_QModBus::isModbusPortOpen() const
 {
     return commsMarshaler->isDeviceConnected();
 }
@@ -57,16 +62,16 @@ void Library_QModBus::ConnectionStatusUpdated(const common::comms::Communication
     if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
     {
         emit signal_CommunicationUpdate(update);
-        emit signal_SerialPortUpdate(update);
-        emit signal_SerialPortReadyToConnect();
+        emit signal_PortUpdate(update);
+        emit signal_PortReadyToConnect();
     }
     else
     {
-        emit signal_SerialPortUpdate(update);
+        emit signal_PortUpdate(update);
     }
 }
 
 void Library_QModBus::NewDataReceived(const QByteArray &buffer) const
 {
-    emit signal_RXNewSerialData(buffer);
+    emit signal_RXNewPortData(buffer);
 }

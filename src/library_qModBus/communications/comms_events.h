@@ -2,8 +2,10 @@
 #define COMMS_EVENTS_QMODBUS_H
 
 #include <QByteArray>
-
 #include <string>
+
+#include "library_qmodbus_global.h"
+
 #include "common/common.h"
 
 #include "common/comms/communication_connection.h"
@@ -26,8 +28,12 @@
 
 namespace comms_QModBus{
 
-class CommsEvents
+class LIBRARY_QMODBUSSHARED_EXPORT CommsEvents
 {
+
+public:
+    virtual ~CommsEvents() = default;
+
 public:
 
     /////////////////////////////////////////////////////////

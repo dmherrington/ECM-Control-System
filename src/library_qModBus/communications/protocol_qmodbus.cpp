@@ -27,16 +27,14 @@ void QModBusProtocol::writeDataToSingleRegister(const ILink *link, const ModbusR
     qint16 result; //< The result you want
     in >> result; //< Just read it from the stream
 
-//    int value = (static_cast<unsigned int>(dataArray[0]) & 0xFF) << 8
-//             + (static_cast<unsigned int>(dataArray[1]) & 0xFF);
 
     if(link->WriteSingleRegister(regMsg.getRegisterCode(), (int)result))
     {
-        Emit([&](const IProtocolQModBusEvents* ptr){ptr->ResponseReceived(regMsg.getFullMessage());});
+        Emit([&](const IProtocolQModBusEvents* ptr){ptr->ModbusResponseReceived(regMsg.getFullMessage());});
     }
     else
     {
-
+        std::cout<<"We already know there is an issue on the modbus port."<<std::endl;
     }
 }
 

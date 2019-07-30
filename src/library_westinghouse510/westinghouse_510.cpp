@@ -42,7 +42,7 @@ void Westinghouse510::setPumpProperties(const Command_PumpProperties &command)
 //!
 void Westinghouse510::setPumpFlowRate(const registers_WestinghousePump::Register_FlowRate &desRate)
 {
-    this->m_Comms->writeToSerialPort(desRate.getModbusRegister());
+    this->m_Comms->writeModbusDataPort(desRate.getModbusRegister());
 }
 
 //!
@@ -59,7 +59,7 @@ void Westinghouse510::setPumpOperations(const registers_WestinghousePump::Regist
         initializationTimer->stop();
     }
 
-    this->m_Comms->writeToSerialPort(desOps.getModbusRegister());
+    this->m_Comms->writeModbusDataPort(desOps.getModbusRegister());
 }
 
 void Westinghouse510::ceasePumpOperations()
@@ -77,7 +77,7 @@ void Westinghouse510::setInitializationTime(const unsigned int &interval)
 
 bool Westinghouse510::isPumpConnected() const
 {
-    return this->m_Comms->isSerialPortOpen();
+    return this->m_Comms->isModbusPortOpen();
 }
 
 bool Westinghouse510::isPumpInitialized() const
@@ -102,7 +102,7 @@ void Westinghouse510::openPumpConnection(const std::string &portNumber)
 void Westinghouse510::closePumpConnection()
 {
     this->ceasePumpOperations();
-    this->m_Comms->closeSerialPortConnection();
+    this->m_Comms->closePortConnection();
 }
 
 void Westinghouse510::slot_SerialPortReadyToConnect()
@@ -130,7 +130,7 @@ void Westinghouse510::slot_SerialPortUpdate(const common::comms::CommunicationUp
     {
         m_State->pumpConnected.set(true);
         registers_WestinghousePump::Register_RunSource updateRunSource(registers_WestinghousePump::Register_RunSource::SourceSetting::SOURCE_RS485);
-        this->m_Comms->writeToSerialPort(updateRunSource.getModbusRegister());
+        this->m_Comms->writeModbusDataPort(updateRunSource.getModbusRegister());
 
         this->ceasePumpOperations();
 

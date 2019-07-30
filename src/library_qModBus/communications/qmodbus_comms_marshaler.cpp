@@ -85,13 +85,13 @@ void CommsMarshaler::CommunicationUpdate(const common::comms::CommunicationUpdat
 /// IProtocolSensorayEvents
 //////////////////////////////////////////////////////////////
 
-void CommsMarshaler::SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const
+void CommsMarshaler::ModbusPortStatusUpdate(const common::comms::CommunicationUpdate &update) const
 {
     //this is basically a duplicate of the communication update in this case
     UNUSED(update);
 }
 
-void CommsMarshaler::ResponseReceived(const QByteArray &buffer) const
+void CommsMarshaler::ModbusResponseReceived(const QByteArray &buffer) const
 {
     Emit([&](CommsEvents *ptr){ptr->NewDataReceived(buffer);});
 }
