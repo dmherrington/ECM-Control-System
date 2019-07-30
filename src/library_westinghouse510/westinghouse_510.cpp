@@ -23,7 +23,7 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
 void Westinghouse510::setPumpProperties(const Command_PumpProperties &command)
 {
     if(command.shouldWaitForInitializationDelay())
-        initializationTimer->setInterval(command.getInitializationTime());
+        initializationTimer->setInterval(static_cast<int>(command.getInitializationTime()));
     else
         initializationTimer->setInterval(1);
 
@@ -72,7 +72,7 @@ void Westinghouse510::ceasePumpOperations()
 void Westinghouse510::setInitializationTime(const unsigned int &interval)
 {
     this->m_State->delayTime.set(interval);
-    initializationTimer->setInterval(interval);
+    initializationTimer->setInterval(static_cast<int>(interval));
 }
 
 bool Westinghouse510::isPumpConnected() const
@@ -170,6 +170,11 @@ void Westinghouse510::slot_PumpInitializationComplete()
     this->onFinishedInitializingPump(true);
 }
 
+void Westinghouse510::executeConnectionTest()
+{
+
+}
+
 void Westinghouse510::parseReceivedMessage(const comms_WestinghousePump::WestinghouseMessage &msg)
 {
     if(msg.isException() == data_WestinghousePump::WestinghouseExceptionTypes::EXCEPTION)
@@ -255,7 +260,7 @@ void Westinghouse510::saveToFile(const QString &filePath)
 
 void Westinghouse510::write(QJsonObject &json) const
 {
-    json["pumpDelayTime"] = (int)this->m_State->delayTime.get();
+    json["pumpDelayTime"] = static_cast<int>(this->m_State->delayTime.get());
     json["pumpFlowRate"] = this->m_State->flowRate.get();
 }
 

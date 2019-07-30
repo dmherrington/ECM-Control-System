@@ -13,7 +13,8 @@ SUBDIRS += \
     library_qModBus \
     Testing \
     library_SPIIMotionController \
-    window_munk_power_supply
+    window_munk_power_supply \
+    library_plc
 data.depends = common
 graphing.depends = data
 library_SPIIMotionController.depends = graphing

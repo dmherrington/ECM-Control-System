@@ -119,6 +119,8 @@ private:
 
 private:
 
+    void executeConnectionTest();
+
     //!
     //! \brief parseReceivedMessage function that shall parse the msg object to determine what feedback
     //! was received from the pump.

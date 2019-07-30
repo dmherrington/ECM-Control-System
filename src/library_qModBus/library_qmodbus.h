@@ -27,7 +27,7 @@ public:
     //!
     explicit Library_QModBus(const std::string &name = "QModBus", QObject *parent = nullptr);
 
-    ~Library_QModBus() = default;
+    ~Library_QModBus() override = default;
 
 
 public:
@@ -36,7 +36,7 @@ public:
     /// Methods supporting the Connect/Disconnect from accompanying RS485 port
     ///////////////////////////////////////////////////////////////////////////
 
-    bool isSerialDeviceReadyToConnect() const;
+    bool isSerialDeviceReadyToConnect() const override;
     void openSerialPortConnection(const common::comms::SerialConfiguration &config) const override;
     void closeSerialPortConnection() const override;
     void writeToSerialPort(const ModbusRegister &regMsg) const override;

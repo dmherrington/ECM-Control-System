@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-03-09T10:47:27
+# Project created by QtCreator 2019-07-30T12:30:51
 #
 #-------------------------------------------------
 
@@ -9,10 +9,10 @@ QT += core
 QT += serialport
 QT += network
 
-TARGET = library_westinghouse510
+TARGET = library_plc
 TEMPLATE = lib
 
-DEFINES += LIBRARY_WESTINGHOUSE510_LIBRARY
+DEFINES += LIBRARY_PLC_LIBRARY
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -26,35 +26,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        westinghouse_510.cpp \
-    data_registers/abstract_register.cpp \
-    data_registers/register_operation_signal.cpp \
-    data_registers/register_flow_rate.cpp \
-    westinghouse_510_state.cpp \
-    communications/westinghouse_510_data_framing.cpp \
-    communications/westinghouse_message.cpp \
-    data_registers/register_run_source.cpp \
-    data_registers/register_loopback.cpp
+        plc.cpp \
+    communications/plc_data_framing.cpp \
+    communications/plc_message.cpp \
+    data_registers/abstract_register.cpp
 
 HEADERS += \
-    library_westinghouse510_global.h \
-    westinghouse_510.h \
-    westinghouse_510_state.h \
+        plc.h \
+        library_plc_global.h \ 
+    plc_version.h \
+    communications/plc_data_framing.h \
+    communications/plc_message.h \
+    communications/plc_message_framing.h \
+    data/type_read_write.h \
     data_registers/abstract_register.h \
     data_registers/available_registers.h \
-    data_registers/register_flow_rate.h \
     data_registers/register_components.h \
-    data_registers/register_operation_signal.h \
-    communications/westinghouse_510_data_framing.h \
-    communications/westinghouse_510_message_framing.h \
-    communications/westinghouse_message.h \
-    data/westinghouse_exception_message.h \
-    data/type_read_write.h \
-    data_registers/register_run_source.h \
-    westinghouse_version.h \
-    device_interface_pump.h \
-    command_pump_properties.h \
-    data_registers/register_loopback.h
+    data/type_plc_exception.h
+
+unix {
+    target.path = /usr/lib
+    INSTALLS += target
+}
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET
@@ -69,8 +62,8 @@ unix:!symbian {
 
 # Windows lib install
 lib.path    = $$(ECM_ROOT)/lib
-win32:CONFIG(release, debug|release):       lib.files   += release/library_westinghouse510.lib release/library_westinghouse510.dll
-else:win32:CONFIG(debug, debug|release):    lib.files   += debug/library_westinghouse510.lib debug/library_westinghouse510.dll
+win32:CONFIG(release, debug|release):       lib.files   += release/library_plc.lib release/library_plc.dll
+else:win32:CONFIG(debug, debug|release):    lib.files   += debug/library_plc.lib debug/library_plc.dll
 INSTALLS += lib
 
 
@@ -90,3 +83,10 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../data/ -ldata
 
 INCLUDEPATH += $$PWD/../data
 DEPENDPATH += $$PWD/../data
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_qModBus/release/ -llibrary_qModBus
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_qModBus/debug/ -llibrary_qModBus
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_qModBus/ -llibrary_qModBus
+
+INCLUDEPATH += $$PWD/../library_qModBus
+DEPENDPATH += $$PWD/../library_qModBus
