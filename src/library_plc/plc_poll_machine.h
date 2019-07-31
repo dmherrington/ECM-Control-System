@@ -28,7 +28,7 @@ public:
 class PLCPollMachine : public Publisher<PLCPollingEvents_Interface>, public Thread
 {
 public:
-    PLCPollMachine(const unsigned int &msTimeout = 50);
+    PLCPollMachine(const unsigned int &msTimeout = 1000);
 
     ~PLCPollMachine() {
         std::cout << "Destructor on the plc timeout state machine" << std::endl;
@@ -38,12 +38,12 @@ public:
     void beginPolling();
     void pausePolling();
 
-    void addReadRegister(const registers_PLC::AbstractPLCRegisterPtr request, const int &period = 100);
+    void addReadRegister(const registers_PLC::AbstractPLCRegisterPtr request, const int &period = 1000);
 
     void run();
 
 private:
-    void addReadRegisterToQueue(const registers_PLC::AbstractPLCRegisterPtr request, const int &period = 100);
+    void addReadRegisterToQueue(const registers_PLC::AbstractPLCRegisterPtr request, const int &period = 1000);
 
     int greatestCommonDenominator(int a,int b) {
         int temp;

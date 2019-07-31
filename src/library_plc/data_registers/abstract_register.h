@@ -50,7 +50,7 @@ public:
     //! \brief getParameterType
     //! \return
     //!
-    virtual PLCRegisterTypes getRegisterType() const = 0;
+    virtual registers_PLC::PLCRegisterTypes getRegisterType() const = 0;
 
     virtual unsigned int getRegisterCode() const
     {

@@ -1,4 +1,4 @@
-#include "temperature_dimension.h"
+#include "ph_dimension.h"
 
 namespace common_data {
 
@@ -6,7 +6,7 @@ namespace common_data {
 //! \brief Default Constructor
 //! \param unit Unit of dimension
 //!
-TemperatureDimension::TemperatureDimension(const TemperatureUnit &unit)
+PHDimension::PHDimension(const pHUnit &unit)
 {
     m_type = unit;
 }
@@ -16,12 +16,12 @@ TemperatureDimension::TemperatureDimension(const TemperatureUnit &unit)
 //! \brief Construct position from existing IDimension object
 //! \param that existing IDimension object
 //!
-TemperatureDimension::TemperatureDimension(const IDimension &that)
+PHDimension::PHDimension(const IDimension &that)
 {
     if(this->getType() != that.getType())
         throw std::runtime_error("Uncompatable assignment");
 
-    m_type = ((TemperatureDimension*)&that)->m_type;
+    m_type = ((PHDimension*)&that)->m_type;
 }
 
 
@@ -30,12 +30,12 @@ TemperatureDimension::TemperatureDimension(const IDimension &that)
 //! \param rhs Right hand side of equivilance
 //! \return True if equal
 //!
-bool TemperatureDimension::operator ==(const IDimension &rhs) const
+bool PHDimension::operator ==(const IDimension &rhs) const
 {
     if(this->getType() != rhs.getType())
         return false;
 
-    if(m_type != ((TemperatureDimension*)&rhs)->m_type)
+    if(m_type != ((PHDimension*)&rhs)->m_type)
         return false;
 
     return true;
@@ -46,7 +46,7 @@ bool TemperatureDimension::operator ==(const IDimension &rhs) const
 //! \brief Get the type of dimension.
 //! \return Type of dimension.
 //!
-Dimensions TemperatureDimension::getType() const
+Dimensions PHDimension::getType() const
 {
     return TEMPERATURE;
 }
@@ -55,16 +55,14 @@ Dimensions TemperatureDimension::getType() const
 //! \brief Short hand notation of dimension
 //! \return Short hand notation
 //!
-std::string TemperatureDimension::ShortHand() const
+std::string PHDimension::ShortHand() const
 {
     switch(m_type)
     {
-    case TemperatureUnit::UNIT_FAHRENHEIT:
-        return "F";
-    case TemperatureUnit::UNIT_CELSIUS:
-        return "C";
+    case pHUnit::UNIT_BASE:
+        return "pH";
     default:
-        throw new std::runtime_error("Unknown Voltage Unit");
+        throw new std::runtime_error("Unknown pH Unit");
     }
 }
 
@@ -75,9 +73,9 @@ std::string TemperatureDimension::ShortHand() const
 //! The caller becomes responsible for deleting the created element.
 //! \return Pointer to new object
 //!
-IDimension* TemperatureDimension::Copy() const
+IDimension* PHDimension::Copy() const
 {
-    return new TemperatureDimension(this->m_type);
+    return new PHDimension(this->m_type);
 }
 
 
@@ -85,9 +83,9 @@ IDimension* TemperatureDimension::Copy() const
 //! \brief Return the default unit for this dimension
 //! \return Default unit
 //!
-TemperatureUnit TemperatureDimension::BaseUnit() const
+pHUnit PHDimension::BaseUnit() const
 {
-    return TemperatureUnit::UNIT_FAHRENHEIT;
+    return pHUnit::UNIT_BASE;
 }
 
 
@@ -95,14 +93,12 @@ TemperatureUnit TemperatureDimension::BaseUnit() const
 //! \brief Return the amount of the supplied unit in the dimension's default unit.
 //! \return Ratio of default unit over unit known by object.
 //!
-double TemperatureDimension::RatioToBaseUnit() const
+double PHDimension::RatioToBaseUnit() const
 {
     switch(m_type)
     {
-    case TemperatureUnit::UNIT_FAHRENHEIT:
+    case pHUnit::UNIT_BASE:
         return 1.0;
-    case TemperatureUnit::UNIT_CELSIUS:
-        return 1000.0;
     default:
         throw new std::runtime_error("Unkown Temperature Unit");
     }
@@ -114,7 +110,7 @@ double TemperatureDimension::RatioToBaseUnit() const
 //! \param value Value to convert
 //! \return Converted value in unit of this object
 //!
-double TemperatureDimension::ConvertToBase(const double &value) const
+double PHDimension::ConvertToBase(const double &value) const
 {
     return value * RatioToBaseUnit();
 }
@@ -125,10 +121,10 @@ double TemperatureDimension::ConvertToBase(const double &value) const
 //! \param value Value to convert
 //! \return Converted value in default unit of the dimension
 //!
-double TemperatureDimension::ConvertFromBase(const double &value) const
+double PHDimension::ConvertFromBase(const double &value) const
 {
     return value / RatioToBaseUnit();
 }
 
-
 } //end of namespace common_data
+

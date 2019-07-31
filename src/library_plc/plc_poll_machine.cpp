@@ -89,6 +89,8 @@ void PLCPollMachine::run()
                     it->second.first = 0;
 
                     Emit([&](PLCPollingEvents_Interface *ptr){ptr->PLCPolling_NewReadRequest(requestMap.at(it->first)->getSharedClone());});
+
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
                 }
             }
             m_Timeout.reset();

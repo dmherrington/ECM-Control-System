@@ -1,5 +1,5 @@
-#ifndef TEMPERATURE_DIMENSION_H
-#define TEMPERATURE_DIMENSION_H
+#ifndef PH_DIMENSION_H
+#define PH_DIMENSION_H
 
 #include "dimension.h"
 
@@ -8,18 +8,17 @@ namespace common_data {
 //!
 //! \brief Allowed units in temperature dimension
 //!
-enum class TemperatureUnit
+enum class pHUnit
 {
-    UNIT_FAHRENHEIT,
-    UNIT_CELSIUS,
-    UNIT_TEMPERATURE_NR
+    UNIT_BASE,
+    UNIT_PH_NR
 };
 
 
 //!
 //! \brief Object representing a voltage dimension
 //!
-class TemperatureDimension : public IDimension, IDimensionUnits<TemperatureUnit>
+class PHDimension : public IDimension, IDimensionUnits<pHUnit>
 {
 public:
 
@@ -28,14 +27,14 @@ public:
     //! \brief Default Constructor
     //! \param unit Unit of dimension
     //!
-    TemperatureDimension(const TemperatureUnit &unit);
+    PHDimension(const pHUnit &unit);
 
 
     //!
     //! \brief Construct position from existing IDimension object
     //! \param that existing IDimension object
     //!
-    TemperatureDimension(const IDimension &that);
+    PHDimension(const IDimension &that);
 
 
     //!
@@ -74,7 +73,7 @@ public:
     //! \brief Return the default unit for this dimension
     //! \return Default unit
     //!
-    virtual TemperatureUnit BaseUnit() const;
+    virtual pHUnit BaseUnit() const;
 
 
     //!
@@ -101,10 +100,10 @@ public:
 
 private:
 
-    TemperatureUnit m_type;
+    pHUnit m_type;
 
 };
 
 } //end of namespace common_data
 
-#endif // TEMPERATURE_DIMENSION_H
+#endif // PH_DIMENSION_H

@@ -42,10 +42,12 @@ void QModBusProtocol::writeDataToSingleRegister(const ILink *link, const ModbusR
 
 void QModBusProtocol::readDataFromRegisters(const ILink *link, const ModbusRegister &regMsg)
 {
-    QByteArray tmpArray;
-    if(link->ReadInputRegisters(regMsg.getRegisterCode(),regMsg.readRegisterLength(), tmpArray))
+    uint32_t registerValue;
+    if(link->ReadHoldingRegisters(regMsg.getRegisterCode(),regMsg.readRegisterLength(), registerValue))
     {
-
+        ModbusRegister rxData = regMsg;
+        rxData.setRegisterValue(registerValue);
+        Emit([&](const IProtocolQModBusEvents* ptr){ptr->ModbusReadReceived(rxData);});
     }
     else {
 

@@ -55,6 +55,15 @@ public:
     //! \brief NewDataReceived
     //! \param buffer
     //!
+    virtual void NewRegisterData(const ModbusRegister &regObj) const
+    {
+        UNUSED(regObj);
+    }
+
+    //!
+    //! \brief NewDataReceived
+    //! \param buffer
+    //!
     virtual void NewDataReceived(const QByteArray &buffer) const
     {
         UNUSED(buffer);

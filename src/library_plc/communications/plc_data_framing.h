@@ -1,5 +1,5 @@
-#ifndef WESTINGHOUSE_DATA_FRAMING_H
-#define WESTINGHOUSE_DATA_FRAMING_H
+#ifndef PLC_DATA_FRAMING_H
+#define PLC_DATA_FRAMING_H
 
 #include <QByteArray>
 
@@ -29,7 +29,7 @@ private:
     PLCMessage currentMessge;
 };
 
-} //end of namespace comms_PLCDataFraming
+} //end of namespace comms_PLC
 
 
-#endif // PLCDataFraming_DATA_FRAMING_H
+#endif // PLC_DATA_FRAMING_H

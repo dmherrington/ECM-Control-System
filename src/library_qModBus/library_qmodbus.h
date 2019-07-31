@@ -65,6 +65,12 @@ public:
     void ModbusFailedDataTransmission(const common::comms::CommunicationUpdate &update, const ModbusRegister &reg) const override;
 
     //!
+    //! \brief NewRegisterData
+    //! \param regObj
+    //!
+    void NewRegisterData(const ModbusRegister &regObj) const override;
+
+    //!
     //! \brief NewDataReceived
     //! \param buffer
     //!
@@ -83,6 +89,10 @@ signals:
     void signal_PortUpdate(const common::comms::CommunicationUpdate update) const override;
 
     void signal_RXNewPortData(const QByteArray data) const override;
+
+    void signal_RXNewRegister(const ModbusRegister &regObj) const;
+
+    void signal_PortFailedTransmission(const ModbusRegister &regMsg) const override;
 
 private:
     comms_QModBus::CommsMarshaler* commsMarshaler; /**< Member variable handling the communications with the

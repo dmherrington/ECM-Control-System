@@ -5,6 +5,8 @@
 #include "sensors/sensor_voltage.h"
 #include "sensors/sensor_marea.h"
 #include "sensors/sensor_temperature.h"
+#include "sensors/sensor_ph.h"
+#include "sensors/sensor_conductivity.h"
 
 namespace common_data{
 

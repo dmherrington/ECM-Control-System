@@ -1,5 +1,5 @@
-#ifndef WESTINGHOUSE_AVAILABLE_REGISTERS_H
-#define WESTINGHOUSE_AVAILABLE_REGISTERS_H
+#ifndef PLC_AVAILABLE_REGISTERS_H
+#define PLC_AVAILABLE_REGISTERS_H
 
 #include <string>
 #include <stdexcept>
@@ -38,9 +38,9 @@ inline int RegisterTypeToInt(const PLCRegisterTypes &type)
 {
     switch (type) {
     case PLCRegisterTypes::PH:
-        return 1;
+        return 0;
     case PLCRegisterTypes::CONDUCTIVITY:
-        return 3;
+        return 2;
     default:
         throw std::runtime_error("Unknown register type seen");
     }
@@ -50,9 +50,9 @@ inline int RegisterTypeToInt(const PLCRegisterTypes &type)
 inline PLCRegisterTypes RegisterTypeFromInt(const int &type)
 {
     switch (type) {
-    case 1:
+    case 0:
         return PLCRegisterTypes::PH;
-    case 3:
+    case 2:
         return PLCRegisterTypes::CONDUCTIVITY;
     default:
         return PLCRegisterTypes::UNKNOWN;
@@ -67,7 +67,7 @@ inline std::vector<std::string> getListOfRegisterTypes()
     return str;
 }
 
-} //end of namespace registers_WestinghousePump
+} //end of namespace registers_PLC
 
 
-#endif // WESTINGHOUSE_AVAILABLE_REGISTERS_H
+#endif // PLC_AVAILABLE_REGISTERS_H

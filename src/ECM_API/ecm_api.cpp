@@ -16,6 +16,10 @@ ECM_API::ECM_API()
 
     m_Pump = new Westinghouse510(m_Modbus485,03);
 
+    m_PLC = new PLC(1);
+//    common::comms::TCPConfiguration newTCPConnection("192.168.15.202",502);
+//    m_PLC->openPLCConnection(newTCPConnection);
+
 //    connect(m_Sensoray, SIGNAL(signal_SensorayNewSensorValue(common::TupleSensorString,common_data::SensorState)),
 //            this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
 

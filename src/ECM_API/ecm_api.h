@@ -15,6 +15,7 @@
 #include "library_rigol_oscilloscope/rigol_oscilliscope.h"
 #include "library_westinghouse510/westinghouse_510.h"
 #include "library_qModBus/library_qmodbus.h"
+#include "library_plc/plc.h"
 
 #include "ecm_logging.h"
 
@@ -110,6 +111,7 @@ public:
 
     Library_QModBus* m_Modbus485;
 
+    PLC* m_PLC;
 };
 
 #endif // ECM_API_H

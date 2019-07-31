@@ -53,13 +53,23 @@ void Sensoray::openSerialPortConnection(const common::comms::SerialConfiguration
     commsMarshaler->ConnectToSerialPort(config);
 }
 
+void Sensoray::openEthernetPortConnection(const common::comms::TCPConfiguration &config) const
+{
+    UNUSED(config);
+}
+
 void Sensoray::closePortConnection() const
 {
     commsMarshaler->DisconnetFromSerialPort();
 }
 
+void Sensoray::readModbusDataPort(const ModbusRegister &regMsg) const
+{
+    UNUSED(regMsg);
+}
 void Sensoray::writeModbusDataPort(const ModbusRegister &regMsg) const
 {
+    UNUSED(regMsg);
     //commsMarshaler->WriteToSerialPort(msg);
 }
 

@@ -85,6 +85,12 @@ private:
 
     void ModbusResponseReceived(const QByteArray &buffer) const override;
 
+    //!
+    //! \brief ModbusReadReceived
+    //! \param regObj
+    //!
+    void ModbusReadReceived(const ModbusRegister &regObj) const override;
+
 private:
     std::shared_ptr<QModBusLink> link;
     std::shared_ptr<QModBusProtocol> protocol;

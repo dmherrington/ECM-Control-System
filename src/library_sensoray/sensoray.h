@@ -67,10 +67,12 @@ public:
     /// Methods supporting the Connect/Disconnect from accompanying RS485 port
     ///////////////////////////////////////////////////////////////////////////
 
-    bool isSerialDeviceReadyToConnect() const;
+    bool isSerialDeviceReadyToConnect() const override;
     void openSerialPortConnection(const common::comms::SerialConfiguration &config) const override;
+    void openEthernetPortConnection(const common::comms::TCPConfiguration &config) const override;
     void closePortConnection() const override;
     void writeModbusDataPort(const ModbusRegister &regMsg) const override;
+    void readModbusDataPort(const ModbusRegister &regMsg) const override;
     bool isModbusPortOpen() const override;
 
 public:
@@ -116,6 +118,8 @@ signals:
     void signal_PortUpdate(const common::comms::CommunicationUpdate update) const override;
 
     void signal_RXNewPortData(const QByteArray data) const override;
+
+    void signal_PortFailedTransmission(const ModbusRegister &regMsg) const override;
 
     void signal_SensorayNewSensorValue(const common::TupleSensorString &sensorTuple, const common_data::SensorState &data) const;
 

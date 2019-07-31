@@ -12,6 +12,7 @@ ModbusRegister::ModbusRegister(const ModbusRegister &copy)
     this->slaveAddress = copy.slaveAddress;
     this->readOrwrite = copy.readOrwrite;
     this->data = copy.data;
+    this->registerValue = copy.registerValue;
     this->highChecksum = copy.highChecksum;
     this->lowChecksum = copy.lowChecksum;
 }
@@ -34,6 +35,17 @@ unsigned int ModbusRegister::readRegisterLength() const
     unsigned int readLength = dataLo | (dataHi<<8);
     return readLength;
 }
+
+void ModbusRegister::setRegisterValue(const uint32_t &value)
+{
+    this->registerValue = value;
+}
+
+uint32_t ModbusRegister::readRegisterValue() const
+{
+    return this->registerValue;
+}
+
 
 void ModbusRegister::setSlaveAddress(const uint8_t &address)
 {

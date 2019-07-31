@@ -8,6 +8,10 @@ Sensor* SensorCollection::ConstructSensor(const SensorTypes &type, std::string n
     {
         switch(type)
         {
+        case (SENSOR_PH):
+            return new Sensor_pH(name);
+        case (SENSOR_CONDUCTIVITY):
+            return new Sensor_Conductivity(name);
         case(SENSOR_VOLTAGE):
             return new SensorVoltage(name);
         case(SENSOR_MAREA):

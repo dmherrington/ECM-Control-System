@@ -134,10 +134,10 @@ bool QModBusLink::_hardwareConnect()
     case comms_QModBus::COMMS_TYPE::ETHERNET:
     {
         common::comms::TCPConfiguration config = m_CommunicationSettings.ethernetPort;
-        m_Session->m_ModbusSession = modbus_new_tcp(config.listenAddress().c_str(), config.listenPortNumber());
+        m_Session->m_ModbusSession = modbus_new_tcp("192.168.15.202", 502);
         if(modbus_connect(m_Session->m_ModbusSession) == -1) //unable to open the port for some reason
         {
-            _emitLinkError("Unable to open serial connection for QModBus.");
+            _emitLinkError("Unable to open ethernet connection for QModBus.");
             return false;
         }
         this->SetSlaveAddress(1);
@@ -187,17 +187,22 @@ bool QModBusLink::WriteSingleRegister(const unsigned long &dataRegister, const u
     return false;
 }
 
-bool QModBusLink::ReadInputRegisters(const unsigned int &startingRegister, const size_t numRegisters, QByteArray &data) const
+bool QModBusLink::ReadHoldingRegisters(const unsigned int &startingRegister, const size_t numRegisters, uint32_t &value) const
 {
-    data.clear();
-
     uint8_t dest[1024];
-    uint16_t* dest16 = (uint16_t *) dest;
+    uint16_t * dest16 = (uint16_t *) dest;
+
+    memset( dest, 0, 1024 );
 
     int returned = -1;
-    returned = modbus_read_input_registers(m_Session->m_ModbusSession, static_cast<int>(startingRegister), static_cast<int>(numRegisters), dest16);
+
+    returned = modbus_read_registers(m_Session->m_ModbusSession, static_cast<int>(startingRegister), static_cast<int>(numRegisters), dest16);
     if(returned == static_cast<int>(numRegisters))
     {
+        if(numRegisters == 2)
+            value = dest16[0] | (dest16[1]<<16);
+        else
+            value = dest16[0];
         return true;
     }
     return false;

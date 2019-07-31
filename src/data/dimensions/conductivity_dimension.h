@@ -1,5 +1,5 @@
-#ifndef TEMPERATURE_DIMENSION_H
-#define TEMPERATURE_DIMENSION_H
+#ifndef CONDUCTIVITY_DIMENSION_H
+#define CONDUCTIVITY_DIMENSION_H
 
 #include "dimension.h"
 
@@ -8,18 +8,17 @@ namespace common_data {
 //!
 //! \brief Allowed units in temperature dimension
 //!
-enum class TemperatureUnit
+enum class ConductivityUnit
 {
-    UNIT_FAHRENHEIT,
-    UNIT_CELSIUS,
-    UNIT_TEMPERATURE_NR
+    UNIT_BASE,
+    UNIT_CONDUCTIVITY_NR
 };
 
 
 //!
 //! \brief Object representing a voltage dimension
 //!
-class TemperatureDimension : public IDimension, IDimensionUnits<TemperatureUnit>
+class ConductivityDimension : public IDimension, IDimensionUnits<ConductivityUnit>
 {
 public:
 
@@ -28,14 +27,14 @@ public:
     //! \brief Default Constructor
     //! \param unit Unit of dimension
     //!
-    TemperatureDimension(const TemperatureUnit &unit);
+    ConductivityDimension(const ConductivityUnit &unit);
 
 
     //!
     //! \brief Construct position from existing IDimension object
     //! \param that existing IDimension object
     //!
-    TemperatureDimension(const IDimension &that);
+    ConductivityDimension(const IDimension &that);
 
 
     //!
@@ -74,7 +73,7 @@ public:
     //! \brief Return the default unit for this dimension
     //! \return Default unit
     //!
-    virtual TemperatureUnit BaseUnit() const;
+    virtual ConductivityUnit BaseUnit() const;
 
 
     //!
@@ -101,10 +100,10 @@ public:
 
 private:
 
-    TemperatureUnit m_type;
+    ConductivityUnit m_type;
 
 };
 
 } //end of namespace common_data
 
-#endif // TEMPERATURE_DIMENSION_H
+#endif // CONDUCTIVITY_DIMENSION_H

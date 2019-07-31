@@ -1,5 +1,5 @@
-#ifndef PLCMessage_MESSAGE_FRAMING_H
-#define PLCMessage_MESSAGE_FRAMING_H
+#ifndef PLCMESSAGE_MESSAGE_FRAMING_H
+#define PLCMESSAGE_MESSAGE_FRAMING_H
 
 
 namespace comms_PLC{
@@ -21,4 +21,4 @@ enum class PLCMessageFramingState{
 } //end of namespace comms_PLC
 
 
-#endif // PLCMessage_MESSAGE_FRAMING_H
+#endif // PLCMESSAGE_MESSAGE_FRAMING_H

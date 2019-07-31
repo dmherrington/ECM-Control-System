@@ -119,5 +119,9 @@ void CommsMarshaler::ModbusResponseReceived(const QByteArray &buffer) const
     Emit([&](CommsEvents *ptr){ptr->NewDataReceived(buffer);});
 }
 
+void CommsMarshaler::ModbusReadReceived(const ModbusRegister &regObj) const
+{
+    Emit([&](CommsEvents *ptr){ptr->NewRegisterData(regObj);});
+}
 } //end of namespace comms
 

@@ -6,6 +6,7 @@ Library_QModBus::Library_QModBus(const std::string &name, QObject *parent):
     commsMarshaler(nullptr),
     deviceName(name)
 {
+    qRegisterMetaType<ModbusRegister>("ModbusRegister");
     qRegisterMetaType<common::comms::CommunicationConnection>("CommunicationConnection");
     qRegisterMetaType<common::comms::CommunicationUpdate>("CommunicationUpdate");
 
@@ -81,6 +82,11 @@ void Library_QModBus::ModbusFailedDataTransmission(const common::comms::Communic
 {
     emit signal_PortUpdate(update);
     emit signal_PortFailedTransmission(reg);
+}
+
+void Library_QModBus::NewRegisterData(const ModbusRegister &regObj) const
+{
+    emit signal_RXNewRegister(regObj);
 }
 
 void Library_QModBus::NewDataReceived(const QByteArray &buffer) const

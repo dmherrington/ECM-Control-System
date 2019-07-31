@@ -55,6 +55,12 @@ public:
     //! \param buffer byte array containing the received message at the port
     //!
     virtual void ModbusResponseReceived(const QByteArray &buffer) const = 0;
+
+    //!
+    //! \brief ModbusReadReceived
+    //! \param regObj
+    //!
+    virtual void ModbusReadReceived(const ModbusRegister &regObj) const = 0;
 };
 
 

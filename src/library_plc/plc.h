@@ -13,9 +13,14 @@
 
 #include "library_plc_global.h"
 
+#include "common/notification_update.h"
 #include "common/comms/communication_connection.h"
 #include "common/comms/communication_update.h"
 #include "common/comms/tcp_configuration.h"
+
+#include "data/sensor_state.h"
+#include "data/sensors/sensor_conductivity.h"
+#include "data/sensors/sensor_ph.h"
 
 #include "library_qModBus/library_qmodbus.h"
 
@@ -26,6 +31,31 @@
 
 #include "plc_poll_machine.h"
 
+inline long double GetDoubleValue(uint64_t i, unsigned bits, unsigned expBits)
+{
+    long double result;
+    long long shift;
+    unsigned bias;
+    unsigned significandBits = bits - expBits - 1; // -1 for sign bit
+
+    if (i == 0) return 0.0;
+
+    // pull the significand
+    result = (i&((1LL<<significandBits)-1)); // mask
+    result /= (1LL<<significandBits); // convert back to float
+    result += 1.0f; // add the one back on
+
+    // deal with the exponent
+    bias = (1<<(expBits-1)) - 1;
+    shift = ((i>>significandBits)&((1LL<<expBits)-1)) - bias;
+    while(shift > 0) { result *= 2.0; shift--; }
+    while(shift < 0) { result /= 2.0; shift++; }
+
+    // sign it
+    result *= (i>>(bits-1))&1? -1.0: 1.0;
+
+    return result;
+}
 
 class LIBRARY_PLCSHARED_EXPORT PLC : public QObject, public PLCPollingEvents_Interface
 {
@@ -53,7 +83,7 @@ public:
     //! \brief isPumpConnected
     //! \return
     //!
-    bool isPLCConnected() const;
+    bool isDeviceConnected() const;
 
     //!
     //! \brief openPLCConnection
@@ -88,6 +118,11 @@ signals:
     void signal_CommunicationUpdate(const common::comms::CommunicationUpdate &obj);
 
 
+    void signal_PLCNewSensorValue(const common::TupleSensorString &sensorTuple, const common_data::SensorState &data) const;
+
+
+    void signal_PLCNotification(const common::NotificationUpdate &notification);
+
 private slots:
     //!
     //! \brief slot_SerialPortUpdate
@@ -95,11 +130,8 @@ private slots:
     //!
     void slot_PortUpdate(const common::comms::CommunicationUpdate &update);
 
-    //!
-    //! \brief slot_SerialPortReceivedData
-    //! \param data
-    //!
-    void slot_PortReceivedData(const QByteArray &data);
+
+    void slot_RXNewRegisterData(const ModbusRegister &regObj);
 
 private:
     Library_QModBus* m_Comms;
@@ -109,7 +141,6 @@ private:
     PLCPollMachine* m_PollMachine;
 
     std::string deviceName;
-
 };
 
 #endif // PLC_H

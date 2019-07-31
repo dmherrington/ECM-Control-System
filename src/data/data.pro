@@ -43,7 +43,11 @@ SOURCES += \
     machine_positional_state.cpp \
     dimensions/position_dimension.cpp \
     dimensions/temperature_dimension.cpp \
-    sensors/sensor_temperature.cpp
+    sensors/sensor_temperature.cpp \
+    sensors/sensor_ph.cpp \
+    sensors/sensor_conductivity.cpp \
+    dimensions/ph_dimension.cpp \
+    dimensions/conductivity_dimension.cpp
 
 HEADERS += \
     data_global.h \
@@ -76,7 +80,11 @@ HEADERS += \
     dimensions/position_dimension.h \
     data_version.h \
     dimensions/temperature_dimension.h \
-    sensors/sensor_temperature.h
+    sensors/sensor_temperature.h \
+    sensors/sensor_ph.h \
+    sensors/sensor_conductivity.h \
+    dimensions/ph_dimension.h \
+    dimensions/conductivity_dimension.h
 
 # Unix lib Install
 unix:!symbian {

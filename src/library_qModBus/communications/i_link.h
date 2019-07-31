@@ -106,7 +106,7 @@ public:
     //! \param data
     //! \return
     //!
-    virtual bool ReadInputRegisters(const unsigned int &startingRegister, const size_t numRegisters, QByteArray &data) const  = 0;
+    virtual bool ReadHoldingRegisters(const unsigned int &startingRegister, const size_t numRegisters, uint32_t &value) const  = 0;
 
 
     //!

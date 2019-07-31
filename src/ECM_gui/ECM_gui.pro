@@ -280,9 +280,17 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../library_SPIIMotionController/ -llibrary_
 INCLUDEPATH += $$PWD/../library_SPIIMotionController
 DEPENDPATH += $$PWD/../library_SPIIMotionController
 
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_plc/release/ -llibrary_plc
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_plc/debug/ -llibrary_plc
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_plc/ -llibrary_plc
+
+INCLUDEPATH += $$PWD/../library_plc
+DEPENDPATH += $$PWD/../library_plc
+
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../ECM_API/release/ -lECM_API
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../ECM_API/debug/ -lECM_API
 else:unix:!macx: LIBS += -L$$OUT_PWD/../ECM_API/ -lECM_API
 
 INCLUDEPATH += $$PWD/../ECM_API
 DEPENDPATH += $$PWD/../ECM_API
+

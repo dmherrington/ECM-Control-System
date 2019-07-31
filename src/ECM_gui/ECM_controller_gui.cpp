@@ -106,7 +106,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     QDockWidget *dock_pump = new QDockWidget(tr("Pump Utility"), this);
     dock_pump->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
-    WidgetFrontPanel_Pump* dockUtility_Pump = new WidgetFrontPanel_Pump(m_API->m_Pump);
+    WidgetFrontPanel_Pump* dockUtility_Pump = new WidgetFrontPanel_Pump(m_API->m_Pump, m_API->m_PLC);
     dock_pump->setWidget(dockUtility_Pump);
     addDockWidget(Qt::RightDockWidgetArea, dock_pump, Qt::Orientation::Vertical);
 
@@ -157,6 +157,9 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_Sensoray, SIGNAL(signal_SensorayNewSensorValue(common::TupleSensorString,common_data::SensorState)),
             this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
 
+    connect(m_API->m_PLC, SIGNAL(signal_PLCNewSensorValue(common::TupleSensorString,common_data::SensorState)),
+            this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
+
     //    m_WindowMotionControl = new Window_MotionControl(m_API->m_MotionController);
     //    m_WindowMotionControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
     //    connect(m_WindowMotionControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
@@ -194,7 +197,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     setupUploadCallbacks();
 
-    m_WindowConnections->connectToAllDevices();
+    //m_WindowConnections->connectToAllDevices();
 
     ProgressStateMachineStates();
 }

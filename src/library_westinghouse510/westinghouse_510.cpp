@@ -7,8 +7,8 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
     qRegisterMetaType<common::comms::CommunicationConnection>("CommunicationConnection");
     qRegisterMetaType<common::comms::CommunicationUpdate>("CommunicationUpdate");
 
-    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_SerialPortUpdate(common::comms::CommunicationUpdate)));
-    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_RXNewSerialData(QByteArray)),this,SLOT(slot_SerialPortReceivedData(QByteArray)));
+    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_PortUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_PortUpdate(common::comms::CommunicationUpdate)));
+    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_RXNewPortData(QByteArray)),this,SLOT(slot_SerialPortReceivedData(QByteArray)));
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_PortFailedTransmission(ModbusRegister)),this,SLOT(slot_PortFailedTransmission(ModbusRegister)));
 
     initializationTimer = new QTimer(this);
@@ -120,7 +120,7 @@ void Westinghouse510::slot_SerialPortReadyToConnect()
 
 }
 
-void Westinghouse510::slot_SerialPortUpdate(const common::comms::CommunicationUpdate &update)
+void Westinghouse510::slot_PortUpdate(const common::comms::CommunicationUpdate &update)
 {
     using namespace common::comms;
     switch (update.getUpdateType()) {
@@ -134,6 +134,11 @@ void Westinghouse510::slot_SerialPortUpdate(const common::comms::CommunicationUp
         this->m_Comms->writeModbusDataPort(updateRunSource.getModbusRegister());
 
         this->ceasePumpOperations();
+
+        //Now we can notify the remaining parties
+        common::NotificationUpdate newUpdate(this->deviceName,ECMDevice::DEVICE_PUMP,common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL);
+        newUpdate.setPeripheralMessage("PLC Device Connected.");
+        emit signal_PumpNotification(newUpdate);
 
         break;
     }
