@@ -86,6 +86,7 @@ public:
         return SimplifiedTime(h,m,s);
     }
 
+
     friend QDataStream& operator<<(QDataStream& out, const SimplifiedTime& v) {
         out << v.hr << v.min << v.sec;
         return out;

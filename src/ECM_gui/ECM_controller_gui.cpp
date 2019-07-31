@@ -398,7 +398,7 @@ void ECMControllerGUI::slot_MCNewMotionState(const ECM::SPII::SPIIState &state, 
 
 void ECMControllerGUI::readSettings()
 {
-    QSettings settings("ECMController", "Machine Automation");
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope,"ECMController", "Window Settings");
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
     QSize size = settings.value("size", QSize(400, 400)).toSize();
 
@@ -442,16 +442,20 @@ void ECMControllerGUI::readSettings()
     resize(size);
     move(pos);
 
-    QSettings globalConfigs("ECMController Config", QSettings::IniFormat);
-    QVariant runtimeValue = globalConfigs.value("runtime");
+    QSettings runtimeSettings(QSettings::IniFormat, QSettings::UserScope,"ECMController", "Runtime Settings");
+    QVariant runtimeValue = runtimeSettings.value("totalRuntime");
     m_GlobalMachineTime = runtimeValue.value<common::SimplifiedTime>();
+//    m_GlobalMachineTime.hr = 0;
+//    m_GlobalMachineTime.min = 0;
+//    m_GlobalMachineTime.sec = 0;
 }
 
 void ECMControllerGUI::closeEvent(QCloseEvent *event)
 {
+
     if(!m_API->m_MotionController->m_StateInterface->isMotorEnabled())
     {
-        QSettings settings("ECMController", "Machine Automation");
+        QSettings settings(QSettings::IniFormat, QSettings::UserScope,"ECMController", "Window Settings");
         settings.setValue("pos", pos());
         settings.setValue("size", size());
 
@@ -464,6 +468,7 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
         settings.setValue("rigolControlDisplayed",m_WindowRigol->isWindowHidden());
         settings.setValue("connectionsDisplayed",m_WindowConnections->isWindowHidden());
         settings.setValue("customMotionDisplayed",m_WindowCustomMotionCommands->isWindowHidden());
+        settings.sync();
 
         m_additionalSensorDisplay->close();
         m_WindowProfileConfiguration->close();
@@ -474,9 +479,10 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
         m_WindowRigol->close();
         m_WindowConnections->close();
         m_WindowCustomMotionCommands->close();
-        SimplifiedTime newTime(1,2,3);
-        QSettings globalConfigs("ECMController Config", QSettings::IniFormat);
-        globalConfigs.setValue("runtime", QVariant::fromValue(m_GlobalMachineTime));
+
+        QSettings runtimeSettings(QSettings::IniFormat, QSettings::UserScope,"ECMController", "Runtime Settings");
+        runtimeSettings.setValue("totalRuntime", QVariant::fromValue(m_GlobalMachineTime));
+        runtimeSettings.sync();
 
         event->accept();
     }
