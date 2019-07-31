@@ -51,16 +51,16 @@ public:
     QSpacerItem *horizontalSpacer_9;
     QPushButton *pushButton_PumpRunning;
     QSpacerItem *horizontalSpacer_10;
+    QGridLayout *gridLayout_2;
+    QLabel *label_conductivity;
+    QLCDNumber *lcdNumber_pH;
+    QLCDNumber *lcdNumber_Conductivity;
+    QLabel *label_ph;
     QGridLayout *gridLayout;
     QLabel *label_delayTim;
     QDoubleSpinBox *doubleSpinBox_delayTime;
     QLabel *label_Flowrate;
     QDoubleSpinBox *doubleSpinBox_flowRate;
-    QGridLayout *gridLayout_2;
-    QLabel *label_ph;
-    QLCDNumber *lcdNumber_pH;
-    QLabel *label_conductivity;
-    QLCDNumber *lcdNumber_Conductivity;
 
     void setupUi(QWidget *WidgetFrontPanel_Pump)
     {
@@ -336,6 +336,54 @@ public:
 
         gridLayout_3->addLayout(horizontalLayout_5, 0, 0, 1, 2);
 
+        gridLayout_2 = new QGridLayout();
+        gridLayout_2->setSpacing(2);
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        label_conductivity = new QLabel(WidgetFrontPanel_Pump);
+        label_conductivity->setObjectName(QStringLiteral("label_conductivity"));
+        sizePolicy.setHeightForWidth(label_conductivity->sizePolicy().hasHeightForWidth());
+        label_conductivity->setSizePolicy(sizePolicy);
+        label_conductivity->setMinimumSize(QSize(80, 20));
+        label_conductivity->setMaximumSize(QSize(80, 20));
+        label_conductivity->setFont(font);
+
+        gridLayout_2->addWidget(label_conductivity, 1, 0, 1, 1);
+
+        lcdNumber_pH = new QLCDNumber(WidgetFrontPanel_Pump);
+        lcdNumber_pH->setObjectName(QStringLiteral("lcdNumber_pH"));
+        lcdNumber_pH->setMinimumSize(QSize(80, 30));
+        lcdNumber_pH->setMaximumSize(QSize(80, 30));
+        lcdNumber_pH->setDigitCount(4);
+
+        gridLayout_2->addWidget(lcdNumber_pH, 0, 1, 1, 1);
+
+        lcdNumber_Conductivity = new QLCDNumber(WidgetFrontPanel_Pump);
+        lcdNumber_Conductivity->setObjectName(QStringLiteral("lcdNumber_Conductivity"));
+        lcdNumber_Conductivity->setMinimumSize(QSize(80, 30));
+        lcdNumber_Conductivity->setMaximumSize(QSize(80, 30));
+        QFont font2;
+        font2.setBold(true);
+        font2.setWeight(75);
+        lcdNumber_Conductivity->setFont(font2);
+        lcdNumber_Conductivity->setLineWidth(1);
+        lcdNumber_Conductivity->setMidLineWidth(0);
+        lcdNumber_Conductivity->setDigitCount(4);
+
+        gridLayout_2->addWidget(lcdNumber_Conductivity, 1, 1, 1, 1);
+
+        label_ph = new QLabel(WidgetFrontPanel_Pump);
+        label_ph->setObjectName(QStringLiteral("label_ph"));
+        sizePolicy.setHeightForWidth(label_ph->sizePolicy().hasHeightForWidth());
+        label_ph->setSizePolicy(sizePolicy);
+        label_ph->setMinimumSize(QSize(80, 20));
+        label_ph->setMaximumSize(QSize(80, 20));
+        label_ph->setFont(font);
+
+        gridLayout_2->addWidget(label_ph, 0, 0, 1, 1);
+
+
+        gridLayout_3->addLayout(gridLayout_2, 1, 0, 1, 1);
+
         gridLayout = new QGridLayout();
         gridLayout->setSpacing(2);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
@@ -385,55 +433,7 @@ public:
         gridLayout->addWidget(doubleSpinBox_flowRate, 1, 1, 1, 1);
 
 
-        gridLayout_3->addLayout(gridLayout, 1, 0, 1, 1);
-
-        gridLayout_2 = new QGridLayout();
-        gridLayout_2->setSpacing(2);
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        label_ph = new QLabel(WidgetFrontPanel_Pump);
-        label_ph->setObjectName(QStringLiteral("label_ph"));
-        sizePolicy.setHeightForWidth(label_ph->sizePolicy().hasHeightForWidth());
-        label_ph->setSizePolicy(sizePolicy);
-        label_ph->setMinimumSize(QSize(80, 20));
-        label_ph->setMaximumSize(QSize(80, 20));
-        label_ph->setFont(font);
-
-        gridLayout_2->addWidget(label_ph, 0, 0, 1, 1);
-
-        lcdNumber_pH = new QLCDNumber(WidgetFrontPanel_Pump);
-        lcdNumber_pH->setObjectName(QStringLiteral("lcdNumber_pH"));
-        lcdNumber_pH->setMinimumSize(QSize(80, 30));
-        lcdNumber_pH->setMaximumSize(QSize(80, 30));
-        lcdNumber_pH->setDigitCount(4);
-
-        gridLayout_2->addWidget(lcdNumber_pH, 0, 1, 1, 1);
-
-        label_conductivity = new QLabel(WidgetFrontPanel_Pump);
-        label_conductivity->setObjectName(QStringLiteral("label_conductivity"));
-        sizePolicy.setHeightForWidth(label_conductivity->sizePolicy().hasHeightForWidth());
-        label_conductivity->setSizePolicy(sizePolicy);
-        label_conductivity->setMinimumSize(QSize(80, 20));
-        label_conductivity->setMaximumSize(QSize(80, 20));
-        label_conductivity->setFont(font);
-
-        gridLayout_2->addWidget(label_conductivity, 1, 0, 1, 1);
-
-        lcdNumber_Conductivity = new QLCDNumber(WidgetFrontPanel_Pump);
-        lcdNumber_Conductivity->setObjectName(QStringLiteral("lcdNumber_Conductivity"));
-        lcdNumber_Conductivity->setMinimumSize(QSize(80, 30));
-        lcdNumber_Conductivity->setMaximumSize(QSize(80, 30));
-        QFont font2;
-        font2.setBold(true);
-        font2.setWeight(75);
-        lcdNumber_Conductivity->setFont(font2);
-        lcdNumber_Conductivity->setLineWidth(1);
-        lcdNumber_Conductivity->setMidLineWidth(0);
-        lcdNumber_Conductivity->setDigitCount(4);
-
-        gridLayout_2->addWidget(lcdNumber_Conductivity, 1, 1, 1, 1);
-
-
-        gridLayout_3->addLayout(gridLayout_2, 1, 1, 1, 1);
+        gridLayout_3->addLayout(gridLayout, 1, 1, 1, 1);
 
 
         retranslateUi(WidgetFrontPanel_Pump);
@@ -447,10 +447,10 @@ public:
         label_Running_2->setText(QApplication::translate("WidgetFrontPanel_Pump", "Running:", nullptr));
         label_Running->setText(QApplication::translate("WidgetFrontPanel_Pump", "Initialized:", nullptr));
         pushButton_PumpRunning->setText(QApplication::translate("WidgetFrontPanel_Pump", "ON", nullptr));
+        label_conductivity->setText(QApplication::translate("WidgetFrontPanel_Pump", "Conductivity", nullptr));
+        label_ph->setText(QApplication::translate("WidgetFrontPanel_Pump", "pH", nullptr));
         label_delayTim->setText(QApplication::translate("WidgetFrontPanel_Pump", "Delay (sec)", nullptr));
         label_Flowrate->setText(QApplication::translate("WidgetFrontPanel_Pump", "Flowrate (lpm)", nullptr));
-        label_ph->setText(QApplication::translate("WidgetFrontPanel_Pump", "pH", nullptr));
-        label_conductivity->setText(QApplication::translate("WidgetFrontPanel_Pump", "Conductivity", nullptr));
     } // retranslateUi
 
 };
