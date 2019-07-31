@@ -47,6 +47,8 @@ public:
     QAction *actionClear_All_Data;
     QAction *actionProfile_Configuration;
     QAction *actionBuffer_Manager;
+    QAction *actionRun_Statistics;
+    QAction *actionSoftware_Versioning;
     QWidget *centralWidget;
     QGridLayout *gridLayout_3;
     QGridLayout *gridLayout_4;
@@ -292,6 +294,10 @@ public:
         actionProfile_Configuration->setObjectName(QStringLiteral("actionProfile_Configuration"));
         actionBuffer_Manager = new QAction(ECMControllerGUI);
         actionBuffer_Manager->setObjectName(QStringLiteral("actionBuffer_Manager"));
+        actionRun_Statistics = new QAction(ECMControllerGUI);
+        actionRun_Statistics->setObjectName(QStringLiteral("actionRun_Statistics"));
+        actionSoftware_Versioning = new QAction(ECMControllerGUI);
+        actionSoftware_Versioning->setObjectName(QStringLiteral("actionSoftware_Versioning"));
         centralWidget = new QWidget(ECMControllerGUI);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout_3 = new QGridLayout(centralWidget);
@@ -1054,6 +1060,9 @@ public:
         menuTools->addSeparator();
         menuTools->addSeparator();
         menuTools->addAction(actionCustom_Motion_Commands);
+        menuHelp->addAction(actionRun_Statistics);
+        menuHelp->addAction(actionSoftware_Versioning);
+        menuHelp->addSeparator();
         menuView->addAction(actionOpen_Sensors_Window);
         menuView->addSeparator();
         menuView->addAction(actionClear_All_Data);
@@ -1077,6 +1086,8 @@ public:
         actionClear_All_Data->setText(QApplication::translate("ECMControllerGUI", "Clear All Data", nullptr));
         actionProfile_Configuration->setText(QApplication::translate("ECMControllerGUI", "Profile Configuration", nullptr));
         actionBuffer_Manager->setText(QApplication::translate("ECMControllerGUI", "Buffer Manager", nullptr));
+        actionRun_Statistics->setText(QApplication::translate("ECMControllerGUI", "Run Statistics", nullptr));
+        actionSoftware_Versioning->setText(QApplication::translate("ECMControllerGUI", "Software Versioning", nullptr));
         label_PartNumber->setText(QApplication::translate("ECMControllerGUI", "Part Number:", nullptr));
 #ifndef QT_NO_TOOLTIP
         lineEdit_PartNumber->setToolTip(QString());

@@ -123,7 +123,8 @@ HEADERS += common.h\
     operation/operation_items.h \
     commands/command_variable_array.h \
     commands/command_upload_operational_variables.h \
-    notification_update.h
+    notification_update.h \
+    simplified_time.h
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

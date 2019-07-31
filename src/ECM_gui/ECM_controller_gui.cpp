@@ -43,10 +43,14 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     qRegisterMetaType<ECM::SPII::SPIIState>("ECM::SPII::SPIIState");
 
+    qRegisterMetaTypeStreamOperators<common::SimplifiedTime>("SimplifiedTime");
+
+
     ui->setupUi(this);
 
     common::EnvironmentTime startTime;
     common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
+    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,m_SoftwareBootTime);
 
     QDate tmp_Date(startTime.year, startTime.month, startTime.dayOfMonth);
     QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond);
@@ -276,7 +280,7 @@ void ECMControllerGUI::slot_RemovePlottable(const common::TupleECMData &data)
 void ECMControllerGUI::slot_DisplayActionTriggered()
 {
     //find the item that was selected
-    QAction* selectedObject = (QAction*)sender();
+    QAction* selectedObject = static_cast<QAction*>(sender());
 
     common::TupleECMData key;
 
@@ -397,7 +401,7 @@ void ECMControllerGUI::slot_MCNewMotionState(const ECM::SPII::SPIIState &state, 
 
 void ECMControllerGUI::readSettings()
 {
-    QSettings settings("ECMController", "Machine Automation");
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope,"ECMController", "Window Settings");
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
     QSize size = settings.value("size", QSize(400, 400)).toSize();
 
@@ -440,13 +444,21 @@ void ECMControllerGUI::readSettings()
 
     resize(size);
     move(pos);
+
+    QSettings runtimeSettings(QSettings::IniFormat, QSettings::UserScope,"ECMController", "Runtime Settings");
+    QVariant runtimeValue = runtimeSettings.value("totalRuntime");
+    m_GlobalMachineTime = runtimeValue.value<common::SimplifiedTime>();
+//    m_GlobalMachineTime.hr = 0;
+//    m_GlobalMachineTime.min = 0;
+//    m_GlobalMachineTime.sec = 0;
 }
 
 void ECMControllerGUI::closeEvent(QCloseEvent *event)
 {
+
     if(!m_API->m_MotionController->m_StateInterface->isMotorEnabled())
     {
-        QSettings settings("ECMController", "Machine Automation");
+        QSettings settings(QSettings::IniFormat, QSettings::UserScope,"ECMController", "Window Settings");
         settings.setValue("pos", pos());
         settings.setValue("size", size());
 
@@ -459,6 +471,7 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
         settings.setValue("rigolControlDisplayed",m_WindowRigol->isWindowHidden());
         settings.setValue("connectionsDisplayed",m_WindowConnections->isWindowHidden());
         settings.setValue("customMotionDisplayed",m_WindowCustomMotionCommands->isWindowHidden());
+        settings.sync();
 
         m_additionalSensorDisplay->close();
         m_WindowProfileConfiguration->close();
@@ -469,6 +482,10 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
         m_WindowRigol->close();
         m_WindowConnections->close();
         m_WindowCustomMotionCommands->close();
+
+        QSettings runtimeSettings(QSettings::IniFormat, QSettings::UserScope,"ECMController", "Runtime Settings");
+        runtimeSettings.setValue("totalRuntime", QVariant::fromValue(m_GlobalMachineTime));
+        runtimeSettings.sync();
 
         event->accept();
     }
@@ -783,6 +800,10 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
     }
     case ExecutionProperties::ExecutionCondition::ENDING:
     {
+        common::EnvironmentTime operationEnd = props.getTime();
+        common::SimplifiedTime operationTime(operationEnd - operationStart);
+        m_GlobalMachineTime = m_GlobalMachineTime + operationTime;
+
         std::vector<double> endingPosition = props.getCurrentPosition();
         std::string msg;
 
@@ -1163,4 +1184,24 @@ void ECMControllerGUI::slot_MunkFaultCodeStatus(const bool &status, const std::v
 void ECMControllerGUI::on_pushButton_ClearMunkError_released()
 {
     m_API->m_Munk->resetFaultState();
+}
+
+void ECMControllerGUI::on_actionRun_Statistics_triggered()
+{
+    common::EnvironmentTime currentTime;
+    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,currentTime);
+
+    uint64_t dailyElapsed = currentTime - m_SoftwareBootTime;
+
+    common::SimplifiedTime localTime(dailyElapsed);
+
+    Dialog_RunStatistics dialogWindow(m_GlobalMachineTime, localTime);
+    dialogWindow.exec();
+}
+
+void ECMControllerGUI::on_actionSoftware_Versioning_triggered()
+{
+    std::map<std::string, std::string> softwareInfo = m_API->getSoftwareVersions();
+    Dialog_SoftwareVersion dialogWindow(softwareInfo);
+    dialogWindow.exec();
 }

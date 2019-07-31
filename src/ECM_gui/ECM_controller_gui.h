@@ -16,9 +16,13 @@
 #include "misc_dialogs/window_device_connections.h"
 #include "misc_dialogs/window_custom_motion_commands.h"
 #include "misc_dialogs/widget_notification.h"
+#include "misc_dialogs/dialog_run_statistics.h"
+#include "misc_dialogs/dialog_software_version.h"
 
 #include "additional_sensor_display.h"
 #include "common/threadmanager.h"
+#include "common/simplified_time.h"
+
 #include "common/timer.h"
 
 #include "ECM_API/ecm_api.h"
@@ -228,10 +232,17 @@ private:
     EnvironmentTime configurationStart;
     QTimer* elapsedConfigurationTimer;
     QTimer* elapsedOperationTimer;
+
+    EnvironmentTime m_SoftwareBootTime;
+    common::SimplifiedTime m_DailyMachineTime;
+    common::SimplifiedTime m_GlobalMachineTime;
+
 private slots:
     void slot_OnUpdateElapsedOperationTime();
     void slot_OnUpdateElapsedConfigurationTime();
     void on_pushButton_ClearMunkError_released();
+    void on_actionRun_Statistics_triggered();
+    void on_actionSoftware_Versioning_triggered();
 };
 
 #endif // ECM_CONTROLLER_GUI_H

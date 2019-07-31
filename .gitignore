@@ -39,3 +39,7 @@ example/example
 /src/ECM_gui/debug/*
 /src/ECM_gui/release/*
 /src/ECM_API/debug/*
+/src/library_westinghouse510/debug/*
+/src/library_qModbus/debug/*
+/src/library_rigol_oscilliscope/debug/*
+/src/library_sensoray/debug/*

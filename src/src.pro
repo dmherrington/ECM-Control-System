@@ -12,9 +12,8 @@ SUBDIRS += \
     library_westinghouse510 \
     library_qModBus \
     library_plc\
-    library_SPIIMotionController \
-    Testing
-
+    library_SPIIMotionController 
+    
 data.depends = common
 graphing.depends = data
 library_SPIIMotionController.depends = graphing
