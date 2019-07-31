@@ -2,7 +2,9 @@
 #define MODBUS_REGISTER_H
 
 #include <QByteArray>
-#include <QBitArray>
+#include <QIODevice>
+#include <QtEndian>
+
 #include <string>
 
 #include "common.h"
@@ -53,6 +55,14 @@ public:
     //! \return
     //!
     virtual QByteArray getByteArray() const;
+
+
+    //!
+    //! \brief readRegisterLength
+    //! \return
+    //!
+    unsigned int readRegisterLength() const;
+
 
 public:
     //!

@@ -187,7 +187,7 @@ bool QModBusLink::WriteSingleRegister(const unsigned long &dataRegister, const u
     return false;
 }
 
-bool QModBusLink::ReadInputRegisters(const unsigned int &startingRegister, const size_t numRegisters, QByteArray &data)
+bool QModBusLink::ReadInputRegisters(const unsigned int &startingRegister, const size_t numRegisters, QByteArray &data) const
 {
     data.clear();
 

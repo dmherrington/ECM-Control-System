@@ -12,7 +12,7 @@
 #include "common/timer.h"
 #include "common/tuple_ecm_data.h"
 
-#include "requests/abstract_request.h"
+#include "data_registers/abstract_register.h"
 
 class PLCPollingEvents_Interface
 {
@@ -22,7 +22,7 @@ public:
     virtual ~PLCPollingEvents_Interface() = default;
 
 public:
-    virtual void PLCPolling_NewRequest(const requests_PLC::AbstractRequestPtr req) = 0;
+    virtual void PLCPolling_NewReadRequest(const registers_PLC::AbstractPLCRegisterPtr req) = 0;
 };
 
 class PLCPollMachine : public Publisher<PLCPollingEvents_Interface>, public Thread
@@ -38,12 +38,12 @@ public:
     void beginPolling();
     void pausePolling();
 
-    void addRequest(const requests_PLC::AbstractRequestPtr request, const int &period = 100);
+    void addReadRegister(const registers_PLC::AbstractPLCRegisterPtr request, const int &period = 100);
 
     void run();
 
 private:
-    void addRequestToQueue(const requests_PLC::AbstractRequestPtr request, const int &period = 100);
+    void addReadRegisterToQueue(const registers_PLC::AbstractPLCRegisterPtr request, const int &period = 100);
 
     int greatestCommonDenominator(int a,int b) {
         int temp;
@@ -63,8 +63,8 @@ private:
     unsigned int timeout;
 
 private:
-    std::map<common::TupleECMData,requests_PLC::AbstractRequestPtr> requestMap;
-    std::map<common::TupleECMData,pollingTimeout> timeoutMap;
+    std::map<registers_PLC::PLCRegisterTypes,registers_PLC::AbstractPLCRegisterPtr> requestMap;
+    std::map<registers_PLC::PLCRegisterTypes,pollingTimeout> timeoutMap;
 
 protected:
     std::list<std::function<void()>> m_LambdasToRun;

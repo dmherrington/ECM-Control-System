@@ -17,7 +17,8 @@ public:
         CONNECTED,
         DISCONNECTED,
         UPDATE,
-        ALERT
+        ALERT,
+        FAILED_DATA_TRANSMISSION
     };
 
 public:

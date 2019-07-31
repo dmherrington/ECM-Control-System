@@ -100,6 +100,16 @@ public:
     virtual bool WriteSingleRegister(const unsigned long &dataRegister, const unsigned long &data) const = 0;
 
     //!
+    //! \brief ReadInputRegisters
+    //! \param startingRegister
+    //! \param numRegisters
+    //! \param data
+    //! \return
+    //!
+    virtual bool ReadInputRegisters(const unsigned int &startingRegister, const size_t numRegisters, QByteArray &data) const  = 0;
+
+
+    //!
     //! \brief setSerialConfiguration
     //! \param config
     //!

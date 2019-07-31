@@ -58,6 +58,12 @@ signals:
     virtual void signal_PortUpdate(const CommunicationUpdate update) const = 0;
 
     //!
+    //! \brief signal_PortFailedTransmission
+    //! \param regMsg
+    //!
+    virtual void signal_PortFailedTransmission(const ModbusRegister &regMsg) const = 0;
+
+    //!
     //! \brief signal_RXNewSerialData
     //! \param data
     //!

@@ -55,7 +55,14 @@ public:
     //! \brief ConnectionStatusUpdated
     //! \param update
     //!
-    void ConnectionStatusUpdated(const common::comms::CommunicationUpdate &update) const override;
+    void CommunicationStatusUpdate(const common::comms::CommunicationUpdate &update) const override;
+
+    //!
+    //! \brief ModbusFailedDataTransmission
+    //! \param update
+    //! \param reg
+    //!
+    void ModbusFailedDataTransmission(const common::comms::CommunicationUpdate &update, const ModbusRegister &reg) const override;
 
     //!
     //! \brief NewDataReceived

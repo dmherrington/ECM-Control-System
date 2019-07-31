@@ -13,14 +13,14 @@ void PLCPollMachine::beginPolling()
     this->start();
 }
 
-void PLCPollMachine::addRequestToQueue(const requests_PLC::AbstractRequestPtr request, const int &period)
+void PLCPollMachine::addReadRegisterToQueue(const registers_PLC::AbstractPLCRegisterPtr request, const int &period)
 {
-    std::pair<std::map<common::TupleECMData,requests_PLC::AbstractRequestPtr>::iterator,bool> ret;
+    std::pair<std::map<common::TupleECMData,registers_PLC::AbstractPLCRegisterPtr>::iterator,bool> ret;
     auto dataPair = std::make_pair(0.0,period);
-    requestMap[request->getTupleDescription()] = request;
-    timeoutMap[request->getTupleDescription()] = dataPair;
+    requestMap[request->getRegisterType()] = request;
+    timeoutMap[request->getRegisterType()] = dataPair;
 
-    std::map<common::TupleECMData,pollingTimeout>::iterator it = timeoutMap.begin();
+    std::map<registers_PLC::PLCRegisterTypes,pollingTimeout>::iterator it = timeoutMap.begin();
     int currentTimeout = static_cast<int>(it->second.second);
     std::advance(it,1);
     for (; it!=timeoutMap.end(); ++it)
@@ -31,17 +31,17 @@ void PLCPollMachine::addRequestToQueue(const requests_PLC::AbstractRequestPtr re
 
 }
 
-void PLCPollMachine::addRequest(const requests_PLC::AbstractRequestPtr request, const int &period)
+void PLCPollMachine::addReadRegister(const registers_PLC::AbstractPLCRegisterPtr request, const int &period)
 {
     if(isThreadActive())
     {
         m_LambdasToRun.push_back([this,request,period]{
-            addRequestToQueue(request,period);
+            addReadRegisterToQueue(request,period);
         });
     }
     else
     {
-        addRequestToQueue(request,period);
+        addReadRegisterToQueue(request,period);
     }
 }
 
@@ -78,7 +78,7 @@ void PLCPollMachine::run()
             //interface class contained at the callback location
 
             //Iterate through the requests
-            std::map<common::TupleECMData,pollingTimeout>::iterator it;
+            std::map<registers_PLC::PLCRegisterTypes,pollingTimeout>::iterator it;
             for (it=timeoutMap.begin(); it!=timeoutMap.end(); ++it)
             {
                 it->second.first += timeElapsed;
@@ -87,7 +87,8 @@ void PLCPollMachine::run()
                     //we have therefore timed out
                     //1. Let us reset the current timer associated with this request
                     it->second.first = 0;
-                    requestMap.at(it->first)->updateTime();
+
+                    Emit([&](PLCPollingEvents_Interface *ptr){ptr->PLCPolling_NewReadRequest(requestMap.at(it->first)->getSharedClone());});
                 }
             }
             m_Timeout.reset();

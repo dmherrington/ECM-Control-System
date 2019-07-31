@@ -40,18 +40,36 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp
 
 INCLUDEPATH += $$PWD/../
-INCLUDEPATH += $$(ECM_ROOT)/tools/SPiiPlusADKSuite_v2_6/ACSC/C_CPP
+INCLUDEPATH += $$(ECM_ROOT)/include
+
+INCLUDEPATH += $$(ECM_ROOT)/tools/libmodbus
+INCLUDEPATH += $$(ECM_ROOT)/tools/libmodbus/src
 
 
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
+else:unix:!macx: LIBS += -L$$OUT_PWD/../common/ -lcommon
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_SPIIMotionController/release/ -llibrary_SPIIMotionController
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_SPIIMotionController/debug/ -llibrary_SPIIMotionController
-else:unix:!macx: LIBS += -L$$OUT_PWD/../library_SPIIMotionController/ -llibrary_SPIIMotionController
+INCLUDEPATH += $$PWD/../common
+DEPENDPATH += $$PWD/../common
 
-INCLUDEPATH += $$PWD/../library_SPIIMotionController
-DEPENDPATH += $$PWD/../library_SPIIMotionController
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../data/release/ -ldata
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../data/debug/ -ldata
+else:unix:!macx: LIBS += -L$$OUT_PWD/../data/ -ldata
 
-unix:!macx|win32: LIBS += -L$$PWD/../../tools/SPiiPlusADKSuite_v2_6/ACSC/C_CPP/ -lACSCL_x86
+INCLUDEPATH += $$PWD/../data
+DEPENDPATH += $$PWD/../data
 
-INCLUDEPATH += $$PWD/../../tools/SPiiPlusADKSuite_v2_6/ACSC/C_CPP
-DEPENDPATH += $$PWD/../../tools/SPiiPlusADKSuite_v2_6/ACSC/C_CPP
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_qModBus/release/ -llibrary_qModBus
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_qModBus/debug/ -llibrary_qModBus
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_qModBus/ -llibrary_qModBus
+
+INCLUDEPATH += $$PWD/../library_qModBus
+DEPENDPATH += $$PWD/../library_qModBus
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_plc/release/ -llibrary_plc
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_plc/debug/ -llibrary_plc
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_plc/ -llibrary_plc
+
+INCLUDEPATH += $$PWD/../library_plc
+DEPENDPATH += $$PWD/../library_plc

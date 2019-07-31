@@ -26,6 +26,15 @@ QByteArray ModbusRegister::getByteArray() const
     return this->data;
 }
 
+unsigned int ModbusRegister::readRegisterLength() const
+{
+    QByteArray readLengthArray = this->getByteArray();
+    uint8_t dataHi = readLengthArray.at(0);
+    uint8_t dataLo = readLengthArray.at(1);
+    unsigned int readLength = dataLo | (dataHi<<8);
+    return readLength;
+}
+
 void ModbusRegister::setSlaveAddress(const uint8_t &address)
 {
     this->slaveAddress = address;

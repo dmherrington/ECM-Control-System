@@ -5,10 +5,10 @@
 #include <QBitArray>
 #include <string>
 
+#include "../library_plc_global.h"
+
 #include "common/common.h"
 #include "common/class_forward.h"
-
-#include "../library_plc_global.h"
 
 #include "../data/type_read_write.h"
 #include "available_registers.h"
@@ -68,6 +68,9 @@ public:
     //! \return
     //!
     virtual std::string getDescription() const  = 0;
+
+
+    virtual std::shared_ptr<AbstractPLCRegister> getSharedClone() const = 0;
 
     /**
      * @brief getClone
@@ -222,7 +225,7 @@ protected:
     mutable uint8_t lowChecksum;
 };
 
-} //end of namespace registers_PLCPump
+} //end of namespace registers_PLC
 
 
 #endif // ABSTRACT_PLC_REGISTER_H

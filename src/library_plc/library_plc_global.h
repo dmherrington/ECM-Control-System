@@ -1,13 +1,16 @@
 #ifndef LIBRARY_PLC_GLOBAL_H
 #define LIBRARY_PLC_GLOBAL_H
 
-#include <QtCore/qglobal.h>
 #include "plc_version.h"
 
-#if defined(LIBRARY_PLC_LIBRARY)
-#  define LIBRARY_PLCSHARED_EXPORT Q_DECL_EXPORT
+#ifdef _MSC_VER
+#  if defined(LIBRARY_PLC_LIBRARY)
+#    define LIBRARY_PLCSHARED_EXPORT __declspec(dllexport)
+#  else
+#    define LIBRARY_PLCSHARED_EXPORT __declspec(dllexport)
+#  endif
 #else
-#  define LIBRARY_PLCSHARED_EXPORT Q_DECL_IMPORT
+#  define LIBRARY_PLCSHARED_EXPORT
 #endif
 
 

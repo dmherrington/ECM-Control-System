@@ -32,9 +32,9 @@ void PLC::closePLCConnection()
     this->m_Comms->closePortConnection();
 }
 
-void PLC::PLCPolling_NewRequest(const requests_PLC::AbstractRequestPtr req)
+void PLC::PLCPolling_NewReadRequest(const registers_PLC::AbstractPLCRegisterPtr req)
 {
-
+    this->m_Comms->readModbusDataPort(req->getModbusRegister());
 }
 
 void PLC::slot_PortUpdate(const common::comms::CommunicationUpdate &update)

@@ -47,7 +47,7 @@ void Library_QModBus::writeModbusDataPort(const ModbusRegister &regMsg) const
 
 void Library_QModBus::readModbusDataPort(const ModbusRegister &regMsg) const
 {
-
+    commsMarshaler->ReadFromRegisters(regMsg);
 }
 
 bool Library_QModBus::isModbusPortOpen() const
@@ -63,7 +63,7 @@ bool Library_QModBus::isModbusPortOpen() const
 //! \brief Sensoray::ConnectionStatusUpdated
 //! \param update
 //!
-void Library_QModBus::ConnectionStatusUpdated(const common::comms::CommunicationUpdate &update) const
+void Library_QModBus::CommunicationStatusUpdate(const common::comms::CommunicationUpdate &update) const
 {
     if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
     {
@@ -75,6 +75,12 @@ void Library_QModBus::ConnectionStatusUpdated(const common::comms::Communication
     {
         emit signal_PortUpdate(update);
     }
+}
+
+void Library_QModBus::ModbusFailedDataTransmission(const common::comms::CommunicationUpdate &update, const ModbusRegister &reg) const
+{
+    emit signal_PortUpdate(update);
+    emit signal_PortFailedTransmission(reg);
 }
 
 void Library_QModBus::NewDataReceived(const QByteArray &buffer) const

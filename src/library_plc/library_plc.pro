@@ -31,7 +31,6 @@ SOURCES += \
     communications/plc_message.cpp \
     data_registers/abstract_register.cpp \
     plc_poll_machine.cpp \
-    requests/abstract_request.cpp \
     data_registers/register_ph.cpp \
     data_registers/register_conductivity.cpp
 
@@ -42,21 +41,14 @@ HEADERS += \
     communications/plc_data_framing.h \
     communications/plc_message.h \
     communications/plc_message_framing.h \
+    data/type_plc_exception.h \
     data/type_read_write.h \
     data_registers/abstract_register.h \
     data_registers/available_registers.h \
     data_registers/register_components.h \
-    data/type_plc_exception.h \
-    plc_poll_machine.h \
-    requests/abstract_request.h \
-    requests/request_components.h \
     data_registers/register_ph.h \
-    data_registers/register_conductivity.h
-
-unix {
-    target.path = /usr/lib
-    INSTALLS += target
-}
+    data_registers/register_conductivity.h \
+    plc_poll_machine.h
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

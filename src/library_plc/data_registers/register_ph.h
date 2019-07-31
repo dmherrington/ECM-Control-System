@@ -5,6 +5,8 @@
 
 namespace registers_PLC{
 
+ECM_CLASS_FORWARD(Register_pH);
+
 class LIBRARY_PLCSHARED_EXPORT Register_pH : public AbstractPLCRegister
 {
 public:
@@ -39,6 +41,12 @@ public:
     void parseFromArray(const QByteArray &msg) override;
 
 public:
+
+    std::shared_ptr<AbstractPLCRegister> getSharedClone() const override
+    {
+        return std::make_shared<Register_pH>(*this);
+    }
+
     //!
     //! \brief getClone
     //! \return

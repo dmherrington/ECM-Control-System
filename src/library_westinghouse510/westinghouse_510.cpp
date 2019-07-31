@@ -9,6 +9,7 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
 
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_SerialPortUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_SerialPortUpdate(common::comms::CommunicationUpdate)));
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_RXNewSerialData(QByteArray)),this,SLOT(slot_SerialPortReceivedData(QByteArray)));
+    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_PortFailedTransmission(ModbusRegister)),this,SLOT(slot_PortFailedTransmission(ModbusRegister)));
 
     initializationTimer = new QTimer(this);
     initializationTimer->setSingleShot(true);
@@ -168,6 +169,26 @@ void Westinghouse510::slot_PumpInitializationComplete()
 {
     this->m_State->pumpInitialized.set(true);
     this->onFinishedInitializingPump(true);
+}
+
+void Westinghouse510::slot_PortFailedTransmission(const ModbusRegister &regMsg)
+{
+    registers_WestinghousePump::WestinhouseRegisterTypes rxType = registers_WestinghousePump::RegisterTypeFromInt(regMsg.getRegisterCode());
+
+    switch (rxType) {
+    case registers_WestinghousePump::WestinhouseRegisterTypes::FLOWRATE:
+    {
+        this->onFinishedUploadingParameters(false,FINISH_CODE::UNKNOWN);
+        break;
+    }
+    case registers_WestinghousePump::WestinhouseRegisterTypes::OPERATION_SIGNAL:
+    {
+        this->onFinishedInitializingPump(false);
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 void Westinghouse510::parseReceivedMessage(const comms_WestinghousePump::WestinghouseMessage &msg)

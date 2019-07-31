@@ -68,7 +68,7 @@ public:
 
 
 public:
-    void PLCPolling_NewRequest(const requests_PLC::AbstractRequestPtr req) override;
+    void PLCPolling_NewReadRequest(const registers_PLC::AbstractPLCRegisterPtr req) override;
 
 private:
 

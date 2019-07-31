@@ -7,7 +7,7 @@
 #include "library_qmodbus_global.h"
 
 #include "common/common.h"
-
+#include "common/modbus_register.h"
 #include "common/comms/communication_connection.h"
 #include "common/comms/communication_update.h"
 
@@ -36,22 +36,20 @@ public:
 
 public:
 
-    /////////////////////////////////////////////////////////
-    /// Link Events
-    /////////////////////////////////////////////////////////
-
     //!
     //! \brief ConnectionStatusUpdated
     //! \param update
     //!
-    virtual void ConnectionStatusUpdated(const common::comms::CommunicationUpdate &update) const
+    virtual void CommunicationStatusUpdate(const common::comms::CommunicationUpdate &update) const
     {
         UNUSED(update);
     }
 
-    //////////////////////////////////////////////////////////////
-    /// IProtocolSensorayEvents
-    //////////////////////////////////////////////////////////////
+    virtual void ModbusFailedDataTransmission(const common::comms::CommunicationUpdate &update, const ModbusRegister &reg) const
+    {
+        UNUSED(update);
+        UNUSED(reg);
+    }
 
     //!
     //! \brief NewDataReceived

@@ -32,14 +32,24 @@ void QModBusProtocol::writeDataToSingleRegister(const ILink *link, const ModbusR
     {
         Emit([&](const IProtocolQModBusEvents* ptr){ptr->ModbusResponseReceived(regMsg.getFullMessage());});
     }
-    else
-    {
-        std::cout<<"We already know there is an issue on the modbus port."<<std::endl;
+    else{
+        common::comms::CommunicationUpdate newUpdate;
+        newUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::FAILED_DATA_TRANSMISSION);
+        newUpdate.setPeripheralMessage("Failed to write data to the register. Check connection.");
+        Emit([&](const IProtocolQModBusEvents* ptr){ptr->ModbusFailedDataTransmission(newUpdate,regMsg);});
     }
 }
 
 void QModBusProtocol::readDataFromRegisters(const ILink *link, const ModbusRegister &regMsg)
 {
+    QByteArray tmpArray;
+    if(link->ReadInputRegisters(regMsg.getRegisterCode(),regMsg.readRegisterLength(), tmpArray))
+    {
+
+    }
+    else {
+
+    }
 
 }
 

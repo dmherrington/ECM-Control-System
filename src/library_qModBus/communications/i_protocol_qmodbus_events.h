@@ -21,6 +21,7 @@
 
 #include "i_link.h"
 
+#include "common/modbus_register.h"
 #include "common/comms/communication_update.h"
 #include "common/comms/communication_connection.h"
 
@@ -42,6 +43,12 @@ public:
     //! \param update object containing information related to the status of the serial port
     //!
     virtual void ModbusPortStatusUpdate(const common::comms::CommunicationUpdate &update) const = 0;
+
+    //!
+    //! \brief FailedDataTransmission
+    //! \param reg
+    //!
+    virtual void ModbusFailedDataTransmission(const common::comms::CommunicationUpdate &update, const ModbusRegister &reg) const = 0;
 
     //!
     //! \brief ResponseReceived signal to be emitted when information has been received by the serial port

@@ -81,6 +81,8 @@ private:
     //////////////////////////////////////////////////////////////
     void ModbusPortStatusUpdate(const common::comms::CommunicationUpdate &update) const override;
 
+    void ModbusFailedDataTransmission(const common::comms::CommunicationUpdate &update, const ModbusRegister &reg) const override;
+
     void ModbusResponseReceived(const QByteArray &buffer) const override;
 
 private:

@@ -81,6 +81,9 @@ public:
     virtual void getClone(AbstractRequest** state) const = 0;
 
 public:
+    registers_PLC::AbstractPLCRegisterPtr getAssociatedRegister() const = 0;
+
+public:
     common::EnvironmentTime getTime() const
     {
         return this->latestUpdate;
@@ -94,9 +97,6 @@ public:
 protected:
     common::TupleECMData descriptor;
     common::EnvironmentTime latestUpdate;
-
-    registers_PLC::AbstractPLCRegisterPtr currentRegisterRequest;
-
 };
 
 } //end of namespace requests_PLC
