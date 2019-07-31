@@ -43,6 +43,7 @@ public:
     void openSerialPortConnection(const common::comms::SerialConfiguration &config) const override;
     void closePortConnection() const override;
     void writeModbusDataPort(const ModbusRegister &regMsg) const override;
+    void readModbusDataPort(const ModbusRegister &regMsg) const override;
     bool isModbusPortOpen() const override;
 
 public:

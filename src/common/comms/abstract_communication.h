@@ -35,6 +35,8 @@ public:
     virtual void openEthernetPortConnection(const TCPConfiguration &config) const  = 0;
     virtual void closePortConnection() const = 0;
     virtual void writeModbusDataPort(const ModbusRegister &regMsg) const = 0;
+    virtual void readModbusDataPort(const ModbusRegister &regMsg) const = 0;
+
     virtual bool isModbusPortOpen() const = 0;
 
 signals:

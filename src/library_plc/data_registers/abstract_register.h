@@ -8,6 +8,8 @@
 #include "common/common.h"
 #include "common/class_forward.h"
 
+#include "../library_plc_global.h"
+
 #include "../data/type_read_write.h"
 #include "available_registers.h"
 

@@ -61,6 +61,7 @@ public:
 
     bool WriteSingleRegister(const unsigned long &dataRegister, const unsigned long &data) const override;
 
+    bool ReadInputRegisters(const unsigned int &startingRegister, const size_t numRegisters, QByteArray &data);
 public:
     unsigned int GetSlaveAddress() const override;
 

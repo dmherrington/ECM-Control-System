@@ -72,6 +72,18 @@ void CommsMarshaler::WriteToSingleRegister(const ModbusRegister &regMsg) const
     link->MarshalOnThread(func);
 }
 
+void CommsMarshaler::ReadFromRegisters(const ModbusRegister &regMsg) const
+{
+    auto func = [this, regMsg]() {
+        if(!link->isConnected())
+            return;
+
+        protocol->writeDataToSingleRegister(link.get(),regMsg);
+    };
+
+    link->MarshalOnThread(func);
+}
+
 //////////////////////////////////////////////////////////////
 /// React to Link Events
 //////////////////////////////////////////////////////////////

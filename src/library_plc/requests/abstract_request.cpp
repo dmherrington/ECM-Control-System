@@ -1,6 +1,6 @@
 #include "abstract_request.h"
 
-namespace PLC {
+namespace requests_PLC {
 
 AbstractRequest::AbstractRequest()
 {

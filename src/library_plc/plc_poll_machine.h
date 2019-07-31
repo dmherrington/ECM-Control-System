@@ -22,7 +22,7 @@ public:
     virtual ~PLCPollingEvents_Interface() = default;
 
 public:
-    virtual void PLCPolling_NewRequest(const PLC::AbstractRequestPtr req) = 0;
+    virtual void PLCPolling_NewRequest(const requests_PLC::AbstractRequestPtr req) = 0;
 };
 
 class PLCPollMachine : public Publisher<PLCPollingEvents_Interface>, public Thread
@@ -38,12 +38,12 @@ public:
     void beginPolling();
     void pausePolling();
 
-    void addRequest(const PLC::AbstractRequestPtr request, const int &period = 100);
+    void addRequest(const requests_PLC::AbstractRequestPtr request, const int &period = 100);
 
     void run();
 
 private:
-    void addRequestToQueue(const PLC::AbstractRequestPtr request, const int &period = 100);
+    void addRequestToQueue(const requests_PLC::AbstractRequestPtr request, const int &period = 100);
 
     int greatestCommonDenominator(int a,int b) {
         int temp;
@@ -63,7 +63,7 @@ private:
     unsigned int timeout;
 
 private:
-    std::map<common::TupleECMData,PLC::AbstractRequestPtr> requestMap;
+    std::map<common::TupleECMData,requests_PLC::AbstractRequestPtr> requestMap;
     std::map<common::TupleECMData,pollingTimeout> timeoutMap;
 
 protected:

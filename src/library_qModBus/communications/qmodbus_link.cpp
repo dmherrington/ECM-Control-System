@@ -187,6 +187,22 @@ bool QModBusLink::WriteSingleRegister(const unsigned long &dataRegister, const u
     return false;
 }
 
+bool QModBusLink::ReadInputRegisters(const unsigned int &startingRegister, const size_t numRegisters, QByteArray &data)
+{
+    data.clear();
+
+    uint8_t dest[1024];
+    uint16_t* dest16 = (uint16_t *) dest;
+
+    int returned = -1;
+    returned = modbus_read_input_registers(m_Session->m_ModbusSession, static_cast<int>(startingRegister), static_cast<int>(numRegisters), dest16);
+    if(returned == static_cast<int>(numRegisters))
+    {
+        return true;
+    }
+    return false;
+}
+
 //!
 //! \brief Determine the connection status
 //! \return True if the connection is established, false otherwise

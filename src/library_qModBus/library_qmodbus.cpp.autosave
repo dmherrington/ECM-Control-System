@@ -47,7 +47,7 @@ void Library_QModBus::writeModbusDataPort(const ModbusRegister &regMsg) const
 
 void Library_QModBus::readModbusDataPort(const ModbusRegister &regMsg) const
 {
-
+    commsMarshaler->Re
 }
 
 bool Library_QModBus::isModbusPortOpen() const

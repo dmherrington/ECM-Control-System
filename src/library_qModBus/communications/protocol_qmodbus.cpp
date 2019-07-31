@@ -38,5 +38,10 @@ void QModBusProtocol::writeDataToSingleRegister(const ILink *link, const ModbusR
     }
 }
 
+void QModBusProtocol::readDataFromRegisters(const ILink *link, const ModbusRegister &regMsg)
+{
+
+}
+
 } //end of namespace comms_QModBus
 

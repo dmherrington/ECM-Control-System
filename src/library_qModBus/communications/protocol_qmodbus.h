@@ -52,6 +52,9 @@ public:
     void setSlaveAddress(ILink* link, const unsigned int &slaveAddress);
 
     void writeDataToSingleRegister(const ILink *link, const ModbusRegister &regMsg);
+
+    void readDataFromRegisters(const ILink *link, const ModbusRegister &regMsg);
+
 private:
 
     void Emit(const std::function<void(const IProtocolQModBusEvents*)> func)

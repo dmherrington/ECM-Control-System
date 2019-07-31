@@ -31,7 +31,9 @@ SOURCES += \
     communications/plc_message.cpp \
     data_registers/abstract_register.cpp \
     plc_poll_machine.cpp \
-    requests/abstract_request.cpp
+    requests/abstract_request.cpp \
+    data_registers/register_ph.cpp \
+    data_registers/register_conductivity.cpp
 
 HEADERS += \
         plc.h \
@@ -47,7 +49,9 @@ HEADERS += \
     data/type_plc_exception.h \
     plc_poll_machine.h \
     requests/abstract_request.h \
-    requests/request_components.h
+    requests/request_components.h \
+    data_registers/register_ph.h \
+    data_registers/register_conductivity.h
 
 unix {
     target.path = /usr/lib
@@ -74,6 +78,9 @@ INSTALLS += lib
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$(ECM_ROOT)/include
+
+INCLUDEPATH += $$(ECM_ROOT)/tools/libmodbus
+INCLUDEPATH += $$(ECM_ROOT)/tools/libmodbus/src
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon

@@ -34,7 +34,7 @@ void PLC::closePLCConnection()
 
 void PLC::PLCPolling_NewRequest(const requests_PLC::AbstractRequestPtr req)
 {
-
+    this->m_Comms->writeModbusDataPort()
 }
 
 void PLC::slot_PortUpdate(const common::comms::CommunicationUpdate &update)

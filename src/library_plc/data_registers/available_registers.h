@@ -9,29 +9,27 @@
 namespace registers_PLC{
 
 enum class PLCRegisterTypes{
-    OPERATION_SIGNAL,
-    FLOWRATE,
-    RUN_SOURCE,
-    LOOPBACK,
+    PH,
+    CONDUCTIVITY,
     UNKNOWN
 };
 
 inline std::string RegisterTypeToString(const PLCRegisterTypes &type) {
     switch (type) {
-    case PLCRegisterTypes::OPERATION_SIGNAL:
-        return "Operational Signal";
-    case PLCRegisterTypes::FLOWRATE:
-        return "Flow Rate";
+    case PLCRegisterTypes::PH:
+        return "pH";
+    case PLCRegisterTypes::CONDUCTIVITY:
+        return "Conductivity";
     default:
         throw std::runtime_error("Unknown register type seen");
     }
 }
 
 inline PLCRegisterTypes RegisterTypeFromString(const std::string &str) {
-    if(str == "Operational Signal")
-        return PLCRegisterTypes::OPERATION_SIGNAL;
-    if(str == "Flow Rate")
-        return PLCRegisterTypes::FLOWRATE;
+    if(str == "pH")
+        return PLCRegisterTypes::PH;
+    if(str == "Conductivity")
+        return PLCRegisterTypes::CONDUCTIVITY;
     throw std::runtime_error("Unknown register type seen");
 }
 
@@ -39,10 +37,10 @@ inline PLCRegisterTypes RegisterTypeFromString(const std::string &str) {
 inline int RegisterTypeToInt(const PLCRegisterTypes &type)
 {
     switch (type) {
-    case PLCRegisterTypes::OPERATION_SIGNAL:
-        return 9473;
-    case PLCRegisterTypes::FLOWRATE:
-        return 1281;
+    case PLCRegisterTypes::PH:
+        return 1;
+    case PLCRegisterTypes::CONDUCTIVITY:
+        return 3;
     default:
         throw std::runtime_error("Unknown register type seen");
     }
@@ -52,10 +50,10 @@ inline int RegisterTypeToInt(const PLCRegisterTypes &type)
 inline PLCRegisterTypes RegisterTypeFromInt(const int &type)
 {
     switch (type) {
-    case 9473:
-        return PLCRegisterTypes::OPERATION_SIGNAL;
-    case 1281:
-        return PLCRegisterTypes::FLOWRATE;
+    case 1:
+        return PLCRegisterTypes::PH;
+    case 3:
+        return PLCRegisterTypes::CONDUCTIVITY;
     default:
         return PLCRegisterTypes::UNKNOWN;
     }
@@ -64,8 +62,8 @@ inline PLCRegisterTypes RegisterTypeFromInt(const int &type)
 inline std::vector<std::string> getListOfRegisterTypes()
 {
     std::vector<std::string> str;
-    str.push_back(RegisterTypeToString(PLCRegisterTypes::OPERATION_SIGNAL));
-    str.push_back(RegisterTypeToString(PLCRegisterTypes::FLOWRATE));
+    str.push_back(RegisterTypeToString(PLCRegisterTypes::PH));
+    str.push_back(RegisterTypeToString(PLCRegisterTypes::CONDUCTIVITY));
     return str;
 }
 

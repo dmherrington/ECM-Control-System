@@ -24,7 +24,10 @@
 
 #include "communications/plc_data_framing.h"
 
-class LIBRARY_PLCSHARED_EXPORT PLC : public QObject
+#include "plc_poll_machine.h"
+
+
+class LIBRARY_PLCSHARED_EXPORT PLC : public QObject, public PLCPollingEvents_Interface
 {
     Q_OBJECT
 public:
@@ -64,6 +67,9 @@ public:
     void closePLCConnection();
 
 
+public:
+    void PLCPolling_NewRequest(const requests_PLC::AbstractRequestPtr req) override;
+
 private:
 
     //!
@@ -98,7 +104,10 @@ private slots:
 private:
     Library_QModBus* m_Comms;
 
-    comms_PLC::* m_DataFraming;
+    comms_PLC::PLCDataFraming* m_DataFraming;
+
+    PLCPollMachine* m_PollMachine;
+
     std::string deviceName;
 
 };

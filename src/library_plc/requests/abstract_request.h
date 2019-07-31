@@ -28,7 +28,7 @@
 \*/
 
 
-namespace PLC {
+namespace requests_PLC {
 
 ECM_CLASS_FORWARD(AbstractRequest);
 
@@ -99,6 +99,6 @@ protected:
 
 };
 
-} //end of namespace PLC
+} //end of namespace requests_PLC
 
 #endif // PLC_ABSTRACT_REQUEST_H

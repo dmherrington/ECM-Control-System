@@ -13,9 +13,9 @@ void PLCPollMachine::beginPolling()
     this->start();
 }
 
-void PLCPollMachine::addRequestToQueue(const PLC::AbstractRequestPtr request, const int &period)
+void PLCPollMachine::addRequestToQueue(const requests_PLC::AbstractRequestPtr request, const int &period)
 {
-    std::pair<std::map<common::TupleECMData,PLC::AbstractRequestPtr>::iterator,bool> ret;
+    std::pair<std::map<common::TupleECMData,requests_PLC::AbstractRequestPtr>::iterator,bool> ret;
     auto dataPair = std::make_pair(0.0,period);
     requestMap[request->getTupleDescription()] = request;
     timeoutMap[request->getTupleDescription()] = dataPair;
@@ -31,7 +31,7 @@ void PLCPollMachine::addRequestToQueue(const PLC::AbstractRequestPtr request, co
 
 }
 
-void PLCPollMachine::addRequest(const PLC::AbstractRequestPtr request, const int &period)
+void PLCPollMachine::addRequest(const requests_PLC::AbstractRequestPtr request, const int &period)
 {
     if(isThreadActive())
     {

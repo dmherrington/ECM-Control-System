@@ -67,6 +67,8 @@ public:
 
     void WriteToSingleRegister(const ModbusRegister &regMsg) const;
 
+    void ReadFromRegisters(const ModbusRegister &regMsg) const;
+
 private:
     //////////////////////////////////////////////////////////////
     /// React to ILinkEvents
