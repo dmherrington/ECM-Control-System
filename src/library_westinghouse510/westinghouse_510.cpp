@@ -9,7 +9,8 @@ Westinghouse510::Westinghouse510(const common::comms::ICommunication *commsObjec
 
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_PortUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_PortUpdate(common::comms::CommunicationUpdate)));
     connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_RXNewPortData(QByteArray)),this,SLOT(slot_SerialPortReceivedData(QByteArray)));
-    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_PortFailedTransmission(ModbusRegister)),this,SLOT(slot_PortFailedTransmission(ModbusRegister)));
+    connect(dynamic_cast<const QObject*>(m_Comms),SIGNAL(signal_PortFailedTransmission(common::comms::CommunicationUpdate, ModbusRegister)),
+            this,SLOT(slot_PortFailedTransmission(common::comms::CommunicationUpdate, ModbusRegister)));
 
     initializationTimer = new QTimer(this);
     initializationTimer->setSingleShot(true);
@@ -78,7 +79,7 @@ void Westinghouse510::setInitializationTime(const unsigned int &interval)
 
 bool Westinghouse510::isPumpConnected() const
 {
-    return this->m_Comms->isModbusPortOpen();
+    return this->m_State->pumpConnected.get();
 }
 
 bool Westinghouse510::isPumpInitialized() const
@@ -102,7 +103,8 @@ void Westinghouse510::openPumpConnection(const std::string &portNumber)
 
 void Westinghouse510::closePumpConnection()
 {
-    this->ceasePumpOperations();
+    if(this->m_State->pumpConnected.get())
+        this->ceasePumpOperations();
     this->m_Comms->closePortConnection();
 }
 
@@ -123,10 +125,11 @@ void Westinghouse510::slot_SerialPortReadyToConnect()
 void Westinghouse510::slot_PortUpdate(const common::comms::CommunicationUpdate &update)
 {
     using namespace common::comms;
-    switch (update.getUpdateType()) {
-    case CommunicationUpdate::UpdateTypes::ALERT:
+    common::comms::CommunicationUpdate copyUpdate = update;
+    copyUpdate.setSourceName(this->deviceName);
+    copyUpdate.setSourceType(ECMDevice::DEVICE_PUMP);
 
-        break;
+    switch (update.getUpdateType()) {
     case CommunicationUpdate::UpdateTypes::CONNECTED:
     {
         m_State->pumpConnected.set(true);
@@ -137,24 +140,26 @@ void Westinghouse510::slot_PortUpdate(const common::comms::CommunicationUpdate &
 
         //Now we can notify the remaining parties
         common::NotificationUpdate newUpdate(this->deviceName,ECMDevice::DEVICE_PUMP,common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL);
-        newUpdate.setPeripheralMessage("PLC Device Connected.");
+        newUpdate.setPeripheralMessage("Pump Device Connected.");
         emit signal_PumpNotification(newUpdate);
 
         break;
     }
     case CommunicationUpdate::UpdateTypes::DISCONNECTED:
+    {
         m_State->pumpConnected.set(false);
-        break;
-//    case CommunicationUpdate::UpdateTypes::ERROR:
 
-//        break;
-    case CommunicationUpdate::UpdateTypes::UPDATE:
+        //Now we can notify the remaining parties
+        common::NotificationUpdate newUpdate(this->deviceName,ECMDevice::DEVICE_PUMP,common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL);
+        newUpdate.setPeripheralMessage("Pump Connection Closed.");
+        emit signal_PumpNotification(newUpdate);
 
         break;
+    }
     default:
         break;
     }
-    emit signal_PumpCommunicationUpdate(update);
+    emit signal_PumpCommunicationUpdate(copyUpdate);
 }
 
 void Westinghouse510::slot_SerialPortReceivedData(const QByteArray &data)
@@ -176,24 +181,36 @@ void Westinghouse510::slot_PumpInitializationComplete()
     this->onFinishedInitializingPump(true);
 }
 
-void Westinghouse510::slot_PortFailedTransmission(const ModbusRegister &regMsg)
+void Westinghouse510::slot_PortFailedTransmission(const common::comms::CommunicationUpdate &update, const ModbusRegister &regMsg)
 {
+    UNUSED(update);
+
     registers_WestinghousePump::WestinhouseRegisterTypes rxType = registers_WestinghousePump::RegisterTypeFromInt(regMsg.getRegisterCode());
 
     switch (rxType) {
     case registers_WestinghousePump::WestinhouseRegisterTypes::FLOWRATE:
     {
         this->onFinishedUploadingParameters(false,FINISH_CODE::UNKNOWN);
+        emit signal_PumpFlowUpdated(this->m_State->flowRate.get());
         break;
     }
     case registers_WestinghousePump::WestinhouseRegisterTypes::OPERATION_SIGNAL:
     {
         this->onFinishedInitializingPump(false);
+        emit signal_PumpOperating(this->m_State->pumpON.get());
         break;
     }
     default:
         break;
     }
+
+    //Now we can notify the remaining parties
+    common::NotificationUpdate newUpdate(this->deviceName,ECMDevice::DEVICE_PUMP,common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR);
+    newUpdate.setPeripheralMessage("Connection failed to transmit data.");
+    emit signal_PumpNotification(newUpdate);
+
+    this->m_State->pumpConnected.set(false);
+    closePumpConnection();
 }
 
 void Westinghouse510::parseReceivedMessage(const comms_WestinghousePump::WestinghouseMessage &msg)

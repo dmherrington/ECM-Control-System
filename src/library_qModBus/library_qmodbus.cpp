@@ -41,6 +41,7 @@ void Library_QModBus::closePortConnection() const
 {
     commsMarshaler->DisconnectFromDevice();
 }
+
 void Library_QModBus::writeModbusDataPort(const ModbusRegister &regMsg) const
 {
     commsMarshaler->WriteToSingleRegister(regMsg);
@@ -68,7 +69,6 @@ void Library_QModBus::CommunicationStatusUpdate(const common::comms::Communicati
 {
     if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
     {
-        emit signal_CommunicationUpdate(update);
         emit signal_PortUpdate(update);
         emit signal_PortReadyToConnect();
     }
@@ -80,8 +80,7 @@ void Library_QModBus::CommunicationStatusUpdate(const common::comms::Communicati
 
 void Library_QModBus::ModbusFailedDataTransmission(const common::comms::CommunicationUpdate &update, const ModbusRegister &reg) const
 {
-    emit signal_PortUpdate(update);
-    emit signal_PortFailedTransmission(reg);
+    emit signal_PortFailedTransmission(update, reg);
 }
 
 void Library_QModBus::NewRegisterData(const ModbusRegister &regObj) const

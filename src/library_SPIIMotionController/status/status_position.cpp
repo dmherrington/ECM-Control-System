@@ -94,9 +94,18 @@ bool Status_Position::getAxisPosition(const MotorAxis &axis, Status_PositionPerA
 std::vector<double> Status_Position::getAxisPositionVector() const
 {
     std::vector<double> rtnObj;
-    rtnObj.push_back(m_PositionStatus.at(MotorAxis::X)->get().getPosition());
-    rtnObj.push_back(m_PositionStatus.at(MotorAxis::Y)->get().getPosition());
-    rtnObj.push_back(m_PositionStatus.at(MotorAxis::Z)->get().getPosition());
+    Status_PositionPerAxis value;
+
+    if(getAxisPosition(MotorAxis::X,value))
+        rtnObj.push_back(value.getPosition());
+    if(getAxisPosition(MotorAxis::Y,value))
+        rtnObj.push_back(value.getPosition());
+    if(getAxisPosition(MotorAxis::Z,value))
+        rtnObj.push_back(value.getPosition());
+
+//    rtnObj.push_back(m_PositionStatus.at(MotorAxis::X)->get().getPosition());
+//    rtnObj.push_back(m_PositionStatus.at(MotorAxis::Y)->get().getPosition());
+//    rtnObj.push_back(m_PositionStatus.at(MotorAxis::Z)->get().getPosition());
     return rtnObj;
 }
 

@@ -76,13 +76,9 @@ void WidgetFrontPanel_Pump::slot_updatedPumpOn(const bool &value)
 
 void WidgetFrontPanel_Pump::slot_updatedFlowRate(const double &value)
 {
-    if(abs(value - ui->doubleSpinBox_flowRate->value()) < 0.05)
-    {
-        //ui->doubleSpinBox_flowRate->setStyleSheet("background-color: green");
-    }
-    else{
-        //ui->doubleSpinBox_flowRate->setStyleSheet("background-color: red");
-    }
+    ui->doubleSpinBox_flowRate->blockSignals(true);
+    ui->doubleSpinBox_flowRate->setValue(value);
+    ui->doubleSpinBox_flowRate->blockSignals(false);
 }
 
 void WidgetFrontPanel_Pump::slot_NewSensorValue(const common::TupleSensorString &sensorTuple, const common_data::SensorState &data)

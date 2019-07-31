@@ -33,6 +33,7 @@ void QModBusProtocol::writeDataToSingleRegister(const ILink *link, const ModbusR
         Emit([&](const IProtocolQModBusEvents* ptr){ptr->ModbusResponseReceived(regMsg.getFullMessage());});
     }
     else{
+
         common::comms::CommunicationUpdate newUpdate;
         newUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::FAILED_DATA_TRANSMISSION);
         newUpdate.setPeripheralMessage("Failed to write data to the register. Check connection.");

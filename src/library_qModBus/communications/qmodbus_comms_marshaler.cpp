@@ -47,11 +47,14 @@ bool CommsMarshaler::ConnectToEthernetPort(const common::comms::TCPConfiguration
 
 bool CommsMarshaler::DisconnectFromDevice()
 {
-    auto func = [this]() {
-        link->DisconnectFromDevice();
-    };
+    if(link->isConnected())
+    {
+        auto func = [this]() {
+            link->DisconnectFromDevice();
+        };
 
-    link->MarshalOnThread(func);
+        link->MarshalOnThread(func);
+    }
     return link->isConnected();
 }
 
@@ -66,7 +69,7 @@ void CommsMarshaler::WriteToSingleRegister(const ModbusRegister &regMsg) const
         if(!link->isConnected())
         {
             common::comms::CommunicationUpdate newUpdate;
-            newUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED);
+            newUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::ALERT);
             newUpdate.setPeripheralMessage("The end device link is not properly connected.");
             Emit([&](CommsEvents *ptr){ptr->CommunicationStatusUpdate(newUpdate);});
 

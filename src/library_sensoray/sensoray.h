@@ -119,7 +119,7 @@ signals:
 
     void signal_RXNewPortData(const QByteArray data) const override;
 
-    void signal_PortFailedTransmission(const ModbusRegister &regMsg) const override;
+    void signal_PortFailedTransmission(const common::comms::CommunicationUpdate &update, const ModbusRegister &regMsg) const override;
 
     void signal_SensorayNewSensorValue(const common::TupleSensorString &sensorTuple, const common_data::SensorState &data) const;
 

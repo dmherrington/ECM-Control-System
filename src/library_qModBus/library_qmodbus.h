@@ -92,7 +92,7 @@ signals:
 
     void signal_RXNewRegister(const ModbusRegister &regObj) const;
 
-    void signal_PortFailedTransmission(const ModbusRegister &regMsg) const override;
+    void signal_PortFailedTransmission(const common::comms::CommunicationUpdate &update, const ModbusRegister &regMsg) const override;
 
 private:
     comms_QModBus::CommsMarshaler* commsMarshaler; /**< Member variable handling the communications with the

@@ -186,7 +186,7 @@ private slots:
     //! \brief slot_PortFailedTransmission
     //! \param regMsg
     //!
-    void slot_PortFailedTransmission(const ModbusRegister &regMsg);
+    void slot_PortFailedTransmission(const common::comms::CommunicationUpdate &update, const ModbusRegister &regMsg);
 
 public:
     Westinghouse510_State* m_State;

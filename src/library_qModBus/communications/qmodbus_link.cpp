@@ -90,16 +90,16 @@ bool QModBusLink::DisconnectFromDevice(void)
         modbus_free(m_Session->m_ModbusSession);
         m_Session->m_ModbusSession = nullptr;
         m_Session->setDeviceConnected(false);
+
+        EmitEvent([this](const ILinkEvents *ptr){
+            common::comms::CommunicationUpdate commsUpdate;
+            commsUpdate.setSourceName("QModBus");
+            commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED);
+            commsUpdate.setPeripheralMessage("Serial Port connection for QModbus has been closed.");
+
+            ptr->CommunicationUpdate(commsUpdate);
+        });
     }
-
-    EmitEvent([this](const ILinkEvents *ptr){
-        common::comms::CommunicationUpdate commsUpdate;
-        commsUpdate.setSourceName("QModBus");
-        commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED);
-        commsUpdate.setPeripheralMessage("Serial Port connection for QModbus has been closed.");
-
-        ptr->CommunicationUpdate(commsUpdate);
-    });
 
     return true;
 }
