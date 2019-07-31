@@ -11,7 +11,8 @@
 
 enum class ModbusRegister_RWType{
     READ = 03, /**< */
-    WRITE = 06 /**< */
+    WRITE = 06, /**< */
+    LOOP = 8
 };
 
 //!

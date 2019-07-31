@@ -17,7 +17,6 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QLCDNumber>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
@@ -122,6 +121,7 @@ public:
     QSpacerItem *horizontalSpacer_14;
     QFrame *frame_Status;
     QGridLayout *gridLayout_5;
+    QLineEdit *lineEdit_MCState;
     QGridLayout *gridLayout;
     LED *widget_LEDCommunication;
     QLabel *label_2;
@@ -134,8 +134,6 @@ public:
     LED *widget_LEDMunkError;
     QPushButton *pushButton_ClearMunkError;
     QLineEdit *lineEdit_OuterState;
-    QLineEdit *lineEdit_MCState;
-    QLCDNumber *lcdNumber_TempProbe0;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -880,6 +878,19 @@ public:
         gridLayout_5->setSpacing(6);
         gridLayout_5->setContentsMargins(11, 11, 11, 11);
         gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
+        lineEdit_MCState = new QLineEdit(frame_Status);
+        lineEdit_MCState->setObjectName(QStringLiteral("lineEdit_MCState"));
+        lineEdit_MCState->setEnabled(false);
+        sizePolicy2.setHeightForWidth(lineEdit_MCState->sizePolicy().hasHeightForWidth());
+        lineEdit_MCState->setSizePolicy(sizePolicy2);
+        lineEdit_MCState->setMinimumSize(QSize(160, 32));
+        lineEdit_MCState->setMaximumSize(QSize(160, 32));
+        lineEdit_MCState->setFont(font1);
+        lineEdit_MCState->setAlignment(Qt::AlignCenter);
+        lineEdit_MCState->setReadOnly(true);
+
+        gridLayout_5->addWidget(lineEdit_MCState, 2, 0, 1, 1);
+
         gridLayout = new QGridLayout();
         gridLayout->setSpacing(6);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
@@ -993,30 +1004,6 @@ public:
         lineEdit_OuterState->setReadOnly(true);
 
         gridLayout_5->addWidget(lineEdit_OuterState, 1, 0, 1, 1);
-
-        lineEdit_MCState = new QLineEdit(frame_Status);
-        lineEdit_MCState->setObjectName(QStringLiteral("lineEdit_MCState"));
-        lineEdit_MCState->setEnabled(false);
-        sizePolicy2.setHeightForWidth(lineEdit_MCState->sizePolicy().hasHeightForWidth());
-        lineEdit_MCState->setSizePolicy(sizePolicy2);
-        lineEdit_MCState->setMinimumSize(QSize(160, 32));
-        lineEdit_MCState->setMaximumSize(QSize(160, 32));
-        lineEdit_MCState->setFont(font1);
-        lineEdit_MCState->setAlignment(Qt::AlignCenter);
-        lineEdit_MCState->setReadOnly(true);
-
-        gridLayout_5->addWidget(lineEdit_MCState, 2, 0, 1, 1);
-
-        lcdNumber_TempProbe0 = new QLCDNumber(frame_Status);
-        lcdNumber_TempProbe0->setObjectName(QStringLiteral("lcdNumber_TempProbe0"));
-        sizePolicy2.setHeightForWidth(lcdNumber_TempProbe0->sizePolicy().hasHeightForWidth());
-        lcdNumber_TempProbe0->setSizePolicy(sizePolicy2);
-        lcdNumber_TempProbe0->setMinimumSize(QSize(160, 32));
-        lcdNumber_TempProbe0->setMaximumSize(QSize(160, 32));
-        lcdNumber_TempProbe0->setProperty("value", QVariant(0));
-        lcdNumber_TempProbe0->setProperty("intValue", QVariant(0));
-
-        gridLayout_5->addWidget(lcdNumber_TempProbe0, 3, 0, 1, 1);
 
 
         horizontalLayout_10->addWidget(frame_Status);

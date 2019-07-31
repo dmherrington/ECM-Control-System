@@ -120,6 +120,8 @@ private slots:
 
     void slot_MCCommandError(const CommandType &type, const std::string &description);
 
+    void slot_MCESTOPTriggered(const bool &isTriggered);
+
 /*
 * Private Slots related to the power supply
 */

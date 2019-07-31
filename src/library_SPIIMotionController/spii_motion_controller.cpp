@@ -192,7 +192,7 @@ void SPIIMotionController::initializeMotionController()
     Request_SystemFaultsPtr requestSF = std::make_shared<Request_SystemFaults>();
     common::TupleGeneralDescriptorString tupleSystemFaults("SystemFaults");
     requestSF->setTupleDescription(common::TupleECMData(tupleSystemFaults));
-    m_DevicePolling->addRequest(requestMF,500);
+    m_DevicePolling->addRequest(requestSF,500);
 
     // 1: Request the system faults of the ACS unit
     Request_UnsolicitedMsgsPtr requestUNM = std::make_shared<Request_UnsolicitedMsgs>();
@@ -337,14 +337,18 @@ void SPIIMotionController::SPIIPolling_SystemFaultUpdate(const Status_SystemFaul
     if(!status.isStatusValid())
         return;
 
-    if(status.doesSystemFaultExist())
+    if(m_StateInterface->m_SystemFaults.set(status)) //this implies that something has indeed changed
     {
-        common::NotificationUpdate newUpdate("ACS Motion Controller",ECMDevice::DEVICE_MOTIONCONTROL,
-                                             common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR,
-                                             "System Fault Error");
-        emit signal_MCNotification(newUpdate);
+        if(status.doesSystemFaultExist())
+        {
+            common::NotificationUpdate newUpdate("ACS Motion Controller",ECMDevice::DEVICE_MOTIONCONTROL,
+                                                 common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR,
+                                                 "System Fault Error");
+            emit signal_MCNotification(newUpdate);
 
-        this->onAbortExecution();
+            this->onAbortExecution();
+        }
+        emit signal_ESTOPTriggered(status.isHardwareEmergencyStop());
     }
 
     ProgressStateMachineStates();

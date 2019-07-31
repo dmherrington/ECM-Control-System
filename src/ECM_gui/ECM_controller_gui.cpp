@@ -74,6 +74,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     ui->widget_LEDCommunication->setDiameter(5);
     ui->widget_LEDESTOP->setDiameter(5);
+    ui->widget_LEDESTOP->setColor(QColor(0,255,0));
     ui->widget_LEDHomed->setDiameter(5);
     ui->widget_LEDTouchoff->setDiameter(5);
     ui->widget_LEDMunkError->setDiameter(5);
@@ -110,7 +111,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     QDockWidget *dock_pump = new QDockWidget(tr("Pump Utility"), this);
     dock_pump->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
-    WidgetFrontPanel_Pump* dockUtility_Pump = new WidgetFrontPanel_Pump(m_API->m_Pump, m_API->m_PLC);
+    WidgetFrontPanel_Pump* dockUtility_Pump = new WidgetFrontPanel_Pump(m_API->m_Pump, m_API->m_PLC, m_API->m_Sensoray);
     dock_pump->setWidget(dockUtility_Pump);
     addDockWidget(Qt::RightDockWidgetArea, dock_pump, Qt::Orientation::Vertical);
 
@@ -132,6 +133,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_MotionController,SIGNAL(signal_MCHomeIndicated(bool)),this,SLOT(slot_UpdateHomeIndicated(bool)));
     connect(m_API->m_MotionController,SIGNAL(signal_MCTouchoffIndicated(bool)),this,SLOT(slot_UpdateTouchoff(bool)));
     connect(m_API->m_MotionController, SIGNAL(signal_MCNewMotionState(ECM::SPII::SPIIState, QString)), this, SLOT(slot_MCNewMotionState(ECM::SPII::SPIIState, QString)));
+    connect(m_API->m_MotionController, SIGNAL(signal_ESTOPTriggered(bool)), this, SLOT(slot_MCESTOPTriggered(bool)));
 
     ECM::SPII::SPIIState currentState = m_API->m_MotionController->getCurrentMCState();
     this->slot_MCNewMotionState(currentState, QString::fromStdString(ECMStateToString(currentState)));
@@ -201,7 +203,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     setupUploadCallbacks();
 
-    //m_WindowConnections->connectToAllDevices();
+    m_WindowConnections->connectToAllDevices();
 
     ProgressStateMachineStates();
 }
@@ -343,11 +345,6 @@ void ECMControllerGUI::slot_NewProfileVariableData(const common::TupleProfileVar
 
 void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &sensor, const common_data::SensorState &state)
 {
-    if((sensor.sourceName == "Sensoray") && (sensor.sensorName == "Temperature Probe") && (sensor.measurementName == "Channel 0"))
-    {
-        double value = ((common_data::SensorTemperature*)state.getSensorData().get())->getTemperature(common_data::TemperatureUnit::UNIT_FAHRENHEIT);
-        ui->lcdNumber_TempProbe0->display(value);
-    }
     //First, write the data to the logs
     m_API->m_Log->WriteLogSensorState(sensor,state);
 
@@ -881,6 +878,14 @@ void ECMControllerGUI::slot_MCCommandError(const CommandType &type, const std::s
 
         break;
     }
+}
+
+void ECMControllerGUI::slot_MCESTOPTriggered(const bool &isTriggered)
+{
+    if(isTriggered)
+        ui->widget_LEDESTOP->setColor(QColor(255,0,0));
+    else
+        ui->widget_LEDESTOP->setColor(QColor(0,255,0));
 }
 
 void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ExecuteCollection &collection)

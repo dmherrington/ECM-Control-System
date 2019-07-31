@@ -59,6 +59,8 @@ private:
         {
             return false;
         }
+        if(this->faultValue != rhs.faultValue)
+            return false;
         return true;
     }
 

@@ -1,25 +1,22 @@
 #include "widget_front_panel_pump.h"
 #include "ui_widget_front_panel_pump.h"
 
-WidgetFrontPanel_Pump::WidgetFrontPanel_Pump(Westinghouse510* pumpObj, PLC *plcObj,  QWidget *parent) :
+WidgetFrontPanel_Pump::WidgetFrontPanel_Pump(Westinghouse510* pumpObj, PLC *plcObj, Sensoray *sensObj,  QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WidgetFrontPanel_Pump),
     m_Pump(pumpObj)
 {
     ui->setupUi(this);
-    ui->widget_PumpInitialized->setDiameter(6);
-    ui->widget_PumpRunning->setDiameter(6);
-
-    QPalette palPH = ui->lcdNumber_pH->palette();
-    palPH.setColor(QPalette::Normal, QPalette::WindowText, Qt::black);
-
-    QPalette palConductivity = ui->lcdNumber_Conductivity->palette();
-    palConductivity.setColor(QPalette::Normal, QPalette::WindowText, Qt::black);
+    ui->widget_PumpInitialized->setDiameter(7);
+    ui->widget_PumpRunning->setDiameter(7);
 
     connect(m_Pump, SIGNAL(signal_PumpFlowUpdated(double)), this, SLOT(slot_updatedFlowRate(double)));
     connect(m_Pump, SIGNAL(signal_PumpOperating(bool)), this, SLOT(slot_updatedPumpOn(bool)));
 
     connect(plcObj, SIGNAL(signal_PLCNewSensorValue(common::TupleSensorString,common_data::SensorState)),
+            this, SLOT(slot_NewSensorValue(common::TupleSensorString,common_data::SensorState)));
+
+    connect(sensObj, SIGNAL(signal_SensorayNewSensorValue(common::TupleSensorString,common_data::SensorState)),
             this, SLOT(slot_NewSensorValue(common::TupleSensorString,common_data::SensorState)));
 
     m_Pump->AddLambda_FinishedPumpInitialization(this,[this](const bool completed){
@@ -92,17 +89,29 @@ void WidgetFrontPanel_Pump::slot_NewSensorValue(const common::TupleSensorString 
 {
     UNUSED(sensorTuple);
 
+    std::stringstream stream;
+    stream.precision(2);
+
     switch (data.getSensorType()) {
+    case common_data::SensorTypes::SENSOR_TEMPERATURE:
+    {
+        double sensorValue = ((common_data::SensorTemperature*)data.getSensorData().get())->getTemperature(common_data::TemperatureUnit::UNIT_FAHRENHEIT);
+        stream<<std::fixed<<sensorValue;
+        ui->lineEdit_temperature->setText(QString::fromStdString(stream.str()));
+        break;
+    }
     case common_data::SensorTypes::SENSOR_PH:
     {
         double sensorValue = ((common_data::Sensor_pH*)data.getSensorData().get())->getPH(common_data::pHUnit::UNIT_BASE);
-        ui->lcdNumber_pH->display(sensorValue);
+        stream<<std::fixed<<sensorValue;
+        ui->lineEdit_pH->setText(QString::fromStdString(stream.str()));
         break;
     }
     case common_data::SensorTypes::SENSOR_CONDUCTIVITY:
     {
         double sensorValue = ((common_data::Sensor_Conductivity*)data.getSensorData().get())->getConductivity(common_data::ConductivityUnit::UNIT_BASE);
-        ui->lcdNumber_Conductivity->display(sensorValue);
+        stream<<std::fixed<<sensorValue;
+        ui->lineEdit_conductivity->setText(QString::fromStdString(stream.str()));
         break;
 
     }

@@ -215,6 +215,9 @@ private:
     SPIICallback_StateInterface *m_CB;
 
 public:
+
+    DataGetSetNotifier<Status_SystemFault> m_SystemFaults;
+
     DataGetSetNotifier<int> statusInputs; /**< Member variable containing the current state
 inputs of the SPII Unit. Inputs can be gathered based on the enum settings contained within the file.
 Eventually this should change to be pulled from a configuraiton.*/

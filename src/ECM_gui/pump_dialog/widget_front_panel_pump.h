@@ -3,6 +3,7 @@
 
 #include <QTimer>
 #include <QWidget>
+#include <sstream>
 
 #include "common/environment_time.h"
 
@@ -15,6 +16,8 @@
 
 #include "library_plc/plc.h"
 
+#include "library_sensoray/sensoray.h"
+
 namespace Ui {
 class WidgetFrontPanel_Pump;
 }
@@ -24,7 +27,8 @@ class WidgetFrontPanel_Pump : public QWidget
     Q_OBJECT
 
 public:
-    explicit WidgetFrontPanel_Pump(Westinghouse510 *pumpObj, PLC *plcObj, QWidget *parent = 0);
+    explicit WidgetFrontPanel_Pump(Westinghouse510 *pumpObj, PLC *plcObj, Sensoray *sensObj, QWidget *parent = nullptr);
+
     ~WidgetFrontPanel_Pump();
 
     void executingAutomatedSequence(const bool &shouldBlock);

@@ -12,7 +12,7 @@ Status_SystemFault::Status_SystemFault(const Status_SystemFault &copy):
     faultValue = copy.faultValue;
 }
 
-bool Status_SystemFault::updateSystemFaultState(const int &value)
+bool Status_SystemFault::updateSystemFaultState(const unsigned int &value)
 {
     if(this->faultValue != value)
     {
