@@ -203,7 +203,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     setupUploadCallbacks();
 
-    m_WindowConnections->connectToAllDevices();
+    //m_WindowConnections->connectToAllDevices();
 
     ProgressStateMachineStates();
 }
@@ -1209,4 +1209,17 @@ void ECMControllerGUI::on_actionSoftware_Versioning_triggered()
     std::map<std::string, std::string> softwareInfo = m_API->getSoftwareVersions();
     Dialog_SoftwareVersion dialogWindow(softwareInfo);
     dialogWindow.exec();
+}
+
+void ECMControllerGUI::on_actionSettings_triggered()
+{
+    Dialog_SettingsEditor dialogWindow;
+
+    //connect(dialogWindow, SIGNAL(finished(int)), this, SLOT());
+    if(dialogWindow.exec() == QDialog::Accepted)
+    {
+        //In here we would grab the current settings
+    }
+
+
 }

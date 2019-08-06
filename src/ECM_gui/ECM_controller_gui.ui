@@ -2017,6 +2017,7 @@ width:20px;
     <addaction name="actionRun_Statistics"/>
     <addaction name="actionSoftware_Versioning"/>
     <addaction name="separator"/>
+    <addaction name="actionSettings"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -2100,6 +2101,11 @@ width:20px;
   <action name="actionSoftware_Versioning">
    <property name="text">
     <string>Software Versioning</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
    </property>
   </action>
  </widget>

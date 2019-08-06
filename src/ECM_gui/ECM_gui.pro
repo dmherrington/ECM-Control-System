@@ -94,7 +94,8 @@ SOURCES += \
     pump_dialog/widget_front_panel_pump.cpp \
     misc_dialogs/dialog_run_statistics.cpp \
     misc_dialogs/widget_sofware_versioning.cpp \
-    misc_dialogs/dialog_software_version.cpp
+    misc_dialogs/dialog_software_version.cpp \
+    misc_dialogs/dialog_settings_editor.cpp
 
 HEADERS += \
     misc_dialogs/code_edit_widget.h \
@@ -149,7 +150,8 @@ HEADERS += \
     pump_dialog/widget_front_panel_pump.h \
     misc_dialogs/dialog_run_statistics.h \
     misc_dialogs/widget_sofware_versioning.h \
-    misc_dialogs/dialog_software_version.h
+    misc_dialogs/dialog_software_version.h \
+    misc_dialogs/dialog_settings_editor.h
 
 FORMS += \
     misc_dialogs/table_widget_operation_descriptor.ui \
@@ -191,7 +193,8 @@ FORMS += \
     pump_dialog/widget_front_panel_pump.ui \
     misc_dialogs/dialog_run_statistics.ui \
     misc_dialogs/widget_sofware_versioning.ui \
-    misc_dialogs/dialog_software_version.ui
+    misc_dialogs/dialog_software_version.ui \
+    misc_dialogs/dialog_settings_editor.ui
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

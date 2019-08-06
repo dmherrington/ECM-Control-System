@@ -48,6 +48,7 @@ public:
     QAction *actionBuffer_Manager;
     QAction *actionRun_Statistics;
     QAction *actionSoftware_Versioning;
+    QAction *actionSettings;
     QWidget *centralWidget;
     QGridLayout *gridLayout_3;
     QGridLayout *gridLayout_4;
@@ -296,6 +297,8 @@ public:
         actionRun_Statistics->setObjectName(QStringLiteral("actionRun_Statistics"));
         actionSoftware_Versioning = new QAction(ECMControllerGUI);
         actionSoftware_Versioning->setObjectName(QStringLiteral("actionSoftware_Versioning"));
+        actionSettings = new QAction(ECMControllerGUI);
+        actionSettings->setObjectName(QStringLiteral("actionSettings"));
         centralWidget = new QWidget(ECMControllerGUI);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout_3 = new QGridLayout(centralWidget);
@@ -1050,6 +1053,7 @@ public:
         menuHelp->addAction(actionRun_Statistics);
         menuHelp->addAction(actionSoftware_Versioning);
         menuHelp->addSeparator();
+        menuHelp->addAction(actionSettings);
         menuView->addAction(actionOpen_Sensors_Window);
         menuView->addSeparator();
         menuView->addAction(actionClear_All_Data);
@@ -1075,6 +1079,7 @@ public:
         actionBuffer_Manager->setText(QApplication::translate("ECMControllerGUI", "Buffer Manager", nullptr));
         actionRun_Statistics->setText(QApplication::translate("ECMControllerGUI", "Run Statistics", nullptr));
         actionSoftware_Versioning->setText(QApplication::translate("ECMControllerGUI", "Software Versioning", nullptr));
+        actionSettings->setText(QApplication::translate("ECMControllerGUI", "Settings", nullptr));
         label_PartNumber->setText(QApplication::translate("ECMControllerGUI", "Part Number:", nullptr));
 #ifndef QT_NO_TOOLTIP
         lineEdit_PartNumber->setToolTip(QString());

@@ -18,6 +18,7 @@
 #include "misc_dialogs/widget_notification.h"
 #include "misc_dialogs/dialog_run_statistics.h"
 #include "misc_dialogs/dialog_software_version.h"
+#include "misc_dialogs/dialog_settings_editor.h"
 
 #include "additional_sensor_display.h"
 #include "common/threadmanager.h"
@@ -245,6 +246,7 @@ private slots:
     void on_pushButton_ClearMunkError_released();
     void on_actionRun_Statistics_triggered();
     void on_actionSoftware_Versioning_triggered();
+    void on_actionSettings_triggered();
 };
 
 #endif // ECM_CONTROLLER_GUI_H
