@@ -22,6 +22,16 @@ void CommandMotorEnable::getClone(AbstractCommand** state) const
     *state = new CommandMotorEnable(*this);
 }
 
+void CommandMotorEnable::setAllAxisEnabled(const bool &enableAll)
+{
+    this->enableAllAxis = enableAll;
+}
+
+bool CommandMotorEnable::shouldEnableAllAxis() const
+{
+    return this->enableAllAxis;
+}
+
 void CommandMotorEnable::addAxis(const MotorAxis &axis)
 {
     std::pair<std::map<MotorAxis,EnableValue>::iterator,bool> ret;

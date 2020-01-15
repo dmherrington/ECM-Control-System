@@ -23,6 +23,9 @@ void Dialog_SettingsEditor::readSettings()
 
     double alarmValue_thermocouple1 = settings.value("alarm_thermocouple1", false).toDouble();
     ui->doubleSpinBox_alarmThermocouple1->setValue(alarmValue_thermocouple1);
+
+    double plotting_timeout = settings.value("plotting_timeout", false).toDouble();
+    ui->doubleSpinBox_PlotClearingTimeout->setValue(plotting_timeout);
 }
 
 void Dialog_SettingsEditor::closeEvent(QCloseEvent *event)
@@ -35,5 +38,11 @@ void Dialog_SettingsEditor::slot_EventAccepted()
     QSettings settings(QSettings::IniFormat, QSettings::UserScope,"ECMController", "Alarm Settings");
 
     settings.setValue("alarm_thermocouple1",ui->doubleSpinBox_alarmThermocouple1->value());
+    settings.setValue("plotting_timeout",ui->doubleSpinBox_PlotClearingTimeout->value());
     settings.sync();
+}
+
+double Dialog_SettingsEditor::getPlottingTimeout() const
+{
+    return ui->doubleSpinBox_PlotClearingTimeout->value();
 }

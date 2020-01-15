@@ -5,6 +5,7 @@
 
 #include "common/class_forward.h"
 #include "common/axis_definitions.h"
+#include "common/data_get_set_notifier.h"
 
 #include "abstract_status.h"
 
@@ -21,10 +22,11 @@ public:
     void setAxis(const MotorAxis &axis);
     MotorAxis getAxis() const;
 
-    bool updateMotorFaultState(const int &value);
+    bool updateMotorFaultState(const unsigned int &value);
 
     bool doesMotorFaultExist() const;
 
+    bool isHardwareEmergencyStop() const;
     bool isRightLimit() const;
     bool isLeftLimit() const;
     bool isNetworkError() const;
@@ -43,14 +45,22 @@ public:
     bool isCurrentLimit() const;
     bool isServoProcessorAlarm() const;
 
+private:
     void assembleFaultString();
 
-private:
+
+public:
+    void getErrorDetails(unsigned int &code, std::string &errorString) const;
+    std::string getErrorString() const;
+    unsigned int getErrorCode() const;
+
+public:
     Status_MotorAxisFault& operator = (const Status_MotorAxisFault &rhs)
     {
         AbstractStatus::operator =(rhs);
         this->currentAxis = rhs.currentAxis;
         this->faultValue = rhs.faultValue;
+        this->errorString = rhs.errorString;
         return *this;
     }
 
@@ -60,6 +70,8 @@ private:
             return false;
         }
         if(this->faultValue != rhs.faultValue)
+            return false;
+        if(this->errorString != rhs.errorString)
             return false;
         return true;
     }
@@ -71,7 +83,9 @@ private:
 private:
     MotorAxis currentAxis = MotorAxis::Z;
     unsigned int faultValue = 0;
+    std::string errorString = "";
 };
+
 
 ECM_CLASS_FORWARD(Status_MotorFault);
 class Status_MotorFault : public AbstractStatus
@@ -82,6 +96,11 @@ public:
     Status_MotorFault(const Status_MotorFault &copy);
 
     ~Status_MotorFault();
+
+public:
+    bool updateMotorAxisStatus(const std::vector<Status_MotorAxisFault> &status);
+
+    Status_MotorAxisFault* getMotorAxisStatus(const MotorAxis &axis);
 
 public:
     Status_MotorFault& operator = (const Status_MotorFault &rhs)
@@ -95,6 +114,9 @@ public:
         {
             return false;
         }
+        if(this->m_MotorAxisFault != rhs.m_MotorAxisFault){
+            return false;
+        }
         return true;
     }
 
@@ -103,6 +125,7 @@ public:
     }
 
 private:
+    std::map<MotorAxis, DataGetSetNotifier<Status_MotorAxisFault>*> m_MotorAxisFault;
 
 };
 

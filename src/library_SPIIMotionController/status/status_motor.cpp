@@ -100,7 +100,7 @@ bool Status_Motor::areAnyMotorsMoving() const
 {
     for (std::map<MotorAxis, DataGetSetNotifier<Status_MotorPerAxis>*>::const_iterator it=m_MotorStatus.begin(); it!=m_MotorStatus.end(); ++it)
     {
-        if(it->second->get().isMotorMoving())
+        if((it->second->get().isMotorMoving()) && (it->first != MotorAxis::Y)) //Ken This is a bad technique but it will help them work through
             return true;
     }
 

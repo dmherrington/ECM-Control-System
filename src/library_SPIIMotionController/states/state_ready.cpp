@@ -246,6 +246,8 @@ void State_Ready::OnEnter()
     {
         disableCount = 0;
         CommandMotorEnablePtr command = std::make_shared<CommandMotorEnable>();
+        command->addAxis(MotorAxis::X);
+        command->addAxis(MotorAxis::Y);
         command->addAxis(MotorAxis::Z);
         Owner().issueSPIICommand(command);
     }

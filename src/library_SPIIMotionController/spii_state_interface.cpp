@@ -9,7 +9,11 @@ SPIIStateInterface::SPIIStateInterface(const std::vector<MotorAxis> &availableAx
 
     m_AxisStatus = new Status_Axis();
 
+    m_AxisSafety = new Status_Safety();
+
     m_MotorStatus = new Status_Motor();
+
+    m_MotorFaults = new Status_MotorFault();
 
     m_AxisPosition = new Status_Position();
 
