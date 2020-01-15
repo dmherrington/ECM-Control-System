@@ -176,7 +176,7 @@ void SPIIMotionController::initializeMotionController()
     Request_AxisSafetyPtr requestASafety = std::make_shared<Request_AxisSafety>();
     common::TupleGeneralDescriptorString tupleSafety("SafetyStatus");
     requestASafety->setTupleDescription(common::TupleECMData(tupleSafety));
-    requestASafety->addAxis(MotorAxis::X); requestASafety->addAxis(MotorAxis::Y);
+    requestASafety->addAxis(MotorAxis::X); requestASafety->addAxis(MotorAxis::Y); requestASafety->addAxis(MotorAxis::Z);
     m_DevicePolling->addRequest(requestASafety,100);
 
     // 1: Request the motor status of the ACS unit
