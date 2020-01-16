@@ -44,10 +44,7 @@ public:
 
     std::vector<Status_VariableValue>  requestVariableValue(const Request_TellVariable* request);
 
-    std::vector<Status_AxisSafety> requestAxisSafety(const Request_AxisSafety* request);
-
     bool requestSystemFaults(const Request_SystemFaults* request, Status_SystemFault &status);
-
 
     //////////////////////////////////////////////////////////////
     /// Connect/Disconnect from SPII Methods

@@ -370,7 +370,7 @@
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
              <property name="maximum">
-              <number>125000</number>
+              <number>100000</number>
              </property>
              <property name="singleStep">
               <number>100</number>
@@ -409,7 +409,7 @@
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
              <property name="maximum">
-              <number>10000</number>
+              <number>5000</number>
              </property>
              <property name="singleStep">
               <number>10</number>

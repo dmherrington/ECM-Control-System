@@ -78,7 +78,6 @@ public:
     QGroupBox *groupBox;
     QGridLayout *gridLayout_5;
     QCheckBox *checkBox_ShouldHomeBeIndicated;
-    QCheckBox *checkBox_ShouldExpandMunkModes;
     QSpacerItem *verticalSpacer;
     QTabWidget *tabWidget_OperationParameters;
     QMenuBar *menubar;
@@ -575,16 +574,10 @@ public:
 
         gridLayout_5->addWidget(checkBox_ShouldHomeBeIndicated, 0, 0, 1, 1);
 
-        checkBox_ShouldExpandMunkModes = new QCheckBox(groupBox);
-        checkBox_ShouldExpandMunkModes->setObjectName(QStringLiteral("checkBox_ShouldExpandMunkModes"));
-        checkBox_ShouldExpandMunkModes->setFont(font2);
-
-        gridLayout_5->addWidget(checkBox_ShouldExpandMunkModes, 1, 0, 1, 1);
-
 
         verticalLayout_2->addWidget(groupBox);
 
-        verticalSpacer = new QSpacerItem(14, 80, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalSpacer = new QSpacerItem(14, 105, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout_2->addItem(verticalSpacer);
 
@@ -666,7 +659,6 @@ public:
 
         groupBox->setTitle(QApplication::translate("Window_ProfileConfiguration", "Settings", nullptr));
         checkBox_ShouldHomeBeIndicated->setText(QApplication::translate("Window_ProfileConfiguration", "Indicate Home Autonomously", nullptr));
-        checkBox_ShouldExpandMunkModes->setText(QApplication::translate("Window_ProfileConfiguration", "Expand Munk Driver Modes", nullptr));
         menuFile->setTitle(QApplication::translate("Window_ProfileConfiguration", "File", nullptr));
         menuEdit->setTitle(QApplication::translate("Window_ProfileConfiguration", "Edit", nullptr));
         menuTools->setTitle(QApplication::translate("Window_ProfileConfiguration", "Tools", nullptr));

@@ -33,11 +33,6 @@ public:
     QLabel *label;
     QDoubleSpinBox *doubleSpinBox_alarmThermocouple1;
     QSpacerItem *horizontalSpacer;
-    QHBoxLayout *horizontalLayout_3;
-    QHBoxLayout *horizontalLayout_4;
-    QLabel *label_2;
-    QDoubleSpinBox *doubleSpinBox_PlotClearingTimeout;
-    QSpacerItem *horizontalSpacer_2;
     QSpacerItem *verticalSpacer;
     QDialogButtonBox *buttonBox;
 
@@ -81,50 +76,16 @@ public:
 
         gridLayout->addLayout(horizontalLayout_2, 0, 0, 1, 1);
 
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        horizontalLayout_4 = new QHBoxLayout();
-        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
-        label_2 = new QLabel(Dialog_SettingsEditor);
-        label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setMinimumSize(QSize(130, 25));
-        label_2->setMaximumSize(QSize(130, 25));
-        label_2->setFont(font);
-
-        horizontalLayout_4->addWidget(label_2);
-
-        doubleSpinBox_PlotClearingTimeout = new QDoubleSpinBox(Dialog_SettingsEditor);
-        doubleSpinBox_PlotClearingTimeout->setObjectName(QStringLiteral("doubleSpinBox_PlotClearingTimeout"));
-        doubleSpinBox_PlotClearingTimeout->setMinimumSize(QSize(80, 25));
-        doubleSpinBox_PlotClearingTimeout->setMaximumSize(QSize(80, 25));
-        doubleSpinBox_PlotClearingTimeout->setFont(font);
-        doubleSpinBox_PlotClearingTimeout->setAlignment(Qt::AlignCenter);
-        doubleSpinBox_PlotClearingTimeout->setDecimals(0);
-        doubleSpinBox_PlotClearingTimeout->setMaximum(3600);
-        doubleSpinBox_PlotClearingTimeout->setValue(600);
-
-        horizontalLayout_4->addWidget(doubleSpinBox_PlotClearingTimeout);
-
-
-        horizontalLayout_3->addLayout(horizontalLayout_4);
-
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_3->addItem(horizontalSpacer_2);
-
-
-        gridLayout->addLayout(horizontalLayout_3, 1, 0, 1, 1);
-
         verticalSpacer = new QSpacerItem(20, 215, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout->addItem(verticalSpacer, 2, 0, 1, 1);
+        gridLayout->addItem(verticalSpacer, 1, 0, 1, 1);
 
         buttonBox = new QDialogButtonBox(Dialog_SettingsEditor);
         buttonBox->setObjectName(QStringLiteral("buttonBox"));
         buttonBox->setOrientation(Qt::Horizontal);
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
 
-        gridLayout->addWidget(buttonBox, 3, 0, 1, 1);
+        gridLayout->addWidget(buttonBox, 2, 0, 1, 1);
 
 
         retranslateUi(Dialog_SettingsEditor);
@@ -138,7 +99,6 @@ public:
     {
         Dialog_SettingsEditor->setWindowTitle(QApplication::translate("Dialog_SettingsEditor", "Dialog", nullptr));
         label->setText(QApplication::translate("Dialog_SettingsEditor", "Alarm Thermocouple 1", nullptr));
-        label_2->setText(QApplication::translate("Dialog_SettingsEditor", "Clearing Plot Timeout", nullptr));
     } // retranslateUi
 
 };

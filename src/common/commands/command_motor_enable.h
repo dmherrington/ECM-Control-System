@@ -44,7 +44,7 @@ public:
 
     /**
       */
-    ~CommandMotorEnable() = default;
+    virtual ~CommandMotorEnable() = default;
 
 public:
 
@@ -59,11 +59,6 @@ public:
      * @param state
      */
     void getClone(AbstractCommand** state) const override;
-
-public:
-    void setAllAxisEnabled(const bool &enableAll);
-
-    bool shouldEnableAllAxis() const;
 
 public:
     //!
@@ -88,7 +83,6 @@ public:
     {
         AbstractCommand::operator =(rhs);
         this->m_AxisValue = rhs.m_AxisValue;
-        this->enableAllAxis = rhs.enableAllAxis;
         return *this;
     }
 
@@ -105,9 +99,6 @@ public:
         if(this->m_AxisValue != rhs.m_AxisValue){
             return false;
         }
-        if(this->enableAllAxis != rhs.enableAllAxis){
-            return false;
-        }
         return true;
     }
 
@@ -121,8 +112,6 @@ public:
     }
 
 private:
-    bool enableAllAxis = false;
-
     std::map<MotorAxis,EnableValue> m_AxisValue; /**< Value of the axis to begin motion */
 
 };

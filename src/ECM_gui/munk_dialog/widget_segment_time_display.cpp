@@ -16,21 +16,6 @@ WidgetSegmentTimeDisplay::~WidgetSegmentTimeDisplay()
     delete ui;
 }
 
-void WidgetSegmentTimeDisplay::setExpandedMunkDriverModes(const bool &expandModes)
-{
-    if(shouldExpandDriverModes == expandModes)
-        return;
-
-    shouldExpandDriverModes = expandModes;
-    std::list<WidgetSegmentTimeData*>::const_iterator iterator;
-    for (iterator = m_dataList.begin(); iterator != m_dataList.end(); ++iterator) {
-        WidgetSegmentTimeData* data = *iterator;
-        data->setExpandedMunkDriverModes(shouldExpandDriverModes);
-    }
-
-}
-
-
 void WidgetSegmentTimeDisplay::loadNewRegisters(const registers_Munk::SegmentTimeDetailed &data)
 {
     removeWidgets();
@@ -43,9 +28,9 @@ void WidgetSegmentTimeDisplay::loadNewRegisters(const registers_Munk::SegmentTim
     }
 }
 
-WidgetSegmentTimeData* WidgetSegmentTimeDisplay::addNewSegment(const bool &expandModes)
+WidgetSegmentTimeData* WidgetSegmentTimeDisplay::addNewSegment()
 {
-    WidgetSegmentTimeData* newData = new WidgetSegmentTimeData(expandModes);
+    WidgetSegmentTimeData* newData = new WidgetSegmentTimeData();
     m_dataList.push_back(newData);
     newData->updateSegmentName(m_dataList.size());
     ui->horizontalLayout->addWidget(newData);
@@ -76,7 +61,7 @@ void WidgetSegmentTimeDisplay::cbiSegmentDataInterface_RemoveData(WidgetSegmentT
     m_dataList.remove(obj);
     ui->horizontalLayout->removeWidget(obj);
     delete obj;
-    obj = nullptr;
+    obj = NULL;
 
     int counter = 1;
     std::list<WidgetSegmentTimeData*>::iterator iterator;

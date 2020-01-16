@@ -25,16 +25,13 @@ public:
     explicit WidgetSegmentTimeDisplay(QWidget *parent = 0);
     ~WidgetSegmentTimeDisplay();
 
-    WidgetSegmentTimeData* addNewSegment(const bool &expandModes = false);
+    WidgetSegmentTimeData* addNewSegment();
 
     void cbiSegmentDataInterface_UpdatedData() override;
 
     void cbiSegmentDataInterface_RemoveData(WidgetSegmentTimeData *obj) override;
 
-    void setExpandedMunkDriverModes(const bool &expandModes);
-
 public:
-
     void loadNewRegisters(const registers_Munk::SegmentTimeDetailed &data);
 
     void readFromJSON(const QJsonObject &json);
@@ -65,8 +62,6 @@ private:
     Ui::WidgetSegmentTimeDisplay *ui;
 
     std::list<WidgetSegmentTimeData*> m_dataList;
-
-    bool shouldExpandDriverModes = false;
 
 };
 

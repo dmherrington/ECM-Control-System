@@ -106,8 +106,6 @@ private:
 
     void SPIIPolling_AxisUpdate(const std::vector<Status_PerAxis> &axis) override;
 
-    void SPIIPolling_AxisSafetyUpdate(const std::vector<Status_AxisSafety> &axis) override;
-
     void SPIIPolling_MotorUpdate(const std::vector<Status_MotorPerAxis> &motor) override;
 
     void SPIIPolling_VariableUpdate(const std::vector<Status_VariableValue> &variable) override;
@@ -117,7 +115,6 @@ private:
     void SPIIPolling_SystemFaultUpdate(const Status_SystemFault &status) override;
 
     void SPIIPolling_UnsolicitedMsgs(const std::vector<std::string> &msgs) override;
-
 
 signals:
 

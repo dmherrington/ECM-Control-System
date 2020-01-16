@@ -25,7 +25,7 @@ void CommsMarshaler::initializeBufferContents()
         if(!link->isConnected())
             return;
 
-        protocol->synchronizeBufferContents();
+            protocol->synchronizeBufferContents();
     };
 
     link->MarshalOnThread(func);
@@ -160,7 +160,7 @@ void CommsMarshaler::sendCustomSPIICommands(const std::vector<std::string> &stri
         if(!link->isConnected())
             return;
 
-        protocol->SendCustomProtocolCommand(stringCommands);
+            protocol->SendCustomProtocolCommand(stringCommands);
     };
 
     link->MarshalOnThread(func);
@@ -172,7 +172,7 @@ void CommsMarshaler::sendAbstractSPIICommand(const AbstractCommandPtr command)
         if(!link->isConnected())
             return;
 
-        protocol->SendProtocolCommand(command);
+            protocol->SendProtocolCommand(command);
     };
 
     link->MarshalOnThread(func);
@@ -184,7 +184,7 @@ void CommsMarshaler::sendAbstractSPIIMotionCommand(const AbstractCommandPtr comm
         if(!link->isConnected())
             return;
 
-        protocol->SendProtocolMotionCommand(command);
+            protocol->SendProtocolMotionCommand(command);
     };
 
     link->MarshalOnThread(func);
@@ -209,11 +209,11 @@ void CommsMarshaler::SendSPIIMessage(const T& message)
     ///////////////////
     /// Define function that sends the given message
     ///////////////////
-    //    auto func = [this, message]() {
-    //            protocol->SendProtocolMessage(link.get(), message);
-    //    };
+//    auto func = [this, message]() {
+//            protocol->SendProtocolMessage(link.get(), message);
+//    };
 
-    //    link->MarshalOnThread(func);
+//    link->MarshalOnThread(func);
 }
 
 
@@ -306,7 +306,7 @@ std::vector<Status_MotorAxisFault> CommsMarshaler::requestMotorFaultStatus(const
         {
             Status_MotorAxisFault motorFaultState;
             motorFaultState.setAxis(*it);
-            motorFaultState.updateMotorFaultState(static_cast<unsigned int>(binaryState));
+            motorFaultState.updateMotorFaultState(binaryState);
             rtnAxis.push_back(motorFaultState);
         }
     }
@@ -369,39 +369,6 @@ std::vector<Status_VariableValue> CommsMarshaler::requestVariableValue(const Req
         rtnStatus.push_back(variableStatus);
 
     return rtnStatus;
-}
-
-std::vector<Status_AxisSafety> CommsMarshaler::requestAxisSafety(const Request_AxisSafety *request)
-{
-    std::vector<Status_AxisSafety> rtnSafety;
-
-    if(!link->isConnected())
-        return rtnSafety;
-
-
-    std::list<MotorAxis>::iterator it;
-    std::list<MotorAxis> axisList = request->getAxis();
-
-    for (it = axisList.begin(); it != axisList.end(); ++it){
-        int safetyState;
-        if(protocol->requestAxisMaskedSafety(*it,ACSC_SAFETY_DRIVE,safetyState))
-        {
-            Status_AxisSafety axisSafetyState;
-            axisSafetyState.setAxis(*it);
-            axisSafetyState.updateSafetyState(static_cast<unsigned int>(safetyState));
-            int motorError;
-            if(protocol->requestMotorError(*it,motorError))
-            {
-                protocol->clearMotionTerminationCodes(*it);
-                std::string errorString;
-                if(protocol->requestErrorString(motorError,errorString))
-                    axisSafetyState.setErrorCode(static_cast<unsigned int>(motorError),errorString);
-
-                rtnSafety.push_back(axisSafetyState);
-            }
-        }
-    }
-    return rtnSafety;
 }
 
 bool CommsMarshaler::requestSystemFaults(const Request_SystemFaults *request, Status_SystemFault &status)

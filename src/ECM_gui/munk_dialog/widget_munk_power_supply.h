@@ -31,8 +31,6 @@ public:
 
     registers_Munk::SegmentTimeDetailed getSegmentRegister() const;
 
-    void setExpandedMunkDriverModes(const bool &expandModes);
-
 signals:
     void signal_DialogWindowVisibilty(const GeneralDialogWindow::DialogWindowTypes &type, const bool &visibility);
 
@@ -80,7 +78,6 @@ private:
     bool windowHidden = true;
 
     MunkPowerSupply* munk;
-
 };
 
 #endif // WIDGET_MUNK_POWER_SUPPLY_H

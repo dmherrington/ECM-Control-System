@@ -1,16 +1,23 @@
 #include "widget_segment_time_data.h"
 #include "ui_widget_segment_time_data.h"
 
-WidgetSegmentTimeData::WidgetSegmentTimeData(const bool &expandedModes, QWidget *parent) :
+WidgetSegmentTimeData::WidgetSegmentTimeData(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WidgetSegmentTimeData),
-    m_CB(nullptr), blockCallback(false)
+    m_CB(NULL), blockCallback(false)
 {
     ui->setupUi(this);
 
     data = new registers_Munk::SegmentTimeDataDetailed();
 
-    setExpandedMunkDriverModes(expandedModes,data_Munk::SegmentModeToString(data_Munk::SegmentMode::FORWARD));
+    std::vector<std::string> modeValues = data_Munk::getListOfSegmentMode();
+
+    size_t size = modeValues.size();
+    for(unsigned int i = 0; i < size; i++)
+        this->ui->comboBox_Mode->addItem(QString::fromStdString(modeValues[i]));
+
+    int index = this->ui->comboBox_Mode->findText(QString::fromStdString(data_Munk::SegmentModeToString(data->getSegmentMode())));
+    this->ui->comboBox_Mode->setCurrentIndex(index);
 }
 
 WidgetSegmentTimeData::~WidgetSegmentTimeData()
@@ -18,40 +25,10 @@ WidgetSegmentTimeData::~WidgetSegmentTimeData()
     if(data)
     {
         delete data;
-        data = nullptr;
+        data = NULL;
     }
 
     delete ui;
-}
-void WidgetSegmentTimeData::setExpandedMunkDriverModes(const bool &expandedModes, const std::string &defaultSelection)
-{
-    const bool wasBlocked = ui->comboBox_Mode->blockSignals(true);
-
-    QString currentSelection = QString::fromStdString(defaultSelection);
-
-    std::vector<std::string> modeValues;
-
-    if(expandedModes)
-        modeValues = data_Munk::getExpandedListOfSegmentModes();
-    else
-        modeValues = data_Munk::getAbbreviatedListOfSegmentModes();
-
-    if(currentSelection.isEmpty())
-        currentSelection = this->ui->comboBox_Mode->currentText();
-
-    this->ui->comboBox_Mode->clear();
-
-    size_t size = modeValues.size();
-    for(unsigned int i = 0; i < size; i++)
-        this->ui->comboBox_Mode->addItem(QString::fromStdString(modeValues[i]));
-
-    int index = this->ui->comboBox_Mode->findText(currentSelection);
-    if(index == -1)
-        this->ui->comboBox_Mode->setCurrentIndex(0);
-    else
-        this->ui->comboBox_Mode->setCurrentIndex(index);
-
-    ui->comboBox_Mode->blockSignals(wasBlocked);
 }
 
 void WidgetSegmentTimeData::loadFromSegmentData(const registers_Munk::SegmentTimeDataDetailed &segmentData)
