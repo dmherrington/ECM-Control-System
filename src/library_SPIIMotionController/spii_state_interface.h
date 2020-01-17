@@ -234,8 +234,13 @@ of the program.*/
     Status_Axis* m_AxisStatus; /**< Member variable containing the current status
 of each individual axis of the SPII. This information contains positioning, motion, arming. */
 
+    Status_Safety* m_AxisSafety; /**< Member variable containing the current status
+of each individual axis of the SPII. This information contains positioning, motion, arming. */
+
     Status_Motor* m_MotorStatus; /**< Member variable containing the current status
 of each individual axis of the SPII. This information contains positioning, motion, arming. */
+
+    Status_MotorFault* m_MotorFaults;
 
     Status_Position* m_AxisPosition;
 
