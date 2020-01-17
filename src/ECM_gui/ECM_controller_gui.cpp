@@ -34,7 +34,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     //Connect the timeouts to the appropriate items within the front panel
     connect(elapsedOperationTimer, SIGNAL(timeout()), this, SLOT(slot_OnUpdateElapsedOperationTime()));
     connect(elapsedConfigurationTimer, SIGNAL(timeout()), this, SLOT(slot_OnUpdateElapsedConfigurationTime()));
-    connect(plotClearingTimer, SIGNAL(timeout()), this, SLOT(slot_OnTimeoutClearPlots()));
+    //connect(plotClearingTimer, SIGNAL(timeout()), this, SLOT(slot_OnTimeoutClearPlots()));
 
     //Required registration of MetaTyples from the MotionController interface
     qRegisterMetaType<common::TuplePositionalString>("TuplePositionalString");
