@@ -191,7 +191,6 @@ void SPIIMotionController::initializeMotionController()
     common::TupleGeneralDescriptorString tupleMotorFaults("MotorFaults");
     requestMF->setTupleDescription(common::TupleECMData(tupleMotorFaults));
     requestMF->addAxis(MotorAxis::X); requestMF->addAxis(MotorAxis::Y); requestMF->addAxis(MotorAxis::Z); //Ken commented out per errors seen on initial X,Y connection Mike
-    //requestMF->addAxis(MotorAxis::Z);
     requestMF->setRequestAllAxes(false);
     m_DevicePolling->addRequest(requestMF,500);
 

@@ -191,7 +191,7 @@ public:
         spinBox_RelativeMove->setMaximumSize(QSize(65, 16777215));
         spinBox_RelativeMove->setFont(font2);
         spinBox_RelativeMove->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        spinBox_RelativeMove->setMaximum(100000);
+        spinBox_RelativeMove->setMaximum(125000);
         spinBox_RelativeMove->setSingleStep(100);
         spinBox_RelativeMove->setValue(2000);
 
@@ -203,7 +203,7 @@ public:
         spinBox_RelativeMoveSpeed->setMaximumSize(QSize(65, 16777215));
         spinBox_RelativeMoveSpeed->setFont(font2);
         spinBox_RelativeMoveSpeed->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        spinBox_RelativeMoveSpeed->setMaximum(5000);
+        spinBox_RelativeMoveSpeed->setMaximum(10000);
         spinBox_RelativeMoveSpeed->setSingleStep(10);
         spinBox_RelativeMoveSpeed->setValue(1000);
 
