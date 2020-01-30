@@ -10,7 +10,7 @@ class AppThread : public QThread
 public:
     AppThread(const size_t interval, std::function<void()> func)
     {
-        if(QCoreApplication::instance() == NULL)
+        if(QCoreApplication::instance() == nullptr)
         {
             int argc = 0;
             char * argv[] = {(char *)"sharedlib.app"};
@@ -23,7 +23,7 @@ public:
 
     virtual void run()
     {
-        QTimer *timer = new QTimer(0);
+        QTimer *timer = new QTimer(nullptr);
         timer->moveToThread(this);
         pApp->connect(timer, &QTimer::timeout, m_Func);
         timer->start(m_Interval);
@@ -42,7 +42,7 @@ private:
 
 RigolTCPLink::RigolTCPLink()
 {
-    m_socket    = NULL;
+    m_socket    = nullptr;
     m_bytesRead = 0;
     m_stopp    = false;
     m_reqReset = false;
@@ -52,7 +52,7 @@ RigolTCPLink::~RigolTCPLink()
 {
     Disconnect();
     if(m_socket) delete m_socket;
-    m_socket = NULL;
+    m_socket = nullptr;
 }
 
 void RigolTCPLink::RequestReset()
@@ -98,7 +98,7 @@ bool RigolTCPLink::Disconnect(void)
     if (m_socket) {
         m_socket->close();
         delete m_socket;
-        m_socket = NULL;
+        m_socket = nullptr;
     }
 
     common::comms::CommunicationUpdate update("Rigol Link");
@@ -122,22 +122,23 @@ bool RigolTCPLink::_hardwareConnect(QAbstractSocket::SocketError &error, QString
         m_socket->close();
         std::this_thread::sleep_for(std::chrono::microseconds(50000));
         delete m_socket;
-        m_socket = NULL;
+        m_socket = nullptr;
     }
 
     m_socket = new QTcpSocket();
     m_socket->bind(QHostAddress(QString::fromStdString((_config.listenAddress()))), _config.listenPortNumber());
     m_socket->connectToHost(QHostAddress(QString::fromStdString((_config.listenAddress()))), _config.listenPortNumber());
 
-    for (int openRetries = 0; openRetries < 4; openRetries++) {
-        if (!m_socket->open(QIODevice::ReadWrite)) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(500));
-        } else {
-            break;
-        }
+    bool connected = false;
+
+    if (!m_socket->waitForConnected(10000)) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    } else {
+        m_socket->open(QIODevice::ReadWrite);
+        connected = true;
     }
 
-    if (!m_socket->isOpen() ) {
+    if (!connected) {
         error = m_socket->error();
         errorString = m_socket->errorString();
 
@@ -146,7 +147,7 @@ bool RigolTCPLink::_hardwareConnect(QAbstractSocket::SocketError &error, QString
 
         m_socket->close();
         delete m_socket;
-        m_socket = NULL;
+        m_socket = nullptr;
         return false; // couldn't open udp port
     }
 
@@ -167,7 +168,7 @@ bool RigolTCPLink::_hardwareConnect(QAbstractSocket::SocketError &error, QString
 
 void RigolTCPLink::WriteBytes(const QByteArray &data) const
 {
-    if(m_socket && m_socket->isOpen()) {
+    if(isConnected()) {
         m_socket->write(data);
     } else {
         // Error occured
@@ -179,18 +180,15 @@ std::vector<uint8_t> RigolTCPLink::WriteBytesRequest(const QByteArray &data) con
 {
     std::vector<uint8_t> buffer;
 
-    if(m_socket && m_socket->isOpen()) {
-        m_socket->write(data);
-        if (m_socket->waitForBytesWritten()) {
-            // read response
-            if (m_socket->waitForReadyRead()) {
-                buffer = this->ProcessResponse();
-            }
+    std::lock_guard<std::mutex> lock(m_DataMutex);
+
+    m_socket->write(data);
+    if (m_socket->waitForBytesWritten()) {
+        if (m_socket->waitForReadyRead()) {
+            buffer = this->ProcessResponse();
         }
-    } else {
-        // Error occured
-        _emitLinkError("Could not send data - link " + getSenderAddress() + ":" + std::to_string(getSenderPortNumber()) + " is disconnected!");
     }
+
     return buffer;
 }
 
@@ -198,7 +196,7 @@ std::vector<uint8_t> RigolTCPLink::ProcessResponse() const
 {
     std::vector<uint8_t> vec_buffer;
 
-    if(m_socket && m_socket->isOpen()) {
+    if(isConnected()) {
         if(m_socket->bytesAvailable())
         {
             qint64 byteCount = m_socket->bytesAvailable();
@@ -223,13 +221,7 @@ std::vector<uint8_t> RigolTCPLink::ProcessResponse() const
 //!
 bool RigolTCPLink::isConnected() const
 {
-    bool isConnected = false;
-
-    if (m_socket) {
-        isConnected = m_socket->isOpen();
-    }
-
-    return isConnected;
+    return m_socket && m_socket->state()==QAbstractSocket::ConnectedState;
 }
 
 

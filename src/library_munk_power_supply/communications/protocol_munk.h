@@ -34,6 +34,8 @@
 
 #include "data_registers/register_pulse_mode.h"
 
+#include "device_interface_power_supply.h"
+
 namespace comms_Munk{
 
 class MunkProtocol : public IProtocol
@@ -48,7 +50,7 @@ public:
 
     void updateCompleteMunkParameters(const ILink *link, const registers_Munk::SegmentTimeDetailed &segmentData, const std::vector<registers_Munk::AbstractParameterPtr> parameters);
 
-    bool sendAbstractSetpoint(const ILink *link, const registers_Munk::AbstractParameterPtr parameter);
+    bool sendAbstractSetpoint(const ILink *link, const registers_Munk::AbstractParameterPtr parameter, DeviceInterface_PowerSupply::FINISH_CODE code = DeviceInterface_PowerSupply::FINISH_CODE::UNKNOWN);
 
     /////////////////////////////////////////////////////////////////////
     /// Methods issuing voltage setpoints relevant to the munk program

@@ -13,7 +13,7 @@ void RigolProtocol::AddListner(const IProtocolRigolEvents* listener)
     m_Listners.push_back(listener);
 }
 
-void RigolProtocol::sendSetAcquisitionCommand(const ILink *link, const commands_Rigol::AbstractAcquireCommandPtr command)
+void RigolProtocol::sendSetAcquisitionCommand(ILink *link, const commands_Rigol::AbstractAcquireCommandPtr command)
 {
     std::string commandString = command->getCommandString();
     QByteArray byteArray(commandString.c_str(), commandString.length());
@@ -34,13 +34,13 @@ void RigolProtocol::sendMeasurementRequest(const ILink *link, const commands_Rig
     QByteArray byteArray(commandString.c_str(), commandString.length());
     commands_Rigol::RigolMeasurementStatus measurementStatus(command.getDeviceName(), command.getChannel(),command.getMeasurementType());
     std::vector<uint8_t> rcvBuffer = link->WriteBytesRequest(byteArray);
-    measurementStatus.updateReceivedTime();
-    measurementStatus.setMeasurementString(std::string(rcvBuffer.begin(), rcvBuffer.end()));
+    if(rcvBuffer.size() > 0)
+    {
+        measurementStatus.updateReceivedTime();
+        measurementStatus.setMeasurementString(std::string(rcvBuffer.begin(), rcvBuffer.end()));
 
-//    double value = rand() % 100;
-//    measurementStatus.setMeasurementString(std::to_string(value));
-//    measurementStatus.setMeasurementValue(value);
-    Emit([&](const IProtocolRigolEvents* ptr){ptr->NewMeaurementReceived(link,measurementStatus);});
+        Emit([&](const IProtocolRigolEvents* ptr){ptr->NewMeaurementReceived(link,measurementStatus);});
+    }
 }
 
 //!

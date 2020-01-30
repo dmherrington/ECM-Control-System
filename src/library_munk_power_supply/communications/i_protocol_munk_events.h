@@ -18,6 +18,8 @@
 
 #include "data_registers/register_pulse_mode.h"
 
+#include "library_munk_power_supply/device_interface_power_supply.h"
+
 namespace comms_Munk{
 
 //!
@@ -34,7 +36,8 @@ public:
     virtual void SegmentCurrentSetpointAcknowledged(const ILink* link_ptr , const data_Munk::SegmentMode &mode) const = 0;
     virtual void SegmentTimeSetpointAcknowledged(const ILink* link_ptr) const = 0;
     virtual void SegmentCommittedToMemory(const ILink* link_ptr) const = 0;
-    virtual void SegmentUploadComplete(const bool &success, const registers_Munk::SegmentTimeDetailed &segmentData = registers_Munk::SegmentTimeDetailed()) const = 0;
+    virtual void SegmentUploadComplete(const bool &success, const DeviceInterface_PowerSupply::FINISH_CODE &code, const registers_Munk::SegmentTimeDetailed &segmentData = registers_Munk::SegmentTimeDetailed()) const = 0;
+    virtual void SegmentUploadError(const bool &success, const DeviceInterface_PowerSupply::FINISH_CODE &code) const = 0;
 
     virtual void ExceptionResponseReceived(const ILink* link_ptr, const data_Munk::MunkRWType &type, const uint8_t &code) const = 0;
 

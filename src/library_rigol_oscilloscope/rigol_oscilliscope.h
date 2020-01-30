@@ -11,6 +11,7 @@
 #include "common/tuple_sensor_string.h"
 #include "common/comms/communication_update.h"
 #include "common/comms/communication_connection.h"
+#include "common/notification_update.h"
 
 #include "data/type_read_write.h"
 
@@ -64,13 +65,14 @@ private:
     void ConnectionClosed() const override;
     void NewDataReceived(const std::vector<uint8_t> &buffer) const override;
     void NewMeaurementReceived(const commands_Rigol::RigolMeasurementStatus &status) const override;
-
+    void CommunicationError(const std::string &type, const std::string &msg) const override;
 signals:
 
     void signal_RigolCommunicationUpdate(const common::comms::CommunicationUpdate &value) const;
     void signal_RigolPlottable(const common::TupleSensorString &sensorTuple, const bool &on_off);
     void signal_RigolNewSensorValue(const common::TupleSensorString &sensorTuple, const common_data::SensorState &data) const;
     void signal_RigolLoadComplete();
+    void signal_OSCOPENotification(const common::NotificationUpdate &update) const;
 
 private:
     std::string deviceName;

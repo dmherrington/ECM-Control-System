@@ -68,14 +68,14 @@ void State_EStop::OnEnter()
 {
     Owner().issueNewSPIIState(SPIIState::STATE_ESTOP);
 
-    if(Owner().isMotorInMotion())
+    if(Owner().areAnyMotorsInMotion())
     {
         CommandStopPtr command = std::make_shared<CommandStop>();
         Owner().issueSPIIMotionCommand(command);
     }
 
     //First check to see if the motor is already disarmed, and if not, disarm it
-    if(Owner().isMotorEnabled())
+    if(Owner().areAnyMotorsEnabled())
     {
         //If the motor is not currently armed, issue the command to arm it
         CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();

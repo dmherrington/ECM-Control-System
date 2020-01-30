@@ -36,7 +36,7 @@ public:
     /// Method issuing a measurement request to the rigol
     //////////////////////////////////////////////////////////////
 
-    void sendSetAcquisitionCommand(const ILink *link, const commands_Rigol::AbstractAcquireCommandPtr command);
+    void sendSetAcquisitionCommand(ILink *link, const commands_Rigol::AbstractAcquireCommandPtr command);
 
     void sendSetMeasurementCommand(const ILink *link, const commands_Rigol::MeasureCommand_Item &command);
 

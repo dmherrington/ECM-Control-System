@@ -24,6 +24,13 @@ Widget_Notification::Widget_Notification(const ECM_API *apiObject, QWidget *pare
 
     connect(m_API->m_Pump, SIGNAL(signal_PumpNotification(common::NotificationUpdate)),
             this, SLOT(slot_NewNotification(common::NotificationUpdate)));
+
+    connect(m_API, SIGNAL(signal_APINotification(common::NotificationUpdate)),
+            this, SLOT(slot_NewNotification(common::NotificationUpdate)));
+
+    connect(m_API->m_Rigol, SIGNAL(signal_OSCOPENotification(common::NotificationUpdate)),
+            this, SLOT(slot_NewNotification(common::NotificationUpdate)));
+
 }
 
 Widget_Notification::~Widget_Notification()

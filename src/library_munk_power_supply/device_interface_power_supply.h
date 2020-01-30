@@ -13,8 +13,35 @@ class DeviceInterface_PowerSupply
 public:
     enum class FINISH_CODE
     {
-        UNKNOWN
+        UNKNOWN,
+        NO_COMMS,
+        COMPLETE
     };
+
+    static std::string getStringFromFinishCode(const FINISH_CODE &code)
+    {
+        std::string rtnString = "";
+
+        switch (code) {
+        case FINISH_CODE::COMPLETE:
+        {
+            rtnString = "COMPLETED";
+            break;
+        }
+        case FINISH_CODE::NO_COMMS:
+        {
+            rtnString = "NO COMMS";
+            break;
+        }
+        case FINISH_CODE::UNKNOWN:
+        {
+            rtnString = "UNKNOWN";
+            break;
+        }
+        };
+
+        return rtnString;
+    }
 
 public:
     virtual void RemoveHost(void* ptr)
@@ -33,38 +60,38 @@ public:
     }
 
     void setLambda_AbortExection(const std::function<void()> &lambda){
-        if(m_AbortExecutionLambda.find(0) != m_AbortExecutionLambda.cend())
+        if(m_AbortExecutionLambda.find(nullptr) != m_AbortExecutionLambda.cend())
         {
             printf("Warning!!!! An abort execution already exists, replacing old with new\n");
-            m_AbortExecutionLambda.erase(0);
+            m_AbortExecutionLambda.erase(nullptr);
         }
 
-        m_AbortExecutionLambda.insert({0, lambda});
+        m_AbortExecutionLambda.insert({nullptr, lambda});
     }
 
     void setLambda_FinishedUploadingSegments(const std::function<void(const bool completed, const FINISH_CODE &finishCode)> &lambda){
         m_MutexFinishSegmentsLambda.lock();
 
-        if(m_FinishedUploadingSegments.find(0) != m_FinishedUploadingSegments.cend())
+        if(m_FinishedUploadingSegments.find(nullptr) != m_FinishedUploadingSegments.cend())
         {
             printf("Warning!!!! A finish procedure already exists, replacing old with new\n");
-            m_FinishedUploadingSegments.erase(0);
+            m_FinishedUploadingSegments.erase(nullptr);
         }
 
-        m_FinishedUploadingSegments.insert({0, lambda});
+        m_FinishedUploadingSegments.insert({nullptr, lambda});
         m_MutexFinishSegmentsLambda.unlock();
     }
 
     void setLambda_FinishedUploadingPulseMode(const std::function<void(const bool completed, const FINISH_CODE &finishCode)> &lambda){
         m_MutexFinishPulseModeLambda.lock();
 
-        if(m_FinishedUploadingPulseMode.find(0) != m_FinishedUploadingPulseMode.cend())
+        if(m_FinishedUploadingPulseMode.find(nullptr) != m_FinishedUploadingPulseMode.cend())
         {
             printf("Warning!!!! A finish procedure already exists, replacing old with new\n");
-            m_FinishedUploadingPulseMode.erase(0);
+            m_FinishedUploadingPulseMode.erase(nullptr);
         }
 
-        m_FinishedUploadingPulseMode.insert({0, lambda});
+        m_FinishedUploadingPulseMode.insert({nullptr, lambda});
         m_MutexFinishPulseModeLambda.unlock();
     }
 

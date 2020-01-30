@@ -67,14 +67,9 @@ void Widget_Touchoff::setTouchoffUtilization(const bool &execute)
 
 void Widget_Touchoff::on_pushButton_TouchoffRef_released()
 {
-    Status_PositionPerAxis posX, posY, posZ;
-    m_MotionController->m_StateInterface->m_AxisPosition->getAxisPosition(MotorAxis::X,posX);
-    m_MotionController->m_StateInterface->m_AxisPosition->getAxisPosition(MotorAxis::Y,posY);
-    m_MotionController->m_StateInterface->m_AxisPosition->getAxisPosition(MotorAxis::Z,posZ);
-
-    ui->doubleSpinBox_TouchoffRefX->setValue(posX.getPosition());
-    ui->doubleSpinBox_TouchoffRefY->setValue(posY.getPosition());
-    ui->doubleSpinBox_TouchoffRefZ->setValue(posZ.getPosition());
+    ui->doubleSpinBox_TouchoffRefX->setValue(m_MotionController->m_StateInterface->m_AxisState.at(MotorAxis::X).getAxisPosition());
+    ui->doubleSpinBox_TouchoffRefY->setValue(m_MotionController->m_StateInterface->m_AxisState.at(MotorAxis::Y).getAxisPosition());
+    ui->doubleSpinBox_TouchoffRefZ->setValue(m_MotionController->m_StateInterface->m_AxisState.at(MotorAxis::Z).getAxisPosition());
 }
 
 void Widget_Touchoff::on_checkBox_ReferenceOldPosition_toggled(bool val)

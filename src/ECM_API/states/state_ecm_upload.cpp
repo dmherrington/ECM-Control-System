@@ -43,8 +43,6 @@ hsm::Transition ECMState_Upload::GetTransition()
     {
         if(IsInInnerState<ECMState_UploadComplete>())
         {
-            std::cout<<"The upload state sees that all of the uploads are complete"<<std::endl;
-
             ECMCommand_AbstractProfileConfigPtr activeConfiguration = m_ECMCollection->getActiveConfiguration();
             if(activeConfiguration->getConfigType() == ProfileOpType::OPERATION)
                 Owner().logCurrentOperationalSettings();

@@ -22,6 +22,7 @@ void MunkProtocol::AddListner(const IProtocolMunkEvents* listener)
 void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registers_Munk::SegmentTimeDetailed &segmentData, const std::vector<registers_Munk::AbstractParameterPtr> parameters)
 {
     bool validParameter = true;
+    DeviceInterface_PowerSupply::FINISH_CODE currentCode = DeviceInterface_PowerSupply::FINISH_CODE::UNKNOWN;
 
     for(unsigned int i = 0; i < parameters.size(); i++)
     {
@@ -29,7 +30,7 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
         case registers_Munk::ParameterType::CURRENTSETPOINT_FORWARD:
         {
             if(parameters.at(i)->getFullMessage().size() > 0)
-                validParameter = sendAbstractSetpoint(link,parameters.at(i));
+                validParameter = sendAbstractSetpoint(link,parameters.at(i),currentCode);
             if(validParameter)
                 Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentCurrentSetpointAcknowledged(link,data_Munk::SegmentMode::FORWARD);});
             break;
@@ -37,7 +38,7 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
         case registers_Munk::ParameterType::CURRENTSETPOINT_REVERSE:
         {
             if(parameters.at(i)->getFullMessage().size() > 0)
-                validParameter = sendAbstractSetpoint(link,parameters.at(i));
+                validParameter = sendAbstractSetpoint(link,parameters.at(i),currentCode);
             if(validParameter)
                 Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentCurrentSetpointAcknowledged(link,data_Munk::SegmentMode::REVERSE);});
             break;
@@ -45,7 +46,7 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
         case registers_Munk::ParameterType::VOLTAGESETPOINT_FORWARD:
         {
             if(parameters.at(i)->getFullMessage().size() > 0)
-                validParameter = sendAbstractSetpoint(link,parameters.at(i));
+                validParameter = sendAbstractSetpoint(link,parameters.at(i),currentCode);
             if(validParameter)
                 Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentVoltageSetpointAcknowledged(link,data_Munk::SegmentMode::FORWARD);});
             break;
@@ -53,7 +54,7 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
         case registers_Munk::ParameterType::VOLTAGESETPOINT_REVERSE:
         {
             if(parameters.at(i)->getFullMessage().size() > 0)
-                validParameter = sendAbstractSetpoint(link,parameters.at(i));
+                validParameter = sendAbstractSetpoint(link,parameters.at(i),currentCode);
             if(validParameter)
                 Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentVoltageSetpointAcknowledged(link,data_Munk::SegmentMode::REVERSE);});
             break;
@@ -61,7 +62,7 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
         case registers_Munk::ParameterType::PATTERNWRITECOMMAND:
         {
             if(parameters.at(i)->getFullMessage().size() > 0)
-                validParameter = sendAbstractSetpoint(link,parameters.at(i));
+                validParameter = sendAbstractSetpoint(link,parameters.at(i),currentCode);
             if(validParameter)
                 Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentTimeSetpointAcknowledged(link);});
             break;
@@ -79,10 +80,13 @@ void MunkProtocol::updateCompleteMunkParameters(const ILink *link, const registe
         if(validParameter == false)
             break;
     }
-    Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentUploadComplete(validParameter, segmentData);});
+    if(validParameter)
+        Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentUploadComplete(validParameter, currentCode, segmentData);});
+    else
+        Emit([&](const IProtocolMunkEvents* ptr){ptr->SegmentUploadError(validParameter, currentCode);});
 }
 
-bool MunkProtocol::sendAbstractSetpoint(const ILink *link, const registers_Munk::AbstractParameterPtr parameter)
+bool MunkProtocol::sendAbstractSetpoint(const ILink *link, const registers_Munk::AbstractParameterPtr parameter, DeviceInterface_PowerSupply::FINISH_CODE code)
 {
     if(link->isConnected())
     {
@@ -90,22 +94,23 @@ bool MunkProtocol::sendAbstractSetpoint(const ILink *link, const registers_Munk:
         if(link->WriteBytes(parameter->getFullMessage()))
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(20));
-            std::cout<<"We have finished transmitting info"<<std::endl;
             if(this->ReceiveData(link,receivedMSG))
             {
-                std::cout<<"We have finished receiving info"<<std::endl;
                 if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
                     parseForException(link, receivedMSG);
                 else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::WRITE)
                 {
                     if(parameter->getFullExpectedResonse() == receivedMSG.getDataArray())
                     {
-                        std::cout<<"We have received and confirmed the message."<<std::endl;
                         return true;
                     }
                 }
             }
         }
+    }
+    else
+    {
+        code = DeviceInterface_PowerSupply::FINISH_CODE::NO_COMMS;
     }
     return false;
 }
@@ -120,17 +125,14 @@ void MunkProtocol::sendForwardVoltageSetpoint(const ILink *link, const registers
         MunkMessage receivedMSG;
         if(link->WriteBytes(setpoint.getFullMessage()))
         {
-            std::cout<<"We have finished transmitting info"<<std::endl;
             if(this->ReceiveData(link,receivedMSG))
             {
-                std::cout<<"We have finished receiving info"<<std::endl;
                 if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
                     parseForException(link, receivedMSG);
                 else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::WRITE)
                 {
                     if(setpoint.getFullExpectedResonse() == receivedMSG.getDataArray())
                     {
-                        std::cout<<"We have received and confirmed the message."<<std::endl;
                         uint8_t highREG = receivedMSG.getDataByte(4);
                         uint8_t lowREG = receivedMSG.getDataByte(5);
                         int numberOfRegisters = lowREG | (highREG<<8);
@@ -261,11 +263,9 @@ bool MunkProtocol::sendCommitToEEPROM(const ILink *link, const registers_Munk::P
         MunkMessage receivedMSG;
         if(link->WriteBytes(command.getFullMessage()))
         {
-            std::cout<<"We have finished transmitting info"<<std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(20));
             if(this->ReceiveData(link,receivedMSG))
             {
-                std::cout<<"We have finished receiving info"<<std::endl;
                 if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
                     parseForException(link, receivedMSG);
                 else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::WRITE)
@@ -315,10 +315,8 @@ void MunkProtocol::sendFaultStateReset(const ILink *link, const registers_Munk::
         if(link->WriteBytes(request.getFullMessage()))
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(20));
-            std::cout<<"We have finished transmitting info"<<std::endl;
             if(this->ReceiveData(link,receivedMSG))
             {
-                std::cout<<"We have finished receiving info"<<std::endl;
                 if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
                     parseForException(link, receivedMSG);
                 else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::WRITE)
@@ -341,10 +339,8 @@ void MunkProtocol::sendPulseMode(const ILink *link, const registers_Munk::Regist
         if(link->WriteBytes(mode.getFullMessage()))
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(20));
-            std::cout<<"We have finished transmitting the pulse mode."<<std::endl;
             if(this->ReceiveData(link,receivedMSG))
             {
-                std::cout<<"We have finished receiving the info on the response of the pulse mode."<<std::endl;
                 if(receivedMSG.isException() == data_Munk::MunkExceptionType::EXCEPTION)
                     parseForException(link, receivedMSG);
                 else if(receivedMSG.isReadWriteType() == data_Munk::MunkRWType::WRITE)

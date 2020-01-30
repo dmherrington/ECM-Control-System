@@ -95,11 +95,11 @@ void Window_DeviceConnections::connect_PLC(const bool &connect)
 }
 void Window_DeviceConnections::connect_Oscilliscope(const bool &connect)
 {
-    if((!connect) && m_API->m_Rigol->isDeviceConnected())
+    if(!connect)
     {
         m_API->m_Rigol->closeConnection();
     }
-    else if(connect && (!m_API->m_Rigol->isDeviceConnected()))
+    else if(connect)
     {
         QString ipAddress = ui->lineEdit_IPRigol->text();
 

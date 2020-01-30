@@ -6,7 +6,6 @@ namespace SPII {
 State_Idle::State_Idle():
     AbstractStateSPII()
 {
-    std::cout<<"We are in the Idle State"<<std::endl;
     this->currentState = SPIIState::STATE_IDLE;
     this->desiredState = SPIIState::STATE_IDLE;
 }
@@ -58,7 +57,7 @@ void State_Idle::Update()
         //we should therefore transition to STATE_ESTOP
         desiredState = SPIIState::STATE_ESTOP;
     }
-    else if(Owner().isMotorEnabled() || Owner().isMotorInMotion())
+    else if(Owner().areAnyMotorsEnabled() || Owner().areAnyMotorsInMotion())
         desiredState = SPIIState::STATE_READY;
 }
 
@@ -136,7 +135,7 @@ void State_Idle::handleCommand(const AbstractCommandPtr command)
         //If we are here because the motor hasn't turned off and is moving, something is wrong.
 
         //First check to see if the motor is already disarmed, and if not, disarm it
-        if(Owner().m_MotorStatus->areAnyMotorsEnabled())
+        if(Owner().areAnyMotorsEnabled())
         {
             //If the motor is not currently armed, issue the command to arm it
             Owner().issueSPIICommand(command);
@@ -187,7 +186,7 @@ void State_Idle::OnEnter()
     //To get to this state, it should be noted that we should have already transitioned through
     //the stop state, or motion on the motor has already ceased
     //Let us check to see if the motor is already disabled, if not, follow through with the command
-    if(Owner().isMotorEnabled())
+    if(Owner().areAnyMotorsEnabled())
     {
         CommandMotorDisablePtr castCommand = std::make_shared<CommandMotorDisable>();
         Owner().issueSPIICommand(castCommand);

@@ -166,18 +166,6 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_PLC, SIGNAL(signal_PLCNewSensorValue(common::TupleSensorString,common_data::SensorState)),
             this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
 
-    //    m_WindowMotionControl = new Window_MotionControl(m_API->m_MotionController);
-    //    m_WindowMotionControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
-    //    connect(m_WindowMotionControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
-
-//    m_WindowPumpControl = new Window_PumpControl(m_API->m_Pump);
-//    m_WindowPumpControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
-//    connect(m_WindowPumpControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
-
-//    m_WindowTouchoffControl = new Window_Touchoff(m_API->m_MotionController);
-//    m_WindowTouchoffControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
-//    connect(m_WindowTouchoffControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
-
     std::vector<common::TupleECMData> plottables = m_API->m_MotionController->getPlottables();
     for(unsigned int i = 0; i < plottables.size(); i++)
     {
@@ -340,7 +328,6 @@ void ECMControllerGUI::slot_NewProfileVariableData(const common::TupleProfileVar
     QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(variable);
     plots = m_PlotCollection.getPlots(variable);
     ui->widget_primaryPlot->RedrawDataSource(plots);
-
 }
 
 void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &sensor, const common_data::SensorState &state)
@@ -369,6 +356,11 @@ void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalStrin
 {
     ProgressStateMachineStates();
 
+    common::EnvironmentTime rightWindow = state.getObservationTime();
+    QDateTime currentRightWindow = rightWindow.ToQTDateTime();
+    QDateTime currentLeftWindow = currentRightWindow.addSecs(-10.0);
+    ui->widget_primaryPlot->ViewWindow(currentLeftWindow,currentRightWindow);
+
     if(valueChanged)
         m_API->m_Log->WriteLogMachinePositionalState(tuple,state);
 
@@ -378,8 +370,7 @@ void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalStrin
 
     QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(tuple);
     ui->widget_primaryPlot->RedrawDataSource(plots);
-    //    m_SensorDisplays.PlottedDataUpdated(state); //this seems to be uneeded based on the call after this
-    //    m_additionalSensorDisplay->UpdatePlottedData(state);
+
 }
 
 void ECMControllerGUI::slot_MCNewMotionState(const ECM::SPII::SPIIState &state, const QString &stateString)
@@ -453,7 +444,7 @@ void ECMControllerGUI::readSettings()
 void ECMControllerGUI::closeEvent(QCloseEvent *event)
 {
 
-    if(!m_API->m_MotionController->m_StateInterface->isMotorEnabled())
+    if(!m_API->m_MotionController->m_StateInterface->areAllMotorsEnabled())
     {
         QSettings settings(QSettings::IniFormat, QSettings::UserScope,"ECMController", "Window Settings");
         settings.setValue("pos", pos());

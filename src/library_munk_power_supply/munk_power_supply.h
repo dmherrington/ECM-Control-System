@@ -146,7 +146,9 @@ private:
 
     void SegmentCommitedToMemoryAcknowledged() override;
 
-    void NewSegmentSequence(const bool &success, const registers_Munk::SegmentTimeDetailed &segmentData) override;
+    void NewSegmentSequence(const bool &success, const FINISH_CODE &code, const registers_Munk::SegmentTimeDetailed &segmentData) override;
+
+    void NewSegmentUploadError(const bool &success, const DeviceInterface_PowerSupply::FINISH_CODE &code) override;
 
     void NewPulseMode(const bool &success, const registers_Munk::Register_PulseMode &pulseMode) override;
 

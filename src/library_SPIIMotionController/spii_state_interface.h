@@ -189,14 +189,14 @@ public:
         }
         }
     }
-
+public:
+    std::vector<double> getAxisPositionVector() const;
 
 public:
-    Status_PerAxis* getAxisStatus(const MotorAxis &axis);
+    bool areAnyMotorsInMotion() const;
+    bool areAnyMotorsEnabled() const;
+    bool areAllMotorsEnabled() const;
 
-public:
-    bool isMotorInMotion() const;
-    bool isMotorEnabled() const;
     bool isEStopEngaged() const;
 
 public:
@@ -231,13 +231,7 @@ and variables actually aboard the SPII. This can be used as a comparison for det
 current program matches what the user witnesses. Also, this can be used to restore the current state
 of the program.*/
 
-    Status_Axis* m_AxisStatus; /**< Member variable containing the current status
-of each individual axis of the SPII. This information contains positioning, motion, arming. */
-
-    Status_Motor* m_MotorStatus; /**< Member variable containing the current status
-of each individual axis of the SPII. This information contains positioning, motion, arming. */
-
-    Status_Position* m_AxisPosition;
+    std::map<MotorAxis,Status_AxisState> m_AxisState;
 
 };
 

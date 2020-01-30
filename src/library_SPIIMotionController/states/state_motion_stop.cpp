@@ -72,7 +72,7 @@ void State_MotionStop::Update()
         //we should therefore transition to the idle state
         desiredState = SPIIState::STATE_ESTOP;
     }
-    else if(!Owner().isMotorInMotion()) //the exit condition for this state is that the machine motion has stopped on all axis
+    else if(!Owner().areAnyMotorsInMotion()) //the exit condition for this state is that the machine motion has stopped on all axis
     {
         desiredState = SPIIState::STATE_READY;
     }
@@ -86,7 +86,7 @@ void State_MotionStop::OnEnter()
     Owner().issueSPIIMotionCommand(castCommand);
 
     //If the motor has already ceased motion we can exit this state
-    if(!Owner().isMotorInMotion()) //the exit condition for this state is that the machine motion has stopped on all axis
+    if(!Owner().areAnyMotorsInMotion()) //the exit condition for this state is that the machine motion has stopped on all axis
     {
         desiredState = SPIIState::STATE_READY;
     }

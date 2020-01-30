@@ -143,7 +143,7 @@ void ECM_API::beginOperationalProfile(const ECMCommand_AbstractProfileConfigPtr 
     props.setOperatingCondition(condition);
     props.setTime(profileConfig->m_ExecProperties.getStartTime());
 
-    std::vector<double> machinePosition = m_MotionController->m_StateInterface->m_AxisPosition->getAxisPositionVector();
+    std::vector<double> machinePosition = m_MotionController->m_StateInterface->getAxisPositionVector();
     props.setCurrentPosition(machinePosition);
 
     //Emit the signal notifying the listeners of a new operational profile
@@ -190,7 +190,7 @@ void ECM_API::concludeExecutingOperation(const ECMCommand_AbstractProfileConfigP
     props.setOperatingCondition(ExecutionProperties::ExecutionCondition::ENDING);
     props.setTime(profileConfig->m_ExecProperties.getEndTime());
 
-    std::vector<double> machinePosition = m_MotionController->m_StateInterface->m_AxisPosition->getAxisPositionVector();
+    std::vector<double> machinePosition = m_MotionController->m_StateInterface->getAxisPositionVector();
     props.setCurrentPosition(machinePosition);
 
     //Emit the signal notifying the listeners of a completed operational profile

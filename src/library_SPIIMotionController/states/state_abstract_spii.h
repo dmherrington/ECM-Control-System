@@ -76,6 +76,7 @@ protected:
 
     void clearCommand();
 protected:
+    int count = 0;
     AbstractCommandPtr currentCommand;
 
     SPIIState currentState;

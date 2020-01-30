@@ -10,6 +10,7 @@
 #include "data_registers/segment_time_detailed.h"
 #include "data_registers/register_pulse_mode.h"
 
+#include "library_munk_power_supply/device_interface_power_supply.h"
 
 namespace comms_Munk{
 
@@ -90,12 +91,18 @@ public:
 
     }
 
-    virtual void NewSegmentSequence(const bool &success, const registers_Munk::SegmentTimeDetailed &segmentData)
+    virtual void NewSegmentSequence(const bool &success, const DeviceInterface_PowerSupply::FINISH_CODE &code, const registers_Munk::SegmentTimeDetailed &segmentData)
     {
-        UNUSED(segmentData);
         UNUSED(success);
+        UNUSED(code);
+        UNUSED(segmentData);
     }
 
+    virtual void NewSegmentUploadError(const bool &success, const DeviceInterface_PowerSupply::FINISH_CODE &code)
+    {
+        UNUSED(success);
+        UNUSED(code);
+    }
 
     virtual void ExceptionResponseReceived(const data_Munk::MunkRWType &RWType, const std::string &meaning) const
     {
