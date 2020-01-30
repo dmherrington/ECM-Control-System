@@ -172,13 +172,6 @@ void SPIIMotionController::initializeMotionController()
     requestAS->addAxis(MotorAxis::X); requestAS->addAxis(MotorAxis::Y); requestAS->addAxis(MotorAxis::Z);
     m_DevicePolling->addRequest(requestAS,100);
 
-    // 1: Request the axis safety of the ACS unit
-    Request_AxisSafetyPtr requestASafety = std::make_shared<Request_AxisSafety>();
-    common::TupleGeneralDescriptorString tupleSafety("SafetyStatus");
-    requestASafety->setTupleDescription(common::TupleECMData(tupleSafety));
-    requestASafety->addAxis(MotorAxis::X); requestASafety->addAxis(MotorAxis::Y); requestASafety->addAxis(MotorAxis::Z);
-    m_DevicePolling->addRequest(requestASafety,100);
-
     // 1: Request the motor status of the ACS unit
     RequestMotorStatusPtr requestMS = std::make_shared<RequestMotorStatus>();
     common::TupleGeneralDescriptorString tupleMotor("MotorStatus");
@@ -190,7 +183,8 @@ void SPIIMotionController::initializeMotionController()
     Request_MotorFaultPtr requestMF = std::make_shared<Request_MotorFault>();
     common::TupleGeneralDescriptorString tupleMotorFaults("MotorFaults");
     requestMF->setTupleDescription(common::TupleECMData(tupleMotorFaults));
-    requestMF->addAxis(MotorAxis::X); requestMF->addAxis(MotorAxis::Y); requestMF->addAxis(MotorAxis::Z); //Ken commented out per errors seen on initial X,Y connection Mike
+    //requestMF->addAxis(MotorAxis::X); requestMF->addAxis(MotorAxis::Y); requestMF->addAxis(MotorAxis::Z);
+    requestMF->addAxis(MotorAxis::Z);
     requestMF->setRequestAllAxes(false);
     m_DevicePolling->addRequest(requestMF,500);
 
@@ -291,7 +285,6 @@ void SPIIMotionController::SPIIPolling_AxisUpdate(const std::vector<Status_PerAx
     ProgressStateMachineStates();
 }
 
-
 void SPIIMotionController::SPIIPolling_MotorUpdate(const std::vector<Status_MotorPerAxis> &motor)
 {
     if(motor.empty())
@@ -312,68 +305,24 @@ void SPIIMotionController::SPIIPolling_VariableUpdate(const std::vector<Status_V
     ProgressStateMachineStates();
 }
 
-void SPIIMotionController::SPIIPolling_AxisSafetyUpdate(const std::vector<Status_AxisSafety> &axis)
-{
-    if(axis.empty())
-        return;
-
-    if(!m_StateInterface->m_AxisSafety->updateAxisStatus(axis))
-        return;
-
-    for(size_t index = 0; index < axis.size(); index++)
-    {
-        Status_AxisSafety currentAxisSafety = axis.at(index);
-
-        bool errorExists = false;
-
-        if(!currentAxisSafety.isStatusValid())
-            continue;
-
-        if(currentAxisSafety.doesSafetyFaultExist() && (currentAxisSafety.getErrorCode() > 5005))
-        {
-            errorExists = true;
-            std::string notificationMessage = "Safety Fault " + AxisToString(currentAxisSafety.getAxis()) +
-                    ":" + currentAxisSafety.getErrorString();
-            common::NotificationUpdate newUpdate("ACS",ECMDevice::DEVICE_MOTIONCONTROL,
-                                                 common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR,
-                                                 notificationMessage);
-            emit signal_MCNotification(newUpdate);
-        }
-        if(errorExists)
-            this->onAbortExecution();
-    }
-
-    ProgressStateMachineStates();
-
-}
-
 void SPIIMotionController::SPIIPolling_MotorFaultUpdate(const std::vector<Status_MotorAxisFault> &motor)
 {
     if(motor.empty())
         return;
 
-    if(!m_StateInterface->m_MotorFaults->updateMotorAxisStatus(motor))
-        return;
-
     for(size_t index = 0; index < motor.size(); index++)
     {
-        Status_MotorAxisFault currentAxisMotor = motor.at(index);
-
         bool errorExists = false;
 
-        if(!currentAxisMotor.isStatusValid())
+        if(!motor.at(index).isStatusValid())
             continue;
 
-        if(currentAxisMotor.doesMotorFaultExist())
+        if(motor.at(index).doesMotorFaultExist())
         {
             errorExists = true;
-
-            std::string notificationMessage = "Motor Fault " + AxisToString(currentAxisMotor.getAxis()) +
-                    ":" + currentAxisMotor.getErrorString();
-
-            common::NotificationUpdate newUpdate("ACS",ECMDevice::DEVICE_MOTIONCONTROL,
+            common::NotificationUpdate newUpdate("ACS Motion Controller",ECMDevice::DEVICE_MOTIONCONTROL,
                                                  common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR,
-                                                 notificationMessage);
+                                                 "Motor Fault Error");
             emit signal_MCNotification(newUpdate);
         }
         if(errorExists)
@@ -394,7 +343,7 @@ void SPIIMotionController::SPIIPolling_SystemFaultUpdate(const Status_SystemFaul
         {
             common::NotificationUpdate newUpdate("ACS Motion Controller",ECMDevice::DEVICE_MOTIONCONTROL,
                                                  common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR,
-                                                 "System Fault:");
+                                                 "System Fault Error");
             emit signal_MCNotification(newUpdate);
 
             this->onAbortExecution();
@@ -476,7 +425,7 @@ void SPIIMotionController::NewBufferState(const Status_BufferState &state)
     {
         std::string msg = "Buffer: " + std::to_string(state.getBufferIndex()) + " Line Number: " + std::to_string(state.getErrorLine()) ;
         msg+=" " + state.getErrorString();
-        common::NotificationUpdate newUpdate("ACS",ECMDevice::DEVICE_MOTIONCONTROL,
+        common::NotificationUpdate newUpdate("ACS Motion Controller",ECMDevice::DEVICE_MOTIONCONTROL,
                                              common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR,
                                              msg);
         break;

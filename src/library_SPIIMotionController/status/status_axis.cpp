@@ -1,7 +1,7 @@
 #include "status_axis.h"
 
 Status_PerAxis::Status_PerAxis():
-    AbstractStatus(StatusTypes::STATUS_SAFETY_FAULTS_PER_AXIS)
+    AbstractStatus(StatusTypes::STATUS_PER_AXIS)
 {
 
 }
@@ -83,7 +83,7 @@ void Status_PerAxis::updateAxisStatus(const int &value)
 
 
 Status_Axis::Status_Axis():
-    AbstractStatus(StatusTypes::STATUS_SAFETY_FAULTS)
+    AbstractStatus(StatusTypes::STATUS_ALL_AXIS)
 {
 
 }
@@ -96,7 +96,7 @@ Status_Axis::Status_Axis(const Status_Axis &copy):
 
 Status_Axis::~Status_Axis()
 {
-    //Ken iterate through map and delete, also check other status types
+
 }
 
 bool Status_Axis::updateAxisStatus(const std::vector<Status_PerAxis> &status)

@@ -120,26 +120,15 @@ public:
     std::string retrieveUnsolicitatedMessages();
 
 public:
-
     void updateDeviceSettings(const SPII_Settings &settings);
 
     bool requestPosition(const int &axisRequest, double &value);
 
     bool requestAxisStatus(const int &axisRequest, int &value);
 
-    bool requestAxisMaskedSafety(const int &axisRequest, const int &port, int &value);
-
-    bool requestAxisSafety(const int &axisRequest, int &value);
-
-    bool clearMotionTerminationCodes(const int &axisClear);
-
     bool requestMotorStatus(const int &axisRequest, int &value);
 
     bool requestMotorFaults(const int &axisRequest, int &value);
-
-    bool requestMotorError(const int &axisRequest, int &value);
-
-    bool requestErrorString(const int &errorCode, std::string &errorString, const int &bufferSize = 100);
 
     bool requestSystemFaults(int &value);
 

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'library_qmodbus.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.11.3)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.10.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'library_qmodbus.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.11.3. It"
+#error "This file was generated using the moc from 5.10.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Library_QModBus_t {
-    QByteArrayData data[10];
-    char stringdata0[176];
+    QByteArrayData data[15];
+    char stringdata0[256];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -40,14 +40,22 @@ QT_MOC_LITERAL(5, 86, 25), // "signal_PortReadyToConnect"
 QT_MOC_LITERAL(6, 112, 19), // "signal_PortNotReady"
 QT_MOC_LITERAL(7, 132, 17), // "signal_PortUpdate"
 QT_MOC_LITERAL(8, 150, 20), // "signal_RXNewPortData"
-QT_MOC_LITERAL(9, 171, 4) // "data"
+QT_MOC_LITERAL(9, 171, 4), // "data"
+QT_MOC_LITERAL(10, 176, 20), // "signal_RXNewRegister"
+QT_MOC_LITERAL(11, 197, 14), // "ModbusRegister"
+QT_MOC_LITERAL(12, 212, 6), // "regObj"
+QT_MOC_LITERAL(13, 219, 29), // "signal_PortFailedTransmission"
+QT_MOC_LITERAL(14, 249, 6) // "regMsg"
 
     },
     "Library_QModBus\0signal_CommunicationUpdate\0"
     "\0common::comms::CommunicationUpdate\0"
     "update\0signal_PortReadyToConnect\0"
     "signal_PortNotReady\0signal_PortUpdate\0"
-    "signal_RXNewPortData\0data"
+    "signal_RXNewPortData\0data\0"
+    "signal_RXNewRegister\0ModbusRegister\0"
+    "regObj\0signal_PortFailedTransmission\0"
+    "regMsg"
 };
 #undef QT_MOC_LITERAL
 
@@ -57,19 +65,21 @@ static const uint qt_meta_data_Library_QModBus[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       5,       // signalCount
+       7,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   39,    2, 0x06 /* Public */,
-       5,    0,   42,    2, 0x06 /* Public */,
-       6,    0,   43,    2, 0x06 /* Public */,
-       7,    1,   44,    2, 0x06 /* Public */,
-       8,    1,   47,    2, 0x06 /* Public */,
+       1,    1,   49,    2, 0x06 /* Public */,
+       5,    0,   52,    2, 0x06 /* Public */,
+       6,    0,   53,    2, 0x06 /* Public */,
+       7,    1,   54,    2, 0x06 /* Public */,
+       8,    1,   57,    2, 0x06 /* Public */,
+      10,    1,   60,    2, 0x06 /* Public */,
+      13,    2,   63,    2, 0x06 /* Public */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
@@ -77,6 +87,8 @@ static const uint qt_meta_data_Library_QModBus[] = {
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 3,    4,
     QMetaType::Void, QMetaType::QByteArray,    9,
+    QMetaType::Void, 0x80000000 | 11,   12,
+    QMetaType::Void, 0x80000000 | 3, 0x80000000 | 11,    4,   14,
 
        0        // eod
 };
@@ -92,6 +104,8 @@ void Library_QModBus::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
         case 2: _t->signal_PortNotReady(); break;
         case 3: _t->signal_PortUpdate((*reinterpret_cast< const common::comms::CommunicationUpdate(*)>(_a[1]))); break;
         case 4: _t->signal_RXNewPortData((*reinterpret_cast< const QByteArray(*)>(_a[1]))); break;
+        case 5: _t->signal_RXNewRegister((*reinterpret_cast< const ModbusRegister(*)>(_a[1]))); break;
+        case 6: _t->signal_PortFailedTransmission((*reinterpret_cast< const common::comms::CommunicationUpdate(*)>(_a[1])),(*reinterpret_cast< const ModbusRegister(*)>(_a[2]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -111,41 +125,62 @@ void Library_QModBus::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
                 *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< common::comms::CommunicationUpdate >(); break;
             }
             break;
+        case 6:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+            case 0:
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< common::comms::CommunicationUpdate >(); break;
+            }
+            break;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _t = void (Library_QModBus::*)(const common::comms::CommunicationUpdate & ) const;
+            typedef void (Library_QModBus::*_t)(const common::comms::CommunicationUpdate & ) const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Library_QModBus::signal_CommunicationUpdate)) {
                 *result = 0;
                 return;
             }
         }
         {
-            using _t = void (Library_QModBus::*)() const;
+            typedef void (Library_QModBus::*_t)() const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Library_QModBus::signal_PortReadyToConnect)) {
                 *result = 1;
                 return;
             }
         }
         {
-            using _t = void (Library_QModBus::*)() const;
+            typedef void (Library_QModBus::*_t)() const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Library_QModBus::signal_PortNotReady)) {
                 *result = 2;
                 return;
             }
         }
         {
-            using _t = void (Library_QModBus::*)(const common::comms::CommunicationUpdate ) const;
+            typedef void (Library_QModBus::*_t)(const common::comms::CommunicationUpdate ) const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Library_QModBus::signal_PortUpdate)) {
                 *result = 3;
                 return;
             }
         }
         {
-            using _t = void (Library_QModBus::*)(const QByteArray ) const;
+            typedef void (Library_QModBus::*_t)(const QByteArray ) const;
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Library_QModBus::signal_RXNewPortData)) {
                 *result = 4;
+                return;
+            }
+        }
+        {
+            typedef void (Library_QModBus::*_t)(const ModbusRegister & ) const;
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Library_QModBus::signal_RXNewRegister)) {
+                *result = 5;
+                return;
+            }
+        }
+        {
+            typedef void (Library_QModBus::*_t)(const common::comms::CommunicationUpdate & , const ModbusRegister & ) const;
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Library_QModBus::signal_PortFailedTransmission)) {
+                *result = 6;
                 return;
             }
         }
@@ -183,13 +218,13 @@ int Library_QModBus::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 7;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 5)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 7;
     }
     return _id;
 }
@@ -225,6 +260,20 @@ void Library_QModBus::signal_RXNewPortData(const QByteArray _t1)const
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(const_cast< Library_QModBus *>(this), &staticMetaObject, 4, _a);
+}
+
+// SIGNAL 5
+void Library_QModBus::signal_RXNewRegister(const ModbusRegister & _t1)const
+{
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(const_cast< Library_QModBus *>(this), &staticMetaObject, 5, _a);
+}
+
+// SIGNAL 6
+void Library_QModBus::signal_PortFailedTransmission(const common::comms::CommunicationUpdate & _t1, const ModbusRegister & _t2)const
+{
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(const_cast< Library_QModBus *>(this), &staticMetaObject, 6, _a);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

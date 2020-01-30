@@ -6,6 +6,7 @@ namespace SPII {
 State_Idle::State_Idle():
     AbstractStateSPII()
 {
+    std::cout<<"We are in the Idle State"<<std::endl;
     this->currentState = SPIIState::STATE_IDLE;
     this->desiredState = SPIIState::STATE_IDLE;
 }

@@ -8,7 +8,6 @@
 #include "status/status_motor.h"
 #include "status/status_motor_fault.h"
 #include "status/status_position.h"
-#include "status/status_safety.h"
 #include "status/status_system_fault.h"
 #include "status/status_types.h"
 #include "status/status_variable_value.h"

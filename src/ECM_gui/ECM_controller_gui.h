@@ -235,14 +235,12 @@ private:
     EnvironmentTime configurationStart;
     QTimer* elapsedConfigurationTimer;
     QTimer* elapsedOperationTimer;
-    QTimer* plotClearingTimer;
 
     EnvironmentTime m_SoftwareBootTime;
     common::SimplifiedTime m_DailyMachineTime;
     common::SimplifiedTime m_GlobalMachineTime;
 
 private slots:
-    void slot_OnTimeoutClearPlots();
     void slot_OnUpdateElapsedOperationTime();
     void slot_OnUpdateElapsedConfigurationTime();
     void on_pushButton_ClearMunkError_released();

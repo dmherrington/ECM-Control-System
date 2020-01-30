@@ -15,9 +15,6 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     applicableAxis.push_back(MotorAxis::Y);
     applicableAxis.push_back(MotorAxis::Z);
 
-    Dialog_SettingsEditor settingsWindow;
-
-
     /*
      * Let us first setup the operational timers as related to
      * operation and the configuration.
@@ -28,13 +25,9 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     elapsedOperationTimer = new QTimer(this);
     elapsedOperationTimer->setInterval(1000);
 
-    plotClearingTimer = new QTimer(this);
-    plotClearingTimer->setInterval(settingsWindow.getPlottingTimeout() * 1000.0);
-
     //Connect the timeouts to the appropriate items within the front panel
     connect(elapsedOperationTimer, SIGNAL(timeout()), this, SLOT(slot_OnUpdateElapsedOperationTime()));
     connect(elapsedConfigurationTimer, SIGNAL(timeout()), this, SLOT(slot_OnUpdateElapsedConfigurationTime()));
-    //connect(plotClearingTimer, SIGNAL(timeout()), this, SLOT(slot_OnTimeoutClearPlots()));
 
     //Required registration of MetaTyples from the MotionController interface
     qRegisterMetaType<common::TuplePositionalString>("TuplePositionalString");
@@ -213,8 +206,6 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_WindowConnections->connectToAllDevices();
 
     ProgressStateMachineStates();
-
-    plotClearingTimer->start();
 }
 
 ECMControllerGUI::~ECMControllerGUI()
@@ -523,7 +514,7 @@ void ECMControllerGUI::on_pushButton_MotorEnable_released()
 void ECMControllerGUI::on_pushButton_MotorDisable_released()
 {
     CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();
-    command->addAxis(MotorAxis::X); command->addAxis(MotorAxis::Y); command->addAxis(MotorAxis::Z);
+    command->addAxis(MotorAxis::Z);
     m_API->m_MotionController->executeCommand(command);
 }
 
@@ -1168,15 +1159,6 @@ QString ECMControllerGUI::loadFileDialog(const std::string &filePath, const std:
     return fullFilePath;
 }
 
-void ECMControllerGUI::slot_OnTimeoutClearPlots()
-{
-    m_PlotCollection.ClearAllData();
-
-    ui->widget_primaryPlot->ClearGraphData();
-    ui->widget_primaryPlotCurrent->ClearGraphData();
-    ui->widget_primaryPlotVoltage->ClearGraphData();
-}
-
 void ECMControllerGUI::slot_OnUpdateElapsedOperationTime()
 {
     EnvironmentTime currentTime;
@@ -1184,7 +1166,6 @@ void ECMControllerGUI::slot_OnUpdateElapsedOperationTime()
 
     ui->lineEdit_OperationTime->setText(QString::number((currentTime - operationStart)/(1000*1000)));
 }
-
 
 void ECMControllerGUI::slot_OnUpdateElapsedConfigurationTime()
 {
@@ -1237,9 +1218,6 @@ void ECMControllerGUI::on_actionSettings_triggered()
     //connect(dialogWindow, SIGNAL(finished(int)), this, SLOT());
     if(dialogWindow.exec() == QDialog::Accepted)
     {
-        plotClearingTimer->stop();
-        plotClearingTimer->setInterval(dialogWindow.getPlottingTimeout() * 1000.0);
-        plotClearingTimer->start();
         //In here we would grab the current settings
     }
 

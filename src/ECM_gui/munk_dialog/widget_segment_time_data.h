@@ -29,10 +29,8 @@ class WidgetSegmentTimeData : public QWidget
 
 
 public:
-    explicit WidgetSegmentTimeData(const bool &expandModes = false, QWidget *parent = nullptr);
+    explicit WidgetSegmentTimeData(QWidget *parent = 0);
     ~WidgetSegmentTimeData();
-
-    void setExpandedMunkDriverModes(const bool &expandModes, const std::string &defaultSelection = "");
 
     void loadFromSegmentData(const registers_Munk::SegmentTimeDataDetailed &segmentData);
 

@@ -62,9 +62,4 @@ void Widget_ProfileParameters::loadFromProfileConfiguration(const ECMCommand_Abs
     this->m_ScriptingVariables->loadFromProfileConfiguration(castConfiguration->m_DesriedVariables, castConfiguration->getProfileName());
 }
 
-void Widget_ProfileParameters::setExpandedMunkDriverModes(const bool &expandModes)
-{
-    m_PowerSupply->setExpandedMunkDriverModes(expandModes);
-}
-
 

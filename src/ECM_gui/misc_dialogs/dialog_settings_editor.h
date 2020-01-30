@@ -17,7 +17,6 @@ public:
     explicit Dialog_SettingsEditor(QWidget *parent = 0);
     ~Dialog_SettingsEditor();
 
-    double getPlottingTimeout() const;
 private:
     void readSettings();
 

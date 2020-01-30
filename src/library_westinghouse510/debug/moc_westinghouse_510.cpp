@@ -95,7 +95,7 @@ static const uint qt_meta_data_Westinghouse510[] = {
       13,    1,   80,    2, 0x08 /* Private */,
       15,    1,   83,    2, 0x08 /* Private */,
       17,    0,   86,    2, 0x08 /* Private */,
-      18,    1,   87,    2, 0x08 /* Private */,
+      18,    2,   87,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
@@ -109,7 +109,7 @@ static const uint qt_meta_data_Westinghouse510[] = {
     QMetaType::Void, 0x80000000 | 3,   14,
     QMetaType::Void, QMetaType::QByteArray,   16,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 19,   20,
+    QMetaType::Void, 0x80000000 | 3, 0x80000000 | 19,   14,   20,
 
        0        // eod
 };
@@ -129,7 +129,7 @@ void Westinghouse510::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
         case 6: _t->slot_PortUpdate((*reinterpret_cast< const common::comms::CommunicationUpdate(*)>(_a[1]))); break;
         case 7: _t->slot_SerialPortReceivedData((*reinterpret_cast< const QByteArray(*)>(_a[1]))); break;
         case 8: _t->slot_PumpInitializationComplete(); break;
-        case 9: _t->slot_PortFailedTransmission((*reinterpret_cast< const ModbusRegister(*)>(_a[1]))); break;
+        case 9: _t->slot_PortFailedTransmission((*reinterpret_cast< const common::comms::CommunicationUpdate(*)>(_a[1])),(*reinterpret_cast< const ModbusRegister(*)>(_a[2]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -150,6 +150,13 @@ void Westinghouse510::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
             }
             break;
         case 6:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+            case 0:
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< common::comms::CommunicationUpdate >(); break;
+            }
+            break;
+        case 9:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:

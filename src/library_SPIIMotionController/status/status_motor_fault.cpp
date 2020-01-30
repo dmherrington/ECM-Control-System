@@ -11,48 +11,11 @@ Status_MotorAxisFault::Status_MotorAxisFault(const Status_MotorAxisFault &copy):
 {
     currentAxis = copy.currentAxis;
     faultValue = copy.faultValue;
-    errorString = copy.errorString;
 }
 
 void Status_MotorAxisFault::assembleFaultString()
 {
-    errorString = "";
-    if(isHardwareEmergencyStop())
-        errorString+="|Hardware ESTOP";
-    if(isRightLimit())
-        errorString+="|Right Limit";
-    if(isLeftLimit())
-        errorString+="|Left Limit";
-    if(isNetworkError())
-        errorString+="|Network Error";
-    if(isOverheated())
-        errorString+="|Overheated";
-    if(isSWRightLimit())
-        errorString+="|SW Right Limit";
-    if(isSWLeftLimit())
-        errorString+="|SW Left Limit";
-    if(isPrimaryEncoderConnected())
-        errorString+="|Primary Encoder Connection";
-    if(isSecondaryEncoderConnected())
-        errorString+="|Secondary Encoder Connection";
-    if(isDriverAlarm())
-        errorString+="|Driver Alarm";
-    if(isPrimaryEncoderError())
-        errorString+="|Primary Encoder Error";
-    if(isSecondaryEncoderError())
-        errorString+="|Secondary Encoder Error";
-    if(isPositionError())
-        errorString+="|Position Error";
-    if(isCriticalPositionError())
-        errorString+="|Critical Position Error";
-    if(isVelocityLimit())
-        errorString+="|Velocity Limit";
-    if(isAccelerationLimit())
-        errorString+="|Acceleration Limit";
-    if(isCurrentLimit())
-        errorString+="|Current Limit";
-    if(isServoProcessorAlarm())
-        errorString+="|Servo Processor Failure";
+    std::string faultString = "";
 }
 
 void Status_MotorAxisFault::setAxis(const MotorAxis &axis)
@@ -65,12 +28,11 @@ MotorAxis Status_MotorAxisFault::getAxis() const
     return this->currentAxis;
 }
 
-bool Status_MotorAxisFault::updateMotorFaultState(const unsigned int &value)
+bool Status_MotorAxisFault::updateMotorFaultState(const int &value)
 {
     if(this->faultValue != value)
     {
         this->faultValue = value;
-        assembleFaultString();
         return true;
     }
     return false;
@@ -83,10 +45,6 @@ bool Status_MotorAxisFault::doesMotorFaultExist() const
     return false;
 }
 
-bool Status_MotorAxisFault::isHardwareEmergencyStop() const
-{
-    return faultValue & ACSC_SAFETY_ES;
-}
 bool Status_MotorAxisFault::isRightLimit() const
 {
     return faultValue & ACSC_SAFETY_RL;
@@ -154,71 +112,4 @@ bool Status_MotorAxisFault::isCurrentLimit() const
 bool Status_MotorAxisFault::isServoProcessorAlarm() const
 {
     return faultValue & ACSC_SAFETY_SP;
-}
-
-void Status_MotorAxisFault::getErrorDetails(unsigned int &code, std::string &errorString) const
-{
-    code = this->faultValue;
-    errorString = this->errorString;
-}
-
-std::string Status_MotorAxisFault::getErrorString() const
-{
-    return this->errorString;
-}
-
-unsigned int Status_MotorAxisFault::getErrorCode() const
-{
-    return this->faultValue;
-}
-
-
-Status_MotorFault::Status_MotorFault():
-    AbstractStatus(StatusTypes::STATUS_ALL_AXIS)
-{
-
-}
-
-Status_MotorFault::Status_MotorFault(const Status_MotorFault &copy):
-    AbstractStatus(copy)
-{
-    this->m_MotorAxisFault = copy.m_MotorAxisFault;
-}
-
-Status_MotorFault::~Status_MotorFault()
-{
-
-}
-
-bool Status_MotorFault::updateMotorAxisStatus(const std::vector<Status_MotorAxisFault> &status)
-{
-    bool axisChanged = false;
-    for(size_t index = 0; index < status.size(); index++)
-    {
-        Status_MotorAxisFault currentStatus = status.at(index);
-
-        std::map<MotorAxis, DataGetSetNotifier<Status_MotorAxisFault>*>::const_iterator iter = m_MotorAxisFault.find(currentStatus.getAxis());
-
-        if(iter != m_MotorAxisFault.end()) //item is already in the map and therefore we just need to update it
-        {
-            if(m_MotorAxisFault.at(currentStatus.getAxis())->set(currentStatus))
-            {
-                if(!axisChanged)
-                    axisChanged = true;
-            }
-        }
-        else {
-            DataGetSetNotifier<Status_MotorAxisFault>* newStatus = new DataGetSetNotifier<Status_MotorAxisFault>();
-            newStatus->set(currentStatus);
-            //insert it into the map
-            m_MotorAxisFault.insert(std::pair<MotorAxis, DataGetSetNotifier<Status_MotorAxisFault>*>(currentStatus.getAxis(), newStatus));
-            axisChanged = true;
-        }
-    }
-    return axisChanged;
-}
-
-Status_MotorAxisFault* Status_MotorFault::getMotorAxisStatus(const MotorAxis &axis)
-{
-
 }

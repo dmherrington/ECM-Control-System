@@ -98,31 +98,6 @@ bool SPIIProtocol::requestAxisStatus(const int &axisRequest, int &value)
     return rtnValidity;
 }
 
-bool SPIIProtocol::requestAxisMaskedSafety(const int &axisRequest, const int &port, int &value)
-{
-    if(m_SPIIDevice == nullptr)
-        return false;
-    bool rtnValidity = acsc_GetSafetyInput(*m_SPIIDevice.get(),axisRequest,port,&value,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
-    return rtnValidity;
-}
-
-bool SPIIProtocol::requestAxisSafety(const int &axisRequest, int &value)
-{
-    if(m_SPIIDevice == nullptr)
-        return false;
-    bool rtnValidity = acsc_GetSafetyInputPort(*m_SPIIDevice.get(),axisRequest,&value,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
-    return rtnValidity;
-}
-
-bool SPIIProtocol::clearMotionTerminationCodes(const int &axisClear)
-{
-    if(m_SPIIDevice == nullptr)
-        return false;
-
-    bool rtnValidity = acsc_FaultClear(*m_SPIIDevice.get(),axisClear,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
-    return rtnValidity;
-}
-
 bool SPIIProtocol::requestMotorStatus(const int &axisRequest, int &value)
 {
     if(m_SPIIDevice == nullptr)
@@ -137,29 +112,6 @@ bool SPIIProtocol::requestMotorFaults(const int &axisRequest, int &value)
     if(m_SPIIDevice == nullptr)
         return false;
     bool rtnValidity = acsc_GetFault(*m_SPIIDevice.get(),axisRequest,&value,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
-    return rtnValidity;
-}
-
-bool SPIIProtocol::requestMotorError(const int &axisRequest, int &value)
-{
-    if(m_SPIIDevice == nullptr)
-        return false;
-    bool rtnValidity = acsc_GetMotorError(*m_SPIIDevice.get(),axisRequest,&value,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
-    return rtnValidity;
-}
-
-bool SPIIProtocol::requestErrorString(const int &errorCode, std::string &errorString, const int &bufferSize)
-{
-    if(m_SPIIDevice == nullptr)
-        return false;
-
-    int bufferSent = bufferSize, bufferReceived = bufferSize;
-    char errorBuf[bufferSent];
-
-    bool rtnValidity = acsc_GetErrorString(*m_SPIIDevice.get(),errorCode,errorBuf,bufferSent,&bufferReceived);
-    errorString = std::string(errorBuf);
-    errorString.erase(errorString.begin() + bufferReceived - 1, errorString.end());
-
     return rtnValidity;
 }
 
@@ -418,9 +370,7 @@ bool SPIIProtocol::commandMotorEnable(const CommandMotorEnable &enable)
 
     if(changeAxisVector.size() > 1) //this would be a multiaxis enabling
     {
-        int* changeAxisArray = new int [m_SPIISettings.getAxisCount()];
-        for(unsigned int index = 0; index < m_SPIISettings.getAxisCount(); index++)
-            changeAxisArray[index] = -1;
+        int* changeAxisArray = new int [changeAxisVector.size()];
         std::copy(changeAxisVector.begin(), changeAxisVector.end(), changeAxisArray);
         rtnValidity = acsc_EnableM(*m_SPIIDevice.get(),changeAxisArray,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
         delete [] changeAxisArray;
