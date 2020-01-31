@@ -19,7 +19,6 @@ Widget_MunkPowerSupply::Widget_MunkPowerSupply(MunkPowerSupply *obj, QWidget *pa
 
     connect(ui->segmentWidget, SIGNAL(signal_SegmentDataModified()), this, SLOT(slot_SegmentDataModified()));
 
-
     ui->segmentWidget->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->segmentWidget, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(slot_onCustomContextMenu(const QPoint &)));
 
@@ -51,6 +50,12 @@ registers_Munk::SegmentTimeDetailed  Widget_MunkPowerSupply::getSegmentRegister(
     return dataSegment;
 }
 
+void Widget_MunkPowerSupply::setExpandedMunkDriverModes(const bool &expandModes)
+{
+    shouldExpandModes = expandModes;
+    ui->segmentWidget->setExpandedMunkDriverModes(expandModes);
+}
+
 void Widget_MunkPowerSupply::slot_onCustomContextMenu(const QPoint &point)
 {
     QMenu contextMenu(tr("Context menu"), this);
@@ -69,7 +74,7 @@ void Widget_MunkPowerSupply::contextMenu_AddSegment_released()
 
 void Widget_MunkPowerSupply::addNewSegment()
 {
-    ui->segmentWidget->addNewSegment();
+    ui->segmentWidget->addNewSegment(shouldExpandModes);
     ui->segmentWidget->cbiSegmentDataInterface_UpdatedData();
 }
 
@@ -87,6 +92,7 @@ void Widget_MunkPowerSupply::addNewSegment()
 void Widget_MunkPowerSupply::slot_ParameterTransmissionUpdate(const int &transmitted, const int &required)
 {
     double percentage = ((double)transmitted/(double)required) * 100.0;
+    UNUSED(percentage);
     //ui->progressBar->setValue(percentage);
 }
 

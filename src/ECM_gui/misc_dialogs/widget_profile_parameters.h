@@ -29,6 +29,9 @@ public:
 
     void loadFromProfileConfiguration(const ECMCommand_AbstractProfileConfigPtr config) override;
 
+public:
+    void setExpandedMunkDriverModes(const bool &expandModes);
+
 private:
     Ui::Widget_ProfileParameters *ui;
 

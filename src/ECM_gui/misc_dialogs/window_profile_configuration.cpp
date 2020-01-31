@@ -453,3 +453,13 @@ void Window_ProfileConfiguration::on_pushButton_SyncCurrentBuffers_released()
 {
     m_API->m_MotionController->executeSynchronizationRequest();
 }
+
+void Window_ProfileConfiguration::on_checkBox_ShouldExpandMunkModes_toggled(bool checked)
+{
+    for(int tabIndex = 0; tabIndex < ui->tabWidget_OperationParameters->count(); tabIndex++)
+    {
+        if(dynamic_cast<Widget_AbstractProfile*>(ui->tabWidget_OperationParameters->widget(tabIndex))->getProfileType() == (ProfileOpType::OPERATION))
+            dynamic_cast<Widget_ProfileParameters*>(ui->tabWidget_OperationParameters->widget(tabIndex))->setExpandedMunkDriverModes(checked);
+    }
+
+}

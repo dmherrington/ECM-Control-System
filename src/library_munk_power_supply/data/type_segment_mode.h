@@ -78,11 +78,19 @@ inline uint32_t SegmentModeToBitArray(const SegmentMode &type, const uint32_t &b
     return ba;
 }
 
+inline std::vector<std::string> getAbbreviatedListOfSegmentModes()
+{
+    std::vector<std::string> str;
+    str.push_back(data_Munk::SegmentModeToString(SegmentMode::DEAD));
+    str.push_back(data_Munk::SegmentModeToString(SegmentMode::FORWARD));
+    return str;
+}
+
 //!
-//! \brief getListOfSegmentMode
+//! \brief getExpandedListOfSegmentModes
 //! \return
 //!
-inline std::vector<std::string> getListOfSegmentMode()
+inline std::vector<std::string> getExpandedListOfSegmentModes()
 {
     std::vector<std::string> str;
     str.push_back(data_Munk::SegmentModeToString(SegmentMode::DEAD));
