@@ -181,14 +181,15 @@ std::vector<uint8_t> RigolTCPLink::WriteBytesRequest(const QByteArray &data) con
     std::vector<uint8_t> buffer;
 
     std::lock_guard<std::mutex> lock(m_DataMutex);
-
-    m_socket->write(data);
-    if (m_socket->waitForBytesWritten()) {
-        if (m_socket->waitForReadyRead()) {
-            buffer = this->ProcessResponse();
+    if(isConnected())
+    {
+        m_socket->write(data);
+        if (m_socket->waitForBytesWritten()) {
+            if (m_socket->waitForReadyRead()) {
+                buffer = this->ProcessResponse();
+            }
         }
     }
-
     return buffer;
 }
 

@@ -194,7 +194,8 @@ FORMS += \
     misc_dialogs/dialog_run_statistics.ui \
     misc_dialogs/widget_sofware_versioning.ui \
     misc_dialogs/dialog_software_version.ui \
-    misc_dialogs/dialog_settings_editor.ui
+    misc_dialogs/dialog_settings_editor.ui \
+    ECM_controller_gui.ui
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

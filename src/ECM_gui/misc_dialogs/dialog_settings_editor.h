@@ -14,10 +14,10 @@ class Dialog_SettingsEditor : public QDialog
     Q_OBJECT
 
 public:
-    explicit Dialog_SettingsEditor(QWidget *parent = 0);
+    explicit Dialog_SettingsEditor(QWidget *parent = nullptr);
     ~Dialog_SettingsEditor();
 
-    double getPlottingTimeout() const;
+    double getPlottingDuration() const;
 private:
     void readSettings();
 

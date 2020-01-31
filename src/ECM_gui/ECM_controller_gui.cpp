@@ -358,7 +358,7 @@ void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalStrin
 
     common::EnvironmentTime rightWindow = state.getObservationTime();
     QDateTime currentRightWindow = rightWindow.ToQTDateTime();
-    QDateTime currentLeftWindow = currentRightWindow.addSecs(-10.0);
+    QDateTime currentLeftWindow = currentRightWindow.addSecs(static_cast<qint64>(plottingWindow * -1.0));
     ui->widget_primaryPlot->ViewWindow(currentLeftWindow,currentRightWindow);
 
     if(valueChanged)
@@ -1210,6 +1210,7 @@ void ECMControllerGUI::on_actionSettings_triggered()
     if(dialogWindow.exec() == QDialog::Accepted)
     {
         //In here we would grab the current settings
+        plottingWindow = dialogWindow.getPlottingDuration();
     }
 
 

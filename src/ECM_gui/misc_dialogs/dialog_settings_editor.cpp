@@ -42,7 +42,7 @@ void Dialog_SettingsEditor::slot_EventAccepted()
     settings.sync();
 }
 
-double Dialog_SettingsEditor::getPlottingTimeout() const
+double Dialog_SettingsEditor::getPlottingDuration() const
 {
-    return ui->doubleSpinBox_PlotClearingTimeout->value();
+    return ui->doubleSpinBox_plotDurationWindow->value();
 }

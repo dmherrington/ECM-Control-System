@@ -204,6 +204,8 @@ private:
 
     ECMPlotCollection m_PlotCollection;
 
+    double plottingWindow = 10;
+
     ECM_API* m_API;
 
     /*

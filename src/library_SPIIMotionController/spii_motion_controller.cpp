@@ -4,6 +4,8 @@
 SPIIMotionController::SPIIMotionController()
 {
     std::vector<MotorAxis> availableAxis;
+    availableAxis.push_back(MotorAxis::X);
+    availableAxis.push_back(MotorAxis::Y);
     availableAxis.push_back(MotorAxis::Z);
 
     m_CommsMarshaler = std::make_shared<Comms::CommsMarshaler>();

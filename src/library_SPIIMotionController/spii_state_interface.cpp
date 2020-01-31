@@ -30,6 +30,24 @@ std::vector<double> SPIIStateInterface::getAxisPositionVector() const
     {
         currentPositions.push_back(it->second.getAxisPosition());
     }
+
+    return currentPositions;
+}
+
+bool SPIIStateInterface::getAxisPosition(const MotorAxis &axis, double &position) const
+{
+    std::map<MotorAxis, Status_AxisState>::const_iterator it;
+
+    bool validRequest = false;
+
+    it = m_AxisState.find(axis);
+    if (it != m_AxisState.end())
+    {
+        validRequest = true;
+        position = it->second.getAxisPosition();
+    }
+
+    return validRequest;
 }
 
 void SPIIStateInterface::setHomeInidcated(const bool &val)
@@ -95,9 +113,7 @@ bool SPIIStateInterface::areAllMotorsEnabled() const
 
 bool SPIIStateInterface::isEStopEngaged() const
 {
-    bool EStopEngaged = false;
-
-    return EStopEngaged;
+    return m_SystemFaults.get().isHardwareEmergencyStop();
 }
 
 

@@ -191,6 +191,7 @@ public:
     }
 public:
     std::vector<double> getAxisPositionVector() const;
+    bool getAxisPosition(const MotorAxis &axis, double &position) const;
 
 public:
     bool areAnyMotorsInMotion() const;
