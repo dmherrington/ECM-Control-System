@@ -15,6 +15,9 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     applicableAxis.push_back(MotorAxis::Y);
     applicableAxis.push_back(MotorAxis::Z);
 
+    Dialog_SettingsEditor settingsEditor;
+    plottingWindow = settingsEditor.getPlottingDuration();
+
     /*
      * Let us first setup the operational timers as related to
      * operation and the configuration.
