@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_segment_time_data.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.1
+** Created by: Qt User Interface Compiler version 5.12.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,15 +10,12 @@
 #define UI_WIDGET_SEGMENT_TIME_DATA_H
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
-#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QWidget>
@@ -49,7 +46,7 @@ public:
     void setupUi(QWidget *WidgetSegmentTimeData)
     {
         if (WidgetSegmentTimeData->objectName().isEmpty())
-            WidgetSegmentTimeData->setObjectName(QStringLiteral("WidgetSegmentTimeData"));
+            WidgetSegmentTimeData->setObjectName(QString::fromUtf8("WidgetSegmentTimeData"));
         WidgetSegmentTimeData->resize(200, 216);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
@@ -57,7 +54,7 @@ public:
         sizePolicy.setHeightForWidth(WidgetSegmentTimeData->sizePolicy().hasHeightForWidth());
         WidgetSegmentTimeData->setSizePolicy(sizePolicy);
         WidgetSegmentTimeData->setMaximumSize(QSize(200, 216));
-        WidgetSegmentTimeData->setStyleSheet(QLatin1String("QMainWindow{\n"
+        WidgetSegmentTimeData->setStyleSheet(QString::fromUtf8("QMainWindow{\n"
 "background-color:#1d1d1d;\n"
 "}\n"
 "\n"
@@ -175,9 +172,9 @@ public:
 "width:20px;\n"
 "}"));
         gridLayout_2 = new QGridLayout(WidgetSegmentTimeData);
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
         frame = new QFrame(WidgetSegmentTimeData);
-        frame->setObjectName(QStringLiteral("frame"));
+        frame->setObjectName(QString::fromUtf8("frame"));
         QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -187,9 +184,9 @@ public:
         frame->setFrameShadow(QFrame::Raised);
         frame->setLineWidth(2);
         gridLayout = new QGridLayout(frame);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         label_SegmentName = new QLabel(frame);
-        label_SegmentName->setObjectName(QStringLiteral("label_SegmentName"));
+        label_SegmentName->setObjectName(QString::fromUtf8("label_SegmentName"));
         QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Fixed);
         sizePolicy2.setHorizontalStretch(0);
         sizePolicy2.setVerticalStretch(0);
@@ -211,9 +208,9 @@ public:
         gridLayout->addWidget(label_SegmentName, 0, 0, 1, 1);
 
         formLayout = new QFormLayout();
-        formLayout->setObjectName(QStringLiteral("formLayout"));
+        formLayout->setObjectName(QString::fromUtf8("formLayout"));
         label = new QLabel(frame);
-        label->setObjectName(QStringLiteral("label"));
+        label->setObjectName(QString::fromUtf8("label"));
         QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Preferred);
         sizePolicy3.setHorizontalStretch(0);
         sizePolicy3.setVerticalStretch(0);
@@ -225,7 +222,7 @@ public:
         formLayout->setWidget(0, QFormLayout::LabelRole, label);
 
         comboBox_Mode = new QComboBox(frame);
-        comboBox_Mode->setObjectName(QStringLiteral("comboBox_Mode"));
+        comboBox_Mode->setObjectName(QString::fromUtf8("comboBox_Mode"));
         QSizePolicy sizePolicy4(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
         sizePolicy4.setHorizontalStretch(0);
         sizePolicy4.setVerticalStretch(0);
@@ -240,9 +237,9 @@ public:
         gridLayout->addLayout(formLayout, 1, 0, 1, 1);
 
         formLayout_2 = new QFormLayout();
-        formLayout_2->setObjectName(QStringLiteral("formLayout_2"));
+        formLayout_2->setObjectName(QString::fromUtf8("formLayout_2"));
         label_2 = new QLabel(frame);
-        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setObjectName(QString::fromUtf8("label_2"));
         sizePolicy3.setHeightForWidth(label_2->sizePolicy().hasHeightForWidth());
         label_2->setSizePolicy(sizePolicy3);
         label_2->setMinimumSize(QSize(43, 0));
@@ -251,7 +248,7 @@ public:
         formLayout_2->setWidget(0, QFormLayout::LabelRole, label_2);
 
         doubleSpinBox_Voltage = new QDoubleSpinBox(frame);
-        doubleSpinBox_Voltage->setObjectName(QStringLiteral("doubleSpinBox_Voltage"));
+        doubleSpinBox_Voltage->setObjectName(QString::fromUtf8("doubleSpinBox_Voltage"));
         doubleSpinBox_Voltage->setEnabled(true);
         sizePolicy4.setHeightForWidth(doubleSpinBox_Voltage->sizePolicy().hasHeightForWidth());
         doubleSpinBox_Voltage->setSizePolicy(sizePolicy4);
@@ -260,7 +257,7 @@ public:
         QFont font1;
         font1.setPointSize(10);
         doubleSpinBox_Voltage->setFont(font1);
-        doubleSpinBox_Voltage->setStyleSheet(QLatin1String("QMainWindow{\n"
+        doubleSpinBox_Voltage->setStyleSheet(QString::fromUtf8("QMainWindow{\n"
 "background-color:#1d1d1d;\n"
 "}\n"
 "\n"
@@ -383,7 +380,7 @@ public:
 "}"));
         doubleSpinBox_Voltage->setAlignment(Qt::AlignCenter);
         doubleSpinBox_Voltage->setDecimals(2);
-        doubleSpinBox_Voltage->setMaximum(40);
+        doubleSpinBox_Voltage->setMaximum(40.000000000000000);
 
         formLayout_2->setWidget(0, QFormLayout::FieldRole, doubleSpinBox_Voltage);
 
@@ -391,9 +388,9 @@ public:
         gridLayout->addLayout(formLayout_2, 2, 0, 1, 1);
 
         formLayout_3 = new QFormLayout();
-        formLayout_3->setObjectName(QStringLiteral("formLayout_3"));
+        formLayout_3->setObjectName(QString::fromUtf8("formLayout_3"));
         label_3 = new QLabel(frame);
-        label_3->setObjectName(QStringLiteral("label_3"));
+        label_3->setObjectName(QString::fromUtf8("label_3"));
         sizePolicy3.setHeightForWidth(label_3->sizePolicy().hasHeightForWidth());
         label_3->setSizePolicy(sizePolicy3);
         label_3->setMinimumSize(QSize(43, 0));
@@ -402,7 +399,7 @@ public:
         formLayout_3->setWidget(0, QFormLayout::LabelRole, label_3);
 
         doubleSpinBox_Current = new QDoubleSpinBox(frame);
-        doubleSpinBox_Current->setObjectName(QStringLiteral("doubleSpinBox_Current"));
+        doubleSpinBox_Current->setObjectName(QString::fromUtf8("doubleSpinBox_Current"));
         sizePolicy4.setHeightForWidth(doubleSpinBox_Current->sizePolicy().hasHeightForWidth());
         doubleSpinBox_Current->setSizePolicy(sizePolicy4);
         doubleSpinBox_Current->setMinimumSize(QSize(90, 0));
@@ -410,7 +407,7 @@ public:
         doubleSpinBox_Current->setFont(font1);
         doubleSpinBox_Current->setAlignment(Qt::AlignCenter);
         doubleSpinBox_Current->setDecimals(2);
-        doubleSpinBox_Current->setMaximum(2000);
+        doubleSpinBox_Current->setMaximum(2000.000000000000000);
 
         formLayout_3->setWidget(0, QFormLayout::FieldRole, doubleSpinBox_Current);
 
@@ -418,10 +415,10 @@ public:
         gridLayout->addLayout(formLayout_3, 3, 0, 1, 1);
 
         formLayout_4 = new QFormLayout();
-        formLayout_4->setObjectName(QStringLiteral("formLayout_4"));
+        formLayout_4->setObjectName(QString::fromUtf8("formLayout_4"));
         formLayout_4->setFormAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
         label_4 = new QLabel(frame);
-        label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setObjectName(QString::fromUtf8("label_4"));
         sizePolicy3.setHeightForWidth(label_4->sizePolicy().hasHeightForWidth());
         label_4->setSizePolicy(sizePolicy3);
         label_4->setMinimumSize(QSize(43, 0));
@@ -430,7 +427,7 @@ public:
         formLayout_4->setWidget(0, QFormLayout::LabelRole, label_4);
 
         doubleSpinBox_Time = new QDoubleSpinBox(frame);
-        doubleSpinBox_Time->setObjectName(QStringLiteral("doubleSpinBox_Time"));
+        doubleSpinBox_Time->setObjectName(QString::fromUtf8("doubleSpinBox_Time"));
         doubleSpinBox_Time->setEnabled(true);
         sizePolicy4.setHeightForWidth(doubleSpinBox_Time->sizePolicy().hasHeightForWidth());
         doubleSpinBox_Time->setSizePolicy(sizePolicy4);
@@ -439,9 +436,9 @@ public:
         doubleSpinBox_Time->setFont(font1);
         doubleSpinBox_Time->setAlignment(Qt::AlignCenter);
         doubleSpinBox_Time->setDecimals(1);
-        doubleSpinBox_Time->setMinimum(0.1);
-        doubleSpinBox_Time->setMaximum(1270);
-        doubleSpinBox_Time->setSingleStep(0.1);
+        doubleSpinBox_Time->setMinimum(0.100000000000000);
+        doubleSpinBox_Time->setMaximum(1270.000000000000000);
+        doubleSpinBox_Time->setSingleStep(0.100000000000000);
 
         formLayout_4->setWidget(0, QFormLayout::FieldRole, doubleSpinBox_Time);
 
@@ -449,7 +446,7 @@ public:
         gridLayout->addLayout(formLayout_4, 4, 0, 1, 1);
 
         pushButton = new QPushButton(frame);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
         pushButton->setMinimumSize(QSize(110, 0));
         pushButton->setMaximumSize(QSize(200, 16777215));
         pushButton->setFont(font1);

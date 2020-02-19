@@ -34,7 +34,7 @@ class ECM_APISHARED_EXPORT ECM_API: public QObject
     Q_OBJECT
 
 public:
-    ECM_API();
+    ECM_API(std::vector<MotorAxis> &availableAxes);
 
     ~ECM_API() = default;
 

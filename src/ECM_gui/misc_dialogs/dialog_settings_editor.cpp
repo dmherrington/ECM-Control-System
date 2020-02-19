@@ -26,6 +26,13 @@ void Dialog_SettingsEditor::readSettings()
 
     double plotting_timeout = settings.value("plotting_duration", false).toDouble();
     ui->doubleSpinBox_plotDurationWindow->setValue(plotting_timeout);
+
+    bool isXAvailable = settings.value("availableAxis_X", false).toBool();
+    ui->radioButton_X->setChecked(isXAvailable);
+    bool isYAvailable = settings.value("availableAxis_X", false).toBool();
+    ui->radioButton_Y->setChecked(isYAvailable);
+    bool isZAvailable = settings.value("availableAxis_X", false).toBool();
+    ui->radioButton_Z->setChecked(isZAvailable);
 }
 
 void Dialog_SettingsEditor::closeEvent(QCloseEvent *event)
@@ -39,10 +46,28 @@ void Dialog_SettingsEditor::slot_EventAccepted()
 
     settings.setValue("alarm_thermocouple1",ui->doubleSpinBox_alarmThermocouple1->value());
     settings.setValue("plotting_duration",ui->doubleSpinBox_plotDurationWindow->value());
+
+    settings.setValue("availableAxis_X",ui->radioButton_Z->isChecked());
+    settings.setValue("availableAxis_Y",ui->radioButton_Z->isChecked());
+    settings.setValue("availableAxis_Z",ui->radioButton_Z->isChecked());
+
     settings.sync();
 }
 
 double Dialog_SettingsEditor::getPlottingDuration() const
 {
     return ui->doubleSpinBox_plotDurationWindow->value();
+}
+
+std::vector<MotorAxis> Dialog_SettingsEditor::whichAxesAreAvailable() const
+{
+    std::vector<MotorAxis> rtnAxis;
+    if(ui->radioButton_X->isChecked())
+        rtnAxis.push_back(MotorAxis::X);
+    if(ui->radioButton_Y->isChecked())
+        rtnAxis.push_back(MotorAxis::Y);
+    if(ui->radioButton_Z->isChecked())
+        rtnAxis.push_back(MotorAxis::Z);
+
+
 }

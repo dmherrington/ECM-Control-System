@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'dialog_run_statistics.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.1
+** Created by: Qt User Interface Compiler version 5.12.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,13 +10,10 @@
 #define UI_DIALOG_RUN_STATISTICS_H
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QGridLayout>
-#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 
@@ -35,9 +32,9 @@ public:
     void setupUi(QDialog *Dialog_RunStatistics)
     {
         if (Dialog_RunStatistics->objectName().isEmpty())
-            Dialog_RunStatistics->setObjectName(QStringLiteral("Dialog_RunStatistics"));
+            Dialog_RunStatistics->setObjectName(QString::fromUtf8("Dialog_RunStatistics"));
         Dialog_RunStatistics->resize(368, 153);
-        Dialog_RunStatistics->setStyleSheet(QLatin1String("QMenuBar{\n"
+        Dialog_RunStatistics->setStyleSheet(QString::fromUtf8("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
 "	font: 12pt \"MS Shell Dlg 2\";\n"
@@ -149,13 +146,13 @@ public:
 "width:20px;\n"
 "}"));
         gridLayout = new QGridLayout(Dialog_RunStatistics);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         label_dailyTime = new QLabel(Dialog_RunStatistics);
-        label_dailyTime->setObjectName(QStringLiteral("label_dailyTime"));
+        label_dailyTime->setObjectName(QString::fromUtf8("label_dailyTime"));
         QFont font;
         font.setPointSize(12);
         label_dailyTime->setFont(font);
-        label_dailyTime->setStyleSheet(QLatin1String("QMenuBar{\n"
+        label_dailyTime->setStyleSheet(QString::fromUtf8("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
 "	font: 12pt \"MS Shell Dlg 2\";\n"
@@ -277,7 +274,7 @@ public:
         gridLayout->addWidget(label_dailyTime, 0, 0, 1, 1);
 
         lineEdit_dailyTime = new QLineEdit(Dialog_RunStatistics);
-        lineEdit_dailyTime->setObjectName(QStringLiteral("lineEdit_dailyTime"));
+        lineEdit_dailyTime->setObjectName(QString::fromUtf8("lineEdit_dailyTime"));
         lineEdit_dailyTime->setEnabled(false);
         lineEdit_dailyTime->setMinimumSize(QSize(350, 30));
         lineEdit_dailyTime->setFont(font);
@@ -286,14 +283,14 @@ public:
         gridLayout->addWidget(lineEdit_dailyTime, 1, 0, 1, 1);
 
         label_totalTime = new QLabel(Dialog_RunStatistics);
-        label_totalTime->setObjectName(QStringLiteral("label_totalTime"));
+        label_totalTime->setObjectName(QString::fromUtf8("label_totalTime"));
         label_totalTime->setFont(font);
         label_totalTime->setAlignment(Qt::AlignCenter);
 
         gridLayout->addWidget(label_totalTime, 2, 0, 1, 1);
 
         lineEdit_totalTime = new QLineEdit(Dialog_RunStatistics);
-        lineEdit_totalTime->setObjectName(QStringLiteral("lineEdit_totalTime"));
+        lineEdit_totalTime->setObjectName(QString::fromUtf8("lineEdit_totalTime"));
         lineEdit_totalTime->setEnabled(false);
         lineEdit_totalTime->setMinimumSize(QSize(350, 30));
         lineEdit_totalTime->setFont(font);
@@ -302,7 +299,7 @@ public:
         gridLayout->addWidget(lineEdit_totalTime, 3, 0, 1, 1);
 
         buttonBox = new QDialogButtonBox(Dialog_RunStatistics);
-        buttonBox->setObjectName(QStringLiteral("buttonBox"));
+        buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);

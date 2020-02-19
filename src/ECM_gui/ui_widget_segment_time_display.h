@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_segment_time_display.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.1
+** Created by: Qt User Interface Compiler version 5.12.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,12 +10,9 @@
 #define UI_WIDGET_SEGMENT_TIME_DISPLAY_H
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QScrollArea>
 #include <QtWidgets/QWidget>
 
@@ -33,7 +30,7 @@ public:
     void setupUi(QWidget *WidgetSegmentTimeDisplay)
     {
         if (WidgetSegmentTimeDisplay->objectName().isEmpty())
-            WidgetSegmentTimeDisplay->setObjectName(QStringLiteral("WidgetSegmentTimeDisplay"));
+            WidgetSegmentTimeDisplay->setObjectName(QString::fromUtf8("WidgetSegmentTimeDisplay"));
         WidgetSegmentTimeDisplay->resize(200, 206);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
         sizePolicy.setHorizontalStretch(0);
@@ -42,7 +39,7 @@ public:
         WidgetSegmentTimeDisplay->setSizePolicy(sizePolicy);
         WidgetSegmentTimeDisplay->setMinimumSize(QSize(200, 206));
         WidgetSegmentTimeDisplay->setMaximumSize(QSize(600, 206));
-        WidgetSegmentTimeDisplay->setStyleSheet(QLatin1String("QMainWindow{\n"
+        WidgetSegmentTimeDisplay->setStyleSheet(QString::fromUtf8("QMainWindow{\n"
 "background-color:#1d1d1d;\n"
 "}\n"
 "\n"
@@ -164,11 +161,11 @@ public:
 "width:20px;\n"
 "}"));
         gridLayout = new QGridLayout(WidgetSegmentTimeDisplay);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         gridLayout->setVerticalSpacing(0);
         gridLayout->setContentsMargins(2, 0, 2, 0);
         scrollArea = new QScrollArea(WidgetSegmentTimeDisplay);
-        scrollArea->setObjectName(QStringLiteral("scrollArea"));
+        scrollArea->setObjectName(QString::fromUtf8("scrollArea"));
         sizePolicy.setHeightForWidth(scrollArea->sizePolicy().hasHeightForWidth());
         scrollArea->setSizePolicy(sizePolicy);
         scrollArea->setMinimumSize(QSize(0, 0));
@@ -180,7 +177,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollArea->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
         scrollAreaWidgetContents = new QWidget();
-        scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
+        scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
         scrollAreaWidgetContents->setGeometry(QRect(0, 0, 194, 204));
         QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Minimum);
         sizePolicy1.setHorizontalStretch(0);
@@ -188,12 +185,12 @@ public:
         sizePolicy1.setHeightForWidth(scrollAreaWidgetContents->sizePolicy().hasHeightForWidth());
         scrollAreaWidgetContents->setSizePolicy(sizePolicy1);
         gridLayout_2 = new QGridLayout(scrollAreaWidgetContents);
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
         gridLayout_2->setVerticalSpacing(0);
         gridLayout_2->setContentsMargins(8, 0, 8, 5);
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(2);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
 
         gridLayout_2->addLayout(horizontalLayout, 0, 0, 1, 1);
 

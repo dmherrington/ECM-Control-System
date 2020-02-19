@@ -62,10 +62,17 @@ public:
 
 public:
     //!
-    //! \brief setEnableAxis
+    //! \brief addAxis
     //! \param axis
     //!
     void addAxis(const MotorAxis &axis);
+
+    //!
+    //! \brief addAxis
+    //! \param axes
+    //!
+    void addAxis(const std::vector<MotorAxis> &axes);
+
 
     //!
     //! \brief getEnableAxis

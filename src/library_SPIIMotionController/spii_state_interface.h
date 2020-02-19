@@ -49,9 +49,17 @@ public:
 class SPIIStateInterface
 {
 public:
-    SPIIStateInterface(const std::vector<MotorAxis> &availableAxis);
+    SPIIStateInterface(const std::vector<MotorAxis> &availableAxes);
 
     ~SPIIStateInterface();
+
+public:
+    void updateAvailableAxes(const std::vector<MotorAxis> &availableAxes);
+
+    std::vector<MotorAxis> getAvailableAxes() const
+    {
+        return m_AvailableAxes;
+    }
 
 public:
     void connectCallback(SPIICallback_StateInterface *cb)
@@ -233,6 +241,9 @@ current program matches what the user witnesses. Also, this can be used to resto
 of the program.*/
 
     std::map<MotorAxis,Status_AxisState> m_AxisState;
+
+private:
+    std::vector<MotorAxis> m_AvailableAxes;
 
 };
 

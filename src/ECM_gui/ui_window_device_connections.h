@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'window_device_connections.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.1
+** Created by: Qt User Interface Compiler version 5.12.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -12,11 +12,9 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
@@ -83,7 +81,7 @@ public:
     void setupUi(QMainWindow *Window_DeviceConnections)
     {
         if (Window_DeviceConnections->objectName().isEmpty())
-            Window_DeviceConnections->setObjectName(QStringLiteral("Window_DeviceConnections"));
+            Window_DeviceConnections->setObjectName(QString::fromUtf8("Window_DeviceConnections"));
         Window_DeviceConnections->resize(450, 350);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
@@ -92,7 +90,7 @@ public:
         Window_DeviceConnections->setSizePolicy(sizePolicy);
         Window_DeviceConnections->setMinimumSize(QSize(450, 350));
         Window_DeviceConnections->setMaximumSize(QSize(450, 350));
-        Window_DeviceConnections->setStyleSheet(QLatin1String("QMenuBar{\n"
+        Window_DeviceConnections->setStyleSheet(QString::fromUtf8("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
 "	font: 12pt \"MS Shell Dlg 2\";\n"
@@ -210,21 +208,21 @@ public:
 "width:20px;\n"
 "}"));
         actionOpen = new QAction(Window_DeviceConnections);
-        actionOpen->setObjectName(QStringLiteral("actionOpen"));
+        actionOpen->setObjectName(QString::fromUtf8("actionOpen"));
         actionSave = new QAction(Window_DeviceConnections);
-        actionSave->setObjectName(QStringLiteral("actionSave"));
+        actionSave->setObjectName(QString::fromUtf8("actionSave"));
         actionSave_As = new QAction(Window_DeviceConnections);
-        actionSave_As->setObjectName(QStringLiteral("actionSave_As"));
+        actionSave_As->setObjectName(QString::fromUtf8("actionSave_As"));
         actionClose = new QAction(Window_DeviceConnections);
-        actionClose->setObjectName(QStringLiteral("actionClose"));
+        actionClose->setObjectName(QString::fromUtf8("actionClose"));
         centralwidget = new QWidget(Window_DeviceConnections);
-        centralwidget->setObjectName(QStringLiteral("centralwidget"));
+        centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         widget_GalilConnection = new LED(centralwidget);
-        widget_GalilConnection->setObjectName(QStringLiteral("widget_GalilConnection"));
+        widget_GalilConnection->setObjectName(QString::fromUtf8("widget_GalilConnection"));
         QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -236,7 +234,7 @@ public:
         horizontalLayout->addWidget(widget_GalilConnection);
 
         label_GalilConnection = new QLabel(centralwidget);
-        label_GalilConnection->setObjectName(QStringLiteral("label_GalilConnection"));
+        label_GalilConnection->setObjectName(QString::fromUtf8("label_GalilConnection"));
         sizePolicy1.setHeightForWidth(label_GalilConnection->sizePolicy().hasHeightForWidth());
         label_GalilConnection->setSizePolicy(sizePolicy1);
         label_GalilConnection->setMinimumSize(QSize(200, 30));
@@ -249,7 +247,7 @@ public:
         horizontalLayout->addWidget(label_GalilConnection);
 
         lineEdit_IPMC = new QLineEdit(centralwidget);
-        lineEdit_IPMC->setObjectName(QStringLiteral("lineEdit_IPMC"));
+        lineEdit_IPMC->setObjectName(QString::fromUtf8("lineEdit_IPMC"));
         sizePolicy1.setHeightForWidth(lineEdit_IPMC->sizePolicy().hasHeightForWidth());
         lineEdit_IPMC->setSizePolicy(sizePolicy1);
         lineEdit_IPMC->setMinimumSize(QSize(100, 0));
@@ -260,7 +258,7 @@ public:
         horizontalLayout->addWidget(lineEdit_IPMC);
 
         pushButton_connectMC = new QPushButton(centralwidget);
-        pushButton_connectMC->setObjectName(QStringLiteral("pushButton_connectMC"));
+        pushButton_connectMC->setObjectName(QString::fromUtf8("pushButton_connectMC"));
         pushButton_connectMC->setMinimumSize(QSize(75, 25));
         pushButton_connectMC->setMaximumSize(QSize(75, 25));
 
@@ -270,9 +268,9 @@ public:
         gridLayout->addLayout(horizontalLayout, 0, 0, 1, 1);
 
         horizontalLayout_5 = new QHBoxLayout();
-        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
         widget_WestinghouseConnection = new LED(centralwidget);
-        widget_WestinghouseConnection->setObjectName(QStringLiteral("widget_WestinghouseConnection"));
+        widget_WestinghouseConnection->setObjectName(QString::fromUtf8("widget_WestinghouseConnection"));
         sizePolicy1.setHeightForWidth(widget_WestinghouseConnection->sizePolicy().hasHeightForWidth());
         widget_WestinghouseConnection->setSizePolicy(sizePolicy1);
         widget_WestinghouseConnection->setMinimumSize(QSize(30, 30));
@@ -281,7 +279,7 @@ public:
         horizontalLayout_5->addWidget(widget_WestinghouseConnection);
 
         label_WestinghouseConnection = new QLabel(centralwidget);
-        label_WestinghouseConnection->setObjectName(QStringLiteral("label_WestinghouseConnection"));
+        label_WestinghouseConnection->setObjectName(QString::fromUtf8("label_WestinghouseConnection"));
         sizePolicy1.setHeightForWidth(label_WestinghouseConnection->sizePolicy().hasHeightForWidth());
         label_WestinghouseConnection->setSizePolicy(sizePolicy1);
         label_WestinghouseConnection->setMinimumSize(QSize(200, 30));
@@ -292,7 +290,7 @@ public:
         horizontalLayout_5->addWidget(label_WestinghouseConnection);
 
         comboBox_PortPump = new QComboBox(centralwidget);
-        comboBox_PortPump->setObjectName(QStringLiteral("comboBox_PortPump"));
+        comboBox_PortPump->setObjectName(QString::fromUtf8("comboBox_PortPump"));
         sizePolicy1.setHeightForWidth(comboBox_PortPump->sizePolicy().hasHeightForWidth());
         comboBox_PortPump->setSizePolicy(sizePolicy1);
         comboBox_PortPump->setMinimumSize(QSize(100, 0));
@@ -301,7 +299,7 @@ public:
         horizontalLayout_5->addWidget(comboBox_PortPump);
 
         pushButton_connectPump = new QPushButton(centralwidget);
-        pushButton_connectPump->setObjectName(QStringLiteral("pushButton_connectPump"));
+        pushButton_connectPump->setObjectName(QString::fromUtf8("pushButton_connectPump"));
         pushButton_connectPump->setMinimumSize(QSize(75, 25));
         pushButton_connectPump->setMaximumSize(QSize(75, 25));
 
@@ -311,9 +309,9 @@ public:
         gridLayout->addLayout(horizontalLayout_5, 1, 0, 1, 1);
 
         horizontalLayout_4 = new QHBoxLayout();
-        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
         widget_MunkConnection = new LED(centralwidget);
-        widget_MunkConnection->setObjectName(QStringLiteral("widget_MunkConnection"));
+        widget_MunkConnection->setObjectName(QString::fromUtf8("widget_MunkConnection"));
         sizePolicy1.setHeightForWidth(widget_MunkConnection->sizePolicy().hasHeightForWidth());
         widget_MunkConnection->setSizePolicy(sizePolicy1);
         widget_MunkConnection->setMinimumSize(QSize(30, 30));
@@ -322,7 +320,7 @@ public:
         horizontalLayout_4->addWidget(widget_MunkConnection);
 
         label_MunkConnection = new QLabel(centralwidget);
-        label_MunkConnection->setObjectName(QStringLiteral("label_MunkConnection"));
+        label_MunkConnection->setObjectName(QString::fromUtf8("label_MunkConnection"));
         sizePolicy1.setHeightForWidth(label_MunkConnection->sizePolicy().hasHeightForWidth());
         label_MunkConnection->setSizePolicy(sizePolicy1);
         label_MunkConnection->setMinimumSize(QSize(200, 30));
@@ -333,7 +331,7 @@ public:
         horizontalLayout_4->addWidget(label_MunkConnection);
 
         comboBox_PortMunk = new QComboBox(centralwidget);
-        comboBox_PortMunk->setObjectName(QStringLiteral("comboBox_PortMunk"));
+        comboBox_PortMunk->setObjectName(QString::fromUtf8("comboBox_PortMunk"));
         sizePolicy1.setHeightForWidth(comboBox_PortMunk->sizePolicy().hasHeightForWidth());
         comboBox_PortMunk->setSizePolicy(sizePolicy1);
         comboBox_PortMunk->setMinimumSize(QSize(100, 0));
@@ -342,7 +340,7 @@ public:
         horizontalLayout_4->addWidget(comboBox_PortMunk);
 
         pushButton_connectMunk = new QPushButton(centralwidget);
-        pushButton_connectMunk->setObjectName(QStringLiteral("pushButton_connectMunk"));
+        pushButton_connectMunk->setObjectName(QString::fromUtf8("pushButton_connectMunk"));
         pushButton_connectMunk->setMinimumSize(QSize(75, 25));
         pushButton_connectMunk->setMaximumSize(QSize(75, 25));
 
@@ -352,9 +350,9 @@ public:
         gridLayout->addLayout(horizontalLayout_4, 2, 0, 1, 1);
 
         horizontalLayout_7 = new QHBoxLayout();
-        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
+        horizontalLayout_7->setObjectName(QString::fromUtf8("horizontalLayout_7"));
         widget_PLCConnection = new LED(centralwidget);
-        widget_PLCConnection->setObjectName(QStringLiteral("widget_PLCConnection"));
+        widget_PLCConnection->setObjectName(QString::fromUtf8("widget_PLCConnection"));
         sizePolicy1.setHeightForWidth(widget_PLCConnection->sizePolicy().hasHeightForWidth());
         widget_PLCConnection->setSizePolicy(sizePolicy1);
         widget_PLCConnection->setMinimumSize(QSize(30, 30));
@@ -363,7 +361,7 @@ public:
         horizontalLayout_7->addWidget(widget_PLCConnection);
 
         label_PLCConnection = new QLabel(centralwidget);
-        label_PLCConnection->setObjectName(QStringLiteral("label_PLCConnection"));
+        label_PLCConnection->setObjectName(QString::fromUtf8("label_PLCConnection"));
         sizePolicy1.setHeightForWidth(label_PLCConnection->sizePolicy().hasHeightForWidth());
         label_PLCConnection->setSizePolicy(sizePolicy1);
         label_PLCConnection->setMinimumSize(QSize(200, 30));
@@ -374,7 +372,7 @@ public:
         horizontalLayout_7->addWidget(label_PLCConnection);
 
         lineEdit_IPPLC = new QLineEdit(centralwidget);
-        lineEdit_IPPLC->setObjectName(QStringLiteral("lineEdit_IPPLC"));
+        lineEdit_IPPLC->setObjectName(QString::fromUtf8("lineEdit_IPPLC"));
         sizePolicy1.setHeightForWidth(lineEdit_IPPLC->sizePolicy().hasHeightForWidth());
         lineEdit_IPPLC->setSizePolicy(sizePolicy1);
         lineEdit_IPPLC->setMinimumSize(QSize(100, 0));
@@ -385,7 +383,7 @@ public:
         horizontalLayout_7->addWidget(lineEdit_IPPLC);
 
         pushButton_connect_PLC = new QPushButton(centralwidget);
-        pushButton_connect_PLC->setObjectName(QStringLiteral("pushButton_connect_PLC"));
+        pushButton_connect_PLC->setObjectName(QString::fromUtf8("pushButton_connect_PLC"));
         pushButton_connect_PLC->setMinimumSize(QSize(75, 25));
         pushButton_connect_PLC->setMaximumSize(QSize(75, 25));
 
@@ -395,9 +393,9 @@ public:
         gridLayout->addLayout(horizontalLayout_7, 3, 0, 1, 1);
 
         horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
         widget_RigolConnection = new LED(centralwidget);
-        widget_RigolConnection->setObjectName(QStringLiteral("widget_RigolConnection"));
+        widget_RigolConnection->setObjectName(QString::fromUtf8("widget_RigolConnection"));
         sizePolicy1.setHeightForWidth(widget_RigolConnection->sizePolicy().hasHeightForWidth());
         widget_RigolConnection->setSizePolicy(sizePolicy1);
         widget_RigolConnection->setMinimumSize(QSize(30, 30));
@@ -406,7 +404,7 @@ public:
         horizontalLayout_3->addWidget(widget_RigolConnection);
 
         label_RigolConnection = new QLabel(centralwidget);
-        label_RigolConnection->setObjectName(QStringLiteral("label_RigolConnection"));
+        label_RigolConnection->setObjectName(QString::fromUtf8("label_RigolConnection"));
         sizePolicy1.setHeightForWidth(label_RigolConnection->sizePolicy().hasHeightForWidth());
         label_RigolConnection->setSizePolicy(sizePolicy1);
         label_RigolConnection->setMinimumSize(QSize(200, 30));
@@ -417,7 +415,7 @@ public:
         horizontalLayout_3->addWidget(label_RigolConnection);
 
         lineEdit_IPRigol = new QLineEdit(centralwidget);
-        lineEdit_IPRigol->setObjectName(QStringLiteral("lineEdit_IPRigol"));
+        lineEdit_IPRigol->setObjectName(QString::fromUtf8("lineEdit_IPRigol"));
         sizePolicy1.setHeightForWidth(lineEdit_IPRigol->sizePolicy().hasHeightForWidth());
         lineEdit_IPRigol->setSizePolicy(sizePolicy1);
         lineEdit_IPRigol->setMinimumSize(QSize(100, 0));
@@ -428,7 +426,7 @@ public:
         horizontalLayout_3->addWidget(lineEdit_IPRigol);
 
         pushButton_connect_Rigol = new QPushButton(centralwidget);
-        pushButton_connect_Rigol->setObjectName(QStringLiteral("pushButton_connect_Rigol"));
+        pushButton_connect_Rigol->setObjectName(QString::fromUtf8("pushButton_connect_Rigol"));
         pushButton_connect_Rigol->setMinimumSize(QSize(75, 25));
         pushButton_connect_Rigol->setMaximumSize(QSize(75, 25));
 
@@ -438,9 +436,9 @@ public:
         gridLayout->addLayout(horizontalLayout_3, 4, 0, 1, 1);
 
         horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         widget_SensorayConnection = new LED(centralwidget);
-        widget_SensorayConnection->setObjectName(QStringLiteral("widget_SensorayConnection"));
+        widget_SensorayConnection->setObjectName(QString::fromUtf8("widget_SensorayConnection"));
         sizePolicy1.setHeightForWidth(widget_SensorayConnection->sizePolicy().hasHeightForWidth());
         widget_SensorayConnection->setSizePolicy(sizePolicy1);
         widget_SensorayConnection->setMinimumSize(QSize(30, 30));
@@ -449,7 +447,7 @@ public:
         horizontalLayout_2->addWidget(widget_SensorayConnection);
 
         label_SensorayConnection = new QLabel(centralwidget);
-        label_SensorayConnection->setObjectName(QStringLiteral("label_SensorayConnection"));
+        label_SensorayConnection->setObjectName(QString::fromUtf8("label_SensorayConnection"));
         sizePolicy1.setHeightForWidth(label_SensorayConnection->sizePolicy().hasHeightForWidth());
         label_SensorayConnection->setSizePolicy(sizePolicy1);
         label_SensorayConnection->setMinimumSize(QSize(200, 30));
@@ -460,7 +458,7 @@ public:
         horizontalLayout_2->addWidget(label_SensorayConnection);
 
         lineEdit_IPSensoray = new QLineEdit(centralwidget);
-        lineEdit_IPSensoray->setObjectName(QStringLiteral("lineEdit_IPSensoray"));
+        lineEdit_IPSensoray->setObjectName(QString::fromUtf8("lineEdit_IPSensoray"));
         sizePolicy1.setHeightForWidth(lineEdit_IPSensoray->sizePolicy().hasHeightForWidth());
         lineEdit_IPSensoray->setSizePolicy(sizePolicy1);
         lineEdit_IPSensoray->setMinimumSize(QSize(100, 0));
@@ -471,7 +469,7 @@ public:
         horizontalLayout_2->addWidget(lineEdit_IPSensoray);
 
         pushButton_connectSensoray = new QPushButton(centralwidget);
-        pushButton_connectSensoray->setObjectName(QStringLiteral("pushButton_connectSensoray"));
+        pushButton_connectSensoray->setObjectName(QString::fromUtf8("pushButton_connectSensoray"));
         pushButton_connectSensoray->setMinimumSize(QSize(75, 25));
         pushButton_connectSensoray->setMaximumSize(QSize(75, 25));
         pushButton_connectSensoray->setFlat(false);
@@ -482,9 +480,9 @@ public:
         gridLayout->addLayout(horizontalLayout_2, 5, 0, 1, 1);
 
         horizontalLayout_6 = new QHBoxLayout();
-        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
+        horizontalLayout_6->setObjectName(QString::fromUtf8("horizontalLayout_6"));
         pushButton_ConnectAll = new QPushButton(centralwidget);
-        pushButton_ConnectAll->setObjectName(QStringLiteral("pushButton_ConnectAll"));
+        pushButton_ConnectAll->setObjectName(QString::fromUtf8("pushButton_ConnectAll"));
         pushButton_ConnectAll->setMinimumSize(QSize(120, 30));
         pushButton_ConnectAll->setMaximumSize(QSize(100, 30));
         QFont font1;
@@ -499,7 +497,7 @@ public:
         horizontalLayout_6->addItem(horizontalSpacer);
 
         pushButton_Close = new QPushButton(centralwidget);
-        pushButton_Close->setObjectName(QStringLiteral("pushButton_Close"));
+        pushButton_Close->setObjectName(QString::fromUtf8("pushButton_Close"));
         pushButton_Close->setMinimumSize(QSize(100, 30));
         pushButton_Close->setMaximumSize(QSize(100, 30));
         pushButton_Close->setFont(font1);
@@ -511,19 +509,19 @@ public:
 
         Window_DeviceConnections->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Window_DeviceConnections);
-        menubar->setObjectName(QStringLiteral("menubar"));
+        menubar->setObjectName(QString::fromUtf8("menubar"));
         menubar->setGeometry(QRect(0, 0, 450, 40));
         menuFile = new QMenu(menubar);
-        menuFile->setObjectName(QStringLiteral("menuFile"));
+        menuFile->setObjectName(QString::fromUtf8("menuFile"));
         menuEdit = new QMenu(menubar);
-        menuEdit->setObjectName(QStringLiteral("menuEdit"));
+        menuEdit->setObjectName(QString::fromUtf8("menuEdit"));
         menuTools = new QMenu(menubar);
-        menuTools->setObjectName(QStringLiteral("menuTools"));
+        menuTools->setObjectName(QString::fromUtf8("menuTools"));
         menuHelp = new QMenu(menubar);
-        menuHelp->setObjectName(QStringLiteral("menuHelp"));
+        menuHelp->setObjectName(QString::fromUtf8("menuHelp"));
         Window_DeviceConnections->setMenuBar(menubar);
         statusbar = new QStatusBar(Window_DeviceConnections);
-        statusbar->setObjectName(QStringLiteral("statusbar"));
+        statusbar->setObjectName(QString::fromUtf8("statusbar"));
         Window_DeviceConnections->setStatusBar(statusbar);
         QWidget::setTabOrder(pushButton_ConnectAll, lineEdit_IPMC);
         QWidget::setTabOrder(lineEdit_IPMC, pushButton_connectMC);

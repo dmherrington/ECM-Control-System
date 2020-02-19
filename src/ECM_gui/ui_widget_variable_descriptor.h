@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_variable_descriptor.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.1
+** Created by: Qt User Interface Compiler version 5.12.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,13 +10,10 @@
 #define UI_WIDGET_VARIABLE_DESCRIPTOR_H
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QWidget>
 
@@ -33,9 +30,9 @@ public:
     void setupUi(QWidget *Widget_VariableDescriptor)
     {
         if (Widget_VariableDescriptor->objectName().isEmpty())
-            Widget_VariableDescriptor->setObjectName(QStringLiteral("Widget_VariableDescriptor"));
+            Widget_VariableDescriptor->setObjectName(QString::fromUtf8("Widget_VariableDescriptor"));
         Widget_VariableDescriptor->resize(226, 40);
-        Widget_VariableDescriptor->setStyleSheet(QLatin1String("QMenuBar{\n"
+        Widget_VariableDescriptor->setStyleSheet(QString::fromUtf8("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
 "	font: 12pt \"MS Shell Dlg 2\";\n"
@@ -153,11 +150,11 @@ public:
 "width:20px;\n"
 "}"));
         gridLayout = new QGridLayout(Widget_VariableDescriptor);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         label_VariableName = new QLabel(Widget_VariableDescriptor);
-        label_VariableName->setObjectName(QStringLiteral("label_VariableName"));
+        label_VariableName->setObjectName(QString::fromUtf8("label_VariableName"));
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -172,7 +169,7 @@ public:
         horizontalLayout->addWidget(label_VariableName);
 
         doubleSpinBox_VariableValue = new QDoubleSpinBox(Widget_VariableDescriptor);
-        doubleSpinBox_VariableValue->setObjectName(QStringLiteral("doubleSpinBox_VariableValue"));
+        doubleSpinBox_VariableValue->setObjectName(QString::fromUtf8("doubleSpinBox_VariableValue"));
         doubleSpinBox_VariableValue->setEnabled(true);
         QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy1.setHorizontalStretch(0);
@@ -183,8 +180,8 @@ public:
         doubleSpinBox_VariableValue->setMaximumSize(QSize(80, 20));
         doubleSpinBox_VariableValue->setFont(font);
         doubleSpinBox_VariableValue->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
-        doubleSpinBox_VariableValue->setMinimum(-1e+6);
-        doubleSpinBox_VariableValue->setMaximum(1e+6);
+        doubleSpinBox_VariableValue->setMinimum(-1000000.000000000000000);
+        doubleSpinBox_VariableValue->setMaximum(1000000.000000000000000);
 
         horizontalLayout->addWidget(doubleSpinBox_VariableValue);
 

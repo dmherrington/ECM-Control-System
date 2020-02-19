@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_pump_control.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.1
+** Created by: Qt User Interface Compiler version 5.12.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,14 +10,11 @@
 #define UI_WIDGET_PUMP_CONTROL_H
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QWidget>
@@ -48,7 +45,7 @@ public:
     void setupUi(QWidget *Widget_PumpControl)
     {
         if (Widget_PumpControl->objectName().isEmpty())
-            Widget_PumpControl->setObjectName(QStringLiteral("Widget_PumpControl"));
+            Widget_PumpControl->setObjectName(QString::fromUtf8("Widget_PumpControl"));
         Widget_PumpControl->resize(530, 160);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
@@ -57,7 +54,7 @@ public:
         Widget_PumpControl->setSizePolicy(sizePolicy);
         Widget_PumpControl->setMinimumSize(QSize(530, 160));
         Widget_PumpControl->setMaximumSize(QSize(530, 160));
-        Widget_PumpControl->setStyleSheet(QLatin1String("QMenuBar{\n"
+        Widget_PumpControl->setStyleSheet(QString::fromUtf8("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
 "	font: 12pt \"MS Shell Dlg 2\";\n"
@@ -175,17 +172,17 @@ public:
 "width:20px;\n"
 "}"));
         gridLayout = new QGridLayout(Widget_PumpControl);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         horizontalLayout_17 = new QHBoxLayout();
-        horizontalLayout_17->setObjectName(QStringLiteral("horizontalLayout_17"));
+        horizontalLayout_17->setObjectName(QString::fromUtf8("horizontalLayout_17"));
         horizontalSpacer_23 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_17->addItem(horizontalSpacer_23);
 
         gridLayout_24 = new QGridLayout();
-        gridLayout_24->setObjectName(QStringLiteral("gridLayout_24"));
+        gridLayout_24->setObjectName(QString::fromUtf8("gridLayout_24"));
         label_ManualControl_5 = new QLabel(Widget_PumpControl);
-        label_ManualControl_5->setObjectName(QStringLiteral("label_ManualControl_5"));
+        label_ManualControl_5->setObjectName(QString::fromUtf8("label_ManualControl_5"));
         QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -213,9 +210,9 @@ public:
         gridLayout->addLayout(horizontalLayout_17, 0, 0, 1, 1);
 
         gridLayout_15 = new QGridLayout();
-        gridLayout_15->setObjectName(QStringLiteral("gridLayout_15"));
+        gridLayout_15->setObjectName(QString::fromUtf8("gridLayout_15"));
         doubleSpinBox_delayTime = new QDoubleSpinBox(Widget_PumpControl);
-        doubleSpinBox_delayTime->setObjectName(QStringLiteral("doubleSpinBox_delayTime"));
+        doubleSpinBox_delayTime->setObjectName(QString::fromUtf8("doubleSpinBox_delayTime"));
         QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy2.setHorizontalStretch(0);
         sizePolicy2.setVerticalStretch(0);
@@ -228,12 +225,12 @@ public:
         doubleSpinBox_delayTime->setFont(font1);
         doubleSpinBox_delayTime->setAlignment(Qt::AlignCenter);
         doubleSpinBox_delayTime->setDecimals(0);
-        doubleSpinBox_delayTime->setValue(0);
+        doubleSpinBox_delayTime->setValue(0.000000000000000);
 
         gridLayout_15->addWidget(doubleSpinBox_delayTime, 0, 1, 1, 1);
 
         label_Flowrate = new QLabel(Widget_PumpControl);
-        label_Flowrate->setObjectName(QStringLiteral("label_Flowrate"));
+        label_Flowrate->setObjectName(QString::fromUtf8("label_Flowrate"));
         sizePolicy2.setHeightForWidth(label_Flowrate->sizePolicy().hasHeightForWidth());
         label_Flowrate->setSizePolicy(sizePolicy2);
         label_Flowrate->setMinimumSize(QSize(136, 20));
@@ -245,7 +242,7 @@ public:
         gridLayout_15->addWidget(label_Flowrate, 1, 0, 1, 1);
 
         doubleSpinBox_flowRate = new QDoubleSpinBox(Widget_PumpControl);
-        doubleSpinBox_flowRate->setObjectName(QStringLiteral("doubleSpinBox_flowRate"));
+        doubleSpinBox_flowRate->setObjectName(QString::fromUtf8("doubleSpinBox_flowRate"));
         sizePolicy2.setHeightForWidth(doubleSpinBox_flowRate->sizePolicy().hasHeightForWidth());
         doubleSpinBox_flowRate->setSizePolicy(sizePolicy2);
         doubleSpinBox_flowRate->setMinimumSize(QSize(100, 20));
@@ -257,7 +254,7 @@ public:
         gridLayout_15->addWidget(doubleSpinBox_flowRate, 1, 1, 1, 1);
 
         label_delayTim = new QLabel(Widget_PumpControl);
-        label_delayTim->setObjectName(QStringLiteral("label_delayTim"));
+        label_delayTim->setObjectName(QString::fromUtf8("label_delayTim"));
         sizePolicy2.setHeightForWidth(label_delayTim->sizePolicy().hasHeightForWidth());
         label_delayTim->setSizePolicy(sizePolicy2);
         label_delayTim->setMinimumSize(QSize(136, 20));
@@ -270,13 +267,13 @@ public:
         gridLayout->addLayout(gridLayout_15, 1, 0, 1, 1);
 
         horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         horizontalSpacer_17 = new QSpacerItem(13, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer_17);
 
         checkBox_UtilizePump = new QCheckBox(Widget_PumpControl);
-        checkBox_UtilizePump->setObjectName(QStringLiteral("checkBox_UtilizePump"));
+        checkBox_UtilizePump->setObjectName(QString::fromUtf8("checkBox_UtilizePump"));
         checkBox_UtilizePump->setFont(font2);
         checkBox_UtilizePump->setChecked(true);
 
@@ -287,7 +284,7 @@ public:
         horizontalLayout->addItem(horizontalSpacer_21);
 
         checkBox_WaitForDelay = new QCheckBox(Widget_PumpControl);
-        checkBox_WaitForDelay->setObjectName(QStringLiteral("checkBox_WaitForDelay"));
+        checkBox_WaitForDelay->setObjectName(QString::fromUtf8("checkBox_WaitForDelay"));
         checkBox_WaitForDelay->setFont(font2);
         checkBox_WaitForDelay->setChecked(true);
 

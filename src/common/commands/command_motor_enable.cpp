@@ -32,6 +32,14 @@ void CommandMotorEnable::addAxis(const MotorAxis &axis)
     }
 }
 
+void CommandMotorEnable::addAxis(const std::vector<MotorAxis> &axes)
+{
+    for(size_t index = 0; index < axes.size(); index++)
+    {
+        addAxis(axes.at(index));
+    }
+}
+
 std::map<MotorAxis,CommandMotorEnable::EnableValue> CommandMotorEnable::getEnableAction() const
 {
     return this->m_AxisValue;

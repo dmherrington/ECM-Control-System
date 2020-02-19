@@ -1,15 +1,17 @@
 #include "spii_state_interface.h"
 
-SPIIStateInterface::SPIIStateInterface(const std::vector<MotorAxis> &availableAxis):
+SPIIStateInterface::SPIIStateInterface(const std::vector<MotorAxis> &availableAxes):
     m_CB(nullptr)
 {
     m_BufferManager = new SPII_CurrentProgram();
 
     m_MasterVariableValues = new BufferVariableValues();
 
-    for(size_t index = 0; index < availableAxis.size(); index++)
+    m_AvailableAxes = availableAxes;
+
+    for(size_t index = 0; index < availableAxes.size(); index++)
     {
-        MotorAxis currentAxis = availableAxis.at(index);
+        MotorAxis currentAxis = availableAxes.at(index);
         Status_AxisState currentState(currentAxis);
 
         m_AxisState.insert(std::pair<MotorAxis, Status_AxisState>(currentAxis, currentState));
@@ -20,6 +22,42 @@ SPIIStateInterface::~SPIIStateInterface()
 {
 
 }
+
+void SPIIStateInterface::updateAvailableAxes(const std::vector<MotorAxis> &availableAxes)
+{
+    m_AvailableAxes = availableAxes;
+
+    std::map<MotorAxis,Status_AxisState>::iterator it;
+
+    //add items that are not present in the current vector
+    for(size_t index = 0; index < availableAxes.size(); index++)
+    {
+       MotorAxis currentAxis = availableAxes.at(index);
+       it = m_AxisState.find(currentAxis);
+       if(it == m_AxisState.end()) //if the iterator is at the end, we need to add it to the map
+       {
+           Status_AxisState currentState(currentAxis);
+           m_AxisState.insert(std::pair<MotorAxis, Status_AxisState>(currentAxis, currentState));
+       }
+    }
+
+    //clear out the axis state if it is not present within the axis vector
+    for ( it = m_AxisState.begin(); it != m_AxisState.end(); it++ )
+    {
+        //see if the current axis is contained within the vector
+        for(size_t index = 0; index < availableAxes.size(); index++)
+        {
+            MotorAxis currentAxis = availableAxes.at(index);
+            if(currentAxis == it->first)
+                continue;
+        }
+        //if we made it to this point it is not in the vector and therefore we should remove
+        m_AxisState.erase(it);
+    }
+
+
+}
+
 std::vector<double> SPIIStateInterface::getAxisPositionVector() const
 {
     std::vector<double> currentPositions;

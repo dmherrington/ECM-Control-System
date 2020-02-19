@@ -16,10 +16,10 @@ WidgetFrontPanel_MotionControl::WidgetFrontPanel_MotionControl(const std::vector
         m_WidgetAxisControl.insert(std::pair<MotorAxis,WidgetFrontPanel_AxisMotionControl*>(axis.at(index), newAxisControl));
         ui->tabWidget->addTab(newAxisControl, "AXIS: " + QString::fromStdString(AxisToString(axis.at(index))));
         if(axis.at(index) == MotorAxis::Z)
-            desiredTab = index;
+            desiredTab = static_cast<unsigned int>(index);
     }
 
-    ui->tabWidget->setCurrentIndex(desiredTab);
+    ui->tabWidget->setCurrentIndex(static_cast<int>(desiredTab));
 }
 
 WidgetFrontPanel_MotionControl::~WidgetFrontPanel_MotionControl()

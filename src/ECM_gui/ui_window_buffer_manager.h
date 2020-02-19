@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'window_buffer_manager.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.1
+** Created by: Qt User Interface Compiler version 5.12.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -12,10 +12,8 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
@@ -48,9 +46,9 @@ public:
     void setupUi(QMainWindow *Window_BufferManager)
     {
         if (Window_BufferManager->objectName().isEmpty())
-            Window_BufferManager->setObjectName(QStringLiteral("Window_BufferManager"));
+            Window_BufferManager->setObjectName(QString::fromUtf8("Window_BufferManager"));
         Window_BufferManager->resize(915, 498);
-        Window_BufferManager->setStyleSheet(QLatin1String("QMenuBar{\n"
+        Window_BufferManager->setStyleSheet(QString::fromUtf8("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
 "	font: 12pt \"MS Shell Dlg 2\";\n"
@@ -163,21 +161,21 @@ public:
 "width:20px;\n"
 "}"));
         actionOpen = new QAction(Window_BufferManager);
-        actionOpen->setObjectName(QStringLiteral("actionOpen"));
+        actionOpen->setObjectName(QString::fromUtf8("actionOpen"));
         actionSave = new QAction(Window_BufferManager);
-        actionSave->setObjectName(QStringLiteral("actionSave"));
+        actionSave->setObjectName(QString::fromUtf8("actionSave"));
         actionSave_As = new QAction(Window_BufferManager);
-        actionSave_As->setObjectName(QStringLiteral("actionSave_As"));
+        actionSave_As->setObjectName(QString::fromUtf8("actionSave_As"));
         actionClose = new QAction(Window_BufferManager);
-        actionClose->setObjectName(QStringLiteral("actionClose"));
+        actionClose->setObjectName(QString::fromUtf8("actionClose"));
         centralwidget = new QWidget(Window_BufferManager);
-        centralwidget->setObjectName(QStringLiteral("centralwidget"));
+        centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         pushButton = new QPushButton(centralwidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
         pushButton->setMinimumSize(QSize(0, 24));
         QFont font;
         font.setPointSize(10);
@@ -186,7 +184,7 @@ public:
         horizontalLayout->addWidget(pushButton);
 
         pushButton_Sync = new QPushButton(centralwidget);
-        pushButton_Sync->setObjectName(QStringLiteral("pushButton_Sync"));
+        pushButton_Sync->setObjectName(QString::fromUtf8("pushButton_Sync"));
         pushButton_Sync->setMinimumSize(QSize(0, 24));
         pushButton_Sync->setFont(font);
 
@@ -196,13 +194,13 @@ public:
         gridLayout->addLayout(horizontalLayout, 0, 0, 1, 1);
 
         stackedWidget_BufferContents = new QStackedWidget(centralwidget);
-        stackedWidget_BufferContents->setObjectName(QStringLiteral("stackedWidget_BufferContents"));
+        stackedWidget_BufferContents->setObjectName(QString::fromUtf8("stackedWidget_BufferContents"));
         stackedWidget_BufferContents->setFrameShape(QFrame::Box);
 
         gridLayout->addWidget(stackedWidget_BufferContents, 0, 1, 2, 1);
 
         listWidget_Buffers = new QListWidget(centralwidget);
-        listWidget_Buffers->setObjectName(QStringLiteral("listWidget_Buffers"));
+        listWidget_Buffers->setObjectName(QString::fromUtf8("listWidget_Buffers"));
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -215,13 +213,13 @@ public:
 
         Window_BufferManager->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Window_BufferManager);
-        menubar->setObjectName(QStringLiteral("menubar"));
+        menubar->setObjectName(QString::fromUtf8("menubar"));
         menubar->setGeometry(QRect(0, 0, 915, 40));
         menuFile = new QMenu(menubar);
-        menuFile->setObjectName(QStringLiteral("menuFile"));
+        menuFile->setObjectName(QString::fromUtf8("menuFile"));
         Window_BufferManager->setMenuBar(menubar);
         statusbar = new QStatusBar(Window_BufferManager);
-        statusbar->setObjectName(QStringLiteral("statusbar"));
+        statusbar->setObjectName(QString::fromUtf8("statusbar"));
         Window_BufferManager->setStatusBar(statusbar);
 
         menubar->addAction(menuFile->menuAction());

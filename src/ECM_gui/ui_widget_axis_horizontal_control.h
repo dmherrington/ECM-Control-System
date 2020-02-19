@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_axis_horizontal_control.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.1
+** Created by: Qt User Interface Compiler version 5.12.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,12 +10,9 @@
 #define UI_WIDGET_AXIS_HORIZONTAL_CONTROL_H
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
@@ -55,16 +52,16 @@ public:
     void setupUi(QWidget *Widget_AxisHorizontalControl)
     {
         if (Widget_AxisHorizontalControl->objectName().isEmpty())
-            Widget_AxisHorizontalControl->setObjectName(QStringLiteral("Widget_AxisHorizontalControl"));
+            Widget_AxisHorizontalControl->setObjectName(QString::fromUtf8("Widget_AxisHorizontalControl"));
         Widget_AxisHorizontalControl->resize(350, 150);
         Widget_AxisHorizontalControl->setMinimumSize(QSize(350, 150));
         Widget_AxisHorizontalControl->setMaximumSize(QSize(350, 150));
         gridLayout = new QGridLayout(Widget_AxisHorizontalControl);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         verticalLayout_5 = new QVBoxLayout();
-        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
+        verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
         label_ManualControl_3 = new QLabel(Widget_AxisHorizontalControl);
-        label_ManualControl_3->setObjectName(QStringLiteral("label_ManualControl_3"));
+        label_ManualControl_3->setObjectName(QString::fromUtf8("label_ManualControl_3"));
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -80,9 +77,9 @@ public:
         verticalLayout_5->addWidget(label_ManualControl_3);
 
         horizontalLayout_4 = new QHBoxLayout();
-        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
         pushButton_IncreaseJog = new QPushButton(Widget_AxisHorizontalControl);
-        pushButton_IncreaseJog->setObjectName(QStringLiteral("pushButton_IncreaseJog"));
+        pushButton_IncreaseJog->setObjectName(QString::fromUtf8("pushButton_IncreaseJog"));
         QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -97,15 +94,15 @@ public:
         horizontalLayout_4->addWidget(pushButton_IncreaseJog);
 
         verticalLayout_4 = new QVBoxLayout();
-        verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
+        verticalLayout_4->setObjectName(QString::fromUtf8("verticalLayout_4"));
         horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
         horizontalSpacer_7 = new QSpacerItem(2, 13, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_3->addItem(horizontalSpacer_7);
 
         spinBox_Jog = new QSpinBox(Widget_AxisHorizontalControl);
-        spinBox_Jog->setObjectName(QStringLiteral("spinBox_Jog"));
+        spinBox_Jog->setObjectName(QString::fromUtf8("spinBox_Jog"));
         sizePolicy1.setHeightForWidth(spinBox_Jog->sizePolicy().hasHeightForWidth());
         spinBox_Jog->setSizePolicy(sizePolicy1);
         spinBox_Jog->setMinimumSize(QSize(65, 30));
@@ -136,7 +133,7 @@ public:
         horizontalLayout_4->addLayout(verticalLayout_4);
 
         pushButton_DecreaseJog = new QPushButton(Widget_AxisHorizontalControl);
-        pushButton_DecreaseJog->setObjectName(QStringLiteral("pushButton_DecreaseJog"));
+        pushButton_DecreaseJog->setObjectName(QString::fromUtf8("pushButton_DecreaseJog"));
         sizePolicy1.setHeightForWidth(pushButton_DecreaseJog->sizePolicy().hasHeightForWidth());
         pushButton_DecreaseJog->setSizePolicy(sizePolicy1);
         pushButton_DecreaseJog->setMinimumSize(QSize(32, 102));
@@ -152,9 +149,9 @@ public:
         gridLayout->addLayout(verticalLayout_5, 0, 0, 1, 1);
 
         verticalLayout_3 = new QVBoxLayout();
-        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
         label_ManualControl_4 = new QLabel(Widget_AxisHorizontalControl);
-        label_ManualControl_4->setObjectName(QStringLiteral("label_ManualControl_4"));
+        label_ManualControl_4->setObjectName(QString::fromUtf8("label_ManualControl_4"));
         sizePolicy.setHeightForWidth(label_ManualControl_4->sizePolicy().hasHeightForWidth());
         label_ManualControl_4->setSizePolicy(sizePolicy);
         label_ManualControl_4->setFont(font);
@@ -163,9 +160,9 @@ public:
         verticalLayout_3->addWidget(label_ManualControl_4);
 
         horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         pushButton_IncreaseRelativeMove = new QPushButton(Widget_AxisHorizontalControl);
-        pushButton_IncreaseRelativeMove->setObjectName(QStringLiteral("pushButton_IncreaseRelativeMove"));
+        pushButton_IncreaseRelativeMove->setObjectName(QString::fromUtf8("pushButton_IncreaseRelativeMove"));
         sizePolicy1.setHeightForWidth(pushButton_IncreaseRelativeMove->sizePolicy().hasHeightForWidth());
         pushButton_IncreaseRelativeMove->setSizePolicy(sizePolicy1);
         pushButton_IncreaseRelativeMove->setMinimumSize(QSize(32, 102));
@@ -175,15 +172,15 @@ public:
         horizontalLayout_2->addWidget(pushButton_IncreaseRelativeMove);
 
         horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         horizontalSpacer_8 = new QSpacerItem(2, 13, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer_8);
 
         verticalLayout_2 = new QVBoxLayout();
-        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         spinBox_RelativeMove = new QSpinBox(Widget_AxisHorizontalControl);
-        spinBox_RelativeMove->setObjectName(QStringLiteral("spinBox_RelativeMove"));
+        spinBox_RelativeMove->setObjectName(QString::fromUtf8("spinBox_RelativeMove"));
         sizePolicy1.setHeightForWidth(spinBox_RelativeMove->sizePolicy().hasHeightForWidth());
         spinBox_RelativeMove->setSizePolicy(sizePolicy1);
         spinBox_RelativeMove->setMinimumSize(QSize(65, 30));
@@ -197,7 +194,7 @@ public:
         verticalLayout_2->addWidget(spinBox_RelativeMove);
 
         spinBox_RelativeMoveSpeed = new QSpinBox(Widget_AxisHorizontalControl);
-        spinBox_RelativeMoveSpeed->setObjectName(QStringLiteral("spinBox_RelativeMoveSpeed"));
+        spinBox_RelativeMoveSpeed->setObjectName(QString::fromUtf8("spinBox_RelativeMoveSpeed"));
         spinBox_RelativeMoveSpeed->setMinimumSize(QSize(65, 30));
         spinBox_RelativeMoveSpeed->setMaximumSize(QSize(65, 16777215));
         spinBox_RelativeMoveSpeed->setFont(font2);
@@ -219,7 +216,7 @@ public:
         horizontalLayout_2->addLayout(horizontalLayout);
 
         pushButton_DecreaseRelativeMove = new QPushButton(Widget_AxisHorizontalControl);
-        pushButton_DecreaseRelativeMove->setObjectName(QStringLiteral("pushButton_DecreaseRelativeMove"));
+        pushButton_DecreaseRelativeMove->setObjectName(QString::fromUtf8("pushButton_DecreaseRelativeMove"));
         sizePolicy1.setHeightForWidth(pushButton_DecreaseRelativeMove->sizePolicy().hasHeightForWidth());
         pushButton_DecreaseRelativeMove->setSizePolicy(sizePolicy1);
         pushButton_DecreaseRelativeMove->setMinimumSize(QSize(32, 102));

@@ -1,17 +1,12 @@
 #include "spii_motion_controller.h"
 
 
-SPIIMotionController::SPIIMotionController()
+SPIIMotionController::SPIIMotionController(const std::vector<MotorAxis> &activeAxes)
 {
-    std::vector<MotorAxis> availableAxis;
-    availableAxis.push_back(MotorAxis::X);
-    availableAxis.push_back(MotorAxis::Y);
-    availableAxis.push_back(MotorAxis::Z);
-
     m_CommsMarshaler = std::make_shared<Comms::CommsMarshaler>();
     m_CommsMarshaler->AddSubscriber(this);
 
-    m_StateInterface = new SPIIStateInterface(availableAxis);
+    m_StateInterface = new SPIIStateInterface(activeAxes);
     m_StateInterface->connectCallback(this);
 
     stateMachine = new hsm::StateMachine();
@@ -27,6 +22,19 @@ SPIIMotionController::SPIIMotionController()
 
 SPIIMotionController::~SPIIMotionController()
 {
+
+}
+
+void SPIIMotionController::enableAvailableAxes()
+{
+    CommandMotorEnablePtr command = std::make_shared<CommandMotorEnable>();
+    command->addAxis(MotorAxis::X); command->addAxis(MotorAxis::Y); command->addAxis(MotorAxis::Z);
+    this->executeCommand(command);
+}
+
+void SPIIMotionController::disableAvailableAxes()
+{
+    CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();
 
 }
 

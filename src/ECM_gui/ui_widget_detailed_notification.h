@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_detailed_notification.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.1
+** Created by: Qt User Interface Compiler version 5.12.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,11 +10,8 @@
 #define UI_WIDGET_DETAILED_NOTIFICATION_H
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QGridLayout>
-#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QWidget>
@@ -31,7 +28,7 @@ public:
     void setupUi(QWidget *Widget_DetailedNotification)
     {
         if (Widget_DetailedNotification->objectName().isEmpty())
-            Widget_DetailedNotification->setObjectName(QStringLiteral("Widget_DetailedNotification"));
+            Widget_DetailedNotification->setObjectName(QString::fromUtf8("Widget_DetailedNotification"));
         Widget_DetailedNotification->resize(350, 27);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
         sizePolicy.setHorizontalStretch(0);
@@ -42,10 +39,10 @@ public:
         Widget_DetailedNotification->setMaximumSize(QSize(16777215, 110));
         gridLayout = new QGridLayout(Widget_DetailedNotification);
         gridLayout->setSpacing(0);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         gridLayout->setContentsMargins(0, 0, 0, 0);
         lineEdit_Time = new QLineEdit(Widget_DetailedNotification);
-        lineEdit_Time->setObjectName(QStringLiteral("lineEdit_Time"));
+        lineEdit_Time->setObjectName(QString::fromUtf8("lineEdit_Time"));
         lineEdit_Time->setEnabled(false);
         QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
@@ -62,7 +59,7 @@ public:
         gridLayout->addWidget(lineEdit_Time, 0, 0, 1, 1);
 
         plainTextEdit_Message = new QPlainTextEdit(Widget_DetailedNotification);
-        plainTextEdit_Message->setObjectName(QStringLiteral("plainTextEdit_Message"));
+        plainTextEdit_Message->setObjectName(QString::fromUtf8("plainTextEdit_Message"));
         plainTextEdit_Message->setEnabled(false);
         QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
         sizePolicy2.setHorizontalStretch(0);

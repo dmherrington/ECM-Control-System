@@ -37,7 +37,7 @@ class LIBRARY_SPIIMOTIONCONTROLLERSHARED_EXPORT SPIIMotionController : public QO
     Q_OBJECT
 
 public:
-    SPIIMotionController();
+    SPIIMotionController(const std::vector<MotorAxis> &activeAxes);
 
     ~SPIIMotionController() override;
 
@@ -52,6 +52,10 @@ public:
     void executeCommand(const AbstractCommandPtr command);
     void executeCustomCommands(const std::vector<std::string> &stringCommands);
     void executeSynchronizationRequest();
+
+    void enableAvailableAxes();
+
+    void disableAvailableAxes();
 
 public:
     void ConnectToSimulation();

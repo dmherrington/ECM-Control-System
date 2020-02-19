@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_notification.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.1
+** Created by: Qt User Interface Compiler version 5.12.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,11 +10,8 @@
 #define UI_WIDGET_NOTIFICATION_H
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QGridLayout>
-#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QWidget>
 
@@ -29,7 +26,7 @@ public:
     void setupUi(QWidget *Widget_Notification)
     {
         if (Widget_Notification->objectName().isEmpty())
-            Widget_Notification->setObjectName(QStringLiteral("Widget_Notification"));
+            Widget_Notification->setObjectName(QString::fromUtf8("Widget_Notification"));
         Widget_Notification->resize(350, 64);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
@@ -39,10 +36,10 @@ public:
         Widget_Notification->setMinimumSize(QSize(350, 64));
         gridLayout = new QGridLayout(Widget_Notification);
         gridLayout->setSpacing(0);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         gridLayout->setContentsMargins(0, 0, 0, 0);
         listWidget_Notifications = new QListWidget(Widget_Notification);
-        listWidget_Notifications->setObjectName(QStringLiteral("listWidget_Notifications"));
+        listWidget_Notifications->setObjectName(QString::fromUtf8("listWidget_Notifications"));
         sizePolicy.setHeightForWidth(listWidget_Notifications->sizePolicy().hasHeightForWidth());
         listWidget_Notifications->setSizePolicy(sizePolicy);
         listWidget_Notifications->setMinimumSize(QSize(0, 60));

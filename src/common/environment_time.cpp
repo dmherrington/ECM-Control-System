@@ -375,7 +375,6 @@ EnvironmentTime EnvironmentTime::FromSecSinceEpoch(const double &sec)
     time.second = QTDateTime.time().second();
     time.millisecond = whole_ms;
     time.microsecond = std::floor(remainder_us);
-
     return time;
 }
 

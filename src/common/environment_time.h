@@ -6,6 +6,8 @@
 #include <QMetaType>
 #include <QTextStream>
 
+#include <cmath>
+
 #include "common_global.h"
 
 namespace common {

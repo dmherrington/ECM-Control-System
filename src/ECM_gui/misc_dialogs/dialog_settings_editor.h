@@ -5,6 +5,8 @@
 #include <QSettings>
 #include <QCloseEvent>
 
+#include "common/axis_definitions.h"
+
 namespace Ui {
 class Dialog_SettingsEditor;
 }
@@ -18,6 +20,9 @@ public:
     ~Dialog_SettingsEditor();
 
     double getPlottingDuration() const;
+
+    std::vector<MotorAxis> whichAxesAreAvailable() const;
+
 private:
     void readSettings();
 

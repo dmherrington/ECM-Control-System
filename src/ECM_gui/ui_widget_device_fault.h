@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_device_fault.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.1
+** Created by: Qt User Interface Compiler version 5.12.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,11 +10,8 @@
 #define UI_WIDGET_DEVICE_FAULT_H
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QGridLayout>
-#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QWidget>
@@ -31,11 +28,11 @@ public:
     void setupUi(QWidget *Widget_DeviceFault)
     {
         if (Widget_DeviceFault->objectName().isEmpty())
-            Widget_DeviceFault->setObjectName(QStringLiteral("Widget_DeviceFault"));
+            Widget_DeviceFault->setObjectName(QString::fromUtf8("Widget_DeviceFault"));
         Widget_DeviceFault->resize(641, 50);
         Widget_DeviceFault->setMinimumSize(QSize(0, 50));
         Widget_DeviceFault->setMaximumSize(QSize(16777215, 100));
-        Widget_DeviceFault->setStyleSheet(QLatin1String("QMenuBar{\n"
+        Widget_DeviceFault->setStyleSheet(QString::fromUtf8("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
 "	font: 12pt \"MS Shell Dlg 2\";\n"
@@ -153,9 +150,9 @@ public:
 "width:20px;\n"
 "}"));
         gridLayout = new QGridLayout(Widget_DeviceFault);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         pushButton_ClearFault = new QPushButton(Widget_DeviceFault);
-        pushButton_ClearFault->setObjectName(QStringLiteral("pushButton_ClearFault"));
+        pushButton_ClearFault->setObjectName(QString::fromUtf8("pushButton_ClearFault"));
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -169,7 +166,7 @@ public:
         gridLayout->addWidget(pushButton_ClearFault, 0, 0, 1, 1);
 
         plainTextEdit_ErrorMessage = new QPlainTextEdit(Widget_DeviceFault);
-        plainTextEdit_ErrorMessage->setObjectName(QStringLiteral("plainTextEdit_ErrorMessage"));
+        plainTextEdit_ErrorMessage->setObjectName(QString::fromUtf8("plainTextEdit_ErrorMessage"));
         QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);

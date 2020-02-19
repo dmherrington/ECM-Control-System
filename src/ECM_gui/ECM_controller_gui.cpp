@@ -10,13 +10,16 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_SensorDisplays(&m_PlotCollection)
 {
 
-    std::vector<MotorAxis> applicableAxis;
-    applicableAxis.push_back(MotorAxis::X);
-    applicableAxis.push_back(MotorAxis::Y);
-    applicableAxis.push_back(MotorAxis::Z);
+
+//    applicableAxis.push_back(MotorAxis::X);
+//    applicableAxis.push_back(MotorAxis::Y);
+//    applicableAxis.push_back(MotorAxis::Z);
 
     Dialog_SettingsEditor settingsEditor;
+
     plottingWindow = settingsEditor.getPlottingDuration();
+
+    std::vector<MotorAxis> applicableAxis = settingsEditor.whichAxesAreAvailable();
 
     /*
      * Let us first setup the operational timers as related to
@@ -500,16 +503,12 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
 
 void ECMControllerGUI::on_pushButton_MotorEnable_released()
 {
-    CommandMotorEnablePtr command = std::make_shared<CommandMotorEnable>();
-    command->addAxis(MotorAxis::X); command->addAxis(MotorAxis::Y); command->addAxis(MotorAxis::Z);
-    m_API->m_MotionController->executeCommand(command);
+    m_API->m_MotionController->enableAvailableAxes();
 }
 
 void ECMControllerGUI::on_pushButton_MotorDisable_released()
 {
-    CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();
-    command->addAxis(MotorAxis::Z);
-    m_API->m_MotionController->executeCommand(command);
+    m_API->m_MotionController->disableAvailableAxes();
 }
 
 void ECMControllerGUI::on_pushButton_MoveHome_released()
