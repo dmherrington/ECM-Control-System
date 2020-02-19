@@ -5,13 +5,12 @@
 #include <list>
 
 #include "common/axis_definitions.h"
-
-#include "requests/abstract_request.h"
 #include "common/class_forward.h"
+#include "requests/abstract_axis_request.h"
 
 ECM_CLASS_FORWARD(RequestMotorStatus);
 
-class RequestMotorStatus : public AbstractRequest
+class RequestMotorStatus : public AbstractAxisRequest
 {
 public:
     RequestMotorStatus(const MotorAxis &axis = MotorAxis::Z);
@@ -35,28 +34,6 @@ public:
      * @param state
      */
     void getClone(AbstractRequest** state) const override;
-
-public:
-    //!
-    //! \brief setAxis
-    //! \param axis
-    //!
-    void addAxis(const MotorAxis &axis);
-
-    //!
-    //! \brief getAxis
-    //! \return
-    //!
-    std::list<MotorAxis> getAxis() const;
-
-    void setRequestAllAxes(const bool &requestAll);
-
-    bool shouldRequestAllAxes() const;
-
-private:
-    bool requestAllAxis = true;
-    std::list<MotorAxis> tellAxis; /**< Value of the axis to be position requested */
-
 };
 
 #endif // REQUEST_MOTOR_STATUS_H

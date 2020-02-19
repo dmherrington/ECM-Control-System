@@ -5,9 +5,8 @@
 #include <list>
 
 #include "common/axis_definitions.h"
-
-#include "requests/abstract_request.h"
 #include "common/class_forward.h"
+#include "requests/abstract_axis_request.h"
 
 ECM_CLASS_FORWARD(Request_SystemFaults);
 
@@ -35,7 +34,6 @@ public:
      * @param state
      */
     void getClone(AbstractRequest** state) const override;
-
 };
 
 

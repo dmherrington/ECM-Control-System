@@ -25,7 +25,7 @@ void SPIIPollMachine::addRequestToQueue(const AbstractRequestPtr request, const 
     timeoutMap[request->getTupleDescription()] = dataPair;
 
     std::map<common::TupleECMData,pollingTimeout>::iterator it = timeoutMap.begin();
-    int currentTimeout = it->second.second;
+    double currentTimeout = it->second.second;
     std::advance(it,1);
     for (; it!=timeoutMap.end(); ++it)
     {

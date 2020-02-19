@@ -1,6 +1,7 @@
 #ifndef REQUEST_COMPONENTS_H
 #define REQUEST_COMPONENTS_H
 
+#include "requests/abstract_axis_request.h"
 #include "requests/abstract_request.h"
 #include "requests/request_axis_safety.h"
 #include "requests/request_axis_status.h"

@@ -8,6 +8,7 @@
 
 #include "states/state_types.h"
 
+#include "common/axis_settings.h"
 #include "common/data_get_set_notifier.h"
 #include "data/motion_profile_state.h"
 
@@ -54,11 +55,14 @@ public:
     ~SPIIStateInterface();
 
 public:
+
+    void updateAxisSettings(const AxisSettings &axisSettings);
+
     void updateAvailableAxes(const std::vector<MotorAxis> &availableAxes);
 
     std::vector<MotorAxis> getAvailableAxes() const
     {
-        return m_AvailableAxes;
+        return m_AxisSettings.getAvailableAxes();
     }
 
 public:
@@ -241,6 +245,8 @@ current program matches what the user witnesses. Also, this can be used to resto
 of the program.*/
 
     std::map<MotorAxis,Status_AxisState> m_AxisState;
+
+    AxisSettings m_AxisSettings;
 
 private:
     std::vector<MotorAxis> m_AvailableAxes;

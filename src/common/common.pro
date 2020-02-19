@@ -26,6 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += common.cpp \
+    axis_settings.cpp \
     environment_time.cpp \
     tuple_sensor_string.cpp \
     tuple_ecm_data.cpp \
@@ -63,6 +64,7 @@ SOURCES += common.cpp \
     commands/command_upload_operational_variables.cpp
 
 HEADERS += common.h\
+    axis_settings.h \
         common_global.h \
     threadmanager.h \
     timer.h \

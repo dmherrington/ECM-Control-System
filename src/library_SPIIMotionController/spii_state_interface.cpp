@@ -22,6 +22,14 @@ SPIIStateInterface::~SPIIStateInterface()
 {
 
 }
+void SPIIStateInterface::updateAxisSettings(const AxisSettings &axisSettings)
+{
+    //first update the axis settings object member object
+    m_AxisSettings = axisSettings;
+
+    //update the available axes object contained within this class to manage the states stored
+    m_AxisSettings.updateAvilableAxes(m_AxisSettings.getAvailableAxes());
+}
 
 void SPIIStateInterface::updateAvailableAxes(const std::vector<MotorAxis> &availableAxes)
 {

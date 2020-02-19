@@ -1,6 +1,7 @@
 #ifndef DATA_NOTIFIER_H
 #define DATA_NOTIFIER_H
 
+#include <vector>
 #include <functional>
 #include <algorithm>
 #include <mutex>

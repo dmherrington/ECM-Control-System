@@ -11,6 +11,7 @@
 
 #include "common/hsm.h"
 #include "common/commands/command_components.h"
+#include "common/axis_settings.h"
 
 #include "communications/comms_marshaler.h"
 
@@ -53,8 +54,8 @@ public:
     void executeCustomCommands(const std::vector<std::string> &stringCommands);
     void executeSynchronizationRequest();
 
+    void setAxesSettings(const AxisSettings &settings);
     void enableAvailableAxes();
-
     void disableAvailableAxes();
 
 public:
@@ -103,6 +104,8 @@ private:
 
 private:
     void initializeMotionController();
+
+    void setupRequestQueue();
 
 private:
 

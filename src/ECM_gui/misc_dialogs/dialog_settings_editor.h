@@ -22,6 +22,8 @@ public:
     double getPlottingDuration() const;
 
     std::vector<MotorAxis> whichAxesAreAvailable() const;
+    std::vector<MotorAxis> ignoreWhichAxisMotion() const;
+    std::vector<MotorAxis> ignoreWhichAxisFaults() const;
 
 private:
     void readSettings();

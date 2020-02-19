@@ -76,6 +76,7 @@ SOURCES += \
     requests/request_axis_safety.cpp
 
 HEADERS += \
+        requests/abstract_axis_request.h \
         spii_motion_controller.h \
         library_spiimotioncontroller_global.h \ 
     spii_version.h \

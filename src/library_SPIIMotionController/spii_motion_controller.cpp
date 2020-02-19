@@ -25,6 +25,11 @@ SPIIMotionController::~SPIIMotionController()
 
 }
 
+void SPIIMotionController::setAxesSettings(const AxisSettings &settings)
+{
+    m_StateInterface->updateAxisSettings(settings);
+}
+
 void SPIIMotionController::enableAvailableAxes()
 {
     CommandMotorEnablePtr command = std::make_shared<CommandMotorEnable>();
@@ -166,12 +171,23 @@ void SPIIMotionController::initializeMotionController()
     CommandMotorDisablePtr commandMotorDisable = std::make_shared<CommandMotorDisable>();
     m_CommsMarshaler->commandMotorDisable(*commandMotorDisable.get());
 
+    setupRequestQueue();
+
+    //Retrieve the current contents aboard the device
+    m_CommsMarshaler->initializeBufferContents();
+
+    m_DevicePolling->beginPolling();
+}
+
+void SPIIMotionController::setupRequestQueue()
+{
+    std::vector<MotorAxis> currentAxes = m_StateInterface->getAvailableAxes();
 
     //Add items to the ACS polling queue so that we can stay up to date
     // 1: Request the position of the ACS unit
     RequestTellPositionPtr requestTP = std::make_shared<RequestTellPosition>();
     common::TupleGeneralDescriptorString tuplePos("PositionStatus");
-    requestTP->addAxis(MotorAxis::X); requestTP->addAxis(MotorAxis::Y); requestTP->addAxis(MotorAxis::Z);
+    requestTP->addAxes(currentAxes);
     requestTP->setTupleDescription(common::TupleECMData(tuplePos));
     m_DevicePolling->addRequest(requestTP,20);
 
@@ -179,30 +195,28 @@ void SPIIMotionController::initializeMotionController()
     RequestAxisStatusPtr requestAS = std::make_shared<RequestAxisStatus>();
     common::TupleGeneralDescriptorString tupleAxis("AxisStatus");
     requestAS->setTupleDescription(common::TupleECMData(tupleAxis));
-    requestAS->addAxis(MotorAxis::X); requestAS->addAxis(MotorAxis::Y); requestAS->addAxis(MotorAxis::Z);
+    requestAS->addAxes(currentAxes);
     m_DevicePolling->addRequest(requestAS,100);
 
     // 1: Request the axis safety of the ACS unit
     Request_AxisSafetyPtr requestASafety = std::make_shared<Request_AxisSafety>();
     common::TupleGeneralDescriptorString tupleSafety("SafetyStatus");
     requestASafety->setTupleDescription(common::TupleECMData(tupleSafety));
-    requestASafety->addAxis(MotorAxis::X); requestASafety->addAxis(MotorAxis::Y); requestASafety->addAxis(MotorAxis::Z);
+    requestASafety->addAxes(currentAxes);
     m_DevicePolling->addRequest(requestASafety,100);
 
     // 1: Request the motor status of the ACS unit
     RequestMotorStatusPtr requestMS = std::make_shared<RequestMotorStatus>();
     common::TupleGeneralDescriptorString tupleMotor("MotorStatus");
     requestMS->setTupleDescription(common::TupleECMData(tupleMotor));
-    requestMS->addAxis(MotorAxis::X); requestMS->addAxis(MotorAxis::Y); requestMS->addAxis(MotorAxis::Z);
+    requestMS->addAxes(currentAxes);
     m_DevicePolling->addRequest(requestMS,500);
 
     // 1: Request the motor faults of the ACS unit
     Request_MotorFaultPtr requestMF = std::make_shared<Request_MotorFault>();
     common::TupleGeneralDescriptorString tupleMotorFaults("MotorFaults");
     requestMF->setTupleDescription(common::TupleECMData(tupleMotorFaults));
-    requestMF->addAxis(MotorAxis::X); requestMF->addAxis(MotorAxis::Y); requestMF->addAxis(MotorAxis::Z); //Ken commented out per errors seen on initial X,Y connection Mike
-    //requestMF->addAxis(MotorAxis::Z);
-    requestMF->setRequestAllAxes(false);
+    requestMF->addAxes(currentAxes);
     m_DevicePolling->addRequest(requestMF,500);
 
     // 1: Request the system faults of the ACS unit
@@ -216,11 +230,6 @@ void SPIIMotionController::initializeMotionController()
     common::TupleGeneralDescriptorString tupleUnsolicitedMsgs("UnsolicitedMsgs");
     requestUNM->setTupleDescription(common::TupleECMData(tupleUnsolicitedMsgs));
     m_DevicePolling->addRequest(requestUNM,100);
-
-    //Retrieve the current contents aboard the device
-    m_CommsMarshaler->initializeBufferContents();
-
-    m_DevicePolling->beginPolling();
 }
 
 void SPIIMotionController::cbi_AbstractSPIICommand(const AbstractCommandPtr command)
