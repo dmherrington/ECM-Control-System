@@ -10,16 +10,10 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     m_SensorDisplays(&m_PlotCollection)
 {
 
-
-//    applicableAxis.push_back(MotorAxis::X);
-//    applicableAxis.push_back(MotorAxis::Y);
-//    applicableAxis.push_back(MotorAxis::Z);
-
     Dialog_SettingsEditor settingsEditor;
 
     plottingWindow = settingsEditor.getPlottingDuration();
-
-    std::vector<MotorAxis> applicableAxis = settingsEditor.whichAxesAreAvailable();
+    AxisSettings axisSettings = settingsEditor.getCurrentAxisSettings();
 
     /*
      * Let us first setup the operational timers as related to
@@ -88,7 +82,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     connect(this,SIGNAL(signal_newMotionProfileState(MotionProfileState)),this,SLOT(slot_onNewMotionProfileState(MotionProfileState)));
 
-    m_API = new ECM_API();
+    m_API = new ECM_API(axisSettings);
     m_API->m_Log->setLoggingStartTime(startTime);
 
     connect(m_API, SIGNAL(signal_ExecutingCollection(ExecutionProperties)),
@@ -105,13 +99,13 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     QDockWidget *dock = new QDockWidget(tr("Motion Utility"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
-    WidgetFrontPanel_MotionControl * dockUtility_MotionControl = new WidgetFrontPanel_MotionControl(applicableAxis, m_API->m_MotionController);
-    dock->setWidget(dockUtility_MotionControl);
+    m_WidgetFrontPanel_MotionControl = new WidgetFrontPanel_MotionControl(axisSettings.getAvailableAxes(), m_API->m_MotionController);
+    dock->setWidget(m_WidgetFrontPanel_MotionControl);
     addDockWidget(Qt::RightDockWidgetArea, dock, Qt::Orientation::Vertical);
 
     QDockWidget *dock_touchoff = new QDockWidget(tr("Touchoff Utility"), this);
     dock_touchoff->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
-    WidgetFrontPanel_Touchoff * dockUtility_Touchoff = new WidgetFrontPanel_Touchoff(applicableAxis, m_API->m_MotionController);
+    WidgetFrontPanel_Touchoff * dockUtility_Touchoff = new WidgetFrontPanel_Touchoff(axisSettings.getAvailableAxes(), m_API->m_MotionController);
     dock_touchoff->setWidget(dockUtility_Touchoff);
     addDockWidget(Qt::RightDockWidgetArea, dock_touchoff, Qt::Orientation::Vertical);
 
@@ -197,7 +191,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     setupUploadCallbacks();
 
-    m_WindowConnections->connectToAllDevices();
+    //m_WindowConnections->connectToAllDevices();
 
     ProgressStateMachineStates();
 }
@@ -1213,7 +1207,11 @@ void ECMControllerGUI::on_actionSettings_triggered()
     {
         //In here we would grab the current settings
         plottingWindow = dialogWindow.getPlottingDuration();
-    }
+        AxisSettings desiredSettings = dialogWindow.getCurrentAxisSettings();
 
+        m_API->m_MotionController->setAxesSettings(desiredSettings);
+
+        m_WidgetFrontPanel_MotionControl->updateAvailableAxes(desiredSettings.getAvailableAxes());
+    }
 
 }

@@ -227,6 +227,8 @@ private:
 
     Widget_Notification* m_WidgetNotification;
 
+    WidgetFrontPanel_MotionControl* m_WidgetFrontPanel_MotionControl;
+
 private:
     void ProgressStateMachineStates();
     std::mutex m_Mutex_StateMachine;

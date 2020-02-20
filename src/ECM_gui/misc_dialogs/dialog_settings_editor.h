@@ -7,6 +7,8 @@
 
 #include "common/axis_definitions.h"
 
+#include "common/axis_settings.h"
+
 namespace Ui {
 class Dialog_SettingsEditor;
 }
@@ -24,6 +26,8 @@ public:
     std::vector<MotorAxis> whichAxesAreAvailable() const;
     std::vector<MotorAxis> ignoreWhichAxisMotion() const;
     std::vector<MotorAxis> ignoreWhichAxisFaults() const;
+
+    AxisSettings getCurrentAxisSettings() const;
 
 private:
     void readSettings();

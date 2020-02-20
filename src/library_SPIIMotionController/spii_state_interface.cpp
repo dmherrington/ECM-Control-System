@@ -1,13 +1,15 @@
 #include "spii_state_interface.h"
 
-SPIIStateInterface::SPIIStateInterface(const std::vector<MotorAxis> &availableAxes):
+SPIIStateInterface::SPIIStateInterface(const AxisSettings &settings):
     m_CB(nullptr)
 {
+    updateAxisSettings(settings);
+
     m_BufferManager = new SPII_CurrentProgram();
 
     m_MasterVariableValues = new BufferVariableValues();
 
-    m_AvailableAxes = availableAxes;
+    std::vector<MotorAxis> availableAxes = m_AxisSettings.getAvailableAxes();
 
     for(size_t index = 0; index < availableAxes.size(); index++)
     {
@@ -28,13 +30,11 @@ void SPIIStateInterface::updateAxisSettings(const AxisSettings &axisSettings)
     m_AxisSettings = axisSettings;
 
     //update the available axes object contained within this class to manage the states stored
-    m_AxisSettings.updateAvilableAxes(m_AxisSettings.getAvailableAxes());
+    updateAvailableAxes(m_AxisSettings.getAvailableAxes());
 }
 
 void SPIIStateInterface::updateAvailableAxes(const std::vector<MotorAxis> &availableAxes)
 {
-    m_AvailableAxes = availableAxes;
-
     std::map<MotorAxis,Status_AxisState>::iterator it;
 
     //add items that are not present in the current vector
@@ -50,17 +50,25 @@ void SPIIStateInterface::updateAvailableAxes(const std::vector<MotorAxis> &avail
     }
 
     //clear out the axis state if it is not present within the axis vector
-    for ( it = m_AxisState.begin(); it != m_AxisState.end(); it++ )
+    it = m_AxisState.begin();
+    while(it != m_AxisState.end())
     {
+        bool contained = false;
         //see if the current axis is contained within the vector
         for(size_t index = 0; index < availableAxes.size(); index++)
         {
             MotorAxis currentAxis = availableAxes.at(index);
-            if(currentAxis == it->first)
-                continue;
+            if(it->first == currentAxis)
+            {
+                contained = true;
+                break;
+            }
         }
         //if we made it to this point it is not in the vector and therefore we should remove
-        m_AxisState.erase(it);
+        if(contained == false)
+            it = m_AxisState.erase(it);
+        else
+            ++it;
     }
 
 

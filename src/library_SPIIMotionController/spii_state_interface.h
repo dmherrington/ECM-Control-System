@@ -50,7 +50,7 @@ public:
 class SPIIStateInterface
 {
 public:
-    SPIIStateInterface(const std::vector<MotorAxis> &availableAxes);
+    SPIIStateInterface(const AxisSettings &settings);
 
     ~SPIIStateInterface();
 
@@ -247,10 +247,6 @@ of the program.*/
     std::map<MotorAxis,Status_AxisState> m_AxisState;
 
     AxisSettings m_AxisSettings;
-
-private:
-    std::vector<MotorAxis> m_AvailableAxes;
-
 };
 
 #endif // SPII_STATE_INTERFACE_H

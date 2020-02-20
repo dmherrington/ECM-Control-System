@@ -1,6 +1,6 @@
 #include "ecm_api.h"
 
-ECM_API::ECM_API(std::vector<MotorAxis> &availableAxes)
+ECM_API::ECM_API(const AxisSettings &settings)
 {    
     m_Log = new ECMLogging(this->getSoftwareVersions());
 
@@ -8,7 +8,7 @@ ECM_API::ECM_API(std::vector<MotorAxis> &availableAxes)
 
     m_Munk = new MunkPowerSupply();
 
-    m_MotionController = new SPIIMotionController(availableAxes);
+    m_MotionController = new SPIIMotionController(settings);
 
     m_Sensoray = new Sensoray();
 

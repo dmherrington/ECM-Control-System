@@ -29,17 +29,17 @@ void Dialog_SettingsEditor::readSettings()
 
     bool isXAvailable = settings.value("availableAxis_X", false).toBool();
     ui->radioButton_XAvailable->setChecked(isXAvailable);
-    bool isYAvailable = settings.value("availableAxis_X", false).toBool();
+    bool isYAvailable = settings.value("availableAxis_Y", false).toBool();
     ui->radioButton_YAvailable->setChecked(isYAvailable);
-    bool isZAvailable = settings.value("availableAxis_X", false).toBool();
+    bool isZAvailable = settings.value("availableAxis_Z", true).toBool();
     ui->radioButton_ZAvailable->setChecked(isZAvailable);
 
     bool ignoreXMotion = settings.value("ignoreMotion_X", false).toBool();
     ui->radioButton_XMotion->setChecked(ignoreXMotion);
     bool ignoreYMotion = settings.value("ignoreMotion_Y", false).toBool();
-    ui->radioButton_YMotion->setChecked(ignoreXMotion);
+    ui->radioButton_YMotion->setChecked(ignoreYMotion);
     bool ignoreZMotion = settings.value("ignoreMotion_Z", false).toBool();
-    ui->radioButton_ZMotion->setChecked(ignoreXMotion);
+    ui->radioButton_ZMotion->setChecked(ignoreZMotion);
 
     bool ignoreXFaults = settings.value("ignoreFaults_X", false).toBool();
     ui->radioButton_XFault->setChecked(ignoreXFaults);
@@ -81,6 +81,15 @@ double Dialog_SettingsEditor::getPlottingDuration() const
     return ui->doubleSpinBox_plotDurationWindow->value();
 }
 
+AxisSettings Dialog_SettingsEditor::getCurrentAxisSettings() const
+{
+    AxisSettings currentSettings;
+    currentSettings.updateAvilableAxes(whichAxesAreAvailable());
+    currentSettings.updateIgnoredFaults(ignoreWhichAxisFaults());
+    currentSettings.updateIgnoredMotion(ignoreWhichAxisMotion());
+    return currentSettings;
+}
+
 std::vector<MotorAxis> Dialog_SettingsEditor::whichAxesAreAvailable() const
 {
     std::vector<MotorAxis> rtnAxis;
@@ -90,6 +99,8 @@ std::vector<MotorAxis> Dialog_SettingsEditor::whichAxesAreAvailable() const
         rtnAxis.push_back(MotorAxis::Y);
     if(ui->radioButton_ZAvailable->isChecked())
         rtnAxis.push_back(MotorAxis::Z);
+
+    return rtnAxis;
 }
 
 std::vector<MotorAxis> Dialog_SettingsEditor::ignoreWhichAxisMotion() const
@@ -101,6 +112,8 @@ std::vector<MotorAxis> Dialog_SettingsEditor::ignoreWhichAxisMotion() const
         rtnAxis.push_back(MotorAxis::Y);
     if(ui->radioButton_ZMotion->isChecked())
         rtnAxis.push_back(MotorAxis::Z);
+
+    return rtnAxis;
 }
 
 std::vector<MotorAxis> Dialog_SettingsEditor::ignoreWhichAxisFaults() const
@@ -112,4 +125,6 @@ std::vector<MotorAxis> Dialog_SettingsEditor::ignoreWhichAxisFaults() const
         rtnAxis.push_back(MotorAxis::Y);
     if(ui->radioButton_ZFault->isChecked())
         rtnAxis.push_back(MotorAxis::Z);
+
+    return rtnAxis;
 }

@@ -1,12 +1,12 @@
 #include "spii_motion_controller.h"
 
 
-SPIIMotionController::SPIIMotionController(const std::vector<MotorAxis> &activeAxes)
+SPIIMotionController::SPIIMotionController(const AxisSettings &settings)
 {
     m_CommsMarshaler = std::make_shared<Comms::CommsMarshaler>();
     m_CommsMarshaler->AddSubscriber(this);
 
-    m_StateInterface = new SPIIStateInterface(activeAxes);
+    m_StateInterface = new SPIIStateInterface(settings);
     m_StateInterface->connectCallback(this);
 
     stateMachine = new hsm::StateMachine();

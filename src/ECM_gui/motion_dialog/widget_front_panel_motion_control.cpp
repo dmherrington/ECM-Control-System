@@ -9,6 +9,8 @@ WidgetFrontPanel_MotionControl::WidgetFrontPanel_MotionControl(const std::vector
 
     ui->setupUi(this);
 
+    m_MotionController = motionControllerObject;
+
     unsigned int desiredTab = 0;
     for(size_t index = 0; index < axis.size(); index++)
     {
@@ -26,4 +28,22 @@ WidgetFrontPanel_MotionControl::~WidgetFrontPanel_MotionControl()
 {
     delete ui;
 }
+
+void WidgetFrontPanel_MotionControl::updateAvailableAxes(const std::vector<MotorAxis> &axes)
+{
+    ui->tabWidget->clear();
+
+    unsigned int desiredTab = 0;
+    for(size_t index = 0; index < axes.size(); index++)
+    {
+        WidgetFrontPanel_AxisMotionControl* newAxisControl = new WidgetFrontPanel_AxisMotionControl(axes.at(index),m_MotionController);
+        m_WidgetAxisControl.insert(std::pair<MotorAxis,WidgetFrontPanel_AxisMotionControl*>(axes.at(index), newAxisControl));
+        ui->tabWidget->addTab(newAxisControl, "AXIS: " + QString::fromStdString(AxisToString(axes.at(index))));
+        if(axes.at(index) == MotorAxis::Z)
+            desiredTab = static_cast<unsigned int>(index);
+    }
+
+    ui->tabWidget->setCurrentIndex(static_cast<int>(desiredTab));
+}
+
 

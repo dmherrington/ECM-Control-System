@@ -9,9 +9,9 @@
 
 #include "library_spiimotioncontroller_global.h"
 
+#include "common/axis_settings.h"
 #include "common/hsm.h"
 #include "common/commands/command_components.h"
-#include "common/axis_settings.h"
 
 #include "communications/comms_marshaler.h"
 
@@ -38,7 +38,7 @@ class LIBRARY_SPIIMOTIONCONTROLLERSHARED_EXPORT SPIIMotionController : public QO
     Q_OBJECT
 
 public:
-    SPIIMotionController(const std::vector<MotorAxis> &activeAxes);
+    SPIIMotionController(const AxisSettings &settings);
 
     ~SPIIMotionController() override;
 

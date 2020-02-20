@@ -22,6 +22,8 @@ public:
     explicit WidgetFrontPanel_MotionControl(const std::vector<MotorAxis> &axis, SPIIMotionController* motionControllerObject, QWidget *parent = nullptr);
     ~WidgetFrontPanel_MotionControl() override;
 
+public:
+    void updateAvailableAxes(const std::vector<MotorAxis> &axes);
 
 private slots:
 
@@ -29,6 +31,8 @@ private:
     Ui::WidgetFrontPanel_MotionControl *ui;
 
     std::map<MotorAxis, WidgetFrontPanel_AxisMotionControl*> m_WidgetAxisControl;
+
+    SPIIMotionController* m_MotionController;
 };
 
 #endif // WIDGET_FRONT_PANEL_MOTION_CONTROL_H

@@ -4,6 +4,8 @@
 #include <QObject>
 
 #include "ecm_api_global.h"
+
+#include "common/axis_settings.h"
 #include "common/ecm_devices.h"
 #include "common/execution_properties.h"
 
@@ -34,7 +36,7 @@ class ECM_APISHARED_EXPORT ECM_API: public QObject
     Q_OBJECT
 
 public:
-    ECM_API(std::vector<MotorAxis> &availableAxes);
+    ECM_API(const AxisSettings &settings);
 
     ~ECM_API() = default;
 

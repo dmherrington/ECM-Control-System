@@ -256,6 +256,9 @@
              <property name="text">
               <string>X</string>
              </property>
+             <property name="autoExclusive">
+              <bool>false</bool>
+             </property>
             </widget>
            </item>
            <item>
@@ -271,6 +274,9 @@
              <property name="text">
               <string>Y</string>
              </property>
+             <property name="autoExclusive">
+              <bool>false</bool>
+             </property>
             </widget>
            </item>
            <item>
@@ -285,6 +291,9 @@
              </property>
              <property name="text">
               <string>Z</string>
+             </property>
+             <property name="autoExclusive">
+              <bool>false</bool>
              </property>
             </widget>
            </item>
@@ -324,6 +333,9 @@
              <property name="text">
               <string>X</string>
              </property>
+             <property name="autoExclusive">
+              <bool>false</bool>
+             </property>
             </widget>
            </item>
            <item>
@@ -339,6 +351,9 @@
              <property name="text">
               <string>Y</string>
              </property>
+             <property name="autoExclusive">
+              <bool>false</bool>
+             </property>
             </widget>
            </item>
            <item>
@@ -353,6 +368,9 @@
              </property>
              <property name="text">
               <string>Z</string>
+             </property>
+             <property name="autoExclusive">
+              <bool>false</bool>
              </property>
             </widget>
            </item>
@@ -392,6 +410,9 @@
              <property name="text">
               <string>X</string>
              </property>
+             <property name="autoExclusive">
+              <bool>false</bool>
+             </property>
             </widget>
            </item>
            <item>
@@ -407,6 +428,9 @@
              <property name="text">
               <string>Y</string>
              </property>
+             <property name="autoExclusive">
+              <bool>false</bool>
+             </property>
             </widget>
            </item>
            <item>
@@ -421,6 +445,9 @@
              </property>
              <property name="text">
               <string>Z</string>
+             </property>
+             <property name="autoExclusive">
+              <bool>false</bool>
              </property>
             </widget>
            </item>
