@@ -28,23 +28,27 @@ void Widget_DetailedNotification::setNotification(const common::NotificationUpda
 
 void Widget_DetailedNotification::setNotificationType(const common::NotificationUpdate::NotificationTypes &type)
 {
+    QPalette p = ui->frame->palette(); // define pallete for textEdit..
+
     switch (type) {
     case common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL:
     {
-        //ui->lineEdit_NotificationType->setText("GENERAL");
+        //There should be no color differentiation with a general message
         break;
     }
     case common::NotificationUpdate::NotificationTypes::NOTIFICATION_ALERT:
     {
-        //ui->lineEdit_NotificationType->setText("ALERT");
+        ui->frame->setStyleSheet(" .QFrame { background-color : orange } ");
         break;
     }
     case common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR:
     {
-        //ui->lineEdit_NotificationType->setText("ERROR");
+        ui->frame->setStyleSheet(" .QFrame { background-color : red } ");
         break;
     }
     }
+
+    ui->lineEdit_Time->setPalette(p); // change textedit palette
 }
 
 void Widget_DetailedNotification::setNotificationTime(const common::EnvironmentTime &noticeTime)

@@ -17,9 +17,11 @@ public:
     explicit TouchoffWidget_AxisValue(const MotorAxis &axis, QWidget *parent = 0);
     ~TouchoffWidget_AxisValue();
 
-    double getAxisValue() const;
+    void getAxisValue(double &refValue, double &gapValue) const;
 
-    void setAxisValue(const double &value);
+    void setAxisValue(const double &refValue, const double &gapValue);
+
+    void setRefValue(const double &refValue);
 
     void executingAutomatedSequence(const bool &shouldBlock);
 
@@ -33,8 +35,6 @@ private:
     Ui::TouchoffWidget_AxisValue *ui;
 
     MotorAxis currentAxis;
-
-    double axisValue = 0.0;
 };
 
 #endif // TOUCHOFF_WIDGET_AXIS_VALUE_H

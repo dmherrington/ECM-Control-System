@@ -71,7 +71,7 @@ public:
     //! \brief addAxis
     //! \param axes
     //!
-    void addAxis(const std::vector<MotorAxis> &axes);
+    void addAxes(const std::vector<MotorAxis> &axes);
 
 
     //!

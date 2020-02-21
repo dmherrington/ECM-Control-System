@@ -135,7 +135,7 @@ bool SPIIStateInterface::areAnyMotorsInMotion() const
 
     for ( it = m_AxisState.begin(); it != m_AxisState.end(); it++ )
     {
-        if((it->second.m_MotorStatus.get().isMotorMoving()) && (it->first != MotorAxis::Y))
+        if((it->second.m_MotorStatus.get().isMotorMoving()) && (!m_AxisSettings.shouldMotionBeIgnored(it->first)))
             return true;
     }
     return false;

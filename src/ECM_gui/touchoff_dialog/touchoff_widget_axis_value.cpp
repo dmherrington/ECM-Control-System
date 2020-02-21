@@ -8,6 +8,7 @@ TouchoffWidget_AxisValue::TouchoffWidget_AxisValue(const MotorAxis &axis, QWidge
     ui->setupUi(this);
 
     this->currentAxis = axis;
+    ui->label_Axis->setText(QString::fromStdString(AxisToString(axis)));
 }
 
 TouchoffWidget_AxisValue::~TouchoffWidget_AxisValue()
@@ -18,22 +19,33 @@ TouchoffWidget_AxisValue::~TouchoffWidget_AxisValue()
 void TouchoffWidget_AxisValue::executingAutomatedSequence(const bool &shouldBlock)
 {
     ui->doubleSpinBox_TouchoffRef->blockSignals(shouldBlock);
+    ui->doubleSpinBox_TouchoffGap->blockSignals(shouldBlock);
+
     ui->doubleSpinBox_TouchoffRef->setDisabled(shouldBlock);
+    ui->doubleSpinBox_TouchoffGap->setDisabled(shouldBlock);
+
 }
 
-double TouchoffWidget_AxisValue::getAxisValue() const
-{
-    return this->axisValue;
-}
-
-void TouchoffWidget_AxisValue::setAxisValue(const double &value)
+void TouchoffWidget_AxisValue::setAxisValue(const double &refValue, const double &gapValue)
 {
     //We are going to allow the this to feedback on signal changed, allowing the it to hit the motion controller
-    ui->doubleSpinBox_TouchoffRef->setValue(value);
+    ui->doubleSpinBox_TouchoffRef->setValue(refValue);
+    ui->doubleSpinBox_TouchoffGap->setValue(gapValue);
+}
+
+void TouchoffWidget_AxisValue::setRefValue(const double &refValue)
+{
+    //We are going to allow the this to feedback on signal changed, allowing the it to hit the motion controller
+    ui->doubleSpinBox_TouchoffRef->setValue(refValue);
+}
+
+void TouchoffWidget_AxisValue::getAxisValue(double &refValue, double &gapValue) const
+{
+    refValue = ui->doubleSpinBox_TouchoffRef->value();
+    gapValue = ui->doubleSpinBox_TouchoffGap->value();
 }
 
 void TouchoffWidget_AxisValue::on_doubleSpinBox_TouchoffRef_editingFinished()
 {
-    this->axisValue = this->ui->doubleSpinBox_TouchoffRef->value();
     emit signal_AxisValueChanged();
 }

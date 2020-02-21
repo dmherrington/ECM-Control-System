@@ -32,7 +32,7 @@ void CommandMotorEnable::addAxis(const MotorAxis &axis)
     }
 }
 
-void CommandMotorEnable::addAxis(const std::vector<MotorAxis> &axes)
+void CommandMotorEnable::addAxes(const std::vector<MotorAxis> &axes)
 {
     for(size_t index = 0; index < axes.size(); index++)
     {

@@ -54,6 +54,45 @@ void Dialog_SettingsEditor::closeEvent(QCloseEvent *event)
         event->accept();
 }
 
+void Dialog_SettingsEditor::on_radioButton_XAvailable_released()
+{
+    bool available = ui->radioButton_XAvailable->isChecked();
+    if(available == false)
+    {
+        ui->radioButton_XFault->setChecked(available);
+        ui->radioButton_XMotion->setChecked(available);
+    }
+
+    ui->radioButton_XFault->setCheckable(available);
+    ui->radioButton_XMotion->setCheckable(available);
+}
+
+void Dialog_SettingsEditor::on_radioButton_YAvailable_released()
+{
+    bool available = ui->radioButton_YAvailable->isChecked();
+    if(available == false)
+    {
+        ui->radioButton_YMotion->setChecked(available);
+        ui->radioButton_YFault->setChecked(available);
+    }
+
+    ui->radioButton_YFault->setCheckable(available);
+    ui->radioButton_YMotion->setCheckable(available);
+}
+
+void Dialog_SettingsEditor::on_radioButton_ZAvailable_released()
+{
+    bool available = ui->radioButton_ZAvailable->isChecked();
+    if(available == false)
+    {
+        ui->radioButton_ZFault->setChecked(available);
+        ui->radioButton_ZMotion->setChecked(available);
+    }
+
+    ui->radioButton_ZFault->setCheckable(available);
+    ui->radioButton_ZMotion->setCheckable(available);
+}
+
 void Dialog_SettingsEditor::slot_EventAccepted()
 {
     QSettings settings(QSettings::IniFormat, QSettings::UserScope,"ECMController", "Alarm Settings");

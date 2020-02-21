@@ -105,8 +105,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     QDockWidget *dock_touchoff = new QDockWidget(tr("Touchoff Utility"), this);
     dock_touchoff->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
-    WidgetFrontPanel_Touchoff * dockUtility_Touchoff = new WidgetFrontPanel_Touchoff(axisSettings.getAvailableAxes(), m_API->m_MotionController);
-    dock_touchoff->setWidget(dockUtility_Touchoff);
+    m_WidgetFrontPanel_Touchoff = new WidgetFrontPanel_Touchoff(axisSettings.getAvailableAxes(), m_API->m_MotionController);
+    dock_touchoff->setWidget(m_WidgetFrontPanel_Touchoff);
     addDockWidget(Qt::RightDockWidgetArea, dock_touchoff, Qt::Orientation::Vertical);
 
     QDockWidget *dock_pump = new QDockWidget(tr("Pump Utility"), this);
@@ -1212,6 +1212,7 @@ void ECMControllerGUI::on_actionSettings_triggered()
         m_API->m_MotionController->setAxesSettings(desiredSettings);
 
         m_WidgetFrontPanel_MotionControl->updateAvailableAxes(desiredSettings.getAvailableAxes());
+        m_WidgetFrontPanel_Touchoff->updateAvailableAxes(desiredSettings.getAvailableAxes());
     }
 
 }

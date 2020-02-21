@@ -93,6 +93,7 @@ void ECMState_UploadPumpParameters::OnEnter(ECMCommand_AbstractProfileConfigPtr 
                 APIUpdate.setPeripheralMessage("Upload to pump has failed.");
                 desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
             }
+            emit Owner().signal_APINotification(APIUpdate);
         });
 
         Owner().m_Pump->setPumpProperties(castConfig->m_PumpParameters);

@@ -37,6 +37,12 @@ private:
 private slots:
     void slot_EventAccepted();
 
+    void on_radioButton_XAvailable_released();
+
+    void on_radioButton_YAvailable_released();
+
+    void on_radioButton_ZAvailable_released();
+
 private:
     Ui::Dialog_SettingsEditor *ui;
 };

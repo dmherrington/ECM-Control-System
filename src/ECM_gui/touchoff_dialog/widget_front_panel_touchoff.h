@@ -24,10 +24,11 @@ public:
 
     void executingAutomatedSequence(const bool &shouldBlock);
 
-private:
-    void transmitTouchoffReference();
+public:
+    void updateAvailableAxes(const std::vector<MotorAxis> &axes);
 
-    void transmitTouchoffGap();
+private:
+    void transmitTouchoffParameters();
 
 private slots:
 
@@ -46,9 +47,7 @@ private:
     Ui::WidgetFrontPanel_Touchoff *ui;
     SPIIMotionController* m_MotionController;
 
-    std::map<MotorAxis,TouchoffWidget_AxisValue*> m_TouchoffRefValues;
-    std::map<MotorAxis,TouchoffWidget_AxisValue*> m_TouchoffGapValues;
-
+    std::map<MotorAxis,TouchoffWidget_AxisValue*> m_TouchoffValues;
 };
 
 #endif // WIDGET_FRONT_PANEL_TOUCHOFF_H

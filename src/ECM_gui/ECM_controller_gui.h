@@ -229,6 +229,8 @@ private:
 
     WidgetFrontPanel_MotionControl* m_WidgetFrontPanel_MotionControl;
 
+    WidgetFrontPanel_Touchoff* m_WidgetFrontPanel_Touchoff;
+
 private:
     void ProgressStateMachineStates();
     std::mutex m_Mutex_StateMachine;

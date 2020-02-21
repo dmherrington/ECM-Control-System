@@ -33,7 +33,7 @@ void SPIIMotionController::setAxesSettings(const AxisSettings &settings)
 void SPIIMotionController::enableAvailableAxes()
 {
     CommandMotorEnablePtr command = std::make_shared<CommandMotorEnable>();
-    command->addAxis(MotorAxis::X); command->addAxis(MotorAxis::Y); command->addAxis(MotorAxis::Z);
+    command->addAxes(m_StateInterface->getAvailableAxes());
     this->executeCommand(command);
 }
 

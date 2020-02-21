@@ -95,12 +95,20 @@ void ECMState_SetupMachinePump::OnEnter(ECMCommand_AbstractProfileConfigPtr conf
         else if(castConfig->m_PumpParameters.shouldPumpBeUtilized() && !Owner().m_Pump->isPumpInitialized()) //the pump is already running, however, is not currently initialized
         {
             Owner().m_Pump->AddLambda_FinishedPumpInitialization(this,[this](const bool &completed){
+                NotificationUpdate APIUpdate("API",ECMDevice::DEVICE_PUMP);
+
                 if(completed)
                 {
+                    APIUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL);
+                    APIUpdate.setPeripheralMessage("Pump has finished initialization.");
                     desiredState = ECMState::STATE_ECM_SETUP_MACHINE_COMPLETE;
                 }else{
+                    APIUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_ALERT);
+                    APIUpdate.setPeripheralMessage("Pump has failed to initialize. Aborting.");
                     desiredState = ECMState::STATE_ECM_SETUP_MACHINE_FAILED;
                 }
+                emit Owner().signal_APINotification(APIUpdate);
+
             });
         }
         else
