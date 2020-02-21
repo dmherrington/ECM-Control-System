@@ -4,6 +4,7 @@
 #include <QWidget>
 
 #include "common/axis_definitions.h"
+#include "common/commands/command_variable.h"
 
 namespace Ui {
 class TouchoffWidget_AxisValue;
@@ -19,6 +20,8 @@ public:
 
     void getAxisValue(double &refValue, double &gapValue) const;
 
+    int getAxisDirection() const;
+
     void setAxisValue(const double &refValue, const double &gapValue);
 
     void setRefValue(const double &refValue);
@@ -28,8 +31,12 @@ public:
 signals:
     void signal_AxisValueChanged();
 
+    void signal_PushButtonRun(const MotorAxis &axis);
+
 private slots:
     void on_doubleSpinBox_TouchoffRef_editingFinished();
+
+    void on_pushButton_Run_released();
 
 private:
     Ui::TouchoffWidget_AxisValue *ui;

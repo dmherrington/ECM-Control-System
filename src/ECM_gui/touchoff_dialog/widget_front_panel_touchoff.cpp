@@ -18,6 +18,7 @@ WidgetFrontPanel_Touchoff::WidgetFrontPanel_Touchoff(const std::vector<MotorAxis
         TouchoffWidget_AxisValue* axisValueWidget = new TouchoffWidget_AxisValue(applicableAxis.at(axisIndex));
 
         connect(axisValueWidget,SIGNAL(signal_AxisValueChanged()),this,SLOT(slot_AxisValueChanged()));
+        connect(axisValueWidget, SIGNAL(signal_PushButtonRun(MotorAxis)), this, SLOT(slot_OnRunPushButton(MotorAxis)));
         m_TouchoffValues.insert(std::pair<MotorAxis,TouchoffWidget_AxisValue*>(currentAxis, axisValueWidget));
 
         ui->verticalLayout_Values->addWidget(axisValueWidget);
@@ -44,6 +45,18 @@ WidgetFrontPanel_Touchoff::~WidgetFrontPanel_Touchoff()
 void WidgetFrontPanel_Touchoff::slot_AxisValueChanged()
 {
 
+}
+
+void WidgetFrontPanel_Touchoff::slot_OnRunPushButton(const MotorAxis &axis)
+{
+    TouchoffWidget_AxisValue* axisValueWidget = m_TouchoffValues.at(axis);
+
+    int direction = axisValueWidget->getAxisDirection();
+    Command_VariablePtr commandDirection = std::make_shared<Command_Variable>("directionGlobal ");
+    commandDirection->setVariableValue(direction);
+    m_MotionController->executeCommand(commandDirection);
+
+    on_pushButton_ExecuteTouchoff_released();
 }
 
 void WidgetFrontPanel_Touchoff::on_pushButton_ExecuteTouchoff_released()

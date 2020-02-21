@@ -34,6 +34,8 @@ private slots:
 
     void slot_AxisValueChanged();
 
+    void slot_OnRunPushButton(const MotorAxis &axis);
+
     void on_pushButton_ExecuteTouchoff_released();
 
     void on_pushButton_TouchoffRef_released();

@@ -24,6 +24,11 @@ void TouchoffWidget_AxisValue::executingAutomatedSequence(const bool &shouldBloc
     ui->doubleSpinBox_TouchoffRef->setDisabled(shouldBlock);
     ui->doubleSpinBox_TouchoffGap->setDisabled(shouldBlock);
 
+    ui->pushButton_Run->setDisabled(shouldBlock);
+
+    ui->radioButton_DirectionP->setDisabled(shouldBlock);
+    ui->radioButton_DirectionM->setDisabled(shouldBlock);
+
 }
 
 void TouchoffWidget_AxisValue::setAxisValue(const double &refValue, const double &gapValue)
@@ -45,7 +50,23 @@ void TouchoffWidget_AxisValue::getAxisValue(double &refValue, double &gapValue) 
     gapValue = ui->doubleSpinBox_TouchoffGap->value();
 }
 
+int TouchoffWidget_AxisValue::getAxisDirection() const
+{
+    int directionFlag = 0;
+    if(ui->radioButton_DirectionP->isChecked())
+        directionFlag = 1;
+    else
+        directionFlag = -1;
+
+    return directionFlag;
+}
+
 void TouchoffWidget_AxisValue::on_doubleSpinBox_TouchoffRef_editingFinished()
 {
     emit signal_AxisValueChanged();
+}
+
+void TouchoffWidget_AxisValue::on_pushButton_Run_released()
+{
+    emit signal_PushButtonRun(this->currentAxis);
 }

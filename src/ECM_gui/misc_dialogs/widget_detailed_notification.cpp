@@ -15,7 +15,6 @@ Widget_DetailedNotification::~Widget_DetailedNotification()
 
 void Widget_DetailedNotification::setNotification(const common::NotificationUpdate &notice)
 {
-    setNotificationType(notice.getUpdateType());
     setNotificationTime(notice.getNotificationTime());
     setNotificationMessage(notice.getUpdateType(), notice.getSourceName() + ":" + notice.getPeripheralMessage());
 
@@ -34,6 +33,7 @@ void Widget_DetailedNotification::setNotificationType(const common::Notification
     case common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL:
     {
         //There should be no color differentiation with a general message
+        ui->frame->setStyleSheet(" .QFrame { background-color : green } ");
         break;
     }
     case common::NotificationUpdate::NotificationTypes::NOTIFICATION_ALERT:
@@ -58,28 +58,6 @@ void Widget_DetailedNotification::setNotificationTime(const common::EnvironmentT
 }
 void Widget_DetailedNotification::setNotificationMessage(const common::NotificationUpdate::NotificationTypes &type, const std::string &msg)
 {
+    setNotificationType(type);
     ui->plainTextEdit_Message->setPlainText(QString::fromStdString(msg));
-
-    QPalette p = ui->lineEdit_Time->palette();
-
-    switch (type) {
-    case common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL:
-    {
-        break;
-    }
-    case common::NotificationUpdate::NotificationTypes::NOTIFICATION_ALERT:
-    {
-        p.setColor(QPalette::Base, QColor(255,165,0));
-        ui->lineEdit_Time->setPalette(p);
-        ui->lineEdit_Time->show();
-        break;
-    }
-    case common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR:
-    {
-        p.setColor(QPalette::Base, Qt::red);
-        ui->lineEdit_Time->setPalette(p);
-        ui->lineEdit_Time->show();
-        break;
-    }
-    }
 }
