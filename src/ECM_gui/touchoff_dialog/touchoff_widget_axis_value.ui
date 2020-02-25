@@ -90,7 +90,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_TouchoffRef">
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_TouchoffGap">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -140,7 +140,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_TouchoffGap">
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_TouchoffRef">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>

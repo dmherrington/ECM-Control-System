@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'window_rigol_control.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.6
+** Created by: Qt User Interface Compiler version 5.10.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -12,9 +12,11 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
@@ -57,7 +59,7 @@ public:
     void setupUi(QMainWindow *Window_RigolControl)
     {
         if (Window_RigolControl->objectName().isEmpty())
-            Window_RigolControl->setObjectName(QString::fromUtf8("Window_RigolControl"));
+            Window_RigolControl->setObjectName(QStringLiteral("Window_RigolControl"));
         Window_RigolControl->resize(501, 260);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
@@ -66,7 +68,7 @@ public:
         Window_RigolControl->setSizePolicy(sizePolicy);
         Window_RigolControl->setMinimumSize(QSize(501, 260));
         Window_RigolControl->setMaximumSize(QSize(1000, 1000));
-        Window_RigolControl->setStyleSheet(QString::fromUtf8("QMenuBar{\n"
+        Window_RigolControl->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
 "	font: 12pt \"MS Shell Dlg 2\";\n"
@@ -185,30 +187,30 @@ public:
 "width:20px;\n"
 "}"));
         actionOpen = new QAction(Window_RigolControl);
-        actionOpen->setObjectName(QString::fromUtf8("actionOpen"));
+        actionOpen->setObjectName(QStringLiteral("actionOpen"));
         actionSave = new QAction(Window_RigolControl);
-        actionSave->setObjectName(QString::fromUtf8("actionSave"));
+        actionSave->setObjectName(QStringLiteral("actionSave"));
         actionSave_As = new QAction(Window_RigolControl);
-        actionSave_As->setObjectName(QString::fromUtf8("actionSave_As"));
+        actionSave_As->setObjectName(QStringLiteral("actionSave_As"));
         actionClose = new QAction(Window_RigolControl);
-        actionClose->setObjectName(QString::fromUtf8("actionClose"));
+        actionClose->setObjectName(QStringLiteral("actionClose"));
         centralwidget = new QWidget(Window_RigolControl);
-        centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
+        centralwidget->setObjectName(QStringLiteral("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
-        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
         widget_RadioButtons = new Widget_RigolRadio(centralwidget);
-        widget_RadioButtons->setObjectName(QString::fromUtf8("widget_RadioButtons"));
+        widget_RadioButtons->setObjectName(QStringLiteral("widget_RadioButtons"));
         widget_RadioButtons->setMinimumSize(QSize(482, 100));
         widget_RadioButtons->setMaximumSize(QSize(482, 100));
 
         gridLayout->addWidget(widget_RadioButtons, 0, 0, 1, 1);
 
         horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         verticalLayout_2 = new QVBoxLayout();
-        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         label_Connection = new QLabel(centralwidget);
-        label_Connection->setObjectName(QString::fromUtf8("label_Connection"));
+        label_Connection->setObjectName(QStringLiteral("label_Connection"));
         QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -224,7 +226,7 @@ public:
         verticalLayout_2->addWidget(label_Connection);
 
         widget_PumpOn = new LED(centralwidget);
-        widget_PumpOn->setObjectName(QString::fromUtf8("widget_PumpOn"));
+        widget_PumpOn->setObjectName(QStringLiteral("widget_PumpOn"));
         sizePolicy1.setHeightForWidth(widget_PumpOn->sizePolicy().hasHeightForWidth());
         widget_PumpOn->setSizePolicy(sizePolicy1);
         widget_PumpOn->setMinimumSize(QSize(80, 50));
@@ -240,7 +242,7 @@ public:
         horizontalLayout->addItem(horizontalSpacer);
 
         comboBox_Channel = new QComboBox(centralwidget);
-        comboBox_Channel->setObjectName(QString::fromUtf8("comboBox_Channel"));
+        comboBox_Channel->setObjectName(QStringLiteral("comboBox_Channel"));
         sizePolicy1.setHeightForWidth(comboBox_Channel->sizePolicy().hasHeightForWidth());
         comboBox_Channel->setSizePolicy(sizePolicy1);
         comboBox_Channel->setMinimumSize(QSize(200, 25));
@@ -254,7 +256,7 @@ public:
         horizontalLayout->addItem(horizontalSpacer_2);
 
         pushButton_Done = new QPushButton(centralwidget);
-        pushButton_Done->setObjectName(QString::fromUtf8("pushButton_Done"));
+        pushButton_Done->setObjectName(QStringLiteral("pushButton_Done"));
         sizePolicy1.setHeightForWidth(pushButton_Done->sizePolicy().hasHeightForWidth());
         pushButton_Done->setSizePolicy(sizePolicy1);
         pushButton_Done->setMinimumSize(QSize(100, 40));
@@ -270,19 +272,19 @@ public:
 
         Window_RigolControl->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Window_RigolControl);
-        menubar->setObjectName(QString::fromUtf8("menubar"));
+        menubar->setObjectName(QStringLiteral("menubar"));
         menubar->setGeometry(QRect(0, 0, 501, 40));
         menuFile = new QMenu(menubar);
-        menuFile->setObjectName(QString::fromUtf8("menuFile"));
+        menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menubar);
-        menuEdit->setObjectName(QString::fromUtf8("menuEdit"));
+        menuEdit->setObjectName(QStringLiteral("menuEdit"));
         menuTools = new QMenu(menubar);
-        menuTools->setObjectName(QString::fromUtf8("menuTools"));
+        menuTools->setObjectName(QStringLiteral("menuTools"));
         menuHelp = new QMenu(menubar);
-        menuHelp->setObjectName(QString::fromUtf8("menuHelp"));
+        menuHelp->setObjectName(QStringLiteral("menuHelp"));
         Window_RigolControl->setMenuBar(menubar);
         statusbar = new QStatusBar(Window_RigolControl);
-        statusbar->setObjectName(QString::fromUtf8("statusbar"));
+        statusbar->setObjectName(QStringLiteral("statusbar"));
         Window_RigolControl->setStatusBar(statusbar);
 
         menubar->addAction(menuFile->menuAction());

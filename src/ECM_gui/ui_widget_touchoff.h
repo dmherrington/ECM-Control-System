@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_touchoff.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.6
+** Created by: Qt User Interface Compiler version 5.10.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,11 +10,14 @@
 #define UI_WIDGET_TOUCHOFF_H
 
 #include <QtCore/QVariant>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
@@ -52,7 +55,7 @@ public:
     void setupUi(QWidget *Widget_Touchoff)
     {
         if (Widget_Touchoff->objectName().isEmpty())
-            Widget_Touchoff->setObjectName(QString::fromUtf8("Widget_Touchoff"));
+            Widget_Touchoff->setObjectName(QStringLiteral("Widget_Touchoff"));
         Widget_Touchoff->resize(580, 160);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
@@ -61,7 +64,7 @@ public:
         Widget_Touchoff->setSizePolicy(sizePolicy);
         Widget_Touchoff->setMinimumSize(QSize(580, 160));
         Widget_Touchoff->setMaximumSize(QSize(580, 160));
-        Widget_Touchoff->setStyleSheet(QString::fromUtf8("QMenuBar{\n"
+        Widget_Touchoff->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
 "	font: 12pt \"MS Shell Dlg 2\";\n"
@@ -179,17 +182,17 @@ public:
 "width:20px;\n"
 "}"));
         gridLayout_2 = new QGridLayout(Widget_Touchoff);
-        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         horizontalLayout_11 = new QHBoxLayout();
-        horizontalLayout_11->setObjectName(QString::fromUtf8("horizontalLayout_11"));
+        horizontalLayout_11->setObjectName(QStringLiteral("horizontalLayout_11"));
         horizontalSpacer_15 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_11->addItem(horizontalSpacer_15);
 
         gridLayout_13 = new QGridLayout();
-        gridLayout_13->setObjectName(QString::fromUtf8("gridLayout_13"));
+        gridLayout_13->setObjectName(QStringLiteral("gridLayout_13"));
         label_ManualControl_4 = new QLabel(Widget_Touchoff);
-        label_ManualControl_4->setObjectName(QString::fromUtf8("label_ManualControl_4"));
+        label_ManualControl_4->setObjectName(QStringLiteral("label_ManualControl_4"));
         QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -217,11 +220,11 @@ public:
         gridLayout_2->addLayout(horizontalLayout_11, 0, 0, 1, 1);
 
         gridLayout = new QGridLayout();
-        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
         horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         pushButton_TouchoffRef = new QPushButton(Widget_Touchoff);
-        pushButton_TouchoffRef->setObjectName(QString::fromUtf8("pushButton_TouchoffRef"));
+        pushButton_TouchoffRef->setObjectName(QStringLiteral("pushButton_TouchoffRef"));
         QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy2.setHorizontalStretch(0);
         sizePolicy2.setVerticalStretch(0);
@@ -236,24 +239,24 @@ public:
         horizontalLayout_2->addWidget(pushButton_TouchoffRef);
 
         doubleSpinBox_TouchoffRefX = new QDoubleSpinBox(Widget_Touchoff);
-        doubleSpinBox_TouchoffRefX->setObjectName(QString::fromUtf8("doubleSpinBox_TouchoffRefX"));
+        doubleSpinBox_TouchoffRefX->setObjectName(QStringLiteral("doubleSpinBox_TouchoffRefX"));
         sizePolicy2.setHeightForWidth(doubleSpinBox_TouchoffRefX->sizePolicy().hasHeightForWidth());
         doubleSpinBox_TouchoffRefX->setSizePolicy(sizePolicy2);
         doubleSpinBox_TouchoffRefX->setMinimumSize(QSize(120, 25));
         doubleSpinBox_TouchoffRefX->setMaximumSize(QSize(120, 25));
         QFont font2;
-        font2.setFamily(QString::fromUtf8("MS Shell Dlg 2"));
+        font2.setFamily(QStringLiteral("MS Shell Dlg 2"));
         font2.setPointSize(11);
         doubleSpinBox_TouchoffRefX->setFont(font2);
         doubleSpinBox_TouchoffRefX->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         doubleSpinBox_TouchoffRefX->setDecimals(1);
-        doubleSpinBox_TouchoffRefX->setMinimum(0.000000000000000);
-        doubleSpinBox_TouchoffRefX->setMaximum(500000.000000000000000);
+        doubleSpinBox_TouchoffRefX->setMinimum(0);
+        doubleSpinBox_TouchoffRefX->setMaximum(500000);
 
         horizontalLayout_2->addWidget(doubleSpinBox_TouchoffRefX);
 
         doubleSpinBox_TouchoffRefY = new QDoubleSpinBox(Widget_Touchoff);
-        doubleSpinBox_TouchoffRefY->setObjectName(QString::fromUtf8("doubleSpinBox_TouchoffRefY"));
+        doubleSpinBox_TouchoffRefY->setObjectName(QStringLiteral("doubleSpinBox_TouchoffRefY"));
         sizePolicy2.setHeightForWidth(doubleSpinBox_TouchoffRefY->sizePolicy().hasHeightForWidth());
         doubleSpinBox_TouchoffRefY->setSizePolicy(sizePolicy2);
         doubleSpinBox_TouchoffRefY->setMinimumSize(QSize(120, 25));
@@ -261,13 +264,13 @@ public:
         doubleSpinBox_TouchoffRefY->setFont(font2);
         doubleSpinBox_TouchoffRefY->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         doubleSpinBox_TouchoffRefY->setDecimals(1);
-        doubleSpinBox_TouchoffRefY->setMinimum(0.000000000000000);
-        doubleSpinBox_TouchoffRefY->setMaximum(500000.000000000000000);
+        doubleSpinBox_TouchoffRefY->setMinimum(0);
+        doubleSpinBox_TouchoffRefY->setMaximum(500000);
 
         horizontalLayout_2->addWidget(doubleSpinBox_TouchoffRefY);
 
         doubleSpinBox_TouchoffRefZ = new QDoubleSpinBox(Widget_Touchoff);
-        doubleSpinBox_TouchoffRefZ->setObjectName(QString::fromUtf8("doubleSpinBox_TouchoffRefZ"));
+        doubleSpinBox_TouchoffRefZ->setObjectName(QStringLiteral("doubleSpinBox_TouchoffRefZ"));
         sizePolicy2.setHeightForWidth(doubleSpinBox_TouchoffRefZ->sizePolicy().hasHeightForWidth());
         doubleSpinBox_TouchoffRefZ->setSizePolicy(sizePolicy2);
         doubleSpinBox_TouchoffRefZ->setMinimumSize(QSize(120, 25));
@@ -275,8 +278,8 @@ public:
         doubleSpinBox_TouchoffRefZ->setFont(font2);
         doubleSpinBox_TouchoffRefZ->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         doubleSpinBox_TouchoffRefZ->setDecimals(1);
-        doubleSpinBox_TouchoffRefZ->setMinimum(0.000000000000000);
-        doubleSpinBox_TouchoffRefZ->setMaximum(500000.000000000000000);
+        doubleSpinBox_TouchoffRefZ->setMinimum(0);
+        doubleSpinBox_TouchoffRefZ->setMaximum(500000);
 
         horizontalLayout_2->addWidget(doubleSpinBox_TouchoffRefZ);
 
@@ -284,9 +287,9 @@ public:
         gridLayout->addLayout(horizontalLayout_2, 0, 0, 1, 1);
 
         horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
         pushButton_TouchoffGap = new QPushButton(Widget_Touchoff);
-        pushButton_TouchoffGap->setObjectName(QString::fromUtf8("pushButton_TouchoffGap"));
+        pushButton_TouchoffGap->setObjectName(QStringLiteral("pushButton_TouchoffGap"));
         sizePolicy2.setHeightForWidth(pushButton_TouchoffGap->sizePolicy().hasHeightForWidth());
         pushButton_TouchoffGap->setSizePolicy(sizePolicy2);
         pushButton_TouchoffGap->setMinimumSize(QSize(180, 25));
@@ -296,7 +299,7 @@ public:
         horizontalLayout_3->addWidget(pushButton_TouchoffGap);
 
         doubleSpinBox_InitialGapX = new QDoubleSpinBox(Widget_Touchoff);
-        doubleSpinBox_InitialGapX->setObjectName(QString::fromUtf8("doubleSpinBox_InitialGapX"));
+        doubleSpinBox_InitialGapX->setObjectName(QStringLiteral("doubleSpinBox_InitialGapX"));
         doubleSpinBox_InitialGapX->setMinimumSize(QSize(120, 25));
         doubleSpinBox_InitialGapX->setMaximumSize(QSize(120, 25));
         QFont font3;
@@ -304,29 +307,29 @@ public:
         doubleSpinBox_InitialGapX->setFont(font3);
         doubleSpinBox_InitialGapX->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         doubleSpinBox_InitialGapX->setDecimals(1);
-        doubleSpinBox_InitialGapX->setMaximum(100000.000000000000000);
+        doubleSpinBox_InitialGapX->setMaximum(100000);
 
         horizontalLayout_3->addWidget(doubleSpinBox_InitialGapX);
 
         doubleSpinBox_InitialGapY = new QDoubleSpinBox(Widget_Touchoff);
-        doubleSpinBox_InitialGapY->setObjectName(QString::fromUtf8("doubleSpinBox_InitialGapY"));
+        doubleSpinBox_InitialGapY->setObjectName(QStringLiteral("doubleSpinBox_InitialGapY"));
         doubleSpinBox_InitialGapY->setMinimumSize(QSize(120, 25));
         doubleSpinBox_InitialGapY->setMaximumSize(QSize(120, 25));
         doubleSpinBox_InitialGapY->setFont(font3);
         doubleSpinBox_InitialGapY->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         doubleSpinBox_InitialGapY->setDecimals(1);
-        doubleSpinBox_InitialGapY->setMaximum(100000.000000000000000);
+        doubleSpinBox_InitialGapY->setMaximum(100000);
 
         horizontalLayout_3->addWidget(doubleSpinBox_InitialGapY);
 
         doubleSpinBox_InitialGapZ = new QDoubleSpinBox(Widget_Touchoff);
-        doubleSpinBox_InitialGapZ->setObjectName(QString::fromUtf8("doubleSpinBox_InitialGapZ"));
+        doubleSpinBox_InitialGapZ->setObjectName(QStringLiteral("doubleSpinBox_InitialGapZ"));
         doubleSpinBox_InitialGapZ->setMinimumSize(QSize(120, 25));
         doubleSpinBox_InitialGapZ->setMaximumSize(QSize(120, 25));
         doubleSpinBox_InitialGapZ->setFont(font3);
         doubleSpinBox_InitialGapZ->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         doubleSpinBox_InitialGapZ->setDecimals(1);
-        doubleSpinBox_InitialGapZ->setMaximum(100000.000000000000000);
+        doubleSpinBox_InitialGapZ->setMaximum(100000);
 
         horizontalLayout_3->addWidget(doubleSpinBox_InitialGapZ);
 
@@ -337,13 +340,13 @@ public:
         gridLayout_2->addLayout(gridLayout, 1, 0, 1, 1);
 
         horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         horizontalSpacer_17 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer_17);
 
         checkBox_UtilizeTouchoff = new QCheckBox(Widget_Touchoff);
-        checkBox_UtilizeTouchoff->setObjectName(QString::fromUtf8("checkBox_UtilizeTouchoff"));
+        checkBox_UtilizeTouchoff->setObjectName(QStringLiteral("checkBox_UtilizeTouchoff"));
         checkBox_UtilizeTouchoff->setFont(font1);
         checkBox_UtilizeTouchoff->setChecked(true);
 
@@ -354,7 +357,7 @@ public:
         horizontalLayout->addItem(horizontalSpacer_18);
 
         checkBox_ReferenceOldPosition = new QCheckBox(Widget_Touchoff);
-        checkBox_ReferenceOldPosition->setObjectName(QString::fromUtf8("checkBox_ReferenceOldPosition"));
+        checkBox_ReferenceOldPosition->setObjectName(QStringLiteral("checkBox_ReferenceOldPosition"));
         checkBox_ReferenceOldPosition->setFont(font1);
 
         horizontalLayout->addWidget(checkBox_ReferenceOldPosition);

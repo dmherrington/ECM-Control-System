@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'window_motion_control.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.6
+** Created by: Qt User Interface Compiler version 5.10.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -12,8 +12,10 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
@@ -72,7 +74,7 @@ public:
     void setupUi(QMainWindow *Window_MotionControl)
     {
         if (Window_MotionControl->objectName().isEmpty())
-            Window_MotionControl->setObjectName(QString::fromUtf8("Window_MotionControl"));
+            Window_MotionControl->setObjectName(QStringLiteral("Window_MotionControl"));
         Window_MotionControl->resize(370, 276);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
@@ -81,7 +83,7 @@ public:
         Window_MotionControl->setSizePolicy(sizePolicy);
         Window_MotionControl->setMinimumSize(QSize(370, 276));
         Window_MotionControl->setMaximumSize(QSize(370, 276));
-        Window_MotionControl->setStyleSheet(QString::fromUtf8("QMenuBar{\n"
+        Window_MotionControl->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
 "	font: 12pt \"MS Shell Dlg 2\";\n"
@@ -199,21 +201,21 @@ public:
 "width:20px;\n"
 "}"));
         actionClose = new QAction(Window_MotionControl);
-        actionClose->setObjectName(QString::fromUtf8("actionClose"));
+        actionClose->setObjectName(QStringLiteral("actionClose"));
         centralwidget = new QWidget(Window_MotionControl);
-        centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
+        centralwidget->setObjectName(QStringLiteral("centralwidget"));
         gridLayout_2 = new QGridLayout(centralwidget);
-        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         horizontalLayout_6 = new QHBoxLayout();
-        horizontalLayout_6->setObjectName(QString::fromUtf8("horizontalLayout_6"));
+        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_6->addItem(horizontalSpacer);
 
         gridLayout_4 = new QGridLayout();
-        gridLayout_4->setObjectName(QString::fromUtf8("gridLayout_4"));
+        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
         label_ManualControl = new QLabel(centralwidget);
-        label_ManualControl->setObjectName(QString::fromUtf8("label_ManualControl"));
+        label_ManualControl->setObjectName(QStringLiteral("label_ManualControl"));
         QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -241,9 +243,9 @@ public:
         gridLayout_2->addLayout(horizontalLayout_6, 0, 0, 1, 2);
 
         horizontalLayout_5 = new QHBoxLayout();
-        horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
         label = new QLabel(centralwidget);
-        label->setObjectName(QString::fromUtf8("label"));
+        label->setObjectName(QStringLiteral("label"));
         sizePolicy.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
         label->setSizePolicy(sizePolicy);
         label->setMinimumSize(QSize(130, 25));
@@ -255,7 +257,7 @@ public:
         horizontalLayout_5->addWidget(label);
 
         lineEdit_MachinePosition = new QLineEdit(centralwidget);
-        lineEdit_MachinePosition->setObjectName(QString::fromUtf8("lineEdit_MachinePosition"));
+        lineEdit_MachinePosition->setObjectName(QStringLiteral("lineEdit_MachinePosition"));
         lineEdit_MachinePosition->setMinimumSize(QSize(190, 25));
         lineEdit_MachinePosition->setMaximumSize(QSize(190, 25));
         lineEdit_MachinePosition->setFont(font1);
@@ -268,9 +270,9 @@ public:
         gridLayout_2->addLayout(horizontalLayout_5, 1, 0, 1, 2);
 
         gridLayout_6 = new QGridLayout();
-        gridLayout_6->setObjectName(QString::fromUtf8("gridLayout_6"));
+        gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
         label_ManualControl_3 = new QLabel(centralwidget);
-        label_ManualControl_3->setObjectName(QString::fromUtf8("label_ManualControl_3"));
+        label_ManualControl_3->setObjectName(QStringLiteral("label_ManualControl_3"));
         sizePolicy1.setHeightForWidth(label_ManualControl_3->sizePolicy().hasHeightForWidth());
         label_ManualControl_3->setSizePolicy(sizePolicy1);
         label_ManualControl_3->setFont(font);
@@ -279,7 +281,7 @@ public:
         gridLayout_6->addWidget(label_ManualControl_3, 0, 0, 1, 1);
 
         gridLayout = new QGridLayout();
-        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
         horizontalSpacer_7 = new QSpacerItem(5, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         gridLayout->addItem(horizontalSpacer_7, 0, 0, 1, 1);
@@ -289,9 +291,9 @@ public:
         gridLayout->addItem(horizontalSpacer_6, 0, 2, 1, 1);
 
         verticalLayout = new QVBoxLayout();
-        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         pushButton_IncreaseJog = new QPushButton(centralwidget);
-        pushButton_IncreaseJog->setObjectName(QString::fromUtf8("pushButton_IncreaseJog"));
+        pushButton_IncreaseJog->setObjectName(QStringLiteral("pushButton_IncreaseJog"));
         sizePolicy.setHeightForWidth(pushButton_IncreaseJog->sizePolicy().hasHeightForWidth());
         pushButton_IncreaseJog->setSizePolicy(sizePolicy);
         pushButton_IncreaseJog->setMinimumSize(QSize(130, 30));
@@ -303,7 +305,7 @@ public:
         verticalLayout->addWidget(pushButton_IncreaseJog);
 
         spinBox_Jog = new QSpinBox(centralwidget);
-        spinBox_Jog->setObjectName(QString::fromUtf8("spinBox_Jog"));
+        spinBox_Jog->setObjectName(QStringLiteral("spinBox_Jog"));
         sizePolicy.setHeightForWidth(spinBox_Jog->sizePolicy().hasHeightForWidth());
         spinBox_Jog->setSizePolicy(sizePolicy);
         spinBox_Jog->setMinimumSize(QSize(130, 30));
@@ -317,7 +319,7 @@ public:
         verticalLayout->addWidget(spinBox_Jog);
 
         pushButton_DecreaseJog = new QPushButton(centralwidget);
-        pushButton_DecreaseJog->setObjectName(QString::fromUtf8("pushButton_DecreaseJog"));
+        pushButton_DecreaseJog->setObjectName(QStringLiteral("pushButton_DecreaseJog"));
         sizePolicy.setHeightForWidth(pushButton_DecreaseJog->sizePolicy().hasHeightForWidth());
         pushButton_DecreaseJog->setSizePolicy(sizePolicy);
         pushButton_DecreaseJog->setMinimumSize(QSize(130, 30));
@@ -336,9 +338,9 @@ public:
         gridLayout_2->addLayout(gridLayout_6, 2, 0, 1, 1);
 
         verticalLayout_5 = new QVBoxLayout();
-        verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
+        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
         label_ManualControl_4 = new QLabel(centralwidget);
-        label_ManualControl_4->setObjectName(QString::fromUtf8("label_ManualControl_4"));
+        label_ManualControl_4->setObjectName(QStringLiteral("label_ManualControl_4"));
         sizePolicy1.setHeightForWidth(label_ManualControl_4->sizePolicy().hasHeightForWidth());
         label_ManualControl_4->setSizePolicy(sizePolicy1);
         label_ManualControl_4->setFont(font);
@@ -347,15 +349,15 @@ public:
         verticalLayout_5->addWidget(label_ManualControl_4);
 
         horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         horizontalSpacer_8 = new QSpacerItem(5, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_2->addItem(horizontalSpacer_8);
 
         verticalLayout_SetpControlInner = new QVBoxLayout();
-        verticalLayout_SetpControlInner->setObjectName(QString::fromUtf8("verticalLayout_SetpControlInner"));
+        verticalLayout_SetpControlInner->setObjectName(QStringLiteral("verticalLayout_SetpControlInner"));
         pushButton_IncreaseRelativeMove = new QPushButton(centralwidget);
-        pushButton_IncreaseRelativeMove->setObjectName(QString::fromUtf8("pushButton_IncreaseRelativeMove"));
+        pushButton_IncreaseRelativeMove->setObjectName(QStringLiteral("pushButton_IncreaseRelativeMove"));
         sizePolicy.setHeightForWidth(pushButton_IncreaseRelativeMove->sizePolicy().hasHeightForWidth());
         pushButton_IncreaseRelativeMove->setSizePolicy(sizePolicy);
         pushButton_IncreaseRelativeMove->setMinimumSize(QSize(130, 30));
@@ -366,9 +368,9 @@ public:
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(2);
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         spinBox_RelativeMove = new QSpinBox(centralwidget);
-        spinBox_RelativeMove->setObjectName(QString::fromUtf8("spinBox_RelativeMove"));
+        spinBox_RelativeMove->setObjectName(QStringLiteral("spinBox_RelativeMove"));
         sizePolicy.setHeightForWidth(spinBox_RelativeMove->sizePolicy().hasHeightForWidth());
         spinBox_RelativeMove->setSizePolicy(sizePolicy);
         spinBox_RelativeMove->setMinimumSize(QSize(65, 30));
@@ -382,7 +384,7 @@ public:
         horizontalLayout->addWidget(spinBox_RelativeMove);
 
         spinBox_RelativeMoveSpeed = new QSpinBox(centralwidget);
-        spinBox_RelativeMoveSpeed->setObjectName(QString::fromUtf8("spinBox_RelativeMoveSpeed"));
+        spinBox_RelativeMoveSpeed->setObjectName(QStringLiteral("spinBox_RelativeMoveSpeed"));
         spinBox_RelativeMoveSpeed->setMinimumSize(QSize(65, 30));
         spinBox_RelativeMoveSpeed->setMaximumSize(QSize(65, 16777215));
         spinBox_RelativeMoveSpeed->setFont(font1);
@@ -397,7 +399,7 @@ public:
         verticalLayout_SetpControlInner->addLayout(horizontalLayout);
 
         pushButton_DecreaseRelativeMove = new QPushButton(centralwidget);
-        pushButton_DecreaseRelativeMove->setObjectName(QString::fromUtf8("pushButton_DecreaseRelativeMove"));
+        pushButton_DecreaseRelativeMove->setObjectName(QStringLiteral("pushButton_DecreaseRelativeMove"));
         sizePolicy.setHeightForWidth(pushButton_DecreaseRelativeMove->sizePolicy().hasHeightForWidth());
         pushButton_DecreaseRelativeMove->setSizePolicy(sizePolicy);
         pushButton_DecreaseRelativeMove->setMinimumSize(QSize(130, 30));
@@ -421,19 +423,19 @@ public:
 
         Window_MotionControl->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Window_MotionControl);
-        menubar->setObjectName(QString::fromUtf8("menubar"));
+        menubar->setObjectName(QStringLiteral("menubar"));
         menubar->setGeometry(QRect(0, 0, 370, 40));
         menuFile = new QMenu(menubar);
-        menuFile->setObjectName(QString::fromUtf8("menuFile"));
+        menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menubar);
-        menuEdit->setObjectName(QString::fromUtf8("menuEdit"));
+        menuEdit->setObjectName(QStringLiteral("menuEdit"));
         menuTools = new QMenu(menubar);
-        menuTools->setObjectName(QString::fromUtf8("menuTools"));
+        menuTools->setObjectName(QStringLiteral("menuTools"));
         menuHelp = new QMenu(menubar);
-        menuHelp->setObjectName(QString::fromUtf8("menuHelp"));
+        menuHelp->setObjectName(QStringLiteral("menuHelp"));
         Window_MotionControl->setMenuBar(menubar);
         statusbar = new QStatusBar(Window_MotionControl);
-        statusbar->setObjectName(QString::fromUtf8("statusbar"));
+        statusbar->setObjectName(QStringLiteral("statusbar"));
         Window_MotionControl->setStatusBar(statusbar);
 
         menubar->addAction(menuFile->menuAction());

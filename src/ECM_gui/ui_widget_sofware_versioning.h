@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_sofware_versioning.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.6
+** Created by: Qt User Interface Compiler version 5.10.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,9 +10,12 @@
 #define UI_WIDGET_SOFWARE_VERSIONING_H
 
 #include <QtCore/QVariant>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QWidget>
@@ -30,19 +33,19 @@ public:
     void setupUi(QWidget *Widget_SofwareVersioning)
     {
         if (Widget_SofwareVersioning->objectName().isEmpty())
-            Widget_SofwareVersioning->setObjectName(QString::fromUtf8("Widget_SofwareVersioning"));
+            Widget_SofwareVersioning->setObjectName(QStringLiteral("Widget_SofwareVersioning"));
         Widget_SofwareVersioning->resize(330, 25);
         Widget_SofwareVersioning->setMinimumSize(QSize(330, 25));
         Widget_SofwareVersioning->setMaximumSize(QSize(330, 25));
         gridLayout = new QGridLayout(Widget_SofwareVersioning);
         gridLayout->setSpacing(1);
-        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
         gridLayout->setContentsMargins(1, 1, 1, 1);
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(1);
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         label_libraryName = new QLabel(Widget_SofwareVersioning);
-        label_libraryName->setObjectName(QString::fromUtf8("label_libraryName"));
+        label_libraryName->setObjectName(QStringLiteral("label_libraryName"));
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -58,7 +61,7 @@ public:
         horizontalLayout->addWidget(label_libraryName);
 
         lineEdit_version = new QLineEdit(Widget_SofwareVersioning);
-        lineEdit_version->setObjectName(QString::fromUtf8("lineEdit_version"));
+        lineEdit_version->setObjectName(QStringLiteral("lineEdit_version"));
         sizePolicy.setHeightForWidth(lineEdit_version->sizePolicy().hasHeightForWidth());
         lineEdit_version->setSizePolicy(sizePolicy);
         lineEdit_version->setMinimumSize(QSize(120, 20));

@@ -37,9 +37,12 @@ public:
     //!
     void addAxis(const MotorAxis &axis)
     {
-        tellAxis.push_back(axis);
-        tellAxis.unique();
         requestAllAxis = false;
+        tellAxis.push_back(axis);
+        //only add the axis if its unique to avoid duplicate requests and errors
+        tellAxis.sort();
+        tellAxis.unique();
+
     }
 
     //!
@@ -48,6 +51,7 @@ public:
     //!
     void addAxes(const std::vector<MotorAxis> &axes)
     {
+        tellAxis.clear();
         for(size_t i = 0; i < axes.size(); i++)
         {
             addAxis(axes.at(i));

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_front_panel_pump.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.6
+** Created by: Qt User Interface Compiler version 5.10.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,10 +10,13 @@
 #define UI_WIDGET_FRONT_PANEL_PUMP_H
 
 #include <QtCore/QVariant>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
@@ -64,7 +67,7 @@ public:
     void setupUi(QWidget *WidgetFrontPanel_Pump)
     {
         if (WidgetFrontPanel_Pump->objectName().isEmpty())
-            WidgetFrontPanel_Pump->setObjectName(QString::fromUtf8("WidgetFrontPanel_Pump"));
+            WidgetFrontPanel_Pump->setObjectName(QStringLiteral("WidgetFrontPanel_Pump"));
         WidgetFrontPanel_Pump->resize(375, 180);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
@@ -75,23 +78,23 @@ public:
         WidgetFrontPanel_Pump->setMaximumSize(QSize(375, 180));
         gridLayout_3 = new QGridLayout(WidgetFrontPanel_Pump);
         gridLayout_3->setSpacing(2);
-        gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
+        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
         gridLayout_3->setContentsMargins(3, 3, 3, 3);
         horizontalLayout_5 = new QHBoxLayout();
         horizontalLayout_5->setSpacing(2);
-        horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
         horizontalLayout_5->setContentsMargins(1, 1, 1, 1);
         horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         horizontalSpacer = new QSpacerItem(10, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer);
 
         gridLayout_8 = new QGridLayout();
-        gridLayout_8->setObjectName(QString::fromUtf8("gridLayout_8"));
+        gridLayout_8->setObjectName(QStringLiteral("gridLayout_8"));
         gridLayout_8->setHorizontalSpacing(1);
         label_Running_2 = new QLabel(WidgetFrontPanel_Pump);
-        label_Running_2->setObjectName(QString::fromUtf8("label_Running_2"));
+        label_Running_2->setObjectName(QStringLiteral("label_Running_2"));
         sizePolicy.setHeightForWidth(label_Running_2->sizePolicy().hasHeightForWidth());
         label_Running_2->setSizePolicy(sizePolicy);
         label_Running_2->setMinimumSize(QSize(65, 18));
@@ -105,14 +108,14 @@ public:
 
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setSpacing(1);
-        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
         horizontalLayout_3->setContentsMargins(1, 1, 1, 1);
         horizontalSpacer_6 = new QSpacerItem(1, 50, QSizePolicy::Minimum, QSizePolicy::Minimum);
 
         horizontalLayout_3->addItem(horizontalSpacer_6);
 
         widget_PumpRunning = new LED(WidgetFrontPanel_Pump);
-        widget_PumpRunning->setObjectName(QString::fromUtf8("widget_PumpRunning"));
+        widget_PumpRunning->setObjectName(QStringLiteral("widget_PumpRunning"));
         sizePolicy.setHeightForWidth(widget_PumpRunning->sizePolicy().hasHeightForWidth());
         widget_PumpRunning->setSizePolicy(sizePolicy);
         widget_PumpRunning->setMinimumSize(QSize(40, 40));
@@ -135,10 +138,10 @@ public:
         horizontalLayout->addItem(horizontalSpacer_2);
 
         gridLayout_7 = new QGridLayout();
-        gridLayout_7->setObjectName(QString::fromUtf8("gridLayout_7"));
+        gridLayout_7->setObjectName(QStringLiteral("gridLayout_7"));
         gridLayout_7->setHorizontalSpacing(1);
         label_Running = new QLabel(WidgetFrontPanel_Pump);
-        label_Running->setObjectName(QString::fromUtf8("label_Running"));
+        label_Running->setObjectName(QStringLiteral("label_Running"));
         sizePolicy.setHeightForWidth(label_Running->sizePolicy().hasHeightForWidth());
         label_Running->setSizePolicy(sizePolicy);
         label_Running->setMinimumSize(QSize(65, 18));
@@ -150,14 +153,14 @@ public:
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(1);
-        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         horizontalLayout_2->setContentsMargins(1, 1, 1, 1);
         horizontalSpacer_5 = new QSpacerItem(1, 50, QSizePolicy::Minimum, QSizePolicy::Minimum);
 
         horizontalLayout_2->addItem(horizontalSpacer_5);
 
         widget_PumpInitialized = new LED(WidgetFrontPanel_Pump);
-        widget_PumpInitialized->setObjectName(QString::fromUtf8("widget_PumpInitialized"));
+        widget_PumpInitialized->setObjectName(QStringLiteral("widget_PumpInitialized"));
         sizePolicy.setHeightForWidth(widget_PumpInitialized->sizePolicy().hasHeightForWidth());
         widget_PumpInitialized->setSizePolicy(sizePolicy);
         widget_PumpInitialized->setMinimumSize(QSize(40, 40));
@@ -183,13 +186,13 @@ public:
         horizontalLayout_5->addLayout(horizontalLayout);
 
         horizontalLayout_4 = new QHBoxLayout();
-        horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
         horizontalSpacer_9 = new QSpacerItem(10, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_4->addItem(horizontalSpacer_9);
 
         pushButton_PumpRunning = new QPushButton(WidgetFrontPanel_Pump);
-        pushButton_PumpRunning->setObjectName(QString::fromUtf8("pushButton_PumpRunning"));
+        pushButton_PumpRunning->setObjectName(QStringLiteral("pushButton_PumpRunning"));
         sizePolicy.setHeightForWidth(pushButton_PumpRunning->sizePolicy().hasHeightForWidth());
         pushButton_PumpRunning->setSizePolicy(sizePolicy);
         pushButton_PumpRunning->setMinimumSize(QSize(100, 75));
@@ -201,7 +204,7 @@ public:
         font1.setUnderline(false);
         font1.setWeight(75);
         pushButton_PumpRunning->setFont(font1);
-        pushButton_PumpRunning->setStyleSheet(QString::fromUtf8("QMainWindow{\n"
+        pushButton_PumpRunning->setStyleSheet(QLatin1String("QMainWindow{\n"
 "background-color:#1d1d1d;\n"
 "}\n"
 "\n"
@@ -336,9 +339,9 @@ public:
         gridLayout_3->addLayout(horizontalLayout_5, 0, 0, 1, 2);
 
         gridLayout_2 = new QGridLayout();
-        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         label_temperature = new QLabel(WidgetFrontPanel_Pump);
-        label_temperature->setObjectName(QString::fromUtf8("label_temperature"));
+        label_temperature->setObjectName(QStringLiteral("label_temperature"));
         sizePolicy.setHeightForWidth(label_temperature->sizePolicy().hasHeightForWidth());
         label_temperature->setSizePolicy(sizePolicy);
         label_temperature->setMinimumSize(QSize(80, 20));
@@ -348,7 +351,7 @@ public:
         gridLayout_2->addWidget(label_temperature, 0, 0, 1, 1);
 
         lineEdit_temperature = new QLineEdit(WidgetFrontPanel_Pump);
-        lineEdit_temperature->setObjectName(QString::fromUtf8("lineEdit_temperature"));
+        lineEdit_temperature->setObjectName(QStringLiteral("lineEdit_temperature"));
         sizePolicy.setHeightForWidth(lineEdit_temperature->sizePolicy().hasHeightForWidth());
         lineEdit_temperature->setSizePolicy(sizePolicy);
         lineEdit_temperature->setMinimumSize(QSize(80, 20));
@@ -360,7 +363,7 @@ public:
         gridLayout_2->addWidget(lineEdit_temperature, 0, 1, 1, 1);
 
         label_ph = new QLabel(WidgetFrontPanel_Pump);
-        label_ph->setObjectName(QString::fromUtf8("label_ph"));
+        label_ph->setObjectName(QStringLiteral("label_ph"));
         sizePolicy.setHeightForWidth(label_ph->sizePolicy().hasHeightForWidth());
         label_ph->setSizePolicy(sizePolicy);
         label_ph->setMinimumSize(QSize(80, 20));
@@ -370,7 +373,7 @@ public:
         gridLayout_2->addWidget(label_ph, 1, 0, 1, 1);
 
         lineEdit_pH = new QLineEdit(WidgetFrontPanel_Pump);
-        lineEdit_pH->setObjectName(QString::fromUtf8("lineEdit_pH"));
+        lineEdit_pH->setObjectName(QStringLiteral("lineEdit_pH"));
         sizePolicy.setHeightForWidth(lineEdit_pH->sizePolicy().hasHeightForWidth());
         lineEdit_pH->setSizePolicy(sizePolicy);
         lineEdit_pH->setMinimumSize(QSize(80, 20));
@@ -382,7 +385,7 @@ public:
         gridLayout_2->addWidget(lineEdit_pH, 1, 1, 1, 1);
 
         label_conductivity = new QLabel(WidgetFrontPanel_Pump);
-        label_conductivity->setObjectName(QString::fromUtf8("label_conductivity"));
+        label_conductivity->setObjectName(QStringLiteral("label_conductivity"));
         sizePolicy.setHeightForWidth(label_conductivity->sizePolicy().hasHeightForWidth());
         label_conductivity->setSizePolicy(sizePolicy);
         label_conductivity->setMinimumSize(QSize(80, 20));
@@ -392,7 +395,7 @@ public:
         gridLayout_2->addWidget(label_conductivity, 2, 0, 1, 1);
 
         lineEdit_conductivity = new QLineEdit(WidgetFrontPanel_Pump);
-        lineEdit_conductivity->setObjectName(QString::fromUtf8("lineEdit_conductivity"));
+        lineEdit_conductivity->setObjectName(QStringLiteral("lineEdit_conductivity"));
         sizePolicy.setHeightForWidth(lineEdit_conductivity->sizePolicy().hasHeightForWidth());
         lineEdit_conductivity->setSizePolicy(sizePolicy);
         lineEdit_conductivity->setMinimumSize(QSize(80, 20));
@@ -408,9 +411,9 @@ public:
 
         gridLayout = new QGridLayout();
         gridLayout->setSpacing(2);
-        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
         label_delayTim = new QLabel(WidgetFrontPanel_Pump);
-        label_delayTim->setObjectName(QString::fromUtf8("label_delayTim"));
+        label_delayTim->setObjectName(QStringLiteral("label_delayTim"));
         sizePolicy.setHeightForWidth(label_delayTim->sizePolicy().hasHeightForWidth());
         label_delayTim->setSizePolicy(sizePolicy);
         label_delayTim->setMinimumSize(QSize(85, 20));
@@ -420,7 +423,7 @@ public:
         gridLayout->addWidget(label_delayTim, 0, 0, 1, 1);
 
         doubleSpinBox_delayTime = new QDoubleSpinBox(WidgetFrontPanel_Pump);
-        doubleSpinBox_delayTime->setObjectName(QString::fromUtf8("doubleSpinBox_delayTime"));
+        doubleSpinBox_delayTime->setObjectName(QStringLiteral("doubleSpinBox_delayTime"));
         sizePolicy.setHeightForWidth(doubleSpinBox_delayTime->sizePolicy().hasHeightForWidth());
         doubleSpinBox_delayTime->setSizePolicy(sizePolicy);
         doubleSpinBox_delayTime->setMinimumSize(QSize(80, 20));
@@ -428,12 +431,12 @@ public:
         doubleSpinBox_delayTime->setFont(font);
         doubleSpinBox_delayTime->setAlignment(Qt::AlignCenter);
         doubleSpinBox_delayTime->setDecimals(0);
-        doubleSpinBox_delayTime->setValue(0.000000000000000);
+        doubleSpinBox_delayTime->setValue(0);
 
         gridLayout->addWidget(doubleSpinBox_delayTime, 0, 1, 1, 1);
 
         label_Flowrate = new QLabel(WidgetFrontPanel_Pump);
-        label_Flowrate->setObjectName(QString::fromUtf8("label_Flowrate"));
+        label_Flowrate->setObjectName(QStringLiteral("label_Flowrate"));
         sizePolicy.setHeightForWidth(label_Flowrate->sizePolicy().hasHeightForWidth());
         label_Flowrate->setSizePolicy(sizePolicy);
         label_Flowrate->setMinimumSize(QSize(85, 20));
@@ -443,7 +446,7 @@ public:
         gridLayout->addWidget(label_Flowrate, 1, 0, 1, 1);
 
         doubleSpinBox_flowRate = new QDoubleSpinBox(WidgetFrontPanel_Pump);
-        doubleSpinBox_flowRate->setObjectName(QString::fromUtf8("doubleSpinBox_flowRate"));
+        doubleSpinBox_flowRate->setObjectName(QStringLiteral("doubleSpinBox_flowRate"));
         sizePolicy.setHeightForWidth(doubleSpinBox_flowRate->sizePolicy().hasHeightForWidth());
         doubleSpinBox_flowRate->setSizePolicy(sizePolicy);
         doubleSpinBox_flowRate->setMinimumSize(QSize(80, 20));

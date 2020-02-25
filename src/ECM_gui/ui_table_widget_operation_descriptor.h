@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'table_widget_operation_descriptor.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.6
+** Created by: Qt User Interface Compiler version 5.10.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,10 +10,13 @@
 #define UI_TABLE_WIDGET_OPERATION_DESCRIPTOR_H
 
 #include <QtCore/QVariant>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpinBox>
@@ -34,7 +37,7 @@ public:
     void setupUi(QWidget *TableWidget_OperationDescriptor)
     {
         if (TableWidget_OperationDescriptor->objectName().isEmpty())
-            TableWidget_OperationDescriptor->setObjectName(QString::fromUtf8("TableWidget_OperationDescriptor"));
+            TableWidget_OperationDescriptor->setObjectName(QStringLiteral("TableWidget_OperationDescriptor"));
         TableWidget_OperationDescriptor->resize(470, 40);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
@@ -44,11 +47,11 @@ public:
         TableWidget_OperationDescriptor->setMinimumSize(QSize(470, 40));
         TableWidget_OperationDescriptor->setMaximumSize(QSize(470, 40));
         gridLayout_2 = new QGridLayout(TableWidget_OperationDescriptor);
-        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         spinBox_OperationOrder = new QSpinBox(TableWidget_OperationDescriptor);
-        spinBox_OperationOrder->setObjectName(QString::fromUtf8("spinBox_OperationOrder"));
+        spinBox_OperationOrder->setObjectName(QStringLiteral("spinBox_OperationOrder"));
         spinBox_OperationOrder->setEnabled(false);
         sizePolicy.setHeightForWidth(spinBox_OperationOrder->sizePolicy().hasHeightForWidth());
         spinBox_OperationOrder->setSizePolicy(sizePolicy);
@@ -63,7 +66,7 @@ public:
         horizontalLayout->addWidget(spinBox_OperationOrder);
 
         lineEdit_OperationName = new QLineEdit(TableWidget_OperationDescriptor);
-        lineEdit_OperationName->setObjectName(QString::fromUtf8("lineEdit_OperationName"));
+        lineEdit_OperationName->setObjectName(QStringLiteral("lineEdit_OperationName"));
         sizePolicy.setHeightForWidth(lineEdit_OperationName->sizePolicy().hasHeightForWidth());
         lineEdit_OperationName->setSizePolicy(sizePolicy);
         lineEdit_OperationName->setMinimumSize(QSize(150, 20));
@@ -73,7 +76,7 @@ public:
         horizontalLayout->addWidget(lineEdit_OperationName);
 
         checkBox_EnableOperation = new QCheckBox(TableWidget_OperationDescriptor);
-        checkBox_EnableOperation->setObjectName(QString::fromUtf8("checkBox_EnableOperation"));
+        checkBox_EnableOperation->setObjectName(QStringLiteral("checkBox_EnableOperation"));
         sizePolicy.setHeightForWidth(checkBox_EnableOperation->sizePolicy().hasHeightForWidth());
         checkBox_EnableOperation->setSizePolicy(sizePolicy);
         checkBox_EnableOperation->setMinimumSize(QSize(20, 20));
@@ -82,7 +85,7 @@ public:
         horizontalLayout->addWidget(checkBox_EnableOperation);
 
         pushButton_ExecuteExplicitOp = new QPushButton(TableWidget_OperationDescriptor);
-        pushButton_ExecuteExplicitOp->setObjectName(QString::fromUtf8("pushButton_ExecuteExplicitOp"));
+        pushButton_ExecuteExplicitOp->setObjectName(QStringLiteral("pushButton_ExecuteExplicitOp"));
         sizePolicy.setHeightForWidth(pushButton_ExecuteExplicitOp->sizePolicy().hasHeightForWidth());
         pushButton_ExecuteExplicitOp->setSizePolicy(sizePolicy);
         pushButton_ExecuteExplicitOp->setMinimumSize(QSize(180, 20));

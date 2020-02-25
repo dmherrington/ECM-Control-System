@@ -44,5 +44,7 @@ private:
     MotorAxis pertinentAxis;
 
     SPIIMotionController* m_MotionController;
+
+    bool receivedUpdate = false;
 };
 #endif // WIDGET_FRONT_PANEL_AXIS_MOTION_CONTROL_H

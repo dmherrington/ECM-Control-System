@@ -105,7 +105,7 @@ private:
 private:
     void initializeMotionController();
 
-    void setupRequestQueue();
+    void setupRequestQueue(const std::vector<MotorAxis> &currentAxes);
 
 private:
 

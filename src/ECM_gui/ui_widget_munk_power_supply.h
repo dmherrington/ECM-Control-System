@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_munk_power_supply.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.6
+** Created by: Qt User Interface Compiler version 5.10.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,10 +10,13 @@
 #define UI_WIDGET_MUNK_POWER_SUPPLY_H
 
 #include <QtCore/QVariant>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QRadioButton>
 #include <QtWidgets/QSpacerItem>
@@ -43,7 +46,7 @@ public:
     void setupUi(QWidget *Widget_MunkPowerSupply)
     {
         if (Widget_MunkPowerSupply->objectName().isEmpty())
-            Widget_MunkPowerSupply->setObjectName(QString::fromUtf8("Widget_MunkPowerSupply"));
+            Widget_MunkPowerSupply->setObjectName(QStringLiteral("Widget_MunkPowerSupply"));
         Widget_MunkPowerSupply->resize(583, 316);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
@@ -53,17 +56,17 @@ public:
         Widget_MunkPowerSupply->setMinimumSize(QSize(580, 316));
         Widget_MunkPowerSupply->setMaximumSize(QSize(586, 316));
         gridLayout_2 = new QGridLayout(Widget_MunkPowerSupply);
-        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         horizontalLayout_11 = new QHBoxLayout();
-        horizontalLayout_11->setObjectName(QString::fromUtf8("horizontalLayout_11"));
+        horizontalLayout_11->setObjectName(QStringLiteral("horizontalLayout_11"));
         horizontalSpacer_15 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_11->addItem(horizontalSpacer_15);
 
         gridLayout_13 = new QGridLayout();
-        gridLayout_13->setObjectName(QString::fromUtf8("gridLayout_13"));
+        gridLayout_13->setObjectName(QStringLiteral("gridLayout_13"));
         label_ManualControl_4 = new QLabel(Widget_MunkPowerSupply);
-        label_ManualControl_4->setObjectName(QString::fromUtf8("label_ManualControl_4"));
+        label_ManualControl_4->setObjectName(QStringLiteral("label_ManualControl_4"));
         QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -91,12 +94,12 @@ public:
         gridLayout_2->addLayout(horizontalLayout_11, 0, 0, 1, 1);
 
         segmentWidget = new WidgetSegmentTimeDisplay(Widget_MunkPowerSupply);
-        segmentWidget->setObjectName(QString::fromUtf8("segmentWidget"));
+        segmentWidget->setObjectName(QStringLiteral("segmentWidget"));
         sizePolicy1.setHeightForWidth(segmentWidget->sizePolicy().hasHeightForWidth());
         segmentWidget->setSizePolicy(sizePolicy1);
         segmentWidget->setMinimumSize(QSize(200, 210));
         segmentWidget->setAutoFillBackground(false);
-        segmentWidget->setStyleSheet(QString::fromUtf8("QMainWindow{\n"
+        segmentWidget->setStyleSheet(QLatin1String("QMainWindow{\n"
 "background-color:#1d1d1d;\n"
 "}\n"
 "\n"
@@ -221,11 +224,11 @@ public:
         gridLayout_2->addWidget(segmentWidget, 1, 0, 1, 1);
 
         groupBox = new QGroupBox(Widget_MunkPowerSupply);
-        groupBox->setObjectName(QString::fromUtf8("groupBox"));
+        groupBox->setObjectName(QStringLiteral("groupBox"));
         gridLayout = new QGridLayout(groupBox);
-        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
         radioButton_singlePulse = new QRadioButton(groupBox);
-        radioButton_singlePulse->setObjectName(QString::fromUtf8("radioButton_singlePulse"));
+        radioButton_singlePulse->setObjectName(QStringLiteral("radioButton_singlePulse"));
         QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Fixed);
         sizePolicy2.setHorizontalStretch(0);
         sizePolicy2.setVerticalStretch(0);
@@ -241,7 +244,7 @@ public:
         gridLayout->addWidget(radioButton_singlePulse, 0, 0, 1, 1);
 
         radioButton_continuousPulse = new QRadioButton(groupBox);
-        radioButton_continuousPulse->setObjectName(QString::fromUtf8("radioButton_continuousPulse"));
+        radioButton_continuousPulse->setObjectName(QStringLiteral("radioButton_continuousPulse"));
         sizePolicy2.setHeightForWidth(radioButton_continuousPulse->sizePolicy().hasHeightForWidth());
         radioButton_continuousPulse->setSizePolicy(sizePolicy2);
         radioButton_continuousPulse->setMinimumSize(QSize(160, 20));
@@ -252,7 +255,7 @@ public:
         gridLayout->addWidget(radioButton_continuousPulse, 0, 1, 1, 1);
 
         radioButton_specifiedPulses = new QRadioButton(groupBox);
-        radioButton_specifiedPulses->setObjectName(QString::fromUtf8("radioButton_specifiedPulses"));
+        radioButton_specifiedPulses->setObjectName(QStringLiteral("radioButton_specifiedPulses"));
         sizePolicy2.setHeightForWidth(radioButton_specifiedPulses->sizePolicy().hasHeightForWidth());
         radioButton_specifiedPulses->setSizePolicy(sizePolicy2);
         radioButton_specifiedPulses->setMinimumSize(QSize(180, 20));
@@ -262,7 +265,7 @@ public:
         gridLayout->addWidget(radioButton_specifiedPulses, 0, 2, 1, 1);
 
         spinBox_NumPulses = new QSpinBox(groupBox);
-        spinBox_NumPulses->setObjectName(QString::fromUtf8("spinBox_NumPulses"));
+        spinBox_NumPulses->setObjectName(QStringLiteral("spinBox_NumPulses"));
         spinBox_NumPulses->setMinimumSize(QSize(60, 20));
         spinBox_NumPulses->setMaximumSize(QSize(60, 20));
         spinBox_NumPulses->setFont(font1);

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_buffer_editor.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.6
+** Created by: Qt User Interface Compiler version 5.10.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,9 +10,12 @@
 #define UI_WIDGET_BUFFER_EDITOR_H
 
 #include <QtCore/QVariant>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
@@ -64,14 +67,14 @@ public:
     void setupUi(QWidget *Widget_BufferEditor)
     {
         if (Widget_BufferEditor->objectName().isEmpty())
-            Widget_BufferEditor->setObjectName(QString::fromUtf8("Widget_BufferEditor"));
+            Widget_BufferEditor->setObjectName(QStringLiteral("Widget_BufferEditor"));
         Widget_BufferEditor->resize(672, 626);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Widget_BufferEditor->sizePolicy().hasHeightForWidth());
         Widget_BufferEditor->setSizePolicy(sizePolicy);
-        Widget_BufferEditor->setStyleSheet(QString::fromUtf8("QMenuBar{\n"
+        Widget_BufferEditor->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
 "	font: 12pt \"MS Shell Dlg 2\";\n"
@@ -189,19 +192,19 @@ public:
 "width:20px;\n"
 "}"));
         gridLayout_2 = new QGridLayout(Widget_BufferEditor);
-        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         horizontalLayout_6 = new QHBoxLayout();
-        horizontalLayout_6->setObjectName(QString::fromUtf8("horizontalLayout_6"));
+        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
         horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
         horizontalLayout_6->addItem(horizontalSpacer_4);
 
         gridLayout_4 = new QGridLayout();
-        gridLayout_4->setObjectName(QString::fromUtf8("gridLayout_4"));
+        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
         label_Header = new QLabel(Widget_BufferEditor);
-        label_Header->setObjectName(QString::fromUtf8("label_Header"));
+        label_Header->setObjectName(QStringLiteral("label_Header"));
         QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -233,7 +236,7 @@ public:
         horizontalLayout->addItem(horizontalSpacer_9);
 
         lineEdit_BufferName = new QLineEdit(Widget_BufferEditor);
-        lineEdit_BufferName->setObjectName(QString::fromUtf8("lineEdit_BufferName"));
+        lineEdit_BufferName->setObjectName(QStringLiteral("lineEdit_BufferName"));
         sizePolicy1.setHeightForWidth(lineEdit_BufferName->sizePolicy().hasHeightForWidth());
         lineEdit_BufferName->setSizePolicy(sizePolicy1);
         lineEdit_BufferName->setMinimumSize(QSize(200, 20));
@@ -251,10 +254,10 @@ public:
         horizontalLayout->addItem(horizontalSpacer_10);
 
         horizontalLayout_4 = new QHBoxLayout();
-        horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
         horizontalLayout_4->setSizeConstraint(QLayout::SetMaximumSize);
         label_BuferIndex = new QLabel(Widget_BufferEditor);
-        label_BuferIndex->setObjectName(QString::fromUtf8("label_BuferIndex"));
+        label_BuferIndex->setObjectName(QStringLiteral("label_BuferIndex"));
         sizePolicy1.setHeightForWidth(label_BuferIndex->sizePolicy().hasHeightForWidth());
         label_BuferIndex->setSizePolicy(sizePolicy1);
         label_BuferIndex->setMinimumSize(QSize(110, 20));
@@ -265,7 +268,7 @@ public:
         horizontalLayout_4->addWidget(label_BuferIndex);
 
         label_BufferIndexNumber = new QLabel(Widget_BufferEditor);
-        label_BufferIndexNumber->setObjectName(QString::fromUtf8("label_BufferIndexNumber"));
+        label_BufferIndexNumber->setObjectName(QStringLiteral("label_BufferIndexNumber"));
         sizePolicy1.setHeightForWidth(label_BufferIndexNumber->sizePolicy().hasHeightForWidth());
         label_BufferIndexNumber->setSizePolicy(sizePolicy1);
         label_BufferIndexNumber->setMinimumSize(QSize(80, 20));
@@ -282,11 +285,11 @@ public:
         gridLayout_2->addLayout(horizontalLayout, 0, 0, 1, 1);
 
         horizontalLayout_5 = new QHBoxLayout();
-        horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
         gridLayout = new QGridLayout();
-        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
         pushButton_Upload = new QPushButton(Widget_BufferEditor);
-        pushButton_Upload->setObjectName(QString::fromUtf8("pushButton_Upload"));
+        pushButton_Upload->setObjectName(QStringLiteral("pushButton_Upload"));
         sizePolicy1.setHeightForWidth(pushButton_Upload->sizePolicy().hasHeightForWidth());
         pushButton_Upload->setSizePolicy(sizePolicy1);
         pushButton_Upload->setMinimumSize(QSize(50, 30));
@@ -296,7 +299,7 @@ public:
         gridLayout->addWidget(pushButton_Upload, 0, 0, 1, 1);
 
         pushButton_Download = new QPushButton(Widget_BufferEditor);
-        pushButton_Download->setObjectName(QString::fromUtf8("pushButton_Download"));
+        pushButton_Download->setObjectName(QStringLiteral("pushButton_Download"));
         sizePolicy1.setHeightForWidth(pushButton_Download->sizePolicy().hasHeightForWidth());
         pushButton_Download->setSizePolicy(sizePolicy1);
         pushButton_Download->setMinimumSize(QSize(50, 30));
@@ -306,7 +309,7 @@ public:
         gridLayout->addWidget(pushButton_Download, 0, 1, 1, 1);
 
         pushButton_Execute = new QPushButton(Widget_BufferEditor);
-        pushButton_Execute->setObjectName(QString::fromUtf8("pushButton_Execute"));
+        pushButton_Execute->setObjectName(QStringLiteral("pushButton_Execute"));
         sizePolicy1.setHeightForWidth(pushButton_Execute->sizePolicy().hasHeightForWidth());
         pushButton_Execute->setSizePolicy(sizePolicy1);
         pushButton_Execute->setMinimumSize(QSize(50, 30));
@@ -316,7 +319,7 @@ public:
         gridLayout->addWidget(pushButton_Execute, 1, 0, 1, 1);
 
         pushButton_Clear = new QPushButton(Widget_BufferEditor);
-        pushButton_Clear->setObjectName(QString::fromUtf8("pushButton_Clear"));
+        pushButton_Clear->setObjectName(QStringLiteral("pushButton_Clear"));
         sizePolicy1.setHeightForWidth(pushButton_Clear->sizePolicy().hasHeightForWidth());
         pushButton_Clear->setSizePolicy(sizePolicy1);
         pushButton_Clear->setMinimumSize(QSize(50, 30));
@@ -333,9 +336,9 @@ public:
         horizontalLayout_5->addItem(horizontalSpacer_3);
 
         verticalLayout = new QVBoxLayout();
-        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         label_Current = new QLabel(Widget_BufferEditor);
-        label_Current->setObjectName(QString::fromUtf8("label_Current"));
+        label_Current->setObjectName(QStringLiteral("label_Current"));
         sizePolicy1.setHeightForWidth(label_Current->sizePolicy().hasHeightForWidth());
         label_Current->setSizePolicy(sizePolicy1);
         label_Current->setMinimumSize(QSize(80, 18));
@@ -346,13 +349,13 @@ public:
         verticalLayout->addWidget(label_Current);
 
         horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         horizontalSpacer_2 = new QSpacerItem(2, 20, QSizePolicy::Minimum, QSizePolicy::Minimum);
 
         horizontalLayout_2->addItem(horizontalSpacer_2);
 
         led_ProgramCurrent = new LED(Widget_BufferEditor);
-        led_ProgramCurrent->setObjectName(QString::fromUtf8("led_ProgramCurrent"));
+        led_ProgramCurrent->setObjectName(QStringLiteral("led_ProgramCurrent"));
         sizePolicy1.setHeightForWidth(led_ProgramCurrent->sizePolicy().hasHeightForWidth());
         led_ProgramCurrent->setSizePolicy(sizePolicy1);
         led_ProgramCurrent->setMinimumSize(QSize(40, 40));
@@ -371,9 +374,9 @@ public:
         horizontalLayout_5->addLayout(verticalLayout);
 
         verticalLayout_2 = new QVBoxLayout();
-        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         label_Compiled = new QLabel(Widget_BufferEditor);
-        label_Compiled->setObjectName(QString::fromUtf8("label_Compiled"));
+        label_Compiled->setObjectName(QStringLiteral("label_Compiled"));
         sizePolicy1.setHeightForWidth(label_Compiled->sizePolicy().hasHeightForWidth());
         label_Compiled->setSizePolicy(sizePolicy1);
         label_Compiled->setMinimumSize(QSize(80, 18));
@@ -384,13 +387,13 @@ public:
         verticalLayout_2->addWidget(label_Compiled);
 
         horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
         horizontalSpacer_7 = new QSpacerItem(2, 20, QSizePolicy::Minimum, QSizePolicy::Minimum);
 
         horizontalLayout_3->addItem(horizontalSpacer_7);
 
         led_ProgramCompiled = new LED(Widget_BufferEditor);
-        led_ProgramCompiled->setObjectName(QString::fromUtf8("led_ProgramCompiled"));
+        led_ProgramCompiled->setObjectName(QStringLiteral("led_ProgramCompiled"));
         sizePolicy1.setHeightForWidth(led_ProgramCompiled->sizePolicy().hasHeightForWidth());
         led_ProgramCompiled->setSizePolicy(sizePolicy1);
         led_ProgramCompiled->setMinimumSize(QSize(40, 40));
@@ -412,7 +415,7 @@ public:
         gridLayout_2->addLayout(horizontalLayout_5, 1, 0, 1, 1);
 
         codeTextEdit = new CodeEditWidget(Widget_BufferEditor);
-        codeTextEdit->setObjectName(QString::fromUtf8("codeTextEdit"));
+        codeTextEdit->setObjectName(QStringLiteral("codeTextEdit"));
 
         gridLayout_2->addWidget(codeTextEdit, 2, 0, 1, 1);
 

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget_front_panel_axis_motion_control.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.6
+** Created by: Qt User Interface Compiler version 5.10.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,9 +10,12 @@
 #define UI_WIDGET_FRONT_PANEL_AXIS_MOTION_CONTROL_H
 
 #include <QtCore/QVariant>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QWidget>
@@ -32,7 +35,7 @@ public:
     void setupUi(QWidget *WidgetFrontPanel_AxisMotionControl)
     {
         if (WidgetFrontPanel_AxisMotionControl->objectName().isEmpty())
-            WidgetFrontPanel_AxisMotionControl->setObjectName(QString::fromUtf8("WidgetFrontPanel_AxisMotionControl"));
+            WidgetFrontPanel_AxisMotionControl->setObjectName(QStringLiteral("WidgetFrontPanel_AxisMotionControl"));
         WidgetFrontPanel_AxisMotionControl->resize(368, 185);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
@@ -43,13 +46,13 @@ public:
         WidgetFrontPanel_AxisMotionControl->setMaximumSize(QSize(368, 185));
         gridLayout = new QGridLayout(WidgetFrontPanel_AxisMotionControl);
         gridLayout->setSpacing(1);
-        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
         gridLayout->setContentsMargins(1, 1, 1, 1);
         gridLayout_2 = new QGridLayout();
         gridLayout_2->setSpacing(0);
-        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         label = new QLabel(WidgetFrontPanel_AxisMotionControl);
-        label->setObjectName(QString::fromUtf8("label"));
+        label->setObjectName(QStringLiteral("label"));
         sizePolicy.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
         label->setSizePolicy(sizePolicy);
         label->setMinimumSize(QSize(130, 25));
@@ -61,7 +64,7 @@ public:
         gridLayout_2->addWidget(label, 0, 0, 1, 1);
 
         lineEdit_MachinePosition = new QLineEdit(WidgetFrontPanel_AxisMotionControl);
-        lineEdit_MachinePosition->setObjectName(QString::fromUtf8("lineEdit_MachinePosition"));
+        lineEdit_MachinePosition->setObjectName(QStringLiteral("lineEdit_MachinePosition"));
         lineEdit_MachinePosition->setMinimumSize(QSize(190, 25));
         lineEdit_MachinePosition->setMaximumSize(QSize(190, 25));
         lineEdit_MachinePosition->setFont(font);
@@ -74,7 +77,7 @@ public:
         gridLayout->addLayout(gridLayout_2, 0, 0, 1, 1);
 
         frame = new QFrame(WidgetFrontPanel_AxisMotionControl);
-        frame->setObjectName(QString::fromUtf8("frame"));
+        frame->setObjectName(QStringLiteral("frame"));
         sizePolicy.setHeightForWidth(frame->sizePolicy().hasHeightForWidth());
         frame->setSizePolicy(sizePolicy);
         frame->setMinimumSize(QSize(355, 155));
@@ -83,7 +86,7 @@ public:
         frame->setFrameShadow(QFrame::Raised);
         gridLayout_4 = new QGridLayout(frame);
         gridLayout_4->setSpacing(0);
-        gridLayout_4->setObjectName(QString::fromUtf8("gridLayout_4"));
+        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
         gridLayout_4->setContentsMargins(0, 0, 0, 0);
 
         gridLayout->addWidget(frame, 1, 0, 1, 1);

@@ -51,3 +51,18 @@ bool AxisSettings::shouldMotionBeIgnored(const MotorAxis &axis) const
     }
     return false;
 }
+
+bool AxisSettings::isAvailableAxis(const MotorAxis &axis) const
+{
+    bool validAxis = false;
+    for(size_t i = 0; i < m_AvailaleAxes.size(); i++)
+    {
+        if(m_AvailaleAxes.at(i) == axis)
+        {
+            validAxis = true;
+            break;
+        }
+    }
+
+    return validAxis;
+}

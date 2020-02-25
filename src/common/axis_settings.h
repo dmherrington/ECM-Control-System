@@ -24,6 +24,8 @@ public:
 
     bool shouldMotionBeIgnored(const MotorAxis &axis) const;
 
+    bool isAvailableAxis(const MotorAxis &axis) const;
+
 public:
     AxisSettings& operator = (const AxisSettings &rhs)
     {

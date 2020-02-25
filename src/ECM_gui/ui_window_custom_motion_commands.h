@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'window_custom_motion_commands.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.6
+** Created by: Qt User Interface Compiler version 5.10.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -12,8 +12,10 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
@@ -48,10 +50,10 @@ public:
     void setupUi(QMainWindow *Window_CustomMotionCommands)
     {
         if (Window_CustomMotionCommands->objectName().isEmpty())
-            Window_CustomMotionCommands->setObjectName(QString::fromUtf8("Window_CustomMotionCommands"));
+            Window_CustomMotionCommands->setObjectName(QStringLiteral("Window_CustomMotionCommands"));
         Window_CustomMotionCommands->resize(480, 166);
         Window_CustomMotionCommands->setMinimumSize(QSize(480, 0));
-        Window_CustomMotionCommands->setStyleSheet(QString::fromUtf8("QMenuBar{\n"
+        Window_CustomMotionCommands->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
 "	font: 12pt \"MS Shell Dlg 2\";\n"
@@ -169,17 +171,17 @@ public:
 "width:20px;\n"
 "}"));
         actionTools = new QAction(Window_CustomMotionCommands);
-        actionTools->setObjectName(QString::fromUtf8("actionTools"));
+        actionTools->setObjectName(QStringLiteral("actionTools"));
         actionClose = new QAction(Window_CustomMotionCommands);
-        actionClose->setObjectName(QString::fromUtf8("actionClose"));
+        actionClose->setObjectName(QStringLiteral("actionClose"));
         centralwidget = new QWidget(Window_CustomMotionCommands);
-        centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
+        centralwidget->setObjectName(QStringLiteral("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
-        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
         horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         lineEdit_MotionCommand = new QLineEdit(centralwidget);
-        lineEdit_MotionCommand->setObjectName(QString::fromUtf8("lineEdit_MotionCommand"));
+        lineEdit_MotionCommand->setObjectName(QStringLiteral("lineEdit_MotionCommand"));
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -193,7 +195,7 @@ public:
         horizontalLayout->addWidget(lineEdit_MotionCommand);
 
         pushButton_TransmitMotionCommand = new QPushButton(centralwidget);
-        pushButton_TransmitMotionCommand->setObjectName(QString::fromUtf8("pushButton_TransmitMotionCommand"));
+        pushButton_TransmitMotionCommand->setObjectName(QStringLiteral("pushButton_TransmitMotionCommand"));
         QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -213,7 +215,7 @@ public:
         gridLayout->addLayout(horizontalLayout, 0, 0, 1, 1);
 
         plainTextEdit_MotionResponse = new QPlainTextEdit(centralwidget);
-        plainTextEdit_MotionResponse->setObjectName(QString::fromUtf8("plainTextEdit_MotionResponse"));
+        plainTextEdit_MotionResponse->setObjectName(QStringLiteral("plainTextEdit_MotionResponse"));
         plainTextEdit_MotionResponse->setMinimumSize(QSize(0, 50));
         plainTextEdit_MotionResponse->setFont(font);
         plainTextEdit_MotionResponse->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -223,19 +225,19 @@ public:
 
         Window_CustomMotionCommands->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Window_CustomMotionCommands);
-        menubar->setObjectName(QString::fromUtf8("menubar"));
+        menubar->setObjectName(QStringLiteral("menubar"));
         menubar->setGeometry(QRect(0, 0, 480, 40));
         menuFile = new QMenu(menubar);
-        menuFile->setObjectName(QString::fromUtf8("menuFile"));
+        menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menubar);
-        menuEdit->setObjectName(QString::fromUtf8("menuEdit"));
+        menuEdit->setObjectName(QStringLiteral("menuEdit"));
         menuTools = new QMenu(menubar);
-        menuTools->setObjectName(QString::fromUtf8("menuTools"));
+        menuTools->setObjectName(QStringLiteral("menuTools"));
         menuHelp = new QMenu(menubar);
-        menuHelp->setObjectName(QString::fromUtf8("menuHelp"));
+        menuHelp->setObjectName(QStringLiteral("menuHelp"));
         Window_CustomMotionCommands->setMenuBar(menubar);
         statusbar = new QStatusBar(Window_CustomMotionCommands);
-        statusbar->setObjectName(QString::fromUtf8("statusbar"));
+        statusbar->setObjectName(QStringLiteral("statusbar"));
         Window_CustomMotionCommands->setStatusBar(statusbar);
         QWidget::setTabOrder(pushButton_TransmitMotionCommand, plainTextEdit_MotionResponse);
 

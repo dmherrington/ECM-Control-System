@@ -418,10 +418,12 @@ bool SPIIProtocol::commandMotorEnable(const CommandMotorEnable &enable)
 
     if(changeAxisVector.size() > 1) //this would be a multiaxis enabling
     {
-        int* changeAxisArray = new int [m_SPIISettings.getAxisCount()];
-        for(unsigned int index = 0; index < m_SPIISettings.getAxisCount(); index++)
-            changeAxisArray[index] = -1;
-        std::copy(changeAxisVector.begin(), changeAxisVector.end(), changeAxisArray);
+        int* changeAxisArray = new int [changeAxisVector.size() + 1];
+        for(unsigned int index = 0; index < changeAxisVector.size(); index++)
+            changeAxisArray[index] = getAxisEnumeration(changeAxisVector.at(index));
+        changeAxisArray[changeAxisVector.size()] = -1;
+
+        //std::copy(changeAxisVector.begin(), changeAxisVector.end(), changeAxisArray);
         rtnValidity = acsc_EnableM(*m_SPIIDevice.get(),changeAxisArray,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
         delete [] changeAxisArray;
     }

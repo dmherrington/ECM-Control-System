@@ -22,13 +22,29 @@
 \*
 \*/
 
-enum MotorAxis
+enum MotorAxis : int8_t
 {
     ALL = -1,
     X = 0,
     Y = 1,
     Z = 2
 };
+
+inline int getAxisEnumeration(const MotorAxis &axis)
+{
+    switch (axis) {
+    case MotorAxis::X:
+        return 0;
+    case MotorAxis::Y:
+        return 1;
+    case MotorAxis::Z:
+        return 2;
+    case MotorAxis::ALL:
+        return -1;
+    default:
+        throw std::runtime_error("Unknown axis type seen");
+    }
+}
 
 inline std::string AxisToString(const MotorAxis &axis) {
     switch (axis) {

@@ -40,6 +40,11 @@ WidgetFrontPanel_AxisMotionControl::WidgetFrontPanel_AxisMotionControl(const Mot
 
     connect(m_MotionController, SIGNAL(signal_MCNewPosition(common::TuplePositionalString,common_data::MachinePositionalState,bool)),
             this, SLOT(slot_NewPositionalData(common::TuplePositionalString,common_data::MachinePositionalState,bool)));
+
+    double currentPosition = 0.0;
+    bool validRequest = m_MotionController->m_StateInterface->getAxisPosition(pertinentAxis, currentPosition);
+    if(validRequest)
+        ui->lineEdit_MachinePosition->setText(QString::number(currentPosition));
 }
 
 WidgetFrontPanel_AxisMotionControl::~WidgetFrontPanel_AxisMotionControl()
@@ -56,8 +61,9 @@ void WidgetFrontPanel_AxisMotionControl::slot_NewPositionalData(const common::Tu
 {
     UNUSED(tuple);
 
-    if(valueChanged)
+    if((valueChanged) || (!receivedUpdate))
     {
+        receivedUpdate = true;
         double currentPosition;
         bool validRequest = state.getPositionalState()->getAxisPosition(pertinentAxis,common_data::PositionUnit::UNIT_POSITION_MICRO_METER, currentPosition);
         if(validRequest)

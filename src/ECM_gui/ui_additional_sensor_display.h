@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'additional_sensor_display.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.6
+** Created by: Qt User Interface Compiler version 5.10.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -12,6 +12,8 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -33,14 +35,14 @@ public:
     void setupUi(QMainWindow *AdditionalSensorDisplay)
     {
         if (AdditionalSensorDisplay->objectName().isEmpty())
-            AdditionalSensorDisplay->setObjectName(QString::fromUtf8("AdditionalSensorDisplay"));
+            AdditionalSensorDisplay->setObjectName(QStringLiteral("AdditionalSensorDisplay"));
         AdditionalSensorDisplay->resize(800, 600);
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(AdditionalSensorDisplay->sizePolicy().hasHeightForWidth());
         AdditionalSensorDisplay->setSizePolicy(sizePolicy);
-        AdditionalSensorDisplay->setStyleSheet(QString::fromUtf8("QMenuBar{\n"
+        AdditionalSensorDisplay->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
 "	font: 12pt \"MS Shell Dlg 2\";\n"
@@ -160,18 +162,18 @@ public:
 "}"));
         AdditionalSensorDisplay->setDockNestingEnabled(true);
         centralwidget = new QWidget(AdditionalSensorDisplay);
-        centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
+        centralwidget->setObjectName(QStringLiteral("centralwidget"));
         verticalLayout_2 = new QVBoxLayout(centralwidget);
-        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         AdditionalSensorDisplay->setCentralWidget(centralwidget);
         menubar = new QMenuBar(AdditionalSensorDisplay);
-        menubar->setObjectName(QString::fromUtf8("menubar"));
+        menubar->setObjectName(QStringLiteral("menubar"));
         menubar->setGeometry(QRect(0, 0, 800, 40));
         menuView = new QMenu(menubar);
-        menuView->setObjectName(QString::fromUtf8("menuView"));
+        menuView->setObjectName(QStringLiteral("menuView"));
         AdditionalSensorDisplay->setMenuBar(menubar);
         statusbar = new QStatusBar(AdditionalSensorDisplay);
-        statusbar->setObjectName(QString::fromUtf8("statusbar"));
+        statusbar->setObjectName(QStringLiteral("statusbar"));
         AdditionalSensorDisplay->setStatusBar(statusbar);
 
         menubar->addAction(menuView->menuAction());

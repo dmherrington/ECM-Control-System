@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'dialog_software_version.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.6
+** Created by: Qt User Interface Compiler version 5.10.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,11 +10,14 @@
 #define UI_DIALOG_SOFTWARE_VERSION_H
 
 #include <QtCore/QVariant>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
@@ -37,7 +40,7 @@ public:
     void setupUi(QDialog *Dialog_SoftwareVersion)
     {
         if (Dialog_SoftwareVersion->objectName().isEmpty())
-            Dialog_SoftwareVersion->setObjectName(QString::fromUtf8("Dialog_SoftwareVersion"));
+            Dialog_SoftwareVersion->setObjectName(QStringLiteral("Dialog_SoftwareVersion"));
         Dialog_SoftwareVersion->resize(332, 282);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
@@ -47,13 +50,13 @@ public:
         Dialog_SoftwareVersion->setMinimumSize(QSize(332, 282));
         Dialog_SoftwareVersion->setMaximumSize(QSize(332, 282));
         layoutWidget = new QWidget(Dialog_SoftwareVersion);
-        layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
         layoutWidget->setGeometry(QRect(0, 0, 334, 275));
         verticalLayout = new QVBoxLayout(layoutWidget);
-        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
         label = new QLabel(layoutWidget);
-        label->setObjectName(QString::fromUtf8("label"));
+        label->setObjectName(QStringLiteral("label"));
         QFont font;
         font.setPointSize(12);
         label->setFont(font);
@@ -62,7 +65,7 @@ public:
         verticalLayout->addWidget(label);
 
         frame = new QFrame(layoutWidget);
-        frame->setObjectName(QString::fromUtf8("frame"));
+        frame->setObjectName(QStringLiteral("frame"));
         sizePolicy.setHeightForWidth(frame->sizePolicy().hasHeightForWidth());
         frame->setSizePolicy(sizePolicy);
         frame->setMinimumSize(QSize(332, 200));
@@ -71,10 +74,10 @@ public:
         frame->setFrameShadow(QFrame::Raised);
         gridLayout_2 = new QGridLayout(frame);
         gridLayout_2->setSpacing(0);
-        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         gridLayout_2->setContentsMargins(0, 0, 0, 0);
         verticalLayout_SWMap = new QVBoxLayout();
-        verticalLayout_SWMap->setObjectName(QString::fromUtf8("verticalLayout_SWMap"));
+        verticalLayout_SWMap->setObjectName(QStringLiteral("verticalLayout_SWMap"));
 
         gridLayout_2->addLayout(verticalLayout_SWMap, 1, 0, 1, 1);
 
@@ -86,7 +89,7 @@ public:
         verticalLayout->addItem(verticalSpacer);
 
         buttonBox = new QDialogButtonBox(layoutWidget);
-        buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
+        buttonBox->setObjectName(QStringLiteral("buttonBox"));
         buttonBox->setOrientation(Qt::Horizontal);
         buttonBox->setStandardButtons(QDialogButtonBox::Ok);
 

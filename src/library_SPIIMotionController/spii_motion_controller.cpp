@@ -27,6 +27,8 @@ SPIIMotionController::~SPIIMotionController()
 
 void SPIIMotionController::setAxesSettings(const AxisSettings &settings)
 {
+    setupRequestQueue(settings.getAvailableAxes());
+
     m_StateInterface->updateAxisSettings(settings);
 }
 
@@ -40,7 +42,8 @@ void SPIIMotionController::enableAvailableAxes()
 void SPIIMotionController::disableAvailableAxes()
 {
     CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();
-
+    command->setDisableAll(true);
+    this->executeCommand(command);
 }
 
 BufferData SPIIMotionController::retrieveBufferData(const unsigned int &bufferIndex)
@@ -171,7 +174,8 @@ void SPIIMotionController::initializeMotionController()
     CommandMotorDisablePtr commandMotorDisable = std::make_shared<CommandMotorDisable>();
     m_CommsMarshaler->commandMotorDisable(*commandMotorDisable.get());
 
-    setupRequestQueue();
+    std::vector<MotorAxis> currentAxes = m_StateInterface->getAvailableAxes();
+    setupRequestQueue(currentAxes);
 
     //Retrieve the current contents aboard the device
     m_CommsMarshaler->initializeBufferContents();
@@ -179,10 +183,8 @@ void SPIIMotionController::initializeMotionController()
     m_DevicePolling->beginPolling();
 }
 
-void SPIIMotionController::setupRequestQueue()
+void SPIIMotionController::setupRequestQueue(const std::vector<MotorAxis> &currentAxes)
 {
-    std::vector<MotorAxis> currentAxes = m_StateInterface->getAvailableAxes();
-
     //Add items to the ACS polling queue so that we can stay up to date
     // 1: Request the position of the ACS unit
     RequestTellPositionPtr requestTP = std::make_shared<RequestTellPosition>();
@@ -326,13 +328,20 @@ void SPIIMotionController::SPIIPolling_PositionUpdate(const std::vector<Status_P
     {
         Status_PositionPerAxis currentStatus = position.at(index);
         MotorAxis currentAxis = currentStatus.getAxis();
+        //std::cout<<"The axis here is: "<<AxisToString(currentAxis)<<std::endl;
         if(currentStatus.isStatusValid())
         {
-            newPosition = m_StateInterface->m_AxisState.at(currentAxis).m_AxisPosition.set(currentStatus);
-            positionalState->setAxisPosition(currentAxis, position.at(index).getPosition());
+            std::map<MotorAxis,Status_AxisState>::iterator it;
+            it = m_StateInterface->m_AxisState.find(currentAxis);
+            if (it != m_StateInterface->m_AxisState.end())
+            {
+                newPosition = it->second.m_AxisPosition.set(currentStatus);
+                positionalState->setAxisPosition(currentAxis, position.at(index).getPosition());
+            }
         }
-
     }
+
+
     state.setObservationTime(position.at(0).getTime());
     state.setPositionalState(positionalState);
 
@@ -351,7 +360,12 @@ void SPIIMotionController::SPIIPolling_AxisUpdate(const std::vector<Status_PerAx
         Status_PerAxis currentStatus = axis.at(index);
         MotorAxis currentAxis = currentStatus.getAxis();
         if(currentStatus.isStatusValid())
-            m_StateInterface->m_AxisState.at(currentAxis).m_AxisStatus.set(currentStatus);
+        {
+            std::map<MotorAxis,Status_AxisState>::iterator it;
+            it = m_StateInterface->m_AxisState.find(currentAxis);
+            if (it != m_StateInterface->m_AxisState.end())
+                it->second.m_AxisStatus.set(currentStatus);
+        }
     }
     ProgressStateMachineStates();
 }
@@ -366,7 +380,12 @@ void SPIIMotionController::SPIIPolling_MotorUpdate(const std::vector<Status_Moto
         Status_MotorPerAxis currentStatus = motor.at(index);
         MotorAxis currentAxis = currentStatus.getAxis();
         if(currentStatus.isStatusValid())
-            m_StateInterface->m_AxisState.at(currentAxis).m_MotorStatus.set(currentStatus);
+        {
+            std::map<MotorAxis,Status_AxisState>::iterator it;
+            it = m_StateInterface->m_AxisState.find(currentAxis);
+            if (it != m_StateInterface->m_AxisState.end())
+                it->second.m_MotorStatus.set(currentStatus);
+        }
     }
     ProgressStateMachineStates();
 }
@@ -384,9 +403,12 @@ void SPIIMotionController::SPIIPolling_AxisSafetyUpdate(const std::vector<Status
         MotorAxis currentAxis = currentStatus.getAxis();
         if(currentStatus.isStatusValid())
         {
+            std::map<MotorAxis,Status_AxisState>::iterator it;
+            it = m_StateInterface->m_AxisState.find(currentAxis);
+            if (it != m_StateInterface->m_AxisState.end())
+                if(!it->second.m_AxisSafety.set(currentStatus))
+                    continue;
 
-            if(!m_StateInterface->m_AxisState.at(currentAxis).m_AxisSafety.set(currentStatus))
-                continue;
 
             if(currentStatus.doesSafetyFaultExist() && (currentStatus.getErrorCode() > 5005))
             {
@@ -422,8 +444,11 @@ void SPIIMotionController::SPIIPolling_MotorFaultUpdate(const std::vector<Status
         if(currentStatus.isStatusValid())
         {
 
-            if(!m_StateInterface->m_AxisState.at(currentAxis).m_MotorFault.set(currentStatus))
-                continue;
+            std::map<MotorAxis,Status_AxisState>::iterator it;
+            it = m_StateInterface->m_AxisState.find(currentAxis);
+            if (it != m_StateInterface->m_AxisState.end())
+                if(!it->second.m_MotorFault.set(currentStatus))
+                    continue;
 
             if(currentStatus.doesMotorFaultExist())
             {
