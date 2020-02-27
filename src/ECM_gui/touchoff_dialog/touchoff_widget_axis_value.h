@@ -6,6 +6,9 @@
 #include "common/axis_definitions.h"
 #include "common/commands/command_variable.h"
 
+#include "data/motion_profile_state.h"
+#include "data/profiles/profile_state_touchoff.h"
+
 namespace Ui {
 class TouchoffWidget_AxisValue;
 }
@@ -15,7 +18,8 @@ class TouchoffWidget_AxisValue : public QWidget
     Q_OBJECT
 
 public:
-    explicit TouchoffWidget_AxisValue(const MotorAxis &axis, QWidget *parent = 0);
+    explicit TouchoffWidget_AxisValue(const MotorAxis &axis, QWidget *parent = nullptr);
+
     ~TouchoffWidget_AxisValue();
 
     void getAxisValue(double &refValue, double &gapValue) const;
@@ -27,6 +31,8 @@ public:
     void setRefValue(const double &refValue);
 
     void executingAutomatedSequence(const bool &shouldBlock);
+
+    void updatedMotionProfileState(const MotionProfileState &state);
 
 signals:
     void signal_AxisValueChanged();

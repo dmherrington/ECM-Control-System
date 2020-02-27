@@ -70,3 +70,30 @@ void TouchoffWidget_AxisValue::on_pushButton_Run_released()
 {
     emit signal_PushButtonRun(this->currentAxis);
 }
+
+void TouchoffWidget_AxisValue::updatedMotionProfileState(const MotionProfileState &state)
+{
+    if(state.getProfileState()->getType() == MotionProfile::ProfileType::TOUCHOFF)
+    {
+        ProfileState_Touchoff* castState = (ProfileState_Touchoff*)state.getProfileState().get();
+
+        switch (castState->getCurrentCode()) {
+        case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_POSITIONAL:
+        case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_INCONSISTENT:
+        case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_TOUCHING:
+            ui->widget_LEDTouchoffStatus->setColor(QColor(255,0,0));
+            break;
+        case ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING:
+            ui->widget_LEDTouchoffStatus->setColor(QColor(255,255,0));
+            break;
+        case ProfileState_Touchoff::TOUCHOFFProfileCodes::FINISHED:
+            ui->widget_LEDTouchoffStatus->setColor(QColor(0,255,0));
+            break;
+        case ProfileState_Touchoff::TOUCHOFFProfileCodes::ABORTED:
+            ui->widget_LEDTouchoffStatus->setColor(QColor(255,0,0));
+            break;
+        default:
+            break;
+        }
+    }
+}

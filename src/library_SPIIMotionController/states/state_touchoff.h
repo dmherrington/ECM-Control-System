@@ -43,6 +43,8 @@ private:
 
 private:
     bool touchoffExecuting = false;
+
+    MotorAxis touchoffAxis = MotorAxis::Z;
 };
 
 } //end of namespace SPII

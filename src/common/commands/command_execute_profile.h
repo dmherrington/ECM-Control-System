@@ -40,13 +40,13 @@ public:
      * @brief getClone
      * @return
      */
-    AbstractCommand* getClone() const override;
+    virtual AbstractCommand* getClone() const override;
 
     /**
      * @brief getClone
      * @param state
      */
-    void getClone(AbstractCommand** state) const override;
+    virtual void getClone(AbstractCommand** state) const override;
 
 public:
     //!

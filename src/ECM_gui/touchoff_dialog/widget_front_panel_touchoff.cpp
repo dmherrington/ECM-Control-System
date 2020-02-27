@@ -49,22 +49,15 @@ void WidgetFrontPanel_Touchoff::slot_AxisValueChanged()
 
 void WidgetFrontPanel_Touchoff::slot_OnRunPushButton(const MotorAxis &axis)
 {
-    TouchoffWidget_AxisValue* axisValueWidget = m_TouchoffValues.at(axis);
+    transmitTouchoffParameters(axis);
 
-    int direction = axisValueWidget->getAxisDirection();
-    Command_VariablePtr commandDirection = std::make_shared<Command_Variable>("directionGlobal ");
-    commandDirection->setVariableValue(direction);
-    m_MotionController->executeCommand(commandDirection);
-
-    on_pushButton_ExecuteTouchoff_released();
+    CommandExecuteProfilePtr commandTouchoffExecute = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::TOUCHOFF,"TOUCHOFF");
+    m_MotionController->executeCommand(commandTouchoffExecute);
 }
 
 void WidgetFrontPanel_Touchoff::on_pushButton_ExecuteTouchoff_released()
 {
-    transmitTouchoffParameters();
-
-    CommandExecuteProfilePtr commandTouchoffExecute = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::TOUCHOFF,"TOUCHOFF");
-    m_MotionController->executeCommand(commandTouchoffExecute);
+    slot_OnRunPushButton(MotorAxis::Z);
 }
 
 void WidgetFrontPanel_Touchoff::slot_UpdateMotionProfileState(const MotionProfileState &state)
@@ -72,6 +65,12 @@ void WidgetFrontPanel_Touchoff::slot_UpdateMotionProfileState(const MotionProfil
     if(state.getProfileState()->getType() == MotionProfile::ProfileType::TOUCHOFF)
     {
         ProfileState_Touchoff* castState = (ProfileState_Touchoff*)state.getProfileState().get();
+        MotorAxis updateAxis = castState->getCurrentAxis();
+
+        std::map<MotorAxis,TouchoffWidget_AxisValue*>::iterator it;
+        it = m_TouchoffValues.find(updateAxis);
+        if(it != m_TouchoffValues.end())
+            it->second->updatedMotionProfileState(state);
 
         switch (castState->getCurrentCode()) {
         case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_POSITIONAL:
@@ -145,7 +144,7 @@ void WidgetFrontPanel_Touchoff::updateAvailableAxes(const std::vector<MotorAxis>
     }
 }
 
-void WidgetFrontPanel_Touchoff::transmitTouchoffParameters()
+void WidgetFrontPanel_Touchoff::transmitTouchoffParameters(const MotorAxis &axis)
 {
     Command_VariableArrayPtr commandRef = std::make_shared<Command_VariableArray>();
     commandRef->setVariableName("startTouchOffPosition");
@@ -167,7 +166,7 @@ void WidgetFrontPanel_Touchoff::transmitTouchoffParameters()
 
 
     Command_VariablePtr commandGap = std::make_shared<Command_Variable>("startingGap");
-    refIterator = m_TouchoffValues.find(MotorAxis::Z);
+    refIterator = m_TouchoffValues.find(axis);
     if(refIterator != m_TouchoffValues.end())
     {
         double refValue = 0.0, gapValue = 0.0;
@@ -176,5 +175,15 @@ void WidgetFrontPanel_Touchoff::transmitTouchoffParameters()
         commandGap->setVariableValue(gapValue);
     }
     m_MotionController->executeCommand(commandGap);
+
+    TouchoffWidget_AxisValue* axisValueWidget = m_TouchoffValues.at(axis);
+    int direction = axisValueWidget->getAxisDirection();
+    Command_VariablePtr commandDirection = std::make_shared<Command_Variable>("directionGlobal");
+    commandDirection->setVariableValue(direction);
+    m_MotionController->executeCommand(commandDirection);
+
+    Command_VariablePtr commandTouchoffAxis = std::make_shared<Command_Variable>("assignAxis");
+    commandDirection->setVariableValue(static_cast<double>(getAxisEnumeration(axis)));
+    m_MotionController->executeCommand(commandDirection);
 }
 

@@ -28,7 +28,7 @@ public:
     void updateAvailableAxes(const std::vector<MotorAxis> &axes);
 
 private:
-    void transmitTouchoffParameters();
+    void transmitTouchoffParameters(const MotorAxis &axis);
 
 private slots:
 

@@ -27,6 +27,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += common.cpp \
     axis_settings.cpp \
+    commands/command_execute_touchoff.cpp \
     environment_time.cpp \
     tuple_sensor_string.cpp \
     tuple_ecm_data.cpp \
@@ -65,6 +66,7 @@ SOURCES += common.cpp \
 
 HEADERS += common.h\
     axis_settings.h \
+    commands/command_execute_touchoff.h \
         common_global.h \
     threadmanager.h \
     timer.h \

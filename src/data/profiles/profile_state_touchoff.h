@@ -1,6 +1,8 @@
 #ifndef PROFILESTATE_TOUCHOFF_H
 #define PROFILESTATE_TOUCHOFF_H
 
+#include "common/axis_definitions.h"
+
 #include "../motion_profile_state.h"
 
 class ProfileState_Touchoff : public MotionProfile
@@ -42,7 +44,7 @@ public:
     }
 
 public:
-    ProfileState_Touchoff(const std::string &name, const std::string &tag);
+    ProfileState_Touchoff(const std::string &name, const std::string &tag, const MotorAxis &axis);
 
     ProfileState_Touchoff(const ProfileState_Touchoff &copy);
 
@@ -50,9 +52,15 @@ public:
 
     void setCurrentCode(const TOUCHOFFProfileCodes &code);
 
+    void setCurrentAxis(const MotorAxis &axis);
+
     TOUCHOFFProfileCodes getCurrentCode() const;
+
+    MotorAxis getCurrentAxis() const;
 
 private:
     TOUCHOFFProfileCodes currentCode = TOUCHOFFProfileCodes::SEARCHING;
+
+    MotorAxis currentAxis;
 };
 #endif // PROFILESTATE_TOUCHOFF_H

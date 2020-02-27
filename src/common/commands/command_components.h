@@ -9,6 +9,7 @@
 #include "command_download_program.h"
 #include "command_estop.h"
 #include "command_execute_profile.h"
+#include "command_execute_touchoff.h"
 #include "command_jog.h"
 #include "command_motion_start.h"
 #include "command_motor_disable.h"
