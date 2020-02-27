@@ -22,6 +22,7 @@
 #include <QtWidgets/QRadioButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QWidget>
+#include "LED.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -40,28 +41,29 @@ public:
     QRadioButton *radioButton_DirectionP;
     QLabel *label;
     QRadioButton *radioButton_DirectionM;
-    QHBoxLayout *horizontalLayout_3;
     QSpacerItem *horizontalSpacer_4;
     QPushButton *pushButton_Run;
     QSpacerItem *horizontalSpacer_5;
+    LED *widget_LEDTouchoffStatus;
 
     void setupUi(QWidget *TouchoffWidget_AxisValue)
     {
         if (TouchoffWidget_AxisValue->objectName().isEmpty())
             TouchoffWidget_AxisValue->setObjectName(QStringLiteral("TouchoffWidget_AxisValue"));
-        TouchoffWidget_AxisValue->resize(350, 28);
+        TouchoffWidget_AxisValue->resize(375, 35);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(TouchoffWidget_AxisValue->sizePolicy().hasHeightForWidth());
         TouchoffWidget_AxisValue->setSizePolicy(sizePolicy);
-        TouchoffWidget_AxisValue->setMinimumSize(QSize(350, 28));
-        TouchoffWidget_AxisValue->setMaximumSize(QSize(350, 28));
+        TouchoffWidget_AxisValue->setMinimumSize(QSize(375, 35));
+        TouchoffWidget_AxisValue->setMaximumSize(QSize(375, 35));
         gridLayout = new QGridLayout(TouchoffWidget_AxisValue);
         gridLayout->setSpacing(0);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         gridLayout->setContentsMargins(0, 0, 0, 0);
         horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(0);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         label_Axis = new QLabel(TouchoffWidget_AxisValue);
         label_Axis->setObjectName(QStringLiteral("label_Axis"));
@@ -74,7 +76,7 @@ public:
 
         horizontalLayout_2->addWidget(label_Axis);
 
-        horizontalSpacer_3 = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer_3 = new QSpacerItem(2, 23, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_2->addItem(horizontalSpacer_3);
 
@@ -82,8 +84,8 @@ public:
         doubleSpinBox_TouchoffGap->setObjectName(QStringLiteral("doubleSpinBox_TouchoffGap"));
         sizePolicy.setHeightForWidth(doubleSpinBox_TouchoffGap->sizePolicy().hasHeightForWidth());
         doubleSpinBox_TouchoffGap->setSizePolicy(sizePolicy);
-        doubleSpinBox_TouchoffGap->setMinimumSize(QSize(80, 25));
-        doubleSpinBox_TouchoffGap->setMaximumSize(QSize(80, 25));
+        doubleSpinBox_TouchoffGap->setMinimumSize(QSize(60, 25));
+        doubleSpinBox_TouchoffGap->setMaximumSize(QSize(60, 25));
         QFont font1;
         font1.setFamily(QStringLiteral("MS Shell Dlg 2"));
         font1.setPointSize(11);
@@ -91,10 +93,11 @@ public:
         doubleSpinBox_TouchoffGap->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         doubleSpinBox_TouchoffGap->setDecimals(1);
         doubleSpinBox_TouchoffGap->setMaximum(500000);
+        doubleSpinBox_TouchoffGap->setValue(0);
 
         horizontalLayout_2->addWidget(doubleSpinBox_TouchoffGap);
 
-        horizontalSpacer = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer = new QSpacerItem(2, 23, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_2->addItem(horizontalSpacer);
 
@@ -102,16 +105,16 @@ public:
         doubleSpinBox_TouchoffRef->setObjectName(QStringLiteral("doubleSpinBox_TouchoffRef"));
         sizePolicy.setHeightForWidth(doubleSpinBox_TouchoffRef->sizePolicy().hasHeightForWidth());
         doubleSpinBox_TouchoffRef->setSizePolicy(sizePolicy);
-        doubleSpinBox_TouchoffRef->setMinimumSize(QSize(80, 25));
-        doubleSpinBox_TouchoffRef->setMaximumSize(QSize(80, 25));
+        doubleSpinBox_TouchoffRef->setMinimumSize(QSize(60, 25));
+        doubleSpinBox_TouchoffRef->setMaximumSize(QSize(60, 25));
         doubleSpinBox_TouchoffRef->setFont(font1);
         doubleSpinBox_TouchoffRef->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        doubleSpinBox_TouchoffRef->setDecimals(1);
+        doubleSpinBox_TouchoffRef->setDecimals(0);
         doubleSpinBox_TouchoffRef->setMaximum(500000);
 
         horizontalLayout_2->addWidget(doubleSpinBox_TouchoffRef);
 
-        horizontalSpacer_2 = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer_2 = new QSpacerItem(2, 23, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_2->addItem(horizontalSpacer_2);
 
@@ -122,6 +125,7 @@ public:
         radioButton_DirectionP->setObjectName(QStringLiteral("radioButton_DirectionP"));
         radioButton_DirectionP->setMinimumSize(QSize(13, 13));
         radioButton_DirectionP->setMaximumSize(QSize(13, 13));
+        radioButton_DirectionP->setChecked(true);
 
         horizontalLayout->addWidget(radioButton_DirectionP);
 
@@ -142,28 +146,32 @@ public:
 
         horizontalLayout_2->addLayout(horizontalLayout);
 
+        horizontalSpacer_4 = new QSpacerItem(2, 23, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout->addLayout(horizontalLayout_2, 0, 0, 1, 1);
-
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        horizontalSpacer_4 = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_3->addItem(horizontalSpacer_4);
+        horizontalLayout_2->addItem(horizontalSpacer_4);
 
         pushButton_Run = new QPushButton(TouchoffWidget_AxisValue);
         pushButton_Run->setObjectName(QStringLiteral("pushButton_Run"));
         pushButton_Run->setMinimumSize(QSize(50, 25));
         pushButton_Run->setMaximumSize(QSize(50, 25));
 
-        horizontalLayout_3->addWidget(pushButton_Run);
+        horizontalLayout_2->addWidget(pushButton_Run);
 
-        horizontalSpacer_5 = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer_5 = new QSpacerItem(2, 23, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        horizontalLayout_3->addItem(horizontalSpacer_5);
+        horizontalLayout_2->addItem(horizontalSpacer_5);
+
+        widget_LEDTouchoffStatus = new LED(TouchoffWidget_AxisValue);
+        widget_LEDTouchoffStatus->setObjectName(QStringLiteral("widget_LEDTouchoffStatus"));
+        sizePolicy.setHeightForWidth(widget_LEDTouchoffStatus->sizePolicy().hasHeightForWidth());
+        widget_LEDTouchoffStatus->setSizePolicy(sizePolicy);
+        widget_LEDTouchoffStatus->setMinimumSize(QSize(40, 30));
+        widget_LEDTouchoffStatus->setMaximumSize(QSize(40, 30));
+
+        horizontalLayout_2->addWidget(widget_LEDTouchoffStatus);
 
 
-        gridLayout->addLayout(horizontalLayout_3, 0, 1, 1, 1);
+        gridLayout->addLayout(horizontalLayout_2, 0, 0, 1, 1);
 
 
         retranslateUi(TouchoffWidget_AxisValue);

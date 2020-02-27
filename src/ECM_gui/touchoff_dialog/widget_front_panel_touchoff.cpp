@@ -178,12 +178,12 @@ void WidgetFrontPanel_Touchoff::transmitTouchoffParameters(const MotorAxis &axis
 
     TouchoffWidget_AxisValue* axisValueWidget = m_TouchoffValues.at(axis);
     int direction = axisValueWidget->getAxisDirection();
-    Command_VariablePtr commandDirection = std::make_shared<Command_Variable>("directionGlobal");
+    Command_VariableIntegerPtr commandDirection = std::make_shared<Command_VariableInteger>("directionGlobal");
     commandDirection->setVariableValue(direction);
     m_MotionController->executeCommand(commandDirection);
 
-    Command_VariablePtr commandTouchoffAxis = std::make_shared<Command_Variable>("assignAxis");
-    commandDirection->setVariableValue(static_cast<double>(getAxisEnumeration(axis)));
-    m_MotionController->executeCommand(commandDirection);
+    Command_VariableIntegerPtr commandTouchoffAxis = std::make_shared<Command_VariableInteger>("assignAxis");
+    commandTouchoffAxis->setVariableValue(static_cast<double>(getAxisEnumeration(axis)));
+    m_MotionController->executeCommand(commandTouchoffAxis);
 }
 

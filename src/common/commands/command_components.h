@@ -23,5 +23,6 @@
 #include "command_upload_program.h"
 #include "command_variable.h"
 #include "command_variable_array.h"
+#include "command_variable_integer.h"
 
 #endif // COMMAND_COMPONENTS_H

@@ -112,6 +112,16 @@
       </layout>
      </item>
      <item>
+      <widget class="Line" name="line">
+       <property name="lineWidth">
+        <number>2</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
       <layout class="QVBoxLayout" name="verticalLayout_Values">
        <property name="spacing">
         <number>1</number>

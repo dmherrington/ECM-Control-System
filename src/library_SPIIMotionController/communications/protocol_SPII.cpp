@@ -242,6 +242,12 @@ void SPIIProtocol::SendProtocolCommand(const AbstractCommandPtr command)
         WriteVariableValue(*commandVariable);
         break;
     }
+    case CommandType::SET_VARIABLE_INTEGER:
+    {
+        Command_VariableInteger* commandVariable = command->as<Command_VariableInteger>();
+        WriteIntegerVariableValue(*commandVariable);
+        break;
+    }
     case CommandType::SET_VARIABLE_ARRAY:
     {
         Command_VariableArray* commandVariable = command->as<Command_VariableArray>();
@@ -350,6 +356,20 @@ bool SPIIProtocol::WriteVariableValue(const Command_Variable &value)
     strcpy(ctext, value.getVariableName().c_str());
 
     rtnValidity = acsc_WriteReal(*m_SPIIDevice.get(),ACSC_NONE,ctext,0,0,ACSC_NONE,ACSC_NONE,values,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
+
+    return rtnValidity;
+}
+
+bool SPIIProtocol::WriteIntegerVariableValue(const Command_VariableInteger &value)
+{
+    bool rtnValidity = false;
+
+    int values[1] = {value.getVariableValue()};
+
+    char ctext[value.getVariableName().size()];
+    strcpy(ctext, value.getVariableName().c_str());
+
+    rtnValidity = acsc_WriteInteger(*m_SPIIDevice.get(),ACSC_NONE,ctext,0,0,ACSC_NONE,ACSC_NONE,values,static_cast<LP_ACSC_WAITBLOCK>(nullptr));
 
     return rtnValidity;
 }

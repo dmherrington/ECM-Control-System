@@ -42,7 +42,8 @@ enum class CommandType{
     UPLOAD_PROGRAM,
     UPLOAD_PROGRAM_SUITE,
     SET_VARIABLE,
-    SET_VARIABLE_ARRAY
+    SET_VARIABLE_ARRAY,
+    SET_VARIABLE_INTEGER
 };
 
 //!
@@ -84,6 +85,8 @@ inline std::string CommandToString(const CommandType &type) {
         return "SET VARIABLE";
     case CommandType::SET_VARIABLE_ARRAY:
         return "SET VARIABLE ARRAY";
+    case CommandType::SET_VARIABLE_INTEGER:
+        return "SET VARIABLE INTEGER";
     default:
         throw std::runtime_error("Unknown command type seen");
     }

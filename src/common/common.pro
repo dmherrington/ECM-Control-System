@@ -62,7 +62,8 @@ SOURCES += common.cpp \
     operation/operation_label_list.cpp \
     commands/command_compile_buffer.cpp \
     commands/command_variable_array.cpp \
-    commands/command_upload_operational_variables.cpp
+    commands/command_upload_operational_variables.cpp \
+    commands/command_variable_integer.cpp
 
 HEADERS += common.h\
     axis_settings.h \
@@ -128,7 +129,8 @@ HEADERS += common.h\
     commands/command_variable_array.h \
     commands/command_upload_operational_variables.h \
     notification_update.h \
-    simplified_time.h
+    simplified_time.h \
+    commands/command_variable_integer.h
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET

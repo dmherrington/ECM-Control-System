@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
@@ -33,6 +34,7 @@ public:
     QPushButton *pushButton_TouchoffGap;
     QPushButton *pushButton_TouchoffRef;
     QSpacerItem *horizontalSpacer_6;
+    QFrame *line;
     QVBoxLayout *verticalLayout_Values;
     QHBoxLayout *horizontalLayout_5;
     QSpacerItem *horizontalSpacer;
@@ -95,6 +97,14 @@ public:
 
 
         verticalLayout->addLayout(horizontalLayout_3);
+
+        line = new QFrame(WidgetFrontPanel_Touchoff);
+        line->setObjectName(QStringLiteral("line"));
+        line->setLineWidth(2);
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+
+        verticalLayout->addWidget(line);
 
         verticalLayout_Values = new QVBoxLayout();
         verticalLayout_Values->setSpacing(1);

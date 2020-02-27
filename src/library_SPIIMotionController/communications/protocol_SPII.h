@@ -58,6 +58,8 @@ public:
 
     bool WriteVariableValue(const Command_Variable &value);
 
+    bool WriteIntegerVariableValue(const Command_VariableInteger &value);
+
     bool WriteVariableArray(const Command_VariableArray &value);
 
     bool WriteOperationalVariables(const Operation_VariableList &variableList);

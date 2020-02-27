@@ -9,6 +9,8 @@ TouchoffWidget_AxisValue::TouchoffWidget_AxisValue(const MotorAxis &axis, QWidge
 
     this->currentAxis = axis;
     ui->label_Axis->setText(QString::fromStdString(AxisToString(axis)));
+
+    ui->widget_LEDTouchoffStatus->setDiameter(6);
 }
 
 TouchoffWidget_AxisValue::~TouchoffWidget_AxisValue()
