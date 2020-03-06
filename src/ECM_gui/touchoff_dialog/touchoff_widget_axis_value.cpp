@@ -99,3 +99,8 @@ void TouchoffWidget_AxisValue::updatedMotionProfileState(const MotionProfileStat
         }
     }
 }
+
+void TouchoffWidget_AxisValue::invalidateTouchoffState()
+{
+    ui->widget_LEDTouchoffStatus->setColor(QColor(255,0,0));
+}

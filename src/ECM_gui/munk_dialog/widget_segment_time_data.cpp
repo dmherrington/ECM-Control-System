@@ -46,10 +46,15 @@ void WidgetSegmentTimeData::setExpandedMunkDriverModes(const bool &expandedModes
         this->ui->comboBox_Mode->addItem(QString::fromStdString(modeValues[i]));
 
     int index = this->ui->comboBox_Mode->findText(currentSelection);
+
     if(index == -1)
         this->ui->comboBox_Mode->setCurrentIndex(0);
     else
         this->ui->comboBox_Mode->setCurrentIndex(index);
+
+
+    data_Munk::SegmentMode currentSelectedMode = data_Munk::SegmentModeFromString(this->ui->comboBox_Mode->currentText().toStdString());
+    data->setSegmentMode(currentSelectedMode);
 
     ui->comboBox_Mode->blockSignals(wasBlocked);
 }

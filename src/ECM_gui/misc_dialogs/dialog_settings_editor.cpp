@@ -46,7 +46,7 @@ void Dialog_SettingsEditor::readSettings()
     bool ignoreYFaults = settings.value("ignoreFaults_Y", false).toBool();
     ui->radioButton_YFault->setChecked(ignoreYFaults);
     bool ignoreZFaults = settings.value("ignoreFaults_Z", false).toBool();
-    ui->radioButton_YFault->setChecked(ignoreZFaults);
+    ui->radioButton_ZFault->setChecked(ignoreZFaults);
 }
 
 void Dialog_SettingsEditor::closeEvent(QCloseEvent *event)

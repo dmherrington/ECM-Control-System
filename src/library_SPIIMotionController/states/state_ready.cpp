@@ -4,7 +4,7 @@ namespace ECM{
 namespace SPII {
 
 State_Ready::State_Ready():
-    AbstractStateSPII()
+    AbstractStateSPII(), _holdingCommand(nullptr)
 {
     this->currentState = SPIIState::STATE_READY;
     this->desiredState = SPIIState::STATE_READY;
@@ -121,6 +121,12 @@ void State_Ready::handleCommand(const AbstractCommandPtr command)
     }
     case CommandType::EXECUTE_PROGRAM:
     {
+        if(!areMotorsEnabled) //we are not ready to execute a program and therefore will wait until the motors are armed
+        {
+            _holdingCommand = command;
+            return;
+        }
+
         //While this state is responsive to this command, it is only responsive by causing the state machine to progress to a new state.
         CommandExecuteProfilePtr castCommand = std::make_shared<CommandExecuteProfile>(*command->as<CommandExecuteProfile>());
         switch (castCommand->getProfileType()) {
@@ -192,6 +198,11 @@ void State_Ready::handleCommand(const AbstractCommandPtr command)
         Owner().issueSPIICommand(command);
         break;
     }
+    case CommandType::SET_VARIABLE_INTEGER:
+    {
+        Owner().issueSPIICommand(command);
+        break;
+    }
     case CommandType::SET_VARIABLE_ARRAY:
     {
         //const Command_Variable* castCommand = copyCommand->as<Command_Variable>();
@@ -211,6 +222,7 @@ void State_Ready::handleCommand(const AbstractCommandPtr command)
         break;
     }
     default:
+        std::cout<<"The command type of: "<<CommandToString(command->getCommandType())<<" has no explicit support from the ready state."<<std::endl;
         break;
     }
 }
@@ -227,7 +239,16 @@ void State_Ready::Update()
     }
     else
     {
-        if(!Owner().areAllMotorsEnabled())
+        areMotorsEnabled = Owner().areAllMotorsEnabled();
+        if(areMotorsEnabled) //if everything is enabled then we can proceed if necessary
+        {
+            if(_holdingCommand != nullptr)
+            {
+                handleCommand(_holdingCommand);
+                _holdingCommand.reset();
+            }
+        }
+        else if(!areMotorsEnabled) //all the motors listed as active are not currently enabling, wait
         {
             disableCount++;
             if(disableCount > 100)
@@ -264,7 +285,6 @@ void State_Ready::OnEnter()
 void State_Ready::OnEnter(const AbstractCommandPtr command)
 {
     this->OnEnter();
-
     if(command != nullptr)
     {
         //The command isnt null so we should handle it

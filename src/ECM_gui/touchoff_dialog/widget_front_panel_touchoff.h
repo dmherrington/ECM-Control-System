@@ -42,6 +42,8 @@ private slots:
 
     void slot_UpdateMotionProfileState(const MotionProfileState &state);
 
+    void slot_UpdateTouchoff(const bool &state);
+
     void on_pushButton_TouchoffGap_released();
 
 

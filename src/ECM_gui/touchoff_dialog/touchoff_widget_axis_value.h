@@ -34,6 +34,8 @@ public:
 
     void updatedMotionProfileState(const MotionProfileState &state);
 
+    void invalidateTouchoffState();
+
 signals:
     void signal_AxisValueChanged();
 

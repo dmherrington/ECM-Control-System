@@ -36,7 +36,6 @@ void SPIIStateInterface::updateAxisSettings(const AxisSettings &axisSettings)
 void SPIIStateInterface::updateAvailableAxes(const std::vector<MotorAxis> &availableAxes)
 {
     std::map<MotorAxis,Status_AxisState>::iterator it;
-    std::cout<<"The size is: "<<availableAxes.size()<<std::endl;
     //add items that are not present in the current vector
     for(size_t index = 0; index < availableAxes.size(); index++)
     {

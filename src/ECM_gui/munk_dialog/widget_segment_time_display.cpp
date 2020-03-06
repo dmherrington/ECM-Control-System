@@ -123,6 +123,7 @@ registers_Munk::SegmentTimeDetailed WidgetSegmentTimeDisplay::getRawData() const
         WidgetSegmentTimeData* data = *iterator;
         detailedData.appendRegisterData(*data->getData());
     }
+
     return detailedData;
 }
 

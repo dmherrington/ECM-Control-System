@@ -3,7 +3,7 @@
 CommandExecuteTouchoff::CommandExecuteTouchoff(const MotionProfile::ProfileType &type, const std::string &name, const MotorAxis &axis):
     CommandExecuteProfile(type, name)
 {
-
+    setExecutionAxis(axis);
 }
 
 CommandExecuteTouchoff::CommandExecuteTouchoff(const CommandExecuteTouchoff &copy):

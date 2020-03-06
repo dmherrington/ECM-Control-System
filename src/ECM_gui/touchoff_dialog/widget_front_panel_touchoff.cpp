@@ -7,9 +7,8 @@ WidgetFrontPanel_Touchoff::WidgetFrontPanel_Touchoff(const std::vector<MotorAxis
 {
     ui->setupUi(this);
 
-    ui->widget_LEDTouchoffStatus->setDiameter(7);
-
     connect(m_MotionController,SIGNAL(signal_MCUpdatedProfileState(MotionProfileState)),this,SLOT(slot_UpdateMotionProfileState(MotionProfileState)));
+    connect(m_MotionController,SIGNAL(signal_MCTouchoffIndicated(bool)),this,SLOT(slot_UpdateTouchoff(bool)));
 
     for (size_t axisIndex = 0; axisIndex < applicableAxis.size(); axisIndex++)
     {
@@ -51,7 +50,7 @@ void WidgetFrontPanel_Touchoff::slot_OnRunPushButton(const MotorAxis &axis)
 {
     transmitTouchoffParameters(axis);
 
-    CommandExecuteProfilePtr commandTouchoffExecute = std::make_shared<CommandExecuteProfile>(MotionProfile::ProfileType::TOUCHOFF,"TOUCHOFF");
+    CommandExecuteTouchoffPtr commandTouchoffExecute = std::make_shared<CommandExecuteTouchoff>(MotionProfile::ProfileType::TOUCHOFF,"TOUCHOFF", axis);
     m_MotionController->executeCommand(commandTouchoffExecute);
 }
 
@@ -59,11 +58,29 @@ void WidgetFrontPanel_Touchoff::on_pushButton_ExecuteTouchoff_released()
 {
     slot_OnRunPushButton(MotorAxis::Z);
 }
+void WidgetFrontPanel_Touchoff::slot_UpdateTouchoff(const bool &state)
+{
+    if(state == false) //we need to clear the touchoff validity from all axis
+    {
+        std::map<MotorAxis,TouchoffWidget_AxisValue*>::iterator it = m_TouchoffValues.begin();
+
+        for (; it!=m_TouchoffValues.end(); ++it)
+        {
+            it->second->invalidateTouchoffState();
+        }
+    }
+    else
+    {
+        std::cout<<"It also sends the true statement."<<std::endl;
+    }
+}
 
 void WidgetFrontPanel_Touchoff::slot_UpdateMotionProfileState(const MotionProfileState &state)
 {
     if(state.getProfileState()->getType() == MotionProfile::ProfileType::TOUCHOFF)
     {
+
+        //Update the individual axis icon:
         ProfileState_Touchoff* castState = (ProfileState_Touchoff*)state.getProfileState().get();
         MotorAxis updateAxis = castState->getCurrentAxis();
 
@@ -71,29 +88,6 @@ void WidgetFrontPanel_Touchoff::slot_UpdateMotionProfileState(const MotionProfil
         it = m_TouchoffValues.find(updateAxis);
         if(it != m_TouchoffValues.end())
             it->second->updatedMotionProfileState(state);
-
-        switch (castState->getCurrentCode()) {
-        case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_POSITIONAL:
-        case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_INCONSISTENT:
-        case ProfileState_Touchoff::TOUCHOFFProfileCodes::ERROR_TOUCHING:
-            ui->widget_LEDTouchoffStatus->setColor(QColor(255,0,0));
-//            ui->lineEdit_TouchoffCode->setText(QString::fromStdString(ProfileState_Touchoff::TOUCHOFFCodesToString(castState->getCurrentCode())));
-            break;
-        case ProfileState_Touchoff::TOUCHOFFProfileCodes::SEARCHING:
-            ui->widget_LEDTouchoffStatus->setColor(QColor(255,255,0));
-//            ui->lineEdit_TouchoffCode->setText(QString::fromStdString(ProfileState_Touchoff::TOUCHOFFCodesToString(castState->getCurrentCode())));
-            break;
-        case ProfileState_Touchoff::TOUCHOFFProfileCodes::FINISHED:
-            ui->widget_LEDTouchoffStatus->setColor(QColor(0,255,0));
-//            ui->lineEdit_TouchoffCode->setText(QString::fromStdString(ProfileState_Touchoff::TOUCHOFFCodesToString(castState->getCurrentCode())));
-            break;
-        case ProfileState_Touchoff::TOUCHOFFProfileCodes::ABORTED:
-            ui->widget_LEDTouchoffStatus->setColor(QColor(255,0,0));
-//            ui->lineEdit_TouchoffCode->setText("");
-            break;
-        default:
-            break;
-        }
     }
 }
 
@@ -137,7 +131,7 @@ void WidgetFrontPanel_Touchoff::updateAvailableAxes(const std::vector<MotorAxis>
 
         TouchoffWidget_AxisValue* axisValueWidget = new TouchoffWidget_AxisValue(currentAxis);
         connect(axisValueWidget,SIGNAL(signal_AxisValueChanged()),this,SLOT(slot_AxisValueChanged()));
-
+        connect(axisValueWidget, SIGNAL(signal_PushButtonRun(MotorAxis)), this, SLOT(slot_OnRunPushButton(MotorAxis)));
         m_TouchoffValues.insert(std::pair<MotorAxis,TouchoffWidget_AxisValue*>(currentAxis, axisValueWidget));
 
         ui->verticalLayout_Values->addWidget(axisValueWidget);

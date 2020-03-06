@@ -40,6 +40,8 @@ public:
 
 private:
     unsigned int disableCount = 0;
+    bool areMotorsEnabled = false;
+    AbstractCommandPtr _holdingCommand;
 
 };
 
