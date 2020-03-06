@@ -21,7 +21,6 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
-#include "LED.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -41,7 +40,6 @@ public:
     QHBoxLayout *horizontalLayout_4;
     QHBoxLayout *horizontalLayout;
     QSpacerItem *horizontalSpacer_4;
-    LED *widget_LEDTouchoffStatus;
     QSpacerItem *horizontalSpacer_5;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer_2;
@@ -128,15 +126,6 @@ public:
         horizontalSpacer_4 = new QSpacerItem(2, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer_4);
-
-        widget_LEDTouchoffStatus = new LED(WidgetFrontPanel_Touchoff);
-        widget_LEDTouchoffStatus->setObjectName(QStringLiteral("widget_LEDTouchoffStatus"));
-        sizePolicy1.setHeightForWidth(widget_LEDTouchoffStatus->sizePolicy().hasHeightForWidth());
-        widget_LEDTouchoffStatus->setSizePolicy(sizePolicy1);
-        widget_LEDTouchoffStatus->setMinimumSize(QSize(40, 30));
-        widget_LEDTouchoffStatus->setMaximumSize(QSize(40, 30));
-
-        horizontalLayout->addWidget(widget_LEDTouchoffStatus);
 
         horizontalSpacer_5 = new QSpacerItem(2, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
