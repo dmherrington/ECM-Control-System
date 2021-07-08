@@ -1,17 +1,22 @@
 #ifndef QMODBUS_COMMS_MARSHALER_H
 #define QMODBUS_COMMS_MARSHALER_H
 
-#include "common/publisher.h"
-#include "common/comms/serial_configuration.h"
-
+#include <memory>
 #include <unordered_map>
 
-#include "i_link.h"
+#include "common/publisher.h"
+#include "common/modbus_register.h"
+#include "common/comms/communication_connection.h"
+#include "common/comms/communication_update.h"
+#include "common/comms/serial_configuration.h"
+#include "common/comms/tcp_configuration.h"
+
+#include "comms_events.h"
+#include "i_link_events.h"
 #include "qmodbus_link.h"
 #include "protocol_qmodbus.h"
 #include "i_link_events.h"
 #include "i_protocol_qmodbus_events.h"
-#include "comms_events.h"
 
 /**
 \* @file  qmodbus_comms_marshaler.h
@@ -36,12 +41,11 @@ public:
 
     CommsMarshaler();
 
-    virtual ~CommsMarshaler();
+    virtual ~CommsMarshaler() override;
 
 
     ///////////////////////////////////////////////////////////////////
     /// Methods supporting the Connect/Disconnect from of the QModBus Device
-    /// and accompanying RS485 port
     ///////////////////////////////////////////////////////////////////
 
     //!
@@ -51,15 +55,19 @@ public:
     //!
     bool ConnectToSerialPort(const common::comms::SerialConfiguration &config);
 
+    bool ConnectToEthernetPort(const common::comms::TCPConfiguration &config);
+
     //!
     //! \brief DisconnetFromSerialPort
     //! \return
     //!
-    bool DisconnectFromSerialPort();
+    bool DisconnectFromDevice();
 
-    bool isSerialPortConnected() const;
+    bool isDeviceConnected() const;
 
     void WriteToSingleRegister(const ModbusRegister &regMsg) const;
+
+    void ReadFromRegisters(const ModbusRegister &regMsg) const;
 
 private:
     //////////////////////////////////////////////////////////////
@@ -71,9 +79,17 @@ private:
     //////////////////////////////////////////////////////////////
     /// Virtual methods imposed from IProtocolQModBusEvents
     //////////////////////////////////////////////////////////////
-    void SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const override;
+    void ModbusPortStatusUpdate(const common::comms::CommunicationUpdate &update) const override;
 
-    void ResponseReceived(const QByteArray &buffer) const override;
+    void ModbusFailedDataTransmission(const common::comms::CommunicationUpdate &update, const ModbusRegister &reg) const override;
+
+    void ModbusResponseReceived(const QByteArray &buffer) const override;
+
+    //!
+    //! \brief ModbusReadReceived
+    //! \param regObj
+    //!
+    void ModbusReadReceived(const ModbusRegister &regObj) const override;
 
 private:
     std::shared_ptr<QModBusLink> link;

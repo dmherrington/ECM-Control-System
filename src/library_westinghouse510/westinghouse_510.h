@@ -15,6 +15,7 @@
 
 #include "library_westinghouse510_global.h"
 
+#include "common/notification_update.h"
 #include "common/comms/abstract_communication.h"
 
 #include "data_registers/register_components.h"
@@ -153,6 +154,8 @@ signals:
     void signal_PumpInitializationTimeUpdated(const int &value);
 
 
+    void signal_PumpNotification(const common::NotificationUpdate &notification);
+
 private slots:
     //!
     //! \brief slot_SerialPortReadyToConnect slot that catches the ICommunication callback denoting when the device is ready to
@@ -164,7 +167,7 @@ private slots:
     //! \brief slot_SerialPortUpdate
     //! \param update
     //!
-    void slot_SerialPortUpdate(const common::comms::CommunicationUpdate &update);
+    void slot_PortUpdate(const common::comms::CommunicationUpdate &update);
 
     //!
     //! \brief slot_SerialPortReceivedData
@@ -178,6 +181,12 @@ private slots:
     //! to pass fluids and begin operation.
     //!
     void slot_PumpInitializationComplete();
+
+    //!
+    //! \brief slot_PortFailedTransmission
+    //! \param regMsg
+    //!
+    void slot_PortFailedTransmission(const common::comms::CommunicationUpdate &update, const ModbusRegister &regMsg);
 
 public:
     Westinghouse510_State* m_State;

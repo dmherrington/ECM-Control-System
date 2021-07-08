@@ -89,14 +89,13 @@ void Window_Touchoff::on_pushButton_TouchoffRef_released()
     ui->doubleSpinBox_TouchoffRefY->blockSignals(true);
     ui->doubleSpinBox_TouchoffRefZ->blockSignals(true);
 
-    Status_PositionPerAxis posX, posY, posZ;
-    m_MotionController->m_StateInterface->m_AxisPosition->getAxisPosition(MotorAxis::X,posX);
-    m_MotionController->m_StateInterface->m_AxisPosition->getAxisPosition(MotorAxis::Y,posY);
-    m_MotionController->m_StateInterface->m_AxisPosition->getAxisPosition(MotorAxis::Z,posZ);
-
-    ui->doubleSpinBox_TouchoffRefX->setValue(posX.getPosition());
-    ui->doubleSpinBox_TouchoffRefY->setValue(posY.getPosition());
-    ui->doubleSpinBox_TouchoffRefZ->setValue(posZ.getPosition());
+    double axisPosition = 0.0;
+    if(m_MotionController->m_StateInterface->getAxisPosition(MotorAxis::X,axisPosition))
+        ui->doubleSpinBox_TouchoffRefX->setValue(axisPosition);
+    if(m_MotionController->m_StateInterface->getAxisPosition(MotorAxis::Y,axisPosition))
+        ui->doubleSpinBox_TouchoffRefY->setValue(axisPosition);
+    if(m_MotionController->m_StateInterface->getAxisPosition(MotorAxis::Z,axisPosition))
+        ui->doubleSpinBox_TouchoffRefZ->setValue(axisPosition);
 
     ui->doubleSpinBox_TouchoffRefX->blockSignals(false);
     ui->doubleSpinBox_TouchoffRefY->blockSignals(false);
@@ -152,38 +151,35 @@ void Window_Touchoff::transmitTouchoffGap()
 
 void Window_Touchoff::on_doubleSpinBox_TouchoffRefX_editingFinished()
 {
-    Status_PositionPerAxis posX, posY, posZ;
-    m_MotionController->m_StateInterface->m_AxisPosition->getAxisPosition(MotorAxis::X,posX);
-    m_MotionController->m_StateInterface->m_AxisPosition->getAxisPosition(MotorAxis::Y,posY);
-    m_MotionController->m_StateInterface->m_AxisPosition->getAxisPosition(MotorAxis::Z,posZ);
-
-    ui->doubleSpinBox_TouchoffRefX->setValue(posX.getPosition());
-    ui->doubleSpinBox_TouchoffRefY->setValue(posY.getPosition());
-    ui->doubleSpinBox_TouchoffRefZ->setValue(posZ.getPosition());
+    double axisPosition = 0.0;
+    if(m_MotionController->m_StateInterface->getAxisPosition(MotorAxis::X, axisPosition))
+        ui->doubleSpinBox_TouchoffRefX->setValue(axisPosition);
+    if(m_MotionController->m_StateInterface->getAxisPosition(MotorAxis::Y, axisPosition))
+        ui->doubleSpinBox_TouchoffRefY->setValue(axisPosition);
+    if(m_MotionController->m_StateInterface->getAxisPosition(MotorAxis::Z, axisPosition))
+        ui->doubleSpinBox_TouchoffRefZ->setValue(axisPosition);
 }
 
 void Window_Touchoff::on_doubleSpinBox_TouchoffRefY_editingFinished()
 {
-    Status_PositionPerAxis posX, posY, posZ;
-    m_MotionController->m_StateInterface->m_AxisPosition->getAxisPosition(MotorAxis::X,posX);
-    m_MotionController->m_StateInterface->m_AxisPosition->getAxisPosition(MotorAxis::Y,posY);
-    m_MotionController->m_StateInterface->m_AxisPosition->getAxisPosition(MotorAxis::Z,posZ);
-
-    ui->doubleSpinBox_TouchoffRefX->setValue(posX.getPosition());
-    ui->doubleSpinBox_TouchoffRefY->setValue(posY.getPosition());
-    ui->doubleSpinBox_TouchoffRefZ->setValue(posZ.getPosition());
+    double axisPosition = 0.0;
+    if(m_MotionController->m_StateInterface->getAxisPosition(MotorAxis::X, axisPosition))
+        ui->doubleSpinBox_TouchoffRefX->setValue(axisPosition);
+    if(m_MotionController->m_StateInterface->getAxisPosition(MotorAxis::Y, axisPosition))
+        ui->doubleSpinBox_TouchoffRefY->setValue(axisPosition);
+    if(m_MotionController->m_StateInterface->getAxisPosition(MotorAxis::Z, axisPosition))
+        ui->doubleSpinBox_TouchoffRefZ->setValue(axisPosition);
 }
 
 void Window_Touchoff::on_doubleSpinBox_TouchoffRefZ_editingFinished()
 {
-    Status_PositionPerAxis posX, posY, posZ;
-    m_MotionController->m_StateInterface->m_AxisPosition->getAxisPosition(MotorAxis::X,posX);
-    m_MotionController->m_StateInterface->m_AxisPosition->getAxisPosition(MotorAxis::Y,posY);
-    m_MotionController->m_StateInterface->m_AxisPosition->getAxisPosition(MotorAxis::Z,posZ);
-
-    ui->doubleSpinBox_TouchoffRefX->setValue(posX.getPosition());
-    ui->doubleSpinBox_TouchoffRefY->setValue(posY.getPosition());
-    ui->doubleSpinBox_TouchoffRefZ->setValue(posZ.getPosition());
+    double axisPosition = 0.0;
+    if(m_MotionController->m_StateInterface->getAxisPosition(MotorAxis::X, axisPosition))
+        ui->doubleSpinBox_TouchoffRefX->setValue(axisPosition);
+    if(m_MotionController->m_StateInterface->getAxisPosition(MotorAxis::Y, axisPosition))
+        ui->doubleSpinBox_TouchoffRefY->setValue(axisPosition);
+    if(m_MotionController->m_StateInterface->getAxisPosition(MotorAxis::Z, axisPosition))
+        ui->doubleSpinBox_TouchoffRefZ->setValue(axisPosition);
 }
 
 void Window_Touchoff::on_doubleSpinBox_InitialGapX_editingFinished()

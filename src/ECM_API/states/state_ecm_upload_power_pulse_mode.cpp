@@ -92,7 +92,8 @@ void ECMState_UploadPowerPulseMode::OnEnter(ECMCommand_AbstractProfileConfigPtr 
                 }else
                 {
                     APIUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR);
-                    APIUpdate.setPeripheralMessage("Upload of power pulse mode has failed.");
+                    std::string peripheralMessage = "Upload of power pulse mode has failed:" + DeviceInterface_PowerSupply::getStringFromFinishCode(finishCode);
+                    APIUpdate.setPeripheralMessage(peripheralMessage);
                     desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
                 }
                 emit Owner().signal_APINotification(APIUpdate);

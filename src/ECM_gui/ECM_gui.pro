@@ -91,7 +91,11 @@ SOURCES += \
     misc_dialogs/widget_notification.cpp \
     touchoff_dialog/widget_front_panel_touchoff.cpp \
     touchoff_dialog/touchoff_widget_axis_value.cpp \
-    pump_dialog/widget_front_panel_pump.cpp
+    pump_dialog/widget_front_panel_pump.cpp \
+    misc_dialogs/dialog_run_statistics.cpp \
+    misc_dialogs/widget_sofware_versioning.cpp \
+    misc_dialogs/dialog_software_version.cpp \
+    misc_dialogs/dialog_settings_editor.cpp
 
 HEADERS += \
     misc_dialogs/code_edit_widget.h \
@@ -143,7 +147,11 @@ HEADERS += \
     misc_dialogs/widget_notification.h \
     touchoff_dialog/widget_front_panel_touchoff.h \
     touchoff_dialog/touchoff_widget_axis_value.h \
-    pump_dialog/widget_front_panel_pump.h
+    pump_dialog/widget_front_panel_pump.h \
+    misc_dialogs/dialog_run_statistics.h \
+    misc_dialogs/widget_sofware_versioning.h \
+    misc_dialogs/dialog_software_version.h \
+    misc_dialogs/dialog_settings_editor.h
 
 FORMS += \
     misc_dialogs/table_widget_operation_descriptor.ui \
@@ -182,7 +190,12 @@ FORMS += \
     misc_dialogs/widget_notification.ui \
     touchoff_dialog/widget_front_panel_touchoff.ui \
     touchoff_dialog/touchoff_widget_axis_value.ui \
-    pump_dialog/widget_front_panel_pump.ui
+    pump_dialog/widget_front_panel_pump.ui \
+    misc_dialogs/dialog_run_statistics.ui \
+    misc_dialogs/widget_sofware_versioning.ui \
+    misc_dialogs/dialog_software_version.ui \
+    misc_dialogs/dialog_settings_editor.ui \
+    ECM_controller_gui.ui
 
 #Header file copy
 INSTALL_PREFIX = $$(ECM_ROOT)/include/$$TARGET
@@ -280,9 +293,17 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../library_SPIIMotionController/ -llibrary_
 INCLUDEPATH += $$PWD/../library_SPIIMotionController
 DEPENDPATH += $$PWD/../library_SPIIMotionController
 
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_plc/release/ -llibrary_plc
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_plc/debug/ -llibrary_plc
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_plc/ -llibrary_plc
+
+INCLUDEPATH += $$PWD/../library_plc
+DEPENDPATH += $$PWD/../library_plc
+
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../ECM_API/release/ -lECM_API
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../ECM_API/debug/ -lECM_API
 else:unix:!macx: LIBS += -L$$OUT_PWD/../ECM_API/ -lECM_API
 
 INCLUDEPATH += $$PWD/../ECM_API
 DEPENDPATH += $$PWD/../ECM_API
+

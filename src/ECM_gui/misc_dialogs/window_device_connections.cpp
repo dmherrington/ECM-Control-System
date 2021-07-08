@@ -21,6 +21,8 @@ Window_DeviceConnections::Window_DeviceConnections(ECM_API *obj, QWidget *parent
     ui->widget_SensorayConnection->setColor(QColor(255,0,0));
     ui->widget_WestinghouseConnection->setDiameter(ledDiameter);
     ui->widget_WestinghouseConnection->setColor(QColor(255,0,0));
+    ui->widget_PLCConnection->setDiameter(ledDiameter);
+    ui->widget_PLCConnection->setColor(QColor(255,0,0));
     //let us check all of the device connections
 
     connect(m_API->m_Sensoray,SIGNAL(signal_SensorayCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_SensorayConnectionUpdate(common::comms::CommunicationUpdate)));
@@ -28,6 +30,7 @@ Window_DeviceConnections::Window_DeviceConnections(ECM_API *obj, QWidget *parent
     connect(m_API->m_MotionController,SIGNAL(signal_MCCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_MCConnectionUpdate(common::comms::CommunicationUpdate)));
     connect(m_API->m_Munk,SIGNAL(signal_MunkCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_MunkConnectionUpdate(common::comms::CommunicationUpdate)));
     connect(m_API->m_Rigol,SIGNAL(signal_RigolCommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_RigolConnectionUpdate(common::comms::CommunicationUpdate)));
+    connect(m_API->m_PLC,SIGNAL(signal_CommunicationUpdate(common::comms::CommunicationUpdate)),this,SLOT(slot_PLCConnectionUpdate(common::comms::CommunicationUpdate)));
 
     Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()) {
         ui->comboBox_PortMunk->addItem(port.portName());
@@ -49,6 +52,7 @@ void Window_DeviceConnections::connectToAllDevices()
     this->connect_PowerSupply(true);
     this->connect_Pump(true);
     this->connect_Sensoray(true);
+    this->connect_PLC(true);
 }
 
 void Window_DeviceConnections::connect_MotionController(const bool &connect)
@@ -71,13 +75,31 @@ void Window_DeviceConnections::connect_MotionController(const bool &connect)
     }
 }
 
+
+void Window_DeviceConnections::connect_PLC(const bool &connect)
+{
+    if((!connect) && m_API->m_PLC->isDeviceConnected())
+    {
+        m_API->m_PLC->closePLCConnection();
+    }
+    else if(connect && (!m_API->m_PLC->isDeviceConnected()))
+    {
+        QString ipAddress = ui->lineEdit_IPPLC->text();
+
+        if(ipAddress.isEmpty())
+            return;
+
+        common::comms::TCPConfiguration newConfig(ipAddress.toStdString(), 502);
+        m_API->m_PLC->openPLCConnection(newConfig);
+    }
+}
 void Window_DeviceConnections::connect_Oscilliscope(const bool &connect)
 {
-    if((!connect) && m_API->m_Rigol->isDeviceConnected())
+    if(!connect)
     {
         m_API->m_Rigol->closeConnection();
     }
-    else if(connect && (!m_API->m_Rigol->isDeviceConnected()))
+    else if(connect)
     {
         QString ipAddress = ui->lineEdit_IPRigol->text();
 
@@ -170,6 +192,7 @@ bool Window_DeviceConnections::areAllDevicesConnected() const
             if(m_API->m_Pump->isPumpConnected())
                 if(m_API->m_Rigol->isDeviceConnected())
                     if(m_API->m_Sensoray->isDeviceConnected())
+                        if(m_API->m_PLC->isDeviceConnected())
                     return true;
     return false;
 }
@@ -189,6 +212,7 @@ void Window_DeviceConnections::saveCommunicationSettings()
     QSettings settings("Communication Settings", "ECM Application");
     settings.setValue("IPGalil", ui->lineEdit_IPMC->text());
     settings.setValue("IPRigol", ui->lineEdit_IPRigol->text());
+    settings.setValue("IPPLC",ui->lineEdit_IPPLC->text());
     settings.setValue("IPSensoray", ui->lineEdit_IPSensoray->text());
     settings.setValue("PortMunk", ui->comboBox_PortMunk->currentText());
     settings.setValue("PortPump", ui->comboBox_PortPump->currentText());
@@ -200,6 +224,7 @@ void Window_DeviceConnections::readCommunicationSettings()
     ui->lineEdit_IPMC->setText(settings.value("IPGalil").toString());
     ui->lineEdit_IPRigol->setText(settings.value("IPRigol").toString());
     ui->lineEdit_IPSensoray->setText(settings.value("IPSensoray").toString());
+    ui->lineEdit_IPPLC->setText(settings.value("IPPLC").toString());
 
     QString portMunk = settings.value("PortMunk").toString();
     int munkIndex = ui->comboBox_PortMunk->findText(portMunk);
@@ -314,6 +339,25 @@ void Window_DeviceConnections::slot_MCConnectionUpdate(const common::comms::Comm
     this->updateLEDConnectionColor(ui->widget_GalilConnection,update);
 }
 
+
+void Window_DeviceConnections::slot_PLCConnectionUpdate(const common::comms::CommunicationUpdate &update)
+{
+    if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::CONNECTED)
+    {
+        ui->lineEdit_IPPLC->setDisabled(true);
+        ui->pushButton_connect_PLC->setText("DISCONNECT");
+    }
+    else if(update.getUpdateType() == common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED)
+    {
+        ui->lineEdit_IPPLC->setEnabled(true);
+        ui->pushButton_connect_PLC->setText("CONNECT");
+    }
+
+    emit signal_DeviceConnectionComplete(areAllDevicesConnected());
+
+    this->updateLEDConnectionColor(ui->widget_PLCConnection,update);
+}
+
 void Window_DeviceConnections::on_pushButton_connectSensoray_released()
 {
     comms_Sensoray::SensorayTCPConfiguration config;
@@ -356,4 +400,12 @@ void Window_DeviceConnections::on_pushButton_connectMC_released()
 void Window_DeviceConnections::on_pushButton_ConnectAll_released()
 {
     this->connectToAllDevices();
+}
+
+void Window_DeviceConnections::on_pushButton_connect_PLC_released()
+{
+    if(m_API->m_PLC->isDeviceConnected())
+        this->connect_PLC(false);
+    else
+        this->connect_PLC(true);
 }

@@ -7,6 +7,7 @@
 QT       -= gui
 QT += core
 QT += serialport
+QT += network
 
 TARGET = library_qModBus
 TEMPLATE = lib
@@ -32,7 +33,8 @@ SOURCES += \
     communications/qmodbus_session.cpp \
     ../../tools/libmodbus/src/modbus.c \
     ../../tools/libmodbus/src/modbus-data.c \
-    ../../tools/libmodbus/src/modbus-rtu.c
+    ../../tools/libmodbus/src/modbus-rtu.c \
+    ../../tools/libmodbus/src/modbus-tcp.c
 
 HEADERS += \
         library_qmodbus.h \
@@ -47,6 +49,7 @@ HEADERS += \
     communications/qmodbus_link.h \
     communications/qmodbus_session.h \
     qmodbus_version.h
+
 # Unix lib Install
 unix:!symbian {
     target.path = $$(ECM_ROOT)/lib

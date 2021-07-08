@@ -1,8 +1,6 @@
 #include "temperature_dimension.h"
 
-namespace common_data
-{
-
+namespace common_data {
 
 //!
 //! \brief Default Constructor

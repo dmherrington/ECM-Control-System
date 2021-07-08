@@ -4,6 +4,7 @@
 #include <mutex>
 #include <iostream>
 #include <thread>
+#include <memory>
 
 #include <QCoreApplication>
 #include <QThread>
@@ -38,15 +39,17 @@ public:
 
     QModBusLink();
 
-    ~QModBusLink();
+    ~QModBusLink() override;
 
 public:
-    virtual void RequestReset();
+    virtual void RequestReset() override;
 
     void _emitLinkError(const std::string& errorMsg) const;
 
 public:
     void setSerialConfiguration(const common::comms::SerialConfiguration &config) override;
+
+    void setTCPConfiguration(const common::comms::TCPConfiguration &config) override;
 
     bool ConnectToDevice(void) override;
 
@@ -58,13 +61,12 @@ public:
 
     bool WriteSingleRegister(const unsigned long &dataRegister, const unsigned long &data) const override;
 
+    bool ReadHoldingRegisters(const unsigned int &startingRegister, const size_t numRegisters, uint32_t &value) const override;
 public:
     unsigned int GetSlaveAddress() const override;
 
 public:
-    common::comms::LinkConfiguration getLinkConfiguration();
-
-    virtual void MarshalOnThread(std::function<void()> func){
+    virtual void MarshalOnThread(std::function<void()> func) override{
         ///////////////////
         /// Determine what thread to run function on
         QThread *threadToMashalOn = m_ListenThread;
@@ -108,7 +110,6 @@ private:
 
     QModBusSession* m_Session; /**< Member variable containing a pointer to the current QModBus API session*/
     QThread *m_ListenThread;
-    common::comms::SerialConfiguration _config;
 };
 
 } //end of namepsace comms_QModBus

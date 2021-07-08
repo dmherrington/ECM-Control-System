@@ -82,7 +82,10 @@ void MunkCommsMarshaler::sendCompleteMunkParameters(const registers_Munk::Segmen
 {
     auto func = [this, segmentData, parameters]() {
         if(!link->isConnected())
+        {
+            Emit([&](CommsEvents *ptr){ptr->NewSegmentUploadError(false, DeviceInterface_PowerSupply::FINISH_CODE::NO_COMMS);});
             return;
+        }
 
             protocol->updateCompleteMunkParameters(link.get(), segmentData, parameters);
     };
@@ -303,9 +306,16 @@ void MunkCommsMarshaler::SegmentCommittedToMemory(const ILink* link_ptr) const
     Emit([&](CommsEvents *ptr){ptr->SegmentCommitedToMemoryAcknowledged();});
 }
 
-void MunkCommsMarshaler::SegmentUploadComplete(const bool &success, const registers_Munk::SegmentTimeDetailed &segmentData) const
+void MunkCommsMarshaler::SegmentUploadComplete(const bool &success, const DeviceInterface_PowerSupply::FINISH_CODE &code, const registers_Munk::SegmentTimeDetailed &segmentData) const
 {
-    Emit([&](CommsEvents *ptr){ptr->NewSegmentSequence(success, segmentData);});
+    UNUSED(code);
+    Emit([&](CommsEvents *ptr){ptr->NewSegmentSequence(success, code, segmentData);});
+}
+
+void MunkCommsMarshaler::SegmentUploadError(const bool &success, const DeviceInterface_PowerSupply::FINISH_CODE &code) const
+{
+    UNUSED(success);
+    Emit([&](CommsEvents *ptr){ptr->NewSegmentUploadError(success, code);});
 }
 
 void MunkCommsMarshaler::ExceptionResponseReceived(const ILink* link_ptr, const data_Munk::MunkRWType &type, const uint8_t &code) const

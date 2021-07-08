@@ -131,12 +131,9 @@ void ECMState_SetupMachineTouchoffPosition::setupNotifiers()
         MotorAxis currentAxis = it->first;
         touchoffPosition.insert(std::pair<MotorAxis,bool>(currentAxis,false));
 
-        DataGetSetNotifier<Status_MotorPerAxis>* notifier = Owner().m_MotionController->m_StateInterface->m_MotorStatus->getAxisStatusNotifier(currentAxis);
-        notifier->AddNotifier(this,[this, currentAxis]
+        Owner().m_MotionController->m_StateInterface->m_AxisState.at(currentAxis).m_MotorStatus.AddNotifier(this,[this, currentAxis]
         {
-            Status_MotorPerAxis newStatus;
-            if(!Owner().m_MotionController->m_StateInterface->m_MotorStatus->getAxisStatus(currentAxis,newStatus))
-                return;
+            Status_MotorPerAxis newStatus = Owner().m_MotionController->m_StateInterface->m_AxisState.at(currentAxis).m_MotorStatus.get();
 
             if(newStatus.hasMotorReachedTarget())
                 this->motionComplete.at(currentAxis) = true;
@@ -154,8 +151,7 @@ void ECMState_SetupMachineTouchoffPosition::removeNotifiers()
     for (std::map<MotorAxis,double>::iterator it=touchoffPosition.begin(); it!=touchoffPosition.end(); ++it)
     {
         MotorAxis currentAxis = it->first;
-        DataGetSetNotifier<Status_MotorPerAxis>* notifier = Owner().m_MotionController->m_StateInterface->m_MotorStatus->getAxisStatusNotifier(currentAxis);
-        notifier->RemoveNotifier(this);
+        Owner().m_MotionController->m_StateInterface->m_AxisState.at(currentAxis).m_MotorStatus.RemoveNotifier(this);
     }
 }
 

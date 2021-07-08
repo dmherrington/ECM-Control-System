@@ -99,7 +99,8 @@ void ECMState_UploadPowerRegisterSegments::OnEnter(ECMCommand_AbstractProfileCon
                     }else
                     {
                     APIUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR);
-                    APIUpdate.setPeripheralMessage("Upload of power segments has failed.");
+                    std::string peripheralMessage = "Upload of power segments has failed:" + DeviceInterface_PowerSupply::getStringFromFinishCode(finishCode);
+                    APIUpdate.setPeripheralMessage(peripheralMessage);
                         desiredState = ECMState::STATE_ECM_UPLOAD_FAILED;
                     }
                 emit Owner().signal_APINotification(APIUpdate);

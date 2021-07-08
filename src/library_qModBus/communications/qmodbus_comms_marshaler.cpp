@@ -38,17 +38,27 @@ bool CommsMarshaler::ConnectToSerialPort(const common::comms::SerialConfiguratio
     return link->isConnected();
 }
 
-bool CommsMarshaler::DisconnectFromSerialPort()
+bool CommsMarshaler::ConnectToEthernetPort(const common::comms::TCPConfiguration &linkConfig)
 {
-    auto func = [this]() {
-        link->DisconnectFromDevice();
-    };
-
-    link->MarshalOnThread(func);
+    link->setTCPConfiguration(linkConfig);
+    link->ConnectToDevice();
     return link->isConnected();
 }
 
-bool CommsMarshaler::isSerialPortConnected() const
+bool CommsMarshaler::DisconnectFromDevice()
+{
+    if(link->isConnected())
+    {
+        auto func = [this]() {
+            link->DisconnectFromDevice();
+        };
+
+        link->MarshalOnThread(func);
+    }
+    return link->isConnected();
+}
+
+bool CommsMarshaler::isDeviceConnected() const
 {
     return link->isConnected();
 }
@@ -57,9 +67,28 @@ void CommsMarshaler::WriteToSingleRegister(const ModbusRegister &regMsg) const
 {
     auto func = [this, regMsg]() {
         if(!link->isConnected())
+        {
+            common::comms::CommunicationUpdate newUpdate;
+            newUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::ALERT);
+            newUpdate.setPeripheralMessage("The end device link is not properly connected.");
+            Emit([&](CommsEvents *ptr){ptr->CommunicationStatusUpdate(newUpdate);});
+
             return;
+        }
 
         protocol->writeDataToSingleRegister(link.get(),regMsg);
+    };
+
+    link->MarshalOnThread(func);
+}
+
+void CommsMarshaler::ReadFromRegisters(const ModbusRegister &regMsg) const
+{
+    auto func = [this, regMsg]() {
+        if(!link->isConnected())
+            return;
+
+        protocol->readDataFromRegisters(link.get(),regMsg);
     };
 
     link->MarshalOnThread(func);
@@ -71,23 +100,31 @@ void CommsMarshaler::WriteToSingleRegister(const ModbusRegister &regMsg) const
 
 void CommsMarshaler::CommunicationUpdate(const common::comms::CommunicationUpdate &update) const
 {
-    Emit([&](CommsEvents *ptr){ptr->ConnectionStatusUpdated(update);});
+    Emit([&](CommsEvents *ptr){ptr->CommunicationStatusUpdate(update);});
 }
 
 //////////////////////////////////////////////////////////////
 /// IProtocolSensorayEvents
 //////////////////////////////////////////////////////////////
 
-void CommsMarshaler::SerialPortStatusUpdate(const common::comms::CommunicationUpdate &update) const
+void CommsMarshaler::ModbusPortStatusUpdate(const common::comms::CommunicationUpdate &update) const
 {
-    //this is basically a duplicate of the communication update in this case
-    UNUSED(update);
+    Emit([&](CommsEvents *ptr){ptr->CommunicationStatusUpdate(update);});
 }
 
-void CommsMarshaler::ResponseReceived(const QByteArray &buffer) const
+void CommsMarshaler::ModbusFailedDataTransmission(const common::comms::CommunicationUpdate &update, const ModbusRegister &reg) const
+{
+    Emit([&](CommsEvents *ptr){ptr->ModbusFailedDataTransmission(update,reg);});
+}
+
+void CommsMarshaler::ModbusResponseReceived(const QByteArray &buffer) const
 {
     Emit([&](CommsEvents *ptr){ptr->NewDataReceived(buffer);});
 }
 
+void CommsMarshaler::ModbusReadReceived(const ModbusRegister &regObj) const
+{
+    Emit([&](CommsEvents *ptr){ptr->NewRegisterData(regObj);});
+}
 } //end of namespace comms
 

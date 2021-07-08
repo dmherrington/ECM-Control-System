@@ -118,7 +118,8 @@ private:
     void SegmentCurrentSetpointAcknowledged(const ILink* link_ptr , const data_Munk::SegmentMode &mode) const override;
     void SegmentTimeSetpointAcknowledged(const ILink* link_ptr) const override;
     void SegmentCommittedToMemory(const ILink* link_ptr) const override;
-    void SegmentUploadComplete(const bool &success, const registers_Munk::SegmentTimeDetailed &segmentData) const override;
+    void SegmentUploadComplete(const bool &success, const DeviceInterface_PowerSupply::FINISH_CODE &code, const registers_Munk::SegmentTimeDetailed &segmentData) const override;
+    void SegmentUploadError(const bool &success, const DeviceInterface_PowerSupply::FINISH_CODE &code) const override;
 
 
     void ExceptionResponseReceived(const ILink* link_ptr, const data_Munk::MunkRWType &type, const uint8_t &code) const override;

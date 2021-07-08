@@ -171,7 +171,7 @@ void State_Ready::handleCommand(const AbstractCommandPtr command)
     {
         //While this state is responsive to this command, the motor should already be completely armed when it has arrived to this state.
         //First check to see if the motor is already armed, and if not, arm it
-        if(!Owner().isMotorEnabled())
+        if(!Owner().areAllMotorsEnabled())
         {
             //If the motor is not currently armed, issue the command to arm it
             //CommandMotorEnablePtr castCommand = std::make_shared<CommandMotorEnable>(*command->as<CommandMotorEnable>());
@@ -227,11 +227,17 @@ void State_Ready::Update()
     }
     else
     {
-        if(!Owner().isMotorEnabled())
+        if(!Owner().areAllMotorsEnabled())
         {
             disableCount++;
-            if(disableCount > 10)
+            if(disableCount > 100)
+            {
+                common::NotificationUpdate newUpdate("ACS Controller",ECMDevice::DEVICE_MOTIONCONTROL,common::NotificationUpdate::NotificationTypes::NOTIFICATION_ALERT);
+                newUpdate.setPeripheralMessage("SPII Motors did not arm in time.");
+                Owner().issueSPIINotification(newUpdate);
+
                 desiredState = SPIIState::STATE_IDLE;
+            }
         }
     }
 }
@@ -242,10 +248,12 @@ void State_Ready::OnEnter()
     //The first thing we should do when entering this state is to engage the motor
     //Let us check to see if the motor is already armed, if not, follow through with the command
 
-    if(!Owner().isMotorEnabled())
+    if(!Owner().areAllMotorsEnabled())
     {
         disableCount = 0;
         CommandMotorEnablePtr command = std::make_shared<CommandMotorEnable>();
+        command->addAxis(MotorAxis::X);
+        command->addAxis(MotorAxis::Y);
         command->addAxis(MotorAxis::Z);
         Owner().issueSPIICommand(command);
     }

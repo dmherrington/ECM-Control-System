@@ -15,6 +15,7 @@
 #include "library_rigol_oscilloscope/rigol_oscilliscope.h"
 #include "library_westinghouse510/westinghouse_510.h"
 #include "library_qModBus/library_qmodbus.h"
+#include "library_plc/plc.h"
 
 #include "ecm_logging.h"
 
@@ -46,6 +47,8 @@ public:
 
     void action_EStopMachine();
 
+    std::map<std::string, std::string> getSoftwareVersions() const;
+
 public:
 
     bool checkLoggingPathValidity(const std::string &partNumber, const std::string &serialNumber) const;
@@ -76,10 +79,9 @@ public:
 
     void notifyPausedEvent(const std::string notificationText);
 
+
 private:
     void writeHeaderBreaker(std::string &logString, const unsigned int &size) const;
-
-    std::map<std::string, std::string> getSoftwareVersions() const;
 
 signals:
     void signal_NewOuterState(const ECM::API::ECMState &state, const std::string &stateString);
@@ -110,6 +112,7 @@ public:
 
     Library_QModBus* m_Modbus485;
 
+    PLC* m_PLC;
 };
 
 #endif // ECM_API_H

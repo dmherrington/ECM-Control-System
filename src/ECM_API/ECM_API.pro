@@ -189,6 +189,14 @@ else:unix:!macx: LIBS += -L$$OUT_PWD/../library_qModBus/ -llibrary_qModBus
 INCLUDEPATH += $$PWD/../library_qModBus
 DEPENDPATH += $$PWD/../library_qModBus
 
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_plc/release/ -llibrary_plc
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_plc/debug/ -llibrary_plc
+else:unix:!macx: LIBS += -L$$OUT_PWD/../library_plc/ -llibrary_plc
+
+INCLUDEPATH += $$PWD/../library_plc
+DEPENDPATH += $$PWD/../library_plc
+
+
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/release/ -llibrary_westinghouse510
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library_westinghouse510/debug/ -llibrary_westinghouse510
 else:unix:!macx: LIBS += -L$$OUT_PWD/../library_westinghouse510/ -llibrary_westinghouse510

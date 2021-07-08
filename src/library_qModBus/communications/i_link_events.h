@@ -27,6 +27,10 @@ class ILink;
 
 class ILinkEvents
 {
+
+public:
+    virtual ~ILinkEvents() = default;
+
 public:
 
     virtual void CommunicationUpdate(const common::comms::CommunicationUpdate &update) const = 0;

@@ -18,7 +18,7 @@ public:
     Status_SystemFault(const Status_SystemFault &copy);
 
 public:
-    bool updateSystemFaultState(const int &value);
+    bool updateSystemFaultState(const unsigned int &value);
 
     bool doesSystemFaultExist() const;
 
@@ -29,7 +29,7 @@ public:
     bool isServoInterrupt() const;
     bool isFileIntegrity() const;
 
-private:
+public:
     Status_SystemFault& operator = (const Status_SystemFault &rhs)
     {
         AbstractStatus::operator =(rhs);
@@ -42,6 +42,8 @@ private:
         {
             return false;
         }
+        if(this->faultValue != rhs.faultValue)
+            return false;
         return true;
     }
 

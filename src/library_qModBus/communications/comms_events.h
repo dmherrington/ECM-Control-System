@@ -2,10 +2,12 @@
 #define COMMS_EVENTS_QMODBUS_H
 
 #include <QByteArray>
-
 #include <string>
-#include "common/common.h"
 
+#include "library_qmodbus_global.h"
+
+#include "common/common.h"
+#include "common/modbus_register.h"
 #include "common/comms/communication_connection.h"
 #include "common/comms/communication_update.h"
 
@@ -26,26 +28,37 @@
 
 namespace comms_QModBus{
 
-class CommsEvents
+class LIBRARY_QMODBUSSHARED_EXPORT CommsEvents
 {
-public:
 
-    /////////////////////////////////////////////////////////
-    /// Link Events
-    /////////////////////////////////////////////////////////
+public:
+    virtual ~CommsEvents() = default;
+
+public:
 
     //!
     //! \brief ConnectionStatusUpdated
     //! \param update
     //!
-    virtual void ConnectionStatusUpdated(const common::comms::CommunicationUpdate &update) const
+    virtual void CommunicationStatusUpdate(const common::comms::CommunicationUpdate &update) const
     {
         UNUSED(update);
     }
 
-    //////////////////////////////////////////////////////////////
-    /// IProtocolSensorayEvents
-    //////////////////////////////////////////////////////////////
+    virtual void ModbusFailedDataTransmission(const common::comms::CommunicationUpdate &update, const ModbusRegister &reg) const
+    {
+        UNUSED(update);
+        UNUSED(reg);
+    }
+
+    //!
+    //! \brief NewDataReceived
+    //! \param buffer
+    //!
+    virtual void NewRegisterData(const ModbusRegister &regObj) const
+    {
+        UNUSED(regObj);
+    }
 
     //!
     //! \brief NewDataReceived

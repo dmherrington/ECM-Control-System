@@ -10,6 +10,7 @@ enum class ECMDevice
     DEVICE_SENSORAY,
     DEVICE_MOTIONCONTROL,
     DEVICE_UNKNOWN,
+    DEVICE_PLC,
     DEVICE_ALL
 };
 

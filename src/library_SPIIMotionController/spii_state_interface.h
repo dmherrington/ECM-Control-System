@@ -189,14 +189,15 @@ public:
         }
         }
     }
-
+public:
+    std::vector<double> getAxisPositionVector() const;
+    bool getAxisPosition(const MotorAxis &axis, double &position) const;
 
 public:
-    Status_PerAxis* getAxisStatus(const MotorAxis &axis);
+    bool areAnyMotorsInMotion() const;
+    bool areAnyMotorsEnabled() const;
+    bool areAllMotorsEnabled() const;
 
-public:
-    bool isMotorInMotion() const;
-    bool isMotorEnabled() const;
     bool isEStopEngaged() const;
 
 public:
@@ -215,6 +216,9 @@ private:
     SPIICallback_StateInterface *m_CB;
 
 public:
+
+    DataGetSetNotifier<Status_SystemFault> m_SystemFaults;
+
     DataGetSetNotifier<int> statusInputs; /**< Member variable containing the current state
 inputs of the SPII Unit. Inputs can be gathered based on the enum settings contained within the file.
 Eventually this should change to be pulled from a configuraiton.*/
@@ -228,13 +232,7 @@ and variables actually aboard the SPII. This can be used as a comparison for det
 current program matches what the user witnesses. Also, this can be used to restore the current state
 of the program.*/
 
-    Status_Axis* m_AxisStatus; /**< Member variable containing the current status
-of each individual axis of the SPII. This information contains positioning, motion, arming. */
-
-    Status_Motor* m_MotorStatus; /**< Member variable containing the current status
-of each individual axis of the SPII. This information contains positioning, motion, arming. */
-
-    Status_Position* m_AxisPosition;
+    std::map<MotorAxis,Status_AxisState> m_AxisState;
 
 };
 

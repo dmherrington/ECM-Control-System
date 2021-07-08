@@ -2,7 +2,7 @@
 #define QMODBUS_VERSION_H
 
 /* The major version, (1, if %LIBQMODBUS_VERSION is 1.2.3) */
-#define LIBQMODBUS_VERSION_MAJOR (1)
+#define LIBQMODBUS_VERSION_MAJOR (3)
 
 /* The minor version (2, if %LIBQMODBUS_VERSION is 1.2.3) */
 #define LIBQMODBUS_VERSION_MINOR (0)
@@ -11,11 +11,11 @@
 #define LIBQMODBUS_VERSION_MICRO (0)
 
 /* The full version, like 1.2.3 */
-#define LIBQMODBUS_VERSION        1.0.0
+#define LIBQMODBUS_VERSION        3.0.0
 
 /* The full version, in string form (suited for string concatenation)
  */
-#define LIBQMODBUS_VERSION_STRING "1.0.0"
+#define LIBQMODBUS_VERSION_STRING "3.0.0"
 
 /* Numerically encoded version, like 0x010203 */
 #define LIBQMODBUS_VERSION_HEX ((LIBQMODBUS_VERSION_MAJOR << 24) |  \

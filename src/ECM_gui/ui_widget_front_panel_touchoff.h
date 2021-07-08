@@ -29,7 +29,7 @@ class Ui_WidgetFrontPanel_Touchoff
 public:
     QGridLayout *gridLayout;
     QVBoxLayout *verticalLayout_2;
-    QPushButton *pushButton_TouchoffRef_2;
+    QPushButton *pushButton_TouchoffGap;
     QVBoxLayout *verticalLayout_initialGap;
     QVBoxLayout *verticalLayout;
     QPushButton *pushButton_TouchoffRef;
@@ -60,20 +60,20 @@ public:
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        pushButton_TouchoffRef_2 = new QPushButton(WidgetFrontPanel_Touchoff);
-        pushButton_TouchoffRef_2->setObjectName(QStringLiteral("pushButton_TouchoffRef_2"));
+        pushButton_TouchoffGap = new QPushButton(WidgetFrontPanel_Touchoff);
+        pushButton_TouchoffGap->setObjectName(QStringLiteral("pushButton_TouchoffGap"));
         QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(pushButton_TouchoffRef_2->sizePolicy().hasHeightForWidth());
-        pushButton_TouchoffRef_2->setSizePolicy(sizePolicy1);
-        pushButton_TouchoffRef_2->setMinimumSize(QSize(110, 25));
-        pushButton_TouchoffRef_2->setMaximumSize(QSize(110, 25));
+        sizePolicy1.setHeightForWidth(pushButton_TouchoffGap->sizePolicy().hasHeightForWidth());
+        pushButton_TouchoffGap->setSizePolicy(sizePolicy1);
+        pushButton_TouchoffGap->setMinimumSize(QSize(110, 25));
+        pushButton_TouchoffGap->setMaximumSize(QSize(110, 25));
         QFont font;
         font.setPointSize(10);
-        pushButton_TouchoffRef_2->setFont(font);
+        pushButton_TouchoffGap->setFont(font);
 
-        verticalLayout_2->addWidget(pushButton_TouchoffRef_2);
+        verticalLayout_2->addWidget(pushButton_TouchoffGap);
 
         verticalLayout_initialGap = new QVBoxLayout();
         verticalLayout_initialGap->setSpacing(1);
@@ -166,7 +166,7 @@ public:
     void retranslateUi(QWidget *WidgetFrontPanel_Touchoff)
     {
         WidgetFrontPanel_Touchoff->setWindowTitle(QApplication::translate("WidgetFrontPanel_Touchoff", "Form", nullptr));
-        pushButton_TouchoffRef_2->setText(QApplication::translate("WidgetFrontPanel_Touchoff", "Set Initial Gap", nullptr));
+        pushButton_TouchoffGap->setText(QApplication::translate("WidgetFrontPanel_Touchoff", "Set Initial Gap", nullptr));
         pushButton_TouchoffRef->setText(QApplication::translate("WidgetFrontPanel_Touchoff", "Set Touchoff Ref", nullptr));
         pushButton_ExecuteTouchoff->setText(QApplication::translate("WidgetFrontPanel_Touchoff", "Execute", nullptr));
     } // retranslateUi

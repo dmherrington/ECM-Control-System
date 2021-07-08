@@ -201,13 +201,9 @@ void State_ManualPositioning::setupNotifiers()
     {
         MotorAxis currentAxis = it->first;
         motionComplete.insert(std::pair<MotorAxis,bool>(currentAxis,false));
-
-        DataGetSetNotifier<Status_MotorPerAxis>* notifier = Owner().m_MotorStatus->getAxisStatusNotifier(currentAxis);
-        notifier->AddNotifier(this,[this, currentAxis]
+        Owner().m_AxisState.at(currentAxis).m_MotorStatus.AddNotifier(this,[this, currentAxis]
         {
-            Status_MotorPerAxis newStatus;
-            if(!Owner().m_MotorStatus->getAxisStatus(currentAxis,newStatus))
-                return;
+            Status_MotorPerAxis newStatus = Owner().m_AxisState.at(currentAxis).m_MotorStatus.get();
 
             if(newStatus.hasMotorReachedTarget())
                 this->motionComplete.at(currentAxis) = true;
@@ -222,8 +218,7 @@ void State_ManualPositioning::removeNotifiers()
     for (std::map<MotorAxis,double>::iterator it=targetPosition.begin(); it!=targetPosition.end(); ++it)
     {
         MotorAxis currentAxis = it->first;
-        DataGetSetNotifier<Status_MotorPerAxis>* notifier = Owner().m_MotorStatus->getAxisStatusNotifier(currentAxis);
-        notifier->RemoveNotifier(this);
+        Owner().m_AxisState.at(currentAxis).m_MotorStatus.RemoveNotifier(this);
     }
 }
 

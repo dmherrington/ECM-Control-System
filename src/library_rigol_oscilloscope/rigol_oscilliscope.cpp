@@ -105,14 +105,27 @@ void RigolOscilliscope::cbi_RigolMeasurementRequests(const commands_Rigol::Measu
 
 void RigolOscilliscope::LinkConnectionUpdate(const common::comms::CommunicationUpdate &update)
 {
+    common::NotificationUpdate newUpdate("Rigol",ECMDevice::DEVICE_OSCOPE);
+
     switch (update.getUpdateType()) {
     case common::comms::CommunicationUpdate::UpdateTypes::CONNECTED:
     {
+        newUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL);
+        newUpdate.setPeripheralMessage(update.getPeripheralMessage());
+
         this->initializeRigol();
         break;
     }
     case common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED:
     {
+        newUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_GENERAL);
+        newUpdate.setPeripheralMessage(update.getPeripheralMessage());
+        break;
+    }
+    case common::comms::CommunicationUpdate::UpdateTypes::ALERT:
+    {
+        newUpdate.setUpdateType(common::NotificationUpdate::NotificationTypes::NOTIFICATION_ALERT);
+        newUpdate.setPeripheralMessage(update.getPeripheralMessage());
         break;
     }
     default:
@@ -120,6 +133,7 @@ void RigolOscilliscope::LinkConnectionUpdate(const common::comms::CommunicationU
     }
 
     emit signal_RigolCommunicationUpdate(update);
+    emit signal_OSCOPENotification(newUpdate);
 }
 
 void RigolOscilliscope::ConnectionOpened()
@@ -222,5 +236,11 @@ void RigolOscilliscope::NewMeaurementReceived(const commands_Rigol::RigolMeasure
     }
 }
 
+void RigolOscilliscope::CommunicationError(const std::string &type, const std::string &msg) const
+{
+    common::NotificationUpdate newUpdate("Rigol",ECMDevice::DEVICE_OSCOPE,common::NotificationUpdate::NotificationTypes::NOTIFICATION_ERROR);
+    newUpdate.setPeripheralMessage(msg);
+    emit signal_OSCOPENotification(newUpdate);
+}
 
 

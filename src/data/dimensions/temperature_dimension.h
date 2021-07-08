@@ -105,6 +105,6 @@ private:
 
 };
 
-} //END DimensionalAnalysis
+} //end of namespace common_data
 
 #endif // TEMPERATURE_DIMENSION_H

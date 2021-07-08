@@ -6,6 +6,7 @@
 #include "common_global.h"
 
 #include "serial_configuration.h"
+#include "tcp_configuration.h"
 
 #include "communication_connection.h"
 #include "communication_update.h"
@@ -31,33 +32,42 @@ public:
 public:
     virtual bool isSerialDeviceReadyToConnect() const = 0;
     virtual void openSerialPortConnection(const SerialConfiguration &config) const  = 0;
-    virtual void closeSerialPortConnection() const = 0;
-    virtual void writeToSerialPort(const ModbusRegister &regMsg) const = 0;
-    virtual bool isSerialPortOpen() const = 0;
+    virtual void openEthernetPortConnection(const TCPConfiguration &config) const  = 0;
+    virtual void closePortConnection() const = 0;
+    virtual void writeModbusDataPort(const ModbusRegister &regMsg) const = 0;
+    virtual void readModbusDataPort(const ModbusRegister &regMsg) const = 0;
+
+    virtual bool isModbusPortOpen() const = 0;
 
 signals:
 
     //!
     //! \brief signal_SerialPortReadyToConnect
     //!
-    virtual void signal_SerialPortReadyToConnect() const = 0;
+    virtual void signal_PortReadyToConnect() const = 0;
 
     //!
     //! \brief signal_SerialPortNotReady
     //!
-    virtual void signal_SerialPortNotReady() const = 0;
+    virtual void signal_PortNotReady() const = 0;
 
     //!
     //! \brief signal_SerialPortUpdate
     //! \param update
     //!
-    virtual void signal_SerialPortUpdate(const CommunicationUpdate update) const = 0;
+    virtual void signal_PortUpdate(const CommunicationUpdate update) const = 0;
+
+    //!
+    //! \brief signal_PortFailedTransmission
+    //! \param regMsg
+    //!
+    virtual void signal_PortFailedTransmission(const common::comms::CommunicationUpdate &update, const ModbusRegister &regMsg) const = 0;
 
     //!
     //! \brief signal_RXNewSerialData
     //! \param data
     //!
-    virtual void signal_RXNewSerialData(const QByteArray data) const = 0;
+    virtual void signal_RXNewPortData(const QByteArray data) const = 0;
 };
 
 } //end of namespace comms

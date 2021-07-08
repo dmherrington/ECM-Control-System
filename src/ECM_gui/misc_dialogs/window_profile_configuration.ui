@@ -770,6 +770,18 @@ width:20px;
            </property>
           </widget>
          </item>
+         <item row="1" column="0">
+          <widget class="QCheckBox" name="checkBox_ShouldExpandMunkModes">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Expand Munk Driver Modes</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
@@ -781,7 +793,7 @@ width:20px;
         <property name="sizeHint" stdset="0">
          <size>
           <width>14</width>
-          <height>105</height>
+          <height>80</height>
          </size>
         </property>
        </spacer>

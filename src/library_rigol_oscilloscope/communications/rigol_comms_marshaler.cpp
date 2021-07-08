@@ -55,10 +55,8 @@ bool RigolCommsMarshaler::isDeviceConnected() const
 void RigolCommsMarshaler::sendAbstractAcquireCommand(const commands_Rigol::AbstractAcquireCommandPtr command)
 {
     auto func = [this, command]() {
-        if(!link->isConnected())
-            return;
-
-        protocol->sendSetAcquisitionCommand(link.get(), command);
+        if(link->isConnected())
+            protocol->sendSetAcquisitionCommand(link.get(), command);
     };
 
     link->MarshalOnThread(func);
@@ -68,9 +66,7 @@ void RigolCommsMarshaler::sendAbstractAcquireCommand(const commands_Rigol::Abstr
 void RigolCommsMarshaler::sendSetMeasurementCommand(const commands_Rigol::MeasureCommand_Item &command)
 {
     auto func = [this, command]() {
-        if(!link->isConnected())
-            return;
-
+        if(link->isConnected())
             protocol->sendSetMeasurementCommand(link.get(), command);
     };
 
@@ -80,9 +76,6 @@ void RigolCommsMarshaler::sendSetMeasurementCommand(const commands_Rigol::Measur
 void RigolCommsMarshaler::sendMeasurementRequest(const commands_Rigol::MeasureCommand_Item &command)
 {
     auto func = [this, command]() {
-        if(!link->isConnected())
-            return;
-
             protocol->sendMeasurementRequest(link.get(), command);
     };
 

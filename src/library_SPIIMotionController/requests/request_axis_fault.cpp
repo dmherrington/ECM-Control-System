@@ -29,6 +29,7 @@ void Request_MotorFault::getClone(AbstractRequest** state) const
 void Request_MotorFault::addAxis(const MotorAxis &axis)
 {
     tellAxis.push_back(axis);
+    tellAxis.sort();
     tellAxis.unique();
 }
 

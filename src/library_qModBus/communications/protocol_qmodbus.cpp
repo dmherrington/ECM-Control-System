@@ -27,17 +27,33 @@ void QModBusProtocol::writeDataToSingleRegister(const ILink *link, const ModbusR
     qint16 result; //< The result you want
     in >> result; //< Just read it from the stream
 
-//    int value = (static_cast<unsigned int>(dataArray[0]) & 0xFF) << 8
-//             + (static_cast<unsigned int>(dataArray[1]) & 0xFF);
 
     if(link->WriteSingleRegister(regMsg.getRegisterCode(), (int)result))
     {
-        Emit([&](const IProtocolQModBusEvents* ptr){ptr->ResponseReceived(regMsg.getFullMessage());});
+        Emit([&](const IProtocolQModBusEvents* ptr){ptr->ModbusResponseReceived(regMsg.getFullMessage());});
     }
-    else
+    else{
+
+        common::comms::CommunicationUpdate newUpdate;
+        newUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::FAILED_DATA_TRANSMISSION);
+        newUpdate.setPeripheralMessage("Failed to write data to the register. Check connection.");
+        Emit([&](const IProtocolQModBusEvents* ptr){ptr->ModbusFailedDataTransmission(newUpdate,regMsg);});
+    }
+}
+
+void QModBusProtocol::readDataFromRegisters(const ILink *link, const ModbusRegister &regMsg)
+{
+    uint32_t registerValue;
+    if(link->ReadHoldingRegisters(regMsg.getRegisterCode(),regMsg.readRegisterLength(), registerValue))
     {
+        ModbusRegister rxData = regMsg;
+        rxData.setRegisterValue(registerValue);
+        Emit([&](const IProtocolQModBusEvents* ptr){ptr->ModbusReadReceived(rxData);});
+    }
+    else {
 
     }
+
 }
 
 } //end of namespace comms_QModBus

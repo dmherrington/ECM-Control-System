@@ -54,6 +54,11 @@ public:
     QLabel *label_MunkConnection;
     QComboBox *comboBox_PortMunk;
     QPushButton *pushButton_connectMunk;
+    QHBoxLayout *horizontalLayout_7;
+    LED *widget_PLCConnection;
+    QLabel *label_PLCConnection;
+    QLineEdit *lineEdit_IPPLC;
+    QPushButton *pushButton_connect_PLC;
     QHBoxLayout *horizontalLayout_3;
     LED *widget_RigolConnection;
     QLabel *label_RigolConnection;
@@ -79,14 +84,14 @@ public:
     {
         if (Window_DeviceConnections->objectName().isEmpty())
             Window_DeviceConnections->setObjectName(QStringLiteral("Window_DeviceConnections"));
-        Window_DeviceConnections->resize(450, 300);
+        Window_DeviceConnections->resize(450, 350);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Window_DeviceConnections->sizePolicy().hasHeightForWidth());
         Window_DeviceConnections->setSizePolicy(sizePolicy);
-        Window_DeviceConnections->setMinimumSize(QSize(450, 300));
-        Window_DeviceConnections->setMaximumSize(QSize(450, 300));
+        Window_DeviceConnections->setMinimumSize(QSize(450, 350));
+        Window_DeviceConnections->setMaximumSize(QSize(450, 350));
         Window_DeviceConnections->setStyleSheet(QLatin1String("QMenuBar{\n"
 "background-color:#1d1d1d;\n"
 "padding:5px;\n"
@@ -346,6 +351,49 @@ public:
 
         gridLayout->addLayout(horizontalLayout_4, 2, 0, 1, 1);
 
+        horizontalLayout_7 = new QHBoxLayout();
+        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
+        widget_PLCConnection = new LED(centralwidget);
+        widget_PLCConnection->setObjectName(QStringLiteral("widget_PLCConnection"));
+        sizePolicy1.setHeightForWidth(widget_PLCConnection->sizePolicy().hasHeightForWidth());
+        widget_PLCConnection->setSizePolicy(sizePolicy1);
+        widget_PLCConnection->setMinimumSize(QSize(30, 30));
+        widget_PLCConnection->setMaximumSize(QSize(30, 30));
+
+        horizontalLayout_7->addWidget(widget_PLCConnection);
+
+        label_PLCConnection = new QLabel(centralwidget);
+        label_PLCConnection->setObjectName(QStringLiteral("label_PLCConnection"));
+        sizePolicy1.setHeightForWidth(label_PLCConnection->sizePolicy().hasHeightForWidth());
+        label_PLCConnection->setSizePolicy(sizePolicy1);
+        label_PLCConnection->setMinimumSize(QSize(200, 30));
+        label_PLCConnection->setMaximumSize(QSize(200, 30));
+        label_PLCConnection->setFont(font);
+        label_PLCConnection->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_7->addWidget(label_PLCConnection);
+
+        lineEdit_IPPLC = new QLineEdit(centralwidget);
+        lineEdit_IPPLC->setObjectName(QStringLiteral("lineEdit_IPPLC"));
+        sizePolicy1.setHeightForWidth(lineEdit_IPPLC->sizePolicy().hasHeightForWidth());
+        lineEdit_IPPLC->setSizePolicy(sizePolicy1);
+        lineEdit_IPPLC->setMinimumSize(QSize(100, 0));
+        lineEdit_IPPLC->setMaximumSize(QSize(100, 16777215));
+        lineEdit_IPPLC->setFont(font);
+        lineEdit_IPPLC->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_7->addWidget(lineEdit_IPPLC);
+
+        pushButton_connect_PLC = new QPushButton(centralwidget);
+        pushButton_connect_PLC->setObjectName(QStringLiteral("pushButton_connect_PLC"));
+        pushButton_connect_PLC->setMinimumSize(QSize(75, 25));
+        pushButton_connect_PLC->setMaximumSize(QSize(75, 25));
+
+        horizontalLayout_7->addWidget(pushButton_connect_PLC);
+
+
+        gridLayout->addLayout(horizontalLayout_7, 3, 0, 1, 1);
+
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
         widget_RigolConnection = new LED(centralwidget);
@@ -387,7 +435,7 @@ public:
         horizontalLayout_3->addWidget(pushButton_connect_Rigol);
 
 
-        gridLayout->addLayout(horizontalLayout_3, 3, 0, 1, 1);
+        gridLayout->addLayout(horizontalLayout_3, 4, 0, 1, 1);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
@@ -431,7 +479,7 @@ public:
         horizontalLayout_2->addWidget(pushButton_connectSensoray);
 
 
-        gridLayout->addLayout(horizontalLayout_2, 4, 0, 1, 1);
+        gridLayout->addLayout(horizontalLayout_2, 5, 0, 1, 1);
 
         horizontalLayout_6 = new QHBoxLayout();
         horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
@@ -459,7 +507,7 @@ public:
         horizontalLayout_6->addWidget(pushButton_Close);
 
 
-        gridLayout->addLayout(horizontalLayout_6, 5, 0, 1, 1);
+        gridLayout->addLayout(horizontalLayout_6, 6, 0, 1, 1);
 
         Window_DeviceConnections->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Window_DeviceConnections);
@@ -519,6 +567,9 @@ public:
         pushButton_connectPump->setText(QApplication::translate("Window_DeviceConnections", "CONNECT", nullptr));
         label_MunkConnection->setText(QApplication::translate("Window_DeviceConnections", "Connection Munk Power Supply", nullptr));
         pushButton_connectMunk->setText(QApplication::translate("Window_DeviceConnections", "CONNECT", nullptr));
+        label_PLCConnection->setText(QApplication::translate("Window_DeviceConnections", "Connection PLC", nullptr));
+        lineEdit_IPPLC->setText(QApplication::translate("Window_DeviceConnections", "192.168.15.15", nullptr));
+        pushButton_connect_PLC->setText(QApplication::translate("Window_DeviceConnections", "CONNECT", nullptr));
         label_RigolConnection->setText(QApplication::translate("Window_DeviceConnections", "Connection Rigol Oscilliscope", nullptr));
         lineEdit_IPRigol->setText(QApplication::translate("Window_DeviceConnections", "192.168.15.15", nullptr));
         pushButton_connect_Rigol->setText(QApplication::translate("Window_DeviceConnections", "CONNECT", nullptr));

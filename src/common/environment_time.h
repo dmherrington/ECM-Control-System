@@ -205,6 +205,26 @@ public:
         return stream;
     }
 
+    friend QDataStream& operator<<(QDataStream& out, const EnvironmentTime& v) {
+        out << v.year << v.month << v.dayOfMonth << v.hour << v.minute << v.second << v.millisecond << v.microsecond << v.instance << v.isDST;
+        return out;
+    }
+
+    friend QDataStream& operator>>(QDataStream& in, EnvironmentTime& v) {
+        in >> v.year;
+        in >> v.month;
+        in >> v.dayOfMonth;
+        in >> v.hour;
+        in >> v.minute;
+        in >> v.second;
+        in >> v.millisecond;
+        in >> v.microsecond;
+        in >> v.instance;
+        in >> v.isDST;
+        return in;
+    }
+
+
 public:
 
     //! Years since 1900

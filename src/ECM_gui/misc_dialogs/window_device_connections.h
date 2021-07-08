@@ -28,6 +28,7 @@ public:
 
 private:
     void connect_MotionController(const bool &connect);
+    void connect_PLC(const bool &connect);
     void connect_Oscilliscope(const bool &connect);
     void connect_PowerSupply(const bool &connect);
     void connect_Pump(const bool &connect);
@@ -49,6 +50,7 @@ public slots:
     void slot_RigolConnectionUpdate(const common::comms::CommunicationUpdate &update);
     void slot_MunkConnectionUpdate(const common::comms::CommunicationUpdate &update);
     void slot_MCConnectionUpdate(const common::comms::CommunicationUpdate &update);
+    void slot_PLCConnectionUpdate(const common::comms::CommunicationUpdate &update);
 
 private slots:
 
@@ -67,6 +69,8 @@ private slots:
     void on_pushButton_Close_released();
 
     void on_pushButton_ConnectAll_released();
+
+    void on_pushButton_connect_PLC_released();
 
 private:
     void updateLEDConnectionColor(LED* ledWidget, const common::comms::CommunicationUpdate &connected);

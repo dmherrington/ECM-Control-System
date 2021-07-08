@@ -22,7 +22,7 @@ namespace graphing {
 //!
 PlotHandler::PlotHandler(QWidget *parent) :
     TimePlot(parent),
-    m_PlotMode(PLOT_ENTIRE_SEQUENCE)
+    m_PlotMode(PLOT_WINDOW_ONLY)
 {
     m_FigureProperties.grid = true;
     m_FigureProperties.grid_custom = false;
@@ -809,12 +809,19 @@ void PlotHandler::hideAllGraphs()
 //!
 void PlotHandler::ViewWindow(const QDateTime &leftWindow, const QDateTime &rightWindow)
 {
-    m_LeftWindow = leftWindow;
-    double msInTimeUnit = MsInTimeUnit(m_TimeUnit);
-    double lower = (double)((leftWindow.toMSecsSinceEpoch() - m_OriginTime_msSinceEpoch) / msInTimeUnit);
-    double higher = (double)((rightWindow.toMSecsSinceEpoch() - m_OriginTime_msSinceEpoch) / msInTimeUnit);
+    if(leftWindow < m_OriginTime)
+        m_LeftWindow = m_OriginTime;
+    else
+        m_LeftWindow = leftWindow;
 
-    this->xAxis->setRange(lower, higher);
+//    if(rightWindow < m_LeftWindow)
+//        rightWindow = m_LeftWindow;
+
+//    double msInTimeUnit = MsInTimeUnit(m_TimeUnit);
+//    double lower = static_cast<double>((leftWindow.toMSecsSinceEpoch() - m_OriginTime_msSinceEpoch) / msInTimeUnit);
+//    double higher = static_cast<double>((rightWindow.toMSecsSinceEpoch() - m_OriginTime_msSinceEpoch) / msInTimeUnit);
+
+//    this->xAxis->setRange(lower, higher);
 }
 
 
@@ -824,7 +831,7 @@ void PlotHandler::ViewWindow(const QDateTime &leftWindow, const QDateTime &right
 //!
 void PlotHandler::CurrentTime(const QDateTime &currentTime)
 {
-    if(m_CurrTimeGraph == NULL)
+    if(m_CurrTimeGraph == nullptr)
         return;
 
     m_CurrTime = currentTime;

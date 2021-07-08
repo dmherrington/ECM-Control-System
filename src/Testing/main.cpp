@@ -2,18 +2,19 @@
 #include <iostream>
 
 #include <conio.h>
-
-#include "ACSC.h"
-
 #include <cstring>
 
-#include "library_SPIIMotionController/spii_motion_controller.h"
+#include "common/modbus_register.h"
+#include "library_plc/data_registers/register_ph.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    SPIIMotionController* newController = new SPIIMotionController();
-    newController->ConnectToSimulation();
-
+    registers_PLC::Register_pH newRequest;
+    QByteArray modbusArray = newRequest.getFullMessage();
+    QByteArray tmpArray = newRequest.getByteArray();
+    ModbusRegister modbusRequest = newRequest.getModbusRegister();
+    unsigned int length = modbusRequest.readRegisterLength();
+    std::cout<<"The length seen here is: "<<length<<std::endl;
     return a.exec();
 }

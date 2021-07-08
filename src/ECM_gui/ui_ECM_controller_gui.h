@@ -17,7 +17,6 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QLCDNumber>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
@@ -47,6 +46,9 @@ public:
     QAction *actionClear_All_Data;
     QAction *actionProfile_Configuration;
     QAction *actionBuffer_Manager;
+    QAction *actionRun_Statistics;
+    QAction *actionSoftware_Versioning;
+    QAction *actionSettings;
     QWidget *centralWidget;
     QGridLayout *gridLayout_3;
     QGridLayout *gridLayout_4;
@@ -55,7 +57,7 @@ public:
     graphing::PlotHandler *widget_primaryPlotCurrent;
     QHBoxLayout *horizontalLayout_10;
     QFrame *frame_ProfileOptions;
-    QGridLayout *gridLayout_2;
+    QVBoxLayout *verticalLayout_8;
     QHBoxLayout *horizontalLayout_3;
     QSpacerItem *horizontalSpacer_2;
     QVBoxLayout *verticalLayout_4;
@@ -65,7 +67,10 @@ public:
     QLabel *label_SerialNumber;
     QLineEdit *lineEdit_SerialNumber;
     QSpacerItem *horizontalSpacer;
+    QHBoxLayout *horizontalLayout_12;
+    QSpacerItem *horizontalSpacer_17;
     QFrame *line;
+    QSpacerItem *horizontalSpacer_18;
     QHBoxLayout *horizontalLayout_6;
     QSpacerItem *horizontalSpacer_8;
     QLabel *label_OperationName;
@@ -98,12 +103,14 @@ public:
     QSpacerItem *horizontalSpacer_4;
     QSpacerItem *horizontalSpacer_13;
     QFrame *frame_MaunalControl;
-    QGridLayout *gridLayout_6;
     QVBoxLayout *verticalLayout_5;
     QHBoxLayout *horizontalLayout_4;
     QPushButton *pushButton_LoadAutomatedProfile;
     QPushButton *pushButton_RunAutomatedProfile;
+    QHBoxLayout *horizontalLayout_11;
+    QSpacerItem *horizontalSpacer_16;
     QLineEdit *lineEdit_ConfigurationPath;
+    QSpacerItem *horizontalSpacer_15;
     QSpacerItem *verticalSpacer_6;
     QHBoxLayout *horizontalLayout;
     QPushButton *pushButton_MotorEnable;
@@ -120,6 +127,7 @@ public:
     QSpacerItem *horizontalSpacer_14;
     QFrame *frame_Status;
     QGridLayout *gridLayout_5;
+    QLineEdit *lineEdit_MCState;
     QGridLayout *gridLayout;
     LED *widget_LEDCommunication;
     QLabel *label_2;
@@ -132,8 +140,6 @@ public:
     LED *widget_LEDMunkError;
     QPushButton *pushButton_ClearMunkError;
     QLineEdit *lineEdit_OuterState;
-    QLineEdit *lineEdit_MCState;
-    QLCDNumber *lcdNumber_TempProbe0;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -292,6 +298,12 @@ public:
         actionProfile_Configuration->setObjectName(QStringLiteral("actionProfile_Configuration"));
         actionBuffer_Manager = new QAction(ECMControllerGUI);
         actionBuffer_Manager->setObjectName(QStringLiteral("actionBuffer_Manager"));
+        actionRun_Statistics = new QAction(ECMControllerGUI);
+        actionRun_Statistics->setObjectName(QStringLiteral("actionRun_Statistics"));
+        actionSoftware_Versioning = new QAction(ECMControllerGUI);
+        actionSoftware_Versioning->setObjectName(QStringLiteral("actionSoftware_Versioning"));
+        actionSettings = new QAction(ECMControllerGUI);
+        actionSettings->setObjectName(QStringLiteral("actionSettings"));
         centralWidget = new QWidget(ECMControllerGUI);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout_3 = new QGridLayout(centralWidget);
@@ -350,11 +362,10 @@ public:
         frame_ProfileOptions->setFrameShape(QFrame::Box);
         frame_ProfileOptions->setFrameShadow(QFrame::Plain);
         frame_ProfileOptions->setLineWidth(2);
-        gridLayout_2 = new QGridLayout(frame_ProfileOptions);
-        gridLayout_2->setSpacing(0);
-        gridLayout_2->setContentsMargins(11, 11, 11, 11);
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        gridLayout_2->setContentsMargins(0, 0, 0, 0);
+        verticalLayout_8 = new QVBoxLayout(frame_ProfileOptions);
+        verticalLayout_8->setSpacing(6);
+        verticalLayout_8->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_8->setObjectName(QStringLiteral("verticalLayout_8"));
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setSpacing(6);
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
@@ -430,16 +441,30 @@ public:
         horizontalLayout_3->addItem(horizontalSpacer);
 
 
-        gridLayout_2->addLayout(horizontalLayout_3, 0, 0, 1, 1);
+        verticalLayout_8->addLayout(horizontalLayout_3);
+
+        horizontalLayout_12 = new QHBoxLayout();
+        horizontalLayout_12->setSpacing(6);
+        horizontalLayout_12->setObjectName(QStringLiteral("horizontalLayout_12"));
+        horizontalSpacer_17 = new QSpacerItem(5, 5, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_12->addItem(horizontalSpacer_17);
 
         line = new QFrame(frame_ProfileOptions);
         line->setObjectName(QStringLiteral("line"));
-        line->setMinimumSize(QSize(400, 0));
-        line->setMaximumSize(QSize(400, 16777215));
+        line->setMinimumSize(QSize(360, 0));
+        line->setMaximumSize(QSize(360, 16777215));
         line->setFrameShape(QFrame::HLine);
         line->setFrameShadow(QFrame::Sunken);
 
-        gridLayout_2->addWidget(line, 1, 0, 1, 1);
+        horizontalLayout_12->addWidget(line);
+
+        horizontalSpacer_18 = new QSpacerItem(5, 5, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_12->addItem(horizontalSpacer_18);
+
+
+        verticalLayout_8->addLayout(horizontalLayout_12);
 
         horizontalLayout_6 = new QHBoxLayout();
         horizontalLayout_6->setSpacing(6);
@@ -477,7 +502,7 @@ public:
         horizontalLayout_6->addItem(horizontalSpacer_7);
 
 
-        gridLayout_2->addLayout(horizontalLayout_6, 2, 0, 1, 1);
+        verticalLayout_8->addLayout(horizontalLayout_6);
 
         horizontalLayout_8 = new QHBoxLayout();
         horizontalLayout_8->setSpacing(6);
@@ -539,7 +564,7 @@ public:
         horizontalLayout_8->addItem(horizontalSpacer_10);
 
 
-        gridLayout_2->addLayout(horizontalLayout_8, 3, 0, 1, 1);
+        verticalLayout_8->addLayout(horizontalLayout_8);
 
         horizontalLayout_7 = new QHBoxLayout();
         horizontalLayout_7->setSpacing(6);
@@ -614,7 +639,7 @@ public:
         horizontalLayout_7->addItem(horizontalSpacer_12);
 
 
-        gridLayout_2->addLayout(horizontalLayout_7, 4, 0, 1, 1);
+        verticalLayout_8->addLayout(horizontalLayout_7);
 
         horizontalLayout_5 = new QHBoxLayout();
         horizontalLayout_5->setSpacing(6);
@@ -689,7 +714,7 @@ public:
         horizontalLayout_5->addItem(horizontalSpacer_4);
 
 
-        gridLayout_2->addLayout(horizontalLayout_5, 5, 0, 1, 1);
+        verticalLayout_8->addLayout(horizontalLayout_5);
 
 
         horizontalLayout_10->addWidget(frame_ProfileOptions);
@@ -707,13 +732,9 @@ public:
         frame_MaunalControl->setFrameShape(QFrame::Box);
         frame_MaunalControl->setFrameShadow(QFrame::Plain);
         frame_MaunalControl->setLineWidth(2);
-        gridLayout_6 = new QGridLayout(frame_MaunalControl);
-        gridLayout_6->setSpacing(0);
-        gridLayout_6->setContentsMargins(11, 11, 11, 11);
-        gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
-        gridLayout_6->setContentsMargins(0, 0, 0, 0);
-        verticalLayout_5 = new QVBoxLayout();
+        verticalLayout_5 = new QVBoxLayout(frame_MaunalControl);
         verticalLayout_5->setSpacing(6);
+        verticalLayout_5->setContentsMargins(11, 11, 11, 11);
         verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setSpacing(6);
@@ -748,25 +769,36 @@ public:
 
         verticalLayout_5->addLayout(horizontalLayout_4);
 
+        horizontalLayout_11 = new QHBoxLayout();
+        horizontalLayout_11->setSpacing(6);
+        horizontalLayout_11->setObjectName(QStringLiteral("horizontalLayout_11"));
+        horizontalSpacer_16 = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_11->addItem(horizontalSpacer_16);
+
         lineEdit_ConfigurationPath = new QLineEdit(frame_MaunalControl);
         lineEdit_ConfigurationPath->setObjectName(QStringLiteral("lineEdit_ConfigurationPath"));
         lineEdit_ConfigurationPath->setEnabled(false);
         sizePolicy2.setHeightForWidth(lineEdit_ConfigurationPath->sizePolicy().hasHeightForWidth());
         lineEdit_ConfigurationPath->setSizePolicy(sizePolicy2);
-        lineEdit_ConfigurationPath->setMinimumSize(QSize(380, 30));
-        lineEdit_ConfigurationPath->setMaximumSize(QSize(380, 30));
+        lineEdit_ConfigurationPath->setMinimumSize(QSize(370, 30));
+        lineEdit_ConfigurationPath->setMaximumSize(QSize(370, 30));
         lineEdit_ConfigurationPath->setFont(font1);
         lineEdit_ConfigurationPath->setAlignment(Qt::AlignCenter);
         lineEdit_ConfigurationPath->setReadOnly(true);
 
-        verticalLayout_5->addWidget(lineEdit_ConfigurationPath);
+        horizontalLayout_11->addWidget(lineEdit_ConfigurationPath);
+
+        horizontalSpacer_15 = new QSpacerItem(5, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_11->addItem(horizontalSpacer_15);
 
 
-        gridLayout_6->addLayout(verticalLayout_5, 0, 0, 1, 1);
+        verticalLayout_5->addLayout(horizontalLayout_11);
 
         verticalSpacer_6 = new QSpacerItem(20, 16, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout_6->addItem(verticalSpacer_6, 1, 0, 1, 1);
+        verticalLayout_5->addItem(verticalSpacer_6);
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
@@ -792,11 +824,11 @@ public:
         horizontalLayout->addWidget(pushButton_MotorDisable);
 
 
-        gridLayout_6->addLayout(horizontalLayout, 2, 0, 1, 1);
+        verticalLayout_5->addLayout(horizontalLayout);
 
         verticalSpacer_4 = new QSpacerItem(20, 15, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout_6->addItem(verticalSpacer_4, 3, 0, 1, 1);
+        verticalLayout_5->addItem(verticalSpacer_4);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
@@ -822,11 +854,11 @@ public:
         horizontalLayout_2->addWidget(pushButton_MoveHome);
 
 
-        gridLayout_6->addLayout(horizontalLayout_2, 4, 0, 1, 1);
+        verticalLayout_5->addLayout(horizontalLayout_2);
 
         verticalSpacer_5 = new QSpacerItem(20, 16, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout_6->addItem(verticalSpacer_5, 5, 0, 1, 1);
+        verticalLayout_5->addItem(verticalSpacer_5);
 
         horizontalLayout_9 = new QHBoxLayout();
         horizontalLayout_9->setSpacing(6);
@@ -852,7 +884,7 @@ public:
         horizontalLayout_9->addItem(horizontalSpacer_5);
 
 
-        gridLayout_6->addLayout(horizontalLayout_9, 6, 0, 1, 1);
+        verticalLayout_5->addLayout(horizontalLayout_9);
 
 
         horizontalLayout_10->addWidget(frame_MaunalControl);
@@ -874,6 +906,19 @@ public:
         gridLayout_5->setSpacing(6);
         gridLayout_5->setContentsMargins(11, 11, 11, 11);
         gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
+        lineEdit_MCState = new QLineEdit(frame_Status);
+        lineEdit_MCState->setObjectName(QStringLiteral("lineEdit_MCState"));
+        lineEdit_MCState->setEnabled(false);
+        sizePolicy2.setHeightForWidth(lineEdit_MCState->sizePolicy().hasHeightForWidth());
+        lineEdit_MCState->setSizePolicy(sizePolicy2);
+        lineEdit_MCState->setMinimumSize(QSize(160, 32));
+        lineEdit_MCState->setMaximumSize(QSize(160, 32));
+        lineEdit_MCState->setFont(font1);
+        lineEdit_MCState->setAlignment(Qt::AlignCenter);
+        lineEdit_MCState->setReadOnly(true);
+
+        gridLayout_5->addWidget(lineEdit_MCState, 2, 0, 1, 1);
+
         gridLayout = new QGridLayout();
         gridLayout->setSpacing(6);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
@@ -988,30 +1033,6 @@ public:
 
         gridLayout_5->addWidget(lineEdit_OuterState, 1, 0, 1, 1);
 
-        lineEdit_MCState = new QLineEdit(frame_Status);
-        lineEdit_MCState->setObjectName(QStringLiteral("lineEdit_MCState"));
-        lineEdit_MCState->setEnabled(false);
-        sizePolicy2.setHeightForWidth(lineEdit_MCState->sizePolicy().hasHeightForWidth());
-        lineEdit_MCState->setSizePolicy(sizePolicy2);
-        lineEdit_MCState->setMinimumSize(QSize(160, 32));
-        lineEdit_MCState->setMaximumSize(QSize(160, 32));
-        lineEdit_MCState->setFont(font1);
-        lineEdit_MCState->setAlignment(Qt::AlignCenter);
-        lineEdit_MCState->setReadOnly(true);
-
-        gridLayout_5->addWidget(lineEdit_MCState, 2, 0, 1, 1);
-
-        lcdNumber_TempProbe0 = new QLCDNumber(frame_Status);
-        lcdNumber_TempProbe0->setObjectName(QStringLiteral("lcdNumber_TempProbe0"));
-        sizePolicy2.setHeightForWidth(lcdNumber_TempProbe0->sizePolicy().hasHeightForWidth());
-        lcdNumber_TempProbe0->setSizePolicy(sizePolicy2);
-        lcdNumber_TempProbe0->setMinimumSize(QSize(160, 32));
-        lcdNumber_TempProbe0->setMaximumSize(QSize(160, 32));
-        lcdNumber_TempProbe0->setProperty("value", QVariant(0));
-        lcdNumber_TempProbe0->setProperty("intValue", QVariant(0));
-
-        gridLayout_5->addWidget(lcdNumber_TempProbe0, 3, 0, 1, 1);
-
 
         horizontalLayout_10->addWidget(frame_Status);
 
@@ -1054,6 +1075,10 @@ public:
         menuTools->addSeparator();
         menuTools->addSeparator();
         menuTools->addAction(actionCustom_Motion_Commands);
+        menuHelp->addAction(actionRun_Statistics);
+        menuHelp->addAction(actionSoftware_Versioning);
+        menuHelp->addSeparator();
+        menuHelp->addAction(actionSettings);
         menuView->addAction(actionOpen_Sensors_Window);
         menuView->addSeparator();
         menuView->addAction(actionClear_All_Data);
@@ -1077,6 +1102,9 @@ public:
         actionClear_All_Data->setText(QApplication::translate("ECMControllerGUI", "Clear All Data", nullptr));
         actionProfile_Configuration->setText(QApplication::translate("ECMControllerGUI", "Profile Configuration", nullptr));
         actionBuffer_Manager->setText(QApplication::translate("ECMControllerGUI", "Buffer Manager", nullptr));
+        actionRun_Statistics->setText(QApplication::translate("ECMControllerGUI", "Run Statistics", nullptr));
+        actionSoftware_Versioning->setText(QApplication::translate("ECMControllerGUI", "Software Versioning", nullptr));
+        actionSettings->setText(QApplication::translate("ECMControllerGUI", "Settings", nullptr));
         label_PartNumber->setText(QApplication::translate("ECMControllerGUI", "Part Number:", nullptr));
 #ifndef QT_NO_TOOLTIP
         lineEdit_PartNumber->setToolTip(QString());

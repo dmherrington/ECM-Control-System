@@ -100,11 +100,11 @@ void WidgetFrontPanel_Touchoff::on_pushButton_TouchoffRef_released()
 
     for (; it!=m_TouchoffRefValues.end(); ++it)
     {
-        Status_PositionPerAxis axisPosition;
-        if(m_MotionController->m_StateInterface->m_AxisPosition->getAxisPosition(it->first,axisPosition))
+        double axisPosition = 0.0;
+        if(m_MotionController->m_StateInterface->getAxisPosition(it->first,axisPosition))
         {
             TouchoffWidget_AxisValue* currentWidget = it->second;
-            currentWidget->setAxisValue(axisPosition.getPosition());
+            currentWidget->setAxisValue(axisPosition);
         }
     }
 }

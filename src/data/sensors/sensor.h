@@ -16,6 +16,8 @@ namespace common_data
  */
 enum SensorTypes
 {
+    SENSOR_PH,              //! A pH sensor
+    SENSOR_CONDUCTIVITY,    //! A Conductivity sensor
     SENSOR_VOLTAGE,         //! A Voltage sensor
     SENSOR_MAREA,           //! A Current Area measurement
     SENSOR_TEMPERATURE,

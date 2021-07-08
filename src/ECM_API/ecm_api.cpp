@@ -16,6 +16,10 @@ ECM_API::ECM_API()
 
     m_Pump = new Westinghouse510(m_Modbus485,03);
 
+    m_PLC = new PLC(1);
+//    common::comms::TCPConfiguration newTCPConnection("192.168.15.202",502);
+//    m_PLC->openPLCConnection(newTCPConnection);
+
 //    connect(m_Sensoray, SIGNAL(signal_SensorayNewSensorValue(common::TupleSensorString,common_data::SensorState)),
 //            this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
 
@@ -32,6 +36,7 @@ std::map<std::string, std::string> ECM_API::getSoftwareVersions() const
     softwareVersionMap.insert(std::pair<std::string,std::string>("SENSORAY Library",LIBSENSORAY_VERSION_STRING));
     softwareVersionMap.insert(std::pair<std::string,std::string>("RIGOL Library",LIBRIGOL_VERSION_STRING));
     softwareVersionMap.insert(std::pair<std::string,std::string>("MODBUS Library",LIBMODBUS_VERSION_STRING));
+    softwareVersionMap.insert(std::pair<std::string,std::string>("PLC Library",LIBPLC_VERSION_STRING));
 
     softwareVersionMap.insert(std::pair<std::string,std::string>("COMMON Library",LIBCOMMON_VERSION_STRING));
     softwareVersionMap.insert(std::pair<std::string,std::string>("DATA Library",LIBDATA_VERSION_STRING));
@@ -138,7 +143,7 @@ void ECM_API::beginOperationalProfile(const ECMCommand_AbstractProfileConfigPtr 
     props.setOperatingCondition(condition);
     props.setTime(profileConfig->m_ExecProperties.getStartTime());
 
-    std::vector<double> machinePosition = m_MotionController->m_StateInterface->m_AxisPosition->getAxisPositionVector();
+    std::vector<double> machinePosition = m_MotionController->m_StateInterface->getAxisPositionVector();
     props.setCurrentPosition(machinePosition);
 
     //Emit the signal notifying the listeners of a new operational profile
@@ -185,7 +190,7 @@ void ECM_API::concludeExecutingOperation(const ECMCommand_AbstractProfileConfigP
     props.setOperatingCondition(ExecutionProperties::ExecutionCondition::ENDING);
     props.setTime(profileConfig->m_ExecProperties.getEndTime());
 
-    std::vector<double> machinePosition = m_MotionController->m_StateInterface->m_AxisPosition->getAxisPositionVector();
+    std::vector<double> machinePosition = m_MotionController->m_StateInterface->getAxisPositionVector();
     props.setCurrentPosition(machinePosition);
 
     //Emit the signal notifying the listeners of a completed operational profile

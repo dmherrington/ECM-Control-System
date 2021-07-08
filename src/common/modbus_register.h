@@ -2,14 +2,17 @@
 #define MODBUS_REGISTER_H
 
 #include <QByteArray>
-#include <QBitArray>
+#include <QIODevice>
+#include <QtEndian>
+
 #include <string>
 
 #include "common.h"
 
 enum class ModbusRegister_RWType{
     READ = 03, /**< */
-    WRITE = 06 /**< */
+    WRITE = 06, /**< */
+    LOOP = 8
 };
 
 //!
@@ -29,7 +32,7 @@ public:
     //!
     ModbusRegister(const ModbusRegister &copy);
 
-    ~ModbusRegister() = default;
+    virtual ~ModbusRegister() = default;
 
 public:
 
@@ -43,7 +46,7 @@ public:
     //! \brief getRegisterCode
     //! \return
     //!
-    int getRegisterCode() const
+    unsigned int getRegisterCode() const
     {
         return this->registerAddress;
     }
@@ -53,6 +56,20 @@ public:
     //! \return
     //!
     virtual QByteArray getByteArray() const;
+
+
+    //!
+    //! \brief readRegisterLength
+    //! \return
+    //!
+    unsigned int readRegisterLength() const;
+
+
+    void setRegisterValue(const uint32_t &value);
+
+    uint32_t readRegisterValue() const;
+
+
 
 public:
     //!
@@ -97,6 +114,7 @@ public:
         this->slaveAddress = rhs.slaveAddress;
         this->readOrwrite = rhs.readOrwrite;
         this->data = rhs.data;
+        this->registerValue = rhs.registerValue;
         this->highChecksum = rhs.highChecksum;
         this->lowChecksum = rhs.lowChecksum;
         return *this;
@@ -119,6 +137,9 @@ public:
             return false;
         }
         if(this->data != rhs.data){
+            return false;
+        }
+        if(this->registerValue != rhs.registerValue){
             return false;
         }
         if(this->highChecksum != rhs.highChecksum){
@@ -167,6 +188,8 @@ protected:
     //! \brief data
     //!
     QByteArray data;
+
+    uint32_t registerValue;
 
     //!
     //! \brief highChecksum

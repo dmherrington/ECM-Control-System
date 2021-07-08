@@ -69,7 +69,7 @@ void State_ReadyStop::Update()
         //we should therefore transition to the idle state
         desiredState = SPIIState::STATE_ESTOP;
     }
-    else if(!Owner().isMotorEnabled())
+    else if(!Owner().areAnyMotorsEnabled())
         desiredState = SPIIState::STATE_IDLE;
 }
 
@@ -81,7 +81,7 @@ void State_ReadyStop::OnEnter()
     //Let us check to see if the motor is already armed, if not, follow through with the command
 
     //First check to see if the motor is already disarmed, and if not, disarm it
-    if(Owner().isMotorEnabled())
+    if(Owner().areAnyMotorsEnabled())
     {
         //If the motor is currently armed, issue the command to disarm it
         CommandMotorDisablePtr command = std::make_shared<CommandMotorDisable>();

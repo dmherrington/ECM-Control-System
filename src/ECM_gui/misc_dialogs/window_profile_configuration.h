@@ -86,8 +86,6 @@ private slots:
 
     void on_actionClose_triggered();
 
-    //void on_checkBox_ShouldHomeBeIndicated_toggled(bool checked);
-
     void on_actionMotion_Profile_triggered(bool checked);
 
     void on_actionNew_triggered(bool checked);
@@ -97,6 +95,8 @@ private slots:
     void on_pushButton_UploadCurrentBuffers_released();
 
     void on_pushButton_SyncCurrentBuffers_released();
+
+    void on_checkBox_ShouldExpandMunkModes_toggled(bool checked);
 
 private:
     void setIndicateHome(const bool &checked);

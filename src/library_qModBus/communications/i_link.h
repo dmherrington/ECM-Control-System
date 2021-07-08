@@ -10,6 +10,7 @@
 
 #include "i_link_events.h"
 #include "common/comms/serial_configuration.h"
+#include "common/comms/tcp_configuration.h"
 
 /**
 \* @file  i_link.h
@@ -28,6 +29,17 @@
 
 namespace comms_QModBus{
 
+enum class COMMS_TYPE {
+    SERIAL,
+    ETHERNET,
+};
+
+typedef struct {
+    COMMS_TYPE type;				// 0 - serial, 1 - ethernet
+    common::comms::SerialConfiguration serialPort;
+    common::comms::TCPConfiguration ethernetPort;
+} COMM_SETTINGS;
+
 class ILink
 {
 public:
@@ -39,6 +51,8 @@ public:
     {
 
     }
+
+    virtual ~ILink() = default;
 
     //!
     //! \brief AddListener
@@ -86,10 +100,34 @@ public:
     virtual bool WriteSingleRegister(const unsigned long &dataRegister, const unsigned long &data) const = 0;
 
     //!
+    //! \brief ReadInputRegisters
+    //! \param startingRegister
+    //! \param numRegisters
+    //! \param data
+    //! \return
+    //!
+    virtual bool ReadHoldingRegisters(const unsigned int &startingRegister, const size_t numRegisters, uint32_t &value) const  = 0;
+
+
+    //!
     //! \brief setSerialConfiguration
     //! \param config
     //!
-    virtual void setSerialConfiguration(const common::comms::SerialConfiguration &config) = 0;
+    virtual void setSerialConfiguration(const common::comms::SerialConfiguration &config)
+    {
+        m_CommunicationSettings.type = COMMS_TYPE::SERIAL;
+        m_CommunicationSettings.serialPort = config;
+    }
+
+    //!
+    //! \brief setSerialConfiguration
+    //! \param config
+    //!
+    virtual void setTCPConfiguration(const common::comms::TCPConfiguration &config)
+    {
+        m_CommunicationSettings.type = COMMS_TYPE::ETHERNET;
+        m_CommunicationSettings.ethernetPort = config;
+    }
 
     //!
     //! \brief Determine the connection status
@@ -115,11 +153,14 @@ public:
     //!
     virtual void MarshalOnThread(std::function<void()> func) = 0;
 
+protected:
+    COMM_SETTINGS m_CommunicationSettings;
+
 private:
     std::vector<const ILinkEvents*> m_Listeners; /**< Member variable containing information about the address to the unit. */
 
 };
 
-} //end of namespace comms_QModBus
+} //end of namespace Comms
 
 #endif // I_LINK_QMODBUS_H

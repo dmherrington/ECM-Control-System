@@ -337,10 +337,16 @@ void MunkPowerSupply::SegmentCommitedToMemoryAcknowledged()
     emit signal_SegmentWriteProgress(completed,required);
 }
 
-void MunkPowerSupply::NewSegmentSequence(const bool &success, const SegmentTimeDetailed &segmentData)
+void MunkPowerSupply::NewSegmentSequence(const bool &success, const DeviceInterface_PowerSupply::FINISH_CODE &code, const SegmentTimeDetailed &segmentData)
 {
-    this->machineState->updateCurrentSegmentData(segmentData);
-    this->onFinishedUploadingSegments(success);
+    if(success)
+        this->machineState->updateCurrentSegmentData(segmentData);
+    this->onFinishedUploadingSegments(success, code);
+}
+
+void MunkPowerSupply::NewSegmentUploadError(const bool &success, const DeviceInterface_PowerSupply::FINISH_CODE &code)
+{
+    this->onFinishedUploadingSegments(success, code);
 }
 
 void MunkPowerSupply::NewPulseMode(const bool &success, const registers_Munk::Register_PulseMode &pulseMode)

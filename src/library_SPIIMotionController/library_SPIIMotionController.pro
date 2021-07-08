@@ -71,7 +71,9 @@ SOURCES += \
     requests/request_system_faults.cpp \
     buffers/spii_prg_handle.cpp \
     requests/request_unsolicited_msgs.cpp \
-    states/state_homing_routine.cpp
+    states/state_homing_routine.cpp \
+    status/status_safety.cpp \
+    requests/request_axis_safety.cpp
 
 HEADERS += \
         spii_motion_controller.h \
@@ -134,7 +136,9 @@ HEADERS += \
     requests/request_system_faults.h \
     buffers/spii_prg_handle.h \
     requests/request_unsolicited_msgs.h \
-    states/state_homing_routine.h
+    states/state_homing_routine.h \
+    status/status_safety.h \
+    requests/request_axis_safety.h
 
 # Unix lib Install
 unix:!symbian {

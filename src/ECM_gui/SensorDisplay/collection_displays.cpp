@@ -164,7 +164,7 @@ void CollectionDisplays::DistributeCurrentTime(const QDateTime &currTime)
     QList<ISensorDisplay*> displays = m_SensorDisplays.values();
     for(int i = 0 ; i < displays.size() ; i++)
     {
-        if(displays.at(i) == NULL)
+        if(displays.at(i) == nullptr)
             continue;
 
         displays.at(i)->CurrentTime(currTime);
@@ -182,7 +182,7 @@ void CollectionDisplays::DistributeUpdateAxis(QDateTime leftTime, QDateTime righ
     QList<ISensorDisplay*> displays = m_SensorDisplays.values();
     for(int i = 0 ; i < displays.size() ; i++)
     {
-        if(displays.at(i) == NULL)
+        if(displays.at(i) == nullptr)
             continue;
 
         displays.at(i)->UpdateAxis(leftTime, rightTime);

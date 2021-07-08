@@ -401,6 +401,7 @@ QDateTime EnvironmentTime::ToQTDateTime() const
     return datetime;
 }
 
+
 void EnvironmentTime::FromQTDateTime(const QDateTime &desTime)
 {
     QDate date = desTime.date();

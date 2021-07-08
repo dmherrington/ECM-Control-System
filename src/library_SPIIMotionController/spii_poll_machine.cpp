@@ -128,6 +128,14 @@ void SPIIPollMachine::run()
 void SPIIPollMachine::processRequest(AbstractRequestPtr request)
 {
     switch (request->getRequestType()) {
+    case RequestTypes::TELL_AXIS_SAFETY:
+    {
+        const Request_AxisSafety* currentRequest = request->as<Request_AxisSafety>();
+        std::vector<Status_AxisSafety> updatedStatus = m_SPIIDevice->requestAxisSafety(currentRequest);
+        if(updatedStatus.size() > 0)
+            Emit([&](SPIIPollingEvents_Interface *ptr){ptr->SPIIPolling_AxisSafetyUpdate(updatedStatus);});
+        break;
+    }
     case RequestTypes::TELL_AXIS:
     {
         const RequestAxisStatus* currentRequest = request->as<RequestAxisStatus>();

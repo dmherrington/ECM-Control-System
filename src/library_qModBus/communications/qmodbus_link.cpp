@@ -10,7 +10,7 @@ class AppThread : public QThread
 public:
     AppThread(const size_t interval, std::function<void()> func)
     {
-        if(QCoreApplication::instance() == NULL)
+        if(QCoreApplication::instance() == nullptr)
         {
             int argc = 0;
             char * argv[] = {(char *)"sharedlib.app"};
@@ -23,10 +23,10 @@ public:
 
     virtual void run()
     {
-        QTimer *timer = new QTimer(0);
+        QTimer *timer = new QTimer();
         timer->moveToThread(this);
         pApp->connect(timer, &QTimer::timeout, m_Func);
-        timer->start(m_Interval);
+        timer->start(static_cast<int>(m_Interval));
 
         exec();
     }
@@ -61,14 +61,15 @@ void QModBusLink::setSerialConfiguration(const common::comms::SerialConfiguratio
 {
     if(isConnected())
         DisconnectFromDevice();
-    _config = config;
-    _config.setDynamic();
-
-//    std::cout << "Create QModBusLink " << config.portName() << config.baud() << config.flowControl()
-//             << config.parity() << config.dataBits() << config.stopBits() << std::endl;
-//    std::cout <<  "portName: " << config.portName() << std::endl;
+    ILink::setSerialConfiguration(config);
 }
 
+void QModBusLink::setTCPConfiguration(const common::comms::TCPConfiguration &config)
+{
+    if(isConnected())
+        DisconnectFromDevice();
+    ILink::setTCPConfiguration(config);
+}
 
 bool QModBusLink::ConnectToDevice(void)
 {
@@ -85,20 +86,20 @@ bool QModBusLink::DisconnectFromDevice(void)
 {
     if(isConnected())
     {
-        modbus_close(m_Session->m_serialModbus);
-        modbus_free(m_Session->m_serialModbus);
-        m_Session->m_serialModbus = nullptr;
-        m_Session->setSerialPortConnected(false);
+        modbus_close(m_Session->m_ModbusSession);
+        modbus_free(m_Session->m_ModbusSession);
+        m_Session->m_ModbusSession = nullptr;
+        m_Session->setDeviceConnected(false);
+
+        EmitEvent([this](const ILinkEvents *ptr){
+            common::comms::CommunicationUpdate commsUpdate;
+            commsUpdate.setSourceName("QModBus");
+            commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED);
+            commsUpdate.setPeripheralMessage("Serial Port connection for QModbus has been closed.");
+
+            ptr->CommunicationUpdate(commsUpdate);
+        });
     }
-
-    EmitEvent([this](const ILinkEvents *ptr){
-        common::comms::CommunicationUpdate commsUpdate;
-        commsUpdate.setSourceName("QModBus");
-        commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::DISCONNECTED);
-        commsUpdate.setPeripheralMessage("Serial Port connection for QModbus has been closed.");
-
-        ptr->CommunicationUpdate(commsUpdate);
-    });
 
     return true;
 }
@@ -112,18 +113,40 @@ bool QModBusLink::_hardwareConnect()
     common::comms::CommunicationUpdate commsStatus;
     commsStatus.setSourceName("QModBus");
 
-    char parity('N');
-
-    m_Session->m_serialModbus = modbus_new_rtu(_config.portName().c_str(),_config.baud(),parity,_config.dataBits(),_config.stopBits());
-    if(modbus_connect(m_Session->m_serialModbus) == -1) //unable to open the port for some reason
+    switch (m_CommunicationSettings.type) {
+    case comms_QModBus::COMMS_TYPE::SERIAL:
     {
-        _emitLinkError("Unable to open serial connection for QModBus.");
-        return false;
+        char parity('N');
+        common::comms::SerialConfiguration config = m_CommunicationSettings.serialPort;
+
+        m_Session->m_ModbusSession = modbus_new_rtu(config.portName().c_str(),config.baud(),parity,config.dataBits(),config.stopBits());
+        if(modbus_connect(m_Session->m_ModbusSession) == -1) //unable to open the port for some reason
+        {
+            _emitLinkError("Unable to open serial connection for QModBus.");
+            return false;
+        }
+
+        this->SetSlaveAddress(3);
+
+
+        break;
     }
+    case comms_QModBus::COMMS_TYPE::ETHERNET:
+    {
+        common::comms::TCPConfiguration config = m_CommunicationSettings.ethernetPort;
+        m_Session->m_ModbusSession = modbus_new_tcp("192.168.15.202", 502);
+        if(modbus_connect(m_Session->m_ModbusSession) == -1) //unable to open the port for some reason
+        {
+            _emitLinkError("Unable to open ethernet connection for QModBus.");
+            return false;
+        }
+        this->SetSlaveAddress(1);
 
-    this->SetSlaveAddress(3);
+        break;
+    }
+    };
 
-    m_Session->setSerialPortConnected(true);
+    m_Session->setDeviceConnected(true);
 
     m_ListenThread = new AppThread(10, [&](){
         //this->PortEventLoop();
@@ -136,7 +159,7 @@ bool QModBusLink::_hardwareConnect()
         common::comms::CommunicationUpdate commsUpdate;
         commsUpdate.setSourceName("QModBus");
         commsUpdate.setUpdateType(common::comms::CommunicationUpdate::UpdateTypes::CONNECTED);
-        commsUpdate.setPeripheralMessage("Serial Port connection for QModbus has been opened.");
+        commsUpdate.setPeripheralMessage("Connection for QModbus has been opened.");
 
         ptr->CommunicationUpdate(commsUpdate);
     });
@@ -152,15 +175,36 @@ unsigned int QModBusLink::GetSlaveAddress() const
 void QModBusLink::SetSlaveAddress(const unsigned int &slaveAddress)
 {
     this->slaveID = slaveAddress;
-    modbus_set_slave(m_Session->m_serialModbus,slaveAddress);
+    modbus_set_slave(m_Session->m_ModbusSession,static_cast<int>(slaveAddress));
 }
 
 bool QModBusLink::WriteSingleRegister(const unsigned long &dataRegister, const unsigned long &data) const
 {
     int returned = -1;
-    returned = modbus_write_register(m_Session->m_serialModbus,dataRegister,data);
+    returned = modbus_write_register(m_Session->m_ModbusSession,static_cast<int>(dataRegister),static_cast<int>(data));
     if( returned == 1  )
         return true;
+    return false;
+}
+
+bool QModBusLink::ReadHoldingRegisters(const unsigned int &startingRegister, const size_t numRegisters, uint32_t &value) const
+{
+    uint8_t dest[1024];
+    uint16_t * dest16 = (uint16_t *) dest;
+
+    memset( dest, 0, 1024 );
+
+    int returned = -1;
+
+    returned = modbus_read_registers(m_Session->m_ModbusSession, static_cast<int>(startingRegister), static_cast<int>(numRegisters), dest16);
+    if(returned == static_cast<int>(numRegisters))
+    {
+        if(numRegisters == 2)
+            value = dest16[0] | (dest16[1]<<16);
+        else
+            value = dest16[0];
+        return true;
+    }
     return false;
 }
 
@@ -170,7 +214,7 @@ bool QModBusLink::WriteSingleRegister(const unsigned long &dataRegister, const u
 //!
 bool QModBusLink::isConnected() const
 {
-    return m_Session->isSerialPortConnected();
+    return m_Session->isDeviceConnected();
 }
 
 void QModBusLink::_emitLinkError(const std::string& errorMsg) const
@@ -185,11 +229,6 @@ void QModBusLink::_emitLinkError(const std::string& errorMsg) const
 
         ptr->CommunicationUpdate(commsUpdate);
     });
-}
-
-common::comms::LinkConfiguration QModBusLink::getLinkConfiguration()
-{
-    return _config;
 }
 
 } //end of namepsace comms

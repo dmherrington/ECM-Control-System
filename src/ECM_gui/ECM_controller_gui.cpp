@@ -15,6 +15,9 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     applicableAxis.push_back(MotorAxis::Y);
     applicableAxis.push_back(MotorAxis::Z);
 
+    Dialog_SettingsEditor settingsEditor;
+    plottingWindow = settingsEditor.getPlottingDuration();
+
     /*
      * Let us first setup the operational timers as related to
      * operation and the configuration.
@@ -43,10 +46,14 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     qRegisterMetaType<ECM::SPII::SPIIState>("ECM::SPII::SPIIState");
 
+    qRegisterMetaTypeStreamOperators<common::SimplifiedTime>("SimplifiedTime");
+
+
     ui->setupUi(this);
 
     common::EnvironmentTime startTime;
     common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,startTime);
+    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,m_SoftwareBootTime);
 
     QDate tmp_Date(startTime.year, startTime.month, startTime.dayOfMonth);
     QTime tmp_Time(startTime.hour, startTime.minute, startTime.second, startTime.millisecond);
@@ -70,6 +77,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     ui->widget_LEDCommunication->setDiameter(5);
     ui->widget_LEDESTOP->setDiameter(5);
+    ui->widget_LEDESTOP->setColor(QColor(0,255,0));
     ui->widget_LEDHomed->setDiameter(5);
     ui->widget_LEDTouchoff->setDiameter(5);
     ui->widget_LEDMunkError->setDiameter(5);
@@ -106,7 +114,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
 
     QDockWidget *dock_pump = new QDockWidget(tr("Pump Utility"), this);
     dock_pump->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
-    WidgetFrontPanel_Pump* dockUtility_Pump = new WidgetFrontPanel_Pump(m_API->m_Pump);
+    WidgetFrontPanel_Pump* dockUtility_Pump = new WidgetFrontPanel_Pump(m_API->m_Pump, m_API->m_PLC, m_API->m_Sensoray);
     dock_pump->setWidget(dockUtility_Pump);
     addDockWidget(Qt::RightDockWidgetArea, dock_pump, Qt::Orientation::Vertical);
 
@@ -128,6 +136,7 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_MotionController,SIGNAL(signal_MCHomeIndicated(bool)),this,SLOT(slot_UpdateHomeIndicated(bool)));
     connect(m_API->m_MotionController,SIGNAL(signal_MCTouchoffIndicated(bool)),this,SLOT(slot_UpdateTouchoff(bool)));
     connect(m_API->m_MotionController, SIGNAL(signal_MCNewMotionState(ECM::SPII::SPIIState, QString)), this, SLOT(slot_MCNewMotionState(ECM::SPII::SPIIState, QString)));
+    connect(m_API->m_MotionController, SIGNAL(signal_ESTOPTriggered(bool)), this, SLOT(slot_MCESTOPTriggered(bool)));
 
     ECM::SPII::SPIIState currentState = m_API->m_MotionController->getCurrentMCState();
     this->slot_MCNewMotionState(currentState, QString::fromStdString(ECMStateToString(currentState)));
@@ -157,17 +166,8 @@ ECMControllerGUI::ECMControllerGUI(QWidget *parent) :
     connect(m_API->m_Sensoray, SIGNAL(signal_SensorayNewSensorValue(common::TupleSensorString,common_data::SensorState)),
             this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
 
-    //    m_WindowMotionControl = new Window_MotionControl(m_API->m_MotionController);
-    //    m_WindowMotionControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
-    //    connect(m_WindowMotionControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
-
-//    m_WindowPumpControl = new Window_PumpControl(m_API->m_Pump);
-//    m_WindowPumpControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
-//    connect(m_WindowPumpControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
-
-//    m_WindowTouchoffControl = new Window_Touchoff(m_API->m_MotionController);
-//    m_WindowTouchoffControl->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowCloseButtonHint);
-//    connect(m_WindowTouchoffControl,SIGNAL(signal_DialogWindowVisibilty(GeneralDialogWindow::DialogWindowTypes,bool)), this, SLOT(slot_ChangedWindowVisibility(GeneralDialogWindow::DialogWindowTypes,bool)));
+    connect(m_API->m_PLC, SIGNAL(signal_PLCNewSensorValue(common::TupleSensorString,common_data::SensorState)),
+            this, SLOT(slot_NewSensorData(common::TupleSensorString,common_data::SensorState)));
 
     std::vector<common::TupleECMData> plottables = m_API->m_MotionController->getPlottables();
     for(unsigned int i = 0; i < plottables.size(); i++)
@@ -273,7 +273,7 @@ void ECMControllerGUI::slot_RemovePlottable(const common::TupleECMData &data)
 void ECMControllerGUI::slot_DisplayActionTriggered()
 {
     //find the item that was selected
-    QAction* selectedObject = (QAction*)sender();
+    QAction* selectedObject = static_cast<QAction*>(sender());
 
     common::TupleECMData key;
 
@@ -331,16 +331,10 @@ void ECMControllerGUI::slot_NewProfileVariableData(const common::TupleProfileVar
     QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(variable);
     plots = m_PlotCollection.getPlots(variable);
     ui->widget_primaryPlot->RedrawDataSource(plots);
-
 }
 
 void ECMControllerGUI::slot_NewSensorData(const common::TupleSensorString &sensor, const common_data::SensorState &state)
 {
-    if((sensor.sourceName == "Sensoray") && (sensor.sensorName == "Temperature Probe") && (sensor.measurementName == "Channel 0"))
-    {
-        double value = ((common_data::SensorTemperature*)state.getSensorData().get())->getTemperature(common_data::TemperatureUnit::UNIT_FAHRENHEIT);
-        ui->lcdNumber_TempProbe0->display(value);
-    }
     //First, write the data to the logs
     m_API->m_Log->WriteLogSensorState(sensor,state);
 
@@ -365,6 +359,11 @@ void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalStrin
 {
     ProgressStateMachineStates();
 
+    common::EnvironmentTime rightWindow = state.getObservationTime();
+    QDateTime currentRightWindow = rightWindow.ToQTDateTime();
+    QDateTime currentLeftWindow = currentRightWindow.addSecs(static_cast<qint64>(plottingWindow * -1.0));
+    ui->widget_primaryPlot->ViewWindow(currentLeftWindow,currentRightWindow);
+
     if(valueChanged)
         m_API->m_Log->WriteLogMachinePositionalState(tuple,state);
 
@@ -374,8 +373,7 @@ void ECMControllerGUI::slot_NewPositionalData(const common::TuplePositionalStrin
 
     QList<std::shared_ptr<common_data::observation::IPlotComparable> > plots = m_PlotCollection.getPlots(tuple);
     ui->widget_primaryPlot->RedrawDataSource(plots);
-    //    m_SensorDisplays.PlottedDataUpdated(state); //this seems to be uneeded based on the call after this
-    //    m_additionalSensorDisplay->UpdatePlottedData(state);
+
 }
 
 void ECMControllerGUI::slot_MCNewMotionState(const ECM::SPII::SPIIState &state, const QString &stateString)
@@ -394,7 +392,7 @@ void ECMControllerGUI::slot_MCNewMotionState(const ECM::SPII::SPIIState &state, 
 
 void ECMControllerGUI::readSettings()
 {
-    QSettings settings("ECMController", "Machine Automation");
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope,"ECMController", "Window Settings");
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
     QSize size = settings.value("size", QSize(400, 400)).toSize();
 
@@ -437,13 +435,21 @@ void ECMControllerGUI::readSettings()
 
     resize(size);
     move(pos);
+
+    QSettings runtimeSettings(QSettings::IniFormat, QSettings::UserScope,"ECMController", "Runtime Settings");
+    QVariant runtimeValue = runtimeSettings.value("totalRuntime");
+    m_GlobalMachineTime = runtimeValue.value<common::SimplifiedTime>();
+//    m_GlobalMachineTime.hr = 0;
+//    m_GlobalMachineTime.min = 0;
+//    m_GlobalMachineTime.sec = 0;
 }
 
 void ECMControllerGUI::closeEvent(QCloseEvent *event)
 {
-    if(!m_API->m_MotionController->m_StateInterface->isMotorEnabled())
+
+    if(!m_API->m_MotionController->m_StateInterface->areAllMotorsEnabled())
     {
-        QSettings settings("ECMController", "Machine Automation");
+        QSettings settings(QSettings::IniFormat, QSettings::UserScope,"ECMController", "Window Settings");
         settings.setValue("pos", pos());
         settings.setValue("size", size());
 
@@ -456,6 +462,7 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
         settings.setValue("rigolControlDisplayed",m_WindowRigol->isWindowHidden());
         settings.setValue("connectionsDisplayed",m_WindowConnections->isWindowHidden());
         settings.setValue("customMotionDisplayed",m_WindowCustomMotionCommands->isWindowHidden());
+        settings.sync();
 
         m_additionalSensorDisplay->close();
         m_WindowProfileConfiguration->close();
@@ -466,6 +473,10 @@ void ECMControllerGUI::closeEvent(QCloseEvent *event)
         m_WindowRigol->close();
         m_WindowConnections->close();
         m_WindowCustomMotionCommands->close();
+
+        QSettings runtimeSettings(QSettings::IniFormat, QSettings::UserScope,"ECMController", "Runtime Settings");
+        runtimeSettings.setValue("totalRuntime", QVariant::fromValue(m_GlobalMachineTime));
+        runtimeSettings.sync();
 
         event->accept();
     }
@@ -780,6 +791,10 @@ void ECMControllerGUI::slot_ExecutingOperation(const ExecuteOperationProperties 
     }
     case ExecutionProperties::ExecutionCondition::ENDING:
     {
+        common::EnvironmentTime operationEnd = props.getTime();
+        common::SimplifiedTime operationTime(operationEnd - operationStart);
+        m_GlobalMachineTime = m_GlobalMachineTime + operationTime;
+
         std::vector<double> endingPosition = props.getCurrentPosition();
         std::string msg;
 
@@ -857,6 +872,14 @@ void ECMControllerGUI::slot_MCCommandError(const CommandType &type, const std::s
 
         break;
     }
+}
+
+void ECMControllerGUI::slot_MCESTOPTriggered(const bool &isTriggered)
+{
+    if(isTriggered)
+        ui->widget_LEDESTOP->setColor(QColor(255,0,0));
+    else
+        ui->widget_LEDESTOP->setColor(QColor(0,255,0));
 }
 
 void ECMControllerGUI::on_ExecuteProfileCollection(const ECMCommand_ExecuteCollection &collection)
@@ -1160,4 +1183,38 @@ void ECMControllerGUI::slot_MunkFaultCodeStatus(const bool &status, const std::v
 void ECMControllerGUI::on_pushButton_ClearMunkError_released()
 {
     m_API->m_Munk->resetFaultState();
+}
+
+void ECMControllerGUI::on_actionRun_Statistics_triggered()
+{
+    common::EnvironmentTime currentTime;
+    common::EnvironmentTime::CurrentTime(common::Devices::SYSTEMCLOCK,currentTime);
+
+    uint64_t dailyElapsed = currentTime - m_SoftwareBootTime;
+
+    common::SimplifiedTime localTime(dailyElapsed);
+
+    Dialog_RunStatistics dialogWindow(m_GlobalMachineTime, localTime);
+    dialogWindow.exec();
+}
+
+void ECMControllerGUI::on_actionSoftware_Versioning_triggered()
+{
+    std::map<std::string, std::string> softwareInfo = m_API->getSoftwareVersions();
+    Dialog_SoftwareVersion dialogWindow(softwareInfo);
+    dialogWindow.exec();
+}
+
+void ECMControllerGUI::on_actionSettings_triggered()
+{
+    Dialog_SettingsEditor dialogWindow;
+
+    //connect(dialogWindow, SIGNAL(finished(int)), this, SLOT());
+    if(dialogWindow.exec() == QDialog::Accepted)
+    {
+        //In here we would grab the current settings
+        plottingWindow = dialogWindow.getPlottingDuration();
+    }
+
+
 }

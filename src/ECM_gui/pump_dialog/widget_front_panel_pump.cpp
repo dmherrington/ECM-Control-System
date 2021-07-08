@@ -1,10 +1,10 @@
 #include "widget_front_panel_pump.h"
 #include "ui_widget_front_panel_pump.h"
 
-WidgetFrontPanel_Pump::WidgetFrontPanel_Pump(Westinghouse510* obj, QWidget *parent) :
+WidgetFrontPanel_Pump::WidgetFrontPanel_Pump(Westinghouse510* pumpObj, PLC *plcObj, Sensoray *sensObj,  QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WidgetFrontPanel_Pump),
-    m_Pump(obj)
+    m_Pump(pumpObj)
 {
     ui->setupUi(this);
     ui->widget_PumpInitialized->setDiameter(7);
@@ -12,6 +12,12 @@ WidgetFrontPanel_Pump::WidgetFrontPanel_Pump(Westinghouse510* obj, QWidget *pare
 
     connect(m_Pump, SIGNAL(signal_PumpFlowUpdated(double)), this, SLOT(slot_updatedFlowRate(double)));
     connect(m_Pump, SIGNAL(signal_PumpOperating(bool)), this, SLOT(slot_updatedPumpOn(bool)));
+
+    connect(plcObj, SIGNAL(signal_PLCNewSensorValue(common::TupleSensorString,common_data::SensorState)),
+            this, SLOT(slot_NewSensorValue(common::TupleSensorString,common_data::SensorState)));
+
+    connect(sensObj, SIGNAL(signal_SensorayNewSensorValue(common::TupleSensorString,common_data::SensorState)),
+            this, SLOT(slot_NewSensorValue(common::TupleSensorString,common_data::SensorState)));
 
     m_Pump->AddLambda_FinishedPumpInitialization(this,[this](const bool completed){
         if(completed)
@@ -70,12 +76,43 @@ void WidgetFrontPanel_Pump::slot_updatedPumpOn(const bool &value)
 
 void WidgetFrontPanel_Pump::slot_updatedFlowRate(const double &value)
 {
-    if(abs(value - ui->doubleSpinBox_flowRate->value()) < 0.05)
+    ui->doubleSpinBox_flowRate->blockSignals(true);
+    ui->doubleSpinBox_flowRate->setValue(value);
+    ui->doubleSpinBox_flowRate->blockSignals(false);
+}
+
+void WidgetFrontPanel_Pump::slot_NewSensorValue(const common::TupleSensorString &sensorTuple, const common_data::SensorState &data)
+{
+    UNUSED(sensorTuple);
+
+    std::stringstream stream;
+    stream.precision(2);
+
+    switch (data.getSensorType()) {
+    case common_data::SensorTypes::SENSOR_TEMPERATURE:
     {
-        //ui->doubleSpinBox_flowRate->setStyleSheet("background-color: green");
+        double sensorValue = ((common_data::SensorTemperature*)data.getSensorData().get())->getTemperature(common_data::TemperatureUnit::UNIT_FAHRENHEIT);
+        stream<<std::fixed<<sensorValue;
+        ui->lineEdit_temperature->setText(QString::fromStdString(stream.str()));
+        break;
     }
-    else{
-        //ui->doubleSpinBox_flowRate->setStyleSheet("background-color: red");
+    case common_data::SensorTypes::SENSOR_PH:
+    {
+        double sensorValue = ((common_data::Sensor_pH*)data.getSensorData().get())->getPH(common_data::pHUnit::UNIT_BASE);
+        stream<<std::fixed<<sensorValue;
+        ui->lineEdit_pH->setText(QString::fromStdString(stream.str()));
+        break;
+    }
+    case common_data::SensorTypes::SENSOR_CONDUCTIVITY:
+    {
+        double sensorValue = ((common_data::Sensor_Conductivity*)data.getSensorData().get())->getConductivity(common_data::ConductivityUnit::UNIT_BASE);
+        stream<<std::fixed<<sensorValue;
+        ui->lineEdit_conductivity->setText(QString::fromStdString(stream.str()));
+        break;
+
+    }
+    default:
+        break;
     }
 }
 
